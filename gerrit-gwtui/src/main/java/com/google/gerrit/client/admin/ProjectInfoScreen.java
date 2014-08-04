@@ -16,6 +16,7 @@ package com.google.gerrit.client.admin;
 
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.StringListPanel;
+import com.google.gerrit.client.StringMapPanel;
 import com.google.gerrit.client.access.AccessMap;
 import com.google.gerrit.client.access.ProjectAccessInfo;
 import com.google.gerrit.client.actions.ActionButton;
@@ -23,6 +24,7 @@ import com.google.gerrit.client.actions.ActionInfo;
 import com.google.gerrit.client.change.Resources;
 import com.google.gerrit.client.download.DownloadPanel;
 import com.google.gerrit.client.projects.ConfigInfo;
+import com.google.gerrit.client.projects.ConfigInfo.ConfigMapValue;
 import com.google.gerrit.client.projects.ConfigInfo.ConfigParameterInfo;
 import com.google.gerrit.client.projects.ConfigInfo.ConfigParameterValue;
 import com.google.gerrit.client.projects.ConfigInfo.InheritedBooleanInfo;
@@ -40,6 +42,7 @@ import com.google.gerrit.extensions.common.InheritableBoolean;
 import com.google.gerrit.extensions.common.SubmitType;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DownloadCommand;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gwt.core.client.JsArrayString;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -73,6 +76,7 @@ public class ProjectInfoScreen extends ProjectScreen {
   private LabeledWidgetsGrid grid;
   private Panel pluginOptionsPanel;
   private LabeledWidgetsGrid actionsGrid;
+  private Panel mapOptionsPanel;
 
   // Section: Project Options
   private ListBox requireChangeID;
@@ -82,6 +86,7 @@ public class ProjectInfoScreen extends ProjectScreen {
   private NpTextBox maxObjectSizeLimit;
   private Label effectiveMaxObjectSizeLimit;
   private Map<String, Map<String, HasEnabled>> pluginConfigWidgets;
+  private StringMapPanel mapConfigWidget;
 
   // Section: Contributor Agreements
   private ListBox contributorAgreements;
@@ -114,11 +119,13 @@ public class ProjectInfoScreen extends ProjectScreen {
     initDescription();
     grid = new LabeledWidgetsGrid();
     pluginOptionsPanel = new FlowPanel();
+    mapOptionsPanel = new VerticalPanel();
     actionsGrid = new LabeledWidgetsGrid();
     initProjectOptions();
     initAgreements();
     add(grid);
     add(pluginOptionsPanel);
+    add(mapOptionsPanel);
     add(saveProject);
     add(actionsGrid);
   }
@@ -169,6 +176,10 @@ public class ProjectInfoScreen extends ProjectScreen {
           widget.setEnabled(isOwner);
         }
       }
+    }
+
+    if (mapConfigWidget != null) {
+      mapConfigWidget.setEnabled(isOwner);
     }
   }
 
@@ -353,6 +364,7 @@ public class ProjectInfoScreen extends ProjectScreen {
     }
 
     saveProject.setEnabled(false);
+    renderStringMapPanel(result.configMap());
     initPluginOptions(result);
     initProjectActions(result);
   }
@@ -519,6 +531,18 @@ public class ProjectInfoScreen extends ProjectScreen {
     return p;
   }
 
+  private void renderStringMapPanel(
+      NativeMap<NativeMap<NativeMap<NativeMap<JsArrayString>>>> map) {
+    if (!map.isEmpty()) {
+      mapOptionsPanel.clear();
+      mapConfigWidget = new StringMapPanel(saveProject, map);
+      Label title = new Label(Util.C.headingMapPanel());
+      title.setStyleName(Gerrit.RESOURCES.css().smallHeading());
+      mapOptionsPanel.add(title);
+      mapOptionsPanel.add(mapConfigWidget);
+    }
+  }
+
   private void addWidget(LabeledWidgetsGrid g, Widget w, ConfigParameterInfo param) {
     if (param.description() != null || param.warning() != null) {
       HorizontalPanel p = new HorizontalPanel();
@@ -573,7 +597,7 @@ public class ProjectInfoScreen extends ProjectScreen {
         maxObjectSizeLimit.getText().trim(),
         SubmitType.valueOf(submitType.getValue(submitType.getSelectedIndex())),
         ProjectState.valueOf(state.getValue(state.getSelectedIndex())),
-        getPluginConfigValues(), new GerritCallback<ConfigInfo>() {
+        getPluginConfigValues(), getMapValues(), new GerritCallback<ConfigInfo>() {
           @Override
           public void onSuccess(ConfigInfo result) {
             enableForm();
@@ -621,6 +645,19 @@ public class ProjectInfoScreen extends ProjectScreen {
       }
     }
     return pluginConfigValues;
+  }
+
+  private Map<String, ConfigMapValue> getMapValues() {
+    Map<String, ConfigMapValue> mapValues = new HashMap<>();
+    if (mapConfigWidget != null) {
+      String[] filterValues = mapConfigWidget.getFilterValues();
+      List<String> listValues = mapConfigWidget.getListValues();
+      mapValues.put(
+          filterValues[0],
+          ConfigMapValue.create().mapValues(filterValues[1], filterValues[2],
+              filterValues[3], listValues));
+    }
+    return mapValues;
   }
 
   public class ProjectDownloadPanel extends DownloadPanel {

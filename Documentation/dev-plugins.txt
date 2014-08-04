@@ -814,6 +814,20 @@ Project owners can edit the project configuration by fetching the
 `refs/meta/config` branch, editing the `<plugin-name>.config` file and
 pushing the commit back.
 
+Configurations can also be edited in the ProjectInfoScreen. For this, an instance
+of `ConfigRegistration` needs to be bound for each desired plugin:
+
+[source,java]
+----
+class Module extends AbstractModule {
+  @Override
+  protected void configure() {
+    bind(ConfigRegistration.class)
+      .annotatedWith(Exports.named(""))
+      .toInstance(new ConfigRegistration());
+
+----
+
 == React on changes in project configuration
 
 If a plugin wants to react on changes in the project configuration, it

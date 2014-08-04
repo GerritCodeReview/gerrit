@@ -220,6 +220,10 @@ public class ProjectConfig extends VersionedMetaData {
     this.projectName = projectName;
   }
 
+  public Project.NameKey getName() {
+    return projectName;
+  }
+
   public Project getProject() {
     return project;
   }

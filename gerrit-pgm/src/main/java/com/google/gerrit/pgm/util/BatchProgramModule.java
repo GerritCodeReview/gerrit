@@ -15,6 +15,7 @@
 package com.google.gerrit.pgm.util;
 
 import static com.google.inject.Scopes.SINGLETON;
+
 import com.google.common.cache.Cache;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.registration.DynamicSet;
@@ -32,6 +33,8 @@ import com.google.gerrit.server.change.ChangeKindCacheImpl;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.CanonicalWebUrlProvider;
 import com.google.gerrit.server.config.FactoryModule;
+import com.google.gerrit.server.git.ChangeCache;
+import com.google.gerrit.server.git.TagCache;
 import com.google.gerrit.server.group.GroupModule;
 import com.google.gerrit.server.patch.PatchListCacheImpl;
 import com.google.gerrit.server.project.AccessControlModule;
@@ -92,6 +95,8 @@ public class BatchProgramModule extends FactoryModule {
     install(ProjectCacheImpl.module());
     install(SectionSortCache.module());
     install(ChangeKindCacheImpl.module());
+    install(ChangeCache.module());
+    install(TagCache.module());
     factory(CapabilityControl.Factory.class);
     factory(ChangeData.Factory.class);
     factory(ProjectState.Factory.class);

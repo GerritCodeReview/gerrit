@@ -316,8 +316,8 @@ public class Util {
 
     return new ProjectControl(Collections.<AccountGroup.UUID> emptySet(),
         Collections.<AccountGroup.UUID> emptySet(), projectCache,
-        sectionSorter, repoManager, changeControlFactory, canonicalWebUrl,
-        new MockUser(name, memberOf), newProjectState(local));
+        sectionSorter, repoManager, changeControlFactory, null, null,
+        canonicalWebUrl, new MockUser(name, memberOf), newProjectState(local));
   }
 
   private ProjectState newProjectState(ProjectConfig local) {

@@ -42,6 +42,24 @@
     },
     {
       "key": {
+        "uuid": "366bbbde_77b2101e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-04T18:50:48Z",
+      "side": 1,
+      "message": "After seeing some usages of this class in the acceptance tests, I think there is value in having a simple external API for this class. So I don\u0027t think we want to replace every call to\n\n modifier.delete(foo);\n\nwith\n\n ChangeEditModifier modifier \u003d modifierFactory.create(...);\n try {\n   modifier.delete(foo);\n } finally {\n   modifier.release();\n }\n\nI\u0027m trying to think of a way to both clean up this implementation and keep this interface simple...",
+      "parentUuid": "b69deb27_dba0f3c0",
+      "revId": "5cc005e9265ce7c9a5cfa2b49ffbd1f9803122d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b69deb27_bbbe47e8",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
         "patchSetId": 23

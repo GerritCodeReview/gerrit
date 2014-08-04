@@ -24,6 +24,7 @@ import com.google.gerrit.common.data.RefConfigSection;
 import com.google.gerrit.common.errors.InvalidNameException;
 import com.google.gerrit.extensions.api.projects.ProjectState;
 import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.InternalUser;
@@ -231,13 +232,15 @@ public class RefControl {
   /**
    * Determines whether the user can create a new Git ref.
    *
+   * @param db db for checking change visibility.
    * @param rw revision pool {@code object} was parsed in; must be reset before
    *     calling this method.
    * @param object the object the user will start the reference with.
    * @param existsOnServer the object exists on server or not.
    * @return {@code true} if the user specified can create a new Git ref
    */
-  public boolean canCreate(RevWalk rw, RevObject object, boolean existsOnServer) {
+  public boolean canCreate(ReviewDb db, RevWalk rw, RevObject object,
+      boolean existsOnServer) {
     if (!canWrite()) {
       return false;
     }
@@ -266,7 +269,7 @@ public class RefControl {
         // If the object doesn't exist on the server, check that the user has
         // push permissions.
         return true;
-      } else if (projectControl.canReadCommit(rw, (RevCommit) object)) {
+      } else if (projectControl.canReadCommit(db, rw, (RevCommit) object)) {
         // The object exists on the server and is readable by this user, so they
         // do not require push permission create this ref.
         return true;

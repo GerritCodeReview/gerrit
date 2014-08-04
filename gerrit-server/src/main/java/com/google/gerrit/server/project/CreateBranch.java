@@ -25,6 +25,7 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -67,6 +68,7 @@ public class CreateBranch implements RestModifyView<ProjectResource, Input> {
 
   private final Provider<IdentifiedUser>  identifiedUser;
   private final GitRepositoryManager repoManager;
+  private final Provider<ReviewDb> db;
   private final GitReferenceUpdated referenceUpdated;
   private final ChangeHooks hooks;
   private String ref;
@@ -74,10 +76,12 @@ public class CreateBranch implements RestModifyView<ProjectResource, Input> {
   @Inject
   CreateBranch(Provider<IdentifiedUser> identifiedUser,
       GitRepositoryManager repoManager,
+      Provider<ReviewDb> db,
       GitReferenceUpdated referenceUpdated, ChangeHooks hooks,
       @Assisted String ref) {
     this.identifiedUser = identifiedUser;
     this.repoManager = repoManager;
+    this.db = db;
     this.referenceUpdated = referenceUpdated;
     this.hooks = hooks;
     this.ref = ref;
@@ -130,7 +134,7 @@ public class CreateBranch implements RestModifyView<ProjectResource, Input> {
       }
 
       rw.reset();
-      if (!refControl.canCreate(rw, object, true)) {
+      if (!refControl.canCreate(db.get(), rw, object, true)) {
         throw new AuthException("Cannot create \"" + ref + "\"");
       }
 

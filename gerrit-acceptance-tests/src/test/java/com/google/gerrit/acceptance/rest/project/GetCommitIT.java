@@ -14,6 +14,7 @@
 
 package com.google.gerrit.acceptance.rest.project;
 
+import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -40,7 +41,7 @@ public class GetCommitIT extends AbstractDaemonTest {
   private AllProjectsName allProjects;
 
   @Test
-  public void getCommit() throws IOException {
+  public void getCommit() throws Exception {
     RestResponse r =
         adminSession.get("/projects/" + project.get() + "/branches/"
             + IdString.fromDecoded(RefNames.REFS_CONFIG).encoded());
@@ -48,6 +49,8 @@ public class GetCommitIT extends AbstractDaemonTest {
     BranchInfo branchInfo =
         newGson().fromJson(r.getReader(), BranchInfo.class);
     r.consume();
+
+    allow(Permission.READ, ANONYMOUS_USERS, branchInfo.ref);
 
     r = adminSession.get("/projects/" + project.get() + "/commits/"
         + branchInfo.revision);

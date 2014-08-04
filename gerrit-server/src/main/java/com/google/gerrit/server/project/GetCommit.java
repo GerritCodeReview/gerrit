@@ -16,26 +16,61 @@ package com.google.gerrit.server.project;
 
 import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.extensions.common.GitPerson;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestReadView;
+import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import org.eclipse.jgit.errors.IncorrectObjectTypeException;
+import org.eclipse.jgit.errors.MissingObjectException;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevObject;
+import org.eclipse.jgit.revwalk.RevWalk;
 
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
 @Singleton
 public class GetCommit implements RestReadView<CommitResource> {
+  private final GitRepositoryManager repoManager;
 
-  @Override
-  public CommitInfo apply(CommitResource rsrc) {
-    RevCommit c = rsrc.getCommit();
-    CommitInfo info = toCommitInfo(c);
-    return info;
+  @Inject
+  GetCommit(GitRepositoryManager repoManager) {
+    this.repoManager = repoManager;
   }
 
-  private static CommitInfo toCommitInfo(RevCommit commit) {
+  @Override
+  public CommitInfo apply(CommitResource rsrc)
+      throws ResourceNotFoundException, IOException {
+    Repository repo = repoManager.openRepository(rsrc.getNameKey());
+    try {
+      RevWalk rw = new RevWalk(repo);
+      try {
+        return toCommitInfo(rw, rsrc.getCommitId());
+      } catch (MissingObjectException | IncorrectObjectTypeException e) {
+        throw new ResourceNotFoundException(rsrc.getCommitId().name());
+      } finally {
+        rw.release();
+      }
+    } finally {
+      repo.close();
+    }
+  }
+
+  private CommitInfo toCommitInfo(RevWalk rw, ObjectId commitId)
+      throws ResourceNotFoundException, IOException {
+    RevObject obj = rw.parseAny(commitId);
+    if (!(obj instanceof RevCommit)) {
+      throw new ResourceNotFoundException(commitId.name());
+    }
+    RevCommit commit = (RevCommit) obj;
+    rw.parseBody(commit);
+
     CommitInfo info = new CommitInfo();
     info.commit = commit.getName();
     info.author = toGitPerson(commit.getAuthorIdent());
@@ -45,6 +80,7 @@ public class GetCommit implements RestReadView<CommitResource> {
     info.parents = new ArrayList<>(commit.getParentCount());
     for (int i = 0; i < commit.getParentCount(); i++) {
       RevCommit p = commit.getParent(i);
+      rw.parseHeaders(p);
       CommitInfo parentInfo = new CommitInfo();
       parentInfo.commit = p.getName();
       parentInfo.subject = p.getShortMessage();

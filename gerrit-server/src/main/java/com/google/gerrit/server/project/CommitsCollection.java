@@ -68,10 +68,7 @@ public class CommitsCollection implements
         if (!parent.getControl().canReadCommit(rw, commit)) {
           throw new ResourceNotFoundException(id);
         }
-        for (int i = 0; i < commit.getParentCount(); i++) {
-          rw.parseCommit(commit.getParent(i));
-        }
-        return new CommitResource(parent.getControl(), commit);
+        return new CommitResource(parent.getControl(), commit.copy());
       } catch (MissingObjectException | IncorrectObjectTypeException e) {
         throw new ResourceNotFoundException(id);
       } finally {

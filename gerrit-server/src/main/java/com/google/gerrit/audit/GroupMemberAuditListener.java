@@ -16,7 +16,6 @@ package com.google.gerrit.audit;
 
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.Account.Id;
 import com.google.gerrit.reviewdb.client.AccountGroupById;
 import com.google.gerrit.reviewdb.client.AccountGroupMember;
 
@@ -31,7 +30,8 @@ public interface GroupMemberAuditListener {
   void onDeleteAccountsFromGroup(Account.Id actor,
       Collection<AccountGroupMember> removed);
 
-  void onAddGroupsToGroup(Id actor, Collection<AccountGroupById> added);
+  void onAddGroupsToGroup(Account.Id actor, Collection<AccountGroupById> added);
 
-  void onDeleteGroupsFromGroup(Id actor, Collection<AccountGroupById> deleted);
+  void onDeleteGroupsFromGroup(Account.Id actor,
+      Collection<AccountGroupById> deleted);
 }

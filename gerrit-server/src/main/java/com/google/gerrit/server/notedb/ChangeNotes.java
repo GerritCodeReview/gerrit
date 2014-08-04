@@ -46,7 +46,6 @@ import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchLineComment.Status;
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.reviewdb.client.PatchSet.Id;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.PatchSetApproval.LabelId;
 import com.google.gerrit.reviewdb.client.Project;
@@ -163,7 +162,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     private final List<Account.Id> allPastReviewers;
     private final List<SubmitRecord> submitRecords;
     private final Multimap<PatchSet.Id, ChangeMessage> changeMessages;
-    private final Multimap<Id, PatchLineComment> commentsForPs;
+    private final Multimap<PatchSet.Id, PatchLineComment> commentsForPs;
     private final Multimap<PatchSet.Id, PatchLineComment> commentsForBase;
     private NoteMap commentNoteMap;
     private Change.Status status;

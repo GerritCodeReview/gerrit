@@ -78,6 +78,24 @@
     },
     {
       "key": {
+        "uuid": "36e01baf_cf133d78",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-04T19:11:14Z",
+      "side": 1,
+      "message": "True, I always forget about AutoCloseable, probably means I write too much JGit...",
+      "parentUuid": "36e01baf_0f2aa598",
+      "revId": "5cc005e9265ce7c9a5cfa2b49ffbd1f9803122d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b69deb27_bbbe47e8",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
         "patchSetId": 23

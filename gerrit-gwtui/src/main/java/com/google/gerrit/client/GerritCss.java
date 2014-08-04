@@ -129,6 +129,10 @@ public interface GerritCss extends CssResource {
   String fileLineMode();
   String fileLineNone();
   String filePathCell();
+  String filterInputType();
+  String filterPanel();
+  String filterSearchButton();
+  String filterRow();
   String gerritBody();
   String gerritTopMenu();
   String greenCheckClass();

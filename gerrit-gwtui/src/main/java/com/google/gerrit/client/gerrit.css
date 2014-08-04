@@ -462,6 +462,33 @@ a:hover {
   margin-top: 5px;
 }
 
+/** MapPanel **/
+.filterPanel {
+  border-collapse: separate;
+  border-spacing: 3px 0;
+  padding: 10px 2px;
+}
+
+.filterRow {
+  border: 1px solid backgroundColor;
+  background-color: trimColor;
+  padding: 2px 6px 1px;
+  font-style: italic;
+  white-space: nowrap;
+  color: textColor;
+  width: 100%;
+}
+
+.filterInputType {
+  float: right;
+  padding: 2px;
+  margin-left: 10px;
+}
+
+.filterSearchButton {
+  float: right;
+}
+
 /** ChangeTable **/
 .changeTable {
   border-collapse: separate;

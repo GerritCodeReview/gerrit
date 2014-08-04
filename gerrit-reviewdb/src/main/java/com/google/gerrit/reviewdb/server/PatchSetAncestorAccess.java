@@ -14,7 +14,7 @@
 
 package com.google.gerrit.reviewdb.server;
 
-import com.google.gerrit.reviewdb.client.Change.Id;
+import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetAncestor;
 import com.google.gerrit.reviewdb.client.RevId;
@@ -33,7 +33,7 @@ public interface PatchSetAncestorAccess extends
   ResultSet<PatchSetAncestor> ancestorsOf(PatchSet.Id id) throws OrmException;
 
   @Query("WHERE key.patchSetId.changeId = ?")
-  ResultSet<PatchSetAncestor> byChange(Id id) throws OrmException;
+  ResultSet<PatchSetAncestor> byChange(Change.Id id) throws OrmException;
 
   @Query("WHERE key.patchSetId = ?")
   ResultSet<PatchSetAncestor> byPatchSet(PatchSet.Id id) throws OrmException;

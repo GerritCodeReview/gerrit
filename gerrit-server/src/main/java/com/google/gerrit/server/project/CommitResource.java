@@ -14,20 +14,27 @@
 
 package com.google.gerrit.server.project;
 
+import com.google.gerrit.extensions.restapi.RestResource;
 import com.google.gerrit.extensions.restapi.RestView;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.inject.TypeLiteral;
 
 import org.eclipse.jgit.revwalk.RevCommit;
 
-public class CommitResource extends ProjectResource {
+public class CommitResource implements RestResource {
   public static final TypeLiteral<RestView<CommitResource>> COMMIT_KIND =
       new TypeLiteral<RestView<CommitResource>>() {};
 
+  private final ProjectResource project;
   private final RevCommit commit;
 
-  public CommitResource(ProjectControl control, RevCommit commit) {
-    super(control);
+  public CommitResource(ProjectResource project, RevCommit commit) {
+    this.project = project;
     this.commit = commit;
+  }
+
+  public Project.NameKey getProject() {
+    return project.getNameKey();
   }
 
   public RevCommit getCommit() {

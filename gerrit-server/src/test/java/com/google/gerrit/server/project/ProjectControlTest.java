@@ -118,7 +118,6 @@ public class ProjectControlTest {
 
     repo.branch("branch1").update(parent1);
     assertTrue(pc.canReadCommit(rw, rw.parseCommit(parent1)));
-    // TODO(dborowitz): This should not be allowed.
-    assertTrue(pc.canReadCommit(rw, rw.parseCommit(id1)));
+    assertFalse(pc.canReadCommit(rw, rw.parseCommit(id1)));
   }
 }

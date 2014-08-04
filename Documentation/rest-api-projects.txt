@@ -693,6 +693,18 @@ read access to `refs/meta/config`.
         }
       }
     },
+    "config_map": {
+      "reviewers": {
+        "filter": {
+          "branch:master: {
+            "reviewer: {
+              "UserA"
+              "UserB"
+            }
+          }
+        }
+      }
+    },
     "actions": {
       "cookbook~hello-project": {
         "method": "POST",
@@ -1669,6 +1681,9 @@ ThemeInfo] entity.
 Plugin configuration as map which maps the plugin name to a map of
 parameter names to link:#config-parameter-info[ConfigParameterInfo]
 entities.
+|`config_map`                |optional|
+Plugin configuration from plugin's own configuration file. A nested map which
+uses plugin name, section, subsection, value key, and value.
 |`actions`                   |optional|
 Actions the caller might be able to perform on this project. The
 information is a map of view names to
@@ -1726,6 +1741,9 @@ If not set, the project state is not updated.
 |`plugin_config_values`      |optional|
 Plugin configuration values as map which maps the plugin name to a map
 of parameter names to values.
+|`config_map_values`         |optional|
+Plugin configuration values as map which maps the plugin name to a
+ConfigMapValue.
 |=========================================
 
 [[config-parameter-info]]

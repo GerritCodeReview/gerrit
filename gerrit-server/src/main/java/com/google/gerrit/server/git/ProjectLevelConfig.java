@@ -15,6 +15,7 @@
 package com.google.gerrit.server.git;
 
 import com.google.common.collect.Iterables;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.project.ProjectState;
 
@@ -45,6 +46,14 @@ public class ProjectLevelConfig extends VersionedMetaData {
   @Override
   protected void onLoad() throws IOException, ConfigInvalidException {
     cfg = readConfig(fileName);
+  }
+
+  public String getFileName() {
+    return fileName;
+  }
+
+  public Project.NameKey getProjectName() {
+    return project.getProject().getNameKey();
   }
 
   public Config get() {

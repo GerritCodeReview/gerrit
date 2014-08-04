@@ -30,6 +30,7 @@ import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.AllUsersName;
+import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.project.ChangeControl;
@@ -75,6 +76,7 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
   @AssistedInject
   private ChangeDraftUpdate(
       @GerritPersonIdent PersonIdent serverIdent,
+      @AnonymousCowardName String anonymousCowardName,
       GitRepositoryManager repoManager,
       NotesMigration migration,
       MetaDataUpdate.User updateFactory,
@@ -83,7 +85,8 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
       CommentsInNotesUtil commentsUtil,
       @Assisted ChangeControl ctl,
       @Assisted Date when) throws OrmException {
-    super(migration, repoManager, updateFactory, ctl, serverIdent, when);
+    super(migration, repoManager, updateFactory, ctl, serverIdent,
+        anonymousCowardName, when);
     this.draftsProject = allUsers;
     this.commentsUtil = commentsUtil;
     checkState(ctl.getCurrentUser().isIdentifiedUser(),

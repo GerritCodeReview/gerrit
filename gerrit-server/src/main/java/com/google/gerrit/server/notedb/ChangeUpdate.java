@@ -39,6 +39,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.inject.Provider;
+import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.project.ChangeControl;
@@ -101,6 +102,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   @AssistedInject
   private ChangeUpdate(
       @GerritPersonIdent PersonIdent serverIdent,
+      @AnonymousCowardName String anonymousCowardName,
       GitRepositoryManager repoManager,
       NotesMigration migration,
       AccountCache accountCache,
@@ -112,14 +114,15 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       IdentifiedUser user,
       @Assisted ChangeControl ctl,
       CommentsInNotesUtil commentsUtil) {
-    this(serverIdent, repoManager, migration, accountCache, updateFactory,
-        draftNotesFactory, allUsers, draftUpdateFactory, projectCache, ctl,
-        serverIdent.getWhen(), commentsUtil);
+    this(serverIdent, anonymousCowardName, repoManager, migration, accountCache,
+        updateFactory, draftNotesFactory, allUsers, draftUpdateFactory,
+        projectCache, ctl, serverIdent.getWhen(), commentsUtil);
   }
 
   @AssistedInject
   private ChangeUpdate(
       @GerritPersonIdent PersonIdent serverIdent,
+      @AnonymousCowardName String anonymousCowardName,
       GitRepositoryManager repoManager,
       NotesMigration migration,
       AccountCache accountCache,
@@ -131,8 +134,9 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       @Assisted ChangeControl ctl,
       @Assisted Date when,
       CommentsInNotesUtil commentsUtil) {
-    this(serverIdent, repoManager, migration, accountCache, updateFactory,
-        draftNotesFactory, allUsers, draftUpdateFactory, ctl, when,
+    this(serverIdent, anonymousCowardName, repoManager, migration, accountCache,
+        updateFactory, draftNotesFactory, allUsers, draftUpdateFactory, ctl,
+        when,
         projectCache.get(getProjectName(ctl)).getLabelTypes().nameComparator(),
         commentsUtil);
   }
@@ -144,6 +148,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   @AssistedInject
   private ChangeUpdate(
       @GerritPersonIdent PersonIdent serverIdent,
+      @AnonymousCowardName String anonymousCowardName,
       GitRepositoryManager repoManager,
       NotesMigration migration,
       AccountCache accountCache,
@@ -155,7 +160,8 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       @Assisted Date when,
       @Assisted Comparator<String> labelNameComparator,
       CommentsInNotesUtil commentsUtil) {
-    super(migration, repoManager, updateFactory, ctl, serverIdent, when);
+    super(migration, repoManager, updateFactory, ctl, serverIdent,
+        anonymousCowardName, when);
     this.draftUpdateFactory = draftUpdateFactory;
     this.accountCache = accountCache;
     this.commentsUtil = commentsUtil;

@@ -327,6 +327,24 @@
     },
     {
       "key": {
+        "uuid": "76bff38c_c9e57140",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-04T21:27:59Z",
+      "side": 1,
+      "message": "Oh, I missed that there are two separate collections, /edit and /edits. Don\u0027t do that, that\u0027s just asking for confusion (and has already caused some obviously).\n\nI\u0027m not 100% sure what the \"0\" means in your example. If it\u0027s a patch set ID, I will reiterate my previous statement that we should not have patch set IDs in URLs. There is at most one edit per change; therefore the /edit collection should live under the change collection. Yes, an edit is tied to a patch set. You can get information about which patch set an edit is tied to by inspecting the result of GET /edit.\n\nAnyway, as I\u0027ve said multiple times now, I think PUT /changes/\u003cid\u003e/edit is fine. I even said, \"So I think I\u0027ve answered my own question, of why you would want to create an edit with no content.\"",
+      "parentUuid": "d6cedf4a_0c80773b",
+      "revId": "5cc005e9265ce7c9a5cfa2b49ffbd1f9803122d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "366bbbde_d772fcb0",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
         "patchSetId": 23

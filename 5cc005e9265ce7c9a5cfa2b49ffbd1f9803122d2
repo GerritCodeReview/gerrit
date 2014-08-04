@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "76bff38c_49fbc1e0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-04T23:03:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "366bbbde_f76f00c4",
+      "range": {
+        "startLine": 62,
+        "startChar": 3,
+        "endLine": 63,
+        "endChar": 49
+      },
+      "revId": "5cc005e9265ce7c9a5cfa2b49ffbd1f9803122d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b69deb27_dba0f3c0",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
         "patchSetId": 23
@@ -131,6 +155,24 @@
     },
     {
       "key": {
+        "uuid": "96baa79a_2ae19f33",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-04T23:03:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b69deb27_bbbe47e8",
+      "revId": "5cc005e9265ce7c9a5cfa2b49ffbd1f9803122d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b69deb27_fbb4cf0d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
         "patchSetId": 23
@@ -142,6 +184,24 @@
       "writtenOn": "2014-08-04T18:11:00Z",
       "side": 1,
       "message": "Blank line.",
+      "revId": "5cc005e9265ce7c9a5cfa2b49ffbd1f9803122d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "76bff38c_69000526",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-04T23:03:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b69deb27_fbb4cf0d",
       "revId": "5cc005e9265ce7c9a5cfa2b49ffbd1f9803122d2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -399,6 +459,24 @@
     },
     {
       "key": {
+        "uuid": "76bff38c_a9059d31",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-04T23:03:18Z",
+      "side": 1,
+      "message": "Whyhy are you calling this id\u003d0 of change edit a patch set number? It is not a patch set number of patch set. It is 7 or 8. Yet it could be 7 or 8 if we wouldn\u0027t restrict the number of edits to be 1.\n\n| just because we have a technical limitation around the hierarchical structure of our URLs.\n\nI think it\u0027s the first time where we restrict a collection like resourse to cardinaltiy of max(1). So no wonder that the code base cannnot handle that in perfect way out of the box.",
+      "parentUuid": "76bff38c_09f5c9ea",
+      "revId": "5cc005e9265ce7c9a5cfa2b49ffbd1f9803122d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "366bbbde_d772fcb0",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
         "patchSetId": 23
@@ -416,6 +494,24 @@
     },
     {
       "key": {
+        "uuid": "96baa79a_cae56340",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-04T23:03:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "366bbbde_d772fcb0",
+      "revId": "5cc005e9265ce7c9a5cfa2b49ffbd1f9803122d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "366bbbde_976c84d1",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
         "patchSetId": 23
@@ -427,6 +523,24 @@
       "writtenOn": "2014-08-04T18:11:00Z",
       "side": 1,
       "message": "Define what \"restore\" means in this context.",
+      "revId": "5cc005e9265ce7c9a5cfa2b49ffbd1f9803122d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "96baa79a_eae2a735",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-04T23:03:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "366bbbde_976c84d1",
       "revId": "5cc005e9265ce7c9a5cfa2b49ffbd1f9803122d2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -456,6 +570,30 @@
     },
     {
       "key": {
+        "uuid": "96baa79a_8aef6b1c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-04T23:03:18Z",
+      "side": 1,
+      "message": "It also used for commit message.",
+      "parentUuid": "366bbbde_b76988c0",
+      "range": {
+        "startLine": 220,
+        "startChar": 6,
+        "endLine": 220,
+        "endChar": 24
+      },
+      "revId": "5cc005e9265ce7c9a5cfa2b49ffbd1f9803122d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "366bbbde_57c4ac7a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
         "patchSetId": 23
@@ -467,6 +605,24 @@
       "writtenOn": "2014-08-04T18:11:00Z",
       "side": 1,
       "message": "It\u0027s not clear why the inserter needs to be flushed here. I think the answer is, because creating the commit is the last thing that happens before the ref gets updated.\n\nBut in that case, it would be easier to understand if the sequence in modify() above was:\n\n ObjectId commitId \u003d createCommit(...);\n inserter.flush();\n return update(...);",
+      "revId": "5cc005e9265ce7c9a5cfa2b49ffbd1f9803122d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "76bff38c_c90ed156",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-04T23:03:18Z",
+      "side": 1,
+      "message": "This sequence is in two methods:\n\n* modify()\n* createEdit()\n\nDone",
+      "parentUuid": "366bbbde_57c4ac7a",
       "revId": "5cc005e9265ce7c9a5cfa2b49ffbd1f9803122d2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -496,6 +652,30 @@
     },
     {
       "key": {
+        "uuid": "76bff38c_e90b9543",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-04T23:03:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b69deb27_5badc3b8",
+      "range": {
+        "startLine": 233,
+        "startChar": 34,
+        "endLine": 233,
+        "endChar": 52
+      },
+      "revId": "5cc005e9265ce7c9a5cfa2b49ffbd1f9803122d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b69deb27_1ba73bdb",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
         "patchSetId": 23
@@ -507,6 +687,24 @@
       "writtenOn": "2014-08-04T18:11:00Z",
       "side": 1,
       "message": "You shouldn\u0027t need a new RevWalk here, this is only ever called via modify()",
+      "revId": "5cc005e9265ce7c9a5cfa2b49ffbd1f9803122d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "76bff38c_8908d948",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 307,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-04T23:03:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b69deb27_1ba73bdb",
       "revId": "5cc005e9265ce7c9a5cfa2b49ffbd1f9803122d2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -530,6 +728,24 @@
     },
     {
       "key": {
+        "uuid": "96baa79a_aaecaf27",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-04T23:03:18Z",
+      "side": 1,
+      "message": "Can it be that with the old approach it made more sense?",
+      "parentUuid": "b69deb27_7bb2ff1d",
+      "revId": "5cc005e9265ce7c9a5cfa2b49ffbd1f9803122d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b69deb27_3bac77ba",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
         "patchSetId": 23
@@ -541,6 +757,24 @@
       "writtenOn": "2014-08-04T18:11:00Z",
       "side": 1,
       "message": "Explain why?\n\n cannot restore path %s: missing in base revision %s",
+      "revId": "5cc005e9265ce7c9a5cfa2b49ffbd1f9803122d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "96baa79a_4afbb3e0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-04T23:03:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b69deb27_3bac77ba",
       "revId": "5cc005e9265ce7c9a5cfa2b49ffbd1f9803122d2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

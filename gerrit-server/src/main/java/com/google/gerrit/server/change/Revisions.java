@@ -14,8 +14,10 @@
 
 package com.google.gerrit.server.change;
 
+import com.google.common.base.Optional;
 import com.google.common.collect.Lists;
 import com.google.gerrit.extensions.registration.DynamicMap;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ChildCollection;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
@@ -24,11 +26,16 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.edit.ChangeEdit;
+import com.google.gerrit.server.edit.ChangeEditUtil;
+import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -36,12 +43,15 @@ import java.util.List;
 public class Revisions implements ChildCollection<ChangeResource, RevisionResource> {
   private final DynamicMap<RestView<RevisionResource>> views;
   private final Provider<ReviewDb> dbProvider;
+  private final ChangeEditUtil editUtil;
 
   @Inject
   Revisions(DynamicMap<RestView<RevisionResource>> views,
-      Provider<ReviewDb> dbProvider) {
+      Provider<ReviewDb> dbProvider,
+      ChangeEditUtil editUtil) {
     this.views = views;
     this.dbProvider = dbProvider;
+    this.editUtil = editUtil;
   }
 
   @Override
@@ -87,7 +97,10 @@ public class Revisions implements ChildCollection<ChangeResource, RevisionResour
       throws OrmException {
     ReviewDb db = dbProvider.get();
 
-    if (id.length() < 6 && id.matches("^[1-9][0-9]{0,4}$")) {
+    if (id.length() < 6 && id.matches("^[0-9][0-9]{0,4}$")) {
+      if (id.equals("0")) {
+        return loadEdit(change);
+      }
       // Legacy patch set number syntax.
       PatchSet ps = dbProvider.get().patchSets().get(new PatchSet.Id(
           change.getChange().getId(),
@@ -107,7 +120,11 @@ public class Revisions implements ChildCollection<ChangeResource, RevisionResour
       // for all patch sets in the change.
       RevId revid = new RevId(id);
       if (revid.isComplete()) {
-        return db.patchSets().byRevision(revid).toList();
+        List<PatchSet> list = db.patchSets().byRevision(revid).toList();
+        if (list.isEmpty()) {
+          return loadEdit(change);
+        }
+        return list;
       } else {
         return db.patchSets().byRevisionRange(revid, revid.max()).toList();
       }
@@ -121,5 +138,21 @@ public class Revisions implements ChildCollection<ChangeResource, RevisionResour
       }
       return out;
     }
+  }
+
+  private List<PatchSet> loadEdit(ChangeResource change) throws OrmException {
+    try {
+      Optional<ChangeEdit> edit = editUtil.byChange(change.getChange());
+      if (edit.isPresent()) {
+        PatchSet ps = new PatchSet(new PatchSet.Id(
+            change.getChange().getId(), 0));
+        ps.setRevision(edit.get().getRevision());
+        return Collections.singletonList(ps);
+      }
+    } catch (AuthException | IOException | InvalidChangeOperationException e) {
+      throw new OrmException(e);
+    }
+    List<PatchSet> list = new ArrayList<>();
+    return list;
   }
 }

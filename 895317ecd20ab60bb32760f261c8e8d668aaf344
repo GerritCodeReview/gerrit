@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "36e01baf_6f001126",
+        "filename": "Documentation/cmd-set-account.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-04T17:43:29Z",
+      "side": 1,
+      "message": "This doesn\u0027t happen very often, but may be mention, that set-new-preferred-email/delete-old-preferred-email address is supported in one command run?",
+      "revId": "895317ecd20ab60bb32760f261c8e8d668aaf344",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d6cedf4a_cce58f40",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetAccountCommand.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-04T17:43:29Z",
+      "side": 1,
+      "message": "Why not just:\n\n  if (deleteEmails.contains(preferredEmail)) {\n      throw new UnloggedFailure(1,\n          \"--preferred-email and --delete-email options are mutually \" +\n          \"exclusive for the same email address.\");\n    }",
+      "range": {
+        "startLine": 168,
+        "startChar": 4,
+        "endLine": 174,
+        "endChar": 5
+      },
+      "revId": "895317ecd20ab60bb32760f261c8e8d668aaf344",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "36e01baf_2ffa09da",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetAccountCommand.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-04T17:43:29Z",
+      "side": 1,
+      "message": "Should we swallow typo-case without even issue a warning? Delete email method above doesn\u0027t really matter, because if a mail doesn\u0027t exist, all is fine. Here someone rellies on this command to change something, yet when she spelled email wrong, it should fail, i think.",
+      "range": {
+        "startLine": 305,
+        "startChar": 2,
+        "endLine": 313,
+        "endChar": 3
+      },
+      "revId": "895317ecd20ab60bb32760f261c8e8d668aaf344",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

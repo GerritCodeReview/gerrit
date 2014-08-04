@@ -345,6 +345,24 @@
     },
     {
       "key": {
+        "uuid": "d6cedf4a_cc890f67",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-04T21:54:35Z",
+      "side": 1,
+      "message": "| Oh, I missed that there are two separate collections, /edit and /edits.\n\nWe don\u0027t. There is no such thing as /edit and has never existed. All we have is edits child collection of changes collection:\n\n  /changes/\u003cid\u003e/edits\n\n0 is id of the edit, as suggested by Shawn in this comment [1]. As i mentioned, every collection need an id to access a member of this collection even if there is only one can exist. So, the id of edit is always the same: 0. What we have so far is:\n\n* GET /changes/\u003cid\u003e/edits \u003d\u003e read edits for change: return at most one\n* DELETE /changes/\u003cid\u003e/edits/0 \u003d\u003e delete this edit\n* POST /changes/\u003cid\u003e/edits/0/publish \u003d\u003e promote this edit to new patch set\n* PUT /changes/\u003cid\u003e/edits/0/files/path/content \u003d\u003e modify content of file in edit\n* DELETE /changes/\u003cid\u003e/edits/0/files/path \u003d\u003e delete file from edit\n* GET /changes/\u003cid\u003e/edits/0/files \u003d\u003e retrieve files from edit\n* GET /changes/\u003cid\u003e/edits/0/files/path \u003d\u003e retrieve file content\n\nAlso see the Module.java at the end of the series:\n\n    child(CHANGE_KIND, \"edits\").to(ChangeEdits.class);\n    post(CHANGE_EDIT_KIND, \"publish\").to(PublishChangeEdit.class);\n    delete(CHANGE_EDIT_KIND).to(DeleteChangeEdit.class);\n    child(CHANGE_EDIT_KIND, \"files\").to(EditFiles.class);\n    put(EDIT_FILE_KIND, \"content\").to(PutContent.class);\n    delete(EDIT_FILE_KIND).to(DeleteContent.class);\n    get(EDIT_FILE_KIND, \"content\").to(GetEditFileContent.class);\n\n\n [1] https://gerrit-review.googlesource.com/#/c/56413/9/gerrit-server/src/main/java/com/google/gerrit/server/edit/RevisionEdit.java@86",
+      "parentUuid": "76bff38c_c9e57140",
+      "revId": "5cc005e9265ce7c9a5cfa2b49ffbd1f9803122d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "366bbbde_d772fcb0",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
         "patchSetId": 23

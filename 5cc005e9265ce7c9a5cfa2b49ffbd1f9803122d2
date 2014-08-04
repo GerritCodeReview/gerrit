@@ -93,6 +93,24 @@
     },
     {
       "key": {
+        "uuid": "36e01baf_8f08d548",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-04T18:35:11Z",
+      "side": 1,
+      "message": "This is very good question. If you check for the previous revisions of this change, you can see that there were two kind of methods for edit operations: one with existing change edit and one with patch set. This has also implication to the UI/CS2 and REST endpoint: Do we want to support creation of change edit on regular patch set, e. g. Review/Edit mode in file table with\n\n* PUT /changes/\u003cid\u003e/revisions/\u003cid\u003e/files/path/content\n* DELETE /changes/\u003cid\u003e/revisions/\u003cid\u003e/files/path/\n\nWe need all this only with the very first modification. Follow-up modification for the same edit happen in change edit itself, with other REST endpoints:\n\n* PUT /changes/\u003cid\u003e/edits/0/files/path/content\n* DELETE /changes/\u003cid\u003e/edits/0/files/path/\n\nSo i decided agaist this overhead, and fropped all methods that allow to create edits from patch set and only added this one method createEdit(change patchSet) and only one REST endpoint for now:\n\n  POST /changes/\u003cid\u003e/revisions/\u003cid\u003e/create_edit\n\nthat creates an empty change edit. See asso discusion in this change from today morning that is related [1].\n\n [1] https://gerrit-review.googlesource.com/53344",
+      "parentUuid": "b69deb27_9bc10b67",
+      "revId": "5cc005e9265ce7c9a5cfa2b49ffbd1f9803122d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "366bbbde_d772fcb0",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
         "patchSetId": 23

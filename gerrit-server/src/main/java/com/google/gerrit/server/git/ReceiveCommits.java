@@ -148,6 +148,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.Map.Entry;
 import java.util.concurrent.Callable;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -879,12 +880,41 @@ public class ReceiveCommits {
     }
 
     RefControl ctl = projectControl.controlForRef(cmd.getRefName());
-    if (ctl.canCreate(rp.getRevWalk(), obj, allRefs.values().contains(obj))) {
+    if (ctl.canCreate(rp.getRevWalk(), obj, exitsOnServer((RevCommit) obj))) {
       validateNewCommits(ctl, cmd);
       batch.addCommand(cmd);
     } else {
       reject(cmd);
     }
+  }
+
+  private boolean exitsOnServer(RevCommit obj) {
+    RevWalk walk = rp.getRevWalk();
+    try {
+      walk.reset();
+      walk.sort(RevSort.TOPO);
+      walk.sort(RevSort.REVERSE, true);
+      walk.markStart(obj);
+      for (Entry<String, Ref> e : rp.getAdvertisedRefs().entrySet()) {
+        String refName = e.getKey();
+        if (!refName.startsWith("refs/heads")
+            && !refName.startsWith("refs/tags")) {
+          continue;
+        }
+        try {
+          walk.markUninteresting(walk.parseCommit(e.getValue().getObjectId()));
+        } catch (IncorrectObjectTypeException err) {
+          continue;
+        }
+      }
+      if (walk.next() == null) {
+        return true;
+      }
+    } catch (IOException e) {
+      log.error(String.format("Can not check if commit %s exists on server",
+          obj.getId().getName()), e);
+    }
+    return false;
   }
 
   private void parseUpdate(final ReceiveCommand cmd) {

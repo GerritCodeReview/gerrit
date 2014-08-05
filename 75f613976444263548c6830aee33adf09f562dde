@@ -52,6 +52,24 @@
       "revId": "75f613976444263548c6830aee33adf09f562dde",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "96baa79a_2a5e7f22",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-05T18:04:30Z",
+      "side": 1,
+      "message": "...and also keep the double-opening of the repo for getting file as well.",
+      "parentUuid": "36573b43_f7088049",
+      "revId": "75f613976444263548c6830aee33adf09f562dde",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

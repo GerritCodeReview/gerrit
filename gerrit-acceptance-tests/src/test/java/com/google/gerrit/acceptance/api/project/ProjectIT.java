@@ -14,22 +14,22 @@
 
 package com.google.gerrit.acceptance.api.project;
 
+import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
+import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.api.projects.ProjectInput;
 import com.google.gerrit.extensions.common.ProjectInfo;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 
-import org.eclipse.jgit.api.errors.GitAPIException;
 import org.junit.Test;
 
-import java.io.IOException;
 import java.util.List;
 
 @NoHttpd
@@ -68,8 +68,8 @@ public class ProjectIT extends AbstractDaemonTest  {
   }
 
   @Test
-  public void createBranch() throws GitAPIException,
-      IOException, RestApiException {
+  public void createBranch() throws Exception {
+    allow(Permission.READ, ANONYMOUS_USERS, "refs/*");
     gApi.projects()
         .name(project.get())
         .branch("foo")

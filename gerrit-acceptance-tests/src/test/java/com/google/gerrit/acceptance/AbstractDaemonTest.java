@@ -27,11 +27,16 @@ import com.google.gerrit.extensions.api.changes.RevisionApi;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ListChangesOption;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.OutputFormat;
 import com.google.gerrit.server.change.ChangeJson;
+import com.google.gerrit.server.git.MetaDataUpdate;
+import com.google.gerrit.server.git.ProjectConfig;
+import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.Util;
 import com.google.gerrit.testutil.ConfigSuite;
 import com.google.gson.Gson;
 import com.google.gwtorm.server.SchemaFactory;
@@ -76,6 +81,12 @@ public abstract class AbstractDaemonTest {
 
   @Inject
   protected PushOneCommit.Factory pushFactory;
+
+  @Inject
+  protected MetaDataUpdate.Server metaDataUpdateFactory;
+
+  @Inject
+  protected ProjectCache projectCache;
 
   protected Git git;
   protected GerritServer server;
@@ -217,5 +228,23 @@ public abstract class AbstractDaemonTest {
     return gApi.changes()
         .id(r.getChangeId())
         .current();
+  }
+
+  protected void allow(String permission, AccountGroup.UUID id, String ref)
+      throws Exception {
+    ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
+    Util.allow(cfg, permission, id, ref);
+    saveProjectConfig(project, cfg);
+  }
+
+  protected void saveProjectConfig(Project.NameKey p, ProjectConfig cfg)
+      throws Exception {
+    MetaDataUpdate md = metaDataUpdateFactory.create(p);
+    try {
+      cfg.commit(md);
+    } finally {
+      md.close();
+    }
+    projectCache.evict(cfg.getProject());
   }
 }

@@ -26,20 +26,14 @@ import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.project.ListBranches.BranchInfo;
-import com.google.gerrit.server.project.ProjectCache;
 import com.google.gson.reflect.TypeToken;
-import com.google.gwtorm.server.OrmException;
-import com.google.inject.Inject;
 
 import com.jcraft.jsch.JSchException;
 
 import org.apache.http.HttpStatus;
 import org.eclipse.jgit.api.errors.GitAPIException;
-import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -47,13 +41,6 @@ import java.util.Collections;
 import java.util.List;
 
 public class ListBranchesIT extends AbstractDaemonTest {
-
-  @Inject
-  private MetaDataUpdate.Server metaDataUpdateFactory;
-
-  @Inject
-  private ProjectCache projectCache;
-
   @Test
   public void listBranchesOfNonExistingProject_NotFound() throws IOException {
     assertEquals(HttpStatus.SC_NOT_FOUND,
@@ -61,8 +48,7 @@ public class ListBranchesIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void listBranchesOfNonVisibleProject_NotFound() throws IOException,
-      OrmException, JSchException, ConfigInvalidException {
+  public void listBranchesOfNonVisibleProject_NotFound() throws Exception {
     blockRead(project, "refs/*");
     assertEquals(HttpStatus.SC_NOT_FOUND,
         userSession.get("/projects/" + project.get() + "/branches").getStatusCode());
@@ -106,8 +92,7 @@ public class ListBranchesIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void listBranchesSomeHidden() throws IOException, GitAPIException,
-      ConfigInvalidException, OrmException, JSchException {
+  public void listBranchesSomeHidden() throws Exception {
     blockRead(project, "refs/heads/dev");
     pushTo("refs/heads/master");
     String masterCommit = git.getRepository().getRef("master").getTarget().getObjectId().getName();
@@ -123,8 +108,7 @@ public class ListBranchesIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void listBranchesHeadHidden() throws IOException, GitAPIException,
-      ConfigInvalidException, OrmException, JSchException {
+  public void listBranchesHeadHidden() throws Exception {
     blockRead(project, "refs/heads/master");
     pushTo("refs/heads/master");
     pushTo("refs/heads/dev");
@@ -139,12 +123,10 @@ public class ListBranchesIT extends AbstractDaemonTest {
     return adminSession.get(endpoint);
   }
 
-  private void blockRead(Project.NameKey project, String ref)
-      throws RepositoryNotFoundException, IOException, ConfigInvalidException {
+  private void blockRead(Project.NameKey project, String ref) throws Exception {
     ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
     block(cfg, Permission.READ, REGISTERED_USERS, ref);
     saveProjectConfig(project, cfg);
-    projectCache.evict(cfg.getProject());
   }
 
   private static List<BranchInfo> toBranchInfoList(RestResponse r)
@@ -159,14 +141,5 @@ public class ListBranchesIT extends AbstractDaemonTest {
       IOException {
     PushOneCommit push = pushFactory.create(db, admin.getIdent());
     return push.to(git, ref);
-  }
-
-  private void saveProjectConfig(Project.NameKey p, ProjectConfig cfg) throws IOException {
-    MetaDataUpdate md = metaDataUpdateFactory.create(p);
-    try {
-      cfg.commit(md);
-    } finally {
-      md.close();
-    }
   }
 }

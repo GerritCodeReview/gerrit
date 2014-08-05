@@ -231,7 +231,8 @@ public class RefControl {
   /**
    * Determines whether the user can create a new Git ref.
    *
-   * @param rw revision pool {@code object} was parsed in.
+   * @param rw revision pool {@code object} was parsed in; must be reset before
+   *     calling this method.
    * @param object the object the user will start the reference with.
    * @param existsOnServer the object exists on server or not.
    * @return {@code true} if the user specified can create a new Git ref

@@ -22,6 +22,30 @@
       "revId": "9fd0c50a8a6887dbde88ff926c26f10eb0e5be07",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "76bff38c_c9133178",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 880,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-08-05T13:30:31Z",
+      "side": 1,
+      "message": "Right! I was wrong here.\nplease see\nhttps://gerrit-review.googlesource.com/#/c/59020/",
+      "parentUuid": "76bff38c_49d2e172",
+      "range": {
+        "startLine": 880,
+        "startChar": 44,
+        "endLine": 880,
+        "endChar": 74
+      },
+      "revId": "9fd0c50a8a6887dbde88ff926c26f10eb0e5be07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "96baa79a_8a1d2b84",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/PatchLineCommentsUtil.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-05T17:48:07Z",
+      "side": 1,
+      "message": "Indentation",
+      "revId": "332b03da93ab2639dbacf6b476d48fa8e6377513",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "76bff38c_497661b3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/PatchLineCommentsUtil.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-05T17:48:07Z",
+      "side": 1,
+      "message": "Optional: Integer.toString is unnecessary, the compiler literally inserts a call Integer.toString automatically when you have String + int.",
+      "range": {
+        "startLine": 299,
+        "startChar": 44,
+        "endLine": 299,
+        "endChar": 60
+      },
+      "revId": "332b03da93ab2639dbacf6b476d48fa8e6377513",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "96baa79a_aa1a6f87",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 391,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-05T17:48:07Z",
+      "side": 1,
+      "message": "Optional: can be on same line?",
+      "revId": "332b03da93ab2639dbacf6b476d48fa8e6377513",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

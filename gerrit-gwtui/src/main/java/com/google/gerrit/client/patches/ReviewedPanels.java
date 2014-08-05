@@ -14,6 +14,7 @@
 
 package com.google.gerrit.client.patches;
 
+import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.VoidResult;
 import com.google.gerrit.client.changes.PatchTable;
@@ -22,12 +23,14 @@ import com.google.gerrit.client.changes.Util;
 import com.google.gerrit.client.rpc.RestApi;
 import com.google.gerrit.client.ui.ChangeLink;
 import com.google.gerrit.client.ui.InlineHyperlink;
+import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DiffView;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.CheckBox;
@@ -59,6 +62,16 @@ public class ReviewedPanels {
     reviewedLink = createReviewedLink(patchIndex, patchScreenType);
 
     top.clear();
+    SafeHtml s = navigateDiff();
+    final Anchor a = new Anchor("");
+    a.addClickHandler(new ClickHandler() {
+      public void onClick(ClickEvent event) {
+        openWindow(Dispatcher.toPatchSideBySide(patchKey));
+      }
+    });
+
+    SafeHtml.set(a, s);
+    top.add(a);
     checkBoxTop = createReviewedCheckbox();
     top.add(checkBoxTop);
     top.add(createReviewedAnchor());
@@ -67,6 +80,36 @@ public class ReviewedPanels {
     checkBoxBottom = createReviewedCheckbox();
     bottom.add(checkBoxBottom);
     bottom.add(createReviewedAnchor());
+  }
+
+  private SafeHtml navigateDiff() {
+    SafeHtmlBuilder b = new SafeHtmlBuilder();
+    if (Gerrit.isSignedIn()) {
+      if (DiffView.UNIFIED_DIFF.equals(Gerrit.getUserAccount()
+          .getGeneralPreferences().getDiffView())) {
+        b.openAnchor().setAttribute("title", Util.C.sideBySideView())
+            .append("Side-by-Side").closeAnchor();
+      } else if (DiffView.SIDE_BY_SIDE.equals(Gerrit.getUserAccount()
+          .getGeneralPreferences().getDiffView())) {
+        b.openAnchor().setAttribute("title", Util.C.unifiedView())
+            .append("Unified").closeAnchor();
+      }
+    }
+    return b;
+  }
+
+  private void openWindow(String token) {
+    if (Gerrit.isSignedIn()
+        && DiffView.UNIFIED_DIFF.equals(Gerrit.getUserAccount()
+            .getGeneralPreferences().getDiffView())) {
+      String url = Window.Location.getPath() + "#" + token + ",sidebyside";
+      Window.open(url, "_self", null);
+    } else if (Gerrit.isSignedIn()
+        && DiffView.SIDE_BY_SIDE.equals(Gerrit.getUserAccount()
+            .getGeneralPreferences().getDiffView())) {
+      String url = Window.Location.getPath() + "#" + token + ",unified";
+      Window.open(url, "_self", null);
+    }
   }
 
   private CheckBox createReviewedCheckbox() {

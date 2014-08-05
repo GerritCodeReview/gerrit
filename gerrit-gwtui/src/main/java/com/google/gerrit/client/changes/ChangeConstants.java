@@ -214,4 +214,7 @@ public interface ChangeConstants extends Constants {
   String oneYearAgo();
 
   String votable();
+
+  String sideBySideView();
+  String unifiedView();
 }

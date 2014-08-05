@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "76bff38c_e910756d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 882,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-05T13:39:50Z",
+      "side": 1,
+      "message": "This does not match the description of this argument, whether the object exists on the server. It\u0027s just checking whether there is a ref that points directly to it, not whether the object exists. Which did you intend?",
+      "range": {
+        "startLine": 882,
+        "startChar": 44,
+        "endLine": 882,
+        "endChar": 75
+      },
+      "revId": "8559a0f6fb9e22dc336c6f678211da00695eaa24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

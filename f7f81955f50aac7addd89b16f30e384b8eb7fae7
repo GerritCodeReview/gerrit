@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "96baa79a_ea10676d",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-05T17:47:41Z",
+      "side": 1,
+      "message": "No, I forgot they\u0027re different types, this is exactly why I hadn\u0027t been doing it all along...\n\nWe should change how NotesMigration works to make this possible, but not right now.",
+      "parentUuid": "b69deb27_5b7623b3",
+      "revId": "f7f81955f50aac7addd89b16f30e384b8eb7fae7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b69deb27_7b251fc9",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/PatchLineCommentsUtil.java",
         "patchSetId": 10
@@ -230,6 +248,24 @@
       "side": 1,
       "message": "I will move the check to setCommentRevId. However, I was thinking that if we turn on write before we turn on read, then we will have comments that don\u0027t have this field set and my code will complain because I need a RevId to know where to write the comments.",
       "parentUuid": "366bbbde_372fb8a9",
+      "revId": "f7f81955f50aac7addd89b16f30e384b8eb7fae7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "76bff38c_697b2598",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteDraft.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-05T17:47:41Z",
+      "side": 1,
+      "message": "I\u0027m confused, the point of setCommentRevId is to ensure this field is set, and you still have that call, you\u0027ve just pushed the null check into the body of setCommentRevId. Why would your code complain about the field being unset?",
+      "parentUuid": "366bbbde_9736c4fa",
       "revId": "f7f81955f50aac7addd89b16f30e384b8eb7fae7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

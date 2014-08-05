@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "36573b43_77f590ea",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-08-05T17:48:44Z",
+      "side": 1,
+      "message": "Wrong term. They aren\u0027t anonymous users. Anonymous Users in Gerrit are users that have not signed in yet.\n\nThese are users lacking a full name or display name.",
+      "revId": "6cbf2d39204918057ba078038c0414551ce7a9a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

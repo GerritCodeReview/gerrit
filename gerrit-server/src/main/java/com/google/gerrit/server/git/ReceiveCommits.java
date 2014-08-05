@@ -879,12 +879,21 @@ public class ReceiveCommits {
     }
 
     RefControl ctl = projectControl.controlForRef(cmd.getRefName());
-    if (ctl.canCreate(rp.getRevWalk(), obj, allRefs.values().contains(obj))) {
+    if (ctl.canCreate(rp.getRevWalk(), obj, contains(allRefs.values(), obj))) {
       validateNewCommits(ctl, cmd);
       batch.addCommand(cmd);
     } else {
       reject(cmd);
     }
+  }
+
+  private boolean contains(Collection<Ref> allRefs, RevObject obj) {
+    for (Ref r : allRefs) {
+      if (r.getObjectId().equals(obj.getId())) {
+        return true;
+      }
+    }
+    return false;
   }
 
   private void parseUpdate(final ReceiveCommand cmd) {

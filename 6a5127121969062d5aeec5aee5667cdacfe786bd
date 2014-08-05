@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "76bff38c_295e8d22",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 530,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-05T18:03:29Z",
+      "side": 1,
+      "message": "Change the name of this method to publishedComments(). This will also force us to double-check the callers.",
+      "revId": "6a5127121969062d5aeec5aee5667cdacfe786bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

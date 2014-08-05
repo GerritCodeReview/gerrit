@@ -25,10 +25,8 @@ import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.config.AllProjectsName;
-import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.project.ListBranches.BranchInfo;
-import com.google.gerrit.server.project.ProjectCache;
 import com.google.inject.Inject;
 
 import org.apache.http.HttpStatus;
@@ -38,15 +36,8 @@ import org.junit.Test;
 import java.io.IOException;
 
 public class GetCommitIT extends AbstractDaemonTest {
-
-  @Inject
-  private ProjectCache projectCache;
-
   @Inject
   private AllProjectsName allProjects;
-
-  @Inject
-  private MetaDataUpdate.Server metaDataUpdateFactory;
 
   @Test
   public void getCommit() throws IOException {
@@ -81,7 +72,7 @@ public class GetCommitIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void getNonVisibleCommit_NotFound() throws IOException {
+  public void getNonVisibleCommit_NotFound() throws Exception {
     RestResponse r =
         adminSession.get("/projects/" + project.get() + "/branches/"
             + IdString.fromDecoded(RefNames.REFS_CONFIG).encoded());
@@ -92,20 +83,10 @@ public class GetCommitIT extends AbstractDaemonTest {
 
     ProjectConfig cfg = projectCache.checkedGet(allProjects).getConfig();
     cfg.getAccessSection("refs/*", false).removePermission(Permission.READ);
-    saveProjectConfig(cfg);
-    projectCache.evict(cfg.getProject());
+    saveProjectConfig(allProjects, cfg);
 
     r = adminSession.get("/projects/" + project.get() + "/commits/"
         + branchInfo.revision);
     assertEquals(HttpStatus.SC_NOT_FOUND, r.getStatusCode());
-  }
-
-  private void saveProjectConfig(ProjectConfig cfg) throws IOException {
-    MetaDataUpdate md = metaDataUpdateFactory.create(allProjects);
-    try {
-      cfg.commit(md);
-    } finally {
-      md.close();
-    }
   }
 }

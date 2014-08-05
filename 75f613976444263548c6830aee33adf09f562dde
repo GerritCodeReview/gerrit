@@ -16,6 +16,24 @@
       "revId": "75f613976444263548c6830aee33adf09f562dde",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "96baa79a_ea862756",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-05T17:57:32Z",
+      "side": 1,
+      "message": "Yeah, that\u0027s too bad.\n\nNot sure what to do here. Ideally we could pass both the Repository and the RevWalk down into the CommitResource, the only issue there is every caller has to remember to release.\n\nOr I could just drop this change and we live with the WTFery in the resource parser.",
+      "parentUuid": "166cf713_960b0c45",
+      "revId": "75f613976444263548c6830aee33adf09f562dde",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -195,6 +195,24 @@
     },
     {
       "key": {
+        "uuid": "76bff38c_c989f166",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/PatchLineCommentsUtil.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-08-05T17:59:10Z",
+      "side": 1,
+      "message": "Acknowledged.",
+      "parentUuid": "b69deb27_3b2f97a9",
+      "revId": "f5a81d5cb1c185070507d4a24970deb30f3d3bc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9610e73f_7a1ad961",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateDraft.java",
         "patchSetId": 8

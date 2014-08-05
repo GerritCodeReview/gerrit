@@ -129,6 +129,7 @@ public class CreateBranch implements RestModifyView<ProjectResource, Input> {
         }
       }
 
+      rw.reset();
       if (!refControl.canCreate(rw, object, true)) {
         throw new AuthException("Cannot create \"" + ref + "\"");
       }

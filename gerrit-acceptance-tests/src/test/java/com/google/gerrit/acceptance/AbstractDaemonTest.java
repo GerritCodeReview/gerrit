@@ -237,6 +237,13 @@ public abstract class AbstractDaemonTest {
     saveProjectConfig(project, cfg);
   }
 
+  protected void deny(String permission, AccountGroup.UUID id, String ref)
+      throws Exception {
+    ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
+    Util.deny(cfg, permission, id, ref);
+    saveProjectConfig(project, cfg);
+  }
+
   protected void saveProjectConfig(Project.NameKey p, ProjectConfig cfg)
       throws Exception {
     MetaDataUpdate md = metaDataUpdateFactory.create(p);

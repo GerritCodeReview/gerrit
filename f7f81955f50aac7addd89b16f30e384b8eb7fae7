@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "96baa79a_4a7653b3",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-08-05T17:58:59Z",
+      "side": 1,
+      "message": "Acknowledged.",
+      "parentUuid": "96baa79a_ea10676d",
+      "revId": "f7f81955f50aac7addd89b16f30e384b8eb7fae7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b69deb27_7b251fc9",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/PatchLineCommentsUtil.java",
         "patchSetId": 10
@@ -266,6 +284,24 @@
       "side": 1,
       "message": "I\u0027m confused, the point of setCommentRevId is to ensure this field is set, and you still have that call, you\u0027ve just pushed the null check into the body of setCommentRevId. Why would your code complain about the field being unset?",
       "parentUuid": "366bbbde_9736c4fa",
+      "revId": "f7f81955f50aac7addd89b16f30e384b8eb7fae7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "96baa79a_0a805b3b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteDraft.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-08-05T17:58:59Z",
+      "side": 1,
+      "message": "I just moved the null check into setCommentRevId, and this should be sufficient. I was misunderstanding your original question.",
+      "parentUuid": "76bff38c_697b2598",
       "revId": "f7f81955f50aac7addd89b16f30e384b8eb7fae7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

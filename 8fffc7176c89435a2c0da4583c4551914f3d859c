@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "36573b43_372038ba",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1016317
+      },
+      "writtenOn": "2014-08-05T18:19:17Z",
+      "side": 1,
+      "message": "Have a short one line summary as the top line, such as \"Implement pagination in branch list screen\".",
+      "revId": "8fffc7176c89435a2c0da4583c4551914f3d859c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "166cf713_362038ba",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1016317
+      },
+      "writtenOn": "2014-08-05T18:19:17Z",
+      "side": 1,
+      "message": "double space",
+      "range": {
+        "startLine": 7,
+        "startChar": 27,
+        "endLine": 7,
+        "endChar": 28
+      },
+      "revId": "8fffc7176c89435a2c0da4583c4551914f3d859c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

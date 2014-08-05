@@ -256,10 +256,22 @@ public class RefControl {
     }
 
     if (object instanceof RevCommit) {
-      return admin
-          || (owner && !isBlocked(Permission.CREATE))
-          || (canPerform(Permission.CREATE) && (!existsOnServer && canUpdate() || projectControl
-              .canReadCommit(rw, (RevCommit) object)));
+      if (admin || (owner && !isBlocked(Permission.CREATE))) {
+        // Admin or project owner; bypass visibility check.
+        return true;
+      } else if (!canPerform(Permission.CREATE)) {
+        // No create permissions.
+        return false;
+      } else if (!existsOnServer && canUpdate()) {
+        // If the object doesn't exist on the server, check that the user has
+        // push permissions.
+        return true;
+      } else if (projectControl.canReadCommit(rw, (RevCommit) object)) {
+        // The object exists on the server and is readable by this user, so they
+        // do not require push permission create this ref.
+        return true;
+      }
+      return false;
     } else if (object instanceof RevTag) {
       final RevTag tag = (RevTag) object;
       try {

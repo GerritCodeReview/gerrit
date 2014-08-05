@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "166cf713_d6ec6429",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 826,
+      "author": {
+        "id": 1016317
+      },
+      "writtenOn": "2014-08-05T15:18:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "36573b43_17d7f461",
+      "range": {
+        "startLine": 826,
+        "startChar": 4,
+        "endLine": 826,
+        "endChar": 6
+      },
+      "revId": "bb20fc0db8ea886b8383665648234d9f1a62fddd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "36573b43_77dc7082",
         "filename": "Documentation/dev-plugins.txt",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2014-08-05T15:02:19Z",
       "side": 1,
       "message": "same",
+      "range": {
+        "startLine": 827,
+        "startChar": 4,
+        "endLine": 827,
+        "endChar": 5
+      },
+      "revId": "bb20fc0db8ea886b8383665648234d9f1a62fddd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "166cf713_36fb18e2",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 827,
+      "author": {
+        "id": 1016317
+      },
+      "writtenOn": "2014-08-05T15:18:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "36573b43_77dc7082",
       "range": {
         "startLine": 827,
         "startChar": 4,
@@ -65,6 +113,24 @@
     },
     {
       "key": {
+        "uuid": "166cf713_96e2ec34",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/ConfigRegistration.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1016317
+      },
+      "writtenOn": "2014-08-05T15:18:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "36573b43_57e16c32",
+      "revId": "bb20fc0db8ea886b8383665648234d9f1a62fddd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "166cf713_16d7fc61",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/ConfigRegistration.java",
         "patchSetId": 2
@@ -76,6 +142,30 @@
       "writtenOn": "2014-08-05T15:02:19Z",
       "side": 1,
       "message": "Is this really needed? If yes, add your name in parenthesis.",
+      "range": {
+        "startLine": 8,
+        "startChar": 2,
+        "endLine": 9,
+        "endChar": 23
+      },
+      "revId": "bb20fc0db8ea886b8383665648234d9f1a62fddd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "36573b43_b7e56841",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/ConfigRegistration.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1016317
+      },
+      "writtenOn": "2014-08-05T15:18:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "166cf713_16d7fc61",
       "range": {
         "startLine": 8,
         "startChar": 2,
@@ -111,6 +201,30 @@
     },
     {
       "key": {
+        "uuid": "166cf713_f6efe01a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/ConfigRegistration.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1016317
+      },
+      "writtenOn": "2014-08-05T15:18:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "166cf713_76dc7082",
+      "range": {
+        "startLine": 10,
+        "startChar": 27,
+        "endLine": 10,
+        "endChar": 28
+      },
+      "revId": "bb20fc0db8ea886b8383665648234d9f1a62fddd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "166cf713_56e17432",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/ConfigRegistration.java",
         "patchSetId": 2
@@ -122,6 +236,24 @@
       "writtenOn": "2014-08-05T15:02:19Z",
       "side": 1,
       "message": "Unneeded new line.",
+      "revId": "bb20fc0db8ea886b8383665648234d9f1a62fddd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "36573b43_97e2e434",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/ConfigRegistration.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1016317
+      },
+      "writtenOn": "2014-08-05T15:18:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "166cf713_56e17432",
       "revId": "bb20fc0db8ea886b8383665648234d9f1a62fddd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

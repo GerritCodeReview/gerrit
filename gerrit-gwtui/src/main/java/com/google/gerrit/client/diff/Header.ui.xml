@@ -47,6 +47,9 @@ limitations under the License.
     font-weight: bold;
     margin-right: 1em;
   }
+  .diffViewNav {
+    white-space: nowrap;
+  }
   .preferences {
     cursor: pointer;
   }
@@ -60,6 +63,7 @@ limitations under the License.
     <span class='{style.path}'><span ui:field='project'/> / <span ui:field='filePath'/></span>
     <div class='{style.navigation}'>
       <span ui:field='noDiff' class='{style.nodiff}'><ui:msg>No Differences</ui:msg></span>
+      <span class='{style.diffViewNav}' ui:field='diffViewNav'></span>
       <x:InlineHyperlink ui:field='prev' styleName='{res.style.go_prev}'/>
       <x:InlineHyperlink ui:field='up'
           styleName='{res.style.go_up}'

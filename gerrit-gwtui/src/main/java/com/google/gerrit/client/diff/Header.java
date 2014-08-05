@@ -31,6 +31,8 @@ import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.client.rpc.RestApi;
 import com.google.gerrit.client.ui.InlineHyperlink;
 import com.google.gerrit.common.PageLinks;
+import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DiffView;
+import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.GWT;
@@ -54,6 +56,7 @@ import com.google.gwtexpui.globalkey.client.KeyCommand;
 import com.google.gwtexpui.globalkey.client.KeyCommandSet;
 import com.google.gwtexpui.safehtml.client.SafeHtml;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
+import com.google.gwtorm.client.KeyUtil;
 
 class Header extends Composite {
   interface Binder extends UiBinder<HTMLPanel, Header> {}
@@ -72,6 +75,7 @@ class Header extends Composite {
 
   @UiField Element noDiff;
 
+  @UiField Element diffViewNav;
   @UiField InlineHyperlink prev;
   @UiField InlineHyperlink up;
   @UiField InlineHyperlink next;
@@ -155,6 +159,7 @@ class Header extends Composite {
           keys.pair(p, n);
         }
         nextPath = nextInfo != null ? nextInfo.path() : null;
+        SafeHtml.setInnerHTML(diffViewNav, navigateDiff(files.get(index)));
       }
     });
 
@@ -245,6 +250,37 @@ class Header extends Composite {
   @UiHandler("preferences")
   void onPreferences(ClickEvent e) {
     prefsAction.show();
+  }
+
+  private SafeHtml navigateDiff(final FileInfo info) {
+    SafeHtmlBuilder b = new SafeHtmlBuilder();
+    if (Gerrit.isSignedIn()
+        && DiffView.UNIFIED_DIFF.equals(Gerrit.getUserAccount()
+            .getGeneralPreferences().getDiffView()) && !info.binary()) {
+      b.openAnchor().setAttribute("href", diffUrl(info, "side-by-side"))
+          .setAttribute("title", "Switch to Side-By-Side view")
+          .append("Side_By-Side").closeAnchor();
+    } else if (Gerrit.isSignedIn()
+        && DiffView.SIDE_BY_SIDE.equals(Gerrit.getUserAccount()
+            .getGeneralPreferences().getDiffView())) {
+      b.openAnchor().setAttribute("href", diffUrl(info, "unified"))
+          .setAttribute("title", "Switch to Unified view").append("Unified")
+          .closeAnchor();
+    }
+    return b;
+  }
+
+  private String diffUrl(FileInfo info, String diffType) {
+    Change.Id c = patchSetId.getParentKey();
+    StringBuilder p = new StringBuilder();
+    p.append("#/c/").append(c).append('/');
+    p.append(patchSetId.get()).append('/').append(KeyUtil.encode(info.path()));
+    if (diffType == "unified") {
+      p.append(",unified");
+    } else if (diffType == "side-by-side") {
+      p.append(",cm");
+    }
+    return p.toString();
   }
 
   private String url(FileInfo info) {

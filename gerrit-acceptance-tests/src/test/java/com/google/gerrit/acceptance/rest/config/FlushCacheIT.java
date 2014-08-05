@@ -15,7 +15,6 @@
 package com.google.gerrit.acceptance.rest.config;
 
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
-import static com.google.gerrit.server.project.Util.allow;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
@@ -30,6 +29,7 @@ import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.Util;
 import com.google.inject.Inject;
 
 import org.apache.http.HttpStatus;
@@ -92,8 +92,8 @@ public class FlushCacheIT extends AbstractDaemonTest {
     ProjectConfig cfg = projectCache.checkedGet(allProjects).getConfig();
     AccountGroup.UUID registeredUsers =
         SystemGroupBackend.getGroup(REGISTERED_USERS).getUUID();
-    allow(cfg, GlobalCapability.VIEW_CACHES, registeredUsers);
-    allow(cfg, GlobalCapability.FLUSH_CACHES, registeredUsers);
+    Util.allow(cfg, GlobalCapability.VIEW_CACHES, registeredUsers);
+    Util.allow(cfg, GlobalCapability.FLUSH_CACHES, registeredUsers);
     saveProjectConfig(cfg);
 
     RestResponse r = userSession.post("/config/server/caches/accounts/flush");

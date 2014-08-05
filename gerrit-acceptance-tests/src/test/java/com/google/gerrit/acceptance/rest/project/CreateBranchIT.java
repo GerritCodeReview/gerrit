@@ -16,7 +16,6 @@ package com.google.gerrit.acceptance.rest.project;
 
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
-import static com.google.gerrit.server.project.Util.allow;
 import static com.google.gerrit.server.project.Util.block;
 import static org.junit.Assert.assertEquals;
 
@@ -24,27 +23,15 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.reviewdb.client.Branch;
-import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.AllProjectsName;
-import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
-import com.google.gerrit.server.project.ProjectCache;
 import com.google.inject.Inject;
 
 import org.apache.http.HttpStatus;
-import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.IOException;
-
 public class CreateBranchIT extends AbstractDaemonTest {
-  @Inject
-  private MetaDataUpdate.Server metaDataUpdateFactory;
-
-  @Inject
-  private ProjectCache projectCache;
-
   @Inject
   private AllProjectsName allProjects;
 
@@ -56,7 +43,7 @@ public class CreateBranchIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void createBranch_Forbidden() throws IOException {
+  public void createBranch_Forbidden() throws Exception {
     RestResponse r =
         userSession.put("/projects/" + project.get()
             + "/branches/" + branch.getShortName());
@@ -64,7 +51,7 @@ public class CreateBranchIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void createBranchByAdmin() throws IOException {
+  public void createBranchByAdmin() throws Exception {
     RestResponse r =
         adminSession.put("/projects/" + project.get()
             + "/branches/" + branch.getShortName());
@@ -77,7 +64,7 @@ public class CreateBranchIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void branchAlreadyExists_Conflict() throws IOException {
+  public void branchAlreadyExists_Conflict() throws Exception {
     RestResponse r =
         adminSession.put("/projects/" + project.get()
             + "/branches/" + branch.getShortName());
@@ -90,8 +77,7 @@ public class CreateBranchIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void createBranchByProjectOwner() throws IOException,
-      ConfigInvalidException {
+  public void createBranchByProjectOwner() throws Exception {
     grantOwner();
 
     RestResponse r =
@@ -106,8 +92,7 @@ public class CreateBranchIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void createBranchByAdminCreateReferenceBlocked() throws IOException,
-      ConfigInvalidException {
+  public void createBranchByAdminCreateReferenceBlocked() throws Exception {
     blockCreateReference();
     RestResponse r =
         adminSession.put("/projects/" + project.get()
@@ -122,7 +107,7 @@ public class CreateBranchIT extends AbstractDaemonTest {
 
   @Test
   public void createBranchByProjectOwnerCreateReferenceBlocked_Forbidden()
-      throws IOException, ConfigInvalidException {
+      throws Exception {
     grantOwner();
     blockCreateReference();
     RestResponse r =
@@ -131,27 +116,13 @@ public class CreateBranchIT extends AbstractDaemonTest {
     assertEquals(HttpStatus.SC_FORBIDDEN, r.getStatusCode());
   }
 
-  private void blockCreateReference() throws IOException, ConfigInvalidException {
+  private void blockCreateReference() throws Exception {
     ProjectConfig cfg = projectCache.checkedGet(allProjects).getConfig();
     block(cfg, Permission.CREATE, ANONYMOUS_USERS, "refs/*");
     saveProjectConfig(allProjects, cfg);
-    projectCache.evict(cfg.getProject());
   }
 
-  private void grantOwner() throws IOException, ConfigInvalidException {
-    ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
-    allow(cfg, Permission.OWNER, REGISTERED_USERS, "refs/*");
-    saveProjectConfig(project, cfg);
-    projectCache.evict(cfg.getProject());
-  }
-
-  private void saveProjectConfig(Project.NameKey p, ProjectConfig cfg)
-      throws IOException {
-    MetaDataUpdate md = metaDataUpdateFactory.create(p);
-    try {
-      cfg.commit(md);
-    } finally {
-      md.close();
-    }
+  private void grantOwner() throws Exception {
+    allow(Permission.OWNER, REGISTERED_USERS, "refs/*");
   }
 }

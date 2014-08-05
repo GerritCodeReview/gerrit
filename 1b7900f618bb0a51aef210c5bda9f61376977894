@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "96baa79a_4a2093ba",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 528,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-05T15:01:53Z",
+      "side": 0,
+      "message": "This is...unfortunate.\n\nThis causes GetCommitIT to fail, because it was depending on this short-circuiting behavior to allow reading from refs/meta/config. What we really want here is to list every ref except refs/changes/*, which JGit doesn\u0027t give us an easy way to do.\n\nBut if there\u0027s one thing that motivates this change, it\u0027s that correctness \u003e speed for this operation.",
+      "revId": "1b7900f618bb0a51aef210c5bda9f61376977894",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

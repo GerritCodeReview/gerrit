@@ -16,6 +16,24 @@
       "revId": "1b7900f618bb0a51aef210c5bda9f61376977894",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "166cf713_76f590ea",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 528,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-08-05T16:28:32Z",
+      "side": 0,
+      "message": "Add getRef(\"refs/meta/config\") to allRefs here?",
+      "parentUuid": "96baa79a_4a2093ba",
+      "revId": "1b7900f618bb0a51aef210c5bda9f61376977894",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -177,6 +177,24 @@
     },
     {
       "key": {
+        "uuid": "b69deb27_3b2f97a9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/PatchLineCommentsUtil.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-05T17:48:01Z",
+      "side": 1,
+      "message": "Ok, I think that\u0027s fine. I was thinking callers might not have already had the whole PLC instance available, but it looks like in PostReview at least they do.",
+      "parentUuid": "9610e73f_5aedd5d7",
+      "revId": "f5a81d5cb1c185070507d4a24970deb30f3d3bc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9610e73f_7a1ad961",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateDraft.java",
         "patchSetId": 8

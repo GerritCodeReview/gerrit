@@ -117,6 +117,23 @@
       "revId": "9fd0c50a8a6887dbde88ff926c26f10eb0e5be07",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "96baa79a_ca2d637f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-06T23:25:37Z",
+      "side": 1,
+      "message": "It is wrong to depend on canReadCommit here for the purpose of allowing/denying create of a ref that doesn\u0027t exist on the server.\n\ncanReadCommit should return true (doesn\u0027t, but will after my change) when the commit is an unsubmitted patch set of a change that is visible to the current user. We should really not allow creation of a ref pointing to an unsubmitted patch set without PUSH permission.\n\nI think this needs to be a specific check that this commit is merged only in to branches (and maybe tags). Which maybe is what your other change is doing, Bruce, so let me go check on that.",
+      "revId": "9fd0c50a8a6887dbde88ff926c26f10eb0e5be07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

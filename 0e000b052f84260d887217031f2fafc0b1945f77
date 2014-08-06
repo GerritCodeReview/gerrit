@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "36573b43_f7c1a065",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/edit/ChangeEditIT.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-06T18:47:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "366bbbde_77c9b08f",
+      "revId": "0e000b052f84260d887217031f2fafc0b1945f77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b69deb27_7b1f5f50",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/edit/ChangeEditIT.java",
         "patchSetId": 23
@@ -30,6 +48,24 @@
       "writtenOn": "2014-08-04T18:23:13Z",
       "side": 1,
       "message": "Optional: skip all the edit.isPresent() assertions; edit.get() will fail with a useful-enough IllegalStateException.",
+      "revId": "0e000b052f84260d887217031f2fafc0b1945f77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "166cf713_f6c1a065",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/edit/ChangeEditIT.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-06T18:47:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b69deb27_7b1f5f50",
       "revId": "0e000b052f84260d887217031f2fafc0b1945f77",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "36573b43_d7be1ce9",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/edit/ChangeEditIT.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-06T18:47:45Z",
+      "side": 1,
+      "message": "I did it later in the series, where handler to ead the file content from edit and later REST endpoint to read the content was added on top of it. The change that introuced REST API endpoint also extended this unit test with REST methods to read file content. But there is no reason why we cannot move get file content handler higher in this series, just before this change [1], so that functionality is available here. Done. Here and in all other tests.\n\n [1] https://gerrit-review.googlesource.com/58950",
+      "parentUuid": "b69deb27_5b1aa361",
+      "revId": "0e000b052f84260d887217031f2fafc0b1945f77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b69deb27_bb97276a",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/edit/ChangeEditIT.java",
         "patchSetId": 23
@@ -64,6 +118,30 @@
       "writtenOn": "2014-08-04T18:23:13Z",
       "side": 1,
       "message": "These last lines are testing that deleting the entire edit works, which is unrelated to updating an existing file. They are also more or less repeated in all the methods below.\n\nI think this would be better as a separate test method.",
+      "range": {
+        "startLine": 126,
+        "startChar": 4,
+        "endLine": 129,
+        "endChar": 34
+      },
+      "revId": "0e000b052f84260d887217031f2fafc0b1945f77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "36573b43_b7a0c8bf",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/edit/ChangeEditIT.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-06T18:47:45Z",
+      "side": 1,
+      "message": "Extracted these tests in own method delete Edit() and publishEdit(). Done.",
+      "parentUuid": "b69deb27_bb97276a",
       "range": {
         "startLine": 126,
         "startChar": 4,
@@ -99,6 +177,30 @@
     },
     {
       "key": {
+        "uuid": "36573b43_37add8ba",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/edit/ChangeEditIT.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-06T18:47:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b69deb27_1b241b9c",
+      "range": {
+        "startLine": 196,
+        "startChar": 14,
+        "endLine": 196,
+        "endChar": 20
+      },
+      "revId": "0e000b052f84260d887217031f2fafc0b1945f77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b69deb27_3b29d772",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/edit/ChangeEditIT.java",
         "patchSetId": 23
@@ -110,6 +212,30 @@
       "writtenOn": "2014-08-04T18:23:13Z",
       "side": 1,
       "message": "If you take my advice above to make CONTENT_NEW a byte[] obviously this won\u0027t work. But then again the updated content here doesn\u0027t actually have to be related to CONTENT_NEW, it could just be Constants.encode(\"whatever you want\");",
+      "range": {
+        "startLine": 214,
+        "startChar": 29,
+        "endLine": 214,
+        "endChar": 45
+      },
+      "revId": "0e000b052f84260d887217031f2fafc0b1945f77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "166cf713_16b25c1c",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/edit/ChangeEditIT.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-06T18:47:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b69deb27_3b29d772",
       "range": {
         "startLine": 214,
         "startChar": 29,
@@ -145,6 +271,30 @@
     },
     {
       "key": {
+        "uuid": "166cf713_d6be24e9",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/edit/ChangeEditIT.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-06T18:47:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "366bbbde_37d33844",
+      "range": {
+        "startLine": 243,
+        "startChar": 27,
+        "endLine": 243,
+        "endChar": 33
+      },
+      "revId": "0e000b052f84260d887217031f2fafc0b1945f77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "366bbbde_d7b75c10",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/edit/ChangeEditIT.java",
         "patchSetId": 23
@@ -162,6 +312,24 @@
     },
     {
       "key": {
+        "uuid": "36573b43_17b2541c",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/edit/ChangeEditIT.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-06T18:47:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "366bbbde_d7b75c10",
+      "revId": "0e000b052f84260d887217031f2fafc0b1945f77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "366bbbde_f7b4e00d",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/edit/ChangeEditIT.java",
         "patchSetId": 23
@@ -173,6 +341,24 @@
       "writtenOn": "2014-08-04T18:23:13Z",
       "side": 1,
       "message": "If you expect modifyFile() to fail, why are you making an assertion about its result?",
+      "revId": "0e000b052f84260d887217031f2fafc0b1945f77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "166cf713_36add8ba",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/edit/ChangeEditIT.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-06T18:47:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "366bbbde_f7b4e00d",
       "revId": "0e000b052f84260d887217031f2fafc0b1945f77",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

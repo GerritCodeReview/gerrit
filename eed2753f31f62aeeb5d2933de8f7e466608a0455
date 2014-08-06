@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "96baa79a_cab7a310",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/PatchLineCommentsUtil.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-08-06T16:28:40Z",
+      "side": 1,
+      "message": "Is this a better solution?",
+      "parentUuid": "36573b43_9710246d",
+      "revId": "eed2753f31f62aeeb5d2933de8f7e466608a0455",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "36573b43_b713a878",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/PatchLineCommentsUtil.java",
         "patchSetId": 14
@@ -30,6 +48,24 @@
       "writtenOn": "2014-08-05T23:46:26Z",
       "side": 1,
       "message": "Missing close of this repo.",
+      "revId": "eed2753f31f62aeeb5d2933de8f7e466608a0455",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "76bff38c_29d3ed43",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/PatchLineCommentsUtil.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-08-06T16:28:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "36573b43_b713a878",
       "revId": "eed2753f31f62aeeb5d2933de8f7e466608a0455",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

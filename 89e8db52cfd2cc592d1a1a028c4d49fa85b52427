@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "36573b43_d733bc08",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/PatchLineCommentsUtil.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-06T08:30:57Z",
+      "side": 1,
+      "message": "private static\n\nNote that without static qualifier the method order in class is wrong. Private methods expected below public. Dave clarified the order of methods in this change [1]. But still i would place the helper method below the methods it help. Around line 146 in this ps.\n\n [1] https://gerrit-review.googlesource.com/#/c/57811/1/Documentation/dev-contributing.txt",
+      "range": {
+        "startLine": 100,
+        "startChar": 2,
+        "endLine": 100,
+        "endChar": 9
+      },
+      "revId": "89e8db52cfd2cc592d1a1a028c4d49fa85b52427",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "166cf713_7680f03c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/PatchLineCommentsUtil.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-06T08:30:57Z",
+      "side": 1,
+      "message": "Is this needed?",
+      "range": {
+        "startLine": 103,
+        "startChar": 6,
+        "endLine": 103,
+        "endChar": 25
+      },
+      "revId": "89e8db52cfd2cc592d1a1a028c4d49fa85b52427",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "36573b43_377678b2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 534,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-06T08:30:57Z",
+      "side": 1,
+      "message": "publishedByChange() already returns list, so just:\n\n  publishedComments \u003d plcUtil.publishedByChange(db, notes());",
+      "range": {
+        "startLine": 533,
+        "startChar": 6,
+        "endLine": 534,
+        "endChar": 69
+      },
+      "revId": "89e8db52cfd2cc592d1a1a028c4d49fa85b52427",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "166cf713_b689e867",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/change/CommentsTest.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-06T08:30:57Z",
+      "side": 1,
+      "message": "Unrelated change?",
+      "range": {
+        "startLine": 227,
+        "startChar": 4,
+        "endLine": 227,
+        "endChar": 71
+      },
+      "revId": "89e8db52cfd2cc592d1a1a028c4d49fa85b52427",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "36573b43_177b7498",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/change/CommentsTest.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-06T08:30:57Z",
+      "side": 1,
+      "message": "Unrelated change?",
+      "range": {
+        "startLine": 273,
+        "startChar": 4,
+        "endLine": 274,
+        "endChar": 69
+      },
+      "revId": "89e8db52cfd2cc592d1a1a028c4d49fa85b52427",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -28,43 +28,37 @@ import com.google.gerrit.server.group.GroupJson;
 import com.google.gerrit.server.group.GroupJson.GroupInfo;
 import com.google.gerrit.server.group.ListGroups;
 import com.google.gerrit.server.ioutil.ColumnFormatter;
-import com.google.gerrit.sshd.BaseCommand;
 import com.google.gerrit.sshd.CommandMetaData;
+import com.google.gerrit.sshd.SshCommand;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
-import org.apache.sshd.server.Environment;
 import org.kohsuke.args4j.Option;
 
 import java.io.PrintWriter;
 
 @CommandMetaData(name = "ls-groups", description = "List groups visible to the caller",
   runsAt = MASTER_OR_SLAVE)
-public class ListGroupsCommand extends BaseCommand {
+public class ListGroupsCommand extends SshCommand {
   @Inject
   private MyListGroups impl;
 
-  @Override
-  public void start(final Environment env) {
-    startThread(new CommandRunnable() {
-      @Override
-      public void run() throws Exception {
-        parseCommandLine(impl);
-        if (impl.getUser() != null && !impl.getProjects().isEmpty()) {
-          throw new UnloggedFailure(1, "fatal: --user and --project options are not compatible.");
-        }
-        final PrintWriter stdout = toPrintWriter(out);
-        try {
-          impl.display(stdout);
-        } finally {
-          stdout.flush();
-        }
-      }
-    });
-  }
+   @Override
+   public void run() throws Exception {
+     parseCommandLine(impl);
+     if (impl.getUser() != null && !impl.getProjects().isEmpty()) {
+       throw new UnloggedFailure(1, "fatal: --user and --project options are not compatible.");
+     }
+     final PrintWriter stdout = toPrintWriter(out);
+     try {
+       impl.display(stdout);
+     } finally {
+       stdout.flush();
+     }
+   }
 
-  private static class MyListGroups extends ListGroups {
+    private static class MyListGroups extends ListGroups {
     @Option(name = "--verbose", aliases = {"-v"},
         usage = "verbose output format with tab-separated columns for the " +
             "group name, UUID, description, owner group name, " +

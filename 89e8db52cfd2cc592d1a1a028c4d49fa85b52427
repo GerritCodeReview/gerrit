@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "76bff38c_09ce2999",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/PatchLineCommentsUtil.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-08-06T15:50:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "36573b43_d733bc08",
+      "range": {
+        "startLine": 100,
+        "startChar": 2,
+        "endLine": 100,
+        "endChar": 9
+      },
+      "revId": "89e8db52cfd2cc592d1a1a028c4d49fa85b52427",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "166cf713_7680f03c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/PatchLineCommentsUtil.java",
         "patchSetId": 17
@@ -36,6 +60,30 @@
       "writtenOn": "2014-08-06T08:30:57Z",
       "side": 1,
       "message": "Is this needed?",
+      "range": {
+        "startLine": 103,
+        "startChar": 6,
+        "endLine": 103,
+        "endChar": 25
+      },
+      "revId": "89e8db52cfd2cc592d1a1a028c4d49fa85b52427",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "76bff38c_69c9e58f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/PatchLineCommentsUtil.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-08-06T15:50:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "166cf713_7680f03c",
       "range": {
         "startLine": 103,
         "startChar": 6,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "96baa79a_4ac4137b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 534,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-08-06T15:50:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "36573b43_377678b2",
+      "range": {
+        "startLine": 533,
+        "startChar": 6,
+        "endLine": 534,
+        "endChar": 69
+      },
+      "revId": "89e8db52cfd2cc592d1a1a028c4d49fa85b52427",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "166cf713_b689e867",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/change/CommentsTest.java",
         "patchSetId": 17
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "96baa79a_0ace1b99",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/change/CommentsTest.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-08-06T15:50:07Z",
+      "side": 1,
+      "message": "No, it had to do with the fact that the time we write to a comment note only goes to the seconds place (not milliseconds). That was causing tests of equality for comments to fail. Thus, I added this rounding. See line 443 for another example of this approximation. It shouldn\u0027t cause a problem because the only time we are looking for exact matches of comments (i.e. .equals()) should be in tests; otherwise, we look up based on key.",
+      "parentUuid": "166cf713_b689e867",
+      "range": {
+        "startLine": 227,
+        "startChar": 4,
+        "endLine": 227,
+        "endChar": 71
+      },
+      "revId": "89e8db52cfd2cc592d1a1a028c4d49fa85b52427",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "36573b43_177b7498",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/change/CommentsTest.java",
         "patchSetId": 17
@@ -105,6 +201,30 @@
       "writtenOn": "2014-08-06T08:30:57Z",
       "side": 1,
       "message": "Unrelated change?",
+      "range": {
+        "startLine": 273,
+        "startChar": 4,
+        "endLine": 274,
+        "endChar": 69
+      },
+      "revId": "89e8db52cfd2cc592d1a1a028c4d49fa85b52427",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "96baa79a_6ac9d78f",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/change/CommentsTest.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-08-06T15:50:07Z",
+      "side": 1,
+      "message": "No. I need this call for the new test for the byCommentStatus() method.",
+      "parentUuid": "36573b43_177b7498",
       "range": {
         "startLine": 273,
         "startChar": 4,

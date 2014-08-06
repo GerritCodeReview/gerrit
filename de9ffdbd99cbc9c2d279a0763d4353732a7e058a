@@ -46,6 +46,30 @@
       "revId": "de9ffdbd99cbc9c2d279a0763d4353732a7e058a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "166cf713_b6b72811",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-06T16:44:19Z",
+      "side": 1,
+      "message": "I meant no code changes at all, obviously.",
+      "parentUuid": "76bff38c_c9b7b110",
+      "range": {
+        "startLine": 7,
+        "startChar": 12,
+        "endLine": 7,
+        "endChar": 51
+      },
+      "revId": "de9ffdbd99cbc9c2d279a0763d4353732a7e058a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

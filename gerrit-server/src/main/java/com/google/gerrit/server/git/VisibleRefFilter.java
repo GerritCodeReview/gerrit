@@ -69,10 +69,11 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
   }
 
   public Map<String, Ref> filter(Map<String, Ref> refs, boolean filterTagsSeperately) {
-    if (projectCtl.allRefsAreVisibleExcept(
-        ImmutableSet.of(RefNames.REFS_CONFIG))) {
+    if (projectCtl.allRefsAreVisible(ImmutableSet.of(RefNames.REFS_CONFIG))) {
       Map<String, Ref> r = Maps.newHashMap(refs);
-      r.remove(RefNames.REFS_CONFIG);
+      if (!projectCtl.controlForRef(RefNames.REFS_CONFIG).isVisible()) {
+        r.remove(RefNames.REFS_CONFIG);
+      }
       return r;
     }
 

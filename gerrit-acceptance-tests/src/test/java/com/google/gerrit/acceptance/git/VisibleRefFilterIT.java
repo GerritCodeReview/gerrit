@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance.git;
 
 import static com.google.gerrit.acceptance.GitUtil.createProject;
+import static com.google.gerrit.server.group.SystemGroupBackend.PROJECT_OWNERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -29,6 +30,7 @@ import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.git.ProjectConfig;
+import com.google.gerrit.server.project.Util;
 import com.google.inject.Inject;
 
 import org.junit.Before;
@@ -72,7 +74,12 @@ public class VisibleRefFilterIT extends AbstractDaemonTest {
 
   @Test
   public void allRefsVisibleNoRefsMetaConfig() throws Exception {
-    allow(Permission.READ, REGISTERED_USERS, "refs/*");
+    ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
+    Util.allow(cfg, Permission.READ, REGISTERED_USERS, "refs/*");
+    Util.allow(cfg, Permission.READ, PROJECT_OWNERS, "refs/meta/config");
+    Util.doNotInherit(cfg, Permission.READ, "refs/meta/config");
+    saveProjectConfig(project, cfg);
+
     assertRefs(
         "HEAD",
         "refs/changes/01/1/1",
@@ -91,9 +98,8 @@ public class VisibleRefFilterIT extends AbstractDaemonTest {
         "refs/changes/01/1/1",
         "refs/changes/02/2/1",
         "refs/heads/branch",
-        "refs/heads/master");
-        // TODO(dborowitz): Fix bug so this is included.
-        //"refs/meta/config");
+        "refs/heads/master",
+        "refs/meta/config");
   }
 
   @Test

@@ -26,11 +26,10 @@ import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.account.GroupDetailFactory.Factory;
 import com.google.gerrit.server.group.ListMembers;
 import com.google.gerrit.server.ioutil.ColumnFormatter;
-import com.google.gerrit.sshd.BaseCommand;
 import com.google.gerrit.sshd.CommandMetaData;
+import com.google.gerrit.sshd.SshCommand;
 import com.google.gwtorm.server.OrmException;
 
-import org.apache.sshd.server.Environment;
 import org.kohsuke.args4j.Argument;
 
 import java.io.PrintWriter;
@@ -43,24 +42,19 @@ import javax.inject.Inject;
  */
 @CommandMetaData(name = "ls-members", description = "List the members of a given group",
   runsAt = MASTER_OR_SLAVE)
-public class ListMembersCommand extends BaseCommand {
+public class ListMembersCommand extends SshCommand {
   @Inject
   ListMembersCommandImpl impl;
 
   @Override
-  public void start(Environment env) {
-    startThread(new CommandRunnable() {
-      @Override
-      public void run() throws Exception {
-        parseCommandLine(impl);
-        final PrintWriter stdout = toPrintWriter(out);
-        try {
-          impl.display(stdout);
-        } finally {
-          stdout.flush();
-        }
-      }
-    });
+  public void run() throws Exception {
+    parseCommandLine(impl);
+    final PrintWriter stdout = toPrintWriter(out);
+    try {
+      impl.display(stdout);
+    } finally {
+      stdout.flush();
+    }
   }
 
   private static class ListMembersCommandImpl extends ListMembers {

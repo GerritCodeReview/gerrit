@@ -782,6 +782,24 @@
     },
     {
       "key": {
+        "uuid": "166cf713_56acd4ba",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-06T19:07:27Z",
+      "side": 1,
+      "message": "OK, now i see where the confusion is coming from. This comment above was confusing. The lines 310 \u0026\u0026 311 above are trying to retrieve the object already from parent. base is commit that belongs to patch set the edit is based on. So the point is to allow to retrieve the object from parent\u0027s parent in case it was removed in the patch set the edit is based on. On the file table UI it was implemented as restore icon and was only enabled for files that were delete from the patch set. I clarified the wording in comment now. See also two different tests in follow up change exact for these two different use case:\n\n* restoreDeletedFileInEdit()\n* restoreDeletedFileInPatchSet()\n\n\nNote that secon change deleted the file \"foo\" that the edit tries to restore. I even extended acceptance-test framework to be able to remove files:\n\n  private String newChange2(Git git, PersonIdent ident) throws Exception {\n    PushOneCommit push \u003d\n        pushFactory.create(db, ident, PushOneCommit.SUBJECT, FILE_NAME,\n            new String(CONTENT_OLD));\n    return push.rm(git, \"refs/for/master\").getChangeId();\n  }\n\nThis is the only change that was merged from this series: [1]\n\n [1] https://gerrit-review.googlesource.com/#/c/53371",
+      "parentUuid": "b69deb27_7bb2ff1d",
+      "revId": "5cc005e9265ce7c9a5cfa2b49ffbd1f9803122d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b69deb27_3bac77ba",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
         "patchSetId": 23

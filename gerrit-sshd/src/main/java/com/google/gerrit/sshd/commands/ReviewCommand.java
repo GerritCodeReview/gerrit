@@ -202,13 +202,13 @@ public class ReviewCommand extends SshCommand {
         }
       } catch (RestApiException | UnloggedFailure e) {
         ok = false;
-        writeError("error: " + e.getMessage() + "\n");
+        stderr.write("error: " + e.getMessage() + "\n");
       } catch (NoSuchChangeException e) {
         ok = false;
-        writeError("no such change " + patchSet.getId().getParentKey().get());
+        stderr.write("no such change " + patchSet.getId().getParentKey().get());
       } catch (Exception e) {
         ok = false;
-        writeError("fatal: internal server error while reviewing "
+        stderr.write("fatal: internal server error while reviewing "
             + patchSet.getId() + "\n");
         log.error("internal error while reviewing " + patchSet.getId(), e);
       }
@@ -233,7 +233,7 @@ public class ReviewCommand extends SshCommand {
       return OutputFormat.JSON.newGson().
           fromJson(CharStreams.toString(r), ReviewInput.class);
     } catch (IOException | JsonSyntaxException e) {
-      writeError(e.getMessage() + '\n');
+      stderr.write(e.getMessage() + '\n');
       throw error("internal error while reading review input");
     }
   }
@@ -403,13 +403,6 @@ public class ReviewCommand extends SshCommand {
     }
 
     super.parseCommandLine();
-  }
-
-  private void writeError(final String msg) {
-    try {
-      err.write(msg.getBytes(ENC));
-    } catch (IOException e) {
-    }
   }
 
   private static UnloggedFailure error(final String msg) {

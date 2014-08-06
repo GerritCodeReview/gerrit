@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "36573b43_17c9b490",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2014-08-06T13:15:51Z",
+      "side": 1,
+      "message": "[optional] s/an/the",
+      "range": {
+        "startLine": 9,
+        "startChar": 60,
+        "endLine": 9,
+        "endChar": 62
+      },
+      "revId": "7421f1e8e4fc2deecf3b2b01cce7eba42e47168b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "36573b43_37c4b87a",
+        "filename": "gerrit-cache-h2/src/main/java/com/google/gerrit/server/cache/h2/H2CacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 456,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2014-08-06T13:15:51Z",
+      "side": 1,
+      "message": "[optional] maybe use [TimeUnit.]SECONDS.toMillis(expireAfterWrite)",
+      "range": {
+        "startLine": 456,
+        "startChar": 13,
+        "endLine": 456,
+        "endChar": 36
+      },
+      "revId": "7421f1e8e4fc2deecf3b2b01cce7eba42e47168b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

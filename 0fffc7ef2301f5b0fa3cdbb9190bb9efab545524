@@ -22,6 +22,30 @@
       "revId": "0fffc7ef2301f5b0fa3cdbb9190bb9efab545524",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "96baa79a_aa97cf69",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/PatchLineCommentsUtil.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-08-06T21:35:08Z",
+      "side": 1,
+      "message": "I added a second try-catch because I didn\u0027t want to modify all callers to catch the RepositoryNotFoundException and the IOException that can come from openRepository. Do you think that this is still too complex and I should just modify callers?",
+      "parentUuid": "96baa79a_caa003c1",
+      "range": {
+        "startLine": 285,
+        "startChar": 4,
+        "endLine": 296,
+        "endChar": 5
+      },
+      "revId": "0fffc7ef2301f5b0fa3cdbb9190bb9efab545524",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -16,6 +16,24 @@
       "revId": "44a69752c6ac067138a8ae773a2c48aace70854c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "76bff38c_49ad01b9",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/RefNames.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-08-06T20:27:02Z",
+      "side": 1,
+      "message": "Could we do refs/draft-comments/34/1234-yyyy or refs/drafts/34/1234-yyyy? I just think that just comments might be misleading because it only holds drafts. What do you think?",
+      "parentUuid": "96baa79a_aabeefe7",
+      "revId": "44a69752c6ac067138a8ae773a2c48aace70854c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -224,6 +224,17 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
     assertEquals(Change.Status.MERGED, c.getStatus());
   }
 
+  @Test
+  public void submitOnDirectPush() throws GitAPIException, OrmException,
+      IOException, ConfigInvalidException {
+    grant(Permission.SUBMIT, project, "refs/heads/master");
+    PushOneCommit.Result r = pushTo("refs/heads/master");
+    r.assertOkStatus();
+    r.assertChange(Change.Status.MERGED, null, admin);
+    assertSubmitApproval(r.getPatchSetId());
+    assertCommit(project, "refs/heads/master");
+  }
+
   private void grant(String permission, Project.NameKey project, String ref)
       throws RepositoryNotFoundException, IOException, ConfigInvalidException {
     MetaDataUpdate md = metaDataUpdateFactory.create(project);

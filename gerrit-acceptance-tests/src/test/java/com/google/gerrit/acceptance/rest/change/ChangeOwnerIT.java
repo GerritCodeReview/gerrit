@@ -15,7 +15,6 @@
 package com.google.gerrit.acceptance.rest.change;
 
 import static com.google.gerrit.acceptance.GitUtil.cloneProject;
-import static com.google.gerrit.acceptance.GitUtil.createProject;
 import static com.google.gerrit.acceptance.GitUtil.initSsh;
 import static com.google.gerrit.common.data.Permission.LABEL;
 import static org.junit.Assert.assertEquals;
@@ -63,8 +62,7 @@ public class ChangeOwnerIT extends AbstractDaemonTest {
     sessionOwner = new RestSession(server, user);
     SshSession sshSession = new SshSession(server, user);
     initSsh(user);
-    // need to initialize intern session
-    createProject(sshSession, "foo");
+    sshSession.open();
     git = cloneProject(sshSession.getUrl() + "/" + project.get());
     sshSession.close();
     user2 = accounts.user2();

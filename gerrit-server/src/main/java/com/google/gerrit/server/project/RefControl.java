@@ -29,6 +29,7 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.InternalUser;
 import com.google.gerrit.server.group.SystemGroupBackend;
+import com.google.gerrit.server.util.MagicBranch;
 
 import dk.brics.automaton.RegExp;
 
@@ -148,14 +149,32 @@ public class RefControl {
    *         ref
    */
   public boolean canUpload() {
-    return projectControl.controlForRef("refs/for/" + getRefName())
+    return projectControl.controlForRef(MagicBranch.NEW_CHANGE + getRefName())
         .canPerform(Permission.PUSH)
         && canWrite();
   }
 
-  /** @return true if this user can submit merge patch sets to this ref */
+  /**
+   * Determines whether the user can push merge commits directly bypassing code
+   * review to the ref controlled by this object.
+   */
+  public boolean canPushMerges() {
+    if (projectControl.controlForRef(getRefName()).canPerform(
+        Permission.PUSH_MERGE)
+        && canWrite()) {
+      return true;
+    } else if (projectControl.controlForRef(
+        MagicBranch.NEW_CHANGE + getRefName())
+        .canPerform(Permission.PUSH_MERGE)
+        && canWrite()) {
+      return true;
+    }
+    return false;
+  }
+
+  /** @return true if this user can upload merge commits to this ref for review */
   public boolean canUploadMerges() {
-    return projectControl.controlForRef("refs/for/" + getRefName())
+    return projectControl.controlForRef(MagicBranch.NEW_CHANGE + getRefName())
         .canPerform(Permission.PUSH_MERGE)
         && canWrite();
   }

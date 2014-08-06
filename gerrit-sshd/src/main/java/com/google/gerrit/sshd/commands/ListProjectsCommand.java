@@ -17,37 +17,34 @@ package com.google.gerrit.sshd.commands;
 import static com.google.gerrit.sshd.CommandMetaData.Mode.MASTER_OR_SLAVE;
 
 import com.google.gerrit.server.project.ListProjects;
-import com.google.gerrit.sshd.BaseCommand;
 import com.google.gerrit.sshd.CommandMetaData;
+import com.google.gerrit.sshd.SshCommand;
 import com.google.inject.Inject;
-
-import org.apache.sshd.server.Environment;
 
 import java.util.List;
 
 @CommandMetaData(name = "ls-projects", description = "List projects visible to the caller",
   runsAt = MASTER_OR_SLAVE)
-final class ListProjectsCommand extends BaseCommand {
+final class ListProjectsCommand extends SshCommand {
   @Inject
   private ListProjects impl;
 
   @Override
-  public void start(final Environment env) {
-    startThread(new CommandRunnable() {
-      @Override
-      public void run() throws Exception {
-        parseCommandLine(impl);
-        if (!impl.getFormat().isJson()) {
-          List<String> showBranch = impl.getShowBranch();
-          if (impl.isShowTree() && (showBranch != null) && !showBranch.isEmpty()) {
-            throw new UnloggedFailure(1, "fatal: --tree and --show-branch options are not compatible.");
-          }
-          if (impl.isShowTree() && impl.isShowDescription()) {
-            throw new UnloggedFailure(1, "fatal: --tree and --description options are not compatible.");
-          }
-        }
-        impl.display(out);
+  public void run() throws Exception {
+    if (!impl.getFormat().isJson()) {
+      List<String> showBranch = impl.getShowBranch();
+      if (impl.isShowTree() && (showBranch != null) && !showBranch.isEmpty()) {
+        throw new UnloggedFailure(1, "fatal: --tree and --show-branch options are not compatible.");
       }
-    });
+      if (impl.isShowTree() && impl.isShowDescription()) {
+        throw new UnloggedFailure(1, "fatal: --tree and --description options are not compatible.");
+      }
+    }
+    impl.display(out);
+  }
+
+  @Override
+  protected void parseCommandLine() throws UnloggedFailure {
+    parseCommandLine(impl);
   }
 }

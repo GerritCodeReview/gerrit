@@ -93,6 +93,30 @@
       "revId": "9fd0c50a8a6887dbde88ff926c26f10eb0e5be07",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "96baa79a_2a299f72",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 880,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-06T23:01:38Z",
+      "side": 1,
+      "message": "Even if \"existsOnServer\" is implemented correctly, this still breaks SubmitOnPushIT.submitOnPushWithTag.\n\nThat test pushes the same commit to refs/for/master%submit and refs/tags/v1.0. In that code path, parseCreate is called on the tag creation before the submit is processed, so the object does not exist on the server.\n\nBefore you suggest inspecting the rest of the commands to see if it\u0027s already being pushed somewhere else: ew. No. There has to be a better way.\n\n[1] This test only happens to be passing at head because of buggy visibility checking behavior, as illustrated by failures in https://gerrit-review.googlesource.com/59008/2",
+      "parentUuid": "76bff38c_c9133178",
+      "range": {
+        "startLine": 880,
+        "startChar": 44,
+        "endLine": 880,
+        "endChar": 74
+      },
+      "revId": "9fd0c50a8a6887dbde88ff926c26f10eb0e5be07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

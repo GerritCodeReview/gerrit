@@ -76,7 +76,7 @@ public class GarbageCollectionIT extends AbstractDaemonTest {
     String response =
         sshSession.exec("gerrit gc \"" + project1.get() + "\" \""
             + project2.get() + "\"");
-    assertFalse(sshSession.hasError());
+    assertFalse(sshSession.getError(), sshSession.hasError());
     assertNoError(response);
     gcAssert.assertHasPackFile(project1, project2);
     gcAssert.assertHasNoPackFile(allProjects, project3);
@@ -86,7 +86,7 @@ public class GarbageCollectionIT extends AbstractDaemonTest {
   @UseLocalDisk
   public void testGcAll() throws JSchException, IOException {
     String response = sshSession.exec("gerrit gc --all");
-    assertFalse(sshSession.hasError());
+    assertFalse(sshSession.getError(), sshSession.hasError());
     assertNoError(response);
     gcAssert.assertHasPackFile(allProjects, project1, project2, project3);
   }

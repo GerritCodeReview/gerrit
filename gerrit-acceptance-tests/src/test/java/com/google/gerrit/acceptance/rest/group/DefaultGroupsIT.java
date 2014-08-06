@@ -14,6 +14,7 @@
 
 package com.google.gerrit.acceptance.rest.group;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import com.google.common.collect.Sets;
@@ -47,6 +48,7 @@ public class DefaultGroupsIT extends AbstractDaemonTest {
   public void defaultGroupsCreated_ssh() throws JSchException, IOException {
     SshSession session = new SshSession(server, admin);
     String result = session.exec("gerrit ls-groups");
+    assertFalse(session.getError(), session.hasError());
     assertTrue(result.contains("Administrators"));
     assertTrue(result.contains("Non-Interactive Users"));
     session.close();

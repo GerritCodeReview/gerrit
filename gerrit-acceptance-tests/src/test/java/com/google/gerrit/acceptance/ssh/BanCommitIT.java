@@ -42,7 +42,7 @@ public class BanCommitIT extends AbstractDaemonTest {
     String response =
         sshSession.exec("gerrit ban-commit " + project.get() + " "
             + c.getCommit().getName());
-    assertFalse(sshSession.hasError());
+    assertFalse(sshSession.getError(), sshSession.hasError());
     assertFalse(response, response.toLowerCase(Locale.US).contains("error"));
 
     PushResult pushResult = pushHead(git, "refs/heads/master", false);

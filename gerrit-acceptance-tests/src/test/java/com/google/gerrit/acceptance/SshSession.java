@@ -14,18 +14,19 @@
 
 package com.google.gerrit.acceptance;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.InetSocketAddress;
-import java.util.Scanner;
+import static com.google.common.base.Preconditions.checkState;
 
 import com.jcraft.jsch.ChannelExec;
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
 
-public class SshSession {
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.InetSocketAddress;
+import java.util.Scanner;
 
+public class SshSession {
   private final InetSocketAddress addr;
   private final TestAccount account;
   private Session session;
@@ -34,6 +35,10 @@ public class SshSession {
   public SshSession(GerritServer server, TestAccount account) {
     this.addr = server.getSshdAddress();
     this.account = account;
+  }
+
+  public void open() throws JSchException {
+    getSession();
   }
 
   @SuppressWarnings("resource")
@@ -86,6 +91,7 @@ public class SshSession {
   }
 
   public String getUrl() {
+    checkState(session != null, "session must be opened");
     StringBuilder b = new StringBuilder();
     b.append("ssh://");
     b.append(session.getUserName());

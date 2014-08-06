@@ -39,7 +39,6 @@
   <add-linker name='xsiframe'/>
 
   <set-property name='gwt.logging.logLevel' value='SEVERE'/>
-  <set-property name='gwt.logging.popupHandler' value='DISABLED'/>
 
   <entry-point class='com.google.gerrit.client.Gerrit'/>
 </module>

@@ -349,12 +349,8 @@ public class CommentsTest  {
         Lists.newArrayList(plc4, plc5);
     assertEquals(publishedExpected.size(), publishedActual.size());
     assertEquals(draftExpected.size(), draftActual.size());
-    for (PatchLineComment c : draftExpected) {
-      assertTrue(draftActual.contains(c));
-    }
-    for (PatchLineComment c : publishedExpected) {
-      assertTrue(publishedActual.contains(c));
-    }
+    assertEquals(publishedExpected, publishedActual);
+    assertEquals(draftExpected, draftActual);
   }
 
   private static IAnswer<ResultSet<PatchLineComment>> results(

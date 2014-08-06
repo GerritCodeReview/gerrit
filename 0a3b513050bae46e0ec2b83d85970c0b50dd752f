@@ -16,6 +16,24 @@
       "revId": "0a3b513050bae46e0ec2b83d85970c0b50dd752f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "36573b43_174ed481",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/plugins/HttpPluginServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 587,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-08-06T07:45:00Z",
+      "side": 1,
+      "message": "True, good that you spotted that out. W Code Review :-)\n\nPatch uploaded I299b244a9 to solve this problem.",
+      "parentUuid": "b69deb27_3bfa37da",
+      "revId": "0a3b513050bae46e0ec2b83d85970c0b50dd752f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

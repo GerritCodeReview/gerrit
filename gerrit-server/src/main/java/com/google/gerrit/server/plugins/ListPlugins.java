@@ -29,9 +29,6 @@ import com.google.inject.Inject;
 
 import org.kohsuke.args4j.Option;
 
-import java.io.BufferedWriter;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.Collections;
@@ -66,27 +63,12 @@ public class ListPlugins implements RestReadView<TopLevelResource> {
   }
 
   @Override
-  public Object apply(TopLevelResource resource)
-      throws UnsupportedEncodingException {
+  public Object apply(TopLevelResource resource) {
     format = OutputFormat.JSON;
     return display(null);
   }
 
-  public JsonElement display(OutputStream displayOutputStream)
-      throws UnsupportedEncodingException {
-    PrintWriter stdout = null;
-    if (displayOutputStream != null) {
-      try {
-        stdout = new PrintWriter(new BufferedWriter(
-            new OutputStreamWriter(displayOutputStream, "UTF-8")));
-      } catch (UnsupportedEncodingException e) {
-        throw new RuntimeException("JVM lacks UTF-8 encoding", e);
-      }
-    } else if (!format.isJson()) {
-      throw new IllegalStateException(
-          "Text output requires that a display OutputStream is provided.");
-    }
-
+  public JsonElement display(PrintWriter stdout) {
     Map<String, PluginInfo> output = Maps.newTreeMap();
     List<Plugin> plugins = Lists.newArrayList(pluginLoader.getPlugins(all));
     Collections.sort(plugins, new Comparator<Plugin>() {

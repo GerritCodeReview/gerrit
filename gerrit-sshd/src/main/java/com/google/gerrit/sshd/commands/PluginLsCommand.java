@@ -19,29 +19,23 @@ import static com.google.gerrit.sshd.CommandMetaData.Mode.MASTER_OR_SLAVE;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.server.plugins.ListPlugins;
-import com.google.gerrit.sshd.BaseCommand;
 import com.google.gerrit.sshd.CommandMetaData;
+import com.google.gerrit.sshd.SshCommand;
 import com.google.inject.Inject;
-
-import org.apache.sshd.server.Environment;
-
-import java.io.IOException;
 
 @RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)
 @CommandMetaData(name = "ls", description = "List the installed plugins",
   runsAt = MASTER_OR_SLAVE)
-final class PluginLsCommand extends BaseCommand {
+final class PluginLsCommand extends SshCommand {
   @Inject
   private ListPlugins impl;
 
   @Override
-  public void start(Environment env) throws IOException {
-    startThread(new CommandRunnable() {
-      @Override
-      public void run() throws Exception {
-        parseCommandLine(impl);
-        impl.display(out);
-      }
-    });
+  public void run() throws Exception {
+    impl.display(stdout);
+  }
+
+  protected void parseCommandLine() throws UnloggedFailure {
+    parseCommandLine(impl);
   }
 }

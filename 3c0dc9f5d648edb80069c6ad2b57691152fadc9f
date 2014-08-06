@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "36573b43_b7b72811",
+        "filename": "gerrit-gwtexpui/src/main/java/com/google/gwtexpui/linker/server/UserAgentRule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-06T15:24:31Z",
+      "side": 1,
+      "message": "AFAIK user agent behind ie11 identifies itself with geko and not msie:\n\n  \"Mozilla/5.0 (Windows NT 6.3; Trident/7.0; rv:11.0) like Gecko\"\n\nSee [1] for more information.\n\n [1] http://blogs.msdn.com/b/ie/archive/2008/08/27/introducing-compatibility-view.aspx",
+      "range": {
+        "startLine": 53,
+        "startChar": 11,
+        "endLine": 53,
+        "endChar": 35
+      },
+      "revId": "3c0dc9f5d648edb80069c6ad2b57691152fadc9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

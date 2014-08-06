@@ -22,6 +22,30 @@
       "revId": "de9ffdbd99cbc9c2d279a0763d4353732a7e058a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "76bff38c_c9b7b110",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-06T16:35:25Z",
+      "side": 1,
+      "message": "It is a no-op change.",
+      "parentUuid": "36573b43_7743d059",
+      "range": {
+        "startLine": 7,
+        "startChar": 12,
+        "endLine": 7,
+        "endChar": 51
+      },
+      "revId": "de9ffdbd99cbc9c2d279a0763d4353732a7e058a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -100,6 +100,10 @@ public class GitUtil {
       b.append("\"");
     }
     s.exec(b.toString());
+    if (s.hasError()) {
+      throw new IllegalStateException(
+          "gerrit create-project returned error: " + s.getError());
+    }
   }
 
   public static Git cloneProject(String url) throws GitAPIException, IOException {

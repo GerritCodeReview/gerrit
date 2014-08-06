@@ -14,7 +14,6 @@
 
 package com.google.gerrit.acceptance.git;
 
-import static com.google.gerrit.acceptance.GitUtil.createProject;
 import static com.google.gerrit.server.group.SystemGroupBackend.PROJECT_OWNERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static org.junit.Assert.assertEquals;
@@ -27,7 +26,6 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.projects.BranchInput;
-import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.project.Util;
@@ -44,8 +42,6 @@ public class VisibleRefFilterIT extends AbstractDaemonTest {
 
   @Before
   public void setUp() throws Exception {
-    project = new Project.NameKey("p");
-    createProject(sshSession, project.get());
     setUpChanges();
     setUpPermissions();
   }

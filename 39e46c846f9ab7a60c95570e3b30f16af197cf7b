@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "36573b43_d7973c69",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeEditResource.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-06T19:13:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "366bbbde_b7be68e8",
+      "range": {
+        "startLine": 27,
+        "startChar": 62,
+        "endLine": 27,
+        "endChar": 64
+      },
+      "revId": "39e46c846f9ab7a60c95570e3b30f16af197cf7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b69deb27_db2d537f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeEditResource.java",
         "patchSetId": 26
@@ -36,6 +60,24 @@
       "writtenOn": "2014-08-04T18:26:29Z",
       "side": 1,
       "message": "TODO to make this cacheable? Should just depend on the SHA-1 of the edit itself.",
+      "revId": "39e46c846f9ab7a60c95570e3b30f16af197cf7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "166cf713_b6a0c8bf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeEditResource.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-06T19:13:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b69deb27_db2d537f",
       "revId": "39e46c846f9ab7a60c95570e3b30f16af197cf7b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

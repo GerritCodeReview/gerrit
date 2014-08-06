@@ -263,12 +263,12 @@ public class ProjectControl {
 
   /** Can this user see all the refs in this projects? */
   public boolean allRefsAreVisible() {
-    return allRefsAreVisibleExcept(Collections.<String> emptySet());
+    return allRefsAreVisible(Collections.<String> emptySet());
   }
 
-  public boolean allRefsAreVisibleExcept(Set<String> except) {
+  public boolean allRefsAreVisible(Set<String> ignore) {
     return user instanceof InternalUser
-        || canPerformOnAllRefs(Permission.READ, except);
+        || canPerformOnAllRefs(Permission.READ, ignore);
   }
 
   /** Is this user a project owner? Ownership does not imply {@link #isVisible()} */
@@ -426,7 +426,7 @@ public class ProjectControl {
     return false;
   }
 
-  private boolean canPerformOnAllRefs(String permission, Set<String> except) {
+  private boolean canPerformOnAllRefs(String permission, Set<String> ignore) {
     boolean canPerform = false;
     Set<String> patterns = allRefPatterns(permission);
     if (patterns.contains(AccessSection.ALL)) {
@@ -437,7 +437,7 @@ public class ProjectControl {
       for (final String pattern : patterns) {
         if (controlForRef(pattern).canPerform(permission)) {
           canPerform = true;
-        } else if (except.contains(pattern)) {
+        } else if (ignore.contains(pattern)) {
           continue;
         } else {
           return false;

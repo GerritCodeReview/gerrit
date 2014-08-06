@@ -16,36 +16,26 @@ package com.google.gerrit.acceptance.rest.project;
 
 import static com.google.gerrit.acceptance.GitUtil.checkout;
 import static com.google.gerrit.acceptance.GitUtil.cloneProject;
-import static com.google.gerrit.acceptance.GitUtil.createProject;
 import static com.google.gerrit.acceptance.GitUtil.fetch;
 import static org.junit.Assert.assertEquals;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
-import com.google.gerrit.acceptance.SshSession;
-import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.config.AllProjectsNameProvider;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
-import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.lib.Config;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
 
 public class ProjectLevelConfigIT extends AbstractDaemonTest {
-
-  @Inject
-  private SchemaFactory<ReviewDb> reviewDbProvider;
-
   @Inject
   private ProjectCache projectCache;
 
@@ -55,27 +45,10 @@ public class ProjectLevelConfigIT extends AbstractDaemonTest {
   @Inject
   private PushOneCommit.Factory pushFactory;
 
-  private ReviewDb db;
-  private SshSession sshSession;
-  private String project;
-  private Git git;
-
   @Before
   public void setUp() throws Exception {
-    sshSession = new SshSession(server, admin);
-
-    project = "p";
-    createProject(sshSession, project, null, true);
-    git = cloneProject(sshSession.getUrl() + "/" + project);
     fetch(git, RefNames.REFS_CONFIG + ":refs/heads/config");
     checkout(git, "refs/heads/config");
-
-    db = reviewDbProvider.open();
-  }
-
-  @After
-  public void cleanup() {
-    db.close();
   }
 
   @Test
@@ -89,13 +62,13 @@ public class ProjectLevelConfigIT extends AbstractDaemonTest {
             configName, cfg.toText());
     push.to(git, RefNames.REFS_CONFIG);
 
-    ProjectState state = projectCache.get(new Project.NameKey(project));
+    ProjectState state = projectCache.get(project);
     assertEquals(cfg.toText(), state.getConfig(configName).get().toText());
   }
 
   @Test
   public void nonExistingConfig() {
-    ProjectState state = projectCache.get(new Project.NameKey(project));
+    ProjectState state = projectCache.get(project);
     assertEquals("", state.getConfig("test.config").get().toText());
   }
 
@@ -125,7 +98,7 @@ public class ProjectLevelConfigIT extends AbstractDaemonTest {
         configName, cfg.toText());
     push.to(git, RefNames.REFS_CONFIG);
 
-    ProjectState state = projectCache.get(new Project.NameKey(project));
+    ProjectState state = projectCache.get(project);
 
     Config expectedCfg = new Config();
     expectedCfg.setString("s1", null, "k1", "childValue1");

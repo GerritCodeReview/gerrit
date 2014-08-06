@@ -14,8 +14,6 @@
 
 package com.google.gerrit.acceptance.git;
 
-import static com.google.gerrit.acceptance.GitUtil.cloneProject;
-import static com.google.gerrit.acceptance.GitUtil.createProject;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
@@ -24,7 +22,6 @@ import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
-import com.google.gerrit.acceptance.SshSession;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
@@ -33,7 +30,6 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.account.GroupCache;
@@ -44,10 +40,8 @@ import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gwtorm.server.OrmException;
-import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 
-import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
@@ -57,18 +51,12 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.RefSpec;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
 
 @NoHttpd
 public class SubmitOnPushIT extends AbstractDaemonTest {
-
-  @Inject
-  private SchemaFactory<ReviewDb> reviewDbProvider;
-
   @Inject
   private GitRepositoryManager repoManager;
 
@@ -92,26 +80,6 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
 
   @Inject
   private PushOneCommit.Factory pushFactory;
-
-  private Project.NameKey project;
-  private Git git;
-  private ReviewDb db;
-
-  @Before
-  public void setUp() throws Exception {
-    project = new Project.NameKey("p");
-    SshSession sshSession = new SshSession(server, admin);
-    createProject(sshSession, project.get());
-    git = cloneProject(sshSession.getUrl() + "/" + project.get());
-    sshSession.close();
-
-    db = reviewDbProvider.open();
-  }
-
-  @After
-  public void cleanup() {
-    db.close();
-  }
 
   @Test
   public void submitOnPush() throws GitAPIException, OrmException,

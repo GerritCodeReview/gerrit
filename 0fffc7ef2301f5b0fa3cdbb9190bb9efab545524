@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "96baa79a_caa003c1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/PatchLineCommentsUtil.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-08-06T20:34:29Z",
+      "side": 1,
+      "message": "Overly complex. Just say:\n\n  Repository repo \u003d repoManager.openRepository(...);\n  try {\n    ...\n  } finally {\n    repo.close();\n  }",
+      "range": {
+        "startLine": 285,
+        "startChar": 4,
+        "endLine": 296,
+        "endChar": 5
+      },
+      "revId": "0fffc7ef2301f5b0fa3cdbb9190bb9efab545524",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

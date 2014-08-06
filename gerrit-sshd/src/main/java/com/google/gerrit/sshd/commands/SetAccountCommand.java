@@ -37,12 +37,11 @@ import com.google.gerrit.server.account.GetSshKeys.SshKeyInfo;
 import com.google.gerrit.server.account.PutActive;
 import com.google.gerrit.server.account.PutHttpPassword;
 import com.google.gerrit.server.account.PutName;
-import com.google.gerrit.sshd.BaseCommand;
 import com.google.gerrit.sshd.CommandMetaData;
+import com.google.gerrit.sshd.SshCommand;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
-import org.apache.sshd.server.Environment;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
 
@@ -59,7 +58,7 @@ import java.util.List;
 /** Set a user's account settings. **/
 @CommandMetaData(name = "set-account", description = "Change an account's settings")
 @RequiresCapability(GlobalCapability.MODIFY_ACCOUNT)
-final class SetAccountCommand extends BaseCommand {
+final class SetAccountCommand extends SshCommand {
 
   @Argument(index = 0, required = true, metaVar = "USER", usage = "full name, email-address, ssh username or account id")
   private Account.Id id;
@@ -128,15 +127,9 @@ final class SetAccountCommand extends BaseCommand {
   private AccountResource rsrc;
 
   @Override
-  public void start(final Environment env) {
-    startThread(new CommandRunnable() {
-      @Override
-      public void run() throws Exception {
-        parseCommandLine();
-        validate();
-        setAccount();
-      }
-    });
+  public void run() throws Exception {
+    validate();
+    setAccount();
   }
 
   private void validate() throws UnloggedFailure {

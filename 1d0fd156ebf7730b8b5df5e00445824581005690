@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "96baa79a_ea2aa764",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 891,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-06T23:31:42Z",
+      "side": 1,
+      "message": "This should definitely not be called \"exists on server\" since that is not what it describes, so the name is misleading. And the implementation doesn\u0027t belong here IMO, it should go in canCreate.\n\nHowever, per my comments on the other change, I think this is the right reachability check to do.",
+      "revId": "1d0fd156ebf7730b8b5df5e00445824581005690",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -34,6 +34,7 @@ import org.apache.sshd.server.Environment;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
 import java.util.concurrent.Future;
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -117,7 +118,7 @@ final class StreamEvents extends BaseCommand {
       if (!msg.endsWith("\n")) {
         msg += "\n";
       }
-      err.write(msg.getBytes("UTF-8"));
+      err.write(msg.getBytes(StandardCharsets.UTF_8));
       err.flush();
       onExit(1);
       return;

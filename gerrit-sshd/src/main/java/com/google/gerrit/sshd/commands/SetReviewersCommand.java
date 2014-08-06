@@ -268,10 +268,7 @@ public class SetReviewersCommand extends SshCommand {
   }
 
   private void writeError(String type, String msg) {
-    try {
-      err.write((type + ": " + msg + "\n").getBytes(ENC));
-    } catch (IOException e) {
-    }
+    stderr.println(type + ": " + msg);
   }
 
   private static UnloggedFailure error(String msg) {

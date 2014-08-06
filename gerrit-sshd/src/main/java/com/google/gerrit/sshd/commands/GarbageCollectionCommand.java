@@ -24,16 +24,13 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.git.GarbageCollection;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectControl;
-import com.google.gerrit.sshd.BaseCommand;
 import com.google.gerrit.sshd.CommandMetaData;
+import com.google.gerrit.sshd.SshCommand;
 import com.google.inject.Inject;
 
-import org.apache.sshd.server.Environment;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
 
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,7 +38,7 @@ import java.util.List;
 @RequiresCapability(GlobalCapability.RUN_GC)
 @CommandMetaData(name = "gc", description = "Run Git garbage collection",
   runsAt = MASTER_OR_SLAVE)
-public class GarbageCollectionCommand extends BaseCommand {
+public class GarbageCollectionCommand extends SshCommand {
 
   @Option(name = "--all", usage = "runs the Git garbage collection for all projects")
   private boolean all;
@@ -59,23 +56,10 @@ public class GarbageCollectionCommand extends BaseCommand {
   @Inject
   private GarbageCollection.Factory garbageCollectionFactory;
 
-  private PrintWriter stdout;
-
   @Override
-  public void start(Environment env) throws IOException {
-    startThread(new CommandRunnable() {
-      @Override
-      public void run() throws Exception {
-        stdout = toPrintWriter(out);
-        try {
-          parseCommandLine();
-          verifyCommandLine();
-          runGC();
-        } finally {
-          stdout.flush();
-        }
-      }
-    });
+  public void run() throws Exception {
+    verifyCommandLine();
+    runGC();
   }
 
   private void verifyCommandLine() throws UnloggedFailure {

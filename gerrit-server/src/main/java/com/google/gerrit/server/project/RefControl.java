@@ -32,12 +32,16 @@ import com.google.gerrit.server.group.SystemGroupBackend;
 
 import dk.brics.automaton.RegExp;
 
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevTag;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -50,6 +54,8 @@ import java.util.Set;
 
 /** Manages access control for Git references (aka branches, tags). */
 public class RefControl {
+  private static final Logger log = LoggerFactory.getLogger(RefControl.class);
+
   private final ProjectControl projectControl;
   private final String refName;
 
@@ -236,11 +242,9 @@ public class RefControl {
    * @param rw revision pool {@code object} was parsed in; must be reset before
    *     calling this method.
    * @param object the object the user will start the reference with.
-   * @param existsOnServer the object exists on server or not.
    * @return {@code true} if the user specified can create a new Git ref
    */
-  public boolean canCreate(ReviewDb db, RevWalk rw, RevObject object,
-      boolean existsOnServer) {
+  public boolean canCreate(ReviewDb db, RevWalk rw, RevObject object) {
     if (!canWrite()) {
       return false;
     }
@@ -265,16 +269,12 @@ public class RefControl {
       } else if (!canPerform(Permission.CREATE)) {
         // No create permissions.
         return false;
-      } else if (!existsOnServer && canUpdate()) {
-        // If the object doesn't exist on the server, check that the user has
-        // push permissions.
-        return true;
-      } else if (projectControl.canReadCommit(db, rw, (RevCommit) object)) {
-        // The object exists on the server and is readable by this user, so they
-        // do not require push permission create this ref.
-        return true;
       }
-      return false;
+      boolean isMerged = isMergedIntoBranchOrTag(db, rw, (RevCommit) object);
+      // If the object is not merged into a branch or tag readable by this user,
+      // they are effectively "pushing" more objects in the process of creating
+      // this ref, so they require push permission.
+      return isMerged || canUpdate();
     } else if (object instanceof RevTag) {
       final RevTag tag = (RevTag) object;
       try {
@@ -311,6 +311,28 @@ public class RefControl {
     } else {
       return false;
     }
+  }
+
+  private boolean isMergedIntoBranchOrTag(ReviewDb db, RevWalk rw,
+      RevCommit commit) {
+    try {
+      Repository repo = projectControl.openRepository();
+      try {
+        Map<String, Ref> refs =
+            repo.getRefDatabase().getRefs(Constants.R_HEADS);
+        refs.putAll(repo.getRefDatabase().getRefs(Constants.R_TAGS));
+        return projectControl.isMergedIntoVisibleRef(
+            repo, db, rw, commit, refs);
+      } finally {
+        repo.close();
+      }
+    } catch (IOException e) {
+      String msg = String.format(
+          "Cannot verify permissions to commit object %s in repository %s",
+          commit.name(), projectControl.getProject().getNameKey());
+      log.error(msg, e);
+    }
+    return false;
   }
 
   /**

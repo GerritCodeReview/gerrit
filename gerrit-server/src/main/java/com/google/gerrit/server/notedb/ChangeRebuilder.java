@@ -15,6 +15,7 @@
 package com.google.gerrit.server.notedb;
 
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.gerrit.server.notedb.CommentsInNotesUtil.getCommentPsId;
 
 import com.google.common.base.Objects;
 import com.google.common.collect.ComparisonChain;
@@ -23,6 +24,7 @@ import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -97,6 +99,9 @@ public class ChangeRebuilder {
     for (PatchSetApproval psa : db.patchSetApprovals().byChange(changeId)) {
       events.add(new ApprovalEvent(psa));
     }
+    for (PatchLineComment c : db.patchComments().byChange(changeId)) {
+      events.add(new PatchLineCommentEvent(c));
+    }
     Collections.sort(events);
 
     BatchMetaDataUpdate batch = null;
@@ -165,7 +170,7 @@ public class ChangeRebuilder {
           who, update.getUser().getAccountId());
     }
 
-    abstract void apply(ChangeUpdate update);
+    abstract void apply(ChangeUpdate update) throws OrmException;
 
     @Override
     public int compareTo(Event other) {
@@ -220,6 +225,21 @@ public class ChangeRebuilder {
       } else {
         update.setSubject("Create patch set " + ps.getPatchSetId());
       }
+    }
+  }
+
+  private static class PatchLineCommentEvent extends Event {
+    private final PatchLineComment c;
+
+    PatchLineCommentEvent(PatchLineComment c) {
+      super(getCommentPsId(c), c.getAuthor(), c.getWrittenOn());
+      this.c = c;
+    }
+
+    @Override
+    void apply(ChangeUpdate update) throws OrmException {
+      checkUpdate(update);
+      update.insertComment(c);
     }
   }
 }

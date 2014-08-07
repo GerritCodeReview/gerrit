@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "d6fa5f81_2cc4737a",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetAccountCommand.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-08-07T20:48:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "166cf713_3649587a",
+      "range": {
+        "startLine": 188,
+        "startChar": 12,
+        "endLine": 189,
+        "endChar": 38
+      },
+      "revId": "c12413638bc88e5d8380170d580691e51c910d26",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "166cf713_164edc81",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetAccountCommand.java",
         "patchSetId": 7
@@ -36,6 +60,30 @@
       "writtenOn": "2014-08-06T05:19:33Z",
       "side": 1,
       "message": "No. You are in context of SSH command, so System.err is Gerrit Server process and not SSH client channel. I figured out that some SSH command classes have wrong inheritance. Fixed in [1]. Rebase your change on top if this fix and use:\n\n  stderr.write(msg + \"\\n\");\n\n [1] https://gerrit-review.googlesource.com/59011",
+      "range": {
+        "startLine": 191,
+        "startChar": 10,
+        "endLine": 191,
+        "endChar": 28
+      },
+      "revId": "c12413638bc88e5d8380170d580691e51c910d26",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d6fa5f81_0cc9b790",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetAccountCommand.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-08-07T20:48:46Z",
+      "side": 1,
+      "message": "Thanks, I was wondering how to issue warning in ssh context. Done",
+      "parentUuid": "166cf713_164edc81",
       "range": {
         "startLine": 191,
         "startChar": 10,

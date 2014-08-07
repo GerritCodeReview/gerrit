@@ -239,9 +239,11 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     if (notes == null) {
       notes = getChangeNotes().load();
     }
-    checkArgument(!notes.containsComment(c),
-        "A comment already exists with the same key as the following comment,"
-        + " so we cannot insert this comment: %s", c);
+    if (migration.readComments()) {
+      checkArgument(!notes.containsComment(c),
+          "A comment already exists with the same key as the following comment,"
+          + " so we cannot insert this comment: %s", c);
+    }
     if (c.getSide() == 0) {
       commentsForBase.add(c);
     } else {
@@ -254,8 +256,19 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     draftUpdate.insertComment(c);
   }
 
-  private void upsertPublishedComment(PatchLineComment c) {
+  private void upsertPublishedComment(PatchLineComment c) throws OrmException {
     verifyComment(c);
+    if (notes == null) {
+      notes = getChangeNotes().load();
+    }
+    // This could allow callers to update a published comment if migration.write
+    // is on and migration.readComments is off because we will not be able to
+    // verify that the comment didn't already exist as a published comment
+    // since we don't have a ReviewDb.
+    if (migration.readComments()) {
+      checkArgument(!notes.containsCommentPublished(c),
+          "Cannot update a comment that has already been published and saved");
+    }
     if (c.getSide() == 0) {
       commentsForBase.add(c);
     } else {
@@ -273,8 +286,12 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     if (notes == null) {
       notes = getChangeNotes().load();
     }
-    checkArgument(!notes.containsCommentPublished(c),
-        "Cannot update a comment that has already been published and saved");
+    // See comment above in upsertPublishedComment() about potential risk with
+    // this check.
+    if (migration.readComments()) {
+      checkArgument(!notes.containsCommentPublished(c),
+          "Cannot update a comment that has already been published and saved");
+    }
     if (c.getSide() == 0) {
       commentsForBase.add(c);
     } else {
@@ -297,7 +314,6 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     createDraftUpdateIfNull(c);
     draftUpdate.deleteCommentIfPresent(c);
   }
-
 
   private void createDraftUpdateIfNull(PatchLineComment c) throws OrmException {
     if (draftUpdate == null) {

@@ -29,6 +29,7 @@ import com.google.gerrit.server.git.VersionedMetaData;
 import com.google.gerrit.server.project.ChangeControl;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -105,10 +106,15 @@ public abstract class AbstractChangeUpdate extends VersionedMetaData {
   }
 
   public BatchMetaDataUpdate openUpdate() throws IOException {
+    return openUpdateInBatch(null);
+  }
+
+  public BatchMetaDataUpdate openUpdateInBatch(BatchRefUpdate bru)
+      throws IOException {
     if (migration.write()) {
       load();
       MetaDataUpdate md =
-          updateFactory.create(getProjectName(), getUser());
+          updateFactory.create(getProjectName(), getUser(), bru);
       md.setAllowEmpty(true);
       return super.openUpdate(md);
     }

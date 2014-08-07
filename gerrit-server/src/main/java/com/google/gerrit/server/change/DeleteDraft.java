@@ -14,15 +14,22 @@
 
 package com.google.gerrit.server.change;
 
+import static com.google.gerrit.server.PatchLineCommentsUtil.setCommentRevId;
+
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
+import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.PatchLineCommentsUtil;
 import com.google.gerrit.server.change.DeleteDraft.Input;
+import com.google.gerrit.server.notedb.ChangeUpdate;
+import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
+import java.io.IOException;
 import java.util.Collections;
 
 @Singleton
@@ -31,16 +38,30 @@ class DeleteDraft implements RestModifyView<DraftResource, Input> {
   }
 
   private final Provider<ReviewDb> db;
+  private final PatchLineCommentsUtil plcUtil;
+  private final ChangeUpdate.Factory updateFactory;
+  private final PatchListCache patchListCache;
 
   @Inject
-  DeleteDraft(Provider<ReviewDb> db) {
+  DeleteDraft(Provider<ReviewDb> db,
+      PatchLineCommentsUtil plcUtil,
+      ChangeUpdate.Factory updateFactory,
+      PatchListCache patchListCache) {
     this.db = db;
+    this.plcUtil = plcUtil;
+    this.updateFactory = updateFactory;
+    this.patchListCache = patchListCache;
   }
 
   @Override
   public Response<CommentInfo> apply(DraftResource rsrc, Input input)
-      throws OrmException {
-    db.get().patchComments().delete(Collections.singleton(rsrc.getComment()));
+      throws OrmException, IOException {
+    ChangeUpdate update = updateFactory.create(rsrc.getControl());
+
+    PatchLineComment c = rsrc.getComment();
+    setCommentRevId(c, patchListCache, rsrc.getChange(), rsrc.getPatchSet());
+    plcUtil.deleteComments(db.get(), update, Collections.singleton(c));
+    update.commit();
     return Response.none();
   }
 }

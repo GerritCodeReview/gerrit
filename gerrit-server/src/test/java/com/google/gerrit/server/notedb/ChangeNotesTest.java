@@ -62,13 +62,12 @@ import com.google.gerrit.server.git.GitModule;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.VersionedMetaData.BatchMetaDataUpdate;
 import com.google.gerrit.server.group.SystemGroupBackend;
-import com.google.gerrit.server.notedb.CommentsInNotesUtil;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.util.TimeUtil;
-import com.google.gerrit.testutil.TestChanges;
 import com.google.gerrit.testutil.FakeAccountCache;
 import com.google.gerrit.testutil.FakeRealm;
 import com.google.gerrit.testutil.InMemoryRepositoryManager;
+import com.google.gerrit.testutil.TestChanges;
 import com.google.gwtorm.client.KeyUtil;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.StandardKeyEncoder;
@@ -77,13 +76,16 @@ import com.google.inject.Injector;
 import com.google.inject.util.Providers;
 
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
+import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.notes.Note;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.transport.ReceiveCommand;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeUtils;
 import org.joda.time.DateTimeUtils.MillisProvider;
@@ -695,6 +697,58 @@ public class ChangeNotesTest {
   }
 
   @Test
+  public void multipleUpdatesAcrossRefs() throws Exception {
+    Change c1 = newChange();
+    ChangeUpdate update1 = newUpdate(c1, changeOwner);
+    update1.putApproval("Verified", (short) 1);
+
+    Change c2 = newChange();
+    ChangeUpdate update2 = newUpdate(c2, otherUser);
+    update2.putApproval("Code-Review", (short) 2);
+
+    BatchMetaDataUpdate batch1 = null;
+    BatchMetaDataUpdate batch2 = null;
+
+    BatchRefUpdate bru = repo.getRefDatabase().newBatchUpdate();
+    try {
+      batch1 = update1.openUpdateInBatch(bru);
+      batch1.write(update1, new CommitBuilder());
+      batch1.commit();
+      assertNull(repo.getRef(update1.getRefName()));
+
+      batch2 = update2.openUpdateInBatch(bru);
+      batch2.write(update2, new CommitBuilder());
+      batch2.commit();
+      assertNull(repo.getRef(update2.getRefName()));
+    } finally {
+      if (batch1 != null) {
+        batch1.close();
+      }
+      if (batch2 != null) {
+        batch2.close();
+      }
+    }
+
+    List<ReceiveCommand> cmds = bru.getCommands();
+    assertEquals(2, cmds.size());
+    assertEquals(update1.getRefName(), cmds.get(0).getRefName());
+    assertEquals(update2.getRefName(), cmds.get(1).getRefName());
+
+    RevWalk rw = new RevWalk(repo);
+    try {
+      bru.execute(rw, NullProgressMonitor.INSTANCE);
+    } finally {
+      rw.release();
+    }
+
+    assertEquals(ReceiveCommand.Result.OK, cmds.get(0).getResult());
+    assertEquals(ReceiveCommand.Result.OK, cmds.get(1).getResult());
+
+    assertNotNull(repo.getRef(update1.getRefName()));
+    assertNotNull(repo.getRef(update2.getRefName()));
+  }
+
+  @Test
   public void changeMessageOnePatchSet() throws Exception {
     Change c = newChange();
     ChangeUpdate update = newUpdate(c, changeOwner);
@@ -895,7 +949,9 @@ public class ChangeNotesTest {
   public void patchLineCommentNotesFormatSide1() throws Exception {
     Change c = newChange();
     ChangeUpdate update = newUpdate(c, otherUser);
-    String uuid = "uuid";
+    String uuid1 = "uuid1";
+    String uuid2 = "uuid2";
+    String uuid3 = "uuid3";
     String message1 = "comment 1";
     String message2 = "comment 2";
     String message3 = "comment 3";
@@ -906,7 +962,7 @@ public class ChangeNotesTest {
     PatchSet.Id psId = c.currentPatchSetId();
 
     PatchLineComment comment1 = newPublishedPatchLineComment(psId, "file1",
-        uuid, range1, range1.getEndLine(), otherUser, null, time1, message1,
+        uuid1, range1, range1.getEndLine(), otherUser, null, time1, message1,
         (short) 1, "abcd1234abcd1234abcd1234abcd1234abcd1234");
     update.setPatchSetId(psId);
     update.upsertComment(comment1);
@@ -915,7 +971,7 @@ public class ChangeNotesTest {
     update = newUpdate(c, otherUser);
     CommentRange range2 = new CommentRange(2, 1, 3, 1);
     PatchLineComment comment2 = newPublishedPatchLineComment(psId, "file1",
-        uuid, range2, range2.getEndLine(), otherUser, null, time2, message2,
+        uuid2, range2, range2.getEndLine(), otherUser, null, time2, message2,
         (short) 1, "abcd1234abcd1234abcd1234abcd1234abcd1234");
     update.setPatchSetId(psId);
     update.upsertComment(comment2);
@@ -924,7 +980,7 @@ public class ChangeNotesTest {
     update = newUpdate(c, otherUser);
     CommentRange range3 = new CommentRange(3, 1, 4, 1);
     PatchLineComment comment3 = newPublishedPatchLineComment(psId, "file2",
-        uuid, range3, range3.getEndLine(), otherUser, null, time3, message3,
+        uuid3, range3, range3.getEndLine(), otherUser, null, time3, message3,
         (short) 1, "abcd1234abcd1234abcd1234abcd1234abcd1234");
     update.setPatchSetId(psId);
     update.upsertComment(comment3);
@@ -948,14 +1004,14 @@ public class ChangeNotesTest {
         + "1:1-2:1\n"
         + CommentsInNotesUtil.formatTime(serverIdent, time1) + "\n"
         + "Author: Other Account <2@gerrit>\n"
-        + "UUID: uuid\n"
+        + "UUID: uuid1\n"
         + "Bytes: 9\n"
         + "comment 1\n"
         + "\n"
         + "2:1-3:1\n"
         + CommentsInNotesUtil.formatTime(serverIdent, time2) + "\n"
         + "Author: Other Account <2@gerrit>\n"
-        + "UUID: uuid\n"
+        + "UUID: uuid2\n"
         + "Bytes: 9\n"
         + "comment 2\n"
         + "\n"
@@ -964,7 +1020,7 @@ public class ChangeNotesTest {
         + "3:1-4:1\n"
         + CommentsInNotesUtil.formatTime(serverIdent, time3) + "\n"
         + "Author: Other Account <2@gerrit>\n"
-        + "UUID: uuid\n"
+        + "UUID: uuid3\n"
         + "Bytes: 9\n"
         + "comment 3\n"
         + "\n",
@@ -975,7 +1031,8 @@ public class ChangeNotesTest {
   public void patchLineCommentNotesFormatSide0() throws Exception {
     Change c = newChange();
     ChangeUpdate update = newUpdate(c, otherUser);
-    String uuid = "uuid";
+    String uuid1 = "uuid1";
+    String uuid2 = "uuid2";
     String message1 = "comment 1";
     String message2 = "comment 2";
     CommentRange range1 = new CommentRange(1, 1, 2, 1);
@@ -984,7 +1041,7 @@ public class ChangeNotesTest {
     PatchSet.Id psId = c.currentPatchSetId();
 
     PatchLineComment comment1 = newPublishedPatchLineComment(psId, "file1",
-        uuid, range1, range1.getEndLine(), otherUser, null, time1, message1,
+        uuid1, range1, range1.getEndLine(), otherUser, null, time1, message1,
         (short) 0, "abcd1234abcd1234abcd1234abcd1234abcd1234");
     update.setPatchSetId(psId);
     update.upsertComment(comment1);
@@ -993,7 +1050,7 @@ public class ChangeNotesTest {
     update = newUpdate(c, otherUser);
     CommentRange range2 = new CommentRange(2, 1, 3, 1);
     PatchLineComment comment2 = newPublishedPatchLineComment(psId, "file1",
-        uuid, range2, range2.getEndLine(), otherUser, null, time2, message2,
+        uuid2, range2, range2.getEndLine(), otherUser, null, time2, message2,
         (short) 0, "abcd1234abcd1234abcd1234abcd1234abcd1234");
     update.setPatchSetId(psId);
     update.upsertComment(comment2);
@@ -1017,14 +1074,14 @@ public class ChangeNotesTest {
         + "1:1-2:1\n"
         + CommentsInNotesUtil.formatTime(serverIdent, time1) + "\n"
         + "Author: Other Account <2@gerrit>\n"
-        + "UUID: uuid\n"
+        + "UUID: uuid1\n"
         + "Bytes: 9\n"
         + "comment 1\n"
         + "\n"
         + "2:1-3:1\n"
         + CommentsInNotesUtil.formatTime(serverIdent, time2) + "\n"
         + "Author: Other Account <2@gerrit>\n"
-        + "UUID: uuid\n"
+        + "UUID: uuid2\n"
         + "Bytes: 9\n"
         + "comment 2\n"
         + "\n",
@@ -1037,7 +1094,8 @@ public class ChangeNotesTest {
       throws Exception {
     Change c = newChange();
     ChangeUpdate update = newUpdate(c, otherUser);
-    String uuid = "uuid";
+    String uuid1 = "uuid1";
+    String uuid2 = "uuid2";
     String messageForBase = "comment for base";
     String messageForPS = "comment for ps";
     CommentRange range = new CommentRange(1, 1, 2, 1);
@@ -1045,7 +1103,7 @@ public class ChangeNotesTest {
     PatchSet.Id psId = c.currentPatchSetId();
 
     PatchLineComment commentForBase =
-        newPublishedPatchLineComment(psId, "filename", uuid,
+        newPublishedPatchLineComment(psId, "filename", uuid1,
         range, range.getEndLine(), otherUser, null, now, messageForBase,
         (short) 0, "abcd1234abcd1234abcd1234abcd1234abcd1234");
     update.setPatchSetId(psId);
@@ -1054,7 +1112,7 @@ public class ChangeNotesTest {
 
     update = newUpdate(c, otherUser);
     PatchLineComment commentForPS =
-        newPublishedPatchLineComment(psId, "filename", uuid,
+        newPublishedPatchLineComment(psId, "filename", uuid2,
         range, range.getEndLine(), otherUser, null, now, messageForPS,
         (short) 1, "abcd4567abcd4567abcd4567abcd4567abcd4567");
     update.setPatchSetId(psId);
@@ -1078,7 +1136,8 @@ public class ChangeNotesTest {
   @Test
   public void patchLineCommentMultipleOnePatchsetOneFile() throws Exception {
     Change c = newChange();
-    String uuid = "uuid";
+    String uuid1 = "uuid1";
+    String uuid2 = "uuid2";
     CommentRange range = new CommentRange(1, 1, 2, 1);
     PatchSet.Id psId = c.currentPatchSetId();
     String filename = "filename";
@@ -1088,7 +1147,7 @@ public class ChangeNotesTest {
     Timestamp timeForComment1 = TimeUtil.nowTs();
     Timestamp timeForComment2 = TimeUtil.nowTs();
     PatchLineComment comment1 = newPublishedPatchLineComment(psId, filename,
-        uuid, range, range.getEndLine(), otherUser, null, timeForComment1,
+        uuid1, range, range.getEndLine(), otherUser, null, timeForComment1,
         "comment 1", side, "abcd1234abcd1234abcd1234abcd1234abcd1234");
     update.setPatchSetId(psId);
     update.upsertComment(comment1);
@@ -1096,7 +1155,7 @@ public class ChangeNotesTest {
 
     update = newUpdate(c, otherUser);
     PatchLineComment comment2 = newPublishedPatchLineComment(psId, filename,
-        uuid, range, range.getEndLine(), otherUser, null, timeForComment2,
+        uuid2, range, range.getEndLine(), otherUser, null, timeForComment2,
         "comment 2", side, "abcd1234abcd1234abcd1234abcd1234abcd1234");
     update.setPatchSetId(psId);
     update.upsertComment(comment2);
@@ -1368,6 +1427,34 @@ public class ChangeNotesTest {
 
     assertTrue(notes.getDraftBaseComments(otherUserId).values().isEmpty());
     assertTrue(notes.getDraftPsComments(otherUserId).values().isEmpty());
+  }
+
+  @Test
+  public void patchLineCommentNoRange() throws Exception {
+    Change c = newChange();
+    ChangeUpdate update = newUpdate(c, otherUser);
+    String uuid = "uuid";
+    String messageForBase = "comment for base";
+    Timestamp now = TimeUtil.nowTs();
+    PatchSet.Id psId = c.currentPatchSetId();
+
+    PatchLineComment commentForBase =
+        newPublishedPatchLineComment(psId, "filename", uuid,
+        null, 1, otherUser, null, now, messageForBase,
+        (short) 0, "abcd1234abcd1234abcd1234abcd1234abcd1234");
+    update.setPatchSetId(psId);
+    update.upsertComment(commentForBase);
+    update.commit();
+
+    ChangeNotes notes = newNotes(c);
+    Multimap<PatchSet.Id, PatchLineComment> commentsForBase =
+        notes.getBaseComments();
+    Multimap<PatchSet.Id, PatchLineComment> commentsForPs =
+        notes.getPatchSetComments();
+
+    assertTrue(commentsForPs.isEmpty());
+    assertEquals(commentForBase,
+        Iterables.getOnlyElement(commentsForBase.get(psId)));
   }
 
   private Change newChange() {

@@ -513,6 +513,24 @@
     },
     {
       "key": {
+        "uuid": "36573b43_7724709d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-07T00:03:06Z",
+      "side": 1,
+      "message": "Done. Some URLs are missing in your list are also implemented:\n\n* POST /changes/\u003cid\u003e/edit with operation\u003dpublish|rebase in request body\n* DELETE /changes/\u003cid\u003e/edit to delete the change edit itself. As assumed, i had to extend RestApiServlet to support deleteion direct on collection resource [1].\n\n [1] https://gerrit-review.googlesource.com/59019",
+      "parentUuid": "76bff38c_692565c9",
+      "revId": "5cc005e9265ce7c9a5cfa2b49ffbd1f9803122d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "366bbbde_d772fcb0",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
         "patchSetId": 23

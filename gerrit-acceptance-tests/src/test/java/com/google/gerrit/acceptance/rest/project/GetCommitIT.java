@@ -14,85 +14,147 @@
 
 package com.google.gerrit.acceptance.rest.project;
 
-import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
+import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertNull;
 
+import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.common.CommitInfo;
-import com.google.gerrit.extensions.restapi.IdString;
-import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.config.AllProjectsName;
+import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.ProjectConfig;
-import com.google.gerrit.server.project.ListBranches.BranchInfo;
+import com.google.gerrit.server.project.ProjectCache;
 import com.google.inject.Inject;
 
 import org.apache.http.HttpStatus;
+import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
-
-import java.io.IOException;
 
 public class GetCommitIT extends AbstractDaemonTest {
   @Inject
   private AllProjectsName allProjects;
 
-  @Test
-  public void getCommit() throws Exception {
-    RestResponse r =
-        adminSession.get("/projects/" + project.get() + "/branches/"
-            + IdString.fromDecoded(RefNames.REFS_CONFIG).encoded());
-    assertEquals(HttpStatus.SC_OK, r.getStatusCode());
-    BranchInfo branchInfo =
-        newGson().fromJson(r.getReader(), BranchInfo.class);
-    r.consume();
+  @Inject
+  private GitRepositoryManager repoManager;
 
-    allow(Permission.READ, ANONYMOUS_USERS, branchInfo.ref);
+  @Inject
+  private ProjectCache projectCache;
 
-    r = adminSession.get("/projects/" + project.get() + "/commits/"
-        + branchInfo.revision);
-    assertEquals(HttpStatus.SC_OK, r.getStatusCode());
-    CommitInfo commitInfo =
-        newGson().fromJson(r.getReader(), CommitInfo.class);
-    assertEquals(branchInfo.revision, commitInfo.commit);
-    assertEquals("Created project", commitInfo.subject);
-    assertEquals("Created project\n", commitInfo.message);
-    assertNotNull(commitInfo.author);
-    assertEquals("Administrator", commitInfo.author.name);
-    assertNotNull(commitInfo.committer);
-    assertEquals("Gerrit Code Review", commitInfo.committer.name);
-    assertTrue(commitInfo.parents.isEmpty());
-  }
+  private TestRepository<Repository> repo;
 
-  @Test
-  public void getNonExistingCommit_NotFound() throws IOException {
-    RestResponse r = adminSession.get("/projects/" + project.get() + "/commits/"
-        + ObjectId.zeroId().name());
-    assertEquals(HttpStatus.SC_NOT_FOUND, r.getStatusCode());
-  }
+  @Before
+  public void setUp() throws Exception {
+    repo = new TestRepository<>(repoManager.openRepository(project));
 
-  @Test
-  public void getNonVisibleCommit_NotFound() throws Exception {
-    RestResponse r =
-        adminSession.get("/projects/" + project.get() + "/branches/"
-            + IdString.fromDecoded(RefNames.REFS_CONFIG).encoded());
-    assertEquals(HttpStatus.SC_OK, r.getStatusCode());
-    BranchInfo branchInfo =
-        newGson().fromJson(r.getReader(), BranchInfo.class);
-    r.consume();
-
-    ProjectConfig cfg = projectCache.checkedGet(allProjects).getConfig();
-    for (AccessSection sec : cfg.getAccessSections()) {
+    ProjectConfig pc = projectCache.checkedGet(allProjects).getConfig();
+    for (AccessSection sec : pc.getAccessSections()) {
       sec.removePermission(Permission.READ);
     }
-    saveProjectConfig(allProjects, cfg);
+    saveProjectConfig(allProjects, pc);
+  }
 
-    r = adminSession.get("/projects/" + project.get() + "/commits/"
-        + branchInfo.revision);
+  @After
+  public void tearDown() throws Exception {
+    if (repo != null) {
+      repo.getRepository().close();
+    }
+  }
+
+  @Test
+  public void getNonExistingCommit_NotFound() throws Exception {
+    assertNotFound(
+        ObjectId.fromString("deadbeefdeadbeefdeadbeefdeadbeefdeadbeef"));
+  }
+
+  @Test
+  public void getMergedCommit_Found() throws Exception {
+    allow(Permission.READ, REGISTERED_USERS, "refs/heads/*");
+    RevCommit commit = repo.parseBody(repo.branch("master")
+        .commit()
+        .message("Create\n\nNew commit\n")
+        .create());
+
+    CommitInfo info = getCommit(commit);
+    assertEquals(commit.name(), info.commit);
+    assertEquals("Create", info.subject);
+    assertEquals("Create\n\nNew commit\n", info.message);
+    assertEquals("J. Author", info.author.name);
+    assertEquals("jauthor@example.com", info.author.email);
+    assertEquals("J. Committer", info.committer.name);
+    assertEquals("jcommitter@example.com", info.committer.email);
+
+    CommitInfo parent = Iterables.getOnlyElement(info.parents);
+    assertEquals(commit.getParent(0).name(), parent.commit);
+    assertEquals("Initial empty repository", parent.subject);
+    assertNull(parent.message);
+    assertNull(parent.author);
+    assertNull(parent.committer);
+  }
+
+  @Test
+  public void getMergedCommit_NotFound() throws Exception {
+    RevCommit commit = repo.parseBody(repo.branch("master")
+        .commit()
+        .message("Create\n\nNew commit\n")
+        .create());
+    assertNotFound(commit);
+  }
+
+  @Test
+  public void getOpenChange_Found() throws Exception {
+    allow(Permission.READ, REGISTERED_USERS, "refs/heads/*");
+    PushOneCommit.Result r = pushFactory.create(db, admin.getIdent())
+        .to(git, "refs/for/master");
+    r.assertOkStatus();
+
+    CommitInfo info = getCommit(r.getCommitId());
+    assertEquals(r.getCommitId().name(), info.commit);
+    assertEquals("test commit", info.subject);
+    assertEquals("test commit\n\nChange-Id: " + r.getChangeId() + "\n",
+        info.message);
+    assertEquals("admin", info.author.name);
+    assertEquals("admin@example.com", info.author.email);
+    assertEquals("admin", info.committer.name);
+    assertEquals("admin@example.com", info.committer.email);
+
+    CommitInfo parent = Iterables.getOnlyElement(info.parents);
+    assertEquals(r.getCommit().getParent(0).name(), parent.commit);
+    assertEquals("Initial empty repository", parent.subject);
+    assertNull(parent.message);
+    assertNull(parent.author);
+    assertNull(parent.committer);
+  }
+
+  @Test
+  public void getOpenChange_NotFound() throws Exception {
+    PushOneCommit.Result r = pushFactory.create(db, admin.getIdent())
+        .to(git, "refs/for/master");
+    r.assertOkStatus();
+    assertNotFound(r.getCommitId());
+  }
+
+  private void assertNotFound(ObjectId id) throws Exception {
+    RestResponse r = userSession.get(
+        "/projects/" + project.get() + "/commits/" + id.name());
     assertEquals(HttpStatus.SC_NOT_FOUND, r.getStatusCode());
+  }
+
+  private CommitInfo getCommit(ObjectId id) throws Exception {
+    RestResponse r = userSession.get(
+        "/projects/" + project.get() + "/commits/" + id.name());
+    assertEquals(HttpStatus.SC_OK, r.getStatusCode());
+    CommitInfo result = newGson().fromJson(r.getReader(), CommitInfo.class);
+    r.consume();
+    return result;
   }
 }

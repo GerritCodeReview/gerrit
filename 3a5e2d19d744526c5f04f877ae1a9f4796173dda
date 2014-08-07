@@ -70,6 +70,30 @@
       "revId": "3a5e2d19d744526c5f04f877ae1a9f4796173dda",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d6fa5f81_cc1a0f89",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CommitsCollection.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-07T16:53:47Z",
+      "side": 0,
+      "message": "Done. This also illuminated some shortcomings in GetCommitIT but I\u0027ll fix those up at the end of this series.",
+      "parentUuid": "762b73c3_092529ca",
+      "range": {
+        "startLine": 71,
+        "startChar": 8,
+        "endLine": 73,
+        "endChar": 9
+      },
+      "revId": "3a5e2d19d744526c5f04f877ae1a9f4796173dda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

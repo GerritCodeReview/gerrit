@@ -32,7 +32,9 @@ import com.google.gerrit.pgm.util.SiteProgram;
 import com.google.gerrit.pgm.util.ThreadLimiter;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MultiProgressMonitor;
 import com.google.gerrit.server.git.MultiProgressMonitor.Task;
@@ -48,13 +50,20 @@ import com.google.inject.Key;
 import com.google.inject.TypeLiteral;
 
 import org.eclipse.jgit.lib.BatchRefUpdate;
+import org.eclipse.jgit.lib.NullProgressMonitor;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.transport.ReceiveCommand;
 import org.kohsuke.args4j.Option;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -93,11 +102,15 @@ public class RebuildNotedb extends SiteProgram {
     Stopwatch sw = Stopwatch.createStarted();
     GitRepositoryManager repoManager =
         sysInjector.getInstance(GitRepositoryManager.class);
-
+    final Project.NameKey allUsersName =
+        sysInjector.getInstance(AllUsersName.class);
+    final Repository allUsersRepo = repoManager.openRepository(allUsersName);
+    deleteDraftRefs(allUsersRepo);
     for (final Project.NameKey project : changesByProject.keySet()) {
       final Repository repo = repoManager.openRepository(project);
       try {
         final BatchRefUpdate bru = repo.getRefDatabase().newBatchUpdate();
+        final BatchRefUpdate bruForDrafts = allUsersRepo.getRefDatabase().newBatchUpdate();
         List<ListenableFuture<?>> futures = Lists.newArrayList();
 
         final MultiProgressMonitor mpm = new MultiProgressMonitor(System.out,
@@ -109,7 +122,7 @@ public class RebuildNotedb extends SiteProgram {
 
         for (final Change c : changesByProject.get(project)) {
           final ListenableFuture<?> future =
-              rebuilder.rebuildAsync(c, executor, bru);
+              rebuilder.rebuildAsync(c, executor, bru, bruForDrafts, repo, allUsersRepo);
           futures.add(future);
           future.addListener(new Runnable() {
             @Override
@@ -151,16 +164,11 @@ public class RebuildNotedb extends SiteProgram {
                 @Override
               public ListenableFuture<Void> apply(List<?> input)
                   throws Exception {
-                Task t = mpm.beginSubTask("update refs",
-                    MultiProgressMonitor.UNKNOWN);
-                RevWalk walk = new RevWalk(repo);
-                try {
-                  bru.execute(walk, t);
-                  mpm.end();
-                  return Futures.immediateFuture(null);
-                } finally {
-                  walk.release();
-                }
+                bru.execute(new RevWalk(repo), NullProgressMonitor.INSTANCE);
+                bruForDrafts.execute(new RevWalk(allUsersRepo),
+                    NullProgressMonitor.INSTANCE);
+                mpm.end();
+                return Futures.immediateFuture(null);
               }
             }));
       } catch (Exception e) {
@@ -171,10 +179,23 @@ public class RebuildNotedb extends SiteProgram {
         repo.close();
       }
     }
+    allUsersRepo.close();
+
     double t = sw.elapsed(TimeUnit.MILLISECONDS) / 1000d;
     System.out.format("Rebuild %d changes in %.01fs (%.01f/s)\n",
         changesByProject.size(), t, changesByProject.size() / t);
     return ok.get() ? 0 : 1;
+  }
+
+  private void deleteDraftRefs(Repository allUsersRepo) throws IOException {
+    RefDatabase refDb = allUsersRepo.getRefDatabase();
+    Map<String, Ref> allRefs = refDb.getRefs(RefNames.REFS_DRAFT_COMMENTS);
+    BatchRefUpdate bru = refDb.newBatchUpdate();
+    for (Map.Entry<String, Ref> ref : allRefs.entrySet()) {
+      bru.addCommand(new ReceiveCommand(ref.getValue().getObjectId(),
+          ObjectId.zeroId(), RefNames.REFS_DRAFT_COMMENTS + ref.getKey()));
+    }
+    bru.execute(new RevWalk(allUsersRepo), NullProgressMonitor.INSTANCE);
   }
 
   private Injector createSysInjector() {

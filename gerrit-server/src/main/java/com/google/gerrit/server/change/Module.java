@@ -108,7 +108,6 @@ public class Module extends RestApiModule {
     get(CHANGE_EDIT_KIND, "/").to(GetEditFileContent.class);
     post(CHANGE_EDIT_KIND, "/").to(PostChangeEdit.class);
 
-
     install(new FactoryModule() {
       @Override
       protected void configure() {

@@ -262,18 +262,9 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
   public RevCommit commit() throws IOException {
     BatchMetaDataUpdate batch = openUpdate();
     try {
-      CommitBuilder builder = new CommitBuilder();
-      if (migration.write()) {
-        AtomicBoolean removedAllComments = new AtomicBoolean();
-        ObjectId treeId = storeCommentsInNotes(removedAllComments);
-        if (treeId != null) {
-          if (removedAllComments.get()) {
-            batch.removeRef(getRefName());
-          } else {
-            builder.setTreeId(treeId);
-            batch.write(builder);
-          }
-        }
+      CommitBuilder builder = buildCommit(batch);
+      if (builder != null) {
+        batch.write(builder);
       }
       return batch.commit();
     } catch (OrmException e) {
@@ -281,6 +272,23 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
     } finally {
       batch.close();
     }
+  }
+
+  public CommitBuilder buildCommit(BatchMetaDataUpdate batch)
+      throws OrmException, IOException {
+    CommitBuilder builder = new CommitBuilder();
+    if (migration.write()) {
+      AtomicBoolean removedAllComments = new AtomicBoolean();
+      ObjectId treeId = storeCommentsInNotes(removedAllComments);
+      if (treeId != null) {
+        if (removedAllComments.get()) {
+          batch.removeRef(getRefName());
+        } else {
+          builder.setTreeId(treeId);
+        }
+      }
+    }
+    return builder;
   }
 
   @Override

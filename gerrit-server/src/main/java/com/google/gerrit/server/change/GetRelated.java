@@ -21,12 +21,12 @@ import com.google.common.collect.Multimap;
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.common.CommitInfo;
-import com.google.gerrit.extensions.common.GitPerson;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetAncestor;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.CommonConverters;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.ProjectControl;
@@ -39,7 +39,6 @@ import com.google.inject.Singleton;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -50,7 +49,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -272,15 +270,6 @@ public class GetRelated implements RestReadView<RevisionResource> {
     return r;
   }
 
-  private static GitPerson toGitPerson(PersonIdent id) {
-    GitPerson p = new GitPerson();
-    p.name = id.getName();
-    p.email = id.getEmailAddress();
-    p.date = new Timestamp(id.getWhen().getTime());
-    p.tz = id.getTimeZoneOffset();
-    return p;
-  }
-
   public static class RelatedInfo {
     public List<ChangeAndCommit> changes;
   }
@@ -309,7 +298,7 @@ public class GetRelated implements RestReadView<RevisionResource> {
         p.commit = c.getParent(i).name();
         commit.parents.add(p);
       }
-      commit.author = toGitPerson(c.getAuthorIdent());
+      commit.author = CommonConverters.toGitPerson(c.getAuthorIdent());
       commit.subject = c.getShortMessage();
     }
   }

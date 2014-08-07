@@ -17,6 +17,7 @@ package com.google.gerrit.server.project;
 import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.extensions.common.GitPerson;
 import com.google.gerrit.extensions.restapi.RestReadView;
+import com.google.gerrit.server.CommonConverters;
 import com.google.inject.Singleton;
 
 import org.eclipse.jgit.lib.PersonIdent;
@@ -36,8 +37,8 @@ public class GetCommit implements RestReadView<CommitResource> {
   private static CommitInfo toCommitInfo(RevCommit commit) {
     CommitInfo info = new CommitInfo();
     info.commit = commit.getName();
-    info.author = toGitPerson(commit.getAuthorIdent());
-    info.committer = toGitPerson(commit.getCommitterIdent());
+    info.author = CommonConverters.toGitPerson(commit.getAuthorIdent());
+    info.committer = CommonConverters.toGitPerson(commit.getCommitterIdent());
     info.subject = commit.getShortMessage();
     info.message = commit.getFullMessage();
     info.parents = new ArrayList<>(commit.getParentCount());

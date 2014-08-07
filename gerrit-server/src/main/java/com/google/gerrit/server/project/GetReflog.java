@@ -20,12 +20,12 @@ import com.google.gerrit.extensions.common.GitPerson;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestReadView;
+import com.google.gerrit.server.CommonConverters;
 import com.google.gerrit.server.args4j.TimestampHandler;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.inject.Inject;
 
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
-import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.ReflogEntry;
 import org.eclipse.jgit.lib.ReflogReader;
 import org.eclipse.jgit.lib.Repository;
@@ -122,14 +122,7 @@ public class GetReflog implements RestReadView<BranchResource> {
     public ReflogEntryInfo(ReflogEntry e) {
       oldId = e.getOldId().getName();
       newId = e.getNewId().getName();
-
-      PersonIdent ident = e.getWho();
-      who = new GitPerson();
-      who.name = ident.getName();
-      who.email = ident.getEmailAddress();
-      who.date = new Timestamp(ident.getWhen().getTime());
-      who.tz = ident.getTimeZoneOffset();
-
+      who = CommonConverters.toGitPerson(e.getWho());
       comment = e.getComment();
     }
   }

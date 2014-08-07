@@ -15,21 +15,27 @@
 package com.google.gerrit.server.notedb;
 
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.gerrit.server.notedb.CommentsInNotesUtil.getCommentPsId;
+import static com.google.gerrit.server.PatchLineCommentsUtil.setCommentRevId;
 
 import com.google.common.base.Objects;
+import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ComparisonChain;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Multimap;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.PatchLineComment;
+import com.google.gerrit.reviewdb.client.PatchLineComment.Status;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.PatchLineCommentsUtil;
 import com.google.gerrit.server.git.VersionedMetaData.BatchMetaDataUpdate;
+import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.server.OrmException;
@@ -37,8 +43,9 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 
 import org.eclipse.jgit.lib.BatchRefUpdate;
-import org.eclipse.jgit.lib.CommitBuilder;
-import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.ObjectInserter;
+import org.eclipse.jgit.lib.RefUpdate;
+import org.eclipse.jgit.lib.Repository;
 
 import java.io.IOException;
 import java.sql.Timestamp;
@@ -52,57 +59,82 @@ public class ChangeRebuilder {
   private static final long TS_WINDOW_MS =
       TimeUnit.MILLISECONDS.convert(1, TimeUnit.SECONDS);
 
-  private final PersonIdent serverIdent;
   private final Provider<ReviewDb> dbProvider;
   private final ChangeControl.GenericFactory controlFactory;
   private final IdentifiedUser.GenericFactory userFactory;
+  private final PatchListCache patchListCache;
   private final ChangeUpdate.Factory updateFactory;
+  private final ChangeDraftUpdate.Factory draftUpdateFactory;
 
   @Inject
-  ChangeRebuilder(@GerritPersonIdent PersonIdent serverIdent,
-      Provider<ReviewDb> dbProvider,
-      GitRepositoryManager repoManager,
+  ChangeRebuilder(Provider<ReviewDb> dbProvider,
       ChangeControl.GenericFactory controlFactory,
       IdentifiedUser.GenericFactory userFactory,
-      ChangeUpdate.Factory updateFactory) {
-    this.serverIdent = serverIdent;
+      PatchListCache patchListCache,
+      PatchLineCommentsUtil plcUtil,
+      ChangeUpdate.Factory updateFactory,
+      ChangeDraftUpdate.Factory draftUpdateFactory) {
     this.dbProvider = dbProvider;
     this.controlFactory = controlFactory;
     this.userFactory = userFactory;
+    this.patchListCache = patchListCache;
     this.updateFactory = updateFactory;
+    this.draftUpdateFactory = draftUpdateFactory;
   }
 
   public ListenableFuture<?> rebuildAsync(final Change change,
-      ListeningExecutorService executor, final BatchRefUpdate bru) {
+      ListeningExecutorService executor, final BatchRefUpdate bru,
+      final BatchRefUpdate bruForDrafts, final Repository changeRepo,
+      final Repository allUsersRepo) {
     return executor.submit(new Callable<Void>() {
         @Override
       public Void call() throws Exception {
-        rebuild(change, bru);
+        rebuild(change, bru, bruForDrafts, changeRepo, allUsersRepo);
         return null;
       }
     });
   }
 
-  public void rebuild(Change change, BatchRefUpdate bru)
-      throws NoSuchChangeException, IOException, OrmException {
+  public void rebuild(Change change, BatchRefUpdate bru,
+      BatchRefUpdate bruForDrafts, Repository changeRepo,
+      Repository allUsersRepo) throws NoSuchChangeException, IOException,
+      OrmException {
+    deleteRef(change, changeRepo);
     ReviewDb db = dbProvider.get();
     Change.Id changeId = change.getId();
 
+    // We will rebuild all events, except for draft comments, in buckets based
+    // on author and timestamp. However, all draft comments for a given change
+    // and author will be written as one commit in the notedb.
     List<Event> events = Lists.newArrayList();
+    Multimap<Account.Id, PatchLineCommentEvent> draftCommentEvents =
+        ArrayListMultimap.create();
+
     for (PatchSet ps : db.patchSets().byChange(changeId)) {
       events.add(new PatchSetEvent(ps));
+      for (PatchLineComment c : db.patchComments().byPatchSet(ps.getId())) {
+        PatchLineCommentEvent e =
+            new PatchLineCommentEvent(c, change, ps, patchListCache);
+        if (c.getStatus() == Status.PUBLISHED) {
+          events.add(e);
+        } else {
+          draftCommentEvents.put(c.getAuthor(), e);
+        }
+      }
     }
+
     for (PatchSetApproval psa : db.patchSetApprovals().byChange(changeId)) {
       events.add(new ApprovalEvent(psa));
     }
-    Collections.sort(events);
 
+
+    Collections.sort(events);
     BatchMetaDataUpdate batch = null;
     ChangeUpdate update = null;
     for (Event e : events) {
       if (!sameUpdate(e, update)) {
         if (update != null) {
-          writeToBatch(batch, update);
+          writeToBatch(batch, update, changeRepo);
         }
         IdentifiedUser user = userFactory.create(dbProvider, e.who);
         update = updateFactory.create(
@@ -116,7 +148,7 @@ public class ChangeRebuilder {
     }
     if (batch != null) {
       if (update != null) {
-        writeToBatch(batch, update);
+        writeToBatch(batch, update, changeRepo);
       }
 
       // Since the BatchMetaDataUpdates generated by all ChangeRebuilders on a
@@ -128,13 +160,66 @@ public class ChangeRebuilder {
         batch.commit();
       }
     }
+
+    for (Account.Id author : draftCommentEvents.keys()) {
+      IdentifiedUser user = userFactory.create(dbProvider, author);
+      ChangeDraftUpdate draftUpdate = null;
+      BatchMetaDataUpdate batchForDraft = null;
+      for (PatchLineCommentEvent e : draftCommentEvents.get(author)) {
+        if (draftUpdate == null) {
+          draftUpdate = draftUpdateFactory.create(
+              controlFactory.controlFor(change, user), e.when);
+          draftUpdate.setPatchSetId(e.psId);
+          batchForDraft = draftUpdate.openUpdateInBatch(bruForDrafts);
+        }
+        e.applyDraft(draftUpdate);
+      }
+      writeDraftToBatch(batchForDraft, draftUpdate, allUsersRepo, bruForDrafts);
+    }
   }
 
-  private void writeToBatch(BatchMetaDataUpdate batch, ChangeUpdate update)
+  private void deleteRef(Change change, Repository changeRepo)
       throws IOException {
-    CommitBuilder commit = new CommitBuilder();
-    commit.setCommitter(new PersonIdent(serverIdent, update.getWhen()));
-    batch.write(update, commit);
+    String refName = ChangeNoteUtil.changeRefName(change.getId());
+    RefUpdate ru = changeRepo.updateRef(refName, true);
+    ru.setForceUpdate(true);
+    RefUpdate.Result result = ru.delete();
+    switch (result) {
+      case FORCED:
+      case NEW:
+      case NO_CHANGE:
+        break;
+      default:
+        throw new IOException(
+            String.format("Failed to delete ref %s: %s", refName, result));
+    }
+  }
+
+  private void writeToBatch(BatchMetaDataUpdate batch, ChangeUpdate update,
+      Repository changeRepo) throws IOException,
+      OrmException {
+    ObjectInserter inserter = changeRepo.newObjectInserter();
+    try {
+      update.setInserter(inserter);
+      update.writeCommit(batch);
+    } finally {
+      inserter.release();
+    }
+  }
+
+  private void writeDraftToBatch(BatchMetaDataUpdate batch,
+      ChangeDraftUpdate draftUpdate, Repository repo, BatchRefUpdate bru)
+      throws OrmException, IOException {
+    ObjectInserter inserter = repo.newObjectInserter();
+    try {
+      draftUpdate.setInserter(inserter);
+      draftUpdate.writeCommit(batch);
+      synchronized (bru) {
+        batch.commit();
+      }
+    } finally {
+      inserter.release();
+    }
   }
 
   private static long round(Date when) {
@@ -159,7 +244,7 @@ public class ChangeRebuilder {
       this.when = when;
     }
 
-    protected void checkUpdate(ChangeUpdate update) {
+    protected void checkUpdate(AbstractChangeUpdate update) {
       checkState(Objects.equal(update.getPatchSetId(), psId),
           "cannot apply event for %s to update for %s",
           update.getPatchSetId(), psId);
@@ -171,7 +256,7 @@ public class ChangeRebuilder {
           who, update.getUser().getAccountId());
     }
 
-    abstract void apply(ChangeUpdate update);
+    abstract void apply(ChangeUpdate update) throws OrmException;
 
     @Override
     public int compareTo(Event other) {
@@ -226,6 +311,38 @@ public class ChangeRebuilder {
       } else {
         update.setSubject("Create patch set " + ps.getPatchSetId());
       }
+    }
+  }
+
+  private static class PatchLineCommentEvent extends Event {
+    public final PatchLineComment c;
+    private final Change change;
+    private final PatchSet ps;
+    private final PatchListCache cache;
+
+    PatchLineCommentEvent(PatchLineComment c, Change change, PatchSet ps,
+        PatchListCache cache) {
+      super(getCommentPsId(c), c.getAuthor(), c.getWrittenOn());
+      this.c = c;
+      this.change = change;
+      this.ps = ps;
+      this.cache = cache;
+    }
+
+    @Override
+    void apply(ChangeUpdate update) throws OrmException {
+      checkUpdate(update);
+      if (c.getRevId() == null) {
+        setCommentRevId(c, cache, change, ps);
+      }
+      update.insertComment(c);
+    }
+
+    void applyDraft(ChangeDraftUpdate draftUpdate) throws OrmException {
+      if (c.getRevId() == null) {
+        setCommentRevId(c, cache, change, ps);
+      }
+      draftUpdate.insertComment(c);
     }
   }
 }

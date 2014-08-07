@@ -16,6 +16,7 @@ package com.google.gerrit.acceptance.git;
 
 import static com.google.gerrit.server.group.SystemGroupBackend.PROJECT_OWNERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
@@ -26,19 +27,36 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.projects.BranchInput;
+import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.git.ProjectConfig;
+import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.project.Util;
+import com.google.gerrit.testutil.ConfigSuite;
 import com.google.inject.Inject;
 
+import org.eclipse.jgit.lib.Config;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
 
+@RunWith(ConfigSuite.class)
 public class VisibleRefFilterIT extends AbstractDaemonTest {
+  @ConfigSuite.Config
+  public static Config noteDbWriteEnabled() {
+    Config cfg = new Config();
+    cfg.setBoolean("notedb", null, "write", true);
+    return cfg;
+  }
+
   @Inject
-  AllProjectsName allProjects;
+  private AllProjectsName allProjects;
+
+  @Inject
+  private NotesMigration notesMigration;
 
   @Before
   public void setUp() throws Exception {
@@ -79,7 +97,9 @@ public class VisibleRefFilterIT extends AbstractDaemonTest {
     assertRefs(
         "HEAD",
         "refs/changes/01/1/1",
+        "refs/changes/01/1/meta",
         "refs/changes/02/2/1",
+        "refs/changes/02/2/meta",
         "refs/heads/branch",
         "refs/heads/master");
   }
@@ -92,7 +112,9 @@ public class VisibleRefFilterIT extends AbstractDaemonTest {
     assertRefs(
         "HEAD",
         "refs/changes/01/1/1",
+        "refs/changes/01/1/meta",
         "refs/changes/02/2/1",
+        "refs/changes/02/2/meta",
         "refs/heads/branch",
         "refs/heads/master",
         "refs/meta/config");
@@ -106,6 +128,7 @@ public class VisibleRefFilterIT extends AbstractDaemonTest {
     assertRefs(
         "HEAD",
         "refs/changes/01/1/1",
+        "refs/changes/01/1/meta",
         "refs/heads/master");
   }
 
@@ -116,6 +139,7 @@ public class VisibleRefFilterIT extends AbstractDaemonTest {
 
     assertRefs(
         "refs/changes/02/2/1",
+        "refs/changes/02/2/meta",
         "refs/heads/branch");
   }
 
@@ -124,8 +148,15 @@ public class VisibleRefFilterIT extends AbstractDaemonTest {
         "gerrit ls-user-refs -p %s -u %s",
         project.get(), user.getId().get()));
     assertFalse(sshSession.getError(), sshSession.hasError());
+
+    List<String> exp = new ArrayList<>(expected.length);
+    for (String r : expected) {
+      if (notesMigration.write() || !r.endsWith(RefNames.META_SUFFIX)) {
+        exp.add(r);
+      }
+    }
+
     Splitter s = Splitter.on(CharMatcher.WHITESPACE).omitEmptyStrings();
-    assertEquals(Arrays.asList(expected),
-        Ordering.natural().sortedCopy(s.split(out)));
+    assertEquals(exp, Ordering.natural().sortedCopy(s.split(out)));
   }
 }

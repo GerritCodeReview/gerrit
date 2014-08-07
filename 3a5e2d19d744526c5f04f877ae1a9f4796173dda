@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "36573b43_57f7acaa",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CommitsCollection.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-07T15:43:29Z",
+      "side": 0,
+      "message": "How the removal of this block is reated to inheritance change of CommitResource that described in the commit message? Before this change the consumers of CommitResource were assuming that the actual commit and all its parents were parsed and can be accessed with re-parsing. At very least it should go in its own change.",
+      "range": {
+        "startLine": 71,
+        "startChar": 8,
+        "endLine": 73,
+        "endChar": 9
+      },
+      "revId": "3a5e2d19d744526c5f04f877ae1a9f4796173dda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

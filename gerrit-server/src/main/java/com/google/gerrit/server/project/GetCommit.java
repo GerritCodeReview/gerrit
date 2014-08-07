@@ -15,15 +15,12 @@
 package com.google.gerrit.server.project;
 
 import com.google.gerrit.extensions.common.CommitInfo;
-import com.google.gerrit.extensions.common.GitPerson;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.CommonConverters;
 import com.google.inject.Singleton;
 
-import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.revwalk.RevCommit;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
 
 @Singleton
@@ -50,14 +47,5 @@ public class GetCommit implements RestReadView<CommitResource> {
       info.parents.add(parentInfo);
     }
     return info;
-  }
-
-  private static GitPerson toGitPerson(PersonIdent ident) {
-    GitPerson gp = new GitPerson();
-    gp.name = ident.getName();
-    gp.email = ident.getEmailAddress();
-    gp.date = new Timestamp(ident.getWhen().getTime());
-    gp.tz = ident.getTimeZoneOffset();
-    return gp;
   }
 }

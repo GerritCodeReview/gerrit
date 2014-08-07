@@ -22,6 +22,30 @@
       "revId": "3c0dc9f5d648edb80069c6ad2b57691152fadc9f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "166cf713_b65608e8",
+        "filename": "gerrit-gwtexpui/src/main/java/com/google/gwtexpui/linker/server/UserAgentRule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-08-07T14:11:33Z",
+      "side": 1,
+      "message": "Thanks! I didn\u0027t know that...\nActually, at SAP, I already have this change in production and it looked like it helped for the IE11 users... but obviously this was a confusion.\n\nBasically, the fact that the IE11 represents itself as gecko means that it declares to be compatible with FF and we don\u0027t have to care about it. Therefore, this change can be abandoned.",
+      "parentUuid": "36573b43_b7b72811",
+      "range": {
+        "startLine": 53,
+        "startChar": 11,
+        "endLine": 53,
+        "endChar": 35
+      },
+      "revId": "3c0dc9f5d648edb80069c6ad2b57691152fadc9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

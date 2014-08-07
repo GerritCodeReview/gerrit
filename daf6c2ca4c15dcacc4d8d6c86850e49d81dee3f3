@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d6fa5f81_4c48df72",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectControl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 526,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-08-07T17:09:22Z",
+      "side": 1,
+      "message": "Below you defined openRepository() to be exactly this. Use that method here too?",
+      "range": {
+        "startLine": 526,
+        "startChar": 24,
+        "endLine": 526,
+        "endChar": 77
+      },
+      "revId": "daf6c2ca4c15dcacc4d8d6c86850e49d81dee3f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "762b73c3_e91d3583",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-08-07T17:09:22Z",
+      "side": 1,
+      "message": "canUpdate is faster than isMerged. Should we run canUpdate first?",
+      "revId": "daf6c2ca4c15dcacc4d8d6c86850e49d81dee3f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

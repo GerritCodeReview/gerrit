@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "36573b43_f75080ec",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/edit/ChangeEditIT.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 402,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-07T13:21:54Z",
+      "side": 1,
+      "message": "/edit",
+      "range": {
+        "startLine": 402,
+        "startChar": 11,
+        "endLine": 402,
+        "endChar": 17
+      },
+      "revId": "c11d10bb71a03656e4a7d275089a410a7b212abb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "166cf713_16489c43",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ListChangeEdits.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-07T13:21:54Z",
+      "side": 1,
+      "message": "This is only needed to retrieve UiActions that were defined for ChangeEditResource (in plugins). However with new URL approach, no custom REST endpoints/UIActions can be really supported any more. Because Delete, Publish and Rebase actions are now backed by ListChangeEdits with AcceptsPost and AcceptsDelete and ListChangeEdits is based on ChangeResource and not CnangeEditResource So the UiActions should be defined in non-standard way, neither ChangeEdits collection nor this factory is needed here.",
+      "range": {
+        "startLine": 54,
+        "startChar": 2,
+        "endLine": 55,
+        "endChar": 36
+      },
+      "revId": "c11d10bb71a03656e4a7d275089a410a7b212abb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "36573b43_975304f8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditUtil.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-07T13:21:54Z",
+      "side": 1,
+      "message": "Add new line.",
+      "revId": "c11d10bb71a03656e4a7d275089a410a7b212abb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "36573b43_b75608e8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditUtil.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-07T13:21:54Z",
+      "side": 1,
+      "message": "Add new line.",
+      "revId": "c11d10bb71a03656e4a7d275089a410a7b212abb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

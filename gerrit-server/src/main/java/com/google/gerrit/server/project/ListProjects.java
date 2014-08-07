@@ -16,6 +16,7 @@ package com.google.gerrit.server.project;
 
 import com.google.common.base.Predicate;
 import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -38,13 +39,11 @@ import com.google.gerrit.server.WebLinks;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.util.RegexListSearcher;
 import com.google.gerrit.server.util.TreeFormatter;
 import com.google.gson.reflect.TypeToken;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-
-import dk.brics.automaton.RegExp;
-import dk.brics.automaton.RunAutomaton;
 
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Constants;
@@ -462,27 +461,18 @@ public class ListProjects implements RestReadView<TopLevelResource> {
           });
     } else if (matchRegex != null) {
       checkMatchOptions(matchPrefix == null && matchSubstring == null);
-      if (matchRegex.startsWith("^")) {
-        matchRegex = matchRegex.substring(1);
-      }
-      if (matchRegex.endsWith("$") && !matchRegex.endsWith("\\$")) {
-        matchRegex = matchRegex.substring(0, matchRegex.length() - 1);
-      }
-      if (matchRegex.equals(".*")) {
-        return projectCache.all();
-      }
+      RegexListSearcher<Project.NameKey> searcher;
       try {
-        final RunAutomaton a =
-            new RunAutomaton(new RegExp(matchRegex).toAutomaton());
-        return Iterables.filter(projectCache.all(),
-            new Predicate<Project.NameKey>() {
-              public boolean apply(Project.NameKey in) {
-                return a.run(in.get());
-              }
-            });
+        searcher = new RegexListSearcher<Project.NameKey>(matchRegex) {
+          @Override
+          public String apply(Project.NameKey in) {
+            return in.get();
+          }
+        };
       } catch (IllegalArgumentException e) {
         throw new BadRequestException(e.getMessage());
       }
+      return searcher.search(ImmutableList.copyOf(projectCache.all()));
     } else {
       return projectCache.all();
     }

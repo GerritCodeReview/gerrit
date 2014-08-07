@@ -16,76 +16,21 @@ package com.google.gerrit.server.query.change;
 
 import com.google.gerrit.server.index.ChangeField;
 import com.google.gerrit.server.index.RegexPredicate;
+import com.google.gerrit.server.util.RegexListSearcher;
 import com.google.gwtorm.server.OrmException;
 
-import dk.brics.automaton.Automaton;
-import dk.brics.automaton.RegExp;
-import dk.brics.automaton.RunAutomaton;
-
-import java.util.Collections;
 import java.util.List;
 
 class RegexPathPredicate extends RegexPredicate<ChangeData> {
-  private final RunAutomaton pattern;
-
-  private final String prefixBegin;
-  private final String prefixEnd;
-  private final int prefixLen;
-  private final boolean prefixOnly;
-
   RegexPathPredicate(String fieldName, String re) {
     super(ChangeField.PATH, re);
-
-    if (re.startsWith("^")) {
-      re = re.substring(1);
-    }
-
-    if (re.endsWith("$") && !re.endsWith("\\$")) {
-      re = re.substring(0, re.length() - 1);
-    }
-
-    Automaton automaton = new RegExp(re).toAutomaton();
-    prefixBegin = automaton.getCommonPrefix();
-    prefixLen = prefixBegin.length();
-
-    if (0 < prefixLen) {
-      char max = (char) (prefixBegin.charAt(prefixLen - 1) + 1);
-      prefixEnd = prefixBegin.substring(0, prefixLen - 1) + max;
-      prefixOnly = re.equals(prefixBegin + ".*");
-    } else {
-      prefixEnd = "";
-      prefixOnly = false;
-    }
-
-    pattern = prefixOnly ? null : new RunAutomaton(automaton);
   }
 
   @Override
   public boolean match(ChangeData object) throws OrmException {
     List<String> files = object.currentFilePaths();
     if (files != null) {
-      int begin, end;
-
-      if (0 < prefixLen) {
-        begin = find(files, prefixBegin);
-        end = find(files, prefixEnd);
-      } else {
-        begin = 0;
-        end = files.size();
-      }
-
-      if (prefixOnly) {
-        return begin < end;
-      }
-
-      while (begin < end) {
-        if (pattern.run(files.get(begin++))) {
-          return true;
-        }
-      }
-
-      return false;
-
+      return RegexListSearcher.ofStrings(getValue()).hasMatch(files);
     } else {
       // The ChangeData can't do expensive lookups right now. Bypass
       // them and include the result anyway. We might be able to do
@@ -93,11 +38,6 @@ class RegexPathPredicate extends RegexPredicate<ChangeData> {
       //
       return true;
     }
-  }
-
-  private static int find(List<String> files, String p) {
-    int r = Collections.binarySearch(files, p);
-    return r < 0 ? -(r + 1) : r;
   }
 
   @Override

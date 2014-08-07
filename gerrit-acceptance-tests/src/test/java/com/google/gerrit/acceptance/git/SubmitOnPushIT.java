@@ -129,6 +129,7 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
       IOException, ConfigInvalidException {
     grant(Permission.SUBMIT, project, "refs/for/refs/heads/master");
     grant(Permission.CREATE, project, "refs/tags/*");
+    grant(Permission.PUSH, project, "refs/tags/*");
     final String tag = "v1.0";
     PushOneCommit push = pushFactory.create(db, admin.getIdent());
     push.setTag(tag);

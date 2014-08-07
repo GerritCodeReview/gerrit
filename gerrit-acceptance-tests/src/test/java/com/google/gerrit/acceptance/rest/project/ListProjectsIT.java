@@ -146,6 +146,11 @@ public class ListProjectsIT extends AbstractDaemonTest {
     r = GET("/projects/?r=[.*some");
     assertEquals(HttpStatus.SC_BAD_REQUEST, r.getStatusCode());
 
+    r = GET("/projects/?r=some-project$");
+    assertEquals(HttpStatus.SC_OK, r.getStatusCode());
+    result = toProjectInfoMap(r);
+    assertProjects(Arrays.asList(someProject), result.values());
+
     r = GET("/projects/?r=.*");
     assertEquals(HttpStatus.SC_OK, r.getStatusCode());
     result = toProjectInfoMap(r);

@@ -461,9 +461,9 @@ public class ListProjects implements RestReadView<TopLevelResource> {
     } else if (matchRegex != null) {
       if (matchRegex.startsWith("^")) {
         matchRegex = matchRegex.substring(1);
-        if (matchRegex.endsWith("$") && !matchRegex.endsWith("\\$")) {
-          matchRegex = matchRegex.substring(0, matchRegex.length() - 1);
-        }
+      }
+      if (matchRegex.endsWith("$") && !matchRegex.endsWith("\\$")) {
+        matchRegex = matchRegex.substring(0, matchRegex.length() - 1);
       }
       if (matchRegex.equals(".*")) {
         return projectCache.all();

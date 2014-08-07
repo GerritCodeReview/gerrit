@@ -523,15 +523,9 @@ public class ProjectControl {
 
   public boolean canReadCommit(ReviewDb db, RevWalk rw, RevCommit commit) {
     try {
-      Repository repo = repoManager.openRepository(getProject().getNameKey());
+      Repository repo = openRepository();
       try {
-        VisibleRefFilter filter =
-            new VisibleRefFilter(tagCache, changeCache, repo, this, db, true);
-        Map<String, Ref> visibleRefs = filter.filter(repo.getAllRefs(), true);
-        if (!visibleRefs.isEmpty() && IncludedInResolver.includedInOne(
-            repo, rw, commit, visibleRefs.values())) {
-          return true;
-        }
+        return isMergedIntoVisibleRef(repo, db, rw, commit, repo.getAllRefs());
       } finally {
         repo.close();
       }
@@ -540,7 +534,20 @@ public class ProjectControl {
           "Cannot verify permissions to commit object %s in repository %s",
           commit.name(), getProject().getNameKey());
       log.error(msg, e);
+      return false;
     }
-    return false;
+  }
+
+  boolean isMergedIntoVisibleRef(Repository repo, ReviewDb db, RevWalk rw,
+      RevCommit commit, Map<String, Ref> unfilteredRefs) throws IOException {
+    VisibleRefFilter filter =
+        new VisibleRefFilter(tagCache, changeCache, repo, this, db, true);
+    Map<String, Ref> refs = filter.filter(unfilteredRefs, true);
+    return !refs.isEmpty()
+        && IncludedInResolver.includedInOne(repo, rw, commit, refs.values());
+  }
+
+  Repository openRepository() throws IOException {
+    return repoManager.openRepository(getProject().getNameKey());
   }
 }

@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "36573b43_972ae463",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditUtil.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-07T07:51:44Z",
+      "side": 1,
+      "message": "static",
+      "range": {
+        "startLine": 276,
+        "startChar": 2,
+        "endLine": 276,
+        "endChar": 9
+      },
+      "revId": "5c05533da59ccb7ef3ff2faa7af16d9a94b1f813",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "166cf713_161ffc50",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditUtil.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-07T07:51:44Z",
+      "side": 1,
+      "message": "static",
+      "range": {
+        "startLine": 294,
+        "startChar": 2,
+        "endLine": 294,
+        "endChar": 9
+      },
+      "revId": "5c05533da59ccb7ef3ff2faa7af16d9a94b1f813",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "36573b43_b72d6880",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditUtil.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-07T07:51:44Z",
+      "side": 1,
+      "message": "There seems to be some left over after refactoring: Unused.",
+      "range": {
+        "startLine": 294,
+        "startChar": 52,
+        "endLine": 294,
+        "endChar": 60
+      },
+      "revId": "5c05533da59ccb7ef3ff2faa7af16d9a94b1f813",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "166cf713_f69a4091",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditUtil.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-07T07:51:44Z",
+      "side": 1,
+      "message": "Unused.",
+      "range": {
+        "startLine": 294,
+        "startChar": 70,
+        "endLine": 294,
+        "endChar": 72
+      },
+      "revId": "5c05533da59ccb7ef3ff2faa7af16d9a94b1f813",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "166cf713_d6974469",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditUtil.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-07T07:51:44Z",
+      "side": 1,
+      "message": "squashedCommit",
+      "range": {
+        "startLine": 297,
+        "startChar": 18,
+        "endLine": 297,
+        "endChar": 29
+      },
+      "revId": "5c05533da59ccb7ef3ff2faa7af16d9a94b1f813",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "166cf713_361af860",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditUtil.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 307,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-07T07:51:44Z",
+      "side": 1,
+      "message": "static",
+      "range": {
+        "startLine": 307,
+        "startChar": 2,
+        "endLine": 307,
+        "endChar": 9
+      },
+      "revId": "5c05533da59ccb7ef3ff2faa7af16d9a94b1f813",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

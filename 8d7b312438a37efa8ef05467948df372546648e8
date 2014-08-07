@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "36573b43_17ed34d9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-07T15:10:56Z",
+      "side": 1,
+      "message": "True, but the user in this case is already Administrator. It\u0027s API test and it uses Acceptance Test Request Scope that was initialized in the base class with admin user. Around line 204:\n\n  private Context newRequestContext(TestAccount account) {\n    return atrScope.newContext(reviewDbProvider, new SshSession(server, admin),\n        identifiedUserFactory.create(Providers.of(db), account.getId()));\n  }\n\nSo may be duplicate the test with dev user in ATR context and grant permission there? To grant read permission for admin is confusing.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 13
+      },
+      "revId": "8d7b312438a37efa8ef05467948df372546648e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

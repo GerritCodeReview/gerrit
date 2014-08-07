@@ -15,6 +15,7 @@
 package com.google.gerrit.server.notedb;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_LABEL;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_PATCH_SET;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_STATUS;
@@ -49,6 +50,7 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 
+import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -326,6 +328,14 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     }
   }
 
+  private void createDraftUpdateIfNull() throws OrmException {
+    if (draftUpdate == null) {
+      checkState(psId != null, "setPatchSetId must be called first.");
+      draftUpdate = draftUpdateFactory.create(ctl, when);
+      draftUpdate.setPatchSetId(psId);
+    }
+  }
+
   private void verifyComment(PatchLineComment c) {
     checkArgument(psId != null,
         "setPatchSetId must be called first");
@@ -386,16 +396,30 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     return noteMap.writeTree(inserter);
   }
 
+  /**
+   * We cannot use the same BatchMetaDataUpdate for our ChangeUpdate and nested
+   * ChangeDraftUpdate because the refs for these two types of updates live in
+   * two different repositories.
+   *
+   * @return a List with two items: 1) BatchMetaDataUpdate for ChangeUpdate
+   *         itself; 2) BatchMetaDataUpdate for the nested ChangeDraftUpdate.
+   */
+  public List<BatchMetaDataUpdate> openUpdates(BatchRefUpdate bru,
+      BatchRefUpdate bruForDrafts) throws OrmException, IOException {
+    if ((bru == null && bruForDrafts != null)
+        || (bru != null && bruForDrafts == null)) {
+      throw new IllegalArgumentException(
+          "BatchRefUpdates must either be both non-null or both null");
+    }
+    createDraftUpdateIfNull();
+    return Lists.newArrayList(this.openUpdateInBatch(bru),
+        draftUpdate.openUpdateInBatch(bruForDrafts));
+  }
+
   public RevCommit commit() throws IOException {
     BatchMetaDataUpdate batch = openUpdate();
     try {
-      CommitBuilder builder = new CommitBuilder();
-      if (migration.write()) {
-        ObjectId treeId = storeCommentsInNotes();
-        if (treeId != null) {
-          builder.setTreeId(treeId);
-        }
-      }
+      CommitBuilder builder = buildCommit();
       batch.write(builder);
       if (draftUpdate != null) {
         draftUpdate.commit();
@@ -407,6 +431,24 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     } finally {
       batch.close();
     }
+  }
+
+  public CommitBuilder buildCommit() throws OrmException, IOException {
+    CommitBuilder builder = new CommitBuilder();
+    if (migration.write()) {
+      ObjectId treeId = storeCommentsInNotes();
+      if (treeId != null) {
+        builder.setTreeId(treeId);
+      }
+    }
+    return builder;
+  }
+
+  public CommitBuilder buildDraftCommit(BatchMetaDataUpdate batch)
+      throws OrmException, IOException {
+    return draftUpdate != null
+        ? draftUpdate.buildCommit(batch)
+        : new CommitBuilder();
   }
 
   @Override

@@ -50,6 +50,7 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AcceptsCreate;
+import com.google.gerrit.extensions.restapi.AcceptsDelete;
 import com.google.gerrit.extensions.restapi.AcceptsPost;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -254,6 +255,10 @@ public class RestApiServlet extends HttpServlet {
             @SuppressWarnings("unchecked")
             AcceptsPost<RestResource> ac = (AcceptsPost<RestResource>) c;
             viewData = new ViewData(null, ac.post(rsrc));
+          } else if (c instanceof AcceptsDelete && "DELETE".equals(req.getMethod())) {
+            @SuppressWarnings("unchecked")
+            AcceptsDelete<RestResource> ac = (AcceptsDelete<RestResource>) c;
+            viewData = new ViewData(null, ac.delete(rsrc));
           } else {
             throw new MethodNotAllowedException();
           }

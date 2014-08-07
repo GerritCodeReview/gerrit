@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d6fa5f81_6c3ddba9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 436,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-07T23:59:02Z",
+      "side": 1,
+      "message": "I don\u0027t think this is the place to break it out. You want to stop when:\n\n* The inserter is flushed\n* The ref update is written to the BatchRefUpdate\n* (The BatchRefUpdate is not yet committed)\n\nThe problem with commit() right now is the call to batch.commit(), which flushes the inserter _and_ commits the BatchRefUpdate.",
+      "revId": "9010a3b70c7c010f389b65946db61b0c367dcf9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

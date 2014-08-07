@@ -30,9 +30,7 @@ public class GetCommit implements RestReadView<CommitResource> {
 
   @Override
   public CommitInfo apply(CommitResource rsrc) {
-    RevCommit c = rsrc.getCommit();
-    CommitInfo info = toCommitInfo(c);
-    return info;
+    return toCommitInfo(rsrc.getCommit());
   }
 
   private static CommitInfo toCommitInfo(RevCommit commit) {

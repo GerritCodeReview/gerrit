@@ -449,8 +449,10 @@ public class ListProjects implements RestReadView<TopLevelResource> {
 
   private Iterable<Project.NameKey> scan() throws BadRequestException {
     if (matchPrefix != null) {
+      checkMatchOptions(matchSubstring == null && matchRegex == null);
       return projectCache.byName(matchPrefix);
     } else if (matchSubstring != null) {
+      checkMatchOptions(matchPrefix == null && matchRegex == null);
       return Iterables.filter(projectCache.all(),
           new Predicate<Project.NameKey>() {
             public boolean apply(Project.NameKey in) {
@@ -459,6 +461,7 @@ public class ListProjects implements RestReadView<TopLevelResource> {
             }
           });
     } else if (matchRegex != null) {
+      checkMatchOptions(matchPrefix == null && matchSubstring == null);
       if (matchRegex.startsWith("^")) {
         matchRegex = matchRegex.substring(1);
       }
@@ -482,6 +485,13 @@ public class ListProjects implements RestReadView<TopLevelResource> {
       }
     } else {
       return projectCache.all();
+    }
+  }
+
+  private static void checkMatchOptions(boolean cond)
+      throws BadRequestException {
+    if (!cond) {
+      throw new BadRequestException("specify exactly one of p/m/r");
     }
   }
 

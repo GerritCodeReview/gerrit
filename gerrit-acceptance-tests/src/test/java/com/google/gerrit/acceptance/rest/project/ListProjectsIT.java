@@ -121,6 +121,11 @@ public class ListProjectsIT extends AbstractDaemonTest {
     Project.NameKey projectAwesome = new Project.NameKey("project-awesome");
     createProject(sshSession, projectAwesome.get());
 
+    assertEquals(HttpStatus.SC_BAD_REQUEST,
+        GET("/projects/?p=some&r=.*").getStatusCode());
+    assertEquals(HttpStatus.SC_BAD_REQUEST,
+        GET("/projects/?p=some&m=some").getStatusCode());
+
     RestResponse r = GET("/projects/?p=some");
     assertEquals(HttpStatus.SC_OK, r.getStatusCode());
     Map<String, ProjectInfo> result = toProjectInfoMap(r);
@@ -138,13 +143,17 @@ public class ListProjectsIT extends AbstractDaemonTest {
     Project.NameKey projectAwesome = new Project.NameKey("project-awesome");
     createProject(sshSession, projectAwesome.get());
 
+    assertEquals(HttpStatus.SC_BAD_REQUEST,
+        GET("/projects/?r=[.*some").getStatusCode());
+    assertEquals(HttpStatus.SC_BAD_REQUEST,
+        GET("/projects/?r=.*&p=s").getStatusCode());
+    assertEquals(HttpStatus.SC_BAD_REQUEST,
+        GET("/projects/?r=.*&m=s").getStatusCode());
+
     RestResponse r = GET("/projects/?r=.*some");
     assertEquals(HttpStatus.SC_OK, r.getStatusCode());
     Map<String, ProjectInfo> result = toProjectInfoMap(r);
     assertProjects(Arrays.asList(projectAwesome), result.values());
-
-    r = GET("/projects/?r=[.*some");
-    assertEquals(HttpStatus.SC_BAD_REQUEST, r.getStatusCode());
 
     r = GET("/projects/?r=some-project$");
     assertEquals(HttpStatus.SC_OK, r.getStatusCode());
@@ -185,6 +194,11 @@ public class ListProjectsIT extends AbstractDaemonTest {
     createProject(sshSession, someOtherProject.get());
     Project.NameKey projectAwesome = new Project.NameKey("project-awesome");
     createProject(sshSession, projectAwesome.get());
+
+    assertEquals(HttpStatus.SC_BAD_REQUEST,
+        GET("/projects/?m=some&r=.*").getStatusCode());
+    assertEquals(HttpStatus.SC_BAD_REQUEST,
+        GET("/projects/?m=some&p=some").getStatusCode());
 
     RestResponse r = GET("/projects/?m=some");
     assertEquals(HttpStatus.SC_OK, r.getStatusCode());

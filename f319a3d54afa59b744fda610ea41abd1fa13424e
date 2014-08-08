@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "36b3bbfb_d7363cfb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/FileContentUtil.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-08T15:56:41Z",
+      "side": 1,
+      "message": "Fits on one line?",
+      "revId": "f319a3d54afa59b744fda610ea41abd1fa13424e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "36b3bbfb_b739c8ec",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/FileContentUtil.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-08T15:56:41Z",
+      "side": 1,
+      "message": "Not necessary, this just releases the reader, same as rw.release()",
+      "revId": "f319a3d54afa59b744fda610ea41abd1fa13424e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

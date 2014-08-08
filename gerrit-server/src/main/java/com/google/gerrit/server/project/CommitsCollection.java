@@ -70,11 +70,12 @@ public class CommitsCollection implements
       RevWalk rw = new RevWalk(repo);
       try {
         RevCommit commit = rw.parseCommit(objectId);
+        rw.parseBody(commit);
         if (!parent.getControl().canReadCommit(db.get(), rw, commit)) {
           throw new ResourceNotFoundException(id);
         }
         for (int i = 0; i < commit.getParentCount(); i++) {
-          rw.parseCommit(commit.getParent(i));
+          rw.parseBody(rw.parseCommit(commit.getParent(i)));
         }
         return new CommitResource(parent, commit);
       } catch (MissingObjectException | IncorrectObjectTypeException e) {

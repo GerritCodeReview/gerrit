@@ -17,7 +17,9 @@ package com.google.gerrit.pgm;
 import static com.google.gerrit.server.schema.DataSourceProvider.Context.MULTI_USER;
 
 import com.google.common.base.Stopwatch;
+import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Multimap;
 import com.google.common.util.concurrent.AsyncFunction;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
@@ -29,7 +31,9 @@ import com.google.gerrit.pgm.util.BatchProgramModule;
 import com.google.gerrit.pgm.util.SiteProgram;
 import com.google.gerrit.pgm.util.ThreadLimiter;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MultiProgressMonitor;
 import com.google.gerrit.server.git.MultiProgressMonitor.Task;
 import com.google.gerrit.server.git.WorkQueue;
@@ -43,6 +47,9 @@ import com.google.inject.Injector;
 import com.google.inject.Key;
 import com.google.inject.TypeLiteral;
 
+import org.eclipse.jgit.lib.BatchRefUpdate;
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevWalk;
 import org.kohsuke.args4j.Option;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -78,71 +85,91 @@ public class RebuildNotedb extends SiteProgram {
     sysManager.start();
 
     ListeningExecutorService executor = newExecutor();
-    final MultiProgressMonitor mpm =
-        new MultiProgressMonitor(System.out, "Rebuilding notedb");
-    final Task doneTask =
-        mpm.beginSubTask("changes", MultiProgressMonitor.UNKNOWN);
-    final Task failedTask =
-        mpm.beginSubTask("failed", MultiProgressMonitor.UNKNOWN);
+    log.info("Rebuilding the notedb");
     ChangeRebuilder rebuilder = sysInjector.getInstance(ChangeRebuilder.class);
 
-    List<Change> allChanges = getAllChanges();
-    final List<ListenableFuture<?>> futures = Lists.newArrayList();
+    Multimap<Project.NameKey, Change> changesByProject = getChangesByProject();
     final AtomicBoolean ok = new AtomicBoolean(true);
     Stopwatch sw = Stopwatch.createStarted();
-    for (final Change c : allChanges) {
-      final ListenableFuture<?> future = rebuilder.rebuildAsync(c, executor);
-      futures.add(future);
-      future.addListener(new Runnable() {
-        @Override
-        public void run() {
-          try {
-            future.get();
-            doneTask.update(1);
-          } catch (ExecutionException | InterruptedException e) {
-            fail(e);
-          } catch (RuntimeException e) {
-            failAndThrow(e);
-          } catch (Error e) {
-            // Can't join with RuntimeException because "RuntimeException |
-            // Error" becomes Throwable, which messes with signatures.
-            failAndThrow(e);
-          }
-        }
+    GitRepositoryManager repoManager =
+        sysInjector.getInstance(GitRepositoryManager.class);
 
-        private void fail(Throwable t) {
-          log.error("Failed to rebuild change " + c.getId(), t);
-          ok.set(false);
-          failedTask.update(1);
-        }
+    for (final Project.NameKey project : changesByProject.keySet()) {
+      final Repository repo = repoManager.openRepository(project);
+      final BatchRefUpdate bru = repo.getRefDatabase().newBatchUpdate();
+      List<ListenableFuture<?>> futures = Lists.newArrayList();
 
-        private void failAndThrow(RuntimeException e) {
-          fail(e);
-          throw e;
-        }
+      final MultiProgressMonitor mpm =
+          new MultiProgressMonitor(System.out,
+              "Rebuilding notedb for project " + project.toString());
+      final Task doneTask =
+          mpm.beginSubTask("Rebuild changes", MultiProgressMonitor.UNKNOWN);
+      final Task failedTask = mpm.beginSubTask("Rebuild changes failed",
+          MultiProgressMonitor.UNKNOWN);
 
-        private void failAndThrow(Error e) {
-          fail(e);
-          throw e;
-        }
-      }, MoreExecutors.sameThreadExecutor());
-    }
-    try {
-      mpm.waitFor(Futures.transform(Futures.successfulAsList(futures),
-          new AsyncFunction<List<?>, Void>() {
-            @Override
-            public ListenableFuture<Void> apply(List<?> input) {
-              mpm.end();
-              return Futures.immediateFuture(null);
+      for (final Change c : changesByProject.get(project)) {
+        final ListenableFuture<?> future =
+            rebuilder.rebuildAsync(c, executor, bru);
+        futures.add(future);
+        future.addListener(new Runnable() {
+          @Override
+          public void run() {
+            try {
+              future.get();
+              doneTask.update(1);
+            } catch (ExecutionException | InterruptedException e) {
+              fail(e);
+            } catch (RuntimeException e) {
+              failAndThrow(e);
+            } catch (Error e) {
+              // Can't join with RuntimeException because "RuntimeException |
+              // Error" becomes Throwable, which messes with signatures.
+              failAndThrow(e);
             }
-      }));
-    } catch (ExecutionException e) {
-      log.error("Error rebuilding notedb", e);
-      ok.set(false);
+          }
+
+          private void fail(Throwable t) {
+            log.error("Failed to rebuild change " + c.getId(), t);
+            ok.set(false);
+            failedTask.update(1);
+          }
+
+          private void failAndThrow(RuntimeException e) {
+            fail(e);
+            throw e;
+          }
+
+          private void failAndThrow(Error e) {
+            fail(e);
+            throw e;
+          }
+        }, MoreExecutors.sameThreadExecutor());
+      }
+      try {
+        mpm.waitFor(Futures.transform(Futures.successfulAsList(futures),
+            new AsyncFunction<List<?>, Void>() {
+              @Override
+              public ListenableFuture<Void> apply(List<?> input)
+                  throws Exception {
+                Task t = mpm.beginSubTask("Update refs in batch",
+                    MultiProgressMonitor.UNKNOWN);
+                bru.execute(new RevWalk(repo), t);
+                mpm.end();
+                return Futures.immediateFuture(null);
+              }
+            }
+        ));
+      } catch (ExecutionException e) {
+        log.error("Error rebuilding notedb", e);
+        ok.set(false);
+        break;
+      } finally {
+        repo.close();
+      }
     }
     double t = sw.elapsed(TimeUnit.MILLISECONDS) / 1000d;
     System.out.format("Rebuild %d changes in %.01fs (%.01f/s)\n",
-        allChanges.size(), t, allChanges.size() / t);
+        changesByProject.size(), t, changesByProject.size() / t);
     return ok.get() ? 0 : 1;
   }
 
@@ -168,17 +195,21 @@ public class RebuildNotedb extends SiteProgram {
     }
   }
 
-  private List<Change> getAllChanges() throws OrmException {
-    // Memoize all changes to a list so we can close the db connection and allow
+  private Multimap<Project.NameKey, Change> getChangesByProject()
+      throws OrmException {
+    // Memorize all changes so we can close the db connection and allow
     // rebuilder threads to use the full connection pool.
-    // TODO(dborowitz): May need to batch changes, e.g. by project (though note
-    // that unlike Reindex, we don't think there is an inherent benefit to
-    // grouping by project), to avoid wasting too much memory here.
     SchemaFactory<ReviewDb> schemaFactory = sysInjector.getInstance(Key.get(
         new TypeLiteral<SchemaFactory<ReviewDb>>() {}));
     ReviewDb db = schemaFactory.open();
     try {
-      return db.changes().all().toList();
+      List<Change> allChanges = db.changes().all().toList();
+      Multimap<Project.NameKey, Change> changesByProject =
+          ArrayListMultimap.create();
+      for (Change c : allChanges) {
+        changesByProject.put(c.getProject(), c);
+      }
+      return changesByProject;
     } finally {
       db.close();
     }

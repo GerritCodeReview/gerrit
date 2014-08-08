@@ -1,0 +1,158 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d6fa5f81_acd1830a",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/RestSession.java",
+        "patchSetId": 34
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-08T17:20:29Z",
+      "side": 1,
+      "message": "StandardCharsets.UTF_8",
+      "revId": "d2cf8c3c419f61cfcf2a9182021274407919ff63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "762b73c3_89d8f93b",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/edit/ChangeEditIT.java",
+        "patchSetId": 34
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-08T17:20:29Z",
+      "side": 1,
+      "message": "amend\n\n(bad rebase?)",
+      "revId": "d2cf8c3c419f61cfcf2a9182021274407919ff63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d6fa5f81_8cce4764",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/edit/ChangeEditIT.java",
+        "patchSetId": 34
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-08T17:20:29Z",
+      "side": 1,
+      "message": "Sorry, I forget what 204 is, use an HttpStatus constant?",
+      "range": {
+        "startLine": 312,
+        "startChar": 17,
+        "endLine": 312,
+        "endChar": 20
+      },
+      "revId": "d2cf8c3c419f61cfcf2a9182021274407919ff63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d6fa5f81_ecdb8b24",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/edit/ChangeEditIT.java",
+        "patchSetId": 34
+      },
+      "lineNbr": 423,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-08T17:20:29Z",
+      "side": 1,
+      "message": "I don\u0027t think the distinction here is between GET and PUT, it\u0027s between the edit and a file within the edit. Eventually we support multiple methods on each URL.",
+      "range": {
+        "startLine": 423,
+        "startChar": 17,
+        "endLine": 423,
+        "endChar": 23
+      },
+      "revId": "d2cf8c3c419f61cfcf2a9182021274407919ff63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d6fa5f81_ccd84f2b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeEditResource.java",
+        "patchSetId": 34
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-08T17:20:29Z",
+      "side": 1,
+      "message": "This resource is really two kinds of resources:\n\n* The edit itself\n* A path within the edit\n\ndistinguished by whether path is null or not. I think this is sufficiently subtle that it should be documented.\n\n(Of course they should really be two classes but I understand the RestCollection stuff doesn\u0027t let us do this.)",
+      "revId": "d2cf8c3c419f61cfcf2a9182021274407919ff63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d6fa5f81_2ca753ad",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateOrModifyChangeEdit.java",
+        "patchSetId": 34
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-08T17:20:29Z",
+      "side": 1,
+      "message": "@Override",
+      "revId": "d2cf8c3c419f61cfcf2a9182021274407919ff63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "762b73c3_690b05f9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateOrModifyChangeEdit.java",
+        "patchSetId": 34
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-08T17:20:29Z",
+      "side": 1,
+      "message": "Let me see if I understand. If you\n\n PUT /changes/X/edit/path\n\nand the edit does not previously exist, it creates the edit against the latest patch set, then applies your contents to path.\n\nThe problem is the race condition when the latest patch set advanced before your PUT happened. Then the contents of path may not have been what you expected, and you just overwrite them.\n\nI think requiring this to be split into two requests, one to POST /changes/X/edit to create the edit, one to PUT the path, would be fine.\n\n(This is distinct from a race between two PUTs to the same path when the edit already exists. We can solve that with ETags but I\u0027m fine punting on that for now.)",
+      "revId": "d2cf8c3c419f61cfcf2a9182021274407919ff63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "762b73c3_0916c924",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutContent.java",
+        "patchSetId": 34
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-08T17:20:29Z",
+      "side": 1,
+      "message": "I would be explicit and call this PutEditContent",
+      "range": {
+        "startLine": 32,
+        "startChar": 13,
+        "endLine": 32,
+        "endChar": 23
+      },
+      "revId": "d2cf8c3c419f61cfcf2a9182021274407919ff63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

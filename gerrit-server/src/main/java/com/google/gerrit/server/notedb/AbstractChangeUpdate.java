@@ -29,6 +29,7 @@ import com.google.gerrit.server.git.VersionedMetaData;
 import com.google.gerrit.server.project.ChangeControl;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.ObjectId;
@@ -102,6 +103,14 @@ public abstract class AbstractChangeUpdate extends VersionedMetaData {
         repo.close();
       }
     }
+  }
+
+  public void createInserter() throws RepositoryNotFoundException, IOException {
+    MetaDataUpdate md =
+        updateFactory.create(getProjectName(), getUser(), null);
+    Repository db = md.getRepository();
+    inserter = db.newObjectInserter();
+    md.close();
   }
 
   @Override

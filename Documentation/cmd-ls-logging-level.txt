@@ -1,0 +1,43 @@
+= gerrit ls-logging-level
+
+== NAME
+gerrit ls-logging-level - view the logging level
+
+== SYNOPSIS
+--
+'ssh' -p <port> <host> 'gerrit ls-logging-level'
+  [--logger <LOGGER> | -l <LOGGER>]
+--
+
+== DESCRIPTION
+View the logging level of specified loggers.
+
+== Options
+--logger::
+-l::
+  The logger or loggers to print. Multiple loggers can be added at once
+  by passing the argument as a regex. If this option is not provided,
+  all loggers will be printed.
+
+== ACCESS
+Any user who has configured an SSH key.
+
+== Examples
+
+View the logging level of the loggers in the package com.google:
+=====
+    $ssh -p 29418 review.example.com gerrit ls-logging-level \
+     -l com.google.*
+=====
+
+View the logging level of every logger
+=====
+    $ssh -p 29418 review.example.com gerrit ls-logging-level
+=====
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]
+
+SEARCHBOX
+---------

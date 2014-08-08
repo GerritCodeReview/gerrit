@@ -27,6 +27,7 @@ java_library(
     '//lib/mina:core',
     '//lib/mina:sshd',
     '//lib/jgit:jgit',
+    '//lib:automaton',
   ],
   provided_deps = [
     '//lib/bouncycastle:bcprov',

@@ -1,0 +1,45 @@
+= gerrit logging ls
+
+== NAME
+gerrit logging ls - view the logging level
+
+== SYNOPSIS
+--
+'ssh' -p <port> <host> 'gerrit logging ls'
+  <LOGGER>
+--
+
+== DESCRIPTION
+View the logging level of specified loggers.
+
+== Options
+<LOGGER>::
+  The logger or loggers to print. Multiple loggers can be printed at once by
+  adding "^" in front of the argument, which will cause the argument to be
+  interpreted as a regex. The
+  link:http://www.brics.dk/automaton/[dk.brics.automaton
+  library] is used for evaluation of the regex. If this argument
+  is not provided, all loggers will be printed.
+
+== ACCESS
+Caller must be a member of the privileged 'Administrators' group.
+
+== Examples
+
+View the logging level of the loggers in the package com.google:
+=====
+    $ssh -p 29418 review.example.com gerrit logging ls \
+     -l ^com.google.*
+=====
+
+View the logging level of every logger
+=====
+    $ssh -p 29418 review.example.com gerrit logging ls
+=====
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]
+
+SEARCHBOX
+---------

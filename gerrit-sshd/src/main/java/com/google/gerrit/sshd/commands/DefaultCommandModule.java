@@ -31,8 +31,10 @@ public class DefaultCommandModule extends CommandModule {
   protected void configure() {
     final CommandName git = Commands.named("git");
     final CommandName gerrit = Commands.named("gerrit");
+    final CommandName logging = Commands.named(gerrit, "logging");
     final CommandName plugin = Commands.named(gerrit, "plugin");
     final CommandName testSubmit = Commands.named(gerrit, "test-submit");
+
 
     command(gerrit).toProvider(new DispatchCommandProvider(gerrit));
     command(gerrit, AproposCommand.class);
@@ -98,5 +100,9 @@ public class DefaultCommandModule extends CommandModule {
     command(gerrit, CreateAccountCommand.class);
     command(testSubmit, TestSubmitRuleCommand.class);
     command(testSubmit, TestSubmitTypeCommand.class);
+
+    command(logging).toProvider(new DispatchCommandProvider(logging));
+    command(logging, SetLoggingLevelCommand.class);
+    command(logging, ListLoggingLevelCommand.class);
   }
 }

@@ -20,19 +20,22 @@ import com.google.gerrit.server.CommonConverters;
 import com.google.inject.Singleton;
 
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 @Singleton
 public class GetCommit implements RestReadView<CommitResource> {
-
   @Override
-  public CommitInfo apply(CommitResource rsrc) {
-    return toCommitInfo(rsrc.getCommit());
+  public CommitInfo apply(CommitResource rsrc) throws IOException {
+    return toCommitInfo(rsrc.getRevWalk(), rsrc.getCommit());
   }
 
-  private static CommitInfo toCommitInfo(RevCommit commit) {
+  private static CommitInfo toCommitInfo(RevWalk rw, RevCommit commit)
+      throws IOException {
     CommitInfo info = new CommitInfo();
+    rw.parseBody(commit);
     info.commit = commit.getName();
     info.author = CommonConverters.toGitPerson(commit.getAuthorIdent());
     info.committer = CommonConverters.toGitPerson(commit.getCommitterIdent());
@@ -41,6 +44,7 @@ public class GetCommit implements RestReadView<CommitResource> {
     info.parents = new ArrayList<>(commit.getParentCount());
     for (int i = 0; i < commit.getParentCount(); i++) {
       RevCommit p = commit.getParent(i);
+      rw.parseBody(p);
       CommitInfo parentInfo = new CommitInfo();
       parentInfo.commit = p.getName();
       parentInfo.subject = p.getShortMessage();

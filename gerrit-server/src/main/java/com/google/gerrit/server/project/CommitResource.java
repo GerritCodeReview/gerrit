@@ -19,17 +19,26 @@ import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.inject.TypeLiteral;
 
+import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
 
-public class CommitResource implements RestResource {
+import java.io.Closeable;
+
+public class CommitResource implements RestResource, Closeable {
   public static final TypeLiteral<RestView<CommitResource>> COMMIT_KIND =
       new TypeLiteral<RestView<CommitResource>>() {};
 
   private final ProjectResource project;
+  private final Repository repo;
+  private final RevWalk rw;
   private final RevCommit commit;
 
-  public CommitResource(ProjectResource project, RevCommit commit) {
+  public CommitResource(ProjectResource project, Repository repo, RevWalk rw,
+      RevCommit commit) {
     this.project = project;
+    this.repo = repo;
+    this.rw = rw;
     this.commit = commit;
   }
 
@@ -37,7 +46,21 @@ public class CommitResource implements RestResource {
     return project.getNameKey();
   }
 
+  public Repository getRepository() {
+    return repo;
+  }
+
+  public RevWalk getRevWalk() {
+    return rw;
+  }
+
   public RevCommit getCommit() {
     return commit;
+  }
+
+  @Override
+  public void close() {
+    rw.release();
+    repo.close();
   }
 }

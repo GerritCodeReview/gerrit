@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b6932b69_0bd25d71",
+        "filename": "Documentation/cmd-query.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-08T23:41:43Z",
+      "side": 1,
+      "message": "Use \u003cn\u003e like limit below.",
+      "range": {
+        "startLine": 18,
+        "startChar": 11,
+        "endLine": 18,
+        "endChar": 33
+      },
+      "revId": "f243bb4262d2661f01964885c6ab50d079e518e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b6932b69_2bd71962",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/Query.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-08T23:41:43Z",
+      "side": 1,
+      "message": "In QueryChanges we also allow \u0026S\u003d, would that make sense here?",
+      "revId": "f243bb4262d2661f01964885c6ab50d079e518e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

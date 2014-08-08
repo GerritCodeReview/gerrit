@@ -104,6 +104,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.Closeable;
 import java.io.EOFException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -198,6 +199,7 @@ public class RestApiServlet extends HttpServlet {
     Multimap<String, String> params = LinkedHashMultimap.create();
     Object inputRequestBody = null;
 
+    RestResource rsrc = TopLevelResource.INSTANCE;
     try {
       checkUserSession(req);
 
@@ -206,7 +208,6 @@ public class RestApiServlet extends HttpServlet {
       CapabilityUtils.checkRequiresCapability(globals.currentUser,
           null, rc.getClass());
 
-      RestResource rsrc = TopLevelResource.INSTANCE;
       ViewData viewData = new ViewData(null, null);
       if (path.isEmpty()) {
         if (isGetOrHead(req)) {
@@ -369,6 +370,7 @@ public class RestApiServlet extends HttpServlet {
       status = SC_INTERNAL_SERVER_ERROR;
       handleException(e, req, res);
     } finally {
+      close(rsrc);
       globals.auditService.dispatch(new HttpAuditEvent(globals.webSession.get()
           .getSessionId(), globals.currentUser.get(), req.getRequestURI(),
           auditStartTs, params, req.getMethod(), inputRequestBody, status,
@@ -1039,6 +1041,18 @@ public class RestApiServlet extends HttpServlet {
     ViewData(String pluginName, RestView<RestResource> view) {
       this.pluginName = pluginName;
       this.view = view;
+    }
+  }
+
+  private static void close(RestResource rsrc) {
+    try {
+      if (rsrc instanceof Closeable) {
+        ((Closeable) rsrc).close();
+      } else if (rsrc instanceof AutoCloseable) {
+        ((AutoCloseable) rsrc).close();
+      }
+    } catch (Exception e) {
+      log.warn("Error closing RestResource " + rsrc, e);
     }
   }
 }

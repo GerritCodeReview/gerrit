@@ -62,19 +62,15 @@ public class GetContent implements RestReadView<FileResource> {
         if (tw == null) {
           throw new ResourceNotFoundException();
         }
-        try {
-          final ObjectLoader object = repo.open(tw.getObjectId(0));
-          @SuppressWarnings("resource")
-          BinaryResult result = new BinaryResult() {
-            @Override
-            public void writeTo(OutputStream os) throws IOException {
-              object.copyTo(os);
-            }
-          };
-          return result.setContentLength(object.getSize()).base64();
-        } finally {
-          tw.release();
-        }
+        final ObjectLoader object = repo.open(tw.getObjectId(0));
+        @SuppressWarnings("resource")
+        BinaryResult result = new BinaryResult() {
+          @Override
+          public void writeTo(OutputStream os) throws IOException {
+            object.copyTo(os);
+          }
+        };
+        return result.setContentLength(object.getSize()).base64();
       } finally {
         rw.release();
       }

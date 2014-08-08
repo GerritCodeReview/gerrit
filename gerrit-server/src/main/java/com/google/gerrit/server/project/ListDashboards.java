@@ -112,29 +112,25 @@ class ListDashboards implements RestReadView<ProjectResource> {
       throws IOException {
     List<DashboardInfo> list = Lists.newArrayList();
     TreeWalk tw = new TreeWalk(rw.getObjectReader());
-    try {
-      tw.addTree(rw.parseTree(ref.getObjectId()));
-      tw.setRecursive(true);
-      while (tw.next()) {
-        if (tw.getFileMode(0) == FileMode.REGULAR_FILE) {
-          try {
-            list.add(DashboardsCollection.parse(
-                definingProject,
-                ref.getName().substring(REFS_DASHBOARDS.length()),
-                tw.getPathString(),
-                new BlobBasedConfig(null, git, tw.getObjectId(0)),
-                project,
-                setDefault));
-          } catch (ConfigInvalidException e) {
-            log.warn(String.format(
-                "Cannot parse dashboard %s:%s:%s: %s",
-                definingProject.getName(), ref.getName(), tw.getPathString(),
-                e.getMessage()));
-          }
+    tw.addTree(rw.parseTree(ref.getObjectId()));
+    tw.setRecursive(true);
+    while (tw.next()) {
+      if (tw.getFileMode(0) == FileMode.REGULAR_FILE) {
+        try {
+          list.add(DashboardsCollection.parse(
+              definingProject,
+              ref.getName().substring(REFS_DASHBOARDS.length()),
+              tw.getPathString(),
+              new BlobBasedConfig(null, git, tw.getObjectId(0)),
+              project,
+              setDefault));
+        } catch (ConfigInvalidException e) {
+          log.warn(String.format(
+              "Cannot parse dashboard %s:%s:%s: %s",
+              definingProject.getName(), ref.getName(), tw.getPathString(),
+              e.getMessage()));
         }
       }
-    } finally {
-      tw.release();
     }
     return list;
   }

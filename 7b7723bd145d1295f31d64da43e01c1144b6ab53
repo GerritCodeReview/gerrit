@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "36b3bbfb_77e1f032",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/VisibleRefFilterIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-08T06:25:04Z",
+      "side": 1,
+      "message": "That filter hack what actually assert and what just to ignore deserves a comment statement or may be even too.  Yes, commit message is detailed enough, but still.",
+      "range": {
+        "startLine": 152,
+        "startChar": 4,
+        "endLine": 157,
+        "endChar": 5
+      },
+      "revId": "7b7723bd145d1295f31d64da43e01c1144b6ab53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

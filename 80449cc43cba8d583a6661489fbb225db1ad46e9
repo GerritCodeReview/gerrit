@@ -48,6 +48,24 @@
     },
     {
       "key": {
+        "uuid": "56ae6f94_7885614b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/ldap/Helper.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-08-08T03:02:42Z",
+      "side": 1,
+      "message": "Cool idea! I love it.\n\nDone",
+      "parentUuid": "d6fa5f81_6cf2fbbc",
+      "revId": "80449cc43cba8d583a6661489fbb225db1ad46e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d6fa5f81_4cf73fab",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/ldap/Helper.java",
         "patchSetId": 4
@@ -71,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "76b9b3d7_d993d395",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/ldap/Helper.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-08-08T03:02:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d6fa5f81_4cf73fab",
+      "revId": "80449cc43cba8d583a6661489fbb225db1ad46e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d6fa5f81_0ced37d9",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/ldap/Helper.java",
         "patchSetId": 4
@@ -82,6 +118,24 @@
       "writtenOn": "2014-08-08T02:01:07Z",
       "side": 1,
       "message": "nit: indent within if",
+      "revId": "80449cc43cba8d583a6661489fbb225db1ad46e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "56ae6f94_58809d3c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/ldap/Helper.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-08-08T03:02:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d6fa5f81_0ced37d9",
       "revId": "80449cc43cba8d583a6661489fbb225db1ad46e9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -111,6 +165,24 @@
     },
     {
       "key": {
+        "uuid": "56ae6f94_98895568",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/ldap/LdapRealm.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-08-08T03:02:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d6fa5f81_8cd8073c",
+      "revId": "80449cc43cba8d583a6661489fbb225db1ad46e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "762b73c3_892ab963",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/ldap/LdapRealm.java",
         "patchSetId": 4
@@ -128,6 +200,24 @@
         "endLine": 116,
         "endChar": 33
       },
+      "revId": "80449cc43cba8d583a6661489fbb225db1ad46e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "76b9b3d7_f990978b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/ldap/LdapRealm.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-08-08T03:02:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "762b73c3_892ab963",
       "revId": "80449cc43cba8d583a6661489fbb225db1ad46e9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -520,7 +520,7 @@ public class ChangeUtil {
     return (IdentifiedUser) userProvider.get();
   }
 
-  private static PatchSet.Id nextPatchSetId(PatchSet.Id id) {
+  public static PatchSet.Id nextPatchSetId(PatchSet.Id id) {
     return new PatchSet.Id(id.getParentKey(), id.get() + 1);
   }
 

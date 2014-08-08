@@ -22,6 +22,47 @@
       "revId": "e46cae4f2ae763d2f631e90785ef5ca373da4104",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "36b3bbfb_1776f4b1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-08T16:13:47Z",
+      "side": 1,
+      "message": "I would still like to see it cleaned up but that can happen after we get the rest of the series merged.",
+      "parentUuid": "36b3bbfb_f7334008",
+      "range": {
+        "startLine": 63,
+        "startChar": 0,
+        "endLine": 63,
+        "endChar": 10
+      },
+      "revId": "e46cae4f2ae763d2f631e90785ef5ca373da4104",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "36b3bbfb_973cc4dd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-08T16:13:47Z",
+      "side": 1,
+      "message": "Injecting GerritPersonIdent into a Singleton means the timestamp will not be updated on injection. This is ok in this case because you\u0027re only using the timezone. But to avoid accidentally using the timestamp later, maybe just store the timestamp, as per [1]\n\n[1] https://gerrit-review.googlesource.com/58985",
+      "revId": "e46cae4f2ae763d2f631e90785ef5ca373da4104",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

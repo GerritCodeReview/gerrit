@@ -51,6 +51,24 @@
       "revId": "986ffdc49cd4d2fa874815f0c12df25705067674",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "56ae6f94_f8e251e3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostChangeEdit.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-08T17:44:44Z",
+      "side": 1,
+      "message": "The old URL approach was not rejected for supporting multiple endpoints, it was rejected for having /0/ in it. Your option II is still better than that.",
+      "parentUuid": "36b3bbfb_d7c1dc65",
+      "revId": "986ffdc49cd4d2fa874815f0c12df25705067674",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

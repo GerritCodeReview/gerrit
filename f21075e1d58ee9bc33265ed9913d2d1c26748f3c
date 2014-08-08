@@ -190,6 +190,30 @@
       "revId": "f21075e1d58ee9bc33265ed9913d2d1c26748f3c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "36b3bbfb_b79d488d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/Change.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-08T18:14:25Z",
+      "side": 1,
+      "message": "Ok, so it\u0027s only the performance issue, fine, I\u0027ll switch the order, whatever. (Though there are actually more patch set refs than meta refs.)",
+      "parentUuid": "36b3bbfb_b710e86c",
+      "range": {
+        "startLine": 140,
+        "startChar": 26,
+        "endLine": 140,
+        "endChar": 75
+      },
+      "revId": "f21075e1d58ee9bc33265ed9913d2d1c26748f3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

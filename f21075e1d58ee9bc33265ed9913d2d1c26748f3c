@@ -94,6 +94,30 @@
       "revId": "f21075e1d58ee9bc33265ed9913d2d1c26748f3c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d6fa5f81_8c0127d8",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/Change.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-08T14:40:32Z",
+      "side": 1,
+      "message": "I still don\u0027t follow.\n\nMy code:\n\n int x \u003d foo();\n if (foo \u003e\u003d 0 || bar) {\n   return nonNull;\n }\n return null;\n\nYour code:\n\n if (!bar \u0026\u0026 foo() \u003c 0) {\n   return null;\n }\n return nonNull;\n\nIt might be because it\u0027s too early here and I haven\u0027t had coffee yet, but I\u0027m pretty sure those are logically equivalent. The only difference is ordering. Are you arguing that foo() is so much more expensive and/or bar is so much less likely that I should swap the order?\n\nSure, I didn\u0027t have to extract x into a local, but I\u0027m not \"discarding\" it, I\u0027m using it to make the if condition fit on one line.\n\nAs for whether this is necessary, see my response to your other comment on that question.",
+      "parentUuid": "36b3bbfb_d708fc49",
+      "range": {
+        "startLine": 140,
+        "startChar": 26,
+        "endLine": 140,
+        "endChar": 75
+      },
+      "revId": "f21075e1d58ee9bc33265ed9913d2d1c26748f3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

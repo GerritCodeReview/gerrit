@@ -1,0 +1,52 @@
+= gerrit set-logging-level
+
+== NAME
+gerrit set-logging-level - set the logging level
+
+== SYNOPSIS
+--
+'ssh' -p <port> <host> 'gerrit set-logging-level'
+  [--logger <LOGGER> | -l <LOGGER>]
+  <LEVEL>
+--
+
+== DESCRIPTION
+Set the logging level of specified loggers.
+
+== Options
+<LEVEL>::
+  Required; logging level for which the loggers should be set.
+  'reset' can be used to revert the loggers back to their level
+  at deployment time.
+
+--logger::
+-l::
+  The logger or loggers that will have their level changed. Multiple
+  loggers can be added at once by passing the argument as a regex. The
+  link:http://docs.oracle.com/javase/7/docs/api/java/util/regex/Pattern.html#sum/[java.util.regex.Pattern library] 
+  is used for evaluation of the regex.If this option is not provided, all
+  loggers will have their level changed.
+
+== ACCESS
+Caller must be a member of the privileged 'Administrators' group.
+
+== Examples
+
+Change the logging level of the loggers in the package com.google to DEBUG.
+=====
+    $ssh -p 29418 review.example.com gerrit set-logging-level \
+     -l com.google.* debug
+=====
+
+Reset the logging level of every logger to what they were at deployment time.
+=====
+    $ssh -p 29418 review.example.com gerrit set-logging-level \
+     reset
+=====
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]
+
+SEARCHBOX
+---------

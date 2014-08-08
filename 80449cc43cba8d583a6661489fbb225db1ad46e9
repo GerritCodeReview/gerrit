@@ -1,0 +1,136 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "762b73c3_a92dfd7f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/ldap/Helper.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-08-08T02:01:07Z",
+      "side": 1,
+      "message": "Good cleanup. Thanks for identifying this and fixing it throughout the class.",
+      "range": {
+        "startLine": 88,
+        "startChar": 0,
+        "endLine": 89,
+        "endChar": 69
+      },
+      "revId": "80449cc43cba8d583a6661489fbb225db1ad46e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d6fa5f81_6cf2fbbc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/ldap/Helper.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-08-08T02:01:07Z",
+      "side": 1,
+      "message": "Put all of this into a static helper method that returns a Map\u003cString,String\u003e already configured for the Sun JNDI names used below. Then we only need a map for connection pooling as an instance member.",
+      "range": {
+        "startLine": 93,
+        "startChar": 6,
+        "endLine": 118,
+        "endChar": 7
+      },
+      "revId": "80449cc43cba8d583a6661489fbb225db1ad46e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d6fa5f81_4cf73fab",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/ldap/Helper.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-08-08T02:01:07Z",
+      "side": 1,
+      "message": "If the connection pool config is a Map\u003cString,String\u003e here you can just say:\n\n  if (connectionPoolConfig !\u003d null) {\n    env.putAll(connectionPoolConfig);\n  }\n\nand the mess of mapping from gerrit config name to sun jndi name is hidden in a helper method in one location.",
+      "range": {
+        "startLine": 150,
+        "startChar": 4,
+        "endLine": 152,
+        "endChar": 48
+      },
+      "revId": "80449cc43cba8d583a6661489fbb225db1ad46e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d6fa5f81_0ced37d9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/ldap/Helper.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-08-08T02:01:07Z",
+      "side": 1,
+      "message": "nit: indent within if",
+      "revId": "80449cc43cba8d583a6661489fbb225db1ad46e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d6fa5f81_8cd8073c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/ldap/LdapRealm.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-08-08T02:01:07Z",
+      "side": 1,
+      "message": "We are avoiding final in newer code, unless its necessary to pass a value into an anonymous inner class.",
+      "range": {
+        "startLine": 113,
+        "startChar": 25,
+        "endLine": 113,
+        "endChar": 30
+      },
+      "revId": "80449cc43cba8d583a6661489fbb225db1ad46e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "762b73c3_892ab963",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/ldap/LdapRealm.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-08-08T02:01:07Z",
+      "side": 1,
+      "message": "Strings.isNullOrEmpty(v)",
+      "range": {
+        "startLine": 116,
+        "startChar": 8,
+        "endLine": 116,
+        "endChar": 33
+      },
+      "revId": "80449cc43cba8d583a6661489fbb225db1ad46e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

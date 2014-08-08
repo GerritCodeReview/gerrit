@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d6fa5f81_acba23be",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Module.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-08T17:29:46Z",
+      "side": 1,
+      "message": "Extra blank line",
+      "revId": "986ffdc49cd4d2fa874815f0c12df25705067674",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d6fa5f81_8cb767d8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostChangeEdit.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-08T17:29:46Z",
+      "side": 1,
+      "message": "Shawn previously told me in person he would rather avoid an operation enum like this. I\u0027ll let him comment though.",
+      "revId": "986ffdc49cd4d2fa874815f0c12df25705067674",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

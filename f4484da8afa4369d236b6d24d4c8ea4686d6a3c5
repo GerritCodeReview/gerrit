@@ -69,6 +69,30 @@
       "revId": "f4484da8afa4369d236b6d24d4c8ea4686d6a3c5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "762b73c3_693dc5a9",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/Change.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-08T14:56:43Z",
+      "side": 1,
+      "message": "Good catch. Should have been ce, and I didn\u0027t have test coverage for this branch, but do now.",
+      "parentUuid": "36b3bbfb_77fad0da",
+      "range": {
+        "startLine": 164,
+        "startChar": 28,
+        "endLine": 164,
+        "endChar": 53
+      },
+      "revId": "f4484da8afa4369d236b6d24d4c8ea4686d6a3c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

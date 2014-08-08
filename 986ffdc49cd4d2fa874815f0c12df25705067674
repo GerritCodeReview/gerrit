@@ -33,6 +33,24 @@
       "revId": "986ffdc49cd4d2fa874815f0c12df25705067674",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "36b3bbfb_d7c1dc65",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostChangeEdit.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-08T17:40:28Z",
+      "side": 1,
+      "message": "But how we should differentiate then between different POST operations on edit collections, like publish and rebase?\n\nWith this URL approach we only have two options:\n\nOption I: use some means of operation kind in request body:\n\n  POST /changes/\u003cid\u003e/edit\n\noperation \u003d rebase|publish|...\n\nOption II: use different end points:\n\n* POST /changes/\u003cid\u003e/edit_publish\n* POST /changes/\u003cid\u003e/edit_rebase\n\nAnd not support AcceptPost on our main edit collections.\n\nNote that with my previous URL approach (that was rejected) that was identical with revision collection approach, we havn\u0027t this problem, as we could define as many endpoints for edit kind as we wanted to:\n\n* POST /changes/\u003cid\u003e/edit/0/rebase\n* POST /changes/\u003cid\u003e/edit/0/publish\n* ...",
+      "parentUuid": "d6fa5f81_8cb767d8",
+      "revId": "986ffdc49cd4d2fa874815f0c12df25705067674",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

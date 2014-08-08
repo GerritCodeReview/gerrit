@@ -97,6 +97,30 @@
     },
     {
       "key": {
+        "uuid": "36b3bbfb_775e5023",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-08T16:30:10Z",
+      "side": 1,
+      "message": "I commit myself to refactor it.",
+      "parentUuid": "36b3bbfb_3764d8ed",
+      "range": {
+        "startLine": 63,
+        "startChar": 0,
+        "endLine": 63,
+        "endChar": 10
+      },
+      "revId": "e46cae4f2ae763d2f631e90785ef5ca373da4104",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "36b3bbfb_973cc4dd",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
         "patchSetId": 26
@@ -126,6 +150,24 @@
       "side": 1,
       "message": "Yes, makes sense.",
       "parentUuid": "36b3bbfb_973cc4dd",
+      "revId": "e46cae4f2ae763d2f631e90785ef5ca373da4104",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "36b3bbfb_57594c38",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-08T16:30:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "56ae6f94_b85379f7",
       "revId": "e46cae4f2ae763d2f631e90785ef5ca373da4104",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

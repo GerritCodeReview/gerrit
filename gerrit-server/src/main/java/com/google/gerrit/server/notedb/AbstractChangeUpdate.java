@@ -104,6 +104,11 @@ public abstract class AbstractChangeUpdate extends VersionedMetaData {
     }
   }
 
+  public void createInserter(MetaDataUpdate update) {
+    final Repository db = update.getRepository();
+    inserter = db.newObjectInserter();
+  }
+
   @Override
   public BatchMetaDataUpdate openUpdate(MetaDataUpdate update) throws IOException {
     throw new UnsupportedOperationException("use openUpdate()");

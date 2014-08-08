@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "762b73c3_a904dde7",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/edit/ChangeEditIT.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 446,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-08T17:22:12Z",
+      "side": 1,
+      "message": "Optional: Move to where this indentation bug was introduced.",
+      "revId": "9722527dcd0bc07fe14c3152c4157d2078b58c15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "762b73c3_890119d8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteContent.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-08T17:22:12Z",
+      "side": 1,
+      "message": "Remind us that delete !\u003d restore/revert, and this is delete.",
+      "revId": "9722527dcd0bc07fe14c3152c4157d2078b58c15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

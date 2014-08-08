@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "36b3bbfb_f7ec2029",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetAccountCommand.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-08T08:10:35Z",
+      "side": 1,
+      "message": "This still has one small issue: Setting preferred email for user while this email address is already the preferred mail. The REST endpoint is a no-op in this case:\n\n  if (rsrc.getEmail().equals(a.getPreferredEmail())) {\n      return Response.ok(\"\");\n  }\n\nSo i tend to ignore this case here as well. Alternative approach would be to check this here and issue a warning in this case. May be document this behavior in SSH command description that this is a no-op in this case?",
+      "range": {
+        "startLine": 299,
+        "startChar": 6,
+        "endLine": 302,
+        "endChar": 7
+      },
+      "revId": "c8d270cda301bd9e5f031de9e005e77f02121923",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

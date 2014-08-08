@@ -74,12 +74,12 @@ public class ChangeRebuilder {
     this.updateFactory = updateFactory;
   }
 
-  public ListenableFuture<?> rebuildAsync(
-      final Change change, ListeningExecutorService executor) {
+  public ListenableFuture<?> rebuildAsync(final Change change,
+      ListeningExecutorService executor, final BatchRefUpdate bru) {
     return executor.submit(new Callable<Void>() {
-      @Override
+        @Override
       public Void call() throws Exception {
-        rebuild(change, null);
+        rebuild(change, bru);
         return null;
       }
     });
@@ -111,7 +111,7 @@ public class ChangeRebuilder {
             controlFactory.controlFor(change, user), e.when);
         update.setPatchSetId(e.psId);
         if (batch == null) {
-          batch = update.openUpdate();
+          batch = update.openUpdateInBatch(bru);
         }
       }
       e.apply(update);
@@ -120,7 +120,14 @@ public class ChangeRebuilder {
       if (update != null) {
         writeToBatch(batch, update);
       }
-      batch.commit();
+
+      // Since the BatchMetaDataUpdates generated in this class are backed by
+      // BatchRefUpdates, we need to synchronize on the BatchRefUpdate.
+      // Therefore, since commit on a BatchMetaDataUpdate is the only method
+      // that modifies a BatchRefUpdate, we can just synchronize this call.
+      synchronized(bru) {
+        batch.commit();
+      }
     }
   }
 

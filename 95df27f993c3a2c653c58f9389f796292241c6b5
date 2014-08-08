@@ -1,0 +1,243 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "36b3bbfb_b7862855",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/EditInfo.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-08T16:52:41Z",
+      "side": 1,
+      "message": "Edits don\u0027t have numbers.\n\nAlthough I think we need to report the patch set number of the edit\u0027s base. I wouldn\u0027t call it _number though.",
+      "revId": "95df27f993c3a2c653c58f9389f796292241c6b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "36b3bbfb_97892468",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/RevisionInfo.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-08T16:52:41Z",
+      "side": 1,
+      "message": "Using inheritance here feels weird to me, though I know we do this kind of thing elsewhere. You\u0027re using it for inheritance of implementation (i.e. to save a few lines), but I don\u0027t think RevisionInfo is properly a subtype of EditInfo.",
+      "revId": "95df27f993c3a2c653c58f9389f796292241c6b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "36b3bbfb_d7939c95",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 904,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-08T16:52:41Z",
+      "side": 1,
+      "message": "Not necessary.",
+      "revId": "95df27f993c3a2c653c58f9389f796292241c6b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "762b73c3_09ed29d9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ListChangeEdits.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-08T16:52:41Z",
+      "side": 1,
+      "message": "This name is slightly inappropriate because there can be only one.",
+      "range": {
+        "startLine": 50,
+        "startChar": 6,
+        "endLine": 50,
+        "endChar": 21
+      },
+      "revId": "95df27f993c3a2c653c58f9389f796292241c6b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "762b73c3_29e8edc8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ListChangeEdits.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-08T16:52:41Z",
+      "side": 1,
+      "message": "Why a map? Just an EditInfo would be sufficient.",
+      "range": {
+        "startLine": 77,
+        "startChar": 9,
+        "endLine": 77,
+        "endChar": 30
+      },
+      "revId": "95df27f993c3a2c653c58f9389f796292241c6b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "762b73c3_69f2e5bc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ListChangeEdits.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-08T16:52:41Z",
+      "side": 1,
+      "message": "This opens the repo once...",
+      "revId": "95df27f993c3a2c653c58f9389f796292241c6b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d6fa5f81_4ccd7f6a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ListChangeEdits.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-08T16:52:41Z",
+      "side": 1,
+      "message": "...and this opens it again.\n\nReuse the repo and rev walk.",
+      "revId": "95df27f993c3a2c653c58f9389f796292241c6b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d6fa5f81_0cc37743",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ListChangeEdits.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-08T16:52:41Z",
+      "side": 1,
+      "message": "See my comments on EditInfo",
+      "revId": "95df27f993c3a2c653c58f9389f796292241c6b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d6fa5f81_6cc83b5c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ListChangeEdits.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-08T16:52:41Z",
+      "side": 1,
+      "message": "Typo: for",
+      "range": {
+        "startLine": 106,
+        "startChar": 40,
+        "endLine": 106,
+        "endChar": 43
+      },
+      "revId": "95df27f993c3a2c653c58f9389f796292241c6b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "762b73c3_c94dd150",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ListChangeEdits.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-08T16:52:41Z",
+      "side": 1,
+      "message": "CommonConverters.toGitPerson goes straight from PersonIdent to GitPerson.\n\nThough I think maybe a toCommitInfo(RevCommit) class in CommonConverters might be even better.",
+      "revId": "95df27f993c3a2c653c58f9389f796292241c6b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "762b73c3_49f721ab",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ListChangeEdits.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-08T16:52:41Z",
+      "side": 1,
+      "message": "This reopens the repo again.\n\nYou could avoid this method entirely by calling rw.parseBody() on each of the parents in getCommit().\n\nHonestly, though, I really don\u0027t think returning the parent subject is useful here, the caller can just get it from the edit\u0027s base patch set revision.",
+      "revId": "95df27f993c3a2c653c58f9389f796292241c6b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "36b3bbfb_175fd421",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditUtil.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-08T16:52:41Z",
+      "side": 1,
+      "message": "Don\u0027t think you need this line.",
+      "revId": "95df27f993c3a2c653c58f9389f796292241c6b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "762b73c3_e95095ec",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditUtil.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-08T16:52:41Z",
+      "side": 1,
+      "message": "Include the ref and SHA in this error message.",
+      "revId": "95df27f993c3a2c653c58f9389f796292241c6b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

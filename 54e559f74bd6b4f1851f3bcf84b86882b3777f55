@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "36b3bbfb_17a7d4ac",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ListLoggingLevelCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-08T20:49:55Z",
+      "side": 1,
+      "message": "Add here also runsAt \u003d MASTER_OR_SLAVE? So that this command is available on both master an slaves.",
+      "revId": "54e559f74bd6b4f1851f3bcf84b86882b3777f55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "56ae6f94_98deb5ef",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetLoggingLevelCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-08T20:49:55Z",
+      "side": 1,
+      "message": "Add here also runsAt \u003d MASTER_OR_SLAVE? So that this command is available on both master an slaves.",
+      "revId": "54e559f74bd6b4f1851f3bcf84b86882b3777f55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "56ae6f94_18cb8533",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetLoggingLevelCommand.java",
         "patchSetId": 3

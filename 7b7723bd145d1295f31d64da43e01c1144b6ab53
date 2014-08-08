@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "36b3bbfb_f7050031",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/VisibleRefFilterIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-08T14:56:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "36b3bbfb_77e1f032",
+      "range": {
+        "startLine": 152,
+        "startChar": 4,
+        "endLine": 157,
+        "endChar": 5
+      },
+      "revId": "7b7723bd145d1295f31d64da43e01c1144b6ab53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "56ae6f94_f86971bf",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/VisibleRefFilterIT.java",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2014-08-08T08:16:02Z",
       "side": 1,
       "message": "Instead of having two lists in the same scope named expected and exp, extract the filter code above in self describing method (that would solve the missing comment as well) and inline its invocation?\n\n  assertEquals(filterOutNotesDbRefs(expected), \n      Ordering.natural().sortedCopy(s.split(out)));",
+      "range": {
+        "startLine": 160,
+        "startChar": 17,
+        "endLine": 160,
+        "endChar": 20
+      },
+      "revId": "7b7723bd145d1295f31d64da43e01c1144b6ab53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "56ae6f94_98a075c0",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/VisibleRefFilterIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-08T14:56:25Z",
+      "side": 1,
+      "message": "Went with documentation over a separate method.",
+      "parentUuid": "56ae6f94_f86971bf",
       "range": {
         "startLine": 160,
         "startChar": 17,

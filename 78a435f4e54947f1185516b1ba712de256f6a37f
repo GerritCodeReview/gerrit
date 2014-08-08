@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d6fa5f81_4c429f25",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/tools/root/hooks/commit-msg",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-08-08T01:33:02Z",
+      "side": 1,
+      "message": "You made the file executable. This should not be executable in the source tree. Please remove the execute bit.",
+      "revId": "78a435f4e54947f1185516b1ba712de256f6a37f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -17,7 +17,6 @@ package com.google.gerrit.server.notedb;
 import static com.google.gerrit.server.notedb.CommentsInNotesUtil.getCommentPsId;
 
 import com.google.common.annotations.VisibleForTesting;
-import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Table;
@@ -25,7 +24,6 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.reviewdb.client.PatchLineComment.Status;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.AllUsersName;
@@ -35,10 +33,8 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.notes.NoteMap;
 import org.eclipse.jgit.revwalk.RevWalk;
 
@@ -65,44 +61,6 @@ public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
     public DraftCommentNotes create(Change.Id changeId, Account.Id accountId) {
       return new DraftCommentNotes(repoManager, draftsProject, changeId,
           accountId);
-    }
-  }
-
-  private static class Parser implements AutoCloseable {
-    private final Change.Id changeId;
-    private final ObjectId tip;
-    private final RevWalk walk;
-    private final Repository repo;
-    private final Account.Id author;
-
-    private final Multimap<PatchSet.Id, PatchLineComment> draftBaseComments;
-    private final Multimap<PatchSet.Id, PatchLineComment> draftPsComments;
-    private NoteMap noteMap;
-
-    private Parser(Change.Id changeId, RevWalk walk, ObjectId tip,
-        GitRepositoryManager repoManager, AllUsersName draftsProject,
-        Account.Id author) throws RepositoryNotFoundException, IOException {
-      this.changeId = changeId;
-      this.walk = walk;
-      this.tip = tip;
-      this.repo = repoManager.openRepository(draftsProject);
-      this.author = author;
-
-      draftBaseComments = ArrayListMultimap.create();
-      draftPsComments = ArrayListMultimap.create();
-    }
-
-    @Override
-    public void close() {
-      repo.close();
-    }
-
-    private void parseDraftComments() throws IOException, ConfigInvalidException {
-      walk.markStart(walk.parseCommit(tip));
-      noteMap = CommentsInNotesUtil.parseCommentsFromNotes(repo,
-          RefNames.refsDraftComments(author, changeId),
-          walk, changeId, draftBaseComments,
-          draftPsComments, Status.DRAFT);
     }
   }
 
@@ -172,7 +130,7 @@ public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
     }
 
     RevWalk walk = new RevWalk(reader);
-    try (Parser parser = new Parser(getChangeId(), walk, rev, repoManager,
+    try (DraftCommentNotesParser parser = new DraftCommentNotesParser(getChangeId(), walk, rev, repoManager,
         draftsProject, author)) {
       parser.parseDraftComments();
 

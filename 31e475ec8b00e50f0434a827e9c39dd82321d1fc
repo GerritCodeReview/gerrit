@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "56ae6f94_381e89fc",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ListLoggingLevelCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-08T23:39:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "36b3bbfb_37913844",
+      "range": {
+        "startLine": 41,
+        "startChar": 23,
+        "endLine": 41,
+        "endChar": 45
+      },
+      "revId": "31e475ec8b00e50f0434a827e9c39dd82321d1fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "36b3bbfb_f7b180e2",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetLoggingLevelCommand.java",
         "patchSetId": 4
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "56ae6f94_58133df3",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetLoggingLevelCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-08T23:39:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "36b3bbfb_f7b180e2",
+      "range": {
+        "startLine": 55,
+        "startChar": 23,
+        "endLine": 55,
+        "endChar": 65
+      },
+      "revId": "31e475ec8b00e50f0434a827e9c39dd82321d1fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "36b3bbfb_178c3429",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetLoggingLevelCommand.java",
         "patchSetId": 4
@@ -59,6 +107,30 @@
       "writtenOn": "2014-08-08T22:07:11Z",
       "side": 1,
       "message": "This is the wrong way to do it. What you want is to define an enum and let args4j parse it and see if the argument provided is a valid enum value, so something like:\n\n  private static enum LEVEL {\n    ALL,\n    TRACE,\n    DEBUG,\n    INFO,\n    WARN,\n    ERROR,\n    FATAL,\n    OFF,\n    RESET,\n  }\n  [...]\n  @Argument(index \u003d 0, ...)\n  private LEVEL level;\n  [...]\n  @Override\n  protected void run() {\n    [...]\n    switch (level) {\n      case RESET:\n        reset();\n        break;\n      default:\n        setLoggingLevel(Level.toLevel(level.name()));\n        break;\n    }\n  }",
+      "range": {
+        "startLine": 59,
+        "startChar": 4,
+        "endLine": 90,
+        "endChar": 5
+      },
+      "revId": "31e475ec8b00e50f0434a827e9c39dd82321d1fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "36b3bbfb_d789dc14",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetLoggingLevelCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-08T23:39:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "36b3bbfb_178c3429",
       "range": {
         "startLine": 59,
         "startChar": 4,

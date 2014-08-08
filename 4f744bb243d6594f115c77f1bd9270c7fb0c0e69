@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "36b3bbfb_b701c8d7",
+        "filename": "Documentation/cmd-ls-logging-level.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1016317
+      },
+      "writtenOn": "2014-08-08T19:55:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "36b3bbfb_1711942c",
+      "revId": "4f744bb243d6594f115c77f1bd9270c7fb0c0e69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "36b3bbfb_77f730ab",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ListLoggingLevelCommand.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2014-08-08T19:46:40Z",
       "side": 1,
       "message": "License",
+      "revId": "4f744bb243d6594f115c77f1bd9270c7fb0c0e69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "36b3bbfb_570b0cf8",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ListLoggingLevelCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1016317
+      },
+      "writtenOn": "2014-08-08T19:55:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "36b3bbfb_77f730ab",
       "revId": "4f744bb243d6594f115c77f1bd9270c7fb0c0e69",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "36b3bbfb_77101026",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ListLoggingLevelCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1016317
+      },
+      "writtenOn": "2014-08-08T19:55:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "36b3bbfb_97dbe437",
+      "revId": "4f744bb243d6594f115c77f1bd9270c7fb0c0e69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "56ae6f94_586fbd78",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ListLoggingLevelCommand.java",
         "patchSetId": 1
@@ -64,6 +118,30 @@
       "writtenOn": "2014-08-08T19:46:40Z",
       "side": 1,
       "message": "not needed",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 5
+      },
+      "revId": "4f744bb243d6594f115c77f1bd9270c7fb0c0e69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "56ae6f94_d862ed8c",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ListLoggingLevelCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1016317
+      },
+      "writtenOn": "2014-08-08T19:55:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "56ae6f94_586fbd78",
       "range": {
         "startLine": 14,
         "startChar": 0,
@@ -99,6 +177,30 @@
     },
     {
       "key": {
+        "uuid": "56ae6f94_f85fb1c7",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ListLoggingLevelCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1016317
+      },
+      "writtenOn": "2014-08-08T19:55:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "36b3bbfb_f7e260e3",
+      "range": {
+        "startLine": 24,
+        "startChar": 4,
+        "endLine": 24,
+        "endChar": 15
+      },
+      "revId": "4f744bb243d6594f115c77f1bd9270c7fb0c0e69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "56ae6f94_7874814e",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ListLoggingLevelCommand.java",
         "patchSetId": 1
@@ -110,6 +212,24 @@
       "writtenOn": "2014-08-08T19:46:40Z",
       "side": 1,
       "message": "Wrap this line.",
+      "revId": "4f744bb243d6594f115c77f1bd9270c7fb0c0e69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "36b3bbfb_9704c4e8",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ListLoggingLevelCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1016317
+      },
+      "writtenOn": "2014-08-08T19:55:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "56ae6f94_7874814e",
       "revId": "4f744bb243d6594f115c77f1bd9270c7fb0c0e69",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -139,6 +259,30 @@
     },
     {
       "key": {
+        "uuid": "56ae6f94_18a2a583",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ListLoggingLevelCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1016317
+      },
+      "writtenOn": "2014-08-08T19:55:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "36b3bbfb_b7d8e83b",
+      "range": {
+        "startLine": 36,
+        "startChar": 4,
+        "endLine": 36,
+        "endChar": 19
+      },
+      "revId": "4f744bb243d6594f115c77f1bd9270c7fb0c0e69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "36b3bbfb_d7e55cee",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetLoggingLevelCommand.java",
         "patchSetId": 1
@@ -150,6 +294,24 @@
       "writtenOn": "2014-08-08T19:46:40Z",
       "side": 1,
       "message": "License",
+      "revId": "4f744bb243d6594f115c77f1bd9270c7fb0c0e69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "56ae6f94_38a76994",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetLoggingLevelCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1016317
+      },
+      "writtenOn": "2014-08-08T19:55:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "36b3bbfb_d7e55cee",
       "revId": "4f744bb243d6594f115c77f1bd9270c7fb0c0e69",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -179,6 +341,30 @@
     },
     {
       "key": {
+        "uuid": "36b3bbfb_d7fe3c7a",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetLoggingLevelCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1016317
+      },
+      "writtenOn": "2014-08-08T19:55:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "56ae6f94_9868756f",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 5
+      },
+      "revId": "4f744bb243d6594f115c77f1bd9270c7fb0c0e69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "56ae6f94_b8653998",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetLoggingLevelCommand.java",
         "patchSetId": 1
@@ -190,6 +376,24 @@
       "writtenOn": "2014-08-08T19:46:40Z",
       "side": 1,
       "message": "Wrap this line.",
+      "revId": "4f744bb243d6594f115c77f1bd9270c7fb0c0e69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "36b3bbfb_f7fb4087",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetLoggingLevelCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1016317
+      },
+      "writtenOn": "2014-08-08T19:55:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "56ae6f94_b8653998",
       "revId": "4f744bb243d6594f115c77f1bd9270c7fb0c0e69",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

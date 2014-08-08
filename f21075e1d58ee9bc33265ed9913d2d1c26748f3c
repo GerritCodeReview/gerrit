@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "56ae6f94_b8b4590d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/Change.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-08T09:48:35Z",
+      "side": 1,
+      "message": "That why it is wrong to unconditionally parse patch set id part as commented in this change [1]. Now you call the check method PatchSet.Id.fromRef() for something that doesn\u0027t apply and silently discard the result. What you want is not to call the check method if you know that the check result does not apply in the first place:\n\n  if (ref.startsWith(REFS_CHANGES) \u0026\u0026 PatchSet.Id.fromRef(ref, ce) \u003e\u003d 0) {\n      return null;\n  }\n  return new Change.Id(Integer.parseInt(ref.substring(cs, ce)));\n\nNot to mention, that your exception case would need to be extended even further for change edit reference and who know what come next.\n\n [1] https://gerrit-review.googlesource.com/58943",
+      "range": {
+        "startLine": 140,
+        "startChar": 26,
+        "endLine": 140,
+        "endChar": 75
+      },
+      "revId": "f21075e1d58ee9bc33265ed9913d2d1c26748f3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -30,6 +30,7 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -100,6 +101,10 @@ public abstract class AbstractChangeUpdate extends VersionedMetaData {
         repo.close();
       }
     }
+  }
+
+  public void setInserter(ObjectInserter inserter) {
+    this.inserter = inserter;
   }
 
   @Override

@@ -97,6 +97,30 @@
     },
     {
       "key": {
+        "uuid": "d6c17f53_54dcec81",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/Change.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-08T18:13:08Z",
+      "side": 1,
+      "message": "Yes, the implementation will change when edit refs are supported.",
+      "parentUuid": "36b3bbfb_5724ec9c",
+      "range": {
+        "startLine": 139,
+        "startChar": 6,
+        "endLine": 142,
+        "endChar": 7
+      },
+      "revId": "f4484da8afa4369d236b6d24d4c8ea4686d6a3c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "36b3bbfb_77fad0da",
         "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/Change.java",
         "patchSetId": 4

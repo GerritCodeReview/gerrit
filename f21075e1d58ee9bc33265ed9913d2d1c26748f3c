@@ -70,6 +70,30 @@
       "revId": "f21075e1d58ee9bc33265ed9913d2d1c26748f3c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "36b3bbfb_d708fc49",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/Change.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-08T13:38:48Z",
+      "side": 1,
+      "message": "Your code call PatchSet.Id.fromRef() check and discard it result if it is not related. My suggestion check it first and call the check only if it is related. And there is no point of assigning patchSetId in a var if it\u0027s not used.\n\nBut then again, as i said in comment to another change, i don\u0027t think that you need the whole patch set id part check in Change.id.parse() method. That check belongs to PatchSet.Id.parse().",
+      "parentUuid": "d6fa5f81_6c0b1bf9",
+      "range": {
+        "startLine": 140,
+        "startChar": 26,
+        "endLine": 140,
+        "endChar": 75
+      },
+      "revId": "f21075e1d58ee9bc33265ed9913d2d1c26748f3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

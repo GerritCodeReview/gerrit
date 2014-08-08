@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "56ae6f94_b8861955",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetAccountCommand.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-08T05:33:11Z",
+      "side": 1,
+      "message": "Not needed.",
+      "range": {
+        "startLine": 299,
+        "startChar": 4,
+        "endLine": 299,
+        "endChar": 38
+      },
+      "revId": "33557053a2221be8aa73e56604eb1ef8a06cc434",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d6fa5f81_2c11132d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetAccountCommand.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-08T05:33:11Z",
+      "side": 1,
+      "message": "Over complicated. You don\u0027t need to perform the search for the whole list and correctly break after you\u0027ve found the entry. Just set the email here early return.",
+      "range": {
+        "startLine": 303,
+        "startChar": 8,
+        "endLine": 304,
+        "endChar": 14
+      },
+      "revId": "33557053a2221be8aa73e56604eb1ef8a06cc434",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "76b9b3d7_3964cfed",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetAccountCommand.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 308,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-08T05:33:11Z",
+      "side": 1,
+      "message": "This line goes to if above, line 303 in this ps, with immediately return.",
+      "range": {
+        "startLine": 308,
+        "startChar": 6,
+        "endLine": 308,
+        "endChar": 71
+      },
+      "revId": "33557053a2221be8aa73e56604eb1ef8a06cc434",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "56ae6f94_d893cd95",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetAccountCommand.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-08T05:33:11Z",
+      "side": 1,
+      "message": "de-indent this line, so that we have:\n\n  List\u003cEmailInfo\u003e emails \u003d getEmails.apply(rsrc);\n  for (EmailInfo e : emails) {\n    if (e.email.equals(email)) {\n      putPreferred.apply(new AccountResource.Email(user, email), null);\n      return:\n    }\n  }\n  stderr.write(String.format(\"WARNING: preferred email not found %s\",\n      email);",
+      "range": {
+        "startLine": 310,
+        "startChar": 6,
+        "endLine": 311,
+        "endChar": 33
+      },
+      "revId": "33557053a2221be8aa73e56604eb1ef8a06cc434",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

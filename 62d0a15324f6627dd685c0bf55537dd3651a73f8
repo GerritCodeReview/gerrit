@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d6c17f53_940e8455",
+        "filename": "Documentation/cmd-query.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-08T22:51:58Z",
+      "side": 0,
+      "message": "I would say to rewrite this example using start instead of resume_sortkey except it looks like I forgot to add a start flag to this command as well :(\n\nUnfortunately unlike limit this has to be a flag, we have no way of specifying it in the query syntax itself. (And to be clear, nor do we want to.)",
+      "revId": "62d0a15324f6627dd685c0bf55537dd3651a73f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

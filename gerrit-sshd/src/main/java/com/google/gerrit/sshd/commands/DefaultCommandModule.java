@@ -98,5 +98,8 @@ public class DefaultCommandModule extends CommandModule {
     command(gerrit, CreateAccountCommand.class);
     command(testSubmit, TestSubmitRuleCommand.class);
     command(testSubmit, TestSubmitTypeCommand.class);
+
+    command(gerrit, SetLoggingLevelCommand.class);
+    command(gerrit, ListLoggingLevelCommand.class);
   }
 }

@@ -33,6 +33,24 @@
       "revId": "9722527dcd0bc07fe14c3152c4157d2078b58c15",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "56ae6f94_98db1538",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteContent.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-08T17:41:43Z",
+      "side": 1,
+      "message": "Not sure what you mean here: put a comment on this?",
+      "parentUuid": "762b73c3_890119d8",
+      "revId": "9722527dcd0bc07fe14c3152c4157d2078b58c15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

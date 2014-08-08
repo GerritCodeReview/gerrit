@@ -69,6 +69,24 @@
       "revId": "986ffdc49cd4d2fa874815f0c12df25705067674",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "56ae6f94_9804f5e8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostChangeEdit.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-08T17:59:20Z",
+      "side": 1,
+      "message": "But we cannot solve the problem of having multiple different endpoint while operating on edit collection without having 0 and operating on edit resource itself, at least i don\u0027t see how we can do that, because wth new URL apporach you cannot say:\n\n POST /changes/\u003cid\u003e/edit/publish\n POST /changes/\u003cid\u003e/edit/rebase\n\nBecause that would mean that you are restoring or modifying  files that named \"publish\" or \"rebase\".\n\nWith my previous, revision like approach, the operations on edit resource and file resourse were seperated:\n\n  POST /changes/\u003cid\u003e/edits/\u003c0\u003e/publish\n\nwith another child file collection defined ont top of edit collection:\n\n  POST /changes/\u003cid\u003e/edits/\u003c0\u003e/files/path/content\n\nExact how the whole stuff for revision currently works.",
+      "parentUuid": "56ae6f94_f8e251e3",
+      "revId": "986ffdc49cd4d2fa874815f0c12df25705067674",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

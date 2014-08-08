@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "36b3bbfb_37c93891",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/EditInfo.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-08T18:30:30Z",
+      "side": 1,
+      "message": "In fact, they don\u0027t. I agree with you. And this change don\u0027t need it. But later changes, especially integration into CS2 and SBS2 do need it. Later changes in this series retrieve chang edit from the endpoint introduced in this change and transform change edit into revision edit. I am doing it to not have speical cases all down the road between revision and edit. We need to integrate edit into CS2, SBS2, SBS2 navigation header, etc. p.p. So the easiest approach i figured out was in fact to make edit to behaive like revision with one exception: we need unique number so that the places in code that have to differentiate between revision and edit can do that is: number you are commenting on here: So Shawn the suggestion was to use 0, and i implemented it this way. So the Rest ednpointz returns 0 in _number for edits. Always. Arguable we could do that on client, and remove _number from that class.",
+      "parentUuid": "36b3bbfb_b7862855",
+      "revId": "95df27f993c3a2c653c58f9389f796292241c6b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "36b3bbfb_97892468",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/RevisionInfo.java",
         "patchSetId": 15
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "36b3bbfb_17c4347a",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/RevisionInfo.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-08T18:30:30Z",
+      "side": 1,
+      "message": "Alternative approach would be to extract common bits from both to same FooBaseInfo class and let both edit and revision Infos inherit from it? But i am fine to copy/paste it as well.",
+      "parentUuid": "36b3bbfb_97892468",
+      "revId": "95df27f993c3a2c653c58f9389f796292241c6b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "36b3bbfb_d7939c95",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
         "patchSetId": 15
@@ -47,6 +83,24 @@
       "writtenOn": "2014-08-08T16:52:41Z",
       "side": 1,
       "message": "Not necessary.",
+      "revId": "95df27f993c3a2c653c58f9389f796292241c6b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "56ae6f94_98d1550b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 904,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-08T18:30:30Z",
+      "side": 1,
+      "message": "This method is called from ListChangeEdits, line 118:\n\n  ChangeJson.toGitPerson",
+      "parentUuid": "36b3bbfb_d7939c95",
       "revId": "95df27f993c3a2c653c58f9389f796292241c6b5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -99,6 +153,30 @@
     },
     {
       "key": {
+        "uuid": "36b3bbfb_1743542c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ListChangeEdits.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-08T18:30:30Z",
+      "side": 1,
+      "message": "Because this done analogeously with Map\u003cString, RevisionInfo\u003e map from ChangeInfo from \n\n  GET /changes/\u003cid\u003e/detail\n\nendpoint. We can change this, but this would mean to add revision in EditInfo directly.",
+      "parentUuid": "762b73c3_29e8edc8",
+      "range": {
+        "startLine": 77,
+        "startChar": 9,
+        "endLine": 77,
+        "endChar": 30
+      },
+      "revId": "95df27f993c3a2c653c58f9389f796292241c6b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "762b73c3_69f2e5bc",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ListChangeEdits.java",
         "patchSetId": 15
@@ -127,6 +205,24 @@
       "writtenOn": "2014-08-08T16:52:41Z",
       "side": 1,
       "message": "...and this opens it again.\n\nReuse the repo and rev walk.",
+      "revId": "95df27f993c3a2c653c58f9389f796292241c6b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "56ae6f94_b8ce1964",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ListChangeEdits.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-08T18:30:30Z",
+      "side": 1,
+      "message": "This would mean to provide alternative byChange() method that accepts repo and rev walk passed as argument, right?",
+      "parentUuid": "d6fa5f81_4ccd7f6a",
       "revId": "95df27f993c3a2c653c58f9389f796292241c6b5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -207,6 +303,24 @@
     },
     {
       "key": {
+        "uuid": "36b3bbfb_37485844",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ListChangeEdits.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-08T18:30:30Z",
+      "side": 1,
+      "message": "We need parent revision to identify parent patch set the edit is based on to sort lists in the UI. But in fact we get parent rev without parsing parent commit and we can get parent subject from parent revision on the client side hould we really need it.",
+      "parentUuid": "762b73c3_49f721ab",
+      "revId": "95df27f993c3a2c653c58f9389f796292241c6b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "36b3bbfb_175fd421",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditUtil.java",
         "patchSetId": 15
@@ -218,6 +332,24 @@
       "writtenOn": "2014-08-08T16:52:41Z",
       "side": 1,
       "message": "Don\u0027t think you need this line.",
+      "revId": "95df27f993c3a2c653c58f9389f796292241c6b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "56ae6f94_18a705ad",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditUtil.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-08T18:30:30Z",
+      "side": 1,
+      "message": "Bad rebase.",
+      "parentUuid": "36b3bbfb_175fd421",
       "revId": "95df27f993c3a2c653c58f9389f796292241c6b5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

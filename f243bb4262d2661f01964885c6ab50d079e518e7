@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "36b3bbfb_7774904e",
+        "filename": "Documentation/cmd-query.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-08T23:47:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b6932b69_0bd25d71",
+      "range": {
+        "startLine": 18,
+        "startChar": 11,
+        "endLine": 18,
+        "endChar": 33
+      },
+      "revId": "f243bb4262d2661f01964885c6ab50d079e518e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "36b3bbfb_1775144d",
         "filename": "Documentation/cmd-query.txt",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2014-08-08T23:43:04Z",
       "side": 1,
       "message": "These chars should be TABs.",
+      "range": {
+        "startLine": 96,
+        "startChar": 0,
+        "endLine": 96,
+        "endChar": 8
+      },
+      "revId": "f243bb4262d2661f01964885c6ab50d079e518e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "36b3bbfb_9768446f",
+        "filename": "Documentation/cmd-query.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-08T23:47:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "36b3bbfb_1775144d",
       "range": {
         "startLine": 96,
         "startChar": 0,
@@ -77,6 +125,24 @@
       "side": 1,
       "message": "My be just -S?",
       "parentUuid": "b6932b69_2bd71962",
+      "revId": "f243bb4262d2661f01964885c6ab50d079e518e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "36b3bbfb_b7654898",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/Query.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-08T23:47:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "36b3bbfb_377a183c",
       "revId": "f243bb4262d2661f01964885c6ab50d079e518e7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

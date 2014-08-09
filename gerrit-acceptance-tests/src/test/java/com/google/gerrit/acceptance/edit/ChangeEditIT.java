@@ -172,6 +172,24 @@ public class ChangeEditIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void deleteEditRest() throws Exception {
+    assertEquals(RefUpdate.Result.NEW,
+        modifier.createEdit(
+            change,
+            ps));
+    assertEquals(RefUpdate.Result.FORCED,
+        modifier.modifyFile(
+            editUtil.byChange(change).get(),
+            FILE_NAME,
+            CONTENT_NEW));
+    Optional<ChangeEdit> edit = editUtil.byChange(change);
+    RestResponse r = session.delete(urlEdit());
+    assertEquals(HttpStatus.SC_NO_CONTENT, r.getStatusCode());
+    edit = editUtil.byChange(change);
+    assertFalse(edit.isPresent());
+  }
+
+  @Test
   public void rebaseEdit() throws Exception {
     assertEquals(RefUpdate.Result.NEW,
         modifier.createEdit(

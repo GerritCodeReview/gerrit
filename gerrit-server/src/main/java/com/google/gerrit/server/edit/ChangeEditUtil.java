@@ -215,12 +215,12 @@ public class ChangeEditUtil {
       if (r.isEmpty()) {
         throw new InvalidChangeOperationException(String.format(
             "patch set %s change edit is based on doesn't exist",
-            rev.abbreviate(8)));
+            rev.abbreviate(8).name()));
       }
       if (r.size() > 1) {
         throw new InvalidChangeOperationException(String.format(
             "multiple patch sets for change edit parent %s",
-            rev.abbreviate(8)));
+            rev.abbreviate(8).name()));
       }
       PatchSet parentPatchSet = Iterables.getOnlyElement(r);
       if (!edit.getChange().getId().equals(

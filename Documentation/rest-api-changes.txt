@@ -1338,6 +1338,26 @@ based on top of the latest patch set, the response
   HTTP/1.1 204 No Content
 ----
 
+[[delete-edit]]
+=== Delete Change Edit
+--
+'DELETE /changes/link:#change-id[\{change-id\}]/edit'
+--
+
+Deletes change edit.
+
+.Request
+----
+  DELETE /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/edit HTTP/1.0
+----
+
+As response "`204 No Content`" is returned.
+
+.Response
+----
+  HTTP/1.1 204 No Content
+----
+
 [[reviewer-endpoints]]
 == Reviewer Endpoints
 

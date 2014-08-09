@@ -288,6 +288,13 @@ To run a specific test, e.g. the acceptance test
   buck test //gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git:HttpPushForReviewIT
 ----
 
+To create test coverage report:
+
+----
+  buck test --code-coverage --code-coverage-format html --no-results-cache
+----
+
+The HTML report is created in `buck-out/gen/jacoco/code-coverage/index.html`.
 
 == Dependencies
 

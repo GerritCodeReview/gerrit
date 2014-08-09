@@ -119,7 +119,7 @@ public class ChangeEditModifier {
             ps.getRevision().get()));
         ObjectId commit = createCommit(me, inserter, base, base, base.getTree());
         inserter.flush();
-        return update(repo, me, refName, rw, base, ObjectId.zeroId(), commit);
+        return update(repo, me, refName, rw, ObjectId.zeroId(), commit);
       } finally {
         rw.release();
         inserter.release();
@@ -197,11 +197,6 @@ public class ChangeEditModifier {
 
         RevCommit base = rw.parseCommit(ObjectId.fromString(
             basePs.getRevision().get()));
-        ObjectId oldObjectId = prevEdit;
-        if (prevEdit == null) {
-          prevEdit = base;
-          oldObjectId = ObjectId.zeroId();
-        }
         ObjectId newTree = writeNewTree(op, repo, rw, inserter,
             prevEdit, reader, file, content, base);
         if (ObjectId.equals(newTree, prevEdit.getTree())) {
@@ -210,7 +205,7 @@ public class ChangeEditModifier {
 
         ObjectId commit = createCommit(me, inserter, prevEdit, base, newTree);
         inserter.flush();
-        return update(repo, me, refName, rw, base, oldObjectId, commit);
+        return update(repo, me, refName, rw, prevEdit, commit);
       } finally {
         rw.release();
         inserter.release();
@@ -233,8 +228,8 @@ public class ChangeEditModifier {
   }
 
   private RefUpdate.Result update(Repository repo, IdentifiedUser me,
-      String refName, RevWalk rw, RevCommit base,
-      ObjectId oldObjectId, ObjectId newEdit) throws IOException {
+      String refName, RevWalk rw, ObjectId oldObjectId, ObjectId newEdit)
+      throws IOException {
     RefUpdate ru = repo.updateRef(refName);
     ru.setExpectedOldObjectId(oldObjectId);
     ru.setNewObjectId(newEdit);
@@ -269,15 +264,13 @@ public class ChangeEditModifier {
       RevCommit base, DirCacheEditor dce, ObjectInserter ins, String path,
       byte[] content) throws IOException, InvalidChangeOperationException {
     switch (op) {
+      case DELETE_ENTRY:
+        dce.add(new DeletePath(path));
+        break;
       case CHANGE_ENTRY:
       case RESTORE_ENTRY:
         dce.add(getPathEdit(op, repo, rw, base, path, ins, content));
         break;
-      case DELETE_ENTRY:
-        dce.add(new DeletePath(path));
-        break;
-      default:
-        throw new IllegalStateException("unknown tree operation");
     }
     dce.finish();
   }
@@ -311,7 +304,7 @@ public class ChangeEditModifier {
     if (tw == null) {
       throw new InvalidChangeOperationException(String.format(
           "cannot restore path %s: missing in base revision %s",
-          path, base.abbreviate(8)));
+          path, base.abbreviate(8).name()));
     }
     return tw.getObjectId(0);
   }

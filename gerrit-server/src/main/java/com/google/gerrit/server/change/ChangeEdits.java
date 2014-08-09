@@ -21,6 +21,7 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.common.EditInfo;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AcceptsCreate;
+import com.google.gerrit.extensions.restapi.AcceptsDelete;
 import com.google.gerrit.extensions.restapi.AcceptsPost;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BinaryResult;
@@ -54,21 +55,25 @@ import java.io.IOException;
 public class ChangeEdits implements
     ChildCollection<ChangeResource, ChangeEditResource>,
     AcceptsCreate<ChangeResource>,
-    AcceptsPost<ChangeResource> {
+    AcceptsPost<ChangeResource>,
+    AcceptsDelete<ChangeResource> {
   private final DynamicMap<RestView<ChangeEditResource>> views;
   private final Create.Factory createFactory;
-  private final Detail detail;
+  private final DeleteEdit.Factory deleteEditFactory;
+  private final Provider<Detail> detail;
   private final ChangeEditUtil editUtil;
 
   @Inject
   ChangeEdits(DynamicMap<RestView<ChangeEditResource>> views,
       Create.Factory createFactory,
-      Detail detail,
+      DeleteEdit.Factory deleteEditFactory,
+      Provider<Detail> detail,
       ChangeEditUtil editUtil) {
     this.views = views;
     this.createFactory = createFactory;
     this.detail = detail;
     this.editUtil = editUtil;
+    this.deleteEditFactory = deleteEditFactory;
   }
 
   @Override
@@ -78,7 +83,7 @@ public class ChangeEdits implements
 
   @Override
   public RestView<ChangeResource> list() {
-    return detail;
+    return detail.get();
   }
 
   @Override
@@ -104,6 +109,14 @@ public class ChangeEdits implements
   public Create post(ChangeResource parent)
       throws RestApiException {
     return createFactory.create(parent.getChange(), null);
+  }
+
+  @SuppressWarnings("unchecked")
+  @Override
+  public DeleteEdit delete(ChangeResource parent, IdString id)
+      throws RestApiException {
+    return deleteEditFactory.create(parent.getChange(),
+        id != null ? id.get() : null);
   }
 
   static class Create implements
@@ -214,6 +227,53 @@ public class ChangeEdits implements
         }
       } catch(InvalidChangeOperationException | IOException e) {
         throw new ResourceConflictException(e.getMessage());
+      }
+      return Response.none();
+    }
+  }
+
+  static class DeleteEdit implements RestModifyView<ChangeResource, DeleteEdit.Input> {
+    public static class Input {
+    }
+
+    interface Factory {
+      DeleteEdit create(Change change, String path);
+    }
+
+    private final ChangeEditUtil editUtil;
+    private final ChangeEditModifier editModifier;
+    private final Provider<ReviewDb> db;
+    private final String path;
+
+    @Inject
+    DeleteEdit(ChangeEditUtil editUtil,
+        ChangeEditModifier editModifier,
+        Provider<ReviewDb> db,
+        @Assisted @Nullable String path) {
+      this.editUtil = editUtil;
+      this.editModifier = editModifier;
+      this.db = db;
+      this.path = path;
+    }
+
+    @Override
+    public Response<?> apply(ChangeResource rsrc, DeleteEdit.Input in)
+        throws IOException, AuthException, ResourceConflictException,
+        OrmException, InvalidChangeOperationException {
+      Optional<ChangeEdit> edit = editUtil.byChange(rsrc.getChange());
+      if (edit.isPresent() && path == null) {
+        // Edit is wipped out
+        editUtil.delete(edit.get());
+      } else if (!edit.isPresent() && path != null) {
+        // Edit is created on to pof current patch set by deleting path
+        editModifier.createEdit(rsrc.getChange(), db.get().patchSets().get(
+            rsrc.getChange().currentPatchSetId()));
+        edit = editUtil.byChange(rsrc.getChange());
+        editModifier.deleteFile(edit.get(), path);
+      } else {
+        // Bad request
+        throw new ResourceConflictException(
+            "change edit doesn't exist and no path was provided");
       }
       return Response.none();
     }

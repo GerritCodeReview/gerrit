@@ -15,6 +15,7 @@ gerrit query - Query the change database
   [--dependencies]
   [--submit-records]
   [--all-reviewers]
+  [--start n]
   [--]
   <query>
   [limit:<n>]
@@ -94,6 +95,9 @@ command line parser in the server).
 	Show submit record information about the change, which
 	includes whether the change meets the criteria for submission
 	(including information for each review label).
+
+--start::
+	Number of changes to skip.
 
 limit:<n>::
 	Maximum number of results to return.  This is actually a

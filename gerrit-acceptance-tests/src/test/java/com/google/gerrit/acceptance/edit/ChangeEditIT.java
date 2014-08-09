@@ -17,6 +17,7 @@ package com.google.gerrit.acceptance.edit;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
+import static org.apache.http.HttpStatus.SC_CONFLICT;
 import static org.apache.http.HttpStatus.SC_NO_CONTENT;
 import static org.apache.http.HttpStatus.SC_OK;
 import static org.junit.Assert.assertArrayEquals;
@@ -186,6 +187,24 @@ public class ChangeEditIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void deleteEditRest() throws Exception {
+    assertEquals(RefUpdate.Result.NEW,
+        modifier.createEdit(
+            change,
+            ps));
+    assertEquals(RefUpdate.Result.FORCED,
+        modifier.modifyFile(
+            editUtil.byChange(change).get(),
+            FILE_NAME,
+            CONTENT_NEW));
+    Optional<ChangeEdit> edit = editUtil.byChange(change);
+    RestResponse r = session.delete(urlEdit());
+    assertEquals(SC_NO_CONTENT, r.getStatusCode());
+    edit = editUtil.byChange(change);
+    assertFalse(edit.isPresent());
+  }
+
+  @Test
   public void rebaseEdit() throws Exception {
     assertEquals(RefUpdate.Result.NEW,
         modifier.createEdit(
@@ -311,6 +330,25 @@ public class ChangeEditIT extends AbstractDaemonTest {
       fail("ResourceNotFoundException expected");
     } catch (ResourceNotFoundException rnfe) {
     }
+  }
+
+  @Test
+  public void createEditByDeletingExistingFileRest() throws Exception {
+    RestResponse r = session.delete(urlEditFile());
+    assertEquals(SC_NO_CONTENT, r.getStatusCode());
+    Optional<ChangeEdit> edit = editUtil.byChange(change);
+    try {
+      fileUtil.getContent(edit.get().getChange().getProject(),
+          edit.get().getRevision().get(), FILE_NAME);
+      fail("ResourceNotFoundException expected");
+    } catch (ResourceNotFoundException rnfe) {
+    }
+  }
+
+  @Test
+  public void deletingNonExistingEditRest() throws Exception {
+    RestResponse r = session.delete(urlEdit());
+    assertEquals(SC_CONFLICT, r.getStatusCode());
   }
 
   @Test

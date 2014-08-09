@@ -21,6 +21,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import static javax.servlet.http.HttpServletResponse.SC_BAD_REQUEST;
 import static javax.servlet.http.HttpServletResponse.SC_CONFLICT;
 import static javax.servlet.http.HttpServletResponse.SC_CREATED;
+import static javax.servlet.http.HttpServletResponse.SC_NO_CONTENT;
 import static javax.servlet.http.HttpServletResponse.SC_FORBIDDEN;
 import static javax.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
 import static javax.servlet.http.HttpServletResponse.SC_METHOD_NOT_ALLOWED;
@@ -50,6 +51,7 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AcceptsCreate;
+import com.google.gerrit.extensions.restapi.AcceptsDelete;
 import com.google.gerrit.extensions.restapi.AcceptsPost;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -254,6 +256,10 @@ public class RestApiServlet extends HttpServlet {
             @SuppressWarnings("unchecked")
             AcceptsPost<RestResource> ac = (AcceptsPost<RestResource>) c;
             viewData = new ViewData(null, ac.post(rsrc));
+          } else if (c instanceof AcceptsDelete && "DELETE".equals(req.getMethod())) {
+            @SuppressWarnings("unchecked")
+            AcceptsDelete<RestResource> ac = (AcceptsDelete<RestResource>) c;
+            viewData = new ViewData(null, ac.delete(rsrc, null));
           } else {
             throw new MethodNotAllowedException();
           }
@@ -273,6 +279,13 @@ public class RestApiServlet extends HttpServlet {
               AcceptsCreate<RestResource> ac = (AcceptsCreate<RestResource>) c;
               viewData = new ViewData(viewData.pluginName, ac.create(rsrc, id));
               status = SC_CREATED;
+            } else if (c instanceof AcceptsDelete
+                && path.isEmpty()
+                && "DELETE".equals(req.getMethod())) {
+              @SuppressWarnings("unchecked")
+              AcceptsDelete<RestResource> ac = (AcceptsDelete<RestResource>) c;
+              viewData = new ViewData(viewData.pluginName, ac.delete(rsrc, id));
+              status = SC_NO_CONTENT;
             } else {
               throw e;
             }

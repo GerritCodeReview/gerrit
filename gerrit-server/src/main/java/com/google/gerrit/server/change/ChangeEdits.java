@@ -21,6 +21,7 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.common.EditInfo;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AcceptsCreate;
+import com.google.gerrit.extensions.restapi.AcceptsDelete;
 import com.google.gerrit.extensions.restapi.AcceptsPost;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ChildCollection;
@@ -54,9 +55,11 @@ import java.io.IOException;
 public class ChangeEdits implements
     ChildCollection<ChangeResource, ChangeEditResource>,
     AcceptsCreate<ChangeResource>,
-    AcceptsPost<ChangeResource> {
+    AcceptsPost<ChangeResource>,
+    AcceptsDelete<ChangeResource> {
   private final DynamicMap<RestView<ChangeEditResource>> views;
   private final Create.Factory createFactory;
+  private final DeleteEdit.Factory deleteEditFactory;
   private final Detail detail;
   private final ChangeEditUtil editUtil;
   private final Post post;
@@ -66,12 +69,14 @@ public class ChangeEdits implements
       Create.Factory createFactory,
       Detail detail,
       ChangeEditUtil editUtil,
-      Post post) {
+      Post post,
+      DeleteEdit.Factory deleteEditFactory) {
     this.views = views;
     this.createFactory = createFactory;
     this.detail = detail;
     this.editUtil = editUtil;
     this.post = post;
+    this.deleteEditFactory = deleteEditFactory;
   }
 
   @Override
@@ -115,6 +120,14 @@ public class ChangeEdits implements
   * change edit wasn't created yet. Change edit is created and PUT
   * handler is called.
   */
+  @SuppressWarnings("unchecked")
+  @Override
+  public DeleteEdit delete(ChangeResource parent, IdString id)
+      throws RestApiException {
+    return deleteEditFactory.create(parent.getChange(),
+        id != null ? id.get() : null);
+  }
+
   static class Create implements
       RestModifyView<ChangeResource, Put.Input> {
 
@@ -168,6 +181,57 @@ public class ChangeEdits implements
       editModifier.createEdit(change,
           db.get().patchSets().get(change.currentPatchSetId()));
       return editUtil.byChange(change);
+    }
+  }
+
+  static class DeleteEdit implements
+      RestModifyView<ChangeResource, DeleteEdit.Input> {
+    public static class Input {
+    }
+
+    interface Factory {
+      DeleteEdit create(Change change, String path);
+    }
+
+    private final ChangeEditUtil editUtil;
+    private final ChangeEditModifier editModifier;
+    private final Provider<ReviewDb> db;
+    private final String path;
+
+    @Inject
+    DeleteEdit(ChangeEditUtil editUtil,
+        ChangeEditModifier editModifier,
+        Provider<ReviewDb> db,
+        @Assisted @Nullable String path) {
+      this.editUtil = editUtil;
+      this.editModifier = editModifier;
+      this.db = db;
+      this.path = path;
+    }
+
+    @Override
+    public Response<?> apply(ChangeResource rsrc, DeleteEdit.Input in)
+        throws IOException, AuthException, ResourceConflictException,
+        OrmException, InvalidChangeOperationException {
+      Optional<ChangeEdit> edit = editUtil.byChange(rsrc.getChange());
+      if (edit.isPresent() && path == null) {
+        // Edit is wiped out
+        editUtil.delete(edit.get());
+      } else if (!edit.isPresent() && path != null) {
+        // Edit is created on top of current patch set by deleting path.
+        // Even if the latest patch set changed since the user triggered
+        // the operation, deleting the whole file is probably still what
+        // they intended.
+        editModifier.createEdit(rsrc.getChange(), db.get().patchSets().get(
+            rsrc.getChange().currentPatchSetId()));
+        edit = editUtil.byChange(rsrc.getChange());
+        editModifier.deleteFile(edit.get(), path);
+      } else {
+        // Bad request
+        throw new ResourceConflictException(
+            "change edit doesn't exist and no path was provided");
+      }
+      return Response.none();
     }
   }
 

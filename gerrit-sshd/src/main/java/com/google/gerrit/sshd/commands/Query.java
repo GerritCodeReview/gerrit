@@ -85,6 +85,11 @@ class Query extends SshCommand {
     processor.setIncludeSubmitRecords(on);
   }
 
+  @Option(name = "--start", aliases = {"-S"}, usage = "Number of changes to skip")
+  void setStart(int start) {
+    processor.setStart(start);
+  }
+
   @Argument(index = 0, required = true, multiValued = true, metaVar = "QUERY", usage = "Query to execute")
   private List<String> query;
 

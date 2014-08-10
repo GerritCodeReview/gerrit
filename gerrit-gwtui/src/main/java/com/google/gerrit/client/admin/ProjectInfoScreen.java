@@ -559,8 +559,21 @@ public class ProjectInfoScreen extends ProjectScreen {
     actionsPanel.setVisible(true);
     actionsGrid.add(Util.C.headingCommands(), actionsPanel);
     for (String id : actions.keySet()) {
-      actionsPanel.add(new ActionButton(getProjectKey(),
-          actions.get(id)));
+      if (id.equals("create_change")) {
+        ActionInfo create = actions.get(id);
+        final Button createChange = new Button(create.label());
+        createChange.setTitle(create.title());
+        createChange.setEnabled(create.enabled());
+        createChange.addClickHandler(new ClickHandler() {
+          @Override
+          public void onClick(final ClickEvent event) {
+             CreateChangeAction.call(createChange, getProjectKey().toString());
+          }
+        });
+        actionsPanel.add(createChange);
+      } else {
+        actionsPanel.add(new ActionButton(getProjectKey(), actions.get(id)));
+      }
     }
   }
 

@@ -25,4 +25,8 @@ public interface UIConstants extends Constants {
   String projectItemHelp();
   String projectStateAbbrev();
   String projectStateHelp();
+
+  String dialogCreateChangeTitle();
+  String dialogCreateChangeHeading();
+  String newChangeBranchSuggestion();
 }

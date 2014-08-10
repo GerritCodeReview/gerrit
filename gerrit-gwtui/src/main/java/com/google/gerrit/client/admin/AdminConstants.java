@@ -138,4 +138,10 @@ public interface AdminConstants extends Constants {
 
   String pagedListPrev();
   String pagedListNext();
+
+  String buttonCreate();
+  String buttonCreateDescription();
+  String buttonCreateChange();
+  String buttonCreateChangeDescription();
+  String newChangeBranchSuggestion();
 }

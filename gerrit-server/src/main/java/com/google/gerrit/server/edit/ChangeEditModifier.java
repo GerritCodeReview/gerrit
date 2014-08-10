@@ -46,6 +46,8 @@ import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.merge.MergeStrategy;
+import org.eclipse.jgit.merge.ThreeWayMerger;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.TreeWalk;
@@ -117,6 +119,61 @@ public class ChangeEditModifier {
         ObjectId commit = createCommit(me, inserter, base, base, base.getTree());
         inserter.flush();
         return update(repo, me, refName, rw, ObjectId.zeroId(), commit);
+      } finally {
+        rw.release();
+        inserter.release();
+      }
+    } finally {
+      repo.close();
+    }
+  }
+
+  /**
+   * Rebase change edit on latest patch set
+   *
+   * @param edit change edit that contains edit to rebase
+   * @param current patch set to rebase the edit on
+   * @throws AuthException
+   * @throws InvalidChangeOperationException
+   * @throws IOException
+   */
+  public RefUpdate.Result rebaseEdit(ChangeEdit edit, PatchSet current)
+      throws AuthException, InvalidChangeOperationException, IOException {
+    if (!currentUser.get().isIdentifiedUser()) {
+      throw new AuthException("Authentication required");
+    }
+
+    Change change = edit.getChange();
+    IdentifiedUser me = (IdentifiedUser) currentUser.get();
+    String refName = editRefName(me.getAccountId(), change.getId());
+    Repository repo = gitManager.openRepository(change.getProject());
+    try {
+      RevWalk rw = new RevWalk(repo);
+      ObjectInserter inserter = repo.newObjectInserter();
+      try {
+        RevCommit editCommit = edit.getEditCommit();
+        RevCommit mergeTip = rw.parseCommit(ObjectId.fromString(
+            current.getRevision().get()));
+        ThreeWayMerger m = MergeStrategy.RESOLVE.newMerger(repo, true);
+        m.setObjectInserter(inserter);
+        m.setBase(editCommit.getParent(0));
+        if (m.merge(mergeTip, editCommit)) {
+          ObjectId tree = m.getResultTreeId();
+
+          CommitBuilder mergeCommit = new CommitBuilder();
+          mergeCommit.setTreeId(tree);
+          mergeCommit.setParentId(mergeTip);
+          mergeCommit.setAuthor(editCommit.getAuthorIdent());
+          mergeCommit.setCommitter(new PersonIdent(
+              editCommit.getCommitterIdent(), TimeUtil.nowTs()));
+          mergeCommit.setMessage(editCommit.getFullMessage());
+          ObjectId newEdit = inserter.insert(mergeCommit);
+          inserter.flush();
+          return update(repo, me, refName, rw, editCommit, newEdit);
+        } else {
+          // TODO(davido): Allow to resolve conflicts inline
+          throw new InvalidChangeOperationException("merge conflict");
+        }
       } finally {
         rw.release();
         inserter.release();

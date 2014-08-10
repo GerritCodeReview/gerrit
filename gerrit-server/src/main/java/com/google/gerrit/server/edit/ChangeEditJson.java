@@ -21,6 +21,7 @@ import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.extensions.common.EditInfo;
 import com.google.gerrit.extensions.webui.PrivateInternals_UiActionDescription;
 import com.google.gerrit.extensions.webui.UiAction;
+import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.CommonConverters;
 import com.google.inject.Singleton;
 
@@ -64,6 +65,23 @@ public class ChangeEditJson {
     PrivateInternals_UiActionDescription.setMethod(descr, "DELETE");
     descr.setTitle("Delete edit");
     actions.put(descr.getId(), new ActionInfo(descr));
+
+    // Only expose publish action when the edit is on top of current ps
+    PatchSet.Id current = edit.getChange().currentPatchSetId();
+    PatchSet basePs = edit.getBasePatchSet();
+    if (basePs.getId().equals(current)) {
+      descr = new UiAction.Description();
+      PrivateInternals_UiActionDescription.setId(descr, "publish");
+      PrivateInternals_UiActionDescription.setMethod(descr, "POST");
+      descr.setTitle("Publish edit");
+      actions.put(descr.getId(), new ActionInfo(descr));
+    } else {
+      descr = new UiAction.Description();
+      PrivateInternals_UiActionDescription.setId(descr, "rebase");
+      PrivateInternals_UiActionDescription.setMethod(descr, "POST");
+      descr.setTitle("Rebase edit");
+      actions.put(descr.getId(), new ActionInfo(descr));
+    }
 
     return actions;
   }

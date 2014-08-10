@@ -34,6 +34,17 @@ public class ChangeApi {
     call(id, "abandon").post(input, cb);
   }
 
+  /** Create a new change. */
+  public static void createChange(String project, String branch,
+      String subject, AsyncCallback<ChangeInfo> cb) {
+    CreateChangeInput input = CreateChangeInput.create();
+    input.project(emptyToNull(project));
+    input.branch(emptyToNull(branch));
+    input.subject(emptyToNull(subject));
+
+    new RestApi("/changes/").post(input, cb);
+  }
+
   /** Restore a previously abandoned change to be open again. */
   public static void restore(int id, String msg, AsyncCallback<ChangeInfo> cb) {
     Input input = Input.create();
@@ -191,6 +202,19 @@ public class ChangeApi {
     }
 
     protected Input() {
+    }
+  }
+
+  private static class CreateChangeInput extends JavaScriptObject {
+
+    static CreateChangeInput create() {
+      return (CreateChangeInput) createObject();
+    }
+    public final native void branch(String  b) /*-{ if(b)this.branch=b; }-*/;
+    public final native void project(String p) /*-{ if(p)this.project=p; }-*/;
+    public final native void subject(String s) /*-{ if(s)this.subject=s; }-*/;
+
+    protected CreateChangeInput() {
     }
   }
 

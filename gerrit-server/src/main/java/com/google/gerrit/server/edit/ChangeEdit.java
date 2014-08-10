@@ -17,11 +17,13 @@ package com.google.gerrit.server.edit;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.server.IdentifiedUser;
 
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.revwalk.RevCommit;
 
 /**
  * A single user's edit for a change.
@@ -34,14 +36,21 @@ public class ChangeEdit {
   private final IdentifiedUser user;
   private final Change change;
   private final Ref ref;
+  private final RevCommit editCommit;
+  private final PatchSet basePatchSet;
 
-  public ChangeEdit(IdentifiedUser user, Change change, Ref ref) {
+  public ChangeEdit(IdentifiedUser user, Change change, Ref ref,
+      RevCommit editCommit, PatchSet basePatchSet) {
     checkNotNull(user);
     checkNotNull(change);
     checkNotNull(ref);
+    checkNotNull(editCommit);
+    checkNotNull(basePatchSet);
     this.user = user;
     this.change = change;
     this.ref = ref;
+    this.editCommit = editCommit;
+    this.basePatchSet = basePatchSet;
   }
 
   public Change getChange() {
@@ -62,5 +71,13 @@ public class ChangeEdit {
 
   public String getRefName() {
     return ChangeEditUtil.editRefName(user.getAccountId(), change.getId());
+  }
+
+  public RevCommit getEditCommit() {
+    return editCommit;
+  }
+
+  public PatchSet getBasePatchSet() {
+    return basePatchSet;
   }
 }

@@ -105,6 +105,43 @@ public class ChangeEditUtil {
   }
 
   /**
+   * Retrieve change edit data for a change and user.
+   *
+   * @param change
+   * @return change edit data for this change for this user, if present.
+   * @throws AuthException
+   * @throws IOException
+   * @throws InvalidChangeOperationException
+   */
+  public Optional<ChangeEditData> dataByChange(Change change)
+      throws AuthException, IOException, InvalidChangeOperationException {
+    if (!user.get().isIdentifiedUser()) {
+      throw new AuthException("Authentication required");
+    }
+    Repository repo = gitManager.openRepository(change.getProject());
+    try {
+      IdentifiedUser identifiedUser = (IdentifiedUser) user.get();
+      Ref ref = repo.getRefDatabase().getRef(editRefName(
+          identifiedUser.getAccountId(), change.getId()));
+      if (ref == null) {
+        return Optional.absent();
+      }
+
+      ChangeEdit edit = new ChangeEdit(identifiedUser, change, ref);
+      RevWalk rw = new RevWalk(repo);
+      try {
+        RevCommit commit = rw.parseCommit(edit.getRef().getObjectId());
+        PatchSet basePs = getBasePatchSet(edit, commit);
+        return Optional.of(new ChangeEditData(edit, commit, basePs));
+      } finally {
+        rw.release();
+      }
+    } finally {
+      repo.close();
+    }
+  }
+
+  /**
    * Promote change edit to patch set, by squashing the edit into
    * its parent.
    *

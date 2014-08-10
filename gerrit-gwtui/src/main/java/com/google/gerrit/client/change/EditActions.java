@@ -32,6 +32,10 @@ public class EditActions {
     ChangeApi.publishEdit(id.get(), cs(id));
   }
 
+  static void rebaseEdit(Change.Id id) {
+    ChangeApi.rebaseEdit(id.get(), cs(id));
+  }
+
   public static GerritCallback<JavaScriptObject> cs(
       final Change.Id id) {
     return new GerritCallback<JavaScriptObject>() {

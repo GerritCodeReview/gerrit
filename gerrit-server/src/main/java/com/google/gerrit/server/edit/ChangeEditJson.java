@@ -75,6 +75,12 @@ public class ChangeEditJson {
       PrivateInternals_UiActionDescription.setMethod(descr, "POST");
       descr.setTitle("Publish edit");
       actions.put(descr.getId(), new ActionInfo(descr));
+    } else {
+      descr = new UiAction.Description();
+      PrivateInternals_UiActionDescription.setId(descr, "rebase");
+      PrivateInternals_UiActionDescription.setMethod(descr, "POST");
+      descr.setTitle("Rebase edit");
+      actions.put(descr.getId(), new ActionInfo(descr));
     }
 
     return actions;

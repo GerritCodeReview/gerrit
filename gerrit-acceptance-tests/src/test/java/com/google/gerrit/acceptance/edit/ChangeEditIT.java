@@ -36,6 +36,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.change.FileContentUtil;
 import com.google.gerrit.server.edit.ChangeEdit;
+import com.google.gerrit.server.edit.ChangeEditData;
 import com.google.gerrit.server.edit.ChangeEditModifier;
 import com.google.gerrit.server.edit.ChangeEditUtil;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
@@ -84,6 +85,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
 
   private ReviewDb db;
   private Change change;
+  private String changeId;
   private Change change2;
   private PatchSet ps;
   private PatchSet ps2;
@@ -92,14 +94,15 @@ public class ChangeEditIT extends AbstractDaemonTest {
   @Before
   public void setUp() throws Exception {
     db = reviewDbProvider.open();
-    String changeId = newChange(git, admin.getIdent());
-    change = getChange(changeId);
+    changeId = newChange(git, admin.getIdent());
     ps = getCurrentPatchSet(changeId);
+    amendChange(changeId);
+    change = getChange(changeId);
     assertNotNull(ps);
-    changeId = newChange2(git, admin.getIdent());
-    change2 = getChange(changeId);
+    String changeId2 = newChange2(git, admin.getIdent());
+    change2 = getChange(changeId2);
     assertNotNull(change2);
-    ps2 = getCurrentPatchSet(changeId);
+    ps2 = getCurrentPatchSet(changeId2);
     assertNotNull(ps2);
     session = new RestSession(server, admin);
     atrScope.set(atrScope.newContext(reviewDbProvider, sshSession,
@@ -131,14 +134,35 @@ public class ChangeEditIT extends AbstractDaemonTest {
     assertEquals(RefUpdate.Result.NEW,
         modifier.createEdit(
             change,
+            getCurrentPatchSet(changeId)));
+    assertEquals(RefUpdate.Result.FORCED,
+        modifier.modifyFile(
+            editUtil.byChange(change).get(),
+            FILE_NAME,
+            CONTENT_NEW2));
+    editUtil.publish(editUtil.byChange(change).get());
+    assertFalse(editUtil.byChange(change).isPresent());
+  }
+
+  @Test
+  public void rebaseEdit() throws Exception {
+    assertEquals(RefUpdate.Result.NEW,
+        modifier.createEdit(
+            change,
             ps));
     assertEquals(RefUpdate.Result.FORCED,
         modifier.modifyFile(
             editUtil.byChange(change).get(),
             FILE_NAME,
             CONTENT_NEW));
-    editUtil.publish(editUtil.byChange(change).get());
-    assertFalse(editUtil.byChange(change).isPresent());
+    Optional<ChangeEditData> data = editUtil.dataByChange(change);
+    PatchSet current = getCurrentPatchSet(changeId);
+    assertEquals(current.getPatchSetId(),
+        data.get().getBasePatchSet().getPatchSetId() + 1);
+    modifier.rebaseEdit(data.get(), current);
+    data = editUtil.dataByChange(change);
+    assertEquals(current.getPatchSetId(),
+        data.get().getBasePatchSet().getPatchSetId());
   }
 
   @Test

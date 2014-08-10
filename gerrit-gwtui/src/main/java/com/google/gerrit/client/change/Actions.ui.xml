@@ -98,6 +98,9 @@ limitations under the License.
     <g:Button ui:field='publishEdit' styleName='' visible='false'>
       <div><ui:msg>Publish Edit</ui:msg></div>
     </g:Button>
+    <g:Button ui:field='rebaseEdit' styleName='' visible='false'>
+      <div><ui:msg>Rebase Edit</ui:msg></div>
+    </g:Button>
 
     <g:Button ui:field='abandon' styleName='{style.red}' visible='false'>
       <div><ui:msg>Abandon</ui:msg></div>

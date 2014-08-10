@@ -86,19 +86,26 @@ public class ChangeEditUtil {
    * @throws IOException
    */
   public Optional<ChangeEdit> byChange(Change change)
-      throws AuthException, IOException {
+      throws AuthException, IOException, InvalidChangeOperationException {
     if (!user.get().isIdentifiedUser()) {
       throw new AuthException("Authentication required");
     }
     Repository repo = gitManager.openRepository(change.getProject());
     try {
-      IdentifiedUser identifiedUser = (IdentifiedUser) user.get();
+      IdentifiedUser me = (IdentifiedUser) user.get();
       Ref ref = repo.getRefDatabase().getRef(editRefName(
-          identifiedUser.getAccountId(), change.getId()));
+          me.getAccountId(), change.getId()));
       if (ref == null) {
         return Optional.absent();
       }
-      return Optional.of(new ChangeEdit(identifiedUser, change, ref));
+      RevWalk rw = new RevWalk(repo);
+      try {
+        RevCommit commit = rw.parseCommit(ref.getObjectId());
+        PatchSet basePs = getBasePatchSet(change, commit);
+        return Optional.of(new ChangeEdit(me, change, ref, commit, basePs));
+      } finally {
+        rw.release();
+      }
     } finally {
       repo.close();
     }
@@ -125,19 +132,16 @@ public class ChangeEditUtil {
       RevWalk rw = new RevWalk(repo);
       ObjectInserter inserter = repo.newObjectInserter();
       try {
-        RevCommit editCommit = rw.parseCommit(edit.getRef().getObjectId());
-        if (editCommit == null) {
-          throw new NoSuchChangeException(change.getId());
-        }
 
-        PatchSet basePatchSet = getBasePatchSet(edit, editCommit);
+        PatchSet basePatchSet = edit.getBasePatchSet();
         if (!basePatchSet.getId().equals(change.currentPatchSetId())) {
           throw new ResourceConflictException(
               "only edit for current patch set can be published");
         }
 
         insertPatchSet(edit, change, repo, rw, basePatchSet,
-            squashEdit(repo, rw, inserter, editCommit, basePatchSet));
+            squashEdit(repo, rw, inserter, edit.getEditCommit(),
+                basePatchSet));
       } finally {
         inserter.release();
         rw.release();
@@ -167,41 +171,7 @@ public class ChangeEditUtil {
     }
   }
 
-  /**
-   * Retrieve base patch set the edit was created on.
-   *
-   * @param edit change edit to retrieve base patch set for
-   * @return parent patch set of the edit
-   * @throws IOException
-   * @throws InvalidChangeOperationException
-   */
-  public PatchSet getBasePatchSet(ChangeEdit edit) throws IOException,
-      InvalidChangeOperationException {
-    Change change = edit.getChange();
-    Repository repo = gitManager.openRepository(change.getProject());
-    try {
-      RevWalk rw = new RevWalk(repo);
-      try {
-        return getBasePatchSet(edit, rw.parseCommit(
-            edit.getRef().getObjectId()));
-      } finally {
-        rw.release();
-      }
-    } finally {
-      repo.close();
-    }
-  }
-
-  /**
-   * Retrieve base patch set the edit was created on.
-   *
-   * @param edit change edit to retrieve base patch set for
-   * @param commit change edit commit
-   * @return parent patch set of the edit
-   * @throws IOException
-   * @throws InvalidChangeOperationException
-   */
-  public PatchSet getBasePatchSet(ChangeEdit edit, RevCommit commit)
+  private PatchSet getBasePatchSet(Change change, RevCommit commit)
       throws IOException, InvalidChangeOperationException {
     if (commit.getParentCount() != 1) {
       throw new InvalidChangeOperationException(
@@ -223,11 +193,11 @@ public class ChangeEditUtil {
             rev.abbreviate(8).name()));
       }
       PatchSet parentPatchSet = Iterables.getOnlyElement(r);
-      if (!edit.getChange().getId().equals(
+      if (!change.getId().equals(
               parentPatchSet.getId().getParentKey())) {
         throw new InvalidChangeOperationException(String.format(
             "different change edit ID %d and its parent patch set %d",
-            edit.getChange().getId().get(),
+            change.getId().get(),
             parentPatchSet.getId().getParentKey().get()));
       }
       return parentPatchSet;

@@ -72,17 +72,14 @@ public class ChangeEditModifier {
   private final TimeZone tz;
   private final GitRepositoryManager gitManager;
   private final Provider<CurrentUser> currentUser;
-  private final ChangeEditUtil editUtil;
 
   @Inject
   ChangeEditModifier(@GerritPersonIdent PersonIdent gerritIdent,
       GitRepositoryManager gitManager,
       Provider<ReviewDb> dbProvider,
-      Provider<CurrentUser> currentUser,
-      ChangeEditUtil editUtil) {
+      Provider<CurrentUser> currentUser) {
     this.gitManager = gitManager;
     this.currentUser = currentUser;
-    this.editUtil = editUtil;
     this.tz = gerritIdent.getTimeZone();
   }
 
@@ -193,7 +190,7 @@ public class ChangeEditModifier {
       try {
         String refName = edit.getRefName();
         RevCommit prevEdit = rw.parseCommit(edit.getRef().getObjectId());
-        PatchSet basePs = editUtil.getBasePatchSet(edit, prevEdit);
+        PatchSet basePs = edit.getBasePatchSet();
 
         RevCommit base = rw.parseCommit(ObjectId.fromString(
             basePs.getRevision().get()));

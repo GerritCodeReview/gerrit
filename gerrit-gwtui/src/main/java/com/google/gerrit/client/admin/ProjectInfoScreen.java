@@ -558,10 +558,27 @@ public class ProjectInfoScreen extends ProjectScreen {
     actionsPanel.setStyleName(Gerrit.RESOURCES.css().projectActions());
     actionsPanel.setVisible(true);
     actionsGrid.add(Util.C.headingCommands(), actionsPanel);
+
     for (String id : actions.keySet()) {
       actionsPanel.add(new ActionButton(getProjectKey(),
           actions.get(id)));
     }
+
+    if (Gerrit.isSignedIn()) {
+      actionsPanel.add(createChangeAction());
+    }
+  }
+
+  private Button createChangeAction() {
+    final Button createChange = new Button("Create change");
+    createChange.setTitle("Create change directly in browser");
+    createChange.addClickHandler(new ClickHandler() {
+      @Override
+      public void onClick(ClickEvent event) {
+        CreateChangeAction.call(createChange, getProjectKey().toString());
+      }
+    });
+    return createChange;
   }
 
   private void doSave() {

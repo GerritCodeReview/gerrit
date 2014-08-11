@@ -81,6 +81,22 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
   }
 
   @Test
+  public void parseBranch() throws Exception {
+    assertParseSucceeds("Update change\n"
+        + "\n"
+        + "Patch-set: 1\n"
+        + "Branch: master\n");
+    assertParseFails("Update change\n"
+        + "\n"
+        + "Patch-set: 1\n"
+        + "Branch: foo\n");
+    assertParseFails("Update change\n"
+        + "\n"
+        + "Patch-set: 1\n"
+        + "Branch: !@#$^&*()\n");
+  }
+
+  @Test
   public void parseImmutableFieldsInNonRootCommit() throws Exception {
     RevCommit parent = writeCommit("Update change\n"
         + "\n"
@@ -89,6 +105,16 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
         + "\n"
         + "Patch-set: 1\n"
         + "Change-Id: Iabcd1234abcd1234abcd1234abcd1234abcd1234\n",
+        parent));
+
+    parent = writeCommit("Update change\n"
+        + "\n"
+        + "Patch-set: 1\n"
+        + "Branch: master\n");
+    assertParseFails(writeCommit("Update change\n"
+        + "\n"
+        + "Patch-set: 1\n"
+        + "Branch: master\n",
         parent));
   }
 

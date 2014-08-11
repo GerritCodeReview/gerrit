@@ -68,6 +68,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
 
     ChangeNotes notes = newNotes(c);
     assertEquals(c.getKey(), notes.getChange().getKey());
+    assertEquals(c.getDest(), notes.getChange().getDest());
   }
 
   @Test

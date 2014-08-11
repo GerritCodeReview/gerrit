@@ -381,6 +381,17 @@ public class ChangeNotesTest {
   }
 
   @Test
+  public void immutableFieldsOnCreation() throws Exception {
+    Change c = newChange();
+    ChangeUpdate update = newUpdate(c, changeOwner);
+    update.create();
+    update.commit();
+
+    ChangeNotes notes = newNotes(c);
+    assertEquals(c.getKey(), notes.getChange().getKey());
+  }
+
+  @Test
   public void approvalsOnePatchSet() throws Exception {
     Change c = newChange();
     ChangeUpdate update = newUpdate(c, changeOwner);
@@ -943,6 +954,27 @@ public class ChangeNotesTest {
     assertEquals(changeOwner.getAccount().getId(),
         cm.get(1).getAuthor());
     assertEquals(ps1, cm.get(1).getPatchSetId());
+  }
+
+  @Test
+  public void immutableFieldsCommitFormat() throws Exception {
+    Change c = newChange();
+    ChangeUpdate update = newUpdate(c, changeOwner);
+    update.create();
+    update.commit();
+
+    RevWalk walk = new RevWalk(repo);
+    try {
+      RevCommit commit = walk.parseCommit(update.getRevision());
+      walk.parseBody(commit);
+      assertEquals("Update patch set 1\n"
+          + "\n"
+          + "Change-Id: " + c.getKey().get() + "\n"
+          + "Patch-set: 1\n",
+          commit.getFullMessage());
+    } finally {
+      walk.release();
+    }
   }
 
   @Test

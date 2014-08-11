@@ -94,6 +94,30 @@
       "revId": "a8ea0b05057f051aeedd1d2562fcbc82e2de147a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b6dfab55_6be6214d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-11T20:23:46Z",
+      "side": 1,
+      "message": "\u003e Ho do I know what the different between Change and ChangeData is?\n\nThis is poorly documented, but at least there is a significant, concrete, easily explained _reason_ for having two classes.\n\nChange is the gwtorm record stored in the database, no more, no less.\n\nChangeData is a lazy-loading object for unifying the Change record with other related records.\n\nIf you can explain why we need a similar distinction between ChangeEdit and ChangeEditData, then maybe we do. That was why I asked the question, \"Why is [making them one class] not an option?\"",
+      "parentUuid": "d66fbf39_a410a26c",
+      "range": {
+        "startLine": 11,
+        "startChar": 60,
+        "endLine": 13,
+        "endChar": 20
+      },
+      "revId": "a8ea0b05057f051aeedd1d2562fcbc82e2de147a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

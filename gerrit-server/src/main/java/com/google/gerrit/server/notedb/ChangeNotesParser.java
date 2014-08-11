@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.notedb;
 
+import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_BRANCH;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_CHANGE_KEY;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_LABEL;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_PATCH_SET;
@@ -35,6 +36,7 @@ import com.google.common.collect.Tables;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
@@ -74,6 +76,7 @@ class ChangeNotesParser implements AutoCloseable {
   NoteMap commentNoteMap;
   Change.Status status;
   Change.Key changeKey;
+  Branch.NameKey branch;
 
   private final Change change;
   private final ObjectId tip;
@@ -143,6 +146,7 @@ class ChangeNotesParser implements AutoCloseable {
       status = parseStatus(commit);
     }
     parseChangeKey(commit);
+    parseBranch(commit);
     PatchSet.Id psId = parsePatchSetId(commit);
     Account.Id accountId = parseIdent(commit);
     parseChangeMessage(psId, accountId, commit);
@@ -165,15 +169,17 @@ class ChangeNotesParser implements AutoCloseable {
   }
 
   private void parseChangeKey(RevCommit commit) throws ConfigInvalidException {
-    List<String> keyLines = commit.getFooterLines(FOOTER_CHANGE_KEY);
-    if (keyLines.isEmpty()) {
-      return;
-    } else if (commit.getParentCount() > 0) {
-      throw parseException("%s found in non-root commit", FOOTER_CHANGE_KEY);
-    } else if (keyLines.size() > 1) {
-      throw expectedOneFooter(FOOTER_CHANGE_KEY, keyLines);
+    String k = parseImmutableField(commit, FOOTER_CHANGE_KEY);
+    if (k != null) {
+      changeKey = new Change.Key(k);
     }
-    changeKey = new Change.Key(keyLines.get(0));
+  }
+
+  private void parseBranch(RevCommit commit) throws ConfigInvalidException {
+    String b = parseImmutableField(commit, FOOTER_BRANCH);
+    if (b != null) {
+      branch = new Branch.NameKey(change.getProject(), b);
+    }
   }
 
   private Change.Status parseStatus(RevCommit commit)
@@ -395,6 +401,11 @@ class ChangeNotesParser implements AutoCloseable {
           "change key in notedb does not match change entity: %s != %s",
           changeKey.get(), change.getKey().get()));
     }
+    if (branch != null && !branch.equals(change.getDest())) {
+      throw parseException(String.format(
+          "change branch in notedb does not match change entity: %s != %s",
+          escape(branch), escape(change.getDest())));
+    }
   }
 
   private void pruneReviewers() {
@@ -409,6 +420,19 @@ class ChangeNotesParser implements AutoCloseable {
         }
       }
     }
+  }
+
+  private String parseImmutableField(RevCommit commit, FooterKey footer)
+      throws ConfigInvalidException {
+    List<String> lines = commit.getFooterLines(footer);
+    if (lines.isEmpty()) {
+      return null;
+    } else if (commit.getParentCount() > 0) {
+      throw parseException("%s found in non-root commit", footer);
+    } else if (lines.size() > 1) {
+      throw expectedOneFooter(footer, lines);
+    }
+    return lines.get(0);
   }
 
   private ConfigInvalidException expectedOneFooter(FooterKey footer,
@@ -431,5 +455,9 @@ class ChangeNotesParser implements AutoCloseable {
 
   private ConfigInvalidException parseException(String fmt, Object... args) {
     return ChangeNotes.parseException(change.getId(), fmt, args);
+  }
+
+  private static String escape(Object s) {
+    return s.toString().replace("%", "%%");
   }
 }

@@ -42,7 +42,7 @@ import com.google.inject.Singleton;
 import java.io.IOException;
 
 @Singleton
-class PutTopic implements RestModifyView<ChangeResource, Input>,
+public class PutTopic implements RestModifyView<ChangeResource, Input>,
     UiAction<ChangeResource> {
   private final Provider<ReviewDb> dbProvider;
   private final ChangeIndexer indexer;
@@ -50,9 +50,9 @@ class PutTopic implements RestModifyView<ChangeResource, Input>,
   private final ChangeUpdate.Factory updateFactory;
   private final ChangeMessagesUtil cmUtil;
 
-  static class Input {
+  public static class Input {
     @DefaultInput
-    String topic;
+    public String topic;
   }
 
   @Inject

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b6dfab55_8bf94de7",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/RebuildNotedb.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-11T21:00:11Z",
+      "side": 1,
+      "message": "Yes, when I wrote this I was thinking about JGit inserters writing loose objects.\n\nNow that you mention it though...what if the output of RebuildNotedb were really just a fastimport file per repo? :)\n\n(Please continue reviewing this change not assuming we\u0027re going to rewrite it to that today.)",
+      "parentUuid": "960e27b4_ca24e3cf",
+      "range": {
+        "startLine": 174,
+        "startChar": 67,
+        "endLine": 176,
+        "endChar": 27
+      },
+      "revId": "e541e8f5688c54a12d199fb35740eae17e0c28bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "960e27b4_0a067b3c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeRebuilder.java",
         "patchSetId": 17

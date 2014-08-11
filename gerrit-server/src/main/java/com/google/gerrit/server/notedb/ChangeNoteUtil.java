@@ -27,6 +27,7 @@ public class ChangeNoteUtil {
   static final FooterKey FOOTER_BRANCH = new FooterKey("Branch");
   static final FooterKey FOOTER_CHANGE_KEY = MergeUtil.CHANGE_ID;
   static final FooterKey FOOTER_STATUS = new FooterKey("Status");
+  static final FooterKey FOOTER_TOPIC = new FooterKey("Topic");
 
   // Child entity fields.
   static final FooterKey FOOTER_LABEL = new FooterKey("Label");

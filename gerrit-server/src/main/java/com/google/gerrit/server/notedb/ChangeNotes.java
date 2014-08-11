@@ -19,6 +19,7 @@ import static com.google.gerrit.server.notedb.CommentsInNotesUtil.getCommentPsId
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Function;
+import com.google.common.base.Strings;
 import com.google.common.collect.ComparisonChain;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
@@ -277,6 +278,9 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
         throw parseException(change.getId(), String.format(
             "change key in notedb does does not match change entity: %s != %s",
             parser.branch.get(), change.getDest().get()));
+      }
+      if (parser.topic != null) {
+        change.setTopic(Strings.emptyToNull(parser.topic));
       }
       approvals = parser.buildApprovals();
       changeMessages = parser.buildMessages();

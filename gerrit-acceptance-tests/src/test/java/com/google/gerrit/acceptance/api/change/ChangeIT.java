@@ -278,4 +278,24 @@ public class ChangeIT extends AbstractDaemonTest {
     revision(r).review(ReviewInput.recommend());
     assertTrue(get(r.getChangeId()).reviewed);
   }
+
+  @Test
+  public void topic() throws Exception {
+    PushOneCommit.Result r = createChange();
+    assertEquals("", gApi.changes()
+        .id(r.getChangeId())
+        .topic());
+    gApi.changes()
+        .id(r.getChangeId())
+        .topic("mytopic");
+    assertEquals("mytopic", gApi.changes()
+        .id(r.getChangeId())
+        .topic());
+    gApi.changes()
+        .id(r.getChangeId())
+        .topic("");
+    assertEquals("", gApi.changes()
+        .id(r.getChangeId())
+        .topic());
+  }
 }

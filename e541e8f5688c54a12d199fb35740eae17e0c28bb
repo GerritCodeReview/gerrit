@@ -158,6 +158,30 @@
       "revId": "e541e8f5688c54a12d199fb35740eae17e0c28bb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "960e27b4_2a1edf7e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeRebuilder.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-11T21:19:52Z",
+      "side": 1,
+      "message": "Also we should probably keep parallel lines on a per-user basis and only linearize them at the end by bucket start time.\n\nThis is why it\u0027s a TODO :)",
+      "parentUuid": "b6dfab55_2b09394c",
+      "range": {
+        "startLine": 173,
+        "startChar": 10,
+        "endLine": 174,
+        "endChar": 70
+      },
+      "revId": "e541e8f5688c54a12d199fb35740eae17e0c28bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

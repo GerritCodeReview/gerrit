@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "960e27b4_8a2eeba9",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/RebuildNotedb.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-08-11T21:17:17Z",
+      "side": 1,
+      "message": "I don\u0027t expect to improve the writing performance now. But its something we will have to look at as we get further down this notedb project.\n\nWriting a fast-import stream and piping it literally into git-fast-import would work. Except it requires the user to have git-core installed; IIRC some Gerrit servers are avoiding that now with builtin GC. It also won\u0027t work for rebuild in googlesource.com.",
+      "parentUuid": "b6dfab55_8bf94de7",
+      "range": {
+        "startLine": 174,
+        "startChar": 67,
+        "endLine": 176,
+        "endChar": 27
+      },
+      "revId": "e541e8f5688c54a12d199fb35740eae17e0c28bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "960e27b4_0a067b3c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeRebuilder.java",
         "patchSetId": 17
@@ -101,6 +125,30 @@
       "side": 1,
       "message": "Say we have a sequence of 4 writes to different tables, say somewhere in the submit code path, and they all use the current time instead of taking a single timestamp and reusing it. I haven\u0027t looked for such an example but it doesn\u0027t seem totally unreasonable.\n\nIf each of these writes takes 300ms on googlesource.com, then the fourth write will end up in a different bucket than the first, even though they all stem from a single end-user operation.",
       "parentUuid": "960e27b4_ea1fa77e",
+      "range": {
+        "startLine": 173,
+        "startChar": 10,
+        "endLine": 174,
+        "endChar": 70
+      },
+      "revId": "e541e8f5688c54a12d199fb35740eae17e0c28bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b6dfab55_2b09394c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeRebuilder.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-08-11T21:17:17Z",
+      "side": 1,
+      "message": "Eh, yea. We might want to say within 30 seconds could be joined together, so long as there isn\u0027t another ChangeMessage in the middle. ChangeMessage is a good signal for \"user action\" vs. \"sequence of writes made by the software\".",
+      "parentUuid": "b6dfab55_4b0c855c",
       "range": {
         "startLine": 173,
         "startChar": 10,

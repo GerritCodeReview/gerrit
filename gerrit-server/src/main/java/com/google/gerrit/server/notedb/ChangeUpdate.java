@@ -15,6 +15,7 @@
 package com.google.gerrit.server.notedb;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_BRANCH;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_CHANGE_KEY;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_LABEL;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_PATCH_SET;
@@ -493,6 +494,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
 
   private void addInitialFooters(StringBuilder msg) {
     addFooter(msg, FOOTER_CHANGE_KEY, getChange().getKey().get());
+    addFooter(msg, FOOTER_BRANCH, getChange().getDest().get());
   }
 
   @Override

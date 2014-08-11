@@ -272,6 +272,12 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
             "change key in notedb does does not match change entity: %s != %s",
             parser.changeKey.get(), change.getKey().get()));
       }
+      if (parser.branch != null
+          && !parser.branch.equals(change.getDest())) {
+        throw parseException(change.getId(), String.format(
+            "change key in notedb does does not match change entity: %s != %s",
+            parser.branch.get(), change.getDest().get()));
+      }
       approvals = parser.buildApprovals();
       changeMessages = parser.buildMessages();
       commentsForBase = ImmutableListMultimap.copyOf(parser.commentsForBase);

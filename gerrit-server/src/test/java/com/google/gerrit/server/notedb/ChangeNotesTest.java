@@ -210,6 +210,7 @@ public class ChangeNotesTest {
       assertEquals("Update patch set 1\n"
           + "\n"
           + "Change-Id: " + c.getKey().get() + "\n"
+          + "Branch: master\n"
           + "Patch-set: 1\n"
           + "Reviewer: Change Owner <1@gerrit>\n"
           + "CC: Other Account <2@gerrit>\n"
@@ -253,6 +254,7 @@ public class ChangeNotesTest {
           + "How about a new line\n"
           + "\n"
           + "Change-Id: " + c.getKey().get() + "\n"
+          + "Branch: master\n"
           + "Patch-set: 1\n",
           commit.getFullMessage());
     } finally {
@@ -274,6 +276,7 @@ public class ChangeNotesTest {
       assertEquals("Update patch set 1\n"
           + "\n"
           + "Change-Id: " + c.getKey().get() + "\n"
+          + "Branch: master\n"
           + "Patch-set: 1\n"
           + "Label: -Code-Review\n",
           commit.getFullMessage());
@@ -304,6 +307,7 @@ public class ChangeNotesTest {
       assertEquals("Submit patch set 1\n"
           + "\n"
           + "Change-Id: " + c.getKey().get() + "\n"
+          + "Branch: master\n"
           + "Patch-set: 1\n"
           + "Status: submitted\n"
           + "Submitted-with: NOT_READY\n"
@@ -349,6 +353,7 @@ public class ChangeNotesTest {
           + "Comment on the change.\n"
           + "\n"
           + "Change-Id: " + c.getKey().get() + "\n"
+          + "Branch: master\n"
           + "Patch-set: 1\n",
           commit.getFullMessage());
 
@@ -377,6 +382,7 @@ public class ChangeNotesTest {
       assertEquals("Submit patch set 1\n"
           + "\n"
           + "Change-Id: " + c.getKey().get() + "\n"
+          + "Branch: master\n"
           + "Patch-set: 1\n"
           + "Status: submitted\n"
           + "Submitted-with: RULE_ERROR Problem with patch set: 1\n",
@@ -837,6 +843,7 @@ public class ChangeNotesTest {
       assertEquals("Update patch set 1\n"
           + "\n"
           + "Change-Id: " + c.getKey().get() + "\n"
+          + "Branch: master\n"
           + "Patch-set: 1\n"
           + "Reviewer: Change Owner <1@gerrit>\n",
           commit.getFullMessage());
@@ -870,6 +877,7 @@ public class ChangeNotesTest {
           + "\n"
           + "\n"
           + "Change-Id: " + c.getKey().get() + "\n"
+          + "Branch: master\n"
           + "Patch-set: 1\n",
           commit.getFullMessage());
     } finally {
@@ -912,6 +920,7 @@ public class ChangeNotesTest {
           + "Testing paragraph 3\n"
           + "\n"
           + "Change-Id: " + c.getKey().get() + "\n"
+          + "Branch: master\n"
           + "Patch-set: 1\n",
           commit.getFullMessage());
     } finally {

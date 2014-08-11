@@ -22,6 +22,30 @@
       "revId": "c8d270cda301bd9e5f031de9e005e77f02121923",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9697075e_02d2ca71",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetAccountCommand.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-08-11T03:39:14Z",
+      "side": 1,
+      "message": "IMO, neither a warning nor additional documentation is needed in this case because the end result is that the user will get what she requested, doesn\u0027t matter how it was achieved.",
+      "parentUuid": "36b3bbfb_f7ec2029",
+      "range": {
+        "startLine": 299,
+        "startChar": 6,
+        "endLine": 302,
+        "endChar": 7
+      },
+      "revId": "c8d270cda301bd9e5f031de9e005e77f02121923",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9697075e_62e3d63b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-11T15:17:53Z",
+      "side": 1,
+      "message": "Why is this not an option?\n\nIf these really need to be two separate classes we need to have a better way of distinguishing them by name. I would describe \"ChangeEdit\" as \"data relating to a change edit\"; how do I know what \"ChangeEditData\" is in that case? I can figure that out by reading the contents of both classes, but even then that doesn\u0027t answer the question of why they\u0027re different.",
+      "range": {
+        "startLine": 11,
+        "startChar": 60,
+        "endLine": 13,
+        "endChar": 20
+      },
+      "revId": "a8ea0b05057f051aeedd1d2562fcbc82e2de147a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

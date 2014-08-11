@@ -209,6 +209,7 @@ public class ChangeNotesTest {
       walk.parseBody(commit);
       assertEquals("Update patch set 1\n"
           + "\n"
+          + "Change-Id: " + c.getKey().get() + "\n"
           + "Patch-set: 1\n"
           + "Reviewer: Change Owner <1@gerrit>\n"
           + "CC: Other Account <2@gerrit>\n"
@@ -251,6 +252,7 @@ public class ChangeNotesTest {
           + "Just a little code change.\n"
           + "How about a new line\n"
           + "\n"
+          + "Change-Id: " + c.getKey().get() + "\n"
           + "Patch-set: 1\n",
           commit.getFullMessage());
     } finally {
@@ -271,6 +273,7 @@ public class ChangeNotesTest {
       walk.parseBody(commit);
       assertEquals("Update patch set 1\n"
           + "\n"
+          + "Change-Id: " + c.getKey().get() + "\n"
           + "Patch-set: 1\n"
           + "Label: -Code-Review\n",
           commit.getFullMessage());
@@ -300,6 +303,7 @@ public class ChangeNotesTest {
       walk.parseBody(commit);
       assertEquals("Submit patch set 1\n"
           + "\n"
+          + "Change-Id: " + c.getKey().get() + "\n"
           + "Patch-set: 1\n"
           + "Status: submitted\n"
           + "Submitted-with: NOT_READY\n"
@@ -344,6 +348,7 @@ public class ChangeNotesTest {
           + "\n"
           + "Comment on the change.\n"
           + "\n"
+          + "Change-Id: " + c.getKey().get() + "\n"
           + "Patch-set: 1\n",
           commit.getFullMessage());
 
@@ -371,6 +376,7 @@ public class ChangeNotesTest {
       walk.parseBody(commit);
       assertEquals("Submit patch set 1\n"
           + "\n"
+          + "Change-Id: " + c.getKey().get() + "\n"
           + "Patch-set: 1\n"
           + "Status: submitted\n"
           + "Submitted-with: RULE_ERROR Problem with patch set: 1\n",
@@ -378,6 +384,16 @@ public class ChangeNotesTest {
     } finally {
       walk.release();
     }
+  }
+
+  @Test
+  public void changeKey() throws Exception {
+    Change c = newChange();
+    ChangeUpdate update = newUpdate(c, changeOwner);
+    update.commit();
+
+    ChangeNotes notes = newNotes(c);
+    assertEquals(c.getKey(), notes.getChange().getKey());
   }
 
   @Test
@@ -419,6 +435,8 @@ public class ChangeNotesTest {
     update = newUpdate(c, changeOwner);
     update.putApproval("Code-Review", (short) 1);
     update.commit();
+
+
     PatchSet.Id ps2 = c.currentPatchSetId();
 
     ChangeNotes notes = newNotes(c);
@@ -818,6 +836,7 @@ public class ChangeNotesTest {
       walk.parseBody(commit);
       assertEquals("Update patch set 1\n"
           + "\n"
+          + "Change-Id: " + c.getKey().get() + "\n"
           + "Patch-set: 1\n"
           + "Reviewer: Change Owner <1@gerrit>\n",
           commit.getFullMessage());
@@ -850,6 +869,7 @@ public class ChangeNotesTest {
           + "\n"
           + "\n"
           + "\n"
+          + "Change-Id: " + c.getKey().get() + "\n"
           + "Patch-set: 1\n",
           commit.getFullMessage());
     } finally {
@@ -891,6 +911,7 @@ public class ChangeNotesTest {
           + "\n"
           + "Testing paragraph 3\n"
           + "\n"
+          + "Change-Id: " + c.getKey().get() + "\n"
           + "Patch-set: 1\n",
           commit.getFullMessage());
     } finally {
@@ -943,6 +964,28 @@ public class ChangeNotesTest {
     assertEquals(changeOwner.getAccount().getId(),
         cm.get(1).getAuthor());
     assertEquals(ps1, cm.get(1).getPatchSetId());
+  }
+
+  @Test
+  public void secondCommitHasNoChangeKeyFooter() throws Exception {
+    Change c = newChange();
+    ChangeUpdate update = newUpdate(c, changeOwner);
+    update.putReviewer(changeOwner.getAccount().getId(), REVIEWER);
+    update.commit();
+
+    update = newUpdate(c, changeOwner);
+    update.putReviewer(otherUser.getAccount().getId(), REVIEWER);
+    update.commit();
+
+    RevWalk walk = new RevWalk(repo);
+    try {
+      RevCommit commit = walk.parseCommit(update.getRevision());
+      walk.parseBody(commit);
+      assertTrue(
+          commit.getFooterLines(ChangeNoteUtil.FOOTER_CHANGE_KEY).isEmpty());
+    } finally {
+      walk.release();
+    }
   }
 
   @Test

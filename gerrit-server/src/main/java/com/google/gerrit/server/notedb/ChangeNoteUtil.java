@@ -16,15 +16,20 @@ package com.google.gerrit.server.notedb;
 
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.server.git.MergeUtil;
 
 import org.eclipse.jgit.revwalk.FooterKey;
 
 public class ChangeNoteUtil {
   static final String GERRIT_PLACEHOLDER_HOST = "gerrit";
 
+  // Change entity fields.
+  static final FooterKey FOOTER_STATUS = new FooterKey("Status");
+  static final FooterKey FOOTER_CHANGE_KEY = MergeUtil.CHANGE_ID;
+
+  // Child entity fields.
   static final FooterKey FOOTER_LABEL = new FooterKey("Label");
   static final FooterKey FOOTER_PATCH_SET = new FooterKey("Patch-set");
-  static final FooterKey FOOTER_STATUS = new FooterKey("Status");
   static final FooterKey FOOTER_SUBMITTED_WITH =
       new FooterKey("Submitted-with");
 

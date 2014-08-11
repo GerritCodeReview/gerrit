@@ -266,6 +266,12 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       if (parser.status != null) {
         change.setStatus(parser.status);
       }
+      if (parser.changeKey != null
+          && !parser.changeKey.equals(change.getKey())) {
+        throw parseException(change.getId(), String.format(
+            "change key in notedb does does not match change entity: %s != %s",
+            parser.changeKey.get(), change.getKey().get()));
+      }
       approvals = parser.buildApprovals();
       changeMessages = parser.buildMessages();
       commentsForBase = ImmutableListMultimap.copyOf(parser.commentsForBase);
@@ -282,9 +288,9 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       this.allPastReviewers = ImmutableList.copyOf(parser.allPastReviewers);
 
       submitRecords = ImmutableList.copyOf(parser.submitRecords);
-    } catch (ParseException e1) {
+    } catch (ParseException e) {
       // TODO(yyonas): figure out how to handle this exception
-      throw new IOException(e1);
+      throw new IOException(e);
     } finally {
       walk.release();
     }

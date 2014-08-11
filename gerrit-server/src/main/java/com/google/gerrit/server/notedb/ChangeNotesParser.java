@@ -20,6 +20,7 @@ import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_LABEL;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_PATCH_SET;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_STATUS;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_SUBMITTED_WITH;
+import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_TOPIC;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.GERRIT_PLACEHOLDER_HOST;
 
 import com.google.common.base.Enums;
@@ -78,6 +79,7 @@ class ChangeNotesParser implements AutoCloseable {
   Change.Status status;
   Change.Key changeKey;
   Branch.NameKey branch;
+  String topic;
 
   private final Change.Id changeId;
   private final Project.NameKey project;
@@ -152,6 +154,7 @@ class ChangeNotesParser implements AutoCloseable {
     PatchSet.Id psId = parsePatchSetId(commit);
     Account.Id accountId = parseIdent(commit);
     parseChangeMessage(psId, accountId, commit);
+    parseTopic(commit);
 
     if (submitRecords.isEmpty()) {
       // Only parse the most recent set of submit records; any older ones are
@@ -181,6 +184,18 @@ class ChangeNotesParser implements AutoCloseable {
     String b = parseImmutableField(commit, FOOTER_BRANCH);
     if (b != null) {
       branch = new Branch.NameKey(project, b);
+    }
+  }
+
+  private void parseTopic(RevCommit commit) throws ConfigInvalidException {
+    List<String> topicLines = commit.getFooterLines(FOOTER_TOPIC);
+    if (topicLines.isEmpty()) {
+      return;
+    } else if (topicLines.size() > 1) {
+      throw expectedOneFooter(FOOTER_TOPIC, topicLines);
+    }
+    if (topic == null) {
+      topic = topicLines.get(0);
     }
   }
 

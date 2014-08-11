@@ -21,10 +21,12 @@ import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_LABEL;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_PATCH_SET;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_STATUS;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_SUBMITTED_WITH;
+import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_TOPIC;
 import static com.google.gerrit.server.notedb.CommentsInNotesUtil.getCommentPsId;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Optional;
+import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -92,6 +94,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   private final Map<Account.Id, ReviewerState> reviewers;
   private boolean create;
   private Change.Status status;
+  private String topic;
   private String subject;
   private List<SubmitRecord> submitRecords;
   private final CommentsInNotesUtil commentsUtil;
@@ -183,6 +186,12 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     checkArgument(status != Change.Status.SUBMITTED,
         "use submit(Iterable<PatchSetApproval>)");
     this.status = status;
+  }
+
+  public void setTopic(String topic) {
+    checkArgument(topic == null || !topic.isEmpty(),
+        "topic may not be empty; use null to clear");
+    this.topic = Strings.nullToEmpty(topic);
   }
 
   public void putApproval(String label, short value) {
@@ -454,6 +463,9 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     if (status != null) {
       addFooter(msg, FOOTER_STATUS, status.name().toLowerCase());
     }
+    if (topic != null) {
+      addFooter(msg, FOOTER_TOPIC, topic);
+    }
 
     for (Map.Entry<Account.Id, ReviewerState> e : reviewers.entrySet()) {
       Account account = accountCache.get(e.getKey()).getAccount();
@@ -520,7 +532,8 @@ public class ChangeUpdate extends AbstractChangeUpdate {
         && reviewers.isEmpty()
         && status == null
         && subject == null
-        && submitRecords == null;
+        && submitRecords == null
+        && topic == null;
   }
 
   private static StringBuilder addFooter(StringBuilder sb, FooterKey footer) {

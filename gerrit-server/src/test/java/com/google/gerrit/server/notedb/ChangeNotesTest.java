@@ -381,6 +381,48 @@ public class ChangeNotesTest {
   }
 
   @Test
+  public void topicCommitMessage() throws Exception {
+    Change c = newChange();
+    ChangeUpdate update = newUpdate(c, changeOwner);
+    update.setTopic("mytopic");
+    update.commit();
+
+    RevWalk walk = new RevWalk(repo);
+    try {
+      RevCommit commit = walk.parseCommit(update.getRevision());
+      walk.parseBody(commit);
+      assertEquals("Update patch set 1\n"
+          + "\n"
+          + "Patch-set: 1\n"
+          + "Topic: mytopic\n",
+          commit.getFullMessage());
+    } finally {
+      walk.release();
+    }
+  }
+
+  @Test
+  public void nullTopicCommitMessage() throws Exception {
+    Change c = newChange();
+    ChangeUpdate update = newUpdate(c, changeOwner);
+    update.setTopic(null);
+    update.commit();
+
+    RevWalk walk = new RevWalk(repo);
+    try {
+      RevCommit commit = walk.parseCommit(update.getRevision());
+      walk.parseBody(commit);
+      assertEquals("Update patch set 1\n"
+          + "\n"
+          + "Patch-set: 1\n"
+          + "Topic: \n",
+          commit.getFullMessage());
+    } finally {
+      walk.release();
+    }
+  }
+
+  @Test
   public void immutableFieldsOnCreation() throws Exception {
     Change c = newChange();
     ChangeUpdate update = newUpdate(c, changeOwner);
@@ -389,6 +431,33 @@ public class ChangeNotesTest {
 
     ChangeNotes notes = newNotes(c);
     assertEquals(c.getKey(), notes.getChange().getKey());
+    assertEquals(c.getDest(), notes.getChange().getDest());
+  }
+
+  @Test
+  public void topic() throws Exception {
+    Change c = newChange();
+    ChangeUpdate update = newUpdate(c, changeOwner);
+    update.setTopic("mytopic");
+    update.commit();
+
+    ChangeNotes notes = newNotes(c);
+    assertEquals("mytopic", notes.getChange().getTopic());
+  }
+
+  @Test
+  public void nullTopic() throws Exception {
+    Change c = newChange();
+    ChangeUpdate update = newUpdate(c, changeOwner);
+    update.setTopic("mytopic");
+    update.commit();
+
+    update = newUpdate(c, changeOwner);
+    update.setTopic(null);
+    update.commit();
+
+    ChangeNotes notes = newNotes(c);
+    assertEquals(null, notes.getChange().getTopic());
   }
 
   @Test

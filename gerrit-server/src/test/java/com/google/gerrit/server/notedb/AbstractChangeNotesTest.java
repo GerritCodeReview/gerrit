@@ -171,6 +171,12 @@ public class AbstractChangeNotesTest {
     return TestChanges.newUpdate(injector, repoManager, c, allUsers, user);
   }
 
+  protected ChangeUpdate newUpdate(Change c, IdentifiedUser user, Timestamp when)
+      throws OrmException {
+    return TestChanges.newUpdate(
+        injector, repoManager, c, allUsers, user, when);
+  }
+
   protected ChangeNotes newNotes(Change c) throws OrmException {
     return new ChangeNotes(repoManager, allUsers, c).load();
   }

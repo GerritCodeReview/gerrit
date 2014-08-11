@@ -62,7 +62,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
   @Test
   public void immutableFieldsOnCreation() throws Exception {
     Change c = newChange();
-    ChangeUpdate update = newUpdate(c, changeOwner);
+    ChangeUpdate update = newUpdate(c, changeOwner, c.getCreatedOn());
     update.create();
     update.commit();
 

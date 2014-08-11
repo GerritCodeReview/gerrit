@@ -37,6 +37,7 @@ import com.google.inject.Injector;
 
 import org.easymock.EasyMock;
 
+import java.sql.Timestamp;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -51,21 +52,38 @@ public class TestChanges {
   }
 
   public static Change newChange(Project.NameKey project, IdentifiedUser user,
+      Timestamp when) {
+    return newChange(project, user, nextChangeId.getAndIncrement(), when);
+  }
+
+  public static Change newChange(Project.NameKey project, IdentifiedUser user,
       int id) {
+    return newChange(project, user, id, TimeUtil.nowTs());
+  }
+
+  private static Change newChange(Project.NameKey project, IdentifiedUser user,
+      int id, Timestamp when) {
     Change.Id changeId = new Change.Id(id);
     Change c = new Change(
         new Change.Key("Iabcd1234abcd1234abcd1234abcd1234abcd1234"),
         changeId,
         user.getAccount().getId(),
         new Branch.NameKey(project, "master"),
-        TimeUtil.nowTs());
+        when);
     incrementPatchSet(c);
     return c;
   }
 
   public static ChangeUpdate newUpdate(Injector injector,
       GitRepositoryManager repoManager, Change c,
-      final AllUsersNameProvider allUsers, final IdentifiedUser user)
+      AllUsersNameProvider allUsers, IdentifiedUser user) throws OrmException {
+    return newUpdate(injector, repoManager, c, allUsers, user, TimeUtil.nowTs());
+  }
+
+  public static ChangeUpdate newUpdate(Injector injector,
+      GitRepositoryManager repoManager, Change c,
+      final AllUsersNameProvider allUsers, final IdentifiedUser user,
+      Timestamp when)
       throws OrmException {
     return injector.createChildInjector(new FactoryModule() {
       @Override
@@ -76,7 +94,7 @@ public class TestChanges {
         bind(AllUsersName.class).toProvider(allUsers);
       }
     }).getInstance(ChangeUpdate.Factory.class).create(
-        stubChangeControl(repoManager, c, allUsers, user), TimeUtil.nowTs(),
+        stubChangeControl(repoManager, c, allUsers, user), when,
         Ordering.<String> natural());
   }
 

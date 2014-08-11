@@ -45,6 +45,7 @@ import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.PatchSetApproval.LabelId;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.util.LabelVote;
+import com.google.gerrit.server.util.TimeUtil;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
@@ -63,6 +64,7 @@ import java.sql.Timestamp;
 import java.text.ParseException;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -76,6 +78,8 @@ class ChangeNotesParser implements AutoCloseable {
   NoteMap commentNoteMap;
   Change.Status status;
   Change.Key changeKey;
+  Account.Id owner;
+  Date createdOn;
   Branch.NameKey branch;
 
   private final Change change;
@@ -145,10 +149,9 @@ class ChangeNotesParser implements AutoCloseable {
     if (status == null) {
       status = parseStatus(commit);
     }
-    parseChangeKey(commit);
-    parseBranch(commit);
-    PatchSet.Id psId = parsePatchSetId(commit);
     Account.Id accountId = parseIdent(commit);
+    parseImmutableFields(commit, accountId);
+    PatchSet.Id psId = parsePatchSetId(commit);
     parseChangeMessage(psId, accountId, commit);
 
     if (submitRecords.isEmpty()) {
@@ -165,6 +168,16 @@ class ChangeNotesParser implements AutoCloseable {
       for (String line : commit.getFooterLines(state.getFooterKey())) {
         parseReviewer(state, line);
       }
+    }
+  }
+
+  private void parseImmutableFields(RevCommit commit, Account.Id accountId)
+      throws ConfigInvalidException {
+    parseChangeKey(commit);
+    parseBranch(commit);
+    if (changeKey != null) {
+      owner = accountId;
+      createdOn = commit.getAuthorIdent().getWhen();
     }
   }
 
@@ -396,15 +409,23 @@ class ChangeNotesParser implements AutoCloseable {
   }
 
   private void checkChangeFields() throws ConfigInvalidException {
-    if (changeKey != null && !changeKey.equals(change.getKey())) {
-      throw parseException(String.format(
-          "change key in notedb does not match change entity: %s != %s",
-          changeKey.get(), change.getKey().get()));
+    // TODO(dborowitz): Use parsed values instead of requiring callers to
+    // provide a Change.
+    if (changeKey != null) {
+      if (!changeKey.equals(change.getKey())) {
+        throw parseMismatch("change key", changeKey, change.getKey());
+      }
+      if (owner != null && !owner.equals(change.getOwner())) {
+        throw parseMismatch("owner", owner, change.getOwner());
+      }
+      if (createdOn != null
+          && !TimeUtil.equalToSecond(createdOn, change.getCreatedOn())) {
+        throw parseMismatch(
+            "createdOn", createdOn, change.getCreatedOn());
+      }
     }
     if (branch != null && !branch.equals(change.getDest())) {
-      throw parseException(String.format(
-          "change branch in notedb does not match change entity: %s != %s",
-          escape(branch), escape(change.getDest())));
+      throw parseMismatch("branch", escape(branch), escape(change.getDest()));
     }
   }
 
@@ -455,6 +476,13 @@ class ChangeNotesParser implements AutoCloseable {
 
   private ConfigInvalidException parseException(String fmt, Object... args) {
     return ChangeNotes.parseException(change.getId(), fmt, args);
+  }
+
+  private ConfigInvalidException parseMismatch(String name,
+      Object fromParser, Object fromChange) {
+    return parseException(String.format(
+        "%s in notedb does not match change entity: %s != %s",
+        name, escape(fromParser), escape(fromChange)));
   }
 
   private static String escape(Object s) {

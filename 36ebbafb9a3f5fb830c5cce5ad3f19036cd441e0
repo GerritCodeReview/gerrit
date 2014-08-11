@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "36f49bd0_afdbf989",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/edit/ChangeEditIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-11T20:14:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9697075e_a2f9dee6",
+      "revId": "36ebbafb9a3f5fb830c5cce5ad3f19036cd441e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9697075e_c2f4e2f0",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/edit/ChangeEditIT.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2014-08-11T15:37:53Z",
       "side": 1,
       "message": "Check that the commit dates aren\u0027t equivalent, since that was missed in the implementation.",
+      "revId": "36ebbafb9a3f5fb830c5cce5ad3f19036cd441e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "36f49bd0_8fe03531",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/edit/ChangeEditIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-11T20:14:59Z",
+      "side": 1,
+      "message": "Sleep 1000 ms on thread is need for this check to work. Done.",
+      "parentUuid": "9697075e_c2f4e2f0",
       "revId": "36ebbafb9a3f5fb830c5cce5ad3f19036cd441e0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "b6dfab55_ebd1f16d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-11T20:14:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9697075e_02fbeae1",
+      "revId": "36ebbafb9a3f5fb830c5cce5ad3f19036cd441e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9697075e_22edce22",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
         "patchSetId": 1
@@ -64,6 +118,30 @@
       "writtenOn": "2014-08-11T15:37:53Z",
       "side": 1,
       "message": "editCommit",
+      "range": {
+        "startLine": 161,
+        "startChar": 18,
+        "endLine": 161,
+        "endChar": 38
+      },
+      "revId": "36ebbafb9a3f5fb830c5cce5ad3f19036cd441e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "960e27b4_ead1e76d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-11T20:14:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9697075e_22edce22",
       "range": {
         "startLine": 161,
         "startChar": 18,
@@ -111,6 +189,24 @@
     },
     {
       "key": {
+        "uuid": "b6dfab55_cbd63564",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-11T20:14:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9697075e_42f0d2fe",
+      "revId": "36ebbafb9a3f5fb830c5cce5ad3f19036cd441e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "769c5384_c1dbc289",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
         "patchSetId": 1
@@ -122,6 +218,30 @@
       "writtenOn": "2014-08-11T15:37:53Z",
       "side": 1,
       "message": "Needs a new commit timestamp",
+      "range": {
+        "startLine": 172,
+        "startChar": 35,
+        "endLine": 172,
+        "endChar": 65
+      },
+      "revId": "36ebbafb9a3f5fb830c5cce5ad3f19036cd441e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "960e27b4_cad62364",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-11T20:14:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "769c5384_c1dbc289",
       "range": {
         "startLine": 172,
         "startChar": 35,

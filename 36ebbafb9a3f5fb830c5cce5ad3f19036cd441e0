@@ -93,6 +93,24 @@
     },
     {
       "key": {
+        "uuid": "b66c0b49_632f82a8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-11T15:45:46Z",
+      "side": 1,
+      "message": "Sounds reasonable.",
+      "parentUuid": "9697075e_42f0d2fe",
+      "revId": "36ebbafb9a3f5fb830c5cce5ad3f19036cd441e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "769c5384_c1dbc289",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
         "patchSetId": 1
@@ -127,6 +145,24 @@
       "writtenOn": "2014-08-11T15:37:53Z",
       "side": 1,
       "message": "Until this can be implemented, how does the user recover? Delete the edit and create a new one I guess? This is fine, as long as it\u0027s not too difficult to do from the UI (e.g. doesn\u0027t require reverting each file individually).",
+      "revId": "36ebbafb9a3f5fb830c5cce5ad3f19036cd441e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b66c0b49_83139e78",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-11T15:45:46Z",
+      "side": 1,
+      "message": "That why i uploaded screen shots and mailed the links to this dev ML thread [1]: This is only once click [2]: Delete edit, done.\n\n* [1] https://groups.google.com/forum/#!topic/repo-discuss/gdqhw-kPucI\n* [2] http://imgur.com/pjUKauo",
+      "parentUuid": "9697075e_e2ffe6c9",
       "revId": "36ebbafb9a3f5fb830c5cce5ad3f19036cd441e0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

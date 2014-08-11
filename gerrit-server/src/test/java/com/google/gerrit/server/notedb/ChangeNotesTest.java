@@ -22,6 +22,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSetMultimap;
@@ -58,6 +59,34 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ChangeNotesTest extends AbstractChangeNotesTest {
+  @Test
+  public void immutableFieldsOnCreation() throws Exception {
+    Change c = newChange();
+    ChangeUpdate update = newUpdate(c, changeOwner);
+    update.create();
+    update.commit();
+
+    ChangeNotes notes = newNotes(c);
+    assertEquals(c.getKey(), notes.getChange().getKey());
+  }
+
+  @Test
+  public void createInNonRootCommitFails() throws Exception {
+    Change c = newChange();
+    ChangeUpdate update = newUpdate(c, changeOwner);
+    update.putApproval("Code-Review", (short) -1);
+    update.commit();
+
+    update = newUpdate(c, changeOwner);
+    update.create();
+    try {
+      update.commit();
+      fail("Expected update to fail");
+    } catch (IOException e) {
+      // Expected.
+    }
+  }
+
   @Test
   public void approvalsOnePatchSet() throws Exception {
     Change c = newChange();

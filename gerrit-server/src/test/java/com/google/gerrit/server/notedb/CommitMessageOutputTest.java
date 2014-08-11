@@ -35,6 +35,20 @@ import java.util.TimeZone;
 
 public class CommitMessageOutputTest extends AbstractChangeNotesTest {
   @Test
+  public void immutableFields() throws Exception {
+    Change c = newChange();
+    ChangeUpdate update = newUpdate(c, changeOwner);
+    update.create();
+    update.commit();
+
+    assertBodyEquals("Update patch set 1\n"
+        + "\n"
+        + "Change-Id: " + c.getKey().get() + "\n"
+        + "Patch-set: 1\n",
+        update.getRevision());
+  }
+
+  @Test
   public void approvalsCommitFormatSimple() throws Exception {
     Change c = TestChanges.newChange(project, changeOwner, 1);
     ChangeUpdate update = newUpdate(c, changeOwner);

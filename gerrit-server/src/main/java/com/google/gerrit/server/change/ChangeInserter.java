@@ -174,6 +174,7 @@ public class ChangeInserter {
     ChangeUpdate update = updateFactory.create(
         ctl,
         change.getCreatedOn());
+    update.create();
     db.changes().beginTransaction(change.getId());
     try {
       ChangeUtil.insertAncestors(db, patchSet.getId(), commit);

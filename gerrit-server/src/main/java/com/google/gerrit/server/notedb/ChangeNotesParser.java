@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.notedb;
 
+import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_CHANGE_KEY;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_LABEL;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_PATCH_SET;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_STATUS;
@@ -72,8 +73,9 @@ class ChangeNotesParser implements AutoCloseable {
   final Multimap<PatchSet.Id, PatchLineComment> commentsForBase;
   NoteMap commentNoteMap;
   Change.Status status;
+  Change.Key changeKey;
 
-  private final Change.Id changeId;
+  private final Change change;
   private final ObjectId tip;
   private final RevWalk walk;
   private final Repository repo;
@@ -84,7 +86,7 @@ class ChangeNotesParser implements AutoCloseable {
   ChangeNotesParser(Change change, ObjectId tip, RevWalk walk,
       GitRepositoryManager repoManager) throws RepositoryNotFoundException,
       IOException {
-    this.changeId = change.getId();
+    this.change = change;
     this.tip = tip;
     this.walk = walk;
     this.repo = repoManager.openRepository(ChangeNotes.getProjectName(change));
@@ -107,6 +109,7 @@ class ChangeNotesParser implements AutoCloseable {
     for (RevCommit commit : walk) {
       parse(commit);
     }
+    checkChangeFields();
     parseComments();
     allPastReviewers.addAll(reviewers.keySet());
     pruneReviewers();
@@ -139,10 +142,10 @@ class ChangeNotesParser implements AutoCloseable {
     if (status == null) {
       status = parseStatus(commit);
     }
+    parseChangeKey(commit);
     PatchSet.Id psId = parsePatchSetId(commit);
     Account.Id accountId = parseIdent(commit);
     parseChangeMessage(psId, accountId, commit);
-
 
     if (submitRecords.isEmpty()) {
       // Only parse the most recent set of submit records; any older ones are
@@ -159,6 +162,18 @@ class ChangeNotesParser implements AutoCloseable {
         parseReviewer(state, line);
       }
     }
+  }
+
+  private void parseChangeKey(RevCommit commit) throws ConfigInvalidException {
+    List<String> keyLines = commit.getFooterLines(FOOTER_CHANGE_KEY);
+    if (keyLines.isEmpty()) {
+      return;
+    } else if (commit.getParentCount() > 0) {
+      throw parseException("%s found in non-root commit", FOOTER_CHANGE_KEY);
+    } else if (keyLines.size() > 1) {
+      throw expectedOneFooter(FOOTER_CHANGE_KEY, keyLines);
+    }
+    changeKey = new Change.Key(keyLines.get(0));
   }
 
   private Change.Status parseStatus(RevCommit commit)
@@ -187,7 +202,7 @@ class ChangeNotesParser implements AutoCloseable {
     if (psId == null) {
       throw invalidFooter(FOOTER_PATCH_SET, psIdLines.get(0));
     }
-    return new PatchSet.Id(changeId, psId);
+    return new PatchSet.Id(change.getId(), psId);
   }
 
   private void parseChangeMessage(PatchSet.Id psId, Account.Id accountId,
@@ -250,7 +265,7 @@ class ChangeNotesParser implements AutoCloseable {
   private void parseComments()
       throws IOException, ConfigInvalidException, ParseException {
     commentNoteMap = CommentsInNotesUtil.parseCommentsFromNotes(repo,
-        ChangeNoteUtil.changeRefName(changeId), walk, changeId,
+        ChangeNoteUtil.changeRefName(change.getId()), walk, change.getId(),
         commentsForBase, commentsForPs, PatchLineComment.Status.PUBLISHED);
   }
 
@@ -374,6 +389,16 @@ class ChangeNotesParser implements AutoCloseable {
     }
   }
 
+  private void checkChangeFields() throws ConfigInvalidException {
+    // TODO(dborowitz): Use parsed values instead of requiring callers to
+    // provide a Change.
+    if (changeKey != null && !changeKey.equals(change.getKey())) {
+      throw parseException(String.format(
+          "change key in notedb does not match change entity: %s != %s",
+          changeKey.get(), change.getKey().get()));
+    }
+  }
+
   private void pruneReviewers() {
     Iterator<Map.Entry<Account.Id, ReviewerState>> rit =
         reviewers.entrySet().iterator();
@@ -407,6 +432,6 @@ class ChangeNotesParser implements AutoCloseable {
   }
 
   private ConfigInvalidException parseException(String fmt, Object... args) {
-    return ChangeNotes.parseException(changeId, fmt, args);
+    return ChangeNotes.parseException(change.getId(), fmt, args);
   }
 }

@@ -15,6 +15,7 @@
 package com.google.gerrit.server.notedb;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_CHANGE_KEY;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_LABEL;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_PATCH_SET;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_STATUS;
@@ -31,14 +32,13 @@ import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
+import com.google.gerrit.reviewdb.client.PatchLineComment.Status;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.client.PatchLineComment.Status;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.config.AllUsersName;
-import com.google.inject.Provider;
 import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MetaDataUpdate;
@@ -46,9 +46,11 @@ import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.util.LabelVote;
 import com.google.gwtorm.server.OrmException;
+import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 
+import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -87,6 +89,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   private final AccountCache accountCache;
   private final Map<String, Optional<Short>> approvals;
   private final Map<Account.Id, ReviewerState> reviewers;
+  private boolean create;
   private Change.Status status;
   private String subject;
   private List<SubmitRecord> submitRecords;
@@ -169,6 +172,10 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     this.reviewers = Maps.newLinkedHashMap();
     this.commentsForPs = Lists.newArrayList();
     this.commentsForBase = Lists.newArrayList();
+  }
+
+  public void create() {
+    this.create = true;
   }
 
   public void setStatus(Change.Status status) {
@@ -415,7 +422,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   }
 
   @Override
-  protected boolean onSave(CommitBuilder commit) {
+  protected boolean onSave(CommitBuilder commit) throws ConfigInvalidException {
     if (isEmpty()) {
       return false;
     }
@@ -436,7 +443,12 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       msg.append("\n\n");
     }
 
-
+    if (create) {
+      if (commit.getParentIds().length > 0) {
+        throw new ConfigInvalidException("cannot create() non-root commit");
+      }
+      addImmutableFooters(msg);
+    }
     addFooter(msg, FOOTER_PATCH_SET, ps);
     if (status != null) {
       addFooter(msg, FOOTER_STATUS, status.name().toLowerCase());
@@ -488,6 +500,10 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     return true;
   }
 
+  private void addImmutableFooters(StringBuilder msg) {
+    addFooter(msg, FOOTER_CHANGE_KEY, getChange().getKey().get());
+  }
+
   @Override
   protected Project.NameKey getProjectName() {
     return getProjectName(ctl);
@@ -498,6 +514,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
         && changeMessage == null
         && commentsForBase.isEmpty()
         && commentsForPs.isEmpty()
+        && !create
         && reviewers.isEmpty()
         && status == null
         && subject == null

@@ -118,6 +118,30 @@
       "revId": "a8ea0b05057f051aeedd1d2562fcbc82e2de147a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "36f49bd0_0fed6522",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-11T20:37:06Z",
+      "side": 1,
+      "message": "Exact the same issue as with Change an ChangeData here:\n\n* ChangeEdit: only user, change an reference\n* ChangeEditData: + parsed commit and retrieved base patch set from the database.\n\nThe same is reflected in ChangeEditUtil: two methods for loading the small or full blown edit reprepsentation. So the clien can decides how she wants to load edit.\n\nBut i can see, how it can be confusing in change edit case to draw this (not really existing) line between ref, commit and base patch set).\n\nAnother posibility would be to pass enum option to byChange() method to ask what actually to load and what not.",
+      "parentUuid": "b6dfab55_6be6214d",
+      "range": {
+        "startLine": 11,
+        "startChar": 60,
+        "endLine": 13,
+        "endChar": 20
+      },
+      "revId": "a8ea0b05057f051aeedd1d2562fcbc82e2de147a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

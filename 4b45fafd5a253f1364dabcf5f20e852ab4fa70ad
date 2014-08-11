@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "d66fbf39_04fb36e1",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/edit/ChangeEditIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-11T09:06:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "762b73c3_e9fed579",
+      "revId": "4b45fafd5a253f1364dabcf5f20e852ab4fa70ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d6fa5f81_6ca15b94",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/GetEditFileContent.java",
         "patchSetId": 6
@@ -48,6 +66,24 @@
       "writtenOn": "2014-08-08T17:26:44Z",
       "side": 1,
       "message": "Would be nice to avoid triple-opening the repo here (actually 4, one more when parsing the edit).\n\nI actually have an idea for improving this that I will pursue outside of this series. This is fine for now in this change.",
+      "revId": "4b45fafd5a253f1364dabcf5f20e852ab4fa70ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "36b3bbfb_17f0b473",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/GetEditFileContent.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-11T09:06:58Z",
+      "side": 1,
+      "message": "Letting it as is for now then.",
+      "parentUuid": "d6fa5f81_6ca15b94",
       "revId": "4b45fafd5a253f1364dabcf5f20e852ab4fa70ad",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.notedb;
 
+import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_CHANGE_KEY;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_LABEL;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_PATCH_SET;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_STATUS;
@@ -72,6 +73,7 @@ class ChangeNotesParser implements AutoCloseable {
   final Multimap<PatchSet.Id, PatchLineComment> commentsForBase;
   NoteMap commentNoteMap;
   Change.Status status;
+  Change.Key changeKey;
 
   private final Change.Id changeId;
   private final ObjectId tip;
@@ -139,10 +141,10 @@ class ChangeNotesParser implements AutoCloseable {
     if (status == null) {
       status = parseStatus(commit);
     }
+    parseChangeKey(commit);
     PatchSet.Id psId = parsePatchSetId(commit);
     Account.Id accountId = parseIdent(commit);
     parseChangeMessage(psId, accountId, commit);
-
 
     if (submitRecords.isEmpty()) {
       // Only parse the most recent set of submit records; any older ones are
@@ -159,6 +161,18 @@ class ChangeNotesParser implements AutoCloseable {
         parseReviewer(state, line);
       }
     }
+  }
+
+  private void parseChangeKey(RevCommit commit) throws ConfigInvalidException {
+    List<String> keyLines = commit.getFooterLines(FOOTER_CHANGE_KEY);
+    if (keyLines.isEmpty()) {
+      return;
+    } else if (commit.getParentCount() > 0) {
+      throw parseException("%s found in non-root commit", FOOTER_CHANGE_KEY);
+    } else if (keyLines.size() > 1) {
+      throw expectedOneFooter(FOOTER_CHANGE_KEY, keyLines);
+    }
+    changeKey = new Change.Key(keyLines.get(0));
   }
 
   private Change.Status parseStatus(RevCommit commit)

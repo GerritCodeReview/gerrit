@@ -236,6 +236,9 @@ public abstract class VersionedMetaData {
 
       @Override
       public void write(VersionedMetaData config, CommitBuilder commit) throws IOException {
+        if (src != null) {
+          commit.addParentId(src);
+        }
         if (!doSave(config, commit)) {
           return;
         }
@@ -252,10 +255,6 @@ public abstract class VersionedMetaData {
         } else {
           // In this case, the caller populated the tree without using DirCache.
           res = commit.getTreeId();
-        }
-
-        if (src != null) {
-          commit.addParentId(src);
         }
 
         src = inserter.insert(commit);

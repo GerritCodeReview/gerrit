@@ -86,6 +86,30 @@
       "revId": "e541e8f5688c54a12d199fb35740eae17e0c28bb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b6dfab55_4b0c855c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeRebuilder.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-11T21:03:09Z",
+      "side": 1,
+      "message": "Say we have a sequence of 4 writes to different tables, say somewhere in the submit code path, and they all use the current time instead of taking a single timestamp and reusing it. I haven\u0027t looked for such an example but it doesn\u0027t seem totally unreasonable.\n\nIf each of these writes takes 300ms on googlesource.com, then the fourth write will end up in a different bucket than the first, even though they all stem from a single end-user operation.",
+      "parentUuid": "960e27b4_ea1fa77e",
+      "range": {
+        "startLine": 173,
+        "startChar": 10,
+        "endLine": 174,
+        "endChar": 70
+      },
+      "revId": "e541e8f5688c54a12d199fb35740eae17e0c28bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

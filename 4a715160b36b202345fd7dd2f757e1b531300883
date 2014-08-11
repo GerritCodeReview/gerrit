@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d6e25f1a_2c09534c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeEdits.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-11T21:59:23Z",
+      "side": 1,
+      "message": "After changing this in latest patch set to throw 404 instead returning empty nap, like all other places where optional resources are loaded, e. g. list drafts, CS2 is failing to load for a change without edits in [1].\n\n [1] https://gerrit-review.googlesource.com/#/c/53541/21/gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
+      "range": {
+        "startLine": 82,
+        "startChar": 6,
+        "endLine": 82,
+        "endChar": 44
+      },
+      "revId": "4a715160b36b202345fd7dd2f757e1b531300883",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

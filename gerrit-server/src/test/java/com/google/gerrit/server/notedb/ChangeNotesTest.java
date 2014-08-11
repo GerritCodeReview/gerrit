@@ -970,6 +970,7 @@ public class ChangeNotesTest {
       assertEquals("Update patch set 1\n"
           + "\n"
           + "Change-Id: " + c.getKey().get() + "\n"
+          + "Branch: master\n"
           + "Patch-set: 1\n",
           commit.getFullMessage());
     } finally {

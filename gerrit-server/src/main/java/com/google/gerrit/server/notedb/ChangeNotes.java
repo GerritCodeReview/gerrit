@@ -282,9 +282,9 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       this.allPastReviewers = ImmutableList.copyOf(parser.allPastReviewers);
 
       submitRecords = ImmutableList.copyOf(parser.submitRecords);
-    } catch (ParseException e1) {
+    } catch (ParseException e) {
       // TODO(yyonas): figure out how to handle this exception
-      throw new IOException(e1);
+      throw new IOException(e);
     } finally {
       walk.release();
     }

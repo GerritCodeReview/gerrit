@@ -64,6 +64,35 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
   }
 
   @Test
+  public void parseChangeKey() throws Exception {
+    assertParseSucceeds("Update change\n"
+        + "\n"
+        + "Patch-set: 1\n"
+        + "Change-Id: Iabcd1234abcd1234abcd1234abcd1234abcd1234\n");
+    assertParseFails("Update change\n"
+        + "\n"
+        + "Patch-set: 1\n"
+        + "Change-Id: I9999999999999999999999999999999999999999\n");
+    assertParseFails("Update change\n"
+        + "\n"
+        + "Patch-Set: 1\n"
+        + "Change-Id: Iabcd1234abcd1234abcd1234abcd1234abcd1234\n"
+        + "Change-Id: Iabcd1234abcd1234abcd1234abcd1234abcd1234\n");
+  }
+
+  @Test
+  public void parseImmutableFieldsInNonRootCommit() throws Exception {
+    RevCommit parent = writeCommit("Update change\n"
+        + "\n"
+        + "Patch-set: 1\n");
+    assertParseFails(writeCommit("Update change\n"
+        + "\n"
+        + "Patch-set: 1\n"
+        + "Change-Id: Iabcd1234abcd1234abcd1234abcd1234abcd1234\n",
+        parent));
+  }
+
+  @Test
   public void parseStatus() throws Exception {
     assertParseSucceeds("Update change\n"
         + "\n"
@@ -168,14 +197,15 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
         + "Reviewer: 1@gerrit\n");
   }
 
-  private RevCommit writeCommit(String body) throws Exception {
+  private RevCommit writeCommit(String body, RevCommit... parents)
+      throws Exception {
     return writeCommit(body, ChangeNoteUtil.newIdent(
         changeOwner.getAccount(), TimeUtil.nowTs(), serverIdent,
-        "Anonymous Coward"));
+        "Anonymous Coward"), parents);
   }
 
-  private RevCommit writeCommit(String body, PersonIdent author)
-      throws Exception {
+  private RevCommit writeCommit(String body, PersonIdent author,
+      RevCommit... parents) throws Exception {
     ObjectInserter ins = testRepo.getRepository().newObjectInserter();
     try {
       CommitBuilder cb = new CommitBuilder();
@@ -183,6 +213,9 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
       cb.setCommitter(new PersonIdent(serverIdent, author.getWhen()));
       cb.setTreeId(testRepo.tree());
       cb.setMessage(body);
+      for (RevCommit p : parents) {
+        cb.addParentId(p);
+      }
       ObjectId id = ins.insert(cb);
       ins.flush();
       RevCommit commit = walk.parseCommit(id);

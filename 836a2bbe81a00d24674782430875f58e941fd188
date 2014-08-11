@@ -46,6 +46,30 @@
       "revId": "836a2bbe81a00d24674782430875f58e941fd188",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "36f49bd0_8f2ef5a9",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-11T22:12:58Z",
+      "side": 1,
+      "message": "I think i\u0027ve found a possible solution: return none 204 instead of 404. Still have to validate that it also works with change edit. For taht i need to rebase the whole series.\n\nThe problem seems to be in CannbackGroup code:\n\n  @Override\n    public void onFailure(Throwable caught) {\n      if (failed) {\n        return;\n      }\n\n      failed \u003d true;\n      failedThrowable \u003d caught;\n      for (CallbackImpl\u003c?\u003e cb : callbacks) {\n        cb.delegate.onFailure(failedThrowable);\n        cb.delegate \u003d null;\n        cb.result \u003d null;\n      }\n      callbacks.clear();\n      remaining.clear();\n    }\n\nThe callback group, particularly the line:\n\n  cb.delegate.onFailure(failedThrowable);\n\nis get called, that hits isNoSuchEntity(caught) case and calls ErrorDialog:\n\n  public abstract class GerritCallback\u003cT\u003e implements\n    com.google.gwtjsonrpc.common.AsyncCallback\u003cT\u003e,\n    com.google.gwt.user.client.rpc.AsyncCallback\u003cT\u003e {\n  public void onFailure(final Throwable caught) {\n    if (isNotSignedIn(caught) || isInvalidXSRF(caught)) {\n      new NotSignedInDialog().center();\n\n    } else if (isNoSuchEntity(caught)) {\n      if (Gerrit.isSignedIn()) {\n        new ErrorDialog(Gerrit.C.notFoundBody()).center();",
+      "parentUuid": "960e27b4_0a1b1b8f",
+      "range": {
+        "startLine": 209,
+        "startChar": 12,
+        "endLine": 213,
+        "endChar": 14
+      },
+      "revId": "836a2bbe81a00d24674782430875f58e941fd188",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

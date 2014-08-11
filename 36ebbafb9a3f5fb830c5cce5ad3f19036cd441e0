@@ -1,0 +1,135 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9697075e_a2f9dee6",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/edit/ChangeEditIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-11T15:37:53Z",
+      "side": 1,
+      "message": "Check that the contents are what you expect.",
+      "revId": "36ebbafb9a3f5fb830c5cce5ad3f19036cd441e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9697075e_c2f4e2f0",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/edit/ChangeEditIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-11T15:37:53Z",
+      "side": 1,
+      "message": "Check that the commit dates aren\u0027t equivalent, since that was missed in the implementation.",
+      "revId": "36ebbafb9a3f5fb830c5cce5ad3f19036cd441e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9697075e_02fbeae1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-11T15:37:53Z",
+      "side": 1,
+      "message": "m.setObjectInserter(inserter) so we only have one inserter for the whole operation",
+      "revId": "36ebbafb9a3f5fb830c5cce5ad3f19036cd441e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9697075e_22edce22",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-11T15:37:53Z",
+      "side": 1,
+      "message": "editCommit",
+      "range": {
+        "startLine": 161,
+        "startChar": 18,
+        "endLine": 161,
+        "endChar": 38
+      },
+      "revId": "36ebbafb9a3f5fb830c5cce5ad3f19036cd441e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9697075e_42f0d2fe",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-11T15:37:53Z",
+      "side": 1,
+      "message": "I think we need to handle this more gracefully, even if it\u0027s just a nicer error message. Consider this scenario:\n\n* Reviewer suggests a fix in code review.\n* They get impatient and make the change themself.\n* Original author gets around to the fix and uploads a new patch set.\n* Reviewer wants to make some more changes or something, so rebases their edits.\n\nActually I think the right thing to do here is to succeed. The rebased edit will be empty, but that in and of itself is useful information: the reviewer can see that the latest patch set made the same edits they suggested.",
+      "revId": "36ebbafb9a3f5fb830c5cce5ad3f19036cd441e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "769c5384_c1dbc289",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-11T15:37:53Z",
+      "side": 1,
+      "message": "Needs a new commit timestamp",
+      "range": {
+        "startLine": 172,
+        "startChar": 35,
+        "endLine": 172,
+        "endChar": 65
+      },
+      "revId": "36ebbafb9a3f5fb830c5cce5ad3f19036cd441e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9697075e_e2ffe6c9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-11T15:37:53Z",
+      "side": 1,
+      "message": "Until this can be implemented, how does the user recover? Delete the edit and create a new one I guess? This is fine, as long as it\u0027s not too difficult to do from the UI (e.g. doesn\u0027t require reverting each file individually).",
+      "revId": "36ebbafb9a3f5fb830c5cce5ad3f19036cd441e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

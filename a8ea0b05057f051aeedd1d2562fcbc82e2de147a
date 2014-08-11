@@ -142,6 +142,30 @@
       "revId": "a8ea0b05057f051aeedd1d2562fcbc82e2de147a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "960e27b4_6a0f3753",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-11T20:39:48Z",
+      "side": 1,
+      "message": "\u003e Another posibility would be to pass enum option to byChange() method to ask what actually to load and what not.\n\nI understand the desire here to not parse too much, but I think at this point it\u0027s a premature optimization.",
+      "parentUuid": "36f49bd0_0fed6522",
+      "range": {
+        "startLine": 11,
+        "startChar": 60,
+        "endLine": 13,
+        "endChar": 20
+      },
+      "revId": "a8ea0b05057f051aeedd1d2562fcbc82e2de147a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

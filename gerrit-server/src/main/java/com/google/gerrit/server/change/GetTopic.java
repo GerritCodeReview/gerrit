@@ -19,7 +19,7 @@ import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.inject.Singleton;
 
 @Singleton
-class GetTopic implements RestReadView<ChangeResource> {
+public class GetTopic implements RestReadView<ChangeResource> {
   @Override
   public String apply(ChangeResource rsrc) {
     return Strings.nullToEmpty(rsrc.getChange().getTopic());

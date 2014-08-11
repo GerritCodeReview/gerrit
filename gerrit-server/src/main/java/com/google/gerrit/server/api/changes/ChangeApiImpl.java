@@ -29,7 +29,9 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.change.Abandon;
 import com.google.gerrit.server.change.ChangeJson;
 import com.google.gerrit.server.change.ChangeResource;
+import com.google.gerrit.server.change.GetTopic;
 import com.google.gerrit.server.change.PostReviewers;
+import com.google.gerrit.server.change.PutTopic;
 import com.google.gerrit.server.change.Restore;
 import com.google.gerrit.server.change.Revert;
 import com.google.gerrit.server.change.Revisions;
@@ -53,6 +55,8 @@ class ChangeApiImpl extends ChangeApi.NotImplemented implements ChangeApi {
   private final Abandon abandon;
   private final Revert revert;
   private final Restore restore;
+  private final GetTopic getTopic;
+  private final PutTopic putTopic;
   private final Provider<PostReviewers> postReviewers;
   private final Provider<ChangeJson> changeJson;
 
@@ -63,6 +67,8 @@ class ChangeApiImpl extends ChangeApi.NotImplemented implements ChangeApi {
       Abandon abandon,
       Revert revert,
       Restore restore,
+      GetTopic getTopic,
+      PutTopic putTopic,
       Provider<PostReviewers> postReviewers,
       Provider<ChangeJson> changeJson,
       @Assisted ChangeResource change) {
@@ -72,6 +78,8 @@ class ChangeApiImpl extends ChangeApi.NotImplemented implements ChangeApi {
     this.revisionApi = revisionApi;
     this.abandon = abandon;
     this.restore = restore;
+    this.getTopic = getTopic;
+    this.putTopic = putTopic;
     this.postReviewers = postReviewers;
     this.changeJson = changeJson;
     this.change = change;
@@ -141,6 +149,22 @@ class ChangeApiImpl extends ChangeApi.NotImplemented implements ChangeApi {
       return changeApi.id(revert.apply(change, in)._number);
     } catch (OrmException | EmailException | IOException e) {
       throw new RestApiException("Cannot revert change", e);
+    }
+  }
+
+  @Override
+  public String topic() throws RestApiException {
+    return getTopic.apply(change);
+  }
+
+  @Override
+  public void topic(String topic) throws RestApiException {
+    PutTopic.Input in = new PutTopic.Input();
+    in.topic = topic;
+    try {
+      putTopic.apply(change, in);
+    } catch (OrmException | IOException e) {
+      throw new RestApiException("Cannot set topic", e);
     }
   }
 

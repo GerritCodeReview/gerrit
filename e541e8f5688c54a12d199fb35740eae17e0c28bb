@@ -206,6 +206,30 @@
       "revId": "e541e8f5688c54a12d199fb35740eae17e0c28bb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b6dfab55_2b1ed97e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeRebuilder.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-11T22:51:21Z",
+      "side": 1,
+      "message": "That\u0027s a good point, that would make it easier to process by user in parallel.\n\nHowever, that sort is not a drop-in replacement for the current sort in the current code, because then we would need to post-sort by time after the initial sort.",
+      "parentUuid": "b6dfab55_4b11256f",
+      "range": {
+        "startLine": 173,
+        "startChar": 10,
+        "endLine": 174,
+        "endChar": 70
+      },
+      "revId": "e541e8f5688c54a12d199fb35740eae17e0c28bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

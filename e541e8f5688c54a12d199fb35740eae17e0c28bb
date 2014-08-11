@@ -182,6 +182,30 @@
       "revId": "e541e8f5688c54a12d199fb35740eae17e0c28bb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b6dfab55_4b11256f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeRebuilder.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-08-11T22:46:25Z",
+      "side": 1,
+      "message": "Since a single ChangeUpdate will never have changes by multiple users, is there any reason to sort on time before author because if we switch those, I think that\u0027ll save us some extra updates because I think the sorted list would interleave authors as it is now?",
+      "parentUuid": "960e27b4_2a1edf7e",
+      "range": {
+        "startLine": 173,
+        "startChar": 10,
+        "endLine": 174,
+        "endChar": 70
+      },
+      "revId": "e541e8f5688c54a12d199fb35740eae17e0c28bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

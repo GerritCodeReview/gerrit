@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.notedb;
 
+import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_BRANCH;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_CHANGE_KEY;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_LABEL;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_PATCH_SET;
@@ -35,12 +36,14 @@ import com.google.common.collect.Tables;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.PatchSetApproval.LabelId;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.util.LabelVote;
 
@@ -74,8 +77,10 @@ class ChangeNotesParser implements AutoCloseable {
   NoteMap commentNoteMap;
   Change.Status status;
   Change.Key changeKey;
+  Branch.NameKey branch;
 
   private final Change.Id changeId;
+  private final Project.NameKey project;
   private final ObjectId tip;
   private final RevWalk walk;
   private final Repository repo;
@@ -87,6 +92,7 @@ class ChangeNotesParser implements AutoCloseable {
       GitRepositoryManager repoManager) throws RepositoryNotFoundException,
       IOException {
     this.changeId = change.getId();
+    this.project = change.getProject();
     this.tip = tip;
     this.walk = walk;
     this.repo = repoManager.openRepository(ChangeNotes.getProjectName(change));
@@ -142,6 +148,7 @@ class ChangeNotesParser implements AutoCloseable {
       status = parseStatus(commit);
     }
     parseChangeKey(commit);
+    parseBranch(commit);
     PatchSet.Id psId = parsePatchSetId(commit);
     Account.Id accountId = parseIdent(commit);
     parseChangeMessage(psId, accountId, commit);
@@ -164,15 +171,17 @@ class ChangeNotesParser implements AutoCloseable {
   }
 
   private void parseChangeKey(RevCommit commit) throws ConfigInvalidException {
-    List<String> keyLines = commit.getFooterLines(FOOTER_CHANGE_KEY);
-    if (keyLines.isEmpty()) {
-      return;
-    } else if (commit.getParentCount() > 0) {
-      throw parseException("%s found in non-root commit", FOOTER_CHANGE_KEY);
-    } else if (keyLines.size() > 1) {
-      throw expectedOneFooter(FOOTER_CHANGE_KEY, keyLines);
+    String k = parseImmutableField(commit, FOOTER_CHANGE_KEY);
+    if (k != null) {
+      changeKey = new Change.Key(k);
     }
-    changeKey = new Change.Key(keyLines.get(0));
+  }
+
+  private void parseBranch(RevCommit commit) throws ConfigInvalidException {
+    String b = parseImmutableField(commit, FOOTER_BRANCH);
+    if (b != null) {
+      branch = new Branch.NameKey(project, b);
+    }
   }
 
   private Change.Status parseStatus(RevCommit commit)
@@ -400,6 +409,19 @@ class ChangeNotesParser implements AutoCloseable {
         }
       }
     }
+  }
+
+  private String parseImmutableField(RevCommit commit, FooterKey footer)
+      throws ConfigInvalidException {
+    List<String> lines = commit.getFooterLines(footer);
+    if (lines.isEmpty()) {
+      return null;
+    } else if (commit.getParentCount() > 0) {
+      throw parseException("%s found in non-root commit", footer);
+    } else if (lines.size() > 1) {
+      throw expectedOneFooter(footer, lines);
+    }
+    return lines.get(0);
   }
 
   private ConfigInvalidException expectedOneFooter(FooterKey footer,

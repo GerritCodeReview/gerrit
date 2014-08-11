@@ -24,8 +24,9 @@ public class ChangeNoteUtil {
   static final String GERRIT_PLACEHOLDER_HOST = "gerrit";
 
   // Change entity fields.
-  static final FooterKey FOOTER_STATUS = new FooterKey("Status");
+  static final FooterKey FOOTER_BRANCH = new FooterKey("Branch");
   static final FooterKey FOOTER_CHANGE_KEY = MergeUtil.CHANGE_ID;
+  static final FooterKey FOOTER_STATUS = new FooterKey("Status");
 
   // Child entity fields.
   static final FooterKey FOOTER_LABEL = new FooterKey("Label");

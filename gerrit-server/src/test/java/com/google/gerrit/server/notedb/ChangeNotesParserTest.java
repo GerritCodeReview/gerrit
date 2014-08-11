@@ -16,7 +16,9 @@ package com.google.gerrit.server.notedb;
 
 import static org.junit.Assert.fail;
 
+import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.util.TimeUtil;
+import com.google.gerrit.testutil.TestChanges;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
@@ -30,6 +32,8 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.sql.Timestamp;
 
 public class ChangeNotesParserTest extends AbstractChangeNotesTest {
   private TestRepository<InMemoryRepository> testRepo;
@@ -61,6 +65,40 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
         + "Patch-Set: 1\n",
         new PersonIdent("Change Owner", "x@gerrit",
           serverIdent.getWhen(), serverIdent.getTimeZone())));
+  }
+
+  @Test
+  public void parseOwner() throws Exception {
+    assertParseSucceeds("Update change\n"
+        + "\n"
+        + "Patch-Set: 1\n"
+        + "Change-Id: Iabcd1234abcd1234abcd1234abcd1234abcd1234\n");
+
+    RevCommit commit = writeCommit("Update change\n"
+        + "\n"
+        + "Patch-Set: 1\n"
+        + "Change-Id: Iabcd1234abcd1234abcd1234abcd1234abcd1234\n",
+        ChangeNoteUtil.newIdent(changeOwner.getAccount(), TimeUtil.nowTs(),
+          serverIdent, "Anonymous Coward"));
+    Change c = TestChanges.newChange(project, changeOwner, TimeUtil.nowTs());
+    try (ChangeNotesParser parser = newParser(commit, c)) {
+      assertParseFails(parser, commit);
+    }
+  }
+
+  @Test
+  public void parseCreatedOn() throws Exception {
+    assertParseSucceeds("Update change\n"
+        + "\n"
+        + "Patch-Set: 1\n"
+        + "Change-Id: Iabcd1234abcd1234abcd1234abcd1234abcd1234\n");
+
+    assertParseFails(writeCommit("Update change\n"
+        + "\n"
+        + "Patch-Set: 1\n"
+        + "Change-Id: Iabcd1234abcd1234abcd1234abcd1234abcd1234\n",
+        ChangeNoteUtil.newIdent(otherUser.getAccount(), TimeUtil.nowTs(),
+          serverIdent, "Anonymous Coward")));
   }
 
   @Test
@@ -264,6 +302,13 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
 
   private void assertParseFails(RevCommit commit) throws Exception {
     try (ChangeNotesParser parser = newParser(commit)) {
+      assertParseFails(parser, commit);
+    }
+  }
+
+  private void assertParseFails(ChangeNotesParser parser, RevCommit commit)
+      throws Exception {
+    try {
       parser.parseAll();
       fail("Expected parse to fail:\n" + commit.getFullMessage());
     } catch (ConfigInvalidException e) {
@@ -271,7 +316,13 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
     }
   }
 
-  private ChangeNotesParser newParser(ObjectId tip) throws Exception {
-    return new ChangeNotesParser(newChange(), tip, walk, repoManager);
+  private ChangeNotesParser newParser(RevCommit tip) throws Exception {
+    Change c = TestChanges.newChange(project, changeOwner,
+        new Timestamp(tip.getAuthorIdent().getWhen().getTime()));
+    return newParser(tip, c);
+  }
+
+  private ChangeNotesParser newParser(RevCommit tip, Change c) throws Exception {
+    return new ChangeNotesParser(c, tip, walk, repoManager);
   }
 }

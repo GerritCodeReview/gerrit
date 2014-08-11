@@ -46,6 +46,7 @@ import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.util.LabelVote;
+import com.google.gerrit.server.util.TimeUtil;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
@@ -445,6 +446,11 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     }
 
     if (create) {
+      if (!TimeUtil.equalToSecond(when, getChange().getCreatedOn())) {
+        throw new ConfigInvalidException(String.format(
+            "update time must match change time: %s != %s",
+            when, getChange().getCreatedOn()));
+      }
       if (commit.getParentIds().length > 0) {
         throw new ConfigInvalidException("cannot create() non-root commit");
       }

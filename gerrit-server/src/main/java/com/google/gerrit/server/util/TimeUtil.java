@@ -17,6 +17,7 @@ package com.google.gerrit.server.util;
 import org.joda.time.DateTimeUtils;
 
 import java.sql.Timestamp;
+import java.util.Date;
 
 /** Static utility methods for dealing with dates and times. */
 public class TimeUtil {
@@ -30,6 +31,10 @@ public class TimeUtil {
 
   public static Timestamp roundToSecond(Timestamp t) {
     return new Timestamp((t.getTime() / 1000) * 1000);
+  }
+
+  public static boolean equalToSecond(Date a, Date b) {
+    return a.getTime() / 1000 == b.getTime() / 1000;
   }
 
   private TimeUtil() {

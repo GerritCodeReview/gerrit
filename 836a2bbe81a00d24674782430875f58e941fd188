@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d6e25f1a_4c0c9f5c",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-11T21:57:36Z",
+      "side": 1,
+      "message": "Since the endpoint was changed to return EditInfo direclty when it exists and throw 404 when it doesn\u0027t, this code fails to recover. All optional stuff in REST API works that way: Map when optional, e. g. ListDrafts.",
+      "range": {
+        "startLine": 209,
+        "startChar": 12,
+        "endLine": 213,
+        "endChar": 14
+      },
+      "revId": "836a2bbe81a00d24674782430875f58e941fd188",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b6dfab55_0bed5d22",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-11T20:44:42Z",
+      "side": 1,
+      "message": "I think this heuristic is wrong.\n\nIt works for change key and destination branch, but will not work when we try to parse out the owner and creation time from the notedb. In the case where notedb.write \u003d true but RebuildNoteDb has not been run, the root commit for a change will have an arbitrary author and timestamp.\n\nI think we need to have an explicit method called create() or something that says to record all the immutable fields (changeKey, createdOn, owner, dest) in this commit.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 23
+      },
+      "revId": "ab23cf42d30db516cf50300fffae604e6d3c4b3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

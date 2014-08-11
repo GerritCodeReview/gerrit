@@ -22,6 +22,30 @@
       "revId": "836a2bbe81a00d24674782430875f58e941fd188",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "960e27b4_0a1b1b8f",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-11T22:06:19Z",
+      "side": 1,
+      "message": "If this is widespread in the REST API I guess I can live with that. But ListDrafts is different: it\u0027s a map with 0 or more elements.\n\nCan you point me to some examples where we use a 0-or-1 element map is used for a single optional value? It seems like we have plenty of non-list \"GET\" endpoints, e.g. GetChange.\n\nI would be surprised to find that there is no way to handle a 404 in the callback code, but I\u0027m not deeply familiar with how these Throwables are constructed.",
+      "parentUuid": "d6e25f1a_4c0c9f5c",
+      "range": {
+        "startLine": 209,
+        "startChar": 12,
+        "endLine": 213,
+        "endChar": 14
+      },
+      "revId": "836a2bbe81a00d24674782430875f58e941fd188",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

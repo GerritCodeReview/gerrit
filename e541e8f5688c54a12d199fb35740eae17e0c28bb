@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "960e27b4_ca24e3cf",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/RebuildNotedb.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-08-11T20:57:47Z",
+      "side": 1,
+      "message": "Grouping by project would allow you to write multiple changes into a single packfile together. Alternating projects wouldn\u0027t be able to combine object writes, which will lead to a lot of loose objects on disk.\n\nUnfortunately stock local filesystem JGit can\u0027t write a lot of new objects to pack files. It only writes them as loose objects. We may need to revisit that in JGit to make this RebuildNoteDb work well in Gerrit. It more-or-less needs a \"git fast-import\"y style of writing data to the repo.",
+      "range": {
+        "startLine": 174,
+        "startChar": 67,
+        "endLine": 176,
+        "endChar": 27
+      },
+      "revId": "e541e8f5688c54a12d199fb35740eae17e0c28bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "960e27b4_0a067b3c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeRebuilder.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-08-11T20:57:47Z",
+      "side": 1,
+      "message": "Just so long as we don\u0027t create a ChangeChangerFactory, I think we are OK. :)",
+      "revId": "e541e8f5688c54a12d199fb35740eae17e0c28bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "960e27b4_ea1fa77e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeRebuilder.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-08-11T20:57:47Z",
+      "side": 1,
+      "message": "Do you see cases where this really matters? Most edits to a change aren\u0027t concurrent. Sorting by rounded-to-second time and author should get you approximately the best batching possible.",
+      "range": {
+        "startLine": 173,
+        "startChar": 10,
+        "endLine": 174,
+        "endChar": 70
+      },
+      "revId": "e541e8f5688c54a12d199fb35740eae17e0c28bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

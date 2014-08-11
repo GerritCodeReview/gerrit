@@ -279,6 +279,30 @@
     },
     {
       "key": {
+        "uuid": "769c5384_81e6da49",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ListChangeEdits.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-11T15:41:33Z",
+      "side": 1,
+      "message": "\u003e Because this done analogeously with Map\u003cString, RevisionInfo\u003e map from ChangeInfo\n\nI don\u0027t think this is a useful analogy.\n\n\u003e Another possible answer is to not pass null values over the wire\n\n404 instead.",
+      "parentUuid": "36b3bbfb_d750fcec",
+      "range": {
+        "startLine": 77,
+        "startChar": 9,
+        "endLine": 77,
+        "endChar": 30
+      },
+      "revId": "95df27f993c3a2c653c58f9389f796292241c6b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "762b73c3_69f2e5bc",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ListChangeEdits.java",
         "patchSetId": 15

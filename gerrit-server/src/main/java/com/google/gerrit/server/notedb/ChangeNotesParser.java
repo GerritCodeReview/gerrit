@@ -64,6 +64,7 @@ import java.sql.Timestamp;
 import java.text.ParseException;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -77,6 +78,8 @@ class ChangeNotesParser implements AutoCloseable {
   NoteMap commentNoteMap;
   Change.Status status;
   Change.Key changeKey;
+  Account.Id owner;
+  Date createdOn;
   Branch.NameKey branch;
 
   private final Change.Id changeId;
@@ -147,10 +150,9 @@ class ChangeNotesParser implements AutoCloseable {
     if (status == null) {
       status = parseStatus(commit);
     }
-    parseChangeKey(commit);
-    parseBranch(commit);
-    PatchSet.Id psId = parsePatchSetId(commit);
     Account.Id accountId = parseIdent(commit);
+    parseImmutableFields(commit, accountId);
+    PatchSet.Id psId = parsePatchSetId(commit);
     parseChangeMessage(psId, accountId, commit);
 
     if (submitRecords.isEmpty()) {
@@ -167,6 +169,16 @@ class ChangeNotesParser implements AutoCloseable {
       for (String line : commit.getFooterLines(state.getFooterKey())) {
         parseReviewer(state, line);
       }
+    }
+  }
+
+  private void parseImmutableFields(RevCommit commit, Account.Id accountId)
+      throws ConfigInvalidException {
+    parseChangeKey(commit);
+    parseBranch(commit);
+    if (changeKey != null) {
+      owner = accountId;
+      createdOn = commit.getAuthorIdent().getWhen();
     }
   }
 

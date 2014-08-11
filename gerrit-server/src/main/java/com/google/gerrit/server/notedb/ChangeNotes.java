@@ -37,6 +37,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.AllUsersNameProvider;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.util.TimeUtil;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -263,20 +264,9 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
         new ChangeNotesParser(change, rev, walk, repoManager)) {
       parser.parseAll();
 
+      checkImmutableFields(parser);
       if (parser.status != null) {
         change.setStatus(parser.status);
-      }
-      if (parser.changeKey != null
-          && !parser.changeKey.equals(change.getKey())) {
-        throw parseException(change.getId(), String.format(
-            "change key in notedb does does not match change entity: %s != %s",
-            parser.changeKey.get(), change.getKey().get()));
-      }
-      if (parser.branch != null
-          && !parser.branch.equals(change.getDest())) {
-        throw parseException(change.getId(), String.format(
-            "change key in notedb does does not match change entity: %s != %s",
-            parser.branch.get(), change.getDest().get()));
       }
       approvals = parser.buildApprovals();
       changeMessages = parser.buildMessages();
@@ -300,6 +290,38 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     } finally {
       walk.release();
     }
+  }
+
+  private void checkImmutableFields(ChangeNotesParser parser) throws
+      ConfigInvalidException {
+    // TODO(dborowitz): Use parsed values instead of requiring callers to
+    // provide a Change.
+    if (parser.changeKey != null) {
+      if (!parser.changeKey.equals(change.getKey())) {
+        throw parseMismatch("change key", parser.changeKey, change.getKey());
+      }
+
+      if (parser.owner != null
+          && !parser.owner.equals(change.getOwner())) {
+        throw parseMismatch("owner", parser.owner, change.getOwner());
+      }
+      if (parser.createdOn != null
+          && !TimeUtil.equalToSecond(parser.createdOn, change.getCreatedOn())) {
+        throw parseMismatch(
+            "createdOn", parser.createdOn, change.getCreatedOn());
+      }
+    }
+    if (parser.branch != null
+        && !parser.branch.equals(change.getDest())) {
+      throw parseMismatch("branch", parser.branch, change.getDest());
+    }
+  }
+
+  private ConfigInvalidException parseMismatch(String name,
+      Object fromParser, Object fromChange) {
+    return parseException(change.getId(), String.format(
+        "%s in notedb does not match change entity: %s != %s",
+        name, fromParser, fromChange));
   }
 
   private void loadDefaults() {

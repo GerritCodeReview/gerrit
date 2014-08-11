@@ -37,6 +37,7 @@ import com.google.inject.Injector;
 
 import org.easymock.EasyMock;
 
+import java.sql.Timestamp;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -65,7 +66,14 @@ public class TestChanges {
 
   public static ChangeUpdate newUpdate(Injector injector,
       GitRepositoryManager repoManager, Change c,
-      final AllUsersNameProvider allUsers, final IdentifiedUser user)
+      AllUsersNameProvider allUsers, IdentifiedUser user) throws OrmException {
+    return newUpdate(injector, repoManager, c, allUsers, user, TimeUtil.nowTs());
+  }
+
+  public static ChangeUpdate newUpdate(Injector injector,
+      GitRepositoryManager repoManager, Change c,
+      final AllUsersNameProvider allUsers, final IdentifiedUser user,
+      Timestamp when)
       throws OrmException {
     return injector.createChildInjector(new FactoryModule() {
       @Override
@@ -76,7 +84,7 @@ public class TestChanges {
         bind(AllUsersName.class).toProvider(allUsers);
       }
     }).getInstance(ChangeUpdate.Factory.class).create(
-        stubChangeControl(repoManager, c, allUsers, user), TimeUtil.nowTs(),
+        stubChangeControl(repoManager, c, allUsers, user), when,
         Ordering.<String> natural());
   }
 

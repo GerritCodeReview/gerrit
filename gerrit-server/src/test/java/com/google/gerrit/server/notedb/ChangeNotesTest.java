@@ -383,7 +383,7 @@ public class ChangeNotesTest {
   @Test
   public void immutableFieldsOnCreation() throws Exception {
     Change c = newChange();
-    ChangeUpdate update = newUpdate(c, changeOwner);
+    ChangeUpdate update = newUpdate(c, changeOwner, c.getCreatedOn());
     update.create();
     update.commit();
 
@@ -959,7 +959,7 @@ public class ChangeNotesTest {
   @Test
   public void immutableFieldsCommitFormat() throws Exception {
     Change c = newChange();
-    ChangeUpdate update = newUpdate(c, changeOwner);
+    ChangeUpdate update = newUpdate(c, changeOwner, c.getCreatedOn());
     update.create();
     update.commit();
 
@@ -1521,6 +1521,12 @@ public class ChangeNotesTest {
   private ChangeUpdate newUpdate(Change c, IdentifiedUser user)
       throws OrmException {
     return TestChanges.newUpdate(injector, repoManager, c, allUsers, user);
+  }
+
+  private ChangeUpdate newUpdate(Change c, IdentifiedUser user, Timestamp when)
+      throws OrmException {
+    return TestChanges.newUpdate(
+        injector, repoManager, c, allUsers, user, when);
   }
 
   private ChangeNotes newNotes(Change c) throws OrmException {

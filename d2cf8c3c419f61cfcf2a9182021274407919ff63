@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "36b3bbfb_37d058df",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/RestSession.java",
+        "patchSetId": 34
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-11T09:05:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d6fa5f81_acd1830a",
+      "revId": "d2cf8c3c419f61cfcf2a9182021274407919ff63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "762b73c3_89d8f93b",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/edit/ChangeEditIT.java",
         "patchSetId": 34
@@ -30,6 +48,24 @@
       "writtenOn": "2014-08-08T17:20:29Z",
       "side": 1,
       "message": "amend\n\n(bad rebase?)",
+      "revId": "d2cf8c3c419f61cfcf2a9182021274407919ff63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "36b3bbfb_77cad02c",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/edit/ChangeEditIT.java",
+        "patchSetId": 34
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-11T09:05:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "762b73c3_89d8f93b",
       "revId": "d2cf8c3c419f61cfcf2a9182021274407919ff63",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -51,6 +87,53 @@
         "startLine": 312,
         "startChar": 17,
         "endLine": 312,
+        "endChar": 20
+      },
+      "revId": "d2cf8c3c419f61cfcf2a9182021274407919ff63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "36b3bbfb_57c5cc1b",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/edit/ChangeEditIT.java",
+        "patchSetId": 34
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-11T09:05:48Z",
+      "side": 1,
+      "message": "204 No Content\nDone",
+      "parentUuid": "d6fa5f81_8cce4764",
+      "range": {
+        "startLine": 312,
+        "startChar": 17,
+        "endLine": 312,
+        "endChar": 20
+      },
+      "revId": "d2cf8c3c419f61cfcf2a9182021274407919ff63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "36b3bbfb_97de84ef",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/edit/ChangeEditIT.java",
+        "patchSetId": 34
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-11T09:05:48Z",
+      "side": 1,
+      "message": "Done",
+      "range": {
+        "startLine": 318,
+        "startChar": 17,
+        "endLine": 318,
         "endChar": 20
       },
       "revId": "d2cf8c3c419f61cfcf2a9182021274407919ff63",
@@ -82,6 +165,30 @@
     },
     {
       "key": {
+        "uuid": "d66fbf39_a4e26234",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/edit/ChangeEditIT.java",
+        "patchSetId": 34
+      },
+      "lineNbr": 423,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-11T09:05:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d6fa5f81_ecdb8b24",
+      "range": {
+        "startLine": 423,
+        "startChar": 17,
+        "endLine": 423,
+        "endChar": 23
+      },
+      "revId": "d2cf8c3c419f61cfcf2a9182021274407919ff63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d6fa5f81_ccd84f2b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeEditResource.java",
         "patchSetId": 34
@@ -93,6 +200,24 @@
       "writtenOn": "2014-08-08T17:20:29Z",
       "side": 1,
       "message": "This resource is really two kinds of resources:\n\n* The edit itself\n* A path within the edit\n\ndistinguished by whether path is null or not. I think this is sufficiently subtle that it should be documented.\n\n(Of course they should really be two classes but I understand the RestCollection stuff doesn\u0027t let us do this.)",
+      "revId": "d2cf8c3c419f61cfcf2a9182021274407919ff63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "56ae6f94_985955c2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeEditResource.java",
+        "patchSetId": 34
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-11T09:05:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d6fa5f81_ccd84f2b",
       "revId": "d2cf8c3c419f61cfcf2a9182021274407919ff63",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -116,6 +241,24 @@
     },
     {
       "key": {
+        "uuid": "36b3bbfb_b7db88fe",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateOrModifyChangeEdit.java",
+        "patchSetId": 34
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-11T09:05:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d6fa5f81_2ca753ad",
+      "revId": "d2cf8c3c419f61cfcf2a9182021274407919ff63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "762b73c3_690b05f9",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateOrModifyChangeEdit.java",
         "patchSetId": 34
@@ -133,6 +276,24 @@
     },
     {
       "key": {
+        "uuid": "36b3bbfb_d7d8fc03",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateOrModifyChangeEdit.java",
+        "patchSetId": 34
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-11T09:05:48Z",
+      "side": 1,
+      "message": "| The problem is the race condition when the latest patch set advanced before your PUT happened.\n\nYou have just said more or less what i\u0027ve said in this comment [1] at 09:52 PM.\n\n| I think requiring this to be split into two requests, one to POST /changes/X/edit\n\nThere is an usability issue with this approach: from the file table of regular patch set on CS2 user would like to select a file to modify/restore/delete and push on save button, done. That worked in previous implementation, as i used revision based URLs. With latest approach where we are using last/current patch set as base for the edit we cannot reliable garantee that the edit is going to be created on the patch set the user is currently browsing unless we pass the patch set number as parameter to the change edit create endpoint, what we could do in case of PUT, in fact we are passing already restore flag. But we cannot passt base patch set number on DELETE, while some load balancers don\u0027t support passing request body on DELETE. For one the probability, that someone else creates new revision in same moment ls very low, and for another do re really care when this is happened? With current approach, change edit cannot be published and must be rebased first, resolving conflicts, etc. This is even not different from the fact when new patch set is created after change edit was created against right base revision: It must be rebased before it can be published. \n\nHaving said that, i suggest to stay with allowing to create change edits directly by PUT or DELETE on non-existing edit collection resource. This is how this is  implemented in latest version of this series. So the user can now very easy conduct change edit with multiple modifications:\n\nSuppose a revision has different modifications in 10 files: 3 deleted, 3 added and 4 modified. User would like to restore 2 files form 3, delete 2 from 3 and modify 2 from 4:\n\n* open latest revision, say 7 (no change edit exists so far for this change)\n* switch to edit mode in file table\n* click on restore icon or delete icon or modify icon and change content. New edit is created.\n* CS2 is refreshed and edit is opened (because it is based on latest patch set)\n* switch to revision 7 again, switch file table to edit mode, perform desired modification\n* repeat these steps for all files\n\nI think this can be even optimized by providing a \"Multiply modifications\" - checkbox on file table header  (?) to stay on the revision and not to reload change edit. Similar concept is used in Atlasian\u0027s JRA create issue dialog, having: \"Create another\" - checkbox, Create and Cancel buttons.\n\n [1] https://gerrit-review.googlesource.com/#/c/56417/23/\n    gerritserver/src/main/java/com/google/gerrit/server/\n    edit/ChangeEditModifier.java",
+      "parentUuid": "762b73c3_690b05f9",
+      "revId": "d2cf8c3c419f61cfcf2a9182021274407919ff63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "762b73c3_0916c924",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutContent.java",
         "patchSetId": 34
@@ -144,6 +305,30 @@
       "writtenOn": "2014-08-08T17:20:29Z",
       "side": 1,
       "message": "I would be explicit and call this PutEditContent",
+      "range": {
+        "startLine": 32,
+        "startChar": 13,
+        "endLine": 32,
+        "endChar": 23
+      },
+      "revId": "d2cf8c3c419f61cfcf2a9182021274407919ff63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "36b3bbfb_f7d500cb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutContent.java",
+        "patchSetId": 34
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-11T09:05:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "762b73c3_0916c924",
       "range": {
         "startLine": 32,
         "startChar": 13,

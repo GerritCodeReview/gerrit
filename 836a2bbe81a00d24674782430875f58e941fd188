@@ -70,6 +70,30 @@
       "revId": "836a2bbe81a00d24674782430875f58e941fd188",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "960e27b4_ca4d0386",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-11T22:15:28Z",
+      "side": 1,
+      "message": "Thanks for digging in to the cause. I know I wrote some of that code, so sorry.\n\nIn this case I think 204 None is an acceptable compromise.",
+      "parentUuid": "36f49bd0_8f2ef5a9",
+      "range": {
+        "startLine": 209,
+        "startChar": 12,
+        "endLine": 213,
+        "endChar": 14
+      },
+      "revId": "836a2bbe81a00d24674782430875f58e941fd188",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

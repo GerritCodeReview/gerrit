@@ -294,6 +294,24 @@
     },
     {
       "key": {
+        "uuid": "b66c0b49_830e3e55",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateOrModifyChangeEdit.java",
+        "patchSetId": 34
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-11T11:42:03Z",
+      "side": 1,
+      "message": "The reason for usability problem while populating the edit is the recently made design change/simplification to have only one edit for a change. Because it is not revision specific any more the second decision was made to not reflect the patch set number the edit is based on in edit reference. But we still need to know the base revision of change edit and that why third decision was made to use patch set\u0027s revision itself and not its parent as base revision for change edit (and squash change edit while publishing into its parent).\n\nSo now, after creation of edit (empty or only with one modification), the list of files in edit is empty or equals one and not the same list of file that was contained in original patch set the edit was created on.\n\nWe can let it as is and i can think of awkward work arounds, like one described above, jumping all the time between original patch set and edit, or even worse, extend CS2/file table with pop-up browser dialog providing the list of files in the original patch set to select from for modification in change edit, or we can revisit the new design and change it as following:\n\n* Only one change edit is allowed to exist for change (still)\n* Change edit parent is the parent revision of patch set it is based on (and not the patch set itself)\n* No need to squash the edit during publishing\n* Patch set number the change edit is based on is reflected in the change edit reference: e. g. for user 1000042, change 56414 and base patch set 7 we could use:\n\n  refs/users/42/1000042/edit-56414/7",
+      "parentUuid": "36b3bbfb_d7d8fc03",
+      "revId": "d2cf8c3c419f61cfcf2a9182021274407919ff63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "762b73c3_0916c924",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutContent.java",
         "patchSetId": 34

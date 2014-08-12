@@ -18,6 +18,7 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
+import com.google.common.base.Ticker;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.Weigher;
@@ -46,6 +47,7 @@ class CacheProvider<K, V>
   private MemoryCacheFactory memoryCacheFactory;
   private PersistentCacheFactory persistentCacheFactory;
   private boolean frozen;
+  private Ticker ticker;
 
   CacheProvider(CacheModule module,
       String name,
@@ -92,12 +94,30 @@ class CacheProvider<K, V>
     return this;
   }
 
+  public CacheBinding<K, V> ticker(Ticker tick) {
+    Preconditions.checkState(!frozen, "binding frozen, cannot be modified");
+    ticker = tick;
+    return this;
+  }
+
   @Override
   public CacheBinding<K, V> loader(Class<? extends CacheLoader<K, V>> impl) {
     Preconditions.checkState(!frozen, "binding frozen, cannot be modified");
     loader = module.bindCacheLoader(this, impl);
     return this;
   }
+
+  public CacheBinding<K, V>  loader(final CacheLoader<K, V> ldr) {
+    Preconditions.checkState(!frozen, "binding frozen, cannot be modified");
+    loader = new Provider<CacheLoader<K,V>>() {
+      @Override
+      public CacheLoader<K, V> get() {
+        return ldr;
+      }};
+    return this;
+  }
+
+
 
   @Override
   public CacheBinding<K, V> weigher(Class<? extends Weigher<K, V>> impl) {
@@ -139,6 +159,12 @@ class CacheProvider<K, V>
 
   @Override
   @Nullable
+  public Ticker ticker() {
+    return ticker;
+  }
+
+  @Override
+  @Nullable
   public Weigher<K, V> weigher() {
     return weigher != null ? weigher.get() : null;
   }
@@ -165,4 +191,5 @@ class CacheProvider<K, V>
       return memoryCacheFactory.build(this);
     }
   }
+
 }

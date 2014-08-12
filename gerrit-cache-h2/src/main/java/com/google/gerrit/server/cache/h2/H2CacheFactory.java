@@ -161,11 +161,14 @@ class H2CacheFactory implements PersistentCacheFactory, LifecycleListener {
       return defaultFactory.build(def);
     }
 
+    TimeProvider timeProvider =
+        def.ticker() != null ? new TickerTimeProvider(def.ticker())
+            : TimeProvider.SYSTEM_TIME_PROVIDER;
     SqlStore<K, V> store = newSqlStore(def.name(), def.keyType(), limit,
-        def.expireAfterWrite(TimeUnit.SECONDS));
+        def.expireAfterWrite(TimeUnit.SECONDS), timeProvider);
     H2CacheImpl<K, V> cache = new H2CacheImpl<K, V>(
         executor, store, def.keyType(),
-        (Cache<K, ValueHolder<V>>) defaultFactory.create(def, true).build());
+        (Cache<K, ValueHolder<V>>) defaultFactory.create(def, true).build(), timeProvider);
     synchronized (caches) {
       caches.add(cache);
     }
@@ -183,14 +186,17 @@ class H2CacheFactory implements PersistentCacheFactory, LifecycleListener {
       return defaultFactory.build(def, loader);
     }
 
+    TimeProvider timeProvider =
+        def.ticker() != null ? new TickerTimeProvider(def.ticker())
+            : TimeProvider.SYSTEM_TIME_PROVIDER;
     SqlStore<K, V> store = newSqlStore(def.name(), def.keyType(), limit,
-        def.expireAfterWrite(TimeUnit.SECONDS));
+        def.expireAfterWrite(TimeUnit.SECONDS), timeProvider);
     Cache<K, ValueHolder<V>> mem = (Cache<K, ValueHolder<V>>)
         defaultFactory.create(def, true)
         .build((CacheLoader<K, V>) new H2CacheImpl.Loader<K, V>(
-              executor, store, loader));
+              executor, store, loader, timeProvider));
     H2CacheImpl<K, V> cache = new H2CacheImpl<K, V>(
-        executor, store, def.keyType(), mem);
+        executor, store, def.keyType(), mem, timeProvider);
     caches.add(cache);
     return cache;
   }
@@ -212,10 +218,11 @@ class H2CacheFactory implements PersistentCacheFactory, LifecycleListener {
       String name,
       TypeLiteral<K> keyType,
       long maxSize,
-      Long expireAfterWrite) {
+      Long expireAfterWrite,
+      TimeProvider timeProvider) {
     File db = new File(cacheDir, name).getAbsoluteFile();
     String url = "jdbc:h2:" + db.toURI().toString();
     return new SqlStore<>(url, keyType, maxSize,
-        expireAfterWrite == null ? 0 : expireAfterWrite.longValue());
+        expireAfterWrite == null ? 0 : expireAfterWrite.longValue(), timeProvider);
   }
 }

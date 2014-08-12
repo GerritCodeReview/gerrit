@@ -312,6 +312,24 @@
     },
     {
       "key": {
+        "uuid": "b6dfab55_2b37f9f8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateOrModifyChangeEdit.java",
+        "patchSetId": 34
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-12T18:20:49Z",
+      "side": 1,
+      "message": "\u003e select a file to modify/restore/delete and push on save button, done. That worked in previous implementation, as i used revision based URLs.\n\nIt was well defined, but I wouldn\u0027t say \"done\", because they would still have to rebase the edit for it to be published.\n\n\u003e unless we pass the patch set number as parameter to the change edit create endpoint\n\nDoesn\u0027t need to be a parameter, we can use an If-Match header, as long as we construct an appropriate ETag. Then the client code handles the 409 Conflict response appropriately.\n\nI think actually for the delete/restore case, it\u0027s fine to make the request without an ETag and just delete/restore from the latest patch set if one was created behind our back.\n\nI\u0027m fine with leaving this race in on the PUT in until we do so later.\n\n\u003e switch to edit mode in file table\n\nCan we create the edit (and refresh CS2 to latest patch set) as soon as the user does this action? That seems like it would cut down on the frequency of races.",
+      "parentUuid": "36b3bbfb_d7d8fc03",
+      "revId": "d2cf8c3c419f61cfcf2a9182021274407919ff63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "762b73c3_0916c924",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutContent.java",
         "patchSetId": 34

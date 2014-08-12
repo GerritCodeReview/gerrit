@@ -97,6 +97,30 @@
     },
     {
       "key": {
+        "uuid": "36f49bd0_4f548ddf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/LocalDiskRepositoryManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-12T18:51:09Z",
+      "side": 1,
+      "message": "Convention over configuration seems to be OK here. When admins know that the location is always $site_path/notedb they can make preparations accordingly when needed.\n\nOTOH we do allow to configure gerrit.basePath in init step, why not to allow to configure gerrit.notesDbPath as well?\n\nWhat to do when it changed? Nothing, read from different location like we do with git. We don\u0027t detect gerrit.basePath  changes, Gerrit must be restarted.",
+      "parentUuid": "960e27b4_ea5e8723",
+      "range": {
+        "startLine": 237,
+        "startChar": 11,
+        "endLine": 237,
+        "endChar": 32
+      },
+      "revId": "cdbdfb8db36b975c29f8d2ed8e3578db5deaaa33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "960e27b4_2a949f7d",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/testutil/InMemoryRepositoryManager.java",
         "patchSetId": 2

@@ -2,6 +2,74 @@
   "comments": [
     {
       "key": {
+        "uuid": "b6dfab55_cb4d1586",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/edit/ChangeEditIT.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-12T17:36:11Z",
+      "side": 1,
+      "message": "Optional: could move the session.get(url()), assertEquals(OK), and toEditInfo all into a single getEditInfo method.",
+      "revId": "616545ddecb73a89f2e473361ef7fd55ff468d49",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b6dfab55_ab42c953",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/EditInfo.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-12T17:36:11Z",
+      "side": 1,
+      "message": "Extra blank line",
+      "revId": "616545ddecb73a89f2e473361ef7fd55ff468d49",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b6dfab55_8b470d64",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/EditInfo.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-12T17:36:11Z",
+      "side": 1,
+      "message": "I thought for the UI we needed to record the patch set number on which the edit is based? (This is not the same as assigning a number to the edit itself, which we do not want to do.)\n\nOr are callers supposed to infer that themselves from the parent of the commit?",
+      "revId": "616545ddecb73a89f2e473361ef7fd55ff468d49",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b6dfab55_6b3d01d7",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeInfo.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-12T17:36:11Z",
+      "side": 1,
+      "message": "Is name populated anywhere? We have that code to copy map keys into the name field of their values, but this is no longer returned in a map.",
+      "revId": "616545ddecb73a89f2e473361ef7fd55ff468d49",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d6e25f1a_6ca19bc2",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditInfoJson.java",
         "patchSetId": 20
@@ -13,6 +81,30 @@
       "writtenOn": "2014-08-12T17:04:53Z",
       "side": 1,
       "message": "JSON serialization classes aren\u0027t named consistently. We have ChangeJson and FileInfoJson. So may be we want that class to be named ChangEditJson instead?",
+      "range": {
+        "startLine": 26,
+        "startChar": 13,
+        "endLine": 26,
+        "endChar": 31
+      },
+      "revId": "616545ddecb73a89f2e473361ef7fd55ff468d49",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b6dfab55_eb48d177",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditInfoJson.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-12T17:36:11Z",
+      "side": 1,
+      "message": "Yeah, if there are two possible conventions to follow, I vote for the shorter one :)",
+      "parentUuid": "d6e25f1a_6ca19bc2",
       "range": {
         "startLine": 26,
         "startChar": 13,

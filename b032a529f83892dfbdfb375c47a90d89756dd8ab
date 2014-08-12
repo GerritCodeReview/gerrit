@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d6e25f1a_8c472764",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/VisibleRefFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-08-12T06:01:45Z",
+      "side": 1,
+      "message": "is this bring back issue issue 807? (please refer I764e16dec92ff81a41ce2170d5dbc114324ec882)",
+      "revId": "b032a529f83892dfbdfb375c47a90d89756dd8ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

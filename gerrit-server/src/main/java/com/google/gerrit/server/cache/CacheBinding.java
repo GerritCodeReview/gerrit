@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.cache;
 
+import com.google.common.base.Ticker;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.Weigher;
 import com.google.gerrit.common.Nullable;
@@ -42,4 +43,5 @@ public interface CacheBinding<K, V> {
   @Nullable Long expireAfterWrite(TimeUnit unit);
   @Nullable Weigher<K, V> weigher();
   @Nullable CacheLoader<K, V> loader();
+  @Nullable Ticker ticker();
 }

@@ -19,10 +19,13 @@ java_test(
   srcs = glob(['src/test/java/**/*.java']),
   deps = [
     ':cache-h2',
+    '//gerrit-common:server',
+    '//gerrit-extension-api:api',
     '//gerrit-server:server',
     '//lib:guava',
-    '//lib:h2',
     '//lib/guice:guice',
+    '//lib:h2',
     '//lib:junit',
   ],
+  source_under_test = [':cache-h2'],
 )

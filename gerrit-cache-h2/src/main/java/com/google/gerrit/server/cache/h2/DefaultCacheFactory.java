@@ -104,6 +104,10 @@ public class DefaultCacheFactory implements MemoryCacheFactory {
       builder.expireAfterWrite(age, TimeUnit.SECONDS);
     }
 
+    if (def.ticker() != null) {
+      builder.ticker(def.ticker());
+    }
+
     return builder;
   }
 

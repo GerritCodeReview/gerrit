@@ -20,6 +20,7 @@ import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
@@ -227,6 +228,19 @@ public final class GerritLauncher {
     move(jars, "aopalliance-1.0.jar", extapi);
     move(jars, "guice-servlet-", extapi);
     move(jars, "tomcat-servlet-api-", extapi);
+
+    File libDir = new File(tmproot(), "../lib");
+    if (libDir.exists() && libDir.isDirectory()) {
+      String[] libJars = libDir.list(new FilenameFilter() {
+        @Override
+        public boolean accept(File dir, String name) {
+          return name.endsWith(".jar");
+        }
+      });
+      for (String jar : libJars) {
+        jars.put("/lib/" + jar, new File(libDir, jar).toURI().toURL());
+      }
+    }
 
     ClassLoader parent = ClassLoader.getSystemClassLoader();
     if (!extapi.isEmpty()) {

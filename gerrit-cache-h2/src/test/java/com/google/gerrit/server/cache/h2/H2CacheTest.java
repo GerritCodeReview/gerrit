@@ -18,6 +18,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+import com.google.common.base.Ticker;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.util.concurrent.MoreExecutors;
@@ -43,13 +44,14 @@ public class H2CacheTest {
     mem = CacheBuilder.newBuilder().build();
 
     TypeLiteral<String> keyType = new TypeLiteral<String>() {};
+    Ticker ticker = Ticker.systemTicker();
     SqlStore<String, Boolean> store = new SqlStore<>(
         "jdbc:h2:mem:" + "Test_" + (++dbCnt),
         keyType,
         1 << 20,
-        0);
+        0, ticker);
     impl =
-        new H2CacheImpl<>(MoreExecutors.directExecutor(), store, keyType, mem);
+        new H2CacheImpl<>(MoreExecutors.directExecutor(), store, keyType, mem, ticker);
   }
 
   @Test

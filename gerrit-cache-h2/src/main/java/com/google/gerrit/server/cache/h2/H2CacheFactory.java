@@ -14,7 +14,10 @@
 
 package com.google.gerrit.server.cache.h2;
 
+import com.google.common.annotations.VisibleForTesting;
+import com.google.common.base.Ticker;
 import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.collect.Lists;
@@ -110,6 +113,11 @@ class H2CacheFactory implements PersistentCacheFactory, LifecycleListener {
     return loc;
   }
 
+  @VisibleForTesting
+  ExecutorService getExecutorService() {
+    return executor;
+  }
+
   @Override
   public void start() {
     if (executor != null) {
@@ -159,7 +167,6 @@ class H2CacheFactory implements PersistentCacheFactory, LifecycleListener {
     }
   }
 
-  @SuppressWarnings({"unchecked"})
   @Override
   public <K, V> Cache<K, V> build(CacheBinding<K, V> def) {
     long limit = config.getLong("cache", def.name(), "diskLimit", 128 << 20);
@@ -168,18 +175,13 @@ class H2CacheFactory implements PersistentCacheFactory, LifecycleListener {
       return defaultFactory.build(def);
     }
 
-    SqlStore<K, V> store = newSqlStore(def.name(), def.keyType(), limit,
-        def.expireAfterWrite(TimeUnit.SECONDS));
-    H2CacheImpl<K, V> cache = new H2CacheImpl<>(
-        executor, store, def.keyType(),
-        (Cache<K, ValueHolder<V>>) defaultFactory.create(def, true).build());
+    H2CacheImpl<K, V> cache = createCache(def, null, limit);
     synchronized (caches) {
       caches.add(cache);
     }
     return cache;
   }
 
-  @SuppressWarnings("unchecked")
   @Override
   public <K, V> LoadingCache<K, V> build(
       CacheBinding<K, V> def,
@@ -190,16 +192,28 @@ class H2CacheFactory implements PersistentCacheFactory, LifecycleListener {
       return defaultFactory.build(def, loader);
     }
 
-    SqlStore<K, V> store = newSqlStore(def.name(), def.keyType(), limit,
-        def.expireAfterWrite(TimeUnit.SECONDS));
-    Cache<K, ValueHolder<V>> mem = (Cache<K, ValueHolder<V>>)
-        defaultFactory.create(def, true)
-        .build((CacheLoader<K, V>) new H2CacheImpl.Loader<>(
-              executor, store, loader));
-    H2CacheImpl<K, V> cache = new H2CacheImpl<>(
-        executor, store, def.keyType(), mem);
+    H2CacheImpl<K, V> cache = createCache(def, loader, limit);
     caches.add(cache);
     return cache;
+  }
+
+  @SuppressWarnings("unchecked")
+  private <V, K> H2CacheImpl<K, V> createCache(CacheBinding<K, V> def,
+      CacheLoader<K, V> loader, long limit) {
+    Ticker ticker = def.ticker() != null ? def.ticker() : Ticker.systemTicker();
+    SqlStore<K, V> store = newSqlStore(def.name(), def.keyType(), limit,
+        def.expireAfterWrite(TimeUnit.SECONDS), ticker);
+    CacheBuilder<K, V> builder = defaultFactory.create(def, true);
+    Cache<K, ValueHolder<V>> mem;
+    if (loader != null) {
+      mem =
+          (Cache<K, ValueHolder<V>>) builder
+              .build((CacheLoader<K, V>) new H2CacheImpl.Loader<>(executor,
+                  store, loader, ticker));
+    } else {
+      mem = (Cache<K, ValueHolder<V>>) builder.build();
+    }
+    return new H2CacheImpl<>(executor, store, def.keyType(), mem, ticker);
   }
 
   @Override
@@ -219,9 +233,10 @@ class H2CacheFactory implements PersistentCacheFactory, LifecycleListener {
       String name,
       TypeLiteral<K> keyType,
       long maxSize,
-      Long expireAfterWrite) {
-    String url = "jdbc:h2:" + cacheDir.resolve(name).toUri();
+      Long expireAfterWrite,
+      Ticker ticker) {
+        String url = "jdbc:h2:" + cacheDir.resolve(name).toUri();
     return new SqlStore<>(url, keyType, maxSize,
-        expireAfterWrite == null ? 0 : expireAfterWrite.longValue());
+        expireAfterWrite == null ? 0 : expireAfterWrite.longValue(), ticker);
   }
 }

@@ -25,8 +25,12 @@ import com.google.gerrit.pgm.init.InitPlugins;
 import com.google.gerrit.pgm.init.api.ConsoleUI;
 import com.google.gerrit.pgm.util.ErrorLogFile;
 import com.google.gerrit.pgm.util.IoUtil;
+import com.google.gerrit.pgm.util.SecureStoreClassName;
+import com.google.gerrit.pgm.util.SecureStoreClassNameProvider;
+import com.google.gerrit.pgm.util.SecureStoreProvider;
 import com.google.gerrit.server.config.GerritServerConfigModule;
 import com.google.gerrit.server.config.SitePath;
+import com.google.gerrit.server.securestore.SecureStore;
 import com.google.gerrit.server.util.HostPlatform;
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
@@ -102,6 +106,9 @@ public class Init extends BaseInit {
       protected void configure() {
         bind(File.class).annotatedWith(SitePath.class).toInstance(getSitePath());
         bind(Browser.class);
+        bind(String.class).annotatedWith(SecureStoreClassName.class)
+            .toProvider(SecureStoreClassNameProvider.class);
+        bind(SecureStore.class).toProvider(SecureStoreProvider.class);
       }
     });
     modules.add(new GerritServerConfigModule());

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.auth.ldap;
 
+import com.google.common.base.Strings;
 import com.google.common.base.Throwables;
 import com.google.common.cache.Cache;
 import com.google.common.collect.ImmutableSet;
@@ -24,6 +25,7 @@ import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.auth.NoSuchUserException;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.securestore.SecureStore;
 import com.google.gerrit.util.ssl.BlindSSLSocketFactory;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -115,7 +117,8 @@ import javax.security.auth.login.LoginException;
     this.config = config;
     this.server = LdapRealm.optional(config, "server");
     this.username = LdapRealm.optional(config, "username");
-    this.password = LdapRealm.optional(config, "password", "");
+    this.password =
+        Strings.nullToEmpty(config.getString("ldap", null, "password"));
     this.referral = LdapRealm.optional(config, "referral", "ignore");
     this.sslVerify = config.getBoolean("ldap", "sslverify", true);
     this.authentication =

@@ -13,3 +13,18 @@ java_library(
   ],
   visibility = ['PUBLIC'],
 )
+
+java_test(
+  name = 'cache-h2_tests',
+  srcs = glob(['src/test/java/**/*.java']),
+  deps = [
+    ':cache-h2',
+    '//lib:junit',
+    '//lib:guava',
+    '//gerrit-common:server',
+    '//gerrit-extension-api:api',
+    '//gerrit-server:server',
+  ],
+  source_under_test = [':cache-h2'],
+)
+

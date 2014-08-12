@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "36f49bd0_8f84b550",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNoteUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-12T06:47:09Z",
+      "side": 1,
+      "message": "Swap these lines to preserve right sorting order. I\u0027ve seen you have fixed the order in follow-up change. But we always fix the problems where they were introduced.",
+      "range": {
+        "startLine": 27,
+        "startChar": 2,
+        "endLine": 28,
+        "endChar": 65
+      },
+      "revId": "1fdf4de175c510261c2defcc29b497e5bb8d92b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d6e25f1a_ac7f8381",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-12T06:47:09Z",
+      "side": 1,
+      "message": "Running test coverage tool JaCoCo on ChangeNotesTest reveals that almost all fail conditions in generall and this branch in particular is not test covered. Why not to fabricate a wrong change and make this test fail and check that the appropriate error message was returned?",
+      "range": {
+        "startLine": 269,
+        "startChar": 9,
+        "endLine": 270,
+        "endChar": 55
+      },
+      "revId": "1fdf4de175c510261c2defcc29b497e5bb8d92b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d6e25f1a_cc7acf93",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-12T06:47:09Z",
+      "side": 1,
+      "message": "One does should be sufficient.",
+      "range": {
+        "startLine": 272,
+        "startChar": 34,
+        "endLine": 272,
+        "endChar": 38
+      },
+      "revId": "1fdf4de175c510261c2defcc29b497e5bb8d92b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d6e25f1a_8c84c750",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-12T06:47:09Z",
+      "side": 1,
+      "message": "This branch is not covered in unit tests.",
+      "range": {
+        "startLine": 171,
+        "startChar": 6,
+        "endLine": 171,
+        "endChar": 77
+      },
+      "revId": "1fdf4de175c510261c2defcc29b497e5bb8d92b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d6e25f1a_6c8abb5c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-12T06:47:09Z",
+      "side": 1,
+      "message": "This branch is not covered in unit tests.",
+      "range": {
+        "startLine": 173,
+        "startChar": 6,
+        "endLine": 173,
+        "endChar": 59
+      },
+      "revId": "1fdf4de175c510261c2defcc29b497e5bb8d92b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d6e25f1a_4c87ff52",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 449,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-12T06:47:09Z",
+      "side": 1,
+      "message": "This branch is not covered in unit tests.",
+      "range": {
+        "startLine": 447,
+        "startChar": 6,
+        "endLine": 449,
+        "endChar": 7
+      },
+      "revId": "1fdf4de175c510261c2defcc29b497e5bb8d92b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -38,6 +38,7 @@ import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.Util;
 import com.google.gerrit.testutil.ConfigSuite;
+import com.google.gerrit.testutil.TempFileUtil;
 import com.google.gson.Gson;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;

@@ -16,6 +16,7 @@ package com.google.gerrit.acceptance;
 
 import com.google.common.collect.Iterables;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.testutil.TempFileUtil;
 
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;

@@ -29,6 +29,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.change.DeleteReviewer.Input;
 import com.google.gerrit.server.index.ChangeIndexer;
@@ -40,11 +41,16 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.IOException;
 import java.util.List;
 
 @Singleton
 public class DeleteReviewer implements RestModifyView<ReviewerResource, Input> {
+  private static final Logger log = LoggerFactory.getLogger(DeleteReviewer.class);
+
   public static class Input {
   }
 
@@ -54,6 +60,7 @@ public class DeleteReviewer implements RestModifyView<ReviewerResource, Input> {
   private final ChangeMessagesUtil cmUtil;
   private final ChangeIndexer indexer;
   private final IdentifiedUser.GenericFactory userFactory;
+  private final Provider<CurrentUser> currentUser;
 
   @Inject
   DeleteReviewer(Provider<ReviewDb> dbProvider,
@@ -61,13 +68,15 @@ public class DeleteReviewer implements RestModifyView<ReviewerResource, Input> {
       ApprovalsUtil approvalsUtil,
       ChangeMessagesUtil cmUtil,
       ChangeIndexer indexer,
-      IdentifiedUser.GenericFactory userFactory) {
+      IdentifiedUser.GenericFactory userFactory,
+      Provider<CurrentUser> currentUser) {
     this.dbProvider = dbProvider;
     this.updateFactory = updateFactory;
     this.approvalsUtil = approvalsUtil;
     this.cmUtil = cmUtil;
     this.indexer = indexer;
     this.userFactory = userFactory;
+    this.currentUser = currentUser;
   }
 
   @Override
@@ -90,6 +99,9 @@ public class DeleteReviewer implements RestModifyView<ReviewerResource, Input> {
               && a.getValue() != 0) {
             if (msg.length() == 0) {
               msg.append("Removed the following votes:\n\n");
+              log.warn(String.format("User [%s] removed vote on [%s]",
+                  ((IdentifiedUser)currentUser.get()).getAccountId().get(),
+                  control.getChange().currentPatchSetId()));
             }
             msg.append("* ")
                 .append(a.getLabel()).append(formatLabelValue(a.getValue()))

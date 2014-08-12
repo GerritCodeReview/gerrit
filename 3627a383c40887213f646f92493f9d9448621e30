@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "961c67fc_fa4d2985",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-12T22:57:33Z",
+      "side": 1,
+      "message": "Troubleshoot this problem: [1].\n\n [1] https://groups.google.com/forum/#!topic/repo-discuss/wED8qfqly8s",
+      "parentUuid": "f643e3df_1df013fe",
+      "revId": "3627a383c40887213f646f92493f9d9448621e30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "164797ed_1ef00dfe",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteReviewer.java",
         "patchSetId": 2

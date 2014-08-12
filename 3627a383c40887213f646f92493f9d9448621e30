@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "f643e3df_ddfaabdc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-12T23:01:54Z",
+      "side": 1,
+      "message": "Should this be against stable-2.9 so the user doesn\u0027t have to upgrade?\n\nDo you actually intend to get this merged, or just have something to point the user to to build their own Gerrit version?",
+      "parentUuid": "961c67fc_fa4d2985",
+      "revId": "3627a383c40887213f646f92493f9d9448621e30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "164797ed_1ef00dfe",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteReviewer.java",
         "patchSetId": 2

@@ -33,6 +33,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.OutputFormat;
 import com.google.gerrit.server.change.ChangeJson;
 import com.google.gerrit.testutil.ConfigSuite;
+import com.google.gerrit.testutil.TempFileUtil;
 import com.google.gson.Gson;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;

@@ -16,8 +16,8 @@ package com.google.gerrit.acceptance.pgm;
 
 import static org.junit.Assert.assertEquals;
 
-import com.google.gerrit.acceptance.TempFileUtil;
 import com.google.gerrit.launcher.GerritLauncher;
+import com.google.gerrit.testutil.TempFileUtil;
 
 import org.junit.After;
 import org.junit.Before;

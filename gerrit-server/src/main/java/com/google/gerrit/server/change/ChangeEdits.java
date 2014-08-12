@@ -251,6 +251,9 @@ public class ChangeEdits implements
     @Option(name = "--list", metaVar = "LIST")
     boolean list;
 
+    @Option(name = "--download-commands", metaVar = "download-commands")
+    boolean downloadCommands;
+
     @Inject
     Detail(ChangeEditUtil editUtil,
         ChangeEditJson editJson,
@@ -271,7 +274,7 @@ public class ChangeEdits implements
         return Response.none();
       }
 
-      EditInfo editInfo = editJson.toEditInfo(edit.get());
+      EditInfo editInfo = editJson.toEditInfo(edit.get(), downloadCommands);
       if (list) {
         PatchSet basePatchSet = null;
         if (base != null) {

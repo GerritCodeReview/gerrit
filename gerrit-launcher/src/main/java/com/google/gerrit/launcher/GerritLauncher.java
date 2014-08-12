@@ -86,10 +86,11 @@ public final class GerritLauncher {
     } else if ("-l".equals(argv[0]) || "--ls".equals(argv[0])) {
       argv[0] = "ls";
     }
+    String secureStoreJarPath = getSecureStoreJar(argv);
 
     // Run the application class
     //
-    final ClassLoader cl = libClassLoader();
+    final ClassLoader cl = libClassLoader(secureStoreJarPath);
     Thread.currentThread().setContextClassLoader(cl);
     return invokeProgram(cl, argv);
   }
@@ -112,6 +113,20 @@ public final class GerritLauncher {
     } catch (IOException e) {
       return "";
     }
+  }
+
+  private static String getSecureStoreJar(String[] argv) {
+    for (int i = 0; i < argv.length; i++) {
+      if ("--secureStoreJarPath".equals(argv[i])) {
+        if (argv.length > i + 1) {
+          return argv[i + 1];
+        } else {
+          throw new IllegalArgumentException(
+              "--secureStoreJarPath parameter requires additional path parameter");
+        }
+      }
+    }
+    return "";
   }
 
   private static int invokeProgram(final ClassLoader loader,
@@ -182,7 +197,7 @@ public final class GerritLauncher {
     }
   }
 
-  private static ClassLoader libClassLoader() throws IOException {
+  private static ClassLoader libClassLoader(String secureStoreJarPath) throws IOException {
     final File path;
     try {
       path = getDistributionArchive();
@@ -240,6 +255,14 @@ public final class GerritLauncher {
       for (String jar : libJars) {
         jars.put("/lib/" + jar, new File(libDir, jar).toURI().toURL());
       }
+    }
+    if (!secureStoreJarPath.isEmpty()) {
+      File secureStoreJar = new File(secureStoreJarPath);
+      if (!secureStoreJar.exists()) {
+        throw new IllegalStateException(String.format(
+            "Provided SeceureStore jar %s does not exist", secureStoreJarPath));
+      }
+      jars.put(secureStoreJarPath, secureStoreJar.toURI().toURL());
     }
 
     ClassLoader parent = ClassLoader.getSystemClassLoader();

@@ -19,12 +19,14 @@ import static com.google.gerrit.pgm.init.InitUtil.die;
 import static com.google.gerrit.pgm.init.InitUtil.extract;
 import static com.google.gerrit.pgm.init.InitUtil.mkdir;
 import static com.google.gerrit.pgm.init.InitUtil.savePublic;
-import static com.google.gerrit.pgm.init.InitUtil.saveSecure;
 import static com.google.gerrit.pgm.init.InitUtil.version;
 
+import com.google.common.io.Files;
 import com.google.gerrit.pgm.init.api.ConsoleUI;
 import com.google.gerrit.pgm.init.api.InitFlags;
 import com.google.gerrit.pgm.init.api.InitStep;
+import com.google.gerrit.pgm.init.api.Section;
+import com.google.gerrit.pgm.init.api.Section.Factory;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.mail.OutgoingEmail;
 import com.google.inject.Binding;
@@ -33,6 +35,7 @@ import com.google.inject.Injector;
 import com.google.inject.TypeLiteral;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,13 +45,22 @@ public class SitePathInitializer {
   private final InitFlags flags;
   private final SitePaths site;
   private final List<InitStep> steps;
+  private final String secureStoreJarPath;
+  private final String secureStoreClassName;
+  private final Factory sectionFactory;
 
   @Inject
   public SitePathInitializer(final Injector injector, final ConsoleUI ui,
-      final InitFlags flags, final SitePaths site) {
+      final InitFlags flags, final SitePaths site,
+      final Section.Factory sectionFactory,
+      final @SecureStoreJarPath String secureStoreJarPath,
+      final @SecureStoreClassName String secureStoreClassName) {
     this.ui = ui;
     this.flags = flags;
     this.site = site;
+    this.sectionFactory = sectionFactory;
+    this.secureStoreJarPath = secureStoreJarPath;
+    this.secureStoreClassName = secureStoreClassName;
     this.steps = stepsOf(injector);
   }
 
@@ -83,8 +95,8 @@ public class SitePathInitializer {
       step.run();
     }
 
+    saveSecureStore();
     savePublic(flags.cfg);
-    saveSecure(flags.sec);
 
     extract(site.gerrit_sh, getClass(), "gerrit.sh");
     chmod(0755, site.gerrit_sh);
@@ -116,6 +128,16 @@ public class SitePathInitializer {
         continue;
       }
       step.postRun();
+    }
+  }
+
+  private void saveSecureStore() throws IOException {
+    if (!secureStoreClassName.isEmpty() && !secureStoreJarPath.isEmpty()) {
+      File secureStoreJar = new File(secureStoreJarPath);
+      File dst = new File(site.lib_dir, secureStoreJar.getName());
+      Files.copy(secureStoreJar, dst);
+      Section gerritSection = sectionFactory.get("gerrit", null);
+      gerritSection.set("secureStoreClass", secureStoreClassName);
     }
   }
 

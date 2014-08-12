@@ -28,8 +28,10 @@ import com.google.gerrit.pgm.init.api.ConsoleUI;
 import com.google.gerrit.pgm.init.api.InitFlags;
 import com.google.gerrit.pgm.init.api.Section;
 import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.server.securestore.SecureStore;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.IO;
@@ -40,6 +42,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.Collections;
+import java.util.List;
 
 
 public class UpgradeFrom2_0_xTest extends InitTestCase {
@@ -71,8 +74,9 @@ public class UpgradeFrom2_0_xTest extends InitTestCase {
     old.setString("sendemail", null, "smtpPass", "email.s3kr3t");
     old.save();
 
+    InMemorySecureStore secureStore = new InMemorySecureStore();
     final InitFlags flags =
-        new InitFlags(site, Collections.<String> emptyList());
+        new InitFlags(site, secureStore, Collections.<String> emptyList());
     final ConsoleUI ui = createStrictMock(ConsoleUI.class);
     Section.Factory sections = new Section.Factory() {
       @Override
@@ -99,18 +103,46 @@ public class UpgradeFrom2_0_xTest extends InitTestCase {
     }
 
     FileBasedConfig cfg = new FileBasedConfig(site.gerrit_config, FS.DETECTED);
-    FileBasedConfig sec = new FileBasedConfig(site.secure_config, FS.DETECTED);
     cfg.load();
-    sec.load();
 
     assertEquals("email.user", cfg.getString("sendemail", null, "smtpUser"));
     assertNull(cfg.getString("sendemail", null, "smtpPass"));
-    assertEquals("email.s3kr3t", sec.getString("sendemail", null, "smtpPass"));
+    assertEquals("email.s3kr3t", secureStore.get("sendemail", null, "smtpPass"));
 
     assertEquals("ldap.user", cfg.getString("ldap", null, "username"));
     assertNull(cfg.getString("ldap", null, "password"));
-    assertEquals("ldap.s3kr3t", sec.getString("ldap", null, "password"));
+    assertEquals("ldap.s3kr3t", secureStore.get("ldap", null, "password"));
 
     u.run();
+  }
+
+  private static class InMemorySecureStore implements SecureStore {
+    private final Config cfg = new Config();
+
+    @Override
+    public String get(String section, String subsection, String name) {
+      return cfg.getString(section, subsection, name);
+    }
+
+    @Override
+    public String[] getList(String section, String subsection, String name) {
+      return cfg.getStringList(section, subsection, name);
+    }
+
+    @Override
+    public void set(String section, String subsection, String name, String value) {
+      cfg.setString(section, subsection, name, value);
+    }
+
+    @Override
+    public void setList(String section, String subsection, String name,
+        List<String> values) {
+      cfg.setStringList(section, subsection, name, values);
+    }
+
+    @Override
+    public void unset(String section, String subsection, String name) {
+      cfg.unset(section, subsection, name);
+    }
   }
 }

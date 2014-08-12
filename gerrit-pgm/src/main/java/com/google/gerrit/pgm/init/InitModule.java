@@ -19,6 +19,7 @@ import com.google.gerrit.pgm.init.api.InitStep;
 import com.google.gerrit.pgm.init.api.Section;
 import com.google.gerrit.server.config.FactoryModule;
 import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.server.securestore.SecureStoreModule;
 import com.google.inject.binder.LinkedBindingBuilder;
 import com.google.inject.internal.UniqueAnnotations;
 
@@ -29,14 +30,19 @@ public class InitModule extends FactoryModule {
 
   private final boolean standalone;
   private final boolean initDb;
+  private final String secureStoreClassName;
 
-  public InitModule(boolean standalone, boolean initDb) {
+  public InitModule(boolean standalone, boolean initDb,
+      String secureStoreClassName) {
     this.standalone = standalone;
     this.initDb = initDb;
+    this.secureStoreClassName = secureStoreClassName;
   }
 
   @Override
   protected void configure() {
+    install(new SecureStoreModule(secureStoreClassName));
+
     bind(SitePaths.class);
     bind(InitFlags.class);
     bind(Libraries.class);

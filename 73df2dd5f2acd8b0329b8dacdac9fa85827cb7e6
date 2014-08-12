@@ -16,6 +16,24 @@
       "revId": "73df2dd5f2acd8b0329b8dacdac9fa85827cb7e6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "961c67fc_3a1ba18f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteReviewer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-12T22:46:14Z",
+      "side": 1,
+      "message": "Yes, this is diagnostic output.",
+      "parentUuid": "f643e3df_bde0ff30",
+      "revId": "73df2dd5f2acd8b0329b8dacdac9fa85827cb7e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

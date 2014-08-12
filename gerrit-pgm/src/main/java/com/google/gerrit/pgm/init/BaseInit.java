@@ -18,11 +18,13 @@ import static com.google.gerrit.server.schema.DataSourceProvider.Context.SINGLE_
 import static com.google.inject.Stage.PRODUCTION;
 
 import com.google.common.base.Objects;
+import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.Die;
 import com.google.gerrit.pgm.init.api.ConsoleUI;
 import com.google.gerrit.pgm.init.api.InitFlags;
 import com.google.gerrit.pgm.init.api.InstallPlugins;
+import com.google.gerrit.pgm.init.api.Section;
 import com.google.gerrit.pgm.util.SiteProgram;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.config.SitePath;
@@ -130,6 +132,14 @@ public class BaseInit extends SiteProgram {
     return false;
   }
 
+  protected String getSecireStoreJarPath() {
+    return "";
+  }
+
+  protected String getSecureStoreClassName() {
+    return "";
+  }
+
   protected boolean beforeInit(SiteInit init) throws Exception {
     return false;
   }
@@ -171,7 +181,8 @@ public class BaseInit extends SiteProgram {
 
     @Inject
     SiteInit(final SitePaths site, final InitFlags flags, final ConsoleUI ui,
-        final SitePathInitializer initializer) {
+        final SitePathInitializer initializer,
+        final Section.Factory sectionFactory) {
       this.site = site;
       this.flags = flags;
       this.ui = ui;
@@ -184,7 +195,7 @@ public class BaseInit extends SiteProgram {
     final File sitePath = getSitePath();
     final List<Module> m = new ArrayList<>();
 
-    m.add(new InitModule(standalone, initDb));
+    m.add(new InitModule(standalone, initDb, getSecureStoreClassName()));
     m.add(new AbstractModule() {
       @Override
       protected void configure() {
@@ -195,6 +206,10 @@ public class BaseInit extends SiteProgram {
         bind(new TypeLiteral<List<String>>() {}).annotatedWith(
             InstallPlugins.class).toInstance(plugins);
         bind(PluginsDistribution.class).toInstance(pluginsDistribution);
+        bind(String.class).annotatedWith(SecureStoreJarPath.class).toInstance(
+            Strings.nullToEmpty(getSecireStoreJarPath()));
+        bind(String.class).annotatedWith(SecureStoreClassName.class)
+            .toInstance(Strings.nullToEmpty(getSecureStoreClassName()));
       }
     });
 

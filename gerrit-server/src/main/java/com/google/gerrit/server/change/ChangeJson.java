@@ -884,21 +884,29 @@ public class ChangeJson {
       r.put(schemeName, fetchInfo);
 
       if (has(DOWNLOAD_COMMANDS)) {
-        for (DynamicMap.Entry<DownloadCommand> e2 : downloadCommands) {
-          String commandName = e2.getExportName();
-          DownloadCommand command = e2.getProvider().get();
-          String c = command.getCommand(scheme, projectName, refName);
-          if (c != null) {
-            addCommand(fetchInfo, commandName, c);
-          }
-        }
+        populateFetchMap(scheme, downloadCommands, projectName, refName,
+            fetchInfo);
       }
     }
 
     return r;
   }
 
-  private void addCommand(FetchInfo fetchInfo, String commandName, String c) {
+  public static void populateFetchMap(DownloadScheme scheme,
+      DynamicMap<DownloadCommand> commands, String projectName,
+      String refName, FetchInfo fetchInfo) {
+    for (DynamicMap.Entry<DownloadCommand> e2 : commands) {
+      String commandName = e2.getExportName();
+      DownloadCommand command = e2.getProvider().get();
+      String c = command.getCommand(scheme, projectName, refName);
+      if (c != null) {
+        addCommand(fetchInfo, commandName, c);
+      }
+    }
+  }
+
+  private static void addCommand(FetchInfo fetchInfo, String commandName,
+      String c) {
     if (fetchInfo.commands == null) {
       fetchInfo.commands = Maps.newTreeMap();
     }

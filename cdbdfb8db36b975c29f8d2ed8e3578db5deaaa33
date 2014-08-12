@@ -46,6 +46,47 @@
       "revId": "cdbdfb8db36b975c29f8d2ed8e3578db5deaaa33",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "960e27b4_4a87d352",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/LocalDiskRepositoryManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-08-12T18:36:55Z",
+      "side": 1,
+      "message": "I like $site_path/notedb for these repos, for now. The API on GitRepositoryManager also seems sane, so this should be updated to actually use a different repository tree.",
+      "parentUuid": "d6fa5f81_ac04e3e7",
+      "range": {
+        "startLine": 237,
+        "startChar": 11,
+        "endLine": 237,
+        "endChar": 32
+      },
+      "revId": "cdbdfb8db36b975c29f8d2ed8e3578db5deaaa33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "960e27b4_2a949f7d",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/testutil/InMemoryRepositoryManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-08-12T18:36:55Z",
+      "side": 1,
+      "message": "I think its OK to use the same repo for the unit test suite.",
+      "revId": "cdbdfb8db36b975c29f8d2ed8e3578db5deaaa33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "36f49bd0_8fab95a3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-12T16:39:05Z",
+      "side": 1,
+      "message": "Is this condition subtle enough to put a comment on? Commits are parsed in reversed order, so that the latest topic that was set on change will win the race.",
+      "range": {
+        "startLine": 197,
+        "startChar": 4,
+        "endLine": 197,
+        "endChar": 22
+      },
+      "revId": "682677902c587f7e18133d9aa1aa730b93d92127",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d6e25f1a_aca663db",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeNotesTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 449,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-12T16:39:05Z",
+      "side": 1,
+      "message": "Name this method changeTopic? This is not that important of second value is \"\" or \"bar\". You are chning the topic and verify that the last set value is read back.",
+      "range": {
+        "startLine": 449,
+        "startChar": 14,
+        "endLine": 449,
+        "endChar": 23
+      },
+      "revId": "682677902c587f7e18133d9aa1aa730b93d92127",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f643e3df_bde0ff30",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteReviewer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-12T22:41:53Z",
+      "side": 1,
+      "message": "I think warn is the wrong level here. A well-functioning server should have an empty warning log. If you\u0027re trying to debug a specific problem, use debug?\n\nAlso, use the (String, Object...) form instead of String.format so those users who do not have debug logging enabled don\u0027t pay the cost of format.",
+      "revId": "73df2dd5f2acd8b0329b8dacdac9fa85827cb7e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -2,6 +2,7 @@
 
 package com.google.gerrit.server.cache.h2;
 
+import com.google.common.base.Ticker;
 import com.google.common.cache.AbstractLoadingCache;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheLoader;
@@ -72,15 +73,18 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements
   private final SqlStore<K, V> store;
   private final TypeLiteral<K> keyType;
   private final Cache<K, ValueHolder<V>> mem;
+  private final TickerTimeProvider timeProvider;
 
   H2CacheImpl(Executor executor,
       SqlStore<K, V> store,
       TypeLiteral<K> keyType,
-      Cache<K, ValueHolder<V>> mem) {
+      Cache<K, ValueHolder<V>> mem,
+      Ticker ticker) {
     this.executor = executor;
     this.store = store;
     this.keyType = keyType;
     this.mem = mem;
+    this.timeProvider = new TickerTimeProvider(ticker);
   }
 
   @Override
@@ -118,7 +122,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements
   @Override
   public void put(final K key, V val) {
     final ValueHolder<V> h = new ValueHolder<>(val);
-    h.created = TimeUtil.nowMs();
+    h.created = timeProvider.nowMs();
     mem.put(key, h);
     executor.execute(new Runnable() {
       @Override
@@ -210,11 +214,14 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements
     private final Executor executor;
     private final SqlStore<K, V> store;
     private final CacheLoader<K, V> loader;
+    private final TickerTimeProvider timeProvider;
 
-    Loader(Executor executor, SqlStore<K, V> store, CacheLoader<K, V> loader) {
+    Loader(Executor executor, SqlStore<K, V> store, CacheLoader<K, V> loader,
+        Ticker ticker) {
       this.executor = executor;
       this.store = store;
       this.loader = loader;
+      this.timeProvider = new TickerTimeProvider(ticker);
     }
 
     @Override
@@ -227,7 +234,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements
       }
 
       final ValueHolder<V> h = new ValueHolder<>(loader.load(key));
-      h.created = TimeUtil.nowMs();
+      h.created = timeProvider.nowMs();
       executor.execute(new Runnable() {
         @Override
         public void run() {
@@ -317,12 +324,14 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements
     private final BlockingQueue<SqlHandle> handles;
     private final AtomicLong hitCount = new AtomicLong();
     private final AtomicLong missCount = new AtomicLong();
+    private final TickerTimeProvider timeProvider;
     private volatile BloomFilter<K> bloomFilter;
     private int estimatedSize;
 
     SqlStore(String jdbcUrl, TypeLiteral<K> keyType, long maxSize,
-        long expireAfterWrite) {
+        long expireAfterWrite, Ticker ticker) {
       this.url = jdbcUrl;
+      this.timeProvider = new TickerTimeProvider(ticker);
       this.keyType = KeyType.create(keyType);
       this.maxSize = maxSize;
       this.expireAfterWrite = expireAfterWrite;
@@ -452,7 +461,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements
       if (expireAfterWrite == 0) {
         return false;
       }
-      long age = TimeUtil.nowMs() - created.getTime();
+      long age = timeProvider.nowMs() - created.getTime();
       return 1000 * expireAfterWrite < age;
     }
 
@@ -461,7 +470,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements
         c.touch =c.conn.prepareStatement("UPDATE data SET accessed=? WHERE k=?");
       }
       try {
-        c.touch.setTimestamp(1, TimeUtil.nowTs());
+        c.touch.setTimestamp(1, new Timestamp(timeProvider.nowMs()));
         keyType.set(c.touch, 2, key);
         c.touch.executeUpdate();
       } finally {
@@ -490,7 +499,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements
           keyType.set(c.put, 1, key);
           c.put.setObject(2, holder.value, Types.JAVA_OBJECT);
           c.put.setTimestamp(3, new Timestamp(holder.created));
-          c.put.setTimestamp(4, TimeUtil.nowTs());
+          c.put.setTimestamp(4, new Timestamp(timeProvider.nowMs()));
           c.put.executeUpdate();
           holder.clean = true;
         } finally {

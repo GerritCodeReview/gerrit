@@ -24,6 +24,7 @@ import com.google.gerrit.server.config.ConfigSection;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.server.securestore.SecureStore;
 import com.google.gwtorm.jdbc.SimpleDataSource;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -50,17 +51,20 @@ public class DataSourceProvider implements Provider<DataSource>,
   private final Config cfg;
   private final Context ctx;
   private final DataSourceType dst;
+  private final SecureStore secureStore;
   private DataSource ds;
 
   @Inject
   protected DataSourceProvider(SitePaths site,
       @GerritServerConfig Config cfg,
       Context ctx,
-      DataSourceType dst) {
+      DataSourceType dst,
+      SecureStore secureStore) {
     this.site = site;
     this.cfg = cfg;
     this.ctx = ctx;
     this.dst = dst;
+    this.secureStore = secureStore;
   }
 
   @Override
@@ -104,7 +108,7 @@ public class DataSourceProvider implements Provider<DataSource>,
     }
 
     String username = dbs.optional("username");
-    String password = dbs.optional("password");
+    String password = secureStore.get("database", null, "password");
     String interceptor = dbs.optional("dataSourceInterceptorClass");
 
     boolean usePool;
@@ -143,7 +147,7 @@ public class DataSourceProvider implements Provider<DataSource>,
           p.setProperty("user", username);
         }
         if (password != null) {
-          p.setProperty("password", password);
+          secureStore.set("database", null, "password", password);
         }
         return intercept(interceptor, new SimpleDataSource(p));
       } catch (SQLException se) {

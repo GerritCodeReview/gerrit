@@ -16,12 +16,18 @@ package com.google.gerrit.server.securestore;
 
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
 
+import java.util.List;
+
 @ExtensionPoint
 public interface SecureStore {
 
   String get(String section, String subsection, String name);
 
+  String[] getList(String section, String subsection, String name);
+
   void set(String section, String subsection, String name, String value);
+
+  void setList(String section, String subsection, String name, List<String> values);
 
   void unset(String section, String subsection, String name);
 }

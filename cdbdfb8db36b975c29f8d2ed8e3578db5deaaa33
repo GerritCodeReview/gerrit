@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "960e27b4_ea5e8723",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/LocalDiskRepositoryManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-12T18:41:22Z",
+      "side": 1,
+      "message": "Do we want this to be configurable at all for now, or just always throw meta in a separate repo?\n\nThere are two issues with making it configurable.\n\n* Do we add a step during init to ask for the configuration? Honestly I would really rather not bother users.\n* How do we detect that the configuration has changed? Easiest is to just punt and say if you change the configuration, you need to run rebuild and delete any garbage in the old locations. This is actually probably a PITA, but then again people actually using this option ought to know what they\u0027re doing.",
+      "parentUuid": "960e27b4_4a87d352",
+      "range": {
+        "startLine": 237,
+        "startChar": 11,
+        "endLine": 237,
+        "endChar": 32
+      },
+      "revId": "cdbdfb8db36b975c29f8d2ed8e3578db5deaaa33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "960e27b4_2a949f7d",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/testutil/InMemoryRepositoryManager.java",
         "patchSetId": 2

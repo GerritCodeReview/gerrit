@@ -121,6 +121,30 @@
     },
     {
       "key": {
+        "uuid": "d6e25f1a_6c575be6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/LocalDiskRepositoryManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-08-12T18:52:00Z",
+      "side": 1,
+      "message": "Eh. Lets just always toss them into $site_path/notedb for now.\n\nLater we may change that to $site_path/git (or whatever) and early adopters will have to rebuild when they upgrade to that commit. This should happen well before notedb read/write becomes the default method of storage, so early adopters will be aware of the risks/pain.",
+      "parentUuid": "960e27b4_ea5e8723",
+      "range": {
+        "startLine": 237,
+        "startChar": 11,
+        "endLine": 237,
+        "endChar": 32
+      },
+      "revId": "cdbdfb8db36b975c29f8d2ed8e3578db5deaaa33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "960e27b4_2a949f7d",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/testutil/InMemoryRepositoryManager.java",
         "patchSetId": 2

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "d6509fa6_5ce69d4c",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitGitManager.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-12T19:37:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d6509fa6_9cdbc58a",
+      "revId": "01702df57697ea0e01747e9382f3be9585e1b5ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "961c67fc_fad68963",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/LocalDiskRepositoryManager.java",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2014-08-12T19:26:45Z",
       "side": 1,
       "message": "Need to check if notedb writing is enabled here.",
+      "revId": "01702df57697ea0e01747e9382f3be9585e1b5ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d6509fa6_7ce3593b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/LocalDiskRepositoryManager.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-12T19:37:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "961c67fc_fad68963",
       "revId": "01702df57697ea0e01747e9382f3be9585e1b5ac",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

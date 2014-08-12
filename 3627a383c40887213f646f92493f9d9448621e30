@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f643e3df_1df013fe",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-12T22:54:58Z",
+      "side": 1,
+      "message": "Can you explain the motivation for this change? Most state changes in the db are not logged.",
+      "revId": "3627a383c40887213f646f92493f9d9448621e30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "164797ed_1ef00dfe",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteReviewer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-12T22:54:58Z",
+      "side": 1,
+      "message": "\"record\" is redundant; \"approval\" or \"vote\" would be fine.",
+      "range": {
+        "startLine": 98,
+        "startChar": 37,
+        "endLine": 98,
+        "endChar": 52
+      },
+      "revId": "3627a383c40887213f646f92493f9d9448621e30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f643e3df_7de3573b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteReviewer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-12T22:54:58Z",
+      "side": 1,
+      "message": "Did you want to include the account that was removed too?",
+      "revId": "3627a383c40887213f646f92493f9d9448621e30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

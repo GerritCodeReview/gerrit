@@ -17,7 +17,8 @@ package com.google.gerrit.extensions.common;
 import java.util.Map;
 
 public class EditInfo {
-  public CommitInfo commit;
   public Map<String, ActionInfo> actions;
+  public CommitInfo commit;
+  public Map<String, FetchInfo> fetch;
   public Map<String, FileInfo> files;
 }

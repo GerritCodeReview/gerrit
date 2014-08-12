@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "f643e3df_9ddbc38a",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitGitManager.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-12T19:47:50Z",
+      "side": 1,
+      "message": "At some point later, we want it to be here (with own question) or in its own init step, though.",
+      "parentUuid": "d6509fa6_9cdbc58a",
+      "revId": "01702df57697ea0e01747e9382f3be9585e1b5ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "961c67fc_fad68963",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/LocalDiskRepositoryManager.java",
         "patchSetId": 3

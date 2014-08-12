@@ -80,12 +80,12 @@ public class AbstractChangeNotesTest {
   protected IdentifiedUser.GenericFactory userFactory;
   protected IdentifiedUser otherUser;
   protected InMemoryRepository repo;
+  protected InMemoryRepositoryManager repoManager;
   protected PersonIdent serverIdent;
   protected Project.NameKey project;
 
   private AllUsersNameProvider allUsers;
   private Injector injector;
-  private InMemoryRepositoryManager repoManager;
   private String systemTimeZone;
   private volatile long clockStepMs;
 

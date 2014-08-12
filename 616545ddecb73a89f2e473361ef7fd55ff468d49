@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d6e25f1a_6ca19bc2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditInfoJson.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-12T17:04:53Z",
+      "side": 1,
+      "message": "JSON serialization classes aren\u0027t named consistently. We have ChangeJson and FileInfoJson. So may be we want that class to be named ChangEditJson instead?",
+      "range": {
+        "startLine": 26,
+        "startChar": 13,
+        "endLine": 26,
+        "endChar": 31
+      },
+      "revId": "616545ddecb73a89f2e473361ef7fd55ff468d49",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

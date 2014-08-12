@@ -16,6 +16,24 @@
       "revId": "b032a529f83892dfbdfb375c47a90d89756dd8ab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "36f49bd0_0f91e58d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/VisibleRefFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2014-08-12T07:39:29Z",
+      "side": 1,
+      "message": "Great catch, Bruce. At first glance, there seems to be a risk for a regression error here. This performance fix was included in 2.5.x and to my knowledge we we have not seen the original Issue 807 after that . Have you had any reports of Issue 807 reappearing in Beijing?\n\nI will try to reproduce the original issue on our current 2.8.x installation, just to be sure.",
+      "parentUuid": "d6e25f1a_8c472764",
+      "revId": "b032a529f83892dfbdfb375c47a90d89756dd8ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "36f49bd0_6f3d11d7",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-12T05:43:07Z",
+      "side": 1,
+      "message": "[Optional] just r.getChangeId(). Here and below.",
+      "range": {
+        "startLine": 286,
+        "startChar": 12,
+        "endLine": 286,
+        "endChar": 41
+      },
+      "revId": "723e50b30ba25bedb7abc0d9624d09363c340a23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

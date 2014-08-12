@@ -52,6 +52,24 @@
       "revId": "b032a529f83892dfbdfb375c47a90d89756dd8ab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d6e25f1a_4c701fa8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/VisibleRefFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-08-12T09:06:52Z",
+      "side": 1,
+      "message": "Thanks a lot for helping to look and verify it! \nI revert it to stable-2.8 https://gerrit-review.googlesource.com/#/c/59210/ \n(after I failed to revert on stable-2.5, stable-2.6, stable-2.7)",
+      "parentUuid": "d6e25f1a_ac58a336",
+      "revId": "b032a529f83892dfbdfb375c47a90d89756dd8ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -53,6 +53,24 @@
     },
     {
       "key": {
+        "uuid": "36f49bd0_6fa191c2",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/EditInfo.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-12T17:54:24Z",
+      "side": 1,
+      "message": "Both statements are correct. On the UI side we extend revisions list by converting edit to revision and assigning id 0. Additionally edit\u0027s parent is retrieved as suggested by Shawn in very fist commit that was merged from this series. The sorting of edit inside revision list is implemented here [1].\n\n [1] https://gerrit-review.googlesource.com/#/c/53541/22/\n gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeInfo.java",
+      "parentUuid": "b6dfab55_8b470d64",
+      "revId": "616545ddecb73a89f2e473361ef7fd55ff468d49",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b6dfab55_6b3d01d7",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeInfo.java",
         "patchSetId": 20
@@ -64,6 +82,24 @@
       "writtenOn": "2014-08-12T17:36:11Z",
       "side": 1,
       "message": "Is name populated anywhere? We have that code to copy map keys into the name field of their values, but this is no longer returned in a map.",
+      "revId": "616545ddecb73a89f2e473361ef7fd55ff468d49",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d6e25f1a_2c9b9398",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeInfo.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-12T17:54:24Z",
+      "side": 1,
+      "message": "That\u0027s correct. It\u0027s the caller who populate this. Actually this is redundant, as what the caller currently doing is: [1]\n\n private void loadConfigInfo(ChangeInfo info, String base) {\n   info.revisions().copyKeysIntoChildren(\"name\");\n   if (edit !\u003d null) {\n     edit.set_name(edit.commit().commit());\n     info.set_edit(edit);\n     info.revisions().put(edit.name(), \n         RevisionInfo.fromEdit(edit));\n    [...]\n\nWen could refactor this later and eliminate the need for name, by doing:\n\n  if (edit !\u003d null) {\n     info.set_edit(edit);\n     info.revisions().put(edit.commit().commit(), \n         RevisionInfo.fromEdit(edit));\n\nI decided to let it now as is for compatibility reasons.\n\n [1] https://gerrit-review.googlesource.com/#/c/53541/22/\n gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
+      "parentUuid": "b6dfab55_6b3d01d7",
       "revId": "616545ddecb73a89f2e473361ef7fd55ff468d49",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

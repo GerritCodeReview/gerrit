@@ -1,0 +1,136 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d6e25f1a_0c3457f0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNoteUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-12T06:19:17Z",
+      "side": 1,
+      "message": "In code the alphabetical order is preserved, why not to do it in commit footer as well?",
+      "range": {
+        "startLine": 27,
+        "startChar": 2,
+        "endLine": 29,
+        "endChar": 65
+      },
+      "revId": "638394771510f91dd9c5e3bbbe7de8fc94f52796",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d6e25f1a_ec758ba5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-12T06:19:17Z",
+      "side": 1,
+      "message": "One time \"does\" should be sufficient.",
+      "range": {
+        "startLine": 278,
+        "startChar": 39,
+        "endLine": 278,
+        "endChar": 43
+      },
+      "revId": "638394771510f91dd9c5e3bbbe7de8fc94f52796",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d6e25f1a_4c3a5fe1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-12T06:19:17Z",
+      "side": 1,
+      "message": "[Optional] As pointed out in the commit message, project must not be stored in changes notes, but has it handling to be burrow in this commit? Extract it in its own change?",
+      "range": {
+        "startLine": 83,
+        "startChar": 2,
+        "endLine": 83,
+        "endChar": 40
+      },
+      "revId": "638394771510f91dd9c5e3bbbe7de8fc94f52796",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "36f49bd0_2f3709f9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 414,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-12T06:19:17Z",
+      "side": 1,
+      "message": "[Optional] Optional\u003cString\u003e that the caller knows it can be null.",
+      "range": {
+        "startLine": 414,
+        "startChar": 10,
+        "endLine": 414,
+        "endChar": 16
+      },
+      "revId": "638394771510f91dd9c5e3bbbe7de8fc94f52796",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d6e25f1a_2c3713f9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 506,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-12T06:19:17Z",
+      "side": 1,
+      "message": "Swap these lines to preserve alphabetical order of footer fields.",
+      "range": {
+        "startLine": 505,
+        "startChar": 4,
+        "endLine": 506,
+        "endChar": 63
+      },
+      "revId": "638394771510f91dd9c5e3bbbe7de8fc94f52796",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "36f49bd0_cf7abd93",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeNotesTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 973,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-12T06:19:17Z",
+      "side": 1,
+      "message": "Shouod be sorted alphabetically",
+      "revId": "638394771510f91dd9c5e3bbbe7de8fc94f52796",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

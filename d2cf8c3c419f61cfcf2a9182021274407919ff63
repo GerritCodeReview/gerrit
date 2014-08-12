@@ -330,6 +330,24 @@
     },
     {
       "key": {
+        "uuid": "d6509fa6_fc2449cf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateOrModifyChangeEdit.java",
+        "patchSetId": 34
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-12T20:21:19Z",
+      "side": 1,
+      "message": "Yes, this is how it is currently implemented:\n\n* open a change without edit, last ps is opened\n* switch to edit mode in file table\n* when file is restored ot deleted, this is only click is needed to create change edit on top of latest patch set. When file is modified, file content is loaded, popup dialog with file content is opened. After modification, click save button changed it created\n* immediately after first request, CS2 is refreshed and change edit is loaded, then and only then, when the change edit was created on top of latest patch set. Otherwise latest path set os loaded per defait (current revisionb is not overriden in this case). To select edit to continue with modification on other files user must select edit from patch sets drop down and continue.\n\nBut this workflow has seriously flaw, as described above, because of wrong parent: no files that were modified in original patch set are visible in changed edit after it as created (after very fist modification). They are gone. For file modification they can be add manually, by writing them down in edit dialog, or switched to the patch set and modiy it there and the content would be written in the change edit.\n\nI think we should made another change in design and make patch set\u0027s parent the parent of change edit and store base patch set in ref as described in my previous comment.",
+      "parentUuid": "b6dfab55_2b37f9f8",
+      "revId": "d2cf8c3c419f61cfcf2a9182021274407919ff63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "762b73c3_0916c924",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutContent.java",
         "patchSetId": 34

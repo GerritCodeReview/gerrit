@@ -81,6 +81,10 @@ public class ChangeApi {
     return change(id).view("edit");
   }
 
+  public static RestApi editWithCommands(int id) {
+    return edit(id).addParameter("download-commands", true);
+  }
+
   public static void includedIn(int id, AsyncCallback<IncludedInInfo> cb) {
     call(id, "in").get(cb);
   }

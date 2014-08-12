@@ -18,6 +18,7 @@ import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.account.AccountApi;
 import com.google.gerrit.client.changes.ChangeApi;
 import com.google.gerrit.client.changes.ChangeInfo;
+import com.google.gerrit.client.changes.ChangeInfo.EditInfo;
 import com.google.gerrit.client.changes.ChangeInfo.FetchInfo;
 import com.google.gerrit.client.changes.ChangeList;
 import com.google.gerrit.client.rpc.NativeMap;
@@ -78,23 +79,38 @@ class DownloadBox extends VerticalPanel {
   @Override
   protected void onLoad() {
     if (fetch == null) {
-      RestApi call = ChangeApi.detail(change.legacy_id().get());
-      ChangeList.addOptions(call, EnumSet.of(
-          revision.equals(change.current_revision())
-             ? ListChangesOption.CURRENT_REVISION
-             : ListChangesOption.ALL_REVISIONS,
-          ListChangesOption.DOWNLOAD_COMMANDS));
-      call.get(new AsyncCallback<ChangeInfo>() {
-        @Override
-        public void onSuccess(ChangeInfo result) {
-          fetch = result.revision(revision).fetch();
-          renderScheme();
-        }
+      if (psId.get() == 0) {
+        ChangeApi.editWithCommands(change.legacy_id().get()).get(
+            new AsyncCallback<EditInfo>() {
+          @Override
+          public void onSuccess(EditInfo result) {
+            fetch = result.fetch();
+            renderScheme();
+          }
 
-        @Override
-        public void onFailure(Throwable caught) {
-        }
-      });
+          @Override
+          public void onFailure(Throwable caught) {
+          }
+        });
+      } else {
+        RestApi call = ChangeApi.detail(change.legacy_id().get());
+        ChangeList.addOptions(call, EnumSet.of(
+            revision.equals(change.current_revision())
+               ? ListChangesOption.CURRENT_REVISION
+               : ListChangesOption.ALL_REVISIONS,
+            ListChangesOption.DOWNLOAD_COMMANDS));
+        call.get(new AsyncCallback<ChangeInfo>() {
+          @Override
+          public void onSuccess(ChangeInfo result) {
+            fetch = result.revision(revision).fetch();
+            renderScheme();
+          }
+
+          @Override
+          public void onFailure(Throwable caught) {
+          }
+        });
+      }
     }
   }
 

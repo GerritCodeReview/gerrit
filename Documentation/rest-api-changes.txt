@@ -3810,6 +3810,10 @@ link:#commit-info[CommitInfo] entity.
 Actions the caller might be able to perform on this change edit. The
 information is a map of view name to link:#action-info[ActionInfo]
 entities.
+|`fetch`       ||
+Information about how to fetch this patch set. The fetch information is
+provided as a map that maps the protocol name ("`git`", "`http`",
+"`ssh`") to link:#fetch-info[FetchInfo] entities.
 |`files`       |optional|
 The files of the change edit as a map that maps the file names to
 link:#file-info[FileInfo] entities.

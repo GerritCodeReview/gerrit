@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "164797ed_9edbbd8a",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/edit/ChangeEditIT.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-12T19:31:06Z",
+      "side": 1,
+      "message": "SC_NO_CONTENT",
+      "range": {
+        "startLine": 219,
+        "startChar": 17,
+        "endLine": 219,
+        "endChar": 40
+      },
+      "revId": "616545ddecb73a89f2e473361ef7fd55ff468d49",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b6dfab55_cb4d1586",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/edit/ChangeEditIT.java",
         "patchSetId": 20
@@ -19,6 +42,47 @@
     },
     {
       "key": {
+        "uuid": "164797ed_fed68163",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/edit/ChangeEditIT.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-12T19:31:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b6dfab55_cb4d1586",
+      "revId": "616545ddecb73a89f2e473361ef7fd55ff468d49",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "164797ed_bee0f930",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/edit/ChangeEditIT.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-12T19:31:06Z",
+      "side": 1,
+      "message": "SC_NO_CONTENT",
+      "range": {
+        "startLine": 241,
+        "startChar": 28,
+        "endLine": 241,
+        "endChar": 40
+      },
+      "revId": "616545ddecb73a89f2e473361ef7fd55ff468d49",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b6dfab55_ab42c953",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/EditInfo.java",
         "patchSetId": 20
@@ -30,6 +94,24 @@
       "writtenOn": "2014-08-12T17:36:11Z",
       "side": 1,
       "message": "Extra blank line",
+      "revId": "616545ddecb73a89f2e473361ef7fd55ff468d49",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "164797ed_ded1456e",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/EditInfo.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-12T19:31:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b6dfab55_ab42c953",
       "revId": "616545ddecb73a89f2e473361ef7fd55ff468d49",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -141,6 +223,30 @@
       "side": 1,
       "message": "Yeah, if there are two possible conventions to follow, I vote for the shorter one :)",
       "parentUuid": "d6e25f1a_6ca19bc2",
+      "range": {
+        "startLine": 26,
+        "startChar": 13,
+        "endLine": 26,
+        "endChar": 31
+      },
+      "revId": "616545ddecb73a89f2e473361ef7fd55ff468d49",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f643e3df_ddd14b6e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditInfoJson.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-12T19:31:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b6dfab55_eb48d177",
       "range": {
         "startLine": 26,
         "startChar": 13,

@@ -74,6 +74,48 @@
       "revId": "3627a383c40887213f646f92493f9d9448621e30",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d6509fa6_5c8a1d5c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteReviewer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-12T23:00:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "164797ed_1ef00dfe",
+      "range": {
+        "startLine": 98,
+        "startChar": 37,
+        "endLine": 98,
+        "endChar": 52
+      },
+      "revId": "3627a383c40887213f646f92493f9d9448621e30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d6509fa6_7c87d952",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteReviewer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-12T23:00:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f643e3df_7de3573b",
+      "revId": "3627a383c40887213f646f92493f9d9448621e30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

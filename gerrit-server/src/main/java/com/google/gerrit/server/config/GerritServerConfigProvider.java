@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.config;
 
+import com.google.gerrit.server.securestore.SecureStore;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.ProvisionException;
@@ -33,10 +34,12 @@ class GerritServerConfigProvider implements Provider<Config> {
       LoggerFactory.getLogger(GerritServerConfigProvider.class);
 
   private final SitePaths site;
+  private final SecureStore secureStore;
 
   @Inject
-  GerritServerConfigProvider(final SitePaths site) {
+  GerritServerConfigProvider(final SitePaths site, final SecureStore secureStore) {
     this.site = site;
+    this.secureStore = secureStore;
   }
 
   @Override
@@ -46,7 +49,7 @@ class GerritServerConfigProvider implements Provider<Config> {
     if (!cfg.getFile().exists()) {
       log.info("No " + site.gerrit_config.getAbsolutePath()
           + "; assuming defaults");
-      return cfg;
+      return new GerritConfig(cfg, secureStore);
     }
 
     try {
@@ -57,17 +60,6 @@ class GerritServerConfigProvider implements Provider<Config> {
       throw new ProvisionException(e.getMessage(), e);
     }
 
-    if (site.secure_config.exists()) {
-      cfg = new FileBasedConfig(cfg, site.secure_config, FS.DETECTED);
-      try {
-        cfg.load();
-      } catch (IOException e) {
-        throw new ProvisionException(e.getMessage(), e);
-      } catch (ConfigInvalidException e) {
-        throw new ProvisionException(e.getMessage(), e);
-      }
-    }
-
-    return cfg;
+    return new GerritConfig(cfg, secureStore);
   }
 }

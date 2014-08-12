@@ -182,6 +182,7 @@ public class ChangeEdits implements
     private final ChangeEditUtil editUtil;
     private final FileInfoJson fileInfoJson;
     private final Revisions revisions;
+    private final ChangeEditInfoJson editJson;
 
     @Option(name = "--base", metaVar = "revision-id")
     String base;
@@ -192,10 +193,12 @@ public class ChangeEdits implements
     @Inject
     Detail(ChangeEditUtil editUtil,
         FileInfoJson fileInfoJson,
-        Revisions revisions) {
+        Revisions revisions,
+        ChangeEditInfoJson editJson) {
       this.fileInfoJson = fileInfoJson;
       this.editUtil = editUtil;
       this.revisions = revisions;
+      this.editJson = editJson;
     }
 
     @Override
@@ -220,7 +223,7 @@ public class ChangeEdits implements
             throw new ResourceNotFoundException(e.getMessage());
           }
         } else {
-          return Response.ok(ChangeEditInfoJson.toEditInfo(edit.get()));
+          return Response.ok(editJson.toEditInfo(edit.get()));
         }
       }
       return Response.none();

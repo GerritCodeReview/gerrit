@@ -19,22 +19,44 @@ import com.google.common.collect.Maps;
 import com.google.gerrit.extensions.common.ActionInfo;
 import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.extensions.common.EditInfo;
+import com.google.gerrit.extensions.common.FetchInfo;
+import com.google.gerrit.extensions.config.DownloadCommand;
+import com.google.gerrit.extensions.config.DownloadScheme;
+import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.webui.PrivateInternals_UiActionDescription;
 import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.CommonConverters;
+import com.google.gerrit.server.CurrentUser;
+import com.google.inject.Inject;
+import com.google.inject.Provider;
+import com.google.inject.Singleton;
 
 import org.eclipse.jgit.revwalk.RevCommit;
 
 import java.io.IOException;
 import java.util.Map;
 
+@Singleton
 public class ChangeEditInfoJson {
+  private final DynamicMap<DownloadCommand> downloadCommands;
+  private final DynamicMap<DownloadScheme> downloadSchemes;
+  private final Provider<CurrentUser> userProvider;
 
-  public static EditInfo toEditInfo(ChangeEdit edit) throws IOException {
+  @Inject
+  ChangeEditInfoJson(DynamicMap<DownloadCommand> downloadCommand,
+      DynamicMap<DownloadScheme> downloadSchemes,
+      Provider<CurrentUser> userProvider) {
+    this.downloadCommands = downloadCommand;
+    this.downloadSchemes = downloadSchemes;
+    this.userProvider = userProvider;
+  }
+
+  public EditInfo toEditInfo(ChangeEdit edit) throws IOException {
     EditInfo out = new EditInfo();
     out.commit = fillCommit(edit.getEditCommit());
     out.actions = fillActions(edit);
+    out.fetch = fillFetchMap(edit);
     return out;
   }
 
@@ -82,5 +104,47 @@ public class ChangeEditInfoJson {
     }
 
     return actions;
+  }
+
+  private Map<String, FetchInfo> fillFetchMap(ChangeEdit edit) {
+    Map<String, FetchInfo> r = Maps.newLinkedHashMap();
+    for (DynamicMap.Entry<DownloadScheme> e : downloadSchemes) {
+      String schemeName = e.getExportName();
+      DownloadScheme scheme = e.getProvider().get();
+      if (!scheme.isEnabled()
+          || (scheme.isAuthRequired()
+              && !userProvider.get().isIdentifiedUser())) {
+        continue;
+      }
+
+      // No fluff, just stuff
+      if (!scheme.isAuthSupported()) {
+        continue;
+      }
+
+      String projectName = edit.getChange().getProject().get();
+      String url = scheme.getUrl(projectName);
+      String refName = edit.getRefName();
+      FetchInfo fetchInfo = new FetchInfo(url, refName);
+      r.put(schemeName, fetchInfo);
+
+      for (DynamicMap.Entry<DownloadCommand> e2 : downloadCommands) {
+        String commandName = e2.getExportName();
+        DownloadCommand command = e2.getProvider().get();
+        String c = command.getCommand(scheme, projectName, refName);
+        if (c != null) {
+          addCommand(fetchInfo, commandName, c);
+        }
+      }
+    }
+
+    return r;
+  }
+
+  private static void addCommand(FetchInfo info, String n, String c) {
+    if (info.commands == null) {
+      info.commands = Maps.newTreeMap();
+    }
+    info.commands.put(n, c);
   }
 }

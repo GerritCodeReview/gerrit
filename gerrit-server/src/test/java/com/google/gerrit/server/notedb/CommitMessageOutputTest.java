@@ -24,6 +24,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.util.TimeUtil;
 import com.google.gerrit.testutil.TestChanges;
 
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -44,34 +45,28 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
     update.commit();
     assertEquals("refs/changes/01/1/meta", update.getRefName());
 
-    RevWalk walk = new RevWalk(repo);
-    try {
-      RevCommit commit = walk.parseCommit(update.getRevision());
-      walk.parseBody(commit);
-      assertEquals("Update patch set 1\n"
-          + "\n"
-          + "Patch-set: 1\n"
-          + "Reviewer: Change Owner <1@gerrit>\n"
-          + "CC: Other Account <2@gerrit>\n"
-          + "Label: Code-Review=-1\n"
-          + "Label: Verified=+1\n",
-          commit.getFullMessage());
+    RevCommit commit = parseCommit(update.getRevision());
+    assertBodyEquals("Update patch set 1\n"
+        + "\n"
+        + "Patch-set: 1\n"
+        + "Reviewer: Change Owner <1@gerrit>\n"
+        + "CC: Other Account <2@gerrit>\n"
+        + "Label: Code-Review=-1\n"
+        + "Label: Verified=+1\n",
+        commit);
 
-      PersonIdent author = commit.getAuthorIdent();
-      assertEquals("Change Owner", author.getName());
-      assertEquals("1@gerrit", author.getEmailAddress());
-      assertEquals(new Date(c.getCreatedOn().getTime() + 1000),
-          author.getWhen());
-      assertEquals(TimeZone.getTimeZone("GMT-7:00"), author.getTimeZone());
+    PersonIdent author = commit.getAuthorIdent();
+    assertEquals("Change Owner", author.getName());
+    assertEquals("1@gerrit", author.getEmailAddress());
+    assertEquals(new Date(c.getCreatedOn().getTime() + 1000),
+        author.getWhen());
+    assertEquals(TimeZone.getTimeZone("GMT-7:00"), author.getTimeZone());
 
-      PersonIdent committer = commit.getCommitterIdent();
-      assertEquals("Gerrit Server", committer.getName());
-      assertEquals("noreply@gerrit.com", committer.getEmailAddress());
-      assertEquals(author.getWhen(), committer.getWhen());
-      assertEquals(author.getTimeZone(), committer.getTimeZone());
-    } finally {
-      walk.release();
-    }
+    PersonIdent committer = commit.getCommitterIdent();
+    assertEquals("Gerrit Server", committer.getName());
+    assertEquals("noreply@gerrit.com", committer.getEmailAddress());
+    assertEquals(author.getWhen(), committer.getWhen());
+    assertEquals(author.getTimeZone(), committer.getTimeZone());
   }
 
   @Test
@@ -83,20 +78,13 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
     update.commit();
     assertEquals("refs/changes/01/1/meta", update.getRefName());
 
-    RevWalk walk = new RevWalk(repo);
-    try {
-      RevCommit commit = walk.parseCommit(update.getRevision());
-      walk.parseBody(commit);
-      assertEquals("Update patch set 1\n"
-          + "\n"
-          + "Just a little code change.\n"
-          + "How about a new line\n"
-          + "\n"
-          + "Patch-set: 1\n",
-          commit.getFullMessage());
-    } finally {
-      walk.release();
-    }
+    assertBodyEquals("Update patch set 1\n"
+        + "\n"
+        + "Just a little code change.\n"
+        + "How about a new line\n"
+        + "\n"
+        + "Patch-set: 1\n",
+        update.getRevision());
   }
 
   @Test
@@ -106,18 +94,11 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
     update.removeApproval("Code-Review");
     update.commit();
 
-    RevWalk walk = new RevWalk(repo);
-    try {
-      RevCommit commit = walk.parseCommit(update.getRevision());
-      walk.parseBody(commit);
-      assertEquals("Update patch set 1\n"
-          + "\n"
-          + "Patch-set: 1\n"
-          + "Label: -Code-Review\n",
-          commit.getFullMessage());
-    } finally {
-      walk.release();
-    }
+    assertBodyEquals("Update patch set 1\n"
+        + "\n"
+        + "Patch-set: 1\n"
+        + "Label: -Code-Review\n",
+        update.getRevision());
   }
 
   @Test
@@ -135,37 +116,31 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
           submitLabel("Alternative-Code-Review", "NEED", null))));
     update.commit();
 
-    RevWalk walk = new RevWalk(repo);
-    try {
-      RevCommit commit = walk.parseCommit(update.getRevision());
-      walk.parseBody(commit);
-      assertEquals("Submit patch set 1\n"
-          + "\n"
-          + "Patch-set: 1\n"
-          + "Status: submitted\n"
-          + "Submitted-with: NOT_READY\n"
-          + "Submitted-with: OK: Verified: Change Owner <1@gerrit>\n"
-          + "Submitted-with: NEED: Code-Review\n"
-          + "Submitted-with: NOT_READY\n"
-          + "Submitted-with: OK: Verified: Change Owner <1@gerrit>\n"
-          + "Submitted-with: NEED: Alternative-Code-Review\n",
-          commit.getFullMessage());
+    RevCommit commit = parseCommit(update.getRevision());
+    assertBodyEquals("Submit patch set 1\n"
+        + "\n"
+        + "Patch-set: 1\n"
+        + "Status: submitted\n"
+        + "Submitted-with: NOT_READY\n"
+        + "Submitted-with: OK: Verified: Change Owner <1@gerrit>\n"
+        + "Submitted-with: NEED: Code-Review\n"
+        + "Submitted-with: NOT_READY\n"
+        + "Submitted-with: OK: Verified: Change Owner <1@gerrit>\n"
+        + "Submitted-with: NEED: Alternative-Code-Review\n",
+        commit);
 
-      PersonIdent author = commit.getAuthorIdent();
-      assertEquals("Change Owner", author.getName());
-      assertEquals("1@gerrit", author.getEmailAddress());
-      assertEquals(new Date(c.getCreatedOn().getTime() + 1000),
-          author.getWhen());
-      assertEquals(TimeZone.getTimeZone("GMT-7:00"), author.getTimeZone());
+    PersonIdent author = commit.getAuthorIdent();
+    assertEquals("Change Owner", author.getName());
+    assertEquals("1@gerrit", author.getEmailAddress());
+    assertEquals(new Date(c.getCreatedOn().getTime() + 1000),
+        author.getWhen());
+    assertEquals(TimeZone.getTimeZone("GMT-7:00"), author.getTimeZone());
 
-      PersonIdent committer = commit.getCommitterIdent();
-      assertEquals("Gerrit Server", committer.getName());
-      assertEquals("noreply@gerrit.com", committer.getEmailAddress());
-      assertEquals(author.getWhen(), committer.getWhen());
-      assertEquals(author.getTimeZone(), committer.getTimeZone());
-    } finally {
-      walk.release();
-    }
+    PersonIdent committer = commit.getCommitterIdent();
+    assertEquals("Gerrit Server", committer.getName());
+    assertEquals("noreply@gerrit.com", committer.getEmailAddress());
+    assertEquals(author.getWhen(), committer.getWhen());
+    assertEquals(author.getTimeZone(), committer.getTimeZone());
   }
 
   @Test
@@ -177,23 +152,17 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
     update.setChangeMessage("Comment on the change.");
     update.commit();
 
-    RevWalk walk = new RevWalk(repo);
-    try {
-      RevCommit commit = walk.parseCommit(update.getRevision());
-      walk.parseBody(commit);
-      assertEquals("Update patch set 1\n"
-          + "\n"
-          + "Comment on the change.\n"
-          + "\n"
-          + "Patch-set: 1\n",
-          commit.getFullMessage());
+    RevCommit commit = parseCommit(update.getRevision());
+    assertBodyEquals("Update patch set 1\n"
+        + "\n"
+        + "Comment on the change.\n"
+        + "\n"
+        + "Patch-set: 1\n",
+        commit);
 
-      PersonIdent author = commit.getAuthorIdent();
-      assertEquals("Anonymous Coward (3)", author.getName());
-      assertEquals("3@gerrit", author.getEmailAddress());
-    } finally {
-      walk.release();
-    }
+    PersonIdent author = commit.getAuthorIdent();
+    assertEquals("Anonymous Coward (3)", author.getName());
+    assertEquals("3@gerrit", author.getEmailAddress());
   }
 
   @Test
@@ -206,19 +175,12 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
         submitRecord("RULE_ERROR", "Problem with patch set:\n1")));
     update.commit();
 
-    RevWalk walk = new RevWalk(repo);
-    try {
-      RevCommit commit = walk.parseCommit(update.getRevision());
-      walk.parseBody(commit);
-      assertEquals("Submit patch set 1\n"
-          + "\n"
-          + "Patch-set: 1\n"
-          + "Status: submitted\n"
-          + "Submitted-with: RULE_ERROR Problem with patch set: 1\n",
-          commit.getFullMessage());
-    } finally {
-      walk.release();
-    }
+    assertBodyEquals("Submit patch set 1\n"
+        + "\n"
+        + "Patch-set: 1\n"
+        + "Status: submitted\n"
+        + "Submitted-with: RULE_ERROR Problem with patch set: 1\n",
+        update.getRevision());
   }
 
   @Test
@@ -228,18 +190,11 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
     update.putReviewer(changeOwner.getAccount().getId(), REVIEWER);
     update.commit();
 
-    RevWalk walk = new RevWalk(repo);
-    try {
-      RevCommit commit = walk.parseCommit(update.getRevision());
-      walk.parseBody(commit);
-      assertEquals("Update patch set 1\n"
-          + "\n"
-          + "Patch-set: 1\n"
-          + "Reviewer: Change Owner <1@gerrit>\n",
-          commit.getFullMessage());
-    } finally {
-      walk.release();
-    }
+    assertBodyEquals("Update patch set 1\n"
+        + "\n"
+        + "Patch-set: 1\n"
+        + "Reviewer: Change Owner <1@gerrit>\n",
+        update.getRevision());
   }
 
   @Test
@@ -250,21 +205,14 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
         + "\n");
     update.commit();
 
-    RevWalk walk = new RevWalk(repo);
-    try {
-      RevCommit commit = walk.parseCommit(update.getRevision());
-      walk.parseBody(commit);
-      assertEquals("Update patch set 1\n"
-          + "\n"
-          + "Testing trailing double newline\n"
-          + "\n"
-          + "\n"
-          + "\n"
-          + "Patch-set: 1\n",
-          commit.getFullMessage());
-    } finally {
-      walk.release();
-    }
+    assertBodyEquals("Update patch set 1\n"
+        + "\n"
+        + "Testing trailing double newline\n"
+        + "\n"
+        + "\n"
+        + "\n"
+        + "Patch-set: 1\n",
+        update.getRevision());
   }
 
   @Test
@@ -278,22 +226,35 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
         + "Testing paragraph 3");
     update.commit();
 
+    assertBodyEquals("Update patch set 1\n"
+        + "\n"
+        + "Testing paragraph 1\n"
+        + "\n"
+        + "Testing paragraph 2\n"
+        + "\n"
+        + "Testing paragraph 3\n"
+        + "\n"
+        + "Patch-set: 1\n",
+        update.getRevision());
+  }
+
+  private RevCommit parseCommit(ObjectId id) throws Exception {
+    if (id instanceof RevCommit) {
+      return (RevCommit) id;
+    }
     RevWalk walk = new RevWalk(repo);
     try {
-      RevCommit commit = walk.parseCommit(update.getRevision());
+      RevCommit commit = walk.parseCommit(id);
       walk.parseBody(commit);
-      assertEquals("Update patch set 1\n"
-          + "\n"
-          + "Testing paragraph 1\n"
-          + "\n"
-          + "Testing paragraph 2\n"
-          + "\n"
-          + "Testing paragraph 3\n"
-          + "\n"
-          + "Patch-set: 1\n",
-          commit.getFullMessage());
+      return commit;
     } finally {
       walk.release();
     }
+  }
+
+  private void assertBodyEquals(String expected, ObjectId commitId)
+      throws Exception {
+    RevCommit commit = parseCommit(commitId);
+    assertEquals(expected, commit.getFullMessage());
   }
 }

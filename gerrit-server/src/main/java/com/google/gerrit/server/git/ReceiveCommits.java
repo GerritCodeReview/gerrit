@@ -33,6 +33,7 @@ import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.BiMap;
+import com.google.common.collect.FluentIterable;
 import com.google.common.collect.HashBiMap;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Iterables;
@@ -40,6 +41,7 @@ import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.common.collect.Ordering;
 import com.google.common.collect.SetMultimap;
 import com.google.common.collect.Sets;
 import com.google.common.util.concurrent.CheckedFuture;
@@ -643,7 +645,10 @@ public class ReceiveCommits {
     closeProgress.end();
     commandProgress.end();
     progress.end();
+    reportMessages();
+  }
 
+  private void reportMessages() {
     Iterable<CreateRequest> created =
         Iterables.filter(newChanges, new Predicate<CreateRequest>() {
           @Override
@@ -660,15 +665,22 @@ public class ReceiveCommits {
       addMessage("");
     }
 
-    Iterable<ReplaceRequest> updated =
-        Iterables.filter(replaceByChange.values(),
-            new Predicate<ReplaceRequest>() {
+    List<ReplaceRequest> updated = FluentIterable
+        .from(replaceByChange.values())
+        .filter(new Predicate<ReplaceRequest>() {
+          @Override
+          public boolean apply(ReplaceRequest input) {
+            return !input.skip && input.inputCommand.getResult() == OK;
+          }
+        })
+        .toSortedList(Ordering.natural().onResultOf(
+            new Function<ReplaceRequest, Integer>() {
               @Override
-              public boolean apply(ReplaceRequest input) {
-                return !input.skip && input.inputCommand.getResult() == OK;
+              public Integer apply(ReplaceRequest in) {
+                return in.change.getId().get();
               }
-            });
-    if (!Iterables.isEmpty(updated)) {
+            }));
+    if (!updated.isEmpty()) {
       addMessage("");
       addMessage("Updated Changes:");
       for (ReplaceRequest u : updated) {

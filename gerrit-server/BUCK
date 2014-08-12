@@ -85,6 +85,7 @@ java_sources(
 TESTUTIL = glob([
   'src/test/java/com/google/gerrit/testutil/**/*.java',
   'src/test/java/com/google/gerrit/server/project/Util.java',
+  'src/test/java/com/google/gerrit/server/cache/h2/Util.java',
   ])
 java_library(
   name = 'testutil',
@@ -93,6 +94,7 @@ java_library(
     ':server',
     '//gerrit-common:server',
     '//gerrit-cache-h2:cache-h2',
+    '//gerrit-extension-api:api',
     '//gerrit-lucene:lucene',
     '//gerrit-reviewdb:server',
     '//lib:guava',
@@ -195,6 +197,7 @@ java_test(
     ':server',
     ':testutil',
     '//gerrit-antlr:query_exception',
+    '//gerrit-cache-h2:cache-h2',
     '//gerrit-common:annotations',
     '//gerrit-common:server',
     '//gerrit-extension-api:api',

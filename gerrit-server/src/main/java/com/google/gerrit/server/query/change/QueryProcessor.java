@@ -146,7 +146,7 @@ public class QueryProcessor {
     limit = n;
   }
 
-  void setStart(int n) {
+  public void setStart(int n) {
     start = n;
   }
 

@@ -15,10 +15,10 @@ gerrit query - Query the change database
   [--dependencies]
   [--submit-records]
   [--all-reviewers]
+  [--start <n> | -S <n>]
   [--]
   <query>
   [limit:<n>]
-  [resume_sortkey:<sortKey>]
 --
 
 == DESCRIPTION
@@ -33,9 +33,8 @@ older patch set (for example an older patch set's sha1 revision).
 A query may be limited on the number of results it returns with the
 'limit:' operator.  If no limit is supplied an internal default
 limit is used to prevent explosion of the result set.  To obtain
-results beyond the limit, the 'resume_sortkey:' operator can be used
-to resume the query at the change that follows the last change of
-the prior result set.
+results beyond the limit, the '--start' flag can be used to resume
+the query after skipping a certain number of results.
 
 Non-option arguments to this command are joined with spaces and
 then parsed as a query. This simplifies calling conventions over
@@ -95,17 +94,15 @@ command line parser in the server).
 	includes whether the change meets the criteria for submission
 	(including information for each review label).
 
+--start::
+-S::
+	Number of changes to skip.
+
 limit:<n>::
 	Maximum number of results to return.  This is actually a
 	query operator, and not a command line option.	If more
 	than one limit: operator is provided, the smallest limit
 	will be used to cut the result set.
-
-resume_sortkey:<sortKey>::
-	Resume results from this sort key.  Callers should pass
-	the sortKey of the last change of the prior result set to
-	resume a prior query.  This is actually a query operator,
-	and not a command line option.
 
 == ACCESS
 Any user who has configured an SSH key.
@@ -123,9 +120,9 @@ Find the 2 most recent open changes in the tools/gerrit project:
   {"type":"stats","rowCount":2,"runningTimeMilliseconds:15}
 ====
 
-Resume the same query and obtain the final results:
+Skip number of changes:
 ====
-  $ ssh -p 29418 review.example.com gerrit query --format=JSON status:open project:tools/gerrit limit:2 resume_sortkey:000e6aee00003e26
+  $ ssh -p 29418 review.example.com gerrit query --format=JSON --start 42 status:open project:tools/gerrit limit:2
   {"project":"tools/gerrit", ...}
   {"project":"tools/gerrit", ...}
   {"type":"stats","rowCount":1,"runningTimeMilliseconds:15}

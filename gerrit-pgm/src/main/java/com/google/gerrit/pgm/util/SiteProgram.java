@@ -30,6 +30,7 @@ import com.google.gerrit.server.schema.DataSourceProvider;
 import com.google.gerrit.server.schema.DataSourceType;
 import com.google.gerrit.server.schema.DatabaseModule;
 import com.google.gerrit.server.schema.SchemaModule;
+import com.google.gerrit.server.securestore.SecureStore;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.AbstractModule;
 import com.google.inject.Binding;
@@ -138,6 +139,9 @@ public abstract class SiteProgram extends AbstractProgram {
       @Override
       protected void configure() {
         bind(DataSourceType.class).toInstance(dst);
+        bind(String.class).annotatedWith(SecureStoreClassName.class)
+            .toProvider(SecureStoreClassNameProvider.class);
+        bind(SecureStore.class).toProvider(SecureStoreProvider.class);
       }});
     modules.add(new DatabaseModule());
     modules.add(new SchemaModule());

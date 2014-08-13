@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f643e3df_3d914f8e",
+        "filename": "Documentation/dev-buck.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-08-13T08:01:29Z",
+      "side": 1,
+      "message": "Nit: Is it no longer necessary to specify `--all`",
+      "range": {
+        "startLine": 294,
+        "startChar": 12,
+        "endLine": 294,
+        "endChar": 17
+      },
+      "revId": "3487cf4c3ce4ee731be911876a54fadce372aae4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "961c67fc_baf6d1ac",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 38
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-13T11:58:04Z",
+      "side": 1,
+      "message": "change edit",
+      "range": {
+        "startLine": 19,
+        "startChar": 13,
+        "endLine": 19,
+        "endChar": 25
+      },
+      "revId": "bbeb18b58ac45faadb94048ef3059ebbc1bc2956",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "164797ed_1e6d6dcb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-08-13T15:58:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f643e3df_1d37b3f8",
+      "range": {
+        "startLine": 17,
+        "startChar": 16,
+        "endLine": 17,
+        "endChar": 25
+      },
+      "revId": "5bd4cb1470bcc95a2aabd8f36cb003af5a340b29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f643e3df_7d11176f",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/RebuildNotedb.java",
         "patchSetId": 4
@@ -36,6 +60,24 @@
       "writtenOn": "2014-08-13T00:59:17Z",
       "side": 1,
       "message": "Just System.out.println, since the progress monitor output goes there as well.",
+      "revId": "5bd4cb1470bcc95a2aabd8f36cb003af5a340b29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "164797ed_be847950",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/RebuildNotedb.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-08-13T15:58:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f643e3df_7d11176f",
       "revId": "5bd4cb1470bcc95a2aabd8f36cb003af5a340b29",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "f643e3df_9dcd039e",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/RebuildNotedb.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-08-13T15:58:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f643e3df_3d1b8f8f",
+      "revId": "5bd4cb1470bcc95a2aabd8f36cb003af5a340b29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f643e3df_fd4d2785",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/RebuildNotedb.java",
         "patchSetId": 4
@@ -70,6 +130,24 @@
       "writtenOn": "2014-08-13T00:59:17Z",
       "side": 1,
       "message": "Keep these short. The text here plus a counter for each subtask should fit on one line. I think the ideal output is like:\n\n Rebuilding notedb\n project1: done 4/1000, failed 5\n\nExcept that project names can be very long. Would be nice to limit them such that \"project: done XXXX/XXXX, failed XX\" fits in 80 chars.",
+      "revId": "5bd4cb1470bcc95a2aabd8f36cb003af5a340b29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f643e3df_9d23c395",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/RebuildNotedb.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-08-13T15:58:22Z",
+      "side": 1,
+      "message": "Do you mean I can just truncate project names or are you saying that in the future, it would be nice to limit project names?",
+      "parentUuid": "f643e3df_fd4d2785",
       "revId": "5bd4cb1470bcc95a2aabd8f36cb003af5a340b29",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -99,6 +177,30 @@
     },
     {
       "key": {
+        "uuid": "f643e3df_5db8dbff",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/RebuildNotedb.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-08-13T15:58:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f643e3df_dd486b78",
+      "range": {
+        "startLine": 106,
+        "startChar": 46,
+        "endLine": 106,
+        "endChar": 74
+      },
+      "revId": "5bd4cb1470bcc95a2aabd8f36cb003af5a340b29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "164797ed_de1f057f",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/RebuildNotedb.java",
         "patchSetId": 4
@@ -110,6 +212,24 @@
       "writtenOn": "2014-08-13T00:59:17Z",
       "side": 1,
       "message": "RevWalk should be released in a finally block.",
+      "revId": "5bd4cb1470bcc95a2aabd8f36cb003af5a340b29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f643e3df_bdd23f3d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/RebuildNotedb.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-08-13T15:58:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "164797ed_de1f057f",
       "revId": "5bd4cb1470bcc95a2aabd8f36cb003af5a340b29",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -133,6 +253,24 @@
     },
     {
       "key": {
+        "uuid": "164797ed_5e73f5b5",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/RebuildNotedb.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-08-13T15:58:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "164797ed_fe2441cf",
+      "revId": "5bd4cb1470bcc95a2aabd8f36cb003af5a340b29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f643e3df_9d42e354",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeRebuilder.java",
         "patchSetId": 4
@@ -150,6 +288,24 @@
     },
     {
       "key": {
+        "uuid": "f643e3df_fd1e8752",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeRebuilder.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-08-13T15:58:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f643e3df_9d42e354",
+      "revId": "5bd4cb1470bcc95a2aabd8f36cb003af5a340b29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "164797ed_9e297da6",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeRebuilder.java",
         "patchSetId": 4
@@ -161,6 +317,30 @@
       "writtenOn": "2014-08-13T00:59:17Z",
       "side": 1,
       "message": "Nit: space",
+      "range": {
+        "startLine": 128,
+        "startChar": 17,
+        "endLine": 128,
+        "endChar": 19
+      },
+      "revId": "5bd4cb1470bcc95a2aabd8f36cb003af5a340b29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "164797ed_1e948d7d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeRebuilder.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-08-13T15:58:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "164797ed_9e297da6",
       "range": {
         "startLine": 128,
         "startChar": 17,

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f643e3df_5d0f7b52",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNoteUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-13T00:15:57Z",
+      "side": 1,
+      "message": "They are currently vaguely ordered in commit message footers from top to bottom relative to the order in Change and its child entities. This is hard to enforce though; I\u0027ll make them alphabetical in a followup.",
+      "parentUuid": "d6e25f1a_0c3457f0",
+      "range": {
+        "startLine": 27,
+        "startChar": 2,
+        "endLine": 29,
+        "endChar": 65
+      },
+      "revId": "638394771510f91dd9c5e3bbbe7de8fc94f52796",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d6e25f1a_ec758ba5",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
         "patchSetId": 3
@@ -36,6 +60,30 @@
       "writtenOn": "2014-08-12T06:19:17Z",
       "side": 1,
       "message": "One time \"does\" should be sufficient.",
+      "range": {
+        "startLine": 278,
+        "startChar": 39,
+        "endLine": 278,
+        "endChar": 43
+      },
+      "revId": "638394771510f91dd9c5e3bbbe7de8fc94f52796",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f643e3df_7d0cb75c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-13T00:15:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d6e25f1a_ec758ba5",
       "range": {
         "startLine": 278,
         "startChar": 39,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "f643e3df_1d09f34b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-13T00:15:57Z",
+      "side": 1,
+      "message": "It\u0027s necessary to create the Branch.NameKey, which is related to this change.\n\nEventually the project name should probably be passed in directly, but not yet.",
+      "parentUuid": "d6e25f1a_4c3a5fe1",
+      "range": {
+        "startLine": 83,
+        "startChar": 2,
+        "endLine": 83,
+        "endChar": 40
+      },
+      "revId": "638394771510f91dd9c5e3bbbe7de8fc94f52796",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "36f49bd0_2f3709f9",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
         "patchSetId": 3
@@ -82,6 +154,30 @@
       "writtenOn": "2014-08-12T06:19:17Z",
       "side": 1,
       "message": "[Optional] Optional\u003cString\u003e that the caller knows it can be null.",
+      "range": {
+        "startLine": 414,
+        "startChar": 10,
+        "endLine": 414,
+        "endChar": 16
+      },
+      "revId": "638394771510f91dd9c5e3bbbe7de8fc94f52796",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f643e3df_3d062f3d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 414,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-13T00:15:57Z",
+      "side": 1,
+      "message": "This is not a public API, and is somewhat performance sensitive.\n\n(Yes, we already allocate a million collections, so this is a drop in the bucket. Honestly I worry that we will have to optimize those out later and it will be a pain :)",
+      "parentUuid": "36f49bd0_2f3709f9",
       "range": {
         "startLine": 414,
         "startChar": 10,
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "f643e3df_dd1f0b7f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 506,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-13T00:15:57Z",
+      "side": 1,
+      "message": "Will do in a followup to this series.",
+      "parentUuid": "d6e25f1a_2c3713f9",
+      "range": {
+        "startLine": 505,
+        "startChar": 4,
+        "endLine": 506,
+        "endChar": 63
+      },
+      "revId": "638394771510f91dd9c5e3bbbe7de8fc94f52796",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "36f49bd0_cf7abd93",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeNotesTest.java",
         "patchSetId": 3
@@ -128,6 +248,24 @@
       "writtenOn": "2014-08-12T06:19:17Z",
       "side": 1,
       "message": "Shouod be sorted alphabetically",
+      "revId": "638394771510f91dd9c5e3bbbe7de8fc94f52796",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f643e3df_fd2447cf",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeNotesTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 973,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-13T00:15:57Z",
+      "side": 1,
+      "message": "Followup.",
+      "parentUuid": "36f49bd0_cf7abd93",
       "revId": "638394771510f91dd9c5e3bbbe7de8fc94f52796",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

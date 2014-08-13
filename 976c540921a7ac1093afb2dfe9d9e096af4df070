@@ -16,6 +16,24 @@
       "revId": "976c540921a7ac1093afb2dfe9d9e096af4df070",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "164797ed_1e37adf8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1017039
+      },
+      "writtenOn": "2014-08-13T19:50:16Z",
+      "side": 1,
+      "message": "I agree with running \"buck --version\" manually before running \"project.py\", which is also a manual redundant call. Actually, calling \"buck --version\" do nothing but checking the version of itself when is identical to .buckversion .\n\nThough buck version seldom changes, the problem will happen almost all the time to every one who tries to run \"project.py\" for the first time. Either adding such redundant buck to the script or recommending to run it manually by mentioning about the possible version inconsistency might cause such problem with running \"project.py\" in user document would help them.\n\nEither way, automatically or manually, buck needs to be updated before generating classpaths. Then better to put it in \"project.py\".",
+      "parentUuid": "961c67fc_da10652b",
+      "revId": "976c540921a7ac1093afb2dfe9d9e096af4df070",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -16,6 +16,24 @@
       "revId": "713c690c0bdb91fada3f4fdf6baacd26808cb9d4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "961c67fc_3a6ac1b4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-13T05:09:43Z",
+      "side": 1,
+      "message": "Another reason we want to do that: we can easily cluster Buck unit test invocation in ther own JVM calls to parallelize unit test execution.",
+      "parentUuid": "d6509fa6_dcc38d72",
+      "revId": "713c690c0bdb91fada3f4fdf6baacd26808cb9d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

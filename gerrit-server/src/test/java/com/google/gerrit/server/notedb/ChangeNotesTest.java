@@ -17,10 +17,7 @@ package com.google.gerrit.server.notedb;
 import static com.google.gerrit.server.notedb.ReviewerState.CC;
 import static com.google.gerrit.server.notedb.ReviewerState.REVIEWER;
 import static com.google.gerrit.testutil.TestChanges.incrementPatchSet;
-import static com.google.inject.Scopes.SINGLETON;
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static java.util.concurrent.TimeUnit.MILLISECONDS;
-import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -38,348 +35,29 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.CommentRange;
-import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchLineComment.Status;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
-import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.client.RevId;
-import com.google.gerrit.server.GerritPersonIdent;
-import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.account.AccountCache;
-import com.google.gerrit.server.account.CapabilityControl;
-import com.google.gerrit.server.account.GroupBackend;
-import com.google.gerrit.server.account.Realm;
-import com.google.gerrit.server.config.AllUsersNameProvider;
-import com.google.gerrit.server.config.AnonymousCowardName;
-import com.google.gerrit.server.config.AnonymousCowardNameProvider;
-import com.google.gerrit.server.config.CanonicalWebUrl;
-import com.google.gerrit.server.config.FactoryModule;
-import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
-import com.google.gerrit.server.git.GitModule;
-import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.VersionedMetaData.BatchMetaDataUpdate;
-import com.google.gerrit.server.group.SystemGroupBackend;
-import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.util.TimeUtil;
-import com.google.gerrit.testutil.FakeAccountCache;
-import com.google.gerrit.testutil.FakeRealm;
-import com.google.gerrit.testutil.InMemoryRepositoryManager;
-import com.google.gerrit.testutil.TestChanges;
-import com.google.gwtorm.client.KeyUtil;
 import com.google.gwtorm.server.OrmException;
-import com.google.gwtorm.server.StandardKeyEncoder;
-import com.google.inject.Guice;
-import com.google.inject.Injector;
-import com.google.inject.util.Providers;
 
-import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.CommitBuilder;
-import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
-import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.notes.Note;
-import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.ReceiveCommand;
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeUtils;
-import org.joda.time.DateTimeUtils.MillisProvider;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.TimeZone;
-import java.util.concurrent.atomic.AtomicLong;
 
-public class ChangeNotesTest {
-  private static final TimeZone TZ =
-      TimeZone.getTimeZone("America/Los_Angeles");
-
-  private PersonIdent serverIdent;
-  private Project.NameKey project;
-  private InMemoryRepositoryManager repoManager;
-  private InMemoryRepository repo;
-  private FakeAccountCache accountCache;
-  private IdentifiedUser.GenericFactory userFactory;
-  private AllUsersNameProvider allUsers;
-  private IdentifiedUser changeOwner;
-  private IdentifiedUser otherUser;
-  private Account.Id otherUserId;
-  private Injector injector;
-  private String systemTimeZone;
-  private volatile long clockStepMs;
-
-  @Before
-  public void setUp() throws Exception {
-    setTimeForTesting();
-    KeyUtil.setEncoderImpl(new StandardKeyEncoder());
-
-    serverIdent = new PersonIdent(
-        "Gerrit Server", "noreply@gerrit.com", TimeUtil.nowTs(), TZ);
-    project = new Project.NameKey("test-project");
-    repoManager = new InMemoryRepositoryManager();
-    repo = repoManager.createRepository(project);
-    accountCache = new FakeAccountCache();
-    Account co = new Account(new Account.Id(1), TimeUtil.nowTs());
-    co.setFullName("Change Owner");
-    co.setPreferredEmail("change@owner.com");
-    accountCache.put(co);
-    Account ou = new Account(new Account.Id(2), TimeUtil.nowTs());
-    ou.setFullName("Other Account");
-    ou.setPreferredEmail("other@account.com");
-    accountCache.put(ou);
-
-    injector = Guice.createInjector(new FactoryModule() {
-      @Override
-      public void configure() {
-        install(new GitModule());
-        bind(NotesMigration.class).toInstance(NotesMigration.allEnabled());
-        bind(GitRepositoryManager.class).toInstance(repoManager);
-        bind(ProjectCache.class).toProvider(Providers.<ProjectCache> of(null));
-        bind(CapabilityControl.Factory.class)
-            .toProvider(Providers.<CapabilityControl.Factory> of(null));
-        bind(Config.class).annotatedWith(GerritServerConfig.class)
-            .toInstance(new Config());
-        bind(String.class).annotatedWith(AnonymousCowardName.class)
-            .toProvider(AnonymousCowardNameProvider.class);
-        bind(String.class).annotatedWith(CanonicalWebUrl.class)
-            .toInstance("http://localhost:8080/");
-        bind(Realm.class).to(FakeRealm.class);
-        bind(GroupBackend.class).to(SystemGroupBackend.class).in(SINGLETON);
-        bind(AccountCache.class).toInstance(accountCache);
-        bind(PersonIdent.class).annotatedWith(GerritPersonIdent.class)
-            .toInstance(serverIdent);
-        bind(GitReferenceUpdated.class)
-            .toInstance(GitReferenceUpdated.DISABLED);
-      }
-    });
-
-    userFactory = injector.getInstance(IdentifiedUser.GenericFactory.class);
-    allUsers = injector.getInstance(AllUsersNameProvider.class);
-    repoManager.createRepository(allUsers.get());
-    changeOwner = userFactory.create(co.getId());
-    otherUser = userFactory.create(ou.getId());
-    otherUserId = otherUser.getAccountId();
-  }
-
-  private void setTimeForTesting() {
-    systemTimeZone = System.setProperty("user.timezone", "US/Eastern");
-    clockStepMs = MILLISECONDS.convert(1, SECONDS);
-    final AtomicLong clockMs = new AtomicLong(
-        new DateTime(2009, 9, 30, 17, 0, 0).getMillis());
-
-    DateTimeUtils.setCurrentMillisProvider(new MillisProvider() {
-      @Override
-      public long getMillis() {
-        return clockMs.getAndAdd(clockStepMs);
-      }
-    });
-  }
-
-  @After
-  public void resetTime() {
-    DateTimeUtils.setCurrentMillisSystem();
-    System.setProperty("user.timezone", systemTimeZone);
-  }
-
-  @Test
-  public void approvalsCommitFormatSimple() throws Exception {
-    Change c = TestChanges.newChange(project, changeOwner, 1);
-    ChangeUpdate update = newUpdate(c, changeOwner);
-    update.putApproval("Verified", (short) 1);
-    update.putApproval("Code-Review", (short) -1);
-    update.putReviewer(changeOwner.getAccount().getId(), REVIEWER);
-    update.putReviewer(otherUser.getAccount().getId(), CC);
-    update.commit();
-    assertEquals("refs/changes/01/1/meta", update.getRefName());
-
-    RevWalk walk = new RevWalk(repo);
-    try {
-      RevCommit commit = walk.parseCommit(update.getRevision());
-      walk.parseBody(commit);
-      assertEquals("Update patch set 1\n"
-          + "\n"
-          + "Patch-set: 1\n"
-          + "Reviewer: Change Owner <1@gerrit>\n"
-          + "CC: Other Account <2@gerrit>\n"
-          + "Label: Code-Review=-1\n"
-          + "Label: Verified=+1\n",
-          commit.getFullMessage());
-
-      PersonIdent author = commit.getAuthorIdent();
-      assertEquals("Change Owner", author.getName());
-      assertEquals("1@gerrit", author.getEmailAddress());
-      assertEquals(new Date(c.getCreatedOn().getTime() + 1000),
-          author.getWhen());
-      assertEquals(TimeZone.getTimeZone("GMT-7:00"), author.getTimeZone());
-
-      PersonIdent committer = commit.getCommitterIdent();
-      assertEquals("Gerrit Server", committer.getName());
-      assertEquals("noreply@gerrit.com", committer.getEmailAddress());
-      assertEquals(author.getWhen(), committer.getWhen());
-      assertEquals(author.getTimeZone(), committer.getTimeZone());
-    } finally {
-      walk.release();
-    }
-  }
-
-  @Test
-  public void changeMessageCommitFormatSimple() throws Exception {
-    Change c = TestChanges.newChange(project, changeOwner, 1);
-    ChangeUpdate update = newUpdate(c, changeOwner);
-    update.setChangeMessage("Just a little code change.\n"
-        + "How about a new line");
-    update.commit();
-    assertEquals("refs/changes/01/1/meta", update.getRefName());
-
-    RevWalk walk = new RevWalk(repo);
-    try {
-      RevCommit commit = walk.parseCommit(update.getRevision());
-      walk.parseBody(commit);
-      assertEquals("Update patch set 1\n"
-          + "\n"
-          + "Just a little code change.\n"
-          + "How about a new line\n"
-          + "\n"
-          + "Patch-set: 1\n",
-          commit.getFullMessage());
-    } finally {
-      walk.release();
-    }
-  }
-
-  @Test
-  public void approvalTombstoneCommitFormat() throws Exception {
-    Change c = newChange();
-    ChangeUpdate update = newUpdate(c, changeOwner);
-    update.removeApproval("Code-Review");
-    update.commit();
-
-    RevWalk walk = new RevWalk(repo);
-    try {
-      RevCommit commit = walk.parseCommit(update.getRevision());
-      walk.parseBody(commit);
-      assertEquals("Update patch set 1\n"
-          + "\n"
-          + "Patch-set: 1\n"
-          + "Label: -Code-Review\n",
-          commit.getFullMessage());
-    } finally {
-      walk.release();
-    }
-  }
-
-  @Test
-  public void submitCommitFormat() throws Exception {
-    Change c = newChange();
-    ChangeUpdate update = newUpdate(c, changeOwner);
-    update.setSubject("Submit patch set 1");
-
-    update.submit(ImmutableList.of(
-        submitRecord("NOT_READY", null,
-          submitLabel("Verified", "OK", changeOwner.getAccountId()),
-          submitLabel("Code-Review", "NEED", null)),
-        submitRecord("NOT_READY", null,
-          submitLabel("Verified", "OK", changeOwner.getAccountId()),
-          submitLabel("Alternative-Code-Review", "NEED", null))));
-    update.commit();
-
-    RevWalk walk = new RevWalk(repo);
-    try {
-      RevCommit commit = walk.parseCommit(update.getRevision());
-      walk.parseBody(commit);
-      assertEquals("Submit patch set 1\n"
-          + "\n"
-          + "Patch-set: 1\n"
-          + "Status: submitted\n"
-          + "Submitted-with: NOT_READY\n"
-          + "Submitted-with: OK: Verified: Change Owner <1@gerrit>\n"
-          + "Submitted-with: NEED: Code-Review\n"
-          + "Submitted-with: NOT_READY\n"
-          + "Submitted-with: OK: Verified: Change Owner <1@gerrit>\n"
-          + "Submitted-with: NEED: Alternative-Code-Review\n",
-          commit.getFullMessage());
-
-      PersonIdent author = commit.getAuthorIdent();
-      assertEquals("Change Owner", author.getName());
-      assertEquals("1@gerrit", author.getEmailAddress());
-      assertEquals(new Date(c.getCreatedOn().getTime() + 1000),
-          author.getWhen());
-      assertEquals(TimeZone.getTimeZone("GMT-7:00"), author.getTimeZone());
-
-      PersonIdent committer = commit.getCommitterIdent();
-      assertEquals("Gerrit Server", committer.getName());
-      assertEquals("noreply@gerrit.com", committer.getEmailAddress());
-      assertEquals(author.getWhen(), committer.getWhen());
-      assertEquals(author.getTimeZone(), committer.getTimeZone());
-    } finally {
-      walk.release();
-    }
-  }
-
-  @Test
-  public void anonymousUser() throws Exception {
-    Account anon = new Account(new Account.Id(3), TimeUtil.nowTs());
-    accountCache.put(anon);
-    Change c = newChange();
-    ChangeUpdate update = newUpdate(c, userFactory.create(anon.getId()));
-    update.setChangeMessage("Comment on the change.");
-    update.commit();
-
-    RevWalk walk = new RevWalk(repo);
-    try {
-      RevCommit commit = walk.parseCommit(update.getRevision());
-      walk.parseBody(commit);
-      assertEquals("Update patch set 1\n"
-          + "\n"
-          + "Comment on the change.\n"
-          + "\n"
-          + "Patch-set: 1\n",
-          commit.getFullMessage());
-
-      PersonIdent author = commit.getAuthorIdent();
-      assertEquals("Anonymous Coward (3)", author.getName());
-      assertEquals("3@gerrit", author.getEmailAddress());
-    } finally {
-      walk.release();
-    }
-  }
-
-  @Test
-  public void submitWithErrorMessage() throws Exception {
-    Change c = newChange();
-    ChangeUpdate update = newUpdate(c, changeOwner);
-    update.setSubject("Submit patch set 1");
-
-    update.submit(ImmutableList.of(
-        submitRecord("RULE_ERROR", "Problem with patch set:\n1")));
-    update.commit();
-
-    RevWalk walk = new RevWalk(repo);
-    try {
-      RevCommit commit = walk.parseCommit(update.getRevision());
-      walk.parseBody(commit);
-      assertEquals("Submit patch set 1\n"
-          + "\n"
-          + "Patch-set: 1\n"
-          + "Status: submitted\n"
-          + "Submitted-with: RULE_ERROR Problem with patch set: 1\n",
-          commit.getFullMessage());
-    } finally {
-      walk.release();
-    }
-  }
-
+public class ChangeNotesTest extends AbstractChangeNotesTest {
   @Test
   public void approvalsOnePatchSet() throws Exception {
     Change c = newChange();
@@ -772,6 +450,64 @@ public class ChangeNotesTest {
   }
 
   @Test
+  public void noChangeMessage() throws Exception {
+    Change c = newChange();
+    ChangeUpdate update = newUpdate(c, changeOwner);
+    update.putReviewer(changeOwner.getAccount().getId(), REVIEWER);
+    update.commit();
+
+    ChangeNotes notes = newNotes(c);
+    ListMultimap<PatchSet.Id, ChangeMessage> changeMessages =
+        notes.getChangeMessages();
+    assertEquals(0, changeMessages.keySet().size());
+  }
+
+  @Test
+  public void changeMessageWithTrailingDoubleNewline() throws Exception {
+    Change c = newChange();
+    ChangeUpdate update = newUpdate(c, changeOwner);
+    update.setChangeMessage("Testing trailing double newline\n"
+        + "\n");
+    update.commit();
+    PatchSet.Id ps1 = c.currentPatchSetId();
+
+    ChangeNotes notes = newNotes(c);
+    ListMultimap<PatchSet.Id, ChangeMessage> changeMessages =
+        notes.getChangeMessages();
+    assertEquals(1, changeMessages.keySet().size());
+
+    ChangeMessage cm1 = Iterables.getOnlyElement(changeMessages.get(ps1));
+    assertEquals("Testing trailing double newline\n" + "\n", cm1.getMessage());
+    assertEquals(changeOwner.getAccount().getId(), cm1.getAuthor());
+  }
+
+  @Test
+  public void changeMessageWithMultipleParagraphs() throws Exception {
+    Change c = newChange();
+    ChangeUpdate update = newUpdate(c, changeOwner);
+    update.setChangeMessage("Testing paragraph 1\n"
+        + "\n"
+        + "Testing paragraph 2\n"
+        + "\n"
+        + "Testing paragraph 3");
+    update.commit();
+    PatchSet.Id ps1 = c.currentPatchSetId();
+
+    ChangeNotes notes = newNotes(c);
+    ListMultimap<PatchSet.Id, ChangeMessage> changeMessages =
+        notes.getChangeMessages();
+    assertEquals(1, changeMessages.keySet().size());
+
+    ChangeMessage cm1 = Iterables.getOnlyElement(changeMessages.get(ps1));
+    assertEquals("Testing paragraph 1\n"
+        + "\n"
+        + "Testing paragraph 2\n"
+        + "\n"
+        + "Testing paragraph 3", cm1.getMessage());
+    assertEquals(changeOwner.getAccount().getId(), cm1.getAuthor());
+  }
+
+  @Test
   public void changeMessagesMultiplePatchSets() throws Exception {
     Change c = newChange();
     ChangeUpdate update = newUpdate(c, changeOwner);
@@ -804,112 +540,6 @@ public class ChangeNotesTest {
         cm2.getMessage());
     assertEquals(changeOwner.getAccount().getId(), cm2.getAuthor());
     assertEquals(ps2, cm2.getPatchSetId());
-  }
-
-  @Test
-  public void noChangeMessage() throws Exception {
-    Change c = newChange();
-    ChangeUpdate update = newUpdate(c, changeOwner);
-    update.putReviewer(changeOwner.getAccount().getId(), REVIEWER);
-    update.commit();
-
-    RevWalk walk = new RevWalk(repo);
-    try {
-      RevCommit commit = walk.parseCommit(update.getRevision());
-      walk.parseBody(commit);
-      assertEquals("Update patch set 1\n"
-          + "\n"
-          + "Patch-set: 1\n"
-          + "Reviewer: Change Owner <1@gerrit>\n",
-          commit.getFullMessage());
-    } finally {
-      walk.release();
-    }
-
-    ChangeNotes notes = newNotes(c);
-    ListMultimap<PatchSet.Id, ChangeMessage> changeMessages =
-        notes.getChangeMessages();
-    assertEquals(0, changeMessages.keySet().size());
-  }
-
-  @Test
-  public void changeMessageWithTrailingDoubleNewline() throws Exception {
-    Change c = newChange();
-    ChangeUpdate update = newUpdate(c, changeOwner);
-    update.setChangeMessage("Testing trailing double newline\n"
-        + "\n");
-    update.commit();
-    PatchSet.Id ps1 = c.currentPatchSetId();
-
-    RevWalk walk = new RevWalk(repo);
-    try {
-      RevCommit commit = walk.parseCommit(update.getRevision());
-      walk.parseBody(commit);
-      assertEquals("Update patch set 1\n"
-          + "\n"
-          + "Testing trailing double newline\n"
-          + "\n"
-          + "\n"
-          + "\n"
-          + "Patch-set: 1\n",
-          commit.getFullMessage());
-    } finally {
-      walk.release();
-    }
-
-    ChangeNotes notes = newNotes(c);
-    ListMultimap<PatchSet.Id, ChangeMessage> changeMessages =
-        notes.getChangeMessages();
-    assertEquals(1, changeMessages.keySet().size());
-
-    ChangeMessage cm1 = Iterables.getOnlyElement(changeMessages.get(ps1));
-    assertEquals("Testing trailing double newline\n" + "\n", cm1.getMessage());
-    assertEquals(changeOwner.getAccount().getId(), cm1.getAuthor());
-
-  }
-
-  @Test
-  public void changeMessageWithMultipleParagraphs() throws Exception {
-    Change c = newChange();
-    ChangeUpdate update = newUpdate(c, changeOwner);
-    update.setChangeMessage("Testing paragraph 1\n"
-        + "\n"
-        + "Testing paragraph 2\n"
-        + "\n"
-        + "Testing paragraph 3");
-    update.commit();
-    PatchSet.Id ps1 = c.currentPatchSetId();
-
-    RevWalk walk = new RevWalk(repo);
-    try {
-      RevCommit commit = walk.parseCommit(update.getRevision());
-      walk.parseBody(commit);
-      assertEquals("Update patch set 1\n"
-          + "\n"
-          + "Testing paragraph 1\n"
-          + "\n"
-          + "Testing paragraph 2\n"
-          + "\n"
-          + "Testing paragraph 3\n"
-          + "\n"
-          + "Patch-set: 1\n",
-          commit.getFullMessage());
-    } finally {
-      walk.release();
-    }
-
-    ChangeNotes notes = newNotes(c);
-    ListMultimap<PatchSet.Id, ChangeMessage> changeMessages =
-        notes.getChangeMessages();
-    assertEquals(1, changeMessages.keySet().size());
-
-    ChangeMessage cm1 = Iterables.getOnlyElement(changeMessages.get(ps1));
-    assertEquals("Testing paragraph 1\n"
-        + "\n"
-        + "Testing paragraph 2\n"
-        + "\n"
-        + "Testing paragraph 3", cm1.getMessage());
-    assertEquals(changeOwner.getAccount().getId(), cm1.getAuthor());
   }
 
   @Test
@@ -1456,70 +1086,5 @@ public class ChangeNotesTest {
     assertTrue(commentsForPs.isEmpty());
     assertEquals(commentForBase,
         Iterables.getOnlyElement(commentsForBase.get(psId)));
-  }
-
-  private Change newChange() {
-    return TestChanges.newChange(project, changeOwner);
-  }
-
-  private PatchLineComment newPublishedPatchLineComment(PatchSet.Id psId,
-      String filename, String UUID, CommentRange range, int line,
-      IdentifiedUser commenter, String parentUUID, Timestamp t,
-      String message, short side, String commitSHA1) {
-    return newPatchLineComment(psId, filename, UUID, range, line, commenter,
-        parentUUID, t, message, side, commitSHA1, Status.PUBLISHED);
-  }
-
-  private PatchLineComment newPatchLineComment(PatchSet.Id psId,
-      String filename, String UUID, CommentRange range, int line,
-      IdentifiedUser commenter, String parentUUID, Timestamp t,
-      String message, short side, String commitSHA1, Status status) {
-    PatchLineComment comment = new PatchLineComment(
-        new PatchLineComment.Key(
-            new Patch.Key(psId, filename), UUID),
-        line, commenter.getAccountId(), parentUUID, t);
-    comment.setSide(side);
-    comment.setMessage(message);
-    comment.setRange(range);
-    comment.setRevId(new RevId(commitSHA1));
-    comment.setStatus(status);
-    return comment;
-  }
-
-  private ChangeUpdate newUpdate(Change c, IdentifiedUser user)
-      throws OrmException {
-    return TestChanges.newUpdate(injector, repoManager, c, allUsers, user);
-  }
-
-  private ChangeNotes newNotes(Change c) throws OrmException {
-    return new ChangeNotes(repoManager, allUsers, c).load();
-  }
-
-  private static Timestamp truncate(Timestamp ts) {
-    return new Timestamp((ts.getTime() / 1000) * 1000);
-  }
-
-  private static Timestamp after(Change c, long millis) {
-    return new Timestamp(c.getCreatedOn().getTime() + millis);
-  }
-
-  private static SubmitRecord submitRecord(String status,
-      String errorMessage, SubmitRecord.Label... labels) {
-    SubmitRecord rec = new SubmitRecord();
-    rec.status = SubmitRecord.Status.valueOf(status);
-    rec.errorMessage = errorMessage;
-    if (labels.length > 0) {
-      rec.labels = ImmutableList.copyOf(labels);
-    }
-    return rec;
-  }
-
-  private static SubmitRecord.Label submitLabel(String name, String status,
-      Account.Id appliedBy) {
-    SubmitRecord.Label label = new SubmitRecord.Label();
-    label.label = name;
-    label.status = SubmitRecord.Label.Status.valueOf(status);
-    label.appliedBy = appliedBy;
-    return label;
   }
 }

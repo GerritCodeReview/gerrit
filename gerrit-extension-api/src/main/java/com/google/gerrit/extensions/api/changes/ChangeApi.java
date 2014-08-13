@@ -37,6 +37,9 @@ public interface ChangeApi {
   ChangeApi revert() throws RestApiException;
   ChangeApi revert(RevertInput in) throws RestApiException;
 
+  String topic() throws RestApiException;
+  void topic(String topic) throws RestApiException;
+
   void addReviewer(AddReviewerInput in) throws RestApiException;
   void addReviewer(String in) throws RestApiException;
 
@@ -99,6 +102,16 @@ public interface ChangeApi {
 
     @Override
     public ChangeApi revert(RevertInput in) throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public String topic() throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public void topic(String topic) throws RestApiException {
       throw new NotImplementedException();
     }
 

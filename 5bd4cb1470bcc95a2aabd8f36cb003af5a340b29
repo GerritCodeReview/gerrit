@@ -1,0 +1,152 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f643e3df_7d11176f",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/RebuildNotedb.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-13T00:59:17Z",
+      "side": 1,
+      "message": "Just System.out.println, since the progress monitor output goes there as well.",
+      "revId": "5bd4cb1470bcc95a2aabd8f36cb003af5a340b29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f643e3df_3d1b8f8f",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/RebuildNotedb.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-13T00:59:17Z",
+      "side": 1,
+      "message": "try/finally starting right after this line",
+      "revId": "5bd4cb1470bcc95a2aabd8f36cb003af5a340b29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f643e3df_fd4d2785",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/RebuildNotedb.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-13T00:59:17Z",
+      "side": 1,
+      "message": "Keep these short. The text here plus a counter for each subtask should fit on one line. I think the ideal output is like:\n\n Rebuilding notedb\n project1: done 4/1000, failed 5\n\nExcept that project names can be very long. Would be nice to limit them such that \"project: done XXXX/XXXX, failed XX\" fits in 80 chars.",
+      "revId": "5bd4cb1470bcc95a2aabd8f36cb003af5a340b29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f643e3df_dd486b78",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/RebuildNotedb.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-13T00:59:17Z",
+      "side": 1,
+      "message": "You know the size",
+      "range": {
+        "startLine": 106,
+        "startChar": 46,
+        "endLine": 106,
+        "endChar": 74
+      },
+      "revId": "5bd4cb1470bcc95a2aabd8f36cb003af5a340b29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "164797ed_de1f057f",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/RebuildNotedb.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-13T00:59:17Z",
+      "side": 1,
+      "message": "RevWalk should be released in a finally block.",
+      "revId": "5bd4cb1470bcc95a2aabd8f36cb003af5a340b29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "164797ed_fe2441cf",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/RebuildNotedb.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-13T00:59:17Z",
+      "side": 1,
+      "message": "Don\u0027t toList, and inline this in the for loop.",
+      "revId": "5bd4cb1470bcc95a2aabd8f36cb003af5a340b29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f643e3df_9d42e354",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeRebuilder.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-13T00:59:17Z",
+      "side": 1,
+      "message": "The issue is not with this class per se, since this method runs in a single thread. The issue is when multiple ChangeRebuilders are running in parallel.",
+      "revId": "5bd4cb1470bcc95a2aabd8f36cb003af5a340b29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "164797ed_9e297da6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeRebuilder.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-13T00:59:17Z",
+      "side": 1,
+      "message": "Nit: space",
+      "range": {
+        "startLine": 128,
+        "startChar": 17,
+        "endLine": 128,
+        "endChar": 19
+      },
+      "revId": "5bd4cb1470bcc95a2aabd8f36cb003af5a340b29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

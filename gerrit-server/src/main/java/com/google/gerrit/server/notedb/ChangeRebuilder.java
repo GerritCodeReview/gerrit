@@ -54,7 +54,6 @@ public class ChangeRebuilder {
 
   private final PersonIdent serverIdent;
   private final Provider<ReviewDb> dbProvider;
-  private final GitRepositoryManager repoManager;
   private final ChangeControl.GenericFactory controlFactory;
   private final IdentifiedUser.GenericFactory userFactory;
   private final ChangeUpdate.Factory updateFactory;
@@ -68,7 +67,6 @@ public class ChangeRebuilder {
       ChangeUpdate.Factory updateFactory) {
     this.serverIdent = serverIdent;
     this.dbProvider = dbProvider;
-    this.repoManager = repoManager;
     this.controlFactory = controlFactory;
     this.userFactory = userFactory;
     this.updateFactory = updateFactory;

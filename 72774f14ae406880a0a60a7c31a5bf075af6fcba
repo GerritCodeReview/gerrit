@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "961c67fc_bad2513d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-13T06:42:15Z",
+      "side": 1,
+      "message": "I\u0027m confused. Why initialization of owner and createdOn depends on changeKey? Sure, changeKey is null atm in many unit tests, but it cannot be null in real life. We had anothe subtle if (topic !\u003d null) conditon that was there to make sure that the last changed topic from commits that belong to a change will be picked. So if this kind of another subtle condition, that is not that obvious, may be put a comment also here.\n\nBut in any event why make initialization of other stuff, that is always there depend on it?",
+      "range": {
+        "startLine": 178,
+        "startChar": 8,
+        "endLine": 178,
+        "endChar": 25
+      },
+      "revId": "72774f14ae406880a0a60a7c31a5bf075af6fcba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d6509fa6_dcacedbf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 413,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-13T06:42:15Z",
+      "side": 1,
+      "message": "Move this comment to the change where the code it\u0027s related to was introduced?",
+      "range": {
+        "startLine": 412,
+        "startChar": 4,
+        "endLine": 413,
+        "endChar": 24
+      },
+      "revId": "72774f14ae406880a0a60a7c31a5bf075af6fcba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

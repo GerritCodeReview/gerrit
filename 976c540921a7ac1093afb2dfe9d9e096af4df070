@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "961c67fc_da10652b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-13T13:42:41Z",
+      "side": 1,
+      "message": "I am not a big fan of redundantly running buck version here. Buck version isn\u0027t changed every few minutes. In cases when it is changed, run buck --version manually, and then project.py works as expected.",
+      "revId": "976c540921a7ac1093afb2dfe9d9e096af4df070",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

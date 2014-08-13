@@ -161,6 +161,36 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
     assertEquals("User2", Iterables.getOnlyElement(reviewers).account.name);
   }
 
+  @Test
+  @GerritConfig(name = "suggest.maxSuggestedReviewers", value = "2")
+  public void suggestReviewersMaxNbrSuggestions() throws Exception {
+    String changeId = createChange().getChangeId();
+    List<SuggestedReviewerInfo> reviewers =
+        suggestReviewers(changeId, "user", 5);
+    assertEquals(2, reviewers.size());
+  }
+
+  @Test
+  @GerritConfig(name = "suggest.fullTextSearch", value = "true")
+  public void suggestReviewersFullTextSearch() throws Exception {
+    String changeId = createChange().getChangeId();
+    List<SuggestedReviewerInfo> reviewers =
+        suggestReviewers(changeId, "ser", 5);
+    assertEquals(4, reviewers.size());
+  }
+
+  @Test
+  @GerritConfigs(
+      {@GerritConfig(name = "suggest.fulltextsearch", value = "true"),
+       @GerritConfig(name = "suggest.fullTextSearchMaxMatches", value = "2")
+  })
+  public void suggestReviewersFullTextSearchLimitMaxMatches() throws Exception {
+    String changeId = createChange().getChangeId();
+    List<SuggestedReviewerInfo> reviewers =
+        suggestReviewers(changeId, "ser", 3);
+    assertEquals(2, reviewers.size());
+  }
+
   private List<SuggestedReviewerInfo> suggestReviewers(RestSession session,
       String changeId, String query, int n) throws IOException {
     return newGson().fromJson(

@@ -25,6 +25,29 @@
     },
     {
       "key": {
+        "uuid": "d6509fa6_fc1e8952",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 400,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-13T07:29:55Z",
+      "side": 1,
+      "message": "Why to restrict the method description with explanation what we cannot do, and not what the method is supposed to do?",
+      "range": {
+        "startLine": 400,
+        "startChar": 5,
+        "endLine": 400,
+        "endChar": 18
+      },
+      "revId": "031983521d0fb86bcd3c1dfbec386e3a2f596f76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "164797ed_5e145560",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
         "patchSetId": 15
@@ -53,6 +76,24 @@
       "writtenOn": "2014-08-13T01:08:19Z",
       "side": 1,
       "message": "Ew.\n\nIf you _really_ want to do this, use Pair. But don\u0027t use Pair, create a static class in here called Batches or something.",
+      "revId": "031983521d0fb86bcd3c1dfbec386e3a2f596f76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d6509fa6_7c9ef988",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 404,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-13T07:29:55Z",
+      "side": 1,
+      "message": "+1 to have dedicated class with self describing names for the members.",
+      "parentUuid": "f643e3df_dd75cba5",
       "revId": "031983521d0fb86bcd3c1dfbec386e3a2f596f76",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

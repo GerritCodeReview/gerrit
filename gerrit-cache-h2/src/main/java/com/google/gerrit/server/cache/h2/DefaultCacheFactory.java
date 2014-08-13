@@ -17,8 +17,6 @@ package com.google.gerrit.server.cache.h2;
 import com.google.common.base.Strings;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
-import com.google.common.cache.CacheLoader;
-import com.google.common.cache.LoadingCache;
 import com.google.common.cache.Weigher;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.server.cache.CacheBinding;
@@ -56,16 +54,14 @@ public class DefaultCacheFactory implements MemoryCacheFactory {
     this.forwardingRemovalListenerFactory = forwardingRemovalListenerFactory;
   }
 
+  @SuppressWarnings("unchecked")
   @Override
-  public <K, V> Cache<K, V> build(CacheBinding<K, V> def) {
-    return create(def, false).build();
-  }
-
-  @Override
-  public <K, V> LoadingCache<K, V> build(
-      CacheBinding<K, V> def,
-      CacheLoader<K, V> loader) {
-    return create(def, false).build(loader);
+  public <K, V, T extends Cache<K, V>> T build(CacheBinding<K, V> def) {
+    CacheBuilder<K, V> builder = create(def, false);
+    if (def.loader() == null) {
+      return (T) builder.build();
+    }
+    return (T) builder.build(def.loader());
   }
 
   @SuppressWarnings("unchecked")

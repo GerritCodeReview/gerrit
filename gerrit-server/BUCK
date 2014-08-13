@@ -155,6 +155,29 @@ java_test(
   ],
 )
 
+NOTEDB_TESTS = glob(
+  ['src/test/java/com/google/gerrit/server/notedb/**/*.java'],
+)
+
+java_test(
+  name = 'notedb_tests',
+  srcs = NOTEDB_TESTS,
+  deps = [
+    ':server',
+    ':testutil',
+    '//gerrit-common:server',
+    '//gerrit-reviewdb:server',
+    '//lib:guava',
+    '//lib:gwtorm',
+    '//lib:junit',
+    '//lib/guice:guice',
+    '//lib/jgit:jgit',
+    '//lib/joda:joda-time',
+  ],
+  labels = ['notedb'],
+  source_under_test = [':server'],
+)
+
 QUERY_TESTS = glob(
   ['src/test/java/com/google/gerrit/server/query/**/*.java'],
 )
@@ -188,7 +211,8 @@ java_test(
   name = 'server_tests',
   srcs = glob(
     ['src/test/java/**/*.java'],
-    excludes = TESTUTIL + PROLOG_TESTS + PROLOG_TEST_CASE + QUERY_TESTS
+    excludes = NOTEDB_TESTS + TESTUTIL + PROLOG_TESTS +
+      PROLOG_TEST_CASE + QUERY_TESTS
   ),
   deps = [
     ':server',

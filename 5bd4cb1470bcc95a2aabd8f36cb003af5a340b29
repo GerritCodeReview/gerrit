@@ -154,6 +154,24 @@
     },
     {
       "key": {
+        "uuid": "961c67fc_fac2093e",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/RebuildNotedb.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-13T16:03:43Z",
+      "side": 1,
+      "message": "Just truncate them now.",
+      "parentUuid": "f643e3df_9d23c395",
+      "revId": "5bd4cb1470bcc95a2aabd8f36cb003af5a340b29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f643e3df_dd486b78",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/RebuildNotedb.java",
         "patchSetId": 4

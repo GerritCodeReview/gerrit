@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d6509fa6_9c0ae5f3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeEdits.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-13T13:21:21Z",
+      "side": 1,
+      "message": "Put a comment, and explain two different use cases:\n\n* 1. Existing edit is deleted:\n\n  DELETE /changes/\u003cid\u003e/edit\n\n* 2. Path in non existing edit is deleted, IOW new edit is created by deleting a path in current patch set for a change:\n\n  DELETE /changes/\u003cid\u003e/edit/path%2fto%2ffile",
+      "revId": "ecd86380c080f973ffd70848f513fe5e517070ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d6509fa6_fc152918",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeEdits.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-13T13:21:21Z",
+      "side": 1,
+      "message": "top of",
+      "range": {
+        "startLine": 271,
+        "startChar": 30,
+        "endLine": 271,
+        "endChar": 36
+      },
+      "revId": "ecd86380c080f973ffd70848f513fe5e517070ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

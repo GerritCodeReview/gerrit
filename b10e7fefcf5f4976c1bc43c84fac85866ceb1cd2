@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f643e3df_5d73fbb5",
+        "filename": "Documentation/dev-eclipse.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-13T14:47:21Z",
+      "side": 1,
+      "message": "At the end of compiling I get this warning in the codeserver console, and I don\u0027t see any source maps in the sources tab of Chrome developer tools:\n\n Compile completed in 46345 ms\n [2014-08-13 07:42:44,267] WARN  org.eclipse.jetty.servlet.ServletHandler : /sourcemaps/gerrit_ui/gwtSourceMap.json\n java.lang.RuntimeException: Multiple fragment 0 sourcemaps found. Too many permutations.\n \tat com.google.gwt.dev.codeserver.ModuleState.findSourceMap(ModuleState.java:110)\n \tat com.google.gwt.dev.codeserver.SourceHandler.loadSourceMap(SourceHandler.java:237)\n \tat com.google.gwt.dev.codeserver.SourceHandler.sendSourceMap(SourceHandler.java:112)\n \tat com.google.gwt.dev.codeserver.SourceHandler.handle(SourceHandler.java:86)\n \tat com.google.gwt.dev.codeserver.WebServer.doGet(WebServer.java:256)\n \tat com.google.gwt.dev.codeserver.WebServer.handleRequest(WebServer.java:158)\n \tat com.google.gwt.dev.codeserver.WebServer.access$000(WebServer.java:65)\n \tat com.google.gwt.dev.codeserver.WebServer$1.doGet(WebServer.java:123)\n \tat javax.servlet.http.HttpServlet.service(HttpServlet.java:618)\n \tat javax.servlet.http.HttpServlet.service(HttpServlet.java:725)\n \tat org.eclipse.jetty.servlet.ServletHolder.handle(ServletHolder.java:686)\n \tat org.eclipse.jetty.servlet.ServletHandler$CachedChain.doFilter(ServletHandler.java:1494)\n \tat org.eclipse.jetty.servlets.UserAgentFilter.doFilter(UserAgentFilter.java:82)\n \tat org.eclipse.jetty.servlets.GzipFilter.doFilter(GzipFilter.java:294)\n \tat org.eclipse.jetty.servlet.ServletHandler$CachedChain.doFilter(ServletHandler.java:1465)\n \tat org.eclipse.jetty.servlet.ServletHandler.doHandle(ServletHandler.java:499)\n \tat org.eclipse.jetty.server.session.SessionHandler.doHandle(SessionHandler.java:229)\n \tat org.eclipse.jetty.server.handler.ContextHandler.doHandle(ContextHandler.java:1086)\n \tat org.eclipse.jetty.servlet.ServletHandler.doScope(ServletHandler.java:428)\n \tat org.eclipse.jetty.server.session.SessionHandler.doScope(SessionHandler.java:193)\n \tat org.eclipse.jetty.server.handler.ContextHandler.doScope(ContextHandler.java:1020)\n \tat org.eclipse.jetty.server.handler.ScopedHandler.handle(ScopedHandler.java:135)\n \tat org.eclipse.jetty.server.handler.HandlerWrapper.handle(HandlerWrapper.java:116)\n \tat org.eclipse.jetty.server.Server.handle(Server.java:370)\n \tat org.eclipse.jetty.server.AbstractHttpConnection.handleRequest(AbstractHttpConnection.java:489)\n \tat org.eclipse.jetty.server.AbstractHttpConnection.headerComplete(AbstractHttpConnection.java:949)\n \tat org.eclipse.jetty.server.AbstractHttpConnection$RequestHandler.headerComplete(AbstractHttpConnection.java:1011)\n \tat org.eclipse.jetty.http.HttpParser.parseNext(HttpParser.java:644)\n \tat org.eclipse.jetty.http.HttpParser.parseAvailable(HttpParser.java:235)\n \tat org.eclipse.jetty.server.AsyncHttpConnection.handle(AsyncHttpConnection.java:82)\n \tat org.eclipse.jetty.io.nio.SelectChannelEndPoint.handle(SelectChannelEndPoint.java:668)\n \tat org.eclipse.jetty.io.nio.SelectChannelEndPoint$1.run(SelectChannelEndPoint.java:52)\n \tat org.eclipse.jetty.util.thread.QueuedThreadPool.runJob(QueuedThreadPool.java:608)\n \tat org.eclipse.jetty.util.thread.QueuedThreadPool$3.run(QueuedThreadPool.java:543)\n \tat java.lang.Thread.run(Thread.java:745)",
+      "revId": "b10e7fefcf5f4976c1bc43c84fac85866ceb1cd2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -120,6 +120,10 @@ public class AddMembers implements RestModifyView<GroupResource, Input> {
 
     for (String nameOrEmail : input.members) {
       Account a = findAccount(nameOrEmail);
+      if (a == null) {
+        throw new UnprocessableEntityException(String.format(
+            "No such account: %s", nameOrEmail));
+      }
       if (!a.isActive()) {
         throw new UnprocessableEntityException(String.format(
             "Account Inactive: %s", nameOrEmail));

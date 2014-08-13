@@ -22,6 +22,53 @@
       "revId": "3487cf4c3ce4ee731be911876a54fadce372aae4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d6509fa6_5c577de5",
+        "filename": "Documentation/dev-buck.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-13T08:30:06Z",
+      "side": 1,
+      "message": "Actually we may want to adapt that script from Buck project, that was recently added by @bolinfest in this change [1]. So that we can just say:\n\n  $ buck test --code-coverage --code-coverage-format xml --no-results-cache\n  $ python tools/assert_code_coverage.py\n\nAnd it fails when project wide code coverage rate is below of some hard coded value, say 99% ;-)\n\n* [1] https://github.com/facebook/buck/commit/24f16c8e012000a86ccba564fb0be84504b60824",
+      "range": {
+        "startLine": 294,
+        "startChar": 34,
+        "endLine": 294,
+        "endChar": 61
+      },
+      "revId": "3487cf4c3ce4ee731be911876a54fadce372aae4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d6509fa6_bc41e121",
+        "filename": "Documentation/dev-buck.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-13T08:30:06Z",
+      "side": 1,
+      "message": "Thanks, will fix it.",
+      "parentUuid": "f643e3df_3d914f8e",
+      "range": {
+        "startLine": 294,
+        "startChar": 12,
+        "endLine": 294,
+        "endChar": 17
+      },
+      "revId": "3487cf4c3ce4ee731be911876a54fadce372aae4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

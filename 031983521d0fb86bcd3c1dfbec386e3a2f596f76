@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f643e3df_3d34eff0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 15
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-13T01:08:19Z",
+      "side": 1,
+      "message": "Nit: PatchLineComments (to distinguish from code comments :)",
+      "range": {
+        "startLine": 7,
+        "startChar": 4,
+        "endLine": 7,
+        "endChar": 12
+      },
+      "revId": "031983521d0fb86bcd3c1dfbec386e3a2f596f76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "164797ed_5e145560",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 401,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-13T01:08:19Z",
+      "side": 1,
+      "message": "I think if you create a class called Batches this comment can move to the Javadoc, e.g.:\n\n static class Batches {\n   /** Batch update for change meta ref in the main repo. */\n   final BatchMetaDataUpdate change;\n\n   /** Batch update for draft ref in the All-Users repo. */\n   final BatchMetaDataUpdate batch;\n }",
+      "revId": "031983521d0fb86bcd3c1dfbec386e3a2f596f76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f643e3df_dd75cba5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 404,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-13T01:08:19Z",
+      "side": 1,
+      "message": "Ew.\n\nIf you _really_ want to do this, use Pair. But don\u0027t use Pair, create a static class in here called Batches or something.",
+      "revId": "031983521d0fb86bcd3c1dfbec386e3a2f596f76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -70,6 +70,30 @@
       "revId": "7328e8e0ced080e232259af33bdb5b70e7c294cc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "961c67fc_5abbf5c4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 446,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-13T16:57:45Z",
+      "side": 1,
+      "message": "\u003e In which case i expect this flag to be removed in this commit and introduced later when it is needed.\n\nIt is not worth my time to implement different behavior now, test that behavior, then change the behavior two commits down the line.\n\n\u003e Some of your tests are broken now.\n\nThose tests are not broken; they pass fine. They are essentially testing the \"notedb.write \u003d true before RebuildNoteDb\" case, which was and continues to be valid. We can change/duplicate them to test other cases, but that is beyond the scope of this change.",
+      "parentUuid": "d6509fa6_dca62daf",
+      "range": {
+        "startLine": 446,
+        "startChar": 8,
+        "endLine": 446,
+        "endChar": 14
+      },
+      "revId": "7328e8e0ced080e232259af33bdb5b70e7c294cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

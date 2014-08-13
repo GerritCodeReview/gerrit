@@ -136,7 +136,7 @@ public class ChangeRebuilder {
   private static boolean sameUpdate(Event event, ChangeUpdate update) {
     return update != null
         && round(event.when) == round(update.getWhen())
-        && event.who.equals(update.getUser())
+        && event.who.equals(update.getUser().getAccountId())
         && event.psId.equals(update.getPatchSetId());
   }
 

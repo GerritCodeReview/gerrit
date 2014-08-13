@@ -72,6 +72,7 @@ public class SuggestReviewers implements RestReadView<ChangeResource> {
   private final int maxAllowed;
   private int limit;
   private String query;
+  private boolean useFullTextSearch;
 
   @Option(name = "--limit", aliases = {"-n"}, metaVar = "CNT",
       usage = "maximum number of reviewers to list")
@@ -110,6 +111,7 @@ public class SuggestReviewers implements RestReadView<ChangeResource> {
         || "false".equalsIgnoreCase(suggest)) {
       this.suggestAccounts = false;
     } else {
+      this.useFullTextSearch = cfg.getBoolean("suggest", "fullsearch", false);
       this.suggestAccounts = (av != AccountVisibility.NONE);
     }
 
@@ -134,7 +136,12 @@ public class SuggestReviewers implements RestReadView<ChangeResource> {
     }
 
     VisibilityControl visibilityControl = getVisibility(rsrc);
-    List<AccountInfo> suggestedAccounts = suggestAccount(visibilityControl);
+    List<AccountInfo> suggestedAccounts;
+    if (useFullTextSearch) {
+      suggestedAccounts = suggestAccountFullSearch(visibilityControl);
+    } else {
+      suggestedAccounts = suggestAccount(visibilityControl);
+    }
     accountLoaderFactory.create(true).fill(suggestedAccounts);
 
     List<SuggestedReviewerInfo> reviewer = Lists.newArrayList();
@@ -218,6 +225,32 @@ public class SuggestReviewers implements RestReadView<ChangeResource> {
     }
 
     return Lists.newArrayList(r.values());
+  }
+
+  private List<AccountInfo> suggestAccountFullSearch(
+      VisibilityControl visibilityControl) throws OrmException {
+    String lCsubstr = query.toLowerCase();
+    LinkedHashMap<Account.Id, AccountInfo> accountMap = Maps.newLinkedHashMap();
+    List<Account> accounts = dbProvider.get().accounts().all().toList();
+    for (Account acc : accounts) {
+      if (acc.getFullName() != null && acc.getFullName().toLowerCase().contains(lCsubstr)) {
+        addSuggestion(accountMap, acc, new AccountInfo(acc.getId()), visibilityControl);
+      }
+      if (accountMap.size() >= limit) {
+        break;
+      }
+    }
+    if (accountMap.size() < limit) {
+      for (Account acc : accounts) {
+        if (acc.getPreferredEmail().toLowerCase().contains(lCsubstr)) {
+          addSuggestion(accountMap, acc, new AccountInfo(acc.getId()), visibilityControl);
+        }
+        if (accountMap.size() >= limit) {
+          break;
+        }
+      }
+    }
+    return Lists.newArrayList(accountMap.values());
   }
 
   private void addSuggestion(Map<Account.Id, AccountInfo> map, Account account,

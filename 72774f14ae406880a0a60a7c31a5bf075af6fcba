@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "961c67fc_3afc0180",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-13T16:02:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "961c67fc_bad2513d",
+      "range": {
+        "startLine": 178,
+        "startChar": 8,
+        "endLine": 178,
+        "endChar": 25
+      },
+      "revId": "72774f14ae406880a0a60a7c31a5bf075af6fcba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d6509fa6_dcacedbf",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2014-08-13T06:42:15Z",
       "side": 1,
       "message": "Move this comment to the change where the code it\u0027s related to was introduced?",
+      "range": {
+        "startLine": 412,
+        "startChar": 4,
+        "endLine": 413,
+        "endChar": 24
+      },
+      "revId": "72774f14ae406880a0a60a7c31a5bf075af6fcba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "961c67fc_7a0279dc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 413,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-13T16:02:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d6509fa6_dcacedbf",
       "range": {
         "startLine": 412,
         "startChar": 4,

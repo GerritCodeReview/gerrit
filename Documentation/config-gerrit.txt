@@ -3093,6 +3093,11 @@ otherwise, this value applies to both `suggest.accounts` and
 New configurations should prefer the boolean value for this field
 and an enum value for `accounts.visibility`.
 
+[[suggest.fullsearch]]suggest.fullsearch
++
+If 'true' the review completion
+suggestions will be based on a full text search.
+
 [[suggest.from]]suggest.from::
 +
 The number of characters that a user must have typed before suggestions

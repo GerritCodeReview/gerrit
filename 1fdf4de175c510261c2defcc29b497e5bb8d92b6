@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "164797ed_defaa5dc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNoteUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-13T00:16:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "36f49bd0_8f84b550",
+      "range": {
+        "startLine": 27,
+        "startChar": 2,
+        "endLine": 28,
+        "endChar": 65
+      },
+      "revId": "1fdf4de175c510261c2defcc29b497e5bb8d92b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d6e25f1a_ac7f8381",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
         "patchSetId": 3
@@ -36,6 +60,30 @@
       "writtenOn": "2014-08-12T06:47:09Z",
       "side": 1,
       "message": "Running test coverage tool JaCoCo on ChangeNotesTest reveals that almost all fail conditions in generall and this branch in particular is not test covered. Why not to fabricate a wrong change and make this test fail and check that the appropriate error message was returned?",
+      "range": {
+        "startLine": 269,
+        "startChar": 9,
+        "endLine": 270,
+        "endChar": 55
+      },
+      "revId": "1fdf4de175c510261c2defcc29b497e5bb8d92b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "164797ed_feff61c9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-13T00:16:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d6e25f1a_ac7f8381",
       "range": {
         "startLine": 269,
         "startChar": 9,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "164797ed_9ef41df0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-13T00:16:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d6e25f1a_cc7acf93",
+      "range": {
+        "startLine": 272,
+        "startChar": 34,
+        "endLine": 272,
+        "endChar": 38
+      },
+      "revId": "1fdf4de175c510261c2defcc29b497e5bb8d92b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d6e25f1a_8c84c750",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
         "patchSetId": 3
@@ -82,6 +154,30 @@
       "writtenOn": "2014-08-12T06:47:09Z",
       "side": 1,
       "message": "This branch is not covered in unit tests.",
+      "range": {
+        "startLine": 171,
+        "startChar": 6,
+        "endLine": 171,
+        "endChar": 77
+      },
+      "revId": "1fdf4de175c510261c2defcc29b497e5bb8d92b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f643e3df_bdf9dfe6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-13T00:16:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d6e25f1a_8c84c750",
       "range": {
         "startLine": 171,
         "startChar": 6,
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "164797ed_bef9d9e6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-13T00:16:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d6e25f1a_6c8abb5c",
+      "range": {
+        "startLine": 173,
+        "startChar": 6,
+        "endLine": 173,
+        "endChar": 59
+      },
+      "revId": "1fdf4de175c510261c2defcc29b497e5bb8d92b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d6e25f1a_4c87ff52",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
         "patchSetId": 3
@@ -128,6 +248,30 @@
       "writtenOn": "2014-08-12T06:47:09Z",
       "side": 1,
       "message": "This branch is not covered in unit tests.",
+      "range": {
+        "startLine": 447,
+        "startChar": 6,
+        "endLine": 449,
+        "endChar": 7
+      },
+      "revId": "1fdf4de175c510261c2defcc29b497e5bb8d92b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "164797ed_5e0f7552",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 449,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-13T00:16:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d6e25f1a_4c87ff52",
       "range": {
         "startLine": 447,
         "startChar": 6,

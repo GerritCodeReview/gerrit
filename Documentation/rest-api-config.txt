@@ -375,7 +375,7 @@ link:#cache-operation-input[CacheOperationInput] entity.
   Content-Type: application/json;charset=UTF-8
 
   {
-    "operation": "FLUSH"
+    "operation": "FLUSH",
     "caches": [
       "projects",
       "project_list"

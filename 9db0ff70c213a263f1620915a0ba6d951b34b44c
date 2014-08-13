@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d6509fa6_5cdc5d2f",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/edit/ChangeEditIT.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 449,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-13T11:52:10Z",
+      "side": 1,
+      "message": "Fit on one line?",
+      "range": {
+        "startLine": 448,
+        "startChar": 2,
+        "endLine": 449,
+        "endChar": 26
+      },
+      "revId": "9db0ff70c213a263f1620915a0ba6d951b34b44c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

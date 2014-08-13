@@ -118,6 +118,30 @@
       "revId": "7328e8e0ced080e232259af33bdb5b70e7c294cc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "164797ed_dec38572",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 446,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-13T22:46:15Z",
+      "side": 1,
+      "message": "Yes, this change was originally written before ChangeRebuilder merged. Thanks for pointing that out.",
+      "parentUuid": "961c67fc_1a8a5d09",
+      "range": {
+        "startLine": 446,
+        "startChar": 8,
+        "endLine": 446,
+        "endChar": 14
+      },
+      "revId": "7328e8e0ced080e232259af33bdb5b70e7c294cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

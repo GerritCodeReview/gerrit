@@ -57,7 +57,8 @@ import java.util.Set;
 public class SuggestReviewers implements RestReadView<ChangeResource> {
 
   private static final String MAX_SUFFIX = "\u9fa5";
-  private static final int MAX = 10;
+  private static final int DEFAULT_MAX_SUGGESTED = 10;
+  private static final int DEFAULT_MAX_MATCHES = 100;
 
   private final AccountInfo.Loader.Factory accountLoaderFactory;
   private final AccountControl.Factory accountControlFactory;
@@ -72,11 +73,16 @@ public class SuggestReviewers implements RestReadView<ChangeResource> {
   private final int maxAllowed;
   private int limit;
   private String query;
+  private boolean useFullTextSearch;
+  private final int fullTextMaxMatches;
+  private final int maxSuggestedReviewers;
 
   @Option(name = "--limit", aliases = {"-n"}, metaVar = "CNT",
       usage = "maximum number of reviewers to list")
   public void setLimit(int l) {
-    this.limit = l <= 0 ? MAX : Math.min(l, MAX);
+    this.limit =
+        l <= 0 ? maxSuggestedReviewers : Math.min(l,
+            maxSuggestedReviewers);
   }
 
   @Option(name = "--query", aliases = {"-q"}, metaVar = "QUERY",
@@ -104,12 +110,17 @@ public class SuggestReviewers implements RestReadView<ChangeResource> {
     this.identifiedUserFactory = identifiedUserFactory;
     this.currentUser = currentUser;
     this.groupBackend = groupBackend;
-
+    this.maxSuggestedReviewers =
+        cfg.getInt("suggest", "maxsuggestedreviewers", DEFAULT_MAX_SUGGESTED);
+    this.fullTextMaxMatches =
+        cfg.getInt("suggest", "fulltextsearchmaxmatches",
+            DEFAULT_MAX_MATCHES);
     String suggest = cfg.getString("suggest", null, "accounts");
     if ("OFF".equalsIgnoreCase(suggest)
         || "false".equalsIgnoreCase(suggest)) {
       this.suggestAccounts = false;
     } else {
+      this.useFullTextSearch = cfg.getBoolean("suggest", "fulltextsearch", false);
       this.suggestAccounts = (av != AccountVisibility.NONE);
     }
 
@@ -134,7 +145,12 @@ public class SuggestReviewers implements RestReadView<ChangeResource> {
     }
 
     VisibilityControl visibilityControl = getVisibility(rsrc);
-    List<AccountInfo> suggestedAccounts = suggestAccount(visibilityControl);
+    List<AccountInfo> suggestedAccounts;
+    if (useFullTextSearch) {
+      suggestedAccounts = suggestAccountFullTextSearch(visibilityControl);
+    } else {
+      suggestedAccounts = suggestAccount(visibilityControl);
+    }
     accountLoaderFactory.create(true).fill(suggestedAccounts);
 
     List<SuggestedReviewerInfo> reviewer = Lists.newArrayList();
@@ -218,6 +234,42 @@ public class SuggestReviewers implements RestReadView<ChangeResource> {
     }
 
     return Lists.newArrayList(r.values());
+  }
+
+  private List<AccountInfo> suggestAccountFullTextSearch(
+      VisibilityControl visibilityControl) throws OrmException {
+    String str = query.toLowerCase();
+    LinkedHashMap<Account.Id, AccountInfo> accountMap = Maps.newLinkedHashMap();
+    List<Account> fullNameMatches = Lists.newArrayList();
+    List<Account> emailMatches = Lists.newArrayList();
+    for (Account a : dbProvider.get().accounts().all()) {
+      if (a.getFullName() != null
+          && a.getFullName().toLowerCase().contains(str)) {
+        fullNameMatches.add(a);
+      } else if (a.getPreferredEmail() != null
+          && emailMatches.size() < fullTextMaxMatches
+          && a.getPreferredEmail().toLowerCase().contains(str)) {
+        emailMatches.add(a);
+      }
+      if (fullNameMatches.size() >= fullTextMaxMatches) {
+        break;
+      }
+    }
+    for (Account a : fullNameMatches) {
+      addSuggestion(accountMap, a, new AccountInfo(a.getId()), visibilityControl);
+      if (accountMap.size() >= limit) {
+        break;
+      }
+    }
+    if (accountMap.size() < limit) {
+      for (Account a : emailMatches) {
+        addSuggestion(accountMap, a, new AccountInfo(a.getId()), visibilityControl);
+        if (accountMap.size() >= limit) {
+          break;
+        }
+      }
+    }
+    return Lists.newArrayList(accountMap.values());
   }
 
   private void addSuggestion(Map<Account.Id, AccountInfo> map, Account account,

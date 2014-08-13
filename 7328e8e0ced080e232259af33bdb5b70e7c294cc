@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "961c67fc_9acd0d9e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 446,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-13T06:02:05Z",
+      "side": 1,
+      "message": "Is this marker really necessary? If you can check, that it state is wrong (i. e. it was flagged, but parent collection is not empty) on the next line, couldn\u0027t you use this fact to add immutable footer and avoid create flag in the first place? E.g.:\n\n  if (commit.getParentIds().length \u003d\u003d 0) {\n    addImmutableFooters(msg);\n  }\n\nIn fact when i do that change above, and run ChangesNotesTest then all tests are successful, except one:\n\n  createInNonRootCommitFails()\n\nit doesn\u0027t fail now.",
+      "range": {
+        "startLine": 446,
+        "startChar": 8,
+        "endLine": 446,
+        "endChar": 14
+      },
+      "revId": "7328e8e0ced080e232259af33bdb5b70e7c294cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

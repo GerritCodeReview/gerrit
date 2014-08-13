@@ -58,6 +58,7 @@ public class SuggestReviewers implements RestReadView<ChangeResource> {
 
   private static final String MAX_SUFFIX = "\u9fa5";
   private static final int MAX = 10;
+  private static final int MAX_MATCHES = 100;
 
   private final AccountInfo.Loader.Factory accountLoaderFactory;
   private final AccountControl.Factory accountControlFactory;
@@ -72,6 +73,7 @@ public class SuggestReviewers implements RestReadView<ChangeResource> {
   private final int maxAllowed;
   private int limit;
   private String query;
+  private boolean useFullTextSearch;
 
   @Option(name = "--limit", aliases = {"-n"}, metaVar = "CNT",
       usage = "maximum number of reviewers to list")
@@ -110,6 +112,7 @@ public class SuggestReviewers implements RestReadView<ChangeResource> {
         || "false".equalsIgnoreCase(suggest)) {
       this.suggestAccounts = false;
     } else {
+      this.useFullTextSearch = cfg.getBoolean("suggest", "fulltextsearch", false);
       this.suggestAccounts = (av != AccountVisibility.NONE);
     }
 
@@ -134,7 +137,12 @@ public class SuggestReviewers implements RestReadView<ChangeResource> {
     }
 
     VisibilityControl visibilityControl = getVisibility(rsrc);
-    List<AccountInfo> suggestedAccounts = suggestAccount(visibilityControl);
+    List<AccountInfo> suggestedAccounts;
+    if (useFullTextSearch) {
+      suggestedAccounts = suggestAccountFullTextSearch(visibilityControl);
+    } else {
+      suggestedAccounts = suggestAccount(visibilityControl);
+    }
     accountLoaderFactory.create(true).fill(suggestedAccounts);
 
     List<SuggestedReviewerInfo> reviewer = Lists.newArrayList();
@@ -218,6 +226,43 @@ public class SuggestReviewers implements RestReadView<ChangeResource> {
     }
 
     return Lists.newArrayList(r.values());
+  }
+
+  private List<AccountInfo> suggestAccountFullTextSearch(
+      VisibilityControl visibilityControl) throws OrmException {
+    String str = query.toLowerCase();
+    LinkedHashMap<Account.Id, AccountInfo> accountMap = Maps.newLinkedHashMap();
+    List<Account> fullNameMatches = Lists.newArrayList();
+    List<Account> emailMatches = Lists.newArrayList();
+    for (Account a : dbProvider.get().accounts().all()) {
+      if (a.getFullName() != null
+          && a.getFullName().toLowerCase().contains(str)) {
+        fullNameMatches.add(a);
+      }
+      if (fullNameMatches.size() >= MAX_MATCHES) {
+        break;
+      }
+      if (a.getPreferredEmail() != null
+          && emailMatches.size() < MAX_MATCHES
+          && a.getPreferredEmail().toLowerCase().contains(str)) {
+        emailMatches.add(a);
+      }
+    }
+    for (Account a : fullNameMatches) {
+      addSuggestion(accountMap, a, new AccountInfo(a.getId()), visibilityControl);
+      if (accountMap.size() >= limit) {
+        break;
+      }
+    }
+    if (accountMap.size() < limit) {
+      for (Account a : emailMatches) {
+        addSuggestion(accountMap, a, new AccountInfo(a.getId()), visibilityControl);
+        if (accountMap.size() >= limit) {
+          break;
+        }
+      }
+    }
+    return Lists.newArrayList(accountMap.values());
   }
 
   private void addSuggestion(Map<Account.Id, AccountInfo> map, Account account,

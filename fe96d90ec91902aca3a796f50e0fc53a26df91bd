@@ -22,6 +22,30 @@
       "revId": "fe96d90ec91902aca3a796f50e0fc53a26df91bd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d6509fa6_1cdc951c",
+        "filename": "gerrit-server/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-13T16:22:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d6509fa6_7c0279dc",
+      "range": {
+        "startLine": 214,
+        "startChar": 15,
+        "endLine": 214,
+        "endChar": 71
+      },
+      "revId": "fe96d90ec91902aca3a796f50e0fc53a26df91bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

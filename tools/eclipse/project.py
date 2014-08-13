@@ -159,6 +159,12 @@ def gen_classpath():
     doc.writexml(fd, addindent='\t', newl='\n', encoding='UTF-8')
 
 try:
+  # update buck to avoid updating messages to be captured
+  try:
+    check_call(['buck', '--version'])
+  except CalledProcessError as err:
+    exit(1)
+
   if args.src:
     try:
       check_call([path.join(ROOT, 'tools', 'download_all.py'), '--src'])

@@ -179,13 +179,7 @@ class CacheProvider<K, V>
   public Cache<K, V> get() {
     frozen = true;
 
-    if (loader != null) {
-      CacheLoader<K, V> ldr = loader.get();
-      if (persist && persistentCacheFactory != null) {
-        return persistentCacheFactory.build(this, ldr);
-      }
-      return memoryCacheFactory.build(this, ldr);
-    } else if (persist && persistentCacheFactory != null) {
+    if (persist && persistentCacheFactory != null) {
       return persistentCacheFactory.build(this);
     } else {
       return memoryCacheFactory.build(this);

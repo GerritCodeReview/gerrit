@@ -46,6 +46,30 @@
       "revId": "7328e8e0ced080e232259af33bdb5b70e7c294cc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d6509fa6_dca62daf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 446,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-13T16:49:37Z",
+      "side": 1,
+      "message": "So the answer to my question \"Why do you need this flag in this commit?\" is \"I don\u0027t need this flag in this commit.\" In which case i expect this flag to be removed in this commit and introduced later when it is needed.\n\nSome of your tests are broken now. Because now you are missing update.create() in some locations. For example in this test:\n\n  ChangeNotesTest.approvalsOnePatchSet()\n\nBecause the call to update.create() is missing there, changeKey is erroneously not initialized in this change.",
+      "parentUuid": "d6509fa6_3cfcf17f",
+      "range": {
+        "startLine": 446,
+        "startChar": 8,
+        "endLine": 446,
+        "endChar": 14
+      },
+      "revId": "7328e8e0ced080e232259af33bdb5b70e7c294cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

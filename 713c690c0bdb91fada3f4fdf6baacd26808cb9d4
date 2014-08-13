@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d6509fa6_dcc38d72",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-13T05:05:16Z",
+      "side": 1,
+      "message": "Right. Other candidates to cluster in their own test classes are:\n\n* ApprovalTests\n* ReviewerTsts\n* ChangeMessageTests\n* BatchUpdateTests\n* PatchCommentTests\n\nIn the end we don\u0027t want to mess around with source file with thousands LoC.",
+      "revId": "713c690c0bdb91fada3f4fdf6baacd26808cb9d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

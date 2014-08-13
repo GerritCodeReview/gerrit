@@ -3110,12 +3110,31 @@ otherwise, this value applies to both `suggest.accounts` and
 New configurations should prefer the boolean value for this field
 and an enum value for `accounts.visibility`.
 
+[[suggest.maxsuggestedreviewers]]suggest.maxsuggestedreviewers::
++
+The maximum numbers of reviewers suggested.
++
+By default 10.
+
+[[suggest.fullsearch]]suggest.fulltextsearch::
++
+If 'true' the reviewer completion suggestions will be based on a full text search.
+
 [[suggest.from]]suggest.from::
 +
 The number of characters that a user must have typed before suggestions
 are provided. If set to 0, suggestions are always provided.
 +
 By default 0.
+
+[[suggest.fulltextsearchmaxmatches]]suggest.fulltextsearchmaxmatches::
++
+The maximum number of matches evaluated for change access when using full text search.
++
+Making this number too high could have a negative impact on performance.
++
+By default 100.
+
 
 [[theme]]
 === Section theme

@@ -657,6 +657,7 @@ public class ChangeNotesTest {
     assertNull(update.getRevision());
   }
 
+  @Test
   public void emptyExceptSubject() throws Exception {
     ChangeUpdate update = newUpdate(newChange(), changeOwner);
     update.setSubject("Create change");

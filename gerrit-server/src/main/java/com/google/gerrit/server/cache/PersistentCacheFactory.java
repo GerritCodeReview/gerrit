@@ -15,16 +15,11 @@
 package com.google.gerrit.server.cache;
 
 import com.google.common.cache.Cache;
-import com.google.common.cache.CacheLoader;
-import com.google.common.cache.LoadingCache;
 import com.google.gerrit.server.plugins.Plugin;
 
 public interface PersistentCacheFactory {
-  <K, V> Cache<K, V> build(CacheBinding<K, V> def);
-
-  <K, V> LoadingCache<K, V> build(
-      CacheBinding<K, V> def,
-      CacheLoader<K, V> loader);
+  <K, V, T extends Cache<K, V>> T build(
+      CacheBinding<K, V> def);
 
   void onStop(Plugin plugin);
 }

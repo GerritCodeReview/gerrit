@@ -15,8 +15,8 @@
 package com.google.gerrit.server.cache.h2;
 
 import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
-import com.google.common.cache.LoadingCache;
 import com.google.common.collect.Lists;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.google.gerrit.extensions.events.LifecycleListener;
@@ -152,9 +152,10 @@ class H2CacheFactory implements PersistentCacheFactory, LifecycleListener {
     }
   }
 
-  @SuppressWarnings({"unchecked", "cast"})
+  @SuppressWarnings("unchecked")
   @Override
-  public <K, V> Cache<K, V> build(CacheBinding<K, V> def) {
+  public <K, V, T extends Cache<K, V>> T build(
+      CacheBinding<K, V> def) {
     long limit = config.getLong("cache", def.name(), "diskLimit", 128 << 20);
 
     if (cacheDir == null || limit <= 0) {
@@ -166,39 +167,21 @@ class H2CacheFactory implements PersistentCacheFactory, LifecycleListener {
             : TimeProvider.SYSTEM_TIME_PROVIDER;
     SqlStore<K, V> store = newSqlStore(def.name(), def.keyType(), limit,
         def.expireAfterWrite(TimeUnit.SECONDS), timeProvider);
+    CacheBuilder<K, ValueHolder<V>> builder =
+        defaultFactory.create((CacheBinding<K, ValueHolder<V>>) def, true);
+    final Cache<K, ValueHolder<V>> mem;
+    if (def.loader() != null) {
+      mem = builder.build(new H2CacheImpl.Loader<K, V>(
+          executor, store, def.loader(), timeProvider));
+    } else {
+      mem = builder.build();
+    }
     H2CacheImpl<K, V> cache = new H2CacheImpl<K, V>(
-        executor, store, def.keyType(),
-        (Cache<K, ValueHolder<V>>) defaultFactory.create(def, true).build(), timeProvider);
+        executor, store, def.keyType(), mem, timeProvider);
     synchronized (caches) {
       caches.add(cache);
     }
-    return cache;
-  }
-
-  @SuppressWarnings("unchecked")
-  @Override
-  public <K, V> LoadingCache<K, V> build(
-      CacheBinding<K, V> def,
-      CacheLoader<K, V> loader) {
-    long limit = config.getLong("cache", def.name(), "diskLimit", 128 << 20);
-
-    if (cacheDir == null || limit <= 0) {
-      return defaultFactory.build(def, loader);
-    }
-
-    TimeProvider timeProvider =
-        def.ticker() != null ? new TickerTimeProvider(def.ticker())
-            : TimeProvider.SYSTEM_TIME_PROVIDER;
-    SqlStore<K, V> store = newSqlStore(def.name(), def.keyType(), limit,
-        def.expireAfterWrite(TimeUnit.SECONDS), timeProvider);
-    Cache<K, ValueHolder<V>> mem = (Cache<K, ValueHolder<V>>)
-        defaultFactory.create(def, true)
-        .build((CacheLoader<K, V>) new H2CacheImpl.Loader<K, V>(
-              executor, store, loader, timeProvider));
-    H2CacheImpl<K, V> cache = new H2CacheImpl<K, V>(
-        executor, store, def.keyType(), mem, timeProvider);
-    caches.add(cache);
-    return cache;
+    return (T) cache;
   }
 
   @Override

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "961c67fc_3ad641d7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-14T07:51:56Z",
+      "side": 1,
+      "message": "I still not convinced that we really need this create flag. The scenario you are describing: notedb.write is true and RebuildNoteDb has not been run yet, can only happen in transitional period. I don\u0027t think we really care about trust on change creation in transitional period, where RebuildNoteDb has not been run yet.\n\nSo in my suggestion: root commit in transition state is recording the immutable fields can in fact falsify ChangeOwner  and always falsify createdOn date. But with your behavior you aren\u0027t recording the fields at all. How is this better?\n\nYour approach with flagging UpdateNotes.create\u003dtrue to uniquely identify real change creation time and record immutable fields only in this case unnecessary complicates the code. I don\u0027t see any value behind doing it: Real production sites would never activate notedb.write\u003dtrue without running RebuildNoteDb. So nobody really care that createdOn (always) and changeOwner (sometimes) recorded are wrong.\n\nAs mentioned in my previous comment, the change broke almost all notedb unit tests. And the fact the tests are still passing is even much more harmful as when they were just broken.\n\nBefore this change the call to ChangeInserter from the real code and call to newChange() from botedb unit test code behaved similarly. After this change newChange() call ist not recognized any more as root commit (missing create flag) and immutable fields are not getting initialized. Your answer to my comment comparing this with notedb.write\u003dtrue and RebuildNoteDb has not been run yet is not valid in this use case, because if this would be the case in real code and not unit test code, immutable fields would be recorded because ChangeInserter was extended and create flag would be set to true even though notedb.write\u003dtrue and RebuildNoteDb has not been run yet.\n\nOr are you suggesting to record the event that RebuildNoteDb has been run  (somehow) and only set create flag to true in ChangeInserter when RebuildNoteDb has been run? Then and only then we would achieve the symmetry between unit tests and real code behavior.  But the is not how this is implemented in this change. With current situation we have now seriously hidden discrepancy between real code and unit test code path. And in fact it took me hours to understand and reveals this discrepancy. So again you may call unit tests sane and passing, but in fact they are seriously broken.\n\nAll the problems above can be solved with suggested KISS behavior:\n\n  All immutable fields are recorded with root commit.\n\nBut even if you want to keep unneeded create flag, notedb unit tests must be fixed in *this* change, obviously. Particularly, newChange() method must trigger immutable field initialization, like this would be the case from real CangeInserter code, even when RebuildNoteDb wasn\u0027t run yet.",
+      "range": {
+        "startLine": 19,
+        "startChar": 49,
+        "endLine": 22,
+        "endChar": 24
+      },
+      "revId": "75f1b0fc28409971e6dc934bd6565da719c91c15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

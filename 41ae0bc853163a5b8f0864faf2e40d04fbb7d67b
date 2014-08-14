@@ -124,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "f643e3df_3d4e2f4c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeEdits.java",
+        "patchSetId": 39
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-14T20:51:09Z",
+      "side": 1,
+      "message": "Oh, i see, that makes sense. So we could create dedicated Post handler and create it above on line 105.\n\nThen we could check in Post.apply() method when the edit doesn\u0027t exist create it, and check the request body for path and restore, and when they are there then we could additionally restore the file. With this in place we could decouple restore from PUT handler as suggested above.",
+      "parentUuid": "164797ed_1ec24d6a",
+      "revId": "41ae0bc853163a5b8f0864faf2e40d04fbb7d67b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b64deb11_8757dc39",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeEdits.java",
         "patchSetId": 39

@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b64deb11_87eb5c7f",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeNotesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 385,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-14T18:55:51Z",
+      "side": 1,
+      "message": "Aside:\nHuh, this shouldn\u0027t actually be different from update1\u0027s timestamp. But there is no newUpdate(c, otherUser, TimeUtil.nowTs()), nor is there a ChangeUpdate.getWhen().\n\nLooks like PostReview at least is using the same timestamp for the ChangeUpdate and its comments. I\u0027m thinking this should be enforced in the ChangeUpdate itself too.",
+      "revId": "0c878a22a4263e2981f53dbf32fd2f97279d5e98",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b64deb11_47347467",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeNotesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 394,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-14T18:55:51Z",
+      "side": 1,
+      "message": "Why call writeCommit() instead of batch.write(update1, new CommitBuilder()) as in the multipleUpdatesInBatch() above?",
+      "revId": "0c878a22a4263e2981f53dbf32fd2f97279d5e98",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b64deb11_c757248b",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeNotesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 412,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-14T18:55:51Z",
+      "side": 1,
+      "message": "You\u0027re not checking enough here.\n\nYou want to check that there are two commits, and that comments were written in the first commit, and the approvals in the second commit.",
+      "revId": "0c878a22a4263e2981f53dbf32fd2f97279d5e98",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

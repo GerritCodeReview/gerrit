@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b64deb11_07f98c2c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditJson.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-14T19:02:01Z",
+      "side": 1,
+      "message": "Why did this change to be a non-static method? Are we going to inject members later?",
+      "revId": "09668cf80a7cf19f44ec7845b6b4b78c22aa88ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

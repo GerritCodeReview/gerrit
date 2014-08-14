@@ -70,6 +70,9 @@ class ChangeNotesParser implements AutoCloseable {
   final List<SubmitRecord> submitRecords;
   final Multimap<PatchSet.Id, PatchLineComment> commentsForPs;
   final Multimap<PatchSet.Id, PatchLineComment> commentsForBase;
+  final Map<PatchSet.Id, Table<Account.Id, String, Optional<PatchSetApproval>>>
+      approvals;
+  final Multimap<PatchSet.Id, ChangeMessage> changeMessages;
   NoteMap commentNoteMap;
   Change.Status status;
 
@@ -77,9 +80,6 @@ class ChangeNotesParser implements AutoCloseable {
   private final ObjectId tip;
   private final RevWalk walk;
   private final Repository repo;
-  private final Map<PatchSet.Id,
-      Table<Account.Id, String, Optional<PatchSetApproval>>> approvals;
-  private final Multimap<PatchSet.Id, ChangeMessage> changeMessages;
 
   ChangeNotesParser(Change change, ObjectId tip, RevWalk walk,
       GitRepositoryManager repoManager) throws RepositoryNotFoundException,

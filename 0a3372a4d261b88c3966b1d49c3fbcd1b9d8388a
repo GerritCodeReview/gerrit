@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "b64deb11_c7b884c9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-14T18:35:48Z",
+      "side": 1,
+      "message": "This contains unsubmitted code upstream, I think you\u0027re going to want to build another package at master and update again.",
+      "revId": "0a3372a4d261b88c3966b1d49c3fbcd1b9d8388a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b64deb11_277608b2",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeUtil.java",
         "patchSetId": 1

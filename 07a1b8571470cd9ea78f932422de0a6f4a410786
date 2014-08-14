@@ -56,6 +56,24 @@
       "revId": "07a1b8571470cd9ea78f932422de0a6f4a410786",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "961c67fc_9af3cd4f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeEdits.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-14T19:56:34Z",
+      "side": 1,
+      "message": "I think you answered this for me in https://us1-mirror-gerrit-review.googlesource.com/#/c/53162/39/gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeEdits.java@143",
+      "parentUuid": "b64deb11_826a6ab2",
+      "revId": "07a1b8571470cd9ea78f932422de0a6f4a410786",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

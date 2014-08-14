@@ -48,6 +48,23 @@
     },
     {
       "key": {
+        "uuid": "961c67fc_1a07bdaa",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestReviewers.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2014-08-14T10:23:58Z",
+      "side": 1,
+      "message": "A new config option should be reflected in the documentation.",
+      "revId": "f3463924ba65aab8d3c0f1c3fa98ddc28570d981",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "961c67fc_ba17b1dd",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestReviewers.java",
         "patchSetId": 3

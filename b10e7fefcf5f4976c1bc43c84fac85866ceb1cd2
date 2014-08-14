@@ -34,6 +34,24 @@
       "revId": "b10e7fefcf5f4976c1bc43c84fac85866ceb1cd2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d6509fa6_bcb001cb",
+        "filename": "Documentation/dev-eclipse.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-14T06:21:59Z",
+      "side": 1,
+      "message": "Looks like a bug in codeserver. Workaround for now is to set:\n\n  \u003cset-property name\u003d\"user.agent\" value\u003d\"geko1_8\" /\u003e\n\nor\n\n  \u003cset-property name\u003d\"user.agent\" value\u003d\"safari\" /\u003e\n\nThis is unclear to me why this happens. When -noprecompile paramater is removed from gerrit_gwt_codeserver.launch, use agent is reported correctly even without setting user.agent property in gwt xml. And only one permutation is compiled:\n  \n  gwtui/com.google.gerrit.GerritGwtUI/compile-1\n  binding: user.agent\u003dsafari\n  binding: compiler.useSourceMaps\u003dtrue\n  binding: locale\u003den\n  Compiling module com.google.gerrit.GerritGwtUI\n    Validating units:\n      Ignored 14 units with compilation errors in first pass.\n   Compiling 1 permutation\n      Compiling permutation 0...\n      Source Maps Enabled\n   Compile of permutations succeeded\n\nHowever when triggering recompilation from the UI the codeserevr seems to forget that knowledge and compiling 5 different permutations:\n\n      Compiling 5 permutations\n      Compiling permutation 0...\n      Source Maps Enabled\n      Compiling permutation 1...\n      Source Maps Enabled\n      Compiling permutation 2...\n      Source Maps Enabled\n      Compiling permutation 3...\n      Source Maps Enabled\n      Compiling permutation 4...\n      Source Maps Enabled\n   Compile of permutations succeeded\n\nSo i will extend the instruction here with this workaround so we can move forward with this change.",
+      "parentUuid": "d6509fa6_bc9a415c",
+      "revId": "b10e7fefcf5f4976c1bc43c84fac85866ceb1cd2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

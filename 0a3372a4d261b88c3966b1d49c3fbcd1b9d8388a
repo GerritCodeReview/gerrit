@@ -105,6 +105,24 @@
       "revId": "0a3372a4d261b88c3966b1d49c3fbcd1b9d8388a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b64deb11_3674f74c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 487,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-14T21:04:38Z",
+      "side": 1,
+      "message": "Yes, I know it\u0027s required. I just don\u0027t know what the performance impact will be in a real on-disk repo, and I\u0027m hesitant to include this change in a released Gerrit until we know.",
+      "parentUuid": "164797ed_1e9b2d98",
+      "revId": "0a3372a4d261b88c3966b1d49c3fbcd1b9d8388a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

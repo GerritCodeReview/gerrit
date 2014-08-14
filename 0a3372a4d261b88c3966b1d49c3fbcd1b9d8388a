@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "164797ed_5eb8d5ff",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-08-14T19:46:45Z",
+      "side": 1,
+      "message": "Yup. I\u0027ll have to rebuild upstream and recompute the version numbers and SHA-1s.",
+      "parentUuid": "b64deb11_c7b884c9",
+      "revId": "0a3372a4d261b88c3966b1d49c3fbcd1b9d8388a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b64deb11_277608b2",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeUtil.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2014-08-14T18:23:23Z",
       "side": 1,
       "message": "So depending on the implementation of the inserter (whether it effectively auto-flushes), some unnecessary objects might eventually get written. But this should be very rare in the DFS case, and not exactly costly in the WindowCursor case. Good.",
+      "revId": "0a3372a4d261b88c3966b1d49c3fbcd1b9d8388a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f643e3df_fd476734",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 487,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-08-14T19:46:45Z",
+      "side": 1,
+      "message": "Basically.\n\nIf we are willing to spend some temporary memory, we may be able to implement an in-memory buffering ObjectInserter for the DryRunInserter. insert() would store the objects in memory, up to some limit, before spilling to temporary disk. \n\nRoughly that would look like the DfsInserter, but backed by a TemporaryBuffer.LocalFile instead of a DfsOutputStream, after changing TemporaryBuffer to support random read-back the way DfsOutputStream does.",
+      "parentUuid": "b64deb11_277608b2",
       "revId": "0a3372a4d261b88c3966b1d49c3fbcd1b9d8388a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

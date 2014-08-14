@@ -92,7 +92,7 @@ public abstract class AbstractChangeUpdate extends VersionedMetaData {
   }
 
   private void load() throws IOException {
-    if (migration.write() && getRevision() == null) {
+    if (migration.writeChanges() && getRevision() == null) {
       Repository repo = repoManager.openMetadataRepository(getProjectName());
       try {
         load(repo);
@@ -119,7 +119,7 @@ public abstract class AbstractChangeUpdate extends VersionedMetaData {
 
   public BatchMetaDataUpdate openUpdateInBatch(BatchRefUpdate bru)
       throws IOException {
-    if (migration.write()) {
+    if (migration.writeChanges()) {
       load();
       MetaDataUpdate md =
           updateFactory.create(getProjectName(), getUser(), bru);

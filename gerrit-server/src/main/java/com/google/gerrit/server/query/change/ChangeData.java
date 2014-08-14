@@ -79,7 +79,7 @@ public class ChangeData {
     }
     if (!missing.isEmpty()) {
       ChangeData first = missing.values().iterator().next();
-      if (!first.notesMigration.readPatchSetApprovals()) {
+      if (!first.notesMigration.readChanges()) {
         ReviewDb db = missing.values().iterator().next().db;
         for (Change change : db.changes().get(missing.keySet())) {
           missing.get(change.getId()).change = change;
@@ -120,7 +120,7 @@ public class ChangeData {
       throws OrmException {
     List<ResultSet<PatchSetApproval>> pending = Lists.newArrayList();
     for (ChangeData cd : changes) {
-      if (!cd.notesMigration.readPatchSetApprovals()) {
+      if (!cd.notesMigration.readChanges()) {
         if (cd.currentApprovals == null) {
           pending.add(cd.db.patchSetApprovals()
               .byPatchSet(cd.change().currentPatchSetId()));

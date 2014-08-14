@@ -26,6 +26,7 @@ import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.common.Comment;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.testutil.ConfigSuite;
 import com.google.gson.reflect.TypeToken;
 
@@ -43,10 +44,7 @@ import java.util.Map;
 public class CommentsIT extends AbstractDaemonTest {
   @ConfigSuite.Config
   public static Config noteDbEnabled() {
-    Config cfg = new Config();
-    cfg.setBoolean("notedb", null, "write", true);
-    cfg.setBoolean("notedb", "comments", "read", true);
-    return cfg;
+    return NotesMigration.allEnabledConfig();
   }
 
   @Test

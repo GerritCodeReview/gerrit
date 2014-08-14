@@ -50,7 +50,7 @@ public class ChangeMessagesUtil {
   }
 
   public List<ChangeMessage> byChange(ReviewDb db, ChangeNotes notes) throws OrmException {
-    if (!migration.readChangeMessages()) {
+    if (!migration.readChanges()) {
       return
           sortChangeMessages(db.changeMessages().byChange(notes.getChangeId()));
     } else {
@@ -60,7 +60,7 @@ public class ChangeMessagesUtil {
 
   public List<ChangeMessage> byPatchSet(ReviewDb db, ChangeNotes notes,
       PatchSet.Id psId) throws OrmException {
-    if (!migration.readChangeMessages()) {
+    if (!migration.readChanges()) {
       return sortChangeMessages(db.changeMessages().byPatchSet(psId));
     }
     return notes.load().getChangeMessages().get(psId);

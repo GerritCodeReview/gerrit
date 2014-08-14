@@ -61,6 +61,7 @@ import com.google.gerrit.server.git.GitModule;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.notedb.ChangeUpdate;
+import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.util.TimeUtil;
@@ -104,10 +105,7 @@ public class CommentsTest  {
 
   @ConfigSuite.Config
   public static @GerritServerConfig Config noteDbEnabled() {
-    @GerritServerConfig Config cfg = new Config();
-    cfg.setBoolean("notedb", null, "write", true);
-    cfg.setBoolean("notedb", "comments", "read", true);
-    return cfg;
+    return NotesMigration.allEnabledConfig();
   }
 
   private Injector injector;

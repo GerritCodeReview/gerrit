@@ -106,6 +106,24 @@
     },
     {
       "key": {
+        "uuid": "164797ed_1ec24d6a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeEdits.java",
+        "patchSetId": 39
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-14T19:58:15Z",
+      "side": 1,
+      "message": "I actually meant POST /changes/X/edit, not /edit/path (or maybe /edit_restore or whatever).\n\nBut we can save this discussion for later.",
+      "parentUuid": "d6509fa6_1c925504",
+      "revId": "41ae0bc853163a5b8f0864faf2e40d04fbb7d67b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b64deb11_8757dc39",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeEdits.java",
         "patchSetId": 39

@@ -16,6 +16,24 @@
       "revId": "d3ff86bdd37274eace19ec2bf2af0bc18831f848",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f643e3df_bdf6bfac",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteReviewer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-14T21:04:03Z",
+      "side": 1,
+      "message": "Yes, we can abandon it and ask him to cherry-pick it.",
+      "parentUuid": "b64deb11_d6dcb331",
+      "revId": "d3ff86bdd37274eace19ec2bf2af0bc18831f848",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

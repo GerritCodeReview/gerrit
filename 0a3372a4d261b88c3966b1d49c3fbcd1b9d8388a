@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b64deb11_277608b2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 487,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-14T18:23:23Z",
+      "side": 1,
+      "message": "So depending on the implementation of the inserter (whether it effectively auto-flushes), some unnecessary objects might eventually get written. But this should be very rare in the DFS case, and not exactly costly in the WindowCursor case. Good.",
+      "revId": "0a3372a4d261b88c3966b1d49c3fbcd1b9d8388a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -15,7 +15,9 @@
 package com.google.gerrit.server.git;
 
 import com.google.common.base.Strings;
+import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
@@ -68,7 +70,7 @@ public class SubmoduleOp {
   public interface Factory {
     SubmoduleOp create(Branch.NameKey destBranch, RevCommit mergeTip,
         RevWalk rw, Repository db, Project destProject, List<Change> submitted,
-        Map<Change.Id, CodeReviewCommit> commits);
+        Map<Change.Id, CodeReviewCommit> commits, Account account);
   }
 
   private static final Logger log = LoggerFactory.getLogger(SubmoduleOp.class);
@@ -88,6 +90,8 @@ public class SubmoduleOp {
   private final GitReferenceUpdated gitRefUpdated;
   private final SchemaFactory<ReviewDb> schemaFactory;
   private final Set<Branch.NameKey> updatedSubscribers;
+  private final Account account;
+  private final ChangeHooks changeHooks;
 
   @Inject
   public SubmoduleOp(@Assisted final Branch.NameKey destBranch,
@@ -97,7 +101,8 @@ public class SubmoduleOp {
       @Assisted Project destProject, @Assisted List<Change> submitted,
       @Assisted final Map<Change.Id, CodeReviewCommit> commits,
       @GerritPersonIdent final PersonIdent myIdent,
-      GitRepositoryManager repoManager, GitReferenceUpdated gitRefUpdated) {
+      GitRepositoryManager repoManager, GitReferenceUpdated gitRefUpdated,
+      @Assisted Account account, ChangeHooks changeHooks) {
     this.destBranch = destBranch;
     this.mergeTip = mergeTip;
     this.rw = rw;
@@ -110,6 +115,8 @@ public class SubmoduleOp {
     this.myIdent = myIdent;
     this.repoManager = repoManager;
     this.gitRefUpdated = gitRefUpdated;
+    this.account = account;
+    this.changeHooks = changeHooks;
 
     updatedSubscribers = new HashSet<>();
   }
@@ -344,6 +351,7 @@ public class SubmoduleOp {
         case NEW:
         case FAST_FORWARD:
           gitRefUpdated.fire(subscriber.getParentKey(), rfu);
+          changeHooks.doRefUpdatedHook(subscriber, rfu, account);
           // TODO since this is performed "in the background" no mail will be
           // sent to inform users about the updated branch
           break;

@@ -15,6 +15,7 @@
 package com.google.gerrit.server.git;
 
 import static org.easymock.EasyMock.capture;
+import static org.easymock.EasyMock.createNiceMock;
 import static org.easymock.EasyMock.createStrictMock;
 import static org.easymock.EasyMock.eq;
 import static org.easymock.EasyMock.expect;
@@ -22,6 +23,7 @@ import static org.easymock.EasyMock.replay;
 import static org.easymock.EasyMock.verify;
 import static org.junit.Assert.assertEquals;
 
+import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
@@ -79,6 +81,7 @@ public class SubmoduleOpTest extends LocalDiskRepositoryTestCase {
   private Provider<String> urlProvider;
   private GitRepositoryManager repoManager;
   private GitReferenceUpdated gitRefUpdated;
+  private ChangeHooks changeHooks;
 
   @SuppressWarnings("unchecked")
   @Override
@@ -92,6 +95,7 @@ public class SubmoduleOpTest extends LocalDiskRepositoryTestCase {
     urlProvider = createStrictMock(Provider.class);
     repoManager = createStrictMock(GitRepositoryManager.class);
     gitRefUpdated = createStrictMock(GitReferenceUpdated.class);
+    changeHooks = createNiceMock(ChangeHooks.class);
   }
 
   private void doReplay() {
@@ -138,7 +142,7 @@ public class SubmoduleOpTest extends LocalDiskRepositoryTestCase {
     final SubmoduleOp submoduleOp =
         new SubmoduleOp(branchNameKey, mergeTip, new RevWalk(realDb), urlProvider,
             schemaFactory, realDb, null, new ArrayList<Change>(), null, null,
-            null, null);
+            null, null, null, null);
 
     submoduleOp.update();
 
@@ -654,7 +658,8 @@ public class SubmoduleOpTest extends LocalDiskRepositoryTestCase {
         new SubmoduleOp(sourceBranchNameKey, sourceMergeTip, new RevWalk(
             sourceRepository), urlProvider, schemaFactory, sourceRepository,
             new Project(sourceBranchNameKey.getParentKey()), submitted,
-            mergedCommits, myIdent, repoManager, gitRefUpdated);
+            mergedCommits, myIdent, repoManager, gitRefUpdated, null,
+            changeHooks);
 
     submoduleOp.update();
 
@@ -758,7 +763,7 @@ public class SubmoduleOpTest extends LocalDiskRepositoryTestCase {
         new SubmoduleOp(sourceBranchNameKey, sourceMergeTip, new RevWalk(
             sourceRepository), urlProvider, schemaFactory, sourceRepository,
             new Project(sourceBranchNameKey.getParentKey()), submitted,
-            mergedCommits, myIdent, repoManager, gitRefUpdated);
+            mergedCommits, myIdent, repoManager, gitRefUpdated, null, changeHooks);
 
     submoduleOp.update();
 
@@ -912,7 +917,7 @@ public class SubmoduleOpTest extends LocalDiskRepositoryTestCase {
         new SubmoduleOp(mergedBranch, mergeTip, new RevWalk(realDb),
             urlProvider, schemaFactory, realDb, new Project(mergedBranch
                 .getParentKey()), new ArrayList<Change>(), null, null,
-            repoManager, null);
+            repoManager, null, null, null);
 
     submoduleOp.update();
   }

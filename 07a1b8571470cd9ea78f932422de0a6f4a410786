@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b64deb11_a28a0659",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeEdits.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-14T19:32:29Z",
+      "side": 1,
+      "message": "wiped",
+      "range": {
+        "startLine": 208,
+        "startChar": 19,
+        "endLine": 208,
+        "endChar": 25
+      },
+      "revId": "07a1b8571470cd9ea78f932422de0a6f4a410786",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b64deb11_82910a90",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeEdits.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-14T19:32:29Z",
+      "side": 1,
+      "message": "Add a comment about the race condition:\n\n\"Even if the latest patch set changed since the user triggered the operation, deleting the whole file is probably still what they intended.\"",
+      "revId": "07a1b8571470cd9ea78f932422de0a6f4a410786",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

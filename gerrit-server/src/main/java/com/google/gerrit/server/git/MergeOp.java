@@ -655,14 +655,17 @@ public class MergeOp {
 
   private void fireRefUpdated(RefUpdate branchUpdate) {
     gitRefUpdated.fire(destBranch.getParentKey(), branchUpdate);
+    hooks.doRefUpdatedHook(destBranch, branchUpdate, getAccount(mergeTip));
+  }
 
+  private Account getAccount(CodeReviewCommit codeReviewCommit) {
     Account account = null;
     PatchSetApproval submitter = approvalsUtil.getSubmitter(
-        db, mergeTip.notes(), mergeTip.getPatchsetId());
+        db, codeReviewCommit.notes(), codeReviewCommit.getPatchsetId());
     if (submitter != null) {
       account = accountCache.get(submitter.getAccountId()).getAccount();
     }
-    hooks.doRefUpdatedHook(destBranch, branchUpdate, account);
+    return account;
   }
 
   private void updateChangeStatus(final List<Change> submitted) throws NoSuchChangeException {
@@ -726,7 +729,8 @@ public class MergeOp {
     if (mergeTip != null && (branchTip == null || branchTip != mergeTip)) {
       SubmoduleOp subOp =
           subOpFactory.create(destBranch, mergeTip, rw, repo,
-              destProject.getProject(), submitted, commits);
+              destProject.getProject(), submitted, commits,
+              getAccount(mergeTip));
       try {
         subOp.update();
       } catch (SubmoduleException e) {

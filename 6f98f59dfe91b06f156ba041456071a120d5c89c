@@ -94,6 +94,24 @@
     },
     {
       "key": {
+        "uuid": "56e90f2a_a0d63a62",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeEdits.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-14T21:20:43Z",
+      "side": 1,
+      "message": "No, I think this is fine as-is, thanks.",
+      "parentUuid": "164797ed_3ebf09e7",
+      "revId": "6f98f59dfe91b06f156ba041456071a120d5c89c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b64deb11_e2a6cedc",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeEdits.java",
         "patchSetId": 13
@@ -123,6 +141,24 @@
       "side": 1,
       "message": "Yes. Performance. That makes a lot of sense. Detail apply is called 5 times, i guess to build Change screen2: Patch Set box, Download Box, Side by Side, CS2 itself and only in one or two cases from 5 it needs files. So that request is decoupled from skimple get detail for a reason. The same hold true for change screen itself. GET /changes/\u003cX\u003e/detail doesn\u0027t return files.",
       "parentUuid": "b64deb11_e2a6cedc",
+      "revId": "6f98f59dfe91b06f156ba041456071a120d5c89c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "56e90f2a_00dc4680",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeEdits.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-14T21:20:43Z",
+      "side": 1,
+      "message": "Ugh, we make so many requests to render CS2.\n\nI think this is fine, you\u0027re right we shouldn\u0027t have to run diff-tree 3x if we\u0027re discarding the results twice.\n\nHowever, I dislike returning Response\u003c?\u003e with two completely different possibilities. Can we put the file info list in the ChangeEditInfo, and just leave it null when list is false?",
+      "parentUuid": "f643e3df_bd41df21",
       "revId": "6f98f59dfe91b06f156ba041456071a120d5c89c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -52,6 +52,24 @@
       "revId": "b10e7fefcf5f4976c1bc43c84fac85866ceb1cd2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d6509fa6_1cc01510",
+        "filename": "Documentation/dev-eclipse.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-14T06:26:04Z",
+      "side": 1,
+      "message": "Nice, that bug is already fixed upstream [1], but unfortunately wasn\u0027t realesed yet. I think we can merge it now and remove the workaround from the documentation, when GWT 2.7 is released.\n\n [1] https://code.google.com/p/google-web-toolkit/issues/detail?id\u003d7458",
+      "parentUuid": "d6509fa6_bcb001cb",
+      "revId": "b10e7fefcf5f4976c1bc43c84fac85866ceb1cd2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

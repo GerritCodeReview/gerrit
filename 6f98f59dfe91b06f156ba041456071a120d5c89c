@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "164797ed_deace5bf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeEdits.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-14T20:25:41Z",
+      "side": 1,
+      "message": "Extra new line?",
+      "revId": "6f98f59dfe91b06f156ba041456071a120d5c89c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b64deb11_42c9c28f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeEdits.java",
         "patchSetId": 13
@@ -59,6 +76,24 @@
     },
     {
       "key": {
+        "uuid": "164797ed_3ebf09e7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeEdits.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-14T20:25:41Z",
+      "side": 1,
+      "message": "That\u0027s because it is needed by Side by side screen. That\u0027s where you have \"1 2 3 4 5 6 7 edit\" on the left and on the right. So i just copied tha logic from normal revisions to make side by side work. We could change it later and only allow to compare edit against its parent, But even then we would need to pass base, 3 in your example above.",
+      "parentUuid": "b64deb11_82982a9a",
+      "revId": "6f98f59dfe91b06f156ba041456071a120d5c89c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b64deb11_e2a6cedc",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeEdits.java",
         "patchSetId": 13
@@ -70,6 +105,24 @@
       "writtenOn": "2014-08-14T19:40:45Z",
       "side": 1,
       "message": "Is there a reason you would not want to always list the files in the edit? Performance? Something else?\n\nI think if performance is a concern maybe we should just use HEAD to determine the existence of the edit. (Though I don\u0027t know that RestApiServlet knows how to do that either...)",
+      "revId": "6f98f59dfe91b06f156ba041456071a120d5c89c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f643e3df_bd41df21",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeEdits.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-14T20:25:41Z",
+      "side": 1,
+      "message": "Yes. Performance. That makes a lot of sense. Detail apply is called 5 times, i guess to build Change screen2: Patch Set box, Download Box, Side by Side, CS2 itself and only in one or two cases from 5 it needs files. So that request is decoupled from skimple get detail for a reason. The same hold true for change screen itself. GET /changes/\u003cX\u003e/detail doesn\u0027t return files.",
+      "parentUuid": "b64deb11_e2a6cedc",
       "revId": "6f98f59dfe91b06f156ba041456071a120d5c89c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

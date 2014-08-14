@@ -46,6 +46,8 @@ import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.merge.MergeStrategy;
+import org.eclipse.jgit.merge.ThreeWayMerger;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.TreeWalk;
@@ -72,17 +74,14 @@ public class ChangeEditModifier {
   private final TimeZone tz;
   private final GitRepositoryManager gitManager;
   private final Provider<CurrentUser> currentUser;
-  private final ChangeEditUtil editUtil;
 
   @Inject
   ChangeEditModifier(@GerritPersonIdent PersonIdent gerritIdent,
       GitRepositoryManager gitManager,
       Provider<ReviewDb> dbProvider,
-      Provider<CurrentUser> currentUser,
-      ChangeEditUtil editUtil) {
+      Provider<CurrentUser> currentUser) {
     this.gitManager = gitManager;
     this.currentUser = currentUser;
-    this.editUtil = editUtil;
     this.tz = gerritIdent.getTimeZone();
   }
 
@@ -119,7 +118,62 @@ public class ChangeEditModifier {
             ps.getRevision().get()));
         ObjectId commit = createCommit(me, inserter, base, base, base.getTree());
         inserter.flush();
-        return update(repo, me, refName, rw, base, ObjectId.zeroId(), commit);
+        return update(repo, me, refName, rw, ObjectId.zeroId(), commit);
+      } finally {
+        rw.release();
+        inserter.release();
+      }
+    } finally {
+      repo.close();
+    }
+  }
+
+  /**
+   * Rebase change edit on latest patch set
+   *
+   * @param edit change edit that contains edit to rebase
+   * @param current patch set to rebase the edit on
+   * @throws AuthException
+   * @throws InvalidChangeOperationException
+   * @throws IOException
+   */
+  public RefUpdate.Result rebaseEdit(ChangeEdit edit, PatchSet current)
+      throws AuthException, InvalidChangeOperationException, IOException {
+    if (!currentUser.get().isIdentifiedUser()) {
+      throw new AuthException("Authentication required");
+    }
+
+    Change change = edit.getChange();
+    IdentifiedUser me = (IdentifiedUser) currentUser.get();
+    String refName = editRefName(me.getAccountId(), change.getId());
+    Repository repo = gitManager.openRepository(change.getProject());
+    try {
+      RevWalk rw = new RevWalk(repo);
+      ObjectInserter inserter = repo.newObjectInserter();
+      try {
+        RevCommit editCommit = edit.getEditCommit();
+        RevCommit mergeTip = rw.parseCommit(ObjectId.fromString(
+            current.getRevision().get()));
+        ThreeWayMerger m = MergeStrategy.RESOLVE.newMerger(repo, true);
+        m.setObjectInserter(inserter);
+        m.setBase(editCommit.getParent(0));
+        if (m.merge(mergeTip, editCommit)) {
+          ObjectId tree = m.getResultTreeId();
+
+          CommitBuilder mergeCommit = new CommitBuilder();
+          mergeCommit.setTreeId(tree);
+          mergeCommit.setParentId(mergeTip);
+          mergeCommit.setAuthor(editCommit.getAuthorIdent());
+          mergeCommit.setCommitter(new PersonIdent(
+              editCommit.getCommitterIdent(), TimeUtil.nowTs()));
+          mergeCommit.setMessage(editCommit.getFullMessage());
+          ObjectId newEdit = inserter.insert(mergeCommit);
+          inserter.flush();
+          return update(repo, me, refName, rw, editCommit, newEdit);
+        } else {
+          // TODO(davido): Allow to resolve conflicts inline
+          throw new InvalidChangeOperationException("merge conflict");
+        }
       } finally {
         rw.release();
         inserter.release();
@@ -193,15 +247,10 @@ public class ChangeEditModifier {
       try {
         String refName = edit.getRefName();
         RevCommit prevEdit = rw.parseCommit(edit.getRef().getObjectId());
-        PatchSet basePs = editUtil.getBasePatchSet(edit, prevEdit);
+        PatchSet basePs = edit.getBasePatchSet();
 
         RevCommit base = rw.parseCommit(ObjectId.fromString(
             basePs.getRevision().get()));
-        ObjectId oldObjectId = prevEdit;
-        if (prevEdit == null) {
-          prevEdit = base;
-          oldObjectId = ObjectId.zeroId();
-        }
         ObjectId newTree = writeNewTree(op, repo, rw, inserter,
             prevEdit, reader, file, content, base);
         if (ObjectId.equals(newTree, prevEdit.getTree())) {
@@ -210,7 +259,7 @@ public class ChangeEditModifier {
 
         ObjectId commit = createCommit(me, inserter, prevEdit, base, newTree);
         inserter.flush();
-        return update(repo, me, refName, rw, base, oldObjectId, commit);
+        return update(repo, me, refName, rw, prevEdit, commit);
       } finally {
         rw.release();
         inserter.release();
@@ -233,8 +282,8 @@ public class ChangeEditModifier {
   }
 
   private RefUpdate.Result update(Repository repo, IdentifiedUser me,
-      String refName, RevWalk rw, RevCommit base,
-      ObjectId oldObjectId, ObjectId newEdit) throws IOException {
+      String refName, RevWalk rw, ObjectId oldObjectId, ObjectId newEdit)
+      throws IOException {
     RefUpdate ru = repo.updateRef(refName);
     ru.setExpectedOldObjectId(oldObjectId);
     ru.setNewObjectId(newEdit);
@@ -269,15 +318,13 @@ public class ChangeEditModifier {
       RevCommit base, DirCacheEditor dce, ObjectInserter ins, String path,
       byte[] content) throws IOException, InvalidChangeOperationException {
     switch (op) {
+      case DELETE_ENTRY:
+        dce.add(new DeletePath(path));
+        break;
       case CHANGE_ENTRY:
       case RESTORE_ENTRY:
         dce.add(getPathEdit(op, repo, rw, base, path, ins, content));
         break;
-      case DELETE_ENTRY:
-        dce.add(new DeletePath(path));
-        break;
-      default:
-        throw new IllegalStateException("unknown tree operation");
     }
     dce.finish();
   }
@@ -311,7 +358,7 @@ public class ChangeEditModifier {
     if (tw == null) {
       throw new InvalidChangeOperationException(String.format(
           "cannot restore path %s: missing in base revision %s",
-          path, base.abbreviate(8)));
+          path, base.abbreviate(8).name()));
     }
     return tw.getObjectId(0);
   }

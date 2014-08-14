@@ -14,11 +14,16 @@
 
 package com.google.gerrit.server.notedb;
 
+import static com.google.common.base.Preconditions.checkArgument;
+
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import org.eclipse.jgit.lib.Config;
+
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Holds the current state of the notes DB migration.
@@ -29,44 +34,58 @@ import org.eclipse.jgit.lib.Config;
  */
 @Singleton
 public class NotesMigration {
+  private static enum Table {
+    CHANGES;
+  }
+
+  private static final String NOTEDB = "notedb";
+  private static final String READ = "read";
+  private static final String WRITE = "write";
+
+  private static void checkConfig(Config cfg) {
+    Set<String> keys = new HashSet<>();
+    for (Table t : Table.values()) {
+      keys.add(t.name().toLowerCase());
+    }
+    for (String t : cfg.getSubsections(NOTEDB)) {
+      checkArgument(keys.contains(t.toLowerCase()),
+          "invalid notedb table: %s", t);
+      for (String key : cfg.getNames(NOTEDB, t)) {
+        String lk = key.toLowerCase();
+        checkArgument(lk.equals(WRITE) || lk.equals(READ),
+            "invalid notedb key: %s.%s", t, key);
+      }
+      boolean write = cfg.getBoolean(NOTEDB, t, WRITE, false);
+      boolean read = cfg.getBoolean(NOTEDB, t, READ, false);
+      checkArgument(!(read && !write),
+          "must have write enabled when read enabled: %s", t);
+    }
+  }
+
   public static NotesMigration allEnabled() {
     Config cfg = new Config();
-    cfg.setBoolean("notedb", null, "write", true);
-    cfg.setBoolean("notedb", "patchSetApprovals", "read", true);
-    cfg.setBoolean("notedb", "changeMessages", "read", true);
-    cfg.setBoolean("notedb", "comments", "read", true);
+    for (Table t : Table.values()) {
+      cfg.setBoolean(NOTEDB, t.name().toLowerCase(), WRITE, true);
+      cfg.setBoolean(NOTEDB, t.name().toLowerCase(), READ, true);
+    }
     return new NotesMigration(cfg);
   }
 
-  private final boolean write;
-  private final boolean readPatchSetApprovals;
-  private final boolean readChangeMessages;
-  private final boolean readComments;
+  private final boolean writeChanges;
+  private final boolean readChanges;
 
   @Inject
   NotesMigration(@GerritServerConfig Config cfg) {
-    write = cfg.getBoolean("notedb", null, "write", false);
-    readPatchSetApprovals =
-        cfg.getBoolean("notedb", "patchSetApprovals", "read", false);
-    readChangeMessages =
-        cfg.getBoolean("notedb", "changeMessages", "read", false);
-    readComments =
-        cfg.getBoolean("notedb", "comments", "read", false);
+    checkConfig(cfg);
+    writeChanges = cfg.getBoolean(NOTEDB, Table.CHANGES.name(), WRITE, false);
+    readChanges = cfg.getBoolean(NOTEDB, Table.CHANGES.name(), READ, false);
   }
 
-  public boolean write() {
-    return write;
+  public boolean writeChanges() {
+    return writeChanges;
   }
 
-  public boolean readPatchSetApprovals() {
-    return readPatchSetApprovals;
-  }
-
-  public boolean readChangeMessages() {
-    return readChangeMessages;
-  }
-
-  public boolean readComments() {
-    return readComments;
+  public boolean readChanges() {
+    return readChanges;
   }
 }

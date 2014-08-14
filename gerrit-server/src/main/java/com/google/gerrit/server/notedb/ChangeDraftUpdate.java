@@ -105,7 +105,7 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
     verifyComment(c);
     checkArgument(c.getStatus() == Status.DRAFT,
         "Cannot insert a published comment into a ChangeDraftUpdate");
-    if (migration.readComments()) {
+    if (migration.readChanges()) {
       checkArgument(!changeNotes.containsComment(c),
           "A comment already exists with the same key,"
           + " so the following comment cannot be inserted: %s", c);
@@ -131,7 +131,7 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
     // the update will fail. However, this is an acceptable risk since the
     // caller wanted the comment deleted anyways, so the end result will be the
     // same either way.
-    if (migration.readComments()) {
+    if (migration.readChanges()) {
       checkArgument(draftNotes.containsComment(c),
           "Cannot update this comment because it didn't exist previously");
     }
@@ -141,11 +141,11 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
   public void deleteComment(PatchLineComment c) {
     verifyComment(c);
     // See the comment above about potential race condition.
-    if (migration.readComments()) {
+    if (migration.readChanges()) {
       checkArgument(draftNotes.containsComment(c), "Cannot delete this comment"
           + " because it didn't previously exist as a draft");
     }
-    if (migration.write()) {
+    if (migration.writeChanges()) {
       if (draftNotes.containsComment(c)) {
         deleteComments.add(c);
       }
@@ -169,7 +169,7 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
     checkArgument(getCommentPsId(comment).equals(psId),
         "Comment on %s does not match configured patch set %s",
         getCommentPsId(comment), psId);
-    if (migration.write()) {
+    if (migration.writeChanges()) {
       checkArgument(comment.getRevId() != null);
     }
     checkArgument(comment.getAuthor().equals(accountId),
@@ -263,7 +263,7 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
     BatchMetaDataUpdate batch = openUpdate();
     try {
       CommitBuilder builder = new CommitBuilder();
-      if (migration.write()) {
+      if (migration.writeChanges()) {
         AtomicBoolean removedAllComments = new AtomicBoolean();
         ObjectId treeId = storeCommentsInNotes(removedAllComments);
         if (treeId != null) {

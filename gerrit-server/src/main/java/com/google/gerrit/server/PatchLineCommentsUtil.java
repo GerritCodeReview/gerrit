@@ -80,7 +80,7 @@ public class PatchLineCommentsUtil {
 
   public Optional<PatchLineComment> get(ReviewDb db, ChangeNotes notes,
       PatchLineComment.Key key) throws OrmException {
-    if (!migration.readComments()) {
+    if (!migration.readChanges()) {
       return Optional.fromNullable(db.patchComments().get(key));
     }
     for (PatchLineComment c : publishedByChange(db, notes)) {
@@ -98,7 +98,7 @@ public class PatchLineCommentsUtil {
 
   public List<PatchLineComment> publishedByChange(ReviewDb db,
       ChangeNotes notes) throws OrmException {
-    if (!migration.readComments()) {
+    if (!migration.readChanges()) {
       return sort(byCommentStatus(
           db.patchComments().byChange(notes.getChangeId()), Status.PUBLISHED));
     }
@@ -112,7 +112,7 @@ public class PatchLineCommentsUtil {
 
   public List<PatchLineComment> draftByChange(ReviewDb db,
       ChangeNotes notes) throws OrmException {
-    if (!migration.readComments()) {
+    if (!migration.readChanges()) {
       return sort(byCommentStatus(
           db.patchComments().byChange(notes.getChangeId()), Status.DRAFT));
     }
@@ -143,7 +143,7 @@ public class PatchLineCommentsUtil {
 
   public List<PatchLineComment> byPatchSet(ReviewDb db,
       ChangeNotes notes, PatchSet.Id psId) throws OrmException {
-    if (!migration.readComments()) {
+    if (!migration.readChanges()) {
       return sort(db.patchComments().byPatchSet(psId).toList());
     }
     List<PatchLineComment> comments = Lists.newArrayList();
@@ -161,7 +161,7 @@ public class PatchLineCommentsUtil {
 
   public List<PatchLineComment> publishedByChangeFile(ReviewDb db,
       ChangeNotes notes, Change.Id changeId, String file) throws OrmException {
-    if (!migration.readComments()) {
+    if (!migration.readChanges()) {
       return sort(
           db.patchComments().publishedByChangeFile(changeId, file).toList());
     }
@@ -176,7 +176,7 @@ public class PatchLineCommentsUtil {
 
   public List<PatchLineComment> publishedByPatchSet(ReviewDb db,
       ChangeNotes notes, PatchSet.Id psId) throws OrmException {
-    if (!migration.readComments()) {
+    if (!migration.readChanges()) {
       return sort(
           db.patchComments().publishedByPatchSet(psId).toList());
     }
@@ -190,7 +190,7 @@ public class PatchLineCommentsUtil {
   public List<PatchLineComment> draftByPatchSetAuthor(ReviewDb db,
       PatchSet.Id psId, Account.Id author, ChangeNotes notes)
       throws OrmException {
-    if (!migration.readComments()) {
+    if (!migration.readChanges()) {
       return sort(
           db.patchComments().draftByPatchSetAuthor(psId, author).toList());
     }
@@ -204,7 +204,7 @@ public class PatchLineCommentsUtil {
   public List<PatchLineComment> draftByChangeFileAuthor(ReviewDb db,
       ChangeNotes notes, String file, Account.Id author)
       throws OrmException {
-    if (!migration.readComments()) {
+    if (!migration.readChanges()) {
       return sort(
           db.patchComments()
             .draftByChangeFileAuthor(notes.getChangeId(), file, author)
@@ -221,7 +221,7 @@ public class PatchLineCommentsUtil {
   public List<PatchLineComment> draftByChangeAuthor(ReviewDb db,
       ChangeNotes notes, Account.Id author)
       throws OrmException {
-    if (!migration.readComments()) {
+    if (!migration.readChanges()) {
       return sort(db.patchComments().byChange(notes.getChangeId()).toList());
     }
     List<PatchLineComment> comments = Lists.newArrayList();
@@ -232,7 +232,7 @@ public class PatchLineCommentsUtil {
 
   public List<PatchLineComment> draftByAuthor(ReviewDb db,
       Account.Id author) throws OrmException {
-    if (!migration.readComments()) {
+    if (!migration.readChanges()) {
       return sort(db.patchComments().draftByAuthor(author).toList());
     }
 

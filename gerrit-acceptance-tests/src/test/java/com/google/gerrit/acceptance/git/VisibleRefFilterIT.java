@@ -158,7 +158,7 @@ public class VisibleRefFilterIT extends AbstractDaemonTest {
 
     List<String> filtered = new ArrayList<>(expected.length);
     for (String r : expected) {
-      if (notesMigration.write() || !r.endsWith(RefNames.META_SUFFIX)) {
+      if (notesMigration.writeChanges() || !r.endsWith(RefNames.META_SUFFIX)) {
         filtered.add(r);
       }
     }

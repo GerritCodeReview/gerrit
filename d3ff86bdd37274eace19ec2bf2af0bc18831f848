@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b64deb11_d6dcb331",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteReviewer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-14T20:54:53Z",
+      "side": 1,
+      "message": "Ugh. I recommended against doing this previously because the whole point is to avoid the expensive string construction when debug logging is off. Surely there is a way to do this in slf4j \u003c 1.7.\n\nBut honestly this was just for one user to help debug his issues. If we can get him a build with this change included we don\u0027t even have to submit it.",
+      "revId": "d3ff86bdd37274eace19ec2bf2af0bc18831f848",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

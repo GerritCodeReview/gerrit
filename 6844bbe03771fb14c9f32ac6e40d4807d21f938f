@@ -2,6 +2,63 @@
   "comments": [
     {
       "key": {
+        "uuid": "961c67fc_3a3ac14e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-14T13:12:56Z",
+      "side": 1,
+      "message": "Explain the pain of stripping outdated Jetty from gwt-dev.jar and downloading it again and include it in isolated class path to satisfy codeserver dependencies?",
+      "revId": "6844bbe03771fb14c9f32ac6e40d4807d21f938f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "961c67fc_da93850c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-14T13:12:56Z",
+      "side": 1,
+      "message": "Is it worth mentioning GWT bug with known workaround to set up user agent property in GWT module manually also here.",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 33
+      },
+      "revId": "6844bbe03771fb14c9f32ac6e40d4807d21f938f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d6509fa6_7c57d98c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-14T13:12:56Z",
+      "side": 1,
+      "message": "Reference GWT issue that for outdated Jetty packaging problem: [1].\n\n [1] https://code.google.com/p/google-web-toolkit/issues/detail?id\u003d8747",
+      "revId": "6844bbe03771fb14c9f32ac6e40d4807d21f938f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d6509fa6_bc54818a",
         "filename": "Documentation/dev-eclipse.txt",
         "patchSetId": 17

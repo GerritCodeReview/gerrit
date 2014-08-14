@@ -123,6 +123,24 @@
       "revId": "0a3372a4d261b88c3966b1d49c3fbcd1b9d8388a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f643e3df_7dd9173e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 487,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-08-14T21:05:38Z",
+      "side": 1,
+      "message": "Well, without this change merges fail. So buggy but fast, or working bug slower...",
+      "parentUuid": "b64deb11_3674f74c",
+      "revId": "0a3372a4d261b88c3966b1d49c3fbcd1b9d8388a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

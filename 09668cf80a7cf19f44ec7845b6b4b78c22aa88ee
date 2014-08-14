@@ -16,6 +16,24 @@
       "revId": "09668cf80a7cf19f44ec7845b6b4b78c22aa88ee",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "961c67fc_7a6ef93a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditJson.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-14T19:06:40Z",
+      "side": 1,
+      "message": "Sure. 30 changes ;-) later we do want to gather dynamic set of download commands here: [1].\n\nIf you prefer i certainly could preserve it to be static and change 30 changes later to be non-static.\n\n  [1] https://gerrit-review.googlesource.com/#/c/59232/4/gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditJson.java",
+      "parentUuid": "b64deb11_07f98c2c",
+      "revId": "09668cf80a7cf19f44ec7845b6b4b78c22aa88ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

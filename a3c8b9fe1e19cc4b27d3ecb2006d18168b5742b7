@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b64deb11_c2e39239",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/edit/ChangeEditIT.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 416,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-14T19:26:59Z",
+      "side": 1,
+      "message": "Constant",
+      "range": {
+        "startLine": 416,
+        "startChar": 17,
+        "endLine": 416,
+        "endChar": 20
+      },
+      "revId": "a3c8b9fe1e19cc4b27d3ecb2006d18168b5742b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b64deb11_a2e68649",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/edit/ChangeEditIT.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 426,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-14T19:26:59Z",
+      "side": 1,
+      "message": "Static import like all the rest?",
+      "range": {
+        "startLine": 426,
+        "startChar": 17,
+        "endLine": 426,
+        "endChar": 33
+      },
+      "revId": "a3c8b9fe1e19cc4b27d3ecb2006d18168b5742b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b64deb11_8206ea3a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeEdits.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-14T19:26:59Z",
+      "side": 1,
+      "message": "So if the file is not found in the tree of the edit, we fall back to getting the file from the base patch set. This seems wrong. It means if we do\n\n DELETE /changes/X/edit/path\n\nfollowed by\n\n GET /changes/X/edit/path\n\nwe will get back the original contents, not a 204?\n\nAlso I believe this branch is not covered in the tests.",
+      "revId": "a3c8b9fe1e19cc4b27d3ecb2006d18168b5742b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

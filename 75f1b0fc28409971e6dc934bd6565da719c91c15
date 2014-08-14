@@ -22,6 +22,30 @@
       "revId": "75f1b0fc28409971e6dc934bd6565da719c91c15",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f643e3df_dd106b2b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-14T21:25:46Z",
+      "side": 1,
+      "message": "I think you\u0027re right. I\u0027m trying way too hard to support various permutations of values in NotesMigration, not all of them are realistic, and it\u0027s complicating the code.\n\nI will streamline NotesMigration to cut down on the number of permutations. For one thing we need to disallow read\u003dtrue and write\u003dfalse. For another, we should have some way of detecting whether RebuildNoteDb has been run (like we do for the Lucene index), and disallow read\u003dtrue when that hasn\u0027t happened.",
+      "parentUuid": "961c67fc_3ad641d7",
+      "range": {
+        "startLine": 19,
+        "startChar": 49,
+        "endLine": 22,
+        "endChar": 24
+      },
+      "revId": "75f1b0fc28409971e6dc934bd6565da719c91c15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

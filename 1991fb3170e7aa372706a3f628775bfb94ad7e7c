@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "961c67fc_bab011cb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-08-14T01:47:33Z",
+      "side": 1,
+      "message": "it is better to let the command case in a single line",
+      "range": {
+        "startLine": 11,
+        "startChar": 40,
+        "endLine": 12,
+        "endChar": 41
+      },
+      "revId": "1991fb3170e7aa372706a3f628775bfb94ad7e7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "961c67fc_3abde19c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-08-14T01:47:33Z",
+      "side": 1,
+      "message": "IMO it is better to add note in document and add @Deprecated before the right code line to show that in the long run we will get ride of this confusion configuration completely, e.g. we would trim these code again from some Gerrit 3.* when we sure there would no user still using the confused configuration at that time.",
+      "range": {
+        "startLine": 18,
+        "startChar": 27,
+        "endLine": 21,
+        "endChar": 29
+      },
+      "revId": "1991fb3170e7aa372706a3f628775bfb94ad7e7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

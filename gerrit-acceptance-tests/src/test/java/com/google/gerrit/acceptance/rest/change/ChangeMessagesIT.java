@@ -25,6 +25,7 @@ import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.testutil.ConfigSuite;
 
 import org.eclipse.jgit.api.errors.GitAPIException;
@@ -48,10 +49,7 @@ public class ChangeMessagesIT extends AbstractDaemonTest {
 
   @ConfigSuite.Config
   public static Config noteDbEnabled() {
-    Config cfg = new Config();
-    cfg.setBoolean("notedb", null, "write", true);
-    cfg.setBoolean("notedb", "changeMessages", "read", true);
-    return cfg;
+    return NotesMigration.allEnabledConfig();
   }
 
   @Before

@@ -14,59 +14,98 @@
 
 package com.google.gerrit.server.notedb;
 
+import static com.google.common.base.Preconditions.checkArgument;
+
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import org.eclipse.jgit.lib.Config;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
- * Holds the current state of the notes DB migration.
+ * Holds the current state of the NoteDb migration.
  * <p>
- * During a transitional period, different subsets of the former gwtorm DB
- * functionality may be enabled on the site, possibly only for reading or
- * writing.
+ * The migration will proceed one root entity type at a time. A <em>root
+ * entity</em> is an entity stored in ReviewDb whose key's
+ * {@code getParentKey()} method returns null. For an example of the entity
+ * hierarchy rooted at Change, see the diagram in
+ * {@code com.google.gerrit.reviewdb.client.Change}.
+ * <p>
+ * During a transitional period, each root entity group from ReviewDb may be
+ * either <em>written to</em> or <em>both written to and read from</em> NoteDb.
+ * <p>
+ * This class controls the state of the migration according to options in
+ * {@code gerrit.config}. In general, any changes to these options should only
+ * be made by adventurous administrators, who know what they're doing, on
+ * non-production data, for the purposes of testing the NoteDb implementation.
+ * Changing options quite likely requires re-running {@code RebuildNoteDb}. For
+ * these reasons, the options remain undocumented.
  */
 @Singleton
 public class NotesMigration {
-  public static NotesMigration allEnabled() {
-    Config cfg = new Config();
-    cfg.setBoolean("notedb", null, "write", true);
-    cfg.setBoolean("notedb", "patchSetApprovals", "read", true);
-    cfg.setBoolean("notedb", "changeMessages", "read", true);
-    cfg.setBoolean("notedb", "comments", "read", true);
-    return new NotesMigration(cfg);
+  private static enum Table {
+    CHANGES;
+
+    private String key() {
+      return name().toLowerCase();
+    }
   }
 
-  private final boolean write;
-  private final boolean readPatchSetApprovals;
-  private final boolean readChangeMessages;
-  private final boolean readComments;
+  private static final String NOTEDB = "notedb";
+  private static final String READ = "read";
+  private static final String WRITE = "write";
+
+  private static void checkConfig(Config cfg) {
+    Set<String> keys = new HashSet<>();
+    for (Table t : Table.values()) {
+      keys.add(t.key());
+    }
+    for (String t : cfg.getSubsections(NOTEDB)) {
+      checkArgument(keys.contains(t.toLowerCase()),
+          "invalid notedb table: %s", t);
+      for (String key : cfg.getNames(NOTEDB, t)) {
+        String lk = key.toLowerCase();
+        checkArgument(lk.equals(WRITE) || lk.equals(READ),
+            "invalid notedb key: %s.%s", t, key);
+      }
+      boolean write = cfg.getBoolean(NOTEDB, t, WRITE, false);
+      boolean read = cfg.getBoolean(NOTEDB, t, READ, false);
+      checkArgument(!(read && !write),
+          "must have write enabled when read enabled: %s", t);
+    }
+  }
+
+  public static NotesMigration allEnabled() {
+    return new NotesMigration(allEnabledConfig());
+  }
+
+  public static Config allEnabledConfig() {
+    Config cfg = new Config();
+    for (Table t : Table.values()) {
+      cfg.setBoolean(NOTEDB, t.key(), WRITE, true);
+      cfg.setBoolean(NOTEDB, t.key(), READ, true);
+    }
+    return cfg;
+  }
+
+  private final boolean writeChanges;
+  private final boolean readChanges;
 
   @Inject
   NotesMigration(@GerritServerConfig Config cfg) {
-    write = cfg.getBoolean("notedb", null, "write", false);
-    readPatchSetApprovals =
-        cfg.getBoolean("notedb", "patchSetApprovals", "read", false);
-    readChangeMessages =
-        cfg.getBoolean("notedb", "changeMessages", "read", false);
-    readComments =
-        cfg.getBoolean("notedb", "comments", "read", false);
+    checkConfig(cfg);
+    writeChanges = cfg.getBoolean(NOTEDB, Table.CHANGES.key(), WRITE, false);
+    readChanges = cfg.getBoolean(NOTEDB, Table.CHANGES.key(), READ, false);
   }
 
-  public boolean write() {
-    return write;
+  public boolean writeChanges() {
+    return writeChanges;
   }
 
-  public boolean readPatchSetApprovals() {
-    return readPatchSetApprovals;
-  }
-
-  public boolean readChangeMessages() {
-    return readChangeMessages;
-  }
-
-  public boolean readComments() {
-    return readComments;
+  public boolean readChanges() {
+    return readChanges;
   }
 }

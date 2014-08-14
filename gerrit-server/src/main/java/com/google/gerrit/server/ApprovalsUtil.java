@@ -119,7 +119,7 @@ public class ApprovalsUtil {
    */
   public ImmutableSetMultimap<ReviewerState, Account.Id> getReviewers(
       ReviewDb db, ChangeNotes notes) throws OrmException {
-    if (!migration.readPatchSetApprovals()) {
+    if (!migration.readChanges()) {
       return getReviewers(db.patchSetApprovals().byChange(notes.getChangeId()));
     }
     return notes.load().getReviewers();
@@ -137,7 +137,7 @@ public class ApprovalsUtil {
   public ImmutableSetMultimap<ReviewerState, Account.Id> getReviewers(
       ChangeNotes notes, Iterable<PatchSetApproval> allApprovals)
       throws OrmException {
-    if (!migration.readPatchSetApprovals()) {
+    if (!migration.readChanges()) {
       return getReviewers(allApprovals);
     }
     return notes.load().getReviewers();
@@ -269,7 +269,7 @@ public class ApprovalsUtil {
 
   public ListMultimap<PatchSet.Id, PatchSetApproval> byChange(ReviewDb db,
       ChangeNotes notes) throws OrmException {
-    if (!migration.readPatchSetApprovals()) {
+    if (!migration.readChanges()) {
       ImmutableListMultimap.Builder<PatchSet.Id, PatchSetApproval> result =
           ImmutableListMultimap.builder();
       for (PatchSetApproval psa
@@ -283,7 +283,7 @@ public class ApprovalsUtil {
 
   public Iterable<PatchSetApproval> byPatchSet(ReviewDb db, ChangeControl ctl,
       PatchSet.Id psId) throws OrmException {
-    if (!migration.readPatchSetApprovals()) {
+    if (!migration.readChanges()) {
       return sortApprovals(db.patchSetApprovals().byPatchSet(psId));
     }
     return copier.getForPatchSet(db, ctl, psId);
@@ -292,7 +292,7 @@ public class ApprovalsUtil {
   public Iterable<PatchSetApproval> byPatchSetUser(ReviewDb db,
       ChangeControl ctl, PatchSet.Id psId, Account.Id accountId)
       throws OrmException {
-    if (!migration.readPatchSetApprovals()) {
+    if (!migration.readChanges()) {
       return sortApprovals(
           db.patchSetApprovals().byPatchSetUser(psId, accountId));
     }

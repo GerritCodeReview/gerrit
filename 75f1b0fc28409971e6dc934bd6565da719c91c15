@@ -70,6 +70,30 @@
       "revId": "75f1b0fc28409971e6dc934bd6565da719c91c15",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "56e90f2a_c0fa5edc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-14T21:52:49Z",
+      "side": 1,
+      "message": "\u003e It should also be OK to require NotesMigration to have written the notes meta branch before you can write to that notes branch.\n\nThen we would be back to requiring callers who are actually creating the branch (e.g. ChangeInserter) to take special action. Which we are now trying to avoid. (Although the code complexity/subtlety for that special case may be lower than what I have in this change at the moment.)\n\n\u003e That allows the backfill to create the branch before any writes would attempt to land on it\n\nThis is racy. What if a write lands in reviewdb after ChangeRebuilder has read/written all relevant data but before it\u0027s updated the ref?\n\nIf we run ChangeRebuilder when writes are already on, we will at least be able to detect this case (lock failure), which probably means rewriting the branch from scratch.\n\nThough maybe we should detect this race from ChangeRebuilder in some other way not via CaS on the ref, like recording lastUpdatedOn/rowVersion for the Change on creation. In fact this is probably better anyway because reviewdb is still the source of truth at this point. Probably still not race-free because the notedb and reviewdb writes are not atomic, but what can you do.\n\nI think I answered my own question.",
+      "parentUuid": "56e90f2a_80f05600",
+      "range": {
+        "startLine": 19,
+        "startChar": 49,
+        "endLine": 22,
+        "endChar": 24
+      },
+      "revId": "75f1b0fc28409971e6dc934bd6565da719c91c15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

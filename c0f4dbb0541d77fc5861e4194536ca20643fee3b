@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d6509fa6_fc4a09e5",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 3098,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-14T12:13:00Z",
+      "side": 1,
+      "message": "Why this early break? Put more words on the same line.",
+      "revId": "c0f4dbb0541d77fc5861e4194536ca20643fee3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "961c67fc_1a3d7d45",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 3099,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-14T12:13:00Z",
+      "side": 1,
+      "message": "that why i think the config should be called:\n\n  suggest.fulltextsearch",
+      "range": {
+        "startLine": 3099,
+        "startChar": 31,
+        "endLine": 3099,
+        "endChar": 47
+      },
+      "revId": "c0f4dbb0541d77fc5861e4194536ca20643fee3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "961c67fc_7a4039ba",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestReviewers.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-14T12:13:00Z",
+      "side": 1,
+      "message": "This name makes more sense to me then fullsearch that you\u0027ve used for configuration and as method name below. Can we be consistent and name all them with the same name?",
+      "range": {
+        "startLine": 75,
+        "startChar": 21,
+        "endLine": 75,
+        "endChar": 35
+      },
+      "revId": "c0f4dbb0541d77fc5861e4194536ca20643fee3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -25,6 +25,7 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.VersionedMetaData;
 import com.google.gerrit.server.project.ChangeControl;
+import com.google.gwtorm.server.OrmException;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.BatchRefUpdate;
@@ -177,6 +178,10 @@ public abstract class AbstractChangeUpdate extends VersionedMetaData {
     return ChangeNoteUtil.newIdent(author, when, serverIdent,
         anonymousCowardName);
   }
+
+  /** Writes update to a BatchMetaDataUpdate without committing the batch. */
+  abstract public void writeCommit(BatchMetaDataUpdate batch)
+      throws OrmException, IOException;
 
   /**
    * @return the NameKey for the project where the update will be stored,

@@ -412,7 +412,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
         builder.setTreeId(treeId);
       }
     }
-    batch.write(builder);
+    batch.write(this, builder);
   }
 
   @Override

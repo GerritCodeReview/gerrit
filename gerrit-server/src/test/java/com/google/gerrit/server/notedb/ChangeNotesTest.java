@@ -47,7 +47,9 @@ import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.notes.Note;
+import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.ReceiveCommand;
 import org.junit.Test;
@@ -373,6 +375,58 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     assertEquals(otherUser.getAccount().getId(), psas.get(1).getAccountId());
     assertEquals("Code-Review", psas.get(1).getLabel());
     assertEquals((short) 2, psas.get(1).getValue());
+  }
+
+  @Test
+  public void multipleUpdatesIncludingComments() throws Exception {
+    Change c = newChange();
+    ChangeUpdate update1 = newUpdate(c, otherUser);
+    String uuid1 = "uuid1";
+    String message1 = "comment 1";
+    CommentRange range1 = new CommentRange(1, 1, 2, 1);
+    Timestamp time1 = TimeUtil.nowTs();
+    PatchSet.Id psId = c.currentPatchSetId();
+    BatchRefUpdate bru = repo.getRefDatabase().newBatchUpdate();
+    BatchMetaDataUpdate batch = update1.openUpdateInBatch(bru);
+    PatchLineComment comment1 = newPublishedPatchLineComment(psId, "file1",
+        uuid1, range1, range1.getEndLine(), otherUser, null, time1, message1,
+        (short) 0, "abcd1234abcd1234abcd1234abcd1234abcd1234");
+    update1.setPatchSetId(psId);
+    update1.upsertComment(comment1);
+    update1.writeCommit(batch);
+    ChangeUpdate update2 = newUpdate(c, otherUser);
+    update2.putApproval("Code-Review", (short) 2);
+    update2.writeCommit(batch);
+
+    RevWalk rw = new RevWalk(repo);
+    try {
+      batch.commit();
+      bru.execute(rw, NullProgressMonitor.INSTANCE);
+
+      ChangeNotes notes = newNotes(c);
+      ObjectId tip = notes.getRevision();
+      RevCommit commitWithApprovals = rw.parseCommit(tip);
+      assertTrue(commitWithApprovals != null);
+      RevCommit commitWithComments = commitWithApprovals.getParent(0);
+      assertTrue(commitWithComments != null);
+
+      ChangeNotesParser notesWithComments =
+          new ChangeNotesParser(c, commitWithComments.copy(), rw, repoManager);
+      notesWithComments.parseAll();
+      assertEquals(0, notesWithComments.approvals.size());
+      assertEquals(1, notesWithComments.commentsForBase.size());
+      notesWithComments.close();
+
+      ChangeNotesParser notesWithApprovals =
+          new ChangeNotesParser(c, commitWithApprovals.copy(), rw, repoManager);
+      notesWithApprovals.parseAll();
+      assertEquals(1, notesWithApprovals.approvals.size());
+      assertEquals(1, notesWithApprovals.commentsForBase.size());
+      notesWithApprovals.close();
+    } finally {
+      batch.close();
+      rw.release();
+    }
   }
 
   @Test

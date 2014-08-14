@@ -240,13 +240,21 @@ public abstract class VersionedMetaData {
           return;
         }
 
-        ObjectId res = newTree.writeTree(inserter);
+        // Reuse tree from parent commit unless there are contents in newTree or
+        // there is no tree for a parent commit.
+        ObjectId res = newTree.getEntryCount() != 0 || srcTree == null
+            ? newTree.writeTree(inserter) : srcTree.copy();
         if (res.equals(srcTree) && !update.allowEmpty()
             && (commit.getTreeId() == null)) {
           // If there are no changes to the content, don't create the commit.
           return;
         }
 
+        // If changes are made to the DirCache and those changes are written as
+        // a commit and then the tree ID is set for the CommitBuilder, then
+        // those previous DirCache changes will be squashed and the commit's
+        // tree will be replaced with the ID in the CommitBuilder. The same is
+        // true of the reverse situation.
         if (commit.getTreeId() == null) {
           commit.setTreeId(res);
         } else {

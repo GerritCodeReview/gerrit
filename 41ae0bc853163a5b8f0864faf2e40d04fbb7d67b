@@ -53,6 +53,24 @@
     },
     {
       "key": {
+        "uuid": "d6509fa6_7c8599b8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeEdits.java",
+        "patchSetId": 39
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-14T19:44:39Z",
+      "side": 1,
+      "message": "It\u0027s more complex then that. We have two cases:\n\nCase I: edit for change X doesn\u0027t exist, so the call:\n\n  PUT /changes/X/edit/path\n\nends up on the line 89 above and throws resource not found. RestApiServlet detects that case and as (instance of) on the collection (ChangeEdits.class) if it implements AcceptsCreate interface. We do. Then this call ends up on line 147. and edit is created. That check above is just to be sure we are not screwed. May be it is not strictly necessary? Interessting part is on line 148. Whnen path was passed to edit that doesn\u0027t exist yet, it is created first nad then immediately modified (in one REST call).\n\nCase II: edit for change X exists already, so the call:\n\n  PUT /changes/X/edit/path\n\nends up in Put handler below, line 189. That\u0027s because parse() method above find this resource and returns it back.",
+      "parentUuid": "b64deb11_07766ce6",
+      "revId": "41ae0bc853163a5b8f0864faf2e40d04fbb7d67b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b64deb11_e7658021",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeEdits.java",
         "patchSetId": 39
@@ -64,6 +82,24 @@
       "writtenOn": "2014-08-14T19:18:02Z",
       "side": 1,
       "message": "I\u0027m not convinced we want to do this instead of specifying restore through POST /changes/X/edit.\n\nBut on the scale of REST API decisions I\u0027m willing to defer that discussion.\n\nI do think content should be the @DefaultInput however.",
+      "revId": "41ae0bc853163a5b8f0864faf2e40d04fbb7d67b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d6509fa6_1c925504",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeEdits.java",
+        "patchSetId": 39
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-14T19:44:39Z",
+      "side": 1,
+      "message": "| I\u0027m not convinced we want to do this instead of specifying restore through POST /changes/X/edit.\n\nLet\u0027s see if we can do that with curremnt URL concept.\n\nWe have 4 use cases:\n\n* PUT /changes/X/edit/path and edit exists\n* PUT /changes/X/edit/path and edit doesn\u0027t exist\n* POST /changes/X/edit/path and edit exists\n* POST /changes/X/edit/path and edit doesn\u0027t exist\n\nWhen edit exists all is fine. But when it doesn\u0027t then the line 149 above mus decide: what should it call:\n\n* putEdit.apply()\n* postEdit.apply()\n\nUnfortunately we don\u0027t know what kind of METHOD we were calling, so we cannot decide. So we cannot do that with URL approach.",
+      "parentUuid": "b64deb11_e7658021",
       "revId": "41ae0bc853163a5b8f0864faf2e40d04fbb7d67b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

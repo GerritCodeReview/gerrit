@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d6509fa6_3cd631d7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-08-14T08:52:54Z",
+      "side": 1,
+      "message": "instance using LDAP authenticaiton",
+      "range": {
+        "startLine": 9,
+        "startChar": 15,
+        "endLine": 9,
+        "endChar": 24
+      },
+      "revId": "962e65da96a5d0ecb63dce392319734ae465d2fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "961c67fc_5ae455b2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-08-14T08:52:54Z",
+      "side": 1,
+      "message": "accounts.full_name",
+      "range": {
+        "startLine": 9,
+        "startChar": 29,
+        "endLine": 9,
+        "endChar": 38
+      },
+      "revId": "962e65da96a5d0ecb63dce392319734ae465d2fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

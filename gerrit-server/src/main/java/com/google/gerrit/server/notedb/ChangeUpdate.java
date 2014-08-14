@@ -239,7 +239,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     if (notes == null) {
       notes = getChangeNotes().load();
     }
-    if (migration.readComments()) {
+    if (migration.readChanges()) {
       checkArgument(!notes.containsComment(c),
           "A comment already exists with the same key as the following comment,"
           + " so we cannot insert this comment: %s", c);
@@ -265,7 +265,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     // is on and migration.readComments is off because we will not be able to
     // verify that the comment didn't already exist as a published comment
     // since we don't have a ReviewDb.
-    if (migration.readComments()) {
+    if (migration.readChanges()) {
       checkArgument(!notes.containsCommentPublished(c),
           "Cannot update a comment that has already been published and saved");
     }
@@ -288,7 +288,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     }
     // See comment above in upsertPublishedComment() about potential risk with
     // this check.
-    if (migration.readComments()) {
+    if (migration.readChanges()) {
       checkArgument(!notes.containsCommentPublished(c),
           "Cannot update a comment that has already been published and saved");
     }
@@ -390,7 +390,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     BatchMetaDataUpdate batch = openUpdate();
     try {
       CommitBuilder builder = new CommitBuilder();
-      if (migration.write()) {
+      if (migration.writeChanges()) {
         ObjectId treeId = storeCommentsInNotes();
         if (treeId != null) {
           builder.setTreeId(treeId);

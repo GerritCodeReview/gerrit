@@ -29,6 +29,7 @@ import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
+import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.testutil.ConfigSuite;
 import com.google.inject.Inject;
@@ -42,10 +43,7 @@ import org.junit.Test;
 public class LabelTypeIT extends AbstractDaemonTest {
   @ConfigSuite.Config
   public static Config noteDbEnabled() {
-    Config cfg = new Config();
-    cfg.setBoolean("notedb", null, "write", true);
-    cfg.setBoolean("notedb", "patchSetApprovals", "read", true);
-    return cfg;
+    return NotesMigration.allEnabledConfig();
   }
 
   @Inject

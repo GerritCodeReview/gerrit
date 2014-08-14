@@ -389,14 +389,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   public RevCommit commit() throws IOException {
     BatchMetaDataUpdate batch = openUpdate();
     try {
-      CommitBuilder builder = new CommitBuilder();
-      if (migration.write()) {
-        ObjectId treeId = storeCommentsInNotes();
-        if (treeId != null) {
-          builder.setTreeId(treeId);
-        }
-      }
-      batch.write(builder);
+      writeCommit(batch);
       if (draftUpdate != null) {
         draftUpdate.commit();
       }
@@ -407,6 +400,18 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     } finally {
       batch.close();
     }
+  }
+
+  public void writeCommit(BatchMetaDataUpdate batch) throws OrmException,
+      IOException {
+    CommitBuilder builder = new CommitBuilder();
+    if (migration.write()) {
+      ObjectId treeId = storeCommentsInNotes();
+      if (treeId != null) {
+        builder.setTreeId(treeId);
+      }
+    }
+    batch.write(builder);
   }
 
   @Override

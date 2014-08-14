@@ -46,6 +46,30 @@
       "revId": "75f1b0fc28409971e6dc934bd6565da719c91c15",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "56e90f2a_80f05600",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-08-14T21:43:02Z",
+      "side": 1,
+      "message": "Yes.\n\nIt should also be OK to require NotesMigration to have written the notes meta branch before you can write to that notes branch. That way the notes meta branch is always \"complete\" and you can\u0027t have an incomplete confusing history.\n\nwrite may need three flags; false, auto, true. In auto mode writes happen only if the meta branch exists. That allows the backfill to create the branch before any writes would attempt to land on it, removing the risk that the branch has incomplete history and is missing the magical creation root commit.",
+      "parentUuid": "f643e3df_dd106b2b",
+      "range": {
+        "startLine": 19,
+        "startChar": 49,
+        "endLine": 22,
+        "endChar": 24
+      },
+      "revId": "75f1b0fc28409971e6dc934bd6565da719c91c15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

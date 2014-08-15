@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "16f3171c_1ee30d3c",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeNotesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 385,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-08-15T01:19:37Z",
+      "side": 1,
+      "message": "Should all the comments just have the same timestamp as the update?",
+      "parentUuid": "b64deb11_87eb5c7f",
+      "revId": "0c878a22a4263e2981f53dbf32fd2f97279d5e98",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b64deb11_47347467",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeNotesTest.java",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "164797ed_bed2393d",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeNotesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 394,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-08-15T01:19:37Z",
+      "side": 1,
+      "message": "Because for comments I need to write to the notes tree and that logic is in writeCommit()",
+      "parentUuid": "b64deb11_47347467",
+      "revId": "0c878a22a4263e2981f53dbf32fd2f97279d5e98",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b64deb11_c757248b",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeNotesTest.java",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2014-08-14T18:55:51Z",
       "side": 1,
       "message": "You\u0027re not checking enough here.\n\nYou want to check that there are two commits, and that comments were written in the first commit, and the approvals in the second commit.",
+      "revId": "0c878a22a4263e2981f53dbf32fd2f97279d5e98",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f643e3df_bd0f9f02",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeNotesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 412,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-08-15T01:19:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b64deb11_c757248b",
       "revId": "0c878a22a4263e2981f53dbf32fd2f97279d5e98",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

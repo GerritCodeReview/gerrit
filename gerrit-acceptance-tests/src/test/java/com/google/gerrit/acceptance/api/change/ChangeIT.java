@@ -72,7 +72,7 @@ public class ChangeIT extends AbstractDaemonTest {
       IOException, RestApiException {
     PushOneCommit.Result r = createChange();
     gApi.changes()
-        .id("p~master~" + r.getChangeId())
+        .id(r.getChangeId())
         .abandon();
   }
 
@@ -81,10 +81,10 @@ public class ChangeIT extends AbstractDaemonTest {
       IOException, RestApiException {
     PushOneCommit.Result r = createChange();
     gApi.changes()
-        .id("p~master~" + r.getChangeId())
+        .id(r.getChangeId())
         .abandon();
     gApi.changes()
-        .id("p~master~" + r.getChangeId())
+        .id(r.getChangeId())
         .restore();
   }
 
@@ -93,15 +93,15 @@ public class ChangeIT extends AbstractDaemonTest {
       IOException, RestApiException {
     PushOneCommit.Result r = createChange();
     gApi.changes()
-        .id("p~master~" + r.getChangeId())
+        .id(r.getChangeId())
         .revision(r.getCommit().name())
         .review(ReviewInput.approve());
     gApi.changes()
-        .id("p~master~" + r.getChangeId())
+        .id(r.getChangeId())
         .revision(r.getCommit().name())
         .submit();
     gApi.changes()
-        .id("p~master~" + r.getChangeId())
+        .id(r.getChangeId())
         .revert();
   }
 
@@ -111,7 +111,7 @@ public class ChangeIT extends AbstractDaemonTest {
       IOException, RestApiException {
     PushOneCommit.Result r = createChange();
     gApi.changes()
-        .id("p~master~" + r.getChangeId())
+        .id(r.getChangeId())
         .revision(r.getCommit().name())
         .rebase();
   }
@@ -132,7 +132,7 @@ public class ChangeIT extends AbstractDaemonTest {
     PushOneCommit.Result r = createChange();
     AddReviewerInput in = new AddReviewerInput();
     in.reviewer = user.email;
-    ChangeApi cApi = gApi.changes().id("p~master~" + r.getChangeId());
+    ChangeApi cApi = gApi.changes().id(r.getChangeId());
     cApi.addReviewer(in);
     assertEquals(ImmutableSet.of(user.id), getReviewers(cApi.get()));
   }
@@ -141,7 +141,7 @@ public class ChangeIT extends AbstractDaemonTest {
   public void addReviewerToClosedChange() throws GitAPIException,
       IOException, RestApiException {
     PushOneCommit.Result r = createChange();
-    ChangeApi cApi = gApi.changes().id("p~master~" + r.getChangeId());
+    ChangeApi cApi = gApi.changes().id(r.getChangeId());
     cApi.revision(r.getCommit().name())
         .review(ReviewInput.approve());
     cApi.revision(r.getCommit().name())
@@ -152,7 +152,7 @@ public class ChangeIT extends AbstractDaemonTest {
     AddReviewerInput in = new AddReviewerInput();
     in.reviewer = user.email;
     gApi.changes()
-        .id("p~master~" + r.getChangeId())
+        .id(r.getChangeId())
         .addReviewer(in);
     assertEquals(ImmutableSet.of(admin.getId(), user.id),
         getReviewers(cApi.get()));

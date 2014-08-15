@@ -1,0 +1,147 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "16f3171c_9ed6fd62",
+        "filename": "Documentation/cmd-ls-logging-level.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-08-15T00:23:45Z",
+      "side": 1,
+      "message": "Similar to plugins, maybe logging should be a command with subcommands? `gerrit logging ls`, `gerrit logging set-level`, etc.",
+      "revId": "ccd8038d7b6c831dc3ed0407708fef95907e2b26",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f6ef6330_9dd60363",
+        "filename": "Documentation/cmd-ls-logging-level.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-08-15T00:23:45Z",
+      "side": 1,
+      "message": "The pattern maybe should just be an argument and not an option. I can\u0027t think of anything more interesting you would pass as an argument to ls-logging-level that isn\u0027t the logger name.",
+      "revId": "ccd8038d7b6c831dc3ed0407708fef95907e2b26",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f6ef6330_bdd13f6f",
+        "filename": "Documentation/cmd-ls-logging-level.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-08-15T00:23:45Z",
+      "side": 1,
+      "message": "I think we try to prefer the dk.brics package for RE evaluation when the regex comes from a user.",
+      "range": {
+        "startLine": 21,
+        "startChar": 2,
+        "endLine": 22,
+        "endChar": 23
+      },
+      "revId": "ccd8038d7b6c831dc3ed0407708fef95907e2b26",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16f3171c_fedbc188",
+        "filename": "Documentation/cmd-set-logging-level.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-08-15T00:23:45Z",
+      "side": 1,
+      "message": "Maybe one+ args?\n\n  \u003cLEVEL\u003e \u003cLOGGER\u003e...\n\nwith the 2nd and additional args optional?",
+      "revId": "ccd8038d7b6c831dc3ed0407708fef95907e2b26",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f6ef6330_fddbc788",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ListLoggingLevelCommand.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-08-15T00:23:45Z",
+      "side": 1,
+      "message": "maybe just \": \"?",
+      "range": {
+        "startLine": 56,
+        "startChar": 39,
+        "endLine": 56,
+        "endChar": 44
+      },
+      "revId": "ccd8038d7b6c831dc3ed0407708fef95907e2b26",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16f3171c_dee08532",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetLoggingLevelCommand.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-08-15T00:23:45Z",
+      "side": 1,
+      "message": "Its not clear from the documentation that reset will reset all loggers. The way I read the docs, I could optionally reset only specific logger channels.",
+      "range": {
+        "startLine": 60,
+        "startChar": 6,
+        "endLine": 62,
+        "endChar": 14
+      },
+      "revId": "ccd8038d7b6c831dc3ed0407708fef95907e2b26",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16f3171c_3ee6c94b",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetLoggingLevelCommand.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-08-15T00:23:45Z",
+      "side": 1,
+      "message": "I think there is a bit of a race condition here. If the config is reset and a log happens before the configuration is loaded, unexpected behavior could occur.",
+      "range": {
+        "startLine": 76,
+        "startChar": 4,
+        "endLine": 78,
+        "endChar": 28
+      },
+      "revId": "ccd8038d7b6c831dc3ed0407708fef95907e2b26",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

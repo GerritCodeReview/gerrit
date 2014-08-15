@@ -130,8 +130,13 @@ public class ProjectConfigTest extends LocalDiskRepositoryTestCase {
 
     ProjectConfig cfg = read(rev);
     Map<String, LabelType> labels = cfg.getLabelSections();
-    Short dv = labels.entrySet().iterator().next().getValue().getDefaultValue();
+    LabelType lt = labels.entrySet().iterator().next().getValue();
+    Short dv = lt.getDefaultValue();
     assertEquals(0, (int) dv);
+    String fn = lt.getFooterName();
+    assertEquals("CustomLabel", fn);
+    String fb = lt.getFooterBehaviour();
+    assertEquals("PositiveScoreOnly", fb);
   }
 
   @Test
@@ -169,6 +174,55 @@ public class ProjectConfigTest extends LocalDiskRepositoryTestCase {
     assertEquals("project.config: Invalid defaultValue \"-2\" "
         + "for label \"CustomLabel\"",
         Iterables.getOnlyElement(cfg.getValidationErrors()).getMessage());
+  }
+
+  @Test
+  public void testReadConfigLabelCodeReviewFooterName() throws Exception {
+    RevCommit rev = util.commit(util.tree( //
+        util.file("groups", util.blob(group(developers))), //
+        util.file("project.config", util.blob(""//
+            + "[label \"Code-Review\"]\n" //
+            + "  value =  0 No Score\n")) //
+        ));
+
+    ProjectConfig cfg = read(rev);
+    Map<String, LabelType> labels = cfg.getLabelSections();
+    String fn = labels.entrySet().iterator().next().getValue().getFooterName();
+    assertEquals("Reviewed-by", fn);
+  }
+
+  @Test
+  public void testReadConfigLabelVerifiedFooterName() throws Exception {
+    RevCommit rev = util.commit(util.tree( //
+        util.file("groups", util.blob(group(developers))), //
+        util.file("project.config", util.blob(""//
+            + "[label \"Verified\"]\n" //
+            + "  value =  0 No Score\n")) //
+        ));
+
+    ProjectConfig cfg = read(rev);
+    Map<String, LabelType> labels = cfg.getLabelSections();
+    String fn = labels.entrySet().iterator().next().getValue().getFooterName();
+    assertEquals("Tested-by", fn);
+  }
+
+  @Test
+  public void testReadConfigLabelCustomFooter() throws Exception {
+    RevCommit rev = util.commit(util.tree( //
+        util.file("groups", util.blob(group(developers))), //
+        util.file("project.config", util.blob(""//
+            + "[label \"Verified\"]\n" //
+            + "  footerBehaviour = Omit\n" //
+            + "  footerName = Verified-by\n")) //
+        ));
+
+    ProjectConfig cfg = read(rev);
+    Map<String, LabelType> labels = cfg.getLabelSections();
+    LabelType lt = labels.entrySet().iterator().next().getValue();
+    String fb = lt.getFooterBehaviour();
+    assertEquals("Omit", fb);
+    String fn = lt.getFooterName();
+    assertEquals("Verified-by", fn);
   }
 
   @Test

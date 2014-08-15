@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5653cffc_30e3883c",
+        "filename": "Documentation/dev-eclipse.txt",
+        "patchSetId": 19
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-15T21:18:05Z",
+      "side": 1,
+      "message": "Say where to set this, I had to guess that it was in GerritGwtUI.gwt.xml.",
+      "range": {
+        "startLine": 79,
+        "startChar": 28,
+        "endLine": 79,
+        "endChar": 31
+      },
+      "revId": "e08d178917101426736b8ce0cbf8ccca827fed1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "565e6ffe_f8e01132",
+        "filename": "Documentation/dev-eclipse.txt",
+        "patchSetId": 19
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-15T21:18:05Z",
+      "side": 1,
+      "message": "If we think this is going to be a problem for a long time, it might be worth working this into the build, e.g. have \"buck build codeserver_chrome\" write out a .gwt.xml file with the appropriate property already set, and have the Eclipse launcher use that.",
+      "revId": "e08d178917101426736b8ce0cbf8ccca827fed1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

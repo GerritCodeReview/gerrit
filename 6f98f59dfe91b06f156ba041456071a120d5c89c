@@ -112,6 +112,24 @@
     },
     {
       "key": {
+        "uuid": "36073bcd_b7d1686f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeEdits.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-15T04:42:43Z",
+      "side": 1,
+      "message": "Oh, i think it was late yesterday, because what i told was nonsense. I confused two different use cases. Where list is needed is change screen 2, to make diff against drop down work with different base revisions. So this is where we can have:\n\n* edit\n* 3\n* 2\n* 1\n* Base\n\nin drop down and user can change the base revision.",
+      "parentUuid": "164797ed_3ebf09e7",
+      "revId": "6f98f59dfe91b06f156ba041456071a120d5c89c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b64deb11_e2a6cedc",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeEdits.java",
         "patchSetId": 13

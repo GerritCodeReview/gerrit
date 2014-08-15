@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b6a7ab22_2b0fb953",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-08-15T07:17:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "16ca37de_c6e0a232",
+      "range": {
+        "startLine": 23,
+        "startChar": 63,
+        "endLine": 24,
+        "endChar": 4
+      },
+      "revId": "3ec16eafe0c85ca917f1bc387f6622adfa33bdd5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b6a7ab22_8bffcdca",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestReviewers.java",
         "patchSetId": 10
@@ -36,6 +60,30 @@
       "writtenOn": "2014-08-15T06:48:28Z",
       "side": 1,
       "message": "if (a.getFullName() !\u003d null\n          \u0026\u0026 a.getFullName().toLowerCase().contains(str)) {\n        fullNameMatches.add(a);\n}else  if(a.getPreferredEmail() !\u003d null\n          \u0026\u0026 emailMatches.size() \u003c MAX_MATCHES\n          \u0026\u0026 a.getPreferredEmail().toLowerCase().contains(str)) {\n        emailMatches.add(a);\n}",
+      "range": {
+        "startLine": 238,
+        "startChar": 5,
+        "endLine": 241,
+        "endChar": 7
+      },
+      "revId": "3ec16eafe0c85ca917f1bc387f6622adfa33bdd5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b6a7ab22_0b0c7d5b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestReviewers.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-08-15T07:17:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b6a7ab22_8bffcdca",
       "range": {
         "startLine": 238,
         "startChar": 5,

@@ -22,6 +22,30 @@
       "revId": "925f1d9d2903e9046c4a6097024d8d6411d20f91",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5653cffc_90d1946f",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/accounts/Accounts.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-15T20:18:18Z",
+      "side": 1,
+      "message": "No, because it\u0027s not necessarily true.\n\nChangeApi has a mutable Change instance. If a handler modifies the change in place and calls db.changes().update(change), then the mutation will be reflected in future calls to get(). If it modifies the change in an AtomicUpdate, or modifies a child entity, it won\u0027t. (It\u0027s even possible to do both, so get() reflects some hybrid state that is neither the new nor the old state.)\n\nTwo caveats:\n\n* Maybe there are zero handlers that update the change in place. I haven\u0027t checked. It\u0027s not worth the effort if the end result is just to tweak the wording of this comment slightly.\n* It may be easier to verify for non-change APIs, and I admit I copy/pasted the same text. But again, not worth it to scan them all now.",
+      "parentUuid": "b66ecbae_b3d6b862",
+      "range": {
+        "startLine": 27,
+        "startChar": 14,
+        "endLine": 27,
+        "endChar": 55
+      },
+      "revId": "925f1d9d2903e9046c4a6097024d8d6411d20f91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

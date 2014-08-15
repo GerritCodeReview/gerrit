@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f618432e_f542b854",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/RebuildNotedb.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-15T17:33:37Z",
+      "side": 1,
+      "message": "RevWalks need to be released. Could probably factor out a method:\n\n private static void execute(BatchRevUpdate bru, Repository repo) {\n   RevWalk rw \u003d new RevWalk(repo);\n   try {\n     bru.execute(rw, NullProgressMonitor.INSTANCE);\n   } finally {\n     rw.release();\n   }\n }",
+      "revId": "b9ce5118ba61f8f111d648cc9610055eb8665296",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b6124b0c_b31fb87f",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/RebuildNotedb.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-15T17:33:37Z",
+      "side": 1,
+      "message": "In finally",
+      "revId": "b9ce5118ba61f8f111d648cc9610055eb8665296",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b6124b0c_93243ccf",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/RebuildNotedb.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-15T17:33:37Z",
+      "side": 1,
+      "message": "Release (or better, reuse the static method I suggested above :)",
+      "revId": "b9ce5118ba61f8f111d648cc9610055eb8665296",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

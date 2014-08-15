@@ -40,6 +40,7 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.change.ChangeEdits.Put;
+import com.google.gerrit.server.change.ChangeEdits.Post;
 import com.google.gerrit.server.change.FileContentUtil;
 import com.google.gerrit.server.edit.ChangeEdit;
 import com.google.gerrit.server.edit.ChangeEditModifier;
@@ -316,6 +317,19 @@ public class ChangeEditIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void restoreDeletedFileInPatchSetRest() throws Exception {
+    Post.Input in = new Post.Input();
+    in.restore = true;
+    in.path = FILE_NAME;
+    assertEquals(SC_NO_CONTENT, session.post(urlEdit2(),
+        in).getStatusCode());
+    Optional<ChangeEdit> edit = editUtil.byChange(change2);
+    assertArrayEquals(CONTENT_OLD,
+        toBytes(fileUtil.getContent(edit.get().getChange().getProject(),
+            edit.get().getRevision().get(), FILE_NAME)));
+  }
+
+  @Test
   public void amendExistingFile() throws Exception {
     assertEquals(RefUpdate.Result.NEW,
         modifier.createEdit(
@@ -386,6 +400,15 @@ public class ChangeEditIT extends AbstractDaemonTest {
     assertEquals(SC_NO_CONTENT, session.put(urlEditFile()).getStatusCode());
     Optional<ChangeEdit> edit = editUtil.byChange(change);
     assertArrayEquals("".getBytes(),
+        toBytes(fileUtil.getContent(edit.get().getChange().getProject(),
+            edit.get().getRevision().get(), FILE_NAME)));
+  }
+
+  @Test
+  public void createEmptyEditRest() throws Exception {
+    assertEquals(SC_NO_CONTENT, session.post(urlEdit()).getStatusCode());
+    Optional<ChangeEdit> edit = editUtil.byChange(change);
+    assertArrayEquals(CONTENT_OLD,
         toBytes(fileUtil.getContent(edit.get().getChange().getProject(),
             edit.get().getRevision().get(), FILE_NAME)));
   }
@@ -493,6 +516,12 @@ public class ChangeEditIT extends AbstractDaemonTest {
     return "/changes/"
         + change.getChangeId()
         + "/edit";
+  }
+
+  private String urlEdit2() {
+    return "/changes/"
+        + change2.getChangeId()
+        + "/edit/";
   }
 
   private String urlEditFile() {

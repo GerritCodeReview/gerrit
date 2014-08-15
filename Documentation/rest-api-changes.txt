@@ -1212,6 +1212,34 @@ content isn't provided, it is wiped out for that file. As response
   HTTP/1.1 204 No Content
 ----
 
+[[post-edit]]
+=== Restore file content in Change Edit
+--
+'POST /changes/link:#change-id[\{change-id\}]/edit
+--
+
+Creates empty change edit or restores file content in change edit.
+
+.Request
+----
+  POST /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/edit HTTP/1.0
+  Content-Type: application/json;charset=UTF-8
+
+  {
+    "path": "foo",
+    "restore": true
+  }
+----
+
+When change edit doesn't exist for this change yet it is created. When path
+and restore flag are provided in request body, this file is restored. As
+response "`204 No Content`" is returned.
+
+.Response
+----
+  HTTP/1.1 204 No Content
+----
+
 [[reviewer-endpoints]]
 == Reviewer Endpoints
 

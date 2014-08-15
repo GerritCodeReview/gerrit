@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "16ca37de_a65e4622",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/edit/ChangeEditIT.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-15T18:42:51Z",
+      "side": 1,
+      "message": "static import",
+      "range": {
+        "startLine": 201,
+        "startChar": 17,
+        "endLine": 201,
+        "endChar": 41
+      },
+      "revId": "07a1b8571470cd9ea78f932422de0a6f4a410786",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b64deb11_a28a0659",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeEdits.java",
         "patchSetId": 13
@@ -25,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "16ca37de_86634ae6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeEdits.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-15T18:42:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b64deb11_a28a0659",
+      "range": {
+        "startLine": 208,
+        "startChar": 19,
+        "endLine": 208,
+        "endChar": 25
+      },
+      "revId": "07a1b8571470cd9ea78f932422de0a6f4a410786",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b64deb11_82910a90",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeEdits.java",
         "patchSetId": 13
@@ -36,6 +83,24 @@
       "writtenOn": "2014-08-14T19:32:29Z",
       "side": 1,
       "message": "Add a comment about the race condition:\n\n\"Even if the latest patch set changed since the user triggered the operation, deleting the whole file is probably still what they intended.\"",
+      "revId": "07a1b8571470cd9ea78f932422de0a6f4a410786",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16ca37de_e6583e38",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeEdits.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-15T18:42:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b64deb11_82910a90",
       "revId": "07a1b8571470cd9ea78f932422de0a6f4a410786",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -71,6 +136,47 @@
       "side": 1,
       "message": "I think you answered this for me in https://us1-mirror-gerrit-review.googlesource.com/#/c/53162/39/gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeEdits.java@143",
       "parentUuid": "b64deb11_826a6ab2",
+      "revId": "07a1b8571470cd9ea78f932422de0a6f4a410786",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b6a7ab22_cbd2753e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeEdits.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-15T18:42:51Z",
+      "side": 1,
+      "message": "Yes, you are right. it wasn\u0027t covered. Done.",
+      "parentUuid": "b64deb11_826a6ab2",
+      "revId": "07a1b8571470cd9ea78f932422de0a6f4a410786",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b6a7ab22_ebcdb19c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeEdits.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-15T18:42:51Z",
+      "side": 1,
+      "message": "This branch is not test covered.",
+      "range": {
+        "startLine": 217,
+        "startChar": 8,
+        "endLine": 219,
+        "endChar": 66
+      },
       "revId": "07a1b8571470cd9ea78f932422de0a6f4a410786",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -183,6 +183,24 @@
     },
     {
       "key": {
+        "uuid": "f618432e_350f1054",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeEdits.java",
+        "patchSetId": 39
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-15T16:59:30Z",
+      "side": 1,
+      "message": "I think you misunderstand what I mean by \"later\". I mean \"after the series is merged\". Postponing the discussion is intended to decrease the amount of time until it\u0027s merged :)\n\n(I think we can and should ship the feature with the caveat that the REST API is not yet stable and may change in future releases.)",
+      "parentUuid": "16ca37de_661e0e80",
+      "revId": "41ae0bc853163a5b8f0864faf2e40d04fbb7d67b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b64deb11_8757dc39",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeEdits.java",
         "patchSetId": 39

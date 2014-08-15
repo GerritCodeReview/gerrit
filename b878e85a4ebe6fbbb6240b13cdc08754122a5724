@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "16ca37de_c6f9c2e6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-15T08:04:54Z",
+      "side": 1,
+      "message": "I think it was to early here and i was decaffeinated (*), so what i really meant by saying \"group entity\" above is \"root group entity\". So the right version of my comment above is: per-root-group-entity granularity. Bonus points for explaining what/how root group entities are defined: \"Root group entities are entities, for which entity.getParentKey() returns null\". These are root group entities in Gerrit: accounts, changes, groups and projects.\n\n(*) I wonder why we (still) don\u0027t support changing published comment? So instead forcing the folks to tell you \"I think it was to early here and i was decaffeinated, and what i\u0027ve written was nonsense and what i really meant was... \" add edit icon on the published comment panel, done?!",
+      "parentUuid": "b6124b0c_b3d1786f",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 18
+      },
+      "revId": "b878e85a4ebe6fbbb6240b13cdc08754122a5724",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b6a7ab22_cbe0b532",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -59,6 +83,30 @@
       "writtenOn": "2014-08-15T05:44:47Z",
       "side": 1,
       "message": "May be avoid using here \"any table\" and say configured/activated table, as it contradicts to the previous statement, where we restricted the configurability of granularity subsets to entity group.",
+      "range": {
+        "startLine": 18,
+        "startChar": 17,
+        "endLine": 18,
+        "endChar": 26
+      },
+      "revId": "b878e85a4ebe6fbbb6240b13cdc08754122a5724",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b6a7ab22_2b14d95f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-15T08:04:54Z",
+      "side": 1,
+      "message": "\"... where we restricted the configurability of granularity subsets to root entity group.\"",
+      "parentUuid": "b6a7ab22_cbe0b532",
       "range": {
         "startLine": 18,
         "startChar": 17,

@@ -46,6 +46,30 @@
       "revId": "925f1d9d2903e9046c4a6097024d8d6411d20f91",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "163dd79e_8ed17b6f",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/accounts/Accounts.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-15T20:48:49Z",
+      "side": 1,
+      "message": "OK, I see. That makes sense then.",
+      "parentUuid": "5653cffc_90d1946f",
+      "range": {
+        "startLine": 27,
+        "startChar": 14,
+        "endLine": 27,
+        "endChar": 55
+      },
+      "revId": "925f1d9d2903e9046c4a6097024d8d6411d20f91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -4,7 +4,6 @@ java_library(
   name = 'classpath',
   deps = LIBS + PGMLIBS + [
     '//gerrit-acceptance-tests:lib',
-    '//gerrit-gwtdebug:gwtdebug',
     '//gerrit-gwtui:ui_module',
     '//gerrit-gwtui:ui_tests',
     '//gerrit-httpd:httpd_tests',
@@ -19,7 +18,6 @@ java_library(
     '//lib/bouncycastle:bcprov',
     '//lib/bouncycastle:bcpg',
     '//lib/bouncycastle:bcpkix',
-    '//lib/jetty:webapp',
     '//lib/prolog:compiler_lib',
     '//Documentation:index_lib',
   ] + scan_plugins(),

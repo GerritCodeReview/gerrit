@@ -27,7 +27,6 @@ java_library(
   provided_deps = ['//lib:servlet-api-3_1'],
   visibility = [
     '//:',
-    '//gerrit-gwtdebug:gwtdebug',
     '//tools/eclipse:classpath',
   ],
 )

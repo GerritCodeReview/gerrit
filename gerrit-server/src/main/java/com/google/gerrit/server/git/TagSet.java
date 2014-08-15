@@ -119,8 +119,8 @@ class TagSet {
           }
 
           // The branch rewound. Walk the list of commits removed from
-          // the reference. If any matches to a tag, this has to be removed.
-          boolean err = false;
+          // the reference. If any matches to a tag, this tag is not
+          // reachable from this branch now.
           rw.reset();
           rw.markStart(savedCommit);
           rw.markUninteresting(currentCommit);
@@ -129,16 +129,12 @@ class TagSet {
           while ((c = rw.next()) != null) {
             Tag tag = tags.get(c);
             if (tag != null && tag.refFlags.get(savedRef.flag)) {
-              m.lostRefs.add(new TagMatcher.LostRef(tag, savedRef.flag));
-              err = true;
+              tag.refFlags.clear(savedRef.flag);
             }
           }
-          if (!err) {
-            // All of the tags are still reachable. Update in-place.
-            savedRef.compareAndSet(savedObjectId, currentRef.getObjectId());
-            m.mask.set(savedRef.flag);
-          }
-
+          // The branch rewound, safely update the reference in-place.
+          savedRef.compareAndSet(savedObjectId, currentRef.getObjectId());
+          m.mask.set(savedRef.flag);
         } catch (IOException err) {
           // Defer a cache update until later. No conclusion can be made
           // based on an exception reading from the repository storage.
@@ -284,13 +280,6 @@ class TagSet {
       BitSet mine = new BitSet();
       mine.or(srcTag.refFlags);
       tags.add(new Tag(srcTag, mine));
-    }
-
-    for (TagMatcher.LostRef lost : m.lostRefs) {
-      Tag mine = tags.get(lost.tag);
-      if (mine != null) {
-        mine.refFlags.clear(lost.flag);
-      }
     }
   }
 

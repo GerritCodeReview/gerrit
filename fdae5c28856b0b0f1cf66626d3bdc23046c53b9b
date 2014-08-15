@@ -16,6 +16,24 @@
       "revId": "fdae5c28856b0b0f1cf66626d3bdc23046c53b9b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b6a7ab22_0b875d53",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-15T17:13:17Z",
+      "side": 1,
+      "message": "What one can all do wrong on two lines of commit message ;)\nDone.",
+      "parentUuid": "b6124b0c_b3fa18db",
+      "revId": "fdae5c28856b0b0f1cf66626d3bdc23046c53b9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

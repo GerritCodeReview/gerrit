@@ -160,6 +160,24 @@
     },
     {
       "key": {
+        "uuid": "b6a7ab22_2bb859ff",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeEdits.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-15T18:47:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b64deb11_826a6ab2",
+      "revId": "07a1b8571470cd9ea78f932422de0a6f4a410786",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b6a7ab22_ebcdb19c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeEdits.java",
         "patchSetId": 13
@@ -171,6 +189,30 @@
       "writtenOn": "2014-08-15T18:42:51Z",
       "side": 1,
       "message": "This branch is not test covered.",
+      "range": {
+        "startLine": 217,
+        "startChar": 8,
+        "endLine": 219,
+        "endChar": 66
+      },
+      "revId": "07a1b8571470cd9ea78f932422de0a6f4a410786",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16ca37de_267376b7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeEdits.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-15T18:47:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b6a7ab22_ebcdb19c",
       "range": {
         "startLine": 217,
         "startChar": 8,

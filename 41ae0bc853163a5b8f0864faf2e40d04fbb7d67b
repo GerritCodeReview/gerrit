@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "16ca37de_461b128e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 39
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-15T12:30:36Z",
+      "side": 1,
+      "message": "As pointed out by Dave, this should be just:\n\n  POST /changes/\u003cid\u003e/edit\n\nand passed \n\n* path \u003d \"foo\"\n* restore \u003d true\n\nin request body. And done in follow up change.",
+      "range": {
+        "startLine": 16,
+        "startChar": 2,
+        "endLine": 16,
+        "endChar": 42
+      },
+      "revId": "41ae0bc853163a5b8f0864faf2e40d04fbb7d67b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b64deb11_e7c100ca",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeEditResource.java",
         "patchSetId": 39
@@ -135,6 +158,24 @@
       "writtenOn": "2014-08-14T20:51:09Z",
       "side": 1,
       "message": "Oh, i see, that makes sense. So we could create dedicated Post handler and create it above on line 105.\n\nThen we could check in Post.apply() method when the edit doesn\u0027t exist create it, and check the request body for path and restore, and when they are there then we could additionally restore the file. With this in place we could decouple restore from PUT handler as suggested above.",
+      "parentUuid": "164797ed_1ec24d6a",
+      "revId": "41ae0bc853163a5b8f0864faf2e40d04fbb7d67b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16ca37de_661e0e80",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeEdits.java",
+        "patchSetId": 39
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-15T12:30:36Z",
+      "side": 1,
+      "message": "| But we can save this discussion for later.\n\nYes we could, but  we shouldn\u0027t postpone any discussion. This series is pending almost two years for now. And i would like to prevent to have it pending even further. I like your suggestion to decouple PUT and POST requests. So i f´go for it and try to implement it and in addition extract POST handler code from this change.",
       "parentUuid": "164797ed_1ec24d6a",
       "revId": "41ae0bc853163a5b8f0864faf2e40d04fbb7d67b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

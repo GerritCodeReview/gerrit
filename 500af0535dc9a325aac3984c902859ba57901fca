@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f6ef6330_bdfadfda",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-15T01:31:51Z",
+      "side": 1,
+      "message": "Explain the motivation, how we want to write all commits for all ChangeUpdates in a given batch ref update before committing the batch.",
+      "revId": "500af0535dc9a325aac3984c902859ba57901fca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

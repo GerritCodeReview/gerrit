@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f618432e_55060c3d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/RebuildNotedb.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-15T17:10:00Z",
+      "side": 1,
+      "message": "Not obvious where this comes from. I don\u0027t care enough to change it though.",
+      "revId": "904c08183c645ed9644fd0babdb8e670f226a06b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

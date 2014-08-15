@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d646df41_ccf46ff1",
+        "filename": "lib/jetty/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-15T21:50:00Z",
+      "side": 0,
+      "message": "Not used after you\u0027ve removed webapp above and can be removed as well.",
+      "range": {
+        "startLine": 41,
+        "startChar": 0,
+        "endLine": 48,
+        "endChar": 1
+      },
+      "revId": "12968f26dffdec8803be124f71a1bb1415bf0e21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

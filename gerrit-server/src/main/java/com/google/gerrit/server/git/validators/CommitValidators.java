@@ -18,9 +18,11 @@ import com.google.common.base.CharMatcher;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.extensions.registration.DynamicSet;
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.account.Realm;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.events.CommitReceivedEvent;
@@ -73,6 +75,7 @@ public class CommitValidators {
   private final SshInfo sshInfo;
   private final Repository repo;
   private final DynamicSet<CommitValidationListener> commitValidationListeners;
+  private final Realm realm;
 
   @Inject
   CommitValidators(@GerritPersonIdent final PersonIdent gerritIdent,
@@ -80,7 +83,8 @@ public class CommitValidators {
       @GerritServerConfig final Config config,
       final DynamicSet<CommitValidationListener> commitValidationListeners,
       @Assisted final SshInfo sshInfo,
-      @Assisted final Repository repo, @Assisted final RefControl refControl) {
+      @Assisted final Repository repo, @Assisted final RefControl refControl,
+      Realm realm) {
     this.gerritIdent = gerritIdent;
     this.refControl = refControl;
     this.canonicalWebUrl = canonicalWebUrl;
@@ -89,6 +93,7 @@ public class CommitValidators {
     this.sshInfo = sshInfo;
     this.repo = repo;
     this.commitValidationListeners = commitValidationListeners;
+    this.realm = realm;
   }
 
   public List<CommitValidationMessage> validateForReceiveCommits(
@@ -100,8 +105,10 @@ public class CommitValidators {
     validators.add(new UploadMergesPermissionValidator(refControl));
     validators.add(new AmendedGerritMergeCommitValidationListener(
         refControl, gerritIdent));
-    validators.add(new AuthorUploaderValidator(refControl, canonicalWebUrl));
-    validators.add(new CommitterUploaderValidator(refControl, canonicalWebUrl));
+    validators.add(new AuthorUploaderValidator(refControl, canonicalWebUrl,
+        realm));
+    validators.add(new CommitterUploaderValidator(refControl, canonicalWebUrl,
+        realm));
     validators.add(new SignedOffByValidator(refControl, canonicalWebUrl));
     if (MagicBranch.isMagicBranch(receiveEvent.command.getRefName())
         || ReceiveCommits.NEW_PATCHSET.matcher(
@@ -135,7 +142,8 @@ public class CommitValidators {
     validators.add(new UploadMergesPermissionValidator(refControl));
     validators.add(new AmendedGerritMergeCommitValidationListener(
         refControl, gerritIdent));
-    validators.add(new AuthorUploaderValidator(refControl, canonicalWebUrl));
+    validators.add(new AuthorUploaderValidator(refControl, canonicalWebUrl,
+        realm));
     validators.add(new SignedOffByValidator(refControl, canonicalWebUrl));
     if (MagicBranch.isMagicBranch(receiveEvent.command.getRefName())
         || ReceiveCommits.NEW_PATCHSET.matcher(
@@ -435,10 +443,13 @@ public class CommitValidators {
       CommitValidationListener {
     private final RefControl refControl;
     private final String canonicalWebUrl;
+    private final Realm realm;
 
-    public AuthorUploaderValidator(RefControl refControl, String canonicalWebUrl) {
+    public AuthorUploaderValidator(RefControl refControl,
+        String canonicalWebUrl, Realm realm) {
       this.refControl = refControl;
       this.canonicalWebUrl = canonicalWebUrl;
+      this.realm = realm;
     }
 
     @Override
@@ -452,7 +463,7 @@ public class CommitValidators {
         List<CommitValidationMessage> messages = new LinkedList<>();
 
         messages.add(getInvalidEmailError(receiveEvent.commit, "author", author,
-            currentUser, canonicalWebUrl));
+            currentUser, canonicalWebUrl, realm));
         throw new CommitValidationException("invalid author", messages);
       }
       return Collections.emptyList();
@@ -464,11 +475,13 @@ public class CommitValidators {
       CommitValidationListener {
     private final RefControl refControl;
     private final String canonicalWebUrl;
+    private final Realm realm;
 
     public CommitterUploaderValidator(RefControl refControl,
-        String canonicalWebUrl) {
+        String canonicalWebUrl, Realm realm) {
       this.refControl = refControl;
       this.canonicalWebUrl = canonicalWebUrl;
+      this.realm = realm;
     }
 
     @Override
@@ -480,8 +493,8 @@ public class CommitValidators {
           .contains(committer.getEmailAddress())
           && !refControl.canForgeCommitter()) {
         List<CommitValidationMessage> messages = new LinkedList<>();
-        messages.add(getInvalidEmailError(receiveEvent.commit, "committer", committer,
-            currentUser, canonicalWebUrl));
+        messages.add(getInvalidEmailError(receiveEvent.commit, "committer",
+            committer, currentUser, canonicalWebUrl, realm));
         throw new CommitValidationException("invalid committer", messages);
       }
       return Collections.emptyList();
@@ -545,8 +558,9 @@ public class CommitValidators {
     }
   }
 
-  private static CommitValidationMessage getInvalidEmailError(RevCommit c, String type,
-      PersonIdent who, IdentifiedUser currentUser, String canonicalWebUrl) {
+  private static CommitValidationMessage getInvalidEmailError(RevCommit c,
+      String type, PersonIdent who, IdentifiedUser currentUser,
+      String canonicalWebUrl, Realm realm) {
     StringBuilder sb = new StringBuilder();
     sb.append("\n");
     sb.append("ERROR:  In commit ").append(c.name()).append("\n");
@@ -557,19 +571,29 @@ public class CommitValidators {
     if (currentUser.getEmailAddresses().isEmpty()) {
       sb.append("ERROR:  You have not registered any email addresses.\n");
     } else {
-      sb.append("ERROR:  The following addresses are currently registered:\n");
+      if (currentUser.getEmailAddresses().size() == 1) {
+        sb.append("ERROR:  The following address is currently "
+            + "registered for you:\n");
+      } else {
+        sb.append("ERROR:  The following addresses are currently "
+            + "registered for you:\n");
+      }
       for (String address : currentUser.getEmailAddresses()) {
         sb.append("ERROR:    ").append(address).append("\n");
       }
     }
-    sb.append("ERROR:\n");
-    if (canonicalWebUrl != null) {
+    if (canonicalWebUrl != null && canRegisterNewEmail(realm)) {
+      sb.append("ERROR:\n");
       sb.append("ERROR:  To register an email address, please visit:\n");
       sb.append("ERROR:  ").append(canonicalWebUrl).append("#")
-        .append(PageLinks.SETTINGS_CONTACT).append("\n");
+          .append(PageLinks.SETTINGS_CONTACT).append("\n");
     }
     sb.append("\n");
     return new CommitValidationMessage(sb.toString(), false);
+  }
+
+  private static boolean canRegisterNewEmail(Realm realm) {
+    return realm.allowsEdit(Account.FieldName.REGISTER_NEW_EMAIL);
   }
 
   /**

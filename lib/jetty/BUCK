@@ -26,19 +26,6 @@ maven_jar(
 )
 
 maven_jar(
-  name = 'webapp',
-  id = 'org.eclipse.jetty:jetty-webapp:' + VERSION,
-  sha1 = 'b3f79ac363c6e5ff283834762093da3818e2834b',
-  license = 'Apache2.0',
-  deps = [':xml'],
-  exclude = EXCLUDE,
-  visibility = [
-    '//tools/eclipse:classpath',
-    '//gerrit-gwtdebug:gwtdebug',
-  ],
-)
-
-maven_jar(
   name = 'servlets',
   id = 'org.eclipse.jetty:jetty-servlets:' + VERSION,
   sha1 = '457063f20e3676ddd7e7c4dfce90ef74dd54a276',
@@ -48,15 +35,6 @@ maven_jar(
     '//tools/eclipse:classpath',
     '//gerrit-gwtdebug:gwtdebug',
   ],
-)
-
-maven_jar(
-  name = 'xml',
-  id = 'org.eclipse.jetty:jetty-xml:' + VERSION,
-  sha1 = '577f736d6e3a7284a78cf9b58f1fc809551a7329',
-  license = 'Apache2.0',
-  exclude = EXCLUDE,
-  visibility = [],
 )
 
 maven_jar(

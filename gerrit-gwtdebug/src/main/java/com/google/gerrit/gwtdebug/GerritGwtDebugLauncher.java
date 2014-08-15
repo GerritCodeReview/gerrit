@@ -24,11 +24,11 @@ import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
 import java.util.List;
 
-class GerritSDMLauncher {
-  private static final Logger log = LoggerFactory.getLogger(GerritSDMLauncher.class);
+class GerritGwtDebugLauncher {
+  private static final Logger log = LoggerFactory.getLogger(GerritGwtDebugLauncher.class);
 
   public static void main(String[] argv) throws Exception {
-    GerritSDMLauncher launcher = new GerritSDMLauncher();
+    GerritGwtDebugLauncher launcher = new GerritGwtDebugLauncher();
     launcher.mainImpl(argv);
   }
 

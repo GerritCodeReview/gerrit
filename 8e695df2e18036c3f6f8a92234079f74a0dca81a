@@ -16,6 +16,24 @@
       "revId": "8e695df2e18036c3f6f8a92234079f74a0dca81a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16f3171c_1e0cad5b",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/RebuildNotedb.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-08-15T02:00:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "16f3171c_9eff1dcb",
+      "revId": "8e695df2e18036c3f6f8a92234079f74a0dca81a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

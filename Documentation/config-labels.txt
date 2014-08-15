@@ -261,6 +261,35 @@ If false, the label cannot be overridden by child projects. Any
 configuration for this label in child projects will be ignored. Defaults
 to true.
 
+[[label_footerName]]
+=== `label.Label-Name.footerName`
+
+The name for the footer line in the commit message for the label.
+Defaults to `Reviewed-by` if the name is `Code-Review`, `Tested-by` if
+the name is `Verified`, and to the name of the label in all other cases.
+
+[[label_footerBehaviour]]
+=== `label.Label-Name.footerBehaviour`
+
+The behaviour how a footer line for the label should be added to the
+commit message. This is only applied if the submit typ of the project is
+set to `Cherry Pick`.
+
+Valid values are:
+
+* `MaxScoreOnly`
++
+A footer line will be added only if the score equals the highest
+possible positive value for the label.
+
+* `Omit`
++
+For the label no footer line will be added.
+
+* `PositiveScoreOnly` (default)
++
+A footer line will be added only if the score is bigger than zero.
+
 [[label_branch]]
 === `label.Label-Name.branch`
 

@@ -130,6 +130,8 @@ public class ProjectConfig extends VersionedMetaData {
   private static final String KEY_LOCAL_DEFAULT = "local-default";
 
   private static final String LABEL = "label";
+  private static final String KEY_FOOTER_BEHAVIOUR = "footerBehaviour";
+  private static final String KEY_FOOTER_NAME = "footerName";
   private static final String KEY_FUNCTION = "function";
   private static final String KEY_DEFAULT_VALUE = "defaultValue";
   private static final String KEY_COPY_MIN_SCORE = "copyMinScore";
@@ -139,6 +141,8 @@ public class ProjectConfig extends VersionedMetaData {
   private static final String KEY_VALUE = "value";
   private static final String KEY_CAN_OVERRIDE = "canOverride";
   private static final String KEY_Branch = "branch";
+  private static final Set<String> LABEL_FOOTER_BEHAVIOURS = ImmutableSet.of(
+      "MaxScoreOnly", "Omit", "PositiveScoreOnly");
   private static final Set<String> LABEL_FUNCTIONS = ImmutableSet.of(
       "MaxWithBlock", "AnyWithBlock", "MaxNoBlock", "NoBlock", "NoOp");
 
@@ -677,6 +681,29 @@ public class ProjectConfig extends VersionedMetaData {
         continue;
       }
 
+      String footerBehaviour = Objects.firstNonNull(
+          rc.getString(LABEL, name, KEY_FOOTER_BEHAVIOUR), "PositiveScoreOnly");
+      if (LABEL_FOOTER_BEHAVIOURS.contains(footerBehaviour)) {
+        label.setFooterBehaviour(footerBehaviour);
+      } else {
+        error(new ValidationError(PROJECT_CONFIG, String.format(
+            "Invalid %s for label \"%s\". Valid names are: %s",
+            KEY_FOOTER_BEHAVIOUR, name, Joiner.on(", ").join(LABEL_FOOTER_BEHAVIOURS))));
+        label.setFooterBehaviour(null);
+      }
+
+      String footerName = rc.getString(LABEL, name, KEY_FOOTER_NAME);
+      if (footerName == null) {
+        if ("Code-Review".equalsIgnoreCase(name)) {
+          footerName = "Reviewed-by";
+        } else if ("Verified".equalsIgnoreCase(name)) {
+          footerName = "Tested-by";
+        } else {
+          footerName = name;
+        }
+      }
+      label.setFooterName(footerName);
+
       String functionName = Objects.firstNonNull(
           rc.getString(LABEL, name, KEY_FUNCTION), "MaxWithBlock");
       if (LABEL_FUNCTIONS.contains(functionName)) {
@@ -1048,6 +1075,8 @@ public class ProjectConfig extends VersionedMetaData {
       String name = e.getKey();
       LabelType label = e.getValue();
       toUnset.remove(name);
+      rc.setString(LABEL, name, KEY_FOOTER_BEHAVIOUR, label.getFooterBehaviour());
+      rc.setString(LABEL, name, KEY_FOOTER_NAME, label.getFooterName());
       rc.setString(LABEL, name, KEY_FUNCTION, label.getFunctionName());
       rc.setInt(LABEL, name, KEY_DEFAULT_VALUE, label.getDefaultValue());
       if (label.isCopyMinScore()) {

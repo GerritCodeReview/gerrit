@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "f618432e_353d50d8",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/RebuildNotedb.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-15T18:16:58Z",
+      "side": 1,
+      "message": "Yes, this is outside the loop, but that doesn\u0027t mean it doesn\u0027t need to be in a finally block. Just not the same finally block as in the loop.\n\nThat does add one more level of nesting, which is getting a little ridiculous. This method is too long and could use some breaking up anyway.",
+      "parentUuid": "b6c08bc0_8324dece",
+      "revId": "b9ce5118ba61f8f111d648cc9610055eb8665296",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b6124b0c_93243ccf",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/RebuildNotedb.java",
         "patchSetId": 25

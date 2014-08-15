@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f618432e_f52918a5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/VersionedMetaData.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-15T17:23:43Z",
+      "side": 1,
+      "message": "Confusing word choice, I don\u0027t think this is the normal git definition of \"squashed\". Perhaps \"ignored\".",
+      "range": {
+        "startLine": 255,
+        "startChar": 51,
+        "endLine": 255,
+        "endChar": 59
+      },
+      "revId": "3349e3a778cf6f78ca81ef1a6ef133fa9b1f7614",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f618432e_d52e9caa",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/VersionedMetaData.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-15T17:23:43Z",
+      "side": 1,
+      "message": "Not sure what the reverse situation is in this case.",
+      "range": {
+        "startLine": 256,
+        "startChar": 67,
+        "endLine": 257,
+        "endChar": 41
+      },
+      "revId": "3349e3a778cf6f78ca81ef1a6ef133fa9b1f7614",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b6124b0c_130cac5b",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeNotesTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 410,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-15T17:23:43Z",
+      "side": 1,
+      "message": "assertNotNull",
+      "revId": "3349e3a778cf6f78ca81ef1a6ef133fa9b1f7614",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f618432e_35143060",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeNotesTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 412,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-15T17:23:43Z",
+      "side": 1,
+      "message": "assertNotNull",
+      "revId": "3349e3a778cf6f78ca81ef1a6ef133fa9b1f7614",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -188,6 +188,30 @@
       "revId": "0a3372a4d261b88c3966b1d49c3fbcd1b9d8388a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16ca37de_4634b2f1",
+        "filename": "lib/jgit/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-15T17:07:17Z",
+      "side": 1,
+      "message": "Thanks, makes sense.",
+      "parentUuid": "b6124b0c_d3e07432",
+      "range": {
+        "startLine": 4,
+        "startChar": 0,
+        "endLine": 4,
+        "endChar": 13
+      },
+      "revId": "0a3372a4d261b88c3966b1d49c3fbcd1b9d8388a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

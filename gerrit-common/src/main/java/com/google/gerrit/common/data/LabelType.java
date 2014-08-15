@@ -88,6 +88,8 @@ public class LabelType {
 
   protected String name;
 
+  protected String footerName;
+  protected String footerBehaviour;
   protected String functionName;
   protected boolean copyMinScore;
   protected boolean copyMaxScore;
@@ -109,10 +111,13 @@ public class LabelType {
 
   public LabelType(String name, List<LabelValue> valueList) {
     this.name = checkName(name);
+
     canOverride = true;
     values = sortValues(valueList);
     defaultValue = 0;
 
+    footerName = name;
+    footerBehaviour = "PositiveScoreOnly";
     functionName = "MaxWithBlock";
 
     maxNegative = Short.MIN_VALUE;
@@ -133,6 +138,22 @@ public class LabelType {
 
   public boolean matches(PatchSetApproval psa) {
     return psa.getLabelId().get().equalsIgnoreCase(name);
+  }
+
+  public String getFooterName() {
+    return footerName;
+  }
+
+  public void setFooterName(String footerName) {
+    this.footerName = footerName;
+  }
+
+  public String getFooterBehaviour() {
+    return footerBehaviour;
+  }
+
+  public void setFooterBehaviour(String footerBehaviour) {
+    this.footerBehaviour = footerBehaviour;
   }
 
   public String getFunctionName() {

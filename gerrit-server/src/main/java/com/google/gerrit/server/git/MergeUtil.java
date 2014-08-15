@@ -238,11 +238,6 @@ public class MergeUtil {
     PatchSetApproval submitAudit = null;
 
     for (final PatchSetApproval a : safeGetApprovals(n)) {
-      if (a.getValue() <= 0) {
-        // Negative votes aren't counted.
-        continue;
-      }
-
       if (a.isSubmit()) {
         // Submit is treated specially, below (becomes committer)
         //
@@ -251,6 +246,24 @@ public class MergeUtil {
           submitAudit = a;
         }
         continue;
+      }
+
+      final LabelType lt = project.getLabelTypes().byLabel(a.getLabelId());
+      if (lt == null) {
+        continue;
+      }
+
+      final String behaviour = lt.getFooterBehaviour();
+      if ("MaxScoreOnly".equals(behaviour)) {
+        if (a.getValue() != lt.getMax().getValue()) {
+          continue;
+        }
+      } else if ("Omit".equals(behaviour)) {
+        continue;
+      } else if ("PositiveScoreOnly".equals(behaviour)) {
+        if (a.getValue() <= 0) {
+          continue;
+        }
       }
 
       final Account acc =
@@ -279,19 +292,7 @@ public class MergeUtil {
         continue;
       }
 
-      final String tag;
-      if (isCodeReview(a.getLabelId())) {
-        tag = "Reviewed-by";
-      } else if (isVerified(a.getLabelId())) {
-        tag = "Tested-by";
-      } else {
-        final LabelType lt = project.getLabelTypes().byLabel(a.getLabelId());
-        if (lt == null) {
-          continue;
-        }
-        tag = lt.getName();
-      }
-
+      final String tag = lt.getFooterName();
       if (!contains(footers, new FooterKey(tag), identbuf.toString())) {
         msgbuf.append(tag);
         msgbuf.append(": ");
@@ -301,14 +302,6 @@ public class MergeUtil {
     }
 
     return msgbuf.toString();
-  }
-
-  private static boolean isCodeReview(LabelId id) {
-    return "Code-Review".equalsIgnoreCase(id.get());
-  }
-
-  private static boolean isVerified(LabelId id) {
-    return "Verified".equalsIgnoreCase(id.get());
   }
 
   private Iterable<PatchSetApproval> safeGetApprovals(CodeReviewCommit n) {

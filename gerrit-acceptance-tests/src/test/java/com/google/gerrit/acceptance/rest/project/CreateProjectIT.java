@@ -25,7 +25,6 @@ import com.google.common.collect.Sets;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.extensions.api.GerritApi;
-import com.google.gerrit.extensions.api.projects.ProjectApi;
 import com.google.gerrit.extensions.api.projects.ProjectInput;
 import com.google.gerrit.extensions.common.InheritableBoolean;
 import com.google.gerrit.extensions.common.ProjectInfo;
@@ -74,8 +73,7 @@ public class CreateProjectIT extends AbstractDaemonTest {
   @Test
   public void testCreateProjectApi() throws RestApiException, IOException {
     final String newProjectName = "newProject";
-    ProjectApi projectApi = gApi.projects().name(newProjectName).create();
-    ProjectInfo p = projectApi.get();
+    ProjectInfo p = gApi.projects().name(newProjectName).create().get();
     assertEquals(newProjectName, p.name);
     ProjectState projectState = projectCache.get(new Project.NameKey(newProjectName));
     assertNotNull(projectState);

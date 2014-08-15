@@ -21,6 +21,19 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import java.util.List;
 
 public interface Projects {
+  /**
+   * Look up a project by name.
+   * <p>
+   * <strong>Note:</strong> This method eagerly reads the project. Methods that
+   * mutate the project do not necessarily re-read the project. Therefore,
+   * calling a getter method on an instance after calling a mutation method on
+   * that same instance is not guaranteed to reflect the mutation. It is not
+   * recommended to store references to {@code ProjectApi} instances.
+   *
+   * @param name project name.
+   * @return API for accessing the project.
+   * @throws RestApiException if an error occurred.
+   */
   ProjectApi name(String name) throws RestApiException;
 
   ListRequest list();

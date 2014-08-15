@@ -26,7 +26,6 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
-import com.google.gerrit.extensions.api.changes.ChangeApi;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.common.ApprovalInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
@@ -116,7 +115,9 @@ public class ChangeIT extends AbstractDaemonTest {
         .rebase();
   }
 
-  private static Set<Account.Id> getReviewers(ChangeInfo ci) {
+  private Set<Account.Id> getReviewers(String changeId)
+      throws RestApiException {
+    ChangeInfo ci = gApi.changes().id(changeId).get();
     Set<Account.Id> result = Sets.newHashSet();
     for (LabelInfo li : ci.labels.values()) {
       for (ApprovalInfo ai : li.all) {
@@ -132,22 +133,26 @@ public class ChangeIT extends AbstractDaemonTest {
     PushOneCommit.Result r = createChange();
     AddReviewerInput in = new AddReviewerInput();
     in.reviewer = user.email;
-    ChangeApi cApi = gApi.changes().id(r.getChangeId());
-    cApi.addReviewer(in);
-    assertEquals(ImmutableSet.of(user.id), getReviewers(cApi.get()));
+    gApi.changes()
+        .id(r.getChangeId())
+        .addReviewer(in);
+    assertEquals(ImmutableSet.of(user.id), getReviewers(r.getChangeId()));
   }
 
   @Test
   public void addReviewerToClosedChange() throws GitAPIException,
       IOException, RestApiException {
     PushOneCommit.Result r = createChange();
-    ChangeApi cApi = gApi.changes().id(r.getChangeId());
-    cApi.revision(r.getCommit().name())
+    gApi.changes()
+        .id(r.getChangeId())
+        .revision(r.getCommit().name())
         .review(ReviewInput.approve());
-    cApi.revision(r.getCommit().name())
+    gApi.changes()
+        .id(r.getChangeId())
+        .revision(r.getCommit().name())
         .submit();
 
-    assertEquals(ImmutableSet.of(admin.getId()), getReviewers(cApi.get()));
+    assertEquals(ImmutableSet.of(admin.getId()), getReviewers(r.getChangeId()));
 
     AddReviewerInput in = new AddReviewerInput();
     in.reviewer = user.email;
@@ -155,7 +160,7 @@ public class ChangeIT extends AbstractDaemonTest {
         .id(r.getChangeId())
         .addReviewer(in);
     assertEquals(ImmutableSet.of(admin.getId(), user.id),
-        getReviewers(cApi.get()));
+        getReviewers(r.getChangeId()));
   }
 
   @Test

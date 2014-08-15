@@ -18,7 +18,27 @@ import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 
 public interface Accounts {
+  /**
+   * Look up an account by ID.
+   * <p>
+   * <strong>Note:</strong> This method eagerly reads the account. Methods that
+   * mutate the account do not necessarily re-read the account. Therefore, calling
+   * a getter method on an instance after calling a mutation method on that same
+   * instance is not guaranteed to reflect the mutation. It is not recommended
+   * to store references to {@code AccountApi} instances.
+   *
+   * @param id any identifier supported by the REST API, including numeric ID,
+   *     email, or username.
+   * @return API for accessing the account.
+   * @throws RestApiException if an error occurred.
+   */
   AccountApi id(String id) throws RestApiException;
+
+  /**
+   * Look up the account of the current in-scope user.
+   *
+   * @see #id(String)
+   */
   AccountApi self() throws RestApiException;
 
   /**

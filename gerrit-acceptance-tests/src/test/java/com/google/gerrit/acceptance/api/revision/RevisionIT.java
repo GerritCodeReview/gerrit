@@ -27,7 +27,6 @@ import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.extensions.api.changes.ChangeApi;
 import com.google.gerrit.extensions.api.changes.CherryPickInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
-import com.google.gerrit.extensions.api.changes.RevisionApi;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -262,12 +261,6 @@ public class RevisionIT extends AbstractDaemonTest {
             .current()
             .reviewed()
             .isEmpty());
-  }
-
-  protected RevisionApi revision(PushOneCommit.Result r) throws Exception {
-    return gApi.changes()
-        .id(r.getChangeId())
-        .current();
   }
 
   private void merge(PushOneCommit.Result r) throws Exception {

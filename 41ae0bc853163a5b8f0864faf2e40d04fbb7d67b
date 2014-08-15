@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "16ca37de_e67f9e80",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 39
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-15T17:56:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "16ca37de_461b128e",
+      "range": {
+        "startLine": 16,
+        "startChar": 2,
+        "endLine": 16,
+        "endChar": 42
+      },
+      "revId": "41ae0bc853163a5b8f0864faf2e40d04fbb7d67b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b64deb11_e7c100ca",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeEditResource.java",
         "patchSetId": 39
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "b6a7ab22_ab5e0922",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeEditResource.java",
+        "patchSetId": 39
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-15T17:56:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b64deb11_e7c100ca",
+      "revId": "41ae0bc853163a5b8f0864faf2e40d04fbb7d67b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b64deb11_a7d5387e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeEdits.java",
         "patchSetId": 39
@@ -53,6 +95,24 @@
       "writtenOn": "2014-08-14T19:18:02Z",
       "side": 1,
       "message": "I think it is worth repeating in the javadoc for create and post that create is for creating file contents within the edit, and post is modifying the edit itself.",
+      "revId": "41ae0bc853163a5b8f0864faf2e40d04fbb7d67b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16ca37de_c6842252",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeEdits.java",
+        "patchSetId": 39
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-15T17:56:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b64deb11_a7d5387e",
       "revId": "41ae0bc853163a5b8f0864faf2e40d04fbb7d67b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -201,6 +261,24 @@
     },
     {
       "key": {
+        "uuid": "16ca37de_063abadf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeEdits.java",
+        "patchSetId": 39
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-15T17:56:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b64deb11_e7658021",
+      "revId": "41ae0bc853163a5b8f0864faf2e40d04fbb7d67b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b64deb11_8757dc39",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeEdits.java",
         "patchSetId": 39
@@ -218,6 +296,24 @@
     },
     {
       "key": {
+        "uuid": "b6a7ab22_eb7f7180",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeEdits.java",
+        "patchSetId": 39
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-15T17:56:54Z",
+      "side": 1,
+      "message": "Using in Post handler now Boolean. Done.",
+      "parentUuid": "b64deb11_8757dc39",
+      "revId": "41ae0bc853163a5b8f0864faf2e40d04fbb7d67b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b64deb11_2745a87e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeEdits.java",
         "patchSetId": 39
@@ -229,6 +325,24 @@
       "writtenOn": "2014-08-14T19:18:02Z",
       "side": 1,
       "message": "It\u0027s illegal to specify both content and restore, so 400 invalid cases.",
+      "revId": "41ae0bc853163a5b8f0864faf2e40d04fbb7d67b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b6a7ab22_8b7a2d92",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeEdits.java",
+        "patchSetId": 39
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-15T17:56:54Z",
+      "side": 1,
+      "message": "Not applicable any more.",
+      "parentUuid": "b64deb11_2745a87e",
       "revId": "41ae0bc853163a5b8f0864faf2e40d04fbb7d67b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

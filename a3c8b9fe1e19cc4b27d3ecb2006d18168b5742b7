@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b6a7ab22_2b7339b7",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/edit/ChangeEditIT.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 416,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-15T18:18:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b64deb11_c2e39239",
+      "range": {
+        "startLine": 416,
+        "startChar": 17,
+        "endLine": 416,
+        "endChar": 20
+      },
+      "revId": "a3c8b9fe1e19cc4b27d3ecb2006d18168b5742b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b64deb11_a2e68649",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/edit/ChangeEditIT.java",
         "patchSetId": 11
@@ -36,6 +60,30 @@
       "writtenOn": "2014-08-14T19:26:59Z",
       "side": 1,
       "message": "Static import like all the rest?",
+      "range": {
+        "startLine": 426,
+        "startChar": 17,
+        "endLine": 426,
+        "endChar": 33
+      },
+      "revId": "a3c8b9fe1e19cc4b27d3ecb2006d18168b5742b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b6a7ab22_cb5d5526",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/edit/ChangeEditIT.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 426,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-15T18:18:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b64deb11_a2e68649",
       "range": {
         "startLine": 426,
         "startChar": 17,
@@ -95,6 +143,24 @@
       "side": 1,
       "message": "I agree that you should be able to get the contents of a file not yet contained in the edit with GET /changes/X/edit/path. But I don\u0027t think you need this fallback case for that to work.\n\nSay the tree SHA-1 of the edit is T1, the tree SHA-1 of the base is T0. We are trying to get the contents of path P \"in the edit.\"\n\nIf P differs between T0 and T1, then we say P is \"in the edit\". In that case, we do a TreeWalk of T1 and look up P (which is what FileContentUtil.getContent() does).\n\nIf, on the other hand, P is the same between T0 and T1, then we say P is \"not in the edit\". However, we can still look up the contents of P by doing a TreeWalk of T1. It\u0027ll give us the same value as if we looked it up in T0, no fallback necessary. (Remember that T1, like any other git tree, is an entire snapshot of the repository contents, and contains a value for every path present at that commit.)\n\nFinally, if P was deleted in T1 but exists in T0, we need some way of indicating that to the user, and returning a 204 seems like the best way to do that.",
       "parentUuid": "d6509fa6_dc7cedf9",
+      "revId": "a3c8b9fe1e19cc4b27d3ecb2006d18168b5742b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16ca37de_66944e7f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeEdits.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-15T18:18:14Z",
+      "side": 1,
+      "message": "Fallback removed, 204 returned, new unit test is added that is covering this case. Done.",
+      "parentUuid": "f618432e_f5f478f0",
       "revId": "a3c8b9fe1e19cc4b27d3ecb2006d18168b5742b7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

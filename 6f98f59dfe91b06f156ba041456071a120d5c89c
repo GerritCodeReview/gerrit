@@ -130,6 +130,24 @@
     },
     {
       "key": {
+        "uuid": "b6124b0c_33e6084c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeEdits.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-15T16:41:37Z",
+      "side": 1,
+      "message": "Yes, good point. I understood the intent, which is that edits may be compared with arbitrary revisions, both at the file level and the top level.",
+      "parentUuid": "36073bcd_b7d1686f",
+      "revId": "6f98f59dfe91b06f156ba041456071a120d5c89c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b64deb11_e2a6cedc",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeEdits.java",
         "patchSetId": 13
@@ -195,6 +213,24 @@
       "side": 1,
       "message": "The reason we are doing this that way is to have non-intrusive integration in CS2 [1]. Here where it is called:\n\n  private void loadDiff(final RevisionInfo base, final RevisionInfo rev,\n      final Timestamp myLastReply, CallbackGroup group) {\n    final List\u003cNativeMap\u003cJsArray\u003cCommentInfo\u003e\u003e\u003e comments \u003d loadComments(rev, group);\n    final List\u003cNativeMap\u003cJsArray\u003cCommentInfo\u003e\u003e\u003e drafts \u003d loadDrafts(rev, group);\n    DiffApi.list(changeId.get(),\n      base !\u003d null ? base.name() : null,\n      rev,\n      group.add(new AsyncCallback\u003cNativeMap\u003cFileInfo\u003e\u003e() {\n        @Override\n        public void onSuccess(NativeMap\u003cFileInfo\u003e m) {\n          files.setRevisions(\n              base !\u003d null ? new PatchSet.Id(changeId, base._number()) : null,\n              new PatchSet.Id(changeId, rev._number()));\n          files.setValue(m, myLastReply, comments.get(0), drafts.get(0));\n        }\n\n        @Override\n        public void onFailure(Throwable caught) {\n        }\n      }));\n\nAnd only thing is changed compared to standard DiffApi.list() called for regular revisions is the endpoint construction and *not* result consumption [2]:\n\n  public static void list(int id, String base, RevisionInfo info,\n      AsyncCallback\u003cNativeMap\u003cFileInfo\u003e\u003e cb) {\n    RestApi api;\n    if (info.edit()) {\n      api \u003d ChangeApi.edit(id).addParameter(\"list\", true);\n    } else {\n      api \u003d ChangeApi.revision(id, info.name()).view(\"files\");\n    }\n    listCommon(base, cb, api);\n  }\n\nSo we can do that non-intrusive integration of edits in existed screen code when the return types are the same. Otherwise we would open completely different code paths for edit and unnecessary complicate the code and  make maintenance more cumbersome , i wanted to prevent this happens.\n\nI have another suggestion, what about to decouple listing of edit from getting edit detail, like we do with publish and rebase? And introduce new endpoint:\n\n* GET /changes/\u003cid\u003e/edit \u003d\u003e always only EditInfo or no conent when edit doesn\u0027t exist\n* GET /changes/\u003cid\u003e/edit_file \u003d\u003e always only Map\u003cString, FileInfo\u003e\n\nWhat do you think?\n\n* [1] https://gerrit-review.googlesource.com/53170/41/\n* gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java\n* [2] https://gerrit-review.googlesource.com/#/c/53170/41/\n* gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/DiffApi.java",
       "parentUuid": "56e90f2a_00dc4680",
+      "revId": "6f98f59dfe91b06f156ba041456071a120d5c89c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b6124b0c_13e30c3c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeEdits.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-15T16:41:37Z",
+      "side": 1,
+      "message": "I agree it would be nice to share client code and not have a completely different code path for dealing with edits. The existing code depends on NativeMap\u003cFileInfo\u003e\n\nWhat I\u0027m suggesting is making the Map\u003cString, FileInfo\u003e an optional field in ChangeEditInfo rather than returning it as the top-level response. Then the only difference for edits vs. regular revisions is where the NativeMap\u003cFileInfo\u003e comes from; once you\u0027ve extracted it, you can use the same code.\n\nI guess maybe this is a little intrusive if all you have already is a bunch of AsyncCallback\u003cNativeMap\u003cFileInfos\u003e\u003e. But I don\u0027t think it\u0027ll be that bad.",
+      "parentUuid": "b6a7ab22_8b4d0d87",
       "revId": "6f98f59dfe91b06f156ba041456071a120d5c89c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

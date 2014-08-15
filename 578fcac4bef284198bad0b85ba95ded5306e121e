@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b6a7ab22_eb581138",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/edit/ChangeEditIT.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-15T18:05:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b64deb11_a739b80d",
+      "range": {
+        "startLine": 270,
+        "startChar": 17,
+        "endLine": 270,
+        "endChar": 20
+      },
+      "revId": "578fcac4bef284198bad0b85ba95ded5306e121e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b64deb11_42d78260",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeEdits.java",
         "patchSetId": 36
@@ -36,6 +60,24 @@
       "writtenOn": "2014-08-14T19:21:23Z",
       "side": 1,
       "message": "Heh, my comment was not intended to be pasted literally here, it lacks detail. How about:\n\n  /**\n   * Handler to delete a file.\n   * \u003cp\u003e\n   * This deletes the file from the repository completely. This is not the same\n   * as reverting or restoring a file to its previous contents.\n   */",
+      "revId": "578fcac4bef284198bad0b85ba95ded5306e121e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16ca37de_268a565b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeEdits.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-15T18:05:51Z",
+      "side": 1,
+      "message": "Thanks. Done.",
+      "parentUuid": "b64deb11_42d78260",
       "revId": "578fcac4bef284198bad0b85ba95ded5306e121e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

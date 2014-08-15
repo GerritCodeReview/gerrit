@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <launchConfiguration type="org.eclipse.jdt.launching.localJavaApplication">
 <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_PATHS">
-<listEntry value="/gerrit/buck-out/gen/lib/gwt/dev/gwt-dev-2.6.1.jar"/>
+<listEntry value="/gerrit/gerrit-gwtdebug/src/main/java/com/google/gerrit/gwtdebug/GerritGwtDebugLauncher.java"/>
 </listAttribute>
 <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_TYPES">
 <listEntry value="1"/>
@@ -10,8 +10,14 @@
 <listEntry value="org.eclipse.debug.ui.launchGroup.debug"/>
 </listAttribute>
 <booleanAttribute key="org.eclipse.jdt.launching.ATTR_USE_START_ON_FIRST_THREAD" value="true"/>
-<stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="com.google.gwt.dev.DevMode"/>
-<stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-startupUrl /&#10;-war ${resource_loc:/gerrit}/buck-out/gen/gerrit-gwtui/ui_dbg__tmp/war&#10;-server com.google.gerrit.gwtdebug.GerritDebugLauncher&#10;com.google.gerrit.GerritGwtUI"/>
+<listAttribute key="org.eclipse.jdt.launching.CLASSPATH">
+<listEntry value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;no&quot;?&gt;&#10;&lt;runtimeClasspathEntry containerPath=&quot;org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7&quot; javaProject=&quot;gerrit&quot; path=&quot;1&quot; type=&quot;4&quot;/&gt;&#10;"/>
+<listEntry value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;no&quot;?&gt;&#10;&lt;runtimeClasspathEntry id=&quot;org.eclipse.jdt.launching.classpathentry.defaultClasspath&quot;&gt;&#10;&lt;memento exportedEntriesOnly=&quot;false&quot; project=&quot;gerrit&quot;/&gt;&#10;&lt;/runtimeClasspathEntry&gt;&#10;"/>
+<listEntry value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;no&quot;?&gt;&#10;&lt;runtimeClasspathEntry internalArchive=&quot;/gerrit/buck-out/gen/lib/gwt/codeserver/gwt-codeserver-2.6.1.jar&quot; path=&quot;3&quot; type=&quot;2&quot;/&gt;&#10;"/>
+</listAttribute>
+<booleanAttribute key="org.eclipse.jdt.launching.DEFAULT_CLASSPATH" value="false"/>
+<stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="com.google.gerrit.gwtdebug.GerritGwtDebugLauncher"/>
+<stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-noprecompile -src ${resource_loc:/gerrit} -workDir ${resource_loc:/gerrit}/buck-out/gen/gerrit-gwtui com.google.gerrit.GerritGwtUI -- --console-log --show-stack-trace -d ${resource_loc:/gerrit}/../gerrit_testsite"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="gerrit"/>
-<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Xmx256M&#10;-XX:MaxPermSize=128M&#10;-Dgwt.persistentunitcachedir=${resource_loc:/gerrit}/buck-out/gen/gerrit-gwtui/ui_dbg__tmp/unit_cache&#10;-Dgerrit.source_root=${resource_loc:/gerrit}&#10;-Dgerrit.site_path=${resource_loc:/gerrit}/../gerrit_testsite&#10;-da:com.google.gwtexpui.globalkey.client.KeyCommandSet"/>
+<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Xmx1024M&#10;-XX:MaxPermSize=256M"/>
 </launchConfiguration>

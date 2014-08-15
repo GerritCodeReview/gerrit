@@ -332,7 +332,7 @@ class TagSet {
     }
   }
 
-  private static boolean skip(Ref ref) {
+  static boolean skip(Ref ref) {
     return ref.isSymbolic() || ref.getObjectId() == null
         || PatchSet.isRef(ref.getName());
   }

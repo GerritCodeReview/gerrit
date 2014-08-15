@@ -14,6 +14,9 @@
 
 package com.google.gerrit.server.git;
 
+import com.google.common.base.Predicate;
+import com.google.common.collect.Iterators;
+import com.google.common.collect.Lists;
 import com.google.gerrit.reviewdb.client.Project;
 
 import org.eclipse.jgit.lib.Ref;
@@ -43,6 +46,15 @@ class TagSetHolder {
   }
 
   TagMatcher matcher(TagCache cache, Repository db, Collection<Ref> include) {
+    include =
+        Lists.newArrayList(Iterators.filter(include.iterator(),
+            new Predicate<Ref>() {
+
+              @Override
+              public boolean apply(Ref ref) {
+                return !TagSet.skip(ref);
+              }
+            }));
     TagSet tags = this.tags;
     if (tags == null) {
       tags = build(cache, db);

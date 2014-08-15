@@ -71,6 +71,30 @@
     },
     {
       "key": {
+        "uuid": "b6a7ab22_eb2931a5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1013497
+      },
+      "writtenOn": "2014-08-15T07:53:30Z",
+      "side": 1,
+      "message": "Same pattern is followed as in line 141. Please confirm if we need to remove this space.",
+      "parentUuid": "961c67fc_facf693b",
+      "range": {
+        "startLine": 151,
+        "startChar": 4,
+        "endLine": 151,
+        "endChar": 13
+      },
+      "revId": "1991fb3170e7aa372706a3f628775bfb94ad7e7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d6509fa6_9cabc55c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
         "patchSetId": 1
@@ -82,6 +106,30 @@
       "writtenOn": "2014-08-14T01:52:14Z",
       "side": 1,
       "message": "redundant space",
+      "range": {
+        "startLine": 161,
+        "startChar": 5,
+        "endLine": 161,
+        "endChar": 13
+      },
+      "revId": "1991fb3170e7aa372706a3f628775bfb94ad7e7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16ca37de_260ff653",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1013497
+      },
+      "writtenOn": "2014-08-15T07:53:30Z",
+      "side": 1,
+      "message": "Same pattern is followed as in line 141. Please confirm if we need to remove this space.",
+      "parentUuid": "d6509fa6_9cabc55c",
       "range": {
         "startLine": 161,
         "startChar": 5,

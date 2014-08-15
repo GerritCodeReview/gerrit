@@ -39,6 +39,48 @@
       "revId": "e08d178917101426736b8ce0cbf8ccca827fed1c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d646df41_ece04b32",
+        "filename": "Documentation/dev-eclipse.txt",
+        "patchSetId": 19
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-15T21:22:25Z",
+      "side": 1,
+      "message": "Good idea, we can do that, when say in couple of months we don\u0027t have 2.7 rc0 that fixed it.",
+      "parentUuid": "565e6ffe_f8e01132",
+      "revId": "e08d178917101426736b8ce0cbf8ccca827fed1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "163dd79e_eee03f32",
+        "filename": "Documentation/dev-eclipse.txt",
+        "patchSetId": 19
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-15T21:22:25Z",
+      "side": 1,
+      "message": "Indeed, thought it\u0027s clear, but yes.",
+      "parentUuid": "5653cffc_30e3883c",
+      "range": {
+        "startLine": 79,
+        "startChar": 28,
+        "endLine": 79,
+        "endChar": 31
+      },
+      "revId": "e08d178917101426736b8ce0cbf8ccca827fed1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

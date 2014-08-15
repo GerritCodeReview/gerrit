@@ -255,6 +255,24 @@
     },
     {
       "key": {
+        "uuid": "b6124b0c_73f080ff",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeEdits.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-15T16:54:06Z",
+      "side": 1,
+      "message": "\"Type A if you pass a flag or type B otherwise\" does not fit with the Java type system, doesn\u0027t really fit with the Javascript type system, and I think we should not build it into our public REST APIs. (I don\u0027t think this is already widespread in our APIs; the only place I can think of off the top of my head where we do it is in QueryChanges, and you can guess I\u0027m not a big fan of that either.)\n\nWe can discuss further the choice between:\n\n* Nested Map\u003cString, FileInfo\u003e in ChangeEditInfo\n* Separate endpoint returning ChangeEditInfo\n\nI don\u0027t feel too strongly, especially since we already have multiple endpoints about an edit.\n\nThe one question I have is: is there any single UI operation that needs to get _both_ information about the edit (ChangeEditInfo) _and_ the list of files in the edit (Map\u003cString, FileInfo\u003e)? If so, then there is a definite advantage to combining those in the response to a single request.",
+      "parentUuid": "16ca37de_66372ef8",
+      "revId": "6f98f59dfe91b06f156ba041456071a120d5c89c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b64deb11_02297a72",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeEdits.java",
         "patchSetId": 13

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "b6c08bc0_e32952a5",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/RebuildNotedb.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-08-15T17:44:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f618432e_f542b854",
+      "revId": "b9ce5118ba61f8f111d648cc9610055eb8665296",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b6124b0c_b31fb87f",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/RebuildNotedb.java",
         "patchSetId": 25
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "b6c08bc0_8324dece",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/RebuildNotedb.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-08-15T17:44:41Z",
+      "side": 1,
+      "message": "I was hoping to reuse the same open AllUsersRepo for all projects. Even if an exception happens, this loop doesn\u0027t throw it; we will just break out of the loop and close it. I can open and use a new AllUsersRepo every time if you think that is cleaner.",
+      "parentUuid": "b6124b0c_b31fb87f",
+      "revId": "b9ce5118ba61f8f111d648cc9610055eb8665296",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b6124b0c_93243ccf",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/RebuildNotedb.java",
         "patchSetId": 25
@@ -47,6 +83,24 @@
       "writtenOn": "2014-08-15T17:33:37Z",
       "side": 1,
       "message": "Release (or better, reuse the static method I suggested above :)",
+      "revId": "b9ce5118ba61f8f111d648cc9610055eb8665296",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b6c08bc0_a31f5a7f",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/RebuildNotedb.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1016407
+      },
+      "writtenOn": "2014-08-15T17:44:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b6124b0c_93243ccf",
       "revId": "b9ce5118ba61f8f111d648cc9610055eb8665296",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

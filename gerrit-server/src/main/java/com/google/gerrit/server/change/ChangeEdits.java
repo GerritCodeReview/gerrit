@@ -21,6 +21,7 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.common.EditInfo;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AcceptsCreate;
+import com.google.gerrit.extensions.restapi.AcceptsPost;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ChildCollection;
 import com.google.gerrit.extensions.restapi.DefaultInput;
@@ -52,21 +53,25 @@ import java.io.IOException;
 @Singleton
 public class ChangeEdits implements
     ChildCollection<ChangeResource, ChangeEditResource>,
-    AcceptsCreate<ChangeResource> {
+    AcceptsCreate<ChangeResource>,
+    AcceptsPost<ChangeResource> {
   private final DynamicMap<RestView<ChangeEditResource>> views;
   private final Create.Factory createFactory;
   private final Detail detail;
   private final ChangeEditUtil editUtil;
+  private final Post post;
 
   @Inject
   ChangeEdits(DynamicMap<RestView<ChangeEditResource>> views,
       Create.Factory createFactory,
       Detail detail,
-      ChangeEditUtil editUtil) {
+      ChangeEditUtil editUtil,
+      Post post) {
     this.views = views;
     this.createFactory = createFactory;
     this.detail = detail;
     this.editUtil = editUtil;
+    this.post = post;
   }
 
   @Override
@@ -95,6 +100,13 @@ public class ChangeEdits implements
   public Create create(ChangeResource parent, IdString id)
       throws RestApiException {
     return createFactory.create(parent.getChange(), id.get());
+  }
+
+
+  @SuppressWarnings("unchecked")
+  @Override
+  public Post post(ChangeResource parent) throws RestApiException {
+    return post;
   }
 
   /**
@@ -180,6 +192,61 @@ public class ChangeEdits implements
         return Response.ok(editJson.toEditInfo(edit.get()));
       }
       return Response.none();
+    }
+  }
+
+  /**
+   * Post to edit collection resource. Two different operations are
+   * supported:
+   * <ul>
+   * <li>Create non existing change edit</li>
+   * <li>Restore path in existing change edit</li>
+   * </ul>
+   * The combination of two operations in one request is supported.
+   */
+  @Singleton
+  public static class Post implements
+      RestModifyView<ChangeResource, Post.Input> {
+    public static class Input {
+      public String path;
+      public Boolean restore;
+    }
+
+    private final Provider<ReviewDb> db;
+    private final ChangeEditUtil editUtil;
+    private final ChangeEditModifier editModifier;
+
+    @Inject
+    Post(Provider<ReviewDb> db,
+        ChangeEditUtil editUtil,
+        ChangeEditModifier editModifier) {
+      this.db = db;
+      this.editUtil = editUtil;
+      this.editModifier = editModifier;
+    }
+
+    @Override
+    public Response<?> apply(ChangeResource resource, Post.Input input)
+        throws AuthException, InvalidChangeOperationException, IOException,
+        ResourceConflictException, OrmException {
+    Optional<ChangeEdit> edit = editUtil.byChange(resource.getChange());
+      if (!edit.isPresent()) {
+        edit = createEdit(resource.getChange());
+      }
+
+      if (input != null && !Strings.isNullOrEmpty(input.path)
+          && input.restore != null && input.restore) {
+        editModifier.restoreFile(edit.get(), input.path);
+      }
+      return Response.none();
+    }
+
+    private Optional<ChangeEdit> createEdit(Change change)
+        throws AuthException, IOException, ResourceConflictException,
+        OrmException, InvalidChangeOperationException {
+      editModifier.createEdit(change,
+          db.get().patchSets().get(change.currentPatchSetId()));
+      return editUtil.byChange(change);
     }
   }
 

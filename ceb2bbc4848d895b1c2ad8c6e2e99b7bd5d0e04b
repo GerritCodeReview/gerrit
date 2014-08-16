@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "73ec657a_21e0ae2f",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 30
+      },
+      "lineNbr": 470,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-16T10:30:38Z",
+      "side": 1,
+      "message": "This is outdated, it was changed to `OAUTH_GITHUB`.",
+      "range": {
+        "startLine": 470,
+        "startChar": 42,
+        "endLine": 470,
+        "endChar": 53
+      },
+      "revId": "ceb2bbc4848d895b1c2ad8c6e2e99b7bd5d0e04b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

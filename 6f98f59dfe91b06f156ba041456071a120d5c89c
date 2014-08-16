@@ -59,6 +59,30 @@
     },
     {
       "key": {
+        "uuid": "530a0115_78d1c168",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeEdits.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-16T08:25:11Z",
+      "side": 1,
+      "message": "Actually i copied this from Files.ListFiles class. If we should change it here, we should change it in ListFiles as well.",
+      "parentUuid": "b64deb11_42c9c28f",
+      "range": {
+        "startLine": 234,
+        "startChar": 39,
+        "endLine": 234,
+        "endChar": 52
+      },
+      "revId": "6f98f59dfe91b06f156ba041456071a120d5c89c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b64deb11_82982a9a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeEdits.java",
         "patchSetId": 13

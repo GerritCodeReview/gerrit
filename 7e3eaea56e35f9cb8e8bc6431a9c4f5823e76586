@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "530a0115_18e0852f",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/OAuthProtocol.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-16T13:12:06Z",
+      "side": 1,
+      "message": "You don\u0027t URL encode it here ...",
+      "range": {
+        "startLine": 73,
+        "startChar": 8,
+        "endLine": 73,
+        "endChar": 10
+      },
+      "revId": "7e3eaea56e35f9cb8e8bc6431a9c4f5823e76586",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "530a0115_f8e4b145",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/OAuthProtocol.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-16T13:12:06Z",
+      "side": 1,
+      "message": "Not here ...",
+      "range": {
+        "startLine": 180,
+        "startChar": 11,
+        "endLine": 180,
+        "endChar": 31
+      },
+      "revId": "7e3eaea56e35f9cb8e8bc6431a9c4f5823e76586",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "73ec657a_e1e1a633",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/OAuthProtocol.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-16T13:12:06Z",
+      "side": 1,
+      "message": "And not here. So you are sporadically screwed, because it\u0027s obviously not safe to include base64 encoded string in URL, see here why [1].\n\n [1] http://stackoverflow.com/questions/1374753/passing-base64-encoded-strings-in-url",
+      "range": {
+        "startLine": 216,
+        "startChar": 2,
+        "endLine": 220,
+        "endChar": 3
+      },
+      "revId": "7e3eaea56e35f9cb8e8bc6431a9c4f5823e76586",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "73ec657a_81d1ba6b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestReviewers.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-16T04:40:56Z",
+      "side": 1,
+      "message": "I think you probably want to define minimum \"suggest.from\" in case of \"suggest.fulltestsearch\" is enabled. Say 3. Otherwise, given that a big site can have 10k users, does it really make sense to scan the whole database in memory for just one  letter \u0027a\u0027 in full test search mode (and not start with \u0027a\u0027 as original code does)? Once this is the case may be you don\u0027t need that artificial and arbitrary upper limit of MAX_MATCHES any more?",
+      "range": {
+        "startLine": 119,
+        "startChar": 34,
+        "endLine": 119,
+        "endChar": 60
+      },
+      "revId": "187a1782d03b44c5a5596a349d24e009e690ba66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

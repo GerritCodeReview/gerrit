@@ -1315,6 +1315,29 @@ As response "`204 No Content`" is returned.
   HTTP/1.1 204 No Content
 ----
 
+[[rebase-edit]]
+=== Rebase Change Edit
+--
+'POST /changes/link:#change-id[\{change-id\}]/rebase_edit
+--
+
+Rebases change edit on top of latest patch set.
+
+.Request
+----
+  POST /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/rebase_edit HTTP/1.0
+----
+
+When change was rebased on top of latest patch set, response
+"`204 No Content`" is returned. When change edit is aready
+based on top of the latest patch set, the response
+"`409 Conflict`" is returned.
+
+.Response
+----
+  HTTP/1.1 204 No Content
+----
+
 [[reviewer-endpoints]]
 == Reviewer Endpoints
 

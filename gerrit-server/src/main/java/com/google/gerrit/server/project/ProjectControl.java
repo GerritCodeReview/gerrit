@@ -16,6 +16,7 @@ package com.google.gerrit.server.project;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.data.AccessSection;
@@ -525,7 +526,8 @@ public class ProjectControl {
     try {
       Repository repo = openRepository();
       try {
-        return isMergedIntoVisibleRef(repo, db, rw, commit, repo.getAllRefs());
+        return isMergedIntoVisibleRef(repo, db, rw, commit,
+            repo.getAllRefs().values());
       } finally {
         repo.close();
       }
@@ -539,10 +541,14 @@ public class ProjectControl {
   }
 
   boolean isMergedIntoVisibleRef(Repository repo, ReviewDb db, RevWalk rw,
-      RevCommit commit, Map<String, Ref> unfilteredRefs) throws IOException {
+      RevCommit commit, Collection<Ref> unfilteredRefs) throws IOException {
     VisibleRefFilter filter =
         new VisibleRefFilter(tagCache, changeCache, repo, this, db, true);
-    Map<String, Ref> refs = filter.filter(unfilteredRefs, true);
+    Map<String, Ref> m = Maps.newHashMapWithExpectedSize(unfilteredRefs.size());
+    for (Ref r : unfilteredRefs) {
+      m.put(r.getName(), r);
+    }
+    Map<String, Ref> refs = filter.filter(m, true);
     return !refs.isEmpty()
         && IncludedInResolver.includedInOne(repo, rw, commit, refs.values());
   }

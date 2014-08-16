@@ -324,9 +324,9 @@ public class RefControl {
     try {
       Repository repo = projectControl.openRepository();
       try {
-        Map<String, Ref> refs =
-            repo.getRefDatabase().getRefs(Constants.R_HEADS);
-        refs.putAll(repo.getRefDatabase().getRefs(Constants.R_TAGS));
+        List<Ref> refs = new ArrayList<>(
+            repo.getRefDatabase().getRefs(Constants.R_HEADS).values());
+        refs.addAll(repo.getRefDatabase().getRefs(Constants.R_TAGS).values());
         return projectControl.isMergedIntoVisibleRef(
             repo, db, rw, commit, refs);
       } finally {

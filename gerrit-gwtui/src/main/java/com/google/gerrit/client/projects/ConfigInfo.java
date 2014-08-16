@@ -47,6 +47,12 @@ public class ConfigInfo extends JavaScriptObject {
   public final native InheritedBooleanInfo use_signed_off_by()
   /*-{ return this.use_signed_off_by; }-*/;
 
+  public final native InheritedBooleanInfo add_change_id_footer()
+  /*-{ return this.add_change_id_footer; }-*/;
+
+  public final native InheritedBooleanInfo add_reviewed_on_footer()
+  /*-{ return this.add_reviewed_on_footer; }-*/;
+
   public final SubmitType submit_type() {
     return SubmitType.valueOf(submit_typeRaw());
   }

@@ -44,6 +44,8 @@ public class ConfigInfo {
   public InheritedBooleanInfo useContentMerge;
   public InheritedBooleanInfo useSignedOffBy;
   public InheritedBooleanInfo requireChangeId;
+  public InheritedBooleanInfo addChangeIdFooter;
+  public InheritedBooleanInfo addReviewedOnFooter;
   public MaxObjectSizeLimitInfo maxObjectSizeLimit;
   public SubmitType submitType;
   public com.google.gerrit.extensions.api.projects.ProjectState state;
@@ -68,17 +70,23 @@ public class ConfigInfo {
     InheritedBooleanInfo useSignedOffBy = new InheritedBooleanInfo();
     InheritedBooleanInfo useContentMerge = new InheritedBooleanInfo();
     InheritedBooleanInfo requireChangeId = new InheritedBooleanInfo();
+    InheritedBooleanInfo addChangeIdFooter = new InheritedBooleanInfo();
+    InheritedBooleanInfo addReviewedOnFooter = new InheritedBooleanInfo();
 
     useContributorAgreements.value = projectState.isUseContributorAgreements();
     useSignedOffBy.value = projectState.isUseSignedOffBy();
     useContentMerge.value = projectState.isUseContentMerge();
     requireChangeId.value = projectState.isRequireChangeID();
+    addChangeIdFooter.value = projectState.isAddChangeIdFooter();
+    addReviewedOnFooter.value = projectState.isAddReviewedOnFooter();
 
     useContributorAgreements.configuredValue =
         p.getUseContributorAgreements();
     useSignedOffBy.configuredValue = p.getUseSignedOffBy();
     useContentMerge.configuredValue = p.getUseContentMerge();
     requireChangeId.configuredValue = p.getRequireChangeID();
+    addChangeIdFooter.configuredValue = p.getAddChangeIdFooter();
+    addReviewedOnFooter.configuredValue = p.getAddReviewedOnFooter();
 
     ProjectState parentState = Iterables.getFirst(projectState
         .parents(), null);
@@ -88,12 +96,16 @@ public class ConfigInfo {
       useSignedOffBy.inheritedValue = parentState.isUseSignedOffBy();
       useContentMerge.inheritedValue = parentState.isUseContentMerge();
       requireChangeId.inheritedValue = parentState.isRequireChangeID();
+      addChangeIdFooter.inheritedValue = parentState.isAddChangeIdFooter();
+      addReviewedOnFooter.inheritedValue = parentState.isAddReviewedOnFooter();
     }
 
     this.useContributorAgreements = useContributorAgreements;
     this.useSignedOffBy = useSignedOffBy;
     this.useContentMerge = useContentMerge;
     this.requireChangeId = requireChangeId;
+    this.addChangeIdFooter = addChangeIdFooter;
+    this.addReviewedOnFooter = addReviewedOnFooter;
 
     MaxObjectSizeLimitInfo maxObjectSizeLimit = new MaxObjectSizeLimitInfo();
     maxObjectSizeLimit.value =

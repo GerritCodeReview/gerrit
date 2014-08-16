@@ -404,6 +404,24 @@ public class ProjectState {
     });
   }
 
+  public boolean isAddChangeIdFooter() {
+    return getInheritableBoolean(new Function<Project, InheritableBoolean>() {
+      @Override
+      public InheritableBoolean apply(Project input) {
+        return input.getAddChangeIdFooter();
+      }
+    });
+  }
+
+  public boolean isAddReviewedOnFooter() {
+    return getInheritableBoolean(new Function<Project, InheritableBoolean>() {
+      @Override
+      public InheritableBoolean apply(Project input) {
+        return input.getAddReviewedOnFooter();
+      }
+    });
+  }
+
   public LabelTypes getLabelTypes() {
     Map<String, LabelType> types = Maps.newLinkedHashMap();
     for (ProjectState s : treeInOrder()) {

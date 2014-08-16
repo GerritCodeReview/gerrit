@@ -217,7 +217,8 @@ public class MergeUtil {
       msgbuf.append('\n');
     }
 
-    if (!contains(footers, CHANGE_ID, n.change().getKey().get())) {
+    if (project.isAddChangeIdFooter()
+        && !contains(footers, CHANGE_ID, n.change().getKey().get())) {
       msgbuf.append(CHANGE_ID.getName());
       msgbuf.append(": ");
       msgbuf.append(n.change().getKey().get());
@@ -225,7 +226,7 @@ public class MergeUtil {
     }
 
     final String siteUrl = urlProvider.get();
-    if (siteUrl != null) {
+    if (siteUrl != null && project.isAddReviewedOnFooter()) {
       final String url = siteUrl + n.getPatchsetId().getParentKey().get();
       if (!contains(footers, REVIEWED_ON, url)) {
         msgbuf.append(REVIEWED_ON.getName());

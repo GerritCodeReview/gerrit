@@ -33,6 +33,8 @@ public class ProjectInput {
   public InheritableBoolean useSignedOffBy;
   public InheritableBoolean useContentMerge;
   public InheritableBoolean requireChangeId;
+  public InheritableBoolean addChangeIdFooter;
+  public InheritableBoolean addReviewedOnFooter;
   public String maxObjectSizeLimit;
   public Map<String, Map<String, ConfigValue>> pluginConfigValues;
 

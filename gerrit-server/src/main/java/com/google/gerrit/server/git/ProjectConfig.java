@@ -98,6 +98,10 @@ public class ProjectConfig extends VersionedMetaData {
   private static final String BRANCH_ORDER = "branchOrder";
   private static final String BRANCH = "branch";
 
+  private static final String CHERRY_PICK = "cherry-pick";
+  private static final String KEY_ADD_CHANGE_ID_FOOTER = "addChangeIdFooter";
+  private static final String KEY_ADD_REVIEWD_ON_FOOTER = "addReviewedOnFooter";
+
   private static final String CONTRIBUTOR_AGREEMENT = "contributor-agreement";
   private static final String KEY_ACCEPTED = "accepted";
   private static final String KEY_REQUIRE_CONTACT_INFORMATION = "requireContactInformation";
@@ -424,6 +428,9 @@ public class ProjectConfig extends VersionedMetaData {
     p.setSubmitType(getEnum(rc, SUBMIT, null, KEY_ACTION, defaultSubmitAction));
     p.setUseContentMerge(getEnum(rc, SUBMIT, null, KEY_MERGE_CONTENT, InheritableBoolean.INHERIT));
     p.setState(getEnum(rc, PROJECT, null, KEY_STATE, defaultStateValue));
+
+    p.setAddChangeIdFooter(getEnum(rc, CHERRY_PICK, null, KEY_ADD_CHANGE_ID_FOOTER, InheritableBoolean.INHERIT));
+    p.setAddReviewedOnFooter(getEnum(rc, CHERRY_PICK, null, KEY_ADD_REVIEWD_ON_FOOTER, InheritableBoolean.INHERIT));
 
     p.setDefaultDashboard(rc.getString(DASHBOARD, null, KEY_DEFAULT));
     p.setLocalDefaultDashboard(rc.getString(DASHBOARD, null, KEY_LOCAL_DEFAULT));
@@ -824,6 +831,9 @@ public class ProjectConfig extends VersionedMetaData {
     set(rc, SUBMIT, null, KEY_MERGE_CONTENT, p.getUseContentMerge(), InheritableBoolean.INHERIT);
 
     set(rc, PROJECT, null, KEY_STATE, p.getState(), defaultStateValue);
+
+    set(rc, CHERRY_PICK, null, KEY_ADD_CHANGE_ID_FOOTER, p.getAddChangeIdFooter(), InheritableBoolean.INHERIT);
+    set(rc, CHERRY_PICK, null, KEY_ADD_REVIEWD_ON_FOOTER, p.getAddReviewedOnFooter(), InheritableBoolean.INHERIT);
 
     set(rc, DASHBOARD, null, KEY_DEFAULT, p.getDefaultDashboard());
     set(rc, DASHBOARD, null, KEY_LOCAL_DEFAULT, p.getLocalDefaultDashboard());

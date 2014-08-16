@@ -67,6 +67,8 @@ public class PutConfig implements RestModifyView<ProjectResource, Input> {
     public InheritableBoolean useContentMerge;
     public InheritableBoolean useSignedOffBy;
     public InheritableBoolean requireChangeId;
+    public InheritableBoolean addChangeIdFooter;
+    public InheritableBoolean addReviewedOnFooter;
     public String maxObjectSizeLimit;
     public SubmitType submitType;
     public com.google.gerrit.extensions.api.projects.ProjectState state;
@@ -149,7 +151,12 @@ public class PutConfig implements RestModifyView<ProjectResource, Input> {
       if (input.requireChangeId != null) {
         p.setRequireChangeID(input.requireChangeId);
       }
-
+      if (input.addChangeIdFooter != null) {
+        p.setAddChangeIdFooter(input.addChangeIdFooter);
+      }
+      if (input.addReviewedOnFooter != null) {
+        p.setAddReviewedOnFooter(input.addReviewedOnFooter);
+      }
       if (input.maxObjectSizeLimit != null) {
         p.setMaxObjectSizeLimit(input.maxObjectSizeLimit);
       }

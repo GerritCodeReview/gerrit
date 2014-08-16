@@ -42,6 +42,8 @@ public interface AdminConstants extends Constants {
   String useContributorAgreements();
   String useSignedOffBy();
   String requireChangeID();
+  String addChangeIdFooter();
+  String addReviewedOnFooter();
   String headingMaxObjectSizeLimit();
   String headingGroupOptions();
   String isVisibleToAll();
@@ -65,6 +67,7 @@ public interface AdminConstants extends Constants {
   String headingCreateGroup();
   String headingParentProjectName();
   String columnProjectName();
+  String headingCherryPickOptions();
   String headingAgreements();
 
   String headingProjectSubmitType();

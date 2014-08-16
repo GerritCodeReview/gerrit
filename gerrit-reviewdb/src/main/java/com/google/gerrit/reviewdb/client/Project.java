@@ -72,6 +72,10 @@ public final class Project {
 
   protected String description;
 
+  protected InheritableBoolean addReviewedOnFooter;
+
+  protected InheritableBoolean addChangeIdFooter;
+
   protected InheritableBoolean useContributorAgreements;
 
   protected InheritableBoolean useSignedOffBy;
@@ -105,6 +109,8 @@ public final class Project {
     useSignedOffBy = InheritableBoolean.INHERIT;
     requireChangeID = InheritableBoolean.INHERIT;
     useContentMerge = InheritableBoolean.INHERIT;
+    addReviewedOnFooter = InheritableBoolean.INHERIT;
+    addChangeIdFooter = InheritableBoolean.INHERIT;
   }
 
   public Project.NameKey getNameKey() {
@@ -139,6 +145,14 @@ public final class Project {
     return requireChangeID;
   }
 
+  public InheritableBoolean getAddReviewedOnFooter() {
+    return addReviewedOnFooter;
+  }
+
+  public InheritableBoolean getAddChangeIdFooter() {
+    return addChangeIdFooter;
+  }
+
   public String getMaxObjectSizeLimit() {
     return maxObjectSizeLimit;
   }
@@ -161,6 +175,14 @@ public final class Project {
 
   public void setMaxObjectSizeLimit(final String limit) {
     maxObjectSizeLimit = limit;
+  }
+
+  public void setAddReviewedOnFooter(final InheritableBoolean ro) {
+    addReviewedOnFooter = ro;
+  }
+
+  public void setAddChangeIdFooter(final InheritableBoolean cid) {
+    addChangeIdFooter = cid;
   }
 
   public SubmitType getSubmitType() {
@@ -205,6 +227,8 @@ public final class Project {
 
   public void copySettingsFrom(final Project update) {
     description = update.description;
+    addReviewedOnFooter = update.addReviewedOnFooter;
+    addChangeIdFooter = update.addChangeIdFooter;
     useContributorAgreements = update.useContributorAgreements;
     useSignedOffBy = update.useSignedOffBy;
     useContentMerge = update.useContentMerge;

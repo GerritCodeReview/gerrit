@@ -188,6 +188,18 @@ maximum Git object size limit that is actually used on the project.
 The defined maximum Git object size limit is inherited by any child
 project.
 
+=== Add Change-Id to commit message
+
+The `Add Change-Id to commit message` option defines if Gerrit adds a
+link:user-changeid.html[Change-Id] to the commit message when used with
+the `Cherry Pick` submit type.
+
+=== Add Reviewed-on to commit message
+
+The `Add Reviewed-on to commit message` option defines if Gerrit adds a
+`Reviewed-on` line at the end of the commit message when used with the
+`Cherry Pick` submit type.
+
 === Require Signed-off-by
 
 The `Require Signed-off-by in commit message` option defines whether a

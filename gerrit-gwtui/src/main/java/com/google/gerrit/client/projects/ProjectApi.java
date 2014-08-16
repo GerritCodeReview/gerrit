@@ -85,7 +85,8 @@ public class ProjectApi {
   public static void setConfig(Project.NameKey name, String description,
       InheritableBoolean useContributorAgreements,
       InheritableBoolean useContentMerge, InheritableBoolean useSignedOffBy,
-      InheritableBoolean requireChangeId, String maxObjectSizeLimit,
+      InheritableBoolean requireChangeId, InheritableBoolean addChangeIdFooter,
+      InheritableBoolean addReviewedOnFooter, String maxObjectSizeLimit,
       SubmitType submitType, ProjectState state,
       Map<String, Map<String, ConfigParameterValue>> pluginConfigValues,
       AsyncCallback<ConfigInfo> cb) {
@@ -95,6 +96,8 @@ public class ProjectApi {
     in.setUseContentMerge(useContentMerge);
     in.setUseSignedOffBy(useSignedOffBy);
     in.setRequireChangeId(requireChangeId);
+    in.setAddChangeIdFooter(addChangeIdFooter);
+    in.setAddReviewedOnFooter(addReviewedOnFooter);
     in.setMaxObjectSizeLimit(maxObjectSizeLimit);
     in.setSubmitType(submitType);
     in.setState(state);
@@ -202,6 +205,18 @@ public class ProjectApi {
     }
     private final native void setUseSignedOffByRaw(String v)
     /*-{ if(v)this.use_signed_off_by=v; }-*/;
+
+    final void setAddChangeIdFooter(InheritableBoolean v) {
+      setAddChangeIdFooterRaw(v.name());
+    }
+    private final native void setAddChangeIdFooterRaw(String v)
+    /*-{ if(v)this.add_change_id_footer=v; }-*/;
+
+    final void setAddReviewedOnFooter(InheritableBoolean v) {
+      setAddReviewedOnFooterRaw(v.name());
+    }
+    private final native void setAddReviewedOnFooterRaw(String v)
+    /*-{ if(v)this.add_reviewed_on_footer=v; }-*/;
 
     final void setRequireChangeId(InheritableBoolean v) {
       setRequireChangeIdRaw(v.name());

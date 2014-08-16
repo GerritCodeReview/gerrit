@@ -83,6 +83,10 @@ public class ProjectInfoScreen extends ProjectScreen {
   private Label effectiveMaxObjectSizeLimit;
   private Map<String, Map<String, HasEnabled>> pluginConfigWidgets;
 
+  // Section: Cherry-Pick Options
+  private ListBox addChangeIdFooter;
+  private ListBox addReviewedOnFooter;
+
   // Section: Contributor Agreements
   private ListBox contributorAgreements;
   private ListBox signedOffBy;
@@ -116,6 +120,7 @@ public class ProjectInfoScreen extends ProjectScreen {
     pluginOptionsPanel = new FlowPanel();
     actionsGrid = new LabeledWidgetsGrid();
     initProjectOptions();
+    initCherryPickOptions();
     initAgreements();
     add(grid);
     add(pluginOptionsPanel);
@@ -156,8 +161,10 @@ public class ProjectInfoScreen extends ProjectScreen {
   private void enableForm(boolean isOwner) {
     state.setEnabled(isOwner);
     submitType.setEnabled(isOwner);
-    setEnabledForUseContentMerge();
+    setEnabledForDependentListBoxes();
     descTxt.setEnabled(isOwner);
+    addChangeIdFooter.setEnabled(isOwner);
+    addReviewedOnFooter.setEnabled(isOwner);
     contributorAgreements.setEnabled(isOwner);
     signedOffBy.setEnabled(isOwner);
     requireChangeID.setEnabled(isOwner);
@@ -203,7 +210,7 @@ public class ProjectInfoScreen extends ProjectScreen {
     submitType.addChangeHandler(new ChangeHandler() {
       @Override
       public void onChange(ChangeEvent event) {
-        setEnabledForUseContentMerge();
+        setEnabledForDependentListBoxes();
       }
     });
     saveEnabler.listenTo(submitType);
@@ -214,6 +221,12 @@ public class ProjectInfoScreen extends ProjectScreen {
     grid.add(Util.C.useContentMerge(), contentMerge);
 
     requireChangeID = newInheritedBooleanBox();
+    requireChangeID.addChangeHandler(new ChangeHandler() {
+      @Override
+      public void onChange(ChangeEvent event) {
+        setEnabledForDependentListBoxes();
+      }
+    });
     saveEnabler.listenTo(requireChangeID);
     grid.addHtml(Util.C.requireChangeID(), requireChangeID);
 
@@ -242,7 +255,7 @@ public class ProjectInfoScreen extends ProjectScreen {
    * If the submit type (currently only 'Fast Forward Only') does not allow
    * content merge the useContentMerge checkbox gets disabled.
    */
-  private void setEnabledForUseContentMerge() {
+  private void setEnabledForDependentListBoxes() {
     if (SubmitType.FAST_FORWARD_ONLY.equals(SubmitType
         .valueOf(submitType.getValue(submitType.getSelectedIndex())))) {
       contentMerge.setEnabled(false);
@@ -252,6 +265,39 @@ public class ProjectInfoScreen extends ProjectScreen {
     } else {
       contentMerge.setEnabled(submitType.isEnabled());
     }
+
+    if (SubmitType.CHERRY_PICK.equals(SubmitType
+        .valueOf(submitType.getValue(submitType.getSelectedIndex()))) &&
+        !getBoolValue(requireChangeID)) {
+      addChangeIdFooter.setEnabled(submitType.isEnabled());
+    } else {
+      addChangeIdFooter.setEnabled(false);
+      InheritedBooleanInfo b = InheritedBooleanInfo.create();
+      b.setConfiguredValue(InheritableBoolean.FALSE);
+      setBool(addChangeIdFooter, b);
+    }
+
+    if (SubmitType.CHERRY_PICK.equals(SubmitType
+        .valueOf(submitType.getValue(submitType.getSelectedIndex())))) {
+      addReviewedOnFooter.setEnabled(submitType.isEnabled());
+    } else {
+      addReviewedOnFooter.setEnabled(false);
+      InheritedBooleanInfo b = InheritedBooleanInfo.create();
+      b.setConfiguredValue(InheritableBoolean.FALSE);
+      setBool(addReviewedOnFooter, b);
+    }
+  }
+
+  private void initCherryPickOptions() {
+    grid.addHeader(new SmallHeading(Util.C.headingCherryPickOptions()));
+
+    addChangeIdFooter = newInheritedBooleanBox();
+    saveEnabler.listenTo(addChangeIdFooter);
+    grid.addHtml(Util.C.addChangeIdFooter(), addChangeIdFooter);
+
+    addReviewedOnFooter = newInheritedBooleanBox();
+    saveEnabler.listenTo(addReviewedOnFooter);
+    grid.addHtml(Util.C.addReviewedOnFooter(), addReviewedOnFooter);
   }
 
   private void initAgreements() {
@@ -278,7 +324,7 @@ public class ProjectInfoScreen extends ProjectScreen {
         }
       }
       submitType.setSelectedIndex(index);
-      setEnabledForUseContentMerge();
+      setEnabledForDependentListBoxes();
     }
   }
 
@@ -333,12 +379,28 @@ public class ProjectInfoScreen extends ProjectScreen {
     return InheritableBoolean.INHERIT;
   }
 
+  private static boolean getBoolValue(ListBox box) {
+    int i = box.getSelectedIndex();
+    if (i >= 0) {
+      final String selectedValue = box.getValue(i);
+      if (selectedValue.equals(InheritableBoolean.TRUE.name())) {
+        return true;
+      }
+      if (selectedValue.indexOf("(" + true + ")") > 0) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   void display(ConfigInfo result) {
     descTxt.setText(result.description());
     setBool(contributorAgreements, result.use_contributor_agreements());
     setBool(signedOffBy, result.use_signed_off_by());
     setBool(contentMerge, result.use_content_merge());
     setBool(requireChangeID, result.require_change_id());
+    setBool(addChangeIdFooter, result.add_change_id_footer());
+    setBool(addReviewedOnFooter, result.add_reviewed_on_footer());
     setSubmitType(result.submit_type());
     setState(result.state());
     maxObjectSizeLimit.setText(result.max_object_size_limit().configured_value());
@@ -570,6 +632,7 @@ public class ProjectInfoScreen extends ProjectScreen {
     ProjectApi.setConfig(getProjectKey(), descTxt.getText().trim(),
         getBool(contributorAgreements), getBool(contentMerge),
         getBool(signedOffBy), getBool(requireChangeID),
+        getBool(addChangeIdFooter), getBool(addReviewedOnFooter),
         maxObjectSizeLimit.getText().trim(),
         SubmitType.valueOf(submitType.getValue(submitType.getSelectedIndex())),
         ProjectState.valueOf(state.getValue(state.getSelectedIndex())),

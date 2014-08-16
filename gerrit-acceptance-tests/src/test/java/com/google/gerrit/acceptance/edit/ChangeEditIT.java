@@ -216,6 +216,37 @@ public class ChangeEditIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void rebaseEditRest() throws Exception {
+    assertEquals(RefUpdate.Result.NEW,
+        modifier.createEdit(
+            change,
+            ps));
+    assertEquals(RefUpdate.Result.FORCED,
+        modifier.modifyFile(
+            editUtil.byChange(change).get(),
+            FILE_NAME,
+            CONTENT_NEW));
+    ChangeEdit edit = editUtil.byChange(change).get();
+    PatchSet current = getCurrentPatchSet(changeId);
+    assertEquals(current.getPatchSetId() - 1,
+        edit.getBasePatchSet().getPatchSetId());
+    Date beforeRebase = edit.getEditCommit().getCommitterIdent().getWhen();
+    RestResponse r = session.post(urlRebase());
+    assertEquals(SC_NO_CONTENT, r.getStatusCode());
+    edit = editUtil.byChange(change).get();
+    assertArrayEquals(CONTENT_NEW,
+        toBytes(fileUtil.getContent(edit.getChange().getProject(),
+            edit.getRevision().get(), FILE_NAME)));
+    assertArrayEquals(CONTENT_NEW2,
+        toBytes(fileUtil.getContent(edit.getChange().getProject(),
+            edit.getRevision().get(), FILE_NAME2)));
+    assertEquals(current.getPatchSetId(),
+        edit.getBasePatchSet().getPatchSetId());
+    Date afterRebase = edit.getEditCommit().getCommitterIdent().getWhen();
+    assertFalse(beforeRebase.equals(afterRebase));
+  }
+
+  @Test
   public void updateExistingFile() throws Exception {
     assertEquals(RefUpdate.Result.NEW,
         modifier.createEdit(
@@ -608,6 +639,12 @@ public class ChangeEditIT extends AbstractDaemonTest {
     return "/changes/"
         + change.getChangeId()
         + "/publish_edit";
+  }
+
+  private String urlRebase() {
+    return "/changes/"
+        + change.getChangeId()
+        + "/rebase_edit";
   }
 
   private EditInfo toEditInfo() throws IOException {

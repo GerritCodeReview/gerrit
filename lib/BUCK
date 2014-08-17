@@ -34,7 +34,7 @@ maven_jar(
 
 maven_jar(
   name = 'gwtjsonrpc',
-  id = 'gwtjsonrpc:gwtjsonrpc:1.5',
+  id = 'gwtjsonrpc:gwtjsonrpc:1.6',
   bin_sha1 = '8995287e2c3c866e826d06993904e2c8d7961e4b',
   src_sha1 = 'c9461f6c0490f26720e3ff15b5607320eab89d96',
   license = 'Apache2.0',

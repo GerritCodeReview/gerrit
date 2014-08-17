@@ -5,6 +5,10 @@ from multiprocessing import cpu_count
 DEPS = [
   '//gerrit-gwtexpui:CSS',
   '//lib:gwtjsonrpc',
+  '//lib/ow2:ow2-asm',
+  '//lib/ow2:ow2-asm-analysis',
+  '//lib/ow2:ow2-asm-util',
+  '//lib/ow2:ow2-asm-tree',
 ]
 
 genrule(

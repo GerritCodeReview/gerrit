@@ -52,22 +52,6 @@ Duplicate the existing launch configuration:
 The gerrit_gwt_debug launch configuration uses GWT's
 link:http://www.gwtproject.org/articles/superdevmode.html[Super Dev Mode].
 
-Due to a problem where the codeserver does not correctly identify the connected
-user agent (already fixed upstream but not yet released), the used user agent
-must be explicitly set in `GerritGwtUI.gwt.xml` for SDM to work:
-
-[source,xml]
-----
-  <set-property name="user.agent" value="gecko1_8" />
-----
-
-or
-
-[source,xml]
-----
-  <set-property name="user.agent" value="safari" />
-----
-
 * Select in Eclipse Run -> Debug Configurations `gerrit_gwt_debug.launch`
 * Only once: add bookmarks for `Dev Mode On/Off` from codeserver URL:
 `http://localhost:9876/` to your bookmark bar

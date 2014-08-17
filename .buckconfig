@@ -12,7 +12,6 @@
   release = //:release
   safari = //:safari
   withdocs = //:withdocs
-  codeserver = //lib/gwt:codeserver
 
 [buildfile]
   includes = //tools/default.defs

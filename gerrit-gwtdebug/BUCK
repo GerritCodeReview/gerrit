@@ -6,7 +6,6 @@ java_library(
     '//gerrit-pgm:util',
     '//gerrit-util-cli:cli',
     '//lib/gwt:dev',
-    '//lib/gwt:codeserver',
     '//lib/jetty:server',
     '//lib/jetty:servlet',
     '//lib/jetty:servlets',

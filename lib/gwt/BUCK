@@ -1,39 +1,25 @@
 include_defs('//lib/maven.defs')
 
-VERSION = '2.6.1'
+VERSION = '2.7.0-SNAPSHOT'
 
-maven_jar(
+local_jar(
   name = 'user',
-  id = 'com.google.gwt:gwt-user:' + VERSION,
-  sha1 = 'c078b1b8cc0281214b0eb458d2c283d039374fad',
-  license = 'Apache2.0',
-  attach_source = False,
+  jar = '/home/davido/projects/gwt/build/lib/gwt-user.jar',
 )
 
-maven_jar(
+local_jar(
   name = 'dev',
-  id = 'com.google.gwt:gwt-dev:' + VERSION,
-  sha1 = 'db237e4be0aa1fe43425d2c51ab5485dba211ddd',
-  license = 'Apache2.0',
+  jar = '/home/davido/projects/gwt/build/lib/gwt-dev.jar',
   deps = [
     ':javax-validation',
     ':javax-validation_src',
     ':json',
   ],
-  attach_source = False,
-  exclude = ['org/eclipse/jetty/*'],
 )
 
-maven_jar(
+local_jar(
   name = 'codeserver',
-  id = 'com.google.gwt:gwt-codeserver:' + VERSION,
-  sha1 = '940edc715cc31b1957e18f617f75a068f251346a',
-  license = 'Apache2.0',
-  deps = [
-    ':dev',
-    ':legacy-jetty-servlet-aggregate',
-  ],
-  attach_source = False,
+  jar = '/home/davido/projects/gwt/build/lib/gwt-codeserver.jar',
 )
 
 maven_jar(
@@ -70,24 +56,5 @@ maven_jar(
   id = 'org.javassist:javassist:3.18.1-GA',
   sha1 = 'd9a09f7732226af26bf99f19e2cffe0ae219db5b',
   license = 'Apache2.0',
-  visibility = [],
-)
-
-maven_jar(
-  name = 'legacy-jetty-servlet-aggregate',
-  id = 'org.eclipse.jetty.aggregate:jetty-servlet:8.1.12.v20130726',
-  sha1 = '4d0f0cb6e5a54de01be46717a7ab48d0b45dcadd',
-  license = 'Apache2.0',
-  attach_source = False,
-  deps = [':legacy-jetty-servlets'],
-  visibility = [],
-)
-
-maven_jar(
-  name = 'legacy-jetty-servlets',
-  id = 'org.eclipse.jetty:jetty-servlets:8.1.12.v20130726',
-  sha1 = '4ebc6894b899fee0c3597697d11f255ce9214bbf',
-  license = 'Apache2.0',
-  attach_source = False,
   visibility = [],
 )

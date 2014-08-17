@@ -25,10 +25,12 @@ import com.googlecode.gwt.test.GwtTest;
 import net.codemirror.lib.LineCharacter;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /** Unit tests for EditIterator */
 @GwtModule("com.google.gerrit.GerritGwtUI")
+@Ignore
 public class EditIteratorTest extends GwtTest {
   private JsArrayString lines;
 

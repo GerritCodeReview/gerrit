@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "530a0115_58fdddd0",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 32
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-17T02:40:18Z",
+      "side": 1,
+      "message": "This statement should be clarified:\n\n`auth.httpHeader` is required to be set in this case. This is done during site initialization, but Gerrit wouldn\u0027t even start when this option is missing.",
+      "range": {
+        "startLine": 161,
+        "startChar": 2,
+        "endLine": 161,
+        "endChar": 76
+      },
+      "revId": "55f6b8c52ea57b4d9e5176740d65b88ad13b29c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

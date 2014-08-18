@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "f3205593_d513fc73",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 1227,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-18T18:47:50Z",
+      "side": 1,
+      "message": "Sure, ChangeEditInput sounds good for the thing you POST to /changes/X/edit :)",
+      "parentUuid": "530a0115_f8883166",
+      "range": {
+        "startLine": 1227,
+        "startChar": 32,
+        "endLine": 1227,
+        "endChar": 74
+      },
+      "revId": "52f6ed5f5edec955394228c996522860b7ced13c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d31d115e_544fec80",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 5

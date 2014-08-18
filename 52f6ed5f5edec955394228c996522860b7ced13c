@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d31d115e_744ae872",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 1227,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-18T18:29:59Z",
+      "side": 1,
+      "message": "Although we don\u0027t currently have anything else to put in this endpoint, it feels like this should have a more general name than \"RestorePathInput\". It also makes the \"restore\" flag in the body seem redundant.",
+      "range": {
+        "startLine": 1227,
+        "startChar": 32,
+        "endLine": 1227,
+        "endChar": 74
+      },
+      "revId": "52f6ed5f5edec955394228c996522860b7ced13c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d31d115e_544fec80",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 3719,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-18T18:29:59Z",
+      "side": 1,
+      "message": "What if it\u0027s false? That just seems invalid.\n\nWhat if we changed path to restore_path and dropped this flag.",
+      "revId": "52f6ed5f5edec955394228c996522860b7ced13c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

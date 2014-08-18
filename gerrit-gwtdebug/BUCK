@@ -3,6 +3,7 @@ java_library(
   srcs = ['src/main/java/com/google/gerrit/gwtdebug/GerritDebugLauncher.java'],
   deps = [
     '//lib/gwt:dev',
+    '//lib/gwt:codeserver',
     '//lib/jetty:server',
     '//lib/jetty:servlet',
     '//lib/jetty:webapp',

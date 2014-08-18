@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f3205593_75d1c868",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-18T13:47:56Z",
+      "side": 1,
+      "message": "I see you\u0027re just copying the condition from isVisible above(), but please put some parens around the conditions here to make ordering explicit.",
+      "revId": "aa22b27fb1aea641055a91c61ddc72ea2ff7b7b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,112 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d31d115e_74d1c868",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 27
+      },
+      "lineNbr": 1143,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-18T13:53:36Z",
+      "side": 1,
+      "message": "Please add a comment that these endpoints are not considered stable. We just resolved one question but I\u0027m not at all sure there won\u0027t be unresolved questions at the end of this series, or non-backwards-compatible improvements we decide on after the fact.",
+      "revId": "0dad5ae6bc4a70cf3a89b60b07c9eeb0d686f68e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f3205593_35db508b",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 27
+      },
+      "lineNbr": 1158,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-18T13:53:36Z",
+      "side": 1,
+      "message": "Would this be a good place to describe what an edit is, and that there can only be one for a change, etc.?",
+      "revId": "0dad5ae6bc4a70cf3a89b60b07c9eeb0d686f68e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f3205593_15e0542f",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 27
+      },
+      "lineNbr": 1170,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-18T13:53:36Z",
+      "side": 1,
+      "message": "Is this actually what the indentation looks like?",
+      "revId": "0dad5ae6bc4a70cf3a89b60b07c9eeb0d686f68e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d31d115e_54d6cc62",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 27
+      },
+      "lineNbr": 3649,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-18T13:53:36Z",
+      "side": 1,
+      "message": "I don\u0027t think this is right.",
+      "range": {
+        "startLine": 3649,
+        "startChar": 28,
+        "endLine": 3649,
+        "endChar": 44
+      },
+      "revId": "0dad5ae6bc4a70cf3a89b60b07c9eeb0d686f68e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f3205593_f5e4b845",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeInfo.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-18T13:53:36Z",
+      "side": 1,
+      "message": "Is this method necessary?",
+      "revId": "0dad5ae6bc4a70cf3a89b60b07c9eeb0d686f68e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f3205593_d5e1bc33",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditJson.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-18T13:53:36Z",
+      "side": 1,
+      "message": "Unnecessary blank line.",
+      "revId": "0dad5ae6bc4a70cf3a89b60b07c9eeb0d686f68e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

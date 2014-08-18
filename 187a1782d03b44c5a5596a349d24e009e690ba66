@@ -22,6 +22,30 @@
       "revId": "187a1782d03b44c5a5596a349d24e009e690ba66",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "73ec657a_a1027e27",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestReviewers.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-08-18T06:18:37Z",
+      "side": 1,
+      "message": "I set this limit to 3, there where still issues in worst case. If your query (or the first characters of your query) matches the email hostname and its a restricted change it is very likely to end up with a scenario where availabilily is checked for every account on your instance. This is prevented today by only fetching \u0027limit\u0027 matches and checking them for availability.\nThe MAX_MATCHES\u003d100 is more valid than MAX_MATCHES\u003c\u003d10 (which is the case in the present implementation) IMHO.\n\n1. get \u003c\u003d10 Accounts that matches\n2. suggest the ones out of theese 10 accounts that can see the change\n\nWhich is more likely to result in an empty suggestion list, even though the Account the user is looking for also matches the query.",
+      "parentUuid": "73ec657a_81d1ba6b",
+      "range": {
+        "startLine": 119,
+        "startChar": 34,
+        "endLine": 119,
+        "endChar": 60
+      },
+      "revId": "187a1782d03b44c5a5596a349d24e009e690ba66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

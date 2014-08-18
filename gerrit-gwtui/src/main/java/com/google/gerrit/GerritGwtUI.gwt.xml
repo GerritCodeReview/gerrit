@@ -42,4 +42,5 @@
   <set-property name='gwt.logging.popupHandler' value='DISABLED'/>
 
   <entry-point class='com.google.gerrit.client.Gerrit'/>
+  <set-property name="user.agent" value="safari" />
 </module>

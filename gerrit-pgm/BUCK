@@ -79,6 +79,7 @@ java_library(
   ],
   visibility = [
     '//gerrit-acceptance-tests/...',
+    '//gerrit-gwtdebug:gwtdebug',
     '//gerrit-war:',
   ],
 )
@@ -133,6 +134,7 @@ java_library(
   visibility = [
     '//:',
     '//gerrit-acceptance-tests/...',
+    '//gerrit-gwtdebug:gwtdebug',
     '//tools/eclipse:classpath',
     '//Documentation:licenses.txt',
   ],

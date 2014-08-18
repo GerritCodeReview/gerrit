@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "73ec657a_e108864d",
+        "filename": "Documentation/dev-eclipse.txt",
+        "patchSetId": 21
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-08-18T06:35:06Z",
+      "side": 1,
+      "message": "It will be nice to add\n\n \u0027geko1_8\u0027 works for Firefox. To compile the javascript only for Chrome, use \u0027safari\u0027.",
+      "range": {
+        "startLine": 80,
+        "startChar": 0,
+        "endLine": 80,
+        "endChar": 56
+      },
+      "revId": "12968f26dffdec8803be124f71a1bb1415bf0e21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "530a0115_98025528",
+        "filename": "Documentation/dev-eclipse.txt",
+        "patchSetId": 21
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-08-18T06:35:06Z",
+      "side": 1,
+      "message": "can not find it. \nshould it be \n\nRun -\u003e Debug Configurations-\u003e Java Application-\u003e `gerrit_gwt_codeserver`",
+      "range": {
+        "startLine": 94,
+        "startChar": 2,
+        "endLine": 94,
+        "endChar": 78
+      },
+      "revId": "12968f26dffdec8803be124f71a1bb1415bf0e21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "73ec657a_c1058233",
+        "filename": "Documentation/dev-eclipse.txt",
+        "patchSetId": 21
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-08-18T06:35:06Z",
+      "side": 1,
+      "message": "can not find it. \nshould it be \nRun -\u003e Debug Configurations-\u003e Java Application-\u003e `gerrit_daemon`",
+      "range": {
+        "startLine": 95,
+        "startChar": 0,
+        "endLine": 95,
+        "endChar": 70
+      },
+      "revId": "12968f26dffdec8803be124f71a1bb1415bf0e21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "530a0115_58283da3",
+        "filename": "Documentation/dev-eclipse.txt",
+        "patchSetId": 21
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-08-18T06:35:06Z",
+      "side": 1,
+      "message": "what needs to do here after step into these 2 launch option? \njust click the \u0027Debug\u0027 without any update on any configuration? \n\nin gerrit_gwt_codeserver I cannot see the \u0027-d\u0027 option to configure the gerrit-site path. we do not need it? then how Gerrit connect to DB",
+      "range": {
+        "startLine": 94,
+        "startChar": 2,
+        "endLine": 95,
+        "endChar": 70
+      },
+      "revId": "12968f26dffdec8803be124f71a1bb1415bf0e21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

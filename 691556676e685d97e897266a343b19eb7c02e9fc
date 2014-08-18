@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d31d115e_d4e1bc33",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 43
+      },
+      "lineNbr": 1207,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-18T14:00:58Z",
+      "side": 1,
+      "message": "In the code you return a 409 Conflict if there is no input (no body).\n\nIf you post an explicit empty body it\u0027s interpreted as the empty string; that\u0027s the only way you would be able to write a file containing only the empty string, which is valid. Beyond that I don\u0027t think we need to explicitly say that the body must be provided, but you can leave this in if you think it makes it clearer. But if you do, please make clear the distinction between \"empty\" and \"missing.\"",
+      "range": {
+        "startLine": 1206,
+        "startChar": 66,
+        "endLine": 1207,
+        "endChar": 22
+      },
+      "revId": "691556676e685d97e897266a343b19eb7c02e9fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d31d115e_b4ee4022",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/RestSession.java",
+        "patchSetId": 43
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-18T14:00:58Z",
+      "side": 1,
+      "message": "If you enforce this, how can we put a non-deleted file with empty contents in an edit?",
+      "revId": "691556676e685d97e897266a343b19eb7c02e9fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f3205593_75f8a8e2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeEdits.java",
+        "patchSetId": 43
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-18T14:00:58Z",
+      "side": 1,
+      "message": "IMHO 400 would be better.",
+      "revId": "691556676e685d97e897266a343b19eb7c02e9fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

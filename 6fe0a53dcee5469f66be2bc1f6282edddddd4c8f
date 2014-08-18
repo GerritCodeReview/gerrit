@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "73ec657a_c1922290",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 1235,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-18T18:20:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f3205593_35f23001",
+      "revId": "6fe0a53dcee5469f66be2bc1f6282edddddd4c8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "73ec657a_21842e50",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeEdits.java",
         "patchSetId": 4
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "530a0115_983495f0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeEdits.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-18T18:20:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "73ec657a_21842e50",
+      "range": {
+        "startLine": 232,
+        "startChar": 4,
+        "endLine": 232,
+        "endChar": 72
+      },
+      "revId": "6fe0a53dcee5469f66be2bc1f6282edddddd4c8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d31d115e_74f8a8e2",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeEdits.java",
         "patchSetId": 4
@@ -53,6 +95,24 @@
       "writtenOn": "2014-08-18T14:04:50Z",
       "side": 1,
       "message": "Specifying restore without a path should 400?",
+      "revId": "6fe0a53dcee5469f66be2bc1f6282edddddd4c8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "73ec657a_e185264c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeEdits.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-18T18:20:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d31d115e_74f8a8e2",
       "revId": "6fe0a53dcee5469f66be2bc1f6282edddddd4c8f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

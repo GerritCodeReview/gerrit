@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d31d115e_34f23001",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 40
+      },
+      "lineNbr": 1249,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-18T14:05:58Z",
+      "side": 1,
+      "message": "Describe what \"delete\" means and how it is different from \"restore\".",
+      "revId": "2a6366f22e6f26832bc1ff1222bb8e7e51c32b69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

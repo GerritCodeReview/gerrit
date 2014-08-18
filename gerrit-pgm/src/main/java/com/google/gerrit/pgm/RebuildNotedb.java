@@ -32,7 +32,9 @@ import com.google.gerrit.pgm.util.SiteProgram;
 import com.google.gerrit.pgm.util.ThreadLimiter;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MultiProgressMonitor;
 import com.google.gerrit.server.git.MultiProgressMonitor.Task;
@@ -48,13 +50,20 @@ import com.google.inject.Key;
 import com.google.inject.TypeLiteral;
 
 import org.eclipse.jgit.lib.BatchRefUpdate;
+import org.eclipse.jgit.lib.NullProgressMonitor;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.transport.ReceiveCommand;
 import org.kohsuke.args4j.Option;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -93,98 +102,96 @@ public class RebuildNotedb extends SiteProgram {
     Stopwatch sw = Stopwatch.createStarted();
     GitRepositoryManager repoManager =
         sysInjector.getInstance(GitRepositoryManager.class);
+    final Project.NameKey allUsersName =
+        sysInjector.getInstance(AllUsersName.class);
+    final Repository allUsersRepo = repoManager.openRepository(allUsersName);
+    try {
+      deleteDraftRefs(allUsersRepo);
+      for (final Project.NameKey project : changesByProject.keySet()) {
+        final Repository repo = repoManager.openRepository(project);
+        try {
+          final BatchRefUpdate bru = repo.getRefDatabase().newBatchUpdate();
+          final BatchRefUpdate bruForDrafts =
+              allUsersRepo.getRefDatabase().newBatchUpdate();
+          List<ListenableFuture<?>> futures = Lists.newArrayList();
 
-    for (final Project.NameKey project : changesByProject.keySet()) {
-      final Repository repo = repoManager.openRepository(project);
-      try {
-        final BatchRefUpdate bru = repo.getRefDatabase().newBatchUpdate();
-        List<ListenableFuture<?>> futures = Lists.newArrayList();
+          // Here, we truncate the project name to 50 characters to ensure that
+          // the whole monitor line for a project fits on one line (<80 chars).
+          final MultiProgressMonitor mpm = new MultiProgressMonitor(System.out,
+              truncateProjectName(project.get()));
+          final Task doneTask =
+              mpm.beginSubTask("done", changesByProject.get(project).size());
+          final Task failedTask =
+              mpm.beginSubTask("failed", MultiProgressMonitor.UNKNOWN);
 
-        // Here, we truncate the project name to 50 characters to ensure that
-        // the whole monitor line for a project fits on one line (<80 chars).
-        int monitorStringMaxLength = 50;
-        String projectString = project.toString();
-        String monitorString = (projectString.length() > monitorStringMaxLength)
-            ? projectString.substring(0, monitorStringMaxLength)
-            : projectString;
-        if (projectString.length() > monitorString.length()) {
-          monitorString = monitorString + "...";
-        }
-        final MultiProgressMonitor mpm = new MultiProgressMonitor(System.out,
-            monitorString);
-        final Task doneTask =
-            mpm.beginSubTask("done", changesByProject.get(project).size());
-        final Task failedTask = mpm.beginSubTask("failed",
-            MultiProgressMonitor.UNKNOWN);
+          for (final Change c : changesByProject.get(project)) {
+            final ListenableFuture<?> future = rebuilder.rebuildAsync(c,
+                executor, bru, bruForDrafts, repo, allUsersRepo);
+            futures.add(future);
+            future.addListener(
+                new RebuildListener(c.getId(), future, ok, doneTask, failedTask),
+                MoreExecutors.sameThreadExecutor());
+          }
 
-        for (final Change c : changesByProject.get(project)) {
-          final ListenableFuture<?> future =
-              rebuilder.rebuildAsync(c, executor, bru);
-          futures.add(future);
-          future.addListener(new Runnable() {
-            @Override
-            public void run() {
-              try {
-                future.get();
-                doneTask.update(1);
-              } catch (ExecutionException | InterruptedException e) {
-                fail(e);
-              } catch (RuntimeException e) {
-                failAndThrow(e);
-              } catch (Error e) {
-                // Can't join with RuntimeException because "RuntimeException |
-                // Error" becomes Throwable, which messes with signatures.
-                failAndThrow(e);
-              }
-            }
-
-            private void fail(Throwable t) {
-              log.error("Failed to rebuild change " + c.getId(), t);
-              ok.set(false);
-              failedTask.update(1);
-            }
-
-            private void failAndThrow(RuntimeException e) {
-              fail(e);
-              throw e;
-            }
-
-            private void failAndThrow(Error e) {
-              fail(e);
-              throw e;
-            }
-          }, MoreExecutors.sameThreadExecutor());
-        }
-
-        mpm.waitFor(Futures.transform(Futures.successfulAsList(futures),
-            new AsyncFunction<List<?>, Void>() {
-                @Override
-              public ListenableFuture<Void> apply(List<?> input)
-                  throws Exception {
-                Task t = mpm.beginSubTask("update refs",
-                    MultiProgressMonitor.UNKNOWN);
-                RevWalk walk = new RevWalk(repo);
-                try {
-                  bru.execute(walk, t);
+          mpm.waitFor(Futures.transform(Futures.successfulAsList(futures),
+              new AsyncFunction<List<?>, Void>() {
+                  @Override
+                public ListenableFuture<Void> apply(List<?> input)
+                    throws Exception {
+                  execute(bru, repo);
+                  execute(bruForDrafts, allUsersRepo);
                   mpm.end();
                   return Futures.immediateFuture(null);
-                } finally {
-                  walk.release();
                 }
-              }
-            }));
-      } catch (Exception e) {
-        log.error("Error rebuilding notedb", e);
-        ok.set(false);
-        break;
-      } finally {
-        repo.close();
+              }));
+        } catch (Exception e) {
+          log.error("Error rebuilding notedb", e);
+          ok.set(false);
+          break;
+        } finally {
+          repo.close();
+        }
       }
+    } finally {
+      allUsersRepo.close();
     }
+
     double t = sw.elapsed(TimeUnit.MILLISECONDS) / 1000d;
     System.out.format("Rebuild %d changes in %.01fs (%.01f/s)\n",
         changesByProject.size(), t, changesByProject.size() / t);
     return ok.get() ? 0 : 1;
+  }
+
+  private static String truncateProjectName(String projectName) {
+    int monitorStringMaxLength = 50;
+    String monitorString = (projectName.length() > monitorStringMaxLength)
+        ? projectName.substring(0, monitorStringMaxLength)
+        : projectName;
+    if (projectName.length() > monitorString.length()) {
+      monitorString = monitorString + "...";
+    }
+    return monitorString;
+  }
+
+  private static void execute(BatchRefUpdate bru, Repository repo)
+      throws IOException {
+    RevWalk rw = new RevWalk(repo);
+    try {
+      bru.execute(rw, NullProgressMonitor.INSTANCE);
+    } finally {
+      rw.release();
+    }
+  }
+
+  private void deleteDraftRefs(Repository allUsersRepo) throws IOException {
+    RefDatabase refDb = allUsersRepo.getRefDatabase();
+    Map<String, Ref> allRefs = refDb.getRefs(RefNames.REFS_DRAFT_COMMENTS);
+    BatchRefUpdate bru = refDb.newBatchUpdate();
+    for (Map.Entry<String, Ref> ref : allRefs.entrySet()) {
+      bru.addCommand(new ReceiveCommand(ref.getValue().getObjectId(),
+          ObjectId.zeroId(), RefNames.REFS_DRAFT_COMMENTS + ref.getKey()));
+    }
+    execute(bru, allUsersRepo);
   }
 
   private Injector createSysInjector() {
@@ -225,6 +232,56 @@ public class RebuildNotedb extends SiteProgram {
       return changesByProject;
     } finally {
       db.close();
+    }
+  }
+
+  private class RebuildListener implements Runnable {
+    private Change.Id changeId;
+    private ListenableFuture<?> future;
+    private AtomicBoolean ok;
+    private Task doneTask;
+    private Task failedTask;
+
+
+    private RebuildListener(Change.Id changeId, ListenableFuture<?> future,
+        AtomicBoolean ok, Task doneTask, Task failedTask) {
+      this.changeId = changeId;
+      this.future = future;
+      this.ok = ok;
+      this.doneTask = doneTask;
+      this.failedTask = failedTask;
+    }
+
+    @Override
+    public void run() {
+      try {
+        future.get();
+        doneTask.update(1);
+      } catch (ExecutionException | InterruptedException e) {
+        fail(e);
+      } catch (RuntimeException e) {
+        failAndThrow(e);
+      } catch (Error e) {
+        // Can't join with RuntimeException because "RuntimeException
+        // | Error" becomes Throwable, which messes with signatures.
+        failAndThrow(e);
+      }
+    }
+
+    private void fail(Throwable t) {
+      log.error("Failed to rebuild change " + changeId, t);
+      ok.set(false);
+      failedTask.update(1);
+    }
+
+    private void failAndThrow(RuntimeException e) {
+      fail(e);
+      throw e;
+    }
+
+    private void failAndThrow(Error e) {
+      fail(e);
+      throw e;
     }
   }
 }

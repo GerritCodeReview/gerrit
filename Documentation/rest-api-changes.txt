@@ -1162,6 +1162,9 @@ As response an link:#edit-info[EditInfo] entity is returned that
 describes the change edit, or "`204 No Content`" when change edit doesn't
 exist for this change. Change edits are stored on special branches and there
 can be max one edit per user per change. Edits aren't tracked in the database.
+When request parameter `list` is provided the response also includes the file
+list. When `base` request parameter is provided the file list is computed
+against this base revision.
 
 .Response
 ----
@@ -1241,6 +1244,117 @@ entity when a file within change edit should be restored.
 When change edit doesn't exist for this change yet it is created. When path
 and restore flag are provided in request body, this file is restored. As
 response "`204 No Content`" is returned.
+
+.Response
+----
+  HTTP/1.1 204 No Content
+----
+
+[[delete-edit-file]]
+=== Delete file in Change Edit
+--
+'DELETE /changes/link:#change-id[\{change-id\}]/edit/path%2fto%2ffile'
+--
+
+Deletes a file from a change edit. This deletes the file from the repository
+completely. This is not the same as reverting or restoring a file to its
+previous contents.
+
+.Request
+----
+  DELETE /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/edit/foo HTTP/1.0
+----
+
+When change edit doesn't exist for this change yet it is created.
+
+.Response
+----
+  HTTP/1.1 204 No Content
+----
+
+[[get-edit-file]]
+=== Retrieve file content from Change Edit
+--
+'GET /changes/link:#change-id[\{change-id\}]/edit/path%2fto%2ffile
+--
+
+Retrieves content of a file from a change edit.
+
+.Request
+----
+  GET /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/edit/foo HTTP/1.0
+----
+
+The content of the file is returned as text encoded inside base64. When
+specified file was deleted in the change edit "`204 No Content`" is returned.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: text/plain;charset=ISO-8859-1
+  X-FYI-Content-Encoding: base64
+
+  RnJvbSA3ZGFkY2MxNTNmZGVhMTdhYTg0ZmYzMmE2ZTI0NWRiYjY...
+----
+
+[[publish-edit]]
+=== Publish Change Edit
+--
+'POST /changes/link:#change-id[\{change-id\}]/publish_edit
+--
+
+Promotes change edit to a regular patch set.
+
+.Request
+----
+  POST /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/publish_edit HTTP/1.0
+----
+
+As response "`204 No Content`" is returned.
+
+.Response
+----
+  HTTP/1.1 204 No Content
+----
+
+[[rebase-edit]]
+=== Rebase Change Edit
+--
+'POST /changes/link:#change-id[\{change-id\}]/rebase_edit
+--
+
+Rebases change edit on top of latest patch set.
+
+.Request
+----
+  POST /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/rebase_edit HTTP/1.0
+----
+
+When change was rebased on top of latest patch set, response
+"`204 No Content`" is returned. When change edit is aready
+based on top of the latest patch set, the response
+"`409 Conflict`" is returned.
+
+.Response
+----
+  HTTP/1.1 204 No Content
+----
+
+[[delete-edit]]
+=== Delete Change Edit
+--
+'DELETE /changes/link:#change-id[\{change-id\}]/edit'
+--
+
+Deletes change edit.
+
+.Request
+----
+  DELETE /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/edit HTTP/1.0
+----
+
+As response "`204 No Content`" is returned.
 
 .Response
 ----
@@ -3705,6 +3819,9 @@ The `EditInfo` entity contains information about a change edit.
 |Field Name    ||Description
 |`commit`      ||The commit of change edit as
 link:#commit-info[CommitInfo] entity.
+|`files`       |optional|
+The files of the change edit as a map that maps the file names to
+link:#file-info[FileInfo] entities.
 |===========================
 
 [[restore-path-input]]

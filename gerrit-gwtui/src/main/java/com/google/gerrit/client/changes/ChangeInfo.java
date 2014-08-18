@@ -208,6 +208,9 @@ public class ChangeInfo extends JavaScriptObject {
     public final native String name() /*-{ return this.name; }-*/;
     public final native CommitInfo commit() /*-{ return this.commit; }-*/;
 
+    public final native boolean has_files() /*-{ return this.hasOwnProperty('files') }-*/;
+    public final native NativeMap<FileInfo> files() /*-{ return this.files; }-*/;
+
     protected EditInfo() {
     }
   }

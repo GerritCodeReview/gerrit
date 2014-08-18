@@ -3,5 +3,8 @@ include_defs('//gerrit-acceptance-tests/tests.defs')
 acceptance_tests(
   srcs = ['ChangeEditIT.java'],
   labels = ['edit'],
-  deps = ['//lib/joda:joda-time'],
+  deps = [
+    '//lib/commons:codec',
+    '//lib/joda:joda-time',
+  ],
 )

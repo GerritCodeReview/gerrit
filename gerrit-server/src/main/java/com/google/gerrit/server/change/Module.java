@@ -102,7 +102,11 @@ public class Module extends RestApiModule {
     get(FILE_KIND, "diff").to(GetDiff.class);
 
     child(CHANGE_KIND, "edit").to(ChangeEdits.class);
+    child(CHANGE_KIND, "publish_edit").to(PublishChangeEdit.class);
+    child(CHANGE_KIND, "rebase_edit").to(RebaseChangeEdit.class);
     put(CHANGE_EDIT_KIND, "/").to(ChangeEdits.Put.class);
+    delete(CHANGE_EDIT_KIND).to(ChangeEdits.DeleteContent.class);
+    get(CHANGE_EDIT_KIND, "/").to(ChangeEdits.Get.class);
 
     install(new FactoryModule() {
       @Override
@@ -113,6 +117,7 @@ public class Module extends RestApiModule {
         factory(ChangeInserter.Factory.class);
         factory(PatchSetInserter.Factory.class);
         factory(ChangeEdits.Create.Factory.class);
+        factory(ChangeEdits.DeleteEdit.Factory.class);
       }
     });
   }

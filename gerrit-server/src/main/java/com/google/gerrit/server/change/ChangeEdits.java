@@ -21,6 +21,7 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.common.EditInfo;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AcceptsCreate;
+import com.google.gerrit.extensions.restapi.AcceptsDelete;
 import com.google.gerrit.extensions.restapi.AcceptsPost;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -36,11 +37,13 @@ import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.edit.ChangeEdit;
 import com.google.gerrit.server.edit.ChangeEditJson;
 import com.google.gerrit.server.edit.ChangeEditModifier;
 import com.google.gerrit.server.edit.ChangeEditUtil;
+import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.server.OrmException;
@@ -49,30 +52,36 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.google.inject.assistedinject.Assisted;
 
+import org.kohsuke.args4j.Option;
+
 import java.io.IOException;
 
 @Singleton
 public class ChangeEdits implements
     ChildCollection<ChangeResource, ChangeEditResource>,
     AcceptsCreate<ChangeResource>,
-    AcceptsPost<ChangeResource> {
+    AcceptsPost<ChangeResource>,
+    AcceptsDelete<ChangeResource> {
   private final DynamicMap<RestView<ChangeEditResource>> views;
   private final Create.Factory createFactory;
-  private final Detail detail;
+  private final DeleteEdit.Factory deleteEditFactory;
+  private final Provider<Detail> detail;
   private final ChangeEditUtil editUtil;
   private final Post post;
 
   @Inject
   ChangeEdits(DynamicMap<RestView<ChangeEditResource>> views,
       Create.Factory createFactory,
-      Detail detail,
+      Provider<Detail> detail,
       ChangeEditUtil editUtil,
-      Post post) {
+      Post post,
+      DeleteEdit.Factory deleteEditFactory) {
     this.views = views;
     this.createFactory = createFactory;
     this.detail = detail;
     this.editUtil = editUtil;
     this.post = post;
+    this.deleteEditFactory = deleteEditFactory;
   }
 
   @Override
@@ -82,7 +91,7 @@ public class ChangeEdits implements
 
   @Override
   public RestView<ChangeResource> list() {
-    return detail;
+    return detail.get();
   }
 
   @Override
@@ -116,6 +125,14 @@ public class ChangeEdits implements
   * change edit wasn't created yet. Change edit is created and PUT
   * handler is called.
   */
+  @SuppressWarnings("unchecked")
+  @Override
+  public DeleteEdit delete(ChangeResource parent, IdString id)
+      throws RestApiException {
+    return deleteEditFactory.create(parent.getChange(),
+        id != null ? id.get() : null);
+  }
+
   static class Create implements
       RestModifyView<ChangeResource, Put.Input> {
 
@@ -172,27 +189,108 @@ public class ChangeEdits implements
     }
   }
 
-  @Singleton
+  static class DeleteEdit implements
+      RestModifyView<ChangeResource, DeleteEdit.Input> {
+    public static class Input {
+    }
+
+    interface Factory {
+      DeleteEdit create(Change change, String path);
+    }
+
+    private final ChangeEditUtil editUtil;
+    private final ChangeEditModifier editModifier;
+    private final Provider<ReviewDb> db;
+    private final String path;
+
+    @Inject
+    DeleteEdit(ChangeEditUtil editUtil,
+        ChangeEditModifier editModifier,
+        Provider<ReviewDb> db,
+        @Assisted @Nullable String path) {
+      this.editUtil = editUtil;
+      this.editModifier = editModifier;
+      this.db = db;
+      this.path = path;
+    }
+
+    @Override
+    public Response<?> apply(ChangeResource rsrc, DeleteEdit.Input in)
+        throws IOException, AuthException, ResourceConflictException,
+        OrmException, InvalidChangeOperationException, BadRequestException {
+      Optional<ChangeEdit> edit = editUtil.byChange(rsrc.getChange());
+      if (edit.isPresent() && path == null) {
+        // Edit is wiped out
+        editUtil.delete(edit.get());
+      } else if (!edit.isPresent() && path != null) {
+        // Edit is created on top of current patch set by deleting path.
+        // Even if the latest patch set changed since the user triggered
+        // the operation, deleting the whole file is probably still what
+        // they intended.
+        editModifier.createEdit(rsrc.getChange(), db.get().patchSets().get(
+            rsrc.getChange().currentPatchSetId()));
+        edit = editUtil.byChange(rsrc.getChange());
+        editModifier.deleteFile(edit.get(), path);
+      } else {
+        // Bad request
+        throw new BadRequestException(
+            "change edit doesn't exist and no path was provided");
+      }
+      return Response.none();
+    }
+  }
+
   static class Detail implements RestReadView<ChangeResource> {
     private final ChangeEditUtil editUtil;
     private final ChangeEditJson editJson;
+    private final FileInfoJson fileInfoJson;
+    private final Revisions revisions;
+
+    @Option(name = "--base", metaVar = "revision-id")
+    String base;
+
+    @Option(name = "--list", metaVar = "LIST")
+    boolean list;
 
     @Inject
-    Detail(ChangeEditJson editJson,
-        ChangeEditUtil editUtil) {
+    Detail(ChangeEditUtil editUtil,
+        ChangeEditJson editJson,
+        FileInfoJson fileInfoJson,
+        Revisions revisions) {
       this.editJson = editJson;
       this.editUtil = editUtil;
+      this.fileInfoJson = fileInfoJson;
+      this.revisions = revisions;
     }
 
     @Override
     public Response<EditInfo> apply(ChangeResource rsrc) throws AuthException,
-        IOException, NoSuchChangeException, InvalidChangeOperationException,
-        ResourceNotFoundException {
+        IOException, InvalidChangeOperationException,
+        ResourceNotFoundException, OrmException {
       Optional<ChangeEdit> edit = editUtil.byChange(rsrc.getChange());
-      if (edit.isPresent()) {
-        return Response.ok(editJson.toEditInfo(edit.get()));
+      if (!edit.isPresent()) {
+        return Response.none();
       }
-      return Response.none();
+
+      EditInfo editInfo = editJson.toEditInfo(edit.get());
+      if (list) {
+        PatchSet basePatchSet = null;
+        if (base != null) {
+          RevisionResource baseResource = revisions.parse(
+              rsrc, IdString.fromDecoded(base));
+          basePatchSet = baseResource.getPatchSet();
+        }
+        try {
+          editInfo.files =
+              fileInfoJson.toFileInfoMap(
+                  rsrc.getChange(),
+                  edit.get().getRevision(),
+                  basePatchSet);
+        } catch (PatchListNotAvailableException e) {
+          throw new ResourceNotFoundException(e.getMessage());
+        }
+      }
+      return Response.ok(editInfo);
     }
   }
 
@@ -278,6 +376,60 @@ public class ChangeEdits implements
         throw new ResourceConflictException(e.getMessage());
       }
       return Response.none();
+    }
+  }
+
+  /**
+   * Handler to delete a file.
+   * <p>
+   * This deletes the file from the repository completely. This is not the same
+   * as reverting or restoring a file to its previous contents.
+   */
+  @Singleton
+  static class DeleteContent implements
+      RestModifyView<ChangeEditResource, DeleteContent.Input> {
+    public static class Input {
+    }
+
+    private final ChangeEditModifier editModifier;
+
+    @Inject
+    DeleteContent(ChangeEditModifier editModifier) {
+      this.editModifier = editModifier;
+    }
+
+    @Override
+    public Response<?> apply(ChangeEditResource rsrc, DeleteContent.Input input)
+        throws AuthException, ResourceConflictException {
+      try {
+        editModifier.deleteFile(rsrc.getChangeEdit(), rsrc.getPath());
+      } catch(InvalidChangeOperationException | IOException e) {
+        throw new ResourceConflictException(e.getMessage());
+      }
+      return Response.none();
+    }
+  }
+
+  @Singleton
+  static class Get implements RestReadView<ChangeEditResource> {
+    private final FileContentUtil fileContentUtil;
+
+    @Inject
+    Get(FileContentUtil fileContentUtil) {
+      this.fileContentUtil = fileContentUtil;
+    }
+
+    @Override
+    public Response<?> apply(ChangeEditResource rsrc)
+        throws ResourceNotFoundException, IOException {
+      try {
+        return Response.ok(fileContentUtil.getContent(
+              rsrc.getChangeEdit().getChange().getProject(),
+              rsrc.getChangeEdit().getRevision().get(),
+              rsrc.getPath()));
+      } catch (ResourceNotFoundException rnfe) {
+        return Response.none();
+      }
     }
   }
 }

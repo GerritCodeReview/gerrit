@@ -277,7 +277,7 @@ public class ProjectControl {
 
   public boolean allRefsAreVisible(Set<String> ignore) {
     return user instanceof InternalUser
-        || canPerformOnAllRefs(Permission.READ, ignore);
+        || canPerformOnAllRefs(Permission.READ, ignore) && !isHidden();
   }
 
   /** Is this user a project owner? Ownership does not imply {@link #isVisible()} */

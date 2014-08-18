@@ -19,6 +19,8 @@ java_library(
     '//lib/bouncycastle:bcprov',
     '//lib/bouncycastle:bcpg',
     '//lib/bouncycastle:bcpkix',
+    '//lib/gwt:codeserver',
+    '//lib/jetty:servlets',
     '//lib/jetty:webapp',
     '//lib/prolog:compiler_lib',
     '//Documentation:index_lib',

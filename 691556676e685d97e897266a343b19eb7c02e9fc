@@ -42,6 +42,24 @@
     },
     {
       "key": {
+        "uuid": "530a0115_784ae172",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/RestSession.java",
+        "patchSetId": 43
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-18T14:12:27Z",
+      "side": 1,
+      "message": "By not using this method and by putting without anything. The best answer to all questions is to have unit tests for every use case and for every branch. So the answer to this specific question is this provided unit test:\n\n  @Test\n  public void emptyPutRequest() throws Exception {\n    assertEquals(RefUpdate.Result.NEW,\n        modifier.createEdit(\n            change,\n            ps));\n    assertEquals(SC_NO_CONTENT, session.put(urlEditFile()).getStatusCode());\n    Optional\u003cChangeEdit\u003e edit \u003d editUtil.byChange(change);\n    assertArrayEquals(\"\".getBytes(),\n        toBytes(fileUtil.getContent(edit.get().getChange().getProject(),\n            edit.get().getRevision().get(), FILE_NAME)));\n  }",
+      "parentUuid": "d31d115e_b4ee4022",
+      "revId": "691556676e685d97e897266a343b19eb7c02e9fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f3205593_75f8a8e2",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeEdits.java",
         "patchSetId": 43

@@ -91,6 +91,24 @@
       "revId": "12968f26dffdec8803be124f71a1bb1415bf0e21",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "73ec657a_c120e2b7",
+        "filename": "Documentation/dev-eclipse.txt",
+        "patchSetId": 21
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-08-18T08:26:16Z",
+      "side": 1,
+      "message": "The right understanding is:\n* Select in Eclipse Run -\u003e Debug Configurations -\u003eJava Application-\u003e `gerrit_gwt_codeserver`, Click ‘Debug’\n* Select in Eclipse Run -\u003e Debug Configurations -\u003eJava Application-\u003e `gerrit_daemon`, Click ‘Debug’\n\nYeah, click both of them.",
+      "parentUuid": "530a0115_58283da3",
+      "revId": "12968f26dffdec8803be124f71a1bb1415bf0e21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

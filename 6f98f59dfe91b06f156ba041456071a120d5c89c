@@ -375,6 +375,24 @@
     },
     {
       "key": {
+        "uuid": "73ec657a_a166feef",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeEdits.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-18T18:59:55Z",
+      "side": 1,
+      "message": "Absolutely agreed. And i was wrong. This part of the UI: GET actually revision to render and now get change edit if it exists for this change are done first.  All other requests are executred after those two. That why this was absolutely correct to nest files info map inside EditInfo, when --list optin was passed.  Next time i will take a deeper look first, before resisting to address comments... ;)",
+      "parentUuid": "d31d115e_342d90b3",
+      "revId": "6f98f59dfe91b06f156ba041456071a120d5c89c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b64deb11_02297a72",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeEdits.java",
         "patchSetId": 13

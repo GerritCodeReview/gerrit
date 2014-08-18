@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "73ec657a_4144d261",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 368,
+      "author": {
+        "id": 1011624
+      },
+      "writtenOn": "2014-08-18T15:01:39Z",
+      "side": 1,
+      "message": "I would keep all the logic in canPushMerges",
+      "revId": "6ae2bb0998f72832c9387634ac3b0ce453dc25ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "530a0115_38446961",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1011624
+      },
+      "writtenOn": "2014-08-18T15:01:39Z",
+      "side": 1,
+      "message": "Do all logic here. \n\n if push merge on plain ref:\n   OK\n else\n   if push merge on \u0027refs/for/ + plain ref\n   OK \n else \n   fail.",
+      "revId": "6ae2bb0998f72832c9387634ac3b0ce453dc25ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "73ec657a_614fd681",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/util/MagicBranch.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1011624
+      },
+      "writtenOn": "2014-08-18T15:01:39Z",
+      "side": 1,
+      "message": "Why do you need this extra function where you just call isMagicBranch? You could call isMagicBranch directly as well?",
+      "revId": "6ae2bb0998f72832c9387634ac3b0ce453dc25ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

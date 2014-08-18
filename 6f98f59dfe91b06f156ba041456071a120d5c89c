@@ -333,6 +333,24 @@
     },
     {
       "key": {
+        "uuid": "d31d115e_342d90b3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeEdits.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-18T14:34:07Z",
+      "side": 1,
+      "message": "\u003e But i am not sure, if those requests (details of change edit and file list of change edit) are not loaded in parallel\n\nParallel operations for loading different parts of the UI that touch different things in the backend make sense (at least that\u0027s what we assume in CS2).\n\nBut not everything that _can_ be parallel _should_. If two pieces of data are needed to render some concrete part of the UI, and they touch similar things in the backend (as is the case here), the overhead of opening the resource twice on the server is counterproductive. This is why we have ListChangesOption instead of making a separate parallel request for each piece of information about a change.\n\nI\u0027m not claiming we\u0027ve made the _right_ decisions about parallelization everywhere in CS2. Just that \"it is possible to parallelize and therefore we should\" is not the only consideration.",
+      "parentUuid": "b6a7ab22_4b91658d",
+      "revId": "6f98f59dfe91b06f156ba041456071a120d5c89c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b64deb11_02297a72",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeEdits.java",
         "patchSetId": 13

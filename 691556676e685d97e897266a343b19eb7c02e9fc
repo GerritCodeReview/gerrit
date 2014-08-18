@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "73ec657a_81753aa4",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 43
+      },
+      "lineNbr": 1207,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-18T18:05:57Z",
+      "side": 1,
+      "message": "Good point. I think that missing body case is a left over from the old code, where the content wasn\u0027t marked with DefaultInput annotation. I fixed the code and letting the documentation as is.",
+      "parentUuid": "d31d115e_d4e1bc33",
+      "range": {
+        "startLine": 1206,
+        "startChar": 66,
+        "endLine": 1207,
+        "endChar": 22
+      },
+      "revId": "691556676e685d97e897266a343b19eb7c02e9fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d31d115e_b4ee4022",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/RestSession.java",
         "patchSetId": 43
@@ -89,6 +113,24 @@
       "writtenOn": "2014-08-18T14:00:58Z",
       "side": 1,
       "message": "IMHO 400 would be better.",
+      "revId": "691556676e685d97e897266a343b19eb7c02e9fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "73ec657a_617a3694",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeEdits.java",
+        "patchSetId": 43
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-18T18:05:57Z",
+      "side": 1,
+      "message": "That\u0027s is a left over of the old code. Removed.",
+      "parentUuid": "f3205593_75f8a8e2",
       "revId": "691556676e685d97e897266a343b19eb7c02e9fc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

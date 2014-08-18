@@ -60,6 +60,24 @@
     },
     {
       "key": {
+        "uuid": "d31d115e_54280ca3",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/RestSession.java",
+        "patchSetId": 43
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-18T14:28:02Z",
+      "side": 1,
+      "message": "Ok, fair point.\n\nI can see that that test passes, but it\u0027s hard to follow whether it\u0027s actually testing the condition in the documentation.",
+      "parentUuid": "530a0115_784ae172",
+      "revId": "691556676e685d97e897266a343b19eb7c02e9fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f3205593_75f8a8e2",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeEdits.java",
         "patchSetId": 43

@@ -59,7 +59,6 @@ import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 
 import org.apache.lucene.analysis.Analyzer;
-import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.analysis.util.CharArraySet;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
@@ -174,7 +173,7 @@ public class LuceneChangeIndex implements ChangeIndex {
 
     private GerritIndexWriterConfig(Version version, Config cfg, String name) {
       luceneConfig = new IndexWriterConfig(version,
-          new StandardAnalyzer(version, CharArraySet.EMPTY_SET));
+          new QueryAnalyzer(version, CharArraySet.EMPTY_SET));
       luceneConfig.setOpenMode(OpenMode.CREATE_OR_APPEND);
       double m = 1 << 20;
       luceneConfig.setRAMBufferSizeMB(cfg.getLong(
@@ -239,7 +238,7 @@ public class LuceneChangeIndex implements ChangeIndex {
         "unknown Lucene version for index schema: %s", schema);
 
     Analyzer analyzer =
-        new StandardAnalyzer(luceneVersion, CharArraySet.EMPTY_SET);
+        new QueryAnalyzer(luceneVersion, CharArraySet.EMPTY_SET);
     queryBuilder = new QueryBuilder(schema, analyzer);
 
     GerritIndexWriterConfig openConfig =

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f3205593_35f23001",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 1235,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-18T14:04:50Z",
+      "side": 1,
+      "message": "Document the input entity?",
+      "revId": "6fe0a53dcee5469f66be2bc1f6282edddddd4c8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d31d115e_74f8a8e2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeEdits.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-18T14:04:50Z",
+      "side": 1,
+      "message": "Specifying restore without a path should 400?",
+      "revId": "6fe0a53dcee5469f66be2bc1f6282edddddd4c8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

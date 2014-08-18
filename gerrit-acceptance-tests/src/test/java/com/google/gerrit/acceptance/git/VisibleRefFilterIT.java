@@ -14,7 +14,6 @@
 
 package com.google.gerrit.acceptance.git;
 
-import static com.google.gerrit.server.group.SystemGroupBackend.PROJECT_OWNERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -23,11 +22,15 @@ import com.google.common.base.CharMatcher;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Ordering;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.projects.BranchInput;
+import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.config.AllProjectsName;
+import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.project.Util;
@@ -35,6 +38,9 @@ import com.google.gerrit.testutil.ConfigSuite;
 import com.google.inject.Inject;
 
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.RefUpdate;
+import org.eclipse.jgit.lib.Repository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -57,8 +63,18 @@ public class VisibleRefFilterIT extends AbstractDaemonTest {
   @Inject
   private NotesMigration notesMigration;
 
+  @Inject
+  private GitRepositoryManager repoManager;
+
+  @Inject
+  private GroupCache groupCache;
+
+  private AccountGroup.UUID admins;
+
   @Before
   public void setUp() throws Exception {
+    admins = groupCache.get(new AccountGroup.NameKey("Administrators"))
+        .getGroupUUID();
     setUpChanges();
     setUpPermissions();
   }
@@ -77,19 +93,37 @@ public class VisibleRefFilterIT extends AbstractDaemonTest {
         .branch("branch")
         .create(new BranchInput());
 
-    pushFactory.create(db, admin.getIdent())
-        .to(git, "refs/for/master")
-        .assertOkStatus();
-    pushFactory.create(db, admin.getIdent())
-        .to(git, "refs/for/branch")
-        .assertOkStatus();
+    allow(Permission.SUBMIT, admins, "refs/for/refs/heads/*");
+    PushOneCommit.Result mr = pushFactory.create(db, admin.getIdent())
+        .to(git, "refs/for/master%submit");
+    mr.assertOkStatus();
+    PushOneCommit.Result br = pushFactory.create(db, admin.getIdent())
+        .to(git, "refs/for/branch%submit");
+    br.assertOkStatus();
+
+    Repository repo = repoManager.openRepository(project);
+    try {
+      // master-tag -> master
+      RefUpdate mtu = repo.updateRef("refs/tags/master-tag");
+      mtu.setExpectedOldObjectId(ObjectId.zeroId());
+      mtu.setNewObjectId(repo.getRef("refs/heads/master").getObjectId());
+      assertEquals(RefUpdate.Result.NEW, mtu.update());
+
+      // branch-tag -> branch
+      RefUpdate btu = repo.updateRef("refs/tags/branch-tag");
+      btu.setExpectedOldObjectId(ObjectId.zeroId());
+      btu.setNewObjectId(repo.getRef("refs/heads/branch").getObjectId());
+      assertEquals(RefUpdate.Result.NEW, btu.update());
+    } finally {
+      repo.close();
+    }
   }
 
   @Test
   public void allRefsVisibleNoRefsMetaConfig() throws Exception {
     ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
     Util.allow(cfg, Permission.READ, REGISTERED_USERS, "refs/*");
-    Util.allow(cfg, Permission.READ, PROJECT_OWNERS, "refs/meta/config");
+    Util.allow(cfg, Permission.READ, admins, "refs/meta/config");
     Util.doNotInherit(cfg, Permission.READ, "refs/meta/config");
     saveProjectConfig(project, cfg);
 
@@ -100,7 +134,9 @@ public class VisibleRefFilterIT extends AbstractDaemonTest {
         "refs/changes/02/2/1",
         "refs/changes/02/2/meta",
         "refs/heads/branch",
-        "refs/heads/master");
+        "refs/heads/master",
+        "refs/tags/branch-tag",
+        "refs/tags/master-tag");
   }
 
   @Test
@@ -116,7 +152,9 @@ public class VisibleRefFilterIT extends AbstractDaemonTest {
         "refs/changes/02/2/meta",
         "refs/heads/branch",
         "refs/heads/master",
-        "refs/meta/config");
+        "refs/meta/config",
+        "refs/tags/branch-tag",
+        "refs/tags/master-tag");
   }
 
   @Test
@@ -128,7 +166,8 @@ public class VisibleRefFilterIT extends AbstractDaemonTest {
         "HEAD",
         "refs/changes/01/1/1",
         "refs/changes/01/1/meta",
-        "refs/heads/master");
+        "refs/heads/master",
+        "refs/tags/master-tag");
   }
 
   @Test
@@ -139,7 +178,11 @@ public class VisibleRefFilterIT extends AbstractDaemonTest {
     assertRefs(
         "refs/changes/02/2/1",
         "refs/changes/02/2/meta",
-        "refs/heads/branch");
+        "refs/heads/branch",
+        "refs/tags/branch-tag",
+        // master branch is not visible but master-tag is reachable from branch
+        // (since PushOneCommit always bases changes on each other).
+        "refs/tags/master-tag");
   }
 
   /**

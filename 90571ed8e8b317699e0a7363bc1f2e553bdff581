@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d31d115e_94022428",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1322,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-18T14:11:47Z",
+      "side": 1,
+      "message": "Document what happens if the edit is already based on the latest patch set?",
+      "revId": "90571ed8e8b317699e0a7363bc1f2e553bdff581",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d31d115e_742308c9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/RebaseChangeEdit.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-18T14:11:47Z",
+      "side": 1,
+      "message": "Optional: \"patch set\"",
+      "range": {
+        "startLine": 110,
+        "startChar": 53,
+        "endLine": 110,
+        "endChar": 54
+      },
+      "revId": "90571ed8e8b317699e0a7363bc1f2e553bdff581",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

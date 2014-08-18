@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "530a0115_f816f165",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 3813,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-18T08:01:45Z",
+      "side": 1,
+      "message": "Mention above, that fetch is only included in EditInfo entity when request parameter \"--download-commands\" was provided.",
+      "range": {
+        "startLine": 3813,
+        "startChar": 1,
+        "endLine": 3813,
+        "endChar": 8
+      },
+      "revId": "3318de5d3ebec8e5b2cf23dd8e4dadf95618c896",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f3205593_b5052034",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeEdits.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-18T14:29:05Z",
+      "side": 1,
+      "message": "\"Bad request\" should be 400 instead of 409.",
+      "revId": "2f5bbb279268f7bc40d8baee5981c73627d0f12b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

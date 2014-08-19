@@ -17,6 +17,7 @@ package com.google.gerrit.server.project;
 import static org.eclipse.jgit.lib.RefDatabase.ALL;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.data.AccessSection;
@@ -31,13 +32,18 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.InternalUser;
+import com.google.gerrit.server.change.IncludedInResolver;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.GitReceivePackGroups;
 import com.google.gerrit.server.config.GitUploadPackGroups;
+import com.google.gerrit.server.git.ChangeCache;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.git.TagCache;
+import com.google.gerrit.server.git.VisibleRefFilter;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
@@ -146,6 +152,8 @@ public class ProjectControl {
   private final GitRepositoryManager repoManager;
   private final PermissionCollection.Factory permissionFilter;
   private final Collection<ContributorAgreement> contributorAgreements;
+  private final TagCache tagCache;
+  private final ChangeCache changeCache;
 
   private List<SectionMatcher> allSections;
   private List<SectionMatcher> localSections;
@@ -158,6 +166,8 @@ public class ProjectControl {
       @GitReceivePackGroups Set<AccountGroup.UUID> receiveGroups,
       final ProjectCache pc, final PermissionCollection.Factory permissionFilter,
       final GitRepositoryManager repoManager,
+      TagCache tagCache,
+      ChangeCache changeCache,
       @CanonicalWebUrl @Nullable final String canonicalWebUrl,
       @Assisted CurrentUser who, @Assisted ProjectState ps) {
     this.repoManager = repoManager;
@@ -166,6 +176,8 @@ public class ProjectControl {
     this.permissionFilter = permissionFilter;
     this.contributorAgreements = pc.getAllProjects().getConfig().getContributorAgreements();
     this.canonicalWebUrl = canonicalWebUrl;
+    this.tagCache = tagCache;
+    this.changeCache = changeCache;
     user = who;
     state = ps;
   }
@@ -526,5 +538,23 @@ public class ProjectControl {
       log.error(msg, e);
     }
     return false;
+  }
+
+  public boolean isMergedIntoVisibleRef(Repository repo, ReviewDb db,
+      RevWalk rw, RevCommit commit, Collection<Ref> unfilteredRefs)
+      throws IOException {
+    VisibleRefFilter filter =
+        new VisibleRefFilter(tagCache, changeCache, repo, this, db, true);
+    Map<String, Ref> m = Maps.newHashMapWithExpectedSize(unfilteredRefs.size());
+    for (Ref r : unfilteredRefs) {
+      m.put(r.getName(), r);
+    }
+    Map<String, Ref> refs = filter.filter(m, true);
+    return !refs.isEmpty()
+        && IncludedInResolver.includedInOne(repo, rw, commit, refs.values());
+  }
+
+  Repository openRepository() throws IOException {
+    return repoManager.openRepository(getProject().getNameKey());
   }
 }

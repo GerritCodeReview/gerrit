@@ -216,10 +216,16 @@ public class Util {
   public ProjectControl user(ProjectConfig local, String name,
       AccountGroup.UUID... memberOf) {
     String canonicalWebUrl = "http://localhost";
-
-    return new ProjectControl(Collections.<AccountGroup.UUID> emptySet(),
-        Collections.<AccountGroup.UUID> emptySet(), projectCache,
-        sectionSorter, null, canonicalWebUrl, new MockUser(name, memberOf),
+    return new ProjectControl(
+        Collections.<AccountGroup.UUID> emptySet(),
+        Collections.<AccountGroup.UUID> emptySet(),
+        projectCache,
+        sectionSorter,
+        null,
+        null,
+        null,
+        canonicalWebUrl,
+        new MockUser(name, memberOf),
         newProjectState(local));
   }
 

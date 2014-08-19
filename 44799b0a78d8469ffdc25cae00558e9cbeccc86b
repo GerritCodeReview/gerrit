@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "132409a3_567a5493",
+        "filename": "Documentation/cmd-ls-logging-level.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1016317
+      },
+      "writtenOn": "2014-08-19T13:24:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d31d115e_54612cdd",
+      "revId": "44799b0a78d8469ffdc25cae00558e9cbeccc86b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f3205593_958fc46a",
         "filename": "Documentation/cmd-set-logging-level.txt",
         "patchSetId": 13
@@ -30,6 +48,24 @@
       "writtenOn": "2014-08-19T06:05:19Z",
       "side": 1,
       "message": "The file name should be `cmd-logging-set-level.txt`",
+      "revId": "44799b0a78d8469ffdc25cae00558e9cbeccc86b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "330f4d26_b72088b6",
+        "filename": "Documentation/cmd-set-logging-level.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1016317
+      },
+      "writtenOn": "2014-08-19T13:24:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f3205593_958fc46a",
       "revId": "44799b0a78d8469ffdc25cae00558e9cbeccc86b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -14,12 +14,39 @@
 
 package com.google.gerrit.server.query.change;
 
+import static org.junit.Assert.assertTrue;
+
+import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.testutil.InMemoryModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 
+import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
+import org.eclipse.jgit.junit.TestRepository;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.junit.Test;
+
 public class LuceneQueryChangesTest extends AbstractQueryChangesTest {
   protected Injector createInjector() {
     return Guice.createInjector(new InMemoryModule());
+  }
+
+  @Test
+  public void fullTextWithSpecialChars() throws Exception {
+    TestRepository<InMemoryRepository> repo = createProject("repo");
+    RevCommit commit1 =
+        repo.parseBody(repo.commit().message("foo_bar_foo").create());
+    Change change1 = newChange(repo, commit1, null, null, null).insert();
+    RevCommit commit2 =
+        repo.parseBody(repo.commit().message("one.two.three").create());
+    Change change2 = newChange(repo, commit2, null, null, null).insert();
+
+    assertTrue(query("message:foo_ba").isEmpty());
+    assertResultEquals(change1, queryOne("message:bar"));
+    assertResultEquals(change1, queryOne("message:foo_bar"));
+    assertResultEquals(change1, queryOne("message:foo bar"));
+    assertResultEquals(change2, queryOne("message:two"));
+    assertResultEquals(change2, queryOne("message:one.two"));
+    assertResultEquals(change2, queryOne("message:one two"));
   }
 }

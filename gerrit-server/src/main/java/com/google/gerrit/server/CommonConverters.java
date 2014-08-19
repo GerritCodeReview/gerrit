@@ -21,7 +21,7 @@ import org.eclipse.jgit.lib.PersonIdent;
 import java.sql.Timestamp;
 
 /**
- * Converters to classes in {@link com.google.gerrit.extensions.common}.
+ * Converters to classes in 'com.google.gerrit.extensions.common'.
  * <p>
  * The server frequently needs to convert internal types to types exposed in the
  * extension API, but the converters themselves are not part of this API. This

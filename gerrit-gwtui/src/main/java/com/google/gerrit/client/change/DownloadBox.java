@@ -52,6 +52,8 @@ class DownloadBox extends VerticalPanel {
   private final PatchSet.Id psId;
   private final FlexTable commandTable;
   private final ListBox scheme;
+  private final ListBox mirrors;
+  private final HorizontalPanel urlPanel;
   private NativeMap<FetchInfo> fetch;
 
   DownloadBox(ChangeInfo change, String revision, PatchSet.Id psId) {
@@ -59,6 +61,7 @@ class DownloadBox extends VerticalPanel {
     this.revision = revision;
     this.psId = psId;
     this.commandTable = new FlexTable();
+    this.urlPanel = new HorizontalPanel();
     this.scheme = new ListBox();
     this.scheme.addChangeHandler(new ChangeHandler() {
       @Override
@@ -70,10 +73,24 @@ class DownloadBox extends VerticalPanel {
       }
     });
 
+    this.mirrors = new ListBox();
+    this.mirrors.addChangeHandler(new ChangeHandler(){
+      @Override
+      public void onChange(ChangeEvent event) {
+        String selectedMirror = mirrors.getValue(mirrors.getSelectedIndex());
+        renderCommands(selectedMirror);
+      }
+    });
+
     setStyleName(Gerrit.RESOURCES.css().downloadBox());
-    commandTable.setStyleName(Gerrit.RESOURCES.css().downloadBoxTable());
-    scheme.setStyleName(Gerrit.RESOURCES.css().downloadBoxScheme());
-    add(commandTable);
+    this.commandTable.setStyleName(Gerrit.RESOURCES.css().downloadBoxTable());
+    this.scheme.setStyleName(Gerrit.RESOURCES.css().downloadBoxScheme());
+    this.mirrors.setStyleName(Gerrit.RESOURCES.css().downloadBoxScheme());
+    add(this.commandTable);
+
+    this.urlPanel.add(this.mirrors);
+    this.urlPanel.add(this.scheme);
+    this.urlPanel.setStyleName(Gerrit.RESOURCES.css().downloadBoxScheme());
   }
 
   @Override
@@ -126,12 +143,94 @@ class DownloadBox extends VerticalPanel {
         copyLabel.setStyleName(Gerrit.RESOURCES.css().downloadBoxCopyLabel());
         insertCommand(commandName, copyLabel);
       }
+      if(this.mirrors.getItemCount() == 0){
+        if(fetchInfo.mirrors().length > 0){
+          this.mirrors.addItem(getHostFromUrl(fetchInfo.url()));
+        }
+        for(String mirrorUrl : fetchInfo.mirrors()){
+          this.mirrors.addItem(mirrorUrl);
+        }
+      }
+      else {
+        this.mirrors.setItemSelected(0, true);
+      }
     }
     if (change.revision(revision).commit().parents().length() == 1) {
       insertPatch();
     }
     insertArchive();
-    insertCommand(null, scheme);
+
+    if(this.mirrors.getItemCount() > 0){
+      insertCommand(null, urlPanel);
+    }
+    else {
+      insertCommand(null, scheme);
+    }
+  }
+
+  private void renderCommands(String mirror) {
+    commandTable.removeAllRows();
+
+    if (scheme.getItemCount() > 0) {
+      FetchInfo fetchInfo =
+          fetch.get(scheme.getValue(scheme.getSelectedIndex()));
+      for (String commandName : Natives.keys(fetchInfo.commands())) {
+        CopyableLabel copyLabel =
+            new CopyableLabel(updateCommand(fetchInfo.command(commandName), mirror));
+        copyLabel.setStyleName(Gerrit.RESOURCES.css().downloadBoxCopyLabel());
+        insertCommand(commandName, copyLabel);
+      }
+      if(this.mirrors.getItemCount() == 0){
+        if(fetchInfo.mirrors().length > 0){
+          this.mirrors.addItem(getHostFromUrl(fetchInfo.url()));
+        }
+        for(String mirrorUrl : fetchInfo.mirrors()){
+          this.mirrors.addItem(mirrorUrl);
+        }
+      }
+    }
+    if (change.revision(revision).commit().parents().length() == 1) {
+      insertPatch();
+    }
+    insertArchive();
+
+    if(this.mirrors.getItemCount() > 0){
+      insertCommand(null, urlPanel);
+    }
+    else {
+      insertCommand(null, scheme);
+    }
+  }
+
+  private String getHostFromUrl(String url) {
+    int start = url.indexOf("@");
+    if(start < 0){
+      start = url.indexOf("://");
+      start += 3;
+    }
+    else {
+      start++;
+    }
+    int end = url.lastIndexOf(":");
+    return url.substring(start, end);
+  }
+
+  private String updateCommand(String command, String mirror) {
+    int start = command.indexOf("@");
+    if(start < 0){
+      start = command.indexOf("://");
+      start += 3;
+    }
+    else {
+      start++;
+    }
+
+    int end = command.lastIndexOf(":");
+    StringBuilder sb = new StringBuilder();
+    sb.append(command.substring(0, start));
+    sb.append(mirror);
+    sb.append(command.substring(end));
+    return sb.toString();
   }
 
   private void insertPatch() {

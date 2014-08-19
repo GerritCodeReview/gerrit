@@ -307,6 +307,7 @@ public class ChangeInfo extends JavaScriptObject {
     public final native String ref() /*-{ return this.ref }-*/;
     public final native NativeMap<NativeString> commands() /*-{ return this.commands }-*/;
     public final native String command(String n) /*-{ return this.commands[n]; }-*/;
+    public final native String[] mirrors() /*-{ return this.mirrors }-*/;
 
     protected FetchInfo () {
     }

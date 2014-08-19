@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d31d115e_d4cd3c6d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/CommonConverters.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-19T21:10:46Z",
+      "side": 1,
+      "message": "@code instead of link?",
+      "revId": "8213c436e6b42a450edaf4533669204fe9d8949d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

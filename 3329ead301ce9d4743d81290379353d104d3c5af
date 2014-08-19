@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "330f4d26_574fec80",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ListLoggingLevelCommand.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1016317
+      },
+      "writtenOn": "2014-08-19T14:22:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "530a0115_58f03db0",
+      "range": {
+        "startLine": 61,
+        "startChar": 4,
+        "endLine": 61,
+        "endChar": 9
+      },
+      "revId": "3329ead301ce9d4743d81290379353d104d3c5af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "73ec657a_01d12a05",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetLoggingLevelCommand.java",
         "patchSetId": 14
@@ -36,6 +60,30 @@
       "writtenOn": "2014-08-19T14:18:56Z",
       "side": 1,
       "message": "final? We use them in new code only when it really needed.",
+      "range": {
+        "startLine": 106,
+        "startChar": 4,
+        "endLine": 106,
+        "endChar": 9
+      },
+      "revId": "3329ead301ce9d4743d81290379353d104d3c5af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "132409a3_b692c88e",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetLoggingLevelCommand.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1016317
+      },
+      "writtenOn": "2014-08-19T14:22:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "73ec657a_01d12a05",
       "range": {
         "startLine": 106,
         "startChar": 4,

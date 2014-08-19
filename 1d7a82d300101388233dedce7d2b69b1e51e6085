@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "73ec657a_61a9167f",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ListLoggingLevelCommand.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-19T17:50:54Z",
+      "side": 1,
+      "message": "May be call it ls-level? In case you extend your subcommands with ls-appender or what not?",
+      "range": {
+        "startLine": 34,
+        "startChar": 25,
+        "endLine": 34,
+        "endChar": 27
+      },
+      "revId": "1d7a82d300101388233dedce7d2b69b1e51e6085",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "530a0115_d8db2d35",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ListLoggingLevelCommand.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-19T17:50:54Z",
+      "side": 1,
+      "message": "Same optimization as in set command?",
+      "range": {
+        "startLine": 43,
+        "startChar": 4,
+        "endLine": 47,
+        "endChar": 5
+      },
+      "revId": "1d7a82d300101388233dedce7d2b69b1e51e6085",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "73ec657a_a1d71ef7",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetLoggingLevelCommand.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-19T17:50:54Z",
+      "side": 1,
+      "message": "I think it can be done more shortly and less code repetition:\n\nWhen you assigned the default value to logger at line 62 above:\n\n  private String logger \u003d \"^.*\";\n\nThen you can eliminate one condition:\n\n  if (logger.startsWith(\"^\")) {\n      setLevelUsingRegex(Level.toLevel(level.name()), logger);\n  } else {\n      LogManager.getLogger(logger).\n          setLevel(Level.toLevel(level.name()));\n  }",
+      "range": {
+        "startLine": 71,
+        "startChar": 8,
+        "endLine": 73,
+        "endChar": 42
+      },
+      "revId": "1d7a82d300101388233dedce7d2b69b1e51e6085",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "73ec657a_81a41aa9",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetLoggingLevelCommand.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-19T17:50:54Z",
+      "side": 1,
+      "message": "Is this variable really needed? I removed it in example above.",
+      "range": {
+        "startLine": 76,
+        "startChar": 17,
+        "endLine": 76,
+        "endChar": 20
+      },
+      "revId": "1d7a82d300101388233dedce7d2b69b1e51e6085",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "530a0115_f8def126",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetLoggingLevelCommand.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-19T17:50:54Z",
+      "side": 1,
+      "message": "Is this variable needed?",
+      "range": {
+        "startLine": 86,
+        "startChar": 13,
+        "endLine": 86,
+        "endChar": 16
+      },
+      "revId": "1d7a82d300101388233dedce7d2b69b1e51e6085",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

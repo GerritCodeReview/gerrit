@@ -82,7 +82,7 @@ class AutoCommitWriter extends IndexWriter {
   }
 
   @Override
-  public void deleteDocuments(Term term) throws IOException {
+  public void deleteDocuments(Term... term) throws IOException {
     super.deleteDocuments(term);
     autoFlush();
   }
@@ -95,18 +95,6 @@ class AutoCommitWriter extends IndexWriter {
       autoFlush();
     }
     return ret;
-  }
-
-  @Override
-  public void deleteDocuments(Term... terms) throws IOException {
-    super.deleteDocuments(terms);
-    autoFlush();
-  }
-
-  @Override
-  public void deleteDocuments(Query query) throws IOException {
-    super.deleteDocuments(query);
-    autoFlush();
   }
 
   @Override

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d31d115e_94d7c4f7",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/AllInOnePatchScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-08-19T21:44:37Z",
+      "side": 1,
+      "message": "This code is never executed.  The same code in PatchScreen.java does get executed when I click to view a single file diff.  I can\u0027t figure out why this callback isn\u0027t getting registered like the one in PatchScreen.java.  \n\nI think this problem is causing inline edits to not work because the commentLinkProcessor never gets set.",
+      "revId": "e616a7dae817f50edb2dbad04b39184a2ae4aade",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

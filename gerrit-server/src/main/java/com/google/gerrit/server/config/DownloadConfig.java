@@ -19,9 +19,7 @@ import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DownloadSchem
 import com.google.gerrit.reviewdb.client.SystemConfig;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
 import org.eclipse.jgit.lib.Config;
-
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;

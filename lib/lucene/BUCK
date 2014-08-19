@@ -1,11 +1,11 @@
 include_defs('//lib/maven.defs')
 
-VERSION = '4.8.1'
+VERSION = '4.9.0'
 
 maven_jar(
   name = 'core',
   id = 'org.apache.lucene:lucene-core:' + VERSION,
-  sha1 = 'a549eef6316a2c38d4cda932be809107deeaf8a7',
+  sha1 = 'e64f0305a31b4d27d70ec3065558783efa7cef08',
   license = 'Apache2.0',
   exclude = [
     'META-INF/LICENSE.txt',
@@ -16,7 +16,7 @@ maven_jar(
 maven_jar(
   name = 'analyzers-common',
   id = 'org.apache.lucene:lucene-analyzers-common:' + VERSION,
-  sha1 = '6e3731524351c83cd21022a23bee5e87f0575555',
+  sha1 = 'c0f4fab57a01524b1720908041cd86a514442cf9',
   license = 'Apache2.0',
   exclude = [
     'META-INF/LICENSE.txt',
@@ -27,6 +27,6 @@ maven_jar(
 maven_jar(
   name = 'query-parser',
   id = 'org.apache.lucene:lucene-queryparser:' + VERSION,
-  sha1 = 'f3e105d74137906fdeb2c7bc4dd68c08564778f9',
+  sha1 = '435a49f632a3df0615cd52e10731a5a274e2cf18',
   license = 'Apache2.0',
 )

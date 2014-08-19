@@ -136,6 +136,8 @@ public class LuceneChangeIndex implements ChangeIndex {
     Version lucene46 = Version.LUCENE_46;
     @SuppressWarnings("deprecation")
     Version lucene47 = Version.LUCENE_47;
+    @SuppressWarnings("deprecation")
+    Version lucene48 = Version.LUCENE_48;
     for (Map.Entry<Integer, Schema<ChangeData>> e
         : ChangeSchemas.ALL.entrySet()) {
       if (e.getKey() <= 3) {
@@ -146,8 +148,10 @@ public class LuceneChangeIndex implements ChangeIndex {
         versions.put(e.getValue(), lucene46);
       } else if (e.getKey() <= 10) {
         versions.put(e.getValue(), lucene47);
+      } else if (e.getKey() <= 11) {
+        versions.put(e.getValue(), lucene48);
       } else {
-        versions.put(e.getValue(), Version.LUCENE_48);
+        versions.put(e.getValue(), Version.LUCENE_4_10_0);
       }
     }
     LUCENE_VERSIONS = versions.build();
@@ -175,7 +179,7 @@ public class LuceneChangeIndex implements ChangeIndex {
 
     private GerritIndexWriterConfig(Version version, Config cfg, String name) {
       CustomMappingAnalyzer analyzer =
-          new CustomMappingAnalyzer(new StandardAnalyzer(version,
+          new CustomMappingAnalyzer(new StandardAnalyzer(
               CharArraySet.EMPTY_SET), CUSTOM_CHAR_MAPPING);
       luceneConfig = new IndexWriterConfig(version, analyzer);
       luceneConfig.setOpenMode(OpenMode.CREATE_OR_APPEND);
@@ -241,8 +245,8 @@ public class LuceneChangeIndex implements ChangeIndex {
         LUCENE_VERSIONS.get(schema),
         "unknown Lucene version for index schema: %s", schema);
     CustomMappingAnalyzer analyzer =
-        new CustomMappingAnalyzer(new StandardAnalyzer(luceneVersion,
-            CharArraySet.EMPTY_SET), CUSTOM_CHAR_MAPPING);
+        new CustomMappingAnalyzer(new StandardAnalyzer(CharArraySet.EMPTY_SET),
+            CUSTOM_CHAR_MAPPING);
     queryBuilder = new QueryBuilder(schema, analyzer);
 
     GerritIndexWriterConfig openConfig =

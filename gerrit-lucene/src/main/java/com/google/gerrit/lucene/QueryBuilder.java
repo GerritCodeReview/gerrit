@@ -44,6 +44,7 @@ import org.apache.lucene.search.Query;
 import org.apache.lucene.search.RegexpQuery;
 import org.apache.lucene.search.TermQuery;
 import org.apache.lucene.util.BytesRef;
+import org.apache.lucene.util.BytesRefBuilder;
 import org.apache.lucene.util.NumericUtils;
 
 import java.util.Date;
@@ -155,7 +156,9 @@ public class QueryBuilder {
 
   private static Term intTerm(String name, int value) {
     BytesRef bytes = new BytesRef(NumericUtils.BUF_SIZE_INT);
-    NumericUtils.intToPrefixCodedBytes(value, 0, bytes);
+    BytesRefBuilder builder = new BytesRefBuilder();
+    builder.append(bytes);
+    NumericUtils.intToPrefixCodedBytes(value, 0, builder);
     return new Term(name, bytes);
   }
 

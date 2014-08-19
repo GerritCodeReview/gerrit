@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d31d115e_b4e880c7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/IncludedInResolver.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-19T17:21:51Z",
+      "side": 1,
+      "message": "This looks like a cherry-pick of Ic5651bb. Instead of squashing that directly into this change, can you cherry-pick it independently?",
+      "revId": "8ef258fc03c309bcdcc9245f637567495e59f4f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

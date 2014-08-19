@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "73ec657a_0106caf0",
+        "filename": "gerrit-gwtdebug/src/main/java/com/google/gwt/dev/codeserver/WebServer.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010404
+      },
+      "writtenOn": "2014-08-19T09:45:16Z",
+      "side": 1,
+      "message": "And so you\u0027re only counting on classpath order to override the WebServer class from //lib/gwt:codeserver? Couldn\u0027t you exclude com/google/gwt/dev/codeserver/WebServer.class from the JAR to make sure this version is used instead?",
+      "revId": "e178d15108840cbf13a201669d68bc483605528e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "73ec657a_a1e5deee",
+        "filename": "gerrit-gwtdebug/src/main/java/com/google/gwt/dev/codeserver/WebServer.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1010404
+      },
+      "writtenOn": "2014-08-19T09:45:16Z",
+      "side": 1,
+      "message": "Because there are a few changes, I think you could add a\n\n Copyright (C) 2014 The Android Open Source Project\n\nline next to the Google Inc. one.\n\nThis is a personal preference but I think you could also add a comment somewhere highlighting the changes you made (e.g. \"copied from GWT and updated to use Jetty 9 instead of Jetty 8\")",
+      "revId": "e178d15108840cbf13a201669d68bc483605528e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

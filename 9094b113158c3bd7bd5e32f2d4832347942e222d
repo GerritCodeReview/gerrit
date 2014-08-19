@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d31d115e_b469a0c4",
+        "filename": "Documentation/project-configuration.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-08-19T06:37:14Z",
+      "side": 1,
+      "message": "\"Commit Message\" to make the capitalisation consistent with other option names.",
+      "range": {
+        "startLine": 191,
+        "startChar": 21,
+        "endLine": 191,
+        "endChar": 35
+      },
+      "revId": "9094b113158c3bd7bd5e32f2d4832347942e222d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

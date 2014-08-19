@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "132409a3_d6b7840c",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/CustomMappingAnalyzer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1016317
+      },
+      "writtenOn": "2014-08-19T18:45:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "330f4d26_978fc46a",
+      "revId": "3a1d33c26867e31df8ee5ca524c8d4745ca6d84a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "132409a3_16d61c30",
         "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/CustomMappingAnalyzer.java",
         "patchSetId": 2
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "132409a3_b6c40877",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/CustomMappingAnalyzer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1016317
+      },
+      "writtenOn": "2014-08-19T18:45:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "132409a3_16d61c30",
+      "revId": "3a1d33c26867e31df8ee5ca524c8d4745ca6d84a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "330f4d26_b792c88e",
         "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
         "patchSetId": 2
@@ -47,6 +83,24 @@
       "writtenOn": "2014-08-19T18:43:28Z",
       "side": 1,
       "message": "unused import",
+      "revId": "3a1d33c26867e31df8ee5ca524c8d4745ca6d84a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "330f4d26_775c302b",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1016317
+      },
+      "writtenOn": "2014-08-19T18:45:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "330f4d26_b792c88e",
       "revId": "3a1d33c26867e31df8ee5ca524c8d4745ca6d84a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

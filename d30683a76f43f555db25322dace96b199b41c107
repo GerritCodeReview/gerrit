@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f3205593_3556b009",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Dispatcher.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 925,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-08-19T06:29:26Z",
+      "side": 1,
+      "message": "nit: add spaces around operators",
+      "range": {
+        "startLine": 925,
+        "startChar": 14,
+        "endLine": 925,
+        "endChar": 15
+      },
+      "revId": "d30683a76f43f555db25322dace96b199b41c107",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f3205593_155bb431",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/AdminConstants.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-08-19T06:29:26Z",
+      "side": 1,
+      "message": "Aren\u0027t these texts always going to be the same regardless of what type of page?\n\nIf so it might be better to just have one \"prev\" and one \"next\" text and use it for all.\n\nThis is unrelated to the change made here, so could be done in a follow up commit.",
+      "range": {
+        "startLine": 102,
+        "startChar": 0,
+        "endLine": 109,
+        "endChar": 43
+      },
+      "revId": "d30683a76f43f555db25322dace96b199b41c107",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d31d115e_d46c1cd6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListBranches.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-08-19T06:29:26Z",
+      "side": 1,
+      "message": "These new options should be added to the REST documentation.",
+      "range": {
+        "startLine": 59,
+        "startChar": 0,
+        "endLine": 81,
+        "endChar": 3
+      },
+      "revId": "d30683a76f43f555db25322dace96b199b41c107",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

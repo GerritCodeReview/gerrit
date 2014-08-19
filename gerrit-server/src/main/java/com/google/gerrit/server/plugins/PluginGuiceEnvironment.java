@@ -83,7 +83,7 @@ public class PluginGuiceEnvironment {
   private Module httpModule;
 
   private Provider<ModuleGenerator> sshGen;
-  private Provider<ModuleGenerator> httpGen;
+  private Provider<HttpModuleGenerator> httpGen;
 
   private Map<TypeLiteral<?>, DynamicItem<?>> sysItems;
   private Map<TypeLiteral<?>, DynamicItem<?>> sshItems;
@@ -187,7 +187,7 @@ public class PluginGuiceEnvironment {
 
   public void setHttpInjector(Injector injector) {
     httpModule = copy(injector);
-    httpGen = injector.getProvider(ModuleGenerator.class);
+    httpGen = injector.getProvider(HttpModuleGenerator.class);
     httpItems = dynamicItemsOf(injector);
     httpSets = dynamicSetsOf(injector);
     httpMaps = dynamicMapsOf(injector);
@@ -204,7 +204,7 @@ public class PluginGuiceEnvironment {
     return httpModule;
   }
 
-  ModuleGenerator newHttpModuleGenerator() {
+  HttpModuleGenerator newHttpModuleGenerator() {
     return httpGen.get();
   }
 

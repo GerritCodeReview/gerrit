@@ -43,7 +43,7 @@ import org.apache.lucene.search.PrefixQuery;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.RegexpQuery;
 import org.apache.lucene.search.TermQuery;
-import org.apache.lucene.util.BytesRef;
+import org.apache.lucene.util.BytesRefBuilder;
 import org.apache.lucene.util.NumericUtils;
 
 import java.util.Date;
@@ -154,9 +154,9 @@ public class QueryBuilder {
   }
 
   private static Term intTerm(String name, int value) {
-    BytesRef bytes = new BytesRef(NumericUtils.BUF_SIZE_INT);
-    NumericUtils.intToPrefixCodedBytes(value, 0, bytes);
-    return new Term(name, bytes);
+    BytesRefBuilder builder = new BytesRefBuilder();
+    NumericUtils.intToPrefixCodedBytes(value, 0, builder);
+    return new Term(name, builder.get());
   }
 
   private Query intQuery(IndexPredicate<ChangeData> p)

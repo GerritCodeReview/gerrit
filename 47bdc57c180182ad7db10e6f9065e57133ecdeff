@@ -1,0 +1,136 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d31d115e_f42cb886",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 2611,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-08-19T07:39:32Z",
+      "side": 1,
+      "message": "\"a large\"",
+      "range": {
+        "startLine": 2611,
+        "startChar": 57,
+        "endLine": 2611,
+        "endChar": 62
+      },
+      "revId": "47bdc57c180182ad7db10e6f9065e57133ecdeff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d31d115e_943344df",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 1447,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-08-19T07:39:32Z",
+      "side": 1,
+      "message": "`maxBatchChanges` to make it consistent with the name of the member in receiveConfig?\n\nOr, is this even needed?  Just refer to it directly in the code below?",
+      "range": {
+        "startLine": 1447,
+        "startChar": 16,
+        "endLine": 1447,
+        "endChar": 30
+      },
+      "revId": "47bdc57c180182ad7db10e6f9065e57133ecdeff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d31d115e_d429bc74",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 1481,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-08-19T07:39:32Z",
+      "side": 1,
+      "message": "Any performance impact of calling this on every iteration?\n\nWould it be worth using a counter variable instead?  Maybe in the `for` loop?",
+      "range": {
+        "startLine": 1481,
+        "startChar": 35,
+        "endLine": 1481,
+        "endChar": 49
+      },
+      "revId": "47bdc57c180182ad7db10e6f9065e57133ecdeff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d31d115e_7440a81f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 1483,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-08-19T07:39:32Z",
+      "side": 1,
+      "message": "lower case for consistency with other reject messages.",
+      "range": {
+        "startLine": 1483,
+        "startChar": 15,
+        "endLine": 1483,
+        "endChar": 16
+      },
+      "revId": "47bdc57c180182ad7db10e6f9065e57133ecdeff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f3205593_7519c869",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 1483,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-08-19T07:39:32Z",
+      "side": 1,
+      "message": "Add a new `error-..txt` document for this error?",
+      "range": {
+        "startLine": 1483,
+        "startChar": 15,
+        "endLine": 1483,
+        "endChar": 76
+      },
+      "revId": "47bdc57c180182ad7db10e6f9065e57133ecdeff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d31d115e_b43640cf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 1485,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-08-19T07:39:32Z",
+      "side": 1,
+      "message": "`return Collections.emptyList()` like at line 1476?",
+      "revId": "47bdc57c180182ad7db10e6f9065e57133ecdeff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

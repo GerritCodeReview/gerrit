@@ -243,7 +243,8 @@ public class ChangeSchemas {
         ChangeField.DELETED,
         ChangeField.DELTA);
 
-
+  // For upgrade to Lucene 4.10.0 index format only.
+  static final Schema<ChangeData> V12 = release(V11.getFields().values());
 
   private static Schema<ChangeData> release(Collection<FieldDef<ChangeData, ?>> fields) {
     return new Schema<>(true, fields);

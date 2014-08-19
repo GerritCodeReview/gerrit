@@ -14,13 +14,14 @@
 
 package com.google.gerrit.server.patch;
 
-import com.google.gerrit.reviewdb.client.Patch;
-import org.junit.Test;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
+
+import com.google.gerrit.reviewdb.client.Patch;
+
+import org.junit.Test;
 
 public class PatchListEntryTest {
   @Test

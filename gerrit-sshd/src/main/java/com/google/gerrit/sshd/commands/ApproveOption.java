@@ -21,10 +21,10 @@ import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
 import org.kohsuke.args4j.OptionDef;
+import org.kohsuke.args4j.spi.FieldSetter;
 import org.kohsuke.args4j.spi.OneArgumentOptionHandler;
 import org.kohsuke.args4j.spi.OptionHandler;
 import org.kohsuke.args4j.spi.Setter;
-import org.kohsuke.args4j.spi.FieldSetter;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedElement;

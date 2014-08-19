@@ -17,8 +17,6 @@ package com.google.gerrit.reviewdb.client;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
-import com.google.gerrit.reviewdb.client.Account;
-
 import org.junit.Test;
 
 public class AccountTest {

@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.schema;
 
+import static org.junit.Assert.assertEquals;
+
 import com.google.gerrit.reviewdb.client.SystemConfig;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.GerritPersonIdent;
@@ -46,8 +48,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
-
-import static org.junit.Assert.assertEquals;
 
 public class SchemaUpdaterTest {
   private InMemoryDatabase db;

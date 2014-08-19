@@ -22,8 +22,8 @@ import static org.eclipse.jgit.lib.ObjectIdSerialization.writeCanBeNull;
 import static org.eclipse.jgit.lib.ObjectIdSerialization.writeNotNull;
 
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference.Whitespace;
+import com.google.gerrit.reviewdb.client.Project;
 
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.ObjectId;

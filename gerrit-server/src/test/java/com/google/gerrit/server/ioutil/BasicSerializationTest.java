@@ -14,8 +14,6 @@
 
 package com.google.gerrit.server.ioutil;
 
-import org.junit.Test;
-
 import static com.google.gerrit.server.ioutil.BasicSerialization.readFixInt64;
 import static com.google.gerrit.server.ioutil.BasicSerialization.readString;
 import static com.google.gerrit.server.ioutil.BasicSerialization.readVarInt32;
@@ -24,6 +22,8 @@ import static com.google.gerrit.server.ioutil.BasicSerialization.writeString;
 import static com.google.gerrit.server.ioutil.BasicSerialization.writeVarInt32;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
+
+import org.junit.Test;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;

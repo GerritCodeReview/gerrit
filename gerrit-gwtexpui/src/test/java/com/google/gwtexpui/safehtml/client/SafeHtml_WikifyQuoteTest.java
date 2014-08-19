@@ -14,10 +14,10 @@
 
 package com.google.gwtexpui.safehtml.client;
 
-import org.junit.Test;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotSame;
+
+import org.junit.Test;
 
 public class SafeHtml_WikifyQuoteTest {
   private static final String B = "<blockquote class=\"wikiQuote\">";

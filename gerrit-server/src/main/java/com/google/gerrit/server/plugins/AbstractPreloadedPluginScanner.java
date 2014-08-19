@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.plugins;
 
+import static com.google.common.base.Preconditions.checkState;
+
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Sets;
 import com.google.gerrit.extensions.annotations.Export;
@@ -27,8 +29,6 @@ import java.lang.reflect.Modifier;
 import java.util.Map;
 import java.util.Set;
 import java.util.jar.Manifest;
-
-import static com.google.common.base.Preconditions.checkState;
 
 /**
  * Base plugin scanner for a set of pre-loaded classes.

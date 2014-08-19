@@ -50,9 +50,9 @@ import org.kohsuke.args4j.Option;
 import org.kohsuke.args4j.OptionDef;
 import org.kohsuke.args4j.spi.BooleanOptionHandler;
 import org.kohsuke.args4j.spi.EnumOptionHandler;
+import org.kohsuke.args4j.spi.FieldSetter;
 import org.kohsuke.args4j.spi.OptionHandler;
 import org.kohsuke.args4j.spi.Setter;
-import org.kohsuke.args4j.spi.FieldSetter;
 
 import java.io.StringWriter;
 import java.io.Writer;

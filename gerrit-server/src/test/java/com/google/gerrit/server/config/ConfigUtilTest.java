@@ -14,14 +14,14 @@
 
 package com.google.gerrit.server.config;
 
-import org.junit.Test;
-
 import static java.util.concurrent.TimeUnit.DAYS;
 import static java.util.concurrent.TimeUnit.HOURS;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.MINUTES;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.junit.Assert.assertEquals;
+
+import org.junit.Test;
 
 import java.util.concurrent.TimeUnit;
 

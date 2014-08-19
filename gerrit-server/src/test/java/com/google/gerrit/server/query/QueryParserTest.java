@@ -13,10 +13,10 @@
 // limitations under the License.
 
 package com.google.gerrit.server.query;
+import static org.junit.Assert.assertEquals;
+
 import org.antlr.runtime.tree.Tree;
 import org.junit.Test;
-
-import static org.junit.Assert.assertEquals;
 
 public class QueryParserTest {
   @Test

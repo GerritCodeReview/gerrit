@@ -24,9 +24,9 @@ import static com.google.gerrit.server.ioutil.BasicSerialization.writeString;
 import static com.google.gerrit.server.ioutil.BasicSerialization.writeVarInt32;
 
 import com.google.gerrit.reviewdb.client.Patch;
-import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Patch.ChangeType;
 import com.google.gerrit.reviewdb.client.Patch.PatchType;
+import com.google.gerrit.reviewdb.client.PatchSet;
 
 import org.eclipse.jgit.diff.Edit;
 import org.eclipse.jgit.lib.Constants;

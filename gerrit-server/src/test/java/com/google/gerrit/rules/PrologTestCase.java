@@ -14,6 +14,10 @@
 
 package com.google.gerrit.rules;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
 import com.google.gerrit.server.util.TimeUtil;
 import com.google.inject.Guice;
 import com.google.inject.Module;
@@ -38,10 +42,6 @@ import java.io.PushbackReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 
 /** Base class for any tests written in Prolog. */

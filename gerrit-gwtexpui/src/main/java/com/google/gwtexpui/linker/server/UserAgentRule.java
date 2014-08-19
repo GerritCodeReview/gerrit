@@ -14,9 +14,10 @@
 
 package com.google.gwtexpui.linker.server;
 
+import static java.util.regex.Pattern.compile;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import static java.util.regex.Pattern.compile;
 
 import javax.servlet.http.HttpServletRequest;
 

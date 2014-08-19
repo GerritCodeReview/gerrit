@@ -16,12 +16,10 @@ package com.google.gerrit.client.ui;
 
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.rpc.GerritCallback;
-import com.google.gerrit.client.ui.SmallHeading;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
-import com.google.gwtjsonrpc.common.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.FocusWidget;
@@ -29,6 +27,7 @@ import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwtexpui.globalkey.client.GlobalKey;
 import com.google.gwtexpui.globalkey.client.NpTextArea;
 import com.google.gwtexpui.user.client.AutoCenterDialogBox;
+import com.google.gwtjsonrpc.common.AsyncCallback;
 
 public abstract class CommentedActionDialog<T> extends AutoCenterDialogBox
     implements CloseHandler<PopupPanel> {

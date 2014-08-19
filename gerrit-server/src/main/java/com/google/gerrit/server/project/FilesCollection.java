@@ -19,7 +19,6 @@ import com.google.gerrit.extensions.restapi.ChildCollection;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestView;
-import com.google.gerrit.server.project.BranchResource;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 

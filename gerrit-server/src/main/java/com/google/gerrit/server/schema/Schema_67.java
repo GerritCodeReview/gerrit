@@ -24,6 +24,7 @@ import com.google.gwtorm.jdbc.JdbcSchema;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;

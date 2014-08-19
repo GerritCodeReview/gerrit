@@ -14,10 +14,10 @@
 
 package com.google.gwtexpui.safehtml.client;
 
-import org.junit.Test;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotSame;
+
+import org.junit.Test;
 
 public class SafeHtml_WikifyListTest {
   private static final String BEGIN_LIST = "<ul class=\"wikiList\">";

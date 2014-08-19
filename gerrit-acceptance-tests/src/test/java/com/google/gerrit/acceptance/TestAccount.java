@@ -16,11 +16,11 @@ package com.google.gerrit.acceptance;
 
 import com.google.gerrit.reviewdb.client.Account;
 
-import java.io.ByteArrayOutputStream;
-
 import com.jcraft.jsch.KeyPair;
 
 import org.eclipse.jgit.lib.PersonIdent;
+
+import java.io.ByteArrayOutputStream;
 
 
 public class TestAccount {

@@ -15,8 +15,6 @@
 
 package com.google.gerrit.plugin.rebind;
 
-import java.io.PrintWriter;
-
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.ext.Generator;
 import com.google.gwt.core.ext.GeneratorContext;
@@ -26,6 +24,8 @@ import com.google.gwt.core.ext.typeinfo.JClassType;
 import com.google.gwt.core.ext.typeinfo.TypeOracle;
 import com.google.gwt.user.rebind.ClassSourceFileComposerFactory;
 import com.google.gwt.user.rebind.SourceWriter;
+
+import java.io.PrintWriter;
 
 /**
  * Write the top layer in the Gadget bootstrap sandwich and generate a stub

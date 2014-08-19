@@ -20,6 +20,7 @@ public class FetchInfo {
   public String url;
   public String ref;
   public Map<String, String> commands;
+  public String[] mirrors;
 
   public FetchInfo(String url, String ref) {
     this.url = url;

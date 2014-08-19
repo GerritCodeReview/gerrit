@@ -65,7 +65,7 @@ public class ReviewInput {
   }
 
   public static enum NotifyHandling {
-    NONE, OWNER, OWNER_REVIEWERS, ALL
+    NONE, OWNER, OWNER_REVIEWERS, ALL, VERIFIED_CHANGES
   }
 
   public static class CommentInput extends Comment {

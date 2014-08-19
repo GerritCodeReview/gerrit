@@ -1354,7 +1354,7 @@ The strategy used to display the comments.
 Allowed values are `COLLAPSE_ALL`, `EXPAND_MOST_RECENT`, `EXPAND_RECENT`, `EXPAND_ALL`.
 |`email_notifications`     ||
 The type of email strategy to use.
-Allowed values are `ENABLED`, `CC_ON_OWN_COMMENTS`, `DISABLED`
+Allowed values are `ENABLED`, `CC_ON_OWN_COMMENTS`, `DISABLED`, `EMAIL_FOR_VERIFIED_CHANGES`
 |`diff_view`     ||
 The type of diff view to show.
 Allowed values are `SIDE_BY_SIDE`, `UNIFIED_DIFF`.
@@ -1404,7 +1404,7 @@ The strategy used to display the comments.
 Allowed values are `COLLAPSE_ALL`, `EXPAND_MOST_RECENT`, `EXPAND_RECENT`, `EXPAND_ALL`.
 |`email_notifications`     |optional|
 The type of email strategy to use.
-Allowed values are `ENABLED`, `CC_ON_OWN_COMMENTS`, `DISABLED`.
+Allowed values are `ENABLED`, `CC_ON_OWN_COMMENTS`, `DISABLED`, `EMAIL_FOR_VERIFIED_CHANGES`.
 |`diff_view`     |optional|
 The type of diff view to show.
 Allowed values are `SIDE_BY_SIDE`, `UNIFIED_DIFF`.

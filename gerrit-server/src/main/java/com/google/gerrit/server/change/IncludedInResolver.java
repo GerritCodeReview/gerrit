@@ -60,7 +60,6 @@ public class IncludedInResolver {
   private final Repository repo;
   private final RevWalk rw;
   private final RevCommit target;
-
   private final RevFlag containsTarget;
   private Multimap<RevCommit, String> commitToRef;
   private List<RevCommit> tipsByCommitTime;
@@ -83,12 +82,10 @@ public class IncludedInResolver {
     allTagsAndBranches.addAll(branches);
     parseCommits(allTagsAndBranches);
     Set<String> allMatchingTagsAndBranches = includedIn(tipsByCommitTime, 0);
-
     IncludedInDetail detail = new IncludedInDetail();
     detail
         .setBranches(getMatchingRefNames(allMatchingTagsAndBranches, branches));
     detail.setTags(getMatchingRefNames(allMatchingTagsAndBranches, tags));
-
     return detail;
   }
 

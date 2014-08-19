@@ -24,6 +24,7 @@ import com.google.gerrit.common.data.RefConfigSection;
 import com.google.gerrit.common.errors.InvalidNameException;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.InternalUser;
@@ -31,12 +32,16 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 
 import dk.brics.automaton.RegExp;
 
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevTag;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -49,6 +54,8 @@ import java.util.Set;
 
 /** Manages access control for Git references (aka branches, tags). */
 public class RefControl {
+  private static final Logger log = LoggerFactory.getLogger(RefControl.class);
+
   private final ProjectControl projectControl;
   private final String refName;
 
@@ -227,12 +234,12 @@ public class RefControl {
   /**
    * Determines whether the user can create a new Git ref.
    *
+   * @param db db for checking change visibility.
    * @param rw revision pool {@code object} was parsed in.
    * @param object the object the user will start the reference with.
-   * @param existsOnServer the object exists on server or not.
    * @return {@code true} if the user specified can create a new Git ref
    */
-  public boolean canCreate(RevWalk rw, RevObject object, boolean existsOnServer) {
+  public boolean canCreate(ReviewDb db, RevWalk rw, RevObject object) {
     if (!canWrite()) {
       return false;
     }
@@ -253,8 +260,9 @@ public class RefControl {
     if (object instanceof RevCommit) {
       return admin
           || (owner && !isBlocked(Permission.CREATE))
-          || (canPerform(Permission.CREATE) && (!existsOnServer && canUpdate() || projectControl
-              .canReadCommit(rw, (RevCommit) object)));
+          || (canPerform(Permission.CREATE)
+              && (canUpdate()
+                  || isMergedIntoBranchOrTag(db, rw, (RevCommit) object)));
     } else if (object instanceof RevTag) {
       final RevTag tag = (RevTag) object;
       try {
@@ -291,6 +299,28 @@ public class RefControl {
     } else {
       return false;
     }
+  }
+
+  private boolean isMergedIntoBranchOrTag(ReviewDb db, RevWalk rw,
+      RevCommit commit) {
+    try {
+      Repository repo = projectControl.openRepository();
+      try {
+        List<Ref> refs = new ArrayList<Ref>(
+            repo.getRefDatabase().getRefs(Constants.R_HEADS).values());
+        refs.addAll(repo.getRefDatabase().getRefs(Constants.R_TAGS).values());
+        return projectControl.isMergedIntoVisibleRef(
+            repo, db, rw, commit, refs);
+      } finally {
+        repo.close();
+      }
+    } catch (IOException e) {
+      String msg = String.format(
+          "Cannot verify permissions to commit object %s in repository %s",
+          commit.name(), projectControl.getProject().getNameKey());
+      log.error(msg, e);
+    }
+    return false;
   }
 
   /**

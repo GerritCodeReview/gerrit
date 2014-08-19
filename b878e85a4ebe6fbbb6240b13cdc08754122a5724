@@ -72,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "f3205593_b5dac01f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-19T23:59:15Z",
+      "side": 1,
+      "message": "Didn\u0027t feel like repeating myself, just referred readers to the javadoc.",
+      "parentUuid": "16ca37de_c6f9c2e6",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 18
+      },
+      "revId": "b878e85a4ebe6fbbb6240b13cdc08754122a5724",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b6a7ab22_cbe0b532",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -142,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "f3205593_d5cd3c6d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NotesMigration.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-19T23:59:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "16ca37de_a6d1266f",
+      "range": {
+        "startLine": 31,
+        "startChar": 33,
+        "endLine": 31,
+        "endChar": 50
+      },
+      "revId": "b878e85a4ebe6fbbb6240b13cdc08754122a5724",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "16ca37de_86d6aa62",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NotesMigration.java",
         "patchSetId": 2
@@ -165,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "d31d115e_34991069",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NotesMigration.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-19T23:59:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "16ca37de_86d6aa62",
+      "range": {
+        "startLine": 32,
+        "startChar": 45,
+        "endLine": 33,
+        "endChar": 11
+      },
+      "revId": "b878e85a4ebe6fbbb6240b13cdc08754122a5724",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b6a7ab22_2be6994b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NotesMigration.java",
         "patchSetId": 2
@@ -176,6 +248,30 @@
       "writtenOn": "2014-08-15T05:44:47Z",
       "side": 1,
       "message": "t.key()",
+      "range": {
+        "startLine": 52,
+        "startChar": 15,
+        "endLine": 52,
+        "endChar": 37
+      },
+      "revId": "b878e85a4ebe6fbbb6240b13cdc08754122a5724",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d31d115e_54948c30",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NotesMigration.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-19T23:59:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b6a7ab22_2be6994b",
       "range": {
         "startLine": 52,
         "startChar": 15,

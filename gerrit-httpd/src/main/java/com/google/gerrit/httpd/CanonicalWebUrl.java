@@ -14,11 +14,11 @@
 
 package com.google.gerrit.httpd;
 
-import javax.servlet.http.HttpServletRequest;
-
 import com.google.gerrit.common.Nullable;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+
+import javax.servlet.http.HttpServletRequest;
 
 public class CanonicalWebUrl {
   private final Provider<String> configured;

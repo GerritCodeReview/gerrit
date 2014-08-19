@@ -14,12 +14,6 @@
 
 package com.google.gerrit.acceptance;
 
-import java.io.ByteArrayOutputStream;
-import java.io.UnsupportedEncodingException;
-import java.util.Collections;
-
-import javax.inject.Inject;
-
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -37,6 +31,12 @@ import com.google.gwtorm.server.SchemaFactory;
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.KeyPair;
+
+import java.io.ByteArrayOutputStream;
+import java.io.UnsupportedEncodingException;
+import java.util.Collections;
+
+import javax.inject.Inject;
 
 public class AccountCreator {
 

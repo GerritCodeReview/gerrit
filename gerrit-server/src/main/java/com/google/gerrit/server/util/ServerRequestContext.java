@@ -17,9 +17,9 @@ package com.google.gerrit.server.util;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.InternalUser;
+import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.ProvisionException;
-import com.google.inject.Inject;
 
 /** RequestContext with an InternalUser making the internals visible. */
 public class ServerRequestContext implements RequestContext {

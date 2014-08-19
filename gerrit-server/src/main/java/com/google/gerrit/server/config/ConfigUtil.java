@@ -17,6 +17,7 @@ package com.google.gerrit.server.config;
 import static org.eclipse.jgit.util.StringUtils.equalsIgnoreCase;
 
 import org.eclipse.jgit.lib.Config;
+
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;

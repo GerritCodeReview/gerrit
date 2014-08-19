@@ -23,8 +23,8 @@ import com.google.gerrit.reviewdb.client.AccountProjectWatch;
 import com.google.gwtjsonrpc.common.AsyncCallback;
 import com.google.gwtjsonrpc.common.RemoteJsonService;
 import com.google.gwtjsonrpc.common.RpcImpl;
-import com.google.gwtjsonrpc.common.VoidResult;
 import com.google.gwtjsonrpc.common.RpcImpl.Version;
+import com.google.gwtjsonrpc.common.VoidResult;
 
 import java.util.List;
 import java.util.Set;

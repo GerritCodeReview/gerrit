@@ -16,9 +16,9 @@ package com.google.gerrit.client.documentation;
 
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.ui.NavigationTable;
+import com.google.gwt.core.client.JsArray;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.core.client.JsArray;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;

@@ -17,8 +17,8 @@ package com.google.gerrit.server.change;
 import com.google.common.base.Strings;
 import com.google.gerrit.common.changes.Side;
 import com.google.gerrit.extensions.restapi.Url;
-import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.CommentRange;
+import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.server.account.AccountInfo;
 
 import java.sql.Timestamp;

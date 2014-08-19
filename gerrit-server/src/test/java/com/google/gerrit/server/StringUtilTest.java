@@ -14,9 +14,9 @@
 
 package com.google.gerrit.server;
 
-import org.junit.Test;
-
 import static org.junit.Assert.assertEquals;
+
+import org.junit.Test;
 
 public class StringUtilTest {
   /**

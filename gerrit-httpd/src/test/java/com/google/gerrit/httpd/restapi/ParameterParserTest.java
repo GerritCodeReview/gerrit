@@ -14,6 +14,8 @@
 
 package com.google.gerrit.httpd.restapi;
 
+import static org.junit.Assert.assertEquals;
+
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -22,7 +24,6 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 
 import org.junit.Test;
-import static org.junit.Assert.assertEquals;
 
 public class ParameterParserTest {
   @Test

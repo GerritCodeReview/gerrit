@@ -22,6 +22,30 @@
       "revId": "60bca74a78b480028d66ff59f1754d52e0a5d171",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "132409a3_367fd883",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/util/SystemLog.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2014-08-19T13:14:55Z",
+      "side": 0,
+      "message": "Yes and I rebased Simon\u0027s change on top of this one.",
+      "parentUuid": "73ec657a_41c7324f",
+      "range": {
+        "startLine": 67,
+        "startChar": 4,
+        "endLine": 67,
+        "endChar": 33
+      },
+      "revId": "60bca74a78b480028d66ff59f1754d52e0a5d171",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

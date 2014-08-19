@@ -16,6 +16,23 @@
       "revId": "8ef258fc03c309bcdcc9245f637567495e59f4f7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f3205593_b54d2055",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectControl.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 543,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-19T17:22:38Z",
+      "side": 1,
+      "message": "Is this just cherry-picking in my change from master? Also ok, but if so maybe also make it a cherry-pick.",
+      "revId": "8ef258fc03c309bcdcc9245f637567495e59f4f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

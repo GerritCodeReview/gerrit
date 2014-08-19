@@ -58,7 +58,6 @@ import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 
-import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.analysis.util.CharArraySet;
 import org.apache.lucene.document.Document;
@@ -94,6 +93,7 @@ import java.io.File;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -122,6 +122,8 @@ public class LuceneChangeIndex implements ChangeIndex {
   private static final String ID_FIELD = ChangeField.LEGACY_ID.getName();
   private static final ImmutableSet<String> FIELDS = ImmutableSet.of(
       ADDED_FIELD, APPROVAL_FIELD, CHANGE_FIELD, DELETED_FIELD, ID_FIELD);
+  private static final Map<String,String> CUSTOM_MAPPING = ImmutableMap.of(
+      "_", " ", ".", " ");
 
   private static final Map<Schema<ChangeData>, Version> LUCENE_VERSIONS;
   static {
@@ -173,8 +175,10 @@ public class LuceneChangeIndex implements ChangeIndex {
     private long commitWithinMs;
 
     private GerritIndexWriterConfig(Version version, Config cfg, String name) {
-      luceneConfig = new IndexWriterConfig(version,
-          new StandardAnalyzer(version, CharArraySet.EMPTY_SET));
+      CustomMappingAnalyzer analyzer =
+          new CustomMappingAnalyzer(new StandardAnalyzer(version,
+              CharArraySet.EMPTY_SET), CUSTOM_MAPPING);
+      luceneConfig = new IndexWriterConfig(version, analyzer);
       luceneConfig.setOpenMode(OpenMode.CREATE_OR_APPEND);
       double m = 1 << 20;
       luceneConfig.setRAMBufferSizeMB(cfg.getLong(
@@ -237,9 +241,9 @@ public class LuceneChangeIndex implements ChangeIndex {
     Version luceneVersion = checkNotNull(
         LUCENE_VERSIONS.get(schema),
         "unknown Lucene version for index schema: %s", schema);
-
-    Analyzer analyzer =
-        new StandardAnalyzer(luceneVersion, CharArraySet.EMPTY_SET);
+    CustomMappingAnalyzer analyzer =
+        new CustomMappingAnalyzer(new StandardAnalyzer(luceneVersion,
+            CharArraySet.EMPTY_SET), CUSTOM_MAPPING);
     queryBuilder = new QueryBuilder(schema, analyzer);
 
     GerritIndexWriterConfig openConfig =

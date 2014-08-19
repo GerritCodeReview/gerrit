@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "73ec657a_213f8ea2",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/GerritGwtUI.gwt.xml",
+        "patchSetId": 5
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-19T06:19:35Z",
+      "side": 1,
+      "message": "Really?",
+      "range": {
+        "startLine": 45,
+        "startChar": 2,
+        "endLine": 45,
+        "endChar": 51
+      },
+      "revId": "865b06a5b7a9cc96dee4b6c63687624f167c50d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

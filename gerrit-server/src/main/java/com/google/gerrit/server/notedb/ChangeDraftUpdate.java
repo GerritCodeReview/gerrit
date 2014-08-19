@@ -95,7 +95,7 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
     this.accountId = user.getAccountId();
     this.changeNotes = getChangeNotes().load();
     this.draftNotes = draftNotesFactory.create(ctl.getChange().getId(),
-        user.getAccountId()).load();
+        user.getAccountId());
 
     this.upsertComments = Lists.newArrayList();
     this.deleteComments = Lists.newArrayList();
@@ -132,21 +132,22 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
     // caller wanted the comment deleted anyways, so the end result will be the
     // same either way.
     if (migration.readComments()) {
-      checkArgument(draftNotes.containsComment(c),
+      checkArgument(draftNotes.load().containsComment(c),
           "Cannot update this comment because it didn't exist previously");
     }
     upsertComments.add(c);
   }
 
-  public void deleteComment(PatchLineComment c) {
+  public void deleteComment(PatchLineComment c) throws OrmException {
     verifyComment(c);
     // See the comment above about potential race condition.
     if (migration.readComments()) {
-      checkArgument(draftNotes.containsComment(c), "Cannot delete this comment"
-          + " because it didn't previously exist as a draft");
+      checkArgument(draftNotes.load().containsComment(c),
+          "Cannot delete this comment because it didn't previously exist as a"
+          + " draft");
     }
     if (migration.write()) {
-      if (draftNotes.containsComment(c)) {
+      if (draftNotes.load().containsComment(c)) {
         deleteComments.add(c);
       }
     }
@@ -156,8 +157,8 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
    * Deletes a PatchLineComment from the list of drafts only if it existed
    * previously as a draft. If it wasn't a draft previously, this is a no-op.
    */
-  public void deleteCommentIfPresent(PatchLineComment c) {
-    if (draftNotes.containsComment(c)) {
+  public void deleteCommentIfPresent(PatchLineComment c) throws OrmException {
+    if (draftNotes.load().containsComment(c)) {
       verifyComment(c);
       deleteComments.add(c);
     }
@@ -184,7 +185,7 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
       return null;
     }
 
-    NoteMap noteMap = draftNotes.getNoteMap();
+    NoteMap noteMap = draftNotes.load().getNoteMap();
     if (noteMap == null) {
       noteMap = NoteMap.newEmptyMap();
     }

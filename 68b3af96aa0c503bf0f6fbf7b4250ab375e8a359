@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "530a0115_7812e12f",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ListLoggingLevelCommand.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-19T18:35:29Z",
+      "side": 1,
+      "message": "[Optional]: Break the whole construct on the new line, like in Set command on similar place.",
+      "range": {
+        "startLine": 60,
+        "startChar": 70,
+        "endLine": 61,
+        "endChar": 27
+      },
+      "revId": "68b3af96aa0c503bf0f6fbf7b4250ab375e8a359",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

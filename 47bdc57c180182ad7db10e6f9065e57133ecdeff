@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "73ec657a_01dfea24",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 2611,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-08-19T08:09:45Z",
+      "side": 1,
+      "message": "aha\n\nDone",
+      "parentUuid": "d31d115e_f42cb886",
+      "revId": "47bdc57c180182ad7db10e6f9065e57133ecdeff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d31d115e_943344df",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 11
@@ -48,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "530a0115_18288570",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 1447,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-08-19T08:09:45Z",
+      "side": 1,
+      "message": "maxBatchChanges is used as a limit here so the maxNumberLimit here is easy to read.\nwith  the local variable we need not to get it TWICE each time in loop.",
+      "parentUuid": "d31d115e_943344df",
+      "revId": "47bdc57c180182ad7db10e6f9065e57133ecdeff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d31d115e_d429bc74",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 11
@@ -65,6 +101,24 @@
         "endLine": 1481,
         "endChar": 49
       },
+      "revId": "47bdc57c180182ad7db10e6f9065e57133ecdeff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "73ec657a_81ebfac8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 1481,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-08-19T08:09:45Z",
+      "side": 1,
+      "message": "please see ArrayList.size() \n---\npublic int size() {\n        return size;\n }\n---\n\nI can not see any performance affect here.",
+      "parentUuid": "d31d115e_d429bc74",
       "revId": "47bdc57c180182ad7db10e6f9065e57133ecdeff",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -117,6 +171,42 @@
     },
     {
       "key": {
+        "uuid": "73ec657a_21faee90",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 1483,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-08-19T08:09:45Z",
+      "side": 1,
+      "message": "Thanks!\nDone",
+      "parentUuid": "d31d115e_7440a81f",
+      "revId": "47bdc57c180182ad7db10e6f9065e57133ecdeff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "530a0115_7840a11f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 1483,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-08-19T08:09:45Z",
+      "side": 1,
+      "message": "I think only those one error with more reasons need be cared , not every reject need write  in document.",
+      "parentUuid": "f3205593_7519c869",
+      "revId": "47bdc57c180182ad7db10e6f9065e57133ecdeff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d31d115e_b43640cf",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 11
@@ -128,6 +218,24 @@
       "writtenOn": "2014-08-19T07:39:32Z",
       "side": 1,
       "message": "`return Collections.emptyList()` like at line 1476?",
+      "revId": "47bdc57c180182ad7db10e6f9065e57133ecdeff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "73ec657a_41f5f29e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 1485,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-08-19T08:09:45Z",
+      "side": 1,
+      "message": "Great! David.  \nDone",
+      "parentUuid": "d31d115e_b43640cf",
       "revId": "47bdc57c180182ad7db10e6f9065e57133ecdeff",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

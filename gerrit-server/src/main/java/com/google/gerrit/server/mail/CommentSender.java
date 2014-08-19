@@ -17,8 +17,11 @@ package com.google.gerrit.server.mail;
 import com.google.common.base.Optional;
 import com.google.common.base.Strings;
 import com.google.common.collect.Ordering;
+import com.google.common.collect.SetMultimap;
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.extensions.api.changes.ReviewInput.NotifyHandling;
+import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.EmailingOptionsStrategy;
 import com.google.gerrit.reviewdb.client.AccountProjectWatch.NotifyType;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.CommentRange;
@@ -26,6 +29,7 @@ import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.PatchLineCommentsUtil;
+import com.google.gerrit.server.notedb.ReviewerState;
 import com.google.gerrit.server.patch.PatchFile;
 import com.google.gerrit.server.patch.PatchList;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
@@ -84,13 +88,26 @@ public class CommentSender extends ReplyToChangeSender {
   @Override
   protected void init() throws EmailException {
     super.init();
-
+    if (notify.equals(NotifyHandling.VERIFIED_CHANGES)) {
+      try {
+        SetMultimap<ReviewerState, Account.Id> map = changeData.reviewers();
+        for (Account.Id id : map.values()) {
+          Account a = args.db.get().accounts().get(id);
+          if (a.getGeneralPreferences().getEmailingOptionsStrategy() != EmailingOptionsStrategy.EMAIL_FOR_VERIFIED_CHANGES) {
+            add(RecipientType.TO, id);
+          }
+        }
+      } catch (OrmException e) {
+        log.debug("cannot query database", e);
+      }
+    } else {
     if (notify.compareTo(NotifyHandling.OWNER_REVIEWERS) >= 0) {
       ccAllApprovals();
     }
     if (notify.compareTo(NotifyHandling.ALL) >= 0) {
       bccStarredBy();
       includeWatchers(NotifyType.ALL_COMMENTS);
+    }
     }
   }
 

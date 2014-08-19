@@ -91,7 +91,8 @@ public final class AccountGeneralPreferences {
   public static enum EmailingOptionsStrategy {
     ENABLED,
     CC_ON_OWN_COMMENTS,
-    DISABLED
+    DISABLED,
+    EMAIL_FOR_VERIFIED_CHANGES
   }
 
   public static enum ChangeScreen {
@@ -177,7 +178,7 @@ public final class AccountGeneralPreferences {
   @Column(id = 18, length = 20, notNull = false)
   protected String reviewCategoryStrategy;
 
-  @Column(id = 19, length = 30, notNull = false)
+  @Column(id = 19, length = 40, notNull = false)
   protected String emailingOptionsStrategy;
 
   public AccountGeneralPreferences() {

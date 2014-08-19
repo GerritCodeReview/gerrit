@@ -166,5 +166,6 @@ public interface AccountConstants extends Constants {
   String messageEnabled();
   String messageCCMeOnMyComments();
   String messageDisabled();
+  String messageEmailForVerifiedChangesOnly();
 
 }

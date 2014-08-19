@@ -29,6 +29,7 @@ import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRange;
+import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.CommentInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.DraftHandling;
@@ -176,6 +177,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     } else {
       indexWrite = Futures.<Void, IOException> immediateCheckedFuture(null);
     }
+    isVerified(revision, input);
     if (message != null) {
       if (input.notify.compareTo(NotifyHandling.NONE) > 0) {
         email.create(
@@ -566,6 +568,25 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
           categories, db.get());
     } catch (OrmException e) {
       log.warn("ChangeHook.doCommentAddedHook delivery failed", e);
+    }
+  }
+
+  private void isVerified(RevisionResource revision, ReviewInput input)
+      throws OrmException {
+    List<SubmitRecord> results =
+        revision.getControl().canSubmit(db.get(), revision.getPatchSet());
+    for (SubmitRecord record : results) {
+      if (record.errorMessage == null) {
+        for (SubmitRecord.Label lbl : record.labels) {
+          if (lbl.label.equals("Verified")
+              && !lbl.status.toString().equals("OK")) {
+            // If the change is not verified, then mails should be sent to
+            // the owner of the change and to the reviewers as per their email
+            // preferences
+            input.notify = NotifyHandling.VERIFIED_CHANGES;
+          }
+        }
+      }
     }
   }
 }

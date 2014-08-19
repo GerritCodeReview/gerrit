@@ -120,6 +120,11 @@ public class MyPreferencesScreen extends SettingsScreen {
             Util.C.messageDisabled(),
             AccountGeneralPreferences.EmailingOptionsStrategy.DISABLED
                 .name());
+    emailingOptionsStrategy
+        .addItem(
+            Util.C.messageEmailForVerifiedChangesOnly(),
+            AccountGeneralPreferences.EmailingOptionsStrategy.EMAIL_FOR_VERIFIED_CHANGES
+                .name());
 
     changeScreen = new ListBox();
     changeScreen.addItem(

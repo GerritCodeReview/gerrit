@@ -34,4 +34,7 @@ public abstract class DownloadScheme {
 
   /** @return whether the download scheme is enabled */
   public abstract boolean isEnabled();
+
+  /** @return a set of URLs of the download mirrors */
+  public abstract String[] getMirrors();
 }

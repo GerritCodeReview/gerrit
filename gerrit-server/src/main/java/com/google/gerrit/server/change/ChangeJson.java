@@ -890,8 +890,11 @@ public class ChangeJson {
       String projectName = ctl.getProject().getNameKey().get();
       String url = scheme.getUrl(projectName);
       String refName = in.getRefName();
+
       FetchInfo fetchInfo = new FetchInfo(url, refName);
       r.put(schemeName, fetchInfo);
+
+      fetchInfo.mirrors = scheme.getMirrors();
 
       if (has(DOWNLOAD_COMMANDS)) {
         populateFetchMap(scheme, downloadCommands, projectName, refName,

@@ -49,12 +49,26 @@ public class IncludedInResolver {
 
   public static IncludedInDetail resolve(final Repository repo,
       final RevWalk rw, final RevCommit commit) throws IOException {
-    return new IncludedInResolver(repo, rw, commit).resolve();
+    RevFlag flag = newFlag(rw);
+    try {
+      return new IncludedInResolver(repo, rw, commit, flag).resolve();
+    } finally {
+      rw.disposeFlag(flag);
+    }
   }
 
   public static boolean includedInOne(final Repository repo, final RevWalk rw,
       final RevCommit commit, final Collection<Ref> refs) throws IOException {
-    return new IncludedInResolver(repo, rw, commit).includedInOne(refs);
+    RevFlag flag = newFlag(rw);
+    try {
+      return new IncludedInResolver(repo, rw, commit, flag).includedInOne(refs);
+    } finally {
+      rw.disposeFlag(flag);
+    }
+  }
+
+  private static RevFlag newFlag(RevWalk rw) {
+    return rw.newFlag("CONTAINS_TARGET");
   }
 
   private final Repository repo;
@@ -65,12 +79,12 @@ public class IncludedInResolver {
   private Multimap<RevCommit, String> commitToRef;
   private List<RevCommit> tipsByCommitTime;
 
-  private IncludedInResolver(final Repository repo, final RevWalk rw,
-      final RevCommit target) {
+  private IncludedInResolver(Repository repo, RevWalk rw, RevCommit target,
+      RevFlag containsTarget) {
     this.repo = repo;
     this.rw = rw;
     this.target = target;
-    this.containsTarget = rw.newFlag("CONTAINS_TARGET");
+    this.containsTarget = containsTarget;
   }
 
   private IncludedInDetail resolve() throws IOException {

@@ -1,0 +1,147 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "935e392a_2af2df00",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 923,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-08-20T03:12:39Z",
+      "side": 1,
+      "message": "unnecessary space",
+      "range": {
+        "startLine": 923,
+        "startChar": 8,
+        "endLine": 923,
+        "endChar": 9
+      },
+      "revId": "5d05acd32f9f0f03f3e8260add32d94db293d207",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "935e392a_0af71bf1",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 927,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-08-20T03:12:39Z",
+      "side": 1,
+      "message": "missing period at the end of the sentence.",
+      "range": {
+        "startLine": 927,
+        "startChar": 57,
+        "endLine": 927,
+        "endChar": 58
+      },
+      "revId": "5d05acd32f9f0f03f3e8260add32d94db293d207",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "935e392a_ea0ba747",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 952,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-08-20T03:12:39Z",
+      "side": 1,
+      "message": "New line is needed before this, otherwise it does not render properly.",
+      "revId": "5d05acd32f9f0f03f3e8260add32d94db293d207",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d31d115e_d4d89c03",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 978,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-08-20T03:12:39Z",
+      "side": 1,
+      "message": "Start a new paragraph here.",
+      "revId": "5d05acd32f9f0f03f3e8260add32d94db293d207",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d31d115e_94d224de",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 979,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-08-20T03:12:39Z",
+      "side": 1,
+      "message": "New line is needed before this, otherwise it does not render properly.",
+      "revId": "5d05acd32f9f0f03f3e8260add32d94db293d207",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d31d115e_b4d520ca",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 981,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-08-20T03:12:39Z",
+      "side": 1,
+      "message": "This doesn\u0027t match the description at line 978.",
+      "range": {
+        "startLine": 981,
+        "startChar": 45,
+        "endLine": 981,
+        "endChar": 49
+      },
+      "revId": "5d05acd32f9f0f03f3e8260add32d94db293d207",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d31d115e_74f3087f",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/AdminConstants.properties",
+        "patchSetId": 3
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-08-20T03:12:39Z",
+      "side": 1,
+      "message": "Better to do this in a separate change.",
+      "range": {
+        "startLine": 102,
+        "startChar": 0,
+        "endLine": 103,
+        "endChar": 28
+      },
+      "revId": "5d05acd32f9f0f03f3e8260add32d94db293d207",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

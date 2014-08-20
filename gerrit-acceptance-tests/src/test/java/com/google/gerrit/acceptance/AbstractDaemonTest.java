@@ -35,9 +35,11 @@ import com.google.gerrit.server.OutputFormat;
 import com.google.gerrit.server.change.ChangeJson;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
+import com.google.gerrit.server.index.IndexCollection;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.Util;
 import com.google.gerrit.testutil.ConfigSuite;
+import com.google.gerrit.testutil.InMemoryDatabase;
 import com.google.gson.Gson;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
@@ -88,6 +90,15 @@ public abstract class AbstractDaemonTest {
   @Inject
   protected ProjectCache projectCache;
 
+  @Inject
+  FilesystemDeleteHandler fsHandler;
+
+  @Inject
+  CacheDeleteHandler cacheHandler;
+
+  @Inject
+  protected IndexCollection index;
+
   protected Git git;
   protected GerritServer server;
   protected TestAccount admin;
@@ -97,6 +108,7 @@ public abstract class AbstractDaemonTest {
   protected SshSession sshSession;
   protected ReviewDb db;
   protected Project.NameKey project;
+  InMemoryDatabase dbHandle;
 
   @Rule
   public TestRule testRunner = new TestRule() {
@@ -134,6 +146,14 @@ public abstract class AbstractDaemonTest {
   private void beforeTest(Config cfg, boolean memory, boolean enableHttpd) throws Exception {
     server = startServer(cfg, memory, enableHttpd);
     server.getTestInjector().injectMembers(this);
+    // TODO(davido): Find a better way to optionally initialize InMemorDatabase
+    try {
+      dbHandle = server.getTestInjector().getInstance(InMemoryDatabase.class);
+    } catch (Exception e) {}
+    init();
+  }
+
+  protected void init() throws Exception {
     admin = accounts.admin();
     user = accounts.user();
     adminSession = new RestSession(server, admin);
@@ -158,6 +178,22 @@ public abstract class AbstractDaemonTest {
     sshSession.close();
     server.stop();
     TempFileUtil.cleanup();
+  }
+
+  // Wipe out the world and create a new one.
+  protected void reset() throws Exception {
+    // Wipe out caches
+    cacheHandler.nukeTheWorld();
+    // Wipe out repoitories
+    fsHandler.nukeTheWorld();
+    // Wipe out the database
+    if (dbHandle != null) {
+      dbHandle.nukeTheWorld();
+    }
+    // Wipe out the index
+    index.getSearchIndex().deleteAll();
+    // Re-init test fixtures
+    init();
   }
 
   protected PushOneCommit.Result createChange() throws GitAPIException,

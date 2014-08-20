@@ -141,6 +141,15 @@ public class InMemoryDatabase implements SchemaFactory<ReviewDb> {
     }
   }
 
+  /** Nuke the world. */
+  public void nukeTheWorld() throws OrmException {
+    try {
+      schemaCreator.prune(open());
+    } catch (IOException | ConfigInvalidException e) {
+      throw new OrmException(e);
+    }
+  }
+
   public SystemConfig getSystemConfig() throws OrmException {
     final ReviewDb c = open();
     try {

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d31d115e_54312c73",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/IncludedInResolver.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-20T14:28:40Z",
+      "side": 1,
+      "message": "This needs to be released. See Ieace55e (probably just cherry-pick that instead).",
+      "revId": "4706f76f634755fcc59be56363d3a245791d0b29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d31d115e_3426b03f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/IncludedInResolver.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-20T14:28:40Z",
+      "side": 1,
+      "message": "In the latest version of IncludedInResolver, includedIn is non-static and is called multiple times. So you actually want to reuse this flag across calls to this method. See my change.",
+      "revId": "4706f76f634755fcc59be56363d3a245791d0b29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

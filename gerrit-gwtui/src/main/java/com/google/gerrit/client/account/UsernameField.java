@@ -106,18 +106,14 @@ class UsernameField extends Composite {
       return;
     }
 
+    enableUI(false);
+
     String newName = userNameTxt.getText();
     if ("".equals(newName)) {
       newName = null;
     }
-    if (newName != null && !newName.matches(Account.USER_NAME_PATTERN)) {
-      invalidUserName();
-      return;
-    }
-
-    enableUI(false);
-
     final String newUserName = newName;
+
     Util.ACCOUNT_SEC.changeUserName(newUserName,
         new GerritCallback<VoidResult>() {
           public void onSuccess(final VoidResult result) {
@@ -131,17 +127,13 @@ class UsernameField extends Composite {
           @Override
           public void onFailure(final Throwable caught) {
             enableUI(true);
-            if (InvalidUserNameException.MESSAGE.equals(caught.getMessage())) {
-              invalidUserName();
+            if (caught instanceof InvalidUserNameException) {
+              new ErrorDialog(Util.C.invalidUserName()).center();
             } else {
               super.onFailure(caught);
             }
           }
         });
-  }
-
-  private void invalidUserName() {
-    new ErrorDialog(Util.C.invalidUserName()).center();
   }
 
   private void enableUI(final boolean on) {

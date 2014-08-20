@@ -50,8 +50,7 @@ import java.util.Set;
 public class ChangeIT extends AbstractDaemonTest {
 
   @Test
-  public void get() throws GitAPIException,
-      IOException, RestApiException {
+  public void get() throws Exception {
     PushOneCommit.Result r = createChange();
     String triplet = "p~master~" + r.getChangeId();
     ChangeInfo c = info(triplet);

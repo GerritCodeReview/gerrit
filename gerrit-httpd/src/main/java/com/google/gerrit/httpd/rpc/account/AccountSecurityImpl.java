@@ -20,6 +20,7 @@ import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.data.AccountSecurity;
 import com.google.gerrit.common.data.ContributorAgreement;
 import com.google.gerrit.common.errors.ContactInformationStoreException;
+import com.google.gerrit.common.errors.InvalidUserNameException;
 import com.google.gerrit.common.errors.NoSuchEntityException;
 import com.google.gerrit.common.errors.PermissionDeniedException;
 import com.google.gerrit.httpd.rpc.BaseServiceImplementation;
@@ -109,10 +110,13 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
   public void changeUserName(final String newName,
       final AsyncCallback<VoidResult> callback) {
     if (realm.allowsEdit(Account.FieldName.USER_NAME)) {
+      if (newName == null || !newName.matches(Account.USER_NAME_PATTERN)) {
+        callback.onFailure(new InvalidUserNameException());
+      }
       Handler.wrap(changeUserNameFactory.create(newName)).to(callback);
     } else {
-      callback.onFailure(new PermissionDeniedException("Not allowed to change"
-          + " username"));
+      callback.onFailure(
+          new PermissionDeniedException("Not allowed to change username"));
     }
   }
 

@@ -66,6 +66,7 @@ import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
+import org.junit.AfterClass;
 import org.junit.Rule;
 import org.junit.rules.TestRule;
 import org.junit.runner.Description;
@@ -81,6 +82,8 @@ import java.util.regex.Pattern;
 
 @RunWith(ConfigSuite.class)
 public abstract class AbstractDaemonTest {
+  private static GerritServer commonServer;
+
   @ConfigSuite.Parameter
   public Config baseConfig;
 
@@ -148,30 +151,24 @@ public abstract class AbstractDaemonTest {
       return new Statement() {
         @Override
         public void evaluate() throws Throwable {
-          boolean mem = description.getAnnotation(UseLocalDisk.class) == null;
-          boolean enableHttpd = description.getAnnotation(NoHttpd.class) == null
-              && description.getTestClass().getAnnotation(NoHttpd.class) == null;
-          beforeTest(description, mem, enableHttpd);
-          base.evaluate();
-          afterTest();
+          beforeTest(description);
+          try {
+            base.evaluate();
+          } finally {
+            afterTest();
+          }
         }
       };
     }
   };
 
-  private Config config(Description description) {
-    GerritConfigs cfgs = description.getAnnotation(GerritConfigs.class);
-    GerritConfig cfg = description.getAnnotation(GerritConfig.class);
-    if (cfgs != null && cfg != null) {
-      throw new IllegalStateException("Use either @GerritConfigs or @GerritConfig not both");
+  @AfterClass
+  public static void stopCommonServer() throws Exception {
+    if (commonServer != null) {
+      commonServer.stop();
+      commonServer = null;
     }
-    if (cfgs != null) {
-      return ConfigAnnotationParser.parse(baseConfig, cfgs);
-    } else if (cfg != null) {
-      return ConfigAnnotationParser.parse(baseConfig, cfg);
-    } else {
-      return baseConfig;
-    }
+    TempFileUtil.cleanup();
   }
 
   protected static Config submitWholeTopicEnabledConfig() {
@@ -194,10 +191,21 @@ public abstract class AbstractDaemonTest {
     return cfg.getBoolean("change", null, "submitWholeTopic", false);
   }
 
-  private void beforeTest(Description description, boolean memory,
-      boolean enableHttpd) throws Exception {
-    Config cfg = config(description);
-    server = startServer(cfg, memory, enableHttpd);
+  private void beforeTest(Description description) throws Exception {
+    GerritServer.Description classDesc =
+      GerritServer.Description.forTestClass(description, configName);
+    GerritServer.Description methodDesc =
+      GerritServer.Description.forTestMethod(description, configName);
+
+    if (classDesc.equals(methodDesc)) {
+      if (commonServer == null) {
+        commonServer = GerritServer.start(classDesc, baseConfig);
+      }
+      server = commonServer;
+    } else {
+      server = GerritServer.start(methodDesc, baseConfig);
+    }
+
     server.getTestInjector().injectMembers(this);
     admin = accounts.admin();
     user = accounts.user();
@@ -298,16 +306,12 @@ public abstract class AbstractDaemonTest {
     // Default implementation does nothing.
   }
 
-  protected GerritServer startServer(Config cfg, boolean memory,
-      boolean enableHttpd) throws Exception {
-    return GerritServer.start(cfg, memory, enableHttpd);
-  }
-
   private void afterTest() throws Exception {
     db.close();
     sshSession.close();
-    server.stop();
-    TempFileUtil.cleanup();
+    if (server != commonServer) {
+      server.stop();
+    }
   }
 
   protected TestRepository<?>.CommitBuilder commitBuilder() throws Exception {

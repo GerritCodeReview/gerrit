@@ -14,7 +14,10 @@
 
 package com.google.gerrit.acceptance;
 
+import com.google.auto.value.AutoValue;
+import com.google.common.base.MoreObjects;
 import com.google.common.collect.ImmutableList;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.lucene.LuceneIndexModule;
 import com.google.gerrit.pgm.Daemon;
 import com.google.gerrit.pgm.Init;
@@ -46,10 +49,55 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 public class GerritServer {
+  @AutoValue
+  static abstract class Description {
+    static Description forTestClass(org.junit.runner.Description testDesc,
+        String configName) {
+      return new AutoValue_GerritServer_Description(
+          configName,
+          true, // @UseLocalDisk is only valid on methods.
+          testDesc.getTestClass().getAnnotation(NoHttpd.class) == null,
+          null, // @GerritConfig is only valid on methods.
+          null); // @GerritConfigs is only valid on methods.
+
+    }
+
+    static Description forTestMethod(org.junit.runner.Description testDesc,
+        String configName) {
+      return new AutoValue_GerritServer_Description(
+          configName,
+          testDesc.getAnnotation(UseLocalDisk.class) == null,
+          testDesc.getAnnotation(NoHttpd.class) == null
+            && testDesc.getTestClass().getAnnotation(NoHttpd.class) == null,
+          testDesc.getAnnotation(GerritConfig.class),
+          testDesc.getAnnotation(GerritConfigs.class));
+    }
+
+    @Nullable abstract String configName();
+    abstract boolean memory();
+    abstract boolean httpd();
+    @Nullable abstract GerritConfig config();
+    @Nullable abstract GerritConfigs configs();
+
+    private Config buildConfig(Config baseConfig) {
+      if (configs() != null && config() != null) {
+        throw new IllegalStateException(
+            "Use either @GerritConfigs or @GerritConfig not both");
+      }
+      if (configs() != null) {
+        return ConfigAnnotationParser.parse(baseConfig, configs());
+      } else if (config() != null) {
+        return ConfigAnnotationParser.parse(baseConfig, config());
+      } else {
+        return baseConfig;
+      }
+    }
+  }
 
   /** Returns fully started Gerrit server */
-  static GerritServer start(Config cfg, boolean memory, boolean enableHttpd)
+  static GerritServer start(Description desc, Config baseConfig)
       throws Exception {
+    Config cfg = desc.buildConfig(baseConfig);
     Logger.getLogger("com.google.gerrit").setLevel(Level.DEBUG);
     final CyclicBarrier serverStarted = new CyclicBarrier(2);
     final Daemon daemon = new Daemon(new Runnable() {
@@ -67,14 +115,14 @@ public class GerritServer {
 
     final File site;
     ExecutorService daemonService = null;
-    if (memory) {
+    if (desc.memory()) {
       site = null;
       mergeTestConfig(cfg);
       cfg.setBoolean("httpd", null, "requestLog", false);
       cfg.setBoolean("sshd", null, "requestLog", false);
       cfg.setBoolean("index", "lucene", "testInmemory", true);
       cfg.setString("gitweb", null, "cgi", "");
-      daemon.setEnableHttpd(enableHttpd);
+      daemon.setEnableHttpd(desc.httpd());
       daemon.setLuceneModule(new LuceneIndexModule(
           ChangeSchemas.getLatest().getVersion(),
           Runtime.getRuntime().availableProcessors(), null));
@@ -101,7 +149,7 @@ public class GerritServer {
     }
 
     Injector i = createTestInjector(daemon);
-    return new GerritServer(i, daemon, daemonService);
+    return new GerritServer(desc, i, daemon, daemonService);
   }
 
   private static File initSite(Config base) throws Exception {
@@ -163,6 +211,8 @@ public class GerritServer {
     return InetAddress.getLoopbackAddress();
   }
 
+  private final Description desc;
+
   private Daemon daemon;
   private ExecutorService daemonService;
   private Injector testInjector;
@@ -170,8 +220,9 @@ public class GerritServer {
   private InetSocketAddress sshdAddress;
   private InetSocketAddress httpAddress;
 
-  private GerritServer(Injector testInjector, Daemon daemon,
+  private GerritServer(Description desc, Injector testInjector, Daemon daemon,
       ExecutorService daemonService) {
+    this.desc = desc;
     this.testInjector = testInjector;
     this.daemon = daemon;
     this.daemonService = daemonService;
@@ -203,6 +254,10 @@ public class GerritServer {
     return testInjector;
   }
 
+  Description getDescription() {
+    return desc;
+  }
+
   void stop() throws Exception {
     daemon.getLifecycleManager().stop();
     if (daemonService != null) {
@@ -211,5 +266,10 @@ public class GerritServer {
       daemonService.awaitTermination(Long.MAX_VALUE, TimeUnit.SECONDS);
     }
     RepositoryCache.clear();
+  }
+
+  @Override
+  public String toString() {
+    return MoreObjects.toStringHelper(this).addValue(desc).toString();
   }
 }

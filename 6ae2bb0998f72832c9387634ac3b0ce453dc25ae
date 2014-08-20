@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "d31d115e_344fd0f9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1013497
+      },
+      "writtenOn": "2014-08-20T09:16:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d31d115e_14adf4b9",
+      "range": {
+        "startLine": 9,
+        "startChar": 14,
+        "endLine": 9,
+        "endChar": 19
+      },
+      "revId": "6ae2bb0998f72832c9387634ac3b0ce453dc25ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d31d115e_34a8f0a9",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2014-08-19T07:28:00Z",
       "side": 1,
       "message": "trailing whitespace.",
+      "range": {
+        "startLine": 11,
+        "startChar": 38,
+        "endLine": 11,
+        "endChar": 39
+      },
+      "revId": "6ae2bb0998f72832c9387634ac3b0ce453dc25ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "935e392a_ea884766",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1013497
+      },
+      "writtenOn": "2014-08-20T09:16:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d31d115e_34a8f0a9",
       "range": {
         "startLine": 11,
         "startChar": 38,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "935e392a_ca85834c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1013497
+      },
+      "writtenOn": "2014-08-20T09:16:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f3205593_55b36c1d",
+      "range": {
+        "startLine": 17,
+        "startChar": 12,
+        "endLine": 17,
+        "endChar": 15
+      },
+      "revId": "6ae2bb0998f72832c9387634ac3b0ce453dc25ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f3205593_35a8f0a9",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "935e392a_aa924f8e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1013497
+      },
+      "writtenOn": "2014-08-20T09:16:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f3205593_35a8f0a9",
+      "range": {
+        "startLine": 24,
+        "startChar": 5,
+        "endLine": 24,
+        "endChar": 9
+      },
+      "revId": "6ae2bb0998f72832c9387634ac3b0ce453dc25ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f3205593_15adf4b9",
         "filename": "Documentation/access-control.txt",
         "patchSetId": 2
@@ -105,6 +201,30 @@
       "writtenOn": "2014-08-19T07:28:00Z",
       "side": 1,
       "message": "how is this rendered by asciidoctor?",
+      "range": {
+        "startLine": 612,
+        "startChar": 37,
+        "endLine": 612,
+        "endChar": 48
+      },
+      "revId": "6ae2bb0998f72832c9387634ac3b0ce453dc25ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "935e392a_8a8f8b6a",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 612,
+      "author": {
+        "id": 1013497
+      },
+      "writtenOn": "2014-08-20T09:16:30Z",
+      "side": 1,
+      "message": "Removed from documentation",
+      "parentUuid": "f3205593_15adf4b9",
       "range": {
         "startLine": 612,
         "startChar": 37,
@@ -157,6 +277,30 @@
     },
     {
       "key": {
+        "uuid": "d31d115e_1454d485",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 368,
+      "author": {
+        "id": 1013497
+      },
+      "writtenOn": "2014-08-20T09:16:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d31d115e_f4a158c4",
+      "range": {
+        "startLine": 367,
+        "startChar": 10,
+        "endLine": 368,
+        "endChar": 13
+      },
+      "revId": "6ae2bb0998f72832c9387634ac3b0ce453dc25ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "530a0115_38446961",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
         "patchSetId": 2
@@ -174,6 +318,24 @@
     },
     {
       "key": {
+        "uuid": "d31d115e_f45838bc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1013497
+      },
+      "writtenOn": "2014-08-20T09:16:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "530a0115_38446961",
+      "revId": "6ae2bb0998f72832c9387634ac3b0ce453dc25ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "73ec657a_61f0f6b0",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
         "patchSetId": 2
@@ -185,6 +347,30 @@
       "writtenOn": "2014-08-19T07:51:04Z",
       "side": 1,
       "message": "Actually this whole file probably could use MagicBranch.NEW_CHANGE instead of the hardcoded \u0027refs/for/\u0027",
+      "range": {
+        "startLine": 171,
+        "startChar": 40,
+        "endLine": 171,
+        "endChar": 51
+      },
+      "revId": "6ae2bb0998f72832c9387634ac3b0ce453dc25ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "935e392a_6a5c572b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1013497
+      },
+      "writtenOn": "2014-08-20T09:16:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "73ec657a_61f0f6b0",
       "range": {
         "startLine": 171,
         "startChar": 40,
@@ -226,6 +412,42 @@
       "side": 1,
       "message": "Agree.  This method is redundant.",
       "parentUuid": "73ec657a_614fd681",
+      "revId": "6ae2bb0998f72832c9387634ac3b0ce453dc25ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "935e392a_4a6193dd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/util/MagicBranch.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1013497
+      },
+      "writtenOn": "2014-08-20T09:16:30Z",
+      "side": 1,
+      "message": "Removed.",
+      "parentUuid": "73ec657a_614fd681",
+      "revId": "6ae2bb0998f72832c9387634ac3b0ce453dc25ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d31d115e_d4553c82",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/util/MagicBranch.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1013497
+      },
+      "writtenOn": "2014-08-20T09:16:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d31d115e_d49e5c86",
       "revId": "6ae2bb0998f72832c9387634ac3b0ce453dc25ae",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

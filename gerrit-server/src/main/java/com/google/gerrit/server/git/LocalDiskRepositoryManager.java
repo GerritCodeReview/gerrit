@@ -20,6 +20,7 @@ import com.google.common.base.Objects;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.Project.NameKey;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.notedb.NotesMigration;
@@ -426,5 +427,10 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
     }
 
     return new Project.NameKey(projectName);
+  }
+
+  @Override
+  public void wipeOut(NameKey name) {
+    throw new IllegalStateException("not implemented");
   }
 }

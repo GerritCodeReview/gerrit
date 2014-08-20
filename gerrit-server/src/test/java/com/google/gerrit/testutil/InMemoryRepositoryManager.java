@@ -18,6 +18,7 @@ import com.google.common.collect.ImmutableSortedSet;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.Project.NameKey;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.RepositoryCaseMismatchException;
 
@@ -116,5 +117,10 @@ public class InMemoryRepositoryManager implements GitRepositoryManager {
     } else {
       throw new RepositoryNotFoundException(name.get());
     }
+  }
+
+  @Override
+  public void wipeOut(NameKey name) {
+    repos.remove(name.get().toLowerCase());
   }
 }

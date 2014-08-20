@@ -108,4 +108,6 @@ public interface GitRepositoryManager {
    */
   public abstract void setProjectDescription(Project.NameKey name,
       final String description);
+
+  public void wipeOut(Project.NameKey name);
 }

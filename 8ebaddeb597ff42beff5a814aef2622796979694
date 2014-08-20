@@ -34,6 +34,29 @@
       "revId": "8ebaddeb597ff42beff5a814aef2622796979694",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d31d115e_b46be02a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/SubmitStrategy.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-20T21:55:37Z",
+      "side": 1,
+      "message": "I meant this one too, so it gets fixed at call sites as well.",
+      "range": {
+        "startLine": 79,
+        "startChar": 11,
+        "endLine": 79,
+        "endChar": 18
+      },
+      "revId": "8ebaddeb597ff42beff5a814aef2622796979694",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "73ec657a_818f7a21",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/IncludedInResolver.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-08-20T06:09:53Z",
+      "side": 1,
+      "message": "this class is same as that in b1944c0f ,  for to fix compile error ,  only b1944c0f is not enough , so  c7c78f79  and 5a0552e2 are also need cherry-pick.\n\nDone.",
+      "parentUuid": "d31d115e_b4e880c7",
+      "revId": "8ef258fc03c309bcdcc9245f637567495e59f4f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f3205593_b54d2055",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectControl.java",
         "patchSetId": 6
@@ -30,6 +48,24 @@
       "writtenOn": "2014-08-19T17:22:38Z",
       "side": 1,
       "message": "Is this just cherry-picking in my change from master? Also ok, but if so maybe also make it a cherry-pick.",
+      "revId": "8ef258fc03c309bcdcc9245f637567495e59f4f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "73ec657a_61947631",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectControl.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 543,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-08-20T06:09:53Z",
+      "side": 1,
+      "message": "no. this function is same as it is in  60bca74, not in  I2e6181de. \n\nI ever try to cherry-pick them, but  for to fix compile error of Util , I  find I have to cherry-pick af816a which need  0ff2ac5, then in turn need  b5a4ef,  b5a4ef9d  , a long story , and they are  not related this issue. \n\nJust as you said \"My solution is in I2e6181de, but it will not cleanly merge on stable branches \", so  I picked out the only needed  part related to  fixing the issue here.",
+      "parentUuid": "f3205593_b54d2055",
       "revId": "8ef258fc03c309bcdcc9245f637567495e59f4f7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

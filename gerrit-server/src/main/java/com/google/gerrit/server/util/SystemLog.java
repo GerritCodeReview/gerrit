@@ -25,7 +25,6 @@ import org.apache.log4j.Appender;
 import org.apache.log4j.AsyncAppender;
 import org.apache.log4j.DailyRollingFileAppender;
 import org.apache.log4j.Layout;
-import org.apache.log4j.Level;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.apache.log4j.helpers.OnlyOnceErrorHandler;
@@ -64,7 +63,6 @@ public class SystemLog {
     dst.setFile(new File(resolve(logdir), name).getPath());
     dst.setImmediateFlush(true);
     dst.setAppend(true);
-    dst.setThreshold(Level.INFO);
     dst.setErrorHandler(new DieErrorHandler());
     dst.activateOptions();
     dst.setErrorHandler(new OnlyOnceErrorHandler());

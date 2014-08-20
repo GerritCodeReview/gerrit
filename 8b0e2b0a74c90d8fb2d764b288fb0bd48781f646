@@ -22,6 +22,30 @@
       "revId": "8b0e2b0a74c90d8fb2d764b288fb0bd48781f646",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "530a0115_18cc0571",
+        "filename": "gerrit-war/src/main/resources/log4j.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-20T05:48:42Z",
+      "side": 0,
+      "message": "Never mind. Was to early here.",
+      "parentUuid": "73ec657a_219e6e51",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 24
+      },
+      "revId": "8b0e2b0a74c90d8fb2d764b288fb0bd48781f646",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

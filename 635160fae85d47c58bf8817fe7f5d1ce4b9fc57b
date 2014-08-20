@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "935e392a_8a1d4b82",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-08-20T06:53:35Z",
+      "side": 1,
+      "message": "\"set\" is OK here.",
+      "parentUuid": "530a0115_d8020ddb",
+      "range": {
+        "startLine": 7,
+        "startChar": 38,
+        "endLine": 7,
+        "endChar": 41
+      },
+      "revId": "635160fae85d47c58bf8817fe7f5d1ce4b9fc57b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "530a0115_b8ff5975",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetAccountCommand.java",
         "patchSetId": 12
@@ -36,6 +60,30 @@
       "writtenOn": "2014-08-20T01:50:54Z",
       "side": 1,
       "message": "String.format(\"%s is not found\", email)",
+      "range": {
+        "startLine": 304,
+        "startChar": 19,
+        "endLine": 304,
+        "endChar": 56
+      },
+      "revId": "635160fae85d47c58bf8817fe7f5d1ce4b9fc57b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "935e392a_6a4a1773",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetAccountCommand.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-08-20T06:53:35Z",
+      "side": 1,
+      "message": "Using concatenation with + is consistent with how it\u0027s done in the rest of the code.",
+      "parentUuid": "530a0115_b8ff5975",
       "range": {
         "startLine": 304,
         "startChar": 19,

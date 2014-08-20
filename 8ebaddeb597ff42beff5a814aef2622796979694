@@ -16,6 +16,24 @@
       "revId": "8ebaddeb597ff42beff5a814aef2622796979694",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d31d115e_d46e5c3c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/SubmitStrategy.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-08-20T21:45:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "935e392a_2aa89fa9",
+      "revId": "8ebaddeb597ff42beff5a814aef2622796979694",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

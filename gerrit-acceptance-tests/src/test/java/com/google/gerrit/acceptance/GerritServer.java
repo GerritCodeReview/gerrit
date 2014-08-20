@@ -14,18 +14,35 @@
 
 package com.google.gerrit.acceptance;
 
+import com.google.common.cache.Cache;
 import com.google.common.collect.ImmutableList;
+import com.google.gerrit.extensions.annotations.Export;
 import com.google.gerrit.lucene.LuceneIndexModule;
 import com.google.gerrit.pgm.Daemon;
 import com.google.gerrit.pgm.Init;
+import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.config.FactoryModule;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.git.LocalDiskRepositoryManager;
+import com.google.gerrit.server.index.ChangeIndex;
 import com.google.gerrit.server.index.ChangeSchemas;
+import com.google.gerrit.server.index.IndexCollection;
+import com.google.gerrit.server.schema.SchemaCreator;
 import com.google.gerrit.server.util.SocketUtil;
 import com.google.gerrit.testutil.TempFileUtil;
+import com.google.gerrit.testutil.InMemoryRepositoryManager;
+import com.google.gwtorm.jdbc.JdbcExecutor;
+import com.google.gwtorm.jdbc.JdbcSchema;
+import com.google.gwtorm.schema.sql.SqlDialect;
+import com.google.gwtorm.server.SchemaFactory;
+import com.google.inject.Binding;
+import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Key;
 import com.google.inject.Module;
+import com.google.inject.TypeLiteral;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
@@ -39,6 +56,7 @@ import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.URI;
 import java.net.UnknownHostException;
+import java.sql.Connection;
 import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CyclicBarrier;
@@ -64,10 +82,8 @@ public class GerritServer {
       }
     });
 
-    final File site;
     ExecutorService daemonService = null;
     if (memory) {
-      site = null;
       mergeTestConfig(cfg);
       cfg.setBoolean("httpd", null, "requestLog", false);
       cfg.setBoolean("sshd", null, "requestLog", false);
@@ -81,7 +97,7 @@ public class GerritServer {
           new InMemoryTestingDatabaseModule(cfg)));
       daemon.start();
     } else {
-      site = initSite(cfg);
+      final File site = initSite(cfg);
       daemonService = Executors.newSingleThreadExecutor();
       daemonService.submit(new Callable<Void>() {
         public Void call() throws Exception {
@@ -209,5 +225,116 @@ public class GerritServer {
       daemonService.awaitTermination(Long.MAX_VALUE, TimeUnit.SECONDS);
     }
     RepositoryCache.clear();
+  }
+
+  void clearAllData() throws Exception {
+    // Explicitly pass in injector since injected injector doesn't contain the
+    // cache bindings we need.
+    testInjector.getInstance(ServerCleanup.class).run(testInjector);
+  }
+
+  private static class ServerCleanup {
+    private final Config cfg;
+    private final SchemaFactory<ReviewDb> schemaFactory;
+    private final GitRepositoryManager repoManager;
+    private final SitePaths sitePaths;
+    private final IndexCollection indexes;
+    private final SchemaCreator schemaCreator;
+
+    @Inject
+    private ServerCleanup(
+        @GerritServerConfig Config cfg,
+        SchemaFactory<ReviewDb> schemaFactory,
+        GitRepositoryManager repoManager,
+        SitePaths sitePaths,
+        IndexCollection indexes,
+        SchemaCreator schemaCreator) {
+      this.cfg = cfg;
+      this.schemaFactory = schemaFactory;
+      this.repoManager = repoManager;
+      this.sitePaths = sitePaths;
+      this.indexes = indexes;
+      this.schemaCreator = schemaCreator;
+    }
+
+    private void run(Injector injector) throws Exception {
+      RepositoryCache.clear();
+      clearDatabase();
+      clearRepositories();
+      clearIndex();
+      clearCaches(injector);
+      recreateSite();
+    }
+
+    private void clearDatabase() throws Exception {
+      JdbcSchema schema = (JdbcSchema) schemaFactory.open();
+      try {
+        Connection conn = schema.getConnection();
+        SqlDialect dialect = schema.getDialect();
+        JdbcExecutor e = new JdbcExecutor(schema);
+        try {
+          for (String table : dialect.listTables(conn)) {
+            e.execute("DROP TABLE " + table);
+            for (String index : dialect.listIndexes(conn, table)) {
+              e.execute("DROP INDEX " + index);
+            }
+          }
+          schema.restartSequences(e);
+        } finally {
+          e.close();
+        }
+      } finally {
+        schema.close();
+      }
+    }
+
+    private void clearRepositories() throws Exception {
+      if (repoManager instanceof InMemoryRepositoryManager) {
+        ((InMemoryRepositoryManager) repoManager).deleteAll();
+      } else if (repoManager instanceof LocalDiskRepositoryManager) {
+        File basePath = sitePaths.resolve(cfg.getString("gerrit", null, "basePath"));
+        TempFileUtil.recursivelyDelete(basePath);
+        if (basePath.mkdir()) {
+          throw new IOException("Failed to recreate git dir: "
+              + basePath.getCanonicalPath());
+        }
+      } else {
+        throw new IllegalStateException(
+            "Don't know how to clear repositories from "
+            + repoManager.getClass().getName());
+      }
+    }
+
+    private void clearIndex() throws Exception {
+      ChangeIndex searchIndex = indexes.getSearchIndex();
+      searchIndex.deleteAll();
+      for (ChangeIndex index : indexes.getWriteIndexes()) {
+        if (index != searchIndex) {
+          index.deleteAll();
+        }
+      }
+    }
+
+    private void clearCaches(Injector injector) throws Exception {
+      TypeLiteral<Cache<?, ?>> cacheLiteral = new TypeLiteral<Cache<?, ?>>() {};
+      for (Injector inj = injector; inj != null; inj = inj.getParent()) {
+        for (Binding<?> b : inj.getAllBindings().values()) {
+          if (b.getKey().getTypeLiteral().equals(cacheLiteral)
+              && b.getKey().getAnnotationType() == Export.class) {
+            Cache<?, ?> cache = (Cache<?, ?> ) b.getProvider().get();
+            cache.invalidateAll();
+          }
+        }
+      }
+    }
+
+    private void recreateSite() throws Exception {
+      ReviewDb db = schemaFactory.open();
+      try {
+        schemaCreator.create(db);
+      } finally {
+        db.close();
+      }
+    }
   }
 }

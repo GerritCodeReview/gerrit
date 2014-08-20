@@ -37,6 +37,9 @@ import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.Util;
+import com.google.gerrit.server.project.delete.CacheDeleteHandler;
+import com.google.gerrit.server.project.delete.DatabaseDeleteHandler;
+import com.google.gerrit.server.project.delete.FilesystemDeleteHandler;
 import com.google.gerrit.testutil.ConfigSuite;
 import com.google.gson.Gson;
 import com.google.gwtorm.server.SchemaFactory;
@@ -87,6 +90,15 @@ public abstract class AbstractDaemonTest {
 
   @Inject
   protected ProjectCache projectCache;
+
+  @Inject
+  DatabaseDeleteHandler dbHandler;
+
+  @Inject
+  FilesystemDeleteHandler fsHandler;
+
+  @Inject
+  CacheDeleteHandler cacheHandler;
 
   protected Git git;
   protected GerritServer server;
@@ -164,6 +176,12 @@ public abstract class AbstractDaemonTest {
       IOException {
     PushOneCommit push = pushFactory.create(db, admin.getIdent());
     return push.to(git, "refs/for/master");
+  }
+
+  protected void resetProject() throws Exception {
+    dbHandler.delete(project);
+    fsHandler.delete(project, false);
+    cacheHandler.delete(project);
   }
 
   private static final List<Character> RANDOM =

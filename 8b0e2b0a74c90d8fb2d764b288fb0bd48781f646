@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "73ec657a_219e6e51",
+        "filename": "gerrit-war/src/main/resources/log4j.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-20T05:05:16Z",
+      "side": 0,
+      "message": "Why this change? It makes no sense any more to set logger to less verbose category below. Besides that it seems unrelated to the problem at hand, that this change is trying to solve.",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 24
+      },
+      "revId": "8b0e2b0a74c90d8fb2d764b288fb0bd48781f646",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

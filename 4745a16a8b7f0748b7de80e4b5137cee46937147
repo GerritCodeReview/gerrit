@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "530a0115_788f8122",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ReviewCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-20T09:03:19Z",
+      "side": 1,
+      "message": "Another option would be to initialize the instances above with this default values, e. g. on the line 99:\n\n  private NotifyHandling notify \u003d NotifyHandling.ALL;",
+      "range": {
+        "startLine": 200,
+        "startChar": 4,
+        "endLine": 205,
+        "endChar": 5
+      },
+      "revId": "4745a16a8b7f0748b7de80e4b5137cee46937147",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

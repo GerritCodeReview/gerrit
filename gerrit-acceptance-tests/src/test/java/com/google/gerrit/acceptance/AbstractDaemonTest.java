@@ -17,6 +17,7 @@ package com.google.gerrit.acceptance;
 import static com.google.gerrit.acceptance.GitUtil.cloneProject;
 import static com.google.gerrit.acceptance.GitUtil.createProject;
 import static com.google.gerrit.acceptance.GitUtil.initSsh;
+
 import static org.junit.Assert.assertEquals;
 
 import com.google.common.base.Joiner;
@@ -49,6 +50,7 @@ import org.apache.http.HttpStatus;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.lib.Config;
+import org.junit.AfterClass;
 import org.junit.Rule;
 import org.junit.rules.TestRule;
 import org.junit.runner.Description;
@@ -103,6 +105,8 @@ public abstract class AbstractDaemonTest {
   protected ReviewDb db;
   protected Project.NameKey project;
 
+  private static GerritServer commonServer;
+
   @Rule
   public TestRule testRunner = new TestRule() {
     @Override
@@ -113,13 +117,26 @@ public abstract class AbstractDaemonTest {
           boolean mem = description.getAnnotation(UseLocalDisk.class) == null;
           boolean enableHttpd = description.getAnnotation(NoHttpd.class) == null
               && description.getTestClass().getAnnotation(NoHttpd.class) == null;
-          beforeTest(config(description), mem, enableHttpd);
-          base.evaluate();
-          afterTest();
+          boolean hasCustomConfig = hasCustomConfig(description);
+          beforeTest(config(description), hasCustomConfig, mem, enableHttpd);
+          try {
+            base.evaluate();
+          } finally {
+            afterTest(hasCustomConfig);
+          }
         }
       };
     }
   };
+
+  @AfterClass
+  public static void stopCommonServer() throws Exception {
+    if (commonServer != null) {
+      commonServer.stop();
+      commonServer = null;
+    }
+    TempFileUtil.cleanup();
+  }
 
   private Config config(Description description) {
     GerritConfigs cfgs = description.getAnnotation(GerritConfigs.class);
@@ -136,8 +153,22 @@ public abstract class AbstractDaemonTest {
     }
   }
 
-  private void beforeTest(Config cfg, boolean memory, boolean enableHttpd) throws Exception {
-    server = startServer(cfg, memory, enableHttpd);
+  private boolean hasCustomConfig(Description description) {
+    return description.getAnnotation(GerritConfigs.class) != null
+        || description.getAnnotation(GerritConfig.class) != null;
+  }
+
+  private void beforeTest(Config cfg, boolean hasCustomConfig, boolean memory,
+      boolean enableHttpd) throws Exception {
+    if (hasCustomConfig ||
+        (commonServer != null && memory != commonServer.isMemory())) {
+      server = GerritServer.start(cfg, memory, enableHttpd);
+    } else {
+      if (commonServer == null) {
+        commonServer = GerritServer.start(cfg, memory, enableHttpd);
+      }
+      server = commonServer;
+    }
     server.getTestInjector().injectMembers(this);
     admin = accounts.admin();
     user = accounts.user();
@@ -153,16 +184,14 @@ public abstract class AbstractDaemonTest {
     git = cloneProject(sshSession.getUrl() + "/" + project.get());
   }
 
-  protected GerritServer startServer(Config cfg, boolean memory,
-      boolean enableHttpd) throws Exception {
-    return GerritServer.start(cfg, memory, enableHttpd);
-  }
-
-  private void afterTest() throws Exception {
+  private void afterTest(boolean hasCustomConfig) throws Exception {
     db.close();
     sshSession.close();
-    server.stop();
-    TempFileUtil.cleanup();
+    if (hasCustomConfig) {
+      server.stop();
+    } else {
+      server.clearAllData();
+    }
   }
 
   protected PushOneCommit.Result createChange() throws GitAPIException,

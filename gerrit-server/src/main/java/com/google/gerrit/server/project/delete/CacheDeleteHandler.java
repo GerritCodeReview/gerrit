@@ -1,4 +1,4 @@
-// Copyright (C) 2013 The Android Open Source Project
+// Copyright (C) 2014 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,34 +14,23 @@
 
 package com.google.gerrit.server.project.delete;
 
-import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.server.project.ProjectCache;
-import com.google.gerrit.server.project.ProjectState;
+import com.google.common.cache.Cache;
+import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import java.io.IOException;
-
 @Singleton
 public class CacheDeleteHandler {
-  private final ProjectCache projectCache;
+  DynamicMap<Cache<?, ?>> cacheMap;
 
   @Inject
-  public CacheDeleteHandler(ProjectCache projectCache) {
-    this.projectCache = projectCache;
+  public CacheDeleteHandler(DynamicMap<Cache<?, ?>> cacheMap) {
+    this.cacheMap = cacheMap;
   }
 
-  public void delete(Project project) {
-    projectCache.evict(project);
-    projectCache.remove(project);
-  }
-
-  public void delete(Project.NameKey project) {
-    ProjectState state = projectCache.get(project);
-    if (state == null) {
-      return;
+  public void nukeTheWorld() {
+    for (DynamicMap.Entry<Cache<?, ?>> e : cacheMap) {
+      e.getProvider().get().invalidateAll();
     }
-    projectCache.evict(state.getProject());
-    projectCache.remove(state.getProject());
   }
 }

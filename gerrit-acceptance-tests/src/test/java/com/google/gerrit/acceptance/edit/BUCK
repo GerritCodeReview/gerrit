@@ -1,10 +1,28 @@
 include_defs('//gerrit-acceptance-tests/tests.defs')
 
+DEPS = [
+  '//lib/commons:codec',
+  '//lib/joda:joda-time',
+  ':edit_base',
+]
+
 acceptance_tests(
   srcs = ['ChangeEditIT.java'],
   labels = ['edit'],
+  deps = DEPS,
+)
+
+acceptance_tests(
+  srcs = ['ChangeEditRestIT.java'],
+  labels = ['edit-rest'],
+  deps = DEPS,
+)
+
+java_library(
+  name = 'edit_base',
+  srcs = ['ChangeEditBase.java'],
   deps = [
-    '//lib/commons:codec',
-    '//lib/joda:joda-time',
+    '//gerrit-acceptance-tests:lib',
+    '//lib/joda:joda-time'
   ],
 )

@@ -33,6 +33,7 @@ import com.google.gerrit.server.account.ListGroupMembership;
 import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.CanonicalWebUrl;
+import com.google.gerrit.server.config.DisableReverseDnsLookup;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
@@ -70,6 +71,7 @@ public class IdentifiedUser extends CurrentUser {
     private final Provider<String> canonicalUrl;
     private final AccountCache accountCache;
     private final GroupBackend groupBackend;
+    private final Boolean disableReverseDnsLookup;
 
     @Inject
     public GenericFactory(
@@ -77,6 +79,7 @@ public class IdentifiedUser extends CurrentUser {
         AuthConfig authConfig,
         @AnonymousCowardName String anonymousCowardName,
         @CanonicalWebUrl Provider<String> canonicalUrl,
+        @DisableReverseDnsLookup Boolean disableReverseDnsLookup,
         AccountCache accountCache,
         GroupBackend groupBackend) {
       this.capabilityControlFactory = capabilityControlFactory;
@@ -85,6 +88,7 @@ public class IdentifiedUser extends CurrentUser {
       this.canonicalUrl = canonicalUrl;
       this.accountCache = accountCache;
       this.groupBackend = groupBackend;
+      this.disableReverseDnsLookup = disableReverseDnsLookup;
     }
 
     public IdentifiedUser create(final Account.Id id) {
@@ -92,22 +96,22 @@ public class IdentifiedUser extends CurrentUser {
     }
 
     public IdentifiedUser create(Provider<ReviewDb> db, Account.Id id) {
-      return new IdentifiedUser(capabilityControlFactory,
-          authConfig, anonymousCowardName, canonicalUrl, accountCache,
-          groupBackend, null, db, id, null);
+      return new IdentifiedUser(capabilityControlFactory, authConfig,
+          anonymousCowardName, canonicalUrl, accountCache, groupBackend,
+          disableReverseDnsLookup, null, db, id, null);
     }
 
     public IdentifiedUser create(SocketAddress remotePeer, Account.Id id) {
-      return new IdentifiedUser(capabilityControlFactory,
-          authConfig, anonymousCowardName, canonicalUrl, accountCache,
-          groupBackend, Providers.of(remotePeer), null, id,  null);
+      return new IdentifiedUser(capabilityControlFactory, authConfig,
+          anonymousCowardName, canonicalUrl, accountCache, groupBackend,
+          disableReverseDnsLookup, Providers.of(remotePeer), null, id, null);
     }
 
     public CurrentUser runAs(SocketAddress remotePeer, Account.Id id,
         @Nullable CurrentUser caller) {
-      return new IdentifiedUser(capabilityControlFactory,
-          authConfig, anonymousCowardName, canonicalUrl, accountCache,
-          groupBackend, Providers.of(remotePeer), null, id, caller);
+      return new IdentifiedUser(capabilityControlFactory, authConfig,
+          anonymousCowardName, canonicalUrl, accountCache, groupBackend,
+          disableReverseDnsLookup, Providers.of(remotePeer), null, id, caller);
     }
   }
 
@@ -125,6 +129,7 @@ public class IdentifiedUser extends CurrentUser {
     private final Provider<String> canonicalUrl;
     private final AccountCache accountCache;
     private final GroupBackend groupBackend;
+    private final Boolean disableReverseDnsLookup;
 
     private final Provider<SocketAddress> remotePeerProvider;
     private final Provider<ReviewDb> dbProvider;
@@ -137,6 +142,7 @@ public class IdentifiedUser extends CurrentUser {
         final @CanonicalWebUrl Provider<String> canonicalUrl,
         final AccountCache accountCache,
         final GroupBackend groupBackend,
+        final @DisableReverseDnsLookup Boolean disableReverseDnsLookup,
 
         final @RemotePeer Provider<SocketAddress> remotePeerProvider,
         final Provider<ReviewDb> dbProvider) {
@@ -146,21 +152,22 @@ public class IdentifiedUser extends CurrentUser {
       this.canonicalUrl = canonicalUrl;
       this.accountCache = accountCache;
       this.groupBackend = groupBackend;
+      this.disableReverseDnsLookup = disableReverseDnsLookup;
 
       this.remotePeerProvider = remotePeerProvider;
       this.dbProvider = dbProvider;
     }
 
     public IdentifiedUser create(Account.Id id) {
-      return new IdentifiedUser(capabilityControlFactory,
-          authConfig, anonymousCowardName, canonicalUrl, accountCache,
-          groupBackend, remotePeerProvider, dbProvider, id, null);
+      return new IdentifiedUser(capabilityControlFactory, authConfig,
+          anonymousCowardName, canonicalUrl, accountCache, groupBackend,
+          disableReverseDnsLookup, remotePeerProvider, dbProvider, id, null);
     }
 
     public IdentifiedUser runAs(Account.Id id, CurrentUser caller) {
-      return new IdentifiedUser(capabilityControlFactory,
-          authConfig, anonymousCowardName, canonicalUrl, accountCache,
-          groupBackend, remotePeerProvider, dbProvider, id, caller);
+      return new IdentifiedUser(capabilityControlFactory, authConfig,
+          anonymousCowardName, canonicalUrl, accountCache, groupBackend,
+          disableReverseDnsLookup, remotePeerProvider, dbProvider, id, caller);
     }
   }
 
@@ -177,6 +184,7 @@ public class IdentifiedUser extends CurrentUser {
   private final AuthConfig authConfig;
   private final GroupBackend groupBackend;
   private final String anonymousCowardName;
+  private final Boolean disableReverseDnsLookup;
 
   @Nullable
   private final Provider<SocketAddress> remotePeerProvider;
@@ -194,6 +202,7 @@ public class IdentifiedUser extends CurrentUser {
   private Collection<AccountProjectWatch> notificationFilters;
   private CurrentUser realUser;
 
+
   private IdentifiedUser(
       CapabilityControl.Factory capabilityControlFactory,
       final AuthConfig authConfig,
@@ -201,6 +210,7 @@ public class IdentifiedUser extends CurrentUser {
       final Provider<String> canonicalUrl,
       final AccountCache accountCache,
       final GroupBackend groupBackend,
+      final Boolean disableReverseDnsLookup,
       @Nullable final Provider<SocketAddress> remotePeerProvider,
       @Nullable final Provider<ReviewDb> dbProvider,
       final Account.Id id,
@@ -211,6 +221,7 @@ public class IdentifiedUser extends CurrentUser {
     this.groupBackend = groupBackend;
     this.authConfig = authConfig;
     this.anonymousCowardName = anonymousCowardName;
+    this.disableReverseDnsLookup = disableReverseDnsLookup;
     this.remotePeerProvider = remotePeerProvider;
     this.dbProvider = dbProvider;
     this.accountId = id;
@@ -383,7 +394,7 @@ public class IdentifiedUser extends CurrentUser {
         final InetSocketAddress sa = (InetSocketAddress) remotePeer;
         final InetAddress in = sa.getAddress();
 
-        host = in != null ? in.getCanonicalHostName() : sa.getHostName();
+        host = in != null ? getHost(in) : sa.getHostName();
       }
     }
     if (host == null || host.isEmpty()) {
@@ -443,5 +454,12 @@ public class IdentifiedUser extends CurrentUser {
   @Override
   public boolean isIdentifiedUser() {
     return true;
+  }
+
+  private String getHost(final InetAddress in) {
+    if (Boolean.FALSE.equals(disableReverseDnsLookup)) {
+      return in.getCanonicalHostName();
+    }
+    return in.getHostAddress();
   }
 }

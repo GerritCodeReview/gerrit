@@ -32,6 +32,8 @@ import com.google.gerrit.server.cache.h2.DefaultCacheFactory;
 import com.google.gerrit.server.change.ChangeKindCacheImpl;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.CanonicalWebUrlProvider;
+import com.google.gerrit.server.config.DisableReverseDnsLookup;
+import com.google.gerrit.server.config.DisableReverseDnsLookupProvider;
 import com.google.gerrit.server.config.FactoryModule;
 import com.google.gerrit.server.git.ChangeCache;
 import com.google.gerrit.server.git.TagCache;
@@ -81,6 +83,8 @@ public class BatchProgramModule extends FactoryModule {
         .toProvider(CommentLinkProvider.class).in(SINGLETON);
     bind(String.class).annotatedWith(CanonicalWebUrl.class)
         .toProvider(CanonicalWebUrlProvider.class);
+    bind(Boolean.class).annotatedWith(DisableReverseDnsLookup.class)
+        .toProvider(DisableReverseDnsLookupProvider.class).in(SINGLETON);
     bind(IdentifiedUser.class)
       .toProvider(Providers.<IdentifiedUser> of(null));
     bind(CurrentUser.class).to(IdentifiedUser.class);

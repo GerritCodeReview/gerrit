@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "530a0115_d8020ddb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-08-20T01:50:54Z",
+      "side": 1,
+      "message": "I think the feature here is to change existing  preferred email to another existing email, not to add a new one and set it as preferred email. so \u0027set\u0027 -\u003e reselect maybe better",
+      "range": {
+        "startLine": 7,
+        "startChar": 38,
+        "endLine": 7,
+        "endChar": 41
+      },
+      "revId": "635160fae85d47c58bf8817fe7f5d1ce4b9fc57b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "530a0115_b8ff5975",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetAccountCommand.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-08-20T01:50:54Z",
+      "side": 1,
+      "message": "String.format(\"%s is not found\", email)",
+      "range": {
+        "startLine": 304,
+        "startChar": 19,
+        "endLine": 304,
+        "endChar": 56
+      },
+      "revId": "635160fae85d47c58bf8817fe7f5d1ce4b9fc57b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -46,6 +46,7 @@ import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.config.AnonymousCowardNameProvider;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.CanonicalWebUrlProvider;
+import com.google.gerrit.server.config.DisableReverseDnsLookup;
 import com.google.gerrit.server.config.FactoryModule;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
@@ -269,6 +270,8 @@ public class Util {
         bind(GroupBackend.class).to(SystemGroupBackend.class);
         bind(String.class).annotatedWith(CanonicalWebUrl.class)
             .toProvider(CanonicalWebUrlProvider.class);
+        bind(Boolean.class).annotatedWith(DisableReverseDnsLookup.class)
+            .toInstance(Boolean.FALSE);
         bind(String.class).annotatedWith(AnonymousCowardName.class)
             .toProvider(AnonymousCowardNameProvider.class);
         bind(ChangeKindCache.class).to(ChangeKindCacheImpl.NoCache.class);

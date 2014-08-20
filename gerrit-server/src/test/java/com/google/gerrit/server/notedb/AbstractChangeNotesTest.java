@@ -38,6 +38,7 @@ import com.google.gerrit.server.config.AllUsersNameProvider;
 import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.config.AnonymousCowardNameProvider;
 import com.google.gerrit.server.config.CanonicalWebUrl;
+import com.google.gerrit.server.config.DisableReverseDnsLookup;
 import com.google.gerrit.server.config.FactoryModule;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
@@ -129,6 +130,8 @@ public class AbstractChangeNotesTest {
             .toProvider(AnonymousCowardNameProvider.class);
         bind(String.class).annotatedWith(CanonicalWebUrl.class)
             .toInstance("http://localhost:8080/");
+        bind(Boolean.class).annotatedWith(DisableReverseDnsLookup.class)
+            .toInstance(Boolean.FALSE);
         bind(Realm.class).to(FakeRealm.class);
         bind(GroupBackend.class).to(SystemGroupBackend.class).in(SINGLETON);
         bind(AccountCache.class).toInstance(accountCache);

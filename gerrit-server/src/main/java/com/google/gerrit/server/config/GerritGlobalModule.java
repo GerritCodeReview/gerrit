@@ -233,6 +233,8 @@ public class GerritGlobalModule extends FactoryModule {
     bind(FromAddressGenerator.class).toProvider(
         FromAddressGeneratorProvider.class).in(SINGLETON);
     bind(WebLinks.class).toProvider(WebLinksProvider.class).in(SINGLETON);
+    bind(Boolean.class).annotatedWith(DisableReverseDnsLookup.class)
+        .toProvider(DisableReverseDnsLookupProvider.class).in(SINGLETON);
 
     bind(PatchSetInfoFactory.class);
     bind(IdentifiedUser.GenericFactory.class).in(SINGLETON);

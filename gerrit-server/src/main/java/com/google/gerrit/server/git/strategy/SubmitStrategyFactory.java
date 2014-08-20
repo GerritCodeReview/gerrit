@@ -31,6 +31,7 @@ import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -49,7 +50,7 @@ public class SubmitStrategyFactory {
       .getLogger(SubmitStrategyFactory.class);
 
   private final IdentifiedUser.GenericFactory identifiedUserFactory;
-  private final PersonIdent myIdent;
+  private final Provider<PersonIdent> myIdent;
   private final ChangeControl.GenericFactory changeControlFactory;
   private final PatchSetInfoFactory patchSetInfoFactory;
   private final GitReferenceUpdated gitRefUpdated;
@@ -62,7 +63,7 @@ public class SubmitStrategyFactory {
   @Inject
   SubmitStrategyFactory(
       final IdentifiedUser.GenericFactory identifiedUserFactory,
-      @GerritPersonIdent final PersonIdent myIdent,
+      @GerritPersonIdent Provider<PersonIdent> myIdent,
       final ChangeControl.GenericFactory changeControlFactory,
       final PatchSetInfoFactory patchSetInfoFactory,
       final GitReferenceUpdated gitRefUpdated, final RebaseChange rebaseChange,
@@ -103,8 +104,7 @@ public class SubmitStrategyFactory {
       case MERGE_IF_NECESSARY:
         return new MergeIfNecessary(args);
       case REBASE_IF_NECESSARY:
-        return new RebaseIfNecessary(
-            args, patchSetInfoFactory, rebaseChange, myIdent);
+        return new RebaseIfNecessary(args, patchSetInfoFactory, rebaseChange);
       default:
         final String errorMsg = "No submit strategy for: " + submitType;
         log.error(errorMsg);

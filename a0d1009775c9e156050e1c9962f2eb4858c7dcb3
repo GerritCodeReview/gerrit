@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "330f4d26_37d11838",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2014-08-20T12:23:17Z",
+      "side": 1,
+      "message": "Done, code is right in this case, file appenders should not have a threshold.",
+      "parentUuid": "530a0115_f8d03103",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 38
+      },
+      "revId": "a0d1009775c9e156050e1c9962f2eb4858c7dcb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "530a0115_38c7c950",
         "filename": "gerrit-war/src/main/resources/log4j.properties",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2014-08-20T05:48:42Z",
       "side": 1,
       "message": "Not needed any more.",
+      "range": {
+        "startLine": 29,
+        "startChar": 0,
+        "endLine": 31,
+        "endChar": 35
+      },
+      "revId": "a0d1009775c9e156050e1c9962f2eb4858c7dcb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "330f4d26_57cc8ca3",
+        "filename": "gerrit-war/src/main/resources/log4j.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2014-08-20T12:23:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "530a0115_38c7c950",
       "range": {
         "startLine": 29,
         "startChar": 0,

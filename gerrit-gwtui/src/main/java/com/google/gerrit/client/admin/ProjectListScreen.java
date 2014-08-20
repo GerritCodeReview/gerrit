@@ -161,10 +161,10 @@ public class ProjectListScreen extends Screen implements FilteredUserInterface {
     setPageTitle(Util.C.projectListTitle());
     initPageHeader();
 
-    prev = new Hyperlink(Util.C.pagedProjectListPrev(), true, "");
+    prev = new Hyperlink(Util.C.pagedListPrev(), true, "");
     prev.setVisible(false);
 
-    next = new Hyperlink(Util.C.pagedProjectListNext(), true, "");
+    next = new Hyperlink(Util.C.pagedListNext(), true, "");
     next.setVisible(false);
 
     projects = new ProjectsTable() {

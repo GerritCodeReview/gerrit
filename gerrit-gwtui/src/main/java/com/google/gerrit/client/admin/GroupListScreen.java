@@ -148,10 +148,10 @@ public class GroupListScreen extends AccountScreen implements FilteredUserInterf
     setPageTitle(Util.C.groupListTitle());
     initPageHeader();
 
-    prev = new Hyperlink(Util.C.pagedGroupListPrev(), true, "");
+    prev = new Hyperlink(Util.C.pagedListPrev(), true, "");
     prev.setVisible(false);
 
-    next = new Hyperlink(Util.C.pagedGroupListNext(), true, "");
+    next = new Hyperlink(Util.C.pagedListNext(), true, "");
     next.setVisible(false);
 
     groups = new GroupTable(PageLinks.ADMIN_GROUPS);

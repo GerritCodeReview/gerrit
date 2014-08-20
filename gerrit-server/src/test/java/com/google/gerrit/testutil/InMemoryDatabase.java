@@ -79,7 +79,10 @@ public class InMemoryDatabase implements SchemaFactory<ReviewDb> {
       SchemaCreator schemaCreator) throws OrmException {
     this.schemaVersion = schemaVersion;
     this.schemaCreator = schemaCreator;
+    init();
+  }
 
+  private void init() throws OrmException {
     try {
       DataSource dataSource = newDataSource();
 
@@ -138,6 +141,15 @@ public class InMemoryDatabase implements SchemaFactory<ReviewDb> {
       }
       openHandle = null;
       database = null;
+    }
+  }
+
+  /** Nuke the world. */
+  public void nukeTheWorld() throws OrmException {
+    try {
+      schemaCreator.prune(open());
+    } catch (IOException | ConfigInvalidException e) {
+      throw new OrmException(e);
     }
   }
 

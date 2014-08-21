@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "9358f970_5a323510",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Actions.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-21T18:07:00Z",
+      "side": 1,
+      "message": "Important background here, is that the action ids are not unique. so we have multiple delete (\u0027/\u0027) and we have multiple \"rebase\" and \"publish\". But it is garanteed that they can not all be rendered for the same revision/edit:\n\n* Delete can be rendered eith on draft change/patch set or edit\n* Publish can be only on draft or edit\n* Rebase can be either on normal revision or edit",
+      "range": {
+        "startLine": 99,
+        "startChar": 6,
+        "endLine": 99,
+        "endChar": 38
+      },
+      "revId": "78aba4c5f3c2c862b344e73a71f557e2c2df1416",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "136c0914_96082c4d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Actions.java",
         "patchSetId": 13
@@ -13,6 +36,29 @@
       "writtenOn": "2014-08-21T17:36:24Z",
       "side": 1,
       "message": "Does this for loop belong in the previous change? IIUC this block always adds deleteEdit (definitely belongs in this change), plus any actions in the EditInfo (previous change?).",
+      "revId": "78aba4c5f3c2c862b344e73a71f557e2c2df1416",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9358f970_1a28bda2",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Actions.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-21T18:07:00Z",
+      "side": 1,
+      "message": "That why it doesn\u0027t always add the button, only when this action was sent by server.",
+      "range": {
+        "startLine": 232,
+        "startChar": 4,
+        "endLine": 232,
+        "endChar": 33
+      },
       "revId": "78aba4c5f3c2c862b344e73a71f557e2c2df1416",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

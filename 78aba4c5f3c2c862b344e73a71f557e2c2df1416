@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "136c0914_96082c4d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Actions.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-21T17:36:24Z",
+      "side": 1,
+      "message": "Does this for loop belong in the previous change? IIUC this block always adds deleteEdit (definitely belongs in this change), plus any actions in the EditInfo (previous change?).",
+      "revId": "78aba4c5f3c2c862b344e73a71f557e2c2df1416",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

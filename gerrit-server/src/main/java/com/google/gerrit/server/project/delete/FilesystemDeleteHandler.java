@@ -52,6 +52,14 @@ public class FilesystemDeleteHandler {
     this.deletedListener = deletedListener;
   }
 
+  public void nukeTheWorld()
+      throws IOException {
+    repoManager.list();
+    for (Project.NameKey p : repoManager.list()) {
+      delete(p, false);
+    }
+  }
+
   public void delete(Project project, boolean preserveGitRepository)
       throws IOException, RepositoryNotFoundException {
     delete(project.getNameKey(), preserveGitRepository);

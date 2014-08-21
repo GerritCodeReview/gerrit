@@ -26,6 +26,7 @@ import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gwtorm.jdbc.JdbcExecutor;
 import com.google.gwtorm.jdbc.JdbcSchema;
+import com.google.gwtorm.schema.sql.SqlDialect;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
@@ -34,7 +35,9 @@ import org.eclipse.jgit.lib.PersonIdent;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Collections;
+import java.util.Set;
 
 /** Creates the current database schema and populates initial code rows. */
 public class SchemaCreator {
@@ -89,13 +92,36 @@ public class SchemaCreator {
     sVer.versionNbr = versionNbr;
     db.schemaVersion().insert(Collections.singleton(sVer));
 
+    init(db);
+    dataSourceType.getIndexScript().run(db);
+  }
+
+  private void init(final ReviewDb db) throws OrmException, IOException,
+      ConfigInvalidException {
     initSystemConfig(db);
     allProjectsCreator
       .setAdministrators(GroupReference.forGroup(admin))
       .setBatchUsers(GroupReference.forGroup(batch))
       .create();
     allUsersCreator.create();
-    dataSourceType.getIndexScript().run(db);
+  }
+
+  public void reCreate(ReviewDb db) throws OrmException, IOException,
+      ConfigInvalidException {
+    JdbcSchema jdbc = (JdbcSchema) db;
+    JdbcExecutor e = new JdbcExecutor(jdbc);
+    try {
+      SqlDialect dialect = ((JdbcSchema) db).getDialect();
+      Set<String> existingTables = dialect.listTables(jdbc.getConnection());
+      for (String t : existingTables) {
+        e.execute("delete from " + t);
+      }
+    } catch (SQLException ex) {
+      throw new OrmException(ex);
+    } finally {
+      e.close();
+    }
+    init(db);
   }
 
   private AccountGroup newGroup(ReviewDb c, String name, AccountGroup.UUID uuid)

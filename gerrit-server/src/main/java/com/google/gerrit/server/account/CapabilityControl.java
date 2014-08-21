@@ -175,6 +175,12 @@ public class CapabilityControl {
         || canAdministrateServer();
   }
 
+  /** @return true if the user can modify ssh key for users other than self. */
+  public boolean canModifySshKey() {
+    return canPerform(GlobalCapability.MODIFY_SSH_KEY)
+        || canAdministrateServer();
+  }
+
   /** @return true if the user can impersonate another user. */
   public boolean canRunAs() {
     return canPerform(GlobalCapability.RUN_AS);

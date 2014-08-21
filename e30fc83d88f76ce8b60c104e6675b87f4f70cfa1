@@ -22,6 +22,30 @@
       "revId": "e30fc83d88f76ce8b60c104e6675b87f4f70cfa1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "136c0914_36d1586a",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetLoggingLevelCommand.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1016317
+      },
+      "writtenOn": "2014-08-21T12:59:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9358f970_faeea922",
+      "range": {
+        "startLine": 86,
+        "startChar": 30,
+        "endLine": 86,
+        "endChar": 73
+      },
+      "revId": "e30fc83d88f76ce8b60c104e6675b87f4f70cfa1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

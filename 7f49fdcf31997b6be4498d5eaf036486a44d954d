@@ -72,6 +72,54 @@
     },
     {
       "key": {
+        "uuid": "f33f75e6_fd2067b7",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
+        "patchSetId": 46
+      },
+      "lineNbr": 576,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-21T20:44:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "136c0914_d6ebc410",
+      "range": {
+        "startLine": 576,
+        "startChar": 44,
+        "endLine": 576,
+        "endChar": 72
+      },
+      "revId": "7f49fdcf31997b6be4498d5eaf036486a44d954d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f33f75e6_dd1dab81",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
+        "patchSetId": 46
+      },
+      "lineNbr": 576,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-21T20:44:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "33574d43_37f838e2",
+      "range": {
+        "startLine": 576,
+        "startChar": 17,
+        "endLine": 576,
+        "endChar": 19
+      },
+      "revId": "7f49fdcf31997b6be4498d5eaf036486a44d954d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "136c0914_36f838e2",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
         "patchSetId": 46
@@ -153,6 +201,24 @@
       "writtenOn": "2014-08-21T17:32:15Z",
       "side": 1,
       "message": "In theory you shouldn\u0027t have to make this call. PatchSetsBox is constructed via PatchSetsAction which is only initialized by CS2 after loading the EditInfo in that path.\n\nBut given that we\u0027re already making another request to render this dropdown, I think it\u0027s fine for now. Leave a TODO?",
+      "revId": "7f49fdcf31997b6be4498d5eaf036486a44d954d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f33f75e6_3d4acf71",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/PatchSetsBox.java",
+        "patchSetId": 46
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-21T20:44:37Z",
+      "side": 1,
+      "message": "True. However, we don\u0027t pass changeInfo atm:\n\n  patchSetsAction \u003d new PatchSetsAction(\n        info.legacy_id(), revision,\n        style, headerLine, patchSets);\n\nbut we could certainly change that. Or pass only edit from it. But let us do it later. Added a TODO.",
+      "parentUuid": "33574d43_77f2b001",
       "revId": "7f49fdcf31997b6be4498d5eaf036486a44d954d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

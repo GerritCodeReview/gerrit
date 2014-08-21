@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "f33f75e6_fd050733",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
+        "patchSetId": 46
+      },
+      "lineNbr": 576,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-21T17:56:28Z",
+      "side": 1,
+      "message": "Sure. Let me explain what i meant and suggest how you want me to formulate what happens here.\n\nWe have (from yet) two different base REST endpoints to figure out what current_revision is:\n\n* 1. GET /changes/X/detail\n* 2. GET /changes/X/edit\n\nThe result of 1 ednpoint includes list of revisions: 1, 2, 3 and additionally it contains attribute current_revision \u003d 3 to show. When we have edit on top of ps3 we want to replace ps3 with edit. that what i mean with replace:\n\n  current_revision \u003d ps3\n  current_revision \u003d edit on top of ps3\n\nSo the strategy is always to install edit in revision list as \"regular\" revision so that the whole client code would just work. And only replace current_revision so that edit is actualle get shown in these cases.",
+      "parentUuid": "136c0914_d6ebc410",
+      "range": {
+        "startLine": 576,
+        "startChar": 44,
+        "endLine": 576,
+        "endChar": 72
+      },
+      "revId": "7f49fdcf31997b6be4498d5eaf036486a44d954d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "136c0914_36f838e2",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
         "patchSetId": 46
@@ -65,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "f33f75e6_dd02cb28",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
+        "patchSetId": 46
+      },
+      "lineNbr": 577,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-21T17:56:28Z",
+      "side": 1,
+      "message": "Yepp.",
+      "parentUuid": "136c0914_36f838e2",
+      "revId": "7f49fdcf31997b6be4498d5eaf036486a44d954d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "33574d43_17fd34d2",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
         "patchSetId": 46
@@ -76,6 +118,24 @@
       "writtenOn": "2014-08-21T17:32:15Z",
       "side": 1,
       "message": "Can this actually happen? Wouldn\u0027t revision have to have _number 0, so the previous comparison would be false?",
+      "revId": "7f49fdcf31997b6be4498d5eaf036486a44d954d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9358f970_3a2301ca",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
+        "patchSetId": 46
+      },
+      "lineNbr": 835,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-21T17:56:28Z",
+      "side": 1,
+      "message": "I think yes, because we have installed edit as regular revision and replaced current_revision in ChangeInfo to point to it. See also my explanation above.",
+      "parentUuid": "33574d43_17fd34d2",
       "revId": "7f49fdcf31997b6be4498d5eaf036486a44d954d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

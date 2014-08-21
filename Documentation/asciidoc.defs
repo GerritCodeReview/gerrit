@@ -24,6 +24,7 @@ def genasciidoc(
   asciidoc = [
       '$(exe //lib/asciidoctor:asciidoc)',
       '-z', '$OUT',
+      '--base-dir', '$SRCDIR',
       '--tmp', '$TMP',
       '--in-ext', '".txt%s"' % EXPN,
       '--out-ext', '".html"',
@@ -57,7 +58,9 @@ def genasciidoc(
       out = ex,
     )
 
-    asciidoc.append('$(location :%s)' % ex)
+    # The new AsciiDoctor requires both the css file and include files are under
+    # the same directory. Luckily Buck allows us to use :target as SRCS now.
+    newsrcs.append(':%s' % ex)
 
   genrule(
     name = name,

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9358f970_faeea922",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetLoggingLevelCommand.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-21T12:45:16Z",
+      "side": 1,
+      "message": "Optional: extract this into a var, so that we don\u0027t retrieve it twice: here and on line 90.",
+      "range": {
+        "startLine": 86,
+        "startChar": 30,
+        "endLine": 86,
+        "endChar": 73
+      },
+      "revId": "e30fc83d88f76ce8b60c104e6675b87f4f70cfa1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

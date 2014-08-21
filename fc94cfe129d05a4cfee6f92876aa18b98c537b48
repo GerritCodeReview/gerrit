@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "935e392a_2a23ff97",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-21T00:11:11Z",
+      "side": 1,
+      "message": "This only clears this one project; you\u0027d have to record every project that is created, including All-Projects.\n\nAlternatively if you want to limit it to one project (or 3, projects + All-Projects + All-Users), you could add an assertion here that the repo manager only lists a whitelist of projects.\n\nAlso what about db tables that don\u0027t reference projects at all, like groups and group memberships and audits?",
+      "revId": "fc94cfe129d05a4cfee6f92876aa18b98c537b48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

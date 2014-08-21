@@ -1,0 +1,101 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "33574d43_37f838e2",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
+        "patchSetId": 46
+      },
+      "lineNbr": 576,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-21T17:32:15Z",
+      "side": 1,
+      "message": "two",
+      "range": {
+        "startLine": 576,
+        "startChar": 17,
+        "endLine": 576,
+        "endChar": 19
+      },
+      "revId": "7f49fdcf31997b6be4498d5eaf036486a44d954d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "136c0914_d6ebc410",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
+        "patchSetId": 46
+      },
+      "lineNbr": 576,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-21T17:32:15Z",
+      "side": 1,
+      "message": "I don\u0027t understand what you mean by \"replace current ps with edit\". Could you try rephrasing this comment?",
+      "range": {
+        "startLine": 576,
+        "startChar": 44,
+        "endLine": 576,
+        "endChar": 72
+      },
+      "revId": "7f49fdcf31997b6be4498d5eaf036486a44d954d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "136c0914_36f838e2",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
+        "patchSetId": 46
+      },
+      "lineNbr": 577,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-21T17:32:15Z",
+      "side": 1,
+      "message": "Checking my understanding, this case means that when you go to /c/N and you have an edit against the current PS of the change, the selected PS on CS2 should be the edit. Ok, I agree.",
+      "revId": "7f49fdcf31997b6be4498d5eaf036486a44d954d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "33574d43_17fd34d2",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
+        "patchSetId": 46
+      },
+      "lineNbr": 835,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-21T17:32:15Z",
+      "side": 1,
+      "message": "Can this actually happen? Wouldn\u0027t revision have to have _number 0, so the previous comparison would be false?",
+      "revId": "7f49fdcf31997b6be4498d5eaf036486a44d954d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "33574d43_77f2b001",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/PatchSetsBox.java",
+        "patchSetId": 46
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-21T17:32:15Z",
+      "side": 1,
+      "message": "In theory you shouldn\u0027t have to make this call. PatchSetsBox is constructed via PatchSetsAction which is only initialized by CS2 after loading the EditInfo in that path.\n\nBut given that we\u0027re already making another request to render this dropdown, I think it\u0027s fine for now. Leave a TODO?",
+      "revId": "7f49fdcf31997b6be4498d5eaf036486a44d954d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

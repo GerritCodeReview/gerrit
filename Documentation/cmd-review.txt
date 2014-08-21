@@ -13,6 +13,7 @@ gerrit review - Apply reviews to one or more patch sets
   [--notify <NOTIFYHANDLING> | -n <NOTIFYHANDLING>]
   [--submit | -s]
   [--abandon | --restore]
+  [--rebase]
   [--publish]
   [--json | -j]
   [--delete]
@@ -82,16 +83,20 @@ branch.
 
 --abandon::
 	Abandon the specified change(s).
-	(option is mutually exclusive with --submit and --restore)
+	(option is mutually exclusive with --submit, --restore and --rebase)
 
 --restore::
 	Restore the specified abandoned change(s).
 	(option is mutually exclusive with --abandon)
 
+--rebase::
+	Rebase the specified change(s).
+	(option is mutually exclusive with --abandon, --submit and --delete)
+
 --submit::
 -s::
 	Submit the specified patch set(s) for merging.
-	(option is mutually exclusive with --abandon)
+	(option is mutually exclusive with --abandon and --rebase)
 
 --publish::
 	Publish the specified draft patch set(s).
@@ -99,7 +104,8 @@ branch.
 
 --delete::
 	Delete the specified draft patch set(s).
-	(option is mutually exclusive with --submit, --restore, --abandon, and --publish)
+	(option is mutually exclusive with --submit, --restore, --abandon, --publish
+	and --rebase)
 
 --code-review::
 --verified::

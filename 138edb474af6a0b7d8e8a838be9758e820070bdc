@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f33f75e6_5df7dbef",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 1227,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-21T14:15:08Z",
+      "side": 1,
+      "message": "This is right, but below it is wrong: RestorePathInput.",
+      "range": {
+        "startLine": 1227,
+        "startChar": 56,
+        "endLine": 1227,
+        "endChar": 71
+      },
+      "revId": "138edb474af6a0b7d8e8a838be9758e820070bdc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f33f75e6_7df29701",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 1238,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-21T14:15:08Z",
+      "side": 1,
+      "message": "This was wrong. at the bottom it is right: `restore_path`.",
+      "range": {
+        "startLine": 1235,
+        "startChar": 2,
+        "endLine": 1238,
+        "endChar": 3
+      },
+      "revId": "138edb474af6a0b7d8e8a838be9758e820070bdc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f33f75e6_bd0b7f48",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 3710,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-21T14:15:08Z",
+      "side": 1,
+      "message": "change-edit-input",
+      "range": {
+        "startLine": 3710,
+        "startChar": 2,
+        "endLine": 3710,
+        "endChar": 20
+      },
+      "revId": "138edb474af6a0b7d8e8a838be9758e820070bdc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9358f970_ba0b9148",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 3711,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-21T14:15:08Z",
+      "side": 1,
+      "message": "ChangeEditInput",
+      "range": {
+        "startLine": 3711,
+        "startChar": 4,
+        "endLine": 3711,
+        "endChar": 20
+      },
+      "revId": "138edb474af6a0b7d8e8a838be9758e820070bdc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

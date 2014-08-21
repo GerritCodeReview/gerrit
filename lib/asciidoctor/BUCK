@@ -15,6 +15,7 @@ java_library(
     ':jruby',
     '//lib:args4j',
     '//lib:guava',
+    '//lib/log:api',
   ],
   visibility = ['//tools/eclipse:classpath'],
 )
@@ -42,8 +43,8 @@ java_library(
 
 maven_jar(
   name = 'asciidoctor',
-  id = 'org.asciidoctor:asciidoctor-java-integration:0.1.4',
-  sha1 = '3596c7142fd30d7b65a0e64ba294f3d9d4bd538f',
+  id = 'org.asciidoctor:asciidoctorj:1.5.0',
+  sha1 = '192df5660f72a0fb76966dcc64193b94fba65f99',
   license = 'Apache2.0',
   visibility = [],
   attach_source = False,

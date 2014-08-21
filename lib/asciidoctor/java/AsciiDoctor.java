@@ -53,6 +53,9 @@ public class AsciiDoctor {
   @Option(name = "--out-ext", usage = "extension for output files")
   private String outExt = ".html";
 
+  @Option(name = "--base-dir", usage = "base directory")
+  private File basedir;
+
   @Option(name = "--tmp", usage = "temporary output path")
   private File tmpdir;
 
@@ -82,7 +85,7 @@ public class AsciiDoctor {
     OptionsBuilder optionsBuilder = OptionsBuilder.options();
 
     optionsBuilder.backend(backend).docType(DOCTYPE).eruby(ERUBY)
-      .safe(SafeMode.UNSAFE);
+      .safe(SafeMode.UNSAFE).baseDir(basedir);
     // XXX(fishywang): ideally we should just output to a string and add the
     // content into zip. But asciidoctor will actually ignore all attributes if
     // not output to a file. So we *have* to output to a file then read the

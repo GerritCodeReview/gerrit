@@ -105,6 +105,9 @@ public class ReviewCommand extends SshCommand {
   @Option(name = "--restore", usage = "restore the specified abandoned change(s)")
   private boolean restoreChange;
 
+  @Option(name = "--rebase", usage = "rebase the specified change(s)")
+  private boolean rebaseChange;
+
   @Option(name = "--submit", aliases = "-s", usage = "submit the specified patch set(s)")
   private boolean submitChange;
 
@@ -154,6 +157,9 @@ public class ReviewCommand extends SshCommand {
       if (deleteDraftPatchSet) {
         throw error("abandon and delete actions are mutually exclusive");
       }
+      if (rebaseChange) {
+        throw error("abandon and rebase actions are mutually exclusive");
+      }
     }
     if (publishPatchSet) {
       if (restoreChange) {
@@ -184,6 +190,17 @@ public class ReviewCommand extends SshCommand {
       }
       if (changeComment != null) {
         throw error("json and message are mutually exclusive");
+      }
+      if (rebaseChange) {
+        throw error("json and rebase actions are mutually exclusive");
+      }
+    }
+    if (rebaseChange) {
+      if (submitChange) {
+        throw error("rebase and submit actions are mutually exclusive");
+      }
+      if (deleteDraftPatchSet) {
+        throw error("rebase and delete actions are mutually exclusive");
       }
     }
 
@@ -277,6 +294,10 @@ public class ReviewCommand extends SshCommand {
         applyReview(patchSet, review);
       } else {
         applyReview(patchSet, review);
+      }
+
+      if (rebaseChange){
+        revisionApi(patchSet).rebase();
       }
 
       if (submitChange) {

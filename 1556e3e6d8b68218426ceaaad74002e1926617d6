@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "33574d43_b7e44845",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeInfo.java",
+        "patchSetId": 30
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-21T16:50:18Z",
+      "side": 1,
+      "message": "Optional (and I know we\u0027re inconsistent elsewhere): createObject().cast().",
+      "range": {
+        "startLine": 224,
+        "startChar": 34,
+        "endLine": 224,
+        "endChar": 63
+      },
+      "revId": "1556e3e6d8b68218426ceaaad74002e1926617d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "33574d43_97e14435",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeInfo.java",
+        "patchSetId": 30
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-21T16:50:18Z",
+      "side": 1,
+      "message": "The convention we use is \"foo\" in GWT for where we usually use \"getFoo\" in Java. So maybe is_edit?",
+      "range": {
+        "startLine": 237,
+        "startChar": 32,
+        "endLine": 237,
+        "endChar": 36
+      },
+      "revId": "1556e3e6d8b68218426ceaaad74002e1926617d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "136c0914_f6eec022",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeInfo.java",
+        "patchSetId": 30
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-21T16:50:18Z",
+      "side": 1,
+      "message": "Say we have an edit on PS2. This should sort 0 between 2 and 3.\n\nBut this line means 0 compares equal to 3. Since Collections.sort is stable, this means if 0 appears in the input list after 3, it will stay after 3 once sorted.",
+      "revId": "1556e3e6d8b68218426ceaaad74002e1926617d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "33574d43_f7eec022",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeInfo.java",
+        "patchSetId": 30
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-08-21T16:50:18Z",
+      "side": 1,
+      "message": "Blank line",
+      "revId": "1556e3e6d8b68218426ceaaad74002e1926617d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

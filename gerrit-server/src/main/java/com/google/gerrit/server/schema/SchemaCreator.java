@@ -26,7 +26,9 @@ import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gwtorm.jdbc.JdbcExecutor;
 import com.google.gwtorm.jdbc.JdbcSchema;
+import com.google.gwtorm.schema.sql.SqlDialect;
 import com.google.gwtorm.server.OrmException;
+import com.google.gwtorm.server.StatementExecutor;
 import com.google.inject.Inject;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -34,7 +36,11 @@ import org.eclipse.jgit.lib.PersonIdent;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.sql.SQLException;
 import java.util.Collections;
+import java.util.Set;
 
 /** Creates the current database schema and populates initial code rows. */
 public class SchemaCreator {
@@ -89,13 +95,47 @@ public class SchemaCreator {
     sVer.versionNbr = versionNbr;
     db.schemaVersion().insert(Collections.singleton(sVer));
 
+    init(db);
+    dataSourceType.getIndexScript().run(db);
+  }
+
+  private void init(final ReviewDb db) throws OrmException, IOException,
+      ConfigInvalidException {
     initSystemConfig(db);
     allProjectsCreator
       .setAdministrators(GroupReference.forGroup(admin))
       .setBatchUsers(GroupReference.forGroup(batch))
       .create();
     allUsersCreator.create();
-    dataSourceType.getIndexScript().run(db);
+  }
+
+  public void reCreate(ReviewDb db) throws OrmException, IOException,
+      ConfigInvalidException, NoSuchMethodException, SecurityException,
+      IllegalAccessException, IllegalArgumentException,
+      InvocationTargetException {
+    JdbcSchema jdbc = (JdbcSchema) db;
+    JdbcExecutor e = new JdbcExecutor(jdbc);
+    try {
+      SqlDialect dialect = ((JdbcSchema) db).getDialect();
+      Set<String> existingTables = dialect.listTables(jdbc.getConnection());
+      for (String t : existingTables) {
+        e.execute("delete from " + t);
+      }
+      Class<?> schemaClazz = jdbc.getClass().getSuperclass();
+      Method m = schemaClazz.getDeclaredMethod(
+          "pruneSequences", new Class[] {StatementExecutor.class});
+      m.setAccessible(true);
+      m.invoke(jdbc, e);
+      m = jdbc.getClass().getSuperclass().getDeclaredMethod(
+          "createSequences", new Class[] {StatementExecutor.class});
+      m.setAccessible(true);
+      m.invoke(jdbc, e);
+    } catch (SQLException ex) {
+      throw new OrmException(ex);
+    } finally {
+      e.close();
+    }
+    init(db);
   }
 
   private AccountGroup newGroup(ReviewDb c, String name, AccountGroup.UUID uuid)

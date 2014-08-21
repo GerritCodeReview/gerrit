@@ -37,7 +37,11 @@ import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.Util;
+import com.google.gerrit.server.project.delete.CacheDeleteHandler;
+import com.google.gerrit.server.project.delete.DatabaseDeleteHandler;
+import com.google.gerrit.server.project.delete.FilesystemDeleteHandler;
 import com.google.gerrit.testutil.ConfigSuite;
+import com.google.gerrit.testutil.InMemoryDatabase;
 import com.google.gson.Gson;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
@@ -88,6 +92,18 @@ public abstract class AbstractDaemonTest {
   @Inject
   protected ProjectCache projectCache;
 
+  @Inject
+  DatabaseDeleteHandler dbHandler;
+
+  @Inject
+  FilesystemDeleteHandler fsHandler;
+
+  @Inject
+  CacheDeleteHandler cacheHandler;
+
+  @Inject
+  InMemoryDatabase dbHandle;
+
   protected Git git;
   protected GerritServer server;
   protected TestAccount admin;
@@ -134,6 +150,10 @@ public abstract class AbstractDaemonTest {
   private void beforeTest(Config cfg, boolean memory, boolean enableHttpd) throws Exception {
     server = startServer(cfg, memory, enableHttpd);
     server.getTestInjector().injectMembers(this);
+    init();
+  }
+
+  private void init() throws Exception {
     admin = accounts.admin();
     user = accounts.user();
     adminSession = new RestSession(server, admin);
@@ -158,6 +178,18 @@ public abstract class AbstractDaemonTest {
     sshSession.close();
     server.stop();
     TempFileUtil.cleanup();
+  }
+
+  // Wipe out the world... Don't wory, we create a better one.
+  protected void nukeTheWorld() throws Exception {
+    // Wipe out caches
+    cacheHandler.nukeTheWorld();
+    // Wipe out repoitories
+    fsHandler.nukeTheWorld();
+    // Wipe out the database
+    dbHandle.nukeTheWorld();
+    // init
+    init();
   }
 
   protected PushOneCommit.Result createChange() throws GitAPIException,

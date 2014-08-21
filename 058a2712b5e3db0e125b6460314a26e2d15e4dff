@@ -16,6 +16,24 @@
       "revId": "058a2712b5e3db0e125b6460314a26e2d15e4dff",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9358f970_7a2d79b2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditJson.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-21T18:07:13Z",
+      "side": 1,
+      "message": "May be i had a bad rebase and some parts of code should be moved around. But the code itself is correct. Client action buttons get renderd then and only then when EditInfo contains corresponding action in the actions map. See also my comment in another change, on if statement below.",
+      "parentUuid": "33574d43_9708244d",
+      "revId": "058a2712b5e3db0e125b6460314a26e2d15e4dff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

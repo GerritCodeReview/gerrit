@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "53520152_18fd65d2",
+        "filename": "Documentation/cmd-set-account.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-08-21T22:31:33Z",
+      "side": 1,
+      "message": "remove duplicate mention of delete",
+      "revId": "064791dcc563b4310c7f4db9654637def2a75276",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

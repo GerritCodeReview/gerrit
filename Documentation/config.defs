@@ -16,5 +16,6 @@ def documentation_attributes(revision):
     'last-update-label!',
     'source-highlighter=prettify',
     'stylesheet=doc.css',
+    'linkcss=true',
     'revnumber="%s"' % revision,
   ]

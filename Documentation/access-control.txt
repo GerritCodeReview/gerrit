@@ -1199,6 +1199,11 @@ you need the <<capability_viewCaches,view caches capability>>.
 Allow the user to generate HTTP passwords for other users.  Typically this would
 be assigned to a non-interactive users group.
 
+[[capability_modifySshKey]]
+=== Modify SSH Keys
+
+Allow the user to get, add and delete keys for other users.  Typically this would
+be assigned to a non-interactive users group.
 
 [[capability_kill]]
 === Kill Task

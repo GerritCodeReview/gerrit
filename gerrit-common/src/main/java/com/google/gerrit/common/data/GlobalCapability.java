@@ -64,6 +64,9 @@ public class GlobalCapability {
   /** Can generate HTTP passwords for user other than self. */
   public static final String GENERATE_HTTP_PASSWORD = "generateHttpPassword";
 
+  /** Can modify SSH key for user other than self. */
+  public static final String MODIFY_SSH_KEY = "modifySshKey";
+
   /** Can terminate any task using the kill command. */
   public static final String KILL_TASK = "killTask";
 
@@ -110,6 +113,7 @@ public class GlobalCapability {
     NAMES_ALL.add(EMAIL_REVIEWERS);
     NAMES_ALL.add(FLUSH_CACHES);
     NAMES_ALL.add(GENERATE_HTTP_PASSWORD);
+    NAMES_ALL.add(MODIFY_SSH_KEY);
     NAMES_ALL.add(KILL_TASK);
     NAMES_ALL.add(MODIFY_ACCOUNT);
     NAMES_ALL.add(PRIORITY);

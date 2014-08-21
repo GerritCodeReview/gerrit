@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9358f970_ba88b165",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/SchemaCreator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-21T23:16:54Z",
+      "side": 1,
+      "message": "Fixed sequences resetting. To reset the sequences we have to use refelction for now, as the methods are private ;-(\n\nAfter we have found a way to reset Lucene we are pretty much done with nuking the world.",
+      "range": {
+        "startLine": 124,
+        "startChar": 6,
+        "endLine": 132,
+        "endChar": 24
+      },
+      "revId": "dbe379db5538e4d346567ae554e9186bb827b071",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.account;
 
-import com.google.gerrit.common.data.GroupDetail;
+import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.errors.InvalidNameException;
 import com.google.gerrit.common.errors.NameAlreadyUsedException;
 import com.google.gerrit.common.errors.NoSuchGroupException;
@@ -40,14 +40,14 @@ public class PerformRenameGroup {
   private final ReviewDb db;
   private final GroupCache groupCache;
   private final GroupControl.Factory groupControlFactory;
-  private final GroupDetailFactory.Factory groupDetailFactory;
+  private final GroupDetail.Factory groupDetailFactory;
   private final RenameGroupOp.Factory renameGroupOpFactory;
   private final IdentifiedUser currentUser;
 
   @Inject
   PerformRenameGroup(final ReviewDb db, final GroupCache groupCache,
       final GroupControl.Factory groupControlFactory,
-      final GroupDetailFactory.Factory groupDetailFactory,
+      final GroupDetail.Factory groupDetailFactory,
       final RenameGroupOp.Factory renameGroupOpFactory,
       final IdentifiedUser currentUser) {
     this.db = db;
@@ -58,7 +58,7 @@ public class PerformRenameGroup {
     this.currentUser = currentUser;
   }
 
-  public GroupDetail renameGroup(final String groupName,
+  public GroupDescription.Basic renameGroup(final String groupName,
       final String newGroupName) throws OrmException, NameAlreadyUsedException,
       NoSuchGroupException, InvalidNameException {
     final AccountGroup.NameKey groupNameKey =
@@ -70,7 +70,7 @@ public class PerformRenameGroup {
     return renameGroup(group.getId(), newGroupName);
   }
 
-  public GroupDetail renameGroup(final AccountGroup.Id groupId,
+  public GroupDescription.Basic renameGroup(final AccountGroup.Id groupId,
       final String newName) throws OrmException, NameAlreadyUsedException,
       NoSuchGroupException, InvalidNameException {
     final GroupControl ctl = groupControlFactory.validateFor(groupId);
@@ -94,7 +94,7 @@ public class PerformRenameGroup {
         // If we are using this identity, don't report the exception.
         //
         if (other.getId().equals(groupId)) {
-          return groupDetailFactory.create(groupId).call();
+          return groupDetailFactory.create(group.getGroupUUID()).getDescrip();
         }
 
         // Otherwise, someone else has this identity.
@@ -120,6 +120,6 @@ public class PerformRenameGroup {
         group.getGroupUUID(), //
         old.get(), newName).start(0, TimeUnit.MILLISECONDS);
 
-    return groupDetailFactory.create(groupId).call();
+    return groupDetailFactory.create(group.getGroupUUID()).getDescrip();
   }
 }

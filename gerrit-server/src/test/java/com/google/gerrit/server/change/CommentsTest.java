@@ -64,6 +64,7 @@ import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.ProjectCacheImpl;
 import com.google.gerrit.server.util.TimeUtil;
 import com.google.gerrit.testutil.ConfigSuite;
 import com.google.gerrit.testutil.FakeAccountCache;
@@ -167,7 +168,8 @@ public class CommentsTest  {
         bind(AccountInfo.Loader.Factory.class).toInstance(alf);
         bind(ReviewDb.class).toProvider(Providers.<ReviewDb>of(db));
         bind(Config.class).annotatedWith(GerritServerConfig.class).toInstance(config);
-        bind(ProjectCache.class).toProvider(Providers.<ProjectCache> of(null));
+        bind(ProjectCache.class).toProvider(
+            Providers.<ProjectCache> of(ProjectCacheImpl.NO_OP));
         install(new GitModule());
         bind(GitRepositoryManager.class).toInstance(repoManager);
         bind(CapabilityControl.Factory.class)

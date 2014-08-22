@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b3109d96_e3eef222",
+        "filename": "Documentation/cmd-set-account.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-08-22T15:36:00Z",
+      "side": 1,
+      "message": "Isn\u0027t this another security vulnerability?  Also this makes capability to set http password inconsistent with setting ssh key.  I think we should restrict this to only admins as well.",
+      "revId": "74fe29b9cb2d4b3ea70fd03183656b0acc967997",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

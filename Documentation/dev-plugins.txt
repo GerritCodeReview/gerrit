@@ -404,6 +404,10 @@ Update of HEAD on a project
 +
 Publication of usage data
 
+* `com.google.gerrit.extensions.events.GarbageCollectorListener`:
++
+Garbage collection ran on a project
+
 [[stream-events]]
 == Sending Events to the Events Stream
 

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b3f7bd98_ebeed122",
+        "filename": "Documentation/cmd-review.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-08-22T01:34:49Z",
+      "side": 1,
+      "message": "and \u0027--json\u0027 according to the code.\n\nalso, does it make sense to allow a user to use this option when also passing --label and/or --message?\n\nThe review will be applied first, but then will be removed on rebase unless the label is configured to be persistent.",
+      "revId": "e48506e6457a6ec3c25e45379847b2252e6bc137",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -18,6 +18,7 @@ import com.google.common.base.Strings;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.RawInput;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -260,7 +261,7 @@ final class SetAccountCommand extends SshCommand {
     }
   }
 
-  private void deleteSshKey(SshKeyInfo i) throws OrmException {
+  private void deleteSshKey(SshKeyInfo i) throws AuthException, OrmException {
     AccountSshKey sshKey = new AccountSshKey(
         new AccountSshKey.Id(user.getAccountId(), i.seq), i.sshPublicKey);
     deleteSshKey.apply(

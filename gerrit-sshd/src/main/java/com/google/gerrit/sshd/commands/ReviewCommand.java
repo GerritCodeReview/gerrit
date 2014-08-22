@@ -162,6 +162,11 @@ public class ReviewCommand extends SshCommand {
         throw error("publish and delete actions are mutually exclusive");
       }
     }
+    if (deleteDraftPatchSet) {
+      if (submitChange) {
+        throw error("delete and submit actions are mutually exclusive");
+      }
+    }
 
     boolean ok = true;
     for (final PatchSet patchSet : patchSets) {

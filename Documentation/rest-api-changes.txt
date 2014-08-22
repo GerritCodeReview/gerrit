@@ -1236,8 +1236,7 @@ entity when a file within change edit should be restored.
   Content-Type: application/json;charset=UTF-8
 
   {
-    "path": "foo",
-    "restore": true
+    "restore_path": "foo"
   }
 ----
 
@@ -3824,9 +3823,9 @@ The files of the change edit as a map that maps the file names to
 link:#file-info[FileInfo] entities.
 |===========================
 
-[[restore-path-input]]
-=== RestorePathInput
-The `RestorePathInput` entity contains information for restoring a
+[[change-edit-input]]
+=== ChangeEditInput
+The `ChangeEditInput` entity contains information for restoring a
 path within change edit.
 
 [options="header",width="50%",cols="1,^1,5"]

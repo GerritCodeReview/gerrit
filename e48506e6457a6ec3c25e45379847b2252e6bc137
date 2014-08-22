@@ -16,6 +16,24 @@
       "revId": "e48506e6457a6ec3c25e45379847b2252e6bc137",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d313519f_c4ebfe10",
+        "filename": "Documentation/cmd-review.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2014-08-22T14:37:25Z",
+      "side": 1,
+      "message": "I Added the --json and I and fixed all discrepancies between the doc and the code in the 2 related changes.\n\nI thought about --label and --message and I think we should not prevent using those with --rebase. Example: voting +2 Code review with a message on ps1 and rebasing it a the same time could make sense, no?",
+      "parentUuid": "b3f7bd98_ebeed122",
+      "revId": "e48506e6457a6ec3c25e45379847b2252e6bc137",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

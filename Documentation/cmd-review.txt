@@ -56,12 +56,15 @@ branch.
 -m::
 	Optional cover letter to include as part of the message
 	sent to reviewers when the approval states are updated.
+	(option is mutually exclusive with --json)
 
 --json::
 -j::
 	Read review input from JSON file. See
 	link:rest-api-changes.html#review-input[ReviewInput] entity for the
 	format.
+	(option is mutually exclusive with --submit, --restore, --publish, --delete,
+	--abandon and --message)
 
 --notify::
 -n::
@@ -82,25 +85,27 @@ branch.
 
 --abandon::
 	Abandon the specified change(s).
-	(option is mutually exclusive with --submit, --restore, --publish and
-	--delete)
+	(option is mutually exclusive with --submit, --restore, --publish, --delete
+	and --json)
 
 --restore::
 	Restore the specified abandoned change(s).
-	(option is mutually exclusive with --abandon)
+	(option is mutually exclusive with --abandon and --json)
 
 --submit::
 -s::
 	Submit the specified patch set(s) for merging.
-	(option is mutually exclusive with --abandon, --publish and --delete)
+	(option is mutually exclusive with --abandon, --publish --delete and --json)
 
 --publish::
 	Publish the specified draft patch set(s).
-	(option is mutually exclusive with --submit, --restore, --abandon, and --delete)
+	(option is mutually exclusive with --submit, --restore, --abandon, --delete
+	and --json)
 
 --delete::
 	Delete the specified draft patch set(s).
-	(option is mutually exclusive with --submit, --restore, --abandon, and --publish)
+	(option is mutually exclusive with --submit, --restore, --abandon, --publish
+	and --json)
 
 --code-review::
 --verified::

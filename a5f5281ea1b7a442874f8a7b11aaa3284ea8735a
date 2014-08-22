@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "d3e8b1cd_fceb2910",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-22T07:40:00Z",
+      "side": 1,
+      "message": "Why is this change needed in Gerrit core? Can\u0027t this use case be solved by setting up load balancer for SSH port as described in this document [1]?\n\n [1] https://gerrit.googlesource.com/plugins/multi-master/+/\n  master/src/main/resources/Documentation/config.md",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 70
+      },
+      "revId": "a5f5281ea1b7a442874f8a7b11aaa3284ea8735a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b3f7bd98_ab168964",
         "filename": "plugins/download-commands",
         "patchSetId": 3

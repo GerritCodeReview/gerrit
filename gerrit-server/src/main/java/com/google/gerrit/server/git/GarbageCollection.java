@@ -16,6 +16,9 @@ package com.google.gerrit.server.git;
 
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.data.GarbageCollectionResult;
+import com.google.gerrit.extensions.events.GarbageCollectorListener;
+import com.google.gerrit.extensions.events.GarbageCollectorListener.Event;
+import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.inject.Inject;
 
@@ -46,15 +49,19 @@ public class GarbageCollection {
 
   private final GitRepositoryManager repoManager;
   private final GarbageCollectionQueue gcQueue;
+  private final DynamicSet<GarbageCollectorListener> listeners;
 
   public interface Factory {
     GarbageCollection create();
   }
 
   @Inject
-  GarbageCollection(GitRepositoryManager repoManager, GarbageCollectionQueue gcQueue) {
+  GarbageCollection(GitRepositoryManager repoManager,
+      GarbageCollectionQueue gcQueue,
+      DynamicSet<GarbageCollectorListener> listeners) {
     this.repoManager = repoManager;
     this.gcQueue = gcQueue;
+    this.listeners = listeners;
   }
 
   public GarbageCollectionResult run(List<Project.NameKey> projectNames) {
@@ -83,6 +90,7 @@ public class GarbageCollection {
         Properties statistics = gc.call();
         logGcInfo(p, "after: ", statistics);
         print(writer, "done.\n\n");
+        fire(p, statistics);
       } catch (RepositoryNotFoundException e) {
         logGcError(writer, p, e);
         result.addError(new GarbageCollectionResult.Error(
@@ -100,6 +108,58 @@ public class GarbageCollection {
       }
     }
     return result;
+  }
+
+  private void fire(final Project.NameKey p, final Properties statistics) {
+    Event event = new GarbageCollectorListener.Event() {
+      @Override
+      public String getProjectName() {
+        return p.get();
+      }
+
+      @Override
+      public long getNumberOfLooseObjects() {
+        return get("numberOfLooseObjects");
+      }
+
+      @Override
+      public long getNumberOfLooseRefs() {
+        return get("numberOfLooseRefs");
+      }
+
+      @Override
+      public long getNumberOfPackedObjects() {
+        return get("numberOfPackedObjects");
+      }
+
+      @Override
+      public long getNumberOfPackedRefs() {
+        return get("numberOfPackedRefs");
+      }
+
+      @Override
+      public long getNumberOfPackFiles() {
+        return get("numberOfPackFiles");
+      }
+
+      @Override
+      public long getSizeOfLooseObjects() {
+        return get("sizeOfLooseObjects");
+      }
+
+      @Override
+      public long getSizeOfPackedObjects() {
+        return get("sizeOfPackedObjects");
+      }
+
+      private long get(String key) {
+        return ((Number)statistics.get(key)).longValue();
+      }
+
+    };
+    for (GarbageCollectorListener listener : listeners) {
+      listener.onGarbageCollected(event);
+    }
   }
 
   private static void logGcInfo(Project.NameKey projectName, String msg) {

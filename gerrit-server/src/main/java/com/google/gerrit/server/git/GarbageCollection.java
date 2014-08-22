@@ -16,6 +16,9 @@ package com.google.gerrit.server.git;
 
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.data.GarbageCollectionResult;
+import com.google.gerrit.extensions.events.GarbageCollectorListener;
+import com.google.gerrit.extensions.events.GarbageCollectorListener.Event;
+import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.GcConfig;
 import com.google.inject.Inject;
@@ -48,6 +51,7 @@ public class GarbageCollection {
   private final GitRepositoryManager repoManager;
   private final GarbageCollectionQueue gcQueue;
   private final GcConfig gcConfig;
+  private final DynamicSet<GarbageCollectorListener> listeners;
 
   public interface Factory {
     GarbageCollection create();
@@ -55,10 +59,12 @@ public class GarbageCollection {
 
   @Inject
   GarbageCollection(GitRepositoryManager repoManager,
-      GarbageCollectionQueue gcQueue, GcConfig config) {
+      GarbageCollectionQueue gcQueue, GcConfig config,
+      DynamicSet<GarbageCollectorListener> listeners) {
     this.repoManager = repoManager;
     this.gcQueue = gcQueue;
     this.gcConfig = config;
+    this.listeners = listeners;
   }
 
   public GarbageCollectionResult run(List<Project.NameKey> projectNames) {
@@ -93,6 +99,7 @@ public class GarbageCollection {
         Properties statistics = gc.call();
         logGcInfo(p, "after: ", statistics);
         print(writer, "done.\n\n");
+        fire(p, statistics);
       } catch (RepositoryNotFoundException e) {
         logGcError(writer, p, e);
         result.addError(new GarbageCollectionResult.Error(
@@ -110,6 +117,27 @@ public class GarbageCollection {
       }
     }
     return result;
+  }
+
+  private void fire(final Project.NameKey p, final Properties statistics) {
+    Event event = new GarbageCollectorListener.Event() {
+      @Override
+      public String getProjectName() {
+        return p.get();
+      }
+
+      @Override
+      public Properties getStatistics() {
+        return statistics;
+      }
+    };
+    for (GarbageCollectorListener l : listeners) {
+      try {
+        l.onGarbageCollected(event);
+      } catch (RuntimeException e) {
+        log.warn("Failure in GarbageCollectorListener", e);
+      }
+    }
   }
 
   private static void logGcInfo(Project.NameKey projectName, String msg) {

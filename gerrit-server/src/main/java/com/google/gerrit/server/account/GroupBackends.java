@@ -16,7 +16,10 @@ package com.google.gerrit.server.account;
 
 import com.google.common.collect.Iterables;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.data.GroupReference;
+import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.project.ProjectControl;
 
 import java.util.Collection;
@@ -34,6 +37,54 @@ public class GroupBackends {
       return a.getName().compareTo(b.getName());
     }
   };
+
+  public static final Comparator<AccountGroup.UUID> getComparator(
+      final GroupInfoCacheFactory gic) {
+    return new Comparator<AccountGroup.UUID>() {
+      public int compare(final AccountGroup.UUID o1, final AccountGroup.UUID o2) {
+        GroupDescription.Basic a = gic.get(o1);
+        GroupDescription.Basic b = gic.get(o2);
+        return n(a).compareTo(n(b));
+      }
+
+      private String n(GroupDescription.Basic a) {
+        if (a == null) {
+          return "";
+        }
+
+        String n = a.getName();
+        if (n != null && n.length() > 0) {
+          return n;
+        }
+        return a.getGroupUUID().get();
+      }
+    };
+  }
+
+  public static final Comparator<Account.Id> getComparator(
+      final AccountInfoCacheFactory aic) {
+    return new Comparator<Account.Id>() {
+      public int compare(final Account.Id o1, final Account.Id o2) {
+        final Account a = aic.get(o1);
+        final Account b = aic.get(o2);
+        return n(a).compareTo(n(b));
+      }
+
+      private String n(final Account a) {
+        String n = a.getFullName();
+        if (n != null && n.length() > 0) {
+          return n;
+        }
+
+        n = a.getPreferredEmail();
+        if (n != null && n.length() > 0) {
+          return n;
+        }
+
+        return a.getId().toString();
+      }
+    };
+  }
 
   /**
    * Runs {@link GroupBackend#suggest(String, ProjectControl)} and filters the

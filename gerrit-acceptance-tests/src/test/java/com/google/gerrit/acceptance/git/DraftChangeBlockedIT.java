@@ -24,7 +24,6 @@ import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
-import com.google.gerrit.server.project.ProjectCache;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
@@ -34,11 +33,9 @@ import org.junit.Test;
 
 import java.io.IOException;
 
+// TODO(davido): Migrate this test to non acceptance test
 @NoHttpd
 public class DraftChangeBlockedIT extends AbstractDaemonTest {
-
-  @Inject
-  private ProjectCache projectCache;
 
   @Inject
   private AllProjectsName allProjects;
@@ -55,6 +52,11 @@ public class DraftChangeBlockedIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void testAll() throws Exception {
+    testPushDraftChange_Blocked();
+    testPushDraftChangeMagic_Blocked();
+  }
+
   public void testPushDraftChange_Blocked() throws GitAPIException,
       OrmException, IOException {
     // create draft by pushing to 'refs/drafts/'
@@ -62,7 +64,7 @@ public class DraftChangeBlockedIT extends AbstractDaemonTest {
     r.assertErrorStatus("cannot upload drafts");
   }
 
-  @Test
+
   public void testPushDraftChangeMagic_Blocked() throws GitAPIException,
       OrmException, IOException {
     // create draft by using 'draft' option

@@ -35,32 +35,25 @@ import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.group.SystemGroupBackend;
-import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.Util;
 import com.google.inject.Inject;
 
-import org.junit.Before;
 import org.junit.Test;
 
 @NoHttpd
 public class CustomLabelIT extends AbstractDaemonTest {
 
   @Inject
-  private ProjectCache projectCache;
-
-  @Inject
   private AllProjectsName allProjects;
-
-  @Inject
-  private MetaDataUpdate.Server metaDataUpdateFactory;
 
   private final LabelType Q = category("CustomLabel",
       value(1, "Positive"),
       value(0, "No score"),
       value(-1, "Negative"));
 
-  @Before
-  public void setUp() throws Exception {
+  @Override
+  protected void init() throws Exception {
+    super.init();
     ProjectConfig cfg = projectCache.checkedGet(allProjects).getConfig();
     AccountGroup.UUID anonymousUsers =
         SystemGroupBackend.getGroup(ANONYMOUS_USERS).getUUID();
@@ -70,6 +63,14 @@ public class CustomLabelIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void testAll() throws Exception {
+    customLabelNoOp_NegativeVoteNotBlock();
+    customLabelNoBlock_NegativeVoteNotBlock();
+    customLabelMaxNoBlock_NegativeVoteNotBlock();
+    customLabelAnyWithBlock_NegativeVoteBlock();
+    customLabelMaxWithBlock_NegativeVoteBlock();
+  }
+
   public void customLabelNoOp_NegativeVoteNotBlock() throws Exception {
     Q.setFunctionName("NoOp");
     saveLabelConfig();
@@ -82,7 +83,6 @@ public class CustomLabelIT extends AbstractDaemonTest {
     assertNull(q.blocking);
   }
 
-  @Test
   public void customLabelNoBlock_NegativeVoteNotBlock() throws Exception {
     Q.setFunctionName("NoBlock");
     saveLabelConfig();
@@ -95,7 +95,6 @@ public class CustomLabelIT extends AbstractDaemonTest {
     assertNull(q.blocking);
   }
 
-  @Test
   public void customLabelMaxNoBlock_NegativeVoteNotBlock() throws Exception {
     Q.setFunctionName("MaxNoBlock");
     saveLabelConfig();
@@ -108,7 +107,6 @@ public class CustomLabelIT extends AbstractDaemonTest {
     assertNull(q.blocking);
   }
 
-  @Test
   public void customLabelAnyWithBlock_NegativeVoteBlock() throws Exception {
     Q.setFunctionName("AnyWithBlock");
     saveLabelConfig();
@@ -122,7 +120,6 @@ public class CustomLabelIT extends AbstractDaemonTest {
     assertTrue(q.blocking);
   }
 
-  @Test
   public void customLabelMaxWithBlock_NegativeVoteBlock() throws Exception {
     saveLabelConfig();
     PushOneCommit.Result r = createChange();

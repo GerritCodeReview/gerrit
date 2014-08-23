@@ -48,6 +48,18 @@ public class CommentsIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void testAll() throws Exception {
+    createDraft();
+    reset();
+    postComment();
+    reset();
+    putDraft();
+    reset();
+    getDraft();
+    reset();
+    deleteDraft();
+  }
+
   public void createDraft() throws GitAPIException, IOException {
     PushOneCommit.Result r = createChange();
     String changeId = r.getChangeId();
@@ -61,7 +73,6 @@ public class CommentsIT extends AbstractDaemonTest {
     assertCommentInfo(comment, actual);
   }
 
-  @Test
   public void postComment() throws RestApiException, Exception {
     String file = "file";
     String contents = "contents";
@@ -82,7 +93,6 @@ public class CommentsIT extends AbstractDaemonTest {
     assertCommentInfo(comment, actual);
   }
 
-  @Test
   public void putDraft() throws GitAPIException, IOException {
     PushOneCommit.Result r = createChange();
     String changeId = r.getChangeId();
@@ -101,7 +111,6 @@ public class CommentsIT extends AbstractDaemonTest {
     assertCommentInfo(comment, actual);
   }
 
-  @Test
   public void getDraft() throws GitAPIException, IOException {
     PushOneCommit.Result r = createChange();
     String changeId = r.getChangeId();
@@ -113,7 +122,6 @@ public class CommentsIT extends AbstractDaemonTest {
     assertCommentInfo(comment, actual);
   }
 
-  @Test
   public void deleteDraft() throws IOException, GitAPIException {
     PushOneCommit.Result r = createChange();
     String changeId = r.getChangeId();

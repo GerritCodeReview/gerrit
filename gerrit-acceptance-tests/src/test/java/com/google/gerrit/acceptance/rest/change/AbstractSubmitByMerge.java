@@ -24,13 +24,21 @@ import com.jcraft.jsch.JSchException;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.revwalk.RevCommit;
-import org.junit.Test;
 
 import java.io.IOException;
 
 public abstract class AbstractSubmitByMerge extends AbstractSubmit {
 
-  @Test
+  public void testAll() throws Exception {
+    super.testAll();
+    reset();
+    submitWithMerge();
+    reset();
+    submitWithContentMerge();
+    reset();
+    submitWithContentMerge_Conflict();
+  }
+
   public void submitWithMerge() throws JSchException, IOException,
       GitAPIException {
     Git git = createProject();
@@ -50,7 +58,6 @@ public abstract class AbstractSubmitByMerge extends AbstractSubmit {
     assertEquals(change2.getCommitId(), head.getParent(1));
   }
 
-  @Test
   public void submitWithContentMerge() throws JSchException, IOException,
       GitAPIException {
     Git git = createProject();
@@ -73,7 +80,6 @@ public abstract class AbstractSubmitByMerge extends AbstractSubmit {
     assertEquals(change3.getCommitId(), head.getParent(1));
   }
 
-  @Test
   public void submitWithContentMerge_Conflict() throws JSchException,
       IOException, GitAPIException {
     Git git = createProject();

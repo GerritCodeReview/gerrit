@@ -32,33 +32,25 @@ import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.group.SystemGroupBackend;
-import com.google.gerrit.server.project.ProjectCache;
 import com.google.gwtorm.server.OrmException;
-import com.google.inject.Inject;
 
 import org.apache.http.HttpStatus;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
 
 public class ChangeOwnerIT extends AbstractDaemonTest {
 
-  @Inject
-  private MetaDataUpdate.Server metaDataUpdateFactory;
-
-  @Inject
-  private ProjectCache projectCache;
-
   private TestAccount user2;
 
   private RestSession sessionOwner;
   private RestSession sessionDev;
 
-  @Before
-  public void setUp() throws Exception {
+  @Override
+  protected void init() throws Exception {
+    super.init();
     sessionOwner = new RestSession(server, user);
     SshSession sshSession = new SshSession(server, user);
     initSsh(user);
@@ -70,19 +62,25 @@ public class ChangeOwnerIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void testAll() throws Exception {
+    testChangeOwner_OwnerACLNotGranted();
+    reset();
+    testChangeOwner_OwnerACLGranted();
+    reset();
+    testChangeOwner_NotOwnerACLGranted();
+  }
+
   public void testChangeOwner_OwnerACLNotGranted() throws GitAPIException,
       IOException, OrmException, ConfigInvalidException {
     approve(sessionOwner, createMyChange(), HttpStatus.SC_FORBIDDEN);
   }
 
-  @Test
   public void testChangeOwner_OwnerACLGranted() throws GitAPIException,
       IOException, OrmException, ConfigInvalidException {
     grantApproveToChangeOwner();
     approve(sessionOwner, createMyChange(), HttpStatus.SC_OK);
   }
 
-  @Test
   public void testChangeOwner_NotOwnerACLGranted() throws GitAPIException,
       IOException, OrmException, ConfigInvalidException {
     grantApproveToChangeOwner();

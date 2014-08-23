@@ -74,6 +74,12 @@ public class ChangeMessagesIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void testAll() throws Exception {
+    messagesNotReturnedByDefault();
+    defaultMessage();
+    messagesReturnedInChronologicalOrder();
+  }
+
   public void messagesNotReturnedByDefault() throws Exception {
     String changeId = createChange().getChangeId();
     postMessage(changeId, "Some nits need to be fixed.");
@@ -81,7 +87,6 @@ public class ChangeMessagesIT extends AbstractDaemonTest {
     assertNull(c.messages);
   }
 
-  @Test
   public void defaultMessage() throws GitAPIException, IOException,
       RestApiException {
     String changeId = createChange().getChangeId();
@@ -91,7 +96,6 @@ public class ChangeMessagesIT extends AbstractDaemonTest {
     assertEquals("Uploaded patch set 1.", c.messages.iterator().next().message);
   }
 
-  @Test
   public void messagesReturnedInChronologicalOrder() throws Exception {
     String changeId = createChange().getChangeId();
     String firstMessage = "Some nits need to be fixed.";

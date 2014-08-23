@@ -19,11 +19,12 @@ import static org.junit.Assert.assertEquals;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
-import com.google.gerrit.acceptance.PushOneCommit.Result;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.RestSession;
+import com.google.gerrit.acceptance.PushOneCommit.Result;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeStatus;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwtorm.server.OrmException;
@@ -33,9 +34,68 @@ import org.junit.Test;
 
 import java.io.IOException;
 
-public class DeleteDraftPatchSetIT extends AbstractDaemonTest {
+public class DraftIT extends AbstractDaemonTest {
 
   @Test
+  public void testAll() throws Exception {
+    deleteChange();
+    deleteDraftChange();
+    publishDraftChange();
+    publishDraftPatchSet();
+    deletePatchSet();
+    deleteDraftPatchSetNoACL();
+    reset();
+    deleteDraftPatchSetAndChange();
+  }
+
+  public void deleteChange() throws GitAPIException,
+      IOException, RestApiException {
+    String changeId = createChange().getChangeId();
+    String triplet = "p~master~" + changeId;
+    ChangeInfo c = get(triplet);
+    assertEquals(triplet, c.id);
+    assertEquals(ChangeStatus.NEW, c.status);
+    RestResponse r = deleteChange(changeId, adminSession);
+    assertEquals("Change is not a draft", r.getEntityContent());
+    assertEquals(409, r.getStatusCode());
+  }
+
+  public void deleteDraftChange() throws GitAPIException,
+      IOException, RestApiException, OrmException {
+    String changeId = createDraftChange();
+    String triplet = "p~master~" + changeId;
+    ChangeInfo c = get(triplet);
+    assertEquals(triplet, c.id);
+    assertEquals(ChangeStatus.DRAFT, c.status);
+    RestResponse r = deleteChange(changeId, adminSession);
+    assertEquals(204, r.getStatusCode());
+  }
+
+  public void publishDraftChange() throws GitAPIException,
+      IOException, RestApiException {
+    String changeId = createDraftChange();
+    String triplet = "p~master~" + changeId;
+    ChangeInfo c = get(triplet);
+    assertEquals(triplet, c.id);
+    assertEquals(ChangeStatus.DRAFT, c.status);
+    RestResponse r = publishChange(changeId);
+    assertEquals(204, r.getStatusCode());
+    c = get(triplet);
+    assertEquals(ChangeStatus.NEW, c.status);
+  }
+
+  public void publishDraftPatchSet() throws GitAPIException,
+      IOException, OrmException, RestApiException {
+    String changeId = createDraftChange();
+    String triplet = "p~master~" + changeId;
+    ChangeInfo c = get(triplet);
+    assertEquals(triplet, c.id);
+    assertEquals(ChangeStatus.DRAFT, c.status);
+    RestResponse r = publishPatchSet(changeId);
+    assertEquals(204, r.getStatusCode());
+    assertEquals(ChangeStatus.NEW, get(triplet).status);
+  }
+
   public void deletePatchSet() throws Exception {
     String changeId = createChange().getChangeId();
     PatchSet ps = getCurrentPatchSet(changeId);
@@ -48,7 +108,6 @@ public class DeleteDraftPatchSetIT extends AbstractDaemonTest {
     assertEquals(409, r.getStatusCode());
   }
 
-  @Test
   public void deleteDraftPatchSetNoACL() throws Exception {
     String changeId = createDraftChangeWith2PS();
     PatchSet ps = getCurrentPatchSet(changeId);
@@ -61,7 +120,6 @@ public class DeleteDraftPatchSetIT extends AbstractDaemonTest {
     assertEquals(404, r.getStatusCode());
   }
 
-  @Test
   public void deleteDraftPatchSetAndChange() throws Exception {
     String changeId = createDraftChangeWith2PS();
     PatchSet ps = getCurrentPatchSet(changeId);
@@ -104,5 +162,32 @@ public class DeleteDraftPatchSetIT extends AbstractDaemonTest {
         + changeId
         + "/revisions/"
         + ps.getRevision().get());
+  }
+
+  private String createDraftChange() throws GitAPIException, IOException {
+    PushOneCommit push = pushFactory.create(db, admin.getIdent());
+    return push.to(git, "refs/drafts/master").getChangeId();
+  }
+
+  private static RestResponse deleteChange(String changeId,
+      RestSession s) throws IOException {
+    return s.delete("/changes/" + changeId);
+  }
+
+  private RestResponse publishChange(String changeId) throws IOException {
+    return adminSession.post("/changes/" + changeId + "/publish");
+  }
+
+  private RestResponse publishPatchSet(String changeId) throws IOException,
+    OrmException {
+    PatchSet patchSet = db.patchSets()
+        .get(Iterables.getOnlyElement(db.changes()
+            .byKey(new Change.Key(changeId)))
+            .currentPatchSetId());
+    return adminSession.post("/changes/"
+        + changeId
+        + "/revisions/"
+        + patchSet.getRevision().get()
+        + "/publish");
   }
 }

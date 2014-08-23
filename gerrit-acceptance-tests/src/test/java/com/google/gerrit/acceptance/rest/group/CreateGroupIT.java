@@ -41,6 +41,14 @@ public class CreateGroupIT extends AbstractDaemonTest {
   private GroupCache groupCache;
 
   @Test
+  public void testAll() throws Exception {
+    testCreateGroupWithoutCapability_Forbidden();
+    testCreateGroupWhenGroupAlreadyExists_Conflict();
+    testCreateGroup();
+    reset();
+    testCreateGroupWithProperties();
+  }
+
   public void testCreateGroup() throws IOException {
     final String newGroupName = "newGroup";
     RestResponse r = adminSession.put("/groups/" + newGroupName);
@@ -51,7 +59,6 @@ public class CreateGroupIT extends AbstractDaemonTest {
     assertGroupInfo(group, g);
   }
 
-  @Test
   public void testCreateGroupWithProperties() throws IOException {
     final String newGroupName = "newGroup";
     CreateGroup.Input in = new CreateGroup.Input();
@@ -67,14 +74,12 @@ public class CreateGroupIT extends AbstractDaemonTest {
     assertEquals(in.ownerId, group.getOwnerGroupUUID().get());
   }
 
-  @Test
   public void testCreateGroupWithoutCapability_Forbidden() throws OrmException,
       JSchException, IOException {
     RestResponse r = (new RestSession(server, user)).put("/groups/newGroup");
     assertEquals(HttpStatus.SC_FORBIDDEN, r.getStatusCode());
   }
 
-  @Test
   public void testCreateGroupWhenGroupAlreadyExists_Conflict()
       throws OrmException, JSchException, IOException {
     RestResponse r = adminSession.put("/groups/Administrators");

@@ -40,6 +40,24 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
   }
 
   @Test
+  public void testAll() throws Exception {
+    super.testAll();
+    reset();
+    submitWithCherryPickIfFastForwardPossible();
+    reset();
+    submitWithCherryPick();
+    reset();
+    submitWithContentMerge();
+    reset();
+    submitWithContentMerge_Conflict();
+    reset();
+    submitOutOfOrder();
+    reset();
+    submitOutOfOrder_Conflict();
+    reset();
+    submitMultipleChanges();
+  }
+
   public void submitWithCherryPickIfFastForwardPossible() throws JSchException,
       IOException, GitAPIException {
     Git git = createProject();
@@ -50,7 +68,6 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
         getRemoteHead().getParent(0));
   }
 
-  @Test
   public void submitWithCherryPick() throws Exception {
     Git git = createProject();
     RevCommit initialHead = getRemoteHead();
@@ -72,7 +89,6 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
     assertSubmitter(change2.getChangeId(), 2);
   }
 
-  @Test
   public void submitWithContentMerge() throws Exception {
     Git git = createProject();
     setUseContentMerge();
@@ -97,7 +113,6 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
     assertSubmitter(change2.getChangeId(), 2);
   }
 
-  @Test
   public void submitWithContentMerge_Conflict() throws Exception {
     Git git = createProject();
     setUseContentMerge();
@@ -116,7 +131,6 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
     assertSubmitter(change2.getChangeId(), 1);
   }
 
-  @Test
   public void submitOutOfOrder() throws Exception {
     Git git = createProject();
     RevCommit initialHead = getRemoteHead();
@@ -139,7 +153,6 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
     assertSubmitter(change3.getChangeId(), 2);
   }
 
-  @Test
   public void submitOutOfOrder_Conflict() throws Exception {
     Git git = createProject();
     RevCommit initialHead = getRemoteHead();
@@ -158,7 +171,6 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
     assertSubmitter(change3.getChangeId(), 1);
   }
 
-  @Test
   public void submitMultipleChanges()
       throws JSchException, IOException, GitAPIException, OrmException {
     Git git = createProject();

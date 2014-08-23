@@ -37,6 +37,15 @@ public class SetParentIT extends AbstractDaemonTest {
   private AllProjectsNameProvider allProjects;
 
   @Test
+  public void testAll() throws Exception {
+    setParent_Forbidden();
+    reset();
+    setParent();
+    setParentForAllProjects_Conflict();
+    setInvalidParent_Conflict();
+    setNonExistingParent_UnprocessibleEntity();
+  }
+
   public void setParent_Forbidden() throws IOException, JSchException {
     String parent = "parent";
     createProject(sshSession, parent, null, true);
@@ -47,7 +56,6 @@ public class SetParentIT extends AbstractDaemonTest {
     r.consume();
   }
 
-  @Test
   public void setParent() throws IOException, JSchException {
     String parent = "parent";
     createProject(sshSession, parent, null, true);
@@ -65,7 +73,6 @@ public class SetParentIT extends AbstractDaemonTest {
     r.consume();
   }
 
-  @Test
   public void setParentForAllProjects_Conflict() throws IOException {
     RestResponse r =
         adminSession.put("/projects/" + allProjects.get() + "/parent",
@@ -74,7 +81,6 @@ public class SetParentIT extends AbstractDaemonTest {
     r.consume();
   }
 
-  @Test
   public void setInvalidParent_Conflict() throws IOException, JSchException {
     RestResponse r =
         adminSession.put("/projects/" + project.get() + "/parent",
@@ -97,7 +103,6 @@ public class SetParentIT extends AbstractDaemonTest {
     r.consume();
   }
 
-  @Test
   public void setNonExistingParent_UnprocessibleEntity() throws IOException {
     RestResponse r =
         adminSession.put("/projects/" + project.get() + "/parent",

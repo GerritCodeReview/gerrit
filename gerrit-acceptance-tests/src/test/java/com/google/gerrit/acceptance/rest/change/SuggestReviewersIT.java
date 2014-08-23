@@ -34,7 +34,6 @@ import com.google.gerrit.server.change.SuggestReviewers.SuggestedReviewerInfo;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
-import com.google.gerrit.server.project.ProjectCache;
 import com.google.gson.reflect.TypeToken;
 import com.google.inject.Inject;
 
@@ -55,9 +54,6 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
 
   @Inject
   private AllProjectsName allProjects;
-
-  @Inject
-  private ProjectCache projectCache;
 
   private AccountGroup group1;
   private TestAccount user1;

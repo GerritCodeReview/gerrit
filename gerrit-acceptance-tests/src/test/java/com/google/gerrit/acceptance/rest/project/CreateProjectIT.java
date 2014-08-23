@@ -24,7 +24,6 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
-import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.api.projects.ProjectInput;
 import com.google.gerrit.extensions.common.InheritableBoolean;
 import com.google.gerrit.extensions.common.ProjectInfo;
@@ -36,7 +35,6 @@ import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.group.SystemGroupBackend;
-import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -59,18 +57,38 @@ import java.util.Set;
 public class CreateProjectIT extends AbstractDaemonTest {
 
   @Inject
-  private ProjectCache projectCache;
-
-  @Inject
   private GroupCache groupCache;
 
   @Inject
   private GitRepositoryManager git;
 
-  @Inject
-  private GerritApi gApi;
-
   @Test
+  public void testAll() throws Exception {
+    testCreateProjectApi();
+    reset();
+    testCreateProject();
+    reset();
+    testCreateProjectWithNameMismatch_BadRequest();
+    reset();
+    testCreateProjectWithProperties();
+    reset();
+    testCreateChildProject();
+    reset();
+    testCreateChildProjectUnderNonExistingParent_UnprocessableEntity();
+    reset();
+    testCreateProjectWithOwner();
+    reset();
+    testCreateProjectWithNonExistingOwner_UnprocessableEntity();
+    reset();
+    testCreatePermissionOnlyProject();
+    reset();
+    testCreateProjectWithEmptyCommit();
+    reset();
+    testCreateProjectWithBranches();
+    reset();
+    testCreateProjectWhenProjectAlreadyExists_Conflict();
+  }
+
   public void testCreateProjectApi() throws RestApiException, IOException {
     final String newProjectName = "newProject";
     ProjectInfo p = gApi.projects().name(newProjectName).create().get();
@@ -81,7 +99,6 @@ public class CreateProjectIT extends AbstractDaemonTest {
     assertHead(newProjectName, "refs/heads/master");
   }
 
-  @Test
   public void testCreateProject() throws IOException {
     final String newProjectName = "newProject";
     RestResponse r = adminSession.put("/projects/" + newProjectName);
@@ -94,7 +111,6 @@ public class CreateProjectIT extends AbstractDaemonTest {
     assertHead(newProjectName, "refs/heads/master");
   }
 
-  @Test
   public void testCreateProjectWithNameMismatch_BadRequest() throws IOException {
     ProjectInput in = new ProjectInput();
     in.name = "otherName";
@@ -102,7 +118,6 @@ public class CreateProjectIT extends AbstractDaemonTest {
     assertEquals(HttpStatus.SC_BAD_REQUEST, r.getStatusCode());
   }
 
-  @Test
   public void testCreateProjectWithProperties() throws IOException {
     final String newProjectName = "newProject";
     ProjectInput in = new ProjectInput();
@@ -125,7 +140,6 @@ public class CreateProjectIT extends AbstractDaemonTest {
     assertEquals(in.requireChangeId, project.getRequireChangeID());
   }
 
-  @Test
   public void testCreateChildProject() throws IOException {
     final String parentName = "parent";
     RestResponse r = adminSession.put("/projects/" + parentName);
@@ -138,7 +152,6 @@ public class CreateProjectIT extends AbstractDaemonTest {
     assertEquals(in.parent, project.getParentName());
   }
 
-  @Test
   public void testCreateChildProjectUnderNonExistingParent_UnprocessableEntity()
       throws IOException {
     ProjectInput in = new ProjectInput();
@@ -147,7 +160,6 @@ public class CreateProjectIT extends AbstractDaemonTest {
     assertEquals(HttpStatus.SC_UNPROCESSABLE_ENTITY, r.getStatusCode());
   }
 
-  @Test
   public void testCreateProjectWithOwner() throws IOException {
     final String newProjectName = "newProject";
     ProjectInput in = new ProjectInput();
@@ -165,7 +177,6 @@ public class CreateProjectIT extends AbstractDaemonTest {
     assertProjectOwners(expectedOwnerIds, projectState);
   }
 
-  @Test
   public void testCreateProjectWithNonExistingOwner_UnprocessableEntity()
       throws IOException {
     ProjectInput in = new ProjectInput();
@@ -174,7 +185,6 @@ public class CreateProjectIT extends AbstractDaemonTest {
     assertEquals(HttpStatus.SC_UNPROCESSABLE_ENTITY, r.getStatusCode());
   }
 
-  @Test
   public void testCreatePermissionOnlyProject() throws IOException {
     final String newProjectName = "newProject";
     ProjectInput in = new ProjectInput();
@@ -183,7 +193,6 @@ public class CreateProjectIT extends AbstractDaemonTest {
     assertHead(newProjectName, RefNames.REFS_CONFIG);
   }
 
-  @Test
   public void testCreateProjectWithEmptyCommit() throws IOException {
     final String newProjectName = "newProject";
     ProjectInput in = new ProjectInput();
@@ -192,7 +201,6 @@ public class CreateProjectIT extends AbstractDaemonTest {
     assertEmptyCommit(newProjectName, "refs/heads/master");
   }
 
-  @Test
   public void testCreateProjectWithBranches() throws IOException {
     final String newProjectName = "newProject";
     ProjectInput in = new ProjectInput();
@@ -207,14 +215,12 @@ public class CreateProjectIT extends AbstractDaemonTest {
         "refs/heads/release");
   }
 
-  @Test
   public void testCreateProjectWithoutCapability_Forbidden() throws OrmException,
       JSchException, IOException {
     RestResponse r = userSession.put("/projects/newProject");
     assertEquals(HttpStatus.SC_FORBIDDEN, r.getStatusCode());
   }
 
-  @Test
   public void testCreateProjectWhenProjectAlreadyExists_Conflict()
       throws OrmException, JSchException, IOException {
     RestResponse r = adminSession.put("/projects/All-Projects");

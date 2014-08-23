@@ -28,7 +28,6 @@ import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.ProjectConfig;
-import com.google.gerrit.server.project.ProjectCache;
 import com.google.inject.Inject;
 
 import org.apache.http.HttpStatus;
@@ -37,7 +36,6 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 
 public class GetCommitIT extends AbstractDaemonTest {
@@ -47,13 +45,27 @@ public class GetCommitIT extends AbstractDaemonTest {
   @Inject
   private GitRepositoryManager repoManager;
 
-  @Inject
-  private ProjectCache projectCache;
-
   private TestRepository<Repository> repo;
 
-  @Before
-  public void setUp() throws Exception {
+  @Test
+  public void testAll() throws Exception {
+    getNonExistingCommit_NotFound();
+    reset();
+    getMergedCommit_Found();
+    reset();
+    getMergedCommit_NotFound();
+    reset();
+    getOpenChange_Found();
+    reset();
+    getOpenChange_NotFound();
+  }
+
+  @Override
+  protected void init() throws Exception {
+    super.init();
+    if (repo != null) {
+      repo.getRepository().close();
+    }
     repo = new TestRepository<>(repoManager.openRepository(project));
 
     ProjectConfig pc = projectCache.checkedGet(allProjects).getConfig();
@@ -70,13 +82,11 @@ public class GetCommitIT extends AbstractDaemonTest {
     }
   }
 
-  @Test
   public void getNonExistingCommit_NotFound() throws Exception {
     assertNotFound(
         ObjectId.fromString("deadbeefdeadbeefdeadbeefdeadbeefdeadbeef"));
   }
 
-  @Test
   public void getMergedCommit_Found() throws Exception {
     allow(Permission.READ, REGISTERED_USERS, "refs/heads/*");
     RevCommit commit = repo.parseBody(repo.branch("master")
@@ -101,7 +111,6 @@ public class GetCommitIT extends AbstractDaemonTest {
     assertNull(parent.committer);
   }
 
-  @Test
   public void getMergedCommit_NotFound() throws Exception {
     RevCommit commit = repo.parseBody(repo.branch("master")
         .commit()
@@ -110,7 +119,6 @@ public class GetCommitIT extends AbstractDaemonTest {
     assertNotFound(commit);
   }
 
-  @Test
   public void getOpenChange_Found() throws Exception {
     allow(Permission.READ, REGISTERED_USERS, "refs/heads/*");
     PushOneCommit.Result r = pushFactory.create(db, admin.getIdent())
@@ -135,7 +143,6 @@ public class GetCommitIT extends AbstractDaemonTest {
     assertNull(parent.committer);
   }
 
-  @Test
   public void getOpenChange_NotFound() throws Exception {
     PushOneCommit.Result r = pushFactory.create(db, admin.getIdent())
         .to(git, "refs/for/master");

@@ -17,6 +17,7 @@ package com.google.gerrit.acceptance.rest.group;
 import static com.google.gerrit.acceptance.rest.group.GroupAssert.assertGroupInfo;
 import static com.google.gerrit.acceptance.rest.group.GroupAssert.assertGroups;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import com.google.common.base.Function;
@@ -48,6 +49,16 @@ public class ListGroupsIT extends AbstractDaemonTest {
   private GroupCache groupCache;
 
   @Test
+  public void testAll() throws Exception {
+    testListAllGroups();
+    testOnlyVisibleGroupsReturned();
+    testAllGroupInfoFieldsSetCorrectly();
+    testGetGroup();
+    defaultGroupsCreated_ssh();
+    defaultGroupsCreated_rest();
+    defaultGroupsCreated_internals();
+  }
+
   public void testListAllGroups() throws IOException, OrmException {
     Iterable<String> expectedGroups = Iterables.transform(groupCache.all(),
         new Function<AccountGroup, String>() {
@@ -64,7 +75,6 @@ public class ListGroupsIT extends AbstractDaemonTest {
     assertGroups(expectedGroups, result.keySet());
   }
 
-  @Test
   public void testOnlyVisibleGroupsReturned() throws OrmException,
       JSchException, IOException {
     String newGroupName = "newGroup";
@@ -92,7 +102,6 @@ public class ListGroupsIT extends AbstractDaemonTest {
     assertGroups(expectedGroups, result.keySet());
   }
 
-  @Test
   public void testAllGroupInfoFieldsSetCorrectly() throws IOException,
       OrmException {
     AccountGroup adminGroup = groupCache.get(new AccountGroup.NameKey("Administrators"));
@@ -102,5 +111,52 @@ public class ListGroupsIT extends AbstractDaemonTest {
             new TypeToken<Map<String, GroupInfo>>() {}.getType());
     GroupInfo adminGroupInfo = result.get(adminGroup.getName());
     assertGroupInfo(adminGroup, adminGroupInfo);
+  }
+
+  public void testGetGroup() throws IOException {
+    AccountGroup adminGroup = groupCache.get(new AccountGroup.NameKey("Administrators"));
+
+    // by UUID
+    testGetGroup("/groups/" + adminGroup.getGroupUUID().get(), adminGroup);
+
+    // by name
+    testGetGroup("/groups/" + adminGroup.getName(), adminGroup);
+
+    // by legacy numeric ID
+    testGetGroup("/groups/" + adminGroup.getId().get(), adminGroup);
+  }
+
+  public void defaultGroupsCreated_ssh() throws JSchException, IOException {
+    String result = sshSession.exec("gerrit ls-groups");
+    assertFalse(sshSession.getError(), sshSession.hasError());
+    assertTrue(result.contains("Administrators"));
+    assertTrue(result.contains("Non-Interactive Users"));
+    sshSession.close();
+  }
+
+  public void defaultGroupsCreated_rest() throws IOException {
+    RestResponse r = adminSession.get("/groups/");
+    Map<String, GroupInfo> result =
+        newGson().fromJson(r.getReader(),
+            new TypeToken<Map<String, GroupInfo>>() {}.getType());
+    Set<String> names = result.keySet();
+    assertTrue(names.contains("Administrators"));
+    assertTrue(names.contains("Non-Interactive Users"));
+  }
+
+  public void defaultGroupsCreated_internals() throws OrmException {
+    Set<String> names = Sets.newHashSet();
+    for (AccountGroup g : db.accountGroups().all()) {
+      names.add(g.getName());
+    }
+    assertTrue(names.contains("Administrators"));
+    assertTrue(names.contains("Non-Interactive Users"));
+  }
+
+  private void testGetGroup(String url, AccountGroup expectedGroup)
+      throws IOException {
+    RestResponse r = adminSession.get(url);
+    GroupInfo group = newGson().fromJson(r.getReader(), GroupInfo.class);
+    assertGroupInfo(expectedGroup, group);
   }
 }

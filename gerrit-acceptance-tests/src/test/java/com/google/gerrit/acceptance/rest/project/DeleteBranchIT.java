@@ -28,7 +28,6 @@ import com.google.gerrit.server.git.ProjectConfig;
 import com.google.inject.Inject;
 
 import org.apache.http.HttpStatus;
-import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -39,14 +38,25 @@ public class DeleteBranchIT extends AbstractDaemonTest {
 
   private Branch.NameKey branch;
 
-  @Before
-  public void setUp() throws Exception {
+  @Override
+  protected void init() throws Exception {
+    super.init();
     branch = new Branch.NameKey(project, "test");
     adminSession.put("/projects/" + project.get()
         + "/branches/" + branch.getShortName()).consume();
   }
 
   @Test
+  public void testAll() throws Exception {
+    deleteBranch_Forbidden();
+    deleteBranchByProjectOwnerForcePushBlocked_Forbidden();
+    deleteBranchByAdminForcePushBlocked();
+    reset();
+    deleteBranchByAdmin();
+    reset();
+    deleteBranchByProjectOwner();
+  }
+
   public void deleteBranch_Forbidden() throws IOException {
     RestResponse r =
         userSession.delete("/projects/" + project.get()
@@ -55,7 +65,6 @@ public class DeleteBranchIT extends AbstractDaemonTest {
     r.consume();
   }
 
-  @Test
   public void deleteBranchByAdmin() throws IOException {
     RestResponse r =
         adminSession.delete("/projects/" + project.get()
@@ -69,7 +78,6 @@ public class DeleteBranchIT extends AbstractDaemonTest {
     r.consume();
   }
 
-  @Test
   public void deleteBranchByProjectOwner() throws Exception {
     grantOwner();
 
@@ -100,7 +108,6 @@ public class DeleteBranchIT extends AbstractDaemonTest {
     r.consume();
   }
 
-  @Test
   public void deleteBranchByProjectOwnerForcePushBlocked_Forbidden()
       throws Exception {
     grantOwner();

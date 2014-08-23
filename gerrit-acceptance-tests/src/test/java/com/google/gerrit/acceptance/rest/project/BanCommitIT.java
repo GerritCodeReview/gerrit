@@ -38,6 +38,12 @@ import java.io.IOException;
 public class BanCommitIT extends AbstractDaemonTest {
 
   @Test
+  public void testAll() throws Exception {
+    banCommit();
+    banAlreadyBannedCommit();
+    banCommit_Forbidden();
+  }
+
   public void banCommit() throws IOException, GitAPIException {
     add(git, "a.txt", "some content");
     Commit c = createCommit(git, admin.getIdent(), "subject");
@@ -56,7 +62,6 @@ public class BanCommitIT extends AbstractDaemonTest {
         .startsWith("contains banned commit"));
   }
 
-  @Test
   public void banAlreadyBannedCommit() throws IOException, GitAPIException {
     RestResponse r =
         adminSession.put("/projects/" + project.get() + "/ban/",
@@ -72,7 +77,6 @@ public class BanCommitIT extends AbstractDaemonTest {
     assertNull(info.ignored);
   }
 
-  @Test
   public void banCommit_Forbidden() throws IOException {
     RestResponse r =
         userSession.put("/projects/" + project.get() + "/ban/",

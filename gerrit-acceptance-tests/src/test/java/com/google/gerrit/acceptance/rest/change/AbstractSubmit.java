@@ -28,7 +28,6 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.RestResponse;
-import com.google.gerrit.acceptance.SshSession;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.common.InheritableBoolean;
@@ -57,9 +56,6 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -78,20 +74,18 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   @Inject
   private ApprovalsUtil approvalsUtil;
 
-
-  @Before
-  public void setUp() throws Exception {
+  @Override
+  protected void init() throws Exception {
+    super.init();
     project = new Project.NameKey("p2");
-  }
-
-  @After
-  public void cleanup() {
-    db.close();
   }
 
   protected abstract SubmitType getSubmitType();
 
-  @Test
+  public void testAll() throws Exception {
+    submitToEmptyRepo();
+  }
+
   public void submitToEmptyRepo() throws JSchException, IOException,
       GitAPIException {
     Git git = createProject(false);
@@ -107,7 +101,6 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
 
   private Git createProject(boolean emptyCommit)
       throws JSchException, IOException, GitAPIException {
-    SshSession sshSession = new SshSession(server, admin);
     try {
       GitUtil.createProject(sshSession, project.get(), null, emptyCommit);
       setSubmitType(getSubmitType());

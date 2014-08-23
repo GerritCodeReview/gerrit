@@ -18,6 +18,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
@@ -50,6 +51,46 @@ import java.util.Set;
 public class ChangeIT extends AbstractDaemonTest {
 
   @Test
+  public void testAll() throws Exception {
+    get();
+    reset();
+    abandon();
+    reset();
+    restore();
+    reset();
+    revert();
+    reset();
+    rebase();
+    reset();
+    addReviewer();
+    reset();
+    addReviewerToClosedChange();
+    reset();
+    createEmptyChange();
+    reset();
+    queryChangesNoQuery();
+    reset();
+    queryChangesNoResults();
+    reset();
+    queryChangesOneTerm();
+    reset();
+    queryChangesMultipleTerms();
+    reset();
+    queryChangesLimit();
+    reset();
+    queryChangesStart();
+    reset();
+    queryChangesNoOptions();
+    reset();
+    queryChangesOptions();
+    reset();
+    queryChangesOwnerWithDifferentUsers();
+    reset();
+    checkReviewedFlagBeforeAndAfterReview();
+    reset();
+    topic();
+  }
+
   public void get() throws GitAPIException,
       IOException, RestApiException {
     PushOneCommit.Result r = createChange();
@@ -66,7 +107,6 @@ public class ChangeIT extends AbstractDaemonTest {
     assertEquals(1, c._number);
   }
 
-  @Test
   public void abandon() throws GitAPIException,
       IOException, RestApiException {
     PushOneCommit.Result r = createChange();
@@ -75,7 +115,6 @@ public class ChangeIT extends AbstractDaemonTest {
         .abandon();
   }
 
-  @Test
   public void restore() throws GitAPIException,
       IOException, RestApiException {
     PushOneCommit.Result r = createChange();
@@ -87,7 +126,6 @@ public class ChangeIT extends AbstractDaemonTest {
         .restore();
   }
 
-  @Test
   public void revert() throws GitAPIException,
       IOException, RestApiException {
     PushOneCommit.Result r = createChange();
@@ -104,30 +142,18 @@ public class ChangeIT extends AbstractDaemonTest {
         .revert();
   }
 
-  // Change is already up to date
-  @Test(expected = ResourceConflictException.class)
   public void rebase() throws GitAPIException,
       IOException, RestApiException {
     PushOneCommit.Result r = createChange();
-    gApi.changes()
-        .id(r.getChangeId())
-        .revision(r.getCommit().name())
-        .rebase();
+    try {
+      gApi.changes()
+          .id(r.getChangeId())
+          .revision(r.getCommit().name())
+          .rebase();
+      fail("Change should be already up to date");
+    } catch (ResourceConflictException rnfe) {}
   }
 
-  private Set<Account.Id> getReviewers(String changeId)
-      throws RestApiException {
-    ChangeInfo ci = gApi.changes().id(changeId).get();
-    Set<Account.Id> result = Sets.newHashSet();
-    for (LabelInfo li : ci.labels.values()) {
-      for (ApprovalInfo ai : li.all) {
-        result.add(new Account.Id(ai._accountId));
-      }
-    }
-    return result;
-  }
-
-  @Test
   public void addReviewer() throws GitAPIException,
       IOException, RestApiException {
     PushOneCommit.Result r = createChange();
@@ -139,7 +165,6 @@ public class ChangeIT extends AbstractDaemonTest {
     assertEquals(ImmutableSet.of(user.id), getReviewers(r.getChangeId()));
   }
 
-  @Test
   public void addReviewerToClosedChange() throws GitAPIException,
       IOException, RestApiException {
     PushOneCommit.Result r = createChange();
@@ -163,7 +188,6 @@ public class ChangeIT extends AbstractDaemonTest {
         getReviewers(r.getChangeId()));
   }
 
-  @Test
   public void createEmptyChange() throws RestApiException {
     ChangeInfo in = new ChangeInfo();
     in.branch = Constants.MASTER;
@@ -178,7 +202,6 @@ public class ChangeIT extends AbstractDaemonTest {
     assertEquals(in.subject, info.subject);
   }
 
-  @Test
   public void queryChangesNoQuery() throws Exception {
     PushOneCommit.Result r1 = createChange();
     PushOneCommit.Result r2 = createChange();
@@ -188,7 +211,6 @@ public class ChangeIT extends AbstractDaemonTest {
     assertEquals(r1.getChangeId(), results.get(1).changeId);
   }
 
-  @Test
   public void queryChangesNoResults() throws Exception {
     createChange();
     List<ChangeInfo> results = query("status:open");
@@ -197,7 +219,6 @@ public class ChangeIT extends AbstractDaemonTest {
     assertTrue(results.isEmpty());
   }
 
-  @Test
   public void queryChangesOneTerm() throws Exception {
     PushOneCommit.Result r1 = createChange();
     PushOneCommit.Result r2 = createChange();
@@ -207,7 +228,6 @@ public class ChangeIT extends AbstractDaemonTest {
     assertEquals(r1.getChangeId(), results.get(1).changeId);
   }
 
-  @Test
   public void queryChangesMultipleTerms() throws Exception {
     PushOneCommit.Result r1 = createChange();
     createChange();
@@ -215,7 +235,6 @@ public class ChangeIT extends AbstractDaemonTest {
     assertEquals(r1.getChangeId(), Iterables.getOnlyElement(results).changeId);
   }
 
-  @Test
   public void queryChangesLimit() throws Exception {
     createChange();
     PushOneCommit.Result r2 = createChange();
@@ -224,7 +243,6 @@ public class ChangeIT extends AbstractDaemonTest {
     assertEquals(r2.getChangeId(), Iterables.getOnlyElement(results).changeId);
   }
 
-  @Test
   public void queryChangesStart() throws Exception {
     PushOneCommit.Result r1 = createChange();
     createChange();
@@ -232,7 +250,6 @@ public class ChangeIT extends AbstractDaemonTest {
     assertEquals(r1.getChangeId(), Iterables.getOnlyElement(results).changeId);
   }
 
-  @Test
   public void queryChangesNoOptions() throws Exception {
     PushOneCommit.Result r = createChange();
     ChangeInfo result = Iterables.getOnlyElement(query(r.getChangeId()));
@@ -242,7 +259,6 @@ public class ChangeIT extends AbstractDaemonTest {
     assertNull(result.actions);
   }
 
-  @Test
   public void queryChangesOptions() throws Exception {
     PushOneCommit.Result r = createChange();
     ChangeInfo result = Iterables.getOnlyElement(gApi.changes()
@@ -259,7 +275,6 @@ public class ChangeIT extends AbstractDaemonTest {
     assertFalse(rev.actions.isEmpty());
   }
 
-  @Test
   public void queryChangesOwnerWithDifferentUsers() throws Exception {
     PushOneCommit.Result r = createChange();
     assertEquals(r.getChangeId(),
@@ -268,7 +283,6 @@ public class ChangeIT extends AbstractDaemonTest {
     assertTrue(query("owner:self").isEmpty());
   }
 
-  @Test
   public void checkReviewedFlagBeforeAndAfterReview() throws Exception {
     PushOneCommit.Result r = createChange();
     AddReviewerInput in = new AddReviewerInput();
@@ -284,7 +298,6 @@ public class ChangeIT extends AbstractDaemonTest {
     assertTrue(get(r.getChangeId()).reviewed);
   }
 
-  @Test
   public void topic() throws Exception {
     PushOneCommit.Result r = createChange();
     assertEquals("", gApi.changes()
@@ -302,5 +315,17 @@ public class ChangeIT extends AbstractDaemonTest {
     assertEquals("", gApi.changes()
         .id(r.getChangeId())
         .topic());
+  }
+
+  private Set<Account.Id> getReviewers(String changeId)
+      throws RestApiException {
+    ChangeInfo ci = gApi.changes().id(changeId).get();
+    Set<Account.Id> result = Sets.newHashSet();
+    for (LabelInfo li : ci.labels.values()) {
+      for (ApprovalInfo ai : li.all) {
+        result.add(new Account.Id(ai._accountId));
+      }
+    }
+    return result;
   }
 }

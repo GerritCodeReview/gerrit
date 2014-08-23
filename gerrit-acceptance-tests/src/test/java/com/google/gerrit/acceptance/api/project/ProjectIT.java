@@ -18,6 +18,7 @@ import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.fail;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
@@ -36,6 +37,18 @@ import java.util.List;
 public class ProjectIT extends AbstractDaemonTest  {
 
   @Test
+  public void testAll() throws Exception {
+    createProjectFoo();
+    reset();
+    createProjectFooBar();
+    reset();
+    createProjectDuplicate();
+    reset();
+    createBranch();
+    reset();
+    listProjects();
+  }
+
   public void createProjectFoo() throws RestApiException {
     String name = "foo";
     assertEquals(name,
@@ -46,28 +59,31 @@ public class ProjectIT extends AbstractDaemonTest  {
             .name);
   }
 
-  @Test(expected = RestApiException.class)
   public void createProjectFooBar() throws RestApiException {
     ProjectInput in = new ProjectInput();
     in.name = "foo";
-    gApi.projects()
-        .name("bar")
-        .create(in);
+    try {
+      gApi.projects()
+          .name("bar")
+          .create(in);
+      fail("name must match input.name exception expected");
+    } catch (RestApiException e) {}
   }
 
-  @Test(expected = ResourceConflictException.class)
   public void createProjectDuplicate() throws RestApiException {
     ProjectInput in = new ProjectInput();
     in.name = "baz";
     gApi.projects()
         .name("baz")
         .create(in);
-    gApi.projects()
-        .name("baz")
-        .create(in);
+    try {
+      gApi.projects()
+          .name("baz")
+          .create(in);
+      fail("project already exists exception expected");
+    } catch (ResourceConflictException e) {}
   }
 
-  @Test
   public void createBranch() throws Exception {
     allow(Permission.READ, ANONYMOUS_USERS, "refs/*");
     gApi.projects()
@@ -76,7 +92,6 @@ public class ProjectIT extends AbstractDaemonTest  {
         .create(new BranchInput());
   }
 
-  @Test
   public void listProjects() throws Exception {
     List<ProjectInfo> initialProjects = gApi.projects().list().get();
 

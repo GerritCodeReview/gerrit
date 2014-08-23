@@ -32,6 +32,14 @@ public class SubmitByFastForwardIT extends AbstractSubmit {
   }
 
   @Test
+  public void testAll() throws Exception {
+    super.testAll();
+    reset();
+    submitWithFastForward();
+    reset();
+    submitFastForwardNotPossible_Conflict();
+  }
+
   public void submitWithFastForward() throws Exception {
     Git git = createProject();
     RevCommit oldHead = getRemoteHead();
@@ -43,7 +51,6 @@ public class SubmitByFastForwardIT extends AbstractSubmit {
     assertSubmitter(change.getChangeId(), 1);
   }
 
-  @Test
   public void submitFastForwardNotPossible_Conflict() throws Exception {
     Git git = createProject();
     RevCommit initialHead = getRemoteHead();

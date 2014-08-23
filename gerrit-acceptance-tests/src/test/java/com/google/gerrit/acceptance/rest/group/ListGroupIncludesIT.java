@@ -36,17 +36,25 @@ import java.util.List;
 public class ListGroupIncludesIT extends AbstractDaemonTest {
 
   @Test
+  public void testAll() throws Exception {
+    listNonExistingGroupIncludes_NotFound();
+    reset();
+    listEmptyGroupIncludes();
+    reset();
+    listNonEmptyGroupIncludes();
+    reset();
+    listOneIncludeMember();
+  }
+
   public void listNonExistingGroupIncludes_NotFound() throws Exception {
     assertEquals(HttpStatus.SC_NOT_FOUND,
       adminSession.get("/groups/non-existing/groups/").getStatusCode());
   }
 
-  @Test
   public void listEmptyGroupIncludes() throws Exception {
     assertTrue(GET("/groups/Administrators/groups/").isEmpty());
   }
 
-  @Test
   public void listNonEmptyGroupIncludes() throws Exception {
     group("gx", "Administrators");
     group("gy", "Administrators");
@@ -56,7 +64,6 @@ public class ListGroupIncludesIT extends AbstractDaemonTest {
     assertIncludes(GET("/groups/Administrators/groups/"), "gx", "gy");
   }
 
-  @Test
   public void listOneIncludeMember() throws Exception {
     group("gx", "Administrators");
     group("gy", "Administrators");

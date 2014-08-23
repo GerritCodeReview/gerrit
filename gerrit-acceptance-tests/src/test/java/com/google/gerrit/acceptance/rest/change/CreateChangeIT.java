@@ -29,6 +29,15 @@ import org.junit.Test;
 public class CreateChangeIT extends AbstractDaemonTest {
 
   @Test
+  public void testAll() throws Exception {
+    createEmptyChange_MissingBranch();
+    createEmptyChange_MissingMessage();
+    createEmptyChange_InvalidStatus();
+    createNewChange();
+    reset();
+    createDraftChange();
+  }
+
   public void createEmptyChange_MissingBranch() throws Exception {
     ChangeInfo ci = new ChangeInfo();
     ci.project = project.get();
@@ -37,7 +46,6 @@ public class CreateChangeIT extends AbstractDaemonTest {
     assertTrue(r.getEntityContent().contains("branch must be non-empty"));
   }
 
-  @Test
   public void createEmptyChange_MissingMessage() throws Exception {
     ChangeInfo ci = new ChangeInfo();
     ci.project = project.get();
@@ -47,7 +55,6 @@ public class CreateChangeIT extends AbstractDaemonTest {
     assertTrue(r.getEntityContent().contains("commit message must be non-empty"));
   }
 
-  @Test
   public void createEmptyChange_InvalidStatus() throws Exception {
     ChangeInfo ci = newChangeInfo(ChangeStatus.SUBMITTED);
     RestResponse r = adminSession.post("/changes/", ci);
@@ -55,12 +62,10 @@ public class CreateChangeIT extends AbstractDaemonTest {
     assertTrue(r.getEntityContent().contains("unsupported change status"));
   }
 
-  @Test
   public void createNewChange() throws Exception {
     assertChange(newChangeInfo(ChangeStatus.NEW));
   }
 
-  @Test
   public void createDraftChange() throws Exception {
     assertChange(newChangeInfo(ChangeStatus.DRAFT));
   }

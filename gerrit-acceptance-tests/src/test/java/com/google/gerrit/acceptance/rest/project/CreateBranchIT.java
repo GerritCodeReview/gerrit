@@ -43,6 +43,19 @@ public class CreateBranchIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void testAll() throws Exception {
+    createBranch_Forbidden();
+    createBranchByAdmin();
+    reset();
+    branchAlreadyExists_Conflict();
+    reset();
+    createBranchByProjectOwner();
+    reset();
+    createBranchByAdminCreateReferenceBlocked();
+    reset();
+    createBranchByProjectOwnerCreateReferenceBlocked_Forbidden();
+  }
+
   public void createBranch_Forbidden() throws Exception {
     RestResponse r =
         userSession.put("/projects/" + project.get()
@@ -50,7 +63,6 @@ public class CreateBranchIT extends AbstractDaemonTest {
     assertEquals(HttpStatus.SC_FORBIDDEN, r.getStatusCode());
   }
 
-  @Test
   public void createBranchByAdmin() throws Exception {
     RestResponse r =
         adminSession.put("/projects/" + project.get()
@@ -63,7 +75,6 @@ public class CreateBranchIT extends AbstractDaemonTest {
     assertEquals(HttpStatus.SC_OK, r.getStatusCode());
   }
 
-  @Test
   public void branchAlreadyExists_Conflict() throws Exception {
     RestResponse r =
         adminSession.put("/projects/" + project.get()
@@ -76,7 +87,6 @@ public class CreateBranchIT extends AbstractDaemonTest {
     assertEquals(HttpStatus.SC_CONFLICT, r.getStatusCode());
   }
 
-  @Test
   public void createBranchByProjectOwner() throws Exception {
     grantOwner();
 
@@ -91,7 +101,6 @@ public class CreateBranchIT extends AbstractDaemonTest {
     assertEquals(HttpStatus.SC_OK, r.getStatusCode());
   }
 
-  @Test
   public void createBranchByAdminCreateReferenceBlocked() throws Exception {
     blockCreateReference();
     RestResponse r =
@@ -105,7 +114,6 @@ public class CreateBranchIT extends AbstractDaemonTest {
     assertEquals(HttpStatus.SC_OK, r.getStatusCode());
   }
 
-  @Test
   public void createBranchByProjectOwnerCreateReferenceBlocked_Forbidden()
       throws Exception {
     grantOwner();

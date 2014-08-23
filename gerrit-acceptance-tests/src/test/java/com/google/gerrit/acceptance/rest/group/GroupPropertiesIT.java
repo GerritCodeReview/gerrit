@@ -45,6 +45,16 @@ public class GroupPropertiesIT extends AbstractDaemonTest {
   private GroupCache groupCache;
 
   @Test
+  public void testAll() throws Exception {
+    testGroupName();
+    reset();
+    testGroupDescription();
+    reset();
+    testGroupOptions();
+    reset();
+    testGroupOwner();
+  }
+
   public void testGroupName() throws IOException {
     AccountGroup.NameKey adminGroupName = new AccountGroup.NameKey("Administrators");
     String url = "/groups/" + groupCache.get(adminGroupName).getGroupUUID().get() + "/name";
@@ -86,7 +96,6 @@ public class GroupPropertiesIT extends AbstractDaemonTest {
     r.consume();
   }
 
-  @Test
   public void testGroupDescription() throws IOException {
     AccountGroup.NameKey adminGroupName = new AccountGroup.NameKey("Administrators");
     AccountGroup adminGroup = groupCache.get(adminGroupName);
@@ -125,7 +134,6 @@ public class GroupPropertiesIT extends AbstractDaemonTest {
     assertNull(adminGroup.getDescription());
   }
 
-  @Test
   public void testGroupOptions() throws IOException {
     AccountGroup.NameKey adminGroupName = new AccountGroup.NameKey("Administrators");
     AccountGroup adminGroup = groupCache.get(adminGroupName);
@@ -150,7 +158,6 @@ public class GroupPropertiesIT extends AbstractDaemonTest {
     r.consume();
   }
 
-  @Test
   public void testGroupOwner() throws IOException {
     AccountGroup.NameKey adminGroupName = new AccountGroup.NameKey("Administrators");
     AccountGroup adminGroup = groupCache.get(adminGroupName);

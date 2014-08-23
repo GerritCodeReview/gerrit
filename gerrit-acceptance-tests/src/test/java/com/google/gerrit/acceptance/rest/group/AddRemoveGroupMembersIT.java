@@ -31,7 +31,6 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroupById;
 import com.google.gerrit.reviewdb.client.AccountGroupMember;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.account.AccountInfo;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.group.AddIncludedGroups;
@@ -41,12 +40,9 @@ import com.google.gerrit.server.group.GroupJson.GroupInfo;
 import com.google.gson.reflect.TypeToken;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
-import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 
 import org.apache.http.HttpStatus;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -58,36 +54,37 @@ import java.util.Set;
 public class AddRemoveGroupMembersIT extends AbstractDaemonTest {
 
   @Inject
-  private SchemaFactory<ReviewDb> reviewDbProvider;
-
-  @Inject
   private GroupCache groupCache;
 
-  private ReviewDb db;
-
-  @Before
-  public void setUp() throws Exception {
-    db = reviewDbProvider.open();
-  }
-
-  @After
-  public void tearDown() {
-    db.close();
-  }
-
   @Test
+  public void testAll() throws Exception {
+    addToNonExistingGroup_NotFound();
+    reset();
+    removeFromNonExistingGroup_NotFound();
+    reset();
+    addRemoveMember();
+    reset();
+    addExistingMember_OK();
+    reset();
+    addMultipleMembers();
+    reset();
+    includeRemoveGroup();
+    reset();
+    includeExistingGroup_OK();
+    reset();
+    addMultipleIncludes();
+  }
+
   public void addToNonExistingGroup_NotFound() throws IOException {
     assertEquals(HttpStatus.SC_NOT_FOUND,
         PUT("/groups/non-existing/members/admin").getStatusCode());
   }
 
-  @Test
   public void removeFromNonExistingGroup_NotFound() throws IOException {
     assertEquals(HttpStatus.SC_NOT_FOUND,
         DELETE("/groups/non-existing/members/admin"));
   }
 
-  @Test
   public void addRemoveMember() throws Exception {
     RestResponse r = PUT("/groups/Administrators/members/user");
     assertEquals(HttpStatus.SC_CREATED, r.getStatusCode());
@@ -101,13 +98,11 @@ public class AddRemoveGroupMembersIT extends AbstractDaemonTest {
     assertMembers("Administrators", admin);
   }
 
-  @Test
   public void addExistingMember_OK() throws IOException {
     assertEquals(HttpStatus.SC_OK,
         PUT("/groups/Administrators/members/admin").getStatusCode());
   }
 
-  @Test
   public void addMultipleMembers() throws Exception {
     group("users");
     TestAccount u1 = accounts.create("u1", "u1@example.com", "Full Name 1");
@@ -122,7 +117,6 @@ public class AddRemoveGroupMembersIT extends AbstractDaemonTest {
     assertMembers(ai, u1, u2);
   }
 
-  @Test
   public void includeRemoveGroup() throws Exception {
     group("newGroup");
     RestResponse r = PUT("/groups/Administrators/groups/newGroup");
@@ -137,7 +131,6 @@ public class AddRemoveGroupMembersIT extends AbstractDaemonTest {
     assertNoIncludes("Administrators");
   }
 
-  @Test
   public void includeExistingGroup_OK() throws Exception {
     group("newGroup");
     PUT("/groups/Administrators/groups/newGroup").consume();
@@ -145,7 +138,6 @@ public class AddRemoveGroupMembersIT extends AbstractDaemonTest {
         PUT("/groups/Administrators/groups/newGroup").getStatusCode());
   }
 
-  @Test
   public void addMultipleIncludes() throws Exception {
     group("newGroup1");
     group("newGroup2");

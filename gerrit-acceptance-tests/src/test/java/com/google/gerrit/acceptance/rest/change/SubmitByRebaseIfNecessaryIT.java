@@ -32,6 +32,18 @@ public class SubmitByRebaseIfNecessaryIT extends AbstractSubmit {
   }
 
   @Test
+  public void testAll() throws Exception {
+    super.testAll();
+    reset();
+    submitWithFastForward();
+    reset();
+    submitWithRebase();
+    reset();
+    submitWithContentMerge();
+    reset();
+    submitWithContentMerge_Conflict();
+  }
+
   public void submitWithFastForward() throws Exception {
     Git git = createProject();
     RevCommit oldHead = getRemoteHead();
@@ -45,7 +57,6 @@ public class SubmitByRebaseIfNecessaryIT extends AbstractSubmit {
     assertSubmitter(change.getChangeId(), 1);
   }
 
-  @Test
   public void submitWithRebase() throws Exception {
     Git git = createProject();
     RevCommit initialHead = getRemoteHead();
@@ -67,7 +78,6 @@ public class SubmitByRebaseIfNecessaryIT extends AbstractSubmit {
     assertSubmitter(change2.getChangeId(), 2);
   }
 
-  @Test
   public void submitWithContentMerge() throws Exception {
     Git git = createProject();
     setUseContentMerge();
@@ -92,7 +102,6 @@ public class SubmitByRebaseIfNecessaryIT extends AbstractSubmit {
     assertSubmitter(change3.getChangeId(), 2);
   }
 
-  @Test
   public void submitWithContentMerge_Conflict() throws Exception {
     Git git = createProject();
     setUseContentMerge();

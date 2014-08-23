@@ -49,6 +49,27 @@ public class ListProjectsIT extends AbstractDaemonTest {
   private AllUsersName allUsers;
 
   @Test
+  public void testAll() throws Exception {
+    listProjects();
+    listProjectsWithBranch();
+    reset();
+    listProjectWithDescription();
+    reset();
+    listProjectsWithLimit();
+    reset();
+    listProjectsWithPrefix();
+    reset();
+    listProjectsWithRegex();
+    reset();
+    listProjectsWithSkip();
+    reset();
+    listProjectsWithSubstring();
+    reset();
+    listProjectsWithTree();
+    reset();
+    listProjectWithType();
+  }
+
   public void listProjects() throws IOException, JSchException {
     Project.NameKey someProject = new Project.NameKey("some-project");
     createProject(sshSession, someProject.get());
@@ -60,7 +81,6 @@ public class ListProjectsIT extends AbstractDaemonTest {
         result.values());
   }
 
-  @Test
   public void listProjectsWithBranch() throws IOException, JSchException {
     RestResponse r = GET("/projects/?b=master");
     assertEquals(HttpStatus.SC_OK, r.getStatusCode());
@@ -71,7 +91,6 @@ public class ListProjectsIT extends AbstractDaemonTest {
     assertNotNull(result.get(project.get()).branches.get("master"));
   }
 
-  @Test
   public void listProjectWithDescription() throws RestApiException, IOException {
     ProjectInput projectInput = new ProjectInput();
     projectInput.name = "some-project";
@@ -93,7 +112,6 @@ public class ListProjectsIT extends AbstractDaemonTest {
         result.get(projectInput.name).description);
   }
 
-  @Test
   public void listProjectsWithLimit() throws IOException, JSchException {
     for (int i = 0; i < 5; i++) {
       createProject(sshSession, new Project.NameKey("someProject" + i).get());
@@ -111,7 +129,6 @@ public class ListProjectsIT extends AbstractDaemonTest {
     assertEquals(2, result.size());
   }
 
-  @Test
   public void listProjectsWithPrefix() throws IOException, JSchException {
     Project.NameKey someProject = new Project.NameKey("some-project");
     createProject(sshSession, someProject.get());
@@ -133,7 +150,6 @@ public class ListProjectsIT extends AbstractDaemonTest {
         result.values());
   }
 
-  @Test
   public void listProjectsWithRegex() throws IOException, JSchException {
     Project.NameKey someProject = new Project.NameKey("some-project");
     createProject(sshSession, someProject.get());
@@ -167,7 +183,6 @@ public class ListProjectsIT extends AbstractDaemonTest {
         project, allUsers), result.values());
   }
 
-  @Test
   public void listProjectsWithSkip() throws IOException, JSchException {
     for (int i = 0; i < 5; i++) {
       createProject(sshSession, new Project.NameKey("someProject" + i).get());
@@ -185,7 +200,6 @@ public class ListProjectsIT extends AbstractDaemonTest {
     assertEquals(1, result.size());
   }
 
-  @Test
   public void listProjectsWithSubstring() throws IOException, JSchException {
     Project.NameKey someProject = new Project.NameKey("some-project");
     createProject(sshSession, someProject.get());
@@ -208,7 +222,6 @@ public class ListProjectsIT extends AbstractDaemonTest {
         result.values());
   }
 
-  @Test
   public void listProjectsWithTree() throws IOException, JSchException {
     Project.NameKey someParentProject =
         new Project.NameKey("some-parent-project");
@@ -225,7 +238,6 @@ public class ListProjectsIT extends AbstractDaemonTest {
         result.get(someChildProject.get()).parent);
   }
 
-  @Test
   public void listProjectWithType() throws RestApiException, IOException {
     RestResponse r = GET("/projects/?type=PERMISSIONS");
     assertEquals(HttpStatus.SC_OK, r.getStatusCode());

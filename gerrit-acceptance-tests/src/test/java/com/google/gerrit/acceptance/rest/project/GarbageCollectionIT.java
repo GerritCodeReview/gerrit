@@ -29,7 +29,6 @@ import com.google.inject.Inject;
 import com.jcraft.jsch.JSchException;
 
 import org.apache.http.HttpStatus;
-import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -45,8 +44,9 @@ public class GarbageCollectionIT extends AbstractDaemonTest {
   private Project.NameKey project1;
   private Project.NameKey project2;
 
-  @Before
-  public void setUp() throws Exception {
+  @Override
+  protected void init() throws Exception {
+    super.init();
     project1 = new Project.NameKey("p1");
     createProject(sshSession, project1.get());
 
@@ -55,11 +55,15 @@ public class GarbageCollectionIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void testAll() throws Exception {
+    testGcNonExistingProject_NotFound();
+    testGcNotAllowed_Forbidden();
+  }
+
   public void testGcNonExistingProject_NotFound() throws IOException {
     assertEquals(HttpStatus.SC_NOT_FOUND, POST("/projects/non-existing/gc"));
   }
 
-  @Test
   public void testGcNotAllowed_Forbidden() throws IOException, OrmException,
       JSchException {
     assertEquals(HttpStatus.SC_FORBIDDEN,

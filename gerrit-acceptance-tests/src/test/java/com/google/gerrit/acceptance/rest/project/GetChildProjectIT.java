@@ -20,11 +20,9 @@ import static org.junit.Assert.assertEquals;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
-import com.google.gerrit.acceptance.SshSession;
 import com.google.gerrit.extensions.common.ProjectInfo;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.AllProjectsName;
-import com.google.gerrit.server.project.ProjectCache;
 import com.google.inject.Inject;
 
 import com.jcraft.jsch.JSchException;
@@ -39,33 +37,35 @@ public class GetChildProjectIT extends AbstractDaemonTest {
   @Inject
   private AllProjectsName allProjects;
 
-  @Inject
-  private ProjectCache projectCache;
-
   @Test
+  public void testAll() throws Exception {
+    getNonExistingChildProject_NotFound();
+    getNonChildProject_NotFound();
+    reset();
+    getChildProject();
+    reset();
+    getGrandChildProject_NotFound();
+    reset();
+    getGrandChildProjectWithRecursiveFlag();
+  }
+
   public void getNonExistingChildProject_NotFound() throws IOException {
     assertEquals(HttpStatus.SC_NOT_FOUND,
         GET("/projects/" + allProjects.get() + "/children/non-existing").getStatusCode());
   }
 
-  @Test
   public void getNonChildProject_NotFound() throws IOException, JSchException {
-    SshSession sshSession = new SshSession(server, admin);
     Project.NameKey p1 = new Project.NameKey("p1");
     createProject(sshSession, p1.get());
     Project.NameKey p2 = new Project.NameKey("p2");
     createProject(sshSession, p2.get());
-    sshSession.close();
     assertEquals(HttpStatus.SC_NOT_FOUND,
         GET("/projects/" + p1.get() + "/children/" + p2.get()).getStatusCode());
   }
 
-  @Test
   public void getChildProject() throws IOException, JSchException {
-    SshSession sshSession = new SshSession(server, admin);
     Project.NameKey child = new Project.NameKey("p1");
     createProject(sshSession, child.get());
-    sshSession.close();
     RestResponse r = GET("/projects/" + allProjects.get() + "/children/" + child.get());
     assertEquals(HttpStatus.SC_OK, r.getStatusCode());
     ProjectInfo childInfo =
@@ -73,28 +73,22 @@ public class GetChildProjectIT extends AbstractDaemonTest {
     assertProjectInfo(projectCache.get(child).getProject(), childInfo);
   }
 
-  @Test
   public void getGrandChildProject_NotFound() throws IOException, JSchException {
-    SshSession sshSession = new SshSession(server, admin);
     Project.NameKey child = new Project.NameKey("p1");
     createProject(sshSession, child.get());
     Project.NameKey grandChild = new Project.NameKey("p1.1");
     createProject(sshSession, grandChild.get(), child);
-    sshSession.close();
     assertEquals(HttpStatus.SC_NOT_FOUND,
         GET("/projects/" + allProjects.get() + "/children/" + grandChild.get())
             .getStatusCode());
   }
 
-  @Test
   public void getGrandChildProjectWithRecursiveFlag() throws IOException,
       JSchException {
-    SshSession sshSession = new SshSession(server, admin);
     Project.NameKey child = new Project.NameKey("p1");
     createProject(sshSession, child.get());
     Project.NameKey grandChild = new Project.NameKey("p1.1");
     createProject(sshSession, grandChild.get(), child);
-    sshSession.close();
     RestResponse r =
         GET("/projects/" + allProjects.get() + "/children/" + grandChild.get()
             + "?recursive");

@@ -29,9 +29,16 @@ import org.junit.Test;
 import java.io.IOException;
 import java.util.List;
 
-public class ListTasksIT extends AbstractDaemonTest {
+public class TasksIT extends AbstractDaemonTest {
 
   @Test
+  public void testAll() throws Exception {
+    listTasks();
+    listTasksWithoutViewQueueCapability();
+    killTask();
+    killTask_NotFound();
+  }
+
   public void listTasks() throws IOException {
     RestResponse r = adminSession.get("/config/server/tasks/");
     assertEquals(HttpStatus.SC_OK, r.getStatusCode());
@@ -52,7 +59,6 @@ public class ListTasksIT extends AbstractDaemonTest {
     assertTrue(foundLogFileCompressorTask);
   }
 
-  @Test
   public void listTasksWithoutViewQueueCapability() throws IOException {
     RestResponse r = userSession.get("/config/server/tasks/");
     assertEquals(HttpStatus.SC_OK, r.getStatusCode());
@@ -61,5 +67,35 @@ public class ListTasksIT extends AbstractDaemonTest {
             new TypeToken<List<TaskInfo>>() {}.getType());
 
     assertTrue(result.isEmpty());
+  }
+
+  public void killTask() throws IOException {
+    RestResponse r = adminSession.get("/config/server/tasks/");
+    List<TaskInfo> result = newGson().fromJson(r.getReader(),
+        new TypeToken<List<TaskInfo>>() {}.getType());
+    r.consume();
+    int taskCount = result.size();
+    assertTrue(taskCount > 0);
+
+    r = adminSession.delete("/config/server/tasks/" + result.get(0).id);
+    assertEquals(HttpStatus.SC_NO_CONTENT, r.getStatusCode());
+    r.consume();
+
+    r = adminSession.get("/config/server/tasks/");
+    result = newGson().fromJson(r.getReader(),
+        new TypeToken<List<TaskInfo>>() {}.getType());
+    r.consume();
+    assertEquals(taskCount - 1, result.size());
+  }
+
+  public void killTask_NotFound() throws IOException {
+    RestResponse r = adminSession.get("/config/server/tasks/");
+    List<TaskInfo> result = newGson().fromJson(r.getReader(),
+        new TypeToken<List<TaskInfo>>() {}.getType());
+    r.consume();
+    assertTrue(result.size() > 0);
+
+    r = userSession.delete("/config/server/tasks/" + result.get(0).id);
+    assertEquals(HttpStatus.SC_NOT_FOUND, r.getStatusCode());
   }
 }

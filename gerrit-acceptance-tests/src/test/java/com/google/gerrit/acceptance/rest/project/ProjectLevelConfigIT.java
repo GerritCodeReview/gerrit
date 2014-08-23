@@ -23,7 +23,6 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.config.AllProjectsNameProvider;
-import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
 
@@ -37,9 +36,6 @@ import java.io.IOException;
 
 public class ProjectLevelConfigIT extends AbstractDaemonTest {
   @Inject
-  private ProjectCache projectCache;
-
-  @Inject
   private AllProjectsNameProvider allProjects;
 
   @Inject
@@ -52,6 +48,12 @@ public class ProjectLevelConfigIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void testAll() throws Exception {
+    nonExistingConfig();
+    accessProjectSpecificConfig();
+    withInheritance();
+  }
+
   public void accessProjectSpecificConfig() throws GitAPIException, IOException {
     String configName = "test.config";
     Config cfg = new Config();
@@ -66,13 +68,11 @@ public class ProjectLevelConfigIT extends AbstractDaemonTest {
     assertEquals(cfg.toText(), state.getConfig(configName).get().toText());
   }
 
-  @Test
   public void nonExistingConfig() {
     ProjectState state = projectCache.get(project);
     assertEquals("", state.getConfig("test.config").get().toText());
   }
 
-  @Test
   public void withInheritance() throws GitAPIException, IOException {
     String configName = "test.config";
 

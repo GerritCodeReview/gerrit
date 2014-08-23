@@ -25,6 +25,14 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
   }
 
   @Test
+  public void testAll() throws Exception {
+    super.testAll();
+    reset();
+    submitWithFastForward();
+    reset();
+    submitMultipleChanges();
+  }
+
   public void submitWithFastForward() throws Exception {
     Git git = createProject();
     RevCommit oldHead = getRemoteHead();
@@ -36,7 +44,6 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
     assertSubmitter(change.getChangeId(), 1);
   }
 
-  @Test
   public void submitMultipleChanges()
       throws JSchException, IOException, GitAPIException, OrmException {
     Git git = createProject();

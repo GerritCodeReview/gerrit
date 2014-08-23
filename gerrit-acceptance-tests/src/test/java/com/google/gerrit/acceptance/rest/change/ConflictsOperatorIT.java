@@ -42,6 +42,12 @@ public class ConflictsOperatorIT extends AbstractDaemonTest {
   private int count;
 
   @Test
+  public void testAll() throws Exception {
+    noConflictingChanges();
+    reset();
+    conflictingChanges();
+  }
+
   public void noConflictingChanges() throws JSchException, IOException,
       GitAPIException {
     PushOneCommit.Result change = createChange(git, true);
@@ -51,7 +57,6 @@ public class ConflictsOperatorIT extends AbstractDaemonTest {
     assertEquals(0, changes.size());
   }
 
-  @Test
   public void conflictingChanges() throws JSchException, IOException,
       GitAPIException {
     PushOneCommit.Result change = createChange(git, true);

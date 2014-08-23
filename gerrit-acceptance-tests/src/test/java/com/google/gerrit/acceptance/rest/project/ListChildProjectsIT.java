@@ -42,12 +42,19 @@ public class ListChildProjectsIT extends AbstractDaemonTest {
   private AllProjectsName allProjects;
 
   @Test
+  public void testAll() throws Exception {
+    listChildrenOfNonExistingProject_NotFound();
+    listNoChildren();
+    listChildren();
+    reset();
+    listChildrenRecursively();
+  }
+
   public void listChildrenOfNonExistingProject_NotFound() throws IOException {
     assertEquals(HttpStatus.SC_NOT_FOUND,
         GET("/projects/non-existing/children/").getStatusCode());
   }
 
-  @Test
   public void listNoChildren() throws IOException {
     RestResponse r = GET("/projects/" + allProjects.get() + "/children/");
     assertEquals(HttpStatus.SC_OK, r.getStatusCode());
@@ -56,7 +63,6 @@ public class ListChildProjectsIT extends AbstractDaemonTest {
     assertTrue(projectInfoList.size() == 2);
   }
 
-  @Test
   public void listChildren() throws IOException, JSchException {
     Project.NameKey existingProject = new Project.NameKey("p");
     Project.NameKey child1 = new Project.NameKey("p1");
@@ -74,7 +80,6 @@ public class ListChildProjectsIT extends AbstractDaemonTest {
         toProjectInfoList(r));
   }
 
-  @Test
   public void listChildrenRecursively() throws IOException, JSchException {
     Project.NameKey child1 = new Project.NameKey("p1");
     createProject(sshSession, child1.get());

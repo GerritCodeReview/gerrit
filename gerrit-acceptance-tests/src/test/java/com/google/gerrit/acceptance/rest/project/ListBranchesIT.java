@@ -42,19 +42,28 @@ import java.util.List;
 
 public class ListBranchesIT extends AbstractDaemonTest {
   @Test
+  public void testAll() throws Exception {
+    listBranchesOfNonExistingProject_NotFound();
+    listBranchesOfNonVisibleProject_NotFound();
+    listBranchesOfEmptyProject();
+    reset();
+    listBranches();
+    listBranchesSomeHidden();
+    reset();
+    listBranchesHeadHidden();
+  }
+
   public void listBranchesOfNonExistingProject_NotFound() throws IOException {
     assertEquals(HttpStatus.SC_NOT_FOUND,
         GET("/projects/non-existing/branches").getStatusCode());
   }
 
-  @Test
   public void listBranchesOfNonVisibleProject_NotFound() throws Exception {
     blockRead(project, "refs/*");
     assertEquals(HttpStatus.SC_NOT_FOUND,
         userSession.get("/projects/" + project.get() + "/branches").getStatusCode());
   }
 
-  @Test
   public void listBranchesOfEmptyProject() throws IOException, JSchException {
     Project.NameKey emptyProject = new Project.NameKey("empty");
     createProject(sshSession, emptyProject.get(), null, false);
@@ -67,7 +76,6 @@ public class ListBranchesIT extends AbstractDaemonTest {
     assertBranches(expected, toBranchInfoList(r));
   }
 
-  @Test
   public void listBranches() throws IOException, GitAPIException {
     pushTo("refs/heads/master");
     String masterCommit = git.getRepository().getRef("master").getTarget().getObjectId().getName();
@@ -91,7 +99,6 @@ public class ListBranchesIT extends AbstractDaemonTest {
     assertEquals("refs/heads/master", result.get(3).ref);
   }
 
-  @Test
   public void listBranchesSomeHidden() throws Exception {
     blockRead(project, "refs/heads/dev");
     pushTo("refs/heads/master");
@@ -107,7 +114,6 @@ public class ListBranchesIT extends AbstractDaemonTest {
     assertBranches(expected, toBranchInfoList(r));
   }
 
-  @Test
   public void listBranchesHeadHidden() throws Exception {
     blockRead(project, "refs/heads/master");
     pushTo("refs/heads/master");

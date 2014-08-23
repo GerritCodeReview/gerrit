@@ -24,6 +24,7 @@ import static org.junit.Assert.assertNull;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GitUtil.Commit;
+import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference.Whitespace;
 import com.google.gerrit.reviewdb.client.Patch;
@@ -43,6 +44,7 @@ import org.junit.Test;
 import java.io.IOException;
 import java.util.List;
 
+@NoHttpd
 public class PatchListCacheIT extends AbstractDaemonTest {
   private static String SUBJECT_1 = "subject 1";
   private static String SUBJECT_2 = "subject 2";
@@ -56,6 +58,16 @@ public class PatchListCacheIT extends AbstractDaemonTest {
   private PatchListCache patchListCache;
 
   @Test
+  public void testAll() throws Exception {
+    listPatchesAgainstBase();
+    reset();
+    listPatchesAgainstBaseWithRebase();
+    reset();
+    listPatchesAgainstOtherPatchSet();
+    reset();
+    listPatchesAgainstOtherPatchSetWithRebase();
+  }
+
   public void listPatchesAgainstBase() throws GitAPIException, IOException,
       PatchListNotAvailableException, OrmException, RestApiException {
     add(git, FILE_D, "4");
@@ -89,7 +101,6 @@ public class PatchListCacheIT extends AbstractDaemonTest {
     assertDeleted(FILE_D, entries.get(3));
   }
 
-  @Test
   public void listPatchesAgainstBaseWithRebase() throws GitAPIException,
       IOException, PatchListNotAvailableException, OrmException,
       RestApiException {
@@ -126,7 +137,6 @@ public class PatchListCacheIT extends AbstractDaemonTest {
     assertDeleted(FILE_D, entries.get(2));
   }
 
-  @Test
   public void listPatchesAgainstOtherPatchSet() throws GitAPIException,
       IOException, PatchListNotAvailableException, OrmException,
       RestApiException {
@@ -156,7 +166,6 @@ public class PatchListCacheIT extends AbstractDaemonTest {
     assertAdded(FILE_B, entries.get(1));
   }
 
-  @Test
   public void listPatchesAgainstOtherPatchSetWithRebase()
       throws GitAPIException, IOException, PatchListNotAvailableException,
       OrmException, RestApiException {

@@ -30,13 +30,11 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.notedb.NotesMigration;
-import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.testutil.ConfigSuite;
 import com.google.inject.Inject;
 
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Repository;
-import org.junit.Before;
 import org.junit.Test;
 
 @NoHttpd
@@ -50,18 +48,13 @@ public class LabelTypeIT extends AbstractDaemonTest {
   private GitRepositoryManager repoManager;
 
   @Inject
-  private ProjectCache projectCache;
-
-  @Inject
   private AllProjectsName allProjects;
-
-  @Inject
-  private MetaDataUpdate.Server metaDataUpdateFactory;
 
   private LabelType codeReview;
 
-  @Before
-  public void setUp() throws Exception {
+  @Override
+  protected void init() throws Exception {
+    super.init();
     ProjectConfig cfg = projectCache.checkedGet(allProjects).getConfig();
     codeReview = checkNotNull(cfg.getLabelSections().get("Code-Review"));
     codeReview.setCopyMinScore(false);
@@ -73,6 +66,25 @@ public class LabelTypeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void testAll() throws Exception {
+    noCopyMinScoreOnRework();
+    copyMinScoreOnRework();
+    noCopyMaxScoreOnRework();
+    copyMaxScoreOnRework();
+    noCopyNonMaxScoreOnRework();
+    noCopyNonMinScoreOnRework();
+    noCopyAllScoresIfNoCodeChange();
+    copyAllScoresIfNoCodeChange();
+    reset();
+    noCopyAllScoresOnTrivialRebase();
+    reset();
+    copyAllScoresOnTrivialRebase();
+    reset();
+    copyAllScoresOnTrivialRebaseAndCherryPick();
+    reset();
+    copyNoScoresOnReworkAndCherryPick();
+  }
+
   public void noCopyMinScoreOnRework() throws Exception {
     PushOneCommit.Result r = createChange();
     revision(r).review(ReviewInput.reject());
@@ -81,7 +93,6 @@ public class LabelTypeIT extends AbstractDaemonTest {
     assertApproval(r, 0);
   }
 
-  @Test
   public void copyMinScoreOnRework() throws Exception {
     codeReview.setCopyMinScore(true);
     saveLabelConfig();
@@ -92,7 +103,6 @@ public class LabelTypeIT extends AbstractDaemonTest {
     assertApproval(r, -2);
   }
 
-  @Test
   public void noCopyMaxScoreOnRework() throws Exception {
     PushOneCommit.Result r = createChange();
     revision(r).review(ReviewInput.approve());
@@ -101,7 +111,6 @@ public class LabelTypeIT extends AbstractDaemonTest {
     assertApproval(r, 0);
   }
 
-  @Test
   public void copyMaxScoreOnRework() throws Exception {
     codeReview.setCopyMaxScore(true);
     saveLabelConfig();
@@ -112,7 +121,6 @@ public class LabelTypeIT extends AbstractDaemonTest {
     assertApproval(r, 2);
   }
 
-  @Test
   public void noCopyNonMaxScoreOnRework() throws Exception {
     codeReview.setCopyMinScore(true);
     codeReview.setCopyMaxScore(true);
@@ -125,7 +133,6 @@ public class LabelTypeIT extends AbstractDaemonTest {
     assertApproval(r, 0);
   }
 
-  @Test
   public void noCopyNonMinScoreOnRework() throws Exception {
     codeReview.setCopyMinScore(true);
     codeReview.setCopyMaxScore(true);
@@ -138,7 +145,6 @@ public class LabelTypeIT extends AbstractDaemonTest {
     assertApproval(r, 0);
   }
 
-  @Test
   public void noCopyAllScoresIfNoCodeChange() throws Exception {
     String file = "a.txt";
     String contents = "contents";
@@ -155,7 +161,6 @@ public class LabelTypeIT extends AbstractDaemonTest {
     assertApproval(r, 0);
   }
 
-  @Test
   public void copyAllScoresIfNoCodeChange() throws Exception {
     String file = "a.txt";
     String contents = "contents";
@@ -174,7 +179,6 @@ public class LabelTypeIT extends AbstractDaemonTest {
     assertApproval(r, 1);
   }
 
-  @Test
   public void noCopyAllScoresOnTrivialRebase() throws Exception {
     String subject = "test commit";
     String file = "a.txt";
@@ -199,7 +203,6 @@ public class LabelTypeIT extends AbstractDaemonTest {
     assertApproval(r3, 0);
   }
 
-  @Test
   public void copyAllScoresOnTrivialRebase() throws Exception {
     String subject = "test commit";
     String file = "a.txt";
@@ -226,7 +229,6 @@ public class LabelTypeIT extends AbstractDaemonTest {
     assertApproval(r3, 1);
   }
 
-  @Test
   public void copyAllScoresOnTrivialRebaseAndCherryPick() throws Exception {
     codeReview.setCopyAllScoresOnTrivialRebase(true);
     saveLabelConfig();
@@ -254,7 +256,6 @@ public class LabelTypeIT extends AbstractDaemonTest {
             .get());
   }
 
-  @Test
   public void copyNoScoresOnReworkAndCherryPick()
       throws Exception {
     codeReview.setCopyAllScoresOnTrivialRebase(true);

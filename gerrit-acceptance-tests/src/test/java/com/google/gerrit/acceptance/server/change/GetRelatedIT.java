@@ -40,6 +40,16 @@ import java.util.List;
 public class GetRelatedIT extends AbstractDaemonTest {
 
   @Test
+  public void testAll() throws Exception {
+    getRelatedNoResult();
+    reset();
+    getRelatedLinear();
+    reset();
+    getRelatedReorder();
+    reset();
+    getRelatedReorderAndExtend();
+  }
+
   public void getRelatedNoResult() throws GitAPIException,
       IOException, Exception {
     PushOneCommit push = pushFactory.create(db, admin.getIdent());
@@ -48,7 +58,6 @@ public class GetRelatedIT extends AbstractDaemonTest {
     assertEquals(0, related.size());
   }
 
-  @Test
   public void getRelatedLinear() throws GitAPIException,
       IOException, Exception {
     add(git, "a.txt", "1");
@@ -65,7 +74,6 @@ public class GetRelatedIT extends AbstractDaemonTest {
     }
   }
 
-  @Test
   public void getRelatedReorder() throws GitAPIException,
       IOException, Exception {
     // Create two commits and push.
@@ -99,7 +107,6 @@ public class GetRelatedIT extends AbstractDaemonTest {
     }
   }
 
-  @Test
   public void getRelatedReorderAndExtend() throws GitAPIException,
       IOException, Exception {
     // Create two commits and push.

@@ -33,7 +33,6 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 
 import org.eclipse.jgit.api.errors.GitAPIException;
-import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -43,12 +42,36 @@ public class RevisionIT extends AbstractDaemonTest {
 
   private TestAccount admin2;
 
-  @Before
-  public void setUp() throws Exception {
+  protected void init() throws Exception {
+    super.init();
     admin2 = accounts.admin2();
   }
 
   @Test
+  public void testAll() throws Exception {
+    reviewTriplet();
+    reset();
+    reviewCurrent();
+    reset();
+    reviewNumber();
+    reset();
+    submit();
+    reset();
+    submitOnBehalfOf();
+    reset();
+    deleteDraft();
+    reset();
+    cherryPick();
+    reset();
+    cherryPickIdenticalTree();
+    reset();
+    cherryPickConflict();
+    reset();
+    canRebase();
+    reset();
+    setUnsetReviewedFlag();
+  }
+
   public void reviewTriplet() throws GitAPIException,
       IOException, RestApiException {
     PushOneCommit.Result r = createChange();
@@ -58,7 +81,6 @@ public class RevisionIT extends AbstractDaemonTest {
         .review(ReviewInput.approve());
   }
 
-  @Test
   public void reviewCurrent() throws GitAPIException,
       IOException, RestApiException {
     PushOneCommit.Result r = createChange();
@@ -68,7 +90,6 @@ public class RevisionIT extends AbstractDaemonTest {
         .review(ReviewInput.approve());
   }
 
-  @Test
   public void reviewNumber() throws GitAPIException,
       IOException, RestApiException {
     PushOneCommit.Result r = createChange();
@@ -84,7 +105,6 @@ public class RevisionIT extends AbstractDaemonTest {
         .review(ReviewInput.approve());
   }
 
-  @Test
   public void submit() throws GitAPIException,
       IOException, RestApiException {
     PushOneCommit.Result r = createChange();
@@ -98,7 +118,6 @@ public class RevisionIT extends AbstractDaemonTest {
         .submit();
   }
 
-  @Test(expected = AuthException.class)
   public void submitOnBehalfOf() throws GitAPIException,
       IOException, RestApiException {
     PushOneCommit.Result r = createChange();
@@ -109,13 +128,15 @@ public class RevisionIT extends AbstractDaemonTest {
     SubmitInput in = new SubmitInput();
     in.onBehalfOf = admin2.email;
     in.waitForMerge = true;
-    gApi.changes()
-        .id("p~master~" + r.getChangeId())
-        .current()
-        .submit(in);
+    try {
+      gApi.changes()
+          .id("p~master~" + r.getChangeId())
+          .current()
+          .submit(in);
+      fail("AuthException expected");
+    } catch(AuthException e) {}
   }
 
-  @Test
   public void deleteDraft() throws GitAPIException,
       IOException, RestApiException {
     PushOneCommit.Result r = createDraft();
@@ -125,7 +146,6 @@ public class RevisionIT extends AbstractDaemonTest {
         .delete();
   }
 
-  @Test
   public void cherryPick() throws GitAPIException,
       IOException, RestApiException {
     PushOneCommit.Result r = createChange();
@@ -149,7 +169,6 @@ public class RevisionIT extends AbstractDaemonTest {
     cherry.current().submit();
   }
 
-  @Test
   public void cherryPickIdenticalTree() throws GitAPIException,
       IOException, RestApiException {
     PushOneCommit.Result r = createChange();
@@ -180,7 +199,6 @@ public class RevisionIT extends AbstractDaemonTest {
     }
   }
 
-  @Test
   public void cherryPickConflict() throws GitAPIException,
       IOException, RestApiException {
     PushOneCommit.Result r = createChange();
@@ -208,7 +226,6 @@ public class RevisionIT extends AbstractDaemonTest {
     }
   }
 
-  @Test
   public void canRebase()
       throws GitAPIException, IOException, RestApiException, Exception {
     PushOneCommit push = pushFactory.create(db, admin.getIdent());
@@ -233,7 +250,6 @@ public class RevisionIT extends AbstractDaemonTest {
         .canRebase());
   }
 
-  @Test
   public void setUnsetReviewedFlag() throws Exception {
     PushOneCommit push = pushFactory.create(db, admin.getIdent());
     PushOneCommit.Result r = push.to(git, "refs/for/master");

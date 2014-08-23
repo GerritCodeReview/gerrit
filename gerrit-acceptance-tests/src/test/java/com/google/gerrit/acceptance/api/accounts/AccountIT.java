@@ -31,6 +31,12 @@ import java.io.IOException;
 public class AccountIT extends AbstractDaemonTest {
 
   @Test
+  public void testAll() throws Exception {
+    get();
+    self();
+    starUnstarChange();
+  }
+
   public void get() throws RestApiException {
     AccountInfo info = gApi
         .accounts()
@@ -41,7 +47,6 @@ public class AccountIT extends AbstractDaemonTest {
     assertEquals("admin", info.username);
   }
 
-  @Test
   public void self() throws RestApiException {
     AccountInfo info = gApi
         .accounts()
@@ -52,7 +57,6 @@ public class AccountIT extends AbstractDaemonTest {
     assertEquals("admin", info.username);
   }
 
-  @Test
   public void starUnstarChange() throws GitAPIException,
       IOException, RestApiException {
     PushOneCommit.Result r = createChange();

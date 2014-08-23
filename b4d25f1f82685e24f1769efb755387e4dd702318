@@ -1,0 +1,388 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d3e8b1cd_5c2dfdb1",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/CreateChangeAction.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-23T22:28:02Z",
+      "side": 1,
+      "message": "not needed.",
+      "range": {
+        "startLine": 38,
+        "startChar": 69,
+        "endLine": 38,
+        "endChar": 74
+      },
+      "revId": "b4d25f1f82685e24f1769efb755387e4dd702318",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b3e5fdf4_3b2837a3",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/CreateChangeAction.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-23T22:28:02Z",
+      "side": 1,
+      "message": "Too long line: mx 80 chars.",
+      "range": {
+        "startLine": 38,
+        "startChar": 8,
+        "endLine": 38,
+        "endChar": 92
+      },
+      "revId": "b4d25f1f82685e24f1769efb755387e4dd702318",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b3e5fdf4_1b237bc9",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/CreateChangeAction.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-23T22:28:02Z",
+      "side": 1,
+      "message": "this is not needed",
+      "range": {
+        "startLine": 38,
+        "startChar": 40,
+        "endLine": 38,
+        "endChar": 45
+      },
+      "revId": "b4d25f1f82685e24f1769efb755387e4dd702318",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b3e5fdf4_fb024f28",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/CreateChangeAction.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-23T22:28:02Z",
+      "side": 1,
+      "message": "Wrong indentation: 4 chars. May be:\n\n        ChangeApi.createChange(project, getDestinationBranch(),\n            message.getText(),\n            new GerritCallback\u003cChangeInfo\u003e() {\n              @Override\n              public void onSuccess(ChangeInfo result) {\n                sent \u003d true;\n                hide();\n                Gerrit.display(PageLinks.toChange(result.legacy_id()));\n              }\n\n              @Override\n              public void onFailure(Throwable caught) {\n                enableButtons(true);\n                super.onFailure(caught);\n              }\n            });\n      }",
+      "range": {
+        "startLine": 39,
+        "startChar": 0,
+        "endLine": 39,
+        "endChar": 42
+      },
+      "revId": "b4d25f1f82685e24f1769efb755387e4dd702318",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b3e5fdf4_5b2d03b2",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectInfoScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 569,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-23T22:28:02Z",
+      "side": 1,
+      "message": "No final: only where it is really needed (in new code).",
+      "range": {
+        "startLine": 569,
+        "startChar": 30,
+        "endLine": 569,
+        "endChar": 35
+      },
+      "revId": "b4d25f1f82685e24f1769efb755387e4dd702318",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d3e8b1cd_9c16a565",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectInfoScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 570,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-23T22:28:02Z",
+      "side": 1,
+      "message": "Wrong indentation: 2 chars.",
+      "range": {
+        "startLine": 570,
+        "startChar": 0,
+        "endLine": 570,
+        "endChar": 13
+      },
+      "revId": "b4d25f1f82685e24f1769efb755387e4dd702318",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b3e5fdf4_7b32bf10",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectInfoScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 576,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-23T22:28:02Z",
+      "side": 1,
+      "message": "This if statement is too verbose. May be extract the create_button code it its own method, say:\n\n  private Button createChangeAction(ActionInfo infp)\n\nand then use ternary operator to add it to the panel, e. g.:\n\n  for (String id : actions.keySet()) {\n    actionsPanel.add(id.equals(\"create_change\")\n        ? createChangeAction(actions, id)\n        : new ActionButton(getProjectKey(), actions.get(id)));\n  }",
+      "revId": "b4d25f1f82685e24f1769efb755387e4dd702318",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b3e5fdf4_9b16ab65",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeApi.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-23T22:28:02Z",
+      "side": 1,
+      "message": "too long line, max 80 chars. Break after branch, 4 chars indent on next line:\n\n  public static void createChange(String project, String branch,\n      String subject, AsyncCallback\u003cChangeInfo\u003e cb) {\n    CreateChangeInput input \u003d CreateChangeInput.create();\n    [...]",
+      "range": {
+        "startLine": 37,
+        "startChar": 2,
+        "endLine": 37,
+        "endChar": 112
+      },
+      "revId": "b4d25f1f82685e24f1769efb755387e4dd702318",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d3e8b1cd_7c32b910",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/CreateChangeDialog.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-23T22:28:02Z",
+      "side": 1,
+      "message": "The most part of this file was copied from CherryPickDialog.java. Can\u0027t we reuse most of it?",
+      "revId": "b4d25f1f82685e24f1769efb755387e4dd702318",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d3e8b1cd_bc136174",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/CreateChangeDialog.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-23T22:28:02Z",
+      "side": 1,
+      "message": "Misleading name. SuggestBox is used for branch, not change. It is called:\n\n  private SuggestBox newBranch;\n\non the CherryPickDialog, where you have borrowed it from ;-)",
+      "range": {
+        "startLine": 35,
+        "startChar": 21,
+        "endLine": 35,
+        "endChar": 30
+      },
+      "revId": "b4d25f1f82685e24f1769efb755387e4dd702318",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d3e8b1cd_dc202db8",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/CreateChangeDialog.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-23T22:28:02Z",
+      "side": 1,
+      "message": "no final",
+      "range": {
+        "startLine": 52,
+        "startChar": 13,
+        "endLine": 52,
+        "endChar": 18
+      },
+      "revId": "b4d25f1f82685e24f1769efb755387e4dd702318",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b3e5fdf4_db2033b8",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/CreateChangeDialog.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-23T22:28:02Z",
+      "side": 1,
+      "message": "no final.",
+      "range": {
+        "startLine": 65,
+        "startChar": 4,
+        "endLine": 65,
+        "endChar": 9
+      },
+      "revId": "b4d25f1f82685e24f1769efb755387e4dd702318",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b3e5fdf4_bb136774",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/CreateChangeDialog.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-23T22:28:02Z",
+      "side": 1,
+      "message": "[Optional] Rest endpoint also supports draft flag: When drft \u003d true is passed, then a draft change is created and not normal change. May be add a checkbox here to allow to mark a new change as a draft. It can also be done in a follow-up change, though.",
+      "range": {
+        "startLine": 67,
+        "startChar": 4,
+        "endLine": 67,
+        "endChar": 25
+      },
+      "revId": "b4d25f1f82685e24f1769efb755387e4dd702318",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d3e8b1cd_fc1de980",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/CreateChangeDialog.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-23T22:28:02Z",
+      "side": 1,
+      "message": "no final.",
+      "range": {
+        "startLine": 93,
+        "startChar": 6,
+        "endLine": 93,
+        "endChar": 11
+      },
+      "revId": "b4d25f1f82685e24f1769efb755387e4dd702318",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b3e5fdf4_fb1def80",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/Module.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-23T22:28:02Z",
+      "side": 1,
+      "message": "Nit: unneeded new line.",
+      "revId": "b4d25f1f82685e24f1769efb755387e4dd702318",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d3e8b1cd_1c4a9571",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectCreateChange.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-23T22:28:02Z",
+      "side": 1,
+      "message": "Public is not necessary.",
+      "range": {
+        "startLine": 37,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 6
+      },
+      "revId": "b4d25f1f82685e24f1769efb755387e4dd702318",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b3e5fdf4_1b4a9b71",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectCreateChange.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-23T22:28:02Z",
+      "side": 1,
+      "message": "Here:\n\n  Boolean draft;\n\ncould be added.",
+      "revId": "b4d25f1f82685e24f1769efb755387e4dd702318",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b3e5fdf4_3b4f5782",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectCreateChange.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-23T22:28:02Z",
+      "side": 1,
+      "message": "If you decide to support draft flag in this change, then something like this must be added here:\n\n  if (in.draft !\u003d null \u0026\u0026 in.draft) {\n    in.status \u003d ChangeStatus.DRAFT;\n  }",
+      "revId": "b4d25f1f82685e24f1769efb755387e4dd702318",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

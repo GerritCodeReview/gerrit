@@ -16,6 +16,24 @@
       "revId": "74fe29b9cb2d4b3ea70fd03183656b0acc967997",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d3e8b1cd_1c2375c9",
+        "filename": "Documentation/cmd-set-account.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-23T06:56:46Z",
+      "side": 1,
+      "message": "Good point. Should we remove this capability?",
+      "parentUuid": "b3109d96_e3eef222",
+      "revId": "74fe29b9cb2d4b3ea70fd03183656b0acc967997",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

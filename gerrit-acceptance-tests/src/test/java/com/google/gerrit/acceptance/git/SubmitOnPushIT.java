@@ -38,7 +38,6 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.notedb.ChangeNotes;
-import com.google.gerrit.server.project.ProjectCache;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
@@ -67,9 +66,6 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
   private MetaDataUpdate.Server metaDataUpdateFactory;
 
   @Inject
-  private ProjectCache projectCache;
-
-  @Inject
   private GroupCache groupCache;
 
   @Inject
@@ -82,6 +78,28 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
   private PushOneCommit.Factory pushFactory;
 
   @Test
+  public void testAll() throws Exception {
+    submitOnPush();
+    reset();
+    submitOnPushWithTag();
+    reset();
+    submitOnPushToRefsMetaConfig();
+    reset();
+    submitOnPushMergeConflict();
+    reset();
+    submitOnPushSuccessfulMerge();
+    reset();
+    submitOnPushNewPatchSet();
+    reset();
+    submitOnPushNotAllowed_Error();
+    reset();
+    submitOnPushNewPatchSetNotAllowed_Error();
+    reset();
+    submitOnPushingDraft_Error();
+    reset();
+    mergeOnPushToBranch();
+  }
+
   public void submitOnPush() throws GitAPIException, OrmException,
       IOException, ConfigInvalidException {
     grant(Permission.SUBMIT, project, "refs/for/refs/heads/master");
@@ -92,7 +110,6 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
     assertCommit(project, "refs/heads/master");
   }
 
-  @Test
   public void submitOnPushWithTag() throws GitAPIException, OrmException,
       IOException, ConfigInvalidException {
     grant(Permission.SUBMIT, project, "refs/for/refs/heads/master");
@@ -109,7 +126,6 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
     assertTag(project, "refs/heads/master", tag);
   }
 
-  @Test
   public void submitOnPushToRefsMetaConfig() throws GitAPIException,
       OrmException, IOException, ConfigInvalidException {
     grant(Permission.SUBMIT, project, "refs/for/refs/meta/config");
@@ -125,7 +141,6 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
     assertCommit(project, "refs/meta/config");
   }
 
-  @Test
   public void submitOnPushMergeConflict() throws GitAPIException, OrmException,
       IOException, ConfigInvalidException {
     String master = "refs/heads/master";
@@ -141,7 +156,6 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
     r.assertMessage(CommitMergeStatus.PATH_CONFLICT.getMessage());
   }
 
-  @Test
   public void submitOnPushSuccessfulMerge() throws GitAPIException, OrmException,
       IOException, ConfigInvalidException {
     String master = "refs/heads/master";
@@ -157,7 +171,6 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
     assertMergeCommit(master, "other change");
   }
 
-  @Test
   public void submitOnPushNewPatchSet() throws GitAPIException,
       OrmException, IOException, ConfigInvalidException {
     PushOneCommit.Result r =
@@ -175,14 +188,12 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
     assertCommit(project, "refs/heads/master");
   }
 
-  @Test
   public void submitOnPushNotAllowed_Error() throws GitAPIException,
       OrmException, IOException {
     PushOneCommit.Result r = pushTo("refs/for/master%submit");
     r.assertErrorStatus("submit not allowed");
   }
 
-  @Test
   public void submitOnPushNewPatchSetNotAllowed_Error() throws GitAPIException,
       OrmException, IOException, ConfigInvalidException {
     PushOneCommit.Result r =
@@ -193,14 +204,12 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
     r.assertErrorStatus("submit not allowed");
   }
 
-  @Test
   public void submitOnPushingDraft_Error() throws GitAPIException,
       OrmException, IOException {
     PushOneCommit.Result r = pushTo("refs/for/master%draft,submit");
     r.assertErrorStatus("cannot submit draft");
   }
 
-  @Test
   public void submitOnPushToNonExistingBranch_Error() throws GitAPIException,
       OrmException, IOException {
     String branchName = "non-existing";
@@ -208,7 +217,6 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
     r.assertErrorStatus("branch " + branchName + " not found");
   }
 
-  @Test
   public void mergeOnPushToBranch() throws Exception {
     grant(Permission.PUSH, project, "refs/heads/master");
     PushOneCommit.Result r =

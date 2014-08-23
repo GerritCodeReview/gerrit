@@ -41,7 +41,6 @@ import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -71,12 +70,23 @@ public class VisibleRefFilterIT extends AbstractDaemonTest {
 
   private AccountGroup.UUID admins;
 
-  @Before
-  public void setUp() throws Exception {
+  @Override
+  protected void init() throws Exception {
+    super.init();
     admins = groupCache.get(new AccountGroup.NameKey("Administrators"))
         .getGroupUUID();
     setUpChanges();
     setUpPermissions();
+  }
+
+  @Test
+  public void testAll() throws Exception {
+    allRefsVisibleNoRefsMetaConfig();
+    allRefsVisibleWithRefsMetaConfig();
+    reset();
+    subsetOfBranchesVisibleIncludingHead();
+    reset();
+    subsetOfBranchesVisibleNotIncludingHead();
   }
 
   private void setUpPermissions() throws Exception {
@@ -119,7 +129,6 @@ public class VisibleRefFilterIT extends AbstractDaemonTest {
     }
   }
 
-  @Test
   public void allRefsVisibleNoRefsMetaConfig() throws Exception {
     ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
     Util.allow(cfg, Permission.READ, REGISTERED_USERS, "refs/*");
@@ -139,7 +148,6 @@ public class VisibleRefFilterIT extends AbstractDaemonTest {
         "refs/tags/master-tag");
   }
 
-  @Test
   public void allRefsVisibleWithRefsMetaConfig() throws Exception {
     allow(Permission.READ, REGISTERED_USERS, "refs/*");
     allow(Permission.READ, REGISTERED_USERS, "refs/meta/config");
@@ -157,7 +165,6 @@ public class VisibleRefFilterIT extends AbstractDaemonTest {
         "refs/tags/master-tag");
   }
 
-  @Test
   public void subsetOfBranchesVisibleIncludingHead() throws Exception {
     allow(Permission.READ, REGISTERED_USERS, "refs/heads/master");
     deny(Permission.READ, REGISTERED_USERS, "refs/heads/branch");
@@ -170,7 +177,6 @@ public class VisibleRefFilterIT extends AbstractDaemonTest {
         "refs/tags/master-tag");
   }
 
-  @Test
   public void subsetOfBranchesVisibleNotIncludingHead() throws Exception {
     deny(Permission.READ, REGISTERED_USERS, "refs/heads/master");
     allow(Permission.READ, REGISTERED_USERS, "refs/heads/branch");

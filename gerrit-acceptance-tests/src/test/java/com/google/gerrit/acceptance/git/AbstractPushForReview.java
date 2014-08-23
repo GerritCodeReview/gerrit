@@ -29,7 +29,6 @@ import com.google.gwtorm.server.OrmException;
 import com.jcraft.jsch.JSchException;
 
 import org.eclipse.jgit.api.errors.GitAPIException;
-import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -41,8 +40,9 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
 
   private String sshUrl;
 
-  @Before
-  public void setUp() throws Exception {
+  @Override
+  protected void init() throws Exception {
+    super.init();
     sshUrl = sshSession.getUrl();
   }
 
@@ -62,6 +62,19 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   }
 
   @Test
+  public void testAll() throws Exception {
+    testPushForMaster();
+    testPushForMasterWithTopic();
+    testPushForMasterWithCc();
+    reset();
+    testPushForMasterWithReviewer();
+    testPushForMasterAsDraft();
+    testPushForMasterWithApprovals();
+    testPushForMasterWithApprovals_MissingLabel();
+    testPushForMasterWithApprovals_ValueOutOfRange();
+    testPushForNonExistingBranch();
+  }
+
   public void testPushForMaster() throws GitAPIException, OrmException,
       IOException {
     PushOneCommit.Result r = pushTo("refs/for/master");
@@ -69,7 +82,6 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     r.assertChange(Change.Status.NEW, null);
   }
 
-  @Test
   public void testPushForMasterWithTopic() throws GitAPIException,
       OrmException, IOException {
     // specify topic in ref
@@ -84,7 +96,6 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     r.assertChange(Change.Status.NEW, topic);
   }
 
-  @Test
   public void testPushForMasterWithCc() throws GitAPIException, OrmException,
       IOException, JSchException {
     // cc one user
@@ -108,7 +119,6 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     r.assertErrorStatus("user \"" + nonExistingEmail + "\" not found");
   }
 
-  @Test
   public void testPushForMasterWithReviewer() throws GitAPIException,
       OrmException, IOException, JSchException {
     // add one reviewer
@@ -133,7 +143,6 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     r.assertErrorStatus("user \"" + nonExistingEmail + "\" not found");
   }
 
-  @Test
   public void testPushForMasterAsDraft() throws GitAPIException, OrmException,
       IOException {
     // create draft by pushing to 'refs/drafts/'
@@ -147,7 +156,6 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     r.assertChange(Change.Status.DRAFT, null);
   }
 
-  @Test
   public void testPushForMasterWithApprovals() throws GitAPIException,
       IOException, RestApiException {
     PushOneCommit.Result r = pushTo("refs/for/master/%l=Code-Review");
@@ -170,21 +178,18 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     assertEquals(2, cr.all.get(0).value.intValue());
   }
 
-  @Test
   public void testPushForMasterWithApprovals_MissingLabel() throws GitAPIException,
       IOException {
       PushOneCommit.Result r = pushTo("refs/for/master/%l=Verify");
       r.assertErrorStatus("label \"Verify\" is not a configured label");
   }
 
-  @Test
   public void testPushForMasterWithApprovals_ValueOutOfRange() throws GitAPIException,
       IOException, RestApiException {
     PushOneCommit.Result r = pushTo("refs/for/master/%l=Code-Review-3");
     r.assertErrorStatus("label \"Code-Review\": -3 is not a valid value");
   }
 
-  @Test
   public void testPushForNonExistingBranch() throws GitAPIException,
       OrmException, IOException {
     String branchName = "non-existing";

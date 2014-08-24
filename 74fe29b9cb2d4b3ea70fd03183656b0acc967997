@@ -34,6 +34,24 @@
       "revId": "74fe29b9cb2d4b3ea70fd03183656b0acc967997",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f3edb5ca_8d3ac1dc",
+        "filename": "Documentation/cmd-set-account.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-08-24T13:55:05Z",
+      "side": 1,
+      "message": "IMO yes.\n\nfor the following reasons:\n\n1. Removing would make usage of the permissions consistent. \n2. Currently the generateHttpPassword capability is only used in SetAccountCommand so it\u0027s pretty isolated. \n3. Removing would also remove the ACL pattern established by generateHttpPassword permission so others don\u0027t follow that pattern by adding additional capabilities, like this Ib1971fad72e8c785bf038ecc8c6b00b4617dcf4e   :)",
+      "parentUuid": "d3e8b1cd_1c2375c9",
+      "revId": "74fe29b9cb2d4b3ea70fd03183656b0acc967997",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

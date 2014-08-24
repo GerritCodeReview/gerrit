@@ -329,6 +329,23 @@
     },
     {
       "key": {
+        "uuid": "d3c19153_14d19469",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectCreateChange.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-24T09:27:37Z",
+      "side": 1,
+      "message": "On second sought: actually you don\u0027t need this file (endpoint) at all. We have already POST /changes that creates a change and what are you doing here is to delegate to its apply() method, after translating your own Input to ChangeInfo. The only reason to have this class is to get the UiAction for granted (Guice DynamicItem binding and discovery).\n\nBut you could solve this in different way: just construct UiAction on you own in ProjectJson and add it to actions map manually. See an example how it\u0027s done in InlineEdit series: [1]. Now, on the client side, from your custom UiAction you can invoke the original REST endpoint: POST /changes. The only difference to current solution: you would need to pass project name too, obviously.\n\nThis also raises the question do we want to have this button on project info screen at all? We could add it to main page (or may be just add a keyboard shortcut), in wich case we are not in project context any more and the dialog must be extended to provide project name (with suggestion oracle for project, like it already does for branches).\n\nI don\u0027t have strong preference for one of these solutions. So, you can let it as is for now and wait for opinion of other reveiwers.\n\n [1] https://gerrit-review.googlesource.com/#/c/58991/14/\n gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditJson.java",
+      "revId": "b4d25f1f82685e24f1769efb755387e4dd702318",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d3e8b1cd_1c4a9571",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectCreateChange.java",
         "patchSetId": 2

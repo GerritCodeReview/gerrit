@@ -17,6 +17,7 @@ package com.google.gerrit.server.schema;
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.PROJECT_OWNERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
+import static com.google.gerrit.server.group.SystemGroupBackend.CHANGE_OWNER;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.common.Version;
@@ -60,6 +61,7 @@ public class AllProjectsCreator {
   private GroupReference anonymous;
   private GroupReference registered;
   private GroupReference owners;
+  private GroupReference changeOwner;
 
   @Inject
   AllProjectsCreator(
@@ -73,6 +75,7 @@ public class AllProjectsCreator {
     this.anonymous = SystemGroupBackend.getGroup(ANONYMOUS_USERS);
     this.registered = SystemGroupBackend.getGroup(REGISTERED_USERS);
     this.owners = SystemGroupBackend.getGroup(PROJECT_OWNERS);
+    this.changeOwner = SystemGroupBackend.getGroup(CHANGE_OWNER);
   }
 
   public AllProjectsCreator setAdministrators(GroupReference admin) {

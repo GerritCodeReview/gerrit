@@ -175,6 +175,10 @@ public final class AccountGeneralPreferences {
   @Column(id = 18, length = 20, notNull = false)
   protected String reviewCategoryStrategy;
 
+  /** Download mirror URL the user prefers to use. */
+  @Column(id = 19, length = 200, notNull = false)
+  protected String downloadMirror;
+
   public AccountGeneralPreferences() {
   }
 
@@ -341,6 +345,14 @@ public final class AccountGeneralPreferences {
     this.legacycidInChangeTable = legacycidInChangeTable;
   }
 
+  public String getDownloadMirror() {
+    return downloadMirror;
+  }
+
+  public void setDownloadMirror(String downloadMirror) {
+    this.downloadMirror = downloadMirror;
+  }
+
   public void resetToDefaults() {
     maximumPageSize = DEFAULT_PAGESIZE;
     showSiteHeader = true;
@@ -358,5 +370,6 @@ public final class AccountGeneralPreferences {
     changeScreen = null;
     sizeBarInChangeTable = true;
     legacycidInChangeTable = false;
+    downloadMirror = null;
   }
 }

@@ -71,6 +71,7 @@ public class SetPreferences implements RestModifyView<AccountResource, Input> {
     public DiffView diffView;
     public ChangeScreen changeScreen;
     public List<TopMenu.MenuItem> my;
+    public String downloadMirror;
   }
 
   private final Provider<CurrentUser> self;
@@ -169,6 +170,9 @@ public class SetPreferences implements RestModifyView<AccountResource, Input> {
       }
       if (i.changeScreen != null) {
         p.setChangeScreen(i.changeScreen);
+      }
+      if (i.downloadMirror != null) {
+        p.setDownloadMirror(i.downloadMirror);
       }
 
       db.get().accounts().update(Collections.singleton(a));

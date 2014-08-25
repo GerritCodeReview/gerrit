@@ -52,6 +52,7 @@ public class Preferences extends JavaScriptObject {
     p.diffView(in.getDiffView());
     p.changeScreen(in.getChangeScreen());
     p.setMyMenus(myMenus);
+    p.downloadMirror(in.getDownloadMirror());
     return p;
   }
 
@@ -221,6 +222,18 @@ public class Preferences extends JavaScriptObject {
   }
   final native void initMy() /*-{ this.my = []; }-*/;
   final native void addMy(TopMenuItem m) /*-{ this.my.push(m); }-*/;
+
+  public final String downloadMirror() {
+    return downloadMirrorRaw();
+  }
+  private final native String downloadMirrorRaw()
+  /*-{ return this.download_mirror }-*/;
+
+  public final void downloadMirror(String d) {
+    downloadMirrorRaw(d != null ? d.toString() : null);
+  }
+  private final native void downloadMirrorRaw(String d)
+  /*-{ this.download_mirror = d }-*/;
 
   protected Preferences() {
   }

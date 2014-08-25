@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b3109d96_e320b2b7",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/cache/AdjustableTicker.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2014-08-25T15:24:16Z",
+      "side": 1,
+      "message": "move to com.google.gerrit.server.util package",
+      "revId": "89bd7ff4ab3ec5a7a52d9dbfbe1b22601a711bda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

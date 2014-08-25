@@ -21,7 +21,6 @@ limitations under the License.
   <ui:style type='com.google.gerrit.client.change.Message.Style'>
     .messageBox {
       position: relative;
-      width: 1168px;
       padding: 2px 0 2px 0;
       border-left: 1px solid #e3e9ff;
       border-right: 1px solid #e3e9ff;
@@ -71,7 +70,6 @@ limitations under the License.
 
     .summary {
       color: #777;
-      position: absolute;
       top: 0;
       left: 150px;
       width: 880px;

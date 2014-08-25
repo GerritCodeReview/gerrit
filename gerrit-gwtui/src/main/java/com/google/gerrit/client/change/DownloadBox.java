@@ -79,6 +79,9 @@ class DownloadBox extends VerticalPanel {
       public void onChange(ChangeEvent event) {
         String selectedMirror = mirrors.getValue(mirrors.getSelectedIndex());
         renderCommands(selectedMirror);
+        if (Gerrit.isSignedIn()) {
+          saveMirror();
+        }
       }
     });
 
@@ -129,6 +132,20 @@ class DownloadBox extends VerticalPanel {
         });
       }
     }
+  }
+
+  private void selectPreferredMirror() {
+    String preferredMirror = Gerrit.getUserAccount().getGeneralPreferences().getDownloadMirror();
+    int select = 0;
+    if (preferredMirror != null) {
+      for (int i = 0; i < mirrors.getItemCount(); i++) {
+        if (preferredMirror.equals(mirrors.getValue(i))) {
+          select = i;
+          break;
+        }
+      }
+    }
+    mirrors.setSelectedIndex(select);
   }
 
   private void renderCommands() {
@@ -397,6 +414,28 @@ class DownloadBox extends VerticalPanel {
     return null;
   }
 
+  private void saveMirror() {
+    String mirror = this.mirrors.getValue(this.mirrors.getSelectedIndex());
+    AccountGeneralPreferences pref =
+        Gerrit.getUserAccount().getGeneralPreferences();
+
+    if (mirror != null && mirror != pref.getDownloadMirror()) {
+      pref.setDownloadMirror(mirror);
+      PreferenceInput in = PreferenceInput.create();
+      in.download_mirror(mirror);
+      AccountApi.self().view("preferences")
+          .post(in, new AsyncCallback<JavaScriptObject>() {
+            @Override
+            public void onSuccess(JavaScriptObject result) {
+            }
+
+            @Override
+            public void onFailure(Throwable caught) {
+            }
+          });
+    }
+  }
+
   private static class PreferenceInput extends JavaScriptObject {
     static PreferenceInput create() {
       return createObject().cast();
@@ -408,6 +447,14 @@ class DownloadBox extends VerticalPanel {
 
     private final native void download_scheme0(String n) /*-{
       this.download_scheme = n;
+    }-*/;
+
+    final void download_mirror(String s) {
+      download_mirror0(s);
+    }
+
+    private final native void download_mirror0(String n) /*-{
+      this.download_mirror = n;
     }-*/;
 
     protected PreferenceInput() {

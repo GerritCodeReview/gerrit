@@ -117,6 +117,7 @@ public class GetPreferences implements RestReadView<AccountResource> {
     DiffView diffView;
     ChangeScreen changeScreen;
     List<TopMenu.MenuItem> my;
+    String downloadMirror;
 
     public PreferenceInfo(AccountGeneralPreferences p,
         VersionedAccountPreferences v, Repository allUsers) {
@@ -137,6 +138,7 @@ public class GetPreferences implements RestReadView<AccountResource> {
         commentVisibilityStrategy = p.getCommentVisibilityStrategy();
         diffView = p.getDiffView();
         changeScreen = p.getChangeScreen();
+        downloadMirror = p.getDownloadMirror();
       }
       my = my(v, allUsers);
     }

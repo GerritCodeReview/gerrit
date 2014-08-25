@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "d313519f_84e10635",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1016722
+      },
+      "writtenOn": "2014-08-25T19:05:15Z",
+      "side": 1,
+      "message": "Due to our gerrit deployment architecture the users are aware of the mirrors and a single url can not serve their needs.",
+      "parentUuid": "d3e8b1cd_fceb2910",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 70
+      },
+      "revId": "a5f5281ea1b7a442874f8a7b11aaa3284ea8735a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b3f7bd98_ab168964",
         "filename": "plugins/download-commands",
         "patchSetId": 3
@@ -36,6 +60,24 @@
       "writtenOn": "2014-08-22T07:19:03Z",
       "side": 1,
       "message": "This sha1 will not be correct any more, as the plugin needs to be rebased.\n\nIt would be better to update the plugin in a separate commit, if possible.",
+      "revId": "a5f5281ea1b7a442874f8a7b11aaa3284ea8735a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d313519f_e4eefa22",
+        "filename": "plugins/download-commands",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1016722
+      },
+      "writtenOn": "2014-08-25T19:05:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b3f7bd98_ab168964",
       "revId": "a5f5281ea1b7a442874f8a7b11aaa3284ea8735a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

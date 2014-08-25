@@ -165,7 +165,10 @@ public class AddMembers implements RestModifyView<GroupResource, Input> {
         case LDAP:
           if (accountResolver.find(nameOrEmail) == null) {
             // account does not exist, try to create it
-            return createAccountByLdap(nameOrEmail);
+            Account a = createAccountByLdap(nameOrEmail);
+            if (a != null) {
+              return a;
+            }
           }
           break;
         default:

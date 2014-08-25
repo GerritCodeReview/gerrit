@@ -197,6 +197,9 @@ public class ReviewCommand extends SshCommand {
     if (changeComment == null) {
       changeComment = "";
     }
+    if (notify == null) {
+      notify = NotifyHandling.ALL;
+    }
 
     ReviewInput review = new ReviewInput();
     review.message = Strings.emptyToNull(changeComment);

@@ -333,6 +333,11 @@ public class MergeabilityChecker implements GitReferenceUpdatedListener {
       ReviewDb db = context.getReviewDbProvider().get();
       try {
         PatchSet ps = db.patchSets().get(change.currentPatchSetId());
+        if (ps == null) {
+          // Cannot compute mergeability if current patch set is missing.
+          return false;
+        }
+
         Mergeable m = mergeable.get();
         m.setForce(force);
 

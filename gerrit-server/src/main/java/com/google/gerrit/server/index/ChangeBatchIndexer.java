@@ -32,7 +32,9 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.change.MergeabilityChecker;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.git.MultiProgressMonitor;
 import com.google.gerrit.server.git.MultiProgressMonitor.Task;
 import com.google.gerrit.server.patch.PatchListLoader;
@@ -43,6 +45,7 @@ import com.google.inject.Inject;
 import org.eclipse.jgit.diff.DiffEntry;
 import org.eclipse.jgit.diff.DiffFormatter;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
@@ -111,6 +114,7 @@ public class ChangeBatchIndexer {
   private final ListeningExecutorService executor;
   private final ChangeIndexer.Factory indexerFactory;
   private final MergeabilityChecker mergeabilityChecker;
+  private final boolean recursiveMerger;
 
   @Inject
   ChangeBatchIndexer(SchemaFactory<ReviewDb> schemaFactory,
@@ -118,6 +122,7 @@ public class ChangeBatchIndexer {
       GitRepositoryManager repoManager,
       @IndexExecutor ListeningExecutorService executor,
       ChangeIndexer.Factory indexerFactory,
+      @GerritServerConfig Config config,
       @Nullable MergeabilityChecker mergeabilityChecker) {
     this.schemaFactory = schemaFactory;
     this.changeDataFactory = changeDataFactory;
@@ -125,6 +130,7 @@ public class ChangeBatchIndexer {
     this.executor = executor;
     this.indexerFactory = indexerFactory;
     this.mergeabilityChecker = mergeabilityChecker;
+    this.recursiveMerger = MergeUtil.useRecursiveMerge(config);
   }
 
   public Result indexAll(ChangeIndex index, Iterable<Project.NameKey> projects,
@@ -238,8 +244,13 @@ public class ChangeBatchIndexer {
               byId.put(r.getObjectId(), changeDataFactory.create(db, c));
             }
           }
-          new ProjectIndexer(indexer, byId, repo, done, failed, verboseWriter)
-              .call();
+          new ProjectIndexer(indexer,
+              recursiveMerger,
+              byId,
+              repo,
+              done,
+              failed,
+              verboseWriter).call();
         } catch (RepositoryNotFoundException rnfe) {
           log.error(rnfe.getMessage());
         } finally {
@@ -260,6 +271,7 @@ public class ChangeBatchIndexer {
 
   private static class ProjectIndexer implements Callable<Void> {
     private final ChangeIndexer indexer;
+    private final boolean recursiveMerger;
     private final Multimap<ObjectId, ChangeData> byId;
     private final ProgressMonitor done;
     private final ProgressMonitor failed;
@@ -268,9 +280,14 @@ public class ChangeBatchIndexer {
     private RevWalk walk;
 
     private ProjectIndexer(ChangeIndexer indexer,
-        Multimap<ObjectId, ChangeData> changesByCommitId, Repository repo,
-        ProgressMonitor done, ProgressMonitor failed, PrintWriter verboseWriter) {
+        boolean recursiveMerger,
+        Multimap<ObjectId, ChangeData> changesByCommitId,
+        Repository repo,
+        ProgressMonitor done,
+        ProgressMonitor failed,
+        PrintWriter verboseWriter) {
       this.indexer = indexer;
+      this.recursiveMerger = recursiveMerger;
       this.byId = changesByCommitId;
       this.repo = repo;
       this.done = done;
@@ -369,7 +386,7 @@ public class ChangeBatchIndexer {
           walk.parseBody(a);
           return walk.parseTree(a.getTree());
         case 2:
-          return PatchListLoader.automerge(repo, walk, b);
+          return PatchListLoader.automerge(repo, walk, b, recursiveMerger);
         default:
           return null;
       }

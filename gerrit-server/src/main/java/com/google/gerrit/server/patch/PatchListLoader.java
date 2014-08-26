@@ -21,7 +21,9 @@ import com.google.common.collect.FluentIterable;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference.Whitespace;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.git.MergeUtil;
 import com.google.inject.Inject;
 
 import org.eclipse.jgit.diff.DiffEntry;
@@ -35,6 +37,7 @@ import org.eclipse.jgit.diff.Sequence;
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheBuilder;
 import org.eclipse.jgit.dircache.DirCacheEntry;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
@@ -72,11 +75,14 @@ public class PatchListLoader extends CacheLoader<PatchListKey, PatchList> {
 
   private final GitRepositoryManager repoManager;
   private final PatchListCache patchListCache;
+  private final boolean recursiveMerger;
 
   @Inject
-  PatchListLoader(GitRepositoryManager mgr, PatchListCache plc) {
+  PatchListLoader(GitRepositoryManager mgr, PatchListCache plc,
+      @GerritServerConfig Config cfg) {
     repoManager = mgr;
     patchListCache = plc;
+    recursiveMerger = MergeUtil.useRecursiveMerge(cfg);
   }
 
   @Override
@@ -224,7 +230,7 @@ public class PatchListLoader extends CacheLoader<PatchListKey, PatchList> {
     }
   }
 
-  private static RevObject aFor(final PatchListKey key,
+  private RevObject aFor(final PatchListKey key,
       final Repository repo, final RevWalk rw, final RevCommit b)
       throws IOException {
     if (key.getOldId() != null) {
@@ -240,20 +246,20 @@ public class PatchListLoader extends CacheLoader<PatchListKey, PatchList> {
         return r;
       }
       case 2:
-        return automerge(repo, rw, b);
+        return automerge(repo, rw, b, recursiveMerger);
       default:
         // TODO(sop) handle an octopus merge.
         return null;
     }
   }
 
-  public static RevTree automerge(Repository repo, RevWalk rw, RevCommit b)
-      throws IOException {
-    return automerge(repo, rw, b, true);
+  public static RevTree automerge(Repository repo, RevWalk rw, RevCommit b,
+      boolean useRecursive) throws IOException {
+    return automerge(repo, rw, b, useRecursive, true);
   }
 
   public static RevTree automerge(Repository repo, RevWalk rw, RevCommit b,
-      boolean save) throws IOException {
+      boolean useRecursive, boolean save) throws IOException {
     String hash = b.name();
     String refName = RefNames.REFS_CACHE_AUTOMERGE
         + hash.substring(0, 2)
@@ -265,25 +271,13 @@ public class PatchListLoader extends CacheLoader<PatchListKey, PatchList> {
     }
 
     ObjectId treeId;
-    ResolveMerger m = (ResolveMerger) MergeStrategy.RESOLVE.newMerger(repo, true);
+    ResolveMerger m = (ResolveMerger) (useRecursive ? MergeStrategy.RECURSIVE
+        : MergeStrategy.RESOLVE).newMerger(repo, true);
     final ObjectInserter ins = repo.newObjectInserter();
     try {
       DirCache dc = DirCache.newInCore();
       m.setDirCache(dc);
-      m.setObjectInserter(new ObjectInserter.Filter() {
-        @Override
-        protected ObjectInserter delegate() {
-          return ins;
-        }
-
-        @Override
-        public void flush() {
-        }
-
-        @Override
-        public void release() {
-        }
-      });
+      m.setObjectInserter(MergeUtil.createDryRunInserter(repo));
 
       boolean couldMerge;
       try {

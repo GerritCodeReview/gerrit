@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b3933d69_4bf2a501",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-08-26T19:40:37Z",
+      "side": 1,
+      "message": "I would have suggested doing a continue here, and not messing with the indent of the rest of the code.\n\nThe real logic here is the else. Which is awkward to read, you want the real logic not buried in the else of a conditional.",
+      "revId": "50dffde209e1bc8d9593577086d10200a50923d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

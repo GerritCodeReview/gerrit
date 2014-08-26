@@ -1545,6 +1545,16 @@ link:#review-input[ReviewInput] entity.
         {
           "line": 49,
           "message": "[nit] s/conrtol/control"
+        },
+        {
+          "range": {
+            "start_line": 50,
+            "start_character": 0,
+            "end_line": 55,
+            "end_character": 20
+          },
+          "line": 55,
+          "message": "Incorrect indentation"
         }
       ]
     }

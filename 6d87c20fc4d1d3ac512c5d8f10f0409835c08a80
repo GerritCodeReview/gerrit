@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d396f157_2c2813a3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-08-26T19:44:33Z",
+      "side": 1,
+      "message": "What happens if we shrink the window really narrow? IIRC the history panel uses fixed width layouts for the individual message components.",
+      "revId": "6d87c20fc4d1d3ac512c5d8f10f0409835c08a80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

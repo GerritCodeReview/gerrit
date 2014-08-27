@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1347a9ed_fed52155",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/SubmitStrategyFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2014-08-27T17:45:47Z",
+      "side": 0,
+      "message": "This was added by commit 2bea4028e83aa934f7001a90464c04f25c36f2aa on stable-2.10 so I think we should put it back. The conflict was only the 2 imports so you should keep them both but provider one should come first to respect imports ordering.\n\nI didn\u0027t see this change so I also merged stable-2.9 into stable-2.10 submitted the change but I abandoned it when I saw it conflicted with this one. You can see what I propose for this file in my change: https://gerrit-review.googlesource.com/#/c/59640/1/gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/SubmitStrategyFactory.java",
+      "range": {
+        "startLine": 52,
+        "startChar": 0,
+        "endLine": 52,
+        "endChar": 10
+      },
+      "revId": "fb6360437aac168c0140af3f5f5463bca1ed0b86",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

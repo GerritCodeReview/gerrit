@@ -52,6 +52,7 @@ import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.merge.MergeStrategy;
 import org.eclipse.jgit.merge.Merger;
+import org.eclipse.jgit.merge.ThreeWayMergeStrategy;
 import org.eclipse.jgit.merge.ThreeWayMerger;
 import org.eclipse.jgit.revwalk.FooterKey;
 import org.eclipse.jgit.revwalk.FooterLine;
@@ -87,6 +88,12 @@ public class MergeUtil {
 
   public static boolean useRecursiveMerge(Config cfg) {
     return cfg.getBoolean("core", null, "useRecursiveMerge", true);
+  }
+
+  public static ThreeWayMergeStrategy getMergeStrategy(Config cfg) {
+    return useRecursiveMerge(cfg)
+        ? MergeStrategy.RECURSIVE
+        : MergeStrategy.RESOLVE;
   }
 
   public static interface Factory {

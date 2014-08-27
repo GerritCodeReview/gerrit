@@ -16,6 +16,24 @@
       "revId": "6d87c20fc4d1d3ac512c5d8f10f0409835c08a80",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "930e39b4_4a09134f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-08-27T17:39:17Z",
+      "side": 1,
+      "message": "What is \"really narrow\"?  It looks OK to me when I narrow down the window. The comment text wraps which is better than the current non-wrapped implementation, especially when there are file comments.",
+      "parentUuid": "d396f157_2c2813a3",
+      "revId": "6d87c20fc4d1d3ac512c5d8f10f0409835c08a80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

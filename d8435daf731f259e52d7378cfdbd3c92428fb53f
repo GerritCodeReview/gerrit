@@ -16,6 +16,24 @@
       "revId": "d8435daf731f259e52d7378cfdbd3c92428fb53f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "13ab299f_1e1ead7c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-08-27T01:36:10Z",
+      "side": 1,
+      "message": "the reason is this check is lost somehow. \nwhen the project is hidden, it should invisible \nplease see the reference of\n\n/** Can this user see this project exists? */\n  public boolean isVisible() {\n    return (user instanceof InternalUser\n        || canPerformOnAnyRef(Permission.READ)) \u0026\u0026 !isHidden();\n  }",
+      "parentUuid": "b3933d69_6bf761f0",
+      "revId": "d8435daf731f259e52d7378cfdbd3c92428fb53f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

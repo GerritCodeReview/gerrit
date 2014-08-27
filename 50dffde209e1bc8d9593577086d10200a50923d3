@@ -16,6 +16,24 @@
       "revId": "50dffde209e1bc8d9593577086d10200a50923d3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "930e39b4_4ae23339",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-08-27T12:51:17Z",
+      "side": 1,
+      "message": "There\u0027s another place further down where the same NPE happens.  I did it like this to avoid changing the code in two places.",
+      "parentUuid": "b3933d69_4bf2a501",
+      "revId": "50dffde209e1bc8d9593577086d10200a50923d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

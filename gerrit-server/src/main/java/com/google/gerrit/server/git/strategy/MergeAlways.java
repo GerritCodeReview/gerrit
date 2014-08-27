@@ -38,7 +38,7 @@ public class MergeAlways extends SubmitStrategy {
     }
     while (!toMerge.isEmpty()) {
       mergeTip =
-          args.mergeUtil.mergeOneCommit(args.myIdent, args.repo, args.rw,
+          args.mergeUtil.mergeOneCommit(args.serverIdent.get(), args.repo, args.rw,
               args.inserter, args.canMergeFlag, args.destBranch, mergeTip,
               toMerge.remove(0));
     }

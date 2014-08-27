@@ -2336,7 +2336,8 @@ public class ReceiveCommits {
           subOpFactory.create(
               new Branch.NameKey(project.getNameKey(), cmd.getRefName()),
               codeReviewCommit, rw, repo, project, new ArrayList<Change>(),
-              new HashMap<Change.Id, CodeReviewCommit>());
+              new HashMap<Change.Id, CodeReviewCommit>(),
+              currentUser.getAccount());
       subOp.update();
     } catch (InsertException e) {
       log.error("Can't insert patchset", e);

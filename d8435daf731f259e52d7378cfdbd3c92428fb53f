@@ -34,6 +34,24 @@
       "revId": "d8435daf731f259e52d7378cfdbd3c92428fb53f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f3a775cf_fd22e7c3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-08-27T04:29:33Z",
+      "side": 1,
+      "message": "So someone is calling allRefsAreVisible() but not checking isVisible()?\n\nThat sounds like a bug in the caller.",
+      "parentUuid": "13ab299f_1e1ead7c",
+      "revId": "d8435daf731f259e52d7378cfdbd3c92428fb53f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

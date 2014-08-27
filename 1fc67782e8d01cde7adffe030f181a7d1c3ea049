@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "930e39b4_0a031b2f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-08-27T21:07:11Z",
+      "side": 1,
+      "message": "This is broken when save \u003d true. We need to actually write out the objects so the ref can be created.",
+      "revId": "1fc67782e8d01cde7adffe030f181a7d1c3ea049",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

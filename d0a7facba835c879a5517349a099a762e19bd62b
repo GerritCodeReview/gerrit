@@ -46,6 +46,30 @@
       "revId": "d0a7facba835c879a5517349a099a762e19bd62b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "930e39b4_0a1e7b7c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 391,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-08-27T23:07:13Z",
+      "side": 1,
+      "message": "OK, flush hoisted out.",
+      "parentUuid": "930e39b4_8a314b0d",
+      "range": {
+        "startLine": 390,
+        "startChar": 0,
+        "endLine": 391,
+        "endChar": 20
+      },
+      "revId": "d0a7facba835c879a5517349a099a762e19bd62b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

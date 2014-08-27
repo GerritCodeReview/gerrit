@@ -52,6 +52,24 @@
       "revId": "d8435daf731f259e52d7378cfdbd3c92428fb53f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d3e2711a_acdae383",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-08-27T06:23:00Z",
+      "side": 1,
+      "message": "The origin usage of this method is for replication,\nlater it is not limited to replication only. \nI added \u0027Fix:\u0027 to the title now",
+      "parentUuid": "f3a775cf_fd22e7c3",
+      "revId": "d8435daf731f259e52d7378cfdbd3c92428fb53f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

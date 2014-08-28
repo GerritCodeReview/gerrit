@@ -15,9 +15,13 @@
 package com.google.gerrit.server.project;
 
 import static com.google.gerrit.server.project.RefControl.isRE;
+
 import com.google.gerrit.common.data.ParameterizedString;
+
 import dk.brics.automaton.Automaton;
+
 import java.util.Collections;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 abstract class RefPatternMatcher {
@@ -75,6 +79,21 @@ abstract class RefPatternMatcher {
   }
 
   static class ExpandParameters extends RefPatternMatcher {
+    static String evaluate(String parameterizedRef, String userName) {
+      if (parameterizedRef.contains("${")) {
+        Map<String, String> userValue =
+            Collections.singletonMap("username", userName);
+        return new ParameterizedString(parameterizedRef).replace(userValue);
+      }
+      return parameterizedRef;
+    }
+
+    static String evaluate(ParameterizedString parameterizedRef, String userName) {
+      Map<String, String> userValue =
+          Collections.singletonMap("username", userName);
+      return parameterizedRef.replace(userValue);
+    }
+
     private final ParameterizedString template;
     private final String prefix;
 
@@ -110,9 +129,8 @@ abstract class RefPatternMatcher {
         u = username;
       }
 
-      RefPatternMatcher next =
-          getMatcher(template.replace(Collections.singletonMap("username", u)));
-      return next != null ? next.match(ref, username) : false;
+      RefPatternMatcher next = getMatcher(evaluate(template, u));
+      return next != null ? next.match(evaluate(ref, u), username) : false;
     }
 
     boolean matchPrefix(String ref) {

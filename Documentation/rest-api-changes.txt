@@ -1657,6 +1657,15 @@ link:#review-input[ReviewInput] entity.
         {
           "line": 49,
           "message": "[nit] s/conrtol/control"
+        },
+        {
+          "range": {
+            "start_line": 50,
+            "start_character": 0,
+            "end_line": 55,
+            "end_character": 20
+          },
+          "message": "Incorrect indentation"
         }
       ]
     }
@@ -3053,7 +3062,7 @@ If not set, the default is `REVISION`.
 The number of the line for which the comment should be added. +
 `0` if it is a file comment. +
 If neither line nor range is set, a file comment is added. +
-If range is set, this should equal the end line of the range.
+If range is set, this value is ignored in favor of the `end_line` of the range.
 |`range`       |optional|
 The range of the comment as a link:#comment-range[CommentRange]
 entity.

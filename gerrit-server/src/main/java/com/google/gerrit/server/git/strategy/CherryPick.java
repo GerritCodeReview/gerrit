@@ -105,7 +105,7 @@ public class CherryPick extends SubmitStrategy {
               mergeTip = n;
             } else {
               mergeTip =
-                  args.mergeUtil.mergeOneCommit(args.myIdent, args.repo,
+                  args.mergeUtil.mergeOneCommit(args.serverIdent.get(), args.repo,
                       args.rw, args.inserter, args.canMergeFlag,
                       args.destBranch, mergeTip, n);
            }
@@ -143,10 +143,10 @@ public class CherryPick extends SubmitStrategy {
       cherryPickUser =
           args.identifiedUserFactory.create(submitAudit.getAccountId());
       cherryPickCommitterIdent = cherryPickUser.newCommitterIdent(
-          submitAudit.getGranted(), args.myIdent.getTimeZone());
+          submitAudit.getGranted(), args.serverIdent.get().getTimeZone());
     } else {
       cherryPickUser = args.identifiedUserFactory.create(n.change().getOwner());
-      cherryPickCommitterIdent = args.myIdent;
+      cherryPickCommitterIdent = args.serverIdent.get();
     }
 
     final String cherryPickCmtMsg = args.mergeUtil.createCherryPickCommitMessage(n);

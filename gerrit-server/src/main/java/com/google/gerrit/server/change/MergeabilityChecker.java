@@ -333,6 +333,11 @@ public class MergeabilityChecker implements GitReferenceUpdatedListener {
       ReviewDb db = context.getReviewDbProvider().get();
       try {
         PatchSet ps = db.patchSets().get(change.currentPatchSetId());
+        if (ps == null) {
+          // Cannot compute mergeability if current patch set is missing.
+          return false;
+        }
+
         Mergeable m = mergeable.get();
         m.setForce(force);
 
@@ -345,10 +350,10 @@ public class MergeabilityChecker implements GitReferenceUpdatedListener {
         // change is closed
         return false;
       } catch (Exception e) {
-        String msg = "Failed to update mergeability flags for project "
-            + change.getDest().getParentKey() + " on update of "
-            + change.getDest().get();
-        log.error(msg, e);
+        log.error(String.format(
+            "cannot update mergeability flag of change %d in project %s after update of %s",
+            change.getId().get(),
+            change.getDest().getParentKey(), change.getDest().get()), e);
         throw e;
       } finally {
         tl.setContext(old);

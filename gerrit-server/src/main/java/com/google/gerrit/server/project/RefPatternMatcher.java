@@ -110,13 +110,24 @@ public abstract class RefPatternMatcher {
         u = username;
       }
 
-      RefPatternMatcher next =
-          getMatcher(template.replace(Collections.singletonMap("username", u)));
-      return next != null && next.match(ref, username);
+      RefPatternMatcher next = getMatcher(expand(template, u));
+      return next != null ? next.match(expand(ref, u), username) : false;
     }
 
     boolean matchPrefix(String ref) {
       return ref.startsWith(prefix);
+    }
+
+    private String expand(String parameterizedRef, String userName) {
+      if (parameterizedRef.contains("${")) {
+        return expand(new ParameterizedString(parameterizedRef), userName);
+      }
+      return parameterizedRef;
+    }
+
+    private String expand(ParameterizedString parameterizedRef, String userName) {
+      return parameterizedRef.replace(Collections.singletonMap("username",
+          userName));
     }
   }
 }

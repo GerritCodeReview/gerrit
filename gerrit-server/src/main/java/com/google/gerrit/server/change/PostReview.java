@@ -371,6 +371,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
               c.range.startCharacter,
               c.range.endLine,
               c.range.endCharacter));
+          e.setLine(c.range.endLine);
         }
         ups.add(e);
       }

@@ -82,7 +82,8 @@ branch.
 
 --abandon::
 	Abandon the specified change(s).
-	(option is mutually exclusive with --submit and --restore)
+	(option is mutually exclusive with --submit, --restore, --publish and
+	--delete)
 
 --restore::
 	Restore the specified abandoned change(s).
@@ -91,7 +92,7 @@ branch.
 --submit::
 -s::
 	Submit the specified patch set(s) for merging.
-	(option is mutually exclusive with --abandon)
+	(option is mutually exclusive with --abandon, --publish and --delete)
 
 --publish::
 	Publish the specified draft patch set(s).

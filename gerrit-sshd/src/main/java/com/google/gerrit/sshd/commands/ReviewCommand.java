@@ -186,6 +186,9 @@ public class ReviewCommand extends SshCommand {
         throw error("json and message are mutually exclusive");
       }
     }
+    if (deleteDraftPatchSet && submitChange) {
+      throw error("delete and submit actions are mutually exclusive");
+    }
 
     boolean ok = true;
     ReviewInput input = null;
@@ -241,6 +244,9 @@ public class ReviewCommand extends SshCommand {
   private void reviewPatchSet(final PatchSet patchSet) throws Exception {
     if (changeComment == null) {
       changeComment = "";
+    }
+    if (notify == null) {
+      notify = NotifyHandling.ALL;
     }
 
     ReviewInput review = new ReviewInput();

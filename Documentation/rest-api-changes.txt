@@ -3236,7 +3236,7 @@ The number of the line for which the comment was done. +
 If range is set, this equals the end line of the range. +
 If neither line nor range is set, it's a file comment.
 |`range`       |optional|
-The range of the comment as a link:rest-api.html#comment-range[CommentRange]
+The range of the comment as a link:#comment-range[CommentRange]
 entity.
 |`in_reply_to` |optional|
 The URL encoded UUID of the comment to which this comment is a reply.
@@ -3275,7 +3275,7 @@ The number of the line for which the comment should be added. +
 If neither line nor range is set, a file comment is added. +
 If range is set, this should equal the end line of the range.
 |`range`       |optional|
-The range of the comment as a link:rest-api.html#comment-range[CommentRange]
+The range of the comment as a link:#comment-range[CommentRange]
 entity.
 |`in_reply_to` |optional|
 The URL encoded UUID of the comment to which this comment is a reply.

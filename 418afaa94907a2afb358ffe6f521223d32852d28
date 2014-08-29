@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "131c091e_76efd01f",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ReviewCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-08-29T18:58:20Z",
+      "side": 1,
+      "message": "Is this not the same as the code you added?",
+      "range": {
+        "startLine": 194,
+        "startChar": 0,
+        "endLine": 196,
+        "endChar": 5
+      },
+      "revId": "418afaa94907a2afb358ffe6f521223d32852d28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

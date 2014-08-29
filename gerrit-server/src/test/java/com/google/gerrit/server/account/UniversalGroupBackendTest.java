@@ -30,11 +30,14 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+import com.google.common.collect.Sets;
+import com.google.gerrit.common.data.GroupDescription.Basic;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroup.UUID;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.group.SystemGroupBackend;
+import com.google.gerrit.server.project.ProjectControl;
 import com.google.gwtorm.client.KeyUtil;
 import com.google.gwtorm.server.StandardKeyEncoder;
 
@@ -75,10 +78,10 @@ public class UniversalGroupBackendTest {
 
   @Test
   public void testGet() {
-    assertEquals("Registered Users",
-        backend.get(REGISTERED_USERS).getName());
-    assertEquals("Project Owners",
-        backend.get(PROJECT_OWNERS).getName());
+    Basic description = backend.get(REGISTERED_USERS);
+    assertEquals("Registered Users", description.getName());
+    description = backend.get(PROJECT_OWNERS);
+    assertEquals("Project Owners", description.getName());
     assertNull(backend.get(OTHER_UUID));
   }
 
@@ -143,6 +146,31 @@ public class UniversalGroupBackendTest {
     checker = backend.membershipsOf(notMember);
     assertFalse(checker.contains(handled));
     assertFalse(checker.contains(notHandled));
+  }
+
+  @Test
+  public void testProjectDependentMembership() throws Exception {
+    AccountGroup.UUID g1 = new AccountGroup.UUID("g1");
+    AccountGroup.UUID g2 = new AccountGroup.UUID("g2");
+    GroupBackend backend = createMock(GroupBackend.class);
+
+    GroupMembership userChecker = createMock(GroupMembership.class);
+    expect(userChecker.getKnownGroups()).andStubReturn(Sets.newHashSet(g1));
+    expect(backend.membershipsOf(user)).andStubReturn(userChecker);
+
+    ProjectControl project = createMock(ProjectControl.class);
+    GroupMembership projectChecker = createMock(GroupMembership.class);
+    expect(projectChecker.getKnownGroups()).andStubReturn(Sets.newHashSet(g1, g2));
+    expect(backend.membershipsOf(project)).andStubReturn(projectChecker);
+
+    replay(project, userChecker, projectChecker, backend);
+
+    backends = new DynamicSet<GroupBackend>();
+    backends.add(backend);
+    backend = new UniversalGroupBackend(backends);
+
+    assertEquals(1, backend.membershipsOf(user).getKnownGroups().size());
+    assertEquals(2, backend.membershipsOf(project).getKnownGroups().size());
   }
 
 }

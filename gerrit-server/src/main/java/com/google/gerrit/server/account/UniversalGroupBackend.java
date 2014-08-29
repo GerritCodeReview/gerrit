@@ -16,9 +16,10 @@ package com.google.gerrit.server.account;
 
 import static com.google.gerrit.server.account.GroupBackends.GROUP_REF_NAME_COMPARATOR;
 
+import com.google.common.base.Function;
 import com.google.common.collect.ArrayListMultimap;
-import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
+import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.Nullable;
@@ -91,20 +92,32 @@ public class UniversalGroupBackend implements GroupBackend {
   }
 
   @Override
-  public GroupMembership membershipsOf(IdentifiedUser user) {
-    return new UniversalGroupMembership(user);
+  public GroupMembership membershipsOf(final IdentifiedUser user) {
+    return new UniversalGroupMembership(Maps.toMap(backends,
+        new Function<GroupBackend, GroupMembership>() {
+          @Override
+          public GroupMembership apply(GroupBackend g) {
+            return g.membershipsOf(user);
+          }
+        }));
   }
 
-  private class UniversalGroupMembership implements GroupMembership {
-   private final Map<GroupBackend, GroupMembership> memberships;
+  @Override
+  public GroupMembership membershipsOf(final ProjectControl project) {
+    return new UniversalGroupMembership(Maps.toMap(backends,
+        new Function<GroupBackend, GroupMembership>() {
+          @Override
+          public GroupMembership apply(GroupBackend g) {
+            return g.membershipsOf(project);
+          }
+        }));
+  }
 
-   private UniversalGroupMembership(IdentifiedUser user) {
-     ImmutableMap.Builder<GroupBackend, GroupMembership> builder =
-         ImmutableMap.builder();
-     for (GroupBackend g : backends) {
-       builder.put(g, g.membershipsOf(user));
-     }
-     this.memberships = builder.build();
+  private static class UniversalGroupMembership implements GroupMembership {
+    private final Map<GroupBackend, GroupMembership> memberships;
+
+    public UniversalGroupMembership(Map<GroupBackend, GroupMembership> memberships) {
+      this.memberships = memberships;
    }
 
    @Nullable

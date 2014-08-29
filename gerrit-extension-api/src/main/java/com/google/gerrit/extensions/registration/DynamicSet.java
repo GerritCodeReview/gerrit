@@ -139,6 +139,10 @@ public class DynamicSet<T> implements Iterable<T> {
     items = new CopyOnWriteArrayList<>(base);
   }
 
+  public DynamicSet() {
+    this(Collections.<AtomicReference<Provider<T>>>emptySet());
+  }
+
   @Override
   public Iterator<T> iterator() {
     final Iterator<AtomicReference<Provider<T>>> itr = items.iterator();

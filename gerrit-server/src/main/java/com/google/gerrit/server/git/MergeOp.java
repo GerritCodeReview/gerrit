@@ -727,10 +727,15 @@ public class MergeOp {
 
   private void updateSubscriptions(final List<Change> submitted) {
     if (mergeTip != null && (branchTip == null || branchTip != mergeTip)) {
+      Account submitter = getAccount(mergeTip);
+      if (submitter == null) {
+        log.error("Cannot update submodule subscriptions; no submitter found");
+        return;
+      }
       SubmoduleOp subOp =
           subOpFactory.create(destBranch, mergeTip, rw, repo,
               destProject.getProject(), submitted, commits,
-              getAccount(mergeTip));
+              submitter);
       try {
         subOp.update();
       } catch (SubmoduleException e) {

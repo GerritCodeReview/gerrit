@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "730d45e9_b9d03f67",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/GerritConfig.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1011624
+      },
+      "writtenOn": "2014-08-29T06:29:14Z",
+      "side": 1,
+      "message": "actually I would prefer if this is a per-user option instead of a site-wide config.",
+      "revId": "499dac533f20a4fb01fadcbb409ba08aa003d2c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -315,7 +315,7 @@ public class ProjectState {
    * @return true if any owner of this project or one of its parent projects
    *         fulfills a given check
    */
-  boolean anyOwner(final Predicate<Set<AccountGroup.UUID>> check) {
+  public boolean anyOwner(final Predicate<Set<AccountGroup.UUID>> check) {
     return Iterables.any(tree(), new Predicate<ProjectState>() {
       @Override
       public boolean apply(ProjectState in) {

@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.project;
 
-import com.google.common.base.Predicate;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -36,6 +35,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.InternalUser;
+import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupMembership;
 import com.google.gerrit.server.change.IncludedInResolver;
 import com.google.gerrit.server.config.CanonicalWebUrl;
@@ -155,6 +155,7 @@ public class ProjectControl {
   private final Collection<ContributorAgreement> contributorAgreements;
   private final TagCache tagCache;
   private final ChangeCache changeCache;
+  private final GroupMembership projectMembershipChecker;
 
   private List<SectionMatcher> allSections;
   private List<SectionMatcher> localSections;
@@ -172,6 +173,7 @@ public class ProjectControl {
       TagCache tagCache,
       ChangeCache changeCache,
       @CanonicalWebUrl @Nullable String canonicalWebUrl,
+      GroupBackend groupBackend,
       @Assisted CurrentUser who,
       @Assisted ProjectState ps) {
     this.repoManager = repoManager;
@@ -183,8 +185,9 @@ public class ProjectControl {
     this.permissionFilter = permissionFilter;
     this.contributorAgreements = pc.getAllProjects().getConfig().getContributorAgreements();
     this.canonicalWebUrl = canonicalWebUrl;
-    user = who;
-    state = ps;
+    this.projectMembershipChecker = groupBackend.membershipsOf(this);
+    this.user = who;
+    this.state = ps;
   }
 
   public ProjectControl forUser(CurrentUser who) {
@@ -289,15 +292,9 @@ public class ProjectControl {
   }
 
   private boolean isDeclaredOwner() {
-
     if (declaredOwner == null) {
-      final GroupMembership effectiveGroups = user.getEffectiveGroups();
-      declaredOwner = state.anyOwner(new Predicate<Set<AccountGroup.UUID>>() {
-        @Override
-        public boolean apply(Set<AccountGroup.UUID> owners) {
-          return effectiveGroups.containsAnyOf(owners);
-        }
-      });
+      declaredOwner =
+          projectMembershipChecker.contains(SystemGroupBackend.PROJECT_OWNERS);
     }
     return declaredOwner;
   }
@@ -504,8 +501,8 @@ public class ProjectControl {
   }
 
   boolean match(AccountGroup.UUID uuid, boolean isChangeOwner) {
-    if (SystemGroupBackend.PROJECT_OWNERS.equals(uuid)) {
-      return isDeclaredOwner();
+    if (projectMembershipChecker.contains(uuid)) {
+      return true;
     } else if (SystemGroupBackend.CHANGE_OWNER.equals(uuid)) {
       return isChangeOwner;
     } else {

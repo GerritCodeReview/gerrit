@@ -37,7 +37,6 @@ import com.google.gerrit.rules.PrologEnvironment;
 import com.google.gerrit.rules.RulesCache;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.CapabilityCollection;
-import com.google.gerrit.server.account.GroupMembership;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.git.BranchOrderSection;
@@ -313,14 +312,14 @@ public class ProjectState {
   }
 
   /**
-   * @return true if any of the groups listed in {@code groups} was declared to
-   *         be an owner of this project, or one of its parent projects..
+   * @return true if any owner of this project or one of its parent projects
+   *         fulfills a given check
    */
-  boolean isOwner(final GroupMembership groups) {
+  boolean anyOwner(final Predicate<Set<AccountGroup.UUID>> check) {
     return Iterables.any(tree(), new Predicate<ProjectState>() {
       @Override
       public boolean apply(ProjectState in) {
-        return groups.containsAnyOf(in.localOwners);
+        return check.apply(in.localOwners);
       }
     });
   }

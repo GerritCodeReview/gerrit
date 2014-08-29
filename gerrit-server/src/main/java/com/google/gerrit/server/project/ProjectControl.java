@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.project;
 
+import com.google.common.base.Predicate;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -35,6 +36,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.InternalUser;
+import com.google.gerrit.server.account.GroupMembership;
 import com.google.gerrit.server.change.IncludedInResolver;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.GitReceivePackGroups;
@@ -287,8 +289,15 @@ public class ProjectControl {
   }
 
   private boolean isDeclaredOwner() {
+
     if (declaredOwner == null) {
-      declaredOwner = state.isOwner(user.getEffectiveGroups());
+      final GroupMembership effectiveGroups = user.getEffectiveGroups();
+      declaredOwner = state.anyOwner(new Predicate<Set<AccountGroup.UUID>>() {
+        @Override
+        public boolean apply(Set<AccountGroup.UUID> owners) {
+          return effectiveGroups.containsAnyOf(owners);
+        }
+      });
     }
     return declaredOwner;
   }

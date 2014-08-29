@@ -16,6 +16,24 @@
       "revId": "499dac533f20a4fb01fadcbb409ba08aa003d2c3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "730d45e9_f9dab784",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/GerritConfig.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2014-08-29T12:53:05Z",
+      "side": 1,
+      "message": "Why? Do you find the current \"Diff all\" useful? I never use it because it opens a million tabs which are hard to track.\n\nI would give up this option and remove the tabbed implementation completely.",
+      "parentUuid": "730d45e9_b9d03f67",
+      "revId": "499dac533f20a4fb01fadcbb409ba08aa003d2c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

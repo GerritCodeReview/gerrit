@@ -19,7 +19,7 @@ genrule(
   srcs = glob([
       'images/*.jpg',
       'images/*.png',
-    ]) + ['doc.css'],
+    ]) + [':doc.css'],
   out = 'html.zip',
   visibility = ['PUBLIC'],
 )
@@ -37,6 +37,13 @@ genrule(
   cmd = '$(exe :gen_licenses) >$OUT',
   deps = [':gen_licenses'] + MAIN,
   out = 'licenses.txt',
+)
+
+genrule(
+  name = 'doc.css',
+  srcs = ['doc.css.in'],
+  cmd = 'cp $SRCS $OUT',
+  out = 'doc.css',
 )
 
 python_binary(

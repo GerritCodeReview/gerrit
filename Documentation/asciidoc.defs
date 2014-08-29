@@ -34,7 +34,7 @@ def genasciidoc(
   for attribute in attributes:
     asciidoc.extend(['-a', attribute])
   asciidoc.append('$SRCS')
-  newsrcs = ["doc.css"]
+  newsrcs = [":doc.css"]
   for src in srcs:
     fn = src
     # We have two cases: regular source files and generated files.

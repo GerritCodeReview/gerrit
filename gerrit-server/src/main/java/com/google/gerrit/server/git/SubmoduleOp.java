@@ -101,7 +101,7 @@ public class SubmoduleOp {
       @Assisted final Map<Change.Id, CodeReviewCommit> commits,
       @GerritPersonIdent final PersonIdent myIdent,
       GitRepositoryManager repoManager, GitReferenceUpdated gitRefUpdated,
-      @Assisted Account account, ChangeHooks changeHooks) {
+      @Nullable @Assisted Account account, ChangeHooks changeHooks) {
     this.destBranch = destBranch;
     this.mergeTip = mergeTip;
     this.rw = rw;

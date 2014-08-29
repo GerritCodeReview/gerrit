@@ -34,6 +34,24 @@
       "revId": "50dffde209e1bc8d9593577086d10200a50923d3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "33074dcd_97fc24d7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-08-29T19:00:26Z",
+      "side": 1,
+      "message": "I mean write this:\n\n  if (c \u003d\u003d null) {\n    listItr.remove();\n    continue;\n  }\n\nInstead of wrapping the rest of the loop in an else.",
+      "parentUuid": "930e39b4_4ae23339",
+      "revId": "50dffde209e1bc8d9593577086d10200a50923d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -70,7 +70,7 @@ public class SubmoduleOp {
   public interface Factory {
     SubmoduleOp create(Branch.NameKey destBranch, RevCommit mergeTip,
         RevWalk rw, Repository db, Project destProject, List<Change> submitted,
-        Map<Change.Id, CodeReviewCommit> commits, Account account);
+        Map<Change.Id, CodeReviewCommit> commits, @Nullable Account account);
   }
 
   private static final Logger log = LoggerFactory.getLogger(SubmoduleOp.class);
@@ -102,7 +102,7 @@ public class SubmoduleOp {
       @Assisted final Map<Change.Id, CodeReviewCommit> commits,
       @GerritPersonIdent final PersonIdent myIdent,
       GitRepositoryManager repoManager, GitReferenceUpdated gitRefUpdated,
-      @Assisted Account account, ChangeHooks changeHooks) {
+      @Assisted @Nullable Account account, ChangeHooks changeHooks) {
     this.destBranch = destBranch;
     this.mergeTip = mergeTip;
     this.rw = rw;
@@ -351,7 +351,9 @@ public class SubmoduleOp {
         case NEW:
         case FAST_FORWARD:
           gitRefUpdated.fire(subscriber.getParentKey(), rfu);
-          changeHooks.doRefUpdatedHook(subscriber, rfu, account);
+          if (account != null) {
+            changeHooks.doRefUpdatedHook(subscriber, rfu, account);
+          }
           // TODO since this is performed "in the background" no mail will be
           // sent to inform users about the updated branch
           break;

@@ -56,6 +56,7 @@ public class RelatedChanges extends TabPanel {
     String gitweb();
     String indirect();
     String notCurrent();
+    String directChild();
     String pointer();
     String row();
     String subject();

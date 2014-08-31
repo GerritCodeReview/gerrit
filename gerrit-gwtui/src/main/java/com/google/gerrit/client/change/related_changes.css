@@ -75,6 +75,11 @@
   width: 12px;
 }
 
+.directChild {
+  color: lightBlue;
+  font-weight: bold;
+}
+
 .gitweb {
   color: #000;
 }

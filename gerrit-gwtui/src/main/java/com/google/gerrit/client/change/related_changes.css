@@ -68,11 +68,17 @@
 .current,
 .gitweb,
 .indirect,
+.directChild,
 .notCurrent {
   display: inline-block;
   text-align: center;
   vertical-align: top;
   width: 12px;
+}
+
+.directChild {
+  color: lightBlue;
+  font-weight: bold;
 }
 
 .gitweb {

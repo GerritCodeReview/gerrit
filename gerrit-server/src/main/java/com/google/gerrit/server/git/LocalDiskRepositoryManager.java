@@ -145,7 +145,7 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
       noteDbPath = site.resolve(Objects.firstNonNull(
           cfg.getString("gerrit", null, "noteDbPath"), "notedb"));
     } else {
-      noteDbPath = null;
+      noteDbPath = basePath;
     }
     namesUpdateLock = new ReentrantLock(true /* fair */);
     names = list();
@@ -205,7 +205,7 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
   public Repository createRepository(Project.NameKey name)
       throws RepositoryNotFoundException, RepositoryCaseMismatchException {
     Repository repo = createRepository(basePath, name);
-    if (noteDbPath != null) {
+    if (!basePath.equals(noteDbPath)) {
       createRepository(noteDbPath, name);
     }
     return repo;

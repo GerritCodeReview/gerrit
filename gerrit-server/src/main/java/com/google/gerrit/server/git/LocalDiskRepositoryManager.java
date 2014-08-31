@@ -14,8 +14,6 @@
 
 package com.google.gerrit.server.git;
 
-import static com.google.common.base.Preconditions.checkState;
-
 import com.google.common.base.Objects;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.lifecycle.LifecycleModule;
@@ -145,7 +143,7 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
       noteDbPath = site.resolve(Objects.firstNonNull(
           cfg.getString("gerrit", null, "noteDbPath"), "notedb"));
     } else {
-      noteDbPath = null;
+      noteDbPath = basePath;
     }
     namesUpdateLock = new ReentrantLock(true /* fair */);
     names = list();
@@ -205,7 +203,7 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
   public Repository createRepository(Project.NameKey name)
       throws RepositoryNotFoundException, RepositoryCaseMismatchException {
     Repository repo = createRepository(basePath, name);
-    if (noteDbPath != null) {
+    if (!basePath.equals(noteDbPath)) {
       createRepository(noteDbPath, name);
     }
     return repo;
@@ -258,7 +256,6 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
   @Override
   public Repository openMetadataRepository(Project.NameKey name)
       throws RepositoryNotFoundException, IOException {
-    checkState(noteDbPath != null, "notedb disabled");
     try {
       return openRepository(noteDbPath, name);
     } catch (RepositoryNotFoundException e) {

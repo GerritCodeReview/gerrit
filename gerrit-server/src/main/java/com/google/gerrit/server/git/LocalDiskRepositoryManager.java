@@ -145,7 +145,7 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
       noteDbPath = site.resolve(Objects.firstNonNull(
           cfg.getString("gerrit", null, "noteDbPath"), "notedb"));
     } else {
-      noteDbPath = null;
+      noteDbPath = basePath;
     }
     namesUpdateLock = new ReentrantLock(true /* fair */);
     names = list();

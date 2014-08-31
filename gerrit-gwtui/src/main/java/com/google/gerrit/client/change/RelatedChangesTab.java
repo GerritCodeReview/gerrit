@@ -166,6 +166,7 @@ class RelatedChangesTab implements IsWidget {
     private final List<SafeHtml> rows;
     private final Set<String> connected;
     private final NavigationList navList;
+    private final Set<String> directChildren;
 
     private double start;
     private int row;
@@ -180,8 +181,9 @@ class RelatedChangesTab implements IsWidget {
       rows = new ArrayList<>(changes.length());
       connectedPos = changes.length() - 1;
       connected = showIndirectAncestors
-          ? new HashSet<String>(Math.max(changes.length() * 4 / 3, 16))
+          ? new HashSet<>(Math.max(changes.length() * 4 / 3, 16))
           : null;
+      directChildren = new HashSet<>(Math.max(changes.length() * 4 / 3, 16));
     }
 
     private boolean computeConnected() {
@@ -202,7 +204,11 @@ class RelatedChangesTab implements IsWidget {
       while (connectedPos >= 0) {
         CommitInfo c = changes.get(connectedPos).commit();
         for (int j = 0; j < c.parents().length(); j++) {
-          if (connected.contains(c.parents().get(j).commit())) {
+          String parent = c.parents().get(j).commit();
+          if (parent.equals(revision)) {
+            directChildren.add(c.commit());
+          }
+          if (connected.contains(parent)) {
             connected.add(c.commit());
             break;
           }
@@ -232,7 +238,8 @@ class RelatedChangesTab implements IsWidget {
         ChangeAndCommit info = changes.get(row);
         String commit = info.commit().commit();
         rows.add(new RowSafeHtml(
-            info, connected != null && !connected.contains(commit)));
+            info, connected != null && !connected.contains(commit),
+                        directChildren.contains(commit)));
         if (revision.equals(commit)) {
           selected = row;
         }
@@ -257,10 +264,13 @@ class RelatedChangesTab implements IsWidget {
     private String html;
     private ChangeAndCommit info;
     private final boolean notConnected;
+    private final boolean directChild;
 
-    RowSafeHtml(ChangeAndCommit info, boolean notConnected) {
+    RowSafeHtml(ChangeAndCommit info, boolean notConnected,
+                boolean directChild) {
       this.info = info;
       this.notConnected = notConnected;
+      this.directChild = directChild;
     }
 
     @Override
@@ -332,6 +342,13 @@ class RelatedChangesTab implements IsWidget {
         sb.setStyleName(RelatedChanges.R.css().current());
       }
       sb.closeSpan();
+      if (directChild) {
+        sb.openSpan();
+        sb.setStyleName(RelatedChanges.R.css().current());
+        sb.setAttribute("title", Util.C.directChild());
+        sb.append('\u25BC');
+        sb.closeSpan();
+      }
 
       sb.closeDiv();
     }

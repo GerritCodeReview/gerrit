@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f33935b5_6d1e157e",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ReviewCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 306,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-01T12:30:05Z",
+      "side": 1,
+      "message": "What does this do if the patch set could not be rebased due to conflict?  Does it raise RestApiException?",
+      "revId": "93d5f640e5feb33de105a204b8913e1373e7afb9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

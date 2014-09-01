@@ -1,0 +1,51 @@
+gerrit move-change
+==================
+
+NAME
+----
+gerrit move-change - Move change to a new destination
+
+SYNOPSIS
+--------
+[verse]
+'ssh' -p <port> <host> 'gerrit move-change' <CHANGE-NUM> <NEW-BRANCH>
+  [--message <message>]
+
+DESCRIPTION
+-----------
+Move <CHANGE-NUM> to <NEW-BRANCH> and publish <message> as a gerrit comment
+
+ACCESS
+------
+Caller must have link:access-control.html#category_abandon[Abandon] privileges
+for current destination branch and link:access-control.html#category_push[Push for Upload]
+privileges for the new destination branch.
+
+SCRIPTING
+---------
+This command is intended to be used in scripts.
+
+OPTIONS
+-------
+
+--message::
+-m::
+	message published as a comment on <CHANGE-NUM>.
+
+EXAMPLES
+--------
+
+Move a change to a branch:
+=====
+	$ ssh -p 29418 review.example.com gerrit move-change \
+		123456 master
+=====
+
+SEE ALSO
+--------
+
+* link:access-control.html[Access Controls]
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]

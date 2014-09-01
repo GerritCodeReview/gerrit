@@ -50,6 +50,7 @@ public class DefaultCommandModule extends CommandModule {
     command(gerrit, ListMembersCommand.class);
     command(gerrit, ListGroupsCommand.class);
     command(gerrit, LsUserRefs.class);
+    command(gerrit, MoveChangeCommand.class);
     command(gerrit, Query.class);
     command(gerrit, ShowCaches.class);
     command(gerrit, ShowConnections.class);

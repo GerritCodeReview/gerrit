@@ -187,6 +187,14 @@ public class ChangeControl {
     ;
   }
 
+  /** Can this user change the destination branch of this change
+      to this new branch? */
+  public boolean canMoveTo(final String branch)
+      throws OrmException {
+    return canAbandon()
+        && getProjectControl().controlForRef(branch).canMoveTo();
+  }
+
   /** Can this user publish this draft change or any draft patch set of this change? */
   public boolean canPublish(final ReviewDb db) throws OrmException {
     return (isOwner() || getRefControl().canPublishDrafts())

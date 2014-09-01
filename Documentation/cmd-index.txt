@@ -63,6 +63,9 @@ link:cmd-ls-members.html[gerrit ls-members]::
 link:cmd-ls-projects.html[gerrit ls-projects]::
 	List projects visible to the caller.
 
+link:cmd-move-change.html[gerrit move-change]::
+	Move a change to new destination branch.
+
 link:cmd-query.html[gerrit query]::
 	Query the change database.
 

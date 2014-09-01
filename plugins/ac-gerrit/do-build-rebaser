@@ -1,0 +1,6 @@
+#!/bin/sh
+
+cd ../..
+bazel build plugins/ac-gerrit
+ssh rebaser gerrit plugin install --name ac-gerrit.jar - < bazel-bin/plugins/ac-gerrit/ac-gerrit.jar
+ssh rebaser gerrit plugin reload ac-gerrit

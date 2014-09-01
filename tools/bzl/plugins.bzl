@@ -13,6 +13,7 @@ CORE_PLUGINS = [
 ]
 
 CUSTOM_PLUGINS = [
+    "ac-gerrit",
     "avatars-external",
 ]
 

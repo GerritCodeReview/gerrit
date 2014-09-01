@@ -1,0 +1,8 @@
+#!/bin/sh
+
+cd ../..
+bazel build plugins/ac-gerrit
+if [ -n "$1" ]; then
+  ssh -p 29418 yossim@$1 gerrit plugin install --name ac-gerrit.jar - < bazel-bin/plugins/ac-gerrit/ac-gerrit.jar
+  ssh -p 29418 yossim@$1 gerrit plugin reload ac-gerrit
+fi

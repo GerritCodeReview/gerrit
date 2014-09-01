@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "33310dd2_27099a50",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/LocalDiskRepositoryManager.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-09-01T08:07:45Z",
+      "side": 1,
+      "message": "This change actually fixes the problem ... BUT I guess this is not what DaveB intended to do.\n\nWhen notesMigration is not enabled, I guess that noteDbPath needs to be null as there is no metaData repository for notesDB correct?\nWhen notesMigration is disabled the openMetdataRepository call *has* to fail because there shouldn\u0027t be any nodesDb activity.\n\nUnfortunately this is not the case as we had the assertion failing. I fear that by returning a valid Git repository (the main one) as valid metdata repository for noteDb ... and possibly more problems on the way :-(\n\nWorth waiting for Shawn and DaveB feedback on this point.",
+      "range": {
+        "startLine": 148,
+        "startChar": 6,
+        "endLine": 148,
+        "endChar": 27
+      },
+      "revId": "119c0af72f7ab6cbd1e5b7ee0696787625d888c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

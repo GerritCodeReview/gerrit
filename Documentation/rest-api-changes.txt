@@ -3226,7 +3226,7 @@ In addition `ReviewerInfo` has the following fields:
 |`kind`        |`gerritcodereview#reviewer`
 |`approvals`   |
 The approvals of the reviewer as a map that maps the label names to the
-approval values ("`-2`", "`-1`", " `0`", "`+1`", "`+2`").
+approval values ("`-2`", "`-1`", "`0`", "`+1`", "`+2`").
 |==========================
 
 [[reviewer-input]]

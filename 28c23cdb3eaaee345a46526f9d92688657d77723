@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d346f141_4c06bf3f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/TagSetHolder.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-01T07:45:42Z",
+      "side": 1,
+      "message": "Should this be a new local variable rather than assigning to the argument that was passed in?",
+      "range": {
+        "startLine": 49,
+        "startChar": 4,
+        "endLine": 49,
+        "endChar": 11
+      },
+      "revId": "28c23cdb3eaaee345a46526f9d92688657d77723",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

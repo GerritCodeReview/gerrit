@@ -22,6 +22,24 @@
       "revId": "d2922631fa239002a01dc89d9ef53e098e04280e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "33310dd2_87f7a6f1",
+        "filename": "tools/plugin_archetype_deploy.sh",
+        "patchSetId": 9
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-09-01T05:59:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f33935b5_adfc7dd6",
+      "revId": "d2922631fa239002a01dc89d9ef53e098e04280e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

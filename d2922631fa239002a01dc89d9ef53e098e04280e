@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f33935b5_adfc7dd6",
+        "filename": "tools/plugin_archetype_deploy.sh",
+        "patchSetId": 9
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-01T05:11:39Z",
+      "side": 1,
+      "message": "\"Are you sure you want to deploy?\"",
+      "range": {
+        "startLine": 68,
+        "startChar": 15,
+        "endLine": 68,
+        "endChar": 26
+      },
+      "revId": "d2922631fa239002a01dc89d9ef53e098e04280e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

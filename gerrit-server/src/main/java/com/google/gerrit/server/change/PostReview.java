@@ -287,7 +287,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
               "negative line number %d not allowed on %s",
               c.line, path));
         }
-        c.message = Strings.emptyToNull(c.message).trim();
+        c.message = Strings.nullToEmpty(c.message).trim();
         if (c.message.isEmpty()) {
           listItr.remove();
         }

@@ -22,6 +22,30 @@
       "revId": "28c23cdb3eaaee345a46526f9d92688657d77723",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "33310dd2_070c965f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/TagSetHolder.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-09-01T07:52:46Z",
+      "side": 1,
+      "message": "That would be not easy to read and please see line 63 \u0026 68, there are 2 places using \u0027include\u0027,",
+      "parentUuid": "d346f141_4c06bf3f",
+      "range": {
+        "startLine": 49,
+        "startChar": 4,
+        "endLine": 49,
+        "endChar": 11
+      },
+      "revId": "28c23cdb3eaaee345a46526f9d92688657d77723",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d346f141_6c1e1b7e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/AbstractPreloadedPluginScanner.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-02T08:29:44Z",
+      "side": 1,
+      "message": "style nit: add a space after `if`",
+      "range": {
+        "startLine": 123,
+        "startChar": 8,
+        "endLine": 123,
+        "endChar": 10
+      },
+      "revId": "f323274599a2b1ebaed73425b0cf9a96420f05c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

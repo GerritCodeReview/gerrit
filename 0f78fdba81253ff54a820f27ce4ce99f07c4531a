@@ -22,6 +22,30 @@
       "revId": "0f78fdba81253ff54a820f27ce4ce99f07c4531a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9332b9d1_4a06933f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeInserter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-02T08:02:36Z",
+      "side": 1,
+      "message": "I think this should stay here as the intention was to perform some actions (insert change, stream event, send email) while the reindex is running in another thread.\n\nWhile the \"stream event\" really has to wait until the indexing is finished the other two actions can still be done while the (re)indexing is running.",
+      "parentUuid": "d31d115e_14c73427",
+      "range": {
+        "startLine": 181,
+        "startChar": 0,
+        "endLine": 184,
+        "endChar": 20
+      },
+      "revId": "0f78fdba81253ff54a820f27ce4ce99f07c4531a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

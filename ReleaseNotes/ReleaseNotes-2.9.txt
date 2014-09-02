@@ -33,6 +33,9 @@ Important Notes
 *WARNING:* Support for query via the SQL index is removed. The usage of
 a secondary index is now mandatory.
 
+*WARNING:* The `sortkey` and `sortkey_prev` options on the query changes
+REST endpoint are link:#sortkey-deprecation[deprecated].
+
 *WARNING:* The new change screen only displays download commands if the
 `download-commands` core plugin or any other plugin providing download
 commands is installed. The `download-commands` plugin provides the
@@ -298,6 +301,22 @@ create-branch] command.
 REST API
 ~~~~~~~~
 
+
+Changes
+^^^^^^^
+
+
+[[sortkey-deprecation]]
+* Results returned by the
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.9/rest-api-changes.html#list-changes[
+query changes] endpoint are now paginated using offsets instead of sortkeys.
++
+The `sortkey` and `sortkey_prev` parameters on the endpoint are deprecated.  The
+results are now paginated using the `--limit` (`-n`) option to limit the number
+of results, and the `-S` option to set the start point.
++
+Queries with sortkeys are still supported against old index versions, to enable
+online reindexing while clients have an older JS version.
 
 Projects
 ^^^^^^^^

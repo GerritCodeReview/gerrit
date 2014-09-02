@@ -18,6 +18,8 @@ import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.PROJECT_OWNERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 
+import com.google.common.base.Objects;
+import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.common.Version;
 import com.google.gerrit.common.data.AccessSection;
@@ -54,6 +56,7 @@ public class AllProjectsCreator {
   private final GitRepositoryManager mgr;
   private final AllProjectsName allProjectsName;
   private final PersonIdent serverUser;
+  private String message;
 
   private GroupReference admin;
   private GroupReference batch;
@@ -82,6 +85,11 @@ public class AllProjectsCreator {
 
   public AllProjectsCreator setBatchUsers(GroupReference batch) {
     this.batch = batch;
+    return this;
+  }
+
+  public AllProjectsCreator setCommitMessage(String message) {
+    this.message = message;
     return this;
   }
 
@@ -118,7 +126,9 @@ public class AllProjectsCreator {
         git);
     md.getCommitBuilder().setAuthor(serverUser);
     md.getCommitBuilder().setCommitter(serverUser);
-    md.setMessage("Initialized Gerrit Code Review " + Version.getVersion());
+    md.setMessage(Objects.firstNonNull(
+        Strings.emptyToNull(message),
+        "Initialized Gerrit Code Review " + Version.getVersion()));
 
     ProjectConfig config = ProjectConfig.read(md);
     Project p = config.getProject();

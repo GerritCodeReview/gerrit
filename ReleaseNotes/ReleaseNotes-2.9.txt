@@ -299,6 +299,13 @@ REST API
 ~~~~~~~~
 
 
+Changes
+^^^^^^^
+
+* The `sortkey` and `sortkey_prev` parameters on the
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.9/rest-api-changes.html#list-changes
+[query changes] endpoint are replaced with the `start` option.
+
 Projects
 ^^^^^^^^
 

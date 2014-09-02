@@ -170,7 +170,7 @@ public class AllProjectsCreator {
     grant(config, meta, Permission.PUSH, admin, owners);
     grant(config, meta, Permission.SUBMIT, admin, owners);
 
-    config.commit(md);
+    config.commitToNewRef(md, RefNames.REFS_CONFIG);
   }
 
   private void grant(ProjectConfig config, AccessSection section,

@@ -16,6 +16,24 @@
       "revId": "93d5f640e5feb33de105a204b8913e1373e7afb9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d31fd143_84d08667",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ReviewCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 306,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2014-09-02T14:59:19Z",
+      "side": 1,
+      "message": "Yes, it raises a ResourceConflictException and I validated that the error message is reported back to the client.",
+      "parentUuid": "f33935b5_6d1e157e",
+      "revId": "93d5f640e5feb33de105a204b8913e1373e7afb9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

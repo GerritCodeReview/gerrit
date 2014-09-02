@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d346f141_4c215fb9",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/plugins/HttpPluginServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 587,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-02T07:28:23Z",
+      "side": 1,
+      "message": "wrap this line?",
+      "range": {
+        "startLine": 587,
+        "startChar": 61,
+        "endLine": 587,
+        "endChar": 86
+      },
+      "revId": "960b71a0c98491825c496c575fca83ac9e532c83",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

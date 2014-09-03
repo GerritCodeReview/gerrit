@@ -334,6 +334,10 @@ limitations under the License.
     .changeExtension {
       padding-top: 5px;
     }
+
+    .notCurrentPatchSet {
+      background-color: #FFA62F;
+    }
   </ui:style>
 
   <g:HTMLPanel styleName='{style.cs2}'>

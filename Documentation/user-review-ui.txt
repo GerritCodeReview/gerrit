@@ -398,10 +398,13 @@ patch set and the total number of patch sets, in the form: "current
 patch set/number of patch sets".
 
 If a non-current patch set is viewed this is indicated by the
-link:#not-current[Not Current] change state. Please note that some
+link:#not-current[Not Current] change state, and by a
+highlighted drop-down label. Please note that some
 operations are only available on the current patch set.
 
 image::images/user-review-ui-change-screen-patch-sets.png[width=800, link="images/user-review-ui-change-screen-patch-sets.png"]
+
+image::images/user-review-ui-change-screen-not-current.png[width=800, link="images/user-review-ui-change-screen-not-current.png"]
 
 [[patch-set-drop-down]]
 The patch set drop-down list shows the list of patch sets and allows to

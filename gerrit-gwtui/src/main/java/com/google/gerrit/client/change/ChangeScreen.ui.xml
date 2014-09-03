@@ -322,6 +322,10 @@ limitations under the License.
       height: 16px !important;
       vertical-align: bottom;
     }
+
+    .notCurrentPatchSet {
+      background-color: #FFA62F;
+    }
   </ui:style>
 
   <g:HTMLPanel styleName='{style.cs2}'>

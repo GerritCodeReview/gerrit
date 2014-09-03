@@ -116,8 +116,8 @@ maven_jar(
 
 maven_jar(
   name = 'pegdown',
-  id = 'org.pegdown:pegdown:1.2.1',
-  sha1 = '47689e060d90f90431b5ab2df911452b93930d8c',
+  id = 'org.pegdown:pegdown:1.4.2',
+  sha1 = 'd96db502ed832df867ff5d918f05b51ba3879ea7',
   license = 'Apache2.0',
   deps = [':parboiled-java'],
 )

@@ -62,7 +62,7 @@ public class IndexRewriteImpl implements ChangeQueryRewriter {
   }
 
   @VisibleForTesting
-  static final int MAX_LIMIT = 1000;
+  static final int DEFAULT_MAX_LIMIT = 1000;
 
   /**
    * Get the set of statuses that changes matching the given predicate may have.
@@ -136,12 +136,11 @@ public class IndexRewriteImpl implements ChangeQueryRewriter {
     ChangeIndex index = indexes.getSearchIndex();
     in = basicRewrites.rewrite(in);
     int limit =
-        Objects.firstNonNull(ChangeQueryBuilder.getLimit(in), MAX_LIMIT);
+        Objects.firstNonNull(ChangeQueryBuilder.getLimit(in), DEFAULT_MAX_LIMIT);
     // Increase the limit rather than skipping, since we don't know how many
     // skipped results would have been filtered out by the enclosing AndSource.
     limit += start;
     limit = Math.max(limit, 1);
-    limit = Math.min(limit, MAX_LIMIT);
 
     Predicate<ChangeData> out = rewriteImpl(in, index, limit);
     if (in == out || out instanceof IndexPredicate) {

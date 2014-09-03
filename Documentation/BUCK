@@ -6,30 +6,25 @@ DOC_DIR = 'Documentation'
 MAIN = ['//gerrit-pgm:pgm', '//gerrit-gwtui:ui_module']
 SRCS = glob(['*.txt'], excludes = ['licenses.txt'])
 
-genrule(
+genasciidoc(
   name = 'html',
-  cmd = 'cd $TMP;' +
-    'mkdir -p %s/images;' % DOC_DIR +
-    'unzip -q $(location %s) -d %s/;'
-    % (':generate_html', DOC_DIR) +
-    'for s in $SRCS;do ln -s $s %s;done;' % DOC_DIR +
-    'mv %s/*.{jpg,png} %s/images;' % (DOC_DIR, DOC_DIR) +
-    'cp $(location %s) LICENSES.txt;' % ':licenses.txt' +
-    'zip -qr $OUT *',
-  srcs = glob([
-      'images/*.jpg',
-      'images/*.png',
-    ]) + [':doc.css'],
   out = 'html.zip',
+  docdir = DOC_DIR,
+  srcs = SRCS + [':licenses.txt'],
+  attributes = documentation_attributes(git_describe()),
+  backend = 'html5',
   visibility = ['PUBLIC'],
 )
 
 genasciidoc(
-  name = 'generate_html',
+  name = 'searchfree',
+  out = 'searchfree.zip',
+  docdir = DOC_DIR,
   srcs = SRCS + [':licenses.txt'],
   attributes = documentation_attributes(git_describe()),
   backend = 'html5',
-  out = 'only_html.zip',
+  searchbox = False,
+  visibility = ['PUBLIC'],
 )
 
 genrule(

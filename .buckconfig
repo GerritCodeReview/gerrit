@@ -6,7 +6,7 @@
   war_deploy = //tools/maven:war_deploy
   war_install = //tools/maven:war_install
   chrome = //:chrome
-  docs = //Documentation:html
+  docs = //Documentation:searchfree
   firefox = //:firefox
   gerrit = //:gerrit
   release = //:release

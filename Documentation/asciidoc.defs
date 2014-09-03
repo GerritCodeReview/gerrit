@@ -12,14 +12,15 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-def genasciidoc(
+def genasciidoc_htmlonly(
     name,
     out,
     srcs = [],
     attributes = [],
     backend = None,
+    searchbox = True,
     visibility = []):
-  EXPN = '.expn'
+  EXPN = '.' + name + '_expn'
 
   asciidoc = [
       '$(exe //lib/asciidoctor:asciidoc)',
@@ -51,9 +52,9 @@ def genasciidoc(
 
     genrule(
       name = ex,
-      cmd = '$(exe :replace_macros) --suffix=' + EXPN +
-            ' -s ' + passed_src +
-            ' -o $OUT',
+      cmd = '$(exe :replace_macros) --suffix="%s"' % EXPN +
+        ' -s ' + passed_src + ' -o $OUT' +
+        (' --searchbox' if searchbox else ' --no-searchbox'),
       srcs = srcs,
       out = ex,
     )
@@ -66,6 +67,44 @@ def genasciidoc(
     name = name,
     cmd = ' '.join(asciidoc),
     srcs = newsrcs,
+    out = out,
+    visibility = visibility,
+  )
+
+def genasciidoc(
+    name,
+    out,
+    docdir,
+    srcs = [],
+    attributes = [],
+    backend = None,
+    searchbox = True,
+    visibility = []):
+  SUFFIX = '_htmlonly'
+
+  genasciidoc_htmlonly(
+    name = name + SUFFIX,
+    srcs = srcs,
+    attributes = attributes,
+    backend = backend,
+    searchbox = searchbox,
+    out = name + SUFFIX + '.zip',
+  )
+
+  genrule(
+    name = name,
+    cmd = 'cd $TMP;' +
+      'mkdir -p %s/images;' % docdir +
+      'unzip -q $(location %s) -d %s/;'
+      % (':' + name + SUFFIX, docdir) +
+      'for s in $SRCS;do ln -s $s %s;done;' % docdir +
+      'mv %s/*.{jpg,png} %s/images;' % (docdir, docdir) +
+      'cp $(location %s) LICENSES.txt;' % ':licenses.txt' +
+      'zip -qr $OUT *',
+    srcs = glob([
+        'images/*.jpg',
+        'images/*.png',
+      ]) + [':doc.css'],
     out = out,
     visibility = visibility,
   )

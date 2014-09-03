@@ -196,22 +196,23 @@ next time project.py is run:
 [[documentation]]
 === Documentation
 
-To build only the documentation:
+To build only the documentation for testing or static hosting:
 
 ----
   buck build docs
 ----
 
-The generated html files will be placed in:
+The generated html files will NOT come with the search box, and will be
+placed in:
 
 ----
-  buck-out/gen/Documentation/html__tmp/Documentation
+  buck-out/gen/Documentation/searchfree__tmp/Documentation
 ----
 
-The html files will also be bundled into `html.zip` in this location:
+The html files will also be bundled into `searchfree.zip` in this location:
 
 ----
-  buck-out/gen/Documentation/html.zip
+  buck-out/gen/Documentation/searchfree.zip
 ----
 
 To build the executable WAR with the documentation included:

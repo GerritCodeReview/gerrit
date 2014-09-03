@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "905e2f2a_0af83bdd",
+        "filename": "Documentation/replace_macros.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-03T19:29:12Z",
+      "side": 1,
+      "message": "Rather than a boolean option for \"not X\", use \"X\", i.e. \"--search\" with default\u003dFalse.",
+      "revId": "8dbf34099c4f1c29ec52f69cb79d5dd2adfec05b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

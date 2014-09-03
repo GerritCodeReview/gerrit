@@ -109,6 +109,7 @@ public class ChangeScreen2 extends Screen {
     String replyBox();
     String selected();
     String hashtagName();
+    String notCurrentPatchSet();
   }
 
   static ChangeScreen2 get(NativeEvent in) {
@@ -385,6 +386,11 @@ public class ChangeScreen2 extends Screen {
     }
     patchSetsText.setInnerText(Resources.M.patchSets(
         currentlyViewedPatchSet, currentPatchSet));
+    if (currentlyViewedPatchSet != currentPatchSet) {
+      patchSetsText.addClassName(style.notCurrentPatchSet());
+    } else {
+      patchSetsText.removeClassName(style.notCurrentPatchSet());
+    }
     patchSetsAction = new PatchSetsAction(
         info.legacy_id(), revision,
         style, headerLine, patchSets);

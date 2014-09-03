@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9010ef3f_baed1128",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/IndexRewriteImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2014-09-03T14:46:58Z",
+      "side": 1,
+      "message": "I know that the getLimit method can return null but I have tested and when the limit is not specified in the command and the \u0027Query Limit\u0027 global capability is not defined, it always return the default value of the \u0027Query Limit\u0027 which is 500, as documented (https://gerrit-review.googlesource.com/Documentation/access-control.html#capability_queryLimit).\n\nWe should change the DEFAULT_MAX_LIMIT to 500 to be consistent with the documentation(or even better, use the same constant for both places).",
+      "range": {
+        "startLine": 139,
+        "startChar": 8,
+        "endLine": 139,
+        "endChar": 81
+      },
+      "revId": "940b7ab5a53e0270d183c2b5940f39c0ab6ab58e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

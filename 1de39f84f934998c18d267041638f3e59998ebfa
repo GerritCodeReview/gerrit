@@ -1,0 +1,136 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "905e2f2a_0adf1b75",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 613,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-03T16:13:27Z",
+      "side": 1,
+      "message": "the future",
+      "range": {
+        "startLine": 613,
+        "startChar": 66,
+        "endLine": 613,
+        "endChar": 72
+      },
+      "revId": "1de39f84f934998c18d267041638f3e59998ebfa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "905e2f2a_2adadf84",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 613,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-03T16:13:27Z",
+      "side": 1,
+      "message": "historical reasons",
+      "range": {
+        "startLine": 613,
+        "startChar": 4,
+        "endLine": 613,
+        "endChar": 18
+      },
+      "revId": "1de39f84f934998c18d267041638f3e59998ebfa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "905e2f2a_eae3a73b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 373,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-03T16:13:27Z",
+      "side": 1,
+      "message": "Unnecessary change? It compiled before, right?",
+      "range": {
+        "startLine": 373,
+        "startChar": 25,
+        "endLine": 373,
+        "endChar": 51
+      },
+      "revId": "1de39f84f934998c18d267041638f3e59998ebfa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d03267f0_8cea070c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-03T16:13:27Z",
+      "side": 1,
+      "message": "How is this expression different from \"this\"?",
+      "range": {
+        "startLine": 162,
+        "startChar": 8,
+        "endLine": 162,
+        "endChar": 50
+      },
+      "revId": "1de39f84f934998c18d267041638f3e59998ebfa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "905e2f2a_cae0e331",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-03T16:13:27Z",
+      "side": 1,
+      "message": "Confusing indentation since these are at different nesting levels.",
+      "range": {
+        "startLine": 163,
+        "startChar": 8,
+        "endLine": 164,
+        "endChar": 8
+      },
+      "revId": "1de39f84f934998c18d267041638f3e59998ebfa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d03267f0_acedc327",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-03T16:13:27Z",
+      "side": 1,
+      "message": "Confusing indentation",
+      "revId": "1de39f84f934998c18d267041638f3e59998ebfa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

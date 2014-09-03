@@ -84,6 +84,10 @@ opts = OptionParser()
 opts.add_option('-o', '--out', help='output file')
 opts.add_option('-s', '--src', help='source file')
 opts.add_option('-x', '--suffix', help='suffix for included filenames')
+opts.add_option('-b', '--searchbox', action="store_true", default=True,
+                help="generate the search boxes")
+opts.add_option('--no-searchbox', action="store_false", dest='searchbox',
+                help="don't generate the search boxes")
 options, _ = opts.parse_args()
 
 try:
@@ -99,7 +103,8 @@ try:
       last_line = ''
     elif PAT_SEARCHBOX.match(last_line):
       # Case of 'SEARCHBOX\n---------'
-      out_file.write(SEARCH_BOX)
+      if options.searchbox:
+        out_file.write(SEARCH_BOX)
       last_line = ''
     elif PAT_INCLUDE.match(line):
       # Case of 'include::<filename>'

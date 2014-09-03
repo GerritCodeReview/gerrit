@@ -80,11 +80,10 @@ Query for open changes of watched projects:
 
 If the `n` query parameter is supplied and additional changes exist
 that match the query beyond the end, the last change object has a
-`_more_changes: true` JSON field set. Callers can resume a query with
-the `N` query parameter, supplying the last change's `_sortkey` field
-as the value. When going in the reverse direction with the `P` query
-parameter a `_more_changes: true` is put in the first change object if
-there are results *before* the first change returned.
+`_more_changes: true` JSON field set.
+
+The `S` or `start` query parameter can be supplied to skip a number
+of changes from the list.
 
 Clients are allowed to specify more than one query by setting the `q`
 parameter multiple times. In this case the result is an array of

@@ -403,6 +403,10 @@ operations are only available on the current patch set.
 
 image::images/user-review-ui-change-screen-patch-sets.png[width=800, link="images/user-review-ui-change-screen-patch-sets.png"]
 
+Another indication is a highlighted drop-down label.
+
+image::images/user-review-ui-change-screen-not-current.png[width=800, link="images/user-review-ui-change-screen-not-current.png"]
+
 [[patch-set-drop-down]]
 The patch set drop-down list shows the list of patch sets and allows to
 switch between them. The patch sets are sorted in descending order so

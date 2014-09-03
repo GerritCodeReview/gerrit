@@ -22,6 +22,30 @@
       "revId": "940b7ab5a53e0270d183c2b5940f39c0ab6ab58e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d03267f0_ece3cb3b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/IndexRewriteImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-03T16:07:36Z",
+      "side": 1,
+      "message": "Good catch. The behavior you observe is due to adding a limit predicate in QueryProcessor.parseQuery, which is called before rewriting the predicate.\n\nI think a simpler fix is to kill the constant in this class entirely and use:\n\n int limit \u003d checkNotNull(ChangeQueryBuilder.getLimit(in),\n   \"expected limit when rewriting: %s\", in);",
+      "parentUuid": "9010ef3f_baed1128",
+      "range": {
+        "startLine": 139,
+        "startChar": 8,
+        "endLine": 139,
+        "endChar": 81
+      },
+      "revId": "940b7ab5a53e0270d183c2b5940f39c0ab6ab58e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

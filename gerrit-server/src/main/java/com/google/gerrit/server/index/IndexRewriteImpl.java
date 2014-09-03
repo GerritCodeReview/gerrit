@@ -14,8 +14,8 @@
 
 package com.google.gerrit.server.index;
 
-import com.google.common.annotations.VisibleForTesting;
-import com.google.common.base.Objects;
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.gerrit.reviewdb.client.Change;
@@ -60,9 +60,6 @@ public class IndexRewriteImpl implements ChangeQueryRewriter {
     OPEN_STATUSES = Sets.immutableEnumSet(open);
     CLOSED_STATUSES = Sets.immutableEnumSet(closed);
   }
-
-  @VisibleForTesting
-  static final int MAX_LIMIT = 1000;
 
   /**
    * Get the set of statuses that changes matching the given predicate may have.
@@ -135,13 +132,16 @@ public class IndexRewriteImpl implements ChangeQueryRewriter {
       throws QueryParseException {
     ChangeIndex index = indexes.getSearchIndex();
     in = basicRewrites.rewrite(in);
-    int limit =
-        Objects.firstNonNull(ChangeQueryBuilder.getLimit(in), MAX_LIMIT);
+
+    // ChangeQueryBuilder.getLimit() will never return null in normal usage
+    // because a limit is always set in the constructor of QueryProcessor().
+    int limit = checkNotNull(ChangeQueryBuilder.getLimit(in),
+        "Expected limit when parsing " + in);
+
     // Increase the limit rather than skipping, since we don't know how many
     // skipped results would have been filtered out by the enclosing AndSource.
     limit += start;
     limit = Math.max(limit, 1);
-    limit = Math.min(limit, MAX_LIMIT);
 
     Predicate<ChangeData> out = rewriteImpl(in, index, limit);
     if (in == out || out instanceof IndexPredicate) {

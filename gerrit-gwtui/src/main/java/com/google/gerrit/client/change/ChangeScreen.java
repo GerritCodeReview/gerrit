@@ -114,6 +114,7 @@ public class ChangeScreen extends Screen {
     String replyBox();
     String selected();
     String hashtagName();
+    String notCurrentPatchSet();
   }
 
   static ChangeScreen get(NativeEvent in) {
@@ -363,16 +364,26 @@ public class ChangeScreen extends Screen {
     }
 
     String currentlyViewedPatchSet;
-    if (info.revision(revision).id().equals("edit")) {
+    boolean isPatchSetCurrent = true;
+    final String revisionId = info.revision(revision).id();
+    if (revisionId.equals("edit")) {
       currentlyViewedPatchSet =
           Resources.M.editPatchSet(RevisionInfo.findEditParent(info.revisions()
               .values()));
       currentPatchSet = info.revisions().values().length() - 1;
     } else {
-      currentlyViewedPatchSet = info.revision(revision).id();
+      currentlyViewedPatchSet = revisionId;
+      if (currentlyViewedPatchSet != Integer.toString(currentPatchSet)) {
+        isPatchSetCurrent = false;
+      }
     }
     patchSetsText.setInnerText(Resources.M.patchSets(
         currentlyViewedPatchSet, currentPatchSet));
+    if (isPatchSetCurrent) {
+      patchSetsText.removeClassName(style.notCurrentPatchSet());
+    } else {
+      patchSetsText.addClassName(style.notCurrentPatchSet());
+    }
     patchSetsAction = new PatchSetsAction(
         info.legacy_id(), revision,
         style, headerLine, patchSets);

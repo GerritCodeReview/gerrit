@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d03267f0_0c4a976d",
+        "filename": ".buckconfig",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-04T01:55:19Z",
+      "side": 1,
+      "message": "Due to this change we also need to update Documentation/dev-buck.txt.",
+      "revId": "8d7b292b7335db3786f25538b34c3d61d9c7d478",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "70d61bdd_91ed5c28",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/DummyIndexModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-04T14:36:27Z",
+      "side": 1,
+      "message": "Why was this necessary?\nI haven\u0027t tried the change... but if the intention was to disable indexing then I wonder why install the IndexModule? Wouldn\u0027t it bind a lot of things which we don\u0027t need?",
+      "revId": "2761f8267b2b088c3bd563f50a658aab1747200d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

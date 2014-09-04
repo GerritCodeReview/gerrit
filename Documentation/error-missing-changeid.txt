@@ -45,7 +45,7 @@ of a commit message, for details, see link:user-changeid.html[Change-Id Lines].
 
 If the Change-Id is contained in the commit message but not in its
 last paragraph you have to update the commit message and move the
-Change-ID into the last paragraph. How to update the commit message
+Change-Id into the last paragraph. How to update the commit message
 is explained link:error-push-fails-due-to-commit-message.html[here].
 
 

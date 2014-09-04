@@ -251,7 +251,7 @@ As long as we set up the
 link:user-changeid.html[Change-Id commit-msg hook]
 before we uploaded the change, re-working it is easy. All we need
 to do to upload a re-worked change is to push another commit that has
-the same Change-Id in the message. Since the hook added a Change-ID in
+the same Change-Id in the message. Since the hook added a Change-Id in
 our initial commit we can simply checkout and then amend that commit.
 Then push it to Gerrit in the same way as we did to create the review. E.g.
 

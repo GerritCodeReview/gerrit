@@ -1,7 +1,7 @@
 = squash commits first
 
 With this error message Gerrit rejects to push a commit if it
-contains the same Change-ID as a predecessor commit.
+contains the same Change-Id as a predecessor commit.
 
 The reason for rejecting such a commit is that it would introduce, for
 the corresponding change in Gerrit, a dependency upon itself. Gerrit
@@ -14,7 +14,7 @@ This error is quite common, it appears when a user tries to address
 review comments and creates a new commit instead of amending the
 existing commit. Another possibility for this error, although less
 likely, is that the user tried to create a patch series with multiple
-changes to be reviewed and accidentally included the same Change-ID
+changes to be reviewed and accidentally included the same Change-Id
 into the different commit messages.
 
 
@@ -22,8 +22,8 @@ into the different commit messages.
 
 Here an example about how the push is failing. Please note that the
 two commits 'one commit' and 'another commit' both have the same
-Change-ID (of course in real life it can happen that there are more
-than two commits that have the same Change-ID).
+Change-Id (of course in real life it can happen that there are more
+than two commits that have the same Change-Id).
 
 ----
   $ git log
@@ -54,11 +54,11 @@ than two commits that have the same Change-ID).
   error: failed to push some refs to 'ssh://JohnDoe@host:29418/myProject'
 ----
 
-If it was the intention to rework on a change and to push a new patch
+If it was the intention to rework on a change and push a new patch
 set the problem can be fixed by squashing the commits that contain the
-same Change-ID. The squashed commit can then be pushed to Gerrit.
+same Change-Id. The squashed commit can then be pushed to Gerrit.
 To squash the commits use git rebase to do an interactive rebase. For
-the example above where the last two commits have the same Change-ID
+the example above where the last two commits have the same Change-Id
 this means an interactive rebase for the last two commits should be
 done. For further details about the git rebase command please check
 the link:http://www.kernel.org/pub/software/scm/git/docs/git-rebase.html[Git documentation for rebase].
@@ -92,11 +92,11 @@ the link:http://www.kernel.org/pub/software/scm/git/docs/git-rebase.html[Git doc
 
 If it was the intention to create a patch series with multiple
 changes to be reviewed, each commit message should contain the
-Change-ID of the corresponding change in Gerrit.  If a change in
-Gerrit does not exist yet, the Change-ID should be generated (either
-by using a link:cmd-hook-commit-msg.html[commit hook] or by using EGit) or the Change-ID could be
+Change-Id of the corresponding change in Gerrit.  If a change in
+Gerrit does not exist yet, the Change-Id should be generated (either
+by using a link:cmd-hook-commit-msg.html[commit hook] or by using EGit) or the Change-Id could be
 removed (not recommended since then amending this commit to create
-subsequent patch sets is more error prone). To change the Change-ID
+subsequent patch sets is more error prone). To change the Change-Id
 of an existing commit do an interactive link:http://www.kernel.org/pub/software/scm/git/docs/git-rebase.html[git rebase] and fix the
 affected commit messages.
 

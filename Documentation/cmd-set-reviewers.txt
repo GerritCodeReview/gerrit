@@ -27,7 +27,7 @@ SHA-1s.
 --project::
 -p::
 	Name of the project the intended change is contained within.  This
-	option must be supplied before Change-ID in order to take effect.
+	option must be supplied before Change-Id in order to take effect.
 
 --add::
 -a::

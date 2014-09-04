@@ -73,6 +73,54 @@
     },
     {
       "key": {
+        "uuid": "70d61bdd_31dfd075",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-04T13:24:00Z",
+      "side": 1,
+      "message": "Yepp. This change was uploading as intermediate measure to fix broken master ASAP. The last statement in the commit message is:\n\n  ... until the client code is fixed.",
+      "parentUuid": "905e2f2a_6af9f7e4",
+      "range": {
+        "startLine": 9,
+        "startChar": 11,
+        "endLine": 10,
+        "endChar": 13
+      },
+      "revId": "119c0af72f7ab6cbd1e5b7ee0696787625d888c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70d61bdd_11dacc84",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-04T13:24:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "905e2f2a_8aeaeb0b",
+      "range": {
+        "startLine": 9,
+        "startChar": 11,
+        "endLine": 10,
+        "endChar": 13
+      },
+      "revId": "119c0af72f7ab6cbd1e5b7ee0696787625d888c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "33310dd2_27099a50",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/LocalDiskRepositoryManager.java",
         "patchSetId": 4

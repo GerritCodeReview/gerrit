@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "b02fb38b_4bd52555",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-09-04T07:31:40Z",
+      "side": 1,
+      "message": "This was exactly my guess ... you\u0027ve put that assertion because you wanted to prevent the method to be called when nodedb is disabled.\n\nThe problem is ... IT IS CALLED and from multiple places ;-(\n\n- ChangeNotesParser (OK)\n- DraftCommentNotesParser (OK)\n- AbstractChangeNotes.load (OK)\n- AbstractChangeUpdate.load (Boom !)\n\nThe AbstractChangeUpdate.load is invoked when adding comments to a change, in the following call-stack:\n        at com.google.gerrit.server.notedb.AbstractChangeNotes.load(AbstractChangeNotes.java:47)\n        at com.google.gerrit.server.notedb.ChangeDraftUpdate.\u003cinit\u003e(ChangeDraftUpdate.java:96)\n        at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)\n        [Guice injections stack]\n        at com.google.gerrit.server.notedb.ChangeUpdate.createDraftUpdateIfNull(ChangeUpdate.java:320)\n        at com.google.gerrit.server.notedb.ChangeUpdate.insertDraftComment(ChangeUpdate.java:255)\n        at com.google.gerrit.server.notedb.ChangeUpdate.insertComment(ChangeUpdate.java:205)\n        at com.google.gerrit.server.PatchLineCommentsUtil.insertComments(PatchLineCommentsUtil.java:260)\n\nAs a result of that, if notedb is disabled \u003d\u003e you cannot add comments to changes anymore ;-(\n\nQuite a serious issue that makes Gerrit master unsuitable for production (or even testing !)",
+      "parentUuid": "905e2f2a_6af9f7e4",
+      "range": {
+        "startLine": 9,
+        "startChar": 11,
+        "endLine": 10,
+        "endChar": 13
+      },
+      "revId": "119c0af72f7ab6cbd1e5b7ee0696787625d888c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "33310dd2_27099a50",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/LocalDiskRepositoryManager.java",
         "patchSetId": 4

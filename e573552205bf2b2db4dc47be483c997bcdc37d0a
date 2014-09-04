@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "905e2f2a_6a5d7725",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2014-09-04T23:52:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "70d61bdd_f112a871",
+      "revId": "e573552205bf2b2db4dc47be483c997bcdc37d0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "70d61bdd_112c0cb5",
         "filename": "/COMMIT_MSG",
         "patchSetId": 6
@@ -113,6 +131,30 @@
     },
     {
       "key": {
+        "uuid": "905e2f2a_aa912f8e",
+        "filename": "Documentation/asciidoc.defs",
+        "patchSetId": 6
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2014-09-04T23:52:07Z",
+      "side": 1,
+      "message": "Not relevant now.",
+      "parentUuid": "70d61bdd_7150f81d",
+      "range": {
+        "startLine": 54,
+        "startChar": 16,
+        "endLine": 54,
+        "endChar": 17
+      },
+      "revId": "e573552205bf2b2db4dc47be483c997bcdc37d0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b02fb38b_4b50851d",
         "filename": "Documentation/asciidoc.defs",
         "patchSetId": 6
@@ -124,6 +166,30 @@
       "writtenOn": "2014-09-04T23:43:48Z",
       "side": 1,
       "message": "The same.",
+      "range": {
+        "startLine": 56,
+        "startChar": 8,
+        "endLine": 56,
+        "endChar": 9
+      },
+      "revId": "e573552205bf2b2db4dc47be483c997bcdc37d0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d03267f0_0cd5f723",
+        "filename": "Documentation/asciidoc.defs",
+        "patchSetId": 6
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2014-09-04T23:52:07Z",
+      "side": 1,
+      "message": "Not relevant now.",
+      "parentUuid": "b02fb38b_4b50851d",
       "range": {
         "startLine": 56,
         "startChar": 8,
@@ -159,6 +225,30 @@
     },
     {
       "key": {
+        "uuid": "d03267f0_4ccbff8b",
+        "filename": "Documentation/asciidoc.defs",
+        "patchSetId": 6
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2014-09-04T23:52:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "70d61bdd_314a706e",
+      "range": {
+        "startLine": 54,
+        "startChar": 4,
+        "endLine": 57,
+        "endChar": 35
+      },
+      "revId": "e573552205bf2b2db4dc47be483c997bcdc37d0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "70d61bdd_1145ec5e",
         "filename": "Documentation/asciidoc.defs",
         "patchSetId": 6
@@ -170,6 +260,24 @@
       "writtenOn": "2014-09-04T23:43:48Z",
       "side": 1,
       "message": "Nit: unnecessary new line.",
+      "revId": "e573552205bf2b2db4dc47be483c997bcdc37d0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d03267f0_2cd0b333",
+        "filename": "Documentation/asciidoc.defs",
+        "patchSetId": 6
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2014-09-04T23:52:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "70d61bdd_1145ec5e",
       "revId": "e573552205bf2b2db4dc47be483c997bcdc37d0a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

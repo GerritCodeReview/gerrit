@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "70d61bdd_112c0cb5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-04T23:07:43Z",
+      "side": 1,
+      "message": "I had to look your code changes to understand what do you actually mean by static hosting (what would be dynamic hosting?): html generation without search box and without building Lucene index. What you are doing is optimizing the build tool chain for development and testing purpose only, right? If so may be we can say it more clearly in the commit message?",
+      "range": {
+        "startLine": 9,
+        "startChar": 48,
+        "endLine": 9,
+        "endChar": 62
+      },
+      "revId": "e573552205bf2b2db4dc47be483c997bcdc37d0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

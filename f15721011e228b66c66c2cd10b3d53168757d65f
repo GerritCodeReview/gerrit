@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "70153b2e_19f88bdd",
+        "filename": "ReleaseNotes/ReleaseNotes-2.9.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2014-09-04T13:20:30Z",
+      "side": 1,
+      "message": "This should be replaced by \u0027--start\u0027 (\u0027-S\u0027) once the dependent change is merged.",
+      "range": {
+        "startLine": 316,
+        "startChar": 20,
+        "endLine": 316,
+        "endChar": 24
+      },
+      "revId": "f15721011e228b66c66c2cd10b3d53168757d65f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

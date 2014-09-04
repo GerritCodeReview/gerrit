@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b02fb38b_8b1c2d84",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-04T23:15:12Z",
+      "side": 1,
+      "message": "This is confusing. Who host the documentation statically and why would someone want to do that? If i understand your follow-up change correctly, you are only trying to optimize development environment/build tool chain.\nIf so please just say it this way. If no, and you are really trying to create gerrit_doc_without_search.war then you still don\u0027t provide the root level Buck rule for this:\n\n  $ buck build gerrit\n  $ buck build gerrit_doc_without_search\n\nSo either the commit message is misleading or your change isn\u0027t complete.",
+      "range": {
+        "startLine": 10,
+        "startChar": 33,
+        "endLine": 10,
+        "endChar": 69
+      },
+      "revId": "20d777b811cf60c518145e76dae579d9781a995a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

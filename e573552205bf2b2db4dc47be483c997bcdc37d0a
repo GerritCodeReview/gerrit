@@ -87,6 +87,92 @@
       "revId": "e573552205bf2b2db4dc47be483c997bcdc37d0a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70d61bdd_7150f81d",
+        "filename": "Documentation/asciidoc.defs",
+        "patchSetId": 6
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-04T23:43:48Z",
+      "side": 1,
+      "message": "Nit: unnecessary blank.",
+      "range": {
+        "startLine": 54,
+        "startChar": 16,
+        "endLine": 54,
+        "endChar": 17
+      },
+      "revId": "e573552205bf2b2db4dc47be483c997bcdc37d0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b02fb38b_4b50851d",
+        "filename": "Documentation/asciidoc.defs",
+        "patchSetId": 6
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-04T23:43:48Z",
+      "side": 1,
+      "message": "The same.",
+      "range": {
+        "startLine": 56,
+        "startChar": 8,
+        "endLine": 56,
+        "endChar": 9
+      },
+      "revId": "e573552205bf2b2db4dc47be483c997bcdc37d0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70d61bdd_314a706e",
+        "filename": "Documentation/asciidoc.defs",
+        "patchSetId": 6
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-04T23:43:48Z",
+      "side": 1,
+      "message": "I think that using ternary operator would make it shorter:\n\n  cmd \u003d \u0027$(exe :replace_macros) --suffix\u003d\u0027 + EXPN + \\\n          \u0027 -s \u0027 + passed_src + \u0027 -o $OUT\u0027 + \\\n          (\u0027 --searchbox\u0027 if searchbox else \u0027 --no-searchbox\u0027)",
+      "range": {
+        "startLine": 54,
+        "startChar": 4,
+        "endLine": 57,
+        "endChar": 35
+      },
+      "revId": "e573552205bf2b2db4dc47be483c997bcdc37d0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70d61bdd_1145ec5e",
+        "filename": "Documentation/asciidoc.defs",
+        "patchSetId": 6
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-04T23:43:48Z",
+      "side": 1,
+      "message": "Nit: unnecessary new line.",
+      "revId": "e573552205bf2b2db4dc47be483c997bcdc37d0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

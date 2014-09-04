@@ -22,6 +22,23 @@
       "revId": "cdf2d8052cf621ec49adbee91cf0e68fad152925",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "905e2f2a_6a7457a7",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/index/IndexRewriteTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-04T15:57:39Z",
+      "side": 1,
+      "message": "Add the limit here.",
+      "revId": "cdf2d8052cf621ec49adbee91cf0e68fad152925",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

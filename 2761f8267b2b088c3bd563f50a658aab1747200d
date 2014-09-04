@@ -2,6 +2,69 @@
   "comments": [
     {
       "key": {
+        "uuid": "70d61bdd_9106bc3e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/DummyIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-04T22:52:54Z",
+      "side": 1,
+      "message": "Nit: missing blank",
+      "range": {
+        "startLine": 25,
+        "startChar": 65,
+        "endLine": 25,
+        "endChar": 66
+      },
+      "revId": "2761f8267b2b088c3bd563f50a658aab1747200d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b02fb38b_4b2765d5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/DummyIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-04T22:52:54Z",
+      "side": 1,
+      "message": "Nit: unnecessary new line.",
+      "revId": "2761f8267b2b088c3bd563f50a658aab1747200d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b02fb38b_2b2c19b5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/DummyIndexModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-04T22:52:54Z",
+      "side": 1,
+      "message": "This ctor isn\u0027t needed, remove it.",
+      "range": {
+        "startLine": 23,
+        "startChar": 2,
+        "endLine": 24,
+        "endChar": 3
+      },
+      "revId": "2761f8267b2b088c3bd563f50a658aab1747200d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "70d61bdd_91ed5c28",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/DummyIndexModule.java",
         "patchSetId": 1
@@ -13,6 +76,29 @@
       "writtenOn": "2014-09-04T14:36:27Z",
       "side": 1,
       "message": "Why was this necessary?\nI haven\u0027t tried the change... but if the intention was to disable indexing then I wonder why install the IndexModule? Wouldn\u0027t it bind a lot of things which we don\u0027t need?",
+      "revId": "2761f8267b2b088c3bd563f50a658aab1747200d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70d61bdd_b103c02d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/Query.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-04T22:52:54Z",
+      "side": 1,
+      "message": "This mode is the default; removing this param entirely would have the same effect.",
+      "range": {
+        "startLine": 30,
+        "startChar": 2,
+        "endLine": 30,
+        "endChar": 17
+      },
       "revId": "2761f8267b2b088c3bd563f50a658aab1747200d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

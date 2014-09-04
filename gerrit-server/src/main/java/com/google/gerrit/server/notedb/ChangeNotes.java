@@ -112,17 +112,21 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
   @Singleton
   public static class Factory {
     private final GitRepositoryManager repoManager;
+    private final NotesMigration migration;
     private final AllUsersNameProvider allUsersProvider;
 
     @VisibleForTesting
     @Inject
-    public Factory(GitRepositoryManager repoManager, AllUsersNameProvider allUsersProvider) {
+    public Factory(GitRepositoryManager repoManager,
+        NotesMigration migration,
+        AllUsersNameProvider allUsersProvider) {
       this.repoManager = repoManager;
+      this.migration = migration;
       this.allUsersProvider = allUsersProvider;
     }
 
     public ChangeNotes create(Change change) {
-      return new ChangeNotes(repoManager, allUsersProvider, change);
+      return new ChangeNotes(repoManager, migration, allUsersProvider, change);
     }
   }
 
@@ -141,9 +145,9 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
 
   @Inject
   @VisibleForTesting
-  public ChangeNotes(GitRepositoryManager repoManager,
+  public ChangeNotes(GitRepositoryManager repoManager, NotesMigration migration,
       AllUsersNameProvider allUsersProvider, Change change) {
-    super(repoManager, change.getId());
+    super(repoManager, migration, change.getId());
     this.allUsers = allUsersProvider.get();
     this.change = new Change(change);
   }
@@ -214,8 +218,8 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       throws OrmException {
     if (draftCommentNotes == null ||
         !author.equals(draftCommentNotes.getAuthor())) {
-      draftCommentNotes = new DraftCommentNotes(repoManager, allUsers,
-          getChangeId(), author);
+      draftCommentNotes = new DraftCommentNotes(repoManager, migration,
+          allUsers, getChangeId(), author);
       draftCommentNotes.load();
     }
   }
@@ -290,7 +294,8 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     }
   }
 
-  private void loadDefaults() {
+  @Override
+  protected void loadDefaults() {
     approvals = ImmutableListMultimap.of();
     reviewers = ImmutableSetMultimap.of();
     submitRecords = ImmutableList.of();

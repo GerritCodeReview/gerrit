@@ -27,12 +27,16 @@ import java.io.IOException;
 
 /** View of contents at a single ref related to some change. **/
 public abstract class AbstractChangeNotes<T> extends VersionedMetaData {
-  private boolean loaded;
   protected final GitRepositoryManager repoManager;
+  protected final NotesMigration migration;
   private final Change.Id changeId;
 
-  AbstractChangeNotes(GitRepositoryManager repoManager, Change.Id changeId) {
+  private boolean loaded;
+
+  AbstractChangeNotes(GitRepositoryManager repoManager,
+      NotesMigration migration, Change.Id changeId) {
     this.repoManager = repoManager;
+    this.migration = migration;
     this.changeId = changeId;
   }
 
@@ -41,24 +45,32 @@ public abstract class AbstractChangeNotes<T> extends VersionedMetaData {
   }
 
   public T load() throws OrmException {
-    if (!loaded) {
-      Repository repo;
-      try {
-        repo = repoManager.openMetadataRepository(getProjectName());
-      } catch (IOException e) {
-        throw new OrmException(e);
-      }
-      try {
-        load(repo);
-        loaded = true;
-      } catch (ConfigInvalidException | IOException e) {
-        throw new OrmException(e);
-      } finally {
-        repo.close();
-      }
+    if (loaded) {
+      return self();
+    }
+    if (!migration.enabled()) {
+      loadDefaults();
+      return self();
+    }
+    Repository repo;
+    try {
+      repo = repoManager.openMetadataRepository(getProjectName());
+    } catch (IOException e) {
+      throw new OrmException(e);
+    }
+    try {
+      load(repo);
+      loaded = true;
+    } catch (ConfigInvalidException | IOException e) {
+      throw new OrmException(e);
+    } finally {
+      repo.close();
     }
     return self();
   }
+
+  /** Load default values for any instance variables when notedb is disabled. */
+  protected abstract void loadDefaults();
 
   /**
    * @return the NameKey for the project where the notes should be stored,

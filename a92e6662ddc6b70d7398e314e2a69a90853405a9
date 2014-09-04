@@ -16,6 +16,24 @@
       "revId": "a92e6662ddc6b70d7398e314e2a69a90853405a9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "905e2f2a_2a2c1fb5",
+        "filename": "Documentation/dev-buck.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2014-09-04T02:21:31Z",
+      "side": 1,
+      "message": "I feel this might make users confused with the \"documentation\" mentioned later in \"withdocs\" and \"release\", so tweaked the wording a little.",
+      "parentUuid": "905e2f2a_4a2753d5",
+      "revId": "a92e6662ddc6b70d7398e314e2a69a90853405a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

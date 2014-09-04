@@ -54,11 +54,12 @@ than two commits that have the same Change-Id).
   error: failed to push some refs to 'ssh://JohnDoe@host:29418/myProject'
 ----
 
-If it was the intention to rework on a change and push a new patch
-set the problem can be fixed by squashing the commits that contain the
+If it was the intention to rework a change and push a new patch
+set, the problem can be fixed by squashing the commits that contain the
 same Change-Id. The squashed commit can then be pushed to Gerrit.
-To squash the commits use git rebase to do an interactive rebase. For
-the example above where the last two commits have the same Change-Id
+
+To squash the commits, use `git rebase -i` to do an interactive rebase. For
+the example above where the last two commits have the same Change-Id,
 this means an interactive rebase for the last two commits should be
 done. For further details about the git rebase command please check
 the link:http://www.kernel.org/pub/software/scm/git/docs/git-rebase.html[Git documentation for rebase].

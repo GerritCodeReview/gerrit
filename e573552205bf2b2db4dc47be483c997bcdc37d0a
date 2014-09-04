@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "70d61bdd_f112a871",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-04T23:21:39Z",
+      "side": 1,
+      "message": "May be: \"Buck: Allow to geneate documentation for static hosting\" would be more appropriate then: you are really providing a new feature here.",
+      "revId": "e573552205bf2b2db4dc47be483c997bcdc37d0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "70d61bdd_112c0cb5",
         "filename": "/COMMIT_MSG",
         "patchSetId": 6
@@ -37,6 +54,30 @@
       "side": 1,
       "message": "Sorry for being unclear. By \"static hosting\" I mean something like this:\nhttps://gerrit-documentation.storage.googleapis.com/Documentation/2.9/index.html\n\nThe search box on this page won\u0027t work as we don\u0027t have the servlet there to do the search.\n\nI think the only place the search boxes will work is when they are bundled with gerrit server (as the servlet serving documentation searching is inside gerrit server). Everywhere else are considered \"static hosting\".",
       "parentUuid": "70d61bdd_112c0cb5",
+      "range": {
+        "startLine": 9,
+        "startChar": 48,
+        "endLine": 9,
+        "endChar": 62
+      },
+      "revId": "e573552205bf2b2db4dc47be483c997bcdc37d0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70d61bdd_d115245c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-04T23:21:39Z",
+      "side": 1,
+      "message": "Thanks for clarification, now it makes sense.",
+      "parentUuid": "905e2f2a_0a839b4b",
       "range": {
         "startLine": 9,
         "startChar": 48,

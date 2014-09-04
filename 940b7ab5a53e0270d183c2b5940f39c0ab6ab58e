@@ -46,6 +46,30 @@
       "revId": "940b7ab5a53e0270d183c2b5940f39c0ab6ab58e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d03267f0_8c1c4784",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/IndexRewriteImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-04T01:38:04Z",
+      "side": 1,
+      "message": "The checkNotNull fix works for UI and command line searches, but causes most of the index rewrite test cases to fail because they are not passing in a limit.",
+      "parentUuid": "d03267f0_ece3cb3b",
+      "range": {
+        "startLine": 139,
+        "startChar": 8,
+        "endLine": 139,
+        "endChar": 81
+      },
+      "revId": "940b7ab5a53e0270d183c2b5940f39c0ab6ab58e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

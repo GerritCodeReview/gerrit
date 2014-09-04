@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b02fb38b_6bf901e5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-04T15:48:09Z",
+      "side": 1,
+      "message": "Is this really important for the 2.10?",
+      "revId": "b048a31d26ac779be9ebfdfc1e450237fb9d320c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

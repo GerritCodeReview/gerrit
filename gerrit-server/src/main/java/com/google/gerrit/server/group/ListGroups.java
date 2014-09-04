@@ -90,10 +90,10 @@ public class ListGroups implements RestReadView<TopLevelResource> {
   @Option(name = "--limit", aliases = {"-n"}, metaVar = "CNT", usage = "maximum number of groups to list")
   private int limit;
 
-  @Option(name = "-S", metaVar = "CNT", usage = "number of groups to skip")
+  @Option(name = "--start", aliases = {"-S"}, metaVar = "CNT", usage = "number of groups to skip")
   private int start;
 
-  @Option(name = "-m", metaVar = "MATCH", usage = "match group substring")
+  @Option(name = "--match", aliases = {"-m"}, metaVar = "MATCH", usage = "match group substring")
   private String matchSubstring;
 
   @Option(name = "-o", usage = "Output options per group")

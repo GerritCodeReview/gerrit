@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "905e2f2a_aa380fe4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/IndexRewriteImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-04T15:56:16Z",
+      "side": 1,
+      "message": "Fix the tests.",
+      "range": {
+        "startLine": 139,
+        "startChar": 0,
+        "endLine": 140,
+        "endChar": 70
+      },
+      "revId": "cdf2d8052cf621ec49adbee91cf0e68fad152925",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

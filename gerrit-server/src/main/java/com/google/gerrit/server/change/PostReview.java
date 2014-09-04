@@ -146,7 +146,6 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       input.notify = NotifyHandling.NONE;
     }
 
-    ChangeUpdate update = null;
     db.get().changes().beginTransaction(revision.getChange().getId());
     boolean dirty = false;
     try {
@@ -154,7 +153,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       ChangeUtil.updated(change);
       timestamp = change.getLastUpdatedOn();
 
-      update = updateFactory.create(revision.getControl(), timestamp);
+      ChangeUpdate update = updateFactory.create(revision.getControl(), timestamp);
       update.setPatchSetId(revision.getPatchSet().getId());
       dirty |= insertComments(revision, update, input.comments, input.drafts);
       dirty |= updateLabels(revision, update, input.labels);
@@ -163,11 +162,9 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
         db.get().changes().update(Collections.singleton(change));
         db.get().commit();
       }
+      update.commit();
     } finally {
       db.get().rollback();
-    }
-    if (update != null) {
-      update.commit();
     }
 
     CheckedFuture<?, IOException> indexWrite;

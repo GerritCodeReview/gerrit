@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b02fb38b_ab06c93d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-04T22:34:38Z",
+      "side": 1,
+      "message": "Out of curiosity: Have you ever seen this failing? Me don\u0027t. And how this change helps the user to recover from this failure?",
+      "revId": "67c263f877c6e95039694a90e0af17187b25403b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

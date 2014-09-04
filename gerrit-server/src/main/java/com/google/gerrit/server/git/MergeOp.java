@@ -844,6 +844,7 @@ public class MergeOp {
       db.commit();
 
       sendMergedEmail(c, submitter);
+      indexer.index(db, c);
       if (submitter != null) {
         try {
           hooks.doChangeMergedHook(c,
@@ -856,7 +857,6 @@ public class MergeOp {
     } finally {
       db.rollback();
     }
-    indexer.index(db, c);
   }
 
   private Change setMergedPatchSet(Change.Id changeId, final PatchSet.Id merged)
@@ -1069,6 +1069,14 @@ public class MergeOp {
       }
     }));
 
+    if (indexFuture != null) {
+      try {
+        indexFuture.checkedGet();
+      } catch (IOException e) {
+        log.error("Failed to index new change message", e);
+      }
+    }
+
     if (submitter != null) {
       try {
         hooks.doMergeFailedHook(c,
@@ -1076,13 +1084,6 @@ public class MergeOp {
             db.patchSets().get(c.currentPatchSetId()), msg.getMessage(), db);
       } catch (OrmException ex) {
         log.error("Cannot run hook for merge failed " + c.getId(), ex);
-      }
-    }
-    if (indexFuture != null) {
-      try {
-        indexFuture.checkedGet();
-      } catch (IOException e) {
-        log.error("Failed to index new change message", e);
       }
     }
   }

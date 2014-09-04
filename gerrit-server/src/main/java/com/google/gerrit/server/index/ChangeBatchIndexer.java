@@ -195,7 +195,7 @@ public class ChangeBatchIndexer {
           fail(project, e);
           throw e;
         }
-      }, MoreExecutors.sameThreadExecutor());
+      }, MoreExecutors.directExecutor());
     }
 
     try {

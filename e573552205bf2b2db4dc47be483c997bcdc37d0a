@@ -22,6 +22,30 @@
       "revId": "e573552205bf2b2db4dc47be483c997bcdc37d0a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "905e2f2a_0a839b4b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1013262
+      },
+      "writtenOn": "2014-09-04T23:13:03Z",
+      "side": 1,
+      "message": "Sorry for being unclear. By \"static hosting\" I mean something like this:\nhttps://gerrit-documentation.storage.googleapis.com/Documentation/2.9/index.html\n\nThe search box on this page won\u0027t work as we don\u0027t have the servlet there to do the search.\n\nI think the only place the search boxes will work is when they are bundled with gerrit server (as the servlet serving documentation searching is inside gerrit server). Everywhere else are considered \"static hosting\".",
+      "parentUuid": "70d61bdd_112c0cb5",
+      "range": {
+        "startLine": 9,
+        "startChar": 48,
+        "endLine": 9,
+        "endChar": 62
+      },
+      "revId": "e573552205bf2b2db4dc47be483c997bcdc37d0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

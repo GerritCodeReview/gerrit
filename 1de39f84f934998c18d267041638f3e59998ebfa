@@ -48,6 +48,54 @@
     },
     {
       "key": {
+        "uuid": "905e2f2a_aa1fef77",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 613,
+      "author": {
+        "id": 1013497
+      },
+      "writtenOn": "2014-09-04T07:38:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "905e2f2a_0adf1b75",
+      "range": {
+        "startLine": 613,
+        "startChar": 66,
+        "endLine": 613,
+        "endChar": 72
+      },
+      "revId": "1de39f84f934998c18d267041638f3e59998ebfa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "905e2f2a_8a1c2b84",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 613,
+      "author": {
+        "id": 1013497
+      },
+      "writtenOn": "2014-09-04T07:38:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "905e2f2a_2adadf84",
+      "range": {
+        "startLine": 613,
+        "startChar": 4,
+        "endLine": 613,
+        "endChar": 18
+      },
+      "revId": "1de39f84f934998c18d267041638f3e59998ebfa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "905e2f2a_eae3a73b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
         "patchSetId": 4
@@ -59,6 +107,30 @@
       "writtenOn": "2014-09-03T16:13:27Z",
       "side": 1,
       "message": "Unnecessary change? It compiled before, right?",
+      "range": {
+        "startLine": 373,
+        "startChar": 25,
+        "endLine": 373,
+        "endChar": 51
+      },
+      "revId": "1de39f84f934998c18d267041638f3e59998ebfa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d03267f0_ec874b54",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 373,
+      "author": {
+        "id": 1013497
+      },
+      "writtenOn": "2014-09-04T07:38:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "905e2f2a_eae3a73b",
       "range": {
         "startLine": 373,
         "startChar": 25,
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "905e2f2a_6a4b3775",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1013497
+      },
+      "writtenOn": "2014-09-04T07:38:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d03267f0_8cea070c",
+      "range": {
+        "startLine": 162,
+        "startChar": 8,
+        "endLine": 162,
+        "endChar": 50
+      },
+      "revId": "1de39f84f934998c18d267041638f3e59998ebfa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "905e2f2a_cae0e331",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
         "patchSetId": 4
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "d03267f0_cc848f52",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1013497
+      },
+      "writtenOn": "2014-09-04T07:38:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "905e2f2a_cae0e331",
+      "range": {
+        "startLine": 163,
+        "startChar": 8,
+        "endLine": 164,
+        "endChar": 8
+      },
+      "revId": "1de39f84f934998c18d267041638f3e59998ebfa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d03267f0_acedc327",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
         "patchSetId": 4
@@ -128,6 +248,24 @@
       "writtenOn": "2014-09-03T16:13:27Z",
       "side": 1,
       "message": "Confusing indentation",
+      "revId": "1de39f84f934998c18d267041638f3e59998ebfa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d03267f0_ac91438e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1013497
+      },
+      "writtenOn": "2014-09-04T07:38:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d03267f0_acedc327",
       "revId": "1de39f84f934998c18d267041638f3e59998ebfa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

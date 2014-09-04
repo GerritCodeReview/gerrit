@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "70d61bdd_512294c6",
+        "filename": "ReleaseNotes/ReleaseNotes-2.9.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-04T22:55:54Z",
+      "side": 1,
+      "message": "offsets",
+      "range": {
+        "startLine": 312,
+        "startChar": 48,
+        "endLine": 312,
+        "endChar": 54
+      },
+      "revId": "f15721011e228b66c66c2cd10b3d53168757d65f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "70153b2e_19f88bdd",
         "filename": "ReleaseNotes/ReleaseNotes-2.9.txt",
         "patchSetId": 4

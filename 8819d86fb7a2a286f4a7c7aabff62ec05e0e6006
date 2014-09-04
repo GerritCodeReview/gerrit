@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b02fb38b_cb091550",
+        "filename": "Documentation/error-squash-commits-first.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-04T22:30:41Z",
+      "side": 1,
+      "message": "I would add `git rebase -i`.",
+      "range": {
+        "startLine": 61,
+        "startChar": 28,
+        "endLine": 61,
+        "endChar": 38
+      },
+      "revId": "8819d86fb7a2a286f4a7c7aabff62ec05e0e6006",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -39,6 +39,29 @@
       "revId": "29dfc343e15781a4538b7cd6261ce4b8817b621e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50b4b7af_48f97fe4",
+        "filename": "Documentation/dev-release.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-05T05:57:45Z",
+      "side": 1,
+      "message": "this can be simply \"docs\" now, since the alias has been changed.",
+      "range": {
+        "startLine": 343,
+        "startChar": 13,
+        "endLine": 343,
+        "endChar": 37
+      },
+      "revId": "29dfc343e15781a4538b7cd6261ce4b8817b621e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

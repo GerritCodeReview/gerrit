@@ -33,7 +33,11 @@ jars = set()
 
 def link_jars(libs, directory):
   makedirs(directory)
-  cp = check_output(['buck', 'audit', 'classpath'] + libs)
+  try:
+    cp = check_output(['buck', 'audit', 'classpath'] + libs)
+  except Exception as e:
+    print('call to buck audit failed: %s' % e, file=sys.stderr)
+    exit(1)
   for j in cp.strip().splitlines():
     if j not in jars:
       jars.add(j)

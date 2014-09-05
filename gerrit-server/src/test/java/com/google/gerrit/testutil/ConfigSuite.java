@@ -43,12 +43,12 @@ import java.util.List;
  * tests is created with the {@link Parameter} field set to the config.
  *
  * <pre>
- * @RunWith(ConfigSuite.class)
+ * <code>@RunWith(ConfigSuite.class)</code>
  * public abstract class MyAbstractTest {
- *   @ConfigSuite.Parameter
+ *   <code>@ConfigSuite.Parameter</code>
  *   protected Config cfg;
  *
- *   @ConfigSuite.Config
+ *   <code>@ConfigSuite.Config</code>
  *   public static Config firstConfig() {
  *     Config cfg = new Config();
  *     cfg.setString("gerrit", null, "testValue", "a");
@@ -56,13 +56,13 @@ import java.util.List;
  * }
  *
  * public class MyTest {
- *   @ConfigSuite.Config
+ *   <code>@ConfigSuite.Config</code>
  *   public static Config secondConfig() {
  *     Config cfg = new Config();
  *     cfg.setString("gerrit", null, "testValue", "b");
  *   }
  *
- *   @Test
+ *   <code>@Test</code>
  *   public void myTest() {
  *     // Test using cfg.
  *   }
@@ -71,9 +71,9 @@ import java.util.List;
  *
  * This creates a suite of tests with three groups:
  * <ul>
- *   <li><strong>default</strong>: {@code MyTest.myTest}</li>
- *   <li><strong>firstConfig</strong>: {@code MyTest.myTest[firstConfig]}</li>
- *   <li><strong>secondConfig</strong>: {@code MyTest.myTest[secondConfig]}</li>
+ * <li><strong>default</strong>: {@code MyTest.myTest}</li>
+ * <li><strong>firstConfig</strong>: {@code MyTest.myTest[firstConfig]}</li>
+ * <li><strong>secondConfig</strong>: {@code MyTest.myTest[secondConfig]}</li>
  * </ul>
  */
 public class ConfigSuite extends Suite {

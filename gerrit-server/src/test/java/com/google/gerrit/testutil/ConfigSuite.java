@@ -55,7 +55,7 @@ import java.util.List;
  *   }
  * }
  *
- * public class MyTest {
+ * public class MyTest extends MyAbstractTest {
  *   <code>@ConfigSuite.Config</code>
  *   public static Config secondConfig() {
  *     Config cfg = new Config();
@@ -109,6 +109,25 @@ public class ConfigSuite extends Suite {
       return test;
     }
 
+    private static org.eclipse.jgit.lib.Config callConfigMethod(Method m) {
+      if (m == null) {
+        return new org.eclipse.jgit.lib.Config();
+      }
+      checkArgument(
+          org.eclipse.jgit.lib.Config.class.isAssignableFrom(m.getReturnType()),
+          "%s must return Config", m);
+      checkArgument((m.getModifiers() & Modifier.STATIC) != 0,
+          "%s must be static", m);
+      checkArgument(m.getParameterTypes().length == 0,
+          "%s must take no parameters", m);
+      try {
+        return (org.eclipse.jgit.lib.Config) m.invoke(null);
+      } catch (IllegalAccessException | IllegalArgumentException
+          | InvocationTargetException e) {
+        throw new IllegalArgumentException(e);
+      }
+    }
+
     @Override
     protected String getName() {
       return Objects.firstNonNull(name, DEFAULT);
@@ -147,25 +166,6 @@ public class ConfigSuite extends Suite {
       }
     }
     return result;
-  }
-
-  private static org.eclipse.jgit.lib.Config callConfigMethod(Method m) {
-    if (m == null) {
-      return new org.eclipse.jgit.lib.Config();
-    }
-    checkArgument(
-        org.eclipse.jgit.lib.Config.class.isAssignableFrom(m.getReturnType()),
-        "%s must return Config", m);
-    checkArgument((m.getModifiers() & Modifier.STATIC) != 0,
-        "%s must be static", m);
-    checkArgument(m.getParameterTypes().length == 0,
-        "%s must take no parameters", m);
-    try {
-      return (org.eclipse.jgit.lib.Config) m.invoke(null);
-    } catch (IllegalAccessException | IllegalArgumentException
-        | InvocationTargetException e) {
-      throw new IllegalArgumentException(e);
-    }
   }
 
   private static Field getParameterField(Class<?> clazz) {

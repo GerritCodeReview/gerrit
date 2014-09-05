@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b0a41388_83ed1e28",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-05T18:46:06Z",
+      "side": 1,
+      "message": "Huh, I was going to ask why we use the 4_10_0 form here, then I saw the _48 names are all deprecated due to \"Bad naming of constant\".",
+      "revId": "3a755f4a0ae640e9f58e9ff87cb4dd84e3fcedd0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "902f0fb5_62df9674",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/QueryBuilder.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-05T18:46:06Z",
+      "side": 1,
+      "message": "Thanks Lucene, this API is way nicer.\n\n\u003c/sarcasm\u003e",
+      "revId": "3a755f4a0ae640e9f58e9ff87cb4dd84e3fcedd0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "902f0fb5_c2e3023c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeSchemas.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-05T18:46:06Z",
+      "side": 1,
+      "message": "Do what we did for V6.",
+      "revId": "3a755f4a0ae640e9f58e9ff87cb4dd84e3fcedd0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

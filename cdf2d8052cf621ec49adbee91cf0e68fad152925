@@ -93,6 +93,24 @@
       "revId": "cdf2d8052cf621ec49adbee91cf0e68fad152925",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "10aebf65_c60c8262",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/index/IndexRewriteTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-05T11:01:22Z",
+      "side": 1,
+      "message": "That\u0027s because this way two different instances are involved:\n\n* IndexedChangeQuery\n* AndSource\n\nand equals cannot work.",
+      "parentUuid": "905e2f2a_8a678bee",
+      "revId": "cdf2d8052cf621ec49adbee91cf0e68fad152925",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

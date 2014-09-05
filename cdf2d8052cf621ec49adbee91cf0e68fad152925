@@ -39,6 +39,24 @@
       "revId": "cdf2d8052cf621ec49adbee91cf0e68fad152925",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "905e2f2a_ca6d83d0",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/index/IndexRewriteTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-05T01:03:02Z",
+      "side": 1,
+      "message": "Adding:\n\n    if (!query.contains(\"limit:\")) {\n      query +\u003d \" limit:\" + DEFAULT_MAX_QUERY_LIMIT;\n    }\n\ncauses tests to fail.  For example:\n\n FAILURE testIndexPredicates: expected:\u003cindex{p\u003d(file:a file:b limit:500), limit\u003d500}\u003e but was:\u003c(index{p\u003d(file:a file:b), limit\u003d500} limit:500)\u003e",
+      "parentUuid": "905e2f2a_6a7457a7",
+      "revId": "cdf2d8052cf621ec49adbee91cf0e68fad152925",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

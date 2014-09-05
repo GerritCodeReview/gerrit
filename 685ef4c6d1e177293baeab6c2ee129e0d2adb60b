@@ -22,6 +22,30 @@
       "revId": "685ef4c6d1e177293baeab6c2ee129e0d2adb60b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70bffb8c_a91cbd83",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/IndexRewriteImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-05T13:49:06Z",
+      "side": 0,
+      "message": "This particular line is not changed, functionally.  The only change is the name of the constant and the line wrapping.\n\nI\u0027ll change it to checkNotNull(ChangeQueryBuilder.getLimit(in), ...) as Dave suggested, if I can get the tests to work properly.",
+      "parentUuid": "b0cb333c_8b068d3e",
+      "range": {
+        "startLine": 138,
+        "startChar": 4,
+        "endLine": 139,
+        "endChar": 73
+      },
+      "revId": "685ef4c6d1e177293baeab6c2ee129e0d2adb60b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

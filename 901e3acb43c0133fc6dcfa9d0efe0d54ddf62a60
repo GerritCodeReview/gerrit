@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "10aebf65_4622d2c6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefPatternMatcher.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-05T13:08:41Z",
+      "side": 1,
+      "message": "maybe a better name would be \"expand\"?",
+      "range": {
+        "startLine": 81,
+        "startChar": 19,
+        "endLine": 81,
+        "endChar": 27
+      },
+      "revId": "901e3acb43c0133fc6dcfa9d0efe0d54ddf62a60",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "10aebf65_6627ced5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefPatternMatcher.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-05T13:08:41Z",
+      "side": 1,
+      "message": "maybe a better name would be \"expand\"?",
+      "range": {
+        "startLine": 88,
+        "startChar": 19,
+        "endLine": 88,
+        "endChar": 27
+      },
+      "revId": "901e3acb43c0133fc6dcfa9d0efe0d54ddf62a60",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "10aebf65_a603862d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefPatternMatcher.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-05T13:08:41Z",
+      "side": 1,
+      "message": "By our coding convention these methods should go down below all existing methods (as these are private).\n\nOr, did you want to make them static?",
+      "revId": "901e3acb43c0133fc6dcfa9d0efe0d54ddf62a60",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

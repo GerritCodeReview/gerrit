@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "50b4b7af_8891b78e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-05T18:12:37Z",
+      "side": 1,
+      "message": "This is a completely separate change.\n\nWhy don\u0027t you do the javadoc fixes in one change and move the method in another. (Not that moving the method is particularly important IMHO, it\u0027s just one static helper.)",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 71
+      },
+      "revId": "a7cb8559e5e57665f32e611d94f3acb48a89a3d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

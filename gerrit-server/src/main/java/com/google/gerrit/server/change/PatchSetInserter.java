@@ -18,7 +18,6 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.collect.SetMultimap;
-import com.google.common.util.concurrent.CheckedFuture;
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
@@ -316,14 +315,13 @@ public class PatchSetInserter {
     } finally {
       db.rollback();
     }
-    CheckedFuture<?, IOException> f = mergeabilityChecker.newCheck()
+    mergeabilityChecker.newCheck()
         .addChange(updatedChange)
         .reindex()
-        .runAsync();
+        .run();
     if (runHooks) {
       hooks.doPatchsetCreatedHook(updatedChange, patchSet, db);
     }
-    f.checkedGet();
     return updatedChange;
   }
 

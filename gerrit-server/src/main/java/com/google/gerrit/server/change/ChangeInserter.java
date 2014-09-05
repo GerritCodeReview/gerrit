@@ -200,12 +200,6 @@ public class ChangeInserter {
     if(!messageIsForChange()) {
       commitMessageNotForChange();
     }
-    gitRefUpdated.fire(change.getProject(), patchSet.getRefName(),
-        ObjectId.zeroId(), commit);
-
-    if (runHooks) {
-      hooks.doPatchsetCreatedHook(change, patchSet, db);
-    }
 
     if (sendMail) {
       try {
@@ -221,6 +215,14 @@ public class ChangeInserter {
       }
     }
     f.checkedGet();
+
+    gitRefUpdated.fire(change.getProject(), patchSet.getRefName(),
+        ObjectId.zeroId(), commit);
+
+    if (runHooks) {
+      hooks.doPatchsetCreatedHook(change, patchSet, db);
+    }
+
     return change;
   }
 

@@ -134,13 +134,13 @@ public class Restore implements RestModifyView<ChangeResource, RestoreInput>,
     } catch (Exception e) {
       log.error("Cannot email update for change " + change.getChangeId(), e);
     }
+    f.checkedGet();
     hooks.doChangeRestoredHook(change,
         caller.getAccount(),
         db.patchSets().get(change.currentPatchSetId()),
         Strings.emptyToNull(input.message),
         dbProvider.get());
     ChangeInfo result = json.format(change);
-    f.checkedGet();
     return result;
   }
 

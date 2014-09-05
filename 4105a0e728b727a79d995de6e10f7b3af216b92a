@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "50b4b7af_28ae8bb6",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/PatchSetVerification.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-09-05T23:14:47Z",
+      "side": 1,
+      "message": "Some of the verifications for us is categorized as \u0027non-voting\u0027 so might be nice to have a comment table to capture those types of misc info.",
+      "parentUuid": "39448c56_ef0d015c",
+      "revId": "4105a0e728b727a79d995de6e10f7b3af216b92a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7915242e_19308b07",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostVerification.java",
         "patchSetId": 2

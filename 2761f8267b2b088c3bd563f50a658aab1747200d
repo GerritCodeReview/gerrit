@@ -256,6 +256,24 @@
     },
     {
       "key": {
+        "uuid": "b0cb333c_eb12b171",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/DummyIndexModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-05T14:03:01Z",
+      "side": 1,
+      "message": "\u003e You can still call the REST API in headless.\n\nI know. The intention of --headless was to only remove the UI.",
+      "parentUuid": "b0a41388_c3e3163c",
+      "revId": "2761f8267b2b088c3bd563f50a658aab1747200d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "70d61bdd_b103c02d",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/Query.java",
         "patchSetId": 1

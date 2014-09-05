@@ -51,7 +51,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 public class DocIndexer {
-  private static final Version LUCENE_VERSION = Version.LUCENE_48;
+  private static final Version LUCENE_VERSION = Version.LUCENE_4_10_0;
   private static final Pattern SECTION_HEADER = Pattern.compile("^=+ (.*)");
 
   @Option(name = "-o", usage = "output JAR file")
@@ -99,7 +99,7 @@ public class DocIndexer {
     RAMDirectory directory = new RAMDirectory();
     IndexWriterConfig config = new IndexWriterConfig(
         LUCENE_VERSION,
-        new StandardAnalyzer(LUCENE_VERSION, CharArraySet.EMPTY_SET));
+        new StandardAnalyzer(CharArraySet.EMPTY_SET));
     config.setOpenMode(OpenMode.CREATE);
     IndexWriter iwriter = new IndexWriter(directory, config);
     for (String inputFile : inputFiles) {

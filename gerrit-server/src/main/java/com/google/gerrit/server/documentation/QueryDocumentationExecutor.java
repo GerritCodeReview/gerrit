@@ -31,7 +31,6 @@ import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.IndexOutput;
 import org.apache.lucene.store.RAMDirectory;
-import org.apache.lucene.util.Version;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -45,8 +44,6 @@ import java.util.zip.ZipInputStream;
 public class QueryDocumentationExecutor {
   private static final Logger log =
       LoggerFactory.getLogger(QueryDocumentationExecutor.class);
-
-  private static final Version LUCENE_VERSION = Version.LUCENE_48;
 
   private IndexSearcher searcher;
   private QueryParser parser;
@@ -68,8 +65,7 @@ public class QueryDocumentationExecutor {
       }
       IndexReader reader = DirectoryReader.open(dir);
       searcher = new IndexSearcher(reader);
-      StandardAnalyzer analyzer = new StandardAnalyzer(LUCENE_VERSION);
-      parser = new QueryParser(LUCENE_VERSION, Constants.DOC_FIELD, analyzer);
+      parser = new QueryParser(Constants.DOC_FIELD, new StandardAnalyzer());
     } catch (IOException e) {
       log.error("Cannot initialize documentation full text index", e);
       searcher = null;

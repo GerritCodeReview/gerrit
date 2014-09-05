@@ -220,6 +220,24 @@
     },
     {
       "key": {
+        "uuid": "b0cb333c_2b31990b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/DummyIndexModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-05T13:37:17Z",
+      "side": 1,
+      "message": "\u003e are not supposed to be there, like WebUI ...\n\nAre you aware of the --headless option of the Daemon?",
+      "parentUuid": "902f0fb5_42d09266",
+      "revId": "2761f8267b2b088c3bd563f50a658aab1747200d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "70d61bdd_b103c02d",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/Query.java",
         "patchSetId": 1

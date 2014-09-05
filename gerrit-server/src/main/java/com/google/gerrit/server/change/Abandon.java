@@ -133,13 +133,13 @@ public class Abandon implements RestModifyView<ChangeResource, AbandonInput>,
     } catch (Exception e) {
       log.error("Cannot email update for change " + change.getChangeId(), e);
     }
+    indexFuture.checkedGet();
     hooks.doChangeAbandonedHook(change,
         caller.getAccount(),
         db.patchSets().get(change.currentPatchSetId()),
         Strings.emptyToNull(input.message),
         db);
     ChangeInfo result = json.format(change);
-    indexFuture.checkedGet();
     return result;
   }
 

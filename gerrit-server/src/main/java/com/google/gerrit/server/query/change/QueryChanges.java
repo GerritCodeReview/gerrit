@@ -80,7 +80,7 @@ public class QueryChanges implements RestReadView<TopLevelResource> {
     imp.setSortkeyBefore(key);
   }
 
-  @Option(name = "-S", metaVar = "CNT", usage = "Number of changes to skip")
+  @Option(name = "--start", aliases = {"-S"}, metaVar = "CNT", usage = "Number of changes to skip")
   public void setStart(int start) {
     imp.setStart(start);
   }

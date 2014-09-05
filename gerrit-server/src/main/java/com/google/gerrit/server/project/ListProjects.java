@@ -151,17 +151,17 @@ public class ListProjects implements RestReadView<TopLevelResource> {
     this.limit = limit;
   }
 
-  @Option(name = "-S", metaVar = "CNT", usage = "number of projects to skip")
+  @Option(name = "--start", aliases = {"-S"}, metaVar = "CNT", usage = "number of projects to skip")
   public void setStart(int start) {
     this.start = start;
   }
 
-  @Option(name = "-p", metaVar = "PREFIX", usage = "match project prefix")
+  @Option(name = "--prefix", aliases = {"-p"}, metaVar = "PREFIX", usage = "match project prefix")
   public void setMatchPrefix(String matchPrefix) {
     this.matchPrefix = matchPrefix;
   }
 
-  @Option(name = "-m", metaVar = "MATCH", usage = "match project substring")
+  @Option(name = "--match", aliases = {"-m"}, metaVar = "MATCH", usage = "match project substring")
   public void setMatchSubstring(String matchSubstring) {
     this.matchSubstring = matchSubstring;
   }

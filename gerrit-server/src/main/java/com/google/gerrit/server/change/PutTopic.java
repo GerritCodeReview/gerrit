@@ -15,7 +15,6 @@
 package com.google.gerrit.server.change;
 
 import com.google.common.base.Strings;
-import com.google.common.util.concurrent.CheckedFuture;
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.DefaultInput;
@@ -123,11 +122,9 @@ public class PutTopic implements RestModifyView<ChangeResource, Input>,
         db.rollback();
       }
       update.commit();
-      CheckedFuture<?, IOException> indexFuture =
-          indexer.indexAsync(change.getId());
+      indexer.index(db, change);
       hooks.doTopicChangedHook(change, currentUser.getAccount(),
           oldTopicName, db);
-      indexFuture.checkedGet();
     }
     return Strings.isNullOrEmpty(newTopicName)
         ? Response.<String>none()

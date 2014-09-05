@@ -70,9 +70,9 @@ public abstract class AbstractPreloadedPluginScanner implements
             + "Implementation-Version: " + pluginVersion + "\n"
             + "Gerrit-ReloadMode: restart\n"
             + "Gerrit-ApiType: " + apiType + "\n");
-    appendIfNotNull(manifestString, "Gerrit-Module: ", sshModuleClass);
+    appendIfNotNull(manifestString, "Gerrit-SshModule: ", sshModuleClass);
     appendIfNotNull(manifestString, "Gerrit-HttpModule: ", httpModuleClass);
-    appendIfNotNull(manifestString, "Gerrit-SshModule: ", sysModuleClass);
+    appendIfNotNull(manifestString, "Gerrit-Module: ", sysModuleClass);
     return new Manifest(new ByteArrayInputStream(manifestString.toString()
         .getBytes()));
   }
@@ -115,8 +115,14 @@ public abstract class AbstractPreloadedPluginScanner implements
           Class.forName("com.google.inject.servlet.ServletModule");
       Class<?> sshModuleBaseClass =
           Class.forName("com.google.gerrit.sshd.CommandModule");
+      sshModuleClass = null;
+      httpModuleClass = null;
+      sysModuleClass = null;
 
       for (Class<?> clazz : classes) {
+        if (clazz.isLocalClass()) {
+          continue;
+        }
 
         if (sshModuleBaseClass.isAssignableFrom(clazz)) {
           sshModuleClass =

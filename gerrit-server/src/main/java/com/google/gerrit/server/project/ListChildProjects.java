@@ -25,6 +25,7 @@ import com.google.inject.Inject;
 
 import org.kohsuke.args4j.Option;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -94,7 +95,13 @@ public class ListChildProjects implements RestReadView<ProjectResource> {
         node.addChild(key);
       }
     }
-    return getChildProjectsRecursively(projects.get(parent));
+
+    ProjectNode n = projects.get(parent);
+    if (n != null) {
+      return getChildProjectsRecursively(n);
+    } else {
+      return Collections.emptyList();
+    }
   }
 
   private List<ProjectInfo> getChildProjectsRecursively(ProjectNode p) {

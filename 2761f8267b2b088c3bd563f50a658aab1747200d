@@ -82,6 +82,24 @@
     },
     {
       "key": {
+        "uuid": "905e2f2a_4a62b3e5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/DummyIndexModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-05T00:15:50Z",
+      "side": 1,
+      "message": "Without this it was failing to start in slave mode with a bunch of Guice errors about missing ChangeIndex.\n\nThey were all in REST modules; I wonder if there\u0027s a way to not install those in slave mode?",
+      "parentUuid": "70d61bdd_91ed5c28",
+      "revId": "2761f8267b2b088c3bd563f50a658aab1747200d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "70d61bdd_b103c02d",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/Query.java",
         "patchSetId": 1

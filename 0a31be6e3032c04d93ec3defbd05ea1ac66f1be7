@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "50b4b7af_c887af54",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-05T18:09:27Z",
+      "side": 1,
+      "message": "This is strictly harder to read in a text editor, and I don\u0027t think there\u0027s any visible difference in when rendered as HTML...",
+      "revId": "0a31be6e3032c04d93ec3defbd05ea1ac66f1be7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50b4b7af_087e2785",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/testutil/ConfigSuite.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-05T18:09:27Z",
+      "side": 1,
+      "message": "What\u0027s the point of \u003ccode\u003e within \u003cpre\u003e? \u003cpre\u003e is already monospace.",
+      "revId": "0a31be6e3032c04d93ec3defbd05ea1ac66f1be7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50b4b7af_2883eb4b",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/testutil/ConfigSuite.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-05T18:09:27Z",
+      "side": 1,
+      "message": "Um, ok, if you really think the indentation was making it harder to read, I guess...",
+      "revId": "0a31be6e3032c04d93ec3defbd05ea1ac66f1be7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

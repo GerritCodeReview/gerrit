@@ -1,0 +1,129 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "50b4b7af_285c4b26",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-05T18:18:38Z",
+      "side": 1,
+      "message": "This is a significant behavior change...if it weren\u0027t already completely broken. So I guess it\u0027s alright.",
+      "revId": "6d903275ed6a99d0db395945b602ccf4f390e53f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50b4b7af_485dff24",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Reindex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-05T18:18:38Z",
+      "side": 1,
+      "message": "FYI this is going to be a merge conflict in master, limitThreads moved to a utility class.\n\nActually I think checkNotSlaveMode should probably move to that class too :)",
+      "revId": "6d903275ed6a99d0db395945b602ccf4f390e53f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70bffb8c_a98efd6b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/DummyIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-05T18:18:38Z",
+      "side": 1,
+      "message": "Hm, I wonder if this will lead to lurking NPEs? Would it make  more sense to throw UnsupportedOperationException? Or is there actually something that calls this method and stores the result?",
+      "revId": "6d903275ed6a99d0db395945b602ccf4f390e53f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50b4b7af_686243e6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/DummyIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-05T18:18:38Z",
+      "side": 1,
+      "message": "Same comment as on getSchema",
+      "revId": "6d903275ed6a99d0db395945b602ccf4f390e53f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70bffb8c_696245e6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/DummyIndexModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-05T18:18:38Z",
+      "side": 1,
+      "message": "AbstractModule",
+      "range": {
+        "startLine": 21,
+        "startChar": 38,
+        "endLine": 21,
+        "endChar": 53
+      },
+      "revId": "6d903275ed6a99d0db395945b602ccf4f390e53f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70bffb8c_495d0125",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/DummyIndexModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-05T18:18:38Z",
+      "side": 1,
+      "message": "Unnecessary",
+      "revId": "6d903275ed6a99d0db395945b602ccf4f390e53f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50b4b7af_08570707",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/DummyIndexModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-05T18:18:38Z",
+      "side": 1,
+      "message": "Overkill, just bind(ChangeIndex.class).toInstance(new DummyIndex()) above",
+      "revId": "6d903275ed6a99d0db395945b602ccf4f390e53f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

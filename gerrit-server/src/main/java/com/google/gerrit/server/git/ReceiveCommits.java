@@ -2080,13 +2080,6 @@ public class ReceiveCommits {
           .addChange(change)
           .reindex()
           .runAsync();
-      gitRefUpdated.fire(project.getNameKey(), newPatchSet.getRefName(),
-          ObjectId.zeroId(), newCommit);
-      hooks.doPatchsetCreatedHook(change, newPatchSet, db);
-      if (mergedIntoRef != null) {
-        hooks.doChangeMergedHook(
-            change, currentUser.getAccount(), newPatchSet, db);
-      }
       workQueue.getDefaultQueue()
           .submit(requestScopePropagator.wrap(new Runnable() {
         @Override
@@ -2114,6 +2107,14 @@ public class ReceiveCommits {
         }
       }));
       f.checkedGet();
+
+      gitRefUpdated.fire(project.getNameKey(), newPatchSet.getRefName(),
+          ObjectId.zeroId(), newCommit);
+      hooks.doPatchsetCreatedHook(change, newPatchSet, db);
+      if (mergedIntoRef != null) {
+        hooks.doChangeMergedHook(
+            change, currentUser.getAccount(), newPatchSet, db);
+      }
 
       if (magicBranch != null && magicBranch.isSubmit()) {
         submit(changeCtl, newPatchSet);

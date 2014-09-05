@@ -179,22 +179,22 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     } else {
       indexWrite = Futures.<Void, IOException> immediateCheckedFuture(null);
     }
-    if (message != null) {
-      if (input.notify.compareTo(NotifyHandling.NONE) > 0) {
-        email.create(
-            input.notify,
-            change,
-            revision.getPatchSet(),
-            revision.getAccountId(),
-            message,
-            comments).sendAsync();
-      }
-      fireCommentAddedHook(revision);
+    if (message != null && input.notify.compareTo(NotifyHandling.NONE) > 0) {
+      email.create(
+          input.notify,
+          change,
+          revision.getPatchSet(),
+          revision.getAccountId(),
+          message,
+          comments).sendAsync();
     }
 
     Output output = new Output();
     output.labels = input.labels;
     indexWrite.checkedGet();
+    if (message != null) {
+      fireCommentAddedHook(revision);
+    }
     return output;
   }
 

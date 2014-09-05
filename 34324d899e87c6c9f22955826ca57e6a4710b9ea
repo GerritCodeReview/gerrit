@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "70bffb8c_8938d9e4",
+        "filename": "Documentation/BUCK",
+        "patchSetId": 9
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2014-09-05T16:17:19Z",
+      "side": 1,
+      "message": "docdir \u003d DOC_DIR?\n\nOr the DOC_DIR constant above could be eliminated and the html target could use \u0027Documentation\u0027, too --- that would be simpler.",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 27
+      },
+      "revId": "34324d899e87c6c9f22955826ca57e6a4710b9ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70bffb8c_a9359ded",
+        "filename": "Documentation/asciidoc.defs",
+        "patchSetId": 9
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2014-09-05T16:17:19Z",
+      "side": 1,
+      "message": "(optional) \u0027 -s %s -o $OUT\u0027 % passed_src +, maybe",
+      "range": {
+        "startLine": 56,
+        "startChar": 0,
+        "endLine": 56,
+        "endChar": 42
+      },
+      "revId": "34324d899e87c6c9f22955826ca57e6a4710b9ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70bffb8c_497421a7",
+        "filename": "Documentation/dev-buck.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2014-09-05T16:17:19Z",
+      "side": 1,
+      "message": "will be",
+      "range": {
+        "startLine": 205,
+        "startChar": 64,
+        "endLine": 205,
+        "endChar": 66
+      },
+      "revId": "34324d899e87c6c9f22955826ca57e6a4710b9ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

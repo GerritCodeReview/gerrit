@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "70bffb8c_49d0a166",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/DummyIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-05T02:35:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "70d61bdd_9106bc3e",
+      "range": {
+        "startLine": 25,
+        "startChar": 65,
+        "endLine": 25,
+        "endChar": 66
+      },
+      "revId": "2761f8267b2b088c3bd563f50a658aab1747200d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b02fb38b_4b2765d5",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/DummyIndex.java",
         "patchSetId": 1
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "70bffb8c_69d56555",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/DummyIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-05T02:35:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b02fb38b_4b2765d5",
+      "revId": "2761f8267b2b088c3bd563f50a658aab1747200d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b02fb38b_2b2c19b5",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/DummyIndexModule.java",
         "patchSetId": 1
@@ -53,6 +95,30 @@
       "writtenOn": "2014-09-04T22:52:54Z",
       "side": 1,
       "message": "This ctor isn\u0027t needed, remove it.",
+      "range": {
+        "startLine": 23,
+        "startChar": 2,
+        "endLine": 24,
+        "endChar": 3
+      },
+      "revId": "2761f8267b2b088c3bd563f50a658aab1747200d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70bffb8c_29df6d75",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/DummyIndexModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-05T02:35:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b02fb38b_2b2c19b5",
       "range": {
         "startLine": 23,
         "startChar": 2,
@@ -111,6 +177,30 @@
       "writtenOn": "2014-09-04T22:52:54Z",
       "side": 1,
       "message": "This mode is the default; removing this param entirely would have the same effect.",
+      "range": {
+        "startLine": 30,
+        "startChar": 2,
+        "endLine": 30,
+        "endChar": 17
+      },
+      "revId": "2761f8267b2b088c3bd563f50a658aab1747200d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70bffb8c_09daa984",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/Query.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-05T02:35:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "70d61bdd_b103c02d",
       "range": {
         "startLine": 30,
         "startChar": 2,

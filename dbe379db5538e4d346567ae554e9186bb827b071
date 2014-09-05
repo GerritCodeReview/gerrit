@@ -134,6 +134,30 @@
       "revId": "dbe379db5538e4d346567ae554e9186bb827b071",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "902f0fb5_82f3ba04",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/SchemaCreator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-05T19:54:47Z",
+      "side": 1,
+      "message": "\u003e So there is no reason why GWTORM couldn\u0027t expose public accessible `restartSequence()` method (and may be even `truncateTable()` method).\n\nGood point, let\u0027s just expose that upstream then.\n\n\u003e I wonder why don\u0027t we have @NoIndex\n\nI would be surprised if that were a substantial gain.\n\nThe point of @NoSsh and @NoHttpd is to eliminate entire injectors, which saves noticeable Guice setup time. The overhead of setting up an in-memory index (or even an on-disk index) that isn\u0027t used is likely to be low.\n\nAnd honestly, I think if we had implemented one-server-per-test-class sooner, we might not have bothered with @NoSsh and @NoHttpd in the first place :)",
+      "parentUuid": "b3e5fdf4_fbeb2f10",
+      "range": {
+        "startLine": 124,
+        "startChar": 6,
+        "endLine": 132,
+        "endChar": 24
+      },
+      "revId": "dbe379db5538e4d346567ae554e9186bb827b071",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

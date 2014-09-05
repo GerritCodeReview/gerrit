@@ -159,7 +159,7 @@ class SubIndex {
     try {
       writer.getIndexWriter().commit();
       try {
-        writer.getIndexWriter().close(true);
+        writer.getIndexWriter().close();
       } catch (AlreadyClosedException e) {
         // Ignore.
       }

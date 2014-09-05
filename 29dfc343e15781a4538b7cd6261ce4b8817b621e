@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "10aebf65_66d58e55",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-05T05:26:42Z",
+      "side": 1,
+      "message": "I don\u0027t think this statement is needed.",
+      "revId": "29dfc343e15781a4538b7cd6261ce4b8817b621e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b0cb333c_0bda9d84",
+        "filename": "Documentation/asciidoc.defs",
+        "patchSetId": 7
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-05T05:26:42Z",
+      "side": 1,
+      "message": "Sorry, that i missed it in my previous review: now you can inline it on line 58 directly (as it was before this change), in which case you don\u0027t need \u0027\\\u0027 chars at the end of the line any more.",
+      "range": {
+        "startLine": 52,
+        "startChar": 4,
+        "endLine": 54,
+        "endChar": 62
+      },
+      "revId": "29dfc343e15781a4538b7cd6261ce4b8817b621e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

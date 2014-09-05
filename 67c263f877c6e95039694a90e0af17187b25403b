@@ -16,6 +16,24 @@
       "revId": "67c263f877c6e95039694a90e0af17187b25403b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "905e2f2a_2a577f07",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-05T00:20:12Z",
+      "side": 1,
+      "message": "\u003e Have you ever seen this failing?\n\nIt happens if you build Gerrit with the wrong plugin submodule revisions, for example if you do the following sequence:\n\n git checkout stable-2.9\n git submodule update\n git checkout master\n\nNow you have gerrit master with the plugins from stable-2.9, so when you run:\n\n buck build gerrit\n\nyou get the buck audit error.\n\n\u003e how this change helps the user to recover from this failure?\n\nIt prevents the python traceback from clogging up the console output.  The actual error message is still the same, but now easier to spot.",
+      "parentUuid": "b02fb38b_ab06c93d",
+      "revId": "67c263f877c6e95039694a90e0af17187b25403b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

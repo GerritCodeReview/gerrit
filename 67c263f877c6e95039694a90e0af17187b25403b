@@ -34,6 +34,24 @@
       "revId": "67c263f877c6e95039694a90e0af17187b25403b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b0cb333c_cbe3353c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-05T05:43:56Z",
+      "side": 1,
+      "message": "Thanks for the clarificaion.",
+      "parentUuid": "905e2f2a_2a577f07",
+      "revId": "67c263f877c6e95039694a90e0af17187b25403b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

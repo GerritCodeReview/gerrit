@@ -202,6 +202,24 @@
     },
     {
       "key": {
+        "uuid": "902f0fb5_42d09266",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/DummyIndexModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2014-09-05T13:27:31Z",
+      "side": 1,
+      "message": "A clean up of the module/dependencies used in slave mode would be nice. I started to work on enabling the http server in slave mode to have git over http but I also need to make sure we do not install other stuff that are not supposed to be there, like WebUI, RestAPI. The task turned out to be quite complex because almost every module are installed in slave mode.",
+      "parentUuid": "10aebf65_66feeecf",
+      "revId": "2761f8267b2b088c3bd563f50a658aab1747200d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "70d61bdd_b103c02d",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/Query.java",
         "patchSetId": 1

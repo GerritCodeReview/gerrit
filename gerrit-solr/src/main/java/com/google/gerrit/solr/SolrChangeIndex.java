@@ -50,7 +50,6 @@ import com.google.inject.Provider;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.analysis.util.CharArraySet;
 import org.apache.lucene.search.Query;
-import org.apache.lucene.util.Version;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrQuery.SortClause;
 import org.apache.solr.client.solrj.SolrServer;
@@ -108,13 +107,8 @@ class SolrChangeIndex implements ChangeIndex, LifecycleListener {
       throw new IllegalStateException("index.url must be supplied");
     }
 
-    // Version is only used to determine the list of stop words used by the
-    // analyzer, so use the latest version rather than trying to match the Solr
-    // server version.
-    @SuppressWarnings("deprecation")
-    Version v = Version.LUCENE_CURRENT;
     queryBuilder = new QueryBuilder(
-        schema, new StandardAnalyzer(v, CharArraySet.EMPTY_SET));
+        schema, new StandardAnalyzer(CharArraySet.EMPTY_SET));
 
     base = Strings.nullToEmpty(base);
     openIndex = new CloudSolrServer(url);

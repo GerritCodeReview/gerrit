@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b0a41388_63fee2cf",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/QueryBuilder.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-05T19:14:03Z",
+      "side": 1,
+      "message": "Need to use builder.get(). Done.",
+      "revId": "362f451020e7b41b422515d53314a7c9ffbdeabb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

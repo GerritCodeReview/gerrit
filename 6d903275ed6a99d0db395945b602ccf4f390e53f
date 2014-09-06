@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "9058ef70_faed0927",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Reindex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-06T13:55:09Z",
+      "side": 1,
+      "message": "Hmm, I didn\u0027t notice that.  Thanks.\n\nThe utility class is called ThreadLimiter though, so I don\u0027t think it would be appropriate to put checkNotSlaveMode there too.\n\nIt should be a simple conflict to resolve.  I\u0027d suggest to leave it like this and then do any refactoring on master.",
+      "parentUuid": "50b4b7af_485dff24",
+      "revId": "6d903275ed6a99d0db395945b602ccf4f390e53f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "70bffb8c_a98efd6b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/DummyIndex.java",
         "patchSetId": 2

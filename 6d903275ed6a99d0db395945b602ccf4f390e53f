@@ -71,6 +71,24 @@
     },
     {
       "key": {
+        "uuid": "705d3b5f_39f94fe6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/DummyIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-06T14:15:38Z",
+      "side": 1,
+      "message": "Done.  I haven\u0027t tried to use any REST calls against the server running in slave mode though.  Will look into that next week.",
+      "parentUuid": "70bffb8c_a98efd6b",
+      "revId": "6d903275ed6a99d0db395945b602ccf4f390e53f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "50b4b7af_686243e6",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/DummyIndex.java",
         "patchSetId": 2
@@ -82,6 +100,24 @@
       "writtenOn": "2014-09-05T18:18:38Z",
       "side": 1,
       "message": "Same comment as on getSchema",
+      "revId": "6d903275ed6a99d0db395945b602ccf4f390e53f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "705d3b5f_19fe0bce",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/DummyIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-06T14:15:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "50b4b7af_686243e6",
       "revId": "6d903275ed6a99d0db395945b602ccf4f390e53f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -111,6 +147,30 @@
     },
     {
       "key": {
+        "uuid": "705d3b5f_79f3c705",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/DummyIndexModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-06T14:15:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "70bffb8c_696245e6",
+      "range": {
+        "startLine": 21,
+        "startChar": 38,
+        "endLine": 21,
+        "endChar": 53
+      },
+      "revId": "6d903275ed6a99d0db395945b602ccf4f390e53f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "70bffb8c_495d0125",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/DummyIndexModule.java",
         "patchSetId": 2
@@ -128,6 +188,24 @@
     },
     {
       "key": {
+        "uuid": "705d3b5f_59f883de",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/DummyIndexModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-06T14:15:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "70bffb8c_495d0125",
+      "revId": "6d903275ed6a99d0db395945b602ccf4f390e53f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "50b4b7af_08570707",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/DummyIndexModule.java",
         "patchSetId": 2
@@ -139,6 +217,24 @@
       "writtenOn": "2014-09-05T18:18:38Z",
       "side": 1,
       "message": "Overkill, just bind(ChangeIndex.class).toInstance(new DummyIndex()) above",
+      "revId": "6d903275ed6a99d0db395945b602ccf4f390e53f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9058ef70_daeac50c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/DummyIndexModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-06T14:15:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "50b4b7af_08570707",
       "revId": "6d903275ed6a99d0db395945b602ccf4f390e53f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

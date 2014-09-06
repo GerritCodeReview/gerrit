@@ -55,6 +55,42 @@
     },
     {
       "key": {
+        "uuid": "9058ef70_3ad02166",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/PatchSetVerification.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-09-06T06:29:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "39448c56_ef0d015c",
+      "revId": "4105a0e728b727a79d995de6e10f7b3af216b92a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9058ef70_1ad55d56",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/PatchSetVerification.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-09-06T06:29:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "50b4b7af_28ae8bb6",
+      "revId": "4105a0e728b727a79d995de6e10f7b3af216b92a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7915242e_19308b07",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostVerification.java",
         "patchSetId": 2
@@ -90,6 +126,24 @@
     },
     {
       "key": {
+        "uuid": "9058ef70_7ada9985",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostVerification.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-09-06T06:29:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "793a84c6_31f490ed",
+      "revId": "4105a0e728b727a79d995de6e10f7b3af216b92a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "590a2015_d80a0d42",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostVerification.java",
         "patchSetId": 2
@@ -119,6 +173,24 @@
       "side": 1,
       "message": "Right, it makes sense.",
       "parentUuid": "590a2015_d80a0d42",
+      "revId": "4105a0e728b727a79d995de6e10f7b3af216b92a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "705d3b5f_39d02f66",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostVerification.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-09-06T06:29:01Z",
+      "side": 1,
+      "message": "I made it optional in VerifyCommand class.",
+      "parentUuid": "793a84c6_11f98ce5",
       "revId": "4105a0e728b727a79d995de6e10f7b3af216b92a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "705d3b5f_f906b73e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-09-06T18:43:26Z",
+      "side": 1,
+      "message": "missing \u0027\\\u0027 char here.",
+      "revId": "1861c2c54f8040e62d6861e6e54f136136d34582",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9058ef70_5af875de",
+        "filename": "Documentation/cmd-index.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-09-06T18:43:26Z",
+      "side": 1,
+      "message": "put back tabs in this file",
+      "revId": "1861c2c54f8040e62d6861e6e54f136136d34582",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9058ef70_7af3b905",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 851,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-09-06T18:43:26Z",
+      "side": 1,
+      "message": "info is missing verifier and comment.",
+      "revId": "1861c2c54f8040e62d6861e6e54f136136d34582",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

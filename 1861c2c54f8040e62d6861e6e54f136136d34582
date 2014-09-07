@@ -36,6 +36,29 @@
     },
     {
       "key": {
+        "uuid": "d065072b_34d03066",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/PatchSetVerification.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-07T16:33:32Z",
+      "side": 1,
+      "message": "PatchSetVerification, here and below.",
+      "range": {
+        "startLine": 152,
+        "startChar": 21,
+        "endLine": 152,
+        "endChar": 37
+      },
+      "revId": "1861c2c54f8040e62d6861e6e54f136136d34582",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9058ef70_7af3b905",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
         "patchSetId": 3

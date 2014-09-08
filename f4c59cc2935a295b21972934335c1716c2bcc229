@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "106cff13_1627fcd5",
+        "filename": "ReleaseNotes/ReleaseNotes-2.9.1.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-09-08T11:37:51Z",
+      "side": 1,
+      "message": "Rather write NullPointerException?",
+      "range": {
+        "startLine": 28,
+        "startChar": 4,
+        "endLine": 28,
+        "endChar": 7
+      },
+      "revId": "f4c59cc2935a295b21972934335c1716c2bcc229",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "106cff13_9612ec70",
+        "filename": "ReleaseNotes/ReleaseNotes-2.9.1.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-09-08T11:37:51Z",
+      "side": 1,
+      "message": "maybe better \"when a project has a parent project that does not exist\"?",
+      "range": {
+        "startLine": 34,
+        "startChar": 49,
+        "endLine": 34,
+        "endChar": 73
+      },
+      "revId": "f4c59cc2935a295b21972934335c1716c2bcc229",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "106cff13_762c70b6",
+        "filename": "ReleaseNotes/ReleaseNotes-2.9.1.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-09-08T11:37:51Z",
+      "side": 1,
+      "message": "Format this text like:\n\n  `/projects/{name}/children?recursive`",
+      "range": {
+        "startLine": 34,
+        "startChar": 13,
+        "endLine": 34,
+        "endChar": 48
+      },
+      "revId": "f4c59cc2935a295b21972934335c1716c2bcc229",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_344b1076",
+        "filename": "ReleaseNotes/ReleaseNotes-2.9.1.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-09-08T11:37:51Z",
+      "side": 1,
+      "message": "It wasn\u0027t clear to me what exactly this means until I looked up the change. Maybe better write something like \"Improve error logging in MergeabilityChecker\"?",
+      "range": {
+        "startLine": 38,
+        "startChar": 2,
+        "endLine": 38,
+        "endChar": 52
+      },
+      "revId": "f4c59cc2935a295b21972934335c1716c2bcc229",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "106cff13_b615685d",
+        "filename": "ReleaseNotes/ReleaseNotes-2.9.1.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-09-08T11:37:51Z",
+      "side": 1,
+      "message": "Too technical. Somebody who doesn\u0027t know the implementation in Gerrit wouldn\u0027t understand this.",
+      "range": {
+        "startLine": 58,
+        "startChar": 2,
+        "endLine": 58,
+        "endChar": 18
+      },
+      "revId": "f4c59cc2935a295b21972934335c1716c2bcc229",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "106cff13_5631740a",
+        "filename": "ReleaseNotes/ReleaseNotes-2.9.1.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-09-08T11:37:51Z",
+      "side": 1,
+      "message": "I would move this to the top of the list. Changing the default in 2.9 to notify\u003dNONE created a lot of confusion for us because nobody was aware of this change. We should do better this time and put this is in a more prominent place. Maybe also give some more explanation. Say that the change of the default to notify\u003dNONE in 2.9 was done by mistake and as result there were no mail notifications anymore for comments that were done by build jobs based on the Gerrit Trigger plugin.",
+      "range": {
+        "startLine": 61,
+        "startChar": 0,
+        "endLine": 61,
+        "endChar": 48
+      },
+      "revId": "f4c59cc2935a295b21972934335c1716c2bcc229",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

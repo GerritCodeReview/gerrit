@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "d065072b_749f4855",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 15
+      },
+      "lineNbr": 3818,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-08T16:53:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "106cff13_96b5ccd0",
+      "revId": "9192c732cb3cc4a57eac89d3a407d564bf39017d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d065072b_74c62855",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/CommitBox.java",
         "patchSetId": 15
@@ -48,6 +66,24 @@
       "side": 1,
       "message": "Why?  It\u0027s not more than 80 chars.",
       "parentUuid": "d065072b_74c62855",
+      "revId": "9192c732cb3cc4a57eac89d3a407d564bf39017d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_14aa5473",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/CommitBox.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-08T16:53:00Z",
+      "side": 1,
+      "message": "Seems the column marker is not showing on my browser.  Will wrap the line in a new ps later.",
+      "parentUuid": "d065072b_f4d9982c",
       "revId": "9192c732cb3cc4a57eac89d3a407d564bf39017d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

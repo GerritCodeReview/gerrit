@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "d065072b_d4ba9ca2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-09-08T21:35:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d065072b_b4b8c0c6",
+      "range": {
+        "startLine": 14,
+        "startChar": 30,
+        "endLine": 14,
+        "endChar": 42
+      },
+      "revId": "168bceeebf9805b8f093fb7b7921e2ca44e16815",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "106cff13_b681e8f2",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -94,6 +118,78 @@
     },
     {
       "key": {
+        "uuid": "106cff13_76aab05b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-09-08T21:35:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "106cff13_569df451",
+      "range": {
+        "startLine": 17,
+        "startChar": 34,
+        "endLine": 17,
+        "endChar": 43
+      },
+      "revId": "168bceeebf9805b8f093fb7b7921e2ca44e16815",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "106cff13_16a53c8c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-09-08T21:35:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d065072b_94b5c4d0",
+      "range": {
+        "startLine": 17,
+        "startChar": 30,
+        "endLine": 17,
+        "endChar": 33
+      },
+      "revId": "168bceeebf9805b8f093fb7b7921e2ca44e16815",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_34c9503c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-09-08T21:35:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "106cff13_b681e8f2",
+      "range": {
+        "startLine": 17,
+        "startChar": 56,
+        "endLine": 17,
+        "endChar": 65
+      },
+      "revId": "168bceeebf9805b8f093fb7b7921e2ca44e16815",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d065072b_f4b238e4",
         "filename": "gerrit-launcher/src/main/java/com/google/gerrit/launcher/GerritLauncher.java",
         "patchSetId": 2
@@ -105,6 +201,30 @@
       "writtenOn": "2014-09-08T21:05:04Z",
       "side": 1,
       "message": "Use Optional\u003cString\u003e or null because it\u0027s private API.",
+      "range": {
+        "startLine": 129,
+        "startChar": 11,
+        "endLine": 129,
+        "endChar": 13
+      },
+      "revId": "168bceeebf9805b8f093fb7b7921e2ca44e16815",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_14ced443",
+        "filename": "gerrit-launcher/src/main/java/com/google/gerrit/launcher/GerritLauncher.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-09-08T21:35:56Z",
+      "side": 1,
+      "message": "will go with null",
+      "parentUuid": "d065072b_f4b238e4",
       "range": {
         "startLine": 129,
         "startChar": 11,
@@ -151,6 +271,30 @@
       "writtenOn": "2014-09-08T21:05:04Z",
       "side": 1,
       "message": "SecureStore",
+      "range": {
+        "startLine": 263,
+        "startChar": 22,
+        "endLine": 263,
+        "endChar": 34
+      },
+      "revId": "168bceeebf9805b8f093fb7b7921e2ca44e16815",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "106cff13_56afb469",
+        "filename": "gerrit-launcher/src/main/java/com/google/gerrit/launcher/GerritLauncher.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-09-08T21:35:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "106cff13_967e6c30",
       "range": {
         "startLine": 263,
         "startChar": 22,
@@ -232,6 +376,30 @@
     },
     {
       "key": {
+        "uuid": "d065072b_74c3c81b",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/BaseInit.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-09-08T21:35:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d065072b_348e7025",
+      "range": {
+        "startLine": 135,
+        "startChar": 19,
+        "endLine": 135,
+        "endChar": 40
+      },
+      "revId": "168bceeebf9805b8f093fb7b7921e2ca44e16815",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d065072b_1493744b",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/BaseInit.java",
         "patchSetId": 2
@@ -255,6 +423,30 @@
     },
     {
       "key": {
+        "uuid": "106cff13_b6b3a8d2",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/BaseInit.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-09-08T21:35:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d065072b_1493744b",
+      "range": {
+        "startLine": 136,
+        "startChar": 11,
+        "endLine": 136,
+        "endChar": 13
+      },
+      "revId": "168bceeebf9805b8f093fb7b7921e2ca44e16815",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d065072b_7498e863",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/BaseInit.java",
         "patchSetId": 2
@@ -266,6 +458,30 @@
       "writtenOn": "2014-09-08T21:05:04Z",
       "side": 1,
       "message": "null",
+      "range": {
+        "startLine": 140,
+        "startChar": 11,
+        "endLine": 140,
+        "endChar": 13
+      },
+      "revId": "168bceeebf9805b8f093fb7b7921e2ca44e16815",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "106cff13_96b02cc7",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/BaseInit.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-09-08T21:35:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d065072b_7498e863",
       "range": {
         "startLine": 140,
         "startChar": 11,

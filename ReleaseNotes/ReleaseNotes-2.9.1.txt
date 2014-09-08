@@ -1,0 +1,65 @@
+Release notes for Gerrit 2.9.1
+==============================
+
+There are no schema changes from link:ReleaseNotes-2.9.html[2.9].
+
+Download:
+link:https://gerrit-releases.storage.googleapis.com/gerrit-2.9.1.war[
+https://gerrit-releases.storage.googleapis.com/gerrit-2.9.1.war]
+
+Bug Fixes
+---------
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=2879[Issue 2879]:
+Remove fixed limit of results returned by secondary index query.
+
+* Don't require secondary index when running server in daemon mode.
+
+* Add full names for options on list groups REST API.
+
+* Add full names for options on list projects REST API.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=2878[Issue 2878]:
+Make `-S` an alias of `--start` in changes query REST API.
+
+* Run change hooks and ref-updated events after indexing is done.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=2877[Issue 2877]:
+Fix NPE when ReviewInput's message is empty.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=2500[Issue 2500],
+link:https://code.google.com/p/gerrit/issues/detail?id=1748[Issue 1748]:
+Fix replication of tags.
+
+* Fix NPE in /projects/{name}/children?recursive when a parent is missing.
+
+* Fix NPE when submitting review with inline comments via REST.
+
+* Clarify the failing change in MergeabilityChecker.
+
+* Gracefully skip mergeability checking on broken changes.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=2861[Issue 2861]:
+Replace "line" with "end_line" when range is given in inline comment.
++
+Also update the documentation with an example of a range comment.
+
+* Fix mutual exclusivity of --delete and --submit review command options.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=2848[Issue 2848]:
+Add support for CSharp syntax highlighting.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=2831[Issue 2831]:
+Add missing call to ref-updated hook for submodule updates.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=2773[Issue 2773]
+Fix stale dates in committer field.
+
+* AddMembers.apply: Prevent NPE when account doesn't exist.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=2801[Issue 2801]:
+Set default for review SSH command to notify=ALL.
+
+* Fix potential NPE in cherry-pick submit strategy.
+
+* SSH query command: Add --start n option to skip n changes.

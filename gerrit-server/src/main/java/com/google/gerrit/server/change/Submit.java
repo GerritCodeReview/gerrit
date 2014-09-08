@@ -16,7 +16,7 @@ package com.google.gerrit.server.change;
 
 import static com.google.gerrit.common.data.SubmitRecord.Status.OK;
 
-import com.google.common.base.Objects;
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
 import com.google.common.base.Strings;
@@ -139,10 +139,10 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
     this.changes = changes;
     this.indexer = indexer;
     this.labelNormalizer = labelNormalizer;
-    this.label = Objects.firstNonNull(
+    this.label = MoreObjects.firstNonNull(
         Strings.emptyToNull(cfg.getString("change", null, "submitLabel")),
         "Submit");
-    this.titlePattern = new ParameterizedString(Objects.firstNonNull(
+    this.titlePattern = new ParameterizedString(MoreObjects.firstNonNull(
         cfg.getString("change", null, "submitTooltip"),
         DEFAULT_TOOLTIP));
   }

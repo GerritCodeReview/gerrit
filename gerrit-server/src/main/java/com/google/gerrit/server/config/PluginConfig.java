@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.config;
 
-import com.google.common.base.Objects;
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.server.git.ProjectConfig;
@@ -86,7 +86,8 @@ public class PluginConfig {
     if (defaultValue == null) {
       return cfg.getString(PLUGIN, pluginName, name);
     } else {
-      return Objects.firstNonNull(cfg.getString(PLUGIN, pluginName, name), defaultValue);
+      return MoreObjects.firstNonNull(cfg.getString(PLUGIN, pluginName, name),
+          defaultValue);
     }
   }
 

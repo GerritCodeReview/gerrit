@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.project;
 
-import com.google.common.base.Objects;
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Predicate;
 import com.google.common.base.Strings;
 import com.google.common.collect.Iterables;
@@ -77,7 +77,8 @@ public class SetParent implements RestModifyView<ProjectResource, Input> {
         if (msg == null) {
           msg = String.format(
               "Changed parent to %s.\n",
-              Objects.firstNonNull(project.getParentName(), allProjects.get()));
+              MoreObjects.firstNonNull(project.getParentName(),
+                  allProjects.get()));
         } else if (!msg.endsWith("\n")) {
           msg += "\n";
         }

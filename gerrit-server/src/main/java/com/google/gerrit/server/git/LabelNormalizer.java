@@ -17,6 +17,7 @@ package com.google.gerrit.server.git;
 import static com.google.common.base.Preconditions.checkArgument;
 
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
@@ -98,7 +99,7 @@ public class LabelNormalizer {
 
     @Override
     public String toString() {
-      return Objects.toStringHelper(this)
+      return MoreObjects.toStringHelper(this)
           .add("unchanged", unchanged)
           .add("updated", updated)
           .add("deleted", deleted)

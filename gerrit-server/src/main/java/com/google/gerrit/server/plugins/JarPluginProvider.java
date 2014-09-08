@@ -16,7 +16,7 @@ package com.google.gerrit.server.plugins;
 
 import static com.google.gerrit.server.plugins.PluginLoader.asTemp;
 
-import com.google.common.base.Objects;
+import com.google.common.base.MoreObjects;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Inject;
 
@@ -60,7 +60,7 @@ public class JarPluginProvider implements ServerPluginProvider {
   @Override
   public String getPluginName(File srcFile) {
     try {
-      return Objects.firstNonNull(getJarPluginName(srcFile),
+      return MoreObjects.firstNonNull(getJarPluginName(srcFile),
           PluginLoader.nameOf(srcFile));
     } catch (IOException e) {
       throw new IllegalArgumentException("Invalid plugin file " + srcFile

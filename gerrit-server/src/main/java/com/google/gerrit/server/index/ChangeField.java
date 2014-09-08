@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.index;
 
-import com.google.common.base.Objects;
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
@@ -136,7 +136,7 @@ public class ChangeField {
         @Override
         public String get(ChangeData input, FillArgs args)
             throws OrmException {
-          return Objects.firstNonNull(input.change().getTopic(), "");
+          return MoreObjects.firstNonNull(input.change().getTopic(), "");
         }
       };
 

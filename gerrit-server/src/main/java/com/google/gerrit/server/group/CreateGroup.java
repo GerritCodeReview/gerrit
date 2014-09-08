@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.group;
 
-import com.google.common.base.Objects;
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.GroupDescription;
@@ -101,7 +101,8 @@ public class CreateGroup implements RestModifyView<TopLevelResource, Input> {
       CreateGroupArgs args = new CreateGroupArgs();
       args.setGroupName(name);
       args.groupDescription = Strings.emptyToNull(input.description);
-      args.visibleToAll = Objects.firstNonNull(input.visibleToAll, defaultVisibleToAll);
+      args.visibleToAll = MoreObjects.firstNonNull(input.visibleToAll,
+          defaultVisibleToAll);
       args.ownerGroupId = ownerId;
       args.initialMembers = ownerId == null
           ? Collections.singleton(self.get().getAccountId())

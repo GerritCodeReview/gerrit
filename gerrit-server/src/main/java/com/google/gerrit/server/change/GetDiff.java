@@ -16,7 +16,7 @@ package com.google.gerrit.server.change;
 
 import static com.google.common.base.Preconditions.checkState;
 
-import com.google.common.base.Objects;
+import com.google.common.base.MoreObjects;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.data.PatchScript;
@@ -139,7 +139,8 @@ public class GetDiff implements RestReadView<FileResource> {
       Result result = new Result();
       if (ps.getDisplayMethodA() != DisplayMethod.NONE) {
         result.metaA = new FileMeta();
-        result.metaA.name = Objects.firstNonNull(ps.getOldName(), ps.getNewName());
+        result.metaA.name = MoreObjects.firstNonNull(ps.getOldName(),
+            ps.getNewName());
         setContentType(result.metaA, state, ps.getFileModeA(), ps.getMimeTypeA());
         result.metaA.lines = ps.getA().size();
       }

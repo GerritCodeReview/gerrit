@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.change;
 
-import com.google.common.base.Objects;
+import com.google.common.base.MoreObjects;
 import com.google.common.hash.Hasher;
 import com.google.common.hash.Hashing;
 import com.google.gerrit.extensions.restapi.RestResource;
@@ -70,7 +70,7 @@ public class ChangeResource implements RestResource, HasETag {
     byte[] buf = new byte[20];
     for (ProjectState p : control.getProjectControl().getProjectState().tree()) {
       ObjectId id = p.getConfig().getRevision();
-      Objects.firstNonNull(id, ObjectId.zeroId()).copyRawTo(buf, 0);
+      MoreObjects.firstNonNull(id, ObjectId.zeroId()).copyRawTo(buf, 0);
       h.putBytes(buf);
     }
     return h.hash().toString();

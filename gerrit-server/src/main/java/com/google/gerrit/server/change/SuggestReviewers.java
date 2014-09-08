@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.change;
 
-import com.google.common.base.Objects;
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
@@ -287,7 +287,7 @@ public class SuggestReviewers implements RestReadView<ChangeResource> {
 
     private String getSortValue() {
       return account != null
-          ? Objects.firstNonNull(account.email,
+          ? MoreObjects.firstNonNull(account.email,
               Strings.nullToEmpty(account.name))
           : Strings.nullToEmpty(group.name);
     }

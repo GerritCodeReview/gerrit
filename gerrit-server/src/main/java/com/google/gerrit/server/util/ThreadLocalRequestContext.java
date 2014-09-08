@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.util;
 
-import com.google.common.base.Objects;
+import com.google.common.base.MoreObjects;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.errors.NotSignedInException;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -48,7 +48,7 @@ public class ThreadLocalRequestContext {
       @Provides
       RequestContext provideRequestContext(
           @Named(FALLBACK) RequestContext fallback) {
-        return Objects.firstNonNull(local.get(), fallback);
+        return MoreObjects.firstNonNull(local.get(), fallback);
       }
 
       @Provides

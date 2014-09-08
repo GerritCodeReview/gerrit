@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.git;
 
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 
 import org.eclipse.jgit.dircache.DirCache;
@@ -308,8 +309,8 @@ public abstract class VersionedMetaData {
         if (Objects.equal(src, expected)) {
           return revision;
         }
-        return updateRef(Objects.firstNonNull(expected, ObjectId.zeroId()), src,
-            getRefName());
+        return updateRef(MoreObjects.firstNonNull(expected, ObjectId.zeroId()),
+            src, getRefName());
       }
 
       @Override

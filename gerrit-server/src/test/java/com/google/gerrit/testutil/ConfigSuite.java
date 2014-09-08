@@ -19,7 +19,7 @@ import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
-import com.google.common.base.Objects;
+import com.google.common.base.MoreObjects;
 import com.google.common.collect.Lists;
 
 import org.junit.runner.Runner;
@@ -111,7 +111,7 @@ public class ConfigSuite extends Suite {
 
     @Override
     protected String getName() {
-      return Objects.firstNonNull(name, DEFAULT);
+      return MoreObjects.firstNonNull(name, DEFAULT);
     }
 
     @Override

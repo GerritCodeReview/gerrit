@@ -14,7 +14,7 @@
 
 package com.google.gerrit.audit;
 
-import com.google.common.base.Objects;
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
@@ -87,12 +87,12 @@ public class AuditEvent {
       Multimap<String, ?> params, Object result) {
     Preconditions.checkNotNull(what, "what is a mandatory not null param !");
 
-    this.sessionId = Objects.firstNonNull(sessionId, UNKNOWN_SESSION_ID);
+    this.sessionId = MoreObjects.firstNonNull(sessionId, UNKNOWN_SESSION_ID);
     this.who = who;
     this.what = what;
     this.when = when;
     this.timeAtStart = this.when;
-    this.params = Objects.firstNonNull(params, EMPTY_PARAMS);
+    this.params = MoreObjects.firstNonNull(params, EMPTY_PARAMS);
     this.uuid = new UUID();
     this.result = result;
     this.elapsed = TimeUtil.nowMs() - timeAtStart;

@@ -16,7 +16,7 @@ package com.google.gerrit.server.git;
 
 import static com.google.common.base.Preconditions.checkState;
 
-import com.google.common.base.Objects;
+import com.google.common.base.MoreObjects;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.reviewdb.client.Project;
@@ -142,7 +142,7 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
     }
 
     if (notesMigration.enabled()) {
-      noteDbPath = site.resolve(Objects.firstNonNull(
+      noteDbPath = site.resolve(MoreObjects.firstNonNull(
           cfg.getString("gerrit", null, "noteDbPath"), "notedb"));
     } else {
       noteDbPath = null;

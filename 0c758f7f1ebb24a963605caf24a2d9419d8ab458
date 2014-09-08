@@ -34,6 +34,24 @@
       "revId": "0c758f7f1ebb24a963605caf24a2d9419d8ab458",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "106cff13_7622b094",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/TagSetHolder.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-08T15:23:40Z",
+      "side": 1,
+      "message": "I\u0027m going to go ahead and blame every mistake I make today on jetlag.\n\nTomorrow I\u0027ll be better :)",
+      "parentUuid": "106cff13_d699049c",
+      "revId": "0c758f7f1ebb24a963605caf24a2d9419d8ab458",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

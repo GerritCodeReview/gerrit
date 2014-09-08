@@ -280,7 +280,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       return status_open();
 
     } else if ("closed".equals(statusName)) {
-      return ChangeStatusPredicate.closed(args.db);
+      return ChangeStatusPredicate.closed();
 
     } else if ("reviewed".equalsIgnoreCase(statusName)) {
       return new IsReviewedPredicate();
@@ -291,7 +291,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   }
 
   public Predicate<ChangeData> status_open() {
-    return ChangeStatusPredicate.open(args.db);
+    return ChangeStatusPredicate.open();
   }
 
   @Operator

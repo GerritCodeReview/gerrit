@@ -37,31 +37,28 @@ public class BasicChangeRewrites extends QueryRewriter<ChangeData> {
       new QueryRewriter.Definition<ChangeData, BasicChangeRewrites>(
           BasicChangeRewrites.class, BUILDER);
 
-  protected final Provider<ReviewDb> dbProvider;
-
   @Inject
-  public BasicChangeRewrites(Provider<ReviewDb> dbProvider) {
+  public BasicChangeRewrites() {
     super(mydef);
-    this.dbProvider = dbProvider;
   }
 
   @Rewrite("-status:open")
   @NoCostComputation
   public Predicate<ChangeData> r00_notOpen() {
-    return ChangeStatusPredicate.closed(dbProvider);
+    return ChangeStatusPredicate.closed();
   }
 
   @Rewrite("-status:closed")
   @NoCostComputation
   public Predicate<ChangeData> r00_notClosed() {
-    return ChangeStatusPredicate.open(dbProvider);
+    return ChangeStatusPredicate.open();
   }
 
   @SuppressWarnings("unchecked")
   @NoCostComputation
   @Rewrite("-status:merged")
   public Predicate<ChangeData> r00_notMerged() {
-    return or(ChangeStatusPredicate.open(dbProvider),
+    return or(ChangeStatusPredicate.open(),
         new ChangeStatusPredicate(Change.Status.ABANDONED));
   }
 
@@ -69,7 +66,7 @@ public class BasicChangeRewrites extends QueryRewriter<ChangeData> {
   @NoCostComputation
   @Rewrite("-status:abandoned")
   public Predicate<ChangeData> r00_notAbandoned() {
-    return or(ChangeStatusPredicate.open(dbProvider),
+    return or(ChangeStatusPredicate.open(),
         new ChangeStatusPredicate(Change.Status.MERGED));
   }
 

@@ -53,9 +53,7 @@ public class IndexRewriteTest {
     indexes = new IndexCollection();
     indexes.setSearchIndex(index);
     queryBuilder = new FakeQueryBuilder(indexes);
-    rewrite = new IndexRewriteImpl(
-        indexes,
-        new BasicChangeRewrites(null));
+    rewrite = new IndexRewriteImpl(indexes, new BasicChangeRewrites());
   }
 
   @Test

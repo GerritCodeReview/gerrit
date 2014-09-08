@@ -47,12 +47,12 @@ public final class ChangeStatusPredicate extends IndexPredicate<ChangeData> {
   }
 
   public static Predicate<ChangeData> parse(String value) {
-    if ("open".equals(value) || "pending".equals(value)) {
+    if ("open".equalsIgnoreCase(value) || "pending".equalsIgnoreCase(value)) {
       return open();
-    } else if ("closed".equals(value)) {
+    } else if ("closed".equalsIgnoreCase(value)) {
       return closed();
     } else {
-      Change.Status status = VALUES.inverse().get(value);
+      Change.Status status = VALUES.inverse().get(value.toLowerCase());
       checkArgument(status != null, "invalid change status: %s", value);
       return new ChangeStatusPredicate(status);
     }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "106cff13_5683344a",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/RebuildNotedb.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-08T13:58:29Z",
+      "side": 1,
+      "message": "is not",
+      "range": {
+        "startLine": 95,
+        "startChar": 18,
+        "endLine": 95,
+        "endChar": 25
+      },
+      "revId": "9a5aab909d910db805b40ea36f99b61465d418e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

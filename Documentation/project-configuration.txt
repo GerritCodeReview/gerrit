@@ -150,6 +150,15 @@ The project is hidden and only visible to project owners. Other users
 are not able to see the project even if they have read permissions
 granted on the project.
 
+=== Use auto-base
+
+The `use auto-base` option enables setting base parameter
+automatically to the destination branch's tip so the revwalk can be
+be done from that commit.
+
+This option is useful if you want to push a change to your personal
+branch first and for review to another branch for example.
+
 === Require Change-Id
 
 The `Require Change-Id in commit message` option defines whether a

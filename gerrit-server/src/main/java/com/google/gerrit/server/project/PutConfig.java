@@ -66,6 +66,7 @@ public class PutConfig implements RestModifyView<ProjectResource, Input> {
     public InheritableBoolean useContributorAgreements;
     public InheritableBoolean useContentMerge;
     public InheritableBoolean useSignedOffBy;
+    public InheritableBoolean useAutoBase;
     public InheritableBoolean requireChangeId;
     public String maxObjectSizeLimit;
     public SubmitType submitType;
@@ -146,6 +147,11 @@ public class PutConfig implements RestModifyView<ProjectResource, Input> {
       if (input.useSignedOffBy != null) {
         p.setUseSignedOffBy(input.useSignedOffBy);
       }
+
+      if (input.useAutoBase != null) {
+        p.setUseAutoBase(input.useAutoBase);
+      }
+
       if (input.requireChangeId != null) {
         p.setRequireChangeID(input.requireChangeId);
       }

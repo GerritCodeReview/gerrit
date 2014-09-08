@@ -33,6 +33,24 @@
       "revId": "9192c732cb3cc4a57eac89d3a407d564bf39017d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_f4d9982c",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/CommitBox.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-08T16:49:52Z",
+      "side": 1,
+      "message": "Why?  It\u0027s not more than 80 chars.",
+      "parentUuid": "d065072b_74c62855",
+      "revId": "9192c732cb3cc4a57eac89d3a407d564bf39017d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -45,6 +45,29 @@
       "revId": "0c6bd46cdf86578499628de9d9bc0a3765dfd76c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "106cff13_76a910ad",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Gerrit.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 922,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-08T15:06:25Z",
+      "side": 1,
+      "message": "what is the meaning of /x/ here?",
+      "range": {
+        "startLine": 922,
+        "startChar": 12,
+        "endLine": 922,
+        "endChar": 41
+      },
+      "revId": "0c6bd46cdf86578499628de9d9bc0a3765dfd76c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

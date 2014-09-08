@@ -273,7 +273,8 @@ class HttpPluginServlet extends HttpServlet
     }
 
     if (file.startsWith(holder.staticPrefix)) {
-      if (holder.plugin.getApiType() == ApiType.JS) {
+      if (holder.plugin.getApiType() == ApiType.JS
+          && req.getRequestURI().equals(getJsPluginPath(holder.plugin))) {
         sendJsPlugin(holder.plugin, key, req, res);
       } else {
         PluginContentScanner scanner = holder.plugin.getContentScanner();
@@ -608,7 +609,7 @@ class HttpPluginServlet extends HttpServlet
   private void sendJsPlugin(Plugin plugin, ResourceKey key,
       HttpServletRequest req, HttpServletResponse res) throws IOException {
     File pluginFile = plugin.getSrcFile();
-    if (req.getRequestURI().equals(getJsPluginPath(plugin)) && pluginFile.exists()) {
+    if (pluginFile.exists()) {
       res.setHeader("Content-Length", Long.toString(pluginFile.length()));
       res.setContentType("application/javascript");
       writeToResponse(res, new FileInputStream(pluginFile));

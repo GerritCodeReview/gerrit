@@ -54,6 +54,7 @@ import com.google.gwtorm.client.KeyUtil;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.StandardKeyEncoder;
 import com.google.inject.Guice;
+import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.util.Providers;
 
@@ -77,17 +78,19 @@ public class AbstractChangeNotesTest {
   protected Account.Id otherUserId;
   protected FakeAccountCache accountCache;
   protected IdentifiedUser changeOwner;
-  protected IdentifiedUser.GenericFactory userFactory;
   protected IdentifiedUser otherUser;
   protected InMemoryRepository repo;
   protected InMemoryRepositoryManager repoManager;
   protected PersonIdent serverIdent;
   protected Project.NameKey project;
 
-  private AllUsersNameProvider allUsers;
+  @Inject protected IdentifiedUser.GenericFactory userFactory;
+
   private Injector injector;
   private String systemTimeZone;
   private volatile long clockStepMs;
+
+  @Inject private AllUsersNameProvider allUsers;
 
   @Before
   public void setUp() throws Exception {
@@ -134,8 +137,7 @@ public class AbstractChangeNotesTest {
       }
     });
 
-    userFactory = injector.getInstance(IdentifiedUser.GenericFactory.class);
-    allUsers = injector.getInstance(AllUsersNameProvider.class);
+    injector.injectMembers(this);
     repoManager.createRepository(allUsers.get());
     changeOwner = userFactory.create(co.getId());
     otherUser = userFactory.create(ou.getId());

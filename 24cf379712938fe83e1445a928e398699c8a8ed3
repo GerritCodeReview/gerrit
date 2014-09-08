@@ -46,6 +46,30 @@
       "revId": "24cf379712938fe83e1445a928e398699c8a8ed3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "106cff13_d6d624fc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-08T16:33:06Z",
+      "side": 1,
+      "message": "No, just s/this.//:\n\n if (canPerform(Permission.PUSH_MERGE) ...\n\nSee all the other can* methods for examples of this",
+      "parentUuid": "705d3b5f_19272bd6",
+      "range": {
+        "startLine": 162,
+        "startChar": 8,
+        "endLine": 162,
+        "endChar": 13
+      },
+      "revId": "24cf379712938fe83e1445a928e398699c8a8ed3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

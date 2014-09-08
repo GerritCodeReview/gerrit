@@ -44,6 +44,9 @@ public class ConfigInfo extends JavaScriptObject {
   public final native InheritedBooleanInfo use_contributor_agreements()
   /*-{ return this.use_contributor_agreements; }-*/;
 
+  public final native InheritedBooleanInfo use_all_not_in_target()
+  /*-{ return this.use_all_not_in_target; }-*/;
+
   public final native InheritedBooleanInfo use_signed_off_by()
   /*-{ return this.use_signed_off_by; }-*/;
 

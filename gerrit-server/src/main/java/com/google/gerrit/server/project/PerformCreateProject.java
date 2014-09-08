@@ -193,6 +193,7 @@ public class PerformCreateProject {
           .setUseContributorAgreements(createProjectArgs.contributorAgreements);
       newProject.setUseSignedOffBy(createProjectArgs.signedOffBy);
       newProject.setUseContentMerge(createProjectArgs.contentMerge);
+      newProject.setUseAllNotInTarget(createProjectArgs.allNotInTarget);
       newProject.setRequireChangeID(createProjectArgs.changeIdRequired);
       newProject.setMaxObjectSizeLimit(createProjectArgs.maxObjectSizeLimit);
       if (createProjectArgs.newParent != null) {

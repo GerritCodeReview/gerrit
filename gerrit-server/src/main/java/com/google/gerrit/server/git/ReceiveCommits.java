@@ -311,6 +311,7 @@ public class ReceiveCommits {
   private final ReceivePack rp;
   private final NoteMap rejectCommits;
   private MagicBranchInput magicBranch;
+  private boolean useAllNotInTarget;
 
   private List<CreateRequest> newChanges = Collections.emptyList();
   private final Map<Change.Id, ReplaceRequest> replaceByChange =
@@ -428,6 +429,7 @@ public class ReceiveCommits {
 
     ProjectState ps = projectControl.getProjectState();
 
+    this.useAllNotInTarget = ps.isUseAllNotInTarget();
     rp.setAllowCreates(true);
     rp.setAllowDeletes(true);
     rp.setAllowNonFastForwards(true);
@@ -1313,6 +1315,18 @@ public class ReceiveCommits {
           return;
         }
       }
+    } else if (useAllNotInTarget) {
+      String magicBranchRef = magicBranch.dest.get();
+      try {
+        ObjectId baseHead = repo.getRef(magicBranchRef).getObjectId();
+        magicBranch.baseCommit =
+            Collections.singletonList(walk.parseCommit(baseHead));
+      } catch (IOException ex) {
+        log.warn(String.format("Project %s cannot read %s", project.getName(),
+            magicBranchRef), ex);
+        reject(cmd, "internal server error");
+        return;
+      }
     }
 
     // Validate that the new commits are connected with the target
@@ -1445,11 +1459,13 @@ public class ReceiveCommits {
       List<ChangeLookup> pending = Lists.newArrayList();
       final Set<Change.Key> newChangeIds = new HashSet<>();
       final int maxBatchChanges = receiveConfig.maxBatchChanges;
+      boolean firstCommit = true;
       for (;;) {
         final RevCommit c = walk.next();
         if (c == null) {
           break;
         }
+
         if (existing.contains(c) || replaceByCommit.containsKey(c)) {
           // This commit was already scheduled to replace an existing PatchSet.
           //
@@ -1460,6 +1476,19 @@ public class ReceiveCommits {
           // Not a change the user can propose? Abort as early as possible.
           //
           return Collections.emptyList();
+        }
+
+        // If tip is a merge commit, use default behavior
+        if (firstCommit && c.getParentCount() > 1) {
+          useAllNotInTarget = false;
+          firstCommit = false;
+        }
+
+        // Don't allow merges to be uploaded via all-not-in-target
+        if (useAllNotInTarget && magicBranch.base == null && c.getParentCount() > 1) {
+          reject(magicBranch.cmd,
+              "Pushing merges in commit chains with 'all not in target' is not allowed,\n"
+            + "to override please set the base manually");
         }
 
         Change.Key changeKey = new Change.Key("I" + c.name());

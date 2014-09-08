@@ -87,6 +87,9 @@ final class CreateProjectCommand extends SshCommand {
   @Option(name = "--change-id", usage = "if change-id is required")
   private InheritableBoolean requireChangeID = InheritableBoolean.INHERIT;
 
+  @Option(name = "--all-not-in-target", usage = "if a new change will be created for every commit not in target branch")
+  private InheritableBoolean useAllNotInTarget = InheritableBoolean.INHERIT;
+
   @Option(name = "--use-contributor-agreements", aliases = {"--ca"}, usage = "if contributor agreement is required")
   void setUseContributorArgreements(boolean on) {
     contributorAgreements = InheritableBoolean.TRUE;
@@ -105,6 +108,11 @@ final class CreateProjectCommand extends SshCommand {
   @Option(name = "--require-change-id", aliases = {"--id"}, usage = "if change-id is required")
   void setRequireChangeId(boolean on) {
     requireChangeID = InheritableBoolean.TRUE;
+  }
+
+  @Option(name = "--use-all-not-in-target", aliases = {"--anit"}, usage = "if a new change will be created for every commit not in target branch")
+  void setAutoBase(boolean on) {
+    useAllNotInTarget = InheritableBoolean.TRUE;
   }
 
   @Option(name = "--branch", aliases = {"-b"}, metaVar = "BRANCH", usage = "initial branch name\n"
@@ -166,6 +174,7 @@ final class CreateProjectCommand extends SshCommand {
         input.useSignedOffBy = signedOffBy;
         input.useContentMerge = contentMerge;
         input.requireChangeId = requireChangeID;
+        input.useAllNotInTarget = useAllNotInTarget;
         input.branches = branch;
         input.createEmptyCommit = createEmptyCommit;
         input.maxObjectSizeLimit = maxObjectSizeLimit;

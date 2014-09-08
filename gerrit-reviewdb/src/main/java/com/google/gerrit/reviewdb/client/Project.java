@@ -94,6 +94,8 @@ public final class Project {
 
   protected String themeName;
 
+  protected InheritableBoolean useAllNotInTarget;
+
   protected Project() {
   }
 
@@ -105,6 +107,7 @@ public final class Project {
     useSignedOffBy = InheritableBoolean.INHERIT;
     requireChangeID = InheritableBoolean.INHERIT;
     useContentMerge = InheritableBoolean.INHERIT;
+    useAllNotInTarget = InheritableBoolean.INHERIT;
   }
 
   public Project.NameKey getNameKey() {
@@ -157,6 +160,14 @@ public final class Project {
 
   public void setRequireChangeID(final InheritableBoolean cid) {
     requireChangeID = cid;
+  }
+
+  public InheritableBoolean getUseAllNotInTarget() {
+    return useAllNotInTarget;
+  }
+
+  public void setUseAllNotInTarget(InheritableBoolean useAllNotInTarget) {
+    this.useAllNotInTarget = useAllNotInTarget;
   }
 
   public void setMaxObjectSizeLimit(final String limit) {
@@ -212,6 +223,7 @@ public final class Project {
     submitType = update.submitType;
     state = update.state;
     maxObjectSizeLimit = update.maxObjectSizeLimit;
+    useAllNotInTarget = update.useAllNotInTarget;
   }
 
   /**

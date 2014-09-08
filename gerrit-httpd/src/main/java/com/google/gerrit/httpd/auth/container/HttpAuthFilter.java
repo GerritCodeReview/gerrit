@@ -14,7 +14,7 @@
 
 package com.google.gerrit.httpd.auth.container;
 
-import static com.google.common.base.Objects.firstNonNull;
+import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.base.Strings.emptyToNull;
 import static com.google.common.net.HttpHeaders.AUTHORIZATION;
 import static com.google.gerrit.reviewdb.client.AccountExternalId.SCHEME_GERRIT;

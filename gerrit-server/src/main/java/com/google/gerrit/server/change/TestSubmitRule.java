@@ -18,7 +18,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.base.Function;
 import com.google.common.base.Joiner;
-import com.google.common.base.Objects;
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Throwables;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
@@ -86,7 +86,7 @@ public class TestSubmitRule implements RestModifyView<RevisionResource, Input> {
     if (input.rule != null && !rules.isProjectRulesEnabled()) {
       throw new AuthException("project rules are disabled");
     }
-    input.filters = Objects.firstNonNull(input.filters, filters);
+    input.filters = MoreObjects.firstNonNull(input.filters, filters);
 
     SubmitRuleEvaluator evaluator = new SubmitRuleEvaluator(
         db.get(),

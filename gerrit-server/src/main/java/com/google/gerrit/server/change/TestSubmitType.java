@@ -16,7 +16,7 @@ package com.google.gerrit.server.change;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
-import com.google.common.base.Objects;
+import com.google.common.base.MoreObjects;
 import com.google.gerrit.extensions.common.SubmitType;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -66,7 +66,7 @@ public class TestSubmitType implements RestModifyView<RevisionResource, Input> {
     if (input.rule != null && !rules.isProjectRulesEnabled()) {
       throw new AuthException("project rules are disabled");
     }
-    input.filters = Objects.firstNonNull(input.filters, filters);
+    input.filters = MoreObjects.firstNonNull(input.filters, filters);
 
     SubmitRuleEvaluator evaluator = new SubmitRuleEvaluator(
         db.get(),

@@ -16,7 +16,7 @@ package com.google.gerrit.sshd.commands;
 
 import com.google.common.base.Function;
 import com.google.common.base.Joiner;
-import com.google.common.base.Objects;
+import com.google.common.base.MoreObjects;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.gerrit.extensions.restapi.IdString;
@@ -119,7 +119,7 @@ public class SetMembersCommand extends SshCommand {
                 new Function<Account.Id, String>() {
                   @Override
                   public String apply(Account.Id accountId) {
-                    return Objects.firstNonNull(accountCache.get(accountId)
+                    return MoreObjects.firstNonNull(accountCache.get(accountId)
                         .getAccount().getPreferredEmail(), "n/a");
                   }
                 }))).getBytes(ENC));

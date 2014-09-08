@@ -14,7 +14,7 @@
 
 package com.google.gerrit.pgm.init;
 
-import com.google.common.base.Objects;
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
 import com.google.gerrit.pgm.init.api.Section;
 import com.google.gerrit.server.config.AllUsersNameProvider;
@@ -27,7 +27,7 @@ public class AllUsersNameOnInitProvider implements Provider<String> {
   @Inject
   AllUsersNameOnInitProvider(Section.Factory sections) {
     String n = sections.get("gerrit", null).get("allUsers");
-    name = Objects.firstNonNull(
+    name = MoreObjects.firstNonNull(
         Strings.emptyToNull(n), AllUsersNameProvider.DEFAULT);
   }
 

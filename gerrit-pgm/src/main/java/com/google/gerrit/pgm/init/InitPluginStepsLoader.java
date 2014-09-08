@@ -14,7 +14,7 @@
 
 package com.google.gerrit.pgm.init;
 
-import com.google.common.base.Objects;
+import com.google.common.base.MoreObjects;
 import com.google.gerrit.extensions.annotations.PluginName;
 import com.google.gerrit.pgm.init.api.ConsoleUI;
 import com.google.gerrit.pgm.init.api.InitStep;
@@ -99,7 +99,8 @@ public class InitPluginStepsLoader {
 
   private Injector getPluginInjector(final File jarFile) throws IOException {
     final String pluginName =
-        Objects.firstNonNull(JarPluginProvider.getJarPluginName(jarFile),
+        MoreObjects.firstNonNull(
+            JarPluginProvider.getJarPluginName(jarFile),
             PluginLoader.nameOf(jarFile));
     return initInjector.createChildInjector(new AbstractModule() {
       @Override

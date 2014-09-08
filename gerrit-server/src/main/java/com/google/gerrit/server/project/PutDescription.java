@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.project;
 
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 import com.google.common.base.Strings;
 import com.google.gerrit.common.ChangeHooks;
@@ -85,7 +86,7 @@ class PutDescription implements RestModifyView<ProjectResource, Input> {
         Project project = config.getProject();
         project.setDescription(Strings.emptyToNull(input.description));
 
-        String msg = Objects.firstNonNull(
+        String msg = MoreObjects.firstNonNull(
           Strings.emptyToNull(input.commitMessage),
           "Updated description.\n");
         if (!msg.endsWith("\n")) {

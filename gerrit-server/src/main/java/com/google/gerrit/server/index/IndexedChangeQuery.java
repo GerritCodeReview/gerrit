@@ -16,7 +16,7 @@ package com.google.gerrit.server.index;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Function;
-import com.google.common.base.Objects;
+import com.google.common.base.MoreObjects;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
@@ -225,7 +225,7 @@ public class IndexedChangeQuery extends Predicate<ChangeData>
 
   @Override
   public String toString() {
-    return Objects.toStringHelper("index")
+    return MoreObjects.toStringHelper("index")
         .add("p", pred)
         .add("limit", limit)
         .toString();

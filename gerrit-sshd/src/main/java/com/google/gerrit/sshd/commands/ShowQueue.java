@@ -16,7 +16,7 @@ package com.google.gerrit.sshd.commands;
 
 import static com.google.gerrit.sshd.CommandMetaData.Mode.MASTER_OR_SLAVE;
 
-import com.google.common.base.Objects;
+import com.google.common.base.MoreObjects;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.ConfigResource;
@@ -108,7 +108,7 @@ final class ShowQueue extends SshCommand {
 
           stdout.print(String.format("%8s %-12s %-4s %s\n",
               task.id, start, startTime(task.startTime),
-              Objects.firstNonNull(remoteName, "n/a")));
+              MoreObjects.firstNonNull(remoteName, "n/a")));
         }
       }
       stdout.print("----------------------------------------------"

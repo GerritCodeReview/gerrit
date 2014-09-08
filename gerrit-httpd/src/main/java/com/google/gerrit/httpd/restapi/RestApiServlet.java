@@ -32,7 +32,7 @@ import static javax.servlet.http.HttpServletResponse.SC_PRECONDITION_FAILED;
 
 import com.google.common.base.Function;
 import com.google.common.base.Joiner;
-import com.google.common.base.Objects;
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableMultimap;
@@ -353,12 +353,12 @@ public class RestApiServlet extends HttpServlet {
       replyError(req, res, status = SC_CONFLICT, e.getMessage(), e.caching());
     } catch (PreconditionFailedException e) {
       replyError(req, res, status = SC_PRECONDITION_FAILED,
-          Objects.firstNonNull(e.getMessage(), "Precondition failed"), e.caching());
+          MoreObjects.firstNonNull(e.getMessage(), "Precondition failed"), e.caching());
     } catch (ResourceNotFoundException e) {
       replyError(req, res, status = SC_NOT_FOUND, "Not found", e.caching());
     } catch (UnprocessableEntityException e) {
       replyError(req, res, status = 422,
-          Objects.firstNonNull(e.getMessage(), "Unprocessable Entity"), e.caching());
+          MoreObjects.firstNonNull(e.getMessage(), "Unprocessable Entity"), e.caching());
     } catch (AmbiguousViewException e) {
       replyError(req, res, status = SC_NOT_FOUND, e.getMessage());
     } catch (MalformedJsonException e) {

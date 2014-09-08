@@ -16,7 +16,7 @@ package com.google.gerrit.sshd.commands;
 
 import static com.google.gerrit.sshd.CommandMetaData.Mode.MASTER_OR_SLAVE;
 
-import com.google.common.base.Objects;
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -79,7 +79,7 @@ public class ListGroupsCommand extends SshCommand {
     void display(final PrintWriter out) throws OrmException {
       final ColumnFormatter formatter = new ColumnFormatter(out, '\t');
       for (final GroupInfo info : get()) {
-        formatter.addColumn(Objects.firstNonNull(info.name, "n/a"));
+        formatter.addColumn(MoreObjects.firstNonNull(info.name, "n/a"));
         if (verboseOutput) {
           AccountGroup o = info.ownerId != null
               ? groupCache.get(new AccountGroup.UUID(Url.decode(info.ownerId)))
@@ -89,7 +89,7 @@ public class ListGroupsCommand extends SshCommand {
           formatter.addColumn(Strings.nullToEmpty(info.description));
           formatter.addColumn(o != null ? o.getName() : "n/a");
           formatter.addColumn(o != null ? o.getGroupUUID().get() : "");
-          formatter.addColumn(Boolean.toString(Objects.firstNonNull(
+          formatter.addColumn(Boolean.toString(MoreObjects.firstNonNull(
               info.options.visibleToAll, Boolean.FALSE)));
         }
         formatter.nextLine();

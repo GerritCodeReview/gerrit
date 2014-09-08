@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.project;
 
-import com.google.common.base.Objects;
+import com.google.common.base.MoreObjects;
 import com.google.gerrit.common.ProjectUtil;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GroupDescription;
@@ -187,7 +187,7 @@ public class PerformCreateProject {
 
       Project newProject = config.getProject();
       newProject.setDescription(createProjectArgs.projectDescription);
-      newProject.setSubmitType(Objects.firstNonNull(createProjectArgs.submitType,
+      newProject.setSubmitType(MoreObjects.firstNonNull(createProjectArgs.submitType,
           cfg.getEnum("repository", "*", "defaultSubmitType", SubmitType.MERGE_IF_NECESSARY)));
       newProject
           .setUseContributorAgreements(createProjectArgs.contributorAgreements);

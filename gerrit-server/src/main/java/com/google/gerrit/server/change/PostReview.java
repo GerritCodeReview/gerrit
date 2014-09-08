@@ -17,7 +17,7 @@ package com.google.gerrit.server.change;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.gerrit.server.PatchLineCommentsUtil.setCommentRevId;
 
-import com.google.common.base.Objects;
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -374,7 +374,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       }
     }
 
-    switch (Objects.firstNonNull(draftsHandling, DraftHandling.DELETE)) {
+    switch (MoreObjects.firstNonNull(draftsHandling, DraftHandling.DELETE)) {
       case KEEP:
       default:
         break;

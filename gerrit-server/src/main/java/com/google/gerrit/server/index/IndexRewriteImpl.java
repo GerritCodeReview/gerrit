@@ -15,7 +15,7 @@
 package com.google.gerrit.server.index;
 
 import com.google.common.annotations.VisibleForTesting;
-import com.google.common.base.Objects;
+import com.google.common.base.MoreObjects;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.gerrit.reviewdb.client.Change;
@@ -136,7 +136,7 @@ public class IndexRewriteImpl implements ChangeQueryRewriter {
     ChangeIndex index = indexes.getSearchIndex();
     in = basicRewrites.rewrite(in);
     int limit =
-        Objects.firstNonNull(ChangeQueryBuilder.getLimit(in), MAX_LIMIT);
+        MoreObjects.firstNonNull(ChangeQueryBuilder.getLimit(in), MAX_LIMIT);
     // Increase the limit rather than skipping, since we don't know how many
     // skipped results would have been filtered out by the enclosing AndSource.
     limit += start;

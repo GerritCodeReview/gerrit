@@ -16,7 +16,7 @@ package com.google.gerrit.server.plugins;
 
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Joiner;
-import com.google.common.base.Objects;
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.LinkedHashMultimap;
@@ -72,7 +72,8 @@ public class PluginLoader implements LifecycleListener {
   static final Logger log = LoggerFactory.getLogger(PluginLoader.class);
 
   public String getPluginName(File srcFile) throws IOException {
-    return Objects.firstNonNull(getGerritPluginName(srcFile), nameOf(srcFile));
+    return MoreObjects.firstNonNull(getGerritPluginName(srcFile),
+        nameOf(srcFile));
   }
 
   private final File pluginsDir;
@@ -158,7 +159,7 @@ public class PluginLoader implements LifecycleListener {
 
     String fileName = originalName;
     File tmp = asTemp(in, ".next_" + fileName + "_", ".tmp", pluginsDir);
-    String name = Objects.firstNonNull(getGerritPluginName(tmp),
+    String name = MoreObjects.firstNonNull(getGerritPluginName(tmp),
         nameOf(fileName));
     if (!originalName.equals(name)) {
       log.warn(String.format("Plugin provides its own name: <%s>,"

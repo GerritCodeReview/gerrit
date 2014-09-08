@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.project;
 
-import com.google.common.base.Objects;
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -97,7 +97,7 @@ class SetDefaultDashboard implements RestModifyView<DashboardResource, Input> {
           project.setLocalDefaultDashboard(input.id);
         }
 
-        String msg = Objects.firstNonNull(
+        String msg = MoreObjects.firstNonNull(
           Strings.emptyToNull(input.commitMessage),
           input.id == null
             ? "Removed default dashboard.\n"

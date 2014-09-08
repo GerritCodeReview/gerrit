@@ -18,7 +18,7 @@ import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.PROJECT_OWNERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 
-import com.google.common.base.Objects;
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.common.Version;
@@ -126,7 +126,7 @@ public class AllProjectsCreator {
         git);
     md.getCommitBuilder().setAuthor(serverUser);
     md.getCommitBuilder().setCommitter(serverUser);
-    md.setMessage(Objects.firstNonNull(
+    md.setMessage(MoreObjects.firstNonNull(
         Strings.emptyToNull(message),
         "Initialized Gerrit Code Review " + Version.getVersion()));
 

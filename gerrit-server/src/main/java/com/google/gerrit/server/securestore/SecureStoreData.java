@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.securestore;
 
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 
 import java.io.File;
@@ -57,7 +58,7 @@ public class SecureStoreData {
 
   @Override
   public String toString() {
-    return Objects.toStringHelper(this).add("storeName", storeName)
+    return MoreObjects.toStringHelper(this).add("storeName", storeName)
         .add("className", className).add("file", pluginFile).toString();
   }
 

@@ -16,7 +16,7 @@ package com.google.gerrit.httpd;
 
 import static javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
 
-import com.google.common.base.Objects;
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.server.AccessPath;
@@ -183,7 +183,7 @@ class ProjectBasicAuthFilter implements Filter {
   }
 
   private String encoding(HttpServletRequest req) {
-    return Objects.firstNonNull(req.getCharacterEncoding(), "UTF-8");
+    return MoreObjects.firstNonNull(req.getCharacterEncoding(), "UTF-8");
   }
 
   class Response extends HttpServletResponseWrapper {

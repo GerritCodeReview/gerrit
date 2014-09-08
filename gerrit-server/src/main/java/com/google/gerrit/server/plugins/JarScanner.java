@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.plugins;
 
-import static com.google.common.base.Objects.firstNonNull;
+import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.collect.Iterables.transform;
 
 import com.google.common.base.Function;

@@ -14,7 +14,7 @@
 
 package com.google.gerrit.httpd.auth.openid;
 
-import com.google.common.base.Objects;
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
@@ -220,7 +220,8 @@ class LoginForm extends HttpServlet {
   private void sendForm(HttpServletRequest req, HttpServletResponse res,
       boolean link, @Nullable String errorMessage) throws IOException {
     String self = req.getRequestURI();
-    String cancel = Objects.firstNonNull(urlProvider != null ? urlProvider.get() : "/", "/");
+    String cancel = MoreObjects.firstNonNull(
+        urlProvider != null ? urlProvider.get() : "/", "/");
     cancel += LoginUrlToken.getToken(req);
 
     Document doc = header.parse(LoginForm.class, "LoginForm.html");

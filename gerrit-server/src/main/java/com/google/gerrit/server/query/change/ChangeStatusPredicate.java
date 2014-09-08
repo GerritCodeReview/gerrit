@@ -19,12 +19,10 @@ import static com.google.common.base.Preconditions.checkArgument;
 import com.google.common.collect.ImmutableBiMap;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Change.Status;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.index.ChangeField;
 import com.google.gerrit.server.index.IndexPredicate;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gwtorm.server.OrmException;
-import com.google.inject.Provider;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,7 +46,7 @@ public final class ChangeStatusPredicate extends IndexPredicate<ChangeData> {
     VALUES = values.build();
   }
 
-  public static Predicate<ChangeData> open(Provider<ReviewDb> dbProvider) {
+  public static Predicate<ChangeData> open() {
     List<Predicate<ChangeData>> r = new ArrayList<>(4);
     for (final Change.Status e : Change.Status.values()) {
       if (e.isOpen()) {
@@ -58,7 +56,7 @@ public final class ChangeStatusPredicate extends IndexPredicate<ChangeData> {
     return r.size() == 1 ? r.get(0) : or(r);
   }
 
-  public static Predicate<ChangeData> closed(Provider<ReviewDb> dbProvider) {
+  public static Predicate<ChangeData> closed() {
     List<Predicate<ChangeData>> r = new ArrayList<>(4);
     for (final Change.Status e : Change.Status.values()) {
       if (e.isClosed()) {

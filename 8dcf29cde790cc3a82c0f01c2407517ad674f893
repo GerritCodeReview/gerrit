@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d065072b_b4cf2064",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectInfoScreen.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 574,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-08T16:50:54Z",
+      "side": 1,
+      "message": "This comment shouldn\u0027t be needed.",
+      "range": {
+        "startLine": 574,
+        "startChar": 4,
+        "endLine": 574,
+        "endChar": 73
+      },
+      "revId": "8dcf29cde790cc3a82c0f01c2407517ad674f893",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -139,7 +139,6 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
   private final AllUsersName allUsers;
   private DraftCommentNotes draftCommentNotes;
 
-  @Inject
   @VisibleForTesting
   public ChangeNotes(GitRepositoryManager repoManager,
       AllUsersNameProvider allUsersProvider, Change change) {

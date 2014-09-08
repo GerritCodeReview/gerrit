@@ -46,6 +46,18 @@ public final class ChangeStatusPredicate extends IndexPredicate<ChangeData> {
     VALUES = values.build();
   }
 
+  public static Predicate<ChangeData> parse(String value) {
+    if ("open".equals(value) || "pending".equals(value)) {
+      return open();
+    } else if ("closed".equals(value)) {
+      return closed();
+    } else {
+      Change.Status status = VALUES.inverse().get(value);
+      checkArgument(status != null, "invalid change status: %s", value);
+      return new ChangeStatusPredicate(status);
+    }
+  }
+
   public static Predicate<ChangeData> open() {
     List<Predicate<ChangeData>> r = new ArrayList<>(4);
     for (final Change.Status e : Change.Status.values()) {
@@ -67,12 +79,6 @@ public final class ChangeStatusPredicate extends IndexPredicate<ChangeData> {
   }
 
   private final Change.Status status;
-
-  ChangeStatusPredicate(String value) {
-    super(ChangeField.STATUS, value);
-    status = VALUES.inverse().get(value);
-    checkArgument(status != null, "invalid change status: %s", value);
-  }
 
   ChangeStatusPredicate(Change.Status status) {
     super(ChangeField.STATUS, VALUES.get(status));

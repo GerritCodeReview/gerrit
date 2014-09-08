@@ -311,6 +311,7 @@ public class ReceiveCommits {
   private final ReceivePack rp;
   private final NoteMap rejectCommits;
   private MagicBranchInput magicBranch;
+  private boolean newChangeForAllNotInTarget;
 
   private List<CreateRequest> newChanges = Collections.emptyList();
   private final Map<Change.Id, ReplaceRequest> replaceByChange =
@@ -428,6 +429,7 @@ public class ReceiveCommits {
 
     ProjectState ps = projectControl.getProjectState();
 
+    this.newChangeForAllNotInTarget = ps.isCreateNewChangeForAllNotInTarget();
     rp.setAllowCreates(true);
     rp.setAllowDeletes(true);
     rp.setAllowNonFastForwards(true);
@@ -1293,6 +1295,21 @@ public class ReceiveCommits {
     }
 
     RevWalk walk = rp.getRevWalk();
+    RevCommit tip;
+    try {
+      tip = walk.parseCommit(magicBranch.cmd.getNewId());
+    } catch (IOException ex) {
+      magicBranch.cmd.setResult(REJECTED_MISSING_OBJECT);
+      log.error("Invalid pack upload; one or more objects weren't sent", ex);
+      return;
+    }
+
+    // If tip is a merge commit or %base was specified,
+    // ignore newChangeForAllNotInTarget
+    if (tip.getParentCount() > 1 || magicBranch.base != null) {
+      newChangeForAllNotInTarget = false;
+    }
+
     if (magicBranch.base != null) {
       magicBranch.baseCommit = Lists.newArrayListWithCapacity(
           magicBranch.base.size());
@@ -1313,6 +1330,18 @@ public class ReceiveCommits {
           return;
         }
       }
+    } else if (newChangeForAllNotInTarget) {
+      String magicBranchRef = magicBranch.dest.get();
+      try {
+        ObjectId baseHead = repo.getRef(magicBranchRef).getObjectId();
+        magicBranch.baseCommit =
+            Collections.singletonList(walk.parseCommit(baseHead));
+      } catch (IOException ex) {
+        log.warn(String.format("Project %s cannot read %s", project.getName(),
+            magicBranchRef), ex);
+        reject(cmd, "internal server error");
+        return;
+      }
     }
 
     // Validate that the new commits are connected with the target
@@ -1321,7 +1350,6 @@ public class ReceiveCommits {
     // commits and the target branch head.
     //
     try {
-      final RevCommit tip = walk.parseCommit(magicBranch.cmd.getNewId());
       Ref targetRef = rp.getAdvertisedRefs().get(magicBranch.ctl.getRefName());
       if (targetRef == null || targetRef.getObjectId() == null) {
         // The destination branch does not yet exist. Assume the
@@ -1460,6 +1488,13 @@ public class ReceiveCommits {
           // Not a change the user can propose? Abort as early as possible.
           //
           return Collections.emptyList();
+        }
+
+        // Don't allow merges to be uploaded in commit chain via all-not-in-target
+        if (newChangeForAllNotInTarget && c.getParentCount() > 1) {
+          reject(magicBranch.cmd,
+              "Pushing merges in commit chains with 'all not in target' is not allowed,\n"
+            + "to override please set the base manually");
         }
 
         Change.Key changeKey = new Change.Key("I" + c.name());

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "106cff13_b6a288c7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/TagSetHolder.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-08T15:10:09Z",
+      "side": 1,
+      "message": "I think this would be more readable with FluentIterable:\n\n include \u003d FluentIterable.of(include).filter(new Predicate\u003cRef\u003e() {\n     @Override\n     public boolean apply(Ref ref) {\n       return !TagSet.skip(ref);\n     }\n   }).toList();",
+      "revId": "0c758f7f1ebb24a963605caf24a2d9419d8ab458",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

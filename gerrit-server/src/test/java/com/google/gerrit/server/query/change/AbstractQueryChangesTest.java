@@ -29,6 +29,7 @@ import com.google.common.hash.Hashing;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.projects.ProjectInput;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.reviewdb.client.Account;
@@ -260,6 +261,31 @@ public abstract class AbstractQueryChangesTest {
     assertEquals(2, results.size());
     assertResultEquals(change2, results.get(0));
     assertResultEquals(change1, results.get(1));
+  }
+
+  @Test
+  public void byStatusPrefix() throws Exception {
+    TestRepository<InMemoryRepository> repo = createProject("repo");
+    ChangeInserter ins1 = newChange(repo, null, null, null, null);
+    Change change1 = ins1.getChange();
+    change1.setStatus(Change.Status.NEW);
+    ins1.insert();
+    ChangeInserter ins2 = newChange(repo, null, null, null, null);
+    Change change2 = ins2.getChange();
+    change2.setStatus(Change.Status.MERGED);
+    ins2.insert();
+
+    assertResultEquals(change1, queryOne("status:n"));
+    assertResultEquals(change1, queryOne("status:ne"));
+    assertResultEquals(change1, queryOne("status:new"));
+    assertResultEquals(change1, queryOne("status:N"));
+    assertResultEquals(change1, queryOne("status:nE"));
+    assertResultEquals(change1, queryOne("status:neW"));
+    try {
+      query("status:newx");
+    } catch (BadRequestException e) {
+      // Expected.
+    }
   }
 
   @Test

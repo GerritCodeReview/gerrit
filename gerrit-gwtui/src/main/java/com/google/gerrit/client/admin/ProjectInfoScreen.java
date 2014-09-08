@@ -79,6 +79,7 @@ public class ProjectInfoScreen extends ProjectScreen {
   private ListBox submitType;
   private ListBox state;
   private ListBox contentMerge;
+  private ListBox newChangeForAllNotInTarget;
   private NpTextBox maxObjectSizeLimit;
   private Label effectiveMaxObjectSizeLimit;
   private Map<String, Map<String, HasEnabled>> pluginConfigWidgets;
@@ -157,6 +158,7 @@ public class ProjectInfoScreen extends ProjectScreen {
     state.setEnabled(isOwner);
     submitType.setEnabled(isOwner);
     setEnabledForUseContentMerge();
+    newChangeForAllNotInTarget.setEnabled(isOwner);
     descTxt.setEnabled(isOwner);
     contributorAgreements.setEnabled(isOwner);
     signedOffBy.setEnabled(isOwner);
@@ -212,6 +214,10 @@ public class ProjectInfoScreen extends ProjectScreen {
     contentMerge = newInheritedBooleanBox();
     saveEnabler.listenTo(contentMerge);
     grid.add(Util.C.useContentMerge(), contentMerge);
+
+    newChangeForAllNotInTarget = newInheritedBooleanBox();
+    saveEnabler.listenTo(newChangeForAllNotInTarget);
+    grid.add(Util.C.createNewChangeForAllNotInTarget(), newChangeForAllNotInTarget);
 
     requireChangeID = newInheritedBooleanBox();
     saveEnabler.listenTo(requireChangeID);
@@ -338,6 +344,7 @@ public class ProjectInfoScreen extends ProjectScreen {
     setBool(contributorAgreements, result.use_contributor_agreements());
     setBool(signedOffBy, result.use_signed_off_by());
     setBool(contentMerge, result.use_content_merge());
+    setBool(newChangeForAllNotInTarget, result.create_new_change_for_all_not_in_target());
     setBool(requireChangeID, result.require_change_id());
     setSubmitType(result.submit_type());
     setState(result.state());
@@ -569,7 +576,7 @@ public class ProjectInfoScreen extends ProjectScreen {
     saveProject.setEnabled(false);
     ProjectApi.setConfig(getProjectKey(), descTxt.getText().trim(),
         getBool(contributorAgreements), getBool(contentMerge),
-        getBool(signedOffBy), getBool(requireChangeID),
+        getBool(signedOffBy), getBool(newChangeForAllNotInTarget), getBool(requireChangeID),
         maxObjectSizeLimit.getText().trim(),
         SubmitType.valueOf(submitType.getValue(submitType.getSelectedIndex())),
         ProjectState.valueOf(state.getValue(state.getSelectedIndex())),

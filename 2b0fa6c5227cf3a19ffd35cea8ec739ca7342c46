@@ -22,6 +22,30 @@
       "revId": "2b0fa6c5227cf3a19ffd35cea8ec739ca7342c46",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_74aaa85b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1010030
+      },
+      "writtenOn": "2014-09-08T21:27:19Z",
+      "side": 1,
+      "message": "Nasser, as you may remember in gerrit you can only change a commit once. If you push a commit to a personal branch, gerrit will refuse the commit for review for another branch afterwards.\n\nWith this patch, we set the base to the destination branch so only commits on the destination branch are marked uninteresting.",
+      "parentUuid": "705d3b5f_99121b71",
+      "range": {
+        "startLine": 15,
+        "startChar": 40,
+        "endLine": 16,
+        "endChar": 37
+      },
+      "revId": "2b0fa6c5227cf3a19ffd35cea8ec739ca7342c46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

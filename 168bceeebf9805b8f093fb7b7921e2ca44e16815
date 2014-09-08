@@ -2,6 +2,167 @@
   "comments": [
     {
       "key": {
+        "uuid": "d065072b_b4b8c0c6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-08T21:05:04Z",
+      "side": 1,
+      "message": "SecureStore",
+      "range": {
+        "startLine": 14,
+        "startChar": 30,
+        "endLine": 14,
+        "endChar": 42
+      },
+      "revId": "168bceeebf9805b8f093fb7b7921e2ca44e16815",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "106cff13_b681e8f2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-08T21:05:04Z",
+      "side": 1,
+      "message": "Point at the end of statement.",
+      "range": {
+        "startLine": 17,
+        "startChar": 56,
+        "endLine": 17,
+        "endChar": 65
+      },
+      "revId": "168bceeebf9805b8f093fb7b7921e2ca44e16815",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_94b5c4d0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-08T21:05:04Z",
+      "side": 1,
+      "message": "that",
+      "range": {
+        "startLine": 17,
+        "startChar": 30,
+        "endLine": 17,
+        "endChar": 33
+      },
+      "revId": "168bceeebf9805b8f093fb7b7921e2ca44e16815",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "106cff13_569df451",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-08T21:05:04Z",
+      "side": 1,
+      "message": "implements",
+      "range": {
+        "startLine": 17,
+        "startChar": 34,
+        "endLine": 17,
+        "endChar": 43
+      },
+      "revId": "168bceeebf9805b8f093fb7b7921e2ca44e16815",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_f4b238e4",
+        "filename": "gerrit-launcher/src/main/java/com/google/gerrit/launcher/GerritLauncher.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-08T21:05:04Z",
+      "side": 1,
+      "message": "Use Optional\u003cString\u003e or null because it\u0027s private API.",
+      "range": {
+        "startLine": 129,
+        "startChar": 11,
+        "endLine": 129,
+        "endChar": 13
+      },
+      "revId": "168bceeebf9805b8f093fb7b7921e2ca44e16815",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_d4af3c7c",
+        "filename": "gerrit-launcher/src/main/java/com/google/gerrit/launcher/GerritLauncher.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-08T21:05:04Z",
+      "side": 1,
+      "message": "!Strings.isnullOrEmpty(secureStoreJarPath)",
+      "range": {
+        "startLine": 259,
+        "startChar": 9,
+        "endLine": 259,
+        "endChar": 37
+      },
+      "revId": "168bceeebf9805b8f093fb7b7921e2ca44e16815",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "106cff13_967e6c30",
+        "filename": "gerrit-launcher/src/main/java/com/google/gerrit/launcher/GerritLauncher.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-08T21:05:04Z",
+      "side": 1,
+      "message": "SecureStore",
+      "range": {
+        "startLine": 263,
+        "startChar": 22,
+        "endLine": 263,
+        "endChar": 34
+      },
+      "revId": "168bceeebf9805b8f093fb7b7921e2ca44e16815",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d065072b_b4dd602c",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Init.java",
         "patchSetId": 2
@@ -41,6 +202,75 @@
         "startChar": 18,
         "endLine": 63,
         "endChar": 38
+      },
+      "revId": "168bceeebf9805b8f093fb7b7921e2ca44e16815",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_348e7025",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/BaseInit.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-08T21:05:04Z",
+      "side": 1,
+      "message": "getSecureStoreJarPath()",
+      "range": {
+        "startLine": 135,
+        "startChar": 19,
+        "endLine": 135,
+        "endChar": 40
+      },
+      "revId": "168bceeebf9805b8f093fb7b7921e2ca44e16815",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_1493744b",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/BaseInit.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-08T21:05:04Z",
+      "side": 1,
+      "message": "null",
+      "range": {
+        "startLine": 136,
+        "startChar": 11,
+        "endLine": 136,
+        "endChar": 13
+      },
+      "revId": "168bceeebf9805b8f093fb7b7921e2ca44e16815",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_7498e863",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/BaseInit.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-08T21:05:04Z",
+      "side": 1,
+      "message": "null",
+      "range": {
+        "startLine": 140,
+        "startChar": 11,
+        "endLine": 140,
+        "endChar": 13
       },
       "revId": "168bceeebf9805b8f093fb7b7921e2ca44e16815",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

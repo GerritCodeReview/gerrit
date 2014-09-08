@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "705d3b5f_99121b71",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2014-09-08T18:08:53Z",
+      "side": 1,
+      "message": "What does this functionally mean? What new behavior are you intending to get as a result?",
+      "range": {
+        "startLine": 15,
+        "startChar": 40,
+        "endLine": 16,
+        "endChar": 37
+      },
+      "revId": "2b0fa6c5227cf3a19ffd35cea8ec739ca7342c46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

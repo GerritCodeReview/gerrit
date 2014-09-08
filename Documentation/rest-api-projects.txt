@@ -671,6 +671,11 @@ read access to `refs/meta/config`.
       "configured_value": "INHERIT",
       "inherited_value": false
     },
+    "use_all_not_in_target": {
+      "value": false,
+      "configured_value": "INHERIT",
+      "inherited_value": false
+    },
     "require_change_id": {
       "value": false,
       "configured_value": "FALSE",
@@ -725,6 +730,7 @@ link:#config-input[ConfigInput] entity.
     "use_contributor_agreements": "FALSE",
     "use_content_merge": "INHERIT",
     "use_signed_off_by": "INHERIT",
+    "use_all_not_in_target": "INHERIT",
     "require_change_id": "TRUE",
     "max_object_size_limit": "10m",
     "submit_type": "REBASE_IF_NECESSARY",
@@ -755,6 +761,11 @@ ConfigInfo] entity.
     },
     "use_signed_off_by": {
       "value": false,
+      "configured_value": "INHERIT",
+      "inherited_value": false
+    },
+    "use_all_not_in_target": {
+      "value": true,
       "configured_value": "INHERIT",
       "inherited_value": false
     },
@@ -1640,6 +1651,9 @@ FAST_FORWARD_ONLY.
 link:#inherited-boolean-info[InheritedBooleanInfo] that tells whether
 each change must contain a Signed-off-by line from either the author or
 the uploader in the commit message.
+|`use_all_not_in_target`         |optional|
+link:#inherited-boolean-info[InheritedBooleanInfo] that tells whether
+we will create a new change for every commit not in target branch.
 |`require_change_id`         |optional|
 link:#inherited-boolean-info[InheritedBooleanInfo] that tells whether a
 valid link:user-changeid.html[Change-Id] footer in any commit uploaded
@@ -1700,6 +1714,11 @@ If not set, this setting is not updated.
 |`use_signed_off_by`         |optional|
 Whether each change must contain a Signed-off-by line from either the
 author or the uploader in the commit message. +
+Can be `TRUE`, `FALSE` or `INHERIT`. +
+If not set, this setting is not updated.
+|`use_all_not_in_target`         |optional|
+Whether a new change will be created for every commit not in target
+branch. +
 Can be `TRUE`, `FALSE` or `INHERIT`. +
 If not set, this setting is not updated.
 |`require_change_id`         |optional|
@@ -1976,6 +1995,9 @@ Whether contributor agreements should be used for the project  (`TRUE`,
 |`use_signed_off_by`         |`INHERIT` if not set|
 Whether the usage of 'Signed-Off-By' footers is required for the
 project (`TRUE`, `FALSE`, `INHERIT`).
+|`use_all_not_in_target`         |`INHERIT` if not set|
+Whether we will create a new change for every commit not in target branch
+for the project (`TRUE`, `FALSE`, `INHERIT`).
 |`use_content_merge`         |`INHERIT` if not set|
 Whether content merge should be enabled for the project (`TRUE`,
 `FALSE`, `INHERIT`). +

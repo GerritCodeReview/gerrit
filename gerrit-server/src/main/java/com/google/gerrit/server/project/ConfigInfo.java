@@ -43,6 +43,7 @@ public class ConfigInfo {
   public InheritedBooleanInfo useContributorAgreements;
   public InheritedBooleanInfo useContentMerge;
   public InheritedBooleanInfo useSignedOffBy;
+  public InheritedBooleanInfo useAllNotInTarget;
   public InheritedBooleanInfo requireChangeId;
   public MaxObjectSizeLimitInfo maxObjectSizeLimit;
   public SubmitType submitType;
@@ -68,17 +69,20 @@ public class ConfigInfo {
     InheritedBooleanInfo useSignedOffBy = new InheritedBooleanInfo();
     InheritedBooleanInfo useContentMerge = new InheritedBooleanInfo();
     InheritedBooleanInfo requireChangeId = new InheritedBooleanInfo();
+    InheritedBooleanInfo useAllNotInTarget = new InheritedBooleanInfo();
 
     useContributorAgreements.value = projectState.isUseContributorAgreements();
     useSignedOffBy.value = projectState.isUseSignedOffBy();
     useContentMerge.value = projectState.isUseContentMerge();
     requireChangeId.value = projectState.isRequireChangeID();
+    useAllNotInTarget.value = projectState.isUseAllNotInTarget();
 
     useContributorAgreements.configuredValue =
         p.getUseContributorAgreements();
     useSignedOffBy.configuredValue = p.getUseSignedOffBy();
     useContentMerge.configuredValue = p.getUseContentMerge();
     requireChangeId.configuredValue = p.getRequireChangeID();
+    useAllNotInTarget.configuredValue = p.getUseAllNotInTarget();
 
     ProjectState parentState = Iterables.getFirst(projectState
         .parents(), null);
@@ -88,12 +92,14 @@ public class ConfigInfo {
       useSignedOffBy.inheritedValue = parentState.isUseSignedOffBy();
       useContentMerge.inheritedValue = parentState.isUseContentMerge();
       requireChangeId.inheritedValue = parentState.isRequireChangeID();
+      useAllNotInTarget.inheritedValue = parentState.isUseAllNotInTarget();
     }
 
     this.useContributorAgreements = useContributorAgreements;
     this.useSignedOffBy = useSignedOffBy;
     this.useContentMerge = useContentMerge;
     this.requireChangeId = requireChangeId;
+    this.useAllNotInTarget = useAllNotInTarget;
 
     MaxObjectSizeLimitInfo maxObjectSizeLimit = new MaxObjectSizeLimitInfo();
     maxObjectSizeLimit.value =

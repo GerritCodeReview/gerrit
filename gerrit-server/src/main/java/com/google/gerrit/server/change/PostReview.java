@@ -309,12 +309,16 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       Iterator<CommentInput> listItr = list.iterator();
       while (listItr.hasNext()) {
         CommentInput c = listItr.next();
+        if (c == null) {
+          listItr.remove();
+          continue;
+        }
         if (c.line < 0) {
           throw new BadRequestException(String.format(
               "negative line number %d not allowed on %s",
               c.line, path));
         }
-        c.message = Strings.emptyToNull(c.message).trim();
+        c.message = Strings.nullToEmpty(c.message).trim();
         if (c.message.isEmpty()) {
           listItr.remove();
         }

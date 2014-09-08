@@ -89,6 +89,11 @@ public class RebuildNotedb extends SiteProgram {
     dbManager.start();
 
     sysInjector = createSysInjector();
+    NotesMigration notesMigration = sysInjector.getInstance(
+        NotesMigration.class);
+    if (!notesMigration.enabled()) {
+      die("Notedb is not enabled.");
+    }
     LifecycleManager sysManager = new LifecycleManager();
     sysManager.add(sysInjector);
     sysManager.start();
@@ -201,7 +206,6 @@ public class RebuildNotedb extends SiteProgram {
         install(dbInjector.getInstance(BatchProgramModule.class));
         install(new BatchGitModule());
         install(new NoteDbModule());
-        bind(NotesMigration.class).toInstance(NotesMigration.allEnabled());
       }
     });
   }

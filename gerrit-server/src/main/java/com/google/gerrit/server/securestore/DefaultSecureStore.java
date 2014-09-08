@@ -15,7 +15,6 @@
 package com.google.gerrit.server.securestore;
 
 import com.google.gerrit.common.FileUtil;
-import com.google.gerrit.extensions.annotations.Export;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -27,12 +26,10 @@ import org.eclipse.jgit.util.FS;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 @Singleton
-@Export(DefaultSecureStore.NAME)
 public class DefaultSecureStore implements SecureStore {
-  public static final String NAME = "default";
-
   private final FileBasedConfig sec;
 
   @Inject
@@ -52,9 +49,25 @@ public class DefaultSecureStore implements SecureStore {
   }
 
   @Override
+  public String[] getList(String section, String subsection, String name) {
+    return sec.getStringList(section, subsection, name);
+  }
+
+  @Override
   public void set(String section, String subsection, String name, String value) {
     if (value != null) {
       sec.setString(section, subsection, name, value);
+    } else {
+      sec.unset(section, subsection, name);
+    }
+    save();
+  }
+
+  @Override
+  public void setList(String section, String subsection, String name,
+      List<String> values) {
+    if (values != null) {
+      sec.setStringList(section, subsection, name, values);
     } else {
       sec.unset(section, subsection, name);
     }

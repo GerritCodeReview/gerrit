@@ -43,6 +43,7 @@ class GitHubOAuthConfig {
   private final String gitHubUrl;
   private final String gitHubApiUrl;
   final String gitHubUserUrl;
+  final String gitHubOrg;
   final String gitHubClientId;
   final String gitHubClientSecret;
   final String httpHeader;
@@ -71,6 +72,7 @@ class GitHubOAuthConfig {
     gitHubClientSecret = Preconditions.checkNotNull(
         config.getString(CONF_SECTION, null, "clientSecret"),
         "GitHub `clientSecret` must be provided");
+    gitHubOrg = config.getString(CONF_SECTION, null, "organization");
 
     gitHubOAuthUrl = getUrl(gitHubUrl, GITHUB_OAUTH_AUTHORIZE);
     gitHubOAuthAccessTokenUrl = getUrl(gitHubUrl, GITHUB_OAUTH_ACCESS_TOKEN);
@@ -79,6 +81,10 @@ class GitHubOAuthConfig {
         getUrl(config.getString("gerrit", null, "canonicalWebUrl"),
             GERRIT_OAUTH_FINAL);
     autoLogin = Strings.isNullOrEmpty(authConfig.getLoginUrl());
+  }
+
+  String getOrgMembershipUrl(String org, String user) throws MalformedURLException {
+    return getUrl(gitHubApiUrl, "/orgs/" + org + "/members/" + user);
   }
 
   private static String trimTrailingSlash(String url) {

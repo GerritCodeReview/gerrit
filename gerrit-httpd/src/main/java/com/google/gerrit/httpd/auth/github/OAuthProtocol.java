@@ -68,7 +68,7 @@ class OAuthProtocol {
       HttpServletResponse response) throws IOException {
     log.debug("Initiating GitHub Login for ClientId=" + config.gitHubClientId);
     response.sendRedirect(String.format(
-        "%s?client_id=%s&redirect_uri=%s&state=%s%s", config.gitHubOAuthUrl,
+        "%s?client_id=%s&scope=read:org&redirect_uri=%s&state=%s%s", config.gitHubOAuthUrl,
         config.gitHubClientId, getURLEncoded(config.oAuthFinalRedirectUrl),
         me(), getURLEncoded(request.getRequestURI().toString())));
   }
@@ -97,13 +97,28 @@ class OAuthProtocol {
         return null;
       }
 
-      return getAccessToken(getAccessTokenJson(postResponse));
+      String token = getAccessToken(getAccessTokenJson(postResponse));
+      String user = retrieveUser(token);
+      verifyOrgMembership(token, user);
+      return token;
     } catch (IOException e) {
       log.error("POST " + config.gitHubOAuthAccessTokenUrl
           + " request for access token failed", e);
       response.sendError(HttpServletResponse.SC_UNAUTHORIZED,
           "Request for access token not authorised");
       return null;
+    }
+  }
+
+  void verifyOrgMembership(String authToken, String user) throws IOException {
+    String org = config.gitHubOrg;
+    if (org == null) {
+      return;
+    }
+    HttpGet get = new HttpGet(config.getOrgMembershipUrl(org, user));
+    get.setHeader("Authorization", String.format("token %s", authToken));
+    if (!httpGetGitHubOrgMembership(get)) {
+      throw new IOException("Not a member of organization");
     }
   }
 
@@ -117,6 +132,16 @@ class OAuthProtocol {
           config.gitHubUserUrl, config.gitHubOAuthAccessTokenUrl, e);
       return null;
     }
+  }
+
+  private boolean httpGetGitHubOrgMembership(HttpGet get) throws IOException,
+      ClientProtocolException {
+    HttpResponse resp = http.execute(get);
+    int statusCode = resp.getStatusLine().getStatusCode();
+    if (statusCode == HttpServletResponse.SC_NO_CONTENT) {
+      return true;
+    }
+    return false;
   }
 
   private InputStream httpGetGitHubUserInfo(HttpGet get) throws IOException,

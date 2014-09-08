@@ -28,7 +28,7 @@ import java.util.Comparator;
  * name and the regex string shortest example. A shorter distance is a more
  * specific match.
  * <li>2 - Finites first, infinities after.
- * <li>3 - Number of transitions.
+ * <li>3 - Number of transitions.  More transitions is more specific.
  * <li>4 - Length of the expression text.
  * </ul>
  *
@@ -72,7 +72,7 @@ public final class MostSpecificComparator implements
       }
     }
     if (cmp == 0) {
-      cmp = transitions(pattern1) - transitions(pattern2);
+      cmp = transitions(pattern2) - transitions(pattern1);
     }
     if (cmp == 0) {
       cmp = pattern2.length() - pattern1.length();
@@ -86,7 +86,7 @@ public final class MostSpecificComparator implements
       example = RefControl.shortestExample(pattern);
 
     } else if (pattern.endsWith("/*")) {
-      example = pattern.substring(0, pattern.length() - 1) + '1';
+      example = pattern;
 
     } else if (pattern.equals(refName)) {
       return 0;

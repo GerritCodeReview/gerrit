@@ -23,7 +23,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 
-import com.google.common.base.Objects;
+import com.google.common.base.MoreObjects;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.changes.Side;
@@ -430,7 +430,7 @@ public class CommentsTest  {
     }
     assertEquals(plc.getLine(), (int) ci.line);
     assertEquals(plc.getSide() == 0 ? Side.PARENT : Side.REVISION,
-        Objects.firstNonNull(ci.side, Side.REVISION));
+        MoreObjects.firstNonNull(ci.side, Side.REVISION));
     assertEquals(TimeUtil.roundToSecond(plc.getWrittenOn()),
         TimeUtil.roundToSecond(ci.updated));
     assertEquals(plc.getRange(), ci.range);

@@ -17,7 +17,7 @@ package com.google.gerrit.pgm;
 import static com.google.gerrit.server.schema.DataSourceProvider.Context.MULTI_USER;
 
 import com.google.common.annotations.VisibleForTesting;
-import com.google.common.base.Objects;
+import com.google.common.base.MoreObjects;
 import com.google.gerrit.common.ChangeHookRunner;
 import com.google.gerrit.httpd.AllRequestFilter;
 import com.google.gerrit.httpd.GerritUiOptions;
@@ -283,7 +283,7 @@ public class Daemon extends SiteProgram {
       initSshd();
     }
 
-    if (Objects.firstNonNull(httpd, true)) {
+    if (MoreObjects.firstNonNull(httpd, true)) {
       initHttpd();
     }
 
@@ -327,7 +327,7 @@ public class Daemon extends SiteProgram {
     modules.add(new PluginRestApiModule());
     modules.add(new RestCacheAdminModule());
     modules.add(createIndexModule());
-    if (Objects.firstNonNull(httpd, true)) {
+    if (MoreObjects.firstNonNull(httpd, true)) {
       modules.add(new CanonicalWebUrlModule() {
         @Override
         protected Class<? extends Provider<String>> provider() {

@@ -19,7 +19,7 @@ import static com.google.gerrit.common.data.Permission.isPermission;
 
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Joiner;
-import com.google.common.base.Objects;
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
@@ -677,7 +677,7 @@ public class ProjectConfig extends VersionedMetaData {
         continue;
       }
 
-      String functionName = Objects.firstNonNull(
+      String functionName = MoreObjects.firstNonNull(
           rc.getString(LABEL, name, KEY_FUNCTION), "MaxWithBlock");
       if (LABEL_FUNCTIONS.contains(functionName)) {
         label.setFunctionName(functionName);

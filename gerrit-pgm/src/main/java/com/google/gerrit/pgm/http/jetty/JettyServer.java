@@ -18,7 +18,7 @@ import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.common.base.Charsets;
-import com.google.common.base.Objects;
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
 import com.google.common.escape.Escaper;
 import com.google.common.html.HtmlEscapers;
@@ -648,7 +648,7 @@ public class JettyServer {
       throws IOException, BuildFailureException {
     log.info("buck build " + target);
     Properties properties = loadBuckProperties(gen);
-    String buck = Objects.firstNonNull(properties.getProperty("buck"), "buck");
+    String buck = MoreObjects.firstNonNull(properties.getProperty("buck"), "buck");
     ProcessBuilder proc = new ProcessBuilder(buck, "build", target)
         .directory(root)
         .redirectErrorStream(true);

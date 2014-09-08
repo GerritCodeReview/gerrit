@@ -16,7 +16,7 @@ package com.google.gerrit.sshd.commands;
 
 import static com.google.gerrit.sshd.CommandMetaData.Mode.MASTER_OR_SLAVE;
 
-import com.google.common.base.Objects;
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -95,10 +95,11 @@ public class ListMembersCommand extends SshCommand {
           }
 
           formatter.addColumn(member._id.toString());
-          formatter.addColumn(Objects.firstNonNull(member.username, "n/a"));
-          formatter.addColumn(Objects.firstNonNull(
+          formatter.addColumn(MoreObjects.firstNonNull(
+              member.username, "n/a"));
+          formatter.addColumn(MoreObjects.firstNonNull(
               Strings.emptyToNull(member.name), "n/a"));
-          formatter.addColumn(Objects.firstNonNull(member.email, "n/a"));
+          formatter.addColumn(MoreObjects.firstNonNull(member.email, "n/a"));
           formatter.nextLine();
         }
 

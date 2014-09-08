@@ -31,7 +31,7 @@ import static com.google.gerrit.extensions.common.ListChangesOption.REVIEWED;
 import static com.google.gerrit.extensions.common.ListChangesOption.WEB_LINKS;
 
 import com.google.common.base.Joiner;
-import com.google.common.base.Objects;
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Optional;
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.HashMultimap;
@@ -683,7 +683,8 @@ public class ChangeJson {
         continue;
       }
       for (ApprovalInfo ai : label.all) {
-        if (ctl.canRemoveReviewer(ai._id, Objects.firstNonNull(ai.value, 0))) {
+        if (ctl.canRemoveReviewer(ai._id,
+            MoreObjects.firstNonNull(ai.value, 0))) {
           removable.add(ai._id);
         } else {
           fixed.add(ai._id);

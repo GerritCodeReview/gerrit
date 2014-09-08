@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.project;
 
-import com.google.common.base.Objects;
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.data.GlobalCapability;
@@ -114,16 +114,18 @@ public class CreateProject implements RestModifyView<TopLevelResource, ProjectIn
       args.ownerIds = ownerIds;
     }
     args.contributorAgreements =
-        Objects.firstNonNull(input.useContributorAgreements,
+        MoreObjects.firstNonNull(input.useContributorAgreements,
             InheritableBoolean.INHERIT);
     args.signedOffBy =
-        Objects.firstNonNull(input.useSignedOffBy, InheritableBoolean.INHERIT);
+        MoreObjects.firstNonNull(input.useSignedOffBy,
+            InheritableBoolean.INHERIT);
     args.contentMerge =
         input.submitType == SubmitType.FAST_FORWARD_ONLY
-            ? InheritableBoolean.FALSE : Objects.firstNonNull(
-                input.useContentMerge, InheritableBoolean.INHERIT);
+            ? InheritableBoolean.FALSE : MoreObjects.firstNonNull(
+                input.useContentMerge,
+                InheritableBoolean.INHERIT);
     args.changeIdRequired =
-        Objects.firstNonNull(input.requireChangeId, InheritableBoolean.INHERIT);
+        MoreObjects.firstNonNull(input.requireChangeId, InheritableBoolean.INHERIT);
     try {
       args.maxObjectSizeLimit =
           ProjectConfig.validMaxObjectSizeLimit(input.maxObjectSizeLimit);

@@ -16,7 +16,7 @@ package com.google.gerrit.httpd.auth.become;
 
 import static com.google.gerrit.reviewdb.client.AccountExternalId.SCHEME_USERNAME;
 
-import com.google.common.base.Objects;
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.extensions.registration.DynamicItem;
@@ -122,7 +122,7 @@ class BecomeAnyAccountLoginServlet extends HttpServlet {
     if (res != null) {
       webSession.get().login(res, false);
       final StringBuilder rdr = new StringBuilder();
-      rdr.append(Objects.firstNonNull(
+      rdr.append(MoreObjects.firstNonNull(
           Strings.emptyToNull(req.getContextPath()),
           "/"));
       if (IS_DEV && req.getParameter("gwt.codesvr") != null) {

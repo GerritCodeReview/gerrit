@@ -17,7 +17,7 @@ package com.google.gerrit.server.project;
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_DASHBOARDS;
 
 import com.google.common.base.Joiner;
-import com.google.common.base.Objects;
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
@@ -173,7 +173,7 @@ class DashboardsCollection implements
     }
 
     UrlEncoded u = new UrlEncoded("/dashboard/");
-    u.put("title", Objects.firstNonNull(info.title, info.path));
+    u.put("title", MoreObjects.firstNonNull(info.title, info.path));
     if (info.foreach != null) {
       u.put("foreach", replace(project, info.foreach));
     }
@@ -194,7 +194,7 @@ class DashboardsCollection implements
   }
 
   private static String defaultOf(Project proj) {
-    final String defaultId = Objects.firstNonNull(
+    final String defaultId = MoreObjects.firstNonNull(
         proj.getLocalDefaultDashboard(),
         Strings.nullToEmpty(proj.getDefaultDashboard()));
     if (defaultId.startsWith(REFS_DASHBOARDS)) {

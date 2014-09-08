@@ -17,7 +17,7 @@ package com.google.gerrit.pgm.init;
 import static com.google.gerrit.server.schema.DataSourceProvider.Context.SINGLE_USER;
 import static com.google.inject.Stage.PRODUCTION;
 
-import com.google.common.base.Objects;
+import com.google.common.base.MoreObjects;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.Die;
 import com.google.gerrit.pgm.init.api.ConsoleUI;
@@ -191,7 +191,8 @@ public class BaseInit extends SiteProgram {
         bind(ConsoleUI.class).toInstance(ui);
         bind(File.class).annotatedWith(SitePath.class).toInstance(sitePath);
         List<String> plugins =
-            Objects.firstNonNull(getInstallPlugins(), Lists.<String> newArrayList());
+            MoreObjects.firstNonNull(
+                getInstallPlugins(), Lists.<String> newArrayList());
         bind(new TypeLiteral<List<String>>() {}).annotatedWith(
             InstallPlugins.class).toInstance(plugins);
         bind(PluginsDistribution.class).toInstance(pluginsDistribution);

@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.group;
 
-import com.google.common.base.Objects;
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -135,7 +135,7 @@ public class ListGroups implements RestReadView<TopLevelResource> {
   public Object apply(TopLevelResource resource) throws OrmException {
     final Map<String, GroupInfo> output = Maps.newTreeMap();
     for (GroupInfo info : get()) {
-      output.put(Objects.firstNonNull(
+      output.put(MoreObjects.firstNonNull(
           info.name,
           "Group " + Url.decode(info.id)), info);
       info.name = null;

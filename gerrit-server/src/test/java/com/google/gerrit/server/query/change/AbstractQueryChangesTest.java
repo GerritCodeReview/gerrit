@@ -21,7 +21,7 @@ import static java.util.concurrent.TimeUnit.MINUTES;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import com.google.common.base.Objects;
+import com.google.common.base.MoreObjects;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
@@ -904,7 +904,7 @@ public abstract class AbstractQueryChangesTest {
       commit = repo.parseBody(repo.commit().message("message").create());
     }
     Account.Id ownerId = owner != null ? new Account.Id(owner) : userId;
-    branch = Objects.firstNonNull(branch, "refs/heads/master");
+    branch = MoreObjects.firstNonNull(branch, "refs/heads/master");
     if (!branch.startsWith("refs/heads/")) {
       branch = "refs/heads/" + branch;
     }

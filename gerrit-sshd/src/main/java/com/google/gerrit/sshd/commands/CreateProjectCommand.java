@@ -87,6 +87,9 @@ final class CreateProjectCommand extends SshCommand {
   @Option(name = "--change-id", usage = "if change-id is required")
   private InheritableBoolean requireChangeID = InheritableBoolean.INHERIT;
 
+  @Option(name = "--auto-base", usage = "if base will be automatically set to destination branch")
+  private InheritableBoolean useAutoBase = InheritableBoolean.INHERIT;
+
   @Option(name = "--use-contributor-agreements", aliases = {"--ca"}, usage = "if contributor agreement is required")
   void setUseContributorArgreements(boolean on) {
     contributorAgreements = InheritableBoolean.TRUE;
@@ -105,6 +108,11 @@ final class CreateProjectCommand extends SshCommand {
   @Option(name = "--require-change-id", aliases = {"--id"}, usage = "if change-id is required")
   void setRequireChangeId(boolean on) {
     requireChangeID = InheritableBoolean.TRUE;
+  }
+
+  @Option(name = "--use-auto-base", aliases = {"--base"}, usage = "if base will be set automatically")
+  void setAutoBase(boolean on) {
+    useAutoBase = InheritableBoolean.TRUE;
   }
 
   @Option(name = "--branch", aliases = {"-b"}, metaVar = "BRANCH", usage = "initial branch name\n"
@@ -166,6 +174,7 @@ final class CreateProjectCommand extends SshCommand {
         input.useSignedOffBy = signedOffBy;
         input.useContentMerge = contentMerge;
         input.requireChangeId = requireChangeID;
+        input.useAutoBase = useAutoBase;
         input.branches = branch;
         input.createEmptyCommit = createEmptyCommit;
         input.maxObjectSizeLimit = maxObjectSizeLimit;

@@ -124,6 +124,7 @@ public class CreateProject implements RestModifyView<TopLevelResource, ProjectIn
             ? InheritableBoolean.FALSE : MoreObjects.firstNonNull(
                 input.useContentMerge,
                 InheritableBoolean.INHERIT);
+    args.autoBase = MoreObjects.firstNonNull(input.useAutoBase, InheritableBoolean.INHERIT);
     args.changeIdRequired =
         MoreObjects.firstNonNull(input.requireChangeId, InheritableBoolean.INHERIT);
     try {

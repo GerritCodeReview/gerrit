@@ -311,6 +311,7 @@ public class ReceiveCommits {
   private final ReceivePack rp;
   private final NoteMap rejectCommits;
   private MagicBranchInput magicBranch;
+  private final boolean useAutoBase;
 
   private List<CreateRequest> newChanges = Collections.emptyList();
   private final Map<Change.Id, ReplaceRequest> replaceByChange =
@@ -428,6 +429,7 @@ public class ReceiveCommits {
 
     ProjectState ps = projectControl.getProjectState();
 
+    this.useAutoBase = ps.isUseAutoBase();
     rp.setAllowCreates(true);
     rp.setAllowDeletes(true);
     rp.setAllowNonFastForwards(true);
@@ -1313,6 +1315,18 @@ public class ReceiveCommits {
           return;
         }
       }
+    } else if (useAutoBase) {
+      String magicBranchRef = magicBranch.dest.get();
+      try {
+        ObjectId baseHead = repo.getRef(magicBranchRef).getObjectId();
+        magicBranch.baseCommit =
+            Collections.singletonList(walk.parseCommit(baseHead));
+      } catch (IOException ex) {
+        log.warn(String.format("Project %s cannot read %s", project.getName(),
+            magicBranchRef), ex);
+        reject(cmd, "internal server error");
+        return;
+      }
     }
 
     // Validate that the new commits are connected with the target
@@ -1450,6 +1464,12 @@ public class ReceiveCommits {
         if (c == null) {
           break;
         }
+
+        // Don't allow merges to be uploaded via auto-base
+        if (magicBranch.base == null && useAutoBase && c.getParentCount() > 1) {
+          reject(magicBranch.cmd, "You can't push merges with auto base, to override please set the base manually");
+        }
+
         if (existing.contains(c) || replaceByCommit.containsKey(c)) {
           // This commit was already scheduled to replace an existing PatchSet.
           //

@@ -404,6 +404,15 @@ public class ProjectState {
     });
   }
 
+  public boolean isUseAutoBase() {
+    return getInheritableBoolean(new Function<Project, InheritableBoolean>() {
+      @Override
+      public InheritableBoolean apply(Project input) {
+        return input.getUseAutoBase();
+      }
+    });
+  }
+
   public LabelTypes getLabelTypes() {
     Map<String, LabelType> types = Maps.newLinkedHashMap();
     for (ProjectState s : treeInOrder()) {

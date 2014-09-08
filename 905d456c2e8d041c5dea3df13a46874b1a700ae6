@@ -45,6 +45,30 @@
       "revId": "905d456c2e8d041c5dea3df13a46874b1a700ae6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_946784a0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-09-08T21:07:00Z",
+      "side": 1,
+      "message": "Yes, and this is intended, because I don\u0027t know which one will bee needed.",
+      "parentUuid": "d065072b_34779055",
+      "range": {
+        "startLine": 17,
+        "startChar": 46,
+        "endLine": 18,
+        "endChar": 43
+      },
+      "revId": "905d456c2e8d041c5dea3df13a46874b1a700ae6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

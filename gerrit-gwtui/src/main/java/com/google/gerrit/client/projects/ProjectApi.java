@@ -85,6 +85,7 @@ public class ProjectApi {
   public static void setConfig(Project.NameKey name, String description,
       InheritableBoolean useContributorAgreements,
       InheritableBoolean useContentMerge, InheritableBoolean useSignedOffBy,
+      InheritableBoolean createNewChangeForAllNotInTarget,
       InheritableBoolean requireChangeId, String maxObjectSizeLimit,
       SubmitType submitType, ProjectState state,
       Map<String, Map<String, ConfigParameterValue>> pluginConfigValues,
@@ -95,6 +96,7 @@ public class ProjectApi {
     in.setUseContentMerge(useContentMerge);
     in.setUseSignedOffBy(useSignedOffBy);
     in.setRequireChangeId(requireChangeId);
+    in.setCreateNewChangeForAllNotInTarget(createNewChangeForAllNotInTarget);
     in.setMaxObjectSizeLimit(maxObjectSizeLimit);
     in.setSubmitType(submitType);
     in.setState(state);
@@ -208,6 +210,12 @@ public class ProjectApi {
     }
     private final native void setRequireChangeIdRaw(String v)
     /*-{ if(v)this.require_change_id=v; }-*/;
+
+    final void setCreateNewChangeForAllNotInTarget(InheritableBoolean v) {
+      setCreateNewChangeForAllNotInTargetRaw(v.name());
+    }
+    private final native void setCreateNewChangeForAllNotInTargetRaw(String v)
+    /*-{ if(v)this.create_new_change_for_all_not_in_target=v; }-*/;
 
     final native void setMaxObjectSizeLimit(String l)
     /*-{ if(l)this.max_object_size_limit=l; }-*/;

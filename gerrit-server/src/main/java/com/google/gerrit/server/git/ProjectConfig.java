@@ -115,6 +115,8 @@ public class ProjectConfig extends VersionedMetaData {
   private static final String RECEIVE = "receive";
   private static final String KEY_REQUIRE_SIGNED_OFF_BY = "requireSignedOffBy";
   private static final String KEY_REQUIRE_CHANGE_ID = "requireChangeId";
+  private static final String KEY_USE_ALL_NOT_IN_TARGET =
+      "createNewChangeForAllNotInTarget";
   private static final String KEY_MAX_OBJECT_SIZE_LIMIT = "maxObjectSizeLimit";
   private static final String KEY_REQUIRE_CONTRIBUTOR_AGREEMENT =
       "requireContributorAgreement";
@@ -419,6 +421,7 @@ public class ProjectConfig extends VersionedMetaData {
     p.setUseContributorAgreements(getEnum(rc, RECEIVE, null, KEY_REQUIRE_CONTRIBUTOR_AGREEMENT, InheritableBoolean.INHERIT));
     p.setUseSignedOffBy(getEnum(rc, RECEIVE, null, KEY_REQUIRE_SIGNED_OFF_BY, InheritableBoolean.INHERIT));
     p.setRequireChangeID(getEnum(rc, RECEIVE, null, KEY_REQUIRE_CHANGE_ID, InheritableBoolean.INHERIT));
+    p.setCreateNewChangeForAllNotInTarget(getEnum(rc, RECEIVE, null, KEY_USE_ALL_NOT_IN_TARGET, InheritableBoolean.INHERIT));
     p.setMaxObjectSizeLimit(rc.getString(RECEIVE, null, KEY_MAX_OBJECT_SIZE_LIMIT));
 
     p.setSubmitType(getEnum(rc, SUBMIT, null, KEY_ACTION, defaultSubmitAction));
@@ -818,6 +821,7 @@ public class ProjectConfig extends VersionedMetaData {
     set(rc, RECEIVE, null, KEY_REQUIRE_CONTRIBUTOR_AGREEMENT, p.getUseContributorAgreements(), InheritableBoolean.INHERIT);
     set(rc, RECEIVE, null, KEY_REQUIRE_SIGNED_OFF_BY, p.getUseSignedOffBy(), InheritableBoolean.INHERIT);
     set(rc, RECEIVE, null, KEY_REQUIRE_CHANGE_ID, p.getRequireChangeID(), InheritableBoolean.INHERIT);
+    set(rc, RECEIVE, null, KEY_USE_ALL_NOT_IN_TARGET, p.getCreateNewChangeForAllNotInTarget(), InheritableBoolean.INHERIT);
     set(rc, RECEIVE, null, KEY_MAX_OBJECT_SIZE_LIMIT, validMaxObjectSizeLimit(p.getMaxObjectSizeLimit()));
 
     set(rc, SUBMIT, null, KEY_ACTION, p.getSubmitType(), defaultSubmitAction);

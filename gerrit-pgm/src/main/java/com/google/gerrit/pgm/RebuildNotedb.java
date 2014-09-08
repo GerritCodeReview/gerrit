@@ -130,7 +130,7 @@ public class RebuildNotedb extends SiteProgram {
             futures.add(future);
             future.addListener(
                 new RebuildListener(c.getId(), future, ok, doneTask, failedTask),
-                MoreExecutors.sameThreadExecutor());
+                MoreExecutors.directExecutor());
           }
 
           mpm.waitFor(Futures.transform(Futures.successfulAsList(futures),
@@ -212,7 +212,7 @@ public class RebuildNotedb extends SiteProgram {
           dbInjector.getInstance(WorkQueue.class)
             .createQueue(threads, "RebuildChange"));
     } else {
-      return MoreExecutors.sameThreadExecutor();
+      return MoreExecutors.newDirectExecutorService();
     }
   }
 

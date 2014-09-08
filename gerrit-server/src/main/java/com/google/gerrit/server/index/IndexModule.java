@@ -106,7 +106,7 @@ public class IndexModule extends LifecycleModule {
         threads = config.getInt("index", null, "threads", 0);
       }
       if (threads <= 0) {
-        return MoreExecutors.sameThreadExecutor();
+        return MoreExecutors.newDirectExecutorService();
       }
       return MoreExecutors.listeningDecorator(
           workQueue.createQueue(threads, "index"));

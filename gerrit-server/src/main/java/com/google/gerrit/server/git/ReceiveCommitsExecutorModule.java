@@ -60,7 +60,7 @@ public class ReceiveCommitsExecutorModule extends AbstractModule {
   public ListeningExecutorService createChangeUpdateExecutor(@GerritServerConfig Config config) {
     int poolSize = config.getInt("receive", null, "changeUpdateThreads", 1);
     if (poolSize <= 1) {
-      return MoreExecutors.sameThreadExecutor();
+      return MoreExecutors.newDirectExecutorService();
     }
     return MoreExecutors.listeningDecorator(
         MoreExecutors.getExitingExecutorService(

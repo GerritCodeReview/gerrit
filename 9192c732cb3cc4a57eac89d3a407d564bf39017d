@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "106cff13_96b5ccd0",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 15
+      },
+      "lineNbr": 3818,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-08T16:46:47Z",
+      "side": 1,
+      "message": "Point at the end of the line? Or remove other points above?",
+      "revId": "9192c732cb3cc4a57eac89d3a407d564bf39017d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_74c62855",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/CommitBox.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-08T16:46:47Z",
+      "side": 1,
+      "message": "Wrap this line.",
+      "revId": "9192c732cb3cc4a57eac89d3a407d564bf39017d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

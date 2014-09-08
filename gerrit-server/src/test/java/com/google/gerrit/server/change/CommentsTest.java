@@ -74,6 +74,7 @@ import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
+import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
@@ -81,7 +82,6 @@ import com.google.inject.TypeLiteral;
 import com.google.inject.util.Providers;
 
 import org.easymock.IAnswer;
-import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.junit.Before;
@@ -109,10 +109,8 @@ public class CommentsTest  {
   }
 
   private Injector injector;
+  private ReviewDb db;
   private Project.NameKey project;
-  private InMemoryRepositoryManager repoManager;
-  private AllUsersNameProvider allUsers;
-  private PatchLineCommentsUtil plcUtil;
   private RevisionResource revRes1;
   private RevisionResource revRes2;
   private PatchLineComment plc1;
@@ -121,6 +119,14 @@ public class CommentsTest  {
   private PatchLineComment plc4;
   private PatchLineComment plc5;
   private IdentifiedUser changeOwner;
+
+  @Inject private AllUsersNameProvider allUsers;
+  @Inject private Comments comments;
+  @Inject private Drafts drafts;
+  @Inject private GetComment getComment;
+  @Inject private IdentifiedUser.GenericFactory userFactory;
+  @Inject private InMemoryRepositoryManager repoManager;
+  @Inject private PatchLineCommentsUtil plcUtil;
 
   @Before
   public void setUp() throws Exception {
@@ -137,15 +143,11 @@ public class CommentsTest  {
 
     final AccountInfo.Loader.Factory alf =
         createMock(AccountInfo.Loader.Factory.class);
-    final ReviewDb db = createMock(ReviewDb.class);
+    db = createMock(ReviewDb.class);
     final FakeAccountCache accountCache = new FakeAccountCache();
     final PersonIdent serverIdent = new PersonIdent(
         "Gerrit Server", "noreply@gerrit.com", TimeUtil.nowTs(), TZ);
     project = new Project.NameKey("test-project");
-    repoManager = new InMemoryRepositoryManager();
-
-    @SuppressWarnings("unused")
-    InMemoryRepository repo = repoManager.createRepository(project);
 
     Account co = new Account(new Account.Id(1), TimeUtil.nowTs());
     co.setFullName("Change Owner");
@@ -165,11 +167,13 @@ public class CommentsTest  {
         bind(commentViewsType).toInstance(commentViews);
         bind(draftViewsType).toInstance(draftViews);
         bind(AccountInfo.Loader.Factory.class).toInstance(alf);
-        bind(ReviewDb.class).toProvider(Providers.<ReviewDb>of(db));
+        bind(ReviewDb.class).toInstance(db);
         bind(Config.class).annotatedWith(GerritServerConfig.class).toInstance(config);
         bind(ProjectCache.class).toProvider(Providers.<ProjectCache> of(null));
         install(new GitModule());
-        bind(GitRepositoryManager.class).toInstance(repoManager);
+        bind(GitRepositoryManager.class).to(InMemoryRepositoryManager.class);
+        bind(InMemoryRepositoryManager.class)
+            .toInstance(new InMemoryRepositoryManager());
         bind(CapabilityControl.Factory.class)
             .toProvider(Providers.<CapabilityControl.Factory> of(null));
         bind(String.class).annotatedWith(AnonymousCowardName.class)
@@ -192,9 +196,9 @@ public class CommentsTest  {
     };
 
     injector = Guice.createInjector(mod);
+    injector.injectMembers(this);
 
-    IdentifiedUser.GenericFactory userFactory =
-        injector.getInstance(IdentifiedUser.GenericFactory.class);
+    repoManager.createRepository(project);
     changeOwner = userFactory.create(ownerId);
     IdentifiedUser otherUser = userFactory.create(otherUserId);
 
@@ -208,9 +212,7 @@ public class CommentsTest  {
     expect(alf.create(true)).andReturn(accountLoader).anyTimes();
     replay(accountLoader, alf);
 
-    allUsers = injector.getInstance(AllUsersNameProvider.class);
     repoManager.createRepository(allUsers.get());
-    plcUtil = injector.getInstance(PatchLineCommentsUtil.class);
 
     PatchLineCommentAccess plca = createMock(PatchLineCommentAccess.class);
     expect(db.patchComments()).andReturn(plca).anyTimes();
@@ -306,40 +308,40 @@ public class CommentsTest  {
   @Test
   public void testListComments() throws Exception {
     // test ListComments for patch set 1
-    assertListComments(injector, revRes1, ImmutableMap.of(
+    assertListComments(revRes1, ImmutableMap.of(
         "FileOne.txt", Lists.newArrayList(plc3, plc1, plc2)));
 
     // test ListComments for patch set 2
-    assertListComments(injector, revRes2,
+    assertListComments(revRes2,
         Collections.<String, ArrayList<PatchLineComment>>emptyMap());
   }
 
   @Test
   public void testGetComment() throws Exception {
     // test GetComment for existing comment
-    assertGetComment(injector, revRes1, plc1, plc1.getKey().get());
+    assertGetComment(revRes1, plc1, plc1.getKey().get());
 
     // test GetComment for non-existent comment
-    assertGetComment(injector, revRes1, null, "BadComment");
+    assertGetComment(revRes1, null, "BadComment");
   }
 
   @Test
   public void testListDrafts() throws Exception {
     // test ListDrafts for patch set 1
-    assertListDrafts(injector, revRes1,
+    assertListDrafts(revRes1,
         Collections.<String, ArrayList<PatchLineComment>> emptyMap());
 
     // test ListDrafts for patch set 2
-    assertListDrafts(injector, revRes2, ImmutableMap.of(
+    assertListDrafts(revRes2, ImmutableMap.of(
         "FileOne.txt", Lists.newArrayList(plc4, plc5)));
   }
 
   @Test
   public void testPatchLineCommentsUtilByCommentStatus() throws OrmException {
-    List<PatchLineComment> publishedActual = plcUtil.publishedByChange(
-        injector.getInstance(ReviewDb.class), revRes2.getNotes());
-    List<PatchLineComment> draftActual = plcUtil.draftByChange(
-        injector.getInstance(ReviewDb.class), revRes2.getNotes());
+    List<PatchLineComment> publishedActual =
+        plcUtil.publishedByChange(db, revRes2.getNotes());
+    List<PatchLineComment> draftActual =
+        plcUtil.draftByChange(db, revRes2.getNotes());
     List<PatchLineComment> publishedExpected =
         Lists.newArrayList(plc1, plc2, plc3);
     List<PatchLineComment> draftExpected =
@@ -359,10 +361,8 @@ public class CommentsTest  {
       }};
   }
 
-  private static void assertGetComment(Injector inj, RevisionResource res,
-      PatchLineComment expected, String uuid) throws Exception {
-    GetComment getComment = inj.getInstance(GetComment.class);
-    Comments comments = inj.getInstance(Comments.class);
+  private void assertGetComment(RevisionResource res, PatchLineComment expected,
+      String uuid) throws Exception {
     try {
       CommentResource commentRes = comments.parse(res, IdString.fromUrl(uuid));
       if (expected == null) {
@@ -377,9 +377,8 @@ public class CommentsTest  {
     }
   }
 
-  private static void assertListComments(Injector inj, RevisionResource res,
+  private void assertListComments(RevisionResource res,
       Map<String, ArrayList<PatchLineComment>> expected) throws Exception {
-    Comments comments = inj.getInstance(Comments.class);
     RestReadView<RevisionResource> listView =
         (RestReadView<RevisionResource>) comments.list();
     @SuppressWarnings("unchecked")
@@ -399,9 +398,8 @@ public class CommentsTest  {
     }
   }
 
-  private static void assertListDrafts(Injector inj, RevisionResource res,
+  private void assertListDrafts(RevisionResource res,
       Map<String, ArrayList<PatchLineComment>> expected) throws Exception {
-    Drafts drafts = inj.getInstance(Drafts.class);
     RestReadView<RevisionResource> listView =
         (RestReadView<RevisionResource>) drafts.list();
     @SuppressWarnings("unchecked")

@@ -16,6 +16,7 @@ package com.google.gerrit.server.documentation;
 
 import static org.pegdown.Extensions.ALL;
 import static org.pegdown.Extensions.HARDWRAPS;
+import static org.pegdown.Extensions.SUPPRESS_ALL_HTML;
 
 import com.google.common.base.Strings;
 
@@ -67,6 +68,13 @@ public class MarkdownFormatter {
       log.warn("Cannot load pegdown.css", err);
       return "";
     }
+  }
+
+  private boolean suppressHtml;
+
+  public MarkdownFormatter suppressHtml() {
+    suppressHtml = true;
+    return this;
   }
 
   public byte[] markdownToDocHtml(String md, String charEnc)
@@ -121,7 +129,11 @@ public class MarkdownFormatter {
   }
 
   private RootNode parseMarkdown(String md) {
-    return new PegDownProcessor(ALL & ~(HARDWRAPS))
+    int options = ALL & ~(HARDWRAPS);
+    if (suppressHtml) {
+      options |= SUPPRESS_ALL_HTML;
+    }
+    return new PegDownProcessor(options)
         .parseMarkdown(md.toCharArray());
   }
 

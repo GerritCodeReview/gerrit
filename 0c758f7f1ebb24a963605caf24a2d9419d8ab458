@@ -16,6 +16,24 @@
       "revId": "0c758f7f1ebb24a963605caf24a2d9419d8ab458",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "106cff13_d699049c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/TagSetHolder.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-08T15:20:22Z",
+      "side": 1,
+      "message": "FluentIterable.of doesn\u0027t compile.  Replaced with FluentIterable.from",
+      "parentUuid": "106cff13_b6a288c7",
+      "revId": "0c758f7f1ebb24a963605caf24a2d9419d8ab458",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

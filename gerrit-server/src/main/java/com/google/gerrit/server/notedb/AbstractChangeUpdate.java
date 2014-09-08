@@ -122,7 +122,9 @@ public abstract class AbstractChangeUpdate extends VersionedMetaData {
     if (migration.writeChanges()) {
       load();
       MetaDataUpdate md =
-          updateFactory.create(getProjectName(), getUser(), bru);
+          updateFactory.create(getProjectName(),
+              repoManager.openMetadataRepository(getProjectName()), getUser(),
+              bru);
       md.setAllowEmpty(true);
       return super.openUpdate(md);
     }

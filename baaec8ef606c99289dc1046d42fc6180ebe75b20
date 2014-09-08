@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "106cff13_16aa5c73",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 33
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-08T16:34:55Z",
+      "side": 1,
+      "message": "Why not to link this Issue [1]?\n\n [1] https://code.google.com/p/gerrit/issues/detail?id\u003d2677",
+      "revId": "baaec8ef606c99289dc1046d42fc6180ebe75b20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

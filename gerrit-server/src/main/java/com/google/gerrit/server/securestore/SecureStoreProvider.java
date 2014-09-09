@@ -36,12 +36,13 @@ public class SecureStoreProvider implements Provider<SecureStore> {
 
   private final File libdir;
   private final Injector injector;
-  private final String secureStoreClassName;
+
+  protected String secureStoreClassName;
 
   private SecureStore instance;
 
   @Inject
-  SecureStoreProvider(
+  protected SecureStoreProvider(
       Injector injector,
       SitePaths sitePaths) {
     FileBasedConfig cfg =

@@ -101,7 +101,65 @@ public class IncludedInResolver {
 
     return new AutoValue_IncludedInResolver_Result(
         getMatchingRefNames(allMatchingTagsAndBranches, branches),
-        getMatchingRefNames(allMatchingTagsAndBranches, tags));
+        filterTags(getMatchingRefNames(allMatchingTagsAndBranches, tags)));
+  }
+
+  private ImmutableSortedSet<String> filterTags(ImmutableSortedSet<String> tags) {
+    String lastPrefix = "";
+    String lastName = "";
+    int lastMajor = 0;
+    int lastMinor1 = -1, lastMinor2 = -1;
+    List<String> res = new ArrayList<>();
+    for (String tagName : tags) {
+      if (tagName.startsWith("7.2")) {
+        final int dot = tagName.indexOf('.', 4);
+        final String name = tagName.substring(4, dot - 1); // A, AM...
+        int minor1 = 0, minor2 = 0;
+        try {
+          final int major = Integer.parseInt(tagName.substring(3, 4));
+          final int realMinor = Integer.parseInt(tagName.substring(dot + 1, dot + 4), 10);
+          if (tagName.compareTo("7.20A.13") > 0) {
+            minor1 = realMinor / 10; // 150 -> 15
+            minor2 = realMinor % 10; // 152 -> 2
+            switch (minor1) {
+              case 14:
+              case 19:
+                ++minor1; // 140 -> 150 (actually 14 -> 15)
+                minor2 = 0;
+                break;
+              case 16:
+                // 160 -> 200, 161 is 162...
+                if (minor2 == 0) {
+                  minor1 = 20;
+                  break;
+                }
+                // $FALL-THROUGH$
+              default:
+                if (minor2 % 2 == 1) // 151 -> 152
+                ++minor2;
+            }
+          } else {
+            // 0-9 => 0, 10-29 => 1, 30-49 => 2...
+            minor1 = (realMinor + 10) / 20;
+          }
+          if (name.equals(lastName)
+              && (major == lastMajor)
+              && (minor1 == lastMinor1)
+              && (minor2 == lastMinor2)) continue;
+          lastName = name;
+          lastMajor = major;
+          lastMinor1 = minor1;
+          lastMinor2 = minor2;
+        } catch (NumberFormatException e) {
+        }
+      } else if (tagName.length() > 7) {
+        final String prefix = tagName.substring(0, 7); // 7.00A.0
+        if (prefix.equals(lastPrefix)) continue;
+        lastPrefix = prefix;
+      }
+      res.add(tagName);
+    }
+    return ImmutableSortedSet.copyOf(res);
   }
 
   private boolean includedInOne(Collection<Ref> refs) throws IOException {

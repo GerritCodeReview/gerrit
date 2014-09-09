@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "106cff13_b60e08c7",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
+        "patchSetId": 47
+      },
+      "lineNbr": 550,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-09T11:16:32Z",
+      "side": 1,
+      "message": "Should we change the fragment when edit mode is implemented? Otherwise \"back\" doesn\u0027t work.",
+      "revId": "5c5605e86d7554ea3c3ed459b86b1502b38ba03a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_54468c8b",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.ui.xml",
+        "patchSetId": 47
+      },
+      "lineNbr": 465,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-09T11:16:32Z",
+      "side": 1,
+      "message": "Can we move these to the left of \"diff against\"? IANAUID but the button/text/dropdown/button sequence looks a little jarring.",
+      "revId": "5c5605e86d7554ea3c3ed459b86b1502b38ba03a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_54532ca0",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.ui.xml",
+        "patchSetId": 47
+      },
+      "lineNbr": 468,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-09T11:16:32Z",
+      "side": 1,
+      "message": "to",
+      "range": {
+        "startLine": 468,
+        "startChar": 37,
+        "endLine": 468,
+        "endChar": 43
+      },
+      "revId": "5c5605e86d7554ea3c3ed459b86b1502b38ba03a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "106cff13_761590d4",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.ui.xml",
+        "patchSetId": 47
+      },
+      "lineNbr": 470,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-09T11:16:32Z",
+      "side": 1,
+      "message": "I will have to see how it looks but I\u0027m inclined to say this could just be \"Edit\"/\"Review\" without the \"mode\"",
+      "range": {
+        "startLine": 470,
+        "startChar": 27,
+        "endLine": 470,
+        "endChar": 32
+      },
+      "revId": "5c5605e86d7554ea3c3ed459b86b1502b38ba03a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "106cff13_361b180c",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.ui.xml",
+        "patchSetId": 47
+      },
+      "lineNbr": 475,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-09T11:16:32Z",
+      "side": 1,
+      "message": "to",
+      "range": {
+        "startLine": 475,
+        "startChar": 37,
+        "endLine": 475,
+        "endChar": 43
+      },
+      "revId": "5c5605e86d7554ea3c3ed459b86b1502b38ba03a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

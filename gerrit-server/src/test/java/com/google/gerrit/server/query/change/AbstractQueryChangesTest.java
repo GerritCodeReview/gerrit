@@ -228,7 +228,17 @@ public abstract class AbstractQueryChangesTest {
     assertEquals(2, results.size());
     assertResultEquals(change2, results.get(0));
     assertResultEquals(change1, results.get(1));
+
     assertEquals(2, query("status:OPEN").size());
+    assertEquals(2, query("status:o").size());
+    assertEquals(2, query("status:op").size());
+    assertEquals(2, query("status:ope").size());
+    assertEquals(2, query("status:pending").size());
+    assertEquals(2, query("status:PENDING").size());
+    assertEquals(2, query("status:p").size());
+    assertEquals(2, query("status:pe").size());
+    assertEquals(2, query("status:pen").size());
+
     results = query("is:open");
     assertEquals(2, results.size());
     assertResultEquals(change2, results.get(0));
@@ -256,7 +266,15 @@ public abstract class AbstractQueryChangesTest {
     assertEquals(2, results.size());
     assertResultEquals(change2, results.get(0));
     assertResultEquals(change1, results.get(1));
+
     assertEquals(2, query("status:CLOSED").size());
+    assertEquals(2, query("status:c").size());
+    assertEquals(2, query("status:cl").size());
+    assertEquals(2, query("status:clo").size());
+    assertEquals(2, query("status:clos").size());
+    assertEquals(2, query("status:close").size());
+    assertEquals(2, query("status:closed").size());
+
     results = query("is:closed");
     assertEquals(2, results.size());
     assertResultEquals(change2, results.get(0));

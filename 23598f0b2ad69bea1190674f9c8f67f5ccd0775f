@@ -89,6 +89,30 @@
     },
     {
       "key": {
+        "uuid": "106cff13_96214c06",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/EditFileBox.java",
+        "patchSetId": 43
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-09T10:07:59Z",
+      "side": 1,
+      "message": "...But I still think there\u0027s some confusion both in the code and in the UI due to the fact that we\u0027re reusing the same box for add and edit.\n\n\"From Git\" is the same operation in both add/edit context, but conceptually what it does in each context is different. When adding, it loads the content into the previously-empty box for the first time (which may be empty if the file is actually new). I think this should simply happen automatically, as I indicated in my comment on the commit message.\n\nWhen editing, it discards any changes you might have, and replaces them with the contents of the repo. This seems destructive, but if you did it accidentally you can at least hit cancel. I don\u0027t think it\u0027s particularly useful, however. If your intent is to revert the file back to its state in the parent of the edit, we should have a separate action for that in the file table, no?",
+      "parentUuid": "106cff13_760bd08a",
+      "range": {
+        "startLine": 91,
+        "startChar": 33,
+        "endLine": 91,
+        "endChar": 47
+      },
+      "revId": "23598f0b2ad69bea1190674f9c8f67f5ccd0775f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "106cff13_9654ac87",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/EditFileBox.ui.xml",
         "patchSetId": 43

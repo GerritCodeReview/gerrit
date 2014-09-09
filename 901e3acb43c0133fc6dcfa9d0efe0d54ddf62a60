@@ -134,6 +134,24 @@
       "revId": "901e3acb43c0133fc6dcfa9d0efe0d54ddf62a60",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "106cff13_561054b3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefPatternMatcher.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-09T10:03:07Z",
+      "side": 1,
+      "message": "\u003e is there some document about coding convention of Gerrit for reference?\n\nYes:\n\nhttps://gerrit-review.googlesource.com/Documentation/dev-contributing.html#_code_organization",
+      "parentUuid": "50b4b7af_284a0b6e",
+      "revId": "901e3acb43c0133fc6dcfa9d0efe0d54ddf62a60",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

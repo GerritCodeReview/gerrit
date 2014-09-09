@@ -22,6 +22,24 @@
       "revId": "a7cb8559e5e57665f32e611d94f3acb48a89a3d5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_54016ca0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-09-09T06:56:20Z",
+      "side": 1,
+      "message": "the callConfigMethod() is only used by ConfigRunner, so IMHO  it should be ConfigRunner.callConfigMethod().      Here seems its your intention to allocate it in ConfigSuite as a static helper, so I prefer discard this commit now",
+      "parentUuid": "50b4b7af_8891b78e",
+      "revId": "a7cb8559e5e57665f32e611d94f3acb48a89a3d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

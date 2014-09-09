@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d04c27b5_9c3b25e1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Revisions.java",
+        "patchSetId": 42
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-09T12:52:17Z",
+      "side": 1,
+      "message": "else if, to match the conditions below",
+      "revId": "ec56d45f6f6b7585f30605de0dde04ed378ae53e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

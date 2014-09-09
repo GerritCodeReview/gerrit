@@ -111,6 +111,7 @@ public class Gerrit implements EntryPoint {
   private static String defaultScreenToken;
   private static AccountDiffPreference myAccountDiffPref;
   private static String xGerritAuth;
+  private static boolean isNoteDbEnabled;
 
   private static Map<String, LinkMenuBar> menuBars;
 
@@ -331,6 +332,10 @@ public class Gerrit implements EntryPoint {
     Location.assign(loginRedirect(token));
   }
 
+  public static boolean isNoteDbEnabled() {
+    return isNoteDbEnabled;
+  }
+
   public static String loginRedirect(String token) {
     if (token == null) {
       token = "";
@@ -435,6 +440,7 @@ public class Gerrit implements EntryPoint {
         Document.get().getElementById("gerrit_hostpagedata").removeFromParent();
         myConfig = result.config;
         myTheme = result.theme;
+        isNoteDbEnabled = result.isNoteDbEnabled;
         if (result.account != null) {
           myAccount = result.account;
           xGerritAuth = result.xGerritAuth;

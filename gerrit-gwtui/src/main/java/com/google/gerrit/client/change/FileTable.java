@@ -341,7 +341,8 @@ class FileTable extends FlowPanel {
           new AsyncCallback<VoidResult>() {
             @Override
             public void onSuccess(VoidResult result) {
-              Gerrit.display(PageLinks.toChange(curr.getParentKey()));
+              Gerrit.display(PageLinks.toChangeInEditMode(
+                  curr.getParentKey()));
             }
 
             @Override
@@ -356,7 +357,8 @@ class FileTable extends FlowPanel {
           new AsyncCallback<VoidResult>() {
             @Override
             public void onSuccess(VoidResult result) {
-              Gerrit.display(PageLinks.toChange(curr.getParentKey()));
+              Gerrit.display(PageLinks.toChangeInEditMode(
+                  curr.getParentKey()));
             }
 
             @Override

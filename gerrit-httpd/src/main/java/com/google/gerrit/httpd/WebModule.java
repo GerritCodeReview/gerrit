@@ -50,18 +50,18 @@ public class WebModule extends LifecycleModule {
   private final UrlModule.UrlConfig urlConfig;
   private final boolean wantSSL;
   private final GitWebConfig gitWebConfig;
-  private final GerritUiOptions uiOptions;
+  private final GerritOptions options;
 
   @Inject
   WebModule(final AuthConfig authConfig,
       final UrlModule.UrlConfig urlConfig,
       @CanonicalWebUrl @Nullable final String canonicalUrl,
-      GerritUiOptions uiOptions,
+      GerritOptions options,
       final Injector creatingInjector) {
     this.authConfig = authConfig;
     this.urlConfig = urlConfig;
     this.wantSSL = canonicalUrl != null && canonicalUrl.startsWith("https:");
-    this.uiOptions = uiOptions;
+    this.options = options;
 
     this.gitWebConfig =
         creatingInjector.createChildInjector(new AbstractModule() {
@@ -110,7 +110,7 @@ public class WebModule extends LifecycleModule {
         throw new ProvisionException("Unsupported loginType: " + authConfig.getAuthType());
     }
 
-    install(new UrlModule(urlConfig, uiOptions));
+    install(new UrlModule(urlConfig, options));
     install(new UiRpcModule());
     install(new GerritRequestModule());
     install(new GitOverHttpServlet.Module());

@@ -20,7 +20,7 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.MoreObjects;
 import com.google.gerrit.common.ChangeHookRunner;
 import com.google.gerrit.httpd.AllRequestFilter;
-import com.google.gerrit.httpd.GerritUiOptions;
+import com.google.gerrit.httpd.GerritOptions;
 import com.google.gerrit.httpd.GitOverHttpModule;
 import com.google.gerrit.httpd.H2CacheBasedWebSession;
 import com.google.gerrit.httpd.HttpCanonicalWebUrlProvider;
@@ -356,7 +356,7 @@ public class Daemon extends SiteProgram {
     modules.add(new AbstractModule() {
       @Override
       protected void configure() {
-        bind(GerritUiOptions.class).toInstance(new GerritUiOptions(headless));
+        bind(GerritOptions.class).toInstance(new GerritOptions(headless));
         if (test) {
           bind(SecureStore.class).toProvider(SecureStoreProvider.class);
         }

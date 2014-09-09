@@ -63,11 +63,11 @@ class UrlModule extends ServletModule {
   }
 
   private final UrlConfig cfg;
-  private GerritUiOptions uiOptions;
+  private GerritOptions options;
 
-  UrlModule(UrlConfig cfg, GerritUiOptions uiOptions) {
+  UrlModule(UrlConfig cfg, GerritOptions options) {
     this.cfg = cfg;
-    this.uiOptions = uiOptions;
+    this.options = options;
   }
 
   @Override
@@ -75,7 +75,7 @@ class UrlModule extends ServletModule {
     filter("/*").through(Key.get(CacheControlFilter.class));
     bind(Key.get(CacheControlFilter.class)).in(SINGLETON);
 
-    if (uiOptions.enableDefaultUi()) {
+    if (options.enableDefaultUi()) {
       serve("/").with(HostPageServlet.class);
       serve("/Gerrit").with(LegacyGerritServlet.class);
       serve("/Gerrit/*").with(legacyGerritScreen());

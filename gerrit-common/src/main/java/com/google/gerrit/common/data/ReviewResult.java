@@ -85,7 +85,10 @@ public class ReviewResult {
       DEST_BRANCH_NOT_FOUND,
 
       /** Not permitted to edit the topic name */
-      EDIT_TOPIC_NAME_NOT_PERMITTED
+      EDIT_TOPIC_NAME_NOT_PERMITTED,
+
+      /** Not permitted to edit the hashtags */
+      EDIT_HASHTAGS_NOT_PERMITTED
     }
 
     protected Type type;

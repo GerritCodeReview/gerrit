@@ -29,6 +29,7 @@ public class ChangeDetail {
   protected boolean canAbandon;
   protected boolean canEditCommitMessage;
   protected boolean canCherryPick;
+  protected boolean canEditHashtags;
   protected boolean canPublish;
   protected boolean canRebase;
   protected boolean canRestore;
@@ -91,6 +92,14 @@ public class ChangeDetail {
 
   public void setCanCherryPick(final boolean a) {
     canCherryPick = a;
+  }
+
+  public boolean getCanEditHashtags() {
+    return canEditHashtags;
+  }
+
+  public void setCanEditHashtags(final boolean a) {
+    canEditHashtags = a;
   }
 
   public boolean canPublish() {

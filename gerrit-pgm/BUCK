@@ -36,6 +36,7 @@ java_library(
     ':init-api',
     ':util',
     '//gerrit-common:server',
+    '//gerrit-common:annotations',
     '//gerrit-extension-api:api',
     '//gerrit-lucene:lucene',
     '//gerrit-reviewdb:server',

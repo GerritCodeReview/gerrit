@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "106cff13_d61bc4d1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 43
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-09T10:08:44Z",
+      "side": 1,
+      "message": "It\u0027s not new file it can be the old one. With \"From Git\" button you retrieve the content from the existing one to ammend. Or do you mean to react on \"Enter\" button? I think we have a lot of place for further optimizations.",
+      "parentUuid": "d065072b_946f8437",
+      "range": {
+        "startLine": 17,
+        "startChar": 30,
+        "endLine": 18,
+        "endChar": 30
+      },
+      "revId": "23598f0b2ad69bea1190674f9c8f67f5ccd0775f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d065072b_948664c7",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
         "patchSetId": 43
@@ -141,6 +165,30 @@
       "writtenOn": "2014-09-09T09:51:51Z",
       "side": 1,
       "message": "Not really an accurate name",
+      "range": {
+        "startLine": 54,
+        "startChar": 32,
+        "endLine": 54,
+        "endChar": 38
+      },
+      "revId": "23598f0b2ad69bea1190674f9c8f67f5ccd0775f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_749628cb",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/EditFileBox.ui.xml",
+        "patchSetId": 43
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-09T10:08:44Z",
+      "side": 1,
+      "message": "Do you have another suggestion? We we are trying to say, that the edit attemt is discarded. I guess escape does the same thing. Edit commit message dialog has the same \"Cancel\" button.",
+      "parentUuid": "d065072b_b472801d",
       "range": {
         "startLine": 54,
         "startChar": 32,

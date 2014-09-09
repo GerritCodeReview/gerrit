@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d065072b_f40878bb",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
+        "patchSetId": 47
+      },
+      "lineNbr": 577,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-09T08:05:29Z",
+      "side": 1,
+      "message": "revisions",
+      "range": {
+        "startLine": 577,
+        "startChar": 30,
+        "endLine": 577,
+        "endChar": 38
+      },
+      "revId": "54254c1a879ce6d809cc30a449aab1e897bfdfc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "106cff13_36f2f87b",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
+        "patchSetId": 47
+      },
+      "lineNbr": 582,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-09T08:05:29Z",
+      "side": 1,
+      "message": "How about:\n\n\"no revision is selected, so use the edit only if it is based on the latest patch set\"",
+      "range": {
+        "startLine": 581,
+        "startChar": 30,
+        "endLine": 582,
+        "endChar": 64
+      },
+      "revId": "54254c1a879ce6d809cc30a449aab1e897bfdfc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "106cff13_d6d3c4e2",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
+        "patchSetId": 47
+      },
+      "lineNbr": 583,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-09T08:05:29Z",
+      "side": 1,
+      "message": "edit",
+      "range": {
+        "startLine": 583,
+        "startChar": 12,
+        "endLine": 583,
+        "endChar": 15
+      },
+      "revId": "54254c1a879ce6d809cc30a449aab1e897bfdfc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_d4057ca3",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
+        "patchSetId": 47
+      },
+      "lineNbr": 585,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-09T08:05:29Z",
+      "side": 1,
+      "message": "\"use the edit regardless of which patch set it is based on\"",
+      "range": {
+        "startLine": 584,
+        "startChar": 12,
+        "endLine": 585,
+        "endChar": 33
+      },
+      "revId": "54254c1a879ce6d809cc30a449aab1e897bfdfc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

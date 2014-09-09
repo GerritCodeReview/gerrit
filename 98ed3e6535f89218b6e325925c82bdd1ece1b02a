@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "106cff13_594a476e",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/resources/SmallResource.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-09T13:28:24Z",
+      "side": 1,
+      "message": "This causes a warning about missing UID in Eclipse.  Fixed with:\n\nhttps://gerrit-review.googlesource.com/#/c/59929/",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 6
+      },
+      "revId": "98ed3e6535f89218b6e325925c82bdd1ece1b02a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

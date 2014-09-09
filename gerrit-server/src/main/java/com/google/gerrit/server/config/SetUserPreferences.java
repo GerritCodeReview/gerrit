@@ -31,12 +31,12 @@ import java.io.IOException;
 
 @RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)
 @Singleton
-public class SetPreferences implements RestModifyView<ConfigResource, Input> {
+public class SetUserPreferences implements RestModifyView<ConfigResource, Input> {
   private final MetaDataUpdate.User metaDataUpdateFactory;
   private final AllUsersName allUsersName;
 
   @Inject
-  SetPreferences(MetaDataUpdate.User metaDataUpdateFactory,
+  SetUserPreferences(MetaDataUpdate.User metaDataUpdateFactory,
       AllUsersName allUsersName) {
     this.metaDataUpdateFactory = metaDataUpdateFactory;
     this.allUsersName = allUsersName;

@@ -27,12 +27,12 @@ import org.eclipse.jgit.lib.Repository;
 import java.io.IOException;
 
 @Singleton
-public class GetPreferences implements RestReadView<ConfigResource> {
+public class GetUserPreferences implements RestReadView<ConfigResource> {
   private final AllUsersName allUsersName;
   private final GitRepositoryManager gitMgr;
 
   @Inject
-  public GetPreferences(AllUsersName allUsersName,
+  public GetUserPreferences(AllUsersName allUsersName,
       GitRepositoryManager gitMgr) {
     this.allUsersName = allUsersName;
     this.gitMgr = gitMgr;

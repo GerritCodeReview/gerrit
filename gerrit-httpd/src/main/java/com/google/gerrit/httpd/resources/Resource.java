@@ -44,6 +44,10 @@ public abstract class Resource implements Serializable {
     public boolean isUnchanged(long latestModifiedDate) {
       return false;
     }
+
+    protected Object readResolve() {
+      return NOT_FOUND;
+    }
   };
 
   public abstract boolean isUnchanged(long latestModifiedDate);

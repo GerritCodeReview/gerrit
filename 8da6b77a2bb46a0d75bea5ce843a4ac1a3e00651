@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d065072b_149b7422",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 41
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-09T08:43:52Z",
+      "side": 1,
+      "message": "Explain a little more what this means?",
+      "revId": "8da6b77a2bb46a0d75bea5ce843a4ac1a3e00651",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_d4373c63",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Revisions.java",
+        "patchSetId": 41
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-09T08:43:52Z",
+      "side": 1,
+      "message": "Changing the regex is a behavior change, it means we now accept \"01\" in addition to \"1\". Which is not necessarily bad, but is unrelated to this change.",
+      "revId": "8da6b77a2bb46a0d75bea5ce843a4ac1a3e00651",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_349670fc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Revisions.java",
+        "patchSetId": 41
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-09T08:43:52Z",
+      "side": 1,
+      "message": "Just move this if block up one level, before the previous if block, and you won\u0027t need to change the regex at all.",
+      "revId": "8da6b77a2bb46a0d75bea5ce843a4ac1a3e00651",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "106cff13_3644b8dc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Revisions.java",
+        "patchSetId": 41
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-09T08:43:52Z",
+      "side": 1,
+      "message": "You need to check that the SHA-1 of the edit matches this RevId.",
+      "revId": "8da6b77a2bb46a0d75bea5ce843a4ac1a3e00651",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "106cff13_d60584a3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Revisions.java",
+        "patchSetId": 41
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-09T08:43:52Z",
+      "side": 1,
+      "message": "Don\u0027t allocate, use Collections.emptyList() or ImmutableList.of()",
+      "revId": "8da6b77a2bb46a0d75bea5ce843a4ac1a3e00651",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

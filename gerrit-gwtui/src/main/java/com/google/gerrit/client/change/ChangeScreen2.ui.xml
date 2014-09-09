@@ -205,6 +205,15 @@ limitations under the License.
       padding-right: 5px;
       white-space: nowrap;
     }
+    
+    .hashtagName {
+      color: #444;
+      vertical-align: top;
+      text-align: left;
+      padding-top: 3px;
+      padding-right: 5px;
+      white-space: nowrap;
+    }
 
     .label_user {
       display: inline-block;
@@ -437,6 +446,12 @@ limitations under the License.
             <tr>
               <th ui:field='actionText'/>
               <td ui:field='actionDate'/>
+            </tr>
+            <tr>
+              <th><ui:msg>Hashtags</ui:msg></th>
+              <td>
+                <c:Hashtags ui:field='hashTags'/>
+              </td>
             </tr>
             <tr><td colspan='2'><c:Actions ui:field='actions'/></td></tr>
           </table>

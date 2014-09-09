@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "106cff13_d9881713",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/RelatedChangesTab.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2014-09-09T17:27:01Z",
+      "side": 1,
+      "message": "This only works if the current patch set is the parent, but doesn\u0027t work for other patch sets of this change.\n\nAre the other patch sets accessible here? How?",
+      "revId": "56a8814c9673712e17dd75a28829f51fb335c6dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

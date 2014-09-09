@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "106cff13_19cbaf8c",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/EditInfo.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-09T16:02:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "106cff13_56e21463",
+      "revId": "1210b3e75c5266039bd667a91b951ee719af6e9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "106cff13_f6d0808a",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/DownloadBox.java",
         "patchSetId": 10
@@ -30,6 +48,24 @@
       "writtenOn": "2014-09-09T10:46:41Z",
       "side": 1,
       "message": "I was thinking maybe there could be an adapter that converts EditInfo/ChangeInfo -\u003e NativeMap\u003cFetchInfo\u003e so the body of the handler could be shared.\n\nBut I think it would actually end up being more code. Sigh.",
+      "revId": "1210b3e75c5266039bd667a91b951ee719af6e9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_b70602f0",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/DownloadBox.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-09T16:02:17Z",
+      "side": 1,
+      "message": "Letting this as is then.",
+      "parentUuid": "106cff13_f6d0808a",
       "revId": "1210b3e75c5266039bd667a91b951ee719af6e9f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "106cff13_99b69f11",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeEdits.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-09T16:02:17Z",
+      "side": 1,
+      "message": "Added the TODO here.",
+      "parentUuid": "106cff13_d6cd84f2",
+      "revId": "1210b3e75c5266039bd667a91b951ee719af6e9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d065072b_d458dc68",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditJson.java",
         "patchSetId": 10
@@ -64,6 +118,24 @@
       "writtenOn": "2014-09-09T10:46:41Z",
       "side": 1,
       "message": "Surely most of this code can be shared with ChangeJson?",
+      "revId": "1210b3e75c5266039bd667a91b951ee719af6e9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_d7fd7e7c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditJson.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-09T16:02:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d065072b_d458dc68",
       "revId": "1210b3e75c5266039bd667a91b951ee719af6e9f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

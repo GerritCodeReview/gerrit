@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "106cff13_99285f70",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/CommitMergeStatus.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-09T15:22:58Z",
+      "side": 1,
+      "message": "Unfortunately MergeOp uses only this text when creating a ChangeMessage, so there is no way for a plugin to provide any other useful information and have it actually shown to a user.\n\nThis is a problem, and fixing it might be a bit of a pain.\n\nIn particular, CodeReviewCommit only records the status enum, so you would need to plumb down a pair of (status, message).",
+      "revId": "b4209a8aabced9621bce7ae8c3e26d491ba6a0f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

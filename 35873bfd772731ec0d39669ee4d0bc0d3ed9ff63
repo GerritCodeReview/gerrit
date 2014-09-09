@@ -84,6 +84,24 @@
     },
     {
       "key": {
+        "uuid": "d065072b_f764fa9c",
+        "filename": "gerrit-gwtdebug/src/main/java/com/google/gerrit/gwtdebug/GerritSDMLauncher.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-09T16:18:11Z",
+      "side": 1,
+      "message": "That wasn\u0027t my question, my question is why would you ever want to not start the daemon (startDaemon \u003d false)?",
+      "parentUuid": "106cff13_f9e7d3f5",
+      "revId": "35873bfd772731ec0d39669ee4d0bc0d3ed9ff63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "106cff13_b9543be0",
         "filename": "gerrit-gwtdebug/src/main/java/com/google/gerrit/gwtdebug/GerritSDMLauncher.java",
         "patchSetId": 12

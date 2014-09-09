@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "d065072b_571a0e04",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/FileTable.java",
+        "patchSetId": 40
+      },
+      "lineNbr": 344,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-09T23:14:41Z",
+      "side": 1,
+      "message": "Fixed in follow-up change [1].\n\n [1] https://gerrit-review.googlesource.com/59947",
+      "parentUuid": "d065072b_d47f3cb2",
+      "revId": "29e8b35b03c3c32fa046dc3ead2d4d2cd98b0e8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d065072b_7468e8f9",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/FileTable.java",
         "patchSetId": 40

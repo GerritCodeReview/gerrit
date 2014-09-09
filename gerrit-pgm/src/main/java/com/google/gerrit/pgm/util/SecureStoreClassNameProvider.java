@@ -31,18 +31,19 @@ public class SecureStoreClassNameProvider implements Provider<String> {
 
   @Inject
   SecureStoreClassNameProvider(SitePaths sitePath) {
-    FileBasedConfig cfg = new FileBasedConfig(sitePath.gerrit_config, FS.DETECTED);
+    FileBasedConfig cfg =
+        new FileBasedConfig(sitePath.gerrit_config, FS.DETECTED);
     try {
       cfg.load();
     } catch (IOException | ConfigInvalidException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
+      throw new RuntimeException("Cannot read gerrit.conf file", e);
     }
     this.config = cfg;
   }
 
   @Override
   public String get() {
-    return Strings.nullToEmpty(config.getString("gerrit", null, "secureStoreClass"));
+    return Strings.nullToEmpty(config.getString("gerrit", null,
+        "secureStoreClass"));
   }
 }

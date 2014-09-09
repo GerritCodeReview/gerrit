@@ -30,6 +30,7 @@ public class HostPageData {
   public Theme theme;
   public List<String> plugins;
   public List<Message> messages;
+  public boolean isNoteDbEnabled;
 
   public static class Theme {
     public String backgroundColor;

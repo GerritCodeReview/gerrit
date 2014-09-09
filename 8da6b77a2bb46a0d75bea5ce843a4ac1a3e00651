@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "106cff13_76f2b04a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Revisions.java",
+        "patchSetId": 41
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-09T09:53:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d065072b_d4373c63",
+      "revId": "8da6b77a2bb46a0d75bea5ce843a4ac1a3e00651",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d065072b_349670fc",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Revisions.java",
         "patchSetId": 41
@@ -47,6 +65,24 @@
       "writtenOn": "2014-09-09T08:43:52Z",
       "side": 1,
       "message": "Just move this if block up one level, before the previous if block, and you won\u0027t need to change the regex at all.",
+      "revId": "8da6b77a2bb46a0d75bea5ce843a4ac1a3e00651",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "106cff13_56f7b438",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Revisions.java",
+        "patchSetId": 41
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-09T09:53:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d065072b_349670fc",
       "revId": "8da6b77a2bb46a0d75bea5ce843a4ac1a3e00651",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -70,6 +106,24 @@
     },
     {
       "key": {
+        "uuid": "d065072b_14e89441",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Revisions.java",
+        "patchSetId": 41
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-09T09:53:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "106cff13_3644b8dc",
+      "revId": "8da6b77a2bb46a0d75bea5ce843a4ac1a3e00651",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "106cff13_d60584a3",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Revisions.java",
         "patchSetId": 41
@@ -81,6 +135,24 @@
       "writtenOn": "2014-09-09T08:43:52Z",
       "side": 1,
       "message": "Don\u0027t allocate, use Collections.emptyList() or ImmutableList.of()",
+      "revId": "8da6b77a2bb46a0d75bea5ce843a4ac1a3e00651",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "106cff13_b6fba821",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Revisions.java",
+        "patchSetId": 41
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-09T09:53:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "106cff13_d60584a3",
       "revId": "8da6b77a2bb46a0d75bea5ce843a4ac1a3e00651",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -144,5 +144,10 @@ public class UpgradeFrom2_0_xTest extends InitTestCase {
     public void unset(String section, String subsection, String name) {
       cfg.unset(section, subsection, name);
     }
+
+    @Override
+    public Iterable<EntryKey> list() {
+      throw new UnsupportedOperationException("not used by tests");
+    }
   }
 }

@@ -174,5 +174,6 @@ public interface ChangeApi {
     public ChangeInfo info() throws RestApiException {
       throw new NotImplementedException();
     }
+
   }
 }

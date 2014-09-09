@@ -413,6 +413,16 @@ public class ChangeControl {
     }
   }
 
+  /** Can this user edit the hashtag name? */
+  public boolean canEditHashtags() {
+    return isOwner() // owner (aka creator) of the change can edit hashtags
+          || getRefControl().isOwner() // branch owner can edit hashtags
+          || getProjectControl().isOwner() // project owner can edit hashtags
+          || getCurrentUser().getCapabilities().canAdministrateServer() // site administers are god
+          || getRefControl().canEditHashtags(); // user can edit hashtag on a specific ref
+  }
+
+
   public List<SubmitRecord> getSubmitRecords(ReviewDb db, PatchSet patchSet) {
     return canSubmit(db, patchSet, null, false, true, false);
   }

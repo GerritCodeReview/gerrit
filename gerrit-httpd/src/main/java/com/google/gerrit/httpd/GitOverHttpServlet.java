@@ -98,12 +98,20 @@ public class GitOverHttpServlet extends GitServlet {
   }
 
   static class Module extends AbstractModule {
+
+    private final boolean enableReceive;
+
+    public Module(boolean enableReceive) {
+      this.enableReceive = enableReceive;
+    }
+
     @Override
     protected void configure() {
       bind(Resolver.class);
       bind(UploadFactory.class);
       bind(UploadFilter.class);
-      bind(ReceiveFactory.class);
+      bind(new TypeLiteral<ReceivePackFactory<HttpServletRequest>>() {}).to(
+          enableReceive ? ReceiveFactory.class : DisabledReceiveFactory.class);
       bind(ReceiveFilter.class);
       install(new CacheModule() {
         @Override
@@ -119,9 +127,10 @@ public class GitOverHttpServlet extends GitServlet {
   }
 
   @Inject
-  GitOverHttpServlet(Resolver resolver,
-      UploadFactory upload, UploadFilter uploadFilter,
-      ReceiveFactory receive, ReceiveFilter receiveFilter) {
+  GitOverHttpServlet(Resolver resolver, UploadFactory upload,
+      UploadFilter uploadFilter,
+      ReceivePackFactory<HttpServletRequest> receive,
+      ReceiveFilter receiveFilter) {
     setRepositoryResolver(resolver);
     setAsIsFileService(AsIsFileService.DISABLED);
 
@@ -305,6 +314,15 @@ public class GitOverHttpServlet extends GitServlet {
       for (ReceivePackInitializer initializer : receivePackInitializers) {
         initializer.init(project, rp);
       }
+    }
+  }
+
+  static class DisabledReceiveFactory implements
+      ReceivePackFactory<HttpServletRequest> {
+    @Override
+    public ReceivePack create(HttpServletRequest req, Repository db)
+        throws ServiceNotEnabledException {
+      throw new ServiceNotEnabledException();
     }
   }
 

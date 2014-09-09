@@ -55,9 +55,10 @@ public class PutHashtags implements RestModifyView<ChangeResource, Input> {
     }
 
     ChangeControl control = req.getControl();
-    //if (visible || control.canEditHashtags()) {
+    if (!control.canEditHashtags()) {
+      throw new AuthException("Edit hashtags not permitted");
+    }
 
-    //}
     ChangeUpdate update = updateFactory.create(control);
     ChangeNotes notes = control.getNotes().load();
     Set<String> oldHashtags = notes.getHashtags();

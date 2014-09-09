@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d065072b_542ccc1c",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/PageLinks.java",
+        "patchSetId": 44
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-09T08:33:22Z",
+      "side": 1,
+      "message": "Unrelated to this change?",
+      "revId": "d3fef981b9867b1eeebc39c8468a587c1ba844f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "106cff13_960b0cb7",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/EditFileAction.java",
+        "patchSetId": 44
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-09T08:33:22Z",
+      "side": 1,
+      "message": "Not \"reply\" in this context",
+      "range": {
+        "startLine": 31,
+        "startChar": 22,
+        "endLine": 31,
+        "endChar": 33
+      },
+      "revId": "d3fef981b9867b1eeebc39c8468a587c1ba844f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

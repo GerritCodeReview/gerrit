@@ -15,69 +15,55 @@
 package com.google.gerrit.server.securestore;
 
 import com.google.common.base.Strings;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.SiteLibraryLoaderUtil;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Provider;
+import com.google.inject.Singleton;
 
-import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.eclipse.jgit.storage.file.FileBasedConfig;
-import org.eclipse.jgit.util.FS;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.io.IOException;
 
+@Singleton
 public class SecureStoreProvider implements Provider<SecureStore> {
   private static final Logger log = LoggerFactory
       .getLogger(SecureStoreProvider.class);
 
   private final File libdir;
   private final Injector injector;
-  private final String secureStoreClassName;
-
-  private SecureStore instance;
+  private final String className;
 
   @Inject
-  SecureStoreProvider(
+  protected SecureStoreProvider(
       Injector injector,
-      SitePaths sitePaths) {
-    FileBasedConfig cfg =
-        new FileBasedConfig(sitePaths.gerrit_config, FS.DETECTED);
-    try {
-      cfg.load();
-    } catch (IOException | ConfigInvalidException e) {
-      throw new RuntimeException("Cannot read gerrit.config file", e);
-    }
+      SitePaths sitePaths,
+      @Nullable @SecureStoreClassName String className) {
     this.injector = injector;
     this.libdir = sitePaths.lib_dir;
-    this.secureStoreClassName =
-        cfg.getString("gerrit", null, "secureStoreClass");
+    this.className = className;
   }
 
   @Override
-  public SecureStore get() {
-    if (instance == null) {
-      instance = injector.getInstance(getSecureStoreImpl());
-    }
-    return instance;
+  public synchronized SecureStore get() {
+    return injector.getInstance(getSecureStoreImpl());
   }
 
   @SuppressWarnings("unchecked")
   private Class<? extends SecureStore> getSecureStoreImpl() {
-    if (Strings.isNullOrEmpty(secureStoreClassName)) {
+    if (Strings.isNullOrEmpty(className)) {
       return DefaultSecureStore.class;
     }
 
     SiteLibraryLoaderUtil.loadSiteLib(libdir);
     try {
-      return (Class<? extends SecureStore>) Class.forName(secureStoreClassName);
+      return (Class<? extends SecureStore>) Class.forName(className);
     } catch (ClassNotFoundException e) {
       String msg =
-          String.format("Cannot load secure store class: %s",
-              secureStoreClassName);
+          String.format("Cannot load secure store class: %s", className);
       log.error(msg, e);
       throw new RuntimeException(msg, e);
     }

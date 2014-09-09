@@ -18,18 +18,28 @@ import static com.google.gerrit.server.schema.DataSourceProvider.Context.SINGLE_
 import static com.google.inject.Stage.PRODUCTION;
 
 import com.google.common.base.MoreObjects;
+import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.Die;
 import com.google.gerrit.pgm.init.api.ConsoleUI;
 import com.google.gerrit.pgm.init.api.InitFlags;
 import com.google.gerrit.pgm.init.api.InstallPlugins;
+import com.google.gerrit.pgm.init.api.Section;
+import com.google.gerrit.pgm.util.IoUtil;
+import com.google.gerrit.pgm.util.SecureStoreClassName;
+import com.google.gerrit.pgm.util.SecureStoreClassNameProvider;
+import com.google.gerrit.pgm.util.SecureStoreProvider;
 import com.google.gerrit.pgm.util.SiteProgram;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.plugins.InvalidPluginException;
+import com.google.gerrit.server.plugins.InvalidSecureStoreException;
+import com.google.gerrit.server.plugins.JarScanner;
 import com.google.gerrit.server.schema.SchemaUpdater;
 import com.google.gerrit.server.schema.UpdateUI;
+import com.google.gerrit.server.securestore.SecureStore;
 import com.google.gwtorm.jdbc.JdbcExecutor;
 import com.google.gwtorm.jdbc.JdbcSchema;
 import com.google.gwtorm.server.OrmException;
@@ -130,6 +140,10 @@ public class BaseInit extends SiteProgram {
     return false;
   }
 
+  protected String getSecureStoreLib() {
+    return null;
+  }
+
   protected boolean beforeInit(SiteInit init) throws Exception {
     return false;
   }
@@ -171,7 +185,8 @@ public class BaseInit extends SiteProgram {
 
     @Inject
     SiteInit(final SitePaths site, final InitFlags flags, final ConsoleUI ui,
-        final SitePathInitializer initializer) {
+        final SitePathInitializer initializer,
+        final Section.Factory sectionFactory) {
       this.site = site;
       this.flags = flags;
       this.ui = ui;
@@ -184,6 +199,7 @@ public class BaseInit extends SiteProgram {
     final File sitePath = getSitePath();
     final List<Module> m = new ArrayList<>();
 
+    final String secureStoreClassName = discoverSecureStoreClass();
     m.add(new InitModule(standalone, initDb));
     m.add(new AbstractModule() {
       @Override
@@ -196,6 +212,16 @@ public class BaseInit extends SiteProgram {
         bind(new TypeLiteral<List<String>>() {}).annotatedWith(
             InstallPlugins.class).toInstance(plugins);
         bind(PluginsDistribution.class).toInstance(pluginsDistribution);
+        bind(String.class).annotatedWith(SecureStoreJarPath.class).toInstance(
+            Strings.nullToEmpty(getSecureStoreLib()));
+        if (!Strings.isNullOrEmpty(secureStoreClassName)) {
+          bind(String.class).annotatedWith(SecureStoreClassName.class)
+              .toInstance(secureStoreClassName);
+        } else {
+          bind(String.class).annotatedWith(SecureStoreClassName.class)
+              .toProvider(SecureStoreClassNameProvider.class);
+        }
+        bind(SecureStore.class).toProvider(SecureStoreProvider.class);
       }
     });
 
@@ -224,6 +250,39 @@ public class BaseInit extends SiteProgram {
 
   protected ConsoleUI getConsoleUI() {
     return ConsoleUI.getInstance(false);
+  }
+
+  private String discoverSecureStoreClass() {
+    if (Strings.isNullOrEmpty(getSecureStoreLib())) {
+      return null;
+    }
+
+    try {
+      File secureStoreLib = new File(getSecureStoreLib());
+      if (!secureStoreLib.exists()) {
+        throw new InvalidSecureStoreException(String.format(
+            "File %s doesn't exist", getSecureStoreLib()));
+      }
+      JarScanner scanner = new JarScanner(secureStoreLib);
+      List<String> secureStores =
+          scanner.findImplementationsOf(secureStoreLib.getAbsolutePath(),
+              SecureStore.class);
+      if (secureStores.isEmpty()) {
+        throw new InvalidPluginException(String.format(
+            "Cannot find class implementing %s interface in %s",
+            SecureStore.class.getName(), getSecureStoreLib()));
+      }
+      if (secureStores.size() > 1) {
+        throw new InvalidSecureStoreException(String.format(
+            "%s have more that one implementation of %s interface",
+            getSecureStoreLib(), SecureStore.class.getName()));
+      }
+      IoUtil.loadJARs(secureStoreLib);
+      return secureStores.get(0);
+    } catch (InvalidPluginException e) {
+      throw new InvalidSecureStoreException(String.format("%s is not a plugin",
+          getSecureStoreLib()));
+    }
   }
 
   public static class SiteRun {

@@ -31,7 +31,8 @@ public class SecureStoreClassNameProvider implements Provider<String> {
 
   @Inject
   SecureStoreClassNameProvider(SitePaths sitePath) {
-    FileBasedConfig cfg = new FileBasedConfig(sitePath.gerrit_config, FS.DETECTED);
+    FileBasedConfig cfg =
+        new FileBasedConfig(sitePath.gerrit_config, FS.DETECTED);
     try {
       cfg.load();
     } catch (IOException | ConfigInvalidException e) {
@@ -42,6 +43,7 @@ public class SecureStoreClassNameProvider implements Provider<String> {
 
   @Override
   public String get() {
-    return Strings.nullToEmpty(config.getString("gerrit", null, "secureStoreClass"));
+    return Strings.nullToEmpty(config.getString("gerrit", null,
+        "secureStoreClass"));
   }
 }

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.securestore;
 
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.FileUtil;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Inject;
@@ -78,6 +79,22 @@ public class DefaultSecureStore implements SecureStore {
   public void unset(String section, String subsection, String name) {
     sec.unset(section, subsection, name);
     save();
+  }
+
+  @Override
+  public Iterable<EntryKey> list() {
+    ImmutableSet.Builder<EntryKey> result = ImmutableSet.builder();
+    for (String section : sec.getSections()) {
+      for (String subsection : sec.getSubsections(section)) {
+        for (String name : sec.getNames(section, subsection)) {
+          result.add(new EntryKey(section, subsection, name));
+        }
+      }
+      for (String name : sec.getNames(section)) {
+        result.add(new EntryKey(section, null, name));
+      }
+    }
+    return result.build();
   }
 
   private void save() {

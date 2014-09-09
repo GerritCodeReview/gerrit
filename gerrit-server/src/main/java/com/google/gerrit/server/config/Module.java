@@ -37,5 +37,6 @@ public class Module extends RestApiModule {
     get(CONFIG_KIND, "version").to(GetVersion.class);
     get(CONFIG_KIND, "preferences").to(GetUserPreferences.class);
     put(CONFIG_KIND, "preferences").to(SetUserPreferences.class);
+    get(CONFIG_KIND, "config").to(GetServerConfig.class);
   }
 }

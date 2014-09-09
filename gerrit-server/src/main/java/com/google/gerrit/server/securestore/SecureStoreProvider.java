@@ -31,6 +31,17 @@ import java.io.File;
 import java.io.IOException;
 
 public class SecureStoreProvider implements Provider<SecureStore> {
+  public static String getSecureStoreClassFromGerritConfig(SitePaths sitePaths) {
+    FileBasedConfig cfg =
+        new FileBasedConfig(sitePaths.gerrit_config, FS.DETECTED);
+    try {
+      cfg.load();
+    } catch (IOException | ConfigInvalidException e) {
+      throw new RuntimeException("Cannot read gerrit.config file", e);
+    }
+    return cfg.getString("gerrit", null, "secureStoreClass");
+  }
+
   private static final Logger log = LoggerFactory
       .getLogger(SecureStoreProvider.class);
 
@@ -45,17 +56,9 @@ public class SecureStoreProvider implements Provider<SecureStore> {
   protected SecureStoreProvider(
       Injector injector,
       SitePaths sitePaths) {
-    FileBasedConfig cfg =
-        new FileBasedConfig(sitePaths.gerrit_config, FS.DETECTED);
-    try {
-      cfg.load();
-    } catch (IOException | ConfigInvalidException e) {
-      throw new RuntimeException("Cannot read gerrit.config file", e);
-    }
     this.injector = injector;
     this.libdir = sitePaths.lib_dir;
-    this.secureStoreClassName =
-        cfg.getString("gerrit", null, "secureStoreClass");
+    this.secureStoreClassName = getSecureStoreClassFromGerritConfig(sitePaths);
   }
 
   @Override

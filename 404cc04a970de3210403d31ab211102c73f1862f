@@ -16,6 +16,24 @@
       "revId": "404cc04a970de3210403d31ab211102c73f1862f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_378e7225",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/MergeValidationException.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-09T15:51:16Z",
+      "side": 0,
+      "message": "Unintentional change remaining after reverting a change that I did in PS1.",
+      "parentUuid": "106cff13_b92b9b6b",
+      "revId": "404cc04a970de3210403d31ab211102c73f1862f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

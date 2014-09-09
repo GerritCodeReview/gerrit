@@ -37,6 +37,7 @@ public interface ChangeMessages extends Messages {
   String patchTableSize_LongModify(int insertions, int deletions);
   String patchTableSize_Lines(@PluralCount int insertions);
 
+  String removeHashtag(String name);
   String removeReviewer(String fullName);
   String messageWrittenOn(String date);
 

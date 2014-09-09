@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.notedb;
 
+import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_HASHTAGS;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_LABEL;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_PATCH_SET;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_STATUS;
@@ -58,11 +59,14 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.sql.Timestamp;
 import java.text.ParseException;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 class ChangeNotesParser implements AutoCloseable {
   final Map<Account.Id, ReviewerState> reviewers;
@@ -72,6 +76,7 @@ class ChangeNotesParser implements AutoCloseable {
   final Multimap<PatchSet.Id, PatchLineComment> commentsForBase;
   NoteMap commentNoteMap;
   Change.Status status;
+  Set<String> hashtags;
 
   private final Change.Id changeId;
   private final ObjectId tip;
@@ -143,6 +148,7 @@ class ChangeNotesParser implements AutoCloseable {
     PatchSet.Id psId = parsePatchSetId(commit);
     Account.Id accountId = parseIdent(commit);
     parseChangeMessage(psId, accountId, commit);
+    parseHashtags(commit);
 
 
     if (submitRecords.isEmpty()) {
@@ -160,6 +166,20 @@ class ChangeNotesParser implements AutoCloseable {
         parseReviewer(state, line);
       }
     }
+  }
+
+  private void parseHashtags(RevCommit commit) throws ConfigInvalidException {
+    // Commits are parsed in reverse order and only the last set of hashtags should be used.
+    if (hashtags != null) {
+      return;
+    }
+    List<String> hashtagsLines = commit.getFooterLines(FOOTER_HASHTAGS);
+    if (hashtagsLines.isEmpty()) {
+      return;
+    } else if (hashtagsLines.size() > 1) {
+      throw expectedOneFooter(FOOTER_HASHTAGS, hashtagsLines);
+    }
+    hashtags = new HashSet<String>(Arrays.asList(hashtagsLines.get(0).split(",")));
   }
 
   private Change.Status parseStatus(RevCommit commit)

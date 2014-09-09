@@ -32,6 +32,7 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gwtexpui.server.CacheHeaders;
 import com.google.gwtjsonrpc.server.JsonServlet;
 import com.google.gwtjsonrpc.server.RPCServletUtils;
@@ -82,6 +83,7 @@ public class HostPageServlet extends HttpServlet {
   private final String noCacheName;
   private final boolean refreshHeaderFooter;
   private final StaticServlet staticServlet;
+  private final boolean isNoteDbEnabled;
   private volatile Page page;
 
   @Inject
@@ -91,7 +93,8 @@ public class HostPageServlet extends HttpServlet {
       final DynamicSet<WebUiPlugin> webUiPlugins,
       final DynamicSet<MessageOfTheDay> motd,
       @GerritServerConfig final Config cfg,
-      final StaticServlet ss)
+      final StaticServlet ss,
+      final NotesMigration migration)
       throws IOException, ServletException {
     currentUser = cu;
     session = w;
@@ -103,6 +106,7 @@ public class HostPageServlet extends HttpServlet {
     site = sp;
     refreshHeaderFooter = cfg.getBoolean("site", "refreshHeaderFooter", true);
     staticServlet = ss;
+    isNoteDbEnabled = migration.enabled();
 
     final String pageName = "HostPage.html";
     template = HtmlDomUtil.parseFile(getClass(), pageName);
@@ -314,6 +318,7 @@ public class HostPageServlet extends HttpServlet {
       final HostPageData pageData = new HostPageData();
       pageData.version = Version.getVersion();
       pageData.config = config;
+      pageData.isNoteDbEnabled = isNoteDbEnabled;
 
       final StringWriter w = new StringWriter();
       w.write("var " + HPD_ID + "=");

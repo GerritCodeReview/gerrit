@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "106cff13_f6bd209d",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 17
+      },
+      "lineNbr": 3818,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-09-09T02:41:30Z",
+      "side": 1,
+      "message": "\u0027image_url\u0027 --\u003e`image_url`",
+      "revId": "b260cb73b68ed11eb7d516aeeaf06552ca691e3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

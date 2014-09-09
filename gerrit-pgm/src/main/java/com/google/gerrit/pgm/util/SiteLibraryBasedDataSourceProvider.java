@@ -24,9 +24,6 @@ import com.google.inject.Singleton;
 import org.eclipse.jgit.lib.Config;
 
 import java.io.File;
-import java.io.FileFilter;
-import java.util.Arrays;
-import java.util.Comparator;
 
 import javax.sql.DataSource;
 
@@ -47,34 +44,9 @@ public class SiteLibraryBasedDataSourceProvider extends DataSourceProvider {
 
   public synchronized DataSource get() {
     if (!init) {
-      loadSiteLib();
+      SiteLibraryLoaderUtil.loadSiteLib(libdir);
       init = true;
     }
     return super.get();
-  }
-
-  private void loadSiteLib() {
-    File[] jars = libdir.listFiles(new FileFilter() {
-      @Override
-      public boolean accept(File path) {
-        String name = path.getName();
-        return (name.endsWith(".jar") || name.endsWith(".zip"))
-            && path.isFile();
-      }
-    });
-    if (jars != null && 0 < jars.length) {
-      Arrays.sort(jars, new Comparator<File>() {
-        @Override
-        public int compare(File a, File b) {
-          // Sort by reverse last-modified time so newer JARs are first.
-          int cmp = Long.compare(b.lastModified(), a.lastModified());
-          if (cmp != 0) {
-            return cmp;
-          }
-          return a.getName().compareTo(b.getName());
-        }
-      });
-      IoUtil.loadJARs(jars);
-    }
   }
 }

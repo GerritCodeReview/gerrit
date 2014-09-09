@@ -200,6 +200,7 @@ public abstract class AbstractQueryChangesTest {
     ins2.insert();
 
     assertResultEquals(change1, queryOne("status:new"));
+    assertResultEquals(change1, queryOne("status:NEW"));
     assertResultEquals(change1, queryOne("is:new"));
     assertResultEquals(change2, queryOne("status:merged"));
     assertResultEquals(change2, queryOne("is:merged"));
@@ -226,6 +227,7 @@ public abstract class AbstractQueryChangesTest {
     assertEquals(2, results.size());
     assertResultEquals(change2, results.get(0));
     assertResultEquals(change1, results.get(1));
+    assertEquals(2, query("status:OPEN").size());
     results = query("is:open");
     assertEquals(2, results.size());
     assertResultEquals(change2, results.get(0));
@@ -253,6 +255,7 @@ public abstract class AbstractQueryChangesTest {
     assertEquals(2, results.size());
     assertResultEquals(change2, results.get(0));
     assertResultEquals(change1, results.get(1));
+    assertEquals(2, query("status:CLOSED").size());
     results = query("is:closed");
     assertEquals(2, results.size());
     assertResultEquals(change2, results.get(0));

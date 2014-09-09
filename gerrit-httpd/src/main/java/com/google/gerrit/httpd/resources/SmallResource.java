@@ -23,6 +23,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public final class SmallResource extends Resource {
+  private static final long serialVersionUID = 1L;
   private final byte[] data;
   private String contentType;
   private String characterEncoding;

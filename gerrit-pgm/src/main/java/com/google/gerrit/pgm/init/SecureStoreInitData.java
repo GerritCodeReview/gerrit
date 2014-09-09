@@ -1,4 +1,4 @@
-// Copyright (C) 2013 The Android Open Source Project
+// Copyright (C) 2014 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,16 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.securestore;
+package com.google.gerrit.pgm.init;
 
-public class SecureStoreException extends RuntimeException {
-  private static final long serialVersionUID = 5581700510568485065L;
+class SecureStoreInitData {
+  final String pathToLib;
+  final String className;
 
-  SecureStoreException(String msg) {
-    super(msg);
-  }
-
-  SecureStoreException(String msg, Exception e) {
-    super(msg, e);
+  SecureStoreInitData(String pathToLib, String className) {
+    this.className = className;
+    this.pathToLib = pathToLib;
   }
 }

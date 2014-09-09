@@ -91,6 +91,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   public static final String FIELD_FILE = "file";
   public static final String FIELD_IS = "is";
   public static final String FIELD_HAS = "has";
+  public static final String FIELD_HASHTAG = "hashtag";
   public static final String FIELD_LABEL = "label";
   public static final String FIELD_LIMIT = "limit";
   public static final String FIELD_MERGEABLE = "mergeable";
@@ -394,6 +395,11 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     if (!name.startsWith(Branch.R_HEADS))
       return Branch.R_HEADS + name;
     return name;
+  }
+
+  @Operator
+  public Predicate<ChangeData> hashtag(String hashtag) {
+    return new HashtagPredicate(hashtag);
   }
 
   @Operator

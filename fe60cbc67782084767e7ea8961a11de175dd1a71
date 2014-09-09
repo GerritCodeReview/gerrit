@@ -39,6 +39,30 @@
       "revId": "fe60cbc67782084767e7ea8961a11de175dd1a71",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_1432547a",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/webui/WebLink.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-09T08:31:42Z",
+      "side": 1,
+      "message": "Can we make it so that it will also work for old plugins?  I.e put the call to getImageUrl in a try/catch and ignore exceptions caused by the plugin not implementing it?",
+      "parentUuid": "106cff13_b6e568b3",
+      "range": {
+        "startLine": 31,
+        "startChar": 2,
+        "endLine": 31,
+        "endChar": 23
+      },
+      "revId": "fe60cbc67782084767e7ea8961a11de175dd1a71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

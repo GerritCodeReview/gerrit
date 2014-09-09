@@ -14,6 +14,7 @@
 
 package com.google.gerrit.client.changes;
 
+import com.google.gerrit.client.changes.ChangeInfo.EditInfo;
 import com.google.gerrit.client.changes.ChangeInfo.IncludedInInfo;
 import com.google.gerrit.client.rpc.NativeString;
 import com.google.gerrit.client.rpc.RestApi;
@@ -66,6 +67,18 @@ public class ChangeApi {
 
   public static RestApi detail(int id) {
     return call(id, "detail");
+  }
+
+  public static void edit(int id, AsyncCallback<EditInfo> cb) {
+    edit(id).get(cb);
+  }
+
+  public static void editWithFiles(int id, AsyncCallback<EditInfo> cb) {
+    edit(id).addParameter("list", true).get(cb);
+  }
+
+  public static RestApi edit(int id) {
+    return change(id).view("edit");
   }
 
   public static void includedIn(int id, AsyncCallback<IncludedInInfo> cb) {
@@ -140,6 +153,23 @@ public class ChangeApi {
   /** Delete a specific draft patch set. */
   public static void deleteRevision(int id, String commit, AsyncCallback<JavaScriptObject> cb) {
     revision(id, commit).delete(cb);
+  }
+
+  /** Delete change edit. */
+  public static void deleteEdit(int id, AsyncCallback<JavaScriptObject> cb) {
+    edit(id).delete(cb);
+  }
+
+  /** Publish change edit. */
+  public static void publishEdit(int id, AsyncCallback<JavaScriptObject> cb) {
+    JavaScriptObject in = JavaScriptObject.createObject();
+    change(id).view("publish_edit").post(in, cb);
+  }
+
+  /** Rebase change edit on latest patch set. */
+  public static void rebaseEdit(int id, AsyncCallback<JavaScriptObject> cb) {
+    JavaScriptObject in = JavaScriptObject.createObject();
+    change(id).view("rebase_edit").post(in, cb);
   }
 
   /** Rebase a revision onto the branch tip. */

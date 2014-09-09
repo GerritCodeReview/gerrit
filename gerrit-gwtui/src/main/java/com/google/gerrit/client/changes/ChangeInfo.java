@@ -24,6 +24,7 @@ import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.common.data.LabelValue;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
@@ -99,9 +100,13 @@ public class ChangeInfo extends JavaScriptObject {
   public final native NativeMap<LabelInfo> all_labels() /*-{ return this.labels; }-*/;
   public final native LabelInfo label(String n) /*-{ return this.labels[n]; }-*/;
   public final native String current_revision() /*-{ return this.current_revision; }-*/;
+  public final native void set_current_revision(String r) /*-{ this.current_revision = r; }-*/;
   public final native NativeMap<RevisionInfo> revisions() /*-{ return this.revisions; }-*/;
   public final native RevisionInfo revision(String n) /*-{ return this.revisions[n]; }-*/;
   public final native JsArray<MessageInfo> messages() /*-{ return this.messages; }-*/;
+  public final native void set_edit(EditInfo edit) /*-{ this.edit = edit; }-*/;
+  public final native EditInfo edit() /*-{ return this.edit; }-*/;
+  public final native boolean has_edit() /*-{ return this.hasOwnProperty('edit') }-*/;
 
   public final native boolean has_permitted_labels()
   /*-{ return this.hasOwnProperty('permitted_labels') }-*/;
@@ -206,7 +211,11 @@ public class ChangeInfo extends JavaScriptObject {
 
   public static class EditInfo extends JavaScriptObject {
     public final native String name() /*-{ return this.name; }-*/;
+    public final native String set_name(String n) /*-{ this.name = n; }-*/;
     public final native CommitInfo commit() /*-{ return this.commit; }-*/;
+
+    public final native boolean has_actions() /*-{ return this.hasOwnProperty('actions') }-*/;
+    public final native NativeMap<ActionInfo> actions() /*-{ return this.actions; }-*/;
 
     public final native boolean has_files() /*-{ return this.hasOwnProperty('files') }-*/;
     public final native NativeMap<FileInfo> files() /*-{ return this.files; }-*/;
@@ -216,10 +225,21 @@ public class ChangeInfo extends JavaScriptObject {
   }
 
   public static class RevisionInfo extends JavaScriptObject {
+    public static RevisionInfo fromEdit(EditInfo edit) {
+      RevisionInfo revisionInfo = createObject().cast();
+      revisionInfo.takeFromEdit(edit);
+      return revisionInfo;
+    }
+    private final native void takeFromEdit(EditInfo edit) /*-{
+      this._number = 0;
+      this.name = edit.name;
+      this.commit = edit.commit;
+    }-*/;
     public final native int _number() /*-{ return this._number; }-*/;
     public final native String name() /*-{ return this.name; }-*/;
     public final native boolean draft() /*-{ return this.draft || false; }-*/;
     public final native boolean has_draft_comments() /*-{ return this.has_draft_comments || false; }-*/;
+    public final native boolean is_edit() /*-{ return this._number == 0; }-*/;
     public final native CommitInfo commit() /*-{ return this.commit; }-*/;
     public final native void set_commit(CommitInfo c) /*-{ this.commit = c; }-*/;
 
@@ -234,12 +254,55 @@ public class ChangeInfo extends JavaScriptObject {
     public final native JsArray<WebLinkInfo> web_links() /*-{ return this.web_links; }-*/;
 
     public static void sortRevisionInfoByNumber(JsArray<RevisionInfo> list) {
+      final int parent_number = findEditParent(list);
       Collections.sort(Natives.asList(list), new Comparator<RevisionInfo>() {
         @Override
         public int compare(RevisionInfo a, RevisionInfo b) {
-          return a._number() - b._number();
+          int a_number = a._number();
+          int b_number = b._number();
+          if (a_number == 0) {
+            if (b_number == parent_number + 1) {
+              a_number = parent_number;
+            } else {
+              a_number = parent_number + 1;
+            }
+          }
+          if (b_number == 0) {
+            if (a_number == parent_number + 1) {
+              b_number = parent_number;
+            } else {
+              b_number = parent_number + 1;
+            }
+          }
+          return a_number - b_number;
         }
       });
+    }
+
+    private static int findEditParent(JsArray<RevisionInfo> list) {
+      for (int i = 0; i < list.length(); i++) {
+        // edit under revisions?
+        RevisionInfo editInfo = list.get(i);
+        if (editInfo._number() == 0) {
+          // parent commit is parent patch set revision
+          CommitInfo commit = editInfo.commit().parents().get(0);
+          String parentRevision = commit.commit();
+          // find parent
+          for (int j = 0; j < list.length(); j++) {
+            RevisionInfo parentInfo = list.get(j);
+            String name = parentInfo.name();
+            if (name.equals(parentRevision)) {
+              // found parent pacth set number
+              return parentInfo._number();
+            }
+          }
+        }
+      }
+      return -1;
+    }
+
+    public final String id() {
+      return PatchSet.Id.toId(_number());
     }
 
     protected RevisionInfo () {

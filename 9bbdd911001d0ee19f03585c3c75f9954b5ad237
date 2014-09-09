@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "d065072b_b70c4261",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/ChangeType.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-09T11:47:47Z",
+      "side": 1,
+      "message": "\u003e We leaked already more then enough in extension package\n\nWell, I don\u0027t think the DynamicMapImpl example is comparable. That is a piece of substantial code implementation; this is just exposing some data in a public getter in the enum.\n\n\u003e we are doing this for a *reason*: not to map the server side internal types to extension types and use it directly.\n\nI\u0027m not sure I understand. Are you saying the \"reason\" for polluting a public API with implementation details, which will change in a non-backwards-compatible way, is that it would be a little bit of extra work on the implementation side? If so, I don\u0027t buy that argument.\n\nThat said if it\u0027s really a prohibitive amount of work, given that the code field is going to go away eventually, we could allow this as long as the getCode/forCode methods are explicitly documented as maybe going away in the future. (Although based on the comments thus far, and the fact that we have already done a similar thing for a different enum, I am not yet convinced that the amount of work is prohibitive.)",
+      "parentUuid": "64d01910_41bd12c4",
+      "revId": "9bbdd911001d0ee19f03585c3c75f9954b5ad237",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c4faa581_4cc73f4b",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/DiffInfo.java",
         "patchSetId": 7

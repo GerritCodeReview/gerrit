@@ -232,7 +232,8 @@ public class BaseInit extends SiteProgram {
           if (currentSecureStoreClassName != null
               && !currentSecureStoreClassName.equals(secureStoreClassName)) {
             throw new RuntimeException(String.format(
-                "Different secure store was previously configured: %s.",
+                "Different secure store was previously configured: %s. "
+                + "Use SwitchSecureStore program to switch between implementations.",
                 currentSecureStoreClassName));
           }
         } else {

@@ -16,6 +16,24 @@
       "revId": "9437bb115ac5b3e2e0ae8cd0515f1f2397cb749d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_b451e048",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/AdminConstants.properties",
+        "patchSetId": 4
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-09T10:40:58Z",
+      "side": 1,
+      "message": "I propose to name this option completely different. On the project info screen the user should see something like:\n\nOn push for review:\n* create new changes for all commits not in any branch\n* create new changes for all commits not in the target branch",
+      "parentUuid": "d065072b_14ed346b",
+      "revId": "9437bb115ac5b3e2e0ae8cd0515f1f2397cb749d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

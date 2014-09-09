@@ -142,7 +142,7 @@ public class Section {
   public String password(final String username, final String password) {
     final String ov = getSecure(password);
 
-    String user = flags.sec.getString(section, subsection, username);
+    String user = flags.sec.get(section, subsection, username);
     if (user == null) {
       user = get(username);
     }
@@ -187,12 +187,12 @@ public class Section {
   }
 
   public String getSecure(String name) {
-    return flags.sec.getString(section, subsection, name);
+    return flags.sec.get(section, subsection, name);
   }
 
   public void setSecure(String name, String value) {
     if (value != null) {
-      flags.sec.setString(section, subsection, name, value);
+      flags.sec.set(section, subsection, name, value);
     } else {
       flags.sec.unset(section, subsection, name);
     }

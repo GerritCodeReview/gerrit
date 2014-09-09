@@ -15,6 +15,7 @@
 package com.google.gerrit.server.notedb;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_HASHTAGS;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_LABEL;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_PATCH_SET;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_STATUS;
@@ -62,6 +63,7 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * A delta to apply to a change.
@@ -93,6 +95,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   private final CommentsInNotesUtil commentsUtil;
   private List<PatchLineComment> commentsForBase;
   private List<PatchLineComment> commentsForPs;
+  private Set<String> hashtags;
   private String changeMessage;
   private ChangeNotes notes;
 
@@ -342,6 +345,10 @@ public class ChangeUpdate extends AbstractChangeUpdate {
 
   }
 
+  public void setHashtags(Set<String> hashtags) {
+    this.hashtags = hashtags;
+  }
+
   public void putReviewer(Account.Id reviewer, ReviewerState type) {
     checkArgument(type != ReviewerState.REMOVED, "invalid ReviewerType");
     reviewers.put(reviewer, type);
@@ -448,6 +455,16 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       addFooter(msg, FOOTER_STATUS, status.name().toLowerCase());
     }
 
+    if (hashtags != null) {
+      StringBuilder sb = new StringBuilder();
+      for (String hashtag : hashtags) {
+        sb.append(hashtag).append(',');
+      }
+      if (sb.length() > 0) {
+        addFooter(msg, FOOTER_HASHTAGS, sb.substring(0, sb.length() - 1));
+      }
+    }
+
     for (Map.Entry<Account.Id, ReviewerState> e : reviewers.entrySet()) {
       Account account = accountCache.get(e.getKey()).getAccount();
       PersonIdent ident = newIdent(account, when);
@@ -507,7 +524,8 @@ public class ChangeUpdate extends AbstractChangeUpdate {
         && reviewers.isEmpty()
         && status == null
         && subject == null
-        && submitRecords == null;
+        && submitRecords == null
+        && hashtags == null;
   }
 
   private static StringBuilder addFooter(StringBuilder sb, FooterKey footer) {

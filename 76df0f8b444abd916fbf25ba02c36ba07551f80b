@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "106cff13_f605207c",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/EditFileBox.ui.xml",
+        "patchSetId": 44
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-09T10:30:37Z",
+      "side": 1,
+      "message": "All the diffs in this file look like they should be in the previous change.",
+      "revId": "76df0f8b444abd916fbf25ba02c36ba07551f80b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_94d30496",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/EditFileBox.ui.xml",
+        "patchSetId": 44
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-09T10:30:37Z",
+      "side": 1,
+      "message": "Trailing whitespace",
+      "revId": "76df0f8b444abd916fbf25ba02c36ba07551f80b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "106cff13_16e89c41",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/FileTable.java",
+        "patchSetId": 44
+      },
+      "lineNbr": 332,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-09T10:30:37Z",
+      "side": 1,
+      "message": "I think this drops us out of edit mode once the change reloads, which is confusing.\n\nIf we put something in the fragment to indicate edit mode, we could end up back in edit mode after the delete.",
+      "revId": "76df0f8b444abd916fbf25ba02c36ba07551f80b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "106cff13_361158bb",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/FileTable.java",
+        "patchSetId": 44
+      },
+      "lineNbr": 607,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-09T10:30:37Z",
+      "side": 1,
+      "message": "isEditable",
+      "range": {
+        "startLine": 607,
+        "startChar": 20,
+        "endLine": 607,
+        "endChar": 31
+      },
+      "revId": "76df0f8b444abd916fbf25ba02c36ba07551f80b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

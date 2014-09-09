@@ -1,0 +1,159 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d065072b_17fed6cd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1010030
+      },
+      "writtenOn": "2014-09-09T11:28:34Z",
+      "side": 1,
+      "message": "UI and",
+      "range": {
+        "startLine": 9,
+        "startChar": 3,
+        "endLine": 9,
+        "endChar": 6
+      },
+      "revId": "99e087bc3f960185805938b0a54fdcfc329aa2a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "106cff13_569b34ef",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/AddHashTagInput.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1010030
+      },
+      "writtenOn": "2014-09-09T11:28:34Z",
+      "side": 1,
+      "message": "nit: 2014",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "99e087bc3f960185805938b0a54fdcfc329aa2a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "106cff13_b69f28da",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/ChangeApi.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1010030
+      },
+      "writtenOn": "2014-09-09T11:28:34Z",
+      "side": 1,
+      "message": "throw notimplemented?",
+      "range": {
+        "startLine": 181,
+        "startChar": 9,
+        "endLine": 181,
+        "endChar": 13
+      },
+      "revId": "99e087bc3f960185805938b0a54fdcfc329aa2a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_17d53656",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.ui.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1010030
+      },
+      "writtenOn": "2014-09-09T11:28:34Z",
+      "side": 1,
+      "message": "-1: whitespace",
+      "range": {
+        "startLine": 208,
+        "startChar": 0,
+        "endLine": 208,
+        "endChar": 4
+      },
+      "revId": "99e087bc3f960185805938b0a54fdcfc329aa2a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "106cff13_d6a62432",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Hashtags.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1010030
+      },
+      "writtenOn": "2014-09-09T11:28:34Z",
+      "side": 1,
+      "message": "Extract this to a constant?",
+      "range": {
+        "startLine": 72,
+        "startChar": 32,
+        "endLine": 72,
+        "endChar": 34
+      },
+      "revId": "99e087bc3f960185805938b0a54fdcfc329aa2a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "106cff13_3675d8db",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Hashtags.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1010030
+      },
+      "writtenOn": "2014-09-09T11:28:34Z",
+      "side": 1,
+      "message": "I think Guava can help you make this cleaner/simpler",
+      "revId": "99e087bc3f960185805938b0a54fdcfc329aa2a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_37f952e6",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/RestHashtagsSuggestOracle.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1010030
+      },
+      "writtenOn": "2014-09-09T11:28:34Z",
+      "side": 1,
+      "message": "?",
+      "range": {
+        "startLine": 26,
+        "startChar": 2,
+        "endLine": 26,
+        "endChar": 6
+      },
+      "revId": "99e087bc3f960185805938b0a54fdcfc329aa2a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

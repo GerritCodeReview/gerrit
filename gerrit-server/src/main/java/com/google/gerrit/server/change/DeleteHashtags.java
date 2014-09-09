@@ -61,6 +61,10 @@ public class DeleteHashtags implements RestModifyView<ChangeResource, Input> {
     }
 
     ChangeControl control = req.getControl();
+    if (!control.canEditHashtags()) {
+      throw new AuthException("Edit hashtags not permitted");
+    }
+
     ChangeUpdate update = updateFactory.create(control);
     ChangeNotes notes = control.getNotes().load();
     Set<String> hashtags = new HashSet<String>();

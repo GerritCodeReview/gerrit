@@ -102,6 +102,10 @@ public class ChangeInfo extends JavaScriptObject {
   public final native NativeMap<RevisionInfo> revisions() /*-{ return this.revisions; }-*/;
   public final native RevisionInfo revision(String n) /*-{ return this.revisions[n]; }-*/;
   public final native JsArray<MessageInfo> messages() /*-{ return this.messages; }-*/;
+  public final native void set_edit(EditInfo edit) /*-{ this.edit = edit; }-*/;
+  public final native EditInfo edit() /*-{ return this.edit; }-*/;
+  public final native boolean has_edit() /*-{ return this.hasOwnProperty('edit') }-*/;
+  public final native JsArrayString hashtags() /*-{ return this.hashtags; }-*/;
 
   public final native boolean has_permitted_labels()
   /*-{ return this.hasOwnProperty('permitted_labels') }-*/;

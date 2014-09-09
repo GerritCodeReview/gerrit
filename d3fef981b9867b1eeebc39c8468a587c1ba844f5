@@ -39,6 +39,23 @@
       "revId": "d3fef981b9867b1eeebc39c8468a587c1ba844f5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_d469fc31",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/EditFileAction.java",
+        "patchSetId": 44
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-09T09:07:28Z",
+      "side": 1,
+      "message": "Ok, so this is only used for alignment. Then I think it should have a more descriptive name, like \"relativeTo\". At the call site you will pass in a variable called replyButton so it will be clear from reading that.",
+      "revId": "d3fef981b9867b1eeebc39c8468a587c1ba844f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -706,6 +706,7 @@ public class MergeOp {
           case INVALID_PROJECT_CONFIGURATION_PARENT_PROJECT_NOT_FOUND:
           case INVALID_PROJECT_CONFIGURATION_ROOT_PROJECT_CANNOT_HAVE_PARENT:
           case SETTING_PARENT_PROJECT_ONLY_ALLOWED_BY_ADMIN:
+          case REJECTED_BY_PLUGIN:
             setNew(commit, message(c, txt));
             break;
 

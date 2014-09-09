@@ -25,7 +25,6 @@ public class MergeValidationException extends ValidationException {
     super(status.toString());
     this.status = status;
   }
-
   public CommitMergeStatus getStatus() {
     return status;
   }

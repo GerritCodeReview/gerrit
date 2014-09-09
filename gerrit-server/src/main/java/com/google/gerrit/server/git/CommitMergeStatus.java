@@ -90,7 +90,10 @@ public enum CommitMergeStatus {
   /** */
   SETTING_PARENT_PROJECT_ONLY_ALLOWED_BY_ADMIN(
       "Change contains a project configuration that changes the parent project.\n"
-          + "The change must be submitted by a Gerrit administrator.");
+          + "The change must be submitted by a Gerrit administrator."),
+
+  /** */
+  REJECTED_BY_PLUGIN("Rejected by plugin.");
 
 
   private String message;

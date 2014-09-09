@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "d065072b_f7b23ae4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/JarScanner.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-09-09T15:46:56Z",
+      "side": 1,
+      "message": "I\u0027ve abstracted more inspectJar method and extended Jar Inspector interface to able to handle exceptions",
+      "parentUuid": "106cff13_d9c01764",
+      "range": {
+        "startLine": 130,
+        "startChar": 51,
+        "endLine": 130,
+        "endChar": 61
+      },
+      "revId": "880b5eb39148cc55b94c5e0e60a913e2b4bb0233",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d065072b_17c1b63b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/JarScanner.java",
         "patchSetId": 1

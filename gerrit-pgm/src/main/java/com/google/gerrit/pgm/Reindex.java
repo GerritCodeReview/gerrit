@@ -21,6 +21,7 @@ import com.google.common.cache.Cache;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.ChangeHooks;
+import com.google.gerrit.common.Die;
 import com.google.gerrit.common.DisabledChangeHooks;
 import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
 import com.google.gerrit.extensions.events.LifecycleListener;
@@ -126,6 +127,7 @@ public class Reindex extends SiteProgram {
   private boolean dryRun;
 
   private Injector dbInjector;
+  private Config cfg;
   private Injector sysInjector;
   private ChangeIndex index;
 
@@ -133,6 +135,9 @@ public class Reindex extends SiteProgram {
   public int run() throws Exception {
     mustHaveValidSite();
     dbInjector = createDbInjector(MULTI_USER);
+    cfg = dbInjector.getInstance(
+        Key.get(Config.class, GerritServerConfig.class));
+    checkNotSlaveMode();
     limitThreads();
     disableLuceneAutomaticCommit();
     if (version == null) {
@@ -162,9 +167,13 @@ public class Reindex extends SiteProgram {
     return result;
   }
 
+  private void checkNotSlaveMode() throws Die {
+    if (cfg.getBoolean("container", "slave", false)) {
+      throw die("Cannot run reindex in slave mode");
+    }
+  }
+
   private void limitThreads() {
-    Config cfg =
-        dbInjector.getInstance(Key.get(Config.class, GerritServerConfig.class));
     boolean usePool = cfg.getBoolean("database", "connectionpool",
         dbInjector.getInstance(DataSourceType.class).usePool());
     int poolLimit = cfg.getInt("database", "poollimit",

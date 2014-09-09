@@ -215,7 +215,8 @@ public class BaseInit extends SiteProgram {
 
     if (secureStoreInitData != null && currentSecureStoreClassName != null
         && !currentSecureStoreClassName.equals(secureStoreInitData.className)) {
-      log.error("Different secure store was previously configured: {}.",
+      log.error("Different secure store was previously configured: {}. "
+          + "Use SwitchSecureStore program to switch between implementations.",
           currentSecureStoreClassName);
       System.exit(1);
     }

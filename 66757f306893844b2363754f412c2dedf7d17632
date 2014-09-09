@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d065072b_b7dc42f7",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.ui.xml",
+        "patchSetId": 49
+      },
+      "lineNbr": 468,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-09T17:04:34Z",
+      "side": 1,
+      "message": "to",
+      "range": {
+        "startLine": 468,
+        "startChar": 37,
+        "endLine": 468,
+        "endChar": 43
+      },
+      "revId": "66757f306893844b2363754f412c2dedf7d17632",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_97d94607",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.ui.xml",
+        "patchSetId": 49
+      },
+      "lineNbr": 475,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-09T17:04:34Z",
+      "side": 1,
+      "message": "Done with edit mode",
+      "range": {
+        "startLine": 475,
+        "startChar": 19,
+        "endLine": 475,
+        "endChar": 55
+      },
+      "revId": "66757f306893844b2363754f412c2dedf7d17632",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

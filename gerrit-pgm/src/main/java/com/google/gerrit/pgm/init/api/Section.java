@@ -16,6 +16,7 @@ package com.google.gerrit.pgm.init.api;
 
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.server.securestore.SecureStore;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
@@ -36,16 +37,19 @@ public class Section {
   private final ConsoleUI ui;
   private final String section;
   private final String subsection;
+  private final SecureStore secureStore;
 
   @Inject
   public Section(final InitFlags flags, final SitePaths site,
-      final ConsoleUI ui, @Assisted("section") final String section,
+      final SecureStore secureStore, final ConsoleUI ui,
+      @Assisted("section") final String section,
       @Assisted("subsection") @Nullable final String subsection) {
     this.flags = flags;
     this.site = site;
     this.ui = ui;
     this.section = section;
     this.subsection = subsection;
+    this.secureStore = secureStore;
   }
 
   public String get(String name) {
@@ -142,7 +146,7 @@ public class Section {
   public String password(final String username, final String password) {
     final String ov = getSecure(password);
 
-    String user = flags.sec.getString(section, subsection, username);
+    String user = flags.sec.get(section, subsection, username);
     if (user == null) {
       user = get(username);
     }
@@ -187,14 +191,14 @@ public class Section {
   }
 
   public String getSecure(String name) {
-    return flags.sec.getString(section, subsection, name);
+    return flags.sec.get(section, subsection, name);
   }
 
   public void setSecure(String name, String value) {
     if (value != null) {
-      flags.sec.setString(section, subsection, name, value);
+      secureStore.set(section, subsection, name, value);
     } else {
-      flags.sec.unset(section, subsection, name);
+      secureStore.unset(section, subsection, name);
     }
   }
 

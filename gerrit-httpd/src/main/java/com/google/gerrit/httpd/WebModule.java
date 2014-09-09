@@ -113,7 +113,7 @@ public class WebModule extends LifecycleModule {
     install(new UrlModule(urlConfig, options));
     install(new UiRpcModule());
     install(new GerritRequestModule());
-    install(new GitOverHttpServlet.Module());
+    install(new GitOverHttpServlet.Module(true));
 
     bind(GitWebConfig.class).toInstance(gitWebConfig);
     if (gitWebConfig.getGitwebCGI() != null) {

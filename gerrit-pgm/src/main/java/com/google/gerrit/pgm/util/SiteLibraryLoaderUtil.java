@@ -22,14 +22,7 @@ import java.util.Comparator;
 public final class SiteLibraryLoaderUtil {
 
   public static void loadSiteLib(File libdir) {
-    File[] jars = libdir.listFiles(new FileFilter() {
-      @Override
-      public boolean accept(File path) {
-        String name = path.getName();
-        return (name.endsWith(".jar") || name.endsWith(".zip"))
-            && path.isFile();
-      }
-    });
+    File[] jars = listJars(libdir);
     if (jars != null && 0 < jars.length) {
       Arrays.sort(jars, new Comparator<File>() {
         @Override
@@ -44,6 +37,18 @@ public final class SiteLibraryLoaderUtil {
       });
       IoUtil.loadJARs(jars);
     }
+  }
+
+  public static File[] listJars(File libdir) {
+    File[] jars = libdir.listFiles(new FileFilter() {
+      @Override
+      public boolean accept(File path) {
+        String name = path.getName();
+        return (name.endsWith(".jar") || name.endsWith(".zip"))
+            && path.isFile();
+      }
+    });
+    return jars;
   }
 
   private SiteLibraryLoaderUtil() {

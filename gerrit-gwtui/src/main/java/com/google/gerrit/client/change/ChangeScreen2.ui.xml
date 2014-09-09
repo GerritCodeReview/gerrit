@@ -205,7 +205,6 @@ limitations under the License.
       padding-right: 5px;
       white-space: nowrap;
     }
-
     .label_user {
       display: inline-block;
       margin-bottom: 2px;
@@ -235,6 +234,26 @@ limitations under the License.
     .label_reject {color: #d14836;}
     .label_need {color: #000;}
     .label_may {color: #777;}
+
+    .hashtagName {
+      display: inline-block;
+      margin-bottom: 2px;
+      padding: 1px 3px 0px 3px;
+      border-radius: 5px;
+      -webkit-border-radius: 5px;
+      background: #E2F5FF;
+      border: 1px solid #579FDA;
+      white-space: nowrap;
+    }
+
+    .hashtagName button {
+      cursor: pointer;
+      padding: 0;
+      margin: 0 0 0 5px;
+      border: 0;
+      background-color: transparent;
+      white-space: nowrap;
+    }
 
     .headerButtons button {
       margin: 6px 3px 0 0;
@@ -437,6 +456,12 @@ limitations under the License.
             <tr>
               <th ui:field='actionText'/>
               <td ui:field='actionDate'/>
+            </tr>
+            <tr ui:field='hashtagTableRow'>
+              <th><ui:msg>Hashtags</ui:msg></th>
+              <td>
+                <c:Hashtags ui:field='hashtags'/>
+              </td>
             </tr>
             <tr><td colspan='2'><c:Actions ui:field='actions'/></td></tr>
           </table>

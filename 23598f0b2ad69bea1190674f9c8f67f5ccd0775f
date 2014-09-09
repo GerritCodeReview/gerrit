@@ -65,6 +65,30 @@
     },
     {
       "key": {
+        "uuid": "106cff13_760bd08a",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/EditFileBox.java",
+        "patchSetId": 43
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-09T10:02:17Z",
+      "side": 1,
+      "message": "Ok, this is not as bad as I thought, you can\u0027t change the filename when editing an existing file....",
+      "parentUuid": "d065072b_74dd88a3",
+      "range": {
+        "startLine": 91,
+        "startChar": 33,
+        "endLine": 91,
+        "endChar": 47
+      },
+      "revId": "23598f0b2ad69bea1190674f9c8f67f5ccd0775f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "106cff13_9654ac87",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/EditFileBox.ui.xml",
         "patchSetId": 43

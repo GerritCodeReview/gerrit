@@ -108,6 +108,7 @@ public class ChangeScreen2 extends Screen {
     String label_need();
     String replyBox();
     String selected();
+    String hashtagName();
   }
 
   static ChangeScreen2 get(NativeEvent in) {
@@ -145,6 +146,8 @@ public class ChangeScreen2 extends Screen {
 
   @UiField Element ccText;
   @UiField Reviewers reviewers;
+  @UiField Hashtags hashtags;
+  @UiField Element hashtagTableRow;
   @UiField FlowPanel ownerPanel;
   @UiField InlineHyperlink ownerLink;
   @UiField Element statusText;
@@ -261,6 +264,7 @@ public class ChangeScreen2 extends Screen {
     star.setVisible(Gerrit.isSignedIn());
     labels.init(style, statusText);
     reviewers.init(style, ccText);
+    hashtags.init(style);
 
     keysNavigation = new KeyCommandSet(Gerrit.C.sectionNavigation());
     keysNavigation.add(new KeyCommand(0, 'u', Util.C.upToChangeList()) {
@@ -944,6 +948,11 @@ public class ChangeScreen2 extends Screen {
     commit.set(commentLinkProcessor, info, revision);
     related.set(info, revision);
     reviewers.set(info);
+    if (Gerrit.isNoteDbEnabled()) {
+      hashtags.set(info);
+    } else {
+      setVisible(hashtagTableRow, false);
+    }
 
     if (Gerrit.isSignedIn()) {
       initEditMessageAction(info, revision);

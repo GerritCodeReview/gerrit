@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d065072b_d47f3cb2",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/FileTable.java",
+        "patchSetId": 40
+      },
+      "lineNbr": 344,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-09T10:36:25Z",
+      "side": 1,
+      "message": "Same comment as previous change, I would expect to stay in edit mode after this handler returns.",
+      "revId": "29e8b35b03c3c32fa046dc3ead2d4d2cd98b0e8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_7468e8f9",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/FileTable.java",
+        "patchSetId": 40
+      },
+      "lineNbr": 624,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-09T10:36:25Z",
+      "side": 1,
+      "message": "I don\u0027t think isEditable is the right check here. There might be other kinds of non-editable statuses, such as submodules. The condition is really just ChangeType.DELETED.matches(status)",
+      "range": {
+        "startLine": 624,
+        "startChar": 30,
+        "endLine": 624,
+        "endChar": 41
+      },
+      "revId": "29e8b35b03c3c32fa046dc3ead2d4d2cd98b0e8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -24,14 +24,14 @@ import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.GerritServerConfigModule;
 import com.google.gerrit.server.config.SitePath;
+import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.git.LocalDiskRepositoryManager;
 import com.google.gerrit.server.schema.DataSourceModule;
 import com.google.gerrit.server.schema.DataSourceProvider;
 import com.google.gerrit.server.schema.DataSourceType;
 import com.google.gerrit.server.schema.DatabaseModule;
 import com.google.gerrit.server.schema.SchemaModule;
-import com.google.gerrit.server.securestore.SecureStore;
-import com.google.gerrit.server.securestore.SecureStoreProvider;
+import com.google.gerrit.server.securestore.SecureStoreClassName;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.AbstractModule;
 import com.google.inject.Binding;
@@ -41,15 +41,21 @@ import com.google.inject.Injector;
 import com.google.inject.Key;
 import com.google.inject.Module;
 import com.google.inject.Provider;
+import com.google.inject.ProvisionException;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
 import com.google.inject.name.Names;
 import com.google.inject.spi.Message;
+import com.google.inject.util.Providers;
 
+import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.storage.file.FileBasedConfig;
+import org.eclipse.jgit.util.FS;
 import org.kohsuke.args4j.Option;
 
 import java.io.File;
+import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -98,7 +104,8 @@ public abstract class SiteProgram extends AbstractProgram {
       @Override
       protected void configure() {
         bind(File.class).annotatedWith(SitePath.class).toInstance(sitePath);
-        bind(SecureStore.class).toProvider(SecureStoreProvider.class);
+        bind(String.class).annotatedWith(SecureStoreClassName.class)
+            .toProvider(Providers.of(getConfiguredSecureStoreClass()));
       }
     };
     modules.add(sitePathModule);
@@ -177,6 +184,29 @@ public abstract class SiteProgram extends AbstractProgram {
         why = why.getCause();
       }
       throw die(buf.toString(), new RuntimeException("DbInjector failed", ce));
+    }
+  }
+
+  protected final String getConfiguredSecureStoreClass() {
+    Module m = new AbstractModule() {
+      @Override
+      protected void configure() {
+        bind(File.class).annotatedWith(SitePath.class).toInstance(sitePath);
+        bind(SitePaths.class);
+      }
+    };
+    Injector i = Guice.createInjector(m);
+    SitePaths site = i.getInstance(SitePaths.class);
+    FileBasedConfig cfg = new FileBasedConfig(site.gerrit_config, FS.DETECTED);
+    if (!cfg.getFile().exists()) {
+      return null;
+    }
+
+    try {
+      cfg.load();
+      return cfg.getString("gerrit", null, "secureStoreClass");
+    } catch (IOException | ConfigInvalidException e) {
+      throw new ProvisionException(e.getMessage(), e);
     }
   }
 

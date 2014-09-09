@@ -27,13 +27,13 @@ import com.google.gerrit.pgm.init.api.ConsoleUI;
 import com.google.gerrit.pgm.util.ErrorLogFile;
 import com.google.gerrit.server.config.GerritServerConfigModule;
 import com.google.gerrit.server.config.SitePath;
-import com.google.gerrit.server.securestore.SecureStore;
-import com.google.gerrit.server.securestore.SecureStoreProvider;
+import com.google.gerrit.server.securestore.SecureStoreClassName;
 import com.google.gerrit.server.util.HostPlatform;
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Module;
+import com.google.inject.util.Providers;
 
 import org.kohsuke.args4j.Option;
 
@@ -58,6 +58,10 @@ public class Init extends BaseInit {
 
   @Option(name = "--install-plugin", usage = "Install given plugin without asking")
   private List<String> installPlugins;
+
+  @Option(name = "--secure-store-lib",
+      usage = "Path to jar providing SecureStore implementation class")
+  private String secureStoreLib;
 
   @Inject
   Browser browser;
@@ -104,7 +108,8 @@ public class Init extends BaseInit {
       protected void configure() {
         bind(File.class).annotatedWith(SitePath.class).toInstance(getSitePath());
         bind(Browser.class);
-        bind(SecureStore.class).toProvider(SecureStoreProvider.class);
+        bind(String.class).annotatedWith(SecureStoreClassName.class)
+            .toProvider(Providers.of(getConfiguredSecureStoreClass()));
       }
     });
     modules.add(new GerritServerConfigModule());
@@ -130,6 +135,11 @@ public class Init extends BaseInit {
   @Override
   protected boolean skipPlugins() {
     return skipPlugins;
+  }
+
+  @Override
+  protected String getSecureStoreLib() {
+    return secureStoreLib;
   }
 
   void start(SiteRun run) throws Exception {

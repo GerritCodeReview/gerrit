@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "106cff13_764e30fc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 43
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-09T08:51:08Z",
+      "side": 1,
+      "message": "Explain what this means?\n\nWhat I\u0027ve gathered from reviewing it is that SBS2 now includes \"edit\" in the list of patch sets at the top, and is capable of diffing an edit against other patch sets. It does not yet make the edit editable ;)",
+      "revId": "0bc76c273977d7364d2a9b4cc67a03aae8cb6125",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "106cff13_1649bcf2",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Dispatcher.java",
+        "patchSetId": 43
+      },
+      "lineNbr": 600,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-09T08:51:08Z",
+      "side": 1,
+      "message": "Can be one line.",
+      "revId": "0bc76c273977d7364d2a9b4cc67a03aae8cb6125",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

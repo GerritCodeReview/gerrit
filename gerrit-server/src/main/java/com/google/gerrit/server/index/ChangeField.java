@@ -140,6 +140,7 @@ public class ChangeField {
         }
       };
 
+
   // Same value as UPDATED, but implementations truncated to minutes.
   @Deprecated
   /** Last update time since January 1, 1970. */
@@ -202,6 +203,7 @@ public class ChangeField {
         }
       };
 
+
   /** List of full file paths modified in the current patch set. */
   public static final FieldDef<ChangeData, Iterable<String>> PATH =
       new FieldDef.Repeatable<ChangeData, String>(
@@ -224,6 +226,16 @@ public class ChangeField {
     }
     return r;
   }
+
+  public static final FieldDef<ChangeData, Iterable<String>> HASHTAG =
+      new FieldDef.Repeatable<ChangeData, String>(
+          "hashtag", FieldType.EXACT, false) {
+        @Override
+        public Iterable<String> get(ChangeData input, FillArgs args)
+            throws OrmException {
+          return input.notes().load().getHashtags();
+        }
+      };
 
   /** Components of each file path modified in the current patch set. */
   public static final FieldDef<ChangeData, Iterable<String>> FILE_PART =

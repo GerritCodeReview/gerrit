@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "106cff13_99da1f30",
+        "filename": "Documentation/dev-eclipse.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-09T16:16:49Z",
+      "side": 1,
+      "message": "Absolutely agreed to name it gerrit_gwt_sdm_debug.launch. Unfortunately this file is exists already for dead dev mode. After removing we we can rename remove \"sdm\" suffix here.",
+      "parentUuid": "106cff13_793bc3b4",
+      "range": {
+        "startLine": 88,
+        "startChar": 60,
+        "endLine": 88,
+        "endChar": 64
+      },
+      "revId": "35873bfd772731ec0d39669ee4d0bc0d3ed9ff63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d065072b_d7af3e7c",
         "filename": "gerrit-gwtdebug/src/main/java/com/google/gerrit/gwtdebug/GerritSDMLauncher.java",
         "patchSetId": 12
@@ -36,6 +60,24 @@
       "writtenOn": "2014-09-09T16:02:27Z",
       "side": 1,
       "message": "What does it mean to not launch the daemon? So it works against a daemon running in another process? This behavior doesn\u0027t seem to be documented anywhere.",
+      "revId": "35873bfd772731ec0d39669ee4d0bc0d3ed9ff63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "106cff13_f9e7d3f5",
+        "filename": "gerrit-gwtdebug/src/main/java/com/google/gerrit/gwtdebug/GerritSDMLauncher.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-09T16:16:49Z",
+      "side": 1,
+      "message": "We have one process and launch two different from here and need to provide the paramter for two different commands and separate between them. The simplest way i come up with was to use \"--\" separator for it:\n\n  -noprecompile -src ${resource_loc:/gerrit} -workDir \n  ${resource_loc:/gerrit}/buck-out/gen/gerrit-gwtui \n  com.google.gerrit.GerritGwtUI\n  --\n  --console-log --show-stack-trace\n  -d ${resource_loc:/gerrit}/../gerrit_testsite\n\nThe first block is for the codeserver process and the second one for the Gerrit daemon.",
+      "parentUuid": "d065072b_d7af3e7c",
       "revId": "35873bfd772731ec0d39669ee4d0bc0d3ed9ff63",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "d065072b_77710a5c",
+        "filename": "gerrit-gwtdebug/src/main/java/com/google/gerrit/gwtdebug/GerritSDMLauncher.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-09T16:16:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "106cff13_b9543be0",
+      "revId": "35873bfd772731ec0d39669ee4d0bc0d3ed9ff63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "106cff13_5940871d",
         "filename": "gerrit-gwtdebug/src/main/java/com/google/gerrit/gwtdebug/GerritSDMLauncher.java",
         "patchSetId": 12
@@ -70,6 +130,30 @@
       "writtenOn": "2014-09-09T16:02:27Z",
       "side": 1,
       "message": "Nit: \"Failed\"",
+      "range": {
+        "startLine": 60,
+        "startChar": 17,
+        "endLine": 60,
+        "endChar": 21
+      },
+      "revId": "35873bfd772731ec0d39669ee4d0bc0d3ed9ff63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_57768e55",
+        "filename": "gerrit-gwtdebug/src/main/java/com/google/gerrit/gwtdebug/GerritSDMLauncher.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-09T16:16:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "106cff13_5940871d",
       "range": {
         "startLine": 60,
         "startChar": 17,

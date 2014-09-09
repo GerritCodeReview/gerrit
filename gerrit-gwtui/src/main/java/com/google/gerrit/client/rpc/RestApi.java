@@ -325,6 +325,11 @@ public class RestApi {
     send(DELETE, cb);
   }
 
+  public <T extends JavaScriptObject> void delete(JavaScriptObject content,
+      AsyncCallback<T> cb) {
+    sendJSON(DELETE, content, cb);
+  }
+
   private <T extends JavaScriptObject> void send(
       Method method, AsyncCallback<T> cb) {
     HttpCallback<T> httpCallback = new HttpCallback<>(background, cb);

@@ -23,8 +23,6 @@ import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.securestore.SecureStore;
-import com.google.gerrit.server.securestore.SecureStoreProvider;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
@@ -123,6 +121,5 @@ class CopyConfigModule extends AbstractModule {
 
   @Override
   protected void configure() {
-    bind(SecureStore.class).toProvider(SecureStoreProvider.class);
   }
 }

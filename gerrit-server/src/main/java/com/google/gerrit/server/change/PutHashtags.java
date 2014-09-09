@@ -55,6 +55,9 @@ public class PutHashtags implements RestModifyView<ChangeResource, Input> {
     }
 
     ChangeControl control = req.getControl();
+    //if (visible || control.canEditHashtags()) {
+
+    //}
     ChangeUpdate update = updateFactory.create(control);
     ChangeNotes notes = control.getNotes().load();
     Set<String> oldHashtags = notes.getHashtags();

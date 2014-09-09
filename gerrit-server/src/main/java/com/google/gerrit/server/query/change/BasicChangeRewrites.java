@@ -59,7 +59,7 @@ public class BasicChangeRewrites extends QueryRewriter<ChangeData> {
   @Rewrite("-status:merged")
   public Predicate<ChangeData> r00_notMerged() {
     return or(ChangeStatusPredicate.open(),
-        new ChangeStatusPredicate(Change.Status.ABANDONED));
+        ChangeStatusPredicate.forStatus(Change.Status.ABANDONED));
   }
 
   @SuppressWarnings("unchecked")
@@ -67,7 +67,7 @@ public class BasicChangeRewrites extends QueryRewriter<ChangeData> {
   @Rewrite("-status:abandoned")
   public Predicate<ChangeData> r00_notAbandoned() {
     return or(ChangeStatusPredicate.open(),
-        new ChangeStatusPredicate(Change.Status.MERGED));
+        ChangeStatusPredicate.forStatus(Change.Status.MERGED));
   }
 
   @NoCostComputation

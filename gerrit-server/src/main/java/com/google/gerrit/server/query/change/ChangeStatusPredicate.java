@@ -37,13 +37,27 @@ import java.util.TreeMap;
  * Status names are looked up by prefix case-insensitively.
  */
 public final class ChangeStatusPredicate extends IndexPredicate<ChangeData> {
-  private static final TreeMap<String, Change.Status> VALUES;
+  private static final TreeMap<String, Predicate<ChangeData>> PREDICATES;
+  private static final Predicate<ChangeData> CLOSED;
+  private static final Predicate<ChangeData> OPEN;
 
   static {
-    VALUES = new TreeMap<>();
+    PREDICATES = new TreeMap<>();
+    List<Predicate<ChangeData>> open = new ArrayList<>();
+    List<Predicate<ChangeData>> closed = new ArrayList<>();
+
     for (Change.Status s : Change.Status.values()) {
-      VALUES.put(canonicalize(s), s);
+      ChangeStatusPredicate p = new ChangeStatusPredicate(s);
+      PREDICATES.put(canonicalize(s), p);
+      (s.isOpen() ? open : closed).add(p);
     }
+
+    CLOSED = Predicate.or(closed);
+    OPEN = Predicate.or(open);
+
+    PREDICATES.put("closed", CLOSED);
+    PREDICATES.put("open", OPEN);
+    PREDICATES.put("pending", OPEN);
   }
 
   public static String canonicalize(Change.Status status) {
@@ -51,46 +65,35 @@ public final class ChangeStatusPredicate extends IndexPredicate<ChangeData> {
   }
 
   public static Predicate<ChangeData> parse(String value) {
-    if ("open".equalsIgnoreCase(value) || "pending".equalsIgnoreCase(value)) {
-      return open();
-    } else if ("closed".equalsIgnoreCase(value)) {
-      return closed();
-    }
     String lower = value.toLowerCase();
-    NavigableMap<String, Change.Status> head = VALUES.tailMap(lower, true);
+    NavigableMap<String, Predicate<ChangeData>> head =
+        PREDICATES.tailMap(lower, true);
     if (!head.isEmpty()) {
       // Assume no statuses share a common prefix so we can only walk one entry.
-      Map.Entry<String, Change.Status> e = head.entrySet().iterator().next();
+      Map.Entry<String, Predicate<ChangeData>> e =
+          head.entrySet().iterator().next();
       if (e.getKey().startsWith(lower)) {
-        return new ChangeStatusPredicate(e.getValue());
+        return e.getValue();
       }
     }
     throw new IllegalArgumentException("invalid change status: " + value);
   }
 
+  public static Predicate<ChangeData> forStatus(Change.Status status) {
+    return parse(status.name());
+  }
+
   public static Predicate<ChangeData> open() {
-    List<Predicate<ChangeData>> r = new ArrayList<>(4);
-    for (final Change.Status e : Change.Status.values()) {
-      if (e.isOpen()) {
-        r.add(new ChangeStatusPredicate(e));
-      }
-    }
-    return r.size() == 1 ? r.get(0) : or(r);
+    return OPEN;
   }
 
   public static Predicate<ChangeData> closed() {
-    List<Predicate<ChangeData>> r = new ArrayList<>(4);
-    for (final Change.Status e : Change.Status.values()) {
-      if (e.isClosed()) {
-        r.add(new ChangeStatusPredicate(e));
-      }
-    }
-    return r.size() == 1 ? r.get(0) : or(r);
+    return CLOSED;
   }
 
   private final Change.Status status;
 
-  ChangeStatusPredicate(Change.Status status) {
+  private ChangeStatusPredicate(Change.Status status) {
     super(ChangeField.STATUS, canonicalize(status));
     this.status = status;
   }

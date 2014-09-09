@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "d065072b_14f7f46b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-09-09T06:52:20Z",
+      "side": 1,
+      "message": "the difference is \n\n$ javadoc gerrit-server/src/test/java/com/google/gerrit/testutil/ConfigSuite.java\n\nBuilding tree for all the packages and classes...\nGenerating /com/google/gerrit/testutil/ConfigSuite.html...\ngerrit-server/src/test/java/com/google/gerrit/testutil/ConfigSuite.java:79: warning - @RunWith(ConfigSuite.class) is an unknown tag.\ngerrit-server/src/test/java/com/google/gerrit/testutil/ConfigSuite.java:79: warning - @ConfigSuite.Parameter is an unknown tag.\ngerrit-server/src/test/java/com/google/gerrit/testutil/ConfigSuite.java:79: warning - @ConfigSuite.Config is an unknown tag.\ngerrit-server/src/test/java/com/google/gerrit/testutil/ConfigSuite.java:79: warning - @ConfigSuite.Config is an unknown tag.\ngerrit-server/src/test/java/com/google/gerrit/testutil/ConfigSuite.java:79: warning - @Test is an unknown tag.\n\nThe interesting thing is without this fix the rendered html in eclipse will be \n\n \n...\n@RunWith(ConfigSuite.class)\n * public\n     abstract class MyAbstractTest {\n...\n \nPlease pay attention to the asterisk \u0027*\u0027 before \u0027public\u0027\n\nThis commit fix all of them.",
+      "parentUuid": "50b4b7af_c887af54",
+      "revId": "0a31be6e3032c04d93ec3defbd05ea1ac66f1be7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "50b4b7af_087e2785",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/testutil/ConfigSuite.java",
         "patchSetId": 3
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "106cff13_36c9583c",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/testutil/ConfigSuite.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-09-09T06:52:20Z",
+      "side": 1,
+      "message": "monospace is not the intention of adding \u003ccode\u003e ...  \u003c/code\u003e .\nthe intention here is to fix the bothersome asterisk \"*\" before public in rendered HTML in eclipse javadoc  window  and align the code line with tags  and next line.  \n\n\nin next patch-set replace  \u003ccode\u003e  ... \u003c/code\u003e   by {@literal} for easy   understand  as \"{@code  text} equivalent to \u003ccode\u003e{@literal}\u003c/code\u003e.\"  [1] \n\n\n[1]http://docs.oracle.com/javase/1.5.0/docs/tooldocs/windows/javadoc.html",
+      "parentUuid": "50b4b7af_087e2785",
+      "revId": "0a31be6e3032c04d93ec3defbd05ea1ac66f1be7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "50b4b7af_2883eb4b",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/testutil/ConfigSuite.java",
         "patchSetId": 3
@@ -47,6 +83,24 @@
       "writtenOn": "2014-09-05T18:09:27Z",
       "side": 1,
       "message": "Um, ok, if you really think the indentation was making it harder to read, I guess...",
+      "revId": "0a31be6e3032c04d93ec3defbd05ea1ac66f1be7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_74fc684c",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/testutil/ConfigSuite.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-09-09T06:52:20Z",
+      "side": 1,
+      "message": "it is done by GoogleFormat.xml.  keep is in no touch in next patch-set",
+      "parentUuid": "50b4b7af_2883eb4b",
       "revId": "0a31be6e3032c04d93ec3defbd05ea1ac66f1be7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

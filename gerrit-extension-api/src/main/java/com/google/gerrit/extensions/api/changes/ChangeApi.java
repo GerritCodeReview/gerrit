@@ -77,6 +77,7 @@ public interface ChangeApi {
 
   void addReviewer(AddReviewerInput in) throws RestApiException;
   void addReviewer(String in) throws RestApiException;
+  void addHashTag(AddHashTagInput in) throws RestApiException;
 
   ChangeInfo get(EnumSet<ListChangesOption> options) throws RestApiException;
 
@@ -173,6 +174,12 @@ public interface ChangeApi {
     @Override
     public ChangeInfo info() throws RestApiException {
       throw new NotImplementedException();
+    }
+
+    @Override
+    public void addHashTag(AddHashTagInput in) throws RestApiException {
+      // TODO Auto-generated method stub
+
     }
   }
 }

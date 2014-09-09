@@ -142,7 +142,6 @@ public class JarScanner implements PluginContentScanner {
     String name = superClass.replace('.', '/');
 
     List<String> classes = new ArrayList<>();
-    List<String> abstracts = new ArrayList<>();
     Enumeration<JarEntry> e = jarFile.entries();
     while (e.hasMoreElements()) {
       JarEntry entry = e.nextElement();
@@ -163,19 +162,14 @@ public class JarScanner implements PluginContentScanner {
       }
 
       if (name.equals(def.superName)) {
+        classes.addAll(findChildrenOf(def.className));
         if (def.isConcrete()) {
           classes.add(def.className);
-        } else {
-          abstracts.add(def.className);
         }
       }
     }
-    List<String> result = new ArrayList<>(classes);
-    for (String child : Iterables.concat(classes, abstracts)) {
-      result.addAll(findChildrenOf(child));
-    }
 
-    return result;
+    return classes;
   }
 
   private static boolean skip(JarEntry entry) {

@@ -225,6 +225,17 @@ public class ChangeField {
     return r;
   }
 
+  /** Hashtags tied to a change */
+  public static final FieldDef<ChangeData, Iterable<String>> HASHTAG =
+      new FieldDef.Repeatable<ChangeData, String>(
+          "hashtag", FieldType.EXACT, false) {
+        @Override
+        public Iterable<String> get(ChangeData input, FillArgs args)
+            throws OrmException {
+          return input.notes().load().getHashtags();
+        }
+      };
+
   /** Components of each file path modified in the current patch set. */
   public static final FieldDef<ChangeData, Iterable<String>> FILE_PART =
       new FieldDef.Repeatable<ChangeData, String>(

@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "106cff13_96aaec05",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeNotesTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-09T10:35:47Z",
+      "side": 1,
+      "message": "Is this part relevant for the test?",
+      "range": {
+        "startLine": 355,
+        "startChar": 20,
+        "endLine": 357,
+        "endChar": 27
+      },
+      "revId": "61b458f2ef819902f31892881ad40e593e79a169",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "106cff13_d6b4646a",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeNotesTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 358,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-09T10:35:47Z",
+      "side": 1,
+      "message": "maybe it is cleaner to just check the presence of this part at the end of the commit message?",
+      "revId": "61b458f2ef819902f31892881ad40e593e79a169",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_f482387a",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/ChangeNotesTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 366,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-09T10:35:47Z",
+      "side": 1,
+      "message": "if the previous test was named \"hashtagCommig\" then this one could be named \"hashtagChangeNotes\" ?",
+      "range": {
+        "startLine": 366,
+        "startChar": 14,
+        "endLine": 366,
+        "endChar": 21
+      },
+      "revId": "61b458f2ef819902f31892881ad40e593e79a169",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

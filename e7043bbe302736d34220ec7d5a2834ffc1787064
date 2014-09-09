@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "106cff13_769630cb",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/FileTable.java",
+        "patchSetId": 48
+      },
+      "lineNbr": 502,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-09T11:13:47Z",
+      "side": 1,
+      "message": "When trying this out I was surprised that clicking the path name still takes me to SBS2. I expected it to pop up an edit dialog (i.e. be the same as the edit button).\n\nSimilarly I think for paths which aren\u0027t editable (commit message, deleted files, etc.), clicking on the path simply shouldn\u0027t be an option while in edit mode.",
+      "revId": "e7043bbe302736d34220ec7d5a2834ffc1787064",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

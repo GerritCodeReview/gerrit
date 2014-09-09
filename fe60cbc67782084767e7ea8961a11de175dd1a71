@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "106cff13_d6ec649b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 18
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-09-09T08:11:40Z",
+      "side": 1,
+      "message": "Also mention that this is an incompatible change. Plugins that already implement web links must be adapted because a new method is added to the WebLink interface which must be implemented now. I think this is okay, but it should be mentioned here in the commit message. Then the chances are good that we will include this info into the release notes later.",
+      "revId": "fe60cbc67782084767e7ea8961a11de175dd1a71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "106cff13_b6e568b3",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/webui/WebLink.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-09-09T08:11:40Z",
+      "side": 1,
+      "message": "The code examples for web links in the plugin documentation must be adapted. An implementation for this new method must be added, otherwise the example code would not compile anymore.",
+      "range": {
+        "startLine": 31,
+        "startChar": 2,
+        "endLine": 31,
+        "endChar": 23
+      },
+      "revId": "fe60cbc67782084767e7ea8961a11de175dd1a71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

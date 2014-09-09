@@ -43,26 +43,26 @@ import java.util.List;
  * tests is created with the {@link Parameter} field set to the config.
  *
  * <pre>
- * @RunWith(ConfigSuite.class)
+ * {@literal @}RunWith(ConfigSuite.class)
  * public abstract class MyAbstractTest {
- *   @ConfigSuite.Parameter
+ *   {@literal @}ConfigSuite.Parameter
  *   protected Config cfg;
  *
- *   @ConfigSuite.Config
+ *   {@literal @}ConfigSuite.Config
  *   public static Config firstConfig() {
  *     Config cfg = new Config();
  *     cfg.setString("gerrit", null, "testValue", "a");
  *   }
  * }
  *
- * public class MyTest {
- *   @ConfigSuite.Config
+ * public class MyTest extends MyAbstractTest {
+ *   {@literal @}ConfigSuite.Config
  *   public static Config secondConfig() {
  *     Config cfg = new Config();
  *     cfg.setString("gerrit", null, "testValue", "b");
  *   }
  *
- *   @Test
+ *   {@literal @}Test
  *   public void myTest() {
  *     // Test using cfg.
  *   }

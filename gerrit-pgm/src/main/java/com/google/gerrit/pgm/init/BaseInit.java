@@ -18,8 +18,10 @@ import static com.google.gerrit.server.schema.DataSourceProvider.Context.SINGLE_
 import static com.google.inject.Stage.PRODUCTION;
 
 import com.google.common.base.MoreObjects;
+import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.Die;
+import com.google.gerrit.common.IoUtil;
 import com.google.gerrit.pgm.init.api.ConsoleUI;
 import com.google.gerrit.pgm.init.api.InitFlags;
 import com.google.gerrit.pgm.init.api.InstallPlugins;
@@ -28,8 +30,11 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.plugins.JarScanner;
 import com.google.gerrit.server.schema.SchemaUpdater;
 import com.google.gerrit.server.schema.UpdateUI;
+import com.google.gerrit.server.securestore.SecureStore;
+import com.google.gerrit.server.securestore.SecureStoreProvider;
 import com.google.gwtorm.jdbc.JdbcExecutor;
 import com.google.gwtorm.jdbc.JdbcSchema;
 import com.google.gwtorm.server.OrmException;
@@ -50,6 +55,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -132,6 +138,10 @@ public class BaseInit extends SiteProgram {
     return false;
   }
 
+  protected String getSecureStoreLib() {
+    return null;
+  }
+
   /**
    * Invoked before site init is called.
    *
@@ -210,6 +220,14 @@ public class BaseInit extends SiteProgram {
         bind(new TypeLiteral<List<String>>() {}).annotatedWith(
             InstallPlugins.class).toInstance(plugins);
         bind(PluginsDistribution.class).toInstance(pluginsDistribution);
+
+        SecureStoreInitData secureStoreInitData = discoverSecureStoreClass();
+        if (secureStoreInitData != null) {
+          bind(SecureStoreInitData.class).toInstance(secureStoreInitData);
+          bind(SecureStore.class).toProvider(InitStepSecureStoreProvider.class);
+        } else {
+          bind(SecureStore.class).toProvider(SecureStoreProvider.class);
+        }
       }
     });
 
@@ -238,6 +256,39 @@ public class BaseInit extends SiteProgram {
 
   protected ConsoleUI getConsoleUI() {
     return ConsoleUI.getInstance(false);
+  }
+
+  private SecureStoreInitData discoverSecureStoreClass() {
+    String secureStore = getSecureStoreLib();
+    if (Strings.isNullOrEmpty(secureStore)) {
+      return null;
+    }
+
+    try {
+      File secureStoreLib = new File(secureStore);
+      if (!secureStoreLib.exists()) {
+        throw new InvalidSecureStoreException(String.format(
+            "File %s doesn't exist", secureStore));
+      }
+      JarScanner scanner = new JarScanner(secureStoreLib);
+      List<String> secureStores =
+          scanner.findImplementationsOf(SecureStore.class);
+      if (secureStores.isEmpty()) {
+        throw new InvalidSecureStoreException(String.format(
+            "Cannot find class implementing %s interface in %s",
+            SecureStore.class.getName(), secureStore));
+      }
+      if (secureStores.size() > 1) {
+        throw new InvalidSecureStoreException(String.format(
+            "%s has more that one implementation of %s interface",
+            secureStore, SecureStore.class.getName()));
+      }
+      IoUtil.loadJARs(secureStoreLib);
+      return new SecureStoreInitData(secureStoreLib, secureStores.get(0));
+    } catch (IOException e) {
+      throw new InvalidSecureStoreException(String.format("%s is not a valid jar",
+          secureStore));
+    }
   }
 
   public static class SiteRun {

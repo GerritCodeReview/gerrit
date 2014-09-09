@@ -19,12 +19,15 @@ import static com.google.gerrit.pgm.init.api.InitUtil.die;
 import static com.google.gerrit.pgm.init.api.InitUtil.extract;
 import static com.google.gerrit.pgm.init.api.InitUtil.mkdir;
 import static com.google.gerrit.pgm.init.api.InitUtil.savePublic;
-import static com.google.gerrit.pgm.init.api.InitUtil.saveSecure;
 import static com.google.gerrit.pgm.init.api.InitUtil.version;
 
+import com.google.common.io.Files;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.pgm.init.api.ConsoleUI;
 import com.google.gerrit.pgm.init.api.InitFlags;
 import com.google.gerrit.pgm.init.api.InitStep;
+import com.google.gerrit.pgm.init.api.Section;
+import com.google.gerrit.pgm.init.api.Section.Factory;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.mail.OutgoingEmail;
 import com.google.inject.Binding;
@@ -33,6 +36,7 @@ import com.google.inject.Injector;
 import com.google.inject.TypeLiteral;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,13 +46,19 @@ public class SitePathInitializer {
   private final InitFlags flags;
   private final SitePaths site;
   private final List<InitStep> steps;
+  private final Factory sectionFactory;
+  private final SecureStoreInitData secureStoreInitData;
 
   @Inject
   public SitePathInitializer(final Injector injector, final ConsoleUI ui,
-      final InitFlags flags, final SitePaths site) {
+      final InitFlags flags, final SitePaths site,
+      final Section.Factory sectionFactory,
+      final @Nullable SecureStoreInitData secureStoreInitData) {
     this.ui = ui;
     this.flags = flags;
     this.site = site;
+    this.sectionFactory = sectionFactory;
+    this.secureStoreInitData = secureStoreInitData;
     this.steps = stepsOf(injector);
   }
 
@@ -83,8 +93,8 @@ public class SitePathInitializer {
       step.run();
     }
 
+    saveSecureStore();
     savePublic(flags.cfg);
-    saveSecure(flags.sec);
 
     extract(site.gerrit_sh, getClass(), "gerrit.sh");
     chmod(0755, site.gerrit_sh);
@@ -117,6 +127,15 @@ public class SitePathInitializer {
       }
       injector.injectMembers(step);
       step.postRun();
+    }
+  }
+
+  private void saveSecureStore() throws IOException {
+    if (secureStoreInitData != null) {
+      File dst = new File(site.lib_dir, secureStoreInitData.jarFile.getName());
+      Files.copy(secureStoreInitData.jarFile, dst);
+      Section gerritSection = sectionFactory.get("gerrit", null);
+      gerritSection.set("secureStoreClass", secureStoreInitData.className);
     }
   }
 

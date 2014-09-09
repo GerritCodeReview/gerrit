@@ -55,6 +55,7 @@ class EditMessageBox extends Composite {
     this.revision = revision;
     this.originalMessage = msg.trim();
     initWidget(uiBinder.createAndBindUi(this));
+    message.getElement().setAttribute("wrap", "off");
     message.setText("");
     new TextBoxChangeListener(message) {
       public void onTextChanged(String newText) {

@@ -22,6 +22,7 @@ import com.google.common.base.Function;
 import com.google.common.collect.ComparisonChain;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSetMultimap;
 import com.google.common.collect.Ordering;
 import com.google.common.collect.Table;
@@ -138,6 +139,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
   private ImmutableListMultimap<PatchSet.Id, ChangeMessage> changeMessages;
   private ImmutableListMultimap<PatchSet.Id, PatchLineComment> commentsForBase;
   private ImmutableListMultimap<PatchSet.Id, PatchLineComment> commentsForPS;
+  private ImmutableSet<String> hashtags;
   NoteMap noteMap;
 
   private final AllUsersName allUsers;
@@ -161,6 +163,10 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
 
   public ImmutableSetMultimap<ReviewerState, Account.Id> getReviewers() {
     return reviewers;
+  }
+
+  public ImmutableSet<String> getHashtags() {
+    return hashtags;
   }
 
   /**
@@ -275,6 +281,11 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       commentsForPS = ImmutableListMultimap.copyOf(parser.commentsForPs);
       noteMap = parser.commentNoteMap;
 
+      if (parser.hashtags != null) {
+        hashtags = ImmutableSet.copyOf(parser.hashtags);
+      } else {
+        hashtags = ImmutableSet.of();
+      }
       ImmutableSetMultimap.Builder<ReviewerState, Account.Id> reviewers =
           ImmutableSetMultimap.builder();
       for (Map.Entry<Account.Id, ReviewerState> e

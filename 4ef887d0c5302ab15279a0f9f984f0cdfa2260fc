@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "d065072b_f7d99a2c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-09-09T15:06:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d065072b_1746d63c",
+      "revId": "4ef887d0c5302ab15279a0f9f984f0cdfa2260fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d065072b_773bcab4",
         "filename": "/COMMIT_MSG",
         "patchSetId": 5
@@ -30,6 +48,24 @@
       "writtenOn": "2014-09-09T14:42:40Z",
       "side": 1,
       "message": "this sounds OK it just doesn\u0027t need to be an extension point",
+      "revId": "4ef887d0c5302ab15279a0f9f984f0cdfa2260fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "106cff13_d999379c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-09-09T15:06:51Z",
+      "side": 1,
+      "message": "Will remove @ExcentionPoint from SecureStore in separate patch",
+      "parentUuid": "d065072b_773bcab4",
       "revId": "4ef887d0c5302ab15279a0f9f984f0cdfa2260fc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -59,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "d065072b_f7007ad4",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/util/SecureStoreClassNameProvider.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-09-09T15:06:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d065072b_57404e1d",
+      "range": {
+        "startLine": 38,
+        "startChar": 0,
+        "endLine": 39,
+        "endChar": 26
+      },
+      "revId": "4ef887d0c5302ab15279a0f9f984f0cdfa2260fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "106cff13_f9c3536d",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/util/SecureStoreProvider.java",
         "patchSetId": 5
@@ -70,6 +130,24 @@
       "writtenOn": "2014-09-09T14:42:40Z",
       "side": 1,
       "message": "This will create a new instance every time. Cache the instance in a member variable?",
+      "revId": "4ef887d0c5302ab15279a0f9f984f0cdfa2260fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_37bcb2c5",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/util/SecureStoreProvider.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-09-09T15:06:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "106cff13_f9c3536d",
       "revId": "4ef887d0c5302ab15279a0f9f984f0cdfa2260fc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "106cff13_7945835e",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-09T13:29:51Z",
+      "side": 1,
+      "message": "Any particular reason why you negated it? I think without negation it would be more readable:\n\n  r.is_edit() ? 2 * editParent : 2 * (r._number() - 1) + 1;",
+      "range": {
+        "startLine": 265,
+        "startChar": 17,
+        "endLine": 265,
+        "endChar": 29
+      },
+      "revId": "ea9c3106268579fb143eac45bd9b6af8bfe5315f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

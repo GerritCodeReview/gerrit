@@ -188,11 +188,15 @@ public class ChangeScreen2 extends Screen {
   private DownloadAction downloadAction;
   private EditFileAction editFileAction;
 
-  public ChangeScreen2(Change.Id changeId, String base, String revision, boolean openReplyBox) {
+  public ChangeScreen2(Change.Id changeId, String base, String revision,
+      boolean openReplyBox, boolean continueEditMode) {
     this.changeId = changeId;
     this.base = normalize(base);
     this.revision = normalize(revision);
     this.openReplyBox = openReplyBox;
+    if (continueEditMode) {
+      this.fileTableMode = FileTable.Mode.EDIT;
+    }
     add(uiBinder.createAndBindUi(this));
   }
 
@@ -413,6 +417,7 @@ public class ChangeScreen2 extends Screen {
   private void initEditMode(ChangeInfo info) {
     if (Gerrit.isSignedIn() && info.status() == Status.NEW) {
       editMode.setVisible(fileTableMode == FileTable.Mode.REVIEW);
+      addFile.setVisible(!editMode.isVisible());
       reviewMode.setVisible(!editMode.isVisible());
     }
     RevisionInfo rev = info.revision(revision);

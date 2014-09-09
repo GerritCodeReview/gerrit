@@ -270,6 +270,7 @@ public class ChangeJson {
     out.project = in.getProject().get();
     out.branch = in.getDest().getShortName();
     out.topic = in.getTopic();
+    out.hashtags = ctl.getNotes().load().getHashtags();
     out.changeId = in.getKey().get();
     out.mergeable = isMergeable(in);
     ChangedLines changedLines = cd.changedLines();
@@ -927,6 +928,7 @@ public class ChangeJson {
     public String project;
     public String branch;
     public String topic;
+    public Collection<String> hashtags;
     public String changeId;
     public String subject;
     public Change.Status status;

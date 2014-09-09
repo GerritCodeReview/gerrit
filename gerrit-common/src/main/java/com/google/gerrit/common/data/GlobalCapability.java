@@ -70,6 +70,9 @@ public class GlobalCapability {
   /** Maximum result limit per executed query. */
   public static final String QUERY_LIMIT = "queryLimit";
 
+  /** Default result limit per executed query. */
+  public static final int DEFAULT_MAX_QUERY_LIMIT = 500;
+
   /** Ability to impersonate another user. */
   public static final String RUN_AS = "runAs";
 
@@ -145,7 +148,7 @@ public class GlobalCapability {
       return new PermissionRange.WithDefaults(
           varName,
           0, Integer.MAX_VALUE,
-          0, 500);
+          0, DEFAULT_MAX_QUERY_LIMIT);
     }
     return null;
   }

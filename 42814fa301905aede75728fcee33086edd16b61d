@@ -1,0 +1,176 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "106cff13_f6936003",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-09T09:35:44Z",
+      "side": 1,
+      "message": "This makes it possible to push a commit for review even when it is already merged into another branch.",
+      "range": {
+        "startLine": 11,
+        "startChar": 8,
+        "endLine": 12,
+        "endChar": 41
+      },
+      "revId": "42814fa301905aede75728fcee33086edd16b61d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "106cff13_d690e4f9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-09T09:35:44Z",
+      "side": 1,
+      "message": "It also needs to be documented how to push the merge commits in this case. \nAlso, what happens when the autoBase is true and the %base is used?",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 38
+      },
+      "revId": "42814fa301905aede75728fcee33086edd16b61d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "106cff13_367f98ec",
+        "filename": "Documentation/project-configuration.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-09T09:35:44Z",
+      "side": 1,
+      "message": "relation to the %base option needs to be documented and also how to push a merge in the case of autoBase \u003d true",
+      "revId": "42814fa301905aede75728fcee33086edd16b61d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_f41eb8c3",
+        "filename": "Documentation/project-configuration.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-09T09:35:44Z",
+      "side": 1,
+      "message": "This needs to be improved as it is not intended for the Gerrit developers but for Gerrit users.... and I guess most of them don\u0027t know about the base and revWalk. Can you describe this in terms of the \"no new changes\" error?",
+      "range": {
+        "startLine": 155,
+        "startChar": 0,
+        "endLine": 157,
+        "endChar": 25
+      },
+      "revId": "42814fa301905aede75728fcee33086edd16b61d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "106cff13_b689e8d9",
+        "filename": "Documentation/project-configuration.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-09T09:35:44Z",
+      "side": 1,
+      "message": "It is also useful for any other case where a commit is already merged into a branch and you want to create a new open change on that commit on another branch.",
+      "range": {
+        "startLine": 159,
+        "startChar": 0,
+        "endLine": 160,
+        "endChar": 58
+      },
+      "revId": "42814fa301905aede75728fcee33086edd16b61d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_74c468db",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/AdminConstants.properties",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-09T09:35:44Z",
+      "side": 1,
+      "message": "Not ideal message as it describes the implementation but not the end effect for the Gerrit user",
+      "revId": "42814fa301905aede75728fcee33086edd16b61d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "106cff13_562cd41c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1468,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-09T09:35:44Z",
+      "side": 1,
+      "message": "this part of the comment is confusing to me. What the \"its not explicitly set\" refers to? I guess it refers to the magicBranch.base.\n\nI would remove this part of the comment.",
+      "range": {
+        "startLine": 1468,
+        "startChar": 59,
+        "endLine": 1468,
+        "endChar": 85
+      },
+      "revId": "42814fa301905aede75728fcee33086edd16b61d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "106cff13_7627503c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1471,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-09T09:35:44Z",
+      "side": 1,
+      "message": "nit: these 3 lines can be joined in one and still fit within the 80 characters limit",
+      "range": {
+        "startLine": 1469,
+        "startChar": 0,
+        "endLine": 1471,
+        "endChar": 40
+      },
+      "revId": "42814fa301905aede75728fcee33086edd16b61d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

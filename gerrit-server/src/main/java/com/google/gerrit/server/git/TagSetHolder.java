@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.git;
 
+import com.google.common.base.Predicate;
+import com.google.common.collect.FluentIterable;
 import com.google.gerrit.reviewdb.client.Project;
 
 import org.eclipse.jgit.lib.Ref;
@@ -43,6 +45,13 @@ class TagSetHolder {
   }
 
   TagMatcher matcher(TagCache cache, Repository db, Collection<Ref> include) {
+    include = FluentIterable.from(include).filter(new Predicate<Ref>() {
+      @Override
+      public boolean apply(Ref ref) {
+        return !TagSet.skip(ref);
+      }
+    }).toList();
+
     TagSet tags = this.tags;
     if (tags == null) {
       tags = build(cache, db);

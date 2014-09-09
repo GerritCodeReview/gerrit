@@ -22,6 +22,7 @@ import com.google.common.base.Optional;
 import com.google.common.base.Predicates;
 import com.google.common.base.Strings;
 import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
@@ -43,9 +44,11 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.annotation.Annotation;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Enumeration;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.jar.Attributes;
@@ -65,6 +68,14 @@ public class JarScanner implements PluginContentScanner {
         }
       };
 
+  private interface JarInspector {
+    void inspect(ClassData data);
+
+    void handleIOException(IOException err) throws InvalidPluginException;
+
+    void handleRuntimeException(JarEntry entry, RuntimeException err);
+  }
+
   private final JarFile jarFile;
 
   public JarScanner(File srcFile) throws InvalidPluginException {
@@ -77,10 +88,10 @@ public class JarScanner implements PluginContentScanner {
 
   @Override
   public Map<Class<? extends Annotation>, Iterable<ExtensionMetaData>> scan(
-      String pluginName, Iterable<Class<? extends Annotation>> annotations)
+      final String pluginName, Iterable<Class<? extends Annotation>> annotations)
       throws InvalidPluginException {
     Set<String> descriptors = Sets.newHashSet();
-    Multimap<String, JarScanner.ClassData> rawMap = ArrayListMultimap.create();
+    final Multimap<String, JarScanner.ClassData> rawMap = ArrayListMultimap.create();
     Map<Class<? extends Annotation>, String> classObjToClassDescr =
         Maps.newHashMap();
 
@@ -90,35 +101,32 @@ public class JarScanner implements PluginContentScanner {
       classObjToClassDescr.put(annotation, descriptor);
     }
 
-    Enumeration<JarEntry> e = jarFile.entries();
-    while (e.hasMoreElements()) {
-      JarEntry entry = e.nextElement();
-      if (skip(entry)) {
-        continue;
+    inspectJar(descriptors, new JarInspector() {
+      @Override
+      public void inspect(ClassData def) {
+        if (def.isConcrete()) {
+          if (!Strings.isNullOrEmpty(def.annotationName)) {
+            rawMap.put(def.annotationName, def);
+          }
+        } else {
+          PluginLoader.log.warn(String.format(
+              "Plugin %s tries to @%s(\"%s\") abstract class %s", pluginName,
+              def.annotationName, def.annotationValue, def.className));
+        }
+      }
+      @Override
+      public void handleIOException(IOException err)
+          throws InvalidPluginException {
+        throw new InvalidPluginException("Cannot auto-register", err);
       }
 
-      ClassData def = new ClassData(descriptors);
-      try {
-        new ClassReader(read(jarFile, entry)).accept(def, SKIP_ALL);
-      } catch (IOException err) {
-        throw new InvalidPluginException("Cannot auto-register", err);
-      } catch (RuntimeException err) {
+      @Override
+      public void handleRuntimeException(JarEntry entry, RuntimeException err) {
         PluginLoader.log.warn(String.format(
             "Plugin %s has invaild class file %s inside of %s", pluginName,
             entry.getName(), jarFile.getName()), err);
-        continue;
       }
-
-      if (def.isConcrete()) {
-        if (!Strings.isNullOrEmpty(def.annotationName)) {
-          rawMap.put(def.annotationName, def);
-        }
-      } else {
-        PluginLoader.log.warn(String.format(
-            "Plugin %s tries to @%s(\"%s\") abstract class %s", pluginName,
-            def.annotationName, def.annotationValue, def.className));
-      }
-    }
+    });
 
     ImmutableMap.Builder<Class<? extends Annotation>, Iterable<ExtensionMetaData>> result =
         ImmutableMap.builder();
@@ -134,6 +142,61 @@ public class JarScanner implements PluginContentScanner {
     }
 
     return result.build();
+  }
+
+  public List<String> findImplementationsOf(final Class<?> requestedInterface)
+      throws InvalidPluginException {
+    Set<String> descriptors = Collections.emptySet();
+    final ImmutableList.Builder<String> result = ImmutableList.builder();
+    final String name = requestedInterface.getName().replace('.', '/');
+
+    inspectJar(descriptors, new JarInspector() {
+      @Override
+      public void inspect(ClassData data) {
+        if (data.interfaces != null
+            && Iterables.contains(Arrays.asList(data.interfaces),
+                name)) {
+          result.add(data.className);
+        }
+      }
+
+      @Override
+      public void handleIOException(IOException err)
+          throws InvalidPluginException {
+        throw new RuntimeException("Cannot inspect jar file", err);
+      }
+
+      @Override
+      public void handleRuntimeException(JarEntry entry, RuntimeException err) {
+        PluginLoader.log.warn(String.format(
+            "Jar %s has invaild class file %s inside of %s", jarFile.getName(),
+            entry.getName(), jarFile.getName()), err);
+      }
+    });
+    return result.build();
+  }
+
+  private void inspectJar(Set<String> descriptors, JarInspector inspector)
+      throws InvalidPluginException {
+    Enumeration<JarEntry> e = jarFile.entries();
+    while (e.hasMoreElements()) {
+      JarEntry entry = e.nextElement();
+      if (skip(entry)) {
+        continue;
+      }
+
+      ClassData def = new ClassData(descriptors);
+      try {
+        new ClassReader(read(jarFile, entry)).accept(def, SKIP_ALL);
+      } catch (IOException err) {
+        inspector.handleIOException(err);
+      } catch (RuntimeException err) {
+        inspector.handleRuntimeException(entry, err);
+        continue;
+      }
+
+      inspector.inspect(def);
+    }
   }
 
   private static boolean skip(JarEntry entry) {
@@ -164,6 +227,7 @@ public class JarScanner implements PluginContentScanner {
   public static class ClassData extends ClassVisitor {
     int access;
     String className;
+    String[] interfaces;
     String annotationName;
     String annotationValue;
     Iterable<String> exports;
@@ -183,6 +247,7 @@ public class JarScanner implements PluginContentScanner {
         String superName, String[] interfaces) {
       this.className = Type.getObjectType(name).getClassName();
       this.access = access;
+      this.interfaces = interfaces;
     }
 
     @Override

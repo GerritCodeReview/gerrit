@@ -59,6 +59,9 @@ public class Init extends BaseInit {
   @Option(name = "--install-plugin", usage = "Install given plugin without asking")
   private List<String> installPlugins;
 
+  @Option(name = "--secure-store-lib", usage = "Path to jar providing SecureStore implementation class")
+  private String secureSotreLib;
+
   @Inject
   Browser browser;
 
@@ -130,6 +133,11 @@ public class Init extends BaseInit {
   @Override
   protected boolean skipPlugins() {
     return skipPlugins;
+  }
+
+  @Override
+  protected String getSecureStoreLib() {
+    return secureSotreLib;
   }
 
   void start(SiteRun run) throws Exception {

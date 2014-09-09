@@ -15,8 +15,51 @@
 package com.google.gerrit.server.securestore;
 
 import java.util.List;
+import java.util.Objects;
 
 public interface SecureStore {
+  public static class EntryKey {
+    private final String name;
+    private final String section;
+    private final String subsection;
+
+    public EntryKey(String section, String subsection, String name) {
+      this.name = name;
+      this.section = section;
+      this.subsection = subsection;
+    }
+
+    public String getName() {
+      return name;
+    }
+
+    public String getSection() {
+      return section;
+    }
+
+    public String getSubsection() {
+      return subsection;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+      if (this == obj) {
+        return true;
+      }
+      if (obj instanceof EntryKey) {
+        EntryKey o = (EntryKey) obj;
+        return Objects.equals(name, o.name)
+            && Objects.equals(section, o.section)
+            && Objects.equals(subsection, o.subsection);
+      }
+      return false;
+    }
+
+    @Override
+    public int hashCode() {
+      return Objects.hash(name, section, subsection);
+    }
+  }
 
   String get(String section, String subsection, String name);
 
@@ -27,4 +70,6 @@ public interface SecureStore {
   void setList(String section, String subsection, String name, List<String> values);
 
   void unset(String section, String subsection, String name);
+
+  Iterable<EntryKey> list();
 }

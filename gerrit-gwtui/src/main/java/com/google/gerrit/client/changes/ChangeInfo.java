@@ -254,27 +254,16 @@ public class ChangeInfo extends JavaScriptObject {
     public final native JsArray<WebLinkInfo> web_links() /*-{ return this.web_links; }-*/;
 
     public static void sortRevisionInfoByNumber(JsArray<RevisionInfo> list) {
-      final int parent_number = findEditParent(list);
+      final int editParent = findEditParent(list);
       Collections.sort(Natives.asList(list), new Comparator<RevisionInfo>() {
         @Override
         public int compare(RevisionInfo a, RevisionInfo b) {
-          int a_number = a._number();
-          int b_number = b._number();
-          if (a_number == 0) {
-            if (b_number == parent_number + 1) {
-              a_number = parent_number;
-            } else {
-              a_number = parent_number + 1;
-            }
-          }
-          if (b_number == 0) {
-            if (a_number == parent_number + 1) {
-              b_number = parent_number;
-            } else {
-              b_number = parent_number + 1;
-            }
-          }
-          return a_number - b_number;
+          return num(a) - num(b);
+        }
+
+        private int num(RevisionInfo r) {
+          int n = r._number();
+          return n != 0 ? 2 * (n - 1) + 1 : 2 * editParent;
         }
       });
     }

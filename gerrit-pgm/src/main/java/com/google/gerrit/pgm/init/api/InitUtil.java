@@ -14,13 +14,11 @@
 
 package com.google.gerrit.pgm.init.api;
 
-import static com.google.gerrit.common.FileUtil.chmod;
 import static com.google.gerrit.common.FileUtil.modified;
 
 import com.google.gerrit.common.Die;
 
 import org.eclipse.jgit.internal.storage.file.LockFile;
-import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.IO;
@@ -50,26 +48,6 @@ public class InitUtil {
   public static void savePublic(final FileBasedConfig sec) throws IOException {
     if (modified(sec)) {
       sec.save();
-    }
-  }
-
-  public static void saveSecure(final FileBasedConfig sec) throws IOException {
-    if (modified(sec)) {
-      final byte[] out = Constants.encode(sec.toText());
-      final File path = sec.getFile();
-      final LockFile lf = new LockFile(path, FS.DETECTED);
-      if (!lf.lock()) {
-        throw new IOException("Cannot lock " + path);
-      }
-      try {
-        chmod(0600, new File(path.getParentFile(), path.getName() + ".lock"));
-        lf.write(out);
-        if (!lf.commit()) {
-          throw new IOException("Cannot commit write to " + path);
-        }
-      } finally {
-        lf.unlock();
-      }
     }
   }
 

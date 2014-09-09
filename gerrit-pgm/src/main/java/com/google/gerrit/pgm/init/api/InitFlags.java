@@ -16,6 +16,7 @@ package com.google.gerrit.pgm.init.api;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.server.securestore.SecureStore;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -39,19 +40,19 @@ public class InitFlags {
   public boolean skipPlugins;
 
   public final FileBasedConfig cfg;
-  public final FileBasedConfig sec;
+  public final SecureStore sec;
   public final List<String> installPlugins;
 
   @VisibleForTesting
   @Inject
   public InitFlags(final SitePaths site,
+      final SecureStore secureStore,
       final @InstallPlugins List<String> installPlugins) throws IOException,
       ConfigInvalidException {
+    sec = secureStore;
     this.installPlugins = installPlugins;
     cfg = new FileBasedConfig(site.gerrit_config, FS.DETECTED);
-    sec = new FileBasedConfig(site.secure_config, FS.DETECTED);
 
     cfg.load();
-    sec.load();
   }
 }

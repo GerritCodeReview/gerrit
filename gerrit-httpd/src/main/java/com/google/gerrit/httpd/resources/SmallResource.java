@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.httpd.plugins;
+package com.google.gerrit.httpd.resources;
 
 import com.google.common.net.HttpHeaders;
 import com.google.gerrit.common.Nullable;
@@ -22,38 +22,38 @@ import java.io.IOException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-final class SmallResource extends Resource {
+public final class SmallResource extends Resource {
   private final byte[] data;
   private String contentType;
   private String characterEncoding;
   private long lastModified;
 
-  SmallResource(byte[] data) {
+  public SmallResource(byte[] data) {
     this.data = data;
   }
 
-  SmallResource setLastModified(long when) {
+  public SmallResource setLastModified(long when) {
     this.lastModified = when;
     return this;
   }
 
-  SmallResource setContentType(String contentType) {
+  public SmallResource setContentType(String contentType) {
     this.contentType = contentType;
     return this;
   }
 
-  SmallResource setCharacterEncoding(@Nullable String enc) {
+  public SmallResource setCharacterEncoding(@Nullable String enc) {
     this.characterEncoding = enc;
     return this;
   }
 
   @Override
-  int weigh() {
+  public int weigh() {
     return contentType.length() * 2 + data.length;
   }
 
   @Override
-  void send(HttpServletRequest req, HttpServletResponse res)
+  public void send(HttpServletRequest req, HttpServletResponse res)
       throws IOException {
     if (0 < lastModified) {
       long ifModifiedSince = req.getDateHeader(HttpHeaders.IF_MODIFIED_SINCE);
@@ -73,7 +73,7 @@ final class SmallResource extends Resource {
   }
 
   @Override
-  boolean isUnchanged(long lastModified) {
+  public boolean isUnchanged(long lastModified) {
     return this.lastModified == lastModified;
   }
 }

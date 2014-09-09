@@ -12,11 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.httpd.plugins;
+package com.google.gerrit.httpd.resources;
 
 import com.google.common.cache.Weigher;
 
-class ResourceWeigher implements Weigher<ResourceKey, Resource> {
+public class ResourceWeigher implements Weigher<ResourceKey, Resource> {
   @Override
   public int weigh(ResourceKey key, Resource value) {
     return key.weigh() + value.weigh();

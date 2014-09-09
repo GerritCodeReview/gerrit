@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.git.validators;
 
+import com.google.common.base.Strings;
 import com.google.gerrit.server.git.CommitMergeStatus;
 import com.google.gerrit.server.validators.ValidationException;
 
@@ -21,9 +22,13 @@ public class MergeValidationException extends ValidationException {
   private static final long serialVersionUID = 1L;
   private final CommitMergeStatus status;
 
-  public MergeValidationException(CommitMergeStatus status) {
-    super(status.toString());
+  public MergeValidationException(CommitMergeStatus status, String reason) {
+    super(status.toString() + (Strings.isNullOrEmpty(reason) ? "" : ": " + reason));
     this.status = status;
+  }
+
+  public MergeValidationException(CommitMergeStatus status) {
+    this(status, "");
   }
 
   public CommitMergeStatus getStatus() {

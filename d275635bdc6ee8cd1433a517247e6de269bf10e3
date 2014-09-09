@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "d065072b_54c96cef",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GetServerConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-09T09:37:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d065072b_34baf05a",
+      "range": {
+        "startLine": 25,
+        "startChar": 69,
+        "endLine": 25,
+        "endChar": 70
+      },
+      "revId": "d275635bdc6ee8cd1433a517247e6de269bf10e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "106cff13_16841cbb",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GetServerConfig.java",
         "patchSetId": 2
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "106cff13_d6690432",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GetServerConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-09T09:37:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "106cff13_16841cbb",
+      "revId": "d275635bdc6ee8cd1433a517247e6de269bf10e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "106cff13_76791003",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GetServerConfig.java",
         "patchSetId": 2
@@ -53,6 +95,24 @@
       "writtenOn": "2014-09-09T09:34:28Z",
       "side": 1,
       "message": "same",
+      "revId": "d275635bdc6ee8cd1433a517247e6de269bf10e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_b4ad6022",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GetServerConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-09T09:37:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "106cff13_76791003",
       "revId": "d275635bdc6ee8cd1433a517247e6de269bf10e3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

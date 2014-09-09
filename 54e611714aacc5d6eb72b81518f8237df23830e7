@@ -16,6 +16,24 @@
       "revId": "54e611714aacc5d6eb72b81518f8237df23830e7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_94f82426",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/FileTable.java",
+        "patchSetId": 46
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-09T09:17:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d065072b_d45e1ca3",
+      "revId": "54e611714aacc5d6eb72b81518f8237df23830e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

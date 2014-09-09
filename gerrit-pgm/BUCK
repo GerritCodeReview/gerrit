@@ -41,6 +41,7 @@ java_library(
   deps = DEPS + [
     ':init-api',
     ':util',
+    '//gerrit-common:annotations',
     '//gerrit-lucene:lucene',
     '//lib:args4j',
     '//lib:gwtjsonrpc',

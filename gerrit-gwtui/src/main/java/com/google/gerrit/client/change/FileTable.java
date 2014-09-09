@@ -577,8 +577,6 @@ class FileTable extends FlowPanel {
     private void render(SafeHtmlBuilder sb, FileInfo info) {
       sb.openTr();
       sb.openTd().setStyleName(R.css().pointer()).closeTd();
-      // TODO(davido): Consider to modify path column in edit mode as well
-      // to navigate to edit dialog instead of to SBS2.
       if (mode == Mode.REVIEW) {
         columnReviewed(sb, info);
       } else {
@@ -586,7 +584,11 @@ class FileTable extends FlowPanel {
         columnDeleteRestore(sb, info);
       }
       columnStatus(sb, info);
-      columnPath(sb, info);
+      if (mode == Mode.REVIEW) {
+        columnPath(sb, info);
+      } else {
+        columnPathEdit(sb, info);
+      }
       columnComments(sb, info);
       columnDelta1(sb, info);
       columnDelta2(sb, info);
@@ -615,6 +617,27 @@ class FileTable extends FlowPanel {
             .append(new ImageResourceRenderer().render(Gerrit.RESOURCES.edit()))
             .closeElement("button");
         }
+      }
+      sb.closeTd();
+    }
+
+    private void columnPathEdit(SafeHtmlBuilder sb, FileInfo info) {
+      sb.openTd().setStyleName(R.css().pathColumn());
+      String path = info.path();
+      if (!Patch.COMMIT_MSG.equals(path)) {
+        sb.openAnchor()
+          .setAttribute("onclick", (isEditable(info) ? EDIT : RESTORE)
+              + "(event," + info._row() + ")");
+        int commonPrefixLen = commonPrefix(path);
+        if (commonPrefixLen > 0) {
+          sb.openSpan().setStyleName(R.css().commonPrefix())
+            .append(path.substring(0, commonPrefixLen))
+            .closeSpan();
+        }
+        sb.append(path.substring(commonPrefixLen));
+        sb.closeAnchor();
+      } else {
+        sb.append(Util.C.commitMessage());
       }
       sb.closeTd();
     }

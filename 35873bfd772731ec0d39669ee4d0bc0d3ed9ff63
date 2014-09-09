@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "106cff13_793bc3b4",
+        "filename": "Documentation/dev-eclipse.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-09T16:02:27Z",
+      "side": 1,
+      "message": "As a user \"sdm\" doesn\u0027t really mean anything to me unless I already know what \"super dev mode\" is. But \"super dev mode\", to be honest, sounds like an implementation detail: it\u0027s the mode du jour of GWT debugging.\n\nI would kind of rather just call this \"gerrit_gwt_dev\" or \"gerrit_gwt_debug\" because it\u0027s just \"the one I need to launch if I want to debug GWT\"",
+      "range": {
+        "startLine": 88,
+        "startChar": 60,
+        "endLine": 88,
+        "endChar": 64
+      },
+      "revId": "35873bfd772731ec0d39669ee4d0bc0d3ed9ff63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_d7af3e7c",
+        "filename": "gerrit-gwtdebug/src/main/java/com/google/gerrit/gwtdebug/GerritSDMLauncher.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-09T16:02:27Z",
+      "side": 1,
+      "message": "What does it mean to not launch the daemon? So it works against a daemon running in another process? This behavior doesn\u0027t seem to be documented anywhere.",
+      "revId": "35873bfd772731ec0d39669ee4d0bc0d3ed9ff63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "106cff13_b9543be0",
+        "filename": "gerrit-gwtdebug/src/main/java/com/google/gerrit/gwtdebug/GerritSDMLauncher.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-09T16:02:27Z",
+      "side": 1,
+      "message": "Nit: Too much indentation",
+      "revId": "35873bfd772731ec0d39669ee4d0bc0d3ed9ff63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "106cff13_5940871d",
+        "filename": "gerrit-gwtdebug/src/main/java/com/google/gerrit/gwtdebug/GerritSDMLauncher.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-09T16:02:27Z",
+      "side": 1,
+      "message": "Nit: \"Failed\"",
+      "range": {
+        "startLine": 60,
+        "startChar": 17,
+        "endLine": 60,
+        "endChar": 21
+      },
+      "revId": "35873bfd772731ec0d39669ee4d0bc0d3ed9ff63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

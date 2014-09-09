@@ -132,6 +132,13 @@ public class ChangeApi {
     return change(id).view("reviewers").id(reviewer);
   }
 
+  public static RestApi hashtags(int changeId) {
+    return change(changeId).view("hashtags");
+  }
+  public static RestApi hashtag(int changeId, String hashtag){
+    return change(changeId).view("hashtags").id(hashtag);
+  }
+
   /** Submit a specific revision of a change. */
   public static void cherrypick(int id, String commit, String destination, String message, AsyncCallback<ChangeInfo> cb) {
     CherryPickInput cherryPickInput = CherryPickInput.create();

@@ -16,6 +16,24 @@
       "revId": "e7043bbe302736d34220ec7d5a2834ffc1787064",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_b75442e0",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/FileTable.java",
+        "patchSetId": 48
+      },
+      "lineNbr": 502,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-09T14:14:36Z",
+      "side": 1,
+      "message": "As discussed in person, some behaviours in file table was intentionally unchanged in \"Edit mode\". While i can see how it may be expected that the path also would navigate the users to edit dialog, it may also be expected to still be used for SBS2. I will add a comment to reconsider this part of UI integration/behaviour later on.",
+      "parentUuid": "106cff13_769630cb",
+      "revId": "e7043bbe302736d34220ec7d5a2834ffc1787064",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

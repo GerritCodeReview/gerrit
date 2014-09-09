@@ -84,7 +84,7 @@ class EditFileBox extends Composite {
         new AsyncCallback<VoidResult>() {
           @Override
           public void onSuccess(VoidResult result) {
-            Gerrit.display(PageLinks.toChange(id.getParentKey()));
+            Gerrit.display(PageLinks.toChangeInEditMode(id.getParentKey()));
             hide();
           }
 

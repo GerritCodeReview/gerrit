@@ -66,6 +66,7 @@ import com.google.gerrit.client.admin.ProjectListScreen;
 import com.google.gerrit.client.admin.ProjectScreen;
 import com.google.gerrit.client.api.ExtensionScreen;
 import com.google.gerrit.client.change.ChangeScreen2;
+import com.google.gerrit.client.change.FileTable;
 import com.google.gerrit.client.changes.AccountDashboardScreen;
 import com.google.gerrit.client.changes.ChangeScreen;
 import com.google.gerrit.client.changes.CustomDashboardScreen;
@@ -535,9 +536,15 @@ public class Dispatcher {
     }
 
     if (rest.isEmpty()) {
-      Gerrit.display(token, panel== null
+      FileTable.Mode mode = FileTable.Mode.REVIEW;
+      if (panel != null
+          && (panel.equals("edit") || panel.startsWith("edit/"))) {
+        mode = FileTable.Mode.EDIT;
+        panel = null;
+      }
+      Gerrit.display(token, panel == null
           ? (isChangeScreen2()
-              ? new ChangeScreen2(id, null, null, false)
+              ? new ChangeScreen2(id, null, null, false, mode)
               : new ChangeScreen(id))
           : new NotFoundScreen());
       return;
@@ -585,7 +592,7 @@ public class Dispatcher {
                 base != null
                     ? String.valueOf(base.get())
                     : null,
-                String.valueOf(ps.get()), false)
+                String.valueOf(ps.get()), false, FileTable.Mode.REVIEW)
             : new ChangeScreen(id));
       } else if ("publish".equals(panel)) {
         publish(ps);

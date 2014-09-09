@@ -21,6 +21,7 @@ import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.JumpKeys;
 import com.google.gerrit.client.account.DiffPreferences;
 import com.google.gerrit.client.change.ChangeScreen2;
+import com.google.gerrit.client.change.FileTable;
 import com.google.gerrit.client.changes.ChangeApi;
 import com.google.gerrit.client.changes.ChangeInfo;
 import com.google.gerrit.client.changes.ChangeInfo.EditInfo;
@@ -819,7 +820,8 @@ public class SideBySide2 extends Screen {
             String rev = revision.getId();
             Gerrit.display(
               PageLinks.toChange(changeId, b, rev),
-              new ChangeScreen2(changeId, b, rev, openReplyBox));
+              new ChangeScreen2(changeId, b, rev, openReplyBox,
+                  FileTable.Mode.REVIEW));
           }
         });
       }

@@ -22,6 +22,30 @@
       "revId": "53d704916248e346205657c86d7eae479cb71245",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d04c27b5_dc35aded",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-09T13:25:29Z",
+      "side": 1,
+      "message": "Used is_edit.\n\nWe don\u0027t always break ternary operators where we don\u0027t have to. By my count we break about 2/3 of them[1], though I haven\u0027t checked what fraction of those we could have not broken.\n\n[1]\n\n $ a \u0027 \\? [^:] :\u0027 | wc -l\n 51\n $ a \u0027^\\s*\\?\u0027 | wc -l\n 119\n\n(where ag is https://github.com/ggreer/the_silver_searcher)",
+      "parentUuid": "d065072b_57832e4a",
+      "range": {
+        "startLine": 266,
+        "startChar": 17,
+        "endLine": 266,
+        "endChar": 23
+      },
+      "revId": "53d704916248e346205657c86d7eae479cb71245",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

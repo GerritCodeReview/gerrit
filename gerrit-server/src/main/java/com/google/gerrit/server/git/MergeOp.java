@@ -532,13 +532,12 @@ public class MergeOp {
       MergeValidators mergeValidators = mergeValidatorsFactory.create();
       try {
         mergeValidators.validatePreMerge(repo, commit, destProject, destBranch, ps.getId());
+        commits.put(changeId, commit);
       } catch (MergeValidationException mve) {
         commits.put(changeId, CodeReviewCommit.error(mve.getStatus()));
         toUpdate.add(chg);
         continue;
       }
-
-      commits.put(changeId, commit);
 
       if (branchTip != null) {
         // If this commit is already merged its a bug in the queuing code

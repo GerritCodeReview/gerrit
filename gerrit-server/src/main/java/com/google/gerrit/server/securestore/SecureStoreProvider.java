@@ -20,41 +20,32 @@ import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Provider;
+import com.google.inject.Singleton;
 
-import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.eclipse.jgit.storage.file.FileBasedConfig;
-import org.eclipse.jgit.util.FS;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.io.IOException;
 
+@Singleton
 public class SecureStoreProvider implements Provider<SecureStore> {
   private static final Logger log = LoggerFactory
       .getLogger(SecureStoreProvider.class);
 
   private final File libdir;
   private final Injector injector;
-  private final String secureStoreClassName;
+  private final Provider<String> secureStoreClassNameProvider;
 
   private SecureStore instance;
 
   @Inject
-  SecureStoreProvider(
+  protected SecureStoreProvider(
       Injector injector,
-      SitePaths sitePaths) {
-    FileBasedConfig cfg =
-        new FileBasedConfig(sitePaths.gerrit_config, FS.DETECTED);
-    try {
-      cfg.load();
-    } catch (IOException | ConfigInvalidException e) {
-      throw new RuntimeException("Cannot read gerrit.config file", e);
-    }
+      SitePaths sitePaths,
+      Provider<String> secureStoreClassNameProvider) {
     this.injector = injector;
     this.libdir = sitePaths.lib_dir;
-    this.secureStoreClassName =
-        cfg.getString("gerrit", null, "secureStoreClass");
+    this.secureStoreClassNameProvider = secureStoreClassNameProvider;
   }
 
   @Override
@@ -67,6 +58,7 @@ public class SecureStoreProvider implements Provider<SecureStore> {
 
   @SuppressWarnings("unchecked")
   private Class<? extends SecureStore> getSecureStoreImpl() {
+    String secureStoreClassName = secureStoreClassNameProvider.get();
     if (Strings.isNullOrEmpty(secureStoreClassName)) {
       return DefaultSecureStore.class;
     }
@@ -77,7 +69,7 @@ public class SecureStoreProvider implements Provider<SecureStore> {
     } catch (ClassNotFoundException e) {
       String msg =
           String.format("Cannot load secure store class: %s",
-              secureStoreClassName);
+              secureStoreClassNameProvider);
       log.error(msg, e);
       throw new RuntimeException(msg, e);
     }

@@ -151,6 +151,7 @@ class CommitBox extends Composite {
     setVisible(parents, true);
     for (CommitInfo c : Natives.asList(commits)) {
       CopyableLabel copyLabel = new CopyableLabel(c.commit());
+      copyLabel.setTitle(c.subject());
       copyLabel.setStyleName(style.clippy());
       parentCommits.add(copyLabel);
 

@@ -43,9 +43,11 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.annotation.Annotation;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Enumeration;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.jar.Attributes;
@@ -67,12 +69,8 @@ public class JarScanner implements PluginContentScanner {
 
   private final JarFile jarFile;
 
-  public JarScanner(File srcFile) throws InvalidPluginException {
-    try {
-      this.jarFile = new JarFile(srcFile);
-    } catch (IOException e) {
-      throw new InvalidPluginException("Cannot scan plugin file " + srcFile, e);
-    }
+  public JarScanner(File srcFile) throws IOException {
+    this.jarFile = new JarFile(srcFile);
   }
 
   @Override
@@ -136,6 +134,37 @@ public class JarScanner implements PluginContentScanner {
     return result.build();
   }
 
+  public List<String> findImplementationsOf(final Class<?> requestedInterface) {
+    List<String> result = Lists.newArrayList();
+    String name = requestedInterface.getName().replace('.', '/');
+
+    Enumeration<JarEntry> e = jarFile.entries();
+    while (e.hasMoreElements()) {
+      JarEntry entry = e.nextElement();
+      if (skip(entry)) {
+        continue;
+      }
+
+      ClassData def = new ClassData(Collections.<String>emptySet());
+      try {
+        new ClassReader(read(jarFile, entry)).accept(def, SKIP_ALL);
+      } catch (IOException err) {
+        throw new RuntimeException("Cannot inspect jar file", err);
+      } catch (RuntimeException err) {
+        PluginLoader.log.warn(String.format("Jar %s has invalid class file %s",
+            jarFile.getName(), entry.getName()), err);
+        continue;
+      }
+
+      if (def.isConcrete() && def.interfaces != null
+          && Iterables.contains(Arrays.asList(def.interfaces), name)) {
+        result.add(def.className);
+      }
+    }
+
+    return result;
+  }
+
   private static boolean skip(JarEntry entry) {
     if (!entry.getName().endsWith(".class")) {
       return true; // Avoid non-class resources.
@@ -166,6 +195,7 @@ public class JarScanner implements PluginContentScanner {
     String className;
     String annotationName;
     String annotationValue;
+    String[] interfaces;
     Iterable<String> exports;
 
     private ClassData(Iterable<String> exports) {
@@ -183,6 +213,7 @@ public class JarScanner implements PluginContentScanner {
         String superName, String[] interfaces) {
       this.className = Type.getObjectType(name).getClassName();
       this.access = access;
+      this.interfaces = interfaces;
     }
 
     @Override

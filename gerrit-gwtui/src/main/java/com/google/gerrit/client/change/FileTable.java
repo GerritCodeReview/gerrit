@@ -63,7 +63,7 @@ import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 
 import java.sql.Timestamp;
 
-class FileTable extends FlowPanel {
+public class FileTable extends FlowPanel {
   static final FileTableResources R = GWT
       .create(FileTableResources.class);
 
@@ -92,7 +92,7 @@ class FileTable extends FlowPanel {
     String removeButton();
   }
 
-  enum Mode {
+  public static enum Mode {
     REVIEW,
     EDIT
   }
@@ -341,7 +341,8 @@ class FileTable extends FlowPanel {
           new AsyncCallback<VoidResult>() {
             @Override
             public void onSuccess(VoidResult result) {
-              Gerrit.display(PageLinks.toChange(curr.getParentKey()));
+              Gerrit.display(PageLinks.toChangeInEditMode(
+                  curr.getParentKey()));
             }
 
             @Override
@@ -356,7 +357,8 @@ class FileTable extends FlowPanel {
           new AsyncCallback<VoidResult>() {
             @Override
             public void onSuccess(VoidResult result) {
-              Gerrit.display(PageLinks.toChange(curr.getParentKey()));
+              Gerrit.display(PageLinks.toChangeInEditMode(
+                  curr.getParentKey()));
             }
 
             @Override

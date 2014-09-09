@@ -50,6 +50,10 @@ public class PageLinks {
     return toChange(c.getId());
   }
 
+  public static String toChangeInEditMode(Change.Id c) {
+    return "/c/" + c + ",edit/";
+  }
+
   public static String toChange(final Change.Id c) {
     return "/c/" + c + "/";
   }

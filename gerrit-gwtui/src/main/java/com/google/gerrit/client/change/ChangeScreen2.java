@@ -136,7 +136,7 @@ public class ChangeScreen2 extends Screen {
   private UpdateAvailableBar updateAvailable;
   private boolean openReplyBox;
   private boolean loaded;
-  private FileTable.Mode fileTableMode = FileTable.Mode.REVIEW;
+  private FileTable.Mode fileTableMode;
 
   @UiField HTMLPanel headerLine;
   @UiField Style style;
@@ -188,11 +188,13 @@ public class ChangeScreen2 extends Screen {
   private DownloadAction downloadAction;
   private EditFileAction editFileAction;
 
-  public ChangeScreen2(Change.Id changeId, String base, String revision, boolean openReplyBox) {
+  public ChangeScreen2(Change.Id changeId, String base, String revision,
+      boolean openReplyBox, FileTable.Mode mode) {
     this.changeId = changeId;
     this.base = normalize(base);
     this.revision = normalize(revision);
     this.openReplyBox = openReplyBox;
+    this.fileTableMode = mode;
     add(uiBinder.createAndBindUi(this));
   }
 
@@ -413,6 +415,7 @@ public class ChangeScreen2 extends Screen {
   private void initEditMode(ChangeInfo info) {
     if (Gerrit.isSignedIn() && info.status() == Status.NEW) {
       editMode.setVisible(fileTableMode == FileTable.Mode.REVIEW);
+      addFile.setVisible(!editMode.isVisible());
       reviewMode.setVisible(!editMode.isVisible());
     }
     RevisionInfo rev = info.revision(revision);

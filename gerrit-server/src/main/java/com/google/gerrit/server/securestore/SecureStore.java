@@ -14,11 +14,8 @@
 
 package com.google.gerrit.server.securestore;
 
-import com.google.gerrit.extensions.annotations.ExtensionPoint;
-
 import java.util.List;
 
-@ExtensionPoint
 public interface SecureStore {
 
   String get(String section, String subsection, String name);

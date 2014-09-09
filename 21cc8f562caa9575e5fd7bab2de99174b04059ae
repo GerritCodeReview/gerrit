@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "d04c27b5_1cb43505",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Dispatcher.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 936,
+      "author": {
+        "id": 1016722
+      },
+      "writtenOn": "2014-09-09T16:06:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d065072b_37eaf2c4",
+      "revId": "21cc8f562caa9575e5fd7bab2de99174b04059ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d065072b_17eff6d4",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectBranchesScreen.java",
         "patchSetId": 6
@@ -30,6 +48,24 @@
       "writtenOn": "2014-09-09T14:23:59Z",
       "side": 1,
       "message": "Indentation looks wrong in the block after this line.",
+      "revId": "21cc8f562caa9575e5fd7bab2de99174b04059ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d04c27b5_7ca9f9ac",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectBranchesScreen.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1016722
+      },
+      "writtenOn": "2014-09-09T16:06:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d065072b_17eff6d4",
       "revId": "21cc8f562caa9575e5fd7bab2de99174b04059ae",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "d04c27b5_5caebdb6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListBranches.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1016722
+      },
+      "writtenOn": "2014-09-09T16:06:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "106cff13_19628fe4",
+      "revId": "21cc8f562caa9575e5fd7bab2de99174b04059ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "106cff13_79574306",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListBranches.java",
         "patchSetId": 6
@@ -64,6 +118,30 @@
       "writtenOn": "2014-09-09T14:23:59Z",
       "side": 1,
       "message": "Use a full name:\n\n name \u003d \"--start\", aliases \u003d {\"-s\"}",
+      "range": {
+        "startLine": 65,
+        "startChar": 9,
+        "endLine": 65,
+        "endChar": 21
+      },
+      "revId": "21cc8f562caa9575e5fd7bab2de99174b04059ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f03f6be6_7d7e1786",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListBranches.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1016722
+      },
+      "writtenOn": "2014-09-09T16:06:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "106cff13_79574306",
       "range": {
         "startLine": 65,
         "startChar": 9,
@@ -99,6 +177,30 @@
     },
     {
       "key": {
+        "uuid": "f03f6be6_bd87ff54",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListBranches.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1016722
+      },
+      "writtenOn": "2014-09-09T16:06:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "106cff13_595c0727",
+      "range": {
+        "startLine": 71,
+        "startChar": 19,
+        "endLine": 71,
+        "endChar": 20
+      },
+      "revId": "21cc8f562caa9575e5fd7bab2de99174b04059ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d065072b_57f96e99",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListBranches.java",
         "patchSetId": 6
@@ -110,6 +212,30 @@
       "writtenOn": "2014-09-09T14:23:59Z",
       "side": 1,
       "message": "--regex, aliased to -r",
+      "range": {
+        "startLine": 77,
+        "startChar": 18,
+        "endLine": 77,
+        "endChar": 20
+      },
+      "revId": "21cc8f562caa9575e5fd7bab2de99174b04059ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d04c27b5_bca261c7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListBranches.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1016722
+      },
+      "writtenOn": "2014-09-09T16:06:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d065072b_57f96e99",
       "range": {
         "startLine": 77,
         "startChar": 18,
@@ -139,6 +265,24 @@
     },
     {
       "key": {
+        "uuid": "f03f6be6_5d835b4a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListBranches.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1016722
+      },
+      "writtenOn": "2014-09-09T16:06:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "106cff13_b970bba7",
+      "revId": "21cc8f562caa9575e5fd7bab2de99174b04059ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d065072b_b7dd622c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListBranches.java",
         "patchSetId": 6
@@ -150,6 +294,24 @@
       "writtenOn": "2014-09-09T14:23:59Z",
       "side": 1,
       "message": "Wrap",
+      "revId": "21cc8f562caa9575e5fd7bab2de99174b04059ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d04c27b5_9c9fa581",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListBranches.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1016722
+      },
+      "writtenOn": "2014-09-09T16:06:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d065072b_b7dd622c",
       "revId": "21cc8f562caa9575e5fd7bab2de99174b04059ae",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -173,6 +335,24 @@
     },
     {
       "key": {
+        "uuid": "d04c27b5_fc9ce98d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListBranches.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1016722
+      },
+      "writtenOn": "2014-09-09T16:06:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d065072b_97dae62f",
+      "revId": "21cc8f562caa9575e5fd7bab2de99174b04059ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "106cff13_996dffd1",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListBranches.java",
         "patchSetId": 6
@@ -184,6 +364,24 @@
       "writtenOn": "2014-09-09T14:23:59Z",
       "side": 1,
       "message": "Wrap",
+      "revId": "21cc8f562caa9575e5fd7bab2de99174b04059ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d04c27b5_dc992d9c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListBranches.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1016722
+      },
+      "writtenOn": "2014-09-09T16:06:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "106cff13_996dffd1",
       "revId": "21cc8f562caa9575e5fd7bab2de99174b04059ae",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

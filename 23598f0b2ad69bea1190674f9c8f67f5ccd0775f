@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d065072b_946f8437",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 43
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-09T09:51:51Z",
+      "side": 1,
+      "message": "Why does adding a new file require two steps? Why can\u0027t it just be loaded automatically once you enter the file name?",
+      "range": {
+        "startLine": 17,
+        "startChar": 30,
+        "endLine": 18,
+        "endChar": 30
+      },
+      "revId": "23598f0b2ad69bea1190674f9c8f67f5ccd0775f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_948664c7",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
+        "patchSetId": 43
+      },
+      "lineNbr": 413,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-09T09:51:51Z",
+      "side": 1,
+      "message": "This seems like it belongs just in the body of initEditMode, as it\u0027s part of that feature.",
+      "revId": "23598f0b2ad69bea1190674f9c8f67f5ccd0775f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_74dd88a3",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/EditFileBox.java",
+        "patchSetId": 43
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-09T09:51:51Z",
+      "side": 1,
+      "message": "This behavior is a little counterintuitive, and seems like you could easily accidentally destroy any changes you made.\n\nSay you change the contents of file from \"file1\" to \"file2\", and click save before clicking reload. You\u0027ll end up writing the contents of file1 to file2, without any indication that this is what\u0027s happening.\n\nThis is a very poor approximation of a typical editor where you \"load\" a file and then \"save\" it. If we want to implement an editor like that, that\u0027s fine, but this is very far from that. And in the meantime we should have something that\u0027s not so dangerous.\n\nI think we should just not have an editable filename field in the edit box, and use a separate UI element for choosing a filename for the \"add\" button.",
+      "range": {
+        "startLine": 91,
+        "startChar": 33,
+        "endLine": 91,
+        "endChar": 47
+      },
+      "revId": "23598f0b2ad69bea1190674f9c8f67f5ccd0775f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "106cff13_9654ac87",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/EditFileBox.ui.xml",
+        "patchSetId": 43
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-09T09:51:51Z",
+      "side": 1,
+      "message": "Wrong title",
+      "revId": "23598f0b2ad69bea1190674f9c8f67f5ccd0775f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_b472801d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/EditFileBox.ui.xml",
+        "patchSetId": 43
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-09T09:51:51Z",
+      "side": 1,
+      "message": "Not really an accurate name",
+      "range": {
+        "startLine": 54,
+        "startChar": 32,
+        "endLine": 54,
+        "endChar": 38
+      },
+      "revId": "23598f0b2ad69bea1190674f9c8f67f5ccd0775f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.notedb;
 
+import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_HASHTAGS;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_LABEL;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_PATCH_SET;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_STATUS;
@@ -29,6 +30,7 @@ import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
+import com.google.common.collect.Sets;
 import com.google.common.collect.Table;
 import com.google.common.collect.Tables;
 import com.google.common.primitives.Ints;
@@ -42,6 +44,7 @@ import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.PatchSetApproval.LabelId;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.util.LabelVote;
+import com.google.gwt.thirdparty.guava.common.base.Splitter;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
@@ -63,6 +66,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 class ChangeNotesParser implements AutoCloseable {
   final Map<Account.Id, ReviewerState> reviewers;
@@ -72,6 +76,7 @@ class ChangeNotesParser implements AutoCloseable {
   final Multimap<PatchSet.Id, PatchLineComment> commentsForBase;
   NoteMap commentNoteMap;
   Change.Status status;
+  Set<String> hashtags;
 
   private final Change.Id changeId;
   private final ObjectId tip;
@@ -143,6 +148,7 @@ class ChangeNotesParser implements AutoCloseable {
     PatchSet.Id psId = parsePatchSetId(commit);
     Account.Id accountId = parseIdent(commit);
     parseChangeMessage(psId, accountId, commit);
+    parseHashtags(commit);
 
 
     if (submitRecords.isEmpty()) {
@@ -160,6 +166,20 @@ class ChangeNotesParser implements AutoCloseable {
         parseReviewer(state, line);
       }
     }
+  }
+
+  private void parseHashtags(RevCommit commit) throws ConfigInvalidException {
+    // Commits are parsed in reverse order and only the last set of hashtags should be used.
+    if (hashtags != null) {
+      return;
+    }
+    List<String> hashtagsLines = commit.getFooterLines(FOOTER_HASHTAGS);
+    if (hashtagsLines.isEmpty()) {
+      return;
+    } else if (hashtagsLines.size() > 1) {
+      throw expectedOneFooter(FOOTER_HASHTAGS, hashtagsLines);
+    }
+    hashtags = Sets.newHashSet(Splitter.on(',').split(hashtagsLines.get(0)));
   }
 
   private Change.Status parseStatus(RevCommit commit)

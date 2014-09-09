@@ -22,6 +22,30 @@
       "revId": "fe02b29ea86b995b6875fd0d5bd7a2e1c918498b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "106cff13_d9ead70c",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1505,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-09-09T12:49:43Z",
+      "side": 1,
+      "message": "The only alternative that I can think of is \u0027site\u0027, but IMO this parameter belongs more to \u0027gerrit\u0027 section, then \u0027site\u0027.\n\nAnother solution would be to add new section, let say \u0027network\u0027 or \u0027auditlog\u0027 (since DNS resolution is only for having nice host name, instead of IP, in auditlog)",
+      "parentUuid": "705d3b5f_1979eb9c",
+      "range": {
+        "startLine": 1505,
+        "startChar": 2,
+        "endLine": 1505,
+        "endChar": 32
+      },
+      "revId": "fe02b29ea86b995b6875fd0d5bd7a2e1c918498b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

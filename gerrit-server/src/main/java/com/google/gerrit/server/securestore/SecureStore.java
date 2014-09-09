@@ -17,6 +17,17 @@ package com.google.gerrit.server.securestore;
 import java.util.List;
 
 public interface SecureStore {
+  public static class EntryKey {
+    public final String name;
+    public final String section;
+    public final String subsection;
+
+    public EntryKey(String section, String subsection, String name) {
+      this.name = name;
+      this.section = section;
+      this.subsection = subsection;
+    }
+  }
 
   String get(String section, String subsection, String name);
 
@@ -27,4 +38,6 @@ public interface SecureStore {
   void setList(String section, String subsection, String name, List<String> values);
 
   void unset(String section, String subsection, String name);
+
+  Iterable<EntryKey> list();
 }

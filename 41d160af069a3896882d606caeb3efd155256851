@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "106cff13_76f470a5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/AbstractChangeNotes.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-09T08:12:45Z",
+      "side": 1,
+      "message": "The reason I made it abstract was to force implementors to consider whether they need to load some defaults. I didn\u0027t know whether DraftCommentNotes needed to set defaults or not until I looked at the code, and I left a specific comment about why not in the empty body of that method.",
+      "parentUuid": "d065072b_b4e3a03c",
+      "range": {
+        "startLine": 73,
+        "startChar": 12,
+        "endLine": 73,
+        "endChar": 20
+      },
+      "revId": "41d160af069a3896882d606caeb3efd155256851",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "106cff13_b6e3a83c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
         "patchSetId": 1
@@ -36,6 +60,24 @@
       "writtenOn": "2014-09-07T22:58:05Z",
       "side": 1,
       "message": "Wrap this line.",
+      "revId": "41d160af069a3896882d606caeb3efd155256851",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_54404c1d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-09T08:12:45Z",
+      "side": 1,
+      "message": "For no particular reason we have the convention in Gerrit where @Inject constructors have one argument per line, and non-@Inject constructors do not (necessarily).\n\nBut this actually illustrates that @Inject is totally wrong to have on this constructor, so I just removed that instead.",
+      "parentUuid": "106cff13_b6e3a83c",
       "revId": "41d160af069a3896882d606caeb3efd155256851",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "106cff13_f6e7e0f5",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/testutil/TestChanges.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-09T08:12:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "106cff13_76dab085",
+      "range": {
+        "startLine": 72,
+        "startChar": 21,
+        "endLine": 72,
+        "endChar": 48
+      },
+      "revId": "41d160af069a3896882d606caeb3efd155256851",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "106cff13_56dfb473",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/testutil/TestChanges.java",
         "patchSetId": 1
@@ -76,6 +142,30 @@
       "writtenOn": "2014-09-07T22:58:05Z",
       "side": 1,
       "message": "After you have fixed the comment above and passed in NotesMigration instance, the ChangeControl stub creation code can be inlined again.",
+      "range": {
+        "startLine": 82,
+        "startChar": 8,
+        "endLine": 82,
+        "endChar": 11
+      },
+      "revId": "41d160af069a3896882d606caeb3efd155256851",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_74f468a5",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/testutil/TestChanges.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-09T08:12:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "106cff13_56dfb473",
       "range": {
         "startLine": 82,
         "startChar": 8,

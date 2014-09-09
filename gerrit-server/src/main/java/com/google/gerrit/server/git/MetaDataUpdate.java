@@ -79,7 +79,26 @@ public class MetaDataUpdate {
    */
     public MetaDataUpdate create(Project.NameKey name, IdentifiedUser user,
         BatchRefUpdate batch) throws RepositoryNotFoundException, IOException {
-      MetaDataUpdate md = factory.create(name, mgr.openRepository(name), batch);
+      return create(name, mgr.openRepository(name), user, batch);
+    }
+
+    /**
+     * Create an update using an existing batch ref update.
+     * <p>
+     * This allows batching together updates to multiple metadata refs. For making
+     * multiple commits to a single metadata ref, see
+     * {@link VersionedMetaData#openUpdate(MetaDataUpdate)}.
+     *
+     * @param name project name.
+     * @param repository GIT respository
+     * @param user user for the update.
+     * @param batch batch update to use; the caller is responsible for committing
+     *     the update.
+     */
+    public MetaDataUpdate create(Project.NameKey name, Repository repository,
+        IdentifiedUser user, BatchRefUpdate batch)
+        throws RepositoryNotFoundException, IOException {
+      MetaDataUpdate md = factory.create(name, repository, batch);
       md.getCommitBuilder().setAuthor(createPersonIdent(user));
       md.getCommitBuilder().setCommitter(serverIdent);
       return md;

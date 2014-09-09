@@ -104,11 +104,12 @@ public class RebuildNotedb extends SiteProgram {
         sysInjector.getInstance(GitRepositoryManager.class);
     final Project.NameKey allUsersName =
         sysInjector.getInstance(AllUsersName.class);
-    final Repository allUsersRepo = repoManager.openRepository(allUsersName);
+    final Repository allUsersRepo =
+        repoManager.openMetadataRepository(allUsersName);
     try {
       deleteDraftRefs(allUsersRepo);
       for (final Project.NameKey project : changesByProject.keySet()) {
-        final Repository repo = repoManager.openRepository(project);
+        final Repository repo = repoManager.openMetadataRepository(project);
         try {
           final BatchRefUpdate bru = repo.getRefDatabase().newBatchUpdate();
           final BatchRefUpdate bruForDrafts =

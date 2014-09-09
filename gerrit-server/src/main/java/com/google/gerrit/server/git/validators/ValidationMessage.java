@@ -1,4 +1,4 @@
-// Copyright (C) 2012 The Android Open Source Project
+// Copyright (C) 2014 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,8 +14,20 @@
 
 package com.google.gerrit.server.git.validators;
 
-public class CommitValidationMessage extends ValidationMessage {
-  public CommitValidationMessage(final String message, final boolean isError) {
-    super(message, isError);
+public class ValidationMessage {
+  private final String message;
+  private final boolean isError;
+
+  public ValidationMessage(final String message, final boolean isError) {
+    this.message = message;
+    this.isError = isError;
+  }
+
+  public String getMessage() {
+    return message;
+  }
+
+  public boolean isError() {
+    return isError;
   }
 }

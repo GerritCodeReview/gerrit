@@ -1,4 +1,4 @@
-// Copyright (C) 2012 The Android Open Source Project
+// Copyright (C) 2014 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -11,11 +11,20 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-
 package com.google.gerrit.server.git.validators;
 
-public class CommitValidationMessage extends ValidationMessage {
-  public CommitValidationMessage(final String message, final boolean isError) {
-    super(message, isError);
-  }
+import com.google.gerrit.extensions.annotations.ExtensionPoint;
+import com.google.gerrit.server.events.RefOperationReceivedEvent;
+import com.google.gerrit.server.validators.ValidationException;
+
+import java.util.List;
+
+/**
+ * Listener to provide validation on operation that is going to be performed on
+ * given ref
+ */
+@ExtensionPoint
+public interface RefOperationValidationListener {
+  List<ValidationMessage> onRefOperation(RefOperationReceivedEvent refEvent)
+      throws ValidationException;
 }

@@ -89,6 +89,8 @@ import com.google.gerrit.server.git.validators.CommitValidators;
 import com.google.gerrit.server.git.validators.MergeValidationListener;
 import com.google.gerrit.server.git.validators.MergeValidators;
 import com.google.gerrit.server.git.validators.MergeValidators.ProjectConfigValidator;
+import com.google.gerrit.server.git.validators.RefOperationValidationListener;
+import com.google.gerrit.server.git.validators.RefOperationValidators;
 import com.google.gerrit.server.git.validators.UploadValidationListener;
 import com.google.gerrit.server.git.validators.UploadValidators;
 import com.google.gerrit.server.group.GroupModule;
@@ -270,6 +272,7 @@ public class GerritGlobalModule extends FactoryModule {
     DynamicSet.setOf(binder(), MergeValidationListener.class);
     DynamicSet.setOf(binder(), ProjectCreationValidationListener.class);
     DynamicSet.setOf(binder(), GroupCreationValidationListener.class);
+    DynamicSet.setOf(binder(), RefOperationValidationListener.class);
     DynamicItem.itemOf(binder(), AvatarProvider.class);
     DynamicSet.setOf(binder(), LifecycleListener.class);
     DynamicSet.setOf(binder(), TopMenu.class);
@@ -286,6 +289,7 @@ public class GerritGlobalModule extends FactoryModule {
     bind(AnonymousUser.class);
 
     factory(CommitValidators.Factory.class);
+    factory(RefOperationValidators.Factory.class);
     factory(MergeValidators.Factory.class);
     factory(ProjectConfigValidator.Factory.class);
     factory(NotesBranchUtil.Factory.class);

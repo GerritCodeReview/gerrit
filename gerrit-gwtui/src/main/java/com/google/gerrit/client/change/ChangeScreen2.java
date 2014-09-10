@@ -422,14 +422,31 @@ public class ChangeScreen2 extends Screen {
 
   private void initEditMode(ChangeInfo info) {
     if (Gerrit.isSignedIn() && info.status() == Status.NEW) {
-      editMode.setVisible(fileTableMode == FileTable.Mode.REVIEW);
-      addFile.setVisible(!editMode.isVisible());
-      reviewMode.setVisible(!editMode.isVisible());
+      RevisionInfo rev = info.revision(revision);
+      if (isEditModeEnabled(info, rev)) {
+        editMode.setVisible(fileTableMode == FileTable.Mode.REVIEW);
+        addFile.setVisible(!editMode.isVisible());
+        reviewMode.setVisible(!editMode.isVisible());
+        editFileAction = new EditFileAction(
+            new PatchSet.Id(changeId, rev._number()),
+            "", "", style, editMessage, reply, edit != null);
+      } else {
+        editMode.setVisible(false);
+        addFile.setVisible(false);
+        reviewMode.setVisible(false);
+      }
     }
-    RevisionInfo rev = info.revision(revision);
-    editFileAction = new EditFileAction(
-        new PatchSet.Id(changeId, rev._number()),
-        "", "", style, editMessage, reply, edit != null);
+  }
+
+  private boolean isEditModeEnabled(ChangeInfo info, RevisionInfo rev) {
+    if (rev.is_edit()) {
+      return true;
+    }
+    if (edit == null) {
+      return revision.equals(info.current_revision());
+    }
+    return rev._number() == RevisionInfo.findEditParent(
+          info.revisions().values());
   }
 
   private void initEditMessageAction(ChangeInfo info, String revision) {

@@ -196,6 +196,24 @@
       "revId": "e0ee5965d428a9ae43e93fe869567595df0b824f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "705d3b5f_19460b3d",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmitOnPushIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1013497
+      },
+      "writtenOn": "2014-09-10T11:16:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "106cff13_9c84cd51",
+      "revId": "e0ee5965d428a9ae43e93fe869567595df0b824f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

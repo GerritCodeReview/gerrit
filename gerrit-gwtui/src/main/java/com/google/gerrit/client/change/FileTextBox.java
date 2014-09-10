@@ -28,6 +28,7 @@ class FileTextBox extends NpTextBox {
   private HandlerRegistration blurHandler;
   private NpTextArea textArea;
   private PatchSet.Id id;
+  private boolean editExists;
 
   @Override
   protected void onLoad() {
@@ -45,26 +46,28 @@ class FileTextBox extends NpTextBox {
     blurHandler.removeHandler();
   }
 
-  void set(PatchSet.Id id, NpTextArea content) {
+  void set(PatchSet.Id id, NpTextArea content, boolean editExists) {
     this.id = id;
     this.textArea = content;
+    this.editExists = editExists;
   }
 
   private void loadFileContent() {
-    ChangeFileApi.getContent(id, getText(), new GerritCallback<String>() {
-      @Override
-      public void onSuccess(String result) {
-        textArea.setText(result);
-      }
+    ChangeFileApi.getContent(editExists, id, getText(),
+        new GerritCallback<String>() {
+          @Override
+          public void onSuccess(String result) {
+            textArea.setText(result);
+          }
 
-      @Override
-      public void onFailure(Throwable caught) {
-        if (RestApi.isNotFound(caught)) {
-          // that means that the file doesn't exist in the repository
-        } else {
-          super.onFailure(caught);
-        }
-      }
+          @Override
+          public void onFailure(Throwable caught) {
+            if (RestApi.isNotFound(caught)) {
+              // that means that the file doesn't exist in the repository
+            } else {
+              super.onFailure(caught);
+            }
+          }
     });
   }
 }

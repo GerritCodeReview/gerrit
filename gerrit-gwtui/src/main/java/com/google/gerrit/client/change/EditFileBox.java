@@ -40,9 +40,10 @@ class EditFileBox extends Composite {
   interface Binder extends UiBinder<HTMLPanel, EditFileBox> {}
   private static final Binder uiBinder = GWT.create(Binder.class);
 
-  final private PatchSet.Id id;
-  final private String fileName;
-  final private String fileContent;
+  private final PatchSet.Id id;
+  private final String fileName;
+  private final String fileContent;
+  private final boolean editExists;
 
   @UiField FileTextBox file;
   @UiField NpTextArea content;
@@ -52,10 +53,12 @@ class EditFileBox extends Composite {
   EditFileBox(
       PatchSet.Id id,
       String fileC,
-      String fileName) {
+      String fileName,
+      boolean editExists) {
     this.id = id;
     this.fileName = fileName;
     this.fileContent = fileC;
+    this.editExists = editExists;
     initWidget(uiBinder.createAndBindUi(this));
     new EditFileBoxListener(content);
     new EditFileBoxListener(file);
@@ -63,7 +66,7 @@ class EditFileBox extends Composite {
 
   @Override
   protected void onLoad() {
-    file.set(id, content);
+    file.set(id, content, editExists);
     file.setText(fileName);
     file.setEnabled(fileName.isEmpty());
     content.setText(fileContent);

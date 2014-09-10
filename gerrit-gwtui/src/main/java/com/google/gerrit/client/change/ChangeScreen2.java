@@ -429,7 +429,7 @@ public class ChangeScreen2 extends Screen {
     RevisionInfo rev = info.revision(revision);
     editFileAction = new EditFileAction(
         new PatchSet.Id(changeId, rev._number()),
-        "", "", style, editMessage, reply);
+        "", "", style, editMessage, reply, edit != null);
   }
 
   private void initEditMessageAction(ChangeInfo info, String revision) {
@@ -665,7 +665,7 @@ public class ChangeScreen2 extends Screen {
       files.set(
           b != null ? new PatchSet.Id(changeId, b._number()) : null,
           new PatchSet.Id(changeId, rev._number()),
-          style, editMessage, reply);
+          style, editMessage, reply, edit != null);
       files.setValue(info.edit().files(), myLastReply(info),
           emptyComment,
           emptyComment,
@@ -720,7 +720,7 @@ public class ChangeScreen2 extends Screen {
           files.set(
               base != null ? new PatchSet.Id(changeId, base._number()) : null,
               new PatchSet.Id(changeId, rev._number()),
-              style, editMessage, reply);
+              style, editMessage, reply, edit != null);
           files.setValue(m, myLastReply, comments.get(0),
               drafts.get(0), fileTableMode);
         }

@@ -70,6 +70,24 @@
       "revId": "e0ee5965d428a9ae43e93fe869567595df0b824f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9058ef70_da6765ed",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmitOnPushIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1013497
+      },
+      "writtenOn": "2014-09-10T10:53:59Z",
+      "side": 1,
+      "message": "Ok. let me correct it and push again.",
+      "parentUuid": "d065072b_fa91818d",
+      "revId": "e0ee5965d428a9ae43e93fe869567595df0b824f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "106cff13_dc1c8585",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmitOnPushIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-10T10:47:19Z",
+      "side": 1,
+      "message": "This isn\u0027t testing the \"bypassing Gerrit\" scenario you describe in the change message:\n\n git push origin \u003cmerge-sha1\u003e:refs/heads/\u003cnew-branch-name\u003e",
+      "revId": "e0ee5965d428a9ae43e93fe869567595df0b824f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

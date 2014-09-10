@@ -16,6 +16,7 @@ package com.google.gerrit.server.project;
 
 import static org.eclipse.jgit.lib.RefDatabase.ALL;
 
+import com.google.common.base.Optional;
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.errors.InvalidRevisionException;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -29,9 +30,11 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.git.validators.RefOperationValidators;
 import com.google.gerrit.server.project.CreateBranch.Input;
 import com.google.gerrit.server.project.ListBranches.BranchInfo;
 import com.google.gerrit.server.util.MagicBranch;
+import com.google.gerrit.server.validators.ValidationException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
@@ -47,6 +50,7 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.ObjectWalk;
 import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.transport.ReceiveCommand.Type;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -72,18 +76,21 @@ public class CreateBranch implements RestModifyView<ProjectResource, Input> {
   private final GitReferenceUpdated referenceUpdated;
   private final ChangeHooks hooks;
   private String ref;
+  private final RefOperationValidators.Factory refValidatorsFactory;
 
   @Inject
   CreateBranch(Provider<IdentifiedUser> identifiedUser,
       GitRepositoryManager repoManager,
       Provider<ReviewDb> db,
       GitReferenceUpdated referenceUpdated, ChangeHooks hooks,
+      RefOperationValidators.Factory refValidatorsFactory,
       @Assisted String ref) {
     this.identifiedUser = identifiedUser;
     this.repoManager = repoManager;
     this.db = db;
     this.referenceUpdated = referenceUpdated;
     this.hooks = hooks;
+    this.refValidatorsFactory = refValidatorsFactory;
     this.ref = ref;
   }
 
@@ -144,6 +151,10 @@ public class CreateBranch implements RestModifyView<ProjectResource, Input> {
         u.setNewObjectId(object.copy());
         u.setRefLogIdent(identifiedUser.get().newRefLogIdent());
         u.setRefLogMessage("created via REST from " + input.revision, false);
+        Optional<String> notValid = validateRefCreation(rsrc, u);
+        if (notValid.isPresent()) {
+          throw new ResourceConflictException(notValid.get());
+        }
         final RefUpdate.Result result = u.update(rw);
         switch (result) {
           case FAST_FORWARD:
@@ -181,6 +192,21 @@ public class CreateBranch implements RestModifyView<ProjectResource, Input> {
     } finally {
       repo.close();
     }
+  }
+
+  private Optional<String> validateRefCreation(ProjectResource rsrc, RefUpdate update) {
+    RefOperationValidators refValidators =
+        refValidatorsFactory.create(
+            new Project(new Project.NameKey(rsrc.getName())),
+            identifiedUser.get(),
+            RefOperationValidators.getCommand(update, Type.CREATE));
+    try {
+      refValidators.validateForRefOperation();
+    } catch (ValidationException e) {
+      return Optional.of(e.getMessage());
+    }
+
+    return Optional.absent();
   }
 
   private static String getRefPrefix(final String refName) {

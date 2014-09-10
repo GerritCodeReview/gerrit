@@ -40,6 +40,7 @@
 }
 .pathColumn a {
   color: #000;
+  cursor: pointer;
 }
 .commonPrefix {
   color: #888;

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d065072b_1ab43d05",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmitOnPushIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-10T11:18:58Z",
+      "side": 1,
+      "message": "The ref created by pushTo isn\u0027t a merge commit, is it? Nor have you granted PUSH_MERGE, which is what your commit message and documentation change are talking about.",
+      "revId": "39009dc969df6f79d37ac65248e794979aa6dc51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

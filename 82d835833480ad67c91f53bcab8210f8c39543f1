@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d065072b_9ad32d96",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/Version.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-10T15:15:53Z",
+      "side": 1,
+      "message": "is it safe to assume that if Version is not present, we\u0027re running in the debugger?",
+      "range": {
+        "startLine": 40,
+        "startChar": 17,
+        "endLine": 40,
+        "endChar": 20
+      },
+      "revId": "82d835833480ad67c91f53bcab8210f8c39543f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

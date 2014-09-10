@@ -51,20 +51,21 @@ class FileTextBox extends NpTextBox {
   }
 
   private void loadFileContent() {
-    ChangeFileApi.getContent(id, getText(), new GerritCallback<String>() {
-      @Override
-      public void onSuccess(String result) {
-        textArea.setText(result);
-      }
+    ChangeFileApi.getContent(id, getText(),
+        new GerritCallback<String>() {
+          @Override
+          public void onSuccess(String result) {
+            textArea.setText(result);
+          }
 
-      @Override
-      public void onFailure(Throwable caught) {
-        if (RestApi.isNotFound(caught)) {
-          // that means that the file doesn't exist in the repository
-        } else {
-          super.onFailure(caught);
-        }
-      }
+          @Override
+          public void onFailure(Throwable caught) {
+            if (RestApi.isNotFound(caught)) {
+              // that means that the file doesn't exist in the repository
+            } else {
+              super.onFailure(caught);
+            }
+          }
     });
   }
 }

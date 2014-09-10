@@ -40,9 +40,9 @@ class EditFileBox extends Composite {
   interface Binder extends UiBinder<HTMLPanel, EditFileBox> {}
   private static final Binder uiBinder = GWT.create(Binder.class);
 
-  final private PatchSet.Id id;
-  final private String fileName;
-  final private String fileContent;
+  private final PatchSet.Id id;
+  private final String fileName;
+  private final String fileContent;
 
   @UiField FileTextBox file;
   @UiField NpTextArea content;

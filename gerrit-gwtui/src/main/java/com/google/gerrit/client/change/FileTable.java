@@ -192,6 +192,7 @@ public class FileTable extends FlowPanel {
   private ChangeScreen2.Style style;
   private Widget editButton;
   private Widget replyButton;
+  private boolean editExists;
 
   @Override
   protected void onLoad() {
@@ -200,12 +201,13 @@ public class FileTable extends FlowPanel {
   }
 
   public void set(PatchSet.Id base, PatchSet.Id curr, ChangeScreen2.Style style,
-      Widget editButton, Widget replyButton) {
+      Widget editButton, Widget replyButton, boolean editExists) {
     this.base = base;
     this.curr = curr;
     this.style = style;
     this.editButton = editButton;
     this.replyButton = replyButton;
+    this.editExists = editExists;
   }
 
   void setValue(NativeMap<FileInfo> fileMap,
@@ -327,8 +329,10 @@ public class FileTable extends FlowPanel {
             @Override
             public void onSuccess(String result) {
               EditFileAction edit = new EditFileAction(
-                  curr, result, path,
-                  style, editButton, replyButton);
+                  editExists && curr.get() != 0
+                      ? new PatchSet.Id(curr.getParentKey(), 0)
+                      : curr,
+                  result, path, style, editButton, replyButton);
               edit.onEdit();
             }
           });

@@ -126,6 +126,7 @@ public class CommentsTest  {
   @Inject private GetComment getComment;
   @Inject private IdentifiedUser.GenericFactory userFactory;
   @Inject private InMemoryRepositoryManager repoManager;
+  @Inject private NotesMigration migration;
   @Inject private PatchLineCommentsUtil plcUtil;
 
   @Before
@@ -294,7 +295,8 @@ public class CommentsTest  {
   }
 
   private ChangeControl stubChangeControl(Change c) throws OrmException {
-    return TestChanges.stubChangeControl(repoManager, c, allUsers, changeOwner);
+    return TestChanges.stubChangeControl(
+        repoManager, migration, c, allUsers, changeOwner);
   }
 
   private Change newChange() {
@@ -302,7 +304,8 @@ public class CommentsTest  {
   }
 
   private ChangeUpdate newUpdate(Change c, final IdentifiedUser user) throws Exception {
-    return TestChanges.newUpdate(injector, repoManager, c, allUsers, user);
+    return TestChanges.newUpdate(
+        injector, repoManager, migration, c, allUsers, user);
   }
 
   @Test

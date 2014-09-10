@@ -48,19 +48,22 @@ public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
   @Singleton
   public static class Factory {
     private final GitRepositoryManager repoManager;
+    private final NotesMigration migration;
     private final AllUsersName draftsProject;
 
     @VisibleForTesting
     @Inject
     public Factory(GitRepositoryManager repoManager,
+        NotesMigration migration,
         AllUsersNameProvider allUsers) {
       this.repoManager = repoManager;
+      this.migration = migration;
       this.draftsProject = allUsers.get();
     }
 
     public DraftCommentNotes create(Change.Id changeId, Account.Id accountId) {
-      return new DraftCommentNotes(repoManager, draftsProject, changeId,
-          accountId);
+      return new DraftCommentNotes(repoManager, migration, draftsProject,
+          changeId, accountId);
     }
   }
 
@@ -71,9 +74,9 @@ public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
   private final Table<PatchSet.Id, String, PatchLineComment> draftPsComments;
   private NoteMap noteMap;
 
-  DraftCommentNotes(GitRepositoryManager repoManager,
+  DraftCommentNotes(GitRepositoryManager repoManager, NotesMigration migration,
       AllUsersName draftsProject, Change.Id changeId, Account.Id author) {
-    super(repoManager, changeId);
+    super(repoManager, migration, changeId);
     this.draftsProject = draftsProject;
     this.author = author;
 
@@ -147,6 +150,11 @@ public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
       ConfigInvalidException {
     throw new UnsupportedOperationException(
         getClass().getSimpleName() + " is read-only");
+  }
+
+  @Override
+  protected void loadDefaults() {
+    // Do nothing; tables are final and initialized in constructor.
   }
 
   @Override

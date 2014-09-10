@@ -75,6 +75,8 @@ public class AbstractChangeNotesTest {
   private static final TimeZone TZ =
       TimeZone.getTimeZone("America/Los_Angeles");
 
+  private static final NotesMigration MIGRATION = NotesMigration.allEnabled();
+
   protected Account.Id otherUserId;
   protected FakeAccountCache accountCache;
   protected IdentifiedUser changeOwner;
@@ -116,7 +118,7 @@ public class AbstractChangeNotesTest {
       @Override
       public void configure() {
         install(new GitModule());
-        bind(NotesMigration.class).toInstance(NotesMigration.allEnabled());
+        bind(NotesMigration.class).toInstance(MIGRATION);
         bind(GitRepositoryManager.class).toInstance(repoManager);
         bind(ProjectCache.class).toProvider(Providers.<ProjectCache> of(null));
         bind(CapabilityControl.Factory.class)
@@ -170,11 +172,12 @@ public class AbstractChangeNotesTest {
 
   protected ChangeUpdate newUpdate(Change c, IdentifiedUser user)
       throws OrmException {
-    return TestChanges.newUpdate(injector, repoManager, c, allUsers, user);
+    return TestChanges.newUpdate(
+        injector, repoManager, MIGRATION, c, allUsers, user);
   }
 
   protected ChangeNotes newNotes(Change c) throws OrmException {
-    return new ChangeNotes(repoManager, allUsers, c).load();
+    return new ChangeNotes(repoManager, MIGRATION, allUsers, c).load();
   }
 
   protected static SubmitRecord submitRecord(String status,

@@ -275,7 +275,9 @@ public class ChangeEditUtil {
       ObjectInserter inserter, RevCommit parent, RevCommit edit)
       throws IOException {
     CommitBuilder mergeCommit = new CommitBuilder();
-    mergeCommit.setParentIds(parent.getParent(0));
+    for (int i = 0; i < parent.getParentCount(); i++) {
+      mergeCommit.addParentId(parent.getParent(i));
+    }
     mergeCommit.setAuthor(parent.getAuthorIdent());
     mergeCommit.setMessage(parent.getFullMessage());
     mergeCommit.setCommitter(edit.getCommitterIdent());

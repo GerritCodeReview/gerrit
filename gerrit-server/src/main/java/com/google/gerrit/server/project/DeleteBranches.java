@@ -36,6 +36,7 @@ import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.ReceiveCommand;
@@ -69,18 +70,22 @@ class DeleteBranches implements RestModifyView<ProjectResource, Input> {
   private final Provider<InternalChangeQuery> queryProvider;
   private final GitReferenceUpdated referenceUpdated;
   private final ChangeHooks hooks;
+  private final RefValidationHelper refDeletionValidator;
 
   @Inject
   DeleteBranches(Provider<IdentifiedUser> identifiedUser,
       GitRepositoryManager repoManager,
       Provider<InternalChangeQuery> queryProvider,
       GitReferenceUpdated referenceUpdated,
-      ChangeHooks hooks) {
+      ChangeHooks hooks,
+      RefValidationHelper.Factory refHelperFactory) {
     this.identifiedUser = identifiedUser;
     this.repoManager = repoManager;
     this.queryProvider = queryProvider;
     this.referenceUpdated = referenceUpdated;
     this.hooks = hooks;
+    this.refDeletionValidator =
+        refHelperFactory.create(ReceiveCommand.Type.DELETE);
   }
 
   @Override
@@ -111,7 +116,8 @@ class DeleteBranches implements RestModifyView<ProjectResource, Input> {
   }
 
   private ReceiveCommand createDeleteCommand(ProjectResource project,
-      Repository r, String branch) throws OrmException, IOException {
+      Repository r, String branch)
+          throws OrmException, IOException, ResourceConflictException {
     Ref ref = r.getRefDatabase().getRef(branch);
     ReceiveCommand command;
     if (ref == null) {
@@ -131,6 +137,10 @@ class DeleteBranches implements RestModifyView<ProjectResource, Input> {
     if (!queryProvider.get().setLimit(1).byBranchOpen(branchKey).isEmpty()) {
       command.setResult(Result.REJECTED_OTHER_REASON, "it has open changes");
     }
+    RefUpdate u = r.updateRef(branch);
+    u.setForceUpdate(true);
+    refDeletionValidator.validateRefOperation(
+        project.getName(), identifiedUser.get(), u);
     return command;
   }
 

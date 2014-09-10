@@ -26,11 +26,12 @@ subject and body lines of commit messages on uploaded commits.
 
 
 Plugins implementing the `RefOperationValidationListener` interface can
-perform additional validation checks against ref creation/deletion operation
-before it is applied to the git repository.
+perform additional validation checks against ref creation, deletion and
+non-fast-forward update operations before they are applied to the git
+repository.
 
-If the ref operation fails the validation, the plugin can throw an exception
-which will cause the operation to fail.
+The plugin can throw an exception which will cause the operation to fail,
+and prevent the ref update from being applied.
 
 [[pre-merge-validation]]
 == Pre-merge validation

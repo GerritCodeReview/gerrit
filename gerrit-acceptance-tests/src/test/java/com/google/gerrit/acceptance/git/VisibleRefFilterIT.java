@@ -27,9 +27,12 @@ import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.config.AllProjectsName;
+import com.google.gerrit.server.edit.ChangeEditModifier;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.notedb.NotesMigration;
@@ -68,6 +71,9 @@ public class VisibleRefFilterIT extends AbstractDaemonTest {
 
   @Inject
   private GroupCache groupCache;
+
+  @Inject
+  private ChangeEditModifier editModifier;
 
   private AccountGroup.UUID admins;
 
@@ -183,6 +189,31 @@ public class VisibleRefFilterIT extends AbstractDaemonTest {
         // master branch is not visible but master-tag is reachable from branch
         // (since PushOneCommit always bases changes on each other).
         "refs/tags/master-tag");
+  }
+
+  @Test
+  public void subsetOfBranchesVisibleWithEdit() throws Exception {
+    allow(Permission.READ, REGISTERED_USERS, "refs/heads/master");
+    deny(Permission.READ, REGISTERED_USERS, "refs/heads/branch");
+
+    Change c1 = db.changes().get(new Change.Id(1));
+    PatchSet ps1 = db.patchSets().get(new PatchSet.Id(c1.getId(), 1));
+
+    // Admin's edit is not visible.
+    setApiUser(admin);
+    editModifier.createEdit(c1, ps1);
+
+    // User's edit is visible.
+    setApiUser(user);
+    editModifier.createEdit(c1, ps1);
+
+    assertRefs(
+        "HEAD",
+        "refs/changes/01/1/1",
+        "refs/changes/01/1/meta",
+        "refs/heads/master",
+        "refs/tags/master-tag",
+        "refs/users/01/1000001/edit-1");
   }
 
   /**

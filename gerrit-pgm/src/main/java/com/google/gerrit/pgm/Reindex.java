@@ -18,6 +18,7 @@ import static com.google.gerrit.server.schema.DataSourceProvider.Context.MULTI_U
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+import com.google.gerrit.common.Die;
 import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.lucene.LuceneIndexModule;
 import com.google.gerrit.pgm.util.BatchGitModule;
@@ -83,6 +84,7 @@ public class Reindex extends SiteProgram {
   private boolean dryRun;
 
   private Injector dbInjector;
+  private Config cfg;
   private Injector sysInjector;
   private ChangeIndex index;
 
@@ -91,6 +93,9 @@ public class Reindex extends SiteProgram {
     mustHaveValidSite();
     dbInjector = createDbInjector(MULTI_USER);
     threads = ThreadLimiter.limitThreads(dbInjector, threads);
+    cfg = dbInjector.getInstance(
+        Key.get(Config.class, GerritServerConfig.class));
+    checkNotSlaveMode();
     disableLuceneAutomaticCommit();
     if (version == null) {
       version = ChangeSchemas.getLatest().getVersion();
@@ -117,6 +122,12 @@ public class Reindex extends SiteProgram {
     sysManager.stop();
     dbManager.stop();
     return result;
+  }
+
+  private void checkNotSlaveMode() throws Die {
+    if (cfg.getBoolean("container", "slave", false)) {
+      throw die("Cannot run reindex in slave mode");
+    }
   }
 
   private Injector createSysInjector() {

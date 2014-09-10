@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.index;
 
+import static com.google.gerrit.common.data.GlobalCapability.DEFAULT_MAX_QUERY_LIMIT;
 import static com.google.gerrit.reviewdb.client.Change.Status.ABANDONED;
 import static com.google.gerrit.reviewdb.client.Change.Status.DRAFT;
 import static com.google.gerrit.reviewdb.client.Change.Status.MERGED;
@@ -178,13 +179,6 @@ public class IndexRewriteTest {
   }
 
   @Test
-  public void testStartDoesNotExceedMaxLimit() throws Exception {
-    Predicate<ChangeData> in = parse("file:a");
-    assertEquals(query(in), rewrite.rewrite(in, 0));
-    assertEquals(query(in), rewrite.rewrite(in, 1));
-  }
-
-  @Test
   public void testGetPossibleStatus() throws Exception {
     assertEquals(EnumSet.allOf(Change.Status.class), status("file:a"));
     assertEquals(EnumSet.of(NEW), status("is:new"));
@@ -231,7 +225,7 @@ public class IndexRewriteTest {
 
   private IndexedChangeQuery query(Predicate<ChangeData> p)
       throws QueryParseException {
-    return query(p, IndexRewriteImpl.MAX_LIMIT);
+    return query(p, DEFAULT_MAX_QUERY_LIMIT);
   }
 
   private IndexedChangeQuery query(Predicate<ChangeData> p, int limit)

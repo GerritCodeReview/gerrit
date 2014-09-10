@@ -160,7 +160,7 @@ limitations under the License.
         </td>
       </tr>
       <tr ui:field='parents' style='display: none'>
-        <th><ui:msg>Parents</ui:msg></th>
+        <th><ui:msg>Parent(s)</ui:msg></th>
         <td>
           <g:FlowPanel ui:field='parentCommits'/>
         </td>

@@ -160,6 +160,24 @@
       "revId": "e0ee5965d428a9ae43e93fe869567595df0b824f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9058ef70_5ad51523",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmitOnPushIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1013497
+      },
+      "writtenOn": "2014-09-10T11:08:05Z",
+      "side": 1,
+      "message": "Ok Thanks. Please let me know if anything else is required from my end.",
+      "parentUuid": "106cff13_7c7e1186",
+      "revId": "e0ee5965d428a9ae43e93fe869567595df0b824f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

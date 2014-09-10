@@ -22,6 +22,30 @@
       "revId": "dbfef051644c0a24b83bcc62561d01f337304f37",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "106cff13_9954df87",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/EditFileBox.ui.xml",
+        "patchSetId": 46
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-10T07:58:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d065072b_77a0ea4a",
+      "range": {
+        "startLine": 40,
+        "startChar": 12,
+        "endLine": 40,
+        "endChar": 13
+      },
+      "revId": "dbfef051644c0a24b83bcc62561d01f337304f37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -16,6 +16,24 @@
       "revId": "39009dc969df6f79d37ac65248e794979aa6dc51",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "705d3b5f_793bc7b4",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmitOnPushIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1013497
+      },
+      "writtenOn": "2014-09-10T11:32:41Z",
+      "side": 1,
+      "message": "Right. Can you please tell me how can I create merge commit here? normally I test with git merge \u003ccommit-ID\u003e.",
+      "parentUuid": "d065072b_1ab43d05",
+      "revId": "39009dc969df6f79d37ac65248e794979aa6dc51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

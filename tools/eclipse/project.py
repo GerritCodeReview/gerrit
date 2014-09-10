@@ -138,7 +138,7 @@ def gen_classpath():
         if path.exists(p):
           classpathentry('src', p, out=o)
 
-  for libs in [lib, gwt_lib]:
+  for libs in [gwt_lib, lib]:
     for j in sorted(libs):
       s = None
       if j.endswith('.jar'):

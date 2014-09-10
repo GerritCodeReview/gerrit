@@ -81,6 +81,30 @@
       "revId": "29e8b35b03c3c32fa046dc3ead2d4d2cd98b0e8a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "106cff13_d905b7a3",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/FileTable.java",
+        "patchSetId": 40
+      },
+      "lineNbr": 624,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-10T07:45:47Z",
+      "side": 1,
+      "message": "Ok, I think I was confusing change type with file mode.\n\nWe should double-check that this does the right thing with symlinks and gitlinks but that doesn\u0027t need to block this change.",
+      "parentUuid": "106cff13_39c66b86",
+      "range": {
+        "startLine": 624,
+        "startChar": 30,
+        "endLine": 624,
+        "endChar": 41
+      },
+      "revId": "29e8b35b03c3c32fa046dc3ead2d4d2cd98b0e8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

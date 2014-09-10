@@ -14,16 +14,20 @@
 
 package com.google.gerrit.server.project;
 
+import com.google.common.base.Optional;
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.git.validators.RefOperationValidators;
 import com.google.gerrit.server.project.DeleteBranch.Input;
+import com.google.gerrit.server.validators.ValidationException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -31,6 +35,7 @@ import com.google.inject.Singleton;
 
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.transport.ReceiveCommand.Type;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -48,16 +53,19 @@ public class DeleteBranch implements RestModifyView<BranchResource, Input>{
   private final Provider<ReviewDb> dbProvider;
   private final GitReferenceUpdated referenceUpdated;
   private final ChangeHooks hooks;
+  private final RefOperationValidators.Factory refValidatorsFactory;
 
   @Inject
   DeleteBranch(Provider<IdentifiedUser> identifiedUser,
       GitRepositoryManager repoManager, Provider<ReviewDb> dbProvider,
-      GitReferenceUpdated referenceUpdated, ChangeHooks hooks) {
+      GitReferenceUpdated referenceUpdated, ChangeHooks hooks,
+      RefOperationValidators.Factory refValidatorsFactory) {
     this.identifiedUser = identifiedUser;
     this.repoManager = repoManager;
     this.dbProvider = dbProvider;
     this.referenceUpdated = referenceUpdated;
     this.hooks = hooks;
+    this.refValidatorsFactory = refValidatorsFactory;
   }
 
   @Override
@@ -79,6 +87,10 @@ public class DeleteBranch implements RestModifyView<BranchResource, Input>{
       try {
         u = r.updateRef(rsrc.getRef());
         u.setForceUpdate(true);
+        Optional<String> notValid = validateRefDeletion(rsrc, u);
+        if (notValid.isPresent()) {
+          throw new ResourceConflictException(notValid.get());
+        }
         result = u.delete();
       } catch (IOException e) {
         log.error("Cannot delete " + rsrc.getBranchKey(), e);
@@ -106,5 +118,21 @@ public class DeleteBranch implements RestModifyView<BranchResource, Input>{
       r.close();
     }
     return Response.none();
+  }
+
+  private Optional<String> validateRefDeletion(BranchResource rsrc, RefUpdate update) {
+    RefOperationValidators refValidators =
+        refValidatorsFactory.create(
+            new Project(new Project.NameKey(rsrc.getName())),
+            identifiedUser.get(),
+            RefOperationValidators.getCommand(update, Type.DELETE));
+
+    try {
+      refValidators.validateForRefOperation();
+    } catch (ValidationException e) {
+      return Optional.of(e.getMessage());
+    }
+
+    return Optional.absent();
   }
 }

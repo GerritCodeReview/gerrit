@@ -34,6 +34,24 @@
       "revId": "39009dc969df6f79d37ac65248e794979aa6dc51",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_1a1d5d55",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmitOnPushIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-10T11:33:27Z",
+      "side": 1,
+      "message": "I don\u0027t think you can use pushTo directly, but you should be able to look at the implementation of that to see how it creates changes.",
+      "parentUuid": "705d3b5f_793bc7b4",
+      "revId": "39009dc969df6f79d37ac65248e794979aa6dc51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

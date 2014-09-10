@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "106cff13_5ca51559",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Hashtags.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-09-10T16:36:32Z",
+      "side": 1,
+      "message": "Yes, this is unfortunate debug nonsense that I forgot to remove.\ndone!",
+      "parentUuid": "d065072b_bae549b3",
+      "range": {
+        "startLine": 182,
+        "startChar": 52,
+        "endLine": 182,
+        "endChar": 56
+      },
+      "revId": "cbcc72002e5d23bbed8fdbbd41aca69718c8139c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d065072b_fa0861bb",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Hashtags.java",
         "patchSetId": 12
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "30dae333_9f0cd361",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Hashtags.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-09-10T16:36:32Z",
+      "side": 1,
+      "message": "I think it\u0027s better to fix it in the REST API. Since you don\u0027t want that kind of behavior from there either.",
+      "parentUuid": "d065072b_fa0861bb",
+      "revId": "cbcc72002e5d23bbed8fdbbd41aca69718c8139c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d065072b_ba0ee9c6",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Hashtags.java",
         "patchSetId": 12
@@ -53,6 +95,24 @@
       "writtenOn": "2014-09-10T13:32:04Z",
       "side": 1,
       "message": "nit: add blank lines between method names",
+      "revId": "cbcc72002e5d23bbed8fdbbd41aca69718c8139c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30dae333_df065b3f",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Hashtags.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-09-10T16:36:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d065072b_ba0ee9c6",
       "revId": "cbcc72002e5d23bbed8fdbbd41aca69718c8139c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -82,6 +142,30 @@
     },
     {
       "key": {
+        "uuid": "30dae333_5ff32b05",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/RestHashtagsSuggestOracle.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-09-10T16:36:32Z",
+      "side": 1,
+      "message": "It\u0027s because I implemented the ui parts of the auto-completion before the REST endpoint was finnished. They  are all used by the out commented code below.",
+      "parentUuid": "d065072b_1af71d6c",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 22
+      },
+      "revId": "cbcc72002e5d23bbed8fdbbd41aca69718c8139c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "106cff13_3cf2d97b",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/RestHashtagsSuggestOracle.java",
         "patchSetId": 12
@@ -93,6 +177,30 @@
       "writtenOn": "2014-09-10T13:19:17Z",
       "side": 1,
       "message": "unused",
+      "range": {
+        "startLine": 32,
+        "startChar": 14,
+        "endLine": 32,
+        "endChar": 23
+      },
+      "revId": "cbcc72002e5d23bbed8fdbbd41aca69718c8139c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_7a68d1f9",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/RestHashtagsSuggestOracle.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-09-10T16:36:32Z",
+      "side": 1,
+      "message": "See above",
+      "parentUuid": "106cff13_3cf2d97b",
       "range": {
         "startLine": 32,
         "startChar": 14,

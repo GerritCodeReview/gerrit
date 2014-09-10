@@ -239,9 +239,7 @@ class PatchSetsBox extends Composite {
   }
 
   private String url(RevisionInfo r) {
-    return PageLinks.toChange(
-        changeId,
-        String.valueOf(r._number()));
+    return PageLinks.toChange(changeId, r.id());
   }
 
   private void closeParent() {

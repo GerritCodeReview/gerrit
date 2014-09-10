@@ -308,6 +308,24 @@
     },
     {
       "key": {
+        "uuid": "106cff13_1c49ddf2",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticsearchChangeIndex.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1017389
+      },
+      "writtenOn": "2014-09-10T13:42:51Z",
+      "side": 1,
+      "message": "As a data point, the refresh time for the nodes in our Elasticsearch cluster (hit by ~25 updates/sec) is ~10 ms. If that\u0027s also the cost of enabling immediate refreshes it seems like a reasonable price to pay. Flushes are considerably more expensive (upwards of a second).",
+      "parentUuid": "106cff13_bce549b3",
+      "revId": "02eb691a40daa8713398bee79534698be3cd984f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d04c27b5_1c6275e4",
         "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticsearchChangeIndex.java",
         "patchSetId": 12

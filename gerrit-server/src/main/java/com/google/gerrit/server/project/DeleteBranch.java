@@ -50,16 +50,20 @@ public class DeleteBranch implements RestModifyView<BranchResource, Input> {
   private final GitRepositoryManager repoManager;
   private final Provider<InternalChangeQuery> queryProvider;
   private final GitReferenceUpdated referenceUpdated;
+  private final RefValidationHelper refDeletionValidator;
 
   @Inject
   DeleteBranch(Provider<IdentifiedUser> identifiedUser,
       GitRepositoryManager repoManager,
       Provider<InternalChangeQuery> queryProvider,
-      GitReferenceUpdated referenceUpdated) {
+      GitReferenceUpdated referenceUpdated,
+      RefValidationHelper.Factory refHelperFactory) {
     this.identifiedUser = identifiedUser;
     this.repoManager = repoManager;
     this.queryProvider = queryProvider;
     this.referenceUpdated = referenceUpdated;
+    this.refDeletionValidator =
+        refHelperFactory.create(ReceiveCommand.Type.DELETE);
   }
 
   @Override
@@ -78,6 +82,8 @@ public class DeleteBranch implements RestModifyView<BranchResource, Input> {
       RefUpdate.Result result;
       RefUpdate u = r.updateRef(rsrc.getRef());
       u.setForceUpdate(true);
+      refDeletionValidator.validateRefOperation(
+          rsrc.getName(), identifiedUser.get(), u);
       int remainingLockFailureCalls = MAX_LOCK_FAILURE_CALLS;
       for (;;) {
         try {

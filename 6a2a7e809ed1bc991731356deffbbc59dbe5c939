@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d065072b_973dc647",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/GitHubOAuthConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-09-10T07:40:37Z",
+      "side": 1,
+      "message": "GitHubOAuthConfig should be used to read the config ... here we are hardcoding the GitHub API URL syntax which is NOT the responsibility of this class. SRP docet.",
+      "range": {
+        "startLine": 86,
+        "startChar": 1,
+        "endLine": 88,
+        "endChar": 3
+      },
+      "revId": "6a2a7e809ed1bc991731356deffbbc59dbe5c939",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "106cff13_99e21fa7",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/OAuthProtocol.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-09-10T07:40:37Z",
+      "side": 1,
+      "message": "This scope is not actually needed: we do not need to get ALL the members of the user\u0027s organisation but only checking if current user\u0027s organisations contain the one configured in Gerrit.",
+      "range": {
+        "startLine": 71,
+        "startChar": 25,
+        "endLine": 71,
+        "endChar": 39
+      },
+      "revId": "6a2a7e809ed1bc991731356deffbbc59dbe5c939",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_179b7622",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/OAuthProtocol.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-09-10T07:40:37Z",
+      "side": 1,
+      "message": "DRY: the logic to invoke the GitHub API using an OAuth token should be only in one place.",
+      "range": {
+        "startLine": 118,
+        "startChar": 4,
+        "endLine": 119,
+        "endChar": 73
+      },
+      "revId": "6a2a7e809ed1bc991731356deffbbc59dbe5c939",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_d7373e63",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/OAuthProtocol.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-09-10T07:40:37Z",
+      "side": 1,
+      "message": "According to https://developer.github.com/v3/orgs/ we just need to get:\n/user/orgs\nand see if the one configured in Gerrit is contained.",
+      "range": {
+        "startLine": 120,
+        "startChar": 8,
+        "endLine": 120,
+        "endChar": 40
+      },
+      "revId": "6a2a7e809ed1bc991731356deffbbc59dbe5c939",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -14,9 +14,11 @@
 
 package com.google.gerrit.server.securestore;
 
+import com.google.common.collect.Lists;
+
 import java.util.List;
 
-public interface SecureStore {
+public abstract class SecureStore {
   public static class EntryKey {
     public final String name;
     public final String section;
@@ -29,15 +31,23 @@ public interface SecureStore {
     }
   }
 
-  String get(String section, String subsection, String name);
+  public final String get(String section, String subsection, String name) {
+    String[] values = getList(section, subsection, name);
+    if (values != null && values.length > 0) {
+      return values[0];
+    }
+    return null;
+  }
 
-  String[] getList(String section, String subsection, String name);
+  public abstract String[] getList(String section, String subsection, String name);
 
-  void set(String section, String subsection, String name, String value);
+  public final void set(String section, String subsection, String name, String value) {
+    setList(section, subsection, name, Lists.newArrayList(value));
+  }
 
-  void setList(String section, String subsection, String name, List<String> values);
+  public abstract void setList(String section, String subsection, String name, List<String> values);
 
-  void unset(String section, String subsection, String name);
+  public abstract void unset(String section, String subsection, String name);
 
-  Iterable<EntryKey> list();
+  public abstract Iterable<EntryKey> list();
 }

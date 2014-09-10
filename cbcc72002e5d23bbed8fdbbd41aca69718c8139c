@@ -25,6 +25,40 @@
     },
     {
       "key": {
+        "uuid": "d065072b_fa0861bb",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Hashtags.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-10T13:32:04Z",
+      "side": 1,
+      "message": "add a call to trim here.  Currently if you enter \"a,a     ,a  ,b\" you end up with multiple \"a\" tags.",
+      "revId": "cbcc72002e5d23bbed8fdbbd41aca69718c8139c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_ba0ee9c6",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Hashtags.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-10T13:32:04Z",
+      "side": 1,
+      "message": "nit: add blank lines between method names",
+      "revId": "cbcc72002e5d23bbed8fdbbd41aca69718c8139c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d065072b_1af71d6c",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/RestHashtagsSuggestOracle.java",
         "patchSetId": 12

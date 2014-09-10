@@ -124,6 +124,7 @@ public class ChangeScreen2 extends Screen {
   private final Change.Id changeId;
   private String base;
   private String revision;
+  private String relatedChangesRevision;
   private ChangeInfo changeInfo;
   private CommentLinkProcessor commentLinkProcessor;
   private EditInfo edit;
@@ -615,6 +616,9 @@ public class ChangeScreen2 extends Screen {
   private void loadConfigInfo(final ChangeInfo info, final String base) {
     info.revisions().copyKeysIntoChildren("name");
     if (edit != null) {
+      // Save revision to pass to RelatedChanges tabs, since the /related
+      // endpoint cannot handle an edit SHA-1.
+      relatedChangesRevision = resolveRevisionToDisplay(info).name();
       edit.set_name(edit.commit().commit());
       info.set_edit(edit);
       if (edit.has_files()) {
@@ -648,7 +652,11 @@ public class ChangeScreen2 extends Screen {
         }
       }
     }
-    final RevisionInfo rev = resolveRevisionToDisplay(info);
+    RevisionInfo rev = resolveRevisionToDisplay(info);
+    revision = rev.name();
+    if (edit == null) {
+      relatedChangesRevision = revision;
+    }
     final RevisionInfo b = resolveRevisionOrPatchSetId(info, base, null);
 
     CallbackGroup group = new CallbackGroup();
@@ -833,7 +841,6 @@ public class ChangeScreen2 extends Screen {
     RevisionInfo rev = resolveRevisionOrPatchSetId(info, revision,
         info.current_revision());
     if (rev != null) {
-      revision = rev.name();
       return rev;
     }
 
@@ -844,7 +851,6 @@ public class ChangeScreen2 extends Screen {
     if (revisions.length() > 0) {
       RevisionInfo.sortRevisionInfoByNumber(revisions);
       rev = revisions.get(revisions.length() - 1);
-      revision = rev.name();
       return rev;
     } else {
       new ErrorDialog(
@@ -917,7 +923,7 @@ public class ChangeScreen2 extends Screen {
     permalink.setText(String.valueOf(info.legacy_id()));
     topic.set(info, revision);
     commit.set(commentLinkProcessor, info, revision);
-    related.set(info, revision);
+    related.set(info, relatedChangesRevision);
     reviewers.set(info);
 
     if (Gerrit.isSignedIn()) {

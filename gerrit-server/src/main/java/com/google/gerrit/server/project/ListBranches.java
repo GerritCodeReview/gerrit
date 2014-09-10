@@ -14,18 +14,22 @@
 
 package com.google.gerrit.server.project;
 
+import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.gerrit.extensions.common.ActionInfo;
+import com.google.gerrit.extensions.common.WebLinkInfo;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.server.WebLinks;
 import com.google.gerrit.server.extensions.webui.UiActions;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.google.inject.util.Providers;
 
@@ -47,12 +51,15 @@ import java.util.TreeMap;
 public class ListBranches implements RestReadView<ProjectResource> {
   private final GitRepositoryManager repoManager;
   private final DynamicMap<RestView<BranchResource>> branchViews;
+  private final Provider<WebLinks> webLinks;
 
   @Inject
   public ListBranches(GitRepositoryManager repoManager,
-      DynamicMap<RestView<BranchResource>> branchViews) {
+      DynamicMap<RestView<BranchResource>> branchViews,
+      Provider<WebLinks> webLinks) {
     this.repoManager = repoManager;
     this.branchViews = branchViews;
+    this.webLinks = webLinks;
   }
 
   @Override
@@ -161,6 +168,13 @@ public class ListBranches implements RestReadView<ProjectResource> {
       }
       info.actions.put(d.getId(), new ActionInfo(d));
     }
+    info.webLinks = Lists.newArrayList();
+    for (WebLinkInfo link : webLinks.get().getBranchLinks(
+        refControl.getProjectControl().getProject().getName(), ref.getName())) {
+      if (!Strings.isNullOrEmpty(link.name) && !Strings.isNullOrEmpty(link.url)) {
+        info.webLinks.add(link);
+      }
+    }
     return info;
   }
 
@@ -169,6 +183,7 @@ public class ListBranches implements RestReadView<ProjectResource> {
     public String revision;
     public Boolean canDelete;
     public Map<String, ActionInfo> actions;
+    public List<WebLinkInfo> webLinks;
 
     public BranchInfo(String ref, String revision, boolean canDelete) {
       this.ref = ref;

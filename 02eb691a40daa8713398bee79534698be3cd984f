@@ -391,6 +391,24 @@
     },
     {
       "key": {
+        "uuid": "d065072b_1718964b",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitIndex.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-10T12:10:48Z",
+      "side": 1,
+      "message": "Yes.  The \"cluster\" setting can be specified in gerrit.config.",
+      "parentUuid": "f03f6be6_9d120371",
+      "revId": "02eb691a40daa8713398bee79534698be3cd984f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d065072b_ba06e9ef",
         "filename": "lib/elasticsearch/BUCK",
         "patchSetId": 12
@@ -402,6 +420,24 @@
       "writtenOn": "2014-09-10T12:07:37Z",
       "side": 1,
       "message": "So... we\u0027re going to use the native Java client after all? I think the dependency between the Java client and the ES version is a rather big issue. Are the downsides with the REST interface sufficiently large?",
+      "revId": "02eb691a40daa8713398bee79534698be3cd984f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "106cff13_7c0d710d",
+        "filename": "lib/elasticsearch/BUCK",
+        "patchSetId": 12
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-10T12:10:48Z",
+      "side": 1,
+      "message": "I found that the REST interface (jest) has a dependency on parts of the java client.",
+      "parentUuid": "d065072b_ba06e9ef",
       "revId": "02eb691a40daa8713398bee79534698be3cd984f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

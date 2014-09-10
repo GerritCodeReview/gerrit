@@ -107,6 +107,9 @@ import com.google.gerrit.server.git.MultiProgressMonitor.Task;
 import com.google.gerrit.server.git.validators.CommitValidationException;
 import com.google.gerrit.server.git.validators.CommitValidationMessage;
 import com.google.gerrit.server.git.validators.CommitValidators;
+import com.google.gerrit.server.git.validators.RefOperationValidationException;
+import com.google.gerrit.server.git.validators.RefOperationValidators;
+import com.google.gerrit.server.git.validators.ValidationMessage;
 import com.google.gerrit.server.mail.MailUtil.MailRecipients;
 import com.google.gerrit.server.mail.MergedSender;
 import com.google.gerrit.server.notedb.ChangeNotes;
@@ -300,6 +303,7 @@ public class ReceiveCommits {
   private final ProjectCache projectCache;
   private final String canonicalWebUrl;
   private final CommitValidators.Factory commitValidatorsFactory;
+  private final RefOperationValidators.Factory refValidatorsFactory;
   private final TagCache tagCache;
   private final AccountCache accountCache;
   private final ChangesCollection changes;
@@ -341,7 +345,7 @@ public class ReceiveCommits {
   private final NotesMigration notesMigration;
   private final ChangeEditUtil editUtil;
 
-  private final List<CommitValidationMessage> messages = new ArrayList<>();
+  private final List<ValidationMessage> messages = new ArrayList<>();
   private ListMultimap<Error, String> errors = LinkedListMultimap.create();
   private Task newProgress;
   private Task replaceProgress;
@@ -372,6 +376,7 @@ public class ReceiveCommits {
       final ChangesCollection changes,
       final ChangeInserter.Factory changeInserterFactory,
       final CommitValidators.Factory commitValidatorsFactory,
+      final RefOperationValidators.Factory refValidatorsFactory,
       @CanonicalWebUrl final String canonicalWebUrl,
       @SendEmailExecutor final ExecutorService sendEmailExecutor,
       @ChangeUpdateExecutor ListeningExecutorService changeUpdateExector,
@@ -416,6 +421,7 @@ public class ReceiveCommits {
     this.changeInserterFactory = changeInserterFactory;
     this.commitValidatorsFactory = commitValidatorsFactory;
     this.sendEmailExecutor = sendEmailExecutor;
+    this.refValidatorsFactory = refValidatorsFactory;
     this.changeUpdateExector = changeUpdateExector;
     this.requestScopePropagator = requestScopePropagator;
     this.sshInfo = sshInfo;
@@ -563,7 +569,7 @@ public class ReceiveCommits {
   }
 
   void sendMessages() {
-    for (CommitValidationMessage m : messages) {
+    for (ValidationMessage m : messages) {
       if (m.isError()) {
         messageSender.sendError(m.getMessage());
       } else {
@@ -1042,6 +1048,9 @@ public class ReceiveCommits {
     RefControl ctl = projectControl.controlForRef(cmd.getRefName());
     rp.getRevWalk().reset();
     if (ctl.canCreate(db, rp.getRevWalk(), obj)) {
+      if (!validRefOperation(cmd)) {
+        return;
+      }
       validateNewCommits(ctl, cmd);
       batch.addCommand(cmd);
     } else {
@@ -1056,6 +1065,9 @@ public class ReceiveCommits {
         return;
       }
 
+      if (!validRefOperation(cmd)) {
+        return;
+      }
       validateNewCommits(ctl, cmd);
       batch.addCommand(cmd);
     } else {
@@ -1093,6 +1105,9 @@ public class ReceiveCommits {
       errors.put(Error.DELETE_CHANGES, ctl.getRefName());
       reject(cmd, "cannot delete changes");
     } else if (ctl.canDelete()) {
+      if (!validRefOperation(cmd)) {
+        return;
+      }
       batch.addCommand(cmd);
     } else {
       if (RefNames.REFS_CONFIG.equals(ctl.getRefName())) {
@@ -1126,6 +1141,9 @@ public class ReceiveCommits {
     }
 
     if (ctl.canForceUpdate()) {
+      if (!validRefOperation(cmd)) {
+        return;
+      }
       batch.setAllowNonFastForwards(true).addCommand(cmd);
     } else {
       cmd.setResult(REJECTED_NONFASTFORWARD, " need '"
@@ -2329,6 +2347,21 @@ public class ReceiveCommits {
     } else {
       return a.equals(b);
     }
+  }
+
+  private boolean validRefOperation(ReceiveCommand cmd) {
+    RefOperationValidators refValidators =
+        refValidatorsFactory.create(getProject(), user, cmd);
+
+    try {
+      messages.addAll(refValidators.validateForRefOperation());
+    } catch (RefOperationValidationException e) {
+      messages.addAll(Lists.newArrayList(e.getMessages()));
+      reject(cmd, e.getMessage());
+      return false;
+    }
+
+    return true;
   }
 
   private void validateNewCommits(RefControl ctl, ReceiveCommand cmd) {

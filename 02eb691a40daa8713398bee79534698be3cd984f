@@ -254,6 +254,24 @@
     },
     {
       "key": {
+        "uuid": "d065072b_1aaa7d73",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticsearchChangeIndex.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-10T12:19:04Z",
+      "side": 1,
+      "message": "\u003e Unless we need the updates to be immediately searchable?\n\nThis.\n\nIt is very easy to press \u0027u\u0027 or equivalent to go to a dashboard from the change screen after (or during) a submit, and it\u0027s a bad user experience to not reflect the fact that a change was just submitted. 1s latency is too much.\n\nWe go to great lengths in Lucene land to wait until the results of a particular write are available. Lucene makes this possible because its NRT reopen thread can read the same in-memory state of the IndexWriter that did the write, and it\u0027s cheap enough to spin every 10ms or so.\n\nThe distributed nature of ES makes this approach unlikely to work, unfortunately, but we\u0027ll have to see what the latency hit is. We could also make it configurable.\n\nFWIW on googlesource.com our median index update time is in the 10s of ms and people mostly don\u0027t complain.",
+      "parentUuid": "106cff13_9c516df0",
+      "revId": "02eb691a40daa8713398bee79534698be3cd984f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d04c27b5_1c6275e4",
         "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticsearchChangeIndex.java",
         "patchSetId": 12

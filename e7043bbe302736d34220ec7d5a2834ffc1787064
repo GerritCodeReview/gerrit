@@ -70,6 +70,24 @@
       "revId": "e7043bbe302736d34220ec7d5a2834ffc1787064",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_f73a3a4b",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/FileTable.java",
+        "patchSetId": 48
+      },
+      "lineNbr": 502,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-10T07:37:51Z",
+      "side": 1,
+      "message": "It\u0027s controversial where the file path link should go.\n\nGiven that the file path goes to a different screen, I think it\u0027s _more_ important to make it possible to hit \"back\" and return to edit mode.",
+      "parentUuid": "d065072b_371b120c",
+      "revId": "e7043bbe302736d34220ec7d5a2834ffc1787064",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

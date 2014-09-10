@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "106cff13_7c9f3155",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectInfoScreen.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 563,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-10T12:31:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "106cff13_5cf99599",
+      "revId": "8dcf29cde790cc3a82c0f01c2407517ad674f893",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d065072b_b4cf2064",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectInfoScreen.java",
         "patchSetId": 3
@@ -30,6 +48,30 @@
       "writtenOn": "2014-09-08T16:50:54Z",
       "side": 1,
       "message": "This comment shouldn\u0027t be needed.",
+      "range": {
+        "startLine": 574,
+        "startChar": 4,
+        "endLine": 574,
+        "endChar": 73
+      },
+      "revId": "8dcf29cde790cc3a82c0f01c2407517ad674f893",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_fab221e4",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectInfoScreen.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 574,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-10T12:31:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d065072b_b4cf2064",
       "range": {
         "startLine": 574,
         "startChar": 4,
@@ -65,6 +107,47 @@
     },
     {
       "key": {
+        "uuid": "d065072b_1a939d4b",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeApi.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-10T12:31:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "106cff13_fc4ea14d",
+      "range": {
+        "startLine": 213,
+        "startChar": 30,
+        "endLine": 213,
+        "endChar": 43
+      },
+      "revId": "8dcf29cde790cc3a82c0f01c2407517ad674f893",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "106cff13_bcb8a9c6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/Module.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-10T12:31:09Z",
+      "side": 1,
+      "message": "unsued. Done.",
+      "revId": "8dcf29cde790cc3a82c0f01c2407517ad674f893",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d065072b_7af451a5",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectCreateChange.java",
         "patchSetId": 3
@@ -76,6 +159,24 @@
       "writtenOn": "2014-09-10T12:04:36Z",
       "side": 1,
       "message": "This handler is unused AFAICT. The client code as you have it right now posts to /changes/",
+      "revId": "8dcf29cde790cc3a82c0f01c2407517ad674f893",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_7a98d163",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectCreateChange.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-10T12:31:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d065072b_7af451a5",
       "revId": "8dcf29cde790cc3a82c0f01c2407517ad674f893",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -29,6 +29,7 @@ class EditFileAction {
  private final ChangeScreen2.Style style;
  private final Widget editMessageButton;
  private final Widget relativeTo;
+ private final boolean editExists;
 
  private EditFileBox editBox;
  private PopupPanel popup;
@@ -39,13 +40,15 @@ class EditFileAction {
      String file,
      ChangeScreen2.Style style,
      Widget editButton,
-     Widget replyButton) {
+     Widget replyButton,
+     boolean editExists) {
    this.id = id;
    this.content = content;
    this.file = file;
    this.style = style;
    this.editMessageButton = editButton;
    this.relativeTo = replyButton;
+   this.editExists = editExists;
  }
 
  void onEdit() {
@@ -58,7 +61,8 @@ class EditFileAction {
      editBox = new EditFileBox(
          id,
          content,
-         file);
+         file,
+         editExists);
    }
 
    final PluginSafePopupPanel p = new PluginSafePopupPanel(true);

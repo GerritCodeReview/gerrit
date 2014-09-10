@@ -43,10 +43,10 @@ public class ChangeFileApi {
     }
   }
 
-  /** Get the contents of a File in a PatchSet or cange edit. */
-  public static void getContent(PatchSet.Id id, String filename,
-      AsyncCallback<String> cb) {
-    contentEditOrPs(id, filename).get(
+  /** Get the contents of a File in a PatchSet or change edit. */
+  public static void getContent(boolean editExists, PatchSet.Id id,
+      String filename, AsyncCallback<String> cb) {
+    contentEditOrPs(editExists, id, filename).get(
         new CallbackWrapper<NativeString, String>(cb) {
             @Override
             public void onSuccess(NativeString b64) {
@@ -76,8 +76,9 @@ public class ChangeFileApi {
     contentEdit(id.getParentKey(), filename).delete(result);
   }
 
-  private static RestApi contentEditOrPs(PatchSet.Id id, String filename) {
-    return id.get() == 0
+  private static RestApi contentEditOrPs(boolean editExists, PatchSet.Id id,
+      String filename) {
+    return editExists
         ? contentEdit(id.getParentKey(), filename)
         : ChangeApi.revision(id).view("files").id(filename).view("content");
   }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "106cff13_fc05017c",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 831,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2014-09-10T15:00:49Z",
+      "side": 1,
+      "message": "Perhaps a note that it is not applicable if not running the notedb?",
+      "revId": "d09308625448a30fa98681b9293615d0aa8ed846",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

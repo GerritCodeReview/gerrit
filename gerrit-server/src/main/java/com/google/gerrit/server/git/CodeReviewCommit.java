@@ -27,8 +27,26 @@ import java.util.List;
 
 /** Extended commit entity with code review specific metadata. */
 public class CodeReviewCommit extends RevCommit {
-  static CodeReviewCommit error(final CommitMergeStatus s) {
-    final CodeReviewCommit r = new CodeReviewCommit(ObjectId.zeroId());
+  static CodeReviewCommit revisionGone() {
+    return error(CommitMergeStatus.REVISION_GONE);
+  }
+
+  static CodeReviewCommit noPatchSet() {
+    return error(CommitMergeStatus.NO_PATCH_SET);
+  }
+
+  /**
+   * Create an error commit.
+   * <p>
+   * Should only be used for error statuses such that there is no possible
+   * non-zero commit on which we could call {@link
+   * #setStatusCode(CommitMergeStatus)}, enumerated in the methods above.
+   *
+   * @param CommitMergeStatus status
+   * @return new commit instance
+   */
+  private static CodeReviewCommit error(CommitMergeStatus s) {
+    CodeReviewCommit r = new CodeReviewCommit(ObjectId.zeroId());
     r.statusCode = s;
     return r;
   }

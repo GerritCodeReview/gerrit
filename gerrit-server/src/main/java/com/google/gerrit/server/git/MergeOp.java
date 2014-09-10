@@ -462,8 +462,7 @@ public class MergeOp {
     for (final Change chg : submitted) {
       final Change.Id changeId = chg.getId();
       if (chg.currentPatchSetId() == null) {
-        commits.put(changeId, CodeReviewCommit
-            .error(CommitMergeStatus.NO_PATCH_SET));
+        commits.put(changeId, CodeReviewCommit.noPatchSet());
         toUpdate.add(chg);
         continue;
       }
@@ -476,8 +475,7 @@ public class MergeOp {
       }
       if (ps == null || ps.getRevision() == null
           || ps.getRevision().get() == null) {
-        commits.put(changeId, CodeReviewCommit
-            .error(CommitMergeStatus.NO_PATCH_SET));
+        commits.put(changeId, CodeReviewCommit.noPatchSet());
         toUpdate.add(chg);
         continue;
       }
@@ -487,8 +485,7 @@ public class MergeOp {
       try {
         id = ObjectId.fromString(idstr);
       } catch (IllegalArgumentException iae) {
-        commits.put(changeId, CodeReviewCommit
-            .error(CommitMergeStatus.NO_PATCH_SET));
+        commits.put(changeId, CodeReviewCommit.noPatchSet());
         toUpdate.add(chg);
         continue;
       }
@@ -503,8 +500,7 @@ public class MergeOp {
         // want to merge the issue. We can't safely do that if the
         // tip is not reachable.
         //
-        commits.put(changeId, CodeReviewCommit
-            .error(CommitMergeStatus.REVISION_GONE));
+        commits.put(changeId, CodeReviewCommit.revisionGone());
         toUpdate.add(chg);
         continue;
       }
@@ -514,8 +510,7 @@ public class MergeOp {
         commit = (CodeReviewCommit) rw.parseCommit(id);
       } catch (IOException e) {
         log.error("Invalid commit " + id.name() + " on " + chg.getKey(), e);
-        commits.put(changeId, CodeReviewCommit
-            .error(CommitMergeStatus.REVISION_GONE));
+        commits.put(changeId, CodeReviewCommit.revisionGone());
         toUpdate.add(chg);
         continue;
       }
@@ -528,17 +523,16 @@ public class MergeOp {
       }
       commit.setPatchsetId(ps.getId());
       commit.originalOrder = commitOrder++;
+      commits.put(changeId, commit);
 
       MergeValidators mergeValidators = mergeValidatorsFactory.create();
       try {
         mergeValidators.validatePreMerge(repo, commit, destProject, destBranch, ps.getId());
       } catch (MergeValidationException mve) {
-        commits.put(changeId, CodeReviewCommit.error(mve.getStatus()));
+        commit.setStatusCode(mve.getStatus());
         toUpdate.add(chg);
         continue;
       }
-
-      commits.put(changeId, commit);
 
       if (branchTip != null) {
         // If this commit is already merged its a bug in the queuing code
@@ -562,8 +556,7 @@ public class MergeOp {
 
       final SubmitType submitType = getSubmitType(commit.getControl(), ps);
       if (submitType == null) {
-        commits.put(changeId,
-            CodeReviewCommit.error(CommitMergeStatus.NO_SUBMIT_TYPE));
+        commit.setStatusCode(CommitMergeStatus.NO_SUBMIT_TYPE);
         toUpdate.add(chg);
         continue;
       }

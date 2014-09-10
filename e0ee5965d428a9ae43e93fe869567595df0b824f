@@ -34,6 +34,24 @@
       "revId": "e0ee5965d428a9ae43e93fe869567595df0b824f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_fa91818d",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmitOnPushIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-10T10:51:48Z",
+      "side": 1,
+      "message": "pushTo pushes HEAD to the destination ref specified in the argument. So it should be \"refs/heads/\u003cnew-branch-name\u003e\", right? Where \u003cnew-branch-name\u003e is a branch (not master) for which you\u0027ve granted the permissions you describe in the commit message.",
+      "parentUuid": "705d3b5f_5927e3a2",
+      "revId": "e0ee5965d428a9ae43e93fe869567595df0b824f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

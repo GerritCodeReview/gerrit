@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "705d3b5f_f99cf78d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-10T05:22:45Z",
+      "side": 1,
+      "message": "secondary index",
+      "range": {
+        "startLine": 7,
+        "startChar": 21,
+        "endLine": 7,
+        "endChar": 27
+      },
+      "revId": "e33a553a67ba876e77a2e7cb519dab3a9130989a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9058ef70_9a84cd51",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java",
         "patchSetId": 2

@@ -43,7 +43,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.annotation.Annotation;
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Enumeration;
@@ -134,10 +134,15 @@ public class JarScanner implements PluginContentScanner {
     return result.build();
   }
 
-  public List<String> findImplementationsOf(final Class<?> requestedInterface) {
-    List<String> result = Lists.newArrayList();
-    String name = requestedInterface.getName().replace('.', '/');
+  public List<String> findChildrenOf(Class<?> superClass) {
+    return findChildrenOf(superClass.getName());
+  }
 
+  private List<String> findChildrenOf(String superClass) {
+    String name = superClass.replace('.', '/');
+
+    List<String> classes = new ArrayList<>();
+    List<String> abstracts = new ArrayList<>();
     Enumeration<JarEntry> e = jarFile.entries();
     while (e.hasMoreElements()) {
       JarEntry entry = e.nextElement();
@@ -157,10 +162,17 @@ public class JarScanner implements PluginContentScanner {
         continue;
       }
 
-      if (def.isConcrete() && def.interfaces != null
-          && Iterables.contains(Arrays.asList(def.interfaces), name)) {
-        result.add(def.className);
+      if (name.equals(def.superName)) {
+        if (def.isConcrete()) {
+          classes.add(def.className);
+        } else {
+          abstracts.add(def.className);
+        }
       }
+    }
+    List<String> result = new ArrayList<>(classes);
+    for (String child : Iterables.concat(classes, abstracts)) {
+      result.addAll(findChildrenOf(child));
     }
 
     return result;
@@ -194,6 +206,7 @@ public class JarScanner implements PluginContentScanner {
   public static class ClassData extends ClassVisitor {
     int access;
     String className;
+    String superName;
     String annotationName;
     String annotationValue;
     String[] interfaces;
@@ -214,7 +227,7 @@ public class JarScanner implements PluginContentScanner {
         String superName, String[] interfaces) {
       this.className = Type.getObjectType(name).getClassName();
       this.access = access;
-      this.interfaces = interfaces;
+      this.superName = superName;
     }
 
     @Override

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "705d3b5f_19ef2bd5",
+        "filename": "Documentation/project-configuration.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2014-09-10T17:01:17Z",
+      "side": 1,
+      "message": "I liked the description from Saša\u0027s comment on patch set 4:\n\nOn push for review:\n* create new changes for all commits not in any branch\n* create new changes for all commits not in the target branch\n\nThat would make the heading something like\n\n \u003d\u003d\u003d Use target branch when determining new changes to open",
+      "range": {
+        "startLine": 153,
+        "startChar": 0,
+        "endLine": 153,
+        "endChar": 25
+      },
+      "revId": "20acd20a41e6e58485423b5e4552e27a9d14c368",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "705d3b5f_79f467a5",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 674,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2014-09-10T17:01:17Z",
+      "side": 1,
+      "message": "Could this be something like \"determine_new_changes_using_target\", but more concise? (Sorry, I\u0027m lousy at naming things.)",
+      "range": {
+        "startLine": 674,
+        "startChar": 0,
+        "endLine": 674,
+        "endChar": 30
+      },
+      "revId": "20acd20a41e6e58485423b5e4552e27a9d14c368",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

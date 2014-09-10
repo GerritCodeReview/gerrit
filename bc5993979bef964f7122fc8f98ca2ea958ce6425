@@ -34,6 +34,24 @@
       "revId": "bc5993979bef964f7122fc8f98ca2ea958ce6425",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30dae333_7f5c6f27",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/EditFileBox.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2014-09-10T17:58:00Z",
+      "side": 1,
+      "message": "Removed some reduntant code.",
+      "parentUuid": "30dae333_df91fb8d",
+      "revId": "bc5993979bef964f7122fc8f98ca2ea958ce6425",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

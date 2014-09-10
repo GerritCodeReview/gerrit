@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d065072b_1ad55d56",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/HashtagPredicate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1010030
+      },
+      "writtenOn": "2014-09-10T09:47:11Z",
+      "side": 1,
+      "message": "-1: This compares a string to an Set\u0027s toString method.",
+      "revId": "3847b4a371d18d027be0ec861cb24e8a8e399adb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

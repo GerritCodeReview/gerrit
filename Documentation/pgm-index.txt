@@ -24,6 +24,9 @@ link:pgm-prolog-shell.html[prolog-shell]::
 link:pgm-reindex.html[reindex]::
 	Rebuild the secondary index.
 
+link:pgm-switch-secure-store.html[switch-secure-store]::
+	Change used SecureStore implementation.
+
 link:pgm-rulec.html[rulec]::
 	Compile project-specific Prolog rules to JARs.
 

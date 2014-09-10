@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "106cff13_794e23fc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeEdits.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-10T07:47:51Z",
+      "side": 1,
+      "message": "Doesn\u0027t need to be mentioned in this comment, but note that this only applies to the boolean options; base is still a free-form string.",
+      "revId": "6ca97f324338182fb1e57feef26ce51585051d83",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "106cff13_595367a0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 907,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-10T07:47:51Z",
+      "side": 1,
+      "message": "I think this can stay private, it\u0027s only called from populateFetchMap and not ChangeEditJson",
+      "range": {
+        "startLine": 907,
+        "startChar": 2,
+        "endLine": 907,
+        "endChar": 8
+      },
+      "revId": "6ca97f324338182fb1e57feef26ce51585051d83",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,118 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "106cff13_3c8e5925",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectInfoScreen.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 567,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-10T12:40:42Z",
+      "side": 1,
+      "message": "We discussed this in person. Even if we exposed the UI action on the server side and made it under /projects/X, that still wouldn\u0027t give callers enough information to call this endpoint: they would still need to look up what goes in the body of the POST request.\n\nSo we\u0027re just not exposing this particular UI action on the server side.",
+      "revId": "d8226f592e2d56019a79e694366e211c9cca849a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "106cff13_7c98d163",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeApi.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-10T12:40:42Z",
+      "side": 1,
+      "message": "Optional: unnecessary blank line",
+      "revId": "d8226f592e2d56019a79e694366e211c9cca849a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "106cff13_1c939d4b",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeApi.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-10T12:40:42Z",
+      "side": 1,
+      "message": "Needs blank line",
+      "revId": "d8226f592e2d56019a79e694366e211c9cca849a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_da880513",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeApi.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-10T12:40:42Z",
+      "side": 1,
+      "message": "Extra space",
+      "range": {
+        "startLine": 213,
+        "startChar": 42,
+        "endLine": 213,
+        "endChar": 43
+      },
+      "revId": "d8226f592e2d56019a79e694366e211c9cca849a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "106cff13_5c9d1552",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/CreateChangeDialog.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-10T12:40:42Z",
+      "side": 1,
+      "message": "This would be fine as an ArrayList",
+      "revId": "d8226f592e2d56019a79e694366e211c9cca849a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_3a777955",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/CreateChangeDialog.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-10T12:40:42Z",
+      "side": 1,
+      "message": "Unnecessary final.\n\nDo we not have access to JGit\u0027s Constants class in gwtui?",
+      "range": {
+        "startLine": 93,
+        "startChar": 6,
+        "endLine": 93,
+        "endChar": 10
+      },
+      "revId": "d8226f592e2d56019a79e694366e211c9cca849a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

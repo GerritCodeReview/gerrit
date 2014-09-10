@@ -84,6 +84,24 @@
     },
     {
       "key": {
+        "uuid": "d065072b_ddeabf0c",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Hashtags.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-09-10T17:26:44Z",
+      "side": 1,
+      "message": "fixed in https://gerrit-review.googlesource.com/#/c/59921/13",
+      "parentUuid": "30dae333_9f0cd361",
+      "revId": "cbcc72002e5d23bbed8fdbbd41aca69718c8139c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d065072b_ba0ee9c6",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Hashtags.java",
         "patchSetId": 12

@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "d065072b_7af2914a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteHashtags.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1010030
+      },
+      "writtenOn": "2014-09-10T14:41:05Z",
+      "side": 1,
+      "message": "You can get a list from spliter, see \nhttps://gerrit-review.googlesource.com/#/c/59921/7/gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteHashtags.java@71",
+      "parentUuid": "d065072b_fa934103",
+      "range": {
+        "startLine": 74,
+        "startChar": 23,
+        "endLine": 74,
+        "endChar": 63
+      },
+      "revId": "ce353b4206b0ea95e7e783476ee883e8fc5dbf7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d065072b_daec859b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutHashtags.java",
         "patchSetId": 10

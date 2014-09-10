@@ -18,6 +18,7 @@ import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.collect.Iterables.transform;
 
 import com.google.common.base.Function;
+import com.google.common.base.Objects;
 import com.google.common.base.Optional;
 import com.google.common.base.Predicates;
 import com.google.common.base.Strings;
@@ -44,7 +45,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.annotation.Annotation;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Enumeration;
@@ -139,11 +139,11 @@ public class JarScanner implements PluginContentScanner {
     return result.build();
   }
 
-  public List<String> findImplementationsOf(final Class<?> requestedInterface)
+  public List<String> findChildOf(final Class<?> superClass)
       throws InvalidPluginException {
     Set<String> descriptors = Collections.emptySet();
     final ImmutableList.Builder<String> result = ImmutableList.builder();
-    final String name = requestedInterface.getName().replace('.', '/');
+    final String name = superClass.getName().replace('.', '/');
 
     Enumeration<JarEntry> e = jarFile.entries();
     while (e.hasMoreElements()) {
@@ -164,9 +164,7 @@ public class JarScanner implements PluginContentScanner {
         continue;
       }
 
-      if (def.isConcrete() && def.interfaces != null
-          && Iterables.contains(Arrays.asList(def.interfaces),
-              name)) {
+      if (def.isConcrete() && Objects.equal(def.superName, name)) {
         result.add(def.className);
       }
     }
@@ -202,6 +200,7 @@ public class JarScanner implements PluginContentScanner {
   public static class ClassData extends ClassVisitor {
     int access;
     String className;
+    String superName;
     String annotationName;
     String annotationValue;
     String[] interfaces;
@@ -222,7 +221,7 @@ public class JarScanner implements PluginContentScanner {
         String superName, String[] interfaces) {
       this.className = Type.getObjectType(name).getClassName();
       this.access = access;
-      this.interfaces = interfaces;
+      this.superName = superName;
     }
 
     @Override

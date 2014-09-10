@@ -14,6 +14,8 @@
 
 package com.google.gerrit.reviewdb.client;
 
+import static com.google.gerrit.reviewdb.client.RefNames.REFS_USER;
+
 import com.google.gwtorm.client.Column;
 import com.google.gwtorm.client.IntKey;
 
@@ -103,6 +105,16 @@ public final class Account {
       final Id r = new Id();
       r.fromString(str);
       return r;
+    }
+
+    public static Id fromRef(String name) {
+      if (name == null) {
+        return null;
+      }
+      if (name.startsWith(REFS_USER)) {
+        return fromRefPart(name.substring(REFS_USER.length()));
+      }
+      return null;
     }
 
     /**

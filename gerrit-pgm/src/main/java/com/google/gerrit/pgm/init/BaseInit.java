@@ -273,7 +273,7 @@ public class BaseInit extends SiteProgram {
       }
       JarScanner scanner = new JarScanner(secureStoreLib);
       List<String> secureStores =
-          scanner.findImplementationsOf(SecureStore.class);
+          scanner.findSubClassesOf(SecureStore.class);
       if (secureStores.isEmpty()) {
         throw new InvalidSecureStoreException(String.format(
             "Cannot find class implementing %s interface in %s",

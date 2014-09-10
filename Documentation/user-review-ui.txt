@@ -98,7 +98,7 @@ It displays the author and the committer as links to a list of this
 person's changes that have the same status as the currently viewed
 change.
 
-The commit ID and the link:user-changeid.html[Change-Id] are both
+The commit ID, the parent commit(s) and the link:user-changeid.html[Change-Id] are
 displayed with a copy-to-clipboard icon that allows the ID to be copied
 into the clipboard.
 
@@ -107,8 +107,7 @@ is also a link to the commit in the Git web browser.
 
 image::images/user-review-ui-change-screen-commit-info.png[width=800, link="images/user-review-ui-change-screen-commit-info.png"]
 
-If a merge commit is viewed this is highlighted by an icon. In this
-case the parent commits are also shown.
+If a merge commit is viewed this is highlighted by an icon.
 
 image::images/user-review-ui-change-screen-commit-info-merge-commit.png[width=800, link="images/user-review-ui-change-screen-commit-info-merge-commit.png"]
 

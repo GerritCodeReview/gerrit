@@ -57,6 +57,7 @@ import com.google.gerrit.server.contact.HttpContactStoreConnection;
 import com.google.gerrit.server.git.GarbageCollectionRunner;
 import com.google.gerrit.server.git.ReceiveCommitsExecutorModule;
 import com.google.gerrit.server.git.WorkQueue;
+import com.google.gerrit.server.index.DummyIndexModule;
 import com.google.gerrit.server.index.IndexModule;
 import com.google.gerrit.server.index.IndexModule.IndexType;
 import com.google.gerrit.server.mail.SignedTokenEmailTokenVerifier;
@@ -361,6 +362,9 @@ public class Daemon extends SiteProgram {
   }
 
   private AbstractModule createIndexModule() {
+    if (slave) {
+      return new DummyIndexModule();
+    }
     IndexType indexType = IndexModule.getIndexType(cfgInjector);
     switch (indexType) {
       case LUCENE:

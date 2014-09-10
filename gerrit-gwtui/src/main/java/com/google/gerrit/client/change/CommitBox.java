@@ -118,8 +118,8 @@ class CommitBox extends Composite {
 
     if (revInfo.commit().parents().length() > 1) {
       mergeCommit.setVisible(true);
-      setParents(change.project(), revInfo.commit().parents());
     }
+    setParents(change.project(), revInfo.commit().parents());
   }
 
   private void setWebLinks(ChangeInfo change, String revision,

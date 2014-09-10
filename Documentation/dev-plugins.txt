@@ -1707,6 +1707,18 @@ MyType(@PluginData java.io.File myDir) {
 }
 ----
 
+[[secure-store]]
+== SecureStore
+
+SecureStore allow change the way how Gerrit store sensitive data
+like password.
+
+In order to replace default implemtation class that extends
+`com.google.gerrit.server.securestore.SecureStore` need to be provide
+in separate jar (with dependenties) file.
+Then link:pgm-switch-secure-store.html[switch-secure-store] must 
+to be run to switch implementations.
+
 [[download-commands]]
 == Download Commands
 

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "d065072b_ba70a9a7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/RefOperationValidators.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1013722
+      },
+      "writtenOn": "2014-09-10T11:08:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d065072b_7af3b105",
+      "range": {
+        "startLine": 35,
+        "startChar": 10,
+        "endLine": 35,
+        "endChar": 22
+      },
+      "revId": "978e16c734c2efbdef6b92a41ea86b5a7e27ca7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d065072b_ba0c2961",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/RefOperationValidators.java",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2014-09-10T10:40:18Z",
       "side": 1,
       "message": "private members should be after static methods",
+      "range": {
+        "startLine": 43,
+        "startChar": 2,
+        "endLine": 44,
+        "endChar": 91
+      },
+      "revId": "978e16c734c2efbdef6b92a41ea86b5a7e27ca7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_9a6dedd1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/RefOperationValidators.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1013722
+      },
+      "writtenOn": "2014-09-10T11:08:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d065072b_ba0c2961",
       "range": {
         "startLine": 43,
         "startChar": 2,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "106cff13_9c3b2de1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/RefOperationValidators.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1013722
+      },
+      "writtenOn": "2014-09-10T11:08:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "106cff13_9ce04d31",
+      "range": {
+        "startLine": 53,
+        "startChar": 6,
+        "endLine": 53,
+        "endChar": 12
+      },
+      "revId": "978e16c734c2efbdef6b92a41ea86b5a7e27ca7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "106cff13_fced0127",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/RefOperationValidators.java",
         "patchSetId": 1
@@ -82,6 +154,30 @@
       "writtenOn": "2014-09-10T10:40:18Z",
       "side": 1,
       "message": "do you have a reason for using linkedList instead of simple arrayList?",
+      "range": {
+        "startLine": 66,
+        "startChar": 39,
+        "endLine": 66,
+        "endChar": 60
+      },
+      "revId": "978e16c734c2efbdef6b92a41ea86b5a7e27ca7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_fa6a21b5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/RefOperationValidators.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1013722
+      },
+      "writtenOn": "2014-09-10T11:08:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "106cff13_fced0127",
       "range": {
         "startLine": 66,
         "startChar": 39,
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "106cff13_fc3861e5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/RefOperationValidators.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1013722
+      },
+      "writtenOn": "2014-09-10T11:08:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d065072b_3a22d9c5",
+      "range": {
+        "startLine": 75,
+        "startChar": 4,
+        "endLine": 75,
+        "endChar": 15
+      },
+      "revId": "978e16c734c2efbdef6b92a41ea86b5a7e27ca7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d065072b_ba3ee9d0",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/ValidationMessage.java",
         "patchSetId": 1
@@ -140,6 +260,30 @@
     },
     {
       "key": {
+        "uuid": "106cff13_dc35a5ed",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/ValidationMessage.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1013722
+      },
+      "writtenOn": "2014-09-10T11:08:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d065072b_ba3ee9d0",
+      "range": {
+        "startLine": 21,
+        "startChar": 27,
+        "endLine": 21,
+        "endChar": 32
+      },
+      "revId": "978e16c734c2efbdef6b92a41ea86b5a7e27ca7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d065072b_9a3b2de1",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateBranch.java",
         "patchSetId": 1
@@ -151,6 +295,30 @@
       "writtenOn": "2014-09-10T10:40:18Z",
       "side": 1,
       "message": "not needed",
+      "range": {
+        "startLine": 155,
+        "startChar": 32,
+        "endLine": 155,
+        "endChar": 40
+      },
+      "revId": "978e16c734c2efbdef6b92a41ea86b5a7e27ca7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "106cff13_1c79dd9c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateBranch.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1013722
+      },
+      "writtenOn": "2014-09-10T11:08:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d065072b_9a3b2de1",
       "range": {
         "startLine": 155,
         "startChar": 32,

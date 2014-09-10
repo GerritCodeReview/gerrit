@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f03f6be6_7d3bb7b4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1016722
+      },
+      "writtenOn": "2014-09-10T19:16:31Z",
+      "side": 1,
+      "message": "Pagination depends on filtering.",
+      "parentUuid": "d065072b_bab9c903",
+      "range": {
+        "startLine": 7,
+        "startChar": 10,
+        "endLine": 7,
+        "endChar": 20
+      },
+      "revId": "cea997787eccd844d241dcfb3e43e03473cb04da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d065072b_5a83554a",
         "filename": "Documentation/rest-api-projects.txt",
         "patchSetId": 7
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "d04c27b5_7c98d963",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 920,
+      "author": {
+        "id": 1016722
+      },
+      "writtenOn": "2014-09-10T19:16:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d065072b_5a83554a",
+      "revId": "cea997787eccd844d241dcfb3e43e03473cb04da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "106cff13_fc1fc176",
         "filename": "Documentation/rest-api-projects.txt",
         "patchSetId": 7
@@ -53,6 +95,30 @@
       "writtenOn": "2014-09-10T12:00:23Z",
       "side": 1,
       "message": "branches",
+      "range": {
+        "startLine": 927,
+        "startChar": 20,
+        "endLine": 927,
+        "endChar": 28
+      },
+      "revId": "cea997787eccd844d241dcfb3e43e03473cb04da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d04c27b5_5c9d1d52",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 927,
+      "author": {
+        "id": 1016722
+      },
+      "writtenOn": "2014-09-10T19:16:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "106cff13_fc1fc176",
       "range": {
         "startLine": 927,
         "startChar": 20,
@@ -88,6 +154,30 @@
     },
     {
       "key": {
+        "uuid": "70d0db0f_81df1a73",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 947,
+      "author": {
+        "id": 1016722
+      },
+      "writtenOn": "2014-09-10T19:16:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "106cff13_3c4bf975",
+      "range": {
+        "startLine": 941,
+        "startChar": 0,
+        "endLine": 947,
+        "endChar": 1
+      },
+      "revId": "cea997787eccd844d241dcfb3e43e03473cb04da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d065072b_ba870955",
         "filename": "Documentation/rest-api-projects.txt",
         "patchSetId": 7
@@ -99,6 +189,30 @@
       "writtenOn": "2014-09-10T12:00:23Z",
       "side": 1,
       "message": "wrong indention",
+      "range": {
+        "startLine": 965,
+        "startChar": 0,
+        "endLine": 971,
+        "endChar": 1
+      },
+      "revId": "cea997787eccd844d241dcfb3e43e03473cb04da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70d0db0f_a1e33e3c",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 971,
+      "author": {
+        "id": 1016722
+      },
+      "writtenOn": "2014-09-10T19:16:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d065072b_ba870955",
       "range": {
         "startLine": 965,
         "startChar": 0,
@@ -128,6 +242,24 @@
     },
     {
       "key": {
+        "uuid": "d04c27b5_bc81c1f2",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 972,
+      "author": {
+        "id": 1016722
+      },
+      "writtenOn": "2014-09-10T19:16:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "106cff13_1c50bd1c",
+      "revId": "cea997787eccd844d241dcfb3e43e03473cb04da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "106cff13_7c45715e",
         "filename": "Documentation/rest-api-projects.txt",
         "patchSetId": 7
@@ -139,6 +271,24 @@
       "writtenOn": "2014-09-10T12:00:23Z",
       "side": 1,
       "message": "missing blank line after \u0027----\u0027",
+      "revId": "cea997787eccd844d241dcfb3e43e03473cb04da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d04c27b5_9c7e8530",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 973,
+      "author": {
+        "id": 1016722
+      },
+      "writtenOn": "2014-09-10T19:16:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "106cff13_7c45715e",
       "revId": "cea997787eccd844d241dcfb3e43e03473cb04da",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -168,6 +318,30 @@
     },
     {
       "key": {
+        "uuid": "d04c27b5_fc8b490c",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 1002,
+      "author": {
+        "id": 1016722
+      },
+      "writtenOn": "2014-09-10T19:16:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d065072b_9a84cd51",
+      "range": {
+        "startLine": 993,
+        "startChar": 0,
+        "endLine": 1002,
+        "endChar": 4
+      },
+      "revId": "cea997787eccd844d241dcfb3e43e03473cb04da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d065072b_3a5db926",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Dispatcher.java",
         "patchSetId": 7
@@ -179,6 +353,24 @@
       "writtenOn": "2014-09-10T12:00:23Z",
       "side": 1,
       "message": "lots of unrelated formatting changes?\n\nThis makes it difficult to spot the actual code changes.\n\nAnother problem with pure formatting changes is that it makes the git blame annotations much less useful.",
+      "revId": "cea997787eccd844d241dcfb3e43e03473cb04da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70d0db0f_01eb0a12",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Dispatcher.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1016722
+      },
+      "writtenOn": "2014-09-10T19:16:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d065072b_3a5db926",
       "revId": "cea997787eccd844d241dcfb3e43e03473cb04da",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -208,6 +400,30 @@
     },
     {
       "key": {
+        "uuid": "d04c27b5_dc880d13",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Dispatcher.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 935,
+      "author": {
+        "id": 1016722
+      },
+      "writtenOn": "2014-09-10T19:16:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d065072b_da6765ed",
+      "range": {
+        "startLine": 934,
+        "startChar": 10,
+        "endLine": 935,
+        "endChar": 58
+      },
+      "revId": "cea997787eccd844d241dcfb3e43e03473cb04da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d065072b_da99259c",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectBranchesScreen.java",
         "patchSetId": 7
@@ -225,6 +441,24 @@
     },
     {
       "key": {
+        "uuid": "70d0db0f_21d00e66",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectBranchesScreen.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1016722
+      },
+      "writtenOn": "2014-09-10T19:16:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d065072b_da99259c",
+      "revId": "cea997787eccd844d241dcfb3e43e03473cb04da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "106cff13_fc91818d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectBranchesScreen.java",
         "patchSetId": 7
@@ -236,6 +470,30 @@
       "writtenOn": "2014-09-10T12:00:23Z",
       "side": 1,
       "message": "We are not anymore using final for such variable declarations.",
+      "range": {
+        "startLine": 99,
+        "startChar": 6,
+        "endLine": 101,
+        "endChar": 12
+      },
+      "revId": "cea997787eccd844d241dcfb3e43e03473cb04da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d04c27b5_dcaf6d7c",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectBranchesScreen.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1016722
+      },
+      "writtenOn": "2014-09-10T19:16:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "106cff13_fc91818d",
       "range": {
         "startLine": 99,
         "startChar": 6,
@@ -271,6 +529,30 @@
     },
     {
       "key": {
+        "uuid": "70d0db0f_41d51255",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectBranchesScreen.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1016722
+      },
+      "writtenOn": "2014-09-10T19:16:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "106cff13_7c573106",
+      "range": {
+        "startLine": 122,
+        "startChar": 31,
+        "endLine": 122,
+        "endChar": 56
+      },
+      "revId": "cea997787eccd844d241dcfb3e43e03473cb04da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d065072b_baa269c7",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectBranchesScreen.java",
         "patchSetId": 7
@@ -282,6 +564,30 @@
       "writtenOn": "2014-09-10T12:00:23Z",
       "side": 1,
       "message": "You must fetch (pageSize + 1) branches, otherwise if you receice exactly pageSize branches you don\u0027t know whether you must display the next link or not. Have a look at the project list screen to see how it\u0027s done there.",
+      "range": {
+        "startLine": 127,
+        "startChar": 44,
+        "endLine": 127,
+        "endChar": 52
+      },
+      "revId": "cea997787eccd844d241dcfb3e43e03473cb04da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d04c27b5_fcb229e4",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectBranchesScreen.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1016722
+      },
+      "writtenOn": "2014-09-10T19:16:31Z",
+      "side": 1,
+      "message": "On line 135 I implemented the check for the size which will determine the visibility of the next  button.",
+      "parentUuid": "d065072b_baa269c7",
       "range": {
         "startLine": 127,
         "startChar": 44,
@@ -317,6 +623,30 @@
     },
     {
       "key": {
+        "uuid": "d04c27b5_3c8e5125",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectBranchesScreen.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1016722
+      },
+      "writtenOn": "2014-09-10T19:16:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "106cff13_1cb43d05",
+      "range": {
+        "startLine": 271,
+        "startChar": 4,
+        "endLine": 271,
+        "endChar": 9
+      },
+      "revId": "cea997787eccd844d241dcfb3e43e03473cb04da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "106cff13_fc3501c6",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectBranchesScreen.java",
         "patchSetId": 7
@@ -328,6 +658,30 @@
       "writtenOn": "2014-09-10T12:00:23Z",
       "side": 1,
       "message": "For me the navigation buttons are displayed on the far right side and a user would easily miss them.\n\nSee\n  http://i.imgur.com/62eh9Sz.png",
+      "range": {
+        "startLine": 271,
+        "startChar": 4,
+        "endLine": 275,
+        "endChar": 17
+      },
+      "revId": "cea997787eccd844d241dcfb3e43e03473cb04da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70d0db0f_61f3f605",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectBranchesScreen.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 1016722
+      },
+      "writtenOn": "2014-09-10T19:16:31Z",
+      "side": 1,
+      "message": "I think they are the same as on the other screens. Do you see any difference?",
+      "parentUuid": "106cff13_fc3501c6",
       "range": {
         "startLine": 271,
         "startChar": 4,
@@ -363,6 +717,30 @@
     },
     {
       "key": {
+        "uuid": "d04c27b5_1c93954b",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectBranchesScreen.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 1016722
+      },
+      "writtenOn": "2014-09-10T19:16:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d065072b_9a9fad81",
+      "range": {
+        "startLine": 280,
+        "startChar": 4,
+        "endLine": 282,
+        "endChar": 9
+      },
+      "revId": "cea997787eccd844d241dcfb3e43e03473cb04da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "106cff13_bc5429e0",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectBranchesScreen.java",
         "patchSetId": 7
@@ -374,6 +752,30 @@
       "writtenOn": "2014-09-10T12:00:23Z",
       "side": 1,
       "message": "When new branches are created and inserted into the list the page size limitation is violated, then more branches than the page size are displayed.\n\nAnother problem is that new branches are shown regardless of the current filter. Also new branches that do not match the filter are shown. \n\nThis is actually tricky to solve. Users likely expect that they immediately see any newly created branch in the list. It might make sense to clear the filter on branch creation, but I\u0027m not sure what should happen if a new branch is created that would e.g. be sorted in into the third page while you are watching the first page.",
+      "range": {
+        "startLine": 327,
+        "startChar": 10,
+        "endLine": 333,
+        "endChar": 11
+      },
+      "revId": "cea997787eccd844d241dcfb3e43e03473cb04da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70d0db0f_81f8fadf",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectBranchesScreen.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 1016722
+      },
+      "writtenOn": "2014-09-10T19:16:31Z",
+      "side": 1,
+      "message": "This will be done in a separate commit.",
+      "parentUuid": "106cff13_bc5429e0",
       "range": {
         "startLine": 327,
         "startChar": 10,
@@ -409,6 +811,30 @@
     },
     {
       "key": {
+        "uuid": "d04c27b5_bc6a6166",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectBranchesScreen.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 502,
+      "author": {
+        "id": 1016722
+      },
+      "writtenOn": "2014-09-10T19:16:31Z",
+      "side": 1,
+      "message": "This will be done in a separate commit.",
+      "parentUuid": "d065072b_1aef1dd5",
+      "range": {
+        "startLine": 502,
+        "startChar": 6,
+        "endLine": 502,
+        "endChar": 46
+      },
+      "revId": "cea997787eccd844d241dcfb3e43e03473cb04da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "106cff13_bca269c7",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/projects/ProjectApi.java",
         "patchSetId": 7
@@ -432,6 +858,30 @@
     },
     {
       "key": {
+        "uuid": "70d0db0f_c1e04232",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/projects/ProjectApi.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1016722
+      },
+      "writtenOn": "2014-09-10T19:16:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "106cff13_bca269c7",
+      "range": {
+        "startLine": 62,
+        "startChar": 2,
+        "endLine": 63,
+        "endChar": 46
+      },
+      "revId": "cea997787eccd844d241dcfb3e43e03473cb04da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d065072b_ba2b896b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListBranches.java",
         "patchSetId": 7
@@ -443,6 +893,30 @@
       "writtenOn": "2014-09-10T12:00:23Z",
       "side": 1,
       "message": "better: filteredBranches",
+      "range": {
+        "startLine": 189,
+        "startChar": 21,
+        "endLine": 189,
+        "endChar": 35
+      },
+      "revId": "cea997787eccd844d241dcfb3e43e03473cb04da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70d0db0f_e1ed4627",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListBranches.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1016722
+      },
+      "writtenOn": "2014-09-10T19:16:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d065072b_ba2b896b",
       "range": {
         "startLine": 189,
         "startChar": 21,

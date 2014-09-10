@@ -94,6 +94,29 @@
     },
     {
       "key": {
+        "uuid": "d065072b_77790a03",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetHashtags.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-10T08:10:24Z",
+      "side": 1,
+      "message": "Actually, why do we need to set the hashtags in the GET?",
+      "range": {
+        "startLine": 48,
+        "startChar": 4,
+        "endLine": 49,
+        "endChar": 20
+      },
+      "revId": "45df51452f64c037e6353e48340f803d68c9196a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "705d3b5f_b9b9df03",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutHashtags.java",
         "patchSetId": 3

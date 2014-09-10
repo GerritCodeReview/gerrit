@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d065072b_f7935a03",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/PageLinks.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-10T07:58:39Z",
+      "side": 1,
+      "message": "So /c/X,edit/ means \"edit on change X in edit mode\", while /c/X/edit means \"edit on change X in review mode\"? That\u0027s...odd.\n\nIn a roundabout way, this is kind of an argument for making the action when clicking on a file path in edit mode to go to SBS2. Then we could have /c/X/edit mean \"edit on change X in edit mode\". There would be no such thing as \"edit on change X in review mode\", but that\u0027s not really a problem if you can still get to SBS2.\n\nThat said, I don\u0027t think we should make a UX decision about what happens when you click on a particular link based on it making the URL structure nicer. If having correct behavior means having an ugly URL I think we can live with that. (And anyway we\u0027re not committed to making this particular URL stable, so we can change it later if we think of something better.)",
+      "revId": "fd1e269fa65f3e5d35e11a2789879149ae09212a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "106cff13_f9619363",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Dispatcher.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 539,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-10T07:58:39Z",
+      "side": 1,
+      "message": "We should allow \"edit\" and \"edit/foo\" for path \"foo\" but not \"editx\". So I think this needs to be:\n\n (panel.equals(\"edit\") || panel.startsWith(\"edit/\"))",
+      "revId": "fd1e269fa65f3e5d35e11a2789879149ae09212a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "106cff13_d95e57a3",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-10T07:58:39Z",
+      "side": 1,
+      "message": "Instead of a boolean, pass in a FileTable.Mode?",
+      "range": {
+        "startLine": 192,
+        "startChar": 28,
+        "endLine": 192,
+        "endChar": 52
+      },
+      "revId": "fd1e269fa65f3e5d35e11a2789879149ae09212a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

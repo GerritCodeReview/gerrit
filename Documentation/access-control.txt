@@ -820,6 +820,17 @@ by the 'Force Edit' flag. If this flag is not set the topic can only be
 edited on open changes.
 
 
+[[category_edit_hashtags]]
+=== Edit Hashtags
+
+This category permits users to add or remove hashtags on a change that
+is uploaded for review.
+
+The change owner, branch owners, project owners, and site administrators
+can always edit or remove hashtags (even without having the `Edit Hashtags`
+access right assigned).
+
+
 [[example_roles]]
 == Examples of typical roles in a project
 

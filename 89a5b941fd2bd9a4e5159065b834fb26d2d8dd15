@@ -1,0 +1,118 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d065072b_7a0d710d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-10T12:06:00Z",
+      "side": 1,
+      "message": ".gitconfig should be updated with full name.",
+      "revId": "89a5b941fd2bd9a4e5159065b834fb26d2d8dd15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "106cff13_7cf451a5",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/ChangeApi.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-10T12:06:00Z",
+      "side": 1,
+      "message": "unnecessary change",
+      "revId": "89a5b941fd2bd9a4e5159065b834fb26d2d8dd15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_fae7c1f5",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeMessages.properties",
+        "patchSetId": 8
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-10T12:06:00Z",
+      "side": 1,
+      "message": "hashtag",
+      "range": {
+        "startLine": 23,
+        "startChar": 23,
+        "endLine": 23,
+        "endChar": 31
+      },
+      "revId": "89a5b941fd2bd9a4e5159065b834fb26d2d8dd15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_3a13f934",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/HashTagApi.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-10T12:06:00Z",
+      "side": 1,
+      "message": "t\n\nAll the other classes are named Hashtag without camelcasing.",
+      "range": {
+        "startLine": 22,
+        "startChar": 17,
+        "endLine": 22,
+        "endChar": 18
+      },
+      "revId": "89a5b941fd2bd9a4e5159065b834fb26d2d8dd15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "106cff13_bcdd492c",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/rpc/RestApi.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 328,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-10T12:06:00Z",
+      "side": 1,
+      "message": "Wrap this line",
+      "revId": "89a5b941fd2bd9a4e5159065b834fb26d2d8dd15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_1a18bd4b",
+        "filename": "plugins/cookbook-plugin",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-10T12:06:00Z",
+      "side": 1,
+      "message": "Unintended change?",
+      "revId": "89a5b941fd2bd9a4e5159065b834fb26d2d8dd15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

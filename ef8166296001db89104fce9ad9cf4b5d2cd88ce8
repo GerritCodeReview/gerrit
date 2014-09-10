@@ -46,6 +46,30 @@
       "revId": "ef8166296001db89104fce9ad9cf4b5d2cd88ce8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_7ac3b11b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/VisibleRefFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-10T13:17:17Z",
+      "side": 1,
+      "message": "I thought about that but figured that they would probably have direct access to the git repos. Do you think a significant fraction of admins would not?\n\nAlso I don\u0027t think admins have automatic read access to all refs/changes refs, do they?\n\nAlthough RefControl.isVisible does hard-code access for InternalUser, maybe we should do that here? (I don\u0027t think we want to go all the way to creating a RefControl for each of these refs.)",
+      "parentUuid": "106cff13_bcb389d2",
+      "range": {
+        "startLine": 101,
+        "startChar": 8,
+        "endLine": 101,
+        "endChar": 46
+      },
+      "revId": "ef8166296001db89104fce9ad9cf4b5d2cd88ce8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

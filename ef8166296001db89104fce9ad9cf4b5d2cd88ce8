@@ -70,6 +70,30 @@
       "revId": "ef8166296001db89104fce9ad9cf4b5d2cd88ce8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "106cff13_bc57098b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/VisibleRefFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-09-10T13:53:43Z",
+      "side": 1,
+      "message": "\u003e I thought about that but figured that they would probably \n \u003e have direct access to the git repos. Do you think a \n \u003e significant fraction of admins would not?\n\nAt least at SAP we will have Gerrit servers where Gerrit admins do not have direct access to the git repos.\n\n \u003e Also I don\u0027t think admins have automatic read access to \n \u003e all refs/changes refs, do they?\n\nAgreed, admins should not have read access on the user refs by default, but it would be nice if it is assignable. Maybe this is something similar to drafts which are by default also user private, but then there is a View Drafts permission which can be assigned.",
+      "parentUuid": "d065072b_7ac3b11b",
+      "range": {
+        "startLine": 101,
+        "startChar": 8,
+        "endLine": 101,
+        "endChar": 46
+      },
+      "revId": "ef8166296001db89104fce9ad9cf4b5d2cd88ce8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

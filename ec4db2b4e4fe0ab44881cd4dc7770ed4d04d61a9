@@ -2,6 +2,178 @@
   "comments": [
     {
       "key": {
+        "uuid": "106cff13_5c0195a0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-10T13:54:42Z",
+      "side": 1,
+      "message": "%base",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 4
+      },
+      "revId": "ec4db2b4e4fe0ab44881cd4dc7770ed4d04d61a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "106cff13_7cfc514c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-10T13:54:42Z",
+      "side": 1,
+      "message": "and override Gerrits default algorithm for creating new changes on push to refs/for/*.",
+      "revId": "ec4db2b4e4fe0ab44881cd4dc7770ed4d04d61a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_1acefd43",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-10T13:54:42Z",
+      "side": 1,
+      "message": "For instance, one could submit a commit in a private branch and, afterward, push the same commit to a release branch.",
+      "range": {
+        "startLine": 12,
+        "startChar": 47,
+        "endLine": 14,
+        "endChar": 20
+      },
+      "revId": "ec4db2b4e4fe0ab44881cd4dc7770ed4d04d61a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_dad3e5e2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-10T13:54:42Z",
+      "side": 1,
+      "message": "Specifying the tip of the destination branch as the %base would have an effect of creating a new change for every commit reachable from the pushed commit and not reachable from the target branch. This behavior seems to be wanted by some Gerrit users and is implemented as a project config option by this change (although it contradicts the Gerrit\u0027s philosophy of reviewing one commit once).",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 38
+      },
+      "revId": "ec4db2b4e4fe0ab44881cd4dc7770ed4d04d61a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "106cff13_3c1bf90b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-10T13:54:42Z",
+      "side": 1,
+      "message": "\"auto base\" is a bad name..\n\"all-not-in-target-branch\"  is maybe not ideal but a lot better name.",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 9
+      },
+      "revId": "ec4db2b4e4fe0ab44881cd4dc7770ed4d04d61a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "106cff13_5c1a3504",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-10T13:54:42Z",
+      "side": 1,
+      "message": "Pushing a merge commit was easy before this change and this shouldn\u0027t change. We need a better solution for pushing merge commits.\nMaybe we can say that for merge commits the \"auto base\" option doesn\u0027t apply i.e. the Gerrit\u0027s default behavior applies.",
+      "range": {
+        "startLine": 24,
+        "startChar": 34,
+        "endLine": 27,
+        "endChar": 13
+      },
+      "revId": "ec4db2b4e4fe0ab44881cd4dc7770ed4d04d61a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "106cff13_bc0ee9c6",
+        "filename": "Documentation/project-configuration.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-10T13:54:42Z",
+      "side": 1,
+      "message": "all-not-in-target-branch",
+      "range": {
+        "startLine": 153,
+        "startChar": 8,
+        "endLine": 153,
+        "endChar": 17
+      },
+      "revId": "ec4db2b4e4fe0ab44881cd4dc7770ed4d04d61a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "106cff13_fc0861bb",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 674,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-10T13:54:42Z",
+      "side": 1,
+      "message": "all_no_in_target_branch",
+      "revId": "ec4db2b4e4fe0ab44881cd4dc7770ed4d04d61a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d065072b_9ab04dc7",
         "filename": "Documentation/rest-api-projects.txt",
         "patchSetId": 5
@@ -18,6 +190,69 @@
         "startChar": 15,
         "endLine": 675,
         "endChar": 19
+      },
+      "revId": "ec4db2b4e4fe0ab44881cd4dc7770ed4d04d61a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "106cff13_dc05a5a3",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/projects/ProjectInput.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-10T13:54:42Z",
+      "side": 1,
+      "message": "allNotInTargetBranch\n\n\nhere and in all other places... I will not repeat this comment further",
+      "revId": "ec4db2b4e4fe0ab44881cd4dc7770ed4d04d61a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "106cff13_3c4499dc",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/AdminConstants.properties",
+        "patchSetId": 5
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-10T13:54:42Z",
+      "side": 1,
+      "message": "change",
+      "range": {
+        "startLine": 26,
+        "startChar": 25,
+        "endLine": 26,
+        "endChar": 32
+      },
+      "revId": "ec4db2b4e4fe0ab44881cd4dc7770ed4d04d61a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_5a5355a0",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/AdminConstants.properties",
+        "patchSetId": 5
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-10T13:54:42Z",
+      "side": 1,
+      "message": "every",
+      "range": {
+        "startLine": 26,
+        "startChar": 37,
+        "endLine": 26,
+        "endChar": 40
       },
       "revId": "ec4db2b4e4fe0ab44881cd4dc7770ed4d04d61a9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

@@ -84,7 +84,6 @@ public class Reindex extends SiteProgram {
   private boolean dryRun;
 
   private Injector dbInjector;
-  private Config cfg;
   private Injector sysInjector;
   private ChangeIndex index;
 
@@ -93,8 +92,6 @@ public class Reindex extends SiteProgram {
     mustHaveValidSite();
     dbInjector = createDbInjector(MULTI_USER);
     threads = ThreadLimiter.limitThreads(dbInjector, threads);
-    cfg = dbInjector.getInstance(
-        Key.get(Config.class, GerritServerConfig.class));
     checkNotSlaveMode();
     disableLuceneAutomaticCommit();
     if (version == null) {
@@ -125,6 +122,8 @@ public class Reindex extends SiteProgram {
   }
 
   private void checkNotSlaveMode() throws Die {
+    Config cfg = dbInjector.getInstance(
+        Key.get(Config.class, GerritServerConfig.class));
     if (cfg.getBoolean("container", "slave", false)) {
       throw die("Cannot run reindex in slave mode");
     }

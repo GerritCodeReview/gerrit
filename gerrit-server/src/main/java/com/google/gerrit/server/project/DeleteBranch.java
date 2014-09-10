@@ -33,6 +33,7 @@ import org.eclipse.jgit.errors.LockFailedException;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.ReceiveCommand;
+import org.eclipse.jgit.transport.ReceiveCommand.Type;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -52,17 +53,21 @@ public class DeleteBranch implements RestModifyView<BranchResource, Input>{
   private final Provider<InternalChangeQuery> queryProvider;
   private final GitReferenceUpdated referenceUpdated;
   private final ChangeHooks hooks;
+  private final RefValidationHelper refDeletionValidator;
 
   @Inject
   DeleteBranch(Provider<IdentifiedUser> identifiedUser,
       GitRepositoryManager repoManager,
       Provider<InternalChangeQuery> queryProvider,
-      GitReferenceUpdated referenceUpdated, ChangeHooks hooks) {
+      GitReferenceUpdated referenceUpdated,
+      ChangeHooks hooks,
+      RefValidationHelper.Factory refHelperFactory) {
     this.identifiedUser = identifiedUser;
     this.repoManager = repoManager;
     this.queryProvider = queryProvider;
     this.referenceUpdated = referenceUpdated;
     this.hooks = hooks;
+    this.refDeletionValidator = refHelperFactory.create(Type.DELETE);
   }
 
   @Override
@@ -81,6 +86,7 @@ public class DeleteBranch implements RestModifyView<BranchResource, Input>{
       RefUpdate.Result result;
       RefUpdate u = r.updateRef(rsrc.getRef());
       u.setForceUpdate(true);
+      refDeletionValidator.validateRefOperation(rsrc.getName(), identifiedUser.get(), u);
       int remainingLockFailureCalls = MAX_LOCK_FAILURE_CALLS;
       for (;;) {
         try {

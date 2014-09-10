@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d065072b_f7d07a8a",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/SideBySide2.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 824,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-10T09:15:26Z",
+      "side": 1,
+      "message": "If we decide to make clicking on the path go to SBS2, then this will need to change depending on the mode the file table was in when the path was clicked (i.e. whether ,edit ended up in this URL).\n\nAnother possible improvement: if the RHS is an edit, automatically go to edit mode when you go up to change.\n\nThis is fine for now.",
+      "revId": "c6ae9dcb5d429c91e49389e2a3515ab530f112f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -234,6 +234,24 @@
       "revId": "35873bfd772731ec0d39669ee4d0bc0d3ed9ff63",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30dae333_3f2747d6",
+        "filename": "gerrit-gwtdebug/src/main/java/com/google/gwt/dev/codeserver/WebServer.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-10T16:46:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d065072b_dacda5f2",
+      "revId": "35873bfd772731ec0d39669ee4d0bc0d3ed9ff63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -17,6 +17,8 @@ package com.google.gerrit.pgm;
 import static com.google.gerrit.server.schema.DataSourceProvider.Context.SINGLE_USER;
 
 import com.google.common.base.Joiner;
+import com.google.common.base.MoreObjects;
+import com.google.common.base.Strings;
 import com.google.common.io.Files;
 import com.google.gerrit.pgm.util.IoUtil;
 import com.google.gerrit.pgm.util.SecureStoreClassNameProvider;
@@ -25,6 +27,7 @@ import com.google.gerrit.pgm.util.SiteProgram;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.plugins.InvalidPluginException;
 import com.google.gerrit.server.plugins.JarScanner;
+import com.google.gerrit.server.securestore.DefaultSecureStore;
 import com.google.gerrit.server.securestore.SecureStore;
 import com.google.gerrit.server.securestore.SecureStore.EntryKey;
 import com.google.inject.Injector;
@@ -58,13 +61,19 @@ public class SwitchSecureStore extends SiteProgram {
       throw new RuntimeException(String.format("File %s doesn't exists",
           newSecureStoreFile.getAbsolutePath()));
     }
+
+    Injector dbInjector = createDbInjector(SINGLE_USER);
     String newSecureStore = getNewSecureStore(newSecureStoreFile);
+    String currentSecureStoreName = getCurrentSecureStoreName(dbInjector);
+
+    if (currentSecureStoreName.equals(newSecureStore)) {
+      log.error("Old and new SecureStore implementation names are the same. Migration will not work");
+      return -1;
+    }
+
     IoUtil.loadJARs(newSecureStoreFile);
     SiteLibraryLoaderUtil.loadSiteLib(sitePaths.lib_dir);
 
-    Injector dbInjector = createDbInjector(SINGLE_USER);
-
-    String currentSecureStoreName = getCurrentSecureStoreName(dbInjector);
     SecureStore currentStore =
         getSecureStore(currentSecureStoreName, dbInjector);
     SecureStore newStore = getSecureStore(newSecureStore, dbInjector);
@@ -82,28 +91,20 @@ public class SwitchSecureStore extends SiteProgram {
   private void migrateProperties(SecureStore currentStore, SecureStore newStore) {
     log.info("Migrate entries");
     for (EntryKey key : currentStore.list()) {
-      String value =
-          currentStore
-              .get(key.getSection(), key.getSubsection(), key.getName());
+      String[] value =
+          currentStore.getList(key.getSection(), key.getSubsection(),
+              key.getName());
       if (value != null) {
-        newStore.set(key.getSection(), key.getSubsection(), key.getName(),
-            value);
+        newStore.setList(key.getSection(), key.getSubsection(), key.getName(),
+            Arrays.asList(value));
       } else {
-        String[] listValue =
-            currentStore.getList(key.getSection(), key.getSubsection(),
-                key.getName());
-        if (listValue != null) {
-          newStore.setList(key.getSection(), key.getSubsection(),
-              key.getName(), Arrays.asList(listValue));
-        } else {
-          String msg =
-              String.format("Cannot migrate entry for ", key.getSection());
-          if (key.getSubsection() != null) {
-            msg = msg + String.format("[%s]", key.getSubsection());
-          }
-          msg = msg + String.format(".%s", key.getName());
-          throw new RuntimeException(msg);
+        String msg =
+            String.format("Cannot migrate entry for ", key.getSection());
+        if (key.getSubsection() != null) {
+          msg = msg + String.format("[%s]", key.getSubsection());
         }
+        msg = msg + String.format(".%s", key.getName());
+        throw new RuntimeException(msg);
       }
     }
   }
@@ -163,7 +164,11 @@ public class SwitchSecureStore extends SiteProgram {
   private String getCurrentSecureStoreName(Injector injector) {
     SecureStoreClassNameProvider secureStoreNameProvider =
         injector.getInstance(SecureStoreClassNameProvider.class);
-    return secureStoreNameProvider.get();
+    String current = secureStoreNameProvider.get();
+    if (!Strings.isNullOrEmpty(current)) {
+      return current;
+    }
+    return DefaultSecureStore.class.getName();
   }
 
   private SecureStore getSecureStore(String className, Injector injector) {

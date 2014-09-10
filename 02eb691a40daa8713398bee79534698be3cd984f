@@ -290,6 +290,24 @@
     },
     {
       "key": {
+        "uuid": "106cff13_bce549b3",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticsearchChangeIndex.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-10T13:21:03Z",
+      "side": 1,
+      "message": "Yes, if this is available in a single call, let\u0027s skip the extra RTT. It\u0027s conceivable that the shard processing the update would even be able to take advantage of Lucene\u0027s NRT features.",
+      "parentUuid": "106cff13_fcbd019d",
+      "revId": "02eb691a40daa8713398bee79534698be3cd984f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d04c27b5_1c6275e4",
         "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticsearchChangeIndex.java",
         "patchSetId": 12

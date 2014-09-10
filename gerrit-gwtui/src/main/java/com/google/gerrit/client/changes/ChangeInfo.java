@@ -270,7 +270,7 @@ public class ChangeInfo extends JavaScriptObject {
       });
     }
 
-    private static int findEditParent(JsArray<RevisionInfo> list) {
+    public static int findEditParent(JsArray<RevisionInfo> list) {
       for (int i = 0; i < list.length(); i++) {
         // edit under revisions?
         RevisionInfo editInfo = list.get(i);

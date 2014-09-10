@@ -37,7 +37,6 @@ import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.edit.ChangeEdit;
 import com.google.gerrit.server.edit.ChangeEditJson;
@@ -51,6 +50,7 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.google.inject.assistedinject.Assisted;
 
+import org.eclipse.jgit.lib.ObjectId;
 import org.kohsuke.args4j.Option;
 
 import java.io.IOException;
@@ -270,7 +270,7 @@ public class ChangeEdits implements
     @Override
     public Response<EditInfo> apply(ChangeResource rsrc) throws AuthException,
         IOException, InvalidChangeOperationException,
-        ResourceNotFoundException, OrmException {
+        ResourceNotFoundException, OrmException, ResourceConflictException {
       Optional<ChangeEdit> edit = editUtil.byChange(rsrc.getChange());
       if (!edit.isPresent()) {
         return Response.none();
@@ -278,18 +278,21 @@ public class ChangeEdits implements
 
       EditInfo editInfo = editJson.toEditInfo(edit.get(), downloadCommands);
       if (list) {
-        PatchSet basePatchSet = null;
+        ObjectId parentOfBase = null;
         if (base != null) {
           RevisionResource baseResource = revisions.parse(
               rsrc, IdString.fromDecoded(base));
-          basePatchSet = baseResource.getPatchSet();
+          parentOfBase = ObjectId.fromString(
+              baseResource.getPatchSet().getRevision().get());
+        } else {
+          parentOfBase = editUtil.getParentOfBase(edit.get()).toObjectId();
         }
         try {
           editInfo.files =
-              fileInfoJson.toFileInfoMap(
+              fileInfoJson.toFileInfoMap2(
                   rsrc.getChange(),
                   edit.get().getRevision(),
-                  basePatchSet);
+                  parentOfBase);
         } catch (PatchListNotAvailableException e) {
           throw new ResourceNotFoundException(e.getMessage());
         }

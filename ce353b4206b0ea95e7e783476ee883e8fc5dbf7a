@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d065072b_3a1bf90b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteHashtags.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-09-10T13:30:20Z",
+      "side": 1,
+      "message": "you guava Splitter here, hen Arrays.asList would be not needed",
+      "range": {
+        "startLine": 74,
+        "startChar": 23,
+        "endLine": 74,
+        "endChar": 63
+      },
+      "revId": "ce353b4206b0ea95e7e783476ee883e8fc5dbf7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_daec859b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutHashtags.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-09-10T13:30:20Z",
+      "side": 1,
+      "message": "You can use Splitter from guava here, then you don\u0027t need to convert array to list since it returns Iterable object",
+      "range": {
+        "startLine": 74,
+        "startChar": 20,
+        "endLine": 74,
+        "endChar": 60
+      },
+      "revId": "ce353b4206b0ea95e7e783476ee883e8fc5dbf7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

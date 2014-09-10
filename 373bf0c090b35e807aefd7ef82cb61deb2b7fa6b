@@ -22,6 +22,30 @@
       "revId": "373bf0c090b35e807aefd7ef82cb61deb2b7fa6b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "106cff13_1c20bd32",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticsearchChangeIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1017389
+      },
+      "writtenOn": "2014-09-10T13:33:18Z",
+      "side": 1,
+      "message": "The cluster is implicitly chosen when choosing a host:port combo to connect to.\n\nAs for shard and replica counts, it appears we\u0027ll either have to create the index explicitly in a separate POST request, or rely on the ES cluster to have (for our purposes) correct defaults or an index template that provides the same settings.",
+      "parentUuid": "106cff13_dcfda57c",
+      "range": {
+        "startLine": 152,
+        "startChar": 4,
+        "endLine": 158,
+        "endChar": 6
+      },
+      "revId": "373bf0c090b35e807aefd7ef82cb61deb2b7fa6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

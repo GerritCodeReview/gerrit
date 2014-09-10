@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "d065072b_1a46fd3c",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 2118,
+      "author": {
+        "id": 1017389
+      },
+      "writtenOn": "2014-09-10T12:07:37Z",
+      "side": 1,
+      "message": "12 shards might be an excessive default. Many (most?) sites will probably run a small number of nodes (perhaps just one) and/or not have copious amount of data.",
+      "range": {
+        "startLine": 2118,
+        "startChar": 12,
+        "endLine": 2118,
+        "endChar": 14
+      },
+      "revId": "02eb691a40daa8713398bee79534698be3cd984f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d04c27b5_9c84c551",
         "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticsearchChangeIndex.java",
         "patchSetId": 12
@@ -213,6 +236,24 @@
     },
     {
       "key": {
+        "uuid": "106cff13_9c516df0",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticsearchChangeIndex.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1017389
+      },
+      "writtenOn": "2014-09-10T12:07:37Z",
+      "side": 1,
+      "message": "Flushing seems unnecessary (http://stackoverflow.com/questions/19963406/refresh-vs-flush), and I doubt we want an explicit refresh for each update operation. By default they take place once every second, and increasing the frequency will hurt performance. Unless we need the updates to be immediately searchable?",
+      "parentUuid": "d04c27b5_bc70a1a7",
+      "revId": "02eb691a40daa8713398bee79534698be3cd984f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d04c27b5_1c6275e4",
         "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticsearchChangeIndex.java",
         "patchSetId": 12
@@ -326,6 +367,41 @@
       "writtenOn": "2014-09-09T14:12:20Z",
       "side": 1,
       "message": "Checking my understanding: an admin could do something like pointing multiple gerrit servers at the same set of elasticsearch servers, in which case they would want to vary this. Sound right?",
+      "revId": "02eb691a40daa8713398bee79534698be3cd984f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "106cff13_3cead9c4",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitIndex.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1017389
+      },
+      "writtenOn": "2014-09-10T12:07:37Z",
+      "side": 1,
+      "message": "While it\u0027s possible to have a single host be part of multiple ES clusters, it probably makes more sense to use different indexes in the same cluster. We should make the index name configurable.",
+      "parentUuid": "f03f6be6_9d120371",
+      "revId": "02eb691a40daa8713398bee79534698be3cd984f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_ba06e9ef",
+        "filename": "lib/elasticsearch/BUCK",
+        "patchSetId": 12
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1017389
+      },
+      "writtenOn": "2014-09-10T12:07:37Z",
+      "side": 1,
+      "message": "So... we\u0027re going to use the native Java client after all? I think the dependency between the Java client and the ES version is a rather big issue. Are the downsides with the REST interface sufficiently large?",
       "revId": "02eb691a40daa8713398bee79534698be3cd984f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

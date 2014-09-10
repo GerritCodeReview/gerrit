@@ -274,7 +274,7 @@ public class ChangeInfo extends JavaScriptObject {
       for (int i = 0; i < list.length(); i++) {
         // edit under revisions?
         RevisionInfo editInfo = list.get(i);
-        if (editInfo._number() == 0) {
+        if (editInfo.is_edit()) {
           // parent commit is parent patch set revision
           CommitInfo commit = editInfo.commit().parents().get(0);
           String parentRevision = commit.commit();

@@ -17,13 +17,11 @@ package com.google.gerrit.server.project;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.RestView;
-import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.config.AllProjectsNameProvider;
 import com.google.gerrit.server.config.PluginConfigFactory;
 import com.google.gerrit.server.config.ProjectConfigEntry;
 import com.google.gerrit.server.git.TransferConfig;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 @Singleton
@@ -40,8 +38,7 @@ public class GetConfig implements RestReadView<ProjectResource> {
       DynamicMap<ProjectConfigEntry> pluginConfigEntries,
       PluginConfigFactory cfgFactory,
       AllProjectsNameProvider allProjects,
-      DynamicMap<RestView<ProjectResource>> views,
-      Provider<CurrentUser> currentUser) {
+      DynamicMap<RestView<ProjectResource>> views) {
     this.config = config;
     this.pluginConfigEntries = pluginConfigEntries;
     this.allProjects = allProjects;

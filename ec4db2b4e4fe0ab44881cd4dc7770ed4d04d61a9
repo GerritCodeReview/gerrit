@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "106cff13_3c2db91c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-10T13:55:27Z",
+      "side": 1,
+      "message": "Option to create new change for every commit not in target branch",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 30
+      },
+      "revId": "ec4db2b4e4fe0ab44881cd4dc7770ed4d04d61a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "106cff13_5c0195a0",
         "filename": "/COMMIT_MSG",
         "patchSetId": 5

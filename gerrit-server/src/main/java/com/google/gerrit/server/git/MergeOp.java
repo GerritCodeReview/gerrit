@@ -460,9 +460,16 @@ public class MergeOp {
 
     int commitOrder = 0;
     for (final Change chg : submitted) {
+      ChangeControl ctl;
+      try {
+        ctl = changeControlFactory.controlFor(chg,
+            identifiedUserFactory.create(chg.getOwner()));
+      } catch (NoSuchChangeException e) {
+        throw new MergeException("Failed to validate changes", e);
+      }
       final Change.Id changeId = chg.getId();
       if (chg.currentPatchSetId() == null) {
-        commits.put(changeId, CodeReviewCommit.noPatchSet());
+        commits.put(changeId, CodeReviewCommit.noPatchSet(ctl));
         toUpdate.add(chg);
         continue;
       }
@@ -475,7 +482,7 @@ public class MergeOp {
       }
       if (ps == null || ps.getRevision() == null
           || ps.getRevision().get() == null) {
-        commits.put(changeId, CodeReviewCommit.noPatchSet());
+        commits.put(changeId, CodeReviewCommit.noPatchSet(ctl));
         toUpdate.add(chg);
         continue;
       }
@@ -485,7 +492,7 @@ public class MergeOp {
       try {
         id = ObjectId.fromString(idstr);
       } catch (IllegalArgumentException iae) {
-        commits.put(changeId, CodeReviewCommit.noPatchSet());
+        commits.put(changeId, CodeReviewCommit.noPatchSet(ctl));
         toUpdate.add(chg);
         continue;
       }
@@ -500,7 +507,7 @@ public class MergeOp {
         // want to merge the issue. We can't safely do that if the
         // tip is not reachable.
         //
-        commits.put(changeId, CodeReviewCommit.revisionGone());
+        commits.put(changeId, CodeReviewCommit.revisionGone(ctl));
         toUpdate.add(chg);
         continue;
       }
@@ -510,17 +517,12 @@ public class MergeOp {
         commit = (CodeReviewCommit) rw.parseCommit(id);
       } catch (IOException e) {
         log.error("Invalid commit " + id.name() + " on " + chg.getKey(), e);
-        commits.put(changeId, CodeReviewCommit.revisionGone());
+        commits.put(changeId, CodeReviewCommit.revisionGone(ctl));
         toUpdate.add(chg);
         continue;
       }
 
-      try {
-        commit.setControl(changeControlFactory.controlFor(chg,
-            identifiedUserFactory.create(chg.getOwner())));
-      } catch (NoSuchChangeException e) {
-        throw new MergeException("Failed to validate changes", e);
-      }
+      commit.setControl(ctl);
       commit.setPatchsetId(ps.getId());
       commit.originalOrder = commitOrder++;
       commits.put(changeId, commit);

@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "d065072b_5a40751d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/ChangeDetail.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2014-09-10T11:58:01Z",
+      "side": 1,
+      "message": "All the others are using \u0027a\u0027, just following the convention here.",
+      "parentUuid": "106cff13_99217f06",
+      "range": {
+        "startLine": 101,
+        "startChar": 47,
+        "endLine": 101,
+        "endChar": 48
+      },
+      "revId": "45ad0059a615ffe6cb27aa7d7489eb00ba9a7c2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "106cff13_f91eb3c3",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteHashtags.java",
         "patchSetId": 4
@@ -60,6 +84,30 @@
       "writtenOn": "2014-09-10T09:10:38Z",
       "side": 1,
       "message": "Editing hashtags is not permitted?",
+      "range": {
+        "startLine": 65,
+        "startChar": 31,
+        "endLine": 65,
+        "endChar": 35
+      },
+      "revId": "45ad0059a615ffe6cb27aa7d7489eb00ba9a7c2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "106cff13_5c40751d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteHashtags.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2014-09-10T11:58:01Z",
+      "side": 1,
+      "message": "Fixed in REST Api change.",
+      "parentUuid": "106cff13_f91eb3c3",
       "range": {
         "startLine": 65,
         "startChar": 31,
@@ -89,6 +137,24 @@
     },
     {
       "key": {
+        "uuid": "d065072b_fa4ea14d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutHashtags.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2014-09-10T11:58:01Z",
+      "side": 1,
+      "message": "I think these two lines are acceptable. The spelling error is fixed in the REST Api change.",
+      "parentUuid": "d065072b_77dd8aa3",
+      "revId": "45ad0059a615ffe6cb27aa7d7489eb00ba9a7c2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "106cff13_dc32c5db",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
         "patchSetId": 4
@@ -112,6 +178,30 @@
     },
     {
       "key": {
+        "uuid": "d065072b_da4be53b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 416,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2014-09-10T11:58:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "106cff13_dc32c5db",
+      "range": {
+        "startLine": 416,
+        "startChar": 29,
+        "endLine": 416,
+        "endChar": 39
+      },
+      "revId": "45ad0059a615ffe6cb27aa7d7489eb00ba9a7c2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d065072b_ba5429e0",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
         "patchSetId": 4
@@ -123,6 +213,30 @@
       "writtenOn": "2014-09-10T11:47:37Z",
       "side": 1,
       "message": "hashtags",
+      "range": {
+        "startLine": 427,
+        "startChar": 41,
+        "endLine": 427,
+        "endChar": 52
+      },
+      "revId": "45ad0059a615ffe6cb27aa7d7489eb00ba9a7c2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_3aead9c4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 427,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2014-09-10T11:58:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d065072b_ba5429e0",
       "range": {
         "startLine": 427,
         "startChar": 41,

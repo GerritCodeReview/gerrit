@@ -21,6 +21,26 @@ import org.junit.Test;
 
 public class AccountTest {
   @Test
+  public void parseRefName() {
+    assertRef(1, "refs/users/01/1");
+    assertRef(1, "refs/users/01/1-drafts");
+    assertRef(1, "refs/users/01/1-drafts/2");
+
+    assertNotRef(null);
+    assertNotRef("");
+
+    // Invalid characters.
+    assertNotRef("refs/users/01a/1");
+    assertNotRef("refs/users/01/a1");
+
+    // Mismatched shard.
+    assertNotRef("refs/users/01/23");
+
+    // Shard too short.
+    assertNotRef("refs/users/1/1");
+  }
+
+  @Test
   public void parseRefNameParts() {
     assertRefPart(1, "01/1");
     assertRefPart(1, "01/1-drafts");
@@ -41,6 +61,14 @@ public class AccountTest {
 
     // Shard too short.
     assertNotRefPart("1/1");
+  }
+
+  private static void assertRef(int accountId, String refName) {
+    assertEquals(new Account.Id(accountId), Account.Id.fromRef(refName));
+  }
+
+  private static void assertNotRef(String refName) {
+    assertNull(Account.Id.fromRef(refName));
   }
 
   private static void assertRefPart(int accountId, String refName) {

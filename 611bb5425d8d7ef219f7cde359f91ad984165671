@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d065072b_b789e2d9",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/FileTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 629,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-10T07:49:27Z",
+      "side": 1,
+      "message": "Not 100% sure I would want clicking on a deleted filename to be restore (as opposed to a no-op), but I think it\u0027s fine for now.",
+      "range": {
+        "startLine": 629,
+        "startChar": 62,
+        "endLine": 629,
+        "endChar": 69
+      },
+      "revId": "611bb5425d8d7ef219f7cde359f91ad984165671",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

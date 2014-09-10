@@ -58,6 +58,7 @@ import org.junit.Test;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
 
 public class ChangeNotesTest extends AbstractChangeNotesTest {
@@ -336,6 +337,39 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     ChangeUpdate update = newUpdate(newChange(), changeOwner);
     update.commit();
     assertNull(update.getRevision());
+  }
+
+  @Test
+  public void hashtagCommit() throws Exception {
+    Change c = newChange();
+    ChangeUpdate update = newUpdate(c, changeOwner);
+    LinkedHashSet<String> hashtags = new LinkedHashSet<String>();
+    hashtags.add("tag1");
+    hashtags.add("tag2");
+    update.setHashtags(hashtags);
+    update.commit();
+    RevWalk walk = new RevWalk(repo);
+    try {
+      RevCommit commit = walk.parseCommit(update.getRevision());
+      walk.parseBody(commit);
+      assertTrue(commit.getFullMessage().endsWith("Hashtags: tag1,tag2\n"));
+    } finally {
+      walk.release();
+    }
+  }
+
+  @Test
+  public void hashtagChangeNotes() throws Exception {
+    Change c = newChange();
+    ChangeUpdate update = newUpdate(c, changeOwner);
+    LinkedHashSet<String> hashtags = new LinkedHashSet<String>();
+    hashtags.add("tag1");
+    hashtags.add("tag2");
+    update.setHashtags(hashtags);
+    update.commit();
+
+    ChangeNotes notes = newNotes(c);
+    assertEquals(hashtags, notes.getHashtags());
   }
 
   @Test

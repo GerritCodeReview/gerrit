@@ -32,10 +32,11 @@ Add the `~/bin` folder to the path:
 Note that the buck executable needs to be available in all shell sessions,
 so also make sure it is appended to the path globally.
 
-Add a symbolic link in `~/bin` to the buck executable:
+Add a symbolic link in `~/bin` to the buck and buckd executables:
 
 ----
   ln -s `pwd`/bin/buck ~/bin/
+  ln -s `pwd`/bin/buckd ~/bin/
 ----
 
 Verify that `buck` is accessible:

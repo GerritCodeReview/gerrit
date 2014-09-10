@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "d065072b_b740c2bd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeStatusPredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-10T07:34:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d065072b_372dd21c",
+      "range": {
+        "startLine": 45,
+        "startChar": 17,
+        "endLine": 45,
+        "endChar": 39
+      },
+      "revId": "56b16bbbd0fabee5db39b27e3b5b657a5f0aa9e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "106cff13_d9d3f7e2",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2014-09-10T07:27:14Z",
       "side": 1,
       "message": "Add something like\n\n Assert.fail(\"bad query must throw BadRequestException\");\n\nto check that the exception is actually thrown?",
+      "range": {
+        "startLine": 285,
+        "startChar": 6,
+        "endLine": 285,
+        "endChar": 27
+      },
+      "revId": "56b16bbbd0fabee5db39b27e3b5b657a5f0aa9e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "106cff13_b9e55bb3",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-10T07:34:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "106cff13_d9d3f7e2",
       "range": {
         "startLine": 285,
         "startChar": 6,

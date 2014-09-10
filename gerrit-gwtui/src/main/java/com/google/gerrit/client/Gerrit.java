@@ -51,6 +51,7 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences;
 import com.google.gerrit.reviewdb.client.AuthType;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.aria.client.Roles;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
@@ -764,14 +765,21 @@ public class Gerrit implements EntryPoint {
       public void onSuccess(TopMenuList result) {
         List<TopMenu> topMenuExtensions = Natives.asList(result);
         for (TopMenu menu : topMenuExtensions) {
-          LinkMenuBar existingBar = menuBars.get(menu.getName());
+          String name = menu.getName();
+          LinkMenuBar existingBar = menuBars.get(name);
           LinkMenuBar bar = existingBar != null ? existingBar : new LinkMenuBar();
-          for (TopMenuItem item : Natives.asList(menu.getItems())) {
-            addExtensionLink(bar, item);
+          if (GerritTopMenu.PROJECTS.menuName.equals(name)) {
+            for (TopMenuItem item : Natives.asList(menu.getItems())) {
+              addProjectLink(bar, item);
+            }
+          } else {
+            for (TopMenuItem item : Natives.asList(menu.getItems())) {
+              addExtensionLink(bar, item);
+            }
           }
           if (existingBar == null) {
-            menuBars.put(menu.getName(), bar);
-            menuLeft.add(bar, menu.getName());
+            menuBars.put(name, bar);
+            menuLeft.add(bar, name);
           }
         }
       }
@@ -888,6 +896,40 @@ public class Gerrit implements EntryPoint {
           AnchorElement.as(getElement()).blur();
         }
       });
+  }
+
+  private static LinkMenuItem addProjectLink(LinkMenuBar m, TopMenuItem item) {
+    LinkMenuItem i = new ProjectLinkMenuItem(item.getName(), item.getUrl()) {
+        @Override
+        protected void onScreenLoad(Project.NameKey project) {
+          String p = panel.replace("${projectName}", project.get());
+          if (panel.startsWith("/x/")) {
+            setTargetHistoryToken(p);
+          } else if (isAbsolute(panel)) {
+            getElement().setPropertyString("href", p);
+          } else {
+            getElement().setPropertyString("href", selfRedirect(p));
+          }
+        }
+
+        @Override
+        public void go() {
+          String href = getElement().getPropertyString("href");
+          if (href.startsWith("#")) {
+            super.go();
+          } else {
+            Window.open(href, getElement().getPropertyString("target"), "");
+          }
+        }
+      };
+    if (item.getTarget() != null && !item.getTarget().isEmpty()) {
+      i.getElement().setAttribute("target", item.getTarget());
+    }
+    if (item.getId() != null) {
+      i.getElement().setAttribute("id", item.getId());
+    }
+    m.addItem(i);
+    return i;
   }
 
   private static void addDiffLink(final LinkMenuBar m, final String text,

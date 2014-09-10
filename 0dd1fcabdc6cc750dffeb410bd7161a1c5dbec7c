@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "30dae333_3f62e7e4",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/CreateChangeAction.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-09-10T18:00:54Z",
+      "side": 1,
+      "message": "Rather than hard-coding the texts here, they should be defined in a .properties file so that they can be translated.",
+      "range": {
+        "startLine": 32,
+        "startChar": 8,
+        "endLine": 33,
+        "endChar": 65
+      },
+      "revId": "0dd1fcabdc6cc750dffeb410bd7161a1c5dbec7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30dae333_5f57ab05",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectInfoScreen.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 574,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-09-10T18:00:54Z",
+      "side": 1,
+      "message": "* Move the texts into a .properties file.\n* Remove \u0027final\u0027\n* the style of the button differs from other action buttons [1]\n\n[1] http://i.imgur.com/o3zUkNp.png",
+      "range": {
+        "startLine": 573,
+        "startChar": 4,
+        "endLine": 574,
+        "endChar": 63
+      },
+      "revId": "0dd1fcabdc6cc750dffeb410bd7161a1c5dbec7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_fd069b3e",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectInfoScreen.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 578,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-09-10T18:00:54Z",
+      "side": 1,
+      "message": "Rather use get()",
+      "range": {
+        "startLine": 578,
+        "startChar": 62,
+        "endLine": 578,
+        "endChar": 72
+      },
+      "revId": "0dd1fcabdc6cc750dffeb410bd7161a1c5dbec7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_dd03df2c",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/CreateChangeDialog.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-09-10T18:00:54Z",
+      "side": 1,
+      "message": "Move the texts into a .properties file.",
+      "range": {
+        "startLine": 40,
+        "startChar": 33,
+        "endLine": 40,
+        "endChar": 70
+      },
+      "revId": "0dd1fcabdc6cc750dffeb410bd7161a1c5dbec7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_3d22d3c5",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/CreateChangeDialog.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-09-10T18:00:54Z",
+      "side": 1,
+      "message": "Move this text into a .properties file.",
+      "range": {
+        "startLine": 71,
+        "startChar": 34,
+        "endLine": 71,
+        "endChar": 66
+      },
+      "revId": "0dd1fcabdc6cc750dffeb410bd7161a1c5dbec7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

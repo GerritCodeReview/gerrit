@@ -272,6 +272,24 @@
     },
     {
       "key": {
+        "uuid": "106cff13_fcbd019d",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticsearchChangeIndex.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1017389
+      },
+      "writtenOn": "2014-09-10T13:15:43Z",
+      "side": 1,
+      "message": "The document will be available to GET requests right away, but I suppose we\u0027ll always be using the search/query APIs. The REST-based update API has an option to trigger a refresh directly after the update. If that\u0027s available through the Java API as well (if we indeed should use that API) it seems like a better option than a separate refresh call.\n\nhttp://www.elasticsearch.org/guide/en/elasticsearch/reference/current/docs-index_.html#index-refresh",
+      "parentUuid": "d065072b_1aaa7d73",
+      "revId": "02eb691a40daa8713398bee79534698be3cd984f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d04c27b5_1c6275e4",
         "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticsearchChangeIndex.java",
         "patchSetId": 12
@@ -456,6 +474,24 @@
       "side": 1,
       "message": "I found that the REST interface (jest) has a dependency on parts of the java client.",
       "parentUuid": "d065072b_ba06e9ef",
+      "revId": "02eb691a40daa8713398bee79534698be3cd984f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_7aaa915b",
+        "filename": "lib/elasticsearch/BUCK",
+        "patchSetId": 12
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1017389
+      },
+      "writtenOn": "2014-09-10T13:15:43Z",
+      "side": 1,
+      "message": "Right, but isn\u0027t the problem that the Java API uses RMI and doesn\u0027t have any backward or forward compatibility guarantees? The REST API is stable. Whether or not we\u0027ll use parts of the Java API for constructing the REST requests seems immaterial.",
+      "parentUuid": "106cff13_7c0d710d",
       "revId": "02eb691a40daa8713398bee79534698be3cd984f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

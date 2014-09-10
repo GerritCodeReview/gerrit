@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "705d3b5f_f94eb74d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidationMessage.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1013722
+      },
+      "writtenOn": "2014-09-10T15:43:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "106cff13_9ccccd70",
+      "range": {
+        "startLine": 18,
+        "startChar": 33,
+        "endLine": 18,
+        "endChar": 60
+      },
+      "revId": "b41e56e78f8b955188ebd40f5dfe40f080e595ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "106cff13_fcd9812c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/ValidationMessage.java",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2014-09-10T12:19:38Z",
       "side": 1,
       "message": "remove final",
+      "range": {
+        "startLine": 21,
+        "startChar": 27,
+        "endLine": 21,
+        "endChar": 54
+      },
+      "revId": "b41e56e78f8b955188ebd40f5dfe40f080e595ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "705d3b5f_d94bf33b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/ValidationMessage.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1013722
+      },
+      "writtenOn": "2014-09-10T15:43:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "106cff13_fcd9812c",
       "range": {
         "startLine": 21,
         "startChar": 27,

@@ -94,6 +94,30 @@
       "revId": "ef8166296001db89104fce9ad9cf4b5d2cd88ce8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_fa82217a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/VisibleRefFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-10T15:52:02Z",
+      "side": 1,
+      "message": "I think a global capability is an ok solution. How general should it be? \"View metadata\"? Or just reuse \"Query database\" for this purpose?\n\nAlso, do you think it\u0027s a problem that we don\u0027t respect Read on refs/* for this? I think Read on refs/* is like read on all the \"classical\" Gerrit refs. But the line between classical/metadata refs does seem a bit arbitrary, since the former includes refs/meta/config...",
+      "parentUuid": "106cff13_bc57098b",
+      "range": {
+        "startLine": 101,
+        "startChar": 8,
+        "endLine": 101,
+        "endChar": 46
+      },
+      "revId": "ef8166296001db89104fce9ad9cf4b5d2cd88ce8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

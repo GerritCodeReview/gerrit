@@ -1,0 +1,188 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d065072b_7af3b105",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/RefOperationValidators.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-09-10T10:40:18Z",
+      "side": 1,
+      "message": "you are inconsistent here. in Gerrit \u0027static final\u0027 is mostly used",
+      "range": {
+        "startLine": 35,
+        "startChar": 10,
+        "endLine": 35,
+        "endChar": 22
+      },
+      "revId": "978e16c734c2efbdef6b92a41ea86b5a7e27ca7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_ba0c2961",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/RefOperationValidators.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-09-10T10:40:18Z",
+      "side": 1,
+      "message": "private members should be after static methods",
+      "range": {
+        "startLine": 43,
+        "startChar": 2,
+        "endLine": 44,
+        "endChar": 91
+      },
+      "revId": "978e16c734c2efbdef6b92a41ea86b5a7e27ca7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "106cff13_9ce04d31",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/RefOperationValidators.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-09-10T10:40:18Z",
+      "side": 1,
+      "message": "not needed",
+      "range": {
+        "startLine": 53,
+        "startChar": 6,
+        "endLine": 53,
+        "endChar": 12
+      },
+      "revId": "978e16c734c2efbdef6b92a41ea86b5a7e27ca7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "106cff13_fced0127",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/RefOperationValidators.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-09-10T10:40:18Z",
+      "side": 1,
+      "message": "do you have a reason for using linkedList instead of simple arrayList?",
+      "range": {
+        "startLine": 66,
+        "startChar": 39,
+        "endLine": 66,
+        "endChar": 60
+      },
+      "revId": "978e16c734c2efbdef6b92a41ea86b5a7e27ca7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_3a22d9c5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/RefOperationValidators.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-09-10T10:40:18Z",
+      "side": 1,
+      "message": "you are catching all required checked exceptions and not throwing further exceptions. therefore finally is not needed (it is not adding value for this code).",
+      "range": {
+        "startLine": 75,
+        "startChar": 4,
+        "endLine": 75,
+        "endChar": 15
+      },
+      "revId": "978e16c734c2efbdef6b92a41ea86b5a7e27ca7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_ba3ee9d0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/ValidationMessage.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-09-10T10:40:18Z",
+      "side": 1,
+      "message": "not needed",
+      "range": {
+        "startLine": 21,
+        "startChar": 27,
+        "endLine": 21,
+        "endChar": 32
+      },
+      "revId": "978e16c734c2efbdef6b92a41ea86b5a7e27ca7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_9a3b2de1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateBranch.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-09-10T10:40:18Z",
+      "side": 1,
+      "message": "not needed",
+      "range": {
+        "startLine": 155,
+        "startChar": 32,
+        "endLine": 155,
+        "endChar": 40
+      },
+      "revId": "978e16c734c2efbdef6b92a41ea86b5a7e27ca7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_fa3861e5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/DeleteBranch.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-09-10T10:40:18Z",
+      "side": 1,
+      "message": "not needed, in Gerrit we don\u0027t explicitly compare booleans to true",
+      "range": {
+        "startLine": 91,
+        "startChar": 32,
+        "endLine": 91,
+        "endChar": 40
+      },
+      "revId": "978e16c734c2efbdef6b92a41ea86b5a7e27ca7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

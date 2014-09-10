@@ -79,7 +79,7 @@ public class ChangeField {
         @Override
         public String get(ChangeData input, FillArgs args)
             throws OrmException {
-          return ChangeStatusPredicate.VALUES.get(
+          return ChangeStatusPredicate.canonicalize(
               input.change().getStatus());
         }
       };

@@ -14,9 +14,6 @@
 
 package com.google.gerrit.server.query.change;
 
-import static com.google.common.base.Preconditions.checkArgument;
-
-import com.google.common.collect.ImmutableBiMap;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Change.Status;
 import com.google.gerrit.server.index.ChangeField;
@@ -26,6 +23,9 @@ import com.google.gwtorm.server.OrmException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.NavigableMap;
+import java.util.TreeMap;
 
 /**
  * Predicate for a {@link Status}.
@@ -33,17 +33,21 @@ import java.util.List;
  * The actual name of this operator can differ, it usually comes as {@code
  * status:} but may also be {@code is:} to help do-what-i-meanery for end-users
  * searching for changes. Either operator name has the same meaning.
+ * <p>
+ * Status names are looked up by prefix case-insensitively.
  */
 public final class ChangeStatusPredicate extends IndexPredicate<ChangeData> {
-  public static final ImmutableBiMap<Change.Status, String> VALUES;
+  private static final TreeMap<String, Change.Status> VALUES;
 
   static {
-    ImmutableBiMap.Builder<Change.Status, String> values =
-        ImmutableBiMap.builder();
+    VALUES = new TreeMap<>();
     for (Change.Status s : Change.Status.values()) {
-      values.put(s, s.name().toLowerCase());
+      VALUES.put(canonicalize(s), s);
     }
-    VALUES = values.build();
+  }
+
+  public static String canonicalize(Change.Status status) {
+    return status.name().toLowerCase();
   }
 
   public static Predicate<ChangeData> parse(String value) {
@@ -51,11 +55,17 @@ public final class ChangeStatusPredicate extends IndexPredicate<ChangeData> {
       return open();
     } else if ("closed".equalsIgnoreCase(value)) {
       return closed();
-    } else {
-      Change.Status status = VALUES.inverse().get(value.toLowerCase());
-      checkArgument(status != null, "invalid change status: %s", value);
-      return new ChangeStatusPredicate(status);
     }
+    String lower = value.toLowerCase();
+    NavigableMap<String, Change.Status> head = VALUES.tailMap(lower, true);
+    if (!head.isEmpty()) {
+      // Assume no statuses share a common prefix so we can only walk one entry.
+      Map.Entry<String, Change.Status> e = head.entrySet().iterator().next();
+      if (e.getKey().startsWith(lower)) {
+        return new ChangeStatusPredicate(e.getValue());
+      }
+    }
+    throw new IllegalArgumentException("invalid change status: " + value);
   }
 
   public static Predicate<ChangeData> open() {
@@ -81,7 +91,7 @@ public final class ChangeStatusPredicate extends IndexPredicate<ChangeData> {
   private final Change.Status status;
 
   ChangeStatusPredicate(Change.Status status) {
-    super(ChangeField.STATUS, VALUES.get(status));
+    super(ChangeField.STATUS, canonicalize(status));
     this.status = status;
   }
 

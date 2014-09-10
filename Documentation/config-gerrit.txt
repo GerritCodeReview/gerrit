@@ -1511,6 +1511,13 @@ Disables reverse DNS lookup during computing ref log entry for identified user.
 +
 Defaults to false.
 
+[[gerrit.secureStoreClass]]gerrit.secureStoreClass::
++
+Qualified name of SecureStore class that will be used by Gerrit.
++
+Defaults to Gerrit default implementation which keeps data in `secure.config`
+file in `'$site_path'/etc/`.
+
 [[gitweb]]
 === Section gitweb
 

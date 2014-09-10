@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "705d3b5f_d96773ed",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-10T04:52:36Z",
+      "side": 1,
+      "message": "nit: wrap this line",
+      "revId": "91b3460ac6da68b334fc257e5b725de47e61b73f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

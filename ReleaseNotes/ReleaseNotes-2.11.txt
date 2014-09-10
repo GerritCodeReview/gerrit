@@ -1,0 +1,69 @@
+Release notes for Gerrit 2.11
+=============================
+
+
+Gerrit 2.11 is now available:
+
+link:https://gerrit-releases.storage.googleapis.com/gerrit-2.11.war[
+https://gerrit-releases.storage.googleapis.com/gerrit-2.11.war]
+
+Important Notes
+---------------
+
+
+*WARNING:* This release contains schema changes.  To upgrade:
+----
+  java -jar gerrit.war init -d site_path
+  java -jar gerrit.war reindex --recheck-mergeable -d site_path
+----
+
+Release Highlights
+------------------
+
+
+* link:http://code.google.com/p/gerrit/issues/detail?id=505[Issue 505]:
+Code changes can be done directly in browser.
++
+Files can be added, deleted, restored or amended directly in browser
+in context of change edit. Change edits can be published, deleted and
+rebased on top of the latest patch set.
+
+
+New Features
+------------
+
+
+Web UI
+~~~~~~
+
+TODO
+
+Global
+^^^^^^
+
+TODO
+
+REST
+~~~~
+
+TODO
+
+SSH
+~~~
+
+TODO
+
+Plugins
+~~~~~~~
+
+TODO
+
+Other
+~~~~~
+
+TODO
+
+Upgrades
+--------
+
+TODO

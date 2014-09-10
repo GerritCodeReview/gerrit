@@ -30,7 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Singleton
-public class DefaultSecureStore implements SecureStore {
+public class DefaultSecureStore extends SecureStore {
   private final FileBasedConfig sec;
 
   @Inject
@@ -45,23 +45,8 @@ public class DefaultSecureStore implements SecureStore {
   }
 
   @Override
-  public String get(String section, String subsection, String name) {
-    return sec.getString(section, subsection, name);
-  }
-
-  @Override
   public String[] getList(String section, String subsection, String name) {
     return sec.getStringList(section, subsection, name);
-  }
-
-  @Override
-  public void set(String section, String subsection, String name, String value) {
-    if (value != null) {
-      sec.setString(section, subsection, name, value);
-    } else {
-      sec.unset(section, subsection, name);
-    }
-    save();
   }
 
   @Override

@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d065072b_9ab04dc7",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 675,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-10T13:07:42Z",
+      "side": 1,
+      "message": "How can it be true if the configured value is INHERIT and the inherited value is false?",
+      "range": {
+        "startLine": 675,
+        "startChar": 15,
+        "endLine": 675,
+        "endChar": 19
+      },
+      "revId": "ec4db2b4e4fe0ab44881cd4dc7770ed4d04d61a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_fabd019d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1470,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-10T13:07:42Z",
+      "side": 1,
+      "message": "wrap this line",
+      "revId": "ec4db2b4e4fe0ab44881cd4dc7770ed4d04d61a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_dabac5a2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateProject.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-10T13:07:42Z",
+      "side": 1,
+      "message": "wrap this line",
+      "revId": "ec4db2b4e4fe0ab44881cd4dc7770ed4d04d61a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

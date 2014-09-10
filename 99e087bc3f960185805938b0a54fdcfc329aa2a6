@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "106cff13_395e6b5b",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/AddHashTagInput.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-09-10T09:58:33Z",
+      "side": 1,
+      "message": "This class has been removed from this change, got ahead of myself a bit.",
+      "parentUuid": "106cff13_569b34ef",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "99e087bc3f960185805938b0a54fdcfc329aa2a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "106cff13_b69f28da",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/ChangeApi.java",
         "patchSetId": 1
@@ -59,6 +83,30 @@
       "writtenOn": "2014-09-09T11:28:34Z",
       "side": 1,
       "message": "throw notimplemented?",
+      "range": {
+        "startLine": 181,
+        "startChar": 9,
+        "endLine": 181,
+        "endChar": 13
+      },
+      "revId": "99e087bc3f960185805938b0a54fdcfc329aa2a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_3747928b",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/ChangeApi.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-09-10T09:58:33Z",
+      "side": 1,
+      "message": "I got ahead of myself here, it\u0027s removed totally in later patch-sets",
+      "parentUuid": "106cff13_b69f28da",
       "range": {
         "startLine": 181,
         "startChar": 9,
@@ -94,6 +142,30 @@
     },
     {
       "key": {
+        "uuid": "d065072b_7ada9185",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.ui.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-09-10T09:58:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d065072b_17d53656",
+      "range": {
+        "startLine": 208,
+        "startChar": 0,
+        "endLine": 208,
+        "endChar": 4
+      },
+      "revId": "99e087bc3f960185805938b0a54fdcfc329aa2a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "106cff13_d6a62432",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Hashtags.java",
         "patchSetId": 1
@@ -105,6 +177,30 @@
       "writtenOn": "2014-09-09T11:28:34Z",
       "side": 1,
       "message": "Extract this to a constant?",
+      "range": {
+        "startLine": 72,
+        "startChar": 32,
+        "endLine": 72,
+        "endChar": 34
+      },
+      "revId": "99e087bc3f960185805938b0a54fdcfc329aa2a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "106cff13_194c4faa",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Hashtags.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-09-10T09:58:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "106cff13_d6a62432",
       "range": {
         "startLine": 72,
         "startChar": 32,
@@ -145,6 +241,30 @@
       "writtenOn": "2014-09-09T11:28:34Z",
       "side": 1,
       "message": "?",
+      "range": {
+        "startLine": 26,
+        "startChar": 2,
+        "endLine": 26,
+        "endChar": 6
+      },
+      "revId": "99e087bc3f960185805938b0a54fdcfc329aa2a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_9ae04d31",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/RestHashtagsSuggestOracle.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-09-10T09:58:33Z",
+      "side": 1,
+      "message": "Yes, we\u0027ll implement the auto-completion later, thats why this eventhandler does nothing...",
+      "parentUuid": "d065072b_37f952e6",
       "range": {
         "startLine": 26,
         "startChar": 2,

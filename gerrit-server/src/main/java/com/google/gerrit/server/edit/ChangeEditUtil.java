@@ -171,6 +171,37 @@ public class ChangeEditUtil {
     }
   }
 
+  /**
+   * Retrieve parent of base
+   *
+   * @param edit change edit to retrieve parent of base for
+   * @throws AuthException
+   * @throws IOException
+   * @throws ResourceConflictException
+   */
+  public RevCommit getParentOfBase(ChangeEdit edit) throws AuthException,
+      IOException, ResourceConflictException {
+    Change change = edit.getChange();
+    Repository repo = gitManager.openRepository(change.getProject());
+    try {
+      RevWalk rw = new RevWalk(repo);
+      try {
+        RevCommit revCommit =
+            rw.parseCommit(ObjectId.fromString(edit.getBasePatchSet()
+                .getRevision().get()));
+        if (revCommit.getParentCount() > 1) {
+          throw new ResourceConflictException(
+              "Edit feature is not supportted for merge commits");
+        }
+        return revCommit.getParent(0);
+      } finally {
+        rw.release();
+      }
+    } finally {
+      repo.close();
+    }
+  }
+
   private PatchSet getBasePatchSet(Change change, RevCommit commit)
       throws IOException, InvalidChangeOperationException {
     if (commit.getParentCount() != 1) {

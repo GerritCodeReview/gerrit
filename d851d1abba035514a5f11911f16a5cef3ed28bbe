@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "d065072b_fa3a214b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2014-09-10T14:17:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d065072b_7afc514c",
+      "range": {
+        "startLine": 182,
+        "startChar": 63,
+        "endLine": 182,
+        "endChar": 80
+      },
+      "revId": "d851d1abba035514a5f11911f16a5cef3ed28bbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "106cff13_fc3a214b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
         "patchSetId": 8

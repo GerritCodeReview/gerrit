@@ -102,6 +102,24 @@
     },
     {
       "key": {
+        "uuid": "d065072b_5a7eb5ec",
+        "filename": "gerrit-gwtdebug/src/main/java/com/google/gerrit/gwtdebug/GerritSDMLauncher.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-10T14:36:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d065072b_f764fa9c",
+      "revId": "35873bfd772731ec0d39669ee4d0bc0d3ed9ff63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "106cff13_b9543be0",
         "filename": "gerrit-gwtdebug/src/main/java/com/google/gerrit/gwtdebug/GerritSDMLauncher.java",
         "patchSetId": 12
@@ -178,6 +196,23 @@
         "endLine": 60,
         "endChar": 21
       },
+      "revId": "35873bfd772731ec0d39669ee4d0bc0d3ed9ff63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "106cff13_3c7f79ec",
+        "filename": "gerrit-gwtdebug/src/main/java/com/google/gwt/dev/codeserver/WebServer.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-10T14:36:33Z",
+      "side": 1,
+      "message": "This file was borrowed from GWT project. The diff compared to latest master version can be found in this change: [1]. It was pointed out by Shawn in this comment [2] that Google copyright header is compatible with AOSP license and is accepted by Gerrit.\n\n* [1] https://gwt-review.googlesource.com/#/c/7857/13/\n dev/codeserver/java/com/google/gwt/dev/codeserver/WebServer.java\n* [2] https://gerrit-review.googlesource.com/#/c/54692/1/\n  gerrit-server/src/main/java/com/google/gerrit/server/change/\n  ArchiveFormat.java@2",
       "revId": "35873bfd772731ec0d39669ee4d0bc0d3ed9ff63",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

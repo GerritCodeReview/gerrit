@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "106cff13_99217f06",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/ChangeDetail.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1010030
+      },
+      "writtenOn": "2014-09-10T09:10:38Z",
+      "side": 1,
+      "message": "a?",
+      "range": {
+        "startLine": 101,
+        "startChar": 47,
+        "endLine": 101,
+        "endChar": 48
+      },
+      "revId": "45ad0059a615ffe6cb27aa7d7489eb00ba9a7c2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "106cff13_f91eb3c3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteHashtags.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1010030
+      },
+      "writtenOn": "2014-09-10T09:10:38Z",
+      "side": 1,
+      "message": "Editing hashtags is not permitted?",
+      "range": {
+        "startLine": 65,
+        "startChar": 31,
+        "endLine": 65,
+        "endChar": 35
+      },
+      "revId": "45ad0059a615ffe6cb27aa7d7489eb00ba9a7c2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_77dd8aa3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutHashtags.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1010030
+      },
+      "writtenOn": "2014-09-10T09:10:38Z",
+      "side": 1,
+      "message": "See previous comment, also code repeat :(",
+      "revId": "45ad0059a615ffe6cb27aa7d7489eb00ba9a7c2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

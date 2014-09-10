@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "d065072b_ba15495d",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1713,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-09-10T10:35:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d065072b_1afefdcd",
+      "revId": "e0ce4c2bc1079fc24588cc9a39b2fb905dd41c11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "106cff13_5cdfd573",
         "filename": "Documentation/dev-plugins.txt",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "d065072b_9a120d71",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1714,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-09-10T10:35:06Z",
+      "side": 1,
+      "message": "usernames are stored in gerrit.config",
+      "parentUuid": "106cff13_5cdfd573",
+      "revId": "e0ce4c2bc1079fc24588cc9a39b2fb905dd41c11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "106cff13_bce3893c",
         "filename": "Documentation/dev-plugins.txt",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2014-09-10T10:25:55Z",
       "side": 1,
       "message": "s/need to be provide/needs to be provided/",
+      "revId": "e0ce4c2bc1079fc24588cc9a39b2fb905dd41c11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_fa1fc176",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1717,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-09-10T10:35:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "106cff13_bce3893c",
       "revId": "e0ce4c2bc1079fc24588cc9a39b2fb905dd41c11",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -76,6 +130,30 @@
     },
     {
       "key": {
+        "uuid": "106cff13_9c096d51",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1718,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-09-10T10:35:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d065072b_9a096d51",
+      "range": {
+        "startLine": 1718,
+        "startChar": 22,
+        "endLine": 1718,
+        "endChar": 34
+      },
+      "revId": "e0ce4c2bc1079fc24588cc9a39b2fb905dd41c11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d065072b_da03e52c",
         "filename": "Documentation/dev-plugins.txt",
         "patchSetId": 1
@@ -87,6 +165,24 @@
       "writtenOn": "2014-09-10T10:25:55Z",
       "side": 1,
       "message": "space at the end",
+      "revId": "e0ce4c2bc1079fc24588cc9a39b2fb905dd41c11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_da1c8585",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1719,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-09-10T10:35:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d065072b_da03e52c",
       "revId": "e0ce4c2bc1079fc24588cc9a39b2fb905dd41c11",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -110,6 +206,24 @@
     },
     {
       "key": {
+        "uuid": "106cff13_1c271dd6",
+        "filename": "Documentation/pgm-index.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-09-10T10:35:06Z",
+      "side": 1,
+      "message": "why do you mean by that?",
+      "parentUuid": "106cff13_dceac50c",
+      "revId": "e0ce4c2bc1079fc24588cc9a39b2fb905dd41c11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d065072b_1a271dd6",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/SecureStore.java",
         "patchSetId": 1
@@ -121,6 +235,30 @@
       "writtenOn": "2014-09-10T10:25:55Z",
       "side": 1,
       "message": "s/implementator/implementator\u0027s/\ns/ somewhere././",
+      "range": {
+        "startLine": 28,
+        "startChar": 9,
+        "endLine": 28,
+        "endChar": 23
+      },
+      "revId": "e0ce4c2bc1079fc24588cc9a39b2fb905dd41c11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_3a4bf975",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/SecureStore.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-09-10T10:35:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d065072b_1a271dd6",
       "range": {
         "startLine": 28,
         "startChar": 9,
@@ -156,6 +294,30 @@
     },
     {
       "key": {
+        "uuid": "d065072b_7a45715e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/SecureStore.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-09-10T10:35:06Z",
+      "side": 1,
+      "message": "when more then one class that extends SecureStore will be found in JAR file switch-secure-store will fail. Therefore I want to mention this explicitly here",
+      "parentUuid": "106cff13_3cf939e6",
+      "range": {
+        "startLine": 30,
+        "startChar": 33,
+        "endLine": 30,
+        "endChar": 37
+      },
+      "revId": "e0ce4c2bc1079fc24588cc9a39b2fb905dd41c11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "106cff13_1cfefdcd",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/SecureStore.java",
         "patchSetId": 1
@@ -167,6 +329,24 @@
       "writtenOn": "2014-09-10T10:25:55Z",
       "side": 1,
       "message": "s/, put it on/ and place it in/",
+      "revId": "e0ce4c2bc1079fc24588cc9a39b2fb905dd41c11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "106cff13_5c31950a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/SecureStore.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-09-10T10:35:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "106cff13_1cfefdcd",
       "revId": "e0ce4c2bc1079fc24588cc9a39b2fb905dd41c11",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

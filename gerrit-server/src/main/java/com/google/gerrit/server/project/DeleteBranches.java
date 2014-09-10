@@ -35,6 +35,7 @@ import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.ReceiveCommand;
@@ -53,16 +54,20 @@ public class DeleteBranches
   private final GitRepositoryManager repoManager;
   private final Provider<InternalChangeQuery> queryProvider;
   private final GitReferenceUpdated referenceUpdated;
+  private final RefValidationHelper refDeletionValidator;
 
   @Inject
   DeleteBranches(Provider<IdentifiedUser> identifiedUser,
       GitRepositoryManager repoManager,
       Provider<InternalChangeQuery> queryProvider,
-      GitReferenceUpdated referenceUpdated) {
+      GitReferenceUpdated referenceUpdated,
+      RefValidationHelper.Factory refHelperFactory) {
     this.identifiedUser = identifiedUser;
     this.repoManager = repoManager;
     this.queryProvider = queryProvider;
     this.referenceUpdated = referenceUpdated;
+    this.refDeletionValidator =
+        refHelperFactory.create(ReceiveCommand.Type.DELETE);
   }
 
   @Override
@@ -100,7 +105,8 @@ public class DeleteBranches
   }
 
   private ReceiveCommand createDeleteCommand(ProjectResource project,
-      Repository r, String branch) throws OrmException, IOException {
+      Repository r, String branch)
+          throws OrmException, IOException, ResourceConflictException {
     Ref ref = r.getRefDatabase().getRef(branch);
     ReceiveCommand command;
     if (ref == null) {
@@ -120,6 +126,10 @@ public class DeleteBranches
     if (!queryProvider.get().setLimit(1).byBranchOpen(branchKey).isEmpty()) {
       command.setResult(Result.REJECTED_OTHER_REASON, "it has open changes");
     }
+    RefUpdate u = r.updateRef(branch);
+    u.setForceUpdate(true);
+    refDeletionValidator.validateRefOperation(
+        project.getName(), identifiedUser.get(), u);
     return command;
   }
 

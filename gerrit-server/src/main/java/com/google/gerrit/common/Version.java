@@ -37,7 +37,7 @@ public class Version {
   private static String loadVersion() {
     try (InputStream in = Version.class.getResourceAsStream("Version")) {
       if (in == null) {
-        return null;
+        return "(dev)";
       }
       try (BufferedReader r = new BufferedReader(new InputStreamReader(in, "UTF-8"))) {
         String vs = r.readLine();
@@ -51,7 +51,7 @@ public class Version {
       }
     } catch (IOException e) {
       log.error(e.getMessage(), e);
-      return null;
+      return "(unknown version)";
     }
   }
 

@@ -61,6 +61,7 @@ public class ChangeEditJson {
     if (downloadCommands) {
       out.fetch = fillFetchMap(edit);
     }
+    out.basedOnPatchSet = edit.getBasePatchSet().getPatchSetId();
     return out;
   }
 

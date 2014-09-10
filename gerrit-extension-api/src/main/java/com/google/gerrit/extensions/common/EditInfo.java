@@ -21,4 +21,5 @@ public class EditInfo {
   public Map<String, ActionInfo> actions;
   public Map<String, FetchInfo> fetch;
   public Map<String, FileInfo> files;
+  public int basedOnPatchSet;
 }

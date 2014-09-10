@@ -223,6 +223,8 @@ public class ChangeInfo extends JavaScriptObject {
     public final native boolean has_files() /*-{ return this.hasOwnProperty('files') }-*/;
     public final native NativeMap<FileInfo> files() /*-{ return this.files; }-*/;
 
+    public final native int basedOnPatchSet() /*-{ return this.based_on_patch_set; }-*/;
+
     protected EditInfo() {
     }
   }

@@ -1,0 +1,33 @@
+= switch-secure-store
+
+== NAME
+switch-secure-store - Changes the currently used SecureStore implementation
+
+== SYNOPSIS
+--
+'java' -jar gerrit.war 'switch-secure-store' [<OPTIONS>]
+--
+
+== DESCRIPTION
+Changes the SecureStore implemenation used by Gerrit. It migrates all data
+stored in old implementation. Also removes old implementation jar files from
+lib/ and puts new one there. As a final step
+link:config-gerrit.html#gerrit.secureStoreClass[gerrit.secureStoreClass] property
+of `gerrit.config` will be updated.
+
+== OPTIONS
+
+--new-secure-store-lib::
+	Path to jar file with new SecureStore implementation
+
+-d::
+--site-path::
+  Location of the gerrit.config file, and all other per-site
+  configuration data, supporting libraries and log files.	
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]
+
+SEARCHBOX
+---------

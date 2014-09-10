@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "d065072b_7a3bb1b4",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/ChangeDetail.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-10T11:47:37Z",
+      "side": 1,
+      "message": "This is consistent with the naming in all the other methods here.",
+      "parentUuid": "106cff13_99217f06",
+      "range": {
+        "startLine": 101,
+        "startChar": 47,
+        "endLine": 101,
+        "endChar": 48
+      },
+      "revId": "45ad0059a615ffe6cb27aa7d7489eb00ba9a7c2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "106cff13_f91eb3c3",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteHashtags.java",
         "patchSetId": 4
@@ -59,6 +83,52 @@
       "writtenOn": "2014-09-10T09:10:38Z",
       "side": 1,
       "message": "See previous comment, also code repeat :(",
+      "revId": "45ad0059a615ffe6cb27aa7d7489eb00ba9a7c2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "106cff13_dc32c5db",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 416,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-10T11:47:37Z",
+      "side": 1,
+      "message": "hashtags",
+      "range": {
+        "startLine": 416,
+        "startChar": 29,
+        "endLine": 416,
+        "endChar": 39
+      },
+      "revId": "45ad0059a615ffe6cb27aa7d7489eb00ba9a7c2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_ba5429e0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 427,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-10T11:47:37Z",
+      "side": 1,
+      "message": "hashtags",
+      "range": {
+        "startLine": 427,
+        "startChar": 41,
+        "endLine": 427,
+        "endChar": 52
+      },
       "revId": "45ad0059a615ffe6cb27aa7d7489eb00ba9a7c2f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

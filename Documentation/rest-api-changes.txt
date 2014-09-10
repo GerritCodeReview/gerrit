@@ -1163,7 +1163,8 @@ exist for this change. Change edits are stored on special branches and there
 can be max one edit per user per change. Edits aren't tracked in the database.
 When request parameter `list` is provided the response also includes the file
 list. When `base` request parameter is provided the file list is computed
-against this base revision.
+against this base revision. When request parameter `download-commands` is
+provided fetch info map is also included.
 
 .Response
 ----
@@ -3831,6 +3832,10 @@ link:#commit-info[CommitInfo] entity.
 Actions the caller might be able to perform on this change edit. The
 information is a map of view name to link:#action-info[ActionInfo]
 entities.
+|`fetch`       ||
+Information about how to fetch this patch set. The fetch information is
+provided as a map that maps the protocol name ("`git`", "`http`",
+"`ssh`") to link:#fetch-info[FetchInfo] entities.
 |`files`       |optional|
 The files of the change edit as a map that maps the file names to
 link:#file-info[FileInfo] entities.

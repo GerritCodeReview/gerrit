@@ -239,6 +239,8 @@ public class ChangeEdits implements
     }
   }
 
+  // TODO(davido): Turn the boolean options to ChangeEditOption enum,
+  // like it's already the case for ListChangesOption/ListGroupsOption
   static class Detail implements RestReadView<ChangeResource> {
     private final ChangeEditUtil editUtil;
     private final ChangeEditJson editJson;
@@ -250,6 +252,9 @@ public class ChangeEdits implements
 
     @Option(name = "--list", metaVar = "LIST")
     boolean list;
+
+    @Option(name = "--download-commands", metaVar = "download-commands")
+    boolean downloadCommands;
 
     @Inject
     Detail(ChangeEditUtil editUtil,
@@ -271,7 +276,7 @@ public class ChangeEdits implements
         return Response.none();
       }
 
-      EditInfo editInfo = editJson.toEditInfo(edit.get());
+      EditInfo editInfo = editJson.toEditInfo(edit.get(), downloadCommands);
       if (list) {
         PatchSet basePatchSet = null;
         if (base != null) {

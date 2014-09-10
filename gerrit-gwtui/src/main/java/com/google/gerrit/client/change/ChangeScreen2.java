@@ -136,6 +136,7 @@ public class ChangeScreen2 extends Screen {
   private UpdateAvailableBar updateAvailable;
   private boolean openReplyBox;
   private boolean loaded;
+  private FileTable.Mode fileTableMode;
 
   @UiField HTMLPanel headerLine;
   @UiField Style style;
@@ -172,6 +173,9 @@ public class ChangeScreen2 extends Screen {
   @UiField Button download;
   @UiField Button reply;
   @UiField Button openAll;
+  @UiField Button editMode;
+  @UiField Button reviewMode;
+  @UiField Button addFile;
   @UiField Button expandAll;
   @UiField Button collapseAll;
   @UiField Button editMessage;
@@ -182,12 +186,15 @@ public class ChangeScreen2 extends Screen {
   private IncludedInAction includedInAction;
   private PatchSetsAction patchSetsAction;
   private DownloadAction downloadAction;
+  private EditFileAction editFileAction;
 
-  public ChangeScreen2(Change.Id changeId, String base, String revision, boolean openReplyBox) {
+  public ChangeScreen2(Change.Id changeId, String base, String revision,
+      boolean openReplyBox, FileTable.Mode mode) {
     this.changeId = changeId;
     this.base = normalize(base);
     this.revision = normalize(revision);
     this.openReplyBox = openReplyBox;
+    this.fileTableMode = mode;
     add(uiBinder.createAndBindUi(this));
   }
 
@@ -405,6 +412,18 @@ public class ChangeScreen2 extends Screen {
                 null)));
   }
 
+  private void initEditMode(ChangeInfo info) {
+    if (Gerrit.isSignedIn() && info.status() == Status.NEW) {
+      editMode.setVisible(fileTableMode == FileTable.Mode.REVIEW);
+      addFile.setVisible(!editMode.isVisible());
+      reviewMode.setVisible(!editMode.isVisible());
+    }
+    RevisionInfo rev = info.revision(revision);
+    editFileAction = new EditFileAction(
+        new PatchSet.Id(changeId, rev._number()),
+        "", "", style, editMessage, reply);
+  }
+
   private void initEditMessageAction(ChangeInfo info, String revision) {
     NativeMap<ActionInfo> actions = info.revision(revision).actions();
     if (actions != null && actions.containsKey("message")) {
@@ -533,6 +552,37 @@ public class ChangeScreen2 extends Screen {
     files.openAll();
   }
 
+  @UiHandler("editMode")
+  void onEditMode(ClickEvent e) {
+    fileTableMode = FileTable.Mode.EDIT;
+    refreshFileTable();
+    editMode.setVisible(false);
+    addFile.setVisible(true);
+    reviewMode.setVisible(true);
+  }
+
+  @UiHandler("reviewMode")
+  void onReviewMode(ClickEvent e) {
+    fileTableMode = FileTable.Mode.REVIEW;
+    refreshFileTable();
+    editMode.setVisible(true);
+    addFile.setVisible(false);
+    reviewMode.setVisible(false);
+  }
+
+  @UiHandler("addFile")
+  void onAddFile(ClickEvent e) {
+    editFileAction.onEdit();
+  }
+
+  private void refreshFileTable() {
+    int idx = diffBase.getSelectedIndex();
+    if (0 <= idx) {
+      String n = diffBase.getValue(idx);
+      loadConfigInfo(changeInfo, !n.isEmpty() ? n : null);
+    }
+  }
+
   @UiHandler("expandAll")
   void onExpandAll(ClickEvent e) {
     int n = history.getWidgetCount();
@@ -604,12 +654,14 @@ public class ChangeScreen2 extends Screen {
     CallbackGroup group = new CallbackGroup();
     if (rev.is_edit()) {
       NativeMap<JsArray<CommentInfo>> emptyComment = NativeMap.create();
-      files.setRevisions(
+      files.set(
           b != null ? new PatchSet.Id(changeId, b._number()) : null,
-          new PatchSet.Id(changeId, rev._number()));
+          new PatchSet.Id(changeId, rev._number()),
+          style, editMessage, reply);
       files.setValue(info.edit().files(), myLastReply(info),
           emptyComment,
-          emptyComment);
+          emptyComment,
+          fileTableMode);
     } else {
       loadDiff(b, rev, myLastReply(info), group);
     }
@@ -657,10 +709,12 @@ public class ChangeScreen2 extends Screen {
       group.add(new AsyncCallback<NativeMap<FileInfo>>() {
         @Override
         public void onSuccess(NativeMap<FileInfo> m) {
-          files.setRevisions(
+          files.set(
               base != null ? new PatchSet.Id(changeId, base._number()) : null,
-              new PatchSet.Id(changeId, rev._number()));
-          files.setValue(m, myLastReply, comments.get(0), drafts.get(0));
+              new PatchSet.Id(changeId, rev._number()),
+              style, editMessage, reply);
+          files.setValue(m, myLastReply, comments.get(0),
+              drafts.get(0), fileTableMode);
         }
 
         @Override
@@ -668,7 +722,7 @@ public class ChangeScreen2 extends Screen {
         }
       }));
 
-    if (Gerrit.isSignedIn()) {
+    if (Gerrit.isSignedIn() && fileTableMode == FileTable.Mode.REVIEW) {
       ChangeApi.revision(changeId.get(), rev.name())
         .view("files")
         .addParameterTrue("reviewed")
@@ -855,6 +909,7 @@ public class ChangeScreen2 extends Screen {
     initDownloadAction(info, revision);
     initProjectLinks(info);
     initBranchLink(info);
+    initEditMode(info);
     actions.display(info, revision);
 
     star.setValue(info.starred());

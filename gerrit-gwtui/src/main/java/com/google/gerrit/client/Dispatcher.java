@@ -66,6 +66,7 @@ import com.google.gerrit.client.admin.ProjectListScreen;
 import com.google.gerrit.client.admin.ProjectScreen;
 import com.google.gerrit.client.api.ExtensionScreen;
 import com.google.gerrit.client.change.ChangeScreen2;
+import com.google.gerrit.client.change.FileTable;
 import com.google.gerrit.client.changes.AccountDashboardScreen;
 import com.google.gerrit.client.changes.ChangeScreen;
 import com.google.gerrit.client.changes.CustomDashboardScreen;
@@ -148,7 +149,7 @@ public class Dispatcher {
     if (diffBase != null) {
       p.append(diffBase.get()).append("..");
     }
-    p.append(revision.get()).append("/").append(KeyUtil.encode(fileName));
+    p.append(revision.getId()).append("/").append(KeyUtil.encode(fileName));
     if (type != null && !type.isEmpty()) {
       p.append(",").append(type);
     }
@@ -535,9 +536,15 @@ public class Dispatcher {
     }
 
     if (rest.isEmpty()) {
-      Gerrit.display(token, panel== null
+      FileTable.Mode mode = FileTable.Mode.REVIEW;
+      if (panel != null
+          && (panel.equals("edit") || panel.startsWith("edit/"))) {
+        mode = FileTable.Mode.EDIT;
+        panel = null;
+      }
+      Gerrit.display(token, panel == null
           ? (isChangeScreen2()
-              ? new ChangeScreen2(id, null, null, false)
+              ? new ChangeScreen2(id, null, null, false, mode)
               : new ChangeScreen(id))
           : new NotFoundScreen());
       return;
@@ -553,16 +560,14 @@ public class Dispatcher {
       rest = "";
     }
 
-    PatchSet.Id base;
+    PatchSet.Id base = null;
     PatchSet.Id ps;
     int dotdot = psIdStr.indexOf("..");
     if (1 <= dotdot) {
       base = new PatchSet.Id(id, Integer.parseInt(psIdStr.substring(0, dotdot)));
-      ps = new PatchSet.Id(id, Integer.parseInt(psIdStr.substring(dotdot + 2)));
-    } else {
-      base = null;
-      ps = new PatchSet.Id(id, Integer.parseInt(psIdStr));
+      psIdStr = psIdStr.substring(dotdot + 2);
     }
+    ps = toPsId(id, psIdStr);
 
     if (!rest.isEmpty()) {
       DisplaySide side = DisplaySide.B;
@@ -587,7 +592,7 @@ public class Dispatcher {
                 base != null
                     ? String.valueOf(base.get())
                     : null,
-                String.valueOf(ps.get()), false)
+                String.valueOf(ps.get()), false, FileTable.Mode.REVIEW)
             : new ChangeScreen(id));
       } else if ("publish".equals(panel)) {
         publish(ps);
@@ -595,6 +600,12 @@ public class Dispatcher {
         Gerrit.display(token, new NotFoundScreen());
       }
     }
+  }
+
+  private static PatchSet.Id toPsId(Change.Id id, String psIdStr) {
+    return new PatchSet.Id(id, psIdStr.equals("edit")
+        ? 0
+        : Integer.parseInt(psIdStr));
   }
 
   private static void extension(final String token) {

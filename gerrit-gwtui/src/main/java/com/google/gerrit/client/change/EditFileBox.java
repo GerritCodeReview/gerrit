@@ -32,6 +32,7 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.PopupPanel;
+import com.google.gwt.user.client.ui.TextBoxBase;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwtexpui.globalkey.client.NpTextArea;
 
@@ -57,6 +58,12 @@ class EditFileBox extends Composite {
     this.fileContent = fileC;
     initWidget(uiBinder.createAndBindUi(this));
     new TextBoxChangeListener(content) {
+      public void onTextChanged(String newText) {
+        save.setEnabled(!file.getText().trim().isEmpty()
+            && !newText.trim().equals(fileContent));
+      }
+    };
+    new TextBoxChangeListener(file) {
       public void onTextChanged(String newText) {
         save.setEnabled(!file.getText().trim().isEmpty()
             && !newText.trim().equals(fileContent));

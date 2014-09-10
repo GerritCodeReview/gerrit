@@ -1508,6 +1508,10 @@ Disables reverse DNS lookup during computing ref log entry for identified user.
 +
 Defaults to false.
 
+[[gerrit.secureStoreClass]]gerrit.secureStoreClass::
++
+Qualified name of SecureStore class that will be used by Gerrit.
+
 [[gitweb]]
 === Section gitweb
 

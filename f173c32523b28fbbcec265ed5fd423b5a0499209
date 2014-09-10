@@ -1,0 +1,215 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "106cff13_bc0c2961",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-10T11:13:24Z",
+      "side": 1,
+      "message": "of the",
+      "range": {
+        "startLine": 9,
+        "startChar": 32,
+        "endLine": 9,
+        "endChar": 36
+      },
+      "revId": "f173c32523b28fbbcec265ed5fd423b5a0499209",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "106cff13_fc06a13e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-10T11:13:24Z",
+      "side": 1,
+      "message": "This will not be an @ExtensionPoint any more.\nMove the change which removes the @ExtensionPoint annotation before this one and replace the \"extension\" with the \"interface\" in this commit message.",
+      "range": {
+        "startLine": 16,
+        "startChar": 49,
+        "endLine": 16,
+        "endChar": 58
+      },
+      "revId": "f173c32523b28fbbcec265ed5fd423b5a0499209",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "106cff13_7c2c51b6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-10T11:13:24Z",
+      "side": 1,
+      "message": "reword:\n\nDuring Gerrit start up the class configured with the gerrit.secureStoreClass will be loaded and the SecureStore interface will be bound to it.",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 38
+      },
+      "revId": "f173c32523b28fbbcec265ed5fd423b5a0499209",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_5a5cf526",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Init.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-10T11:13:24Z",
+      "side": 1,
+      "message": "Do we really need this anywhere else but in the SecureStoreProvider?\n\nTo me it looks like the SitePaths should be injected into the SecureStoreProvider and it should read the class name directly from the gerrit.config there.\n\nThe SecureStoreClassName annotation and the SecureStoreClassNameProvider can then be deleted as the SecureStoreProvider is the only one who needs this information.",
+      "revId": "f173c32523b28fbbcec265ed5fd423b5a0499209",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "106cff13_bc15495d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/util/SecureStoreClassNameProvider.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-10T11:13:24Z",
+      "side": 1,
+      "message": "why nullToEmpty? You can also return null if a secureStoreClass is not configured and then use @Nullable to tell guice that it is OK to inject null",
+      "revId": "f173c32523b28fbbcec265ed5fd423b5a0499209",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "106cff13_9c120d71",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/util/SecureStoreProvider.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-10T11:13:24Z",
+      "side": 1,
+      "message": "make this @Nullable ...",
+      "revId": "f173c32523b28fbbcec265ed5fd423b5a0499209",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "106cff13_dc8e456d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/util/SiteProgram.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-10T11:13:24Z",
+      "side": 1,
+      "message": "see the comment in Init about the SecureStoreClassName and the SecureStoreClassNameProvider",
+      "revId": "f173c32523b28fbbcec265ed5fd423b5a0499209",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_9ab68d11",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritConfig.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-10T11:13:24Z",
+      "side": 1,
+      "message": "I am not sure it is enough to override just these two methods... you should check the Config implementation in JGit.\n\nKeep in mind that, for example, Config.getBoolean doesn\u0027t any of these two methods... means, you cannot access booleans from the secure store.",
+      "range": {
+        "startLine": 29,
+        "startChar": 0,
+        "endLine": 45,
+        "endChar": 3
+      },
+      "revId": "f173c32523b28fbbcec265ed5fd423b5a0499209",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_3ac65986",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/DataSourceProvider.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-10T11:13:24Z",
+      "side": 1,
+      "message": "This doesn\u0027t seem to be necessary...",
+      "revId": "f173c32523b28fbbcec265ed5fd423b5a0499209",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_7ad0d134",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/DataSourceProvider.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-10T11:13:24Z",
+      "side": 1,
+      "message": "... since the password will be read from the \"database\" section and the cfg will handle access to the secure store",
+      "revId": "f173c32523b28fbbcec265ed5fd423b5a0499209",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "106cff13_3c7499a6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/DataSourceProvider.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-10T11:13:24Z",
+      "side": 1,
+      "message": "this line is a bug. In the base version we are setting a property on an in-memory Properties instance. We are NOT changing gerrit configuration here.",
+      "revId": "f173c32523b28fbbcec265ed5fd423b5a0499209",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -2,6 +2,57 @@
   "comments": [
     {
       "key": {
+        "uuid": "9058ef70_9a84cd51",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-10T04:50:34Z",
+      "side": 1,
+      "message": "nit: unnecessary change",
+      "revId": "e33a553a67ba876e77a2e7cb519dab3a9130989a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "705d3b5f_b970bfa7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-10T04:50:34Z",
+      "side": 1,
+      "message": "nit: unnecessary change",
+      "revId": "e33a553a67ba876e77a2e7cb519dab3a9130989a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "705d3b5f_595c0327",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-10T04:50:34Z",
+      "side": 1,
+      "message": "nit: add a comment like in the existing field definitions.",
+      "revId": "e33a553a67ba876e77a2e7cb519dab3a9130989a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d065072b_17209632",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/HashtagPredicate.java",
         "patchSetId": 2
@@ -13,6 +64,29 @@
       "writtenOn": "2014-09-09T22:10:42Z",
       "side": 1,
       "message": "Loading notes should be a bit slow. It does not seem to be called on regular index searches(?). But in that case when does it hit? Reindex?",
+      "revId": "e33a553a67ba876e77a2e7cb519dab3a9130989a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "705d3b5f_996dfbd1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/HashtagPredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-10T04:50:34Z",
+      "side": 1,
+      "message": "Won\u0027t this only return true if all the tags match?",
+      "range": {
+        "startLine": 28,
+        "startChar": 21,
+        "endLine": 28,
+        "endChar": 64
+      },
       "revId": "e33a553a67ba876e77a2e7cb519dab3a9130989a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

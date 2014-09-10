@@ -48,6 +48,7 @@ import org.eclipse.jgit.revwalk.ObjectWalk;
 import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.ReceiveCommand;
+import org.eclipse.jgit.transport.ReceiveCommand.Type;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -73,6 +74,7 @@ public class CreateBranch implements RestModifyView<ProjectResource, Input> {
   private final Provider<ReviewDb> db;
   private final GitReferenceUpdated referenceUpdated;
   private final ChangeHooks hooks;
+  private final RefValidationHelper refCreationValidator;
   private String ref;
 
   @Inject
@@ -80,12 +82,14 @@ public class CreateBranch implements RestModifyView<ProjectResource, Input> {
       GitRepositoryManager repoManager,
       Provider<ReviewDb> db,
       GitReferenceUpdated referenceUpdated, ChangeHooks hooks,
+      RefValidationHelper.Factory refHelperFactory,
       @Assisted String ref) {
     this.identifiedUser = identifiedUser;
     this.repoManager = repoManager;
     this.db = db;
     this.referenceUpdated = referenceUpdated;
     this.hooks = hooks;
+    this.refCreationValidator = refHelperFactory.create(Type.CREATE);
     this.ref = ref;
   }
 
@@ -143,6 +147,7 @@ public class CreateBranch implements RestModifyView<ProjectResource, Input> {
         u.setNewObjectId(object.copy());
         u.setRefLogIdent(identifiedUser.get().newRefLogIdent());
         u.setRefLogMessage("created via REST from " + input.revision, false);
+        refCreationValidator.validateRefOperation(rsrc.getName(), identifiedUser.get(), u);
         final RefUpdate.Result result = u.update(rw);
         switch (result) {
           case FAST_FORWARD:

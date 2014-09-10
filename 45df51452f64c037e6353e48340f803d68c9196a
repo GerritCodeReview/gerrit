@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "705d3b5f_19cbab8c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteHashtags.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-10T05:03:48Z",
+      "side": 1,
+      "message": "2014",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "45df51452f64c037e6353e48340f803d68c9196a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "705d3b5f_79d0e734",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteHashtags.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-10T05:03:48Z",
+      "side": 1,
+      "message": "Why do we need two sets?  Isn\u0027t it possible to do:\n\n Set\u003cString\u003e hashtags \u003d notes.getHashtags();\n if (hashtags \u003d\u003d null) {\n   return Response.ok(); // or response indicating nothing to do?\n }\n hashtags.removeAll(...);\n\n?",
+      "range": {
+        "startLine": 60,
+        "startChar": 4,
+        "endLine": 64,
+        "endChar": 5
+      },
+      "revId": "45df51452f64c037e6353e48340f803d68c9196a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9058ef70_fa91898d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetHashtags.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-10T05:03:48Z",
+      "side": 1,
+      "message": "2014",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "45df51452f64c037e6353e48340f803d68c9196a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "705d3b5f_59d52323",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetHashtags.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-10T05:03:48Z",
+      "side": 1,
+      "message": "what happens if it\u0027s null?",
+      "range": {
+        "startLine": 48,
+        "startChar": 23,
+        "endLine": 48,
+        "endChar": 31
+      },
+      "revId": "45df51452f64c037e6353e48340f803d68c9196a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "705d3b5f_b9b9df03",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutHashtags.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-10T05:03:48Z",
+      "side": 1,
+      "message": "2014",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "45df51452f64c037e6353e48340f803d68c9196a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "705d3b5f_99b69b11",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutHashtags.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-10T05:03:48Z",
+      "side": 1,
+      "message": "Same comment as DeleteHashtags re. two sets.",
+      "range": {
+        "startLine": 60,
+        "startChar": 4,
+        "endLine": 61,
+        "endChar": 49
+      },
+      "revId": "45df51452f64c037e6353e48340f803d68c9196a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

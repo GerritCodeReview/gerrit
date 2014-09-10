@@ -152,6 +152,10 @@ public class ChangeEditModifier {
       ObjectInserter inserter = repo.newObjectInserter();
       try {
         RevCommit editCommit = edit.getEditCommit();
+        if (editCommit.getParentCount() == 0) {
+          throw new InvalidChangeOperationException(
+              "Rebase edit against root commit not implemented");
+        }
         RevCommit mergeTip = rw.parseCommit(ObjectId.fromString(
             current.getRevision().get()));
         ThreeWayMerger m = MergeStrategy.RESOLVE.newMerger(repo, true);
@@ -251,6 +255,10 @@ public class ChangeEditModifier {
 
         RevCommit base = rw.parseCommit(ObjectId.fromString(
             basePs.getRevision().get()));
+        if (base.getParentCount() == 0) {
+          throw new InvalidChangeOperationException(
+              "Modify edit against root commit not implemented");
+        }
         ObjectId newTree = writeNewTree(op, repo, rw, inserter,
             prevEdit, reader, file, content, base);
         if (ObjectId.equals(newTree, prevEdit.getTree())) {

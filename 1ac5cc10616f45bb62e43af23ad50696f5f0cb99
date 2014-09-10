@@ -22,6 +22,30 @@
       "revId": "1ac5cc10616f45bb62e43af23ad50696f5f0cb99",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_bd0c2361",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 621,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-10T17:33:48Z",
+      "side": 1,
+      "message": "I think you\u0027re right, even more of a pain.",
+      "parentUuid": "30dae333_ff8ebf6c",
+      "range": {
+        "startLine": 621,
+        "startChar": 31,
+        "endLine": 621,
+        "endChar": 69
+      },
+      "revId": "1ac5cc10616f45bb62e43af23ad50696f5f0cb99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

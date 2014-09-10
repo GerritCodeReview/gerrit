@@ -326,6 +326,24 @@
     },
     {
       "key": {
+        "uuid": "d065072b_fa618163",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticsearchChangeIndex.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-10T13:47:45Z",
+      "side": 1,
+      "message": "Awesome, agreed that 10ms is worth it. Note that we also do index updates async whenever possible.",
+      "parentUuid": "106cff13_1c49ddf2",
+      "revId": "02eb691a40daa8713398bee79534698be3cd984f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d04c27b5_1c6275e4",
         "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticsearchChangeIndex.java",
         "patchSetId": 12
@@ -337,6 +355,24 @@
       "writtenOn": "2014-09-09T14:12:20Z",
       "side": 1,
       "message": "Does ES make it easy for these to be async? If so, do it. If not, don\u0027t worry about it.",
+      "revId": "02eb691a40daa8713398bee79534698be3cd984f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_da5e45a3",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticsearchChangeIndex.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-10T13:47:45Z",
+      "side": 1,
+      "message": "My comment above reminded me that the reason these aren\u0027t async in Lucene is that the entire operation is usually async, and we don\u0027t want to fan out in the case when the index executor only has a single thread. So I don\u0027t think you need to do this.",
+      "parentUuid": "d04c27b5_1c6275e4",
       "revId": "02eb691a40daa8713398bee79534698be3cd984f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

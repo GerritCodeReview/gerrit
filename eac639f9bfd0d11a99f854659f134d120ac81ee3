@@ -1,0 +1,101 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "106cff13_1cd55d56",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteHashtags.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1010030
+      },
+      "writtenOn": "2014-09-10T10:31:26Z",
+      "side": 1,
+      "message": "See my comment on the other patch. If we return an empty set instead I think it\u0027s all around nicer API",
+      "revId": "eac639f9bfd0d11a99f854659f134d120ac81ee3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_5a31950a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteHashtags.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1010030
+      },
+      "writtenOn": "2014-09-10T10:31:26Z",
+      "side": 1,
+      "message": "To avoid errors, maybe go for;\n\n Splitter.on(\u0027,\u0027).trimResults().omitEmptyStrings().splitToList(input.hashtags);",
+      "range": {
+        "startLine": 71,
+        "startChar": 23,
+        "endLine": 71,
+        "endChar": 65
+      },
+      "revId": "eac639f9bfd0d11a99f854659f134d120ac81ee3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "106cff13_79410372",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteHashtags.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1010030
+      },
+      "writtenOn": "2014-09-10T10:31:26Z",
+      "side": 1,
+      "message": "\u0027",
+      "range": {
+        "startLine": 76,
+        "startChar": 19,
+        "endLine": 76,
+        "endChar": 20
+      },
+      "revId": "eac639f9bfd0d11a99f854659f134d120ac81ee3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "106cff13_5cf875de",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetHashtags.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1010030
+      },
+      "writtenOn": "2014-09-10T10:31:26Z",
+      "side": 1,
+      "message": "See my comment on the dependent patch",
+      "revId": "eac639f9bfd0d11a99f854659f134d120ac81ee3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "106cff13_dc03e52c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutHashtags.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1010030
+      },
+      "writtenOn": "2014-09-10T10:31:26Z",
+      "side": 1,
+      "message": "Logic for DeleteHashtags and PutHashTags are awfully similar. Can\u0027t we re-use some code?\n\nAlso the null check should go away :)",
+      "revId": "eac639f9bfd0d11a99f854659f134d120ac81ee3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

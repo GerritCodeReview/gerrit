@@ -1731,6 +1731,34 @@ MyType(@PluginData java.io.File myDir) {
 }
 ----
 
+[[secure-store]]
+== SecureStore
+
+SecureStore allows to change the way Gerrit stores sensitive data like
+passwords.
+
+In order to replace the default SecureStore (no-op) implementation,
+a class that extends `com.google.gerrit.server.securestore.SecureStore`
+needs to be provided (with dependencies) in a separate jar file. Then
+link:pgm-SwitchSecureStore.html[SwitchSecureStore] must be run to
+switch implementations.
+
+The SecureStore implementation is instantiated using a Guice injector
+which binds the `File` annotated with the `@SitePath` annotation.
+This means that a SecureStore implementation class can get access to
+the `site_path` like in the following example:
+
+[source,java]
+----
+@Inject
+MySecureStore(@SitePath java.io.File sitePath) {
+  // your code
+}
+----
+
+No Guice bindings or modules are required. Gerrit will automatically
+discover and bind the implementation.
+
 [[download-commands]]
 == Download Commands
 

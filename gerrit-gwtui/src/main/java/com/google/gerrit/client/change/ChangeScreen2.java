@@ -360,17 +360,25 @@ public class ChangeScreen2 extends Screen {
   }
 
   private void initRevisionsAction(ChangeInfo info, String revision) {
-    String currentPatchSet;
+    int currentPatchSet;
     if (info.current_revision() != null
         && info.revisions().containsKey(info.current_revision())) {
-      currentPatchSet = info.revision(info.current_revision()).id();
+      currentPatchSet = info.revision(info.current_revision())._number();
     } else {
       JsArray<RevisionInfo> revList = info.revisions().values();
       RevisionInfo.sortRevisionInfoByNumber(revList);
-      currentPatchSet = revList.get(revList.length() - 1).id();
+      currentPatchSet = revList.get(revList.length() - 1)._number();
     }
 
-    String currentlyViewedPatchSet = info.revision(revision).id();
+    String currentlyViewedPatchSet;
+    if (info.revision(revision).id().equals("edit")) {
+      currentlyViewedPatchSet =
+          Resources.M.editPatchSet(RevisionInfo.findEditParent(info.revisions()
+              .values()));
+      currentPatchSet = info.revisions().values().length() - 1;
+    } else {
+      currentlyViewedPatchSet = info.revision(revision).id();
+    }
     patchSetsText.setInnerText(Resources.M.patchSets(
         currentlyViewedPatchSet, currentPatchSet));
     patchSetsAction = new PatchSetsAction(

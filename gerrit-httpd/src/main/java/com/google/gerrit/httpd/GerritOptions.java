@@ -16,12 +16,18 @@ package com.google.gerrit.httpd;
 
 public class GerritOptions {
   private final boolean headless;
+  private final boolean slave;
 
-  public GerritOptions(boolean headless) {
+  public GerritOptions(boolean headless, boolean slave) {
     this.headless = headless;
+    this.slave = slave;
   }
 
   public boolean enableDefaultUi() {
     return !headless;
+  }
+
+  public boolean enableMasterFeatures() {
+    return !slave;
   }
 }

@@ -27,12 +27,12 @@ import java.util.List;
 
 /** Extended commit entity with code review specific metadata. */
 public class CodeReviewCommit extends RevCommit {
-  static CodeReviewCommit revisionGone() {
-    return error(CommitMergeStatus.REVISION_GONE);
+  static CodeReviewCommit revisionGone(ChangeControl ctl) {
+    return error(ctl, CommitMergeStatus.REVISION_GONE);
   }
 
-  static CodeReviewCommit noPatchSet() {
-    return error(CommitMergeStatus.NO_PATCH_SET);
+  static CodeReviewCommit noPatchSet(ChangeControl ctl) {
+    return error(ctl, CommitMergeStatus.NO_PATCH_SET);
   }
 
   /**
@@ -42,11 +42,14 @@ public class CodeReviewCommit extends RevCommit {
    * non-zero commit on which we could call {@link
    * #setStatusCode(CommitMergeStatus)}, enumerated in the methods above.
    *
+   * @param ctl control for change that caused this error
    * @param CommitMergeStatus status
    * @return new commit instance
    */
-  private static CodeReviewCommit error(CommitMergeStatus s) {
+  private static CodeReviewCommit error(ChangeControl ctl,
+      CommitMergeStatus s) {
     CodeReviewCommit r = new CodeReviewCommit(ObjectId.zeroId());
+    r.setControl(ctl);
     r.statusCode = s;
     return r;
   }

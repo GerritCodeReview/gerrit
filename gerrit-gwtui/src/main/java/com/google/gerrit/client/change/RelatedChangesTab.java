@@ -311,7 +311,7 @@ class RelatedChangesTab implements IsWidget {
         PatchSet.Id id = info.patch_set_id();
         return "#" + PageLinks.toChange(
             id.getParentKey(),
-            String.valueOf(id.get()));
+            id.getId());
       }
 
       GitwebLink gw = Gerrit.getGitwebLink();

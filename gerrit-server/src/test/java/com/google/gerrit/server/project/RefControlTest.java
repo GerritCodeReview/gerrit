@@ -257,7 +257,7 @@ public class RefControlTest {
 
   @Test
   public void testUsernamePatternCanUploadToAnyRef() {
-    grant(local, PUSH, REGISTERED_USERS, "refs/heads/users/${username}/*");
+    allow(local, PUSH, REGISTERED_USERS, "refs/heads/users/${username}/*");
     ProjectControl u = util.user(local, "a-registered-user");
     assertTrue("can upload", u.canPushToAtLeastOneRef() == Capable.OK);
   }

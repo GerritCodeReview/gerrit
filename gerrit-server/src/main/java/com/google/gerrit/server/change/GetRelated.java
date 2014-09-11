@@ -91,7 +91,7 @@ public class GetRelated implements RestReadView<RevisionResource> {
   private List<ChangeAndCommit> walk(RevisionResource rsrc, RevWalk rw, Ref ref)
       throws OrmException, IOException {
     Map<Change.Id, Change> changes = allOpenChanges(rsrc);
-    Map<PatchSet.Id, PatchSet> patchSets = allPatchSets(changes.keySet());
+    Map<PatchSet.Id, PatchSet> patchSets = allPatchSets(rsrc, changes.keySet());
 
     Map<String, PatchSet> commits = Maps.newHashMap();
     for (PatchSet p : patchSets.values()) {
@@ -143,8 +143,8 @@ public class GetRelated implements RestReadView<RevisionResource> {
         db.changes().byBranchOpenAll(rsrc.getChange().getDest()));
   }
 
-  private Map<PatchSet.Id, PatchSet> allPatchSets(Collection<Change.Id> ids)
-      throws OrmException {
+  private Map<PatchSet.Id, PatchSet> allPatchSets(RevisionResource rsrc,
+      Collection<Change.Id> ids) throws OrmException {
     int n = ids.size();
     ReviewDb db = dbProvider.get();
     List<ResultSet<PatchSet>> t = Lists.newArrayListWithCapacity(n);
@@ -157,6 +157,10 @@ public class GetRelated implements RestReadView<RevisionResource> {
       for (PatchSet p : rs) {
         r.put(p.getId(), p);
       }
+    }
+
+    if (rsrc.getEdit().isPresent()) {
+      r.put(rsrc.getPatchSet().getId(), rsrc.getPatchSet());
     }
     return r;
   }

@@ -22,6 +22,30 @@
       "revId": "0f697bdbec7dfef039f67c9450407b7cfa356f68",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30dae333_bfcc3770",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1758,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-09-11T09:27:34Z",
+      "side": 1,
+      "message": "Yes, I think one code example for a web link is sufficient.",
+      "parentUuid": "d065072b_3dead3c4",
+      "range": {
+        "startLine": 1758,
+        "startChar": 13,
+        "endLine": 1758,
+        "endChar": 28
+      },
+      "revId": "0f697bdbec7dfef039f67c9450407b7cfa356f68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -40,6 +40,7 @@ import com.google.gerrit.pgm.util.ErrorLogFile;
 import com.google.gerrit.pgm.util.GarbageCollectionLogFile;
 import com.google.gerrit.pgm.util.LogFileCompressor;
 import com.google.gerrit.pgm.util.RuntimeShutdown;
+import com.google.gerrit.pgm.util.SecureStoreProvider;
 import com.google.gerrit.pgm.util.SiteProgram;
 import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gerrit.server.account.InternalAccountDirectory;
@@ -67,6 +68,7 @@ import com.google.gerrit.server.plugins.PluginGuiceEnvironment;
 import com.google.gerrit.server.plugins.PluginRestApiModule;
 import com.google.gerrit.server.schema.DataSourceProvider;
 import com.google.gerrit.server.schema.SchemaVersionCheck;
+import com.google.gerrit.server.securestore.SecureStore;
 import com.google.gerrit.server.ssh.NoSshKeyCache;
 import com.google.gerrit.server.ssh.NoSshModule;
 import com.google.gerrit.server.ssh.SshAddressesModule;
@@ -355,6 +357,9 @@ public class Daemon extends SiteProgram {
       @Override
       protected void configure() {
         bind(GerritUiOptions.class).toInstance(new GerritUiOptions(headless));
+        if (test) {
+          bind(SecureStore.class).toProvider(SecureStoreProvider.class);
+        }
       }
     });
     modules.add(GarbageCollectionRunner.module());

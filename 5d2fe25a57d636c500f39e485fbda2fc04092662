@@ -1,0 +1,135 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "30dae333_c2b68412",
+        "filename": "Documentation/cmd-index.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1010030
+      },
+      "writtenOn": "2014-09-11T15:26:34Z",
+      "side": 1,
+      "message": "nit: indentation",
+      "revId": "5d2fe25a57d636c500f39e485fbda2fc04092662",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_282733d6",
+        "filename": "Documentation/cmd-verify.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010030
+      },
+      "writtenOn": "2014-09-11T15:26:34Z",
+      "side": 1,
+      "message": "Why didn\u0027t we go with @dpursehouse\u0027s suggestion of adding this to review instead?",
+      "revId": "5d2fe25a57d636c500f39e485fbda2fc04092662",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_882c87b7",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/LabelId.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1010030
+      },
+      "writtenOn": "2014-09-11T15:26:34Z",
+      "side": 1,
+      "message": "Handle self assignment\n\n if (this \u003d\u003d b) return true;\n\nAlso see http://www.jetbrains.com/idea/webhelp/generating-equals()-and-hashcode().html\n\nFor an effective equals",
+      "revId": "5d2fe25a57d636c500f39e485fbda2fc04092662",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_c815df5c",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/PatchSetVerification.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1010030
+      },
+      "writtenOn": "2014-09-11T15:26:34Z",
+      "side": 1,
+      "message": "optional nit: This would look better if appends were on their own lines",
+      "revId": "5d2fe25a57d636c500f39e485fbda2fc04092662",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_a8122370",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostVerification.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1010030
+      },
+      "writtenOn": "2014-09-11T15:26:34Z",
+      "side": 1,
+      "message": "resource",
+      "range": {
+        "startLine": 82,
+        "startChar": 48,
+        "endLine": 82,
+        "endChar": 52
+      },
+      "revId": "5d2fe25a57d636c500f39e485fbda2fc04092662",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_082077b5",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/VerifyCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1010030
+      },
+      "writtenOn": "2014-09-11T15:26:34Z",
+      "side": 1,
+      "message": "optional nit: move injections up",
+      "revId": "5d2fe25a57d636c500f39e485fbda2fc04092662",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30dae333_a2a260c7",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/VerifyCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1010030
+      },
+      "writtenOn": "2014-09-11T15:26:34Z",
+      "side": 1,
+      "message": "Can we fine-grain the exception?",
+      "range": {
+        "startLine": 124,
+        "startChar": 15,
+        "endLine": 124,
+        "endChar": 24
+      },
+      "revId": "5d2fe25a57d636c500f39e485fbda2fc04092662",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -212,6 +212,7 @@ public class ChangeInfo extends JavaScriptObject {
   public static class EditInfo extends JavaScriptObject {
     public final native String name() /*-{ return this.name; }-*/;
     public final native String set_name(String n) /*-{ this.name = n; }-*/;
+    public final native String base_revision() /*-{ return this.base_revision; }-*/;
     public final native CommitInfo commit() /*-{ return this.commit; }-*/;
 
     public final native boolean has_actions() /*-{ return this.hasOwnProperty('actions') }-*/;
@@ -237,6 +238,7 @@ public class ChangeInfo extends JavaScriptObject {
       this._number = 0;
       this.name = edit.name;
       this.commit = edit.commit;
+      this.edit_base = edit.base_revision;
     }-*/;
     public final native int _number() /*-{ return this._number; }-*/;
     public final native String name() /*-{ return this.name; }-*/;
@@ -245,6 +247,7 @@ public class ChangeInfo extends JavaScriptObject {
     public final native boolean is_edit() /*-{ return this._number == 0; }-*/;
     public final native CommitInfo commit() /*-{ return this.commit; }-*/;
     public final native void set_commit(CommitInfo c) /*-{ this.commit = c; }-*/;
+    public final native String edit_base() /*-{ return this.edit_base; }-*/;
 
     public final native boolean has_files() /*-{ return this.hasOwnProperty('files') }-*/;
     public final native NativeMap<FileInfo> files() /*-{ return this.files; }-*/;
@@ -275,9 +278,7 @@ public class ChangeInfo extends JavaScriptObject {
         // edit under revisions?
         RevisionInfo editInfo = list.get(i);
         if (editInfo.is_edit()) {
-          // parent commit is parent patch set revision
-          CommitInfo commit = editInfo.commit().parents().get(0);
-          String parentRevision = commit.commit();
+          String parentRevision = editInfo.edit_base();
           // find parent
           for (int j = 0; j < list.length(); j++) {
             RevisionInfo parentInfo = list.get(j);

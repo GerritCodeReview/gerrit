@@ -25,6 +25,29 @@
     },
     {
       "key": {
+        "uuid": "30dae333_5fa96bac",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeResource.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-11T08:12:36Z",
+      "side": 1,
+      "message": "I also think we shouldn\u0027t respect it all if noteId is null:\n\n if (noteId !\u003d null) {\n   // include noteid SHA-1 in ETag computation.  \n }",
+      "range": {
+        "startLine": 78,
+        "startChar": 4,
+        "endLine": 78,
+        "endChar": 33
+      },
+      "revId": "5250a200b65078ed92a59a970899a3aa24784964",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d065072b_bd3ee3d0",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/AbstractChangeNotes.java",
         "patchSetId": 1

@@ -240,9 +240,7 @@ public class ProjectBranchesScreen extends ProjectScreen {
       fmt.addStyleName(0, 1, Gerrit.RESOURCES.css().iconHeader());
       fmt.addStyleName(0, 2, Gerrit.RESOURCES.css().dataHeader());
       fmt.addStyleName(0, 3, Gerrit.RESOURCES.css().dataHeader());
-      if (Gerrit.getGitwebLink() != null) {
-        fmt.addStyleName(0, 4, Gerrit.RESOURCES.css().dataHeader());
-      }
+      fmt.addStyleName(0, 4, Gerrit.RESOURCES.css().dataHeader());
 
       updateDeleteHandler = new ValueChangeHandler<Boolean>() {
         @Override
@@ -433,9 +431,7 @@ public class ProjectBranchesScreen extends ProjectScreen {
       fmt.addStyleName(row, 1, iconCellStyle);
       fmt.addStyleName(row, 2, dataCellStyle);
       fmt.addStyleName(row, 3, dataCellStyle);
-      if (c != null) {
-        fmt.addStyleName(row, 4, dataCellStyle);
-      }
+      fmt.addStyleName(row, 4, dataCellStyle);
 
       setRowItem(row, k);
     }

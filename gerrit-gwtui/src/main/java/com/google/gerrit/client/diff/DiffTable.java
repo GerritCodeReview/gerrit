@@ -16,6 +16,7 @@ package com.google.gerrit.client.diff;
 
 import com.google.gerrit.client.account.DiffPreferences;
 import com.google.gerrit.client.changes.ChangeInfo.RevisionInfo;
+import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.reviewdb.client.Patch.ChangeType;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.GWT;
@@ -158,8 +159,10 @@ class DiffTable extends Composite {
 
   void set(DiffPreferences prefs, JsArray<RevisionInfo> list, DiffInfo info) {
     this.changeType = info.change_type();
-    patchSetSelectBoxA.setUpPatchSetNav(list, info.meta_a());
-    patchSetSelectBoxB.setUpPatchSetNav(list, info.meta_b());
+    patchSetSelectBoxA.setUpPatchSetNav(list, info.meta_a(),
+        Natives.asList(info.web_links_a()));
+    patchSetSelectBoxB.setUpPatchSetNav(list, info.meta_b(),
+        Natives.asList(info.web_links_b()));
 
     JsArrayString hdr = info.diff_header();
     if (hdr != null) {

@@ -97,3 +97,5 @@ Display parents for all changes, not only merge commits.
 In the new change screen the parent commit is now also shown for regular
 commits, as well as merge commits. This makes it consistent with the old
 change screen.
+
+* Fix handling of permissions for user-specific refs.

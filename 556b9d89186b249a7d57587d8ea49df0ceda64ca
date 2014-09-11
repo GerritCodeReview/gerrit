@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "d065072b_9d0b27b7",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmitOnPushIT.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-11T11:30:21Z",
+      "side": 1,
+      "message": "IIUC I think this is why it\u0027s a non-fastforward. push(master, ...) on l. 232 creates a new commit and pushes it to master. This resets HEAD in your local repo to master~1. push(master, ...) on l. 238 creates another new change, based on master~1, and tries to push it to master:\n\n --O--M\n   \\--N\n\nwhere O is objectId, M is master after the push on l. 232, and N is the new commit you\u0027re trying to push on l. 238.",
+      "revId": "556b9d89186b249a7d57587d8ea49df0ceda64ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d065072b_1d20b732",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmitOnPushIT.java",
         "patchSetId": 11

@@ -15,6 +15,7 @@
 package com.google.gerrit.server.edit;
 
 import static com.google.gerrit.server.edit.ChangeEditUtil.editRefName;
+import static com.google.gerrit.server.edit.ChangeEditUtil.editRefPrefix;
 
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -44,6 +45,7 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.merge.MergeStrategy;
@@ -53,6 +55,7 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.TreeWalk;
 
 import java.io.IOException;
+import java.util.Map;
 import java.util.TimeZone;
 
 /**
@@ -104,10 +107,11 @@ public class ChangeEditModifier {
 
     IdentifiedUser me = (IdentifiedUser) currentUser.get();
     Repository repo = gitManager.openRepository(change.getProject());
-    String refName = editRefName(me.getAccountId(), change.getId());
+    String refPrefix = editRefPrefix(me.getAccountId(), change.getId());
 
     try {
-      if (repo.getRefDatabase().getRef(refName) != null) {
+      Map<String, Ref> refs = repo.getRefDatabase().getRefs(refPrefix);
+      if (!refs.isEmpty()) {
         throw new ResourceConflictException("edit already exists");
       }
 
@@ -118,7 +122,8 @@ public class ChangeEditModifier {
             ps.getRevision().get()));
         ObjectId commit = createCommit(me, inserter, base, base, base.getTree());
         inserter.flush();
-        return update(repo, me, refName, rw, ObjectId.zeroId(), commit);
+        return update(repo, me, editRefName(me.getAccountId(), change.getId(),
+            ps.getId()), rw, ObjectId.zeroId(), commit);
       } finally {
         rw.release();
         inserter.release();
@@ -145,7 +150,8 @@ public class ChangeEditModifier {
 
     Change change = edit.getChange();
     IdentifiedUser me = (IdentifiedUser) currentUser.get();
-    String refName = editRefName(me.getAccountId(), change.getId());
+    String refName = editRefName(me.getAccountId(), change.getId(),
+        current.getId());
     Repository repo = gitManager.openRepository(change.getProject());
     try {
       RevWalk rw = new RevWalk(repo);
@@ -164,16 +170,30 @@ public class ChangeEditModifier {
         if (m.merge(mergeTip, editCommit)) {
           ObjectId tree = m.getResultTreeId();
 
-          CommitBuilder mergeCommit = new CommitBuilder();
-          mergeCommit.setTreeId(tree);
-          mergeCommit.setParentId(mergeTip);
-          mergeCommit.setAuthor(editCommit.getAuthorIdent());
-          mergeCommit.setCommitter(new PersonIdent(
+          CommitBuilder commit = new CommitBuilder();
+          commit.setTreeId(tree);
+          for (int i = 0; i < mergeTip.getParentCount(); i++) {
+            commit.addParentId(mergeTip.getParent(i));
+          }
+          commit.setParentId(mergeTip);
+          commit.setAuthor(editCommit.getAuthorIdent());
+          commit.setCommitter(new PersonIdent(
               editCommit.getCommitterIdent(), TimeUtil.nowTs()));
-          mergeCommit.setMessage(editCommit.getFullMessage());
-          ObjectId newEdit = inserter.insert(mergeCommit);
+          commit.setMessage(editCommit.getFullMessage());
+          ObjectId newEdit = inserter.insert(commit);
           inserter.flush();
-          return update(repo, me, refName, rw, editCommit, newEdit);
+          RefUpdate.Result res = update(repo, me, refName, rw,
+              ObjectId.zeroId(), newEdit);
+          switch (res) {
+            case FORCED:
+            case NEW:
+            case NO_CHANGE:
+              deleteRef(repo, edit);
+              return res;
+            default:
+              throw new IOException(String.format("Failed to delete ref %s: %s",
+                  refName, res));
+          }
         } else {
           // TODO(davido): Allow to resolve conflicts inline
           throw new InvalidChangeOperationException("merge conflict");
@@ -234,6 +254,24 @@ public class ChangeEditModifier {
       String file) throws AuthException, InvalidChangeOperationException,
       IOException {
     return modify(TreeOperation.RESTORE_ENTRY, edit, file, null);
+  }
+
+  static void deleteRef(Repository repo, ChangeEdit edit)
+      throws IOException {
+    String refName = edit.getRefName();
+    RefUpdate ru = repo.updateRef(refName, true);
+    ru.setExpectedOldObjectId(edit.getRef().getObjectId());
+    ru.setForceUpdate(true);
+    RefUpdate.Result result = ru.delete();
+    switch (result) {
+      case FORCED:
+      case NEW:
+      case NO_CHANGE:
+        break;
+      default:
+        throw new IOException(String.format("Failed to delete ref %s: %s",
+            refName, result));
+    }
   }
 
   private RefUpdate.Result modify(TreeOperation op,

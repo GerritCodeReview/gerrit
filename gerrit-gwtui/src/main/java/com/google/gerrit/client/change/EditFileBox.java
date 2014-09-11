@@ -14,6 +14,7 @@
 
 package com.google.gerrit.client.change;
 
+import com.google.common.base.Strings;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.VoidResult;
 import com.google.gerrit.client.changes.ChangeFileApi;
@@ -71,7 +72,11 @@ class EditFileBox extends Composite {
     Scheduler.get().scheduleDeferred(new ScheduledCommand() {
       @Override
       public void execute() {
-        file.setFocus(true);
+        if (Strings.isNullOrEmpty(fileName)) {
+          file.setFocus(true);
+        } else {
+          content.setFocus(true);
+        }
       }});
   }
 

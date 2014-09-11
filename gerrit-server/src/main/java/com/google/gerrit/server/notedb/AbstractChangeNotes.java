@@ -21,6 +21,8 @@ import com.google.gerrit.server.git.VersionedMetaData;
 import com.google.gwtorm.server.OrmException;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 
 import java.io.IOException;
@@ -67,6 +69,26 @@ public abstract class AbstractChangeNotes<T> extends VersionedMetaData {
       repo.close();
     }
     return self();
+  }
+
+  public ObjectId loadRevision() throws OrmException {
+    if (loaded) {
+      return getRevision();
+    } else if (!migration.enabled()) {
+      return null;
+    }
+    Repository repo;
+    try {
+      repo = repoManager.openMetadataRepository(getProjectName());
+      try {
+        Ref ref = repo.getRef(getRefName());
+        return ref != null ? ref.getObjectId() : null;
+      } finally {
+        repo.close();
+      }
+    } catch (IOException e) {
+      throw new OrmException(e);
+    }
   }
 
   /** Load default values for any instance variables when notedb is disabled. */

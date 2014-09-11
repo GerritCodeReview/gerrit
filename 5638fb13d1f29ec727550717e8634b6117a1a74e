@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "30dae333_bf851786",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 1334,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-11T13:06:32Z",
+      "side": 1,
+      "message": "destRef",
+      "range": {
+        "startLine": 1334,
+        "startChar": 13,
+        "endLine": 1334,
+        "endChar": 27
+      },
+      "revId": "5638fb13d1f29ec727550717e8634b6117a1a74e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

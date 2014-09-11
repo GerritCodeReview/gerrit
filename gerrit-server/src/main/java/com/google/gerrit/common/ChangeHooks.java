@@ -30,6 +30,7 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.RefUpdate;
 
 import java.util.Map;
+import java.util.Set;
 
 /** Invokes hooks on server actions. */
 public interface ChangeHooks {
@@ -171,6 +172,20 @@ public interface ChangeHooks {
    */
   public HookResult doRefUpdateHook(Project project,  String refName,
        Account uploader, ObjectId oldId, ObjectId newId);
+
+  /**
+   * Fire the hashtags changed Hook.
+   * @param change The change
+   * @param account The gerrit user changing the hashtags
+   * @param added List of hashtags that were added to the change
+   * @param removed List of hashtags that were removed from the change
+   * @param hashtags List of hashtags on the change after adding or removing
+   * @param db The database
+   * @throws OrmException
+   */
+  public void doHashtagsChangedHook(Change change, Account account,
+      Set<String>added, Set<String> removed, Set<String> hashtags,
+      ReviewDb db) throws OrmException;
 
   /**
    * Post a stream event that is related to a change

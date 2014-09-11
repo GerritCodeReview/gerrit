@@ -145,6 +145,19 @@ changer:: link:json.html#account[account attribute]
 
 oldTopic:: Topic name before it was changed.
 
+==== Hashtags Changed
+type:: "hashtags-changed"
+
+change:: link:json.html#change[change attribute]
+
+editor:: link:json.html#account[account attribute]
+
+added:: List of hashtags added to the change
+
+removed:: List of hashtags removed from the change
+
+hashtags:: List of hashtags on the change after tags were added or removed
+
 == SEE ALSO
 
 * link:json.html[JSON Data Formats]

@@ -46,6 +46,29 @@
       "revId": "58ba2557ef1ffc2dbd58e961ee0f8a22d20227bc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_68312b0b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/JarScanner.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-11T15:07:14Z",
+      "side": 1,
+      "message": "It is also wrong to throw a *PluginException here as this method has nothing to do with a plugin.",
+      "range": {
+        "startLine": 142,
+        "startChar": 13,
+        "endLine": 142,
+        "endChar": 35
+      },
+      "revId": "58ba2557ef1ffc2dbd58e961ee0f8a22d20227bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

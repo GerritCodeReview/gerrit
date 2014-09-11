@@ -81,6 +81,24 @@
       "revId": "b961f0284556ac61a8b3cbcaa7ffbacb1811d99e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30dae333_a2e3403c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-11T13:29:21Z",
+      "side": 1,
+      "message": "Consistency with the REST API is good. It is possible (though a little tricky) to change the semantics later.",
+      "parentUuid": "30dae333_bf37d715",
+      "revId": "b961f0284556ac61a8b3cbcaa7ffbacb1811d99e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

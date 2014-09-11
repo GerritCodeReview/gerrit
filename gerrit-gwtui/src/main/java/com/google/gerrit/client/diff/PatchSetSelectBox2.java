@@ -17,8 +17,11 @@ package com.google.gerrit.client.diff;
 import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.WebLinkInfo;
+import com.google.gerrit.client.change.EditFileAction;
+import com.google.gerrit.client.changes.ChangeFileApi;
 import com.google.gerrit.client.changes.ChangeInfo.RevisionInfo;
 import com.google.gerrit.client.patches.PatchUtil;
+import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.InlineHyperlink;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Patch;
@@ -26,6 +29,7 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
@@ -35,6 +39,7 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.ImageResourceRenderer;
+import com.google.gwt.user.client.ui.Widget;
 import com.google.gwtorm.client.KeyUtil;
 
 import java.util.List;
@@ -46,6 +51,7 @@ class PatchSetSelectBox2 extends Composite {
 
   interface BoxStyle extends CssResource {
     String selected();
+    String replyBox();
   }
 
   @UiField Image icon;
@@ -104,6 +110,10 @@ class PatchSetSelectBox2 extends Composite {
     if (meta != null && !Patch.COMMIT_MSG.equals(path)) {
       linkPanel.add(createDownloadLink());
     }
+    if (!sideA && Gerrit.isSignedIn() &&
+        meta != null && !Patch.COMMIT_MSG.equals(path)) {
+      linkPanel.add(createEditIcon());
+    }
     if (webLinks != null) {
       for (WebLinkInfo weblink : webLinks) {
         Anchor a = new Anchor();
@@ -120,6 +130,35 @@ class PatchSetSelectBox2 extends Composite {
         linkPanel.add(a);
       }
     }
+  }
+
+  private Widget createEditIcon() {
+    Anchor anchor = new Anchor(
+        new ImageResourceRenderer().render(Gerrit.RESOURCES.edit()));
+    anchor.addClickHandler(new ClickHandler() {
+      @Override
+      public void onClick(ClickEvent event) {
+        // TODO(davido): We need to pass here the info if edit exists and
+        // pass 0 ps id in this case to retrieve the content from the edit
+        // and not from the patch set the edit is based on. But it's OK to
+        // do that later, because normal workflow is to go to normal ps,
+        // open SBS2 screen, modify file, save it: change screen is reloaded
+        // and now the change edit is loaded. So the subsequent changes are
+        // done on edit and not on regular patch set.
+        final PatchSet.Id id = (idActive == null) ? other.idActive : idActive;
+        ChangeFileApi.getContent(id, path,
+            new GerritCallback<String>() {
+              @Override
+              public void onSuccess(String result) {
+                EditFileAction edit = new EditFileAction(
+                    id, result, path, style.replyBox(), null, icon);
+                edit.onEdit();
+              }
+            });
+      }
+    });
+    anchor.setTitle(PatchUtil.C.edit());
+    return anchor;
   }
 
   static void link(PatchSetSelectBox2 a, PatchSetSelectBox2 b) {

@@ -22,6 +22,7 @@ limitations under the License.
       type='com.google.gerrit.client.patches.PatchConstants'/>
   <ui:style type='com.google.gerrit.client.diff.PatchSetSelectBox2.BoxStyle'>
     @eval selectionColor com.google.gerrit.client.Gerrit.getTheme().selectionColor;
+    @eval trimColor com.google.gerrit.client.Gerrit.getTheme().trimColor;
     .table {
       width: 100%;
     }
@@ -54,6 +55,10 @@ limitations under the License.
     }
     .iconCell {
       width: 16px;
+    }
+    .replyBox {
+      background-color: trimColor;
+      z-index: 10;
     }
   </ui:style>
   <g:HTMLPanel>

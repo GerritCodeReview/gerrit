@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "30dae333_bfb6f710",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeResource.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-11T08:08:21Z",
+      "side": 1,
+      "message": "Add a comment that is currently only respect refs/mate/changes ref and not user refs where draft comments are stored? It may be not relevant for GET /changes/detail?O\u003dfoo REST request, though.",
+      "range": {
+        "startLine": 74,
+        "startChar": 6,
+        "endLine": 74,
+        "endChar": 41
+      },
+      "revId": "5250a200b65078ed92a59a970899a3aa24784964",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_bd3ee3d0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/AbstractChangeNotes.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-11T08:08:21Z",
+      "side": 1,
+      "message": "How can it be null, when migration.enabled() is enabled, what you have checked aleady on line 77.",
+      "range": {
+        "startLine": 85,
+        "startChar": 8,
+        "endLine": 85,
+        "endChar": 54
+      },
+      "revId": "5250a200b65078ed92a59a970899a3aa24784964",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

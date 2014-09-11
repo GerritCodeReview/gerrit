@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "30dae333_3f4ca7aa",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/UsernameField.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-09-11T13:17:05Z",
+      "side": 1,
+      "message": "Does this work? IIRC the exception type is not propagated to the client side, but it\u0027s always the same generic exception type.",
+      "range": {
+        "startLine": 130,
+        "startChar": 16,
+        "endLine": 130,
+        "endChar": 58
+      },
+      "revId": "fb4c87450953b16b5235e063453e95044de5b626",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

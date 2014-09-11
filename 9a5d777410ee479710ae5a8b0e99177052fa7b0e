@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "d065072b_1d79d79c",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeMessages.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-11T08:11:12Z",
+      "side": 1,
+      "message": "Bikeshedding time!\n\nI played around with some alternatives and I think I would prefer edit:{0}. Two (admittedly minor) reasons:\n\n* It\u0027s already in () so I don\u0027t really like a second layer of nesting [].\n* \"edit\" comes first, so it says \"you are looking at your edit.\" The patch set it\u0027s based on is secondary to the fact that it\u0027s an edit (IMHO)",
+      "revId": "9a5d777410ee479710ae5a8b0e99177052fa7b0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d065072b_3d7493a6",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeInfo.java",
         "patchSetId": 2

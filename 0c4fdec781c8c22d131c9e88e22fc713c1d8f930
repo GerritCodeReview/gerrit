@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d065072b_a8da232f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteHashtags.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-09-11T22:02:23Z",
+      "side": 1,
+      "message": "I we had hashtags but they are all deleted this set can be empty but not null. So the check should be for an empty set as well.",
+      "range": {
+        "startLine": 82,
+        "startChar": 7,
+        "endLine": 82,
+        "endChar": 32
+      },
+      "revId": "0c4fdec781c8c22d131c9e88e22fc713c1d8f930",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_880da710",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteHashtags.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-09-11T22:02:23Z",
+      "side": 1,
+      "message": "I like where you\u0027re going with this, but if the removeAll operation isn\u0027t considerably more expensive than the retainAll operation (which is not likely since statistically the most common operation would be to only remove one hashtag at the time) this just makes it harder to read the code.",
+      "range": {
+        "startLine": 87,
+        "startChar": 6,
+        "endLine": 87,
+        "endChar": 42
+      },
+      "revId": "0c4fdec781c8c22d131c9e88e22fc713c1d8f930",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_a80343df",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutHashtags.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-09-11T22:02:23Z",
+      "side": 1,
+      "message": "Why not just skip the updatedHashtags all together and use existingHashtags all the way with a finale like:\nupdate.setHashtags(existingHashtags.addAll(toAdd));\nAFAIC that would be easier to understand.",
+      "range": {
+        "startLine": 80,
+        "startChar": 4,
+        "endLine": 80,
+        "endChar": 50
+      },
+      "revId": "0c4fdec781c8c22d131c9e88e22fc713c1d8f930",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

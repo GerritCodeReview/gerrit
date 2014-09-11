@@ -100,6 +100,6 @@ change screen.
 
 * Fix handling of permissions for user-specific refs.
 +
-Push permission on refs with username, for example `refs/heads/users/${username}/*`,
-was not honored if this was the only ref on which the user had push
-permission.
+Push permission granted on a ref using the `${username}` placeholder, for
+example `refs/heads/users/${username}/*`, was not honored if this was the
+only ref on which the user had push permission.

@@ -1,0 +1,387 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d065072b_bdad4322",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-11T14:04:13Z",
+      "side": 1,
+      "message": "remove this",
+      "range": {
+        "startLine": 7,
+        "startChar": 44,
+        "endLine": 7,
+        "endChar": 49
+      },
+      "revId": "6aa6ed92cd445f6fcfda285b064e5a58b80730eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_3de8135b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-11T14:04:13Z",
+      "side": 1,
+      "message": "than",
+      "range": {
+        "startLine": 15,
+        "startChar": 41,
+        "endLine": 15,
+        "endChar": 45
+      },
+      "revId": "6aa6ed92cd445f6fcfda285b064e5a58b80730eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_1ded576b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-11T14:04:13Z",
+      "side": 1,
+      "message": "the init will fail.",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 24
+      },
+      "revId": "6aa6ed92cd445f6fcfda285b064e5a58b80730eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30dae333_df5bbb62",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-11T14:04:13Z",
+      "side": 1,
+      "message": "the",
+      "range": {
+        "startLine": 18,
+        "startChar": 12,
+        "endLine": 18,
+        "endChar": 16
+      },
+      "revId": "6aa6ed92cd445f6fcfda285b064e5a58b80730eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30dae333_ff587f68",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-11T14:04:13Z",
+      "side": 1,
+      "message": "The",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 4
+      },
+      "revId": "6aa6ed92cd445f6fcfda285b064e5a58b80730eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_ddb47f6a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-11T14:04:13Z",
+      "side": 1,
+      "message": "in the",
+      "range": {
+        "startLine": 20,
+        "startChar": 57,
+        "endLine": 20,
+        "endChar": 59
+      },
+      "revId": "6aa6ed92cd445f6fcfda285b064e5a58b80730eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_3de3f36a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-11T14:04:13Z",
+      "side": 1,
+      "message": "join with the previous line",
+      "revId": "6aa6ed92cd445f6fcfda285b064e5a58b80730eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_bd9f03da",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/BaseInit.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-11T14:04:13Z",
+      "side": 1,
+      "message": "like in a previous change, instead of binding to an empty string bind to null and make it explicit at the @Inject place that the parameter is @Nullable",
+      "revId": "6aa6ed92cd445f6fcfda285b064e5a58b80730eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30dae333_22f9f0e5",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/BaseInit.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-11T14:04:13Z",
+      "side": 1,
+      "message": "does it make sense to have these two bindings (the lib and the class name) separated? What are the supported cases? I think that the cases where one is null and the other one is non-null are not supported. Therefore a:\n\n  class SecureStoreDef {\n    String lib;\n    String className;\n  }\n\n  bind(SecureStoreDef).toInstance(...)\n\nwould be cleaner. If a non-null is bound then the using place can assume that both lib and className are non-null.",
+      "range": {
+        "startLine": 213,
+        "startChar": 0,
+        "endLine": 216,
+        "endChar": 46
+      },
+      "revId": "6aa6ed92cd445f6fcfda285b064e5a58b80730eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_9d9cc7e6",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/BaseInit.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-11T14:04:13Z",
+      "side": 1,
+      "message": "return null here and use @Nullable at the @Inject point",
+      "revId": "6aa6ed92cd445f6fcfda285b064e5a58b80730eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30dae333_62f3f805",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/BaseInit.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-11T14:04:13Z",
+      "side": 1,
+      "message": "plugin?",
+      "revId": "6aa6ed92cd445f6fcfda285b064e5a58b80730eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_1d7a77c9",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/BaseInit.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-11T14:04:13Z",
+      "side": 1,
+      "message": "why throw the InvalidPluginException at 263 then catch it here and convert into the InvalidSecureStoreExcepion?",
+      "revId": "6aa6ed92cd445f6fcfda285b064e5a58b80730eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_7d6f2b0b",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/BaseInit.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-11T14:04:13Z",
+      "side": 1,
+      "message": "who assumed that it is should be a plugin?",
+      "revId": "6aa6ed92cd445f6fcfda285b064e5a58b80730eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_9d85e786",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/SecureStoreClassName.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-11T14:04:13Z",
+      "side": 1,
+      "message": "why changing the year if this is not a new file introduced in this change?",
+      "revId": "6aa6ed92cd445f6fcfda285b064e5a58b80730eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_fd821b7a",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/SecureStoreJarPath.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-11T14:04:13Z",
+      "side": 1,
+      "message": "I think we don\u0027t change this on moving files",
+      "revId": "6aa6ed92cd445f6fcfda285b064e5a58b80730eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_dd7f5fb2",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/SecureStoreLib.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-11T14:04:13Z",
+      "side": 1,
+      "message": "dont change when moving files",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "6aa6ed92cd445f6fcfda285b064e5a58b80730eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_3d5e535b",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/SecureStoreLib.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-11T14:04:13Z",
+      "side": 1,
+      "message": "Is this used anywhere?",
+      "revId": "6aa6ed92cd445f6fcfda285b064e5a58b80730eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_7d68cbf9",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/util/SecureStoreClassNameProvider.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-11T14:04:13Z",
+      "side": 1,
+      "message": "is this used anywhere?",
+      "range": {
+        "startLine": 27,
+        "startChar": 13,
+        "endLine": 27,
+        "endChar": 41
+      },
+      "revId": "6aa6ed92cd445f6fcfda285b064e5a58b80730eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_5d6d0f08",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/InvalidSecureStoreException.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-11T14:04:13Z",
+      "side": 1,
+      "message": "2014",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "6aa6ed92cd445f6fcfda285b064e5a58b80730eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

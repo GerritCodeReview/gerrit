@@ -25,6 +25,7 @@ public class AccountTest {
     assertRef(1, "refs/users/01/1");
     assertRef(1, "refs/users/01/1-drafts");
     assertRef(1, "refs/users/01/1-drafts/2");
+    assertRef(1, "refs/users/01/1/edit/2");
 
     assertNotRef(null);
     assertNotRef("");

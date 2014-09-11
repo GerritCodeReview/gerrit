@@ -16,10 +16,12 @@ package com.google.gerrit.server.git;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Maps;
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gwtorm.server.OrmException;
 
@@ -76,14 +78,30 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
       return r;
     }
 
-    final Set<Change.Id> visibleChanges = visibleChanges();
-    final Map<String, Ref> result = new HashMap<>();
-    final List<Ref> deferredTags = new ArrayList<>();
+    Account.Id currAccountId = projectCtl.getCurrentUser().isIdentifiedUser()
+        ? ((IdentifiedUser) projectCtl.getCurrentUser()).getAccountId()
+        : null;
+
+    Set<Change.Id> visibleChanges = visibleChanges();
+    Map<String, Ref> result = new HashMap<>();
+    List<Ref> deferredTags = new ArrayList<>();
 
     for (Ref ref : refs.values()) {
       Change.Id changeId;
+      Account.Id accountId;
       if (ref.getName().startsWith(RefNames.REFS_CACHE_AUTOMERGE)) {
         continue;
+      } else if ((accountId = Account.Id.fromRef(ref.getName())) != null) {
+        // Reference related to an account is visible only for the current
+        // account.
+        //
+        // TODO(dborowitz): If a ref matches an account and a change, verify
+        // both (to exclude e.g. edits on changes that the user has lost access
+        // to).
+        if (accountId.equals(currAccountId)) {
+          result.put(ref.getName(), ref);
+        }
+
       } else if ((changeId = Change.Id.fromRef(ref.getName())) != null) {
         // Reference related to a change is visible if the change is visible.
         //

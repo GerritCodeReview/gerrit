@@ -15,6 +15,12 @@ package com.google.gerrit.extensions.webui;
 
 public interface WebLink {
 
+  public static class Target {
+    public final static String BLANK = "_blank";
+    public final static String SELF = "_self";
+    public final static String PARENT = "_parent";
+    public final static String TOP = "_top";
+  }
   /**
    * The link-name displayed in UI.
    *
@@ -29,4 +35,11 @@ public interface WebLink {
    * Recommended image size is 16x16.
    */
   String getImageUrl();
+
+  /**
+   * Target window in which the link should be opened (e.g. "_blank", "_self".).
+   *
+   * @return link target, if null the link is opened in the current window
+   */
+  String getTarget();
 }

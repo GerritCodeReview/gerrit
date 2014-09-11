@@ -22,6 +22,29 @@
       "revId": "5638fb13d1f29ec727550717e8634b6117a1a74e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_fd1e9bc3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 1497,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-11T13:07:45Z",
+      "side": 1,
+      "message": "Is there a space missing before \"to\"?",
+      "range": {
+        "startLine": 1497,
+        "startChar": 15,
+        "endLine": 1497,
+        "endChar": 17
+      },
+      "revId": "5638fb13d1f29ec727550717e8634b6117a1a74e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

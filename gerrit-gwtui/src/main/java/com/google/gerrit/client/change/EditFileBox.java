@@ -71,7 +71,11 @@ class EditFileBox extends Composite {
     Scheduler.get().scheduleDeferred(new ScheduledCommand() {
       @Override
       public void execute() {
-        file.setFocus(true);
+        if (fileName.isEmpty()) {
+          file.setFocus(true);
+        } else {
+          content.setFocus(true);
+        }
       }});
   }
 

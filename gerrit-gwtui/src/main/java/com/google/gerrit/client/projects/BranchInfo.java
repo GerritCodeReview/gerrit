@@ -14,10 +14,12 @@
 
 package com.google.gerrit.client.projects;
 
+import com.google.gerrit.client.WebLinkInfo;
 import com.google.gerrit.client.actions.ActionInfo;
 import com.google.gerrit.client.rpc.NativeMap;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.core.client.JsArray;
 
 public class BranchInfo extends JavaScriptObject {
   public final String getShortName() {
@@ -30,6 +32,7 @@ public class BranchInfo extends JavaScriptObject {
   public final native String revision() /*-{ return this.revision; }-*/;
   public final native boolean canDelete() /*-{ return this['can_delete'] ? true : false; }-*/;
   public final native NativeMap<ActionInfo> actions() /*-{ return this.actions }-*/;
+  public final native JsArray<WebLinkInfo> web_links() /*-{ return this.web_links; }-*/;
 
   protected BranchInfo() {
   }

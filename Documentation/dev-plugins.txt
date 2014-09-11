@@ -1781,6 +1781,8 @@ public class MyWeblinkPlugin implements PatchSetWebLink {
 ProjectWebLinks will appear in the project list in the
 `Repository Browser` column.
 
+BranchWebLinks will appear in the branch list in the last column.
+
 [[documentation]]
 == Documentation
 

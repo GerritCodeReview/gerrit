@@ -20,6 +20,7 @@ import com.google.gerrit.client.ErrorDialog;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.GitwebLink;
 import com.google.gerrit.client.VoidResult;
+import com.google.gerrit.client.WebLinkInfo;
 import com.google.gerrit.client.access.AccessMap;
 import com.google.gerrit.client.access.ProjectAccessInfo;
 import com.google.gerrit.client.actions.ActionButton;
@@ -395,6 +396,22 @@ public class ProjectBranchesScreen extends ProjectScreen {
       if (c != null) {
         actionsPanel.add(new Anchor(c.getLinkName(), false,
             c.toBranch(new Branch.NameKey(getProjectKey(), k.ref()))));
+      }
+      if (k.web_links() != null) {
+        for (WebLinkInfo weblink : Natives.asList(k.web_links())) {
+          Anchor a = new Anchor();
+          a.setHref(weblink.url());
+          if (weblink.imageUrl() != null && !weblink.imageUrl().isEmpty()) {
+            Image img = new Image();
+            img.setAltText(weblink.name());
+            img.setUrl(weblink.imageUrl());
+            img.setTitle(weblink.name());
+            a.getElement().appendChild(img.getElement());
+          } else {
+            a.setText("(" + weblink.name() + ")");
+          }
+          actionsPanel.add(a);
+        }
       }
       if (k.actions() != null) {
         k.actions().copyKeysIntoChildren("id");

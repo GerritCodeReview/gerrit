@@ -32,6 +32,7 @@ import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.systemstatus.MessageOfTheDay;
+import com.google.gerrit.extensions.webui.BranchWebLink;
 import com.google.gerrit.extensions.webui.PatchSetWebLink;
 import com.google.gerrit.extensions.webui.ProjectWebLink;
 import com.google.gerrit.extensions.webui.TopMenu;
@@ -281,6 +282,7 @@ public class GerritGlobalModule extends FactoryModule {
     DynamicMap.mapOf(binder(), ProjectConfigEntry.class);
     DynamicSet.setOf(binder(), PatchSetWebLink.class);
     DynamicSet.setOf(binder(), ProjectWebLink.class);
+    DynamicSet.setOf(binder(), BranchWebLink.class);
 
     factory(UploadValidators.Factory.class);
     DynamicSet.setOf(binder(), UploadValidationListener.class);

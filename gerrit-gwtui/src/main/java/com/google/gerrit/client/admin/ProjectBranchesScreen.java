@@ -399,6 +399,9 @@ public class ProjectBranchesScreen extends ProjectScreen {
         for (WebLinkInfo weblink : Natives.asList(k.web_links())) {
           Anchor a = new Anchor();
           a.setHref(weblink.url());
+          if (weblink.target() != null && !weblink.target().isEmpty()) {
+            a.setTarget(weblink.target());
+          }
           if (weblink.imageUrl() != null && !weblink.imageUrl().isEmpty()) {
             Image img = new Image();
             img.setAltText(weblink.name());

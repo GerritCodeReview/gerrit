@@ -18,10 +18,12 @@ public class WebLinkInfo {
   public String name;
   public String imageUrl;
   public String url;
+  public String target;
 
-  public WebLinkInfo(String name, String imageUrl, String url) {
+  public WebLinkInfo(String name, String imageUrl, String url, String target) {
     this.name = name;
     this.imageUrl = imageUrl;
     this.url = url;
+    this.target = target;
   }
 }

@@ -46,7 +46,8 @@ public class WebLinks {
     for (PatchSetWebLink webLink : patchSetLinks) {
       links.add(new WebLinkInfo(webLink.getLinkName(),
           webLink.getImageUrl(),
-          webLink.getPatchSetUrl(project, commit)));
+          webLink.getPatchSetUrl(project, commit),
+          webLink.getTarget()));
     }
     return links;
   }
@@ -57,7 +58,8 @@ public class WebLinks {
     for (FileWebLink webLink : fileLinks) {
       links.add(new WebLinkInfo(webLink.getLinkName(),
           webLink.getImageUrl(),
-          webLink.getFileUrl(project, revision, file)));
+          webLink.getFileUrl(project, revision, file),
+          webLink.getTarget()));
     }
     return links;
   }
@@ -67,7 +69,8 @@ public class WebLinks {
     for (ProjectWebLink webLink : projectLinks) {
       links.add(new WebLinkInfo(webLink.getLinkName(),
           webLink.getImageUrl(),
-          webLink.getProjectUrl(project)));
+          webLink.getProjectUrl(project),
+          webLink.getTarget()));
     }
     return links;
   }
@@ -77,7 +80,8 @@ public class WebLinks {
     for (BranchWebLink webLink : branchLinks) {
       links.add(new WebLinkInfo(webLink.getLinkName(),
           webLink.getImageUrl(),
-          webLink.getBranchUrl(project, branch)));
+          webLink.getBranchUrl(project, branch),
+          webLink.getTarget()));
     }
     return links;
   }

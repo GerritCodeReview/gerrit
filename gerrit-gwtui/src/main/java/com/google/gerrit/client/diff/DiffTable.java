@@ -157,12 +157,13 @@ class DiffTable extends Composite {
     return changeType;
   }
 
-  void set(DiffPreferences prefs, JsArray<RevisionInfo> list, DiffInfo info) {
+  void set(DiffPreferences prefs, JsArray<RevisionInfo> list, DiffInfo info,
+      boolean editExists, int currentPatchSet) {
     this.changeType = info.change_type();
     patchSetSelectBoxA.setUpPatchSetNav(list, info.meta_a(),
-        Natives.asList(info.web_links_a()));
+        Natives.asList(info.web_links_a()), editExists, currentPatchSet);
     patchSetSelectBoxB.setUpPatchSetNav(list, info.meta_b(),
-        Natives.asList(info.web_links_b()));
+        Natives.asList(info.web_links_b()), editExists, currentPatchSet);
 
     JsArrayString hdr = info.diff_header();
     if (hdr != null) {

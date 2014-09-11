@@ -218,9 +218,10 @@ public class SideBySide2 extends Screen {
           info.set_edit(edit);
           info.revisions().put(edit.name(), RevisionInfo.fromEdit(edit));
         }
+        int currentPatchSet = info.revision(info.current_revision())._number();
         JsArray<RevisionInfo> list = info.revisions().values();
         RevisionInfo.sortRevisionInfoByNumber(list);
-        diffTable.set(prefs, list, diff);
+        diffTable.set(prefs, list, diff, edit != null, currentPatchSet);
         header.setChangeInfo(info);
       }}));
 

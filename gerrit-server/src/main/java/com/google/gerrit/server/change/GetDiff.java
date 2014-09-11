@@ -17,11 +17,13 @@ package com.google.gerrit.server.change;
 import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.base.MoreObjects;
+import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.data.PatchScript;
 import com.google.gerrit.common.data.PatchScript.DisplayMethod;
 import com.google.gerrit.common.data.PatchScript.FileMode;
+import com.google.gerrit.extensions.common.WebLinkInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.CacheControl;
 import com.google.gerrit.extensions.restapi.IdString;
@@ -35,6 +37,8 @@ import com.google.gerrit.reviewdb.client.AccountDiffPreference;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.Patch.ChangeType;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.server.WebLinks;
 import com.google.gerrit.server.git.LargeObjectException;
 import com.google.gerrit.server.patch.PatchScriptFactory;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
@@ -43,6 +47,7 @@ import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 
 import org.eclipse.jgit.diff.Edit;
 import org.eclipse.jgit.diff.ReplaceEdit;
@@ -56,6 +61,7 @@ import org.kohsuke.args4j.spi.Parameters;
 import org.kohsuke.args4j.spi.Setter;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -63,6 +69,7 @@ public class GetDiff implements RestReadView<FileResource> {
   private final ProjectCache projectCache;
   private final PatchScriptFactory.Factory patchScriptFactoryFactory;
   private final Revisions revisions;
+  private final Provider<WebLinks> webLinks;
 
   @Option(name = "--base", metaVar = "REVISION")
   String base;
@@ -79,21 +86,23 @@ public class GetDiff implements RestReadView<FileResource> {
   @Inject
   GetDiff(ProjectCache projectCache,
       PatchScriptFactory.Factory patchScriptFactoryFactory,
-      Revisions revisions) {
+      Revisions revisions,
+      Provider<WebLinks> webLinks) {
     this.projectCache = projectCache;
     this.patchScriptFactoryFactory = patchScriptFactoryFactory;
     this.revisions = revisions;
+    this.webLinks = webLinks;
   }
 
   @Override
   public Response<Result> apply(FileResource resource)
       throws ResourceConflictException, ResourceNotFoundException,
       OrmException, AuthException, InvalidChangeOperationException, IOException {
-    PatchSet.Id basePatchSet = null;
+    PatchSet basePatchSet = null;
     if (base != null) {
       RevisionResource baseResource = revisions.parse(
           resource.getRevision().getChangeResource(), IdString.fromDecoded(base));
-      basePatchSet = baseResource.getPatchSet().getId();
+      basePatchSet = baseResource.getPatchSet();
     }
     AccountDiffPreference prefs = new AccountDiffPreference(new Account.Id(0));
     prefs.setIgnoreWhitespace(ignoreWhitespace.whitespace);
@@ -104,7 +113,7 @@ public class GetDiff implements RestReadView<FileResource> {
       PatchScriptFactory psf = patchScriptFactoryFactory.create(
           resource.getRevision().getControl(),
           resource.getPatchKey().getFileName(),
-          basePatchSet,
+          basePatchSet != null ? basePatchSet.getId() : null,
           resource.getPatchKey().getParentKey(),
           prefs);
       psf.setLoadHistory(false);
@@ -147,6 +156,14 @@ public class GetDiff implements RestReadView<FileResource> {
             ps.getNewName());
         setContentType(result.metaA, state, ps.getFileModeA(), ps.getMimeTypeA());
         result.metaA.lines = ps.getA().size();
+
+        // TODO referring to the parent commit by refs/changes/12/60012/1^1
+        // will likely not work for inline edits
+        String rev = basePatchSet != null
+            ? basePatchSet.getRefName()
+            : resource.getRevision().getPatchSet().getRefName() + "^1";
+        result.webLinksA =
+            getFileWebLinks(state.getProject(), rev, result.metaA.name);
       }
 
       if (ps.getDisplayMethodB() != DisplayMethod.NONE) {
@@ -154,6 +171,9 @@ public class GetDiff implements RestReadView<FileResource> {
         result.metaB.name = ps.getNewName();
         setContentType(result.metaB, state, ps.getFileModeB(), ps.getMimeTypeB());
         result.metaB.lines = ps.getB().size();
+        result.webLinksB = getFileWebLinks(state.getProject(),
+            resource.getRevision().getPatchSet().getRefName(),
+            result.metaB.name);
       }
 
       if (intraline) {
@@ -183,6 +203,18 @@ public class GetDiff implements RestReadView<FileResource> {
     }
   }
 
+  private List<WebLinkInfo> getFileWebLinks(Project project, String rev,
+      String file) {
+    List<WebLinkInfo> fileWebLinks = new ArrayList<>();
+    for (WebLinkInfo link : webLinks.get().getPatchLinks(project.getName(),
+        rev, file)) {
+      if (!Strings.isNullOrEmpty(link.name) && !Strings.isNullOrEmpty(link.url)) {
+        fileWebLinks.add(link);
+      }
+    }
+    return fileWebLinks;
+  }
+
   static class Result {
     FileMeta metaA;
     FileMeta metaB;
@@ -190,6 +222,8 @@ public class GetDiff implements RestReadView<FileResource> {
     ChangeType changeType;
     List<String> diffHeader;
     List<ContentEntry> content;
+    List<WebLinkInfo> webLinksA;
+    List<WebLinkInfo> webLinksB;
   }
 
   static class FileMeta {

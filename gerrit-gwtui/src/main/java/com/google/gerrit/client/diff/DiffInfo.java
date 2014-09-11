@@ -14,6 +14,7 @@
 
 package com.google.gerrit.client.diff;
 
+import com.google.gerrit.client.WebLinkInfo;
 import com.google.gerrit.reviewdb.client.Patch.ChangeType;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
@@ -27,6 +28,8 @@ public class DiffInfo extends JavaScriptObject {
   public final native FileMeta meta_b() /*-{ return this.meta_b; }-*/;
   public final native JsArrayString diff_header() /*-{ return this.diff_header; }-*/;
   public final native JsArray<Region> content() /*-{ return this.content; }-*/;
+  public final native JsArray<WebLinkInfo> web_links_a() /*-{ return this.web_links_a; }-*/;
+  public final native JsArray<WebLinkInfo> web_links_b() /*-{ return this.web_links_b; }-*/;
 
   public final ChangeType change_type() {
     return ChangeType.valueOf(change_typeRaw());

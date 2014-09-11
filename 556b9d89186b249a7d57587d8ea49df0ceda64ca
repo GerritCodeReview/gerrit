@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "30dae333_5ff24b4a",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmitOnPushIT.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-11T11:27:03Z",
+      "side": 1,
+      "message": "This isn\u0027t really testing the submit-on-push behavior (%submit). Can it go in its own class in this directory, perhaps DirectPushIT?",
+      "revId": "556b9d89186b249a7d57587d8ea49df0ceda64ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_1d20b732",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmitOnPushIT.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-11T11:27:03Z",
+      "side": 1,
+      "message": "This is failing for me with REJECTED_NONFASTFORWARD.",
+      "revId": "556b9d89186b249a7d57587d8ea49df0ceda64ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

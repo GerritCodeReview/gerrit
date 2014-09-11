@@ -187,7 +187,8 @@ public class Hashtags extends Composite {
     Iterator<String> itr = Natives.asList(hashtags).iterator();
     while (itr.hasNext()) {
       String hashtagName = itr.next();
-      html.openSpan()
+      html.openAnchor()
+          .setAttribute("href", "/#/q/hashtag:" + hashtagName)
           .setAttribute("role", "listitem")
           .setAttribute(DATA_ID, hashtagName)
           .setStyleName(style.hashtagName())

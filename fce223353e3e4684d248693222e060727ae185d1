@@ -34,6 +34,24 @@
       "revId": "fce223353e3e4684d248693222e060727ae185d1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_084fd74b",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Hashtags.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-11T21:19:11Z",
+      "side": 1,
+      "message": "Does just \"#/q/\" work?",
+      "parentUuid": "d065072b_68400b1e",
+      "revId": "fce223353e3e4684d248693222e060727ae185d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

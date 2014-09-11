@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "30dae333_7ff9cf99",
+        "filename": "lib/jetty/BUCK",
+        "patchSetId": 5
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-11T08:44:29Z",
+      "side": 1,
+      "message": "Why was this not updated?  ./tools/eclipse/project.py fails due to incorrect sha1.",
+      "range": {
+        "startLine": 44,
+        "startChar": 10,
+        "endLine": 44,
+        "endChar": 50
+      },
+      "revId": "668727c5863b865dec4976be7e83ec408f30cc58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

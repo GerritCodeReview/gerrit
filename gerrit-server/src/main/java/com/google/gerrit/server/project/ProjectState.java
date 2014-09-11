@@ -404,6 +404,15 @@ public class ProjectState {
     });
   }
 
+  public boolean isCreateNewChangeForAllNotInTarget() {
+    return getInheritableBoolean(new Function<Project, InheritableBoolean>() {
+      @Override
+      public InheritableBoolean apply(Project input) {
+        return input.getCreateNewChangeForAllNotInTarget();
+      }
+    });
+  }
+
   public LabelTypes getLabelTypes() {
     Map<String, LabelType> types = Maps.newLinkedHashMap();
     for (ProjectState s : treeInOrder()) {

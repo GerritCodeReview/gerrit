@@ -15,6 +15,7 @@ gerrit create-project - Create a new hosted project
   [--use-contributor-agreements | --ca]
   [--use-signed-off-by | --so]
   [--use-content-merge]
+  [--create-new-change-for-all-not-in-target]
   [--require-change-id | --id]
   [[--branch <REF> | -b <REF>] ...]
   [--empty-commit]
@@ -132,6 +133,15 @@ Submit Types].
 --so:
 	If enabled, each change must contain a Signed-off-by line
 	from either the author or the uploader in the commit message.
+	Disabled by default.
+
+--create-new-change-for-all-not-in-target::
+--ncfa:
+	If enabled, a new change is created for every commit not in
+	target branch. If the pushed commit is merge commit, this flag is
+	ignored for that push. This option also does not accept merge
+	commits in commit chain to avoid accidental creation of a large
+	number of open changes.
 	Disabled by default.
 
 --require-change-id::

@@ -671,6 +671,11 @@ read access to `refs/meta/config`.
       "configured_value": "INHERIT",
       "inherited_value": false
     },
+    "create_new_change_for_all_not_in_target": {
+      "value": false,
+      "configured_value": "INHERIT",
+      "inherited_value": false
+    },
     "require_change_id": {
       "value": false,
       "configured_value": "FALSE",
@@ -725,6 +730,7 @@ link:#config-input[ConfigInput] entity.
     "use_contributor_agreements": "FALSE",
     "use_content_merge": "INHERIT",
     "use_signed_off_by": "INHERIT",
+    "create_new_change_for_all_not_in_target": "INHERIT",
     "require_change_id": "TRUE",
     "max_object_size_limit": "10m",
     "submit_type": "REBASE_IF_NECESSARY",
@@ -755,6 +761,11 @@ ConfigInfo] entity.
     },
     "use_signed_off_by": {
       "value": false,
+      "configured_value": "INHERIT",
+      "inherited_value": false
+    },
+    "create_new_change_for_all_not_in_target": {
+      "value": true,
       "configured_value": "INHERIT",
       "inherited_value": false
     },
@@ -1625,25 +1636,28 @@ The `ConfigInfo` entity contains information about the effective project
 configuration.
 
 [options="header",width="50%",cols="1,^2,4"]
-|=========================================
-|Field Name                  ||Description
-|`description`               |optional|
+|=======================================================
+|Field Name                                ||Description
+|`description`                             |optional|
 The description of the project.
-|`use_contributor_agreements`|optional|
+|`use_contributor_agreements`              |optional|
 link:#inherited-boolean-info[InheritedBooleanInfo] that tells whether
 authors must complete a contributor agreement on the site before
 pushing any commits or changes to this project.
-|`use_content_merge`         |optional|
+|`use_content_merge`                       |optional|
 link:#inherited-boolean-info[InheritedBooleanInfo] that tells whether
 Gerrit will try to perform a 3-way merge of text file content when a
 file has been modified by both the destination branch and the change
 being submitted. This option only takes effect if submit type is not
 FAST_FORWARD_ONLY.
-|`use_signed_off_by`         |optional|
+|`use_signed_off_by`                       |optional|
 link:#inherited-boolean-info[InheritedBooleanInfo] that tells whether
 each change must contain a Signed-off-by line from either the author or
 the uploader in the commit message.
-|`require_change_id`         |optional|
+|`create_new_change_for_all_not_in_target` |optional|
+link:#inherited-boolean-info[InheritedBooleanInfo] that tells whether
+a new change is created for every commit not in target branch.
+|`require_change_id`                       |optional|
 link:#inherited-boolean-info[InheritedBooleanInfo] that tells whether a
 valid link:user-changeid.html[Change-Id] footer in any commit uploaded
 for review is required. This does not apply to commits pushed directly
@@ -1665,14 +1679,14 @@ the comment link configuration is mapped to the comment link
 configuration, which has the same format as the
 link:config-gerrit.html#_a_id_commentlink_a_section_commentlink[
 commentlink section] of `gerrit.config`.
-|`theme`                     |optional|
+|`theme`                                   |optional|
 The theme that is configured for the project as a link:#theme-info[
 ThemeInfo] entity.
-|`plugin_config`             |optional|
+|`plugin_config`                           |optional|
 Plugin configuration as map which maps the plugin name to a map of
 parameter names to link:#config-parameter-info[ConfigParameterInfo]
 entities.
-|`actions`                   |optional|
+|`actions`                                 |optional|
 Actions the caller might be able to perform on this project. The
 information is a map of view names to
 link:rest-api-changes.html#action-info[ActionInfo] entities.
@@ -1683,50 +1697,55 @@ link:rest-api-changes.html#action-info[ActionInfo] entities.
 The `ConfigInput` entity describes a new project configuration.
 
 [options="header",width="50%",cols="1,^2,4"]
-|=========================================
-|Field Name                  ||Description
-|`description`               |optional|
+|======================================================
+|Field Name                               ||Description
+|`description`                            |optional|
 The new description of the project. +
 If not set, the description is removed.
-|`use_contributor_agreements`|optional|
+|`use_contributor_agreements`             |optional|
 Whether authors must complete a contributor agreement on the site
 before pushing any commits or changes to this project. +
 Can be `TRUE`, `FALSE` or `INHERIT`. +
 If not set, this setting is not updated.
-|`use_content_merge`         |optional|
+|`use_content_merge`                       |optional|
 Whether Gerrit will try to perform a 3-way merge of text file content
 when a file has been modified by both the destination branch and the
 change being submitted. This option only takes effect if submit type is
 not FAST_FORWARD_ONLY. +
 Can be `TRUE`, `FALSE` or `INHERIT`. +
 If not set, this setting is not updated.
-|`use_signed_off_by`         |optional|
+|`use_signed_off_by`                       |optional|
 Whether each change must contain a Signed-off-by line from either the
 author or the uploader in the commit message. +
 Can be `TRUE`, `FALSE` or `INHERIT`. +
 If not set, this setting is not updated.
-|`require_change_id`         |optional|
+|`create_new_change_for_all_not_in_target` |optional|
+Whether a new change will be created for every commit not in target
+branch. +
+Can be `TRUE`, `FALSE` or `INHERIT`. +
+If not set, this setting is not updated.
+|`require_change_id`                       |optional|
 Whether a valid link:user-changeid.html[Change-Id] footer in any commit
 uploaded for review is required. This does not apply to commits pushed
 directly to a branch or tag. +
 Can be `TRUE`, `FALSE` or `INHERIT`. +
 If not set, this setting is not updated.
-|`max_object_size_limit`     |optional|
+|`max_object_size_limit`                   |optional|
 The link:config-gerrit.html#receive.maxObjectSizeLimit[max object size
 limit] of this project as a link:#max-object-size-limit-info[
 MaxObjectSizeLimitInfo] entity. +
 If set to `0`, the max object size limit is removed. +
 If not set, this setting is not updated.
-|`submit_type`               |optional|
+|`submit_type`                             |optional|
 The default submit type of the project, can be `MERGE_IF_NECESSARY`,
 `FAST_FORWARD_ONLY`, `REBASE_IF_NECESSARY`, `MERGE_ALWAYS` or
 `CHERRY_PICK`. +
 If not set, the submit type is not updated.
-|`state`                     |optional|
+|`state`                                   |optional|
 The state of the project, can be `ACTIVE`, `READ_ONLY` or `HIDDEN`. +
 Not set if the project state is `ACTIVE`. +
 If not set, the project state is not updated.
-|`plugin_config_values`      |optional|
+|`plugin_config_values`                    |optional|
 Plugin configuration values as map which maps the plugin name to a map
 of parameter names to values.
 |=========================================
@@ -1973,17 +1992,20 @@ link:rest-api-groups.html#group-id[group-id]. +
 If not set, the link:config-gerrit.html#repository.name.ownerGroup[
 groups that are configured as default owners] are set as project
 owners.
-|`use_contributor_agreements`|`INHERIT` if not set|
+|`use_contributor_agreements`                  |`INHERIT` if not set|
 Whether contributor agreements should be used for the project  (`TRUE`,
 `FALSE`, `INHERIT`).
-|`use_signed_off_by`         |`INHERIT` if not set|
+|`use_signed_off_by`                           |`INHERIT` if not set|
 Whether the usage of 'Signed-Off-By' footers is required for the
 project (`TRUE`, `FALSE`, `INHERIT`).
-|`use_content_merge`         |`INHERIT` if not set|
+|`create_new_change_for_all_not_in_target`     |`INHERIT` if not set|
+Whether a new change is created for every commit not in target branch
+for the project (`TRUE`, `FALSE`, `INHERIT`).
+|`use_content_merge`                           |`INHERIT` if not set|
 Whether content merge should be enabled for the project (`TRUE`,
 `FALSE`, `INHERIT`). +
 `FALSE`, if the `submit_type` is `FAST_FORWARD_ONLY`.
-|`require_change_id`         |`INHERIT` if not set|
+|`require_change_id`                           |`INHERIT` if not set|
 Whether the usage of Change-Ids is required for the project (`TRUE`,
 `FALSE`, `INHERIT`).
 |`max_object_size_limit`     |optional|

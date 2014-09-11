@@ -15,6 +15,7 @@
 package com.google.gerrit.pgm.init;
 
 import static com.google.gerrit.server.schema.DataSourceProvider.Context.SINGLE_USER;
+import static com.google.gerrit.server.securestore.SecureStoreProvider.getSecureStoreClassFromGerritConfig;
 import static com.google.inject.Stage.PRODUCTION;
 
 import com.google.common.base.MoreObjects;
@@ -210,7 +211,8 @@ public class BaseInit extends SiteProgram {
     final File sitePath = getSitePath();
     final List<Module> m = new ArrayList<>();
 
-    final SecureStoreInitData secureStoreInitData = discoverSecureStoreClass();
+    final SecureStoreInitData secureStoreInitData =
+        discoverSecureStoreClass(sitePath);
     m.add(new InitModule(standalone, initDb));
     m.add(new AbstractModule() {
       @Override
@@ -260,11 +262,23 @@ public class BaseInit extends SiteProgram {
     return ConsoleUI.getInstance(false);
   }
 
-  private SecureStoreInitData discoverSecureStoreClass() {
+  private SecureStoreInitData discoverSecureStoreClass(File sitePath) {
     if (Strings.isNullOrEmpty(getSecureStoreLib())) {
       return null;
     }
 
+    try {
+      String currentSecureStore =
+          getSecureStoreClassFromGerritConfig(new SitePaths(sitePath));
+      if (!Strings.isNullOrEmpty(currentSecureStore)) {
+        throw new RuntimeException(
+            String.format(
+                "SecureStore is already set to %s. To change it use SwitchSecureStore program.",
+                currentSecureStore));
+      }
+    } catch (FileNotFoundException e) {
+      // ignore, site is initialized from scratch
+    }
     try {
       File secureStoreLib = new File(getSecureStoreLib());
       if (!secureStoreLib.exists()) {

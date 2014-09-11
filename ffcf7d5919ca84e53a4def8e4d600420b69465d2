@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "d065072b_68f92b9a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-11T21:31:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d065072b_4841cf23",
+      "range": {
+        "startLine": 207,
+        "startChar": 49,
+        "endLine": 207,
+        "endChar": 50
+      },
+      "revId": "ffcf7d5919ca84e53a4def8e4d600420b69465d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "30dae333_22a570a5",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditUtil.java",
         "patchSetId": 3
@@ -36,6 +60,30 @@
       "writtenOn": "2014-09-11T21:07:27Z",
       "side": 1,
       "message": "reference prefix",
+      "range": {
+        "startLine": 211,
+        "startChar": 13,
+        "endLine": 211,
+        "endChar": 22
+      },
+      "revId": "ffcf7d5919ca84e53a4def8e4d600420b69465d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30dae333_c2b5a4cf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-11T21:31:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "30dae333_22a570a5",
       "range": {
         "startLine": 211,
         "startChar": 13,

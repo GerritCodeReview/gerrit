@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "d065072b_48ea6fc5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-09-11T21:19:56Z",
+      "side": 1,
+      "message": "Yes, especially since we anyway already broke the plugins by adding the method for retrieving the image URL :) Anyway thought it should be mentioned at least.",
+      "parentUuid": "30dae333_629f7855",
+      "revId": "7a0a35ead96cdb4ea234580960aca00b5a425d8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d065072b_883be7b3",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/CommitBox.java",
         "patchSetId": 1

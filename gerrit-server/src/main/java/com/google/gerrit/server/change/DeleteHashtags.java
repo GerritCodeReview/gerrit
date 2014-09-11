@@ -15,12 +15,14 @@
 package com.google.gerrit.server.change;
 
 import com.google.common.base.Strings;
+import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.DefaultInput;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.change.DeleteHashtags.Input;
 import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.notedb.ChangeNotes;
@@ -41,6 +43,7 @@ public class DeleteHashtags implements RestModifyView<ChangeResource, Input> {
   private final ChangeUpdate.Factory updateFactory;
   private final Provider<ReviewDb> dbProvider;
   private final ChangeIndexer indexer;
+  private final ChangeHooks hooks;
 
   public static class Input {
     @DefaultInput
@@ -49,10 +52,12 @@ public class DeleteHashtags implements RestModifyView<ChangeResource, Input> {
 
   @Inject
   DeleteHashtags(ChangeUpdate.Factory updateFactory,
-      Provider<ReviewDb> dbProvider, ChangeIndexer indexer) {
+      Provider<ReviewDb> dbProvider, ChangeIndexer indexer,
+      ChangeHooks hooks) {
     this.updateFactory = updateFactory;
     this.dbProvider = dbProvider;
     this.indexer = indexer;
+    this.hooks = hooks;
   }
 
   @Override
@@ -68,16 +73,33 @@ public class DeleteHashtags implements RestModifyView<ChangeResource, Input> {
     }
     ChangeUpdate update = updateFactory.create(control);
     ChangeNotes notes = control.getNotes().load();
-    Set<String> hashtags = new HashSet<String>();
-    Set<String> oldHashtags = notes.getHashtags();
-    if (oldHashtags != null) {
-      hashtags.addAll(oldHashtags);
-    }
-    hashtags.removeAll(Arrays.asList(input.hashtags.split(",")));
-    update.setHashtags(hashtags);
-    update.commit();
-    indexer.index(dbProvider.get(), update.getChange());
 
-    return Response.ok(hashtags);
+    Set<String> existingHashtags = notes.getHashtags();
+    Set<String> updatedHashtags = new HashSet<>();
+
+    // Only need to attempt to remove hashtags if we already
+    // have hashtags.
+    if (existingHashtags != null) {
+      updatedHashtags.addAll(existingHashtags);
+      // Only remove hashtags that are already set
+      Set<String> toRemove = new HashSet<String>(
+          Arrays.asList(input.hashtags.split(",")));
+      toRemove.retainAll(existingHashtags);
+      if (toRemove.size() > 0) {
+        updatedHashtags.removeAll(toRemove);
+        update.setHashtags(updatedHashtags);
+        update.commit();
+
+        indexer.index(dbProvider.get(), update.getChange());
+
+        IdentifiedUser currentUser = ((IdentifiedUser) control.getCurrentUser());
+        hooks.doHashtagsChangedHook(
+            req.getChange(), currentUser.getAccount(),
+            null, toRemove, updatedHashtags,
+            dbProvider.get());
+      }
+    }
+
+    return Response.ok(updatedHashtags);
   }
 }

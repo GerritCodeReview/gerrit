@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "30dae333_1f5e035b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 1497,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-11T13:08:42Z",
+      "side": 1,
+      "message": "Is there a space missing before \"to\"?",
+      "range": {
+        "startLine": 1497,
+        "startChar": 15,
+        "endLine": 1497,
+        "endChar": 17
+      },
+      "revId": "f0348efca02bf81c0eda33cadb3a5ac8a5aef0ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

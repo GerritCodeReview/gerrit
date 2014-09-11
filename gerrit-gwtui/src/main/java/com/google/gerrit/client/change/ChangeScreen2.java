@@ -429,7 +429,7 @@ public class ChangeScreen2 extends Screen {
         reviewMode.setVisible(!editMode.isVisible());
         editFileAction = new EditFileAction(
             new PatchSet.Id(changeId, edit == null ? rev._number() : 0),
-            "", "", style, editMessage, reply);
+            "", "", style.replyBox(), editMessage, reply);
       } else {
         editMode.setVisible(false);
         addFile.setVisible(false);

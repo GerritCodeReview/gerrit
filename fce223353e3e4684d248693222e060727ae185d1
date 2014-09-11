@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d065072b_28b45305",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Hashtags.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-11T16:23:07Z",
+      "side": 1,
+      "message": "Won\u0027t this fail if gerrit is running somewhere other than the root of the servlet container? e.g. on https://git.eclipse.org/r/ it should go to /r/#/q/hashtag. (Unless we have some magical GWT magic I don\u0027t know about here...)",
+      "revId": "fce223353e3e4684d248693222e060727ae185d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

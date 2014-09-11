@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d065072b_bd81c3f2",
+        "filename": "Documentation/pgm-index.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1013722
+      },
+      "writtenOn": "2014-09-11T10:02:59Z",
+      "side": 1,
+      "message": "not really - once again is it important to follow the others here or not?",
+      "range": {
+        "startLine": 28,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 2
+      },
+      "revId": "ebf03ef7e57e681714b397cab27d552aa5fe43d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

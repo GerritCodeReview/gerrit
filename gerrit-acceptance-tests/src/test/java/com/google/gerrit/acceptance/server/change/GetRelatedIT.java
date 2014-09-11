@@ -28,7 +28,10 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.change.GetRelated.ChangeAndCommit;
 import com.google.gerrit.server.change.GetRelated.RelatedInfo;
+import com.google.gerrit.server.edit.ChangeEditModifier;
+import com.google.gerrit.server.edit.ChangeEditUtil;
 import com.google.gwtorm.server.OrmException;
+import com.google.inject.Inject;
 
 import org.eclipse.jgit.api.ResetCommand.ResetType;
 import org.eclipse.jgit.api.errors.GitAPIException;
@@ -38,6 +41,11 @@ import java.io.IOException;
 import java.util.List;
 
 public class GetRelatedIT extends AbstractDaemonTest {
+  @Inject
+  private ChangeEditUtil editUtil;
+
+  @Inject
+  private ChangeEditModifier editModifier;
 
   @Test
   public void getRelatedNoResult() throws GitAPIException,
@@ -139,15 +147,51 @@ public class GetRelatedIT extends AbstractDaemonTest {
     }
   }
 
+  @Test
+  public void getRelatedEdit() throws Exception {
+    add(git, "a.txt", "1");
+    Commit c1 = createCommit(git, admin.getIdent(), "subject: 1");
+    add(git, "b.txt", "2");
+    Commit c2 = createCommit(git, admin.getIdent(), "subject: 2");
+    add(git, "b.txt", "3");
+    Commit c3 = createCommit(git, admin.getIdent(), "subject: 3");
+    pushHead(git, "refs/for/master", false);
+
+    Change ch2 = getChange(c2);
+    editModifier.createEdit(ch2, getPatchSet(ch2));
+    String editRev = editUtil.byChange(ch2).get().getRevision().get();
+
+    List<ChangeAndCommit> related = getRelated(ch2.getId(), "0");
+    assertEquals(3, related.size());
+    assertEquals("related to " + c2.getChangeId(), c3.getChangeId(), related.get(0).changeId);
+    assertEquals("related to " + c2.getChangeId(), c2.getChangeId(), related.get(1).changeId);
+    assertEquals("has edit revision number", 0, related.get(1)._revisionNumber.intValue());
+    assertEquals("has edit revision " + editRev, editRev, related.get(1).commit.commit);
+    assertEquals("related to " + c2.getChangeId(), c1.getChangeId(), related.get(2).changeId);
+  }
+
   private List<ChangeAndCommit> getRelated(PatchSet.Id ps) throws IOException {
-    String url = String.format("/changes/%d/revisions/%d/related",
-        ps.getParentKey().get(), ps.get());
+    return getRelated(ps.getParentKey(), ps.get());
+  }
+
+  private List<ChangeAndCommit> getRelated(Change.Id changeId, Object rev)
+      throws IOException {
+    String url = String.format("/changes/%d/revisions/%s/related",
+        changeId.get(), rev);
     return newGson().fromJson(adminSession.get(url).getReader(),
         RelatedInfo.class).changes;
   }
 
   private PatchSet.Id getPatchSetId(Commit c) throws OrmException {
+    return getChange(c).currentPatchSetId();
+  }
+
+  private PatchSet getPatchSet(Change c) throws OrmException {
+    return db.patchSets().get(c.currentPatchSetId());
+  }
+
+  private Change getChange(Commit c) throws OrmException {
     return Iterables.getOnlyElement(
-        db.changes().byKey(new Change.Key(c.getChangeId()))).currentPatchSetId();
+        db.changes().byKey(new Change.Key(c.getChangeId())));
   }
 }

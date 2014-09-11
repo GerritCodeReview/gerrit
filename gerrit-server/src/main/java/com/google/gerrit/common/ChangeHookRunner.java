@@ -41,6 +41,7 @@ import com.google.gerrit.server.events.ChangeRestoredEvent;
 import com.google.gerrit.server.events.CommentAddedEvent;
 import com.google.gerrit.server.events.DraftPublishedEvent;
 import com.google.gerrit.server.events.EventFactory;
+import com.google.gerrit.server.events.HashtagsChangedEvent;
 import com.google.gerrit.server.events.MergeFailedEvent;
 import com.google.gerrit.server.events.PatchSetCreatedEvent;
 import com.google.gerrit.server.events.RefUpdatedEvent;
@@ -72,6 +73,7 @@ import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.Map.Entry;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentHashMap;
@@ -197,6 +199,9 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener {
     /** Filename of the update hook. */
     private final File refUpdateHook;
 
+    /** Filename of the hashtags changed hook */
+    private final File hashtagsChangedHook;
+
     private final String anonymousCowardName;
 
     /** Repository Manager. */
@@ -262,6 +267,7 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener {
         topicChangedHook = sitePath.resolve(new File(hooksPath, getValue(config, "hooks", "topicChangedHook", "topic-changed")).getPath());
         claSignedHook = sitePath.resolve(new File(hooksPath, getValue(config, "hooks", "claSignedHook", "cla-signed")).getPath());
         refUpdateHook = sitePath.resolve(new File(hooksPath, getValue(config, "hooks", "refUpdateHook", "ref-update")).getPath());
+        hashtagsChangedHook = sitePath.resolve(new File(hooksPath, getValue(config, "hooks", "hashtagsChangedHook", "hashtags-changed")).getPath());
         syncHookTimeout = config.getInt("hooks", "syncHookTimeout", 30);
         syncHookThreadPool = Executors.newCachedThreadPool(
             new ThreadFactoryBuilder()
@@ -608,6 +614,61 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener {
       addArg(args, "--new-topic", event.change.topic);
 
       runHook(change.getProject(), topicChangedHook, args);
+    }
+
+    public void doHashtagsChangedHook(Change change, Account account,
+        Set<String> added, Set<String> removed, Set<String> hashtags, ReviewDb db)
+            throws OrmException {
+      HashtagsChangedEvent event = new HashtagsChangedEvent();
+      AccountState owner = accountCache.get(change.getOwner());
+
+      event.change = eventFactory.asChangeAttribute(change);
+      event.editor = eventFactory.asAccountAttribute(account);
+      if (hashtags.size() > 0) {
+        event.hashtags = new String[hashtags.size()];
+        int i = 0;
+        for (String hashtag : hashtags) {
+          event.hashtags[i++] = hashtag;
+        }
+      }
+      if (added != null && added.size() > 0) {
+        event.added = new String[added.size()];
+        int i = 0;
+        for (String hashtag : added) {
+          event.added[i++] = hashtag;
+        }
+      }
+      if (removed != null && removed.size() > 0) {
+        event.removed = new String[removed.size()];
+        int i = 0;
+        for (String hashtag : removed) {
+          event.removed[i++] = hashtag;
+        }
+      }
+      fireEvent(change, event, db);
+
+      final List<String> args = new ArrayList<>();
+      addArg(args, "--change", event.change.id);
+      addArg(args, "--change-owner", getDisplayName(owner.getAccount()));
+      addArg(args, "--project", event.change.project);
+      addArg(args, "--branch", event.change.branch);
+      addArg(args, "--editor", getDisplayName(account));
+      if (hashtags != null) {
+        for (String hashtag : hashtags) {
+          addArg(args, "--hashtag", hashtag);
+        }
+      }
+      if (added != null) {
+        for (String hashtag : added) {
+          addArg(args, "--added", hashtag);
+        }
+      }
+      if (removed != null) {
+        for (String hashtag : removed) {
+          addArg(args, "--removed", hashtag);
+        }
+      }
+      runHook(change.getProject(), hashtagsChangedHook, args);
     }
 
     public void doClaSignupHook(Account account, ContributorAgreement cla) {

@@ -33,6 +33,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.OutputFormat;
 import com.google.gerrit.server.change.ChangeJson;
+import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.project.ProjectCache;
@@ -64,6 +65,9 @@ import java.util.List;
 public abstract class AbstractDaemonTest {
   @ConfigSuite.Parameter
   public Config baseConfig;
+
+  @Inject
+  protected AllProjectsName allProjects;
 
   @Inject
   protected AccountCreator accounts;
@@ -236,6 +240,13 @@ public abstract class AbstractDaemonTest {
     ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
     Util.allow(cfg, permission, id, ref);
     saveProjectConfig(project, cfg);
+  }
+
+  protected void allowGlobalCapability(String capabilityName,
+      AccountGroup.UUID id) throws Exception {
+    ProjectConfig cfg = projectCache.checkedGet(allProjects).getConfig();
+    Util.allow(cfg, capabilityName, id);
+    saveProjectConfig(allProjects, cfg);
   }
 
   protected void deny(String permission, AccountGroup.UUID id, String ref)

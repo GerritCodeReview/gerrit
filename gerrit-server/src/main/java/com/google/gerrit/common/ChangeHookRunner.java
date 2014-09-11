@@ -41,6 +41,7 @@ import com.google.gerrit.server.events.ChangeRestoredEvent;
 import com.google.gerrit.server.events.CommentAddedEvent;
 import com.google.gerrit.server.events.DraftPublishedEvent;
 import com.google.gerrit.server.events.EventFactory;
+import com.google.gerrit.server.events.HashtagsEditedEvent;
 import com.google.gerrit.server.events.MergeFailedEvent;
 import com.google.gerrit.server.events.PatchSetCreatedEvent;
 import com.google.gerrit.server.events.RefUpdatedEvent;
@@ -72,6 +73,7 @@ import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.Map.Entry;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentHashMap;
@@ -197,6 +199,9 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener {
     /** Filename of the update hook. */
     private final File refUpdateHook;
 
+    /** Filename of the hashtags edited hook */
+    private final File hashtagsEditedHook;
+
     private final String anonymousCowardName;
 
     /** Repository Manager. */
@@ -262,6 +267,7 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener {
         topicChangedHook = sitePath.resolve(new File(hooksPath, getValue(config, "hooks", "topicChangedHook", "topic-changed")).getPath());
         claSignedHook = sitePath.resolve(new File(hooksPath, getValue(config, "hooks", "claSignedHook", "cla-signed")).getPath());
         refUpdateHook = sitePath.resolve(new File(hooksPath, getValue(config, "hooks", "refUpdateHook", "ref-update")).getPath());
+        hashtagsEditedHook = sitePath.resolve(new File(hooksPath, getValue(config, "hooks", "hashtagsEditedHook", "hashtags-edited")).getPath());
         syncHookTimeout = config.getInt("hooks", "syncHookTimeout", 30);
         syncHookThreadPool = Executors.newCachedThreadPool(
             new ThreadFactoryBuilder()
@@ -608,6 +614,33 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener {
       addArg(args, "--new-topic", event.change.topic);
 
       runHook(change.getProject(), topicChangedHook, args);
+    }
+
+    public void doHashtagsEditedHook(final Change change, final Account account,
+        final Set<String> hashtags, final ReviewDb db)
+            throws OrmException {
+      final HashtagsEditedEvent event = new HashtagsEditedEvent();
+
+      event.change = eventFactory.asChangeAttribute(change);
+      event.editor = eventFactory.asAccountAttribute(account);
+      if (hashtags.size() > 0) {
+        event.hashtags = new String[hashtags.size()];
+        int i = 0;
+        for (String hashtag : hashtags) {
+          event.hashtags[i++] = hashtag;
+         }
+      }
+      fireEvent(change, event, db);
+
+      final List<String> args = new ArrayList<>();
+      addArg(args, "--change", event.change.id);
+      addArg(args, "--project", event.change.project);
+      addArg(args, "--branch", event.change.branch);
+      addArg(args, "--editor", getDisplayName(account));
+      for (String hashtag : hashtags) {
+        addArg(args, "--hashtag", hashtag);
+      }
+      runHook(change.getProject(), hashtagsEditedHook, args);
     }
 
     public void doClaSignupHook(Account account, ContributorAgreement cla) {

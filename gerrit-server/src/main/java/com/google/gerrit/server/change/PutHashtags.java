@@ -18,17 +18,21 @@ import com.google.common.base.CharMatcher;
 import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
+import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.DefaultInput;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
+import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.change.PutHashtags.Input;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import java.io.IOException;
@@ -38,6 +42,8 @@ import java.util.Set;
 @Singleton
 public class PutHashtags implements RestModifyView<ChangeResource, Input> {
   private final ChangeUpdate.Factory updateFactory;
+  private final Provider<ReviewDb> dbProvider;
+  private final ChangeHooks hooks;
 
   public static class Input {
     @DefaultInput
@@ -45,8 +51,11 @@ public class PutHashtags implements RestModifyView<ChangeResource, Input> {
   }
 
   @Inject
-  PutHashtags(ChangeUpdate.Factory updateFactory) {
+  PutHashtags(ChangeUpdate.Factory updateFactory,
+      Provider<ReviewDb> dbProvider, ChangeHooks hooks) {
     this.updateFactory = updateFactory;
+    this.dbProvider = dbProvider;
+    this.hooks = hooks;
   }
 
   @Override
@@ -71,6 +80,10 @@ public class PutHashtags implements RestModifyView<ChangeResource, Input> {
         .trimResults().split(input.hashtags)));
     update.setHashtags(hashtags);
     update.commit();
+
+    IdentifiedUser currentUser = ((IdentifiedUser) control.getCurrentUser());
+    hooks.doHashtagsEditedHook(
+        req.getChange(), currentUser.getAccount(), hashtags, dbProvider.get());
 
     return Response.ok(hashtags);
   }

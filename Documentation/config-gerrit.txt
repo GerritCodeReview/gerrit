@@ -1719,6 +1719,11 @@ Optional filename for the CLA signed hook, if not specified then
 Optional filename for the ref update hook, if not specified then
 `ref-update` will be used.
 
+[[hooks.hashtagsChangedHook]]hooks.hashtagsChangedHook::
++
+Optional filename for the hashtags changed hook, if not specified then
+`hashtags-changed` will be used.
+
 [[hooks.syncHookTimeout]]hooks.syncHookTimeout::
 +
 Optional timeout value in seconds for synchronous hooks, if not specified

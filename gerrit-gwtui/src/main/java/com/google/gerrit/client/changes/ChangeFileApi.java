@@ -50,7 +50,9 @@ public class ChangeFileApi {
         new CallbackWrapper<NativeString, String>(cb) {
             @Override
             public void onSuccess(NativeString b64) {
-              wrapped.onSuccess(b64decode(b64.asString()));
+              if (b64 != null) {
+                wrapped.onSuccess(b64decode(b64.asString()));
+              }
             }
           });
   }

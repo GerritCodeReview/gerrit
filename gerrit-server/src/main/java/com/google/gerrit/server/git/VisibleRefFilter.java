@@ -54,19 +54,18 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
   private final Project.NameKey projectName;
   private final ProjectControl projectCtl;
   private final ReviewDb reviewDb;
-  private final boolean showChanges;
+  private final boolean showMetadata;
 
-  public VisibleRefFilter(final TagCache tagCache, final ChangeCache changeCache,
-      final Repository db,
-      final ProjectControl projectControl, final ReviewDb reviewDb,
-      final boolean showChanges) {
+  public VisibleRefFilter(TagCache tagCache, ChangeCache changeCache,
+      Repository db, ProjectControl projectControl, ReviewDb reviewDb,
+      boolean showMetadata) {
     this.tagCache = tagCache;
     this.changeCache = changeCache;
     this.db = db;
     this.projectName = projectControl.getProject().getNameKey();
     this.projectCtl = projectControl;
     this.reviewDb = reviewDb;
-    this.showChanges = showChanges;
+    this.showMetadata = showMetadata;
   }
 
   public Map<String, Ref> filter(Map<String, Ref> refs, boolean filterTagsSeperately) {
@@ -78,9 +77,16 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
       return r;
     }
 
-    Account.Id currAccountId = projectCtl.getCurrentUser().isIdentifiedUser()
-        ? ((IdentifiedUser) projectCtl.getCurrentUser()).getAccountId()
-        : null;
+    Account.Id currAccountId;
+    boolean canViewMetadata;
+    if (projectCtl.getCurrentUser().isIdentifiedUser()) {
+      IdentifiedUser user = ((IdentifiedUser) projectCtl.getCurrentUser());
+      currAccountId = user.getAccountId();
+      canViewMetadata = user.getCapabilities().canAccessDatabase();
+    } else {
+      currAccountId = null;
+      canViewMetadata = false;
+    }
 
     Set<Change.Id> visibleChanges = visibleChanges();
     Map<String, Ref> result = new HashMap<>();
@@ -98,14 +104,16 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
         // TODO(dborowitz): If a ref matches an account and a change, verify
         // both (to exclude e.g. edits on changes that the user has lost access
         // to).
-        if (accountId.equals(currAccountId)) {
+        if (showMetadata
+            && (canViewMetadata || accountId.equals(currAccountId))) {
           result.put(ref.getName(), ref);
         }
 
       } else if ((changeId = Change.Id.fromRef(ref.getName())) != null) {
         // Reference related to a change is visible if the change is visible.
         //
-        if (showChanges && visibleChanges.contains(changeId)) {
+        if (showMetadata
+            && (canViewMetadata || visibleChanges.contains(changeId))) {
           result.put(ref.getName(), ref);
         }
 
@@ -162,7 +170,7 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
   }
 
   private Set<Change.Id> visibleChanges() {
-    if (!showChanges) {
+    if (!showMetadata) {
       return Collections.emptySet();
     }
 

@@ -24,6 +24,7 @@ import com.google.common.collect.Ordering;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.common.data.AccessSection;
+import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -31,7 +32,6 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.account.GroupCache;
-import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.edit.ChangeEditModifier;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.ProjectConfig;
@@ -59,9 +59,6 @@ public class VisibleRefFilterIT extends AbstractDaemonTest {
     cfg.setBoolean("notedb", "changes", "write", true);
     return cfg;
   }
-
-  @Inject
-  private AllProjectsName allProjects;
 
   @Inject
   private NotesMigration notesMigration;
@@ -213,6 +210,35 @@ public class VisibleRefFilterIT extends AbstractDaemonTest {
         "refs/changes/01/1/meta",
         "refs/heads/master",
         "refs/tags/master-tag",
+        "refs/users/01/1000001/edit-1");
+  }
+
+  @Test
+  public void subsetOfRefsVisibleWithAccessDatabase() throws Exception {
+    deny(Permission.READ, REGISTERED_USERS, "refs/heads/master");
+    allow(Permission.READ, REGISTERED_USERS, "refs/heads/branch");
+    allowGlobalCapability(GlobalCapability.ACCESS_DATABASE, REGISTERED_USERS);
+
+    Change c1 = db.changes().get(new Change.Id(1));
+    PatchSet ps1 = db.patchSets().get(new PatchSet.Id(c1.getId(), 1));
+    setApiUser(admin);
+    editModifier.createEdit(c1, ps1);
+    setApiUser(user);
+    editModifier.createEdit(c1, ps1);
+
+    assertRefs(
+        // Change 1 is visible due to accessDatabase capability, even though
+        // refs/heads/master is not.
+        "refs/changes/01/1/1",
+        "refs/changes/01/1/meta",
+        "refs/changes/02/2/1",
+        "refs/changes/02/2/meta",
+        "refs/heads/branch",
+        "refs/tags/branch-tag",
+        // See comment in subsetOfBranchesVisibleNotIncludingHead.
+        "refs/tags/master-tag",
+        // All edits are visible due to accessDatabase capability.
+        "refs/users/00/1000000/edit-1",
         "refs/users/01/1000001/edit-1");
   }
 

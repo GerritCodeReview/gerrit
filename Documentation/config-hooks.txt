@@ -125,6 +125,25 @@ Called whenever a change's topic is changed from the Web UI or via the REST API.
   topic-changed --change <change id> --change-owner <change owner> --project <project name> --branch <branch> --changer <changer> --old-topic <old topic> --new-topic <new topic>
 ====
 
+=== hashtags-changed
+
+Called whenever hashtags are added to or removed from a change from the Web UI
+or via the REST API.
+
+====
+  hashtags-edited --change <change id>  --change-owner <change owner> --project <project name> --branch <branch> --editor <editor> --added <hashtag> --removed <hashtag> --hashtag <hashtag>
+====
+
+The `--added` parameter may be passed multiple times, once for each
+hashtag that was added to the change.
+
+The `--removed` parameter may be passed multiple times, once for each
+hashtag that was removed from the change.
+
+The `--hashtag` parameter may be passed multiple times, once for each
+hashtag remaining on the change after the add or remove operation has
+been performed.
+
 === cla-signed
 
 Called whenever a user signs a contributor license agreement.

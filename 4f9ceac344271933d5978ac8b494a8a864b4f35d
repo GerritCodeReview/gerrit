@@ -410,6 +410,30 @@
       "revId": "4f9ceac344271933d5978ac8b494a8a864b4f35d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_e88edb6c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutHashtags.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-11T15:46:05Z",
+      "side": 1,
+      "message": "removeAll is probably what we want.",
+      "parentUuid": "d065072b_c8879f54",
+      "range": {
+        "startLine": 86,
+        "startChar": 6,
+        "endLine": 90,
+        "endChar": 7
+      },
+      "revId": "4f9ceac344271933d5978ac8b494a8a864b4f35d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

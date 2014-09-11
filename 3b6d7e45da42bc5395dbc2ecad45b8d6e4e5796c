@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "d065072b_5dcb4f59",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 422,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-11T09:50:00Z",
+      "side": 1,
+      "message": "Nonsense, it\u0027s exactly the right amount of code duplication :)",
+      "parentUuid": "d065072b_5a46b58b",
+      "revId": "3b6d7e45da42bc5395dbc2ecad45b8d6e4e5796c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "30dae333_ffea3f0c",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
         "patchSetId": 1

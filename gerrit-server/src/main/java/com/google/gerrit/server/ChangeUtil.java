@@ -20,8 +20,10 @@ import static java.util.concurrent.TimeUnit.MINUTES;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.collect.ImmutableList;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.common.errors.EmailException;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -30,6 +32,7 @@ import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.change.ChangeInserter;
 import com.google.gerrit.server.change.ChangeMessages;
+import com.google.gerrit.server.change.ChangeTriplet;
 import com.google.gerrit.server.change.PatchSetInserter;
 import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
@@ -514,6 +517,39 @@ public class ChangeUtil {
     db.patchSetAncestors().delete(db.patchSetAncestors().byPatchSet(patchSetId));
 
     db.patchSets().delete(Collections.singleton(patch));
+  }
+
+  public List<Change> findChanges(String id)
+      throws OrmException, ResourceNotFoundException {
+    // Try legacy id
+    if (id.matches("^[1-9][0-9]*$")) {
+      Change c = db.get().changes().get(Change.Id.parse(id));
+      if (c != null) {
+        return ImmutableList.of(c);
+      }
+      return Collections.emptyList();
+    }
+
+    // Try isolated changeId
+    if (!id.contains("~")) {
+      Change.Key key = new Change.Key(id);
+      if (key.get().length() == 41) {
+        return db.get().changes().byKey(key).toList();
+      } else {
+        return db.get().changes().byKeyRange(key, key.max()).toList();
+      }
+    }
+
+    // Try change triplet
+    ChangeTriplet triplet;
+    try {
+        triplet = new ChangeTriplet(id);
+    } catch (ChangeTriplet.ParseException e) {
+        throw new ResourceNotFoundException(id);
+    }
+    return db.get().changes().byBranchKey(
+        triplet.getBranchNameKey(),
+        triplet.getChangeKey()).toList();
   }
 
   private IdentifiedUser user() {

@@ -987,6 +987,59 @@ the error message is contained in the response body.
   change is new
 ----
 
+[[followup-change]]
+=== Create Follow-up Change
+--
+'POST /changes/link:#change-id[\{change-id\}]/followup'
+--
+
+Creates an empty change that is based on (is follow-up of) the
+original change.
+
+The request body must include a link:#followup-input[FollowUpInput]
+entity.
+
+.Request
+----
+  POST /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/followup HTTP/1.0
+
+  {
+    "project": "myProject",
+    "branch": "master",
+    "subject": "Follow-up change",
+  }
+----
+
+As response a link:#change-info[ChangeInfo] entity is returned that
+describes the created change.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  {
+    "id": "myProject~master~Ie5b5f8c697db80f6a480660299105fd9d7e5238c",
+    "project": "myProject",
+    "branch": "master",
+    "change_id": "Ie5b5f8c697db80f6a480660299105fd9d7e5238c",
+    "subject": "Follow-up change",
+    "status": "NEW",
+    "created": "2014-02-01 09:59:32.126000000",
+    "updated": ""2014-02-01 09:59:32.126000000",
+    "mergeable": true,
+    "insertions": 0,
+    "deletions": 0,
+    "_sortkey": "0023412400000f7d",
+    "_number": 5555,
+    "owner": {
+      "name": "John Doe"
+    }
+  }
+----
+
 [[submit-change]]
 === Submit Change
 --
@@ -3857,6 +3910,21 @@ path within change edit.
 |===========================
 |Field Name    ||Description
 |`restore_path`|optional|Path to file to restore.
+|===========================
+
+[[followup-input]]
+=== FollowUpInput
+The `FollowUpInput` entity contains information for creating follow-up
+change.
+
+[options="header",width="50%",cols="1,^1,5"]
+|===========================
+|Field Name    ||Description
+|`project`     ||The name of the project.
+|`branch`      ||
+The name of the target branch. +
+The `refs/heads/` prefix is omitted.
+|`subject`     ||Subject of the follow-up change.
 |===========================
 
 GERRIT

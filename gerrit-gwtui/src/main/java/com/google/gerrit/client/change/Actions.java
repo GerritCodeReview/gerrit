@@ -39,7 +39,7 @@ class Actions extends Composite {
   private static final String[] CORE = {
     "abandon", "restore", "revert", "topic",
     "cherrypick", "submit", "rebase", "message",
-    "publish", "/"};
+    "publish", "followup", "/"};
 
   interface Binder extends UiBinder<FlowPanel, Actions> {}
   private static final Binder uiBinder = GWT.create(Binder.class);
@@ -61,12 +61,17 @@ class Actions extends Composite {
   @UiField Button restore;
   private RestoreAction restoreAction;
 
+  @UiField Button followUp;
+  private FollowUpAction followUpAction;
+
   private Change.Id changeId;
   private ChangeInfo changeInfo;
   private String revision;
   private String project;
   private String subject;
   private String message;
+  private String branch;
+  private String key;
   private boolean canSubmit;
 
   Actions() {
@@ -84,6 +89,8 @@ class Actions extends Composite {
     project = info.project();
     subject = commit.subject();
     message = commit.message();
+    branch = info.branch();
+    key = info.change_id();
     changeInfo = info;
 
     initChangeActions(info, hasUser);
@@ -102,6 +109,7 @@ class Actions extends Composite {
       a2b(actions, "abandon", abandon);
       a2b(actions, "restore", restore);
       a2b(actions, "revert", revert);
+      a2b(actions, "followup", followUp);
       for (String id : filterNonCore(actions)) {
         add(new ActionButton(info, actions.get(id)));
       }
@@ -174,6 +182,15 @@ class Actions extends Composite {
 
   boolean isSubmitEnabled() {
     return submit.isVisible() && submit.isEnabled();
+  }
+
+  @UiHandler("followUp")
+  void onFollowUp(ClickEvent e) {
+    if (followUpAction == null) {
+      followUpAction = new FollowUpAction(followUp, project,
+          branch, key);
+    }
+    followUpAction.show();
   }
 
   @UiHandler("abandon")

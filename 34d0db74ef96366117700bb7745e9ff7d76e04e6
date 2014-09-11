@@ -16,6 +16,24 @@
       "revId": "34d0db74ef96366117700bb7745e9ff7d76e04e6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_1d9b9722",
+        "filename": "plugins/cookbook-plugin",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-11T12:10:33Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "d065072b_9d3de747",
+      "revId": "34d0db74ef96366117700bb7745e9ff7d76e04e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

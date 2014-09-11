@@ -160,17 +160,20 @@ public class Hashtags extends Composite {
     while (itr.hasNext()) {
       String hashtagName = itr.next();
       html.openSpan()
-          .setAttribute("role", "listitem")
           .setAttribute(DATA_ID, hashtagName)
           .setStyleName(style.hashtagName())
+          .openAnchor()
+          .setAttribute("href", "#" + PageLinks.toChangeQuery("hashtag:" + hashtagName))
+          .setAttribute("role", "listitem")
           .append(hashtagName)
+          .closeAnchor()
           .openElement("button")
           .setAttribute("title", "Remove hashtag")
           .setAttribute("onclick", REMOVE + "(event)")
           .append(
               new ImageResourceRenderer().render(Resources.I.remove_reviewer()))
-          .closeElement("button");
-      html.closeSpan();
+          .closeElement("button")
+          .closeSpan();
       if (itr.hasNext()) {
         html.append(' ');
       }

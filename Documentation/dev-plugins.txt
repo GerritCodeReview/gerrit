@@ -1775,6 +1775,11 @@ public class MyWeblinkPlugin implements PatchSetWebLink {
   public String getImageUrl() {
     return imageUrl;
   }
+
+  @Override
+  public String getTarget() {
+    return "_blank";
+  }
 }
 ----
 

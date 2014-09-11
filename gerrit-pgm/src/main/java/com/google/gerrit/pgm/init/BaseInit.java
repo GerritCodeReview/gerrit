@@ -15,6 +15,7 @@
 package com.google.gerrit.pgm.init;
 
 import static com.google.gerrit.server.schema.DataSourceProvider.Context.SINGLE_USER;
+import static com.google.gerrit.server.securestore.SecureStoreProvider.getSecureStoreClassFromGerritConfig;
 import static com.google.inject.Stage.PRODUCTION;
 
 import com.google.common.base.MoreObjects;
@@ -221,7 +222,7 @@ public class BaseInit extends SiteProgram {
             InstallPlugins.class).toInstance(plugins);
         bind(PluginsDistribution.class).toInstance(pluginsDistribution);
 
-        SecureStoreInitData secureStoreInitData = discoverSecureStoreClass();
+        SecureStoreInitData secureStoreInitData = discoverSecureStoreClass(sitePath);
         if (secureStoreInitData != null) {
           bind(SecureStoreInitData.class).toInstance(secureStoreInitData);
         } else {
@@ -259,14 +260,26 @@ public class BaseInit extends SiteProgram {
     return ConsoleUI.getInstance(false);
   }
 
-  private SecureStoreInitData discoverSecureStoreClass() {
+  private SecureStoreInitData discoverSecureStoreClass(File sitePath) {
     String secureStore = getSecureStoreLib();
     if (Strings.isNullOrEmpty(secureStore)) {
       return null;
     }
 
     try {
-      File secureStoreLib = new File(secureStore);
+      String currentSecureStore =
+          getSecureStoreClassFromGerritConfig(new SitePaths(sitePath));
+      if (!Strings.isNullOrEmpty(currentSecureStore)) {
+        throw new RuntimeException(
+            String.format(
+                "SecureStore is already set to %s. To change it use SwitchSecureStore program.",
+                currentSecureStore));
+      }
+    } catch (FileNotFoundException e) {
+      // ignore, site is initialized from scratch
+    }
+    try {
+      File secureStoreLib = new File(getSecureStoreLib());
       if (!secureStoreLib.exists()) {
         throw new InvalidSecureStoreException(String.format(
             "File %s doesn't exist", secureStore));

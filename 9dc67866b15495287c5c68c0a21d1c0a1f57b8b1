@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "30dae333_1f4443dc",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 667,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-11T10:26:40Z",
+      "side": 1,
+      "message": "No, because the original id is needed for SBS2 to work properly.",
+      "parentUuid": "30dae333_9f0e93c7",
+      "range": {
+        "startLine": 667,
+        "startChar": 36,
+        "endLine": 667,
+        "endChar": 49
+      },
+      "revId": "9dc67866b15495287c5c68c0a21d1c0a1f57b8b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "30dae333_7f1aaf04",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/EditFileBox.java",
         "patchSetId": 3

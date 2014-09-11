@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "30dae333_1f18c364",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeMessages.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-09-11T08:22:26Z",
+      "side": 1,
+      "message": "sorry, I think that it was already submitter... will update it",
+      "parentUuid": "d065072b_dd8e3f6d",
+      "revId": "9a5d777410ee479710ae5a8b0e99177052fa7b0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d065072b_3d7493a6",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeInfo.java",
         "patchSetId": 2

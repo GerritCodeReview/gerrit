@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "d065072b_9d84c751",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeResource.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-11T08:20:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "30dae333_bfb6f710",
+      "range": {
+        "startLine": 74,
+        "startChar": 6,
+        "endLine": 74,
+        "endChar": 41
+      },
+      "revId": "5250a200b65078ed92a59a970899a3aa24784964",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "30dae333_5fa96bac",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeResource.java",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2014-09-11T08:12:36Z",
       "side": 1,
       "message": "I also think we shouldn\u0027t respect it all if noteId is null:\n\n if (noteId !\u003d null) {\n   // include noteid SHA-1 in ETag computation.  \n }",
+      "range": {
+        "startLine": 78,
+        "startChar": 4,
+        "endLine": 78,
+        "endChar": 33
+      },
+      "revId": "5250a200b65078ed92a59a970899a3aa24784964",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30dae333_bf9fd780",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeResource.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-11T08:20:27Z",
+      "side": 1,
+      "message": "The hash is a hash of a tuple hash(v1, v2, ..., vn), and we want to have a value in each slot even if it\u0027s \"missing\". If we didn\u0027t do this, we could have collisions.\n\nSay we have hash(v1, v2, v3) and any of v1/v2/v3 may be missing. If we omitted missing values, then we could have H1 \u003d hash(v1, v3) if v2 is missing or H2 \u003d hash(v2, v3) if v1 is missing. This is a collision H1\u003d\u003dH2 if v1 in the H1 case equals v2 in the H2 case.\n\nIf we do H1\u0027\u003dhash(0, v2, v3) and H2\u0027\u003dhash(v1, 0, v3), there is no collision.\n\nYou could argue in this case since only the last two values (notedb, projectState) might be \"missing\", and it\u0027s very unlikely that they would collide anyway, this is not a risk.\n\nBut following the general pattern of including every tuple value means we don\u0027t have to do this kind of subtle reasoning as the tuple becomes more complicated.",
+      "parentUuid": "30dae333_5fa96bac",
       "range": {
         "startLine": 78,
         "startChar": 4,

@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "30dae333_825c7c28",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 3837,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-11T14:53:48Z",
+      "side": 1,
+      "message": "I think this should be \"base\", since \"parent\" has a specific meaning in git and this is not a parent.\n\nThe code is inconsistent too. I just read something later in this change like \"change.parentRevision \u003d edit.getBasePatchSet().getRevision()\".",
+      "range": {
+        "startLine": 3837,
+        "startChar": 2,
+        "endLine": 3837,
+        "endChar": 16
+      },
+      "revId": "fc3f982358e8ebd4953e5e5548d2d8224cba32a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_a8098350",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 3837,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-11T14:53:48Z",
+      "side": 1,
+      "message": "is",
+      "range": {
+        "startLine": 3837,
+        "startChar": 61,
+        "endLine": 3837,
+        "endChar": 62
+      },
+      "revId": "fc3f982358e8ebd4953e5e5548d2d8224cba32a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30dae333_62d05835",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-11T14:53:48Z",
+      "side": 1,
+      "message": "This is no longer accurate, an edit against a root commit is one where prevEdit.getParentCount() \u003d\u003d 0. So this check will also need to get moved up above the getParent(0) on l. 296.",
+      "revId": "fc3f982358e8ebd4953e5e5548d2d8224cba32a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30dae333_82d55c26",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-11T14:53:48Z",
+      "side": 1,
+      "message": "pos + 1, since you\u0027re not depending on the side effect.",
+      "range": {
+        "startLine": 179,
+        "startChar": 44,
+        "endLine": 179,
+        "endChar": 49
+      },
+      "revId": "fc3f982358e8ebd4953e5e5548d2d8224cba32a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

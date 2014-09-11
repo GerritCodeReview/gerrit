@@ -76,7 +76,7 @@ public class PutHashtags implements RestModifyView<ChangeResource, Input> {
       hashtags.addAll(oldHashtags);
     };
     hashtags.addAll(Lists.newArrayList(Splitter.on(CharMatcher.anyOf(",;"))
-        .trimResults().split(input.hashtags)));
+        .trimResults().omitEmptyStrings().split(input.hashtags)));
     update.setHashtags(hashtags);
     update.commit();
     indexer.index(dbProvider.get(), update.getChange());

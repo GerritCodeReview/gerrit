@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d065072b_9d3b27e1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-09-11T08:09:19Z",
+      "side": 1,
+      "message": "shouldn\u0027t it be together, \"endpoints\"?",
+      "range": {
+        "startLine": 7,
+        "startChar": 17,
+        "endLine": 7,
+        "endChar": 27
+      },
+      "revId": "626f208484f2e265c95973ecec57376cff2b4fff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_5d4a2f6e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-09-11T08:09:19Z",
+      "side": 1,
+      "message": "can you elaborate more on this endpoint in commit message?\n\ndescribe link format, and data structures that is taken in and returned (simple json input/output would be enough)",
+      "revId": "626f208484f2e265c95973ecec57376cff2b4fff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

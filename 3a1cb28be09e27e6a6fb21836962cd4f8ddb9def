@@ -70,6 +70,30 @@
       "revId": "3a1cb28be09e27e6a6fb21836962cd4f8ddb9def",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_68d5ab23",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 633,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-11T16:12:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d065072b_88576705",
+      "range": {
+        "startLine": 627,
+        "startChar": 6,
+        "endLine": 633,
+        "endChar": 7
+      },
+      "revId": "3a1cb28be09e27e6a6fb21836962cd4f8ddb9def",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

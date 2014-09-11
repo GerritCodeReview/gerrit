@@ -1,0 +1,165 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d065072b_fd005bd4",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 1654,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-09-11T09:51:23Z",
+      "side": 1,
+      "message": "nit: column is not aligned with the columns above and below",
+      "range": {
+        "startLine": 1654,
+        "startChar": 32,
+        "endLine": 1654,
+        "endChar": 43
+      },
+      "revId": "4a392b72b3deebd42a0c3aef9a6f0a2acde79aeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30dae333_5f988b63",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 1656,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-09-11T09:51:23Z",
+      "side": 1,
+      "message": "avoid \u0027we\u0027 in documentation, better:\n\n  \"... that tells whether a new change is created for every commit not in target branch.\"",
+      "range": {
+        "startLine": 1656,
+        "startChar": 0,
+        "endLine": 1656,
+        "endChar": 7
+      },
+      "revId": "4a392b72b3deebd42a0c3aef9a6f0a2acde79aeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_3dbc93c5",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 1719,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-09-11T09:51:23Z",
+      "side": 1,
+      "message": "nit: column is not aligned with the columns above and below",
+      "range": {
+        "startLine": 1719,
+        "startChar": 33,
+        "endLine": 1719,
+        "endChar": 43
+      },
+      "revId": "4a392b72b3deebd42a0c3aef9a6f0a2acde79aeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30dae333_bf7ef72f",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 1998,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-09-11T09:51:23Z",
+      "side": 1,
+      "message": "nit: column is not aligned with the columns above and below",
+      "range": {
+        "startLine": 1998,
+        "startChar": 33,
+        "endLine": 1998,
+        "endChar": 55
+      },
+      "revId": "4a392b72b3deebd42a0c3aef9a6f0a2acde79aeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30dae333_df8bbb0c",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 1999,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-09-11T09:51:23Z",
+      "side": 1,
+      "message": "Avoid usage of \u0027we\u0027.",
+      "range": {
+        "startLine": 1999,
+        "startChar": 8,
+        "endLine": 1999,
+        "endChar": 15
+      },
+      "revId": "4a392b72b3deebd42a0c3aef9a6f0a2acde79aeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30dae333_ff615f8a",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/CreateProjectCommand.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-09-11T09:51:23Z",
+      "side": 1,
+      "message": "describe this new option in cmd-create-project.txt",
+      "range": {
+        "startLine": 90,
+        "startChar": 18,
+        "endLine": 90,
+        "endChar": 37
+      },
+      "revId": "4a392b72b3deebd42a0c3aef9a6f0a2acde79aeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30dae333_df649b9d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/CreateProjectCommand.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-09-11T09:51:23Z",
+      "side": 1,
+      "message": "old name?",
+      "range": {
+        "startLine": 114,
+        "startChar": 10,
+        "endLine": 114,
+        "endChar": 18
+      },
+      "revId": "4a392b72b3deebd42a0c3aef9a6f0a2acde79aeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

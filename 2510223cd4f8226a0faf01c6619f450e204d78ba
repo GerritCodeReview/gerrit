@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "d065072b_5dc86f34",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/webui/PatchWebLink.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-09-11T11:13:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d04c27b5_fc64e99c",
+      "revId": "2510223cd4f8226a0faf01c6619f450e204d78ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "70d0db0f_0104ea34",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/webui/PatchWebLink.java",
         "patchSetId": 1
@@ -30,6 +48,30 @@
       "writtenOn": "2014-09-11T09:12:38Z",
       "side": 1,
       "message": "Not a big fan of this name...the URL is not really the URL of a patch, which is what the name suggests. For one thing, patch implies both an A side and a B side, and this is a link to only one side. It\u0027s really more like a file link, it just happens that on the SBS2 screen there are two separate file links. (Plus the bit of information that this came _from_ a patch screen.)\n\nSorry I\u0027m not being very helpful in suggesting alternative names...",
+      "range": {
+        "startLine": 27,
+        "startChar": 9,
+        "endLine": 27,
+        "endChar": 20
+      },
+      "revId": "2510223cd4f8226a0faf01c6619f450e204d78ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30dae333_ff379f62",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/webui/PatchWebLink.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-09-11T11:13:33Z",
+      "side": 1,
+      "message": "Yes, this is actually a file link. I think naming it FileWebLink and getFileUrl(...) is good enough. \n\nDone",
+      "parentUuid": "70d0db0f_0104ea34",
       "range": {
         "startLine": 27,
         "startChar": 9,
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "30dae333_9f8933da",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetDiff.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-09-11T11:13:33Z",
+      "side": 1,
+      "message": "Yes, we should check on this later. Added a TODO for now.\n\nDone",
+      "parentUuid": "70d0db0f_c1092250",
+      "revId": "2510223cd4f8226a0faf01c6619f450e204d78ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "70d0db0f_e106263f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetDiff.java",
         "patchSetId": 1
@@ -70,6 +130,30 @@
       "writtenOn": "2014-09-11T09:12:38Z",
       "side": 1,
       "message": "This is identical to above, factor out a method?",
+      "range": {
+        "startLine": 178,
+        "startChar": 8,
+        "endLine": 186,
+        "endChar": 9
+      },
+      "revId": "2510223cd4f8226a0faf01c6619f450e204d78ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30dae333_df93bb03",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetDiff.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-09-11T11:13:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "70d0db0f_e106263f",
       "range": {
         "startLine": 178,
         "startChar": 8,

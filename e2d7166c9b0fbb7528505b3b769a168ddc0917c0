@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "d065072b_4818af65",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEdit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-11T21:03:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "30dae333_ff1b1fd1",
+      "range": {
+        "startLine": 32,
+        "startChar": 31,
+        "endLine": 32,
+        "endChar": 32
+      },
+      "revId": "e2d7166c9b0fbb7528505b3b769a168ddc0917c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d065072b_fd3a1b4b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
         "patchSetId": 1
@@ -59,6 +83,30 @@
       "writtenOn": "2014-09-11T12:13:42Z",
       "side": 1,
       "message": "I think this should no longer be called \"mergeTip\" just as you changed \"mergeCommit\" below.",
+      "range": {
+        "startLine": 165,
+        "startChar": 18,
+        "endLine": 165,
+        "endChar": 26
+      },
+      "revId": "e2d7166c9b0fbb7528505b3b769a168ddc0917c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_281d7355",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-11T21:03:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d065072b_fd3a1b4b",
       "range": {
         "startLine": 165,
         "startChar": 18,
@@ -88,6 +136,24 @@
     },
     {
       "key": {
+        "uuid": "d065072b_8822c791",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-11T21:03:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "30dae333_9fadb322",
+      "revId": "e2d7166c9b0fbb7528505b3b769a168ddc0917c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d065072b_dd375f63",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
         "patchSetId": 1
@@ -99,6 +165,24 @@
       "writtenOn": "2014-09-11T12:13:42Z",
       "side": 1,
       "message": "This should happen along with the ref creation in a single BatchRefUpdate",
+      "revId": "e2d7166c9b0fbb7528505b3b769a168ddc0917c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_68276ba3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-11T21:03:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d065072b_dd375f63",
       "revId": "e2d7166c9b0fbb7528505b3b769a168ddc0917c0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -128,6 +212,30 @@
     },
     {
       "key": {
+        "uuid": "d065072b_c82b1f6b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-11T21:03:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "30dae333_dfb73b6c",
+      "range": {
+        "startLine": 194,
+        "startChar": 61,
+        "endLine": 194,
+        "endChar": 71
+      },
+      "revId": "e2d7166c9b0fbb7528505b3b769a168ddc0917c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "30dae333_3fe82742",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditUtil.java",
         "patchSetId": 1
@@ -139,6 +247,24 @@
       "writtenOn": "2014-09-11T12:13:42Z",
       "side": 1,
       "message": "Rather than failing when we encounter the corrupt state where there is more than one ref, how about silently deleting all but the current one in this case?",
+      "revId": "e2d7166c9b0fbb7528505b3b769a168ddc0917c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30dae333_e2d9c82c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-11T21:03:18Z",
+      "side": 1,
+      "message": "Sounds like an improvement that can be done later. Added a TODO.",
+      "parentUuid": "30dae333_3fe82742",
       "revId": "e2d7166c9b0fbb7528505b3b769a168ddc0917c0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

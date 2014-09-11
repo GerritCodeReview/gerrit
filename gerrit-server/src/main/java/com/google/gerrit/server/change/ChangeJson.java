@@ -62,6 +62,7 @@ import com.google.gerrit.extensions.config.DownloadScheme;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.extensions.restapi.Url;
+import com.google.gerrit.extensions.webui.PrivateInternals_UiActionDescription;
 import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
@@ -330,6 +331,14 @@ public class ChangeJson {
           new ChangeResource(ctl),
           userProvider)) {
         out.actions.put(d.getId(), new ActionInfo(d));
+      }
+      if (userProvider.get().isIdentifiedUser()
+          && in.getStatus().isOpen()) {
+        UiAction.Description descr = new UiAction.Description();
+        PrivateInternals_UiActionDescription.setId(descr, "followup");
+        PrivateInternals_UiActionDescription.setMethod(descr, "POST");
+        descr.setTitle("Create follow-up change");
+        out.actions.put(descr.getId(), new ActionInfo(descr));
       }
     }
     return out;

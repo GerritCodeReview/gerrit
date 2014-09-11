@@ -14,10 +14,13 @@
 
 package com.google.gerrit.extensions.common;
 
+import java.util.List;
+
 public class FileInfo {
   public Character status;
   public Boolean binary;
   public String oldPath;
   public Integer linesInserted;
   public Integer linesDeleted;
+  public List<WebLinkInfo> webLinks;
 }

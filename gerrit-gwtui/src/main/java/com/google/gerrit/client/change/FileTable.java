@@ -17,6 +17,7 @@ package com.google.gerrit.client.change;
 import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.VoidResult;
+import com.google.gerrit.client.WebLinkInfo;
 import com.google.gerrit.client.changes.ChangeApi;
 import com.google.gerrit.client.changes.ChangeFileApi;
 import com.google.gerrit.client.changes.CommentInfo;
@@ -563,6 +564,7 @@ public class FileTable extends FlowPanel {
         sb.openTh().setStyleName(R.css().editButton()).closeTh();
         sb.openTh().setStyleName(R.css().removeButton()).closeTh();
       }
+      sb.openTh().closeTh(); // web links
       sb.openTh().setStyleName(R.css().status()).closeTh();
       sb.openTh().append(Util.C.patchTableColumnName()).closeTh();
       sb.openTh()
@@ -585,6 +587,7 @@ public class FileTable extends FlowPanel {
         columnEdit(sb, info);
         columnDeleteRestore(sb, info);
       }
+      columnLinks(sb, info);
       columnStatus(sb, info);
       if (mode == Mode.REVIEW) {
         columnPath(sb, info);
@@ -668,6 +671,29 @@ public class FileTable extends FlowPanel {
       String status = info.status();
       return status == null
           || !ChangeType.DELETED.matches(status);
+    }
+
+    private void columnLinks(SafeHtmlBuilder sb, FileInfo info) {
+      sb.openTd();
+      if (!Patch.COMMIT_MSG.equals(info.path())) {
+        if (info.web_links() != null) {
+          for (WebLinkInfo weblink : Natives.asList(info.web_links())) {
+            sb.openAnchor()
+              .setAttribute("href", weblink.url());
+            if (weblink.imageUrl() != null && !weblink.imageUrl().isEmpty()) {
+              sb.openElement("img")
+                .setAttribute("alt", weblink.name())
+                .setAttribute("src", weblink.imageUrl())
+                .setAttribute("title", weblink.name())
+                .closeElement("img");
+            } else {
+              sb.append("(" + weblink.name() + ")");
+            }
+            sb.closeAnchor();
+          }
+        }
+      }
+      sb.closeTd();
     }
 
     private void columnStatus(SafeHtmlBuilder sb, FileInfo info) {
@@ -818,6 +844,7 @@ public class FileTable extends FlowPanel {
         sb.openTh().setStyleName(R.css().editButton()).closeTh();
         sb.openTh().setStyleName(R.css().editButton()).closeTh();
       }
+      sb.openTh().closeTh(); // web links
       sb.openTh().setStyleName(R.css().status()).closeTh();
       sb.openTd().closeTd(); // path
       sb.openTd().setAttribute("colspan", 3).closeTd(); // comments

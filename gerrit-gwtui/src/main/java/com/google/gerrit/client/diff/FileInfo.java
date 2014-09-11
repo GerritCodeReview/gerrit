@@ -14,6 +14,7 @@
 
 package com.google.gerrit.client.diff;
 
+import com.google.gerrit.client.WebLinkInfo;
 import com.google.gerrit.client.changes.Util;
 import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.reviewdb.client.Patch;
@@ -30,6 +31,7 @@ public class FileInfo extends JavaScriptObject {
   public final native int lines_deleted() /*-{ return this.lines_deleted || 0; }-*/;
   public final native boolean binary() /*-{ return this.binary || false; }-*/;
   public final native String status() /*-{ return this.status; }-*/;
+  public final native JsArray<WebLinkInfo> web_links() /*-{ return this.web_links; }-*/;
 
   public final native int _row() /*-{ return this._row }-*/;
   public final native void _row(int r) /*-{ this._row = r }-*/;

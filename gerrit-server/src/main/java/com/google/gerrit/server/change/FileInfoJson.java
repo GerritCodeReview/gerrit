@@ -14,33 +14,40 @@
 
 package com.google.gerrit.server.change;
 
+import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.common.FileInfo;
+import com.google.gerrit.extensions.common.WebLinkInfo;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference.Whitespace;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.RevId;
+import com.google.gerrit.server.WebLinks;
 import com.google.gerrit.server.patch.PatchList;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.patch.PatchListEntry;
 import com.google.gerrit.server.patch.PatchListKey;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import org.eclipse.jgit.lib.ObjectId;
 
+import java.util.LinkedList;
 import java.util.Map;
 
 @Singleton
 public class FileInfoJson {
   private final PatchListCache patchListCache;
+  private final Provider<WebLinks> webLinks;
 
   @Inject
-  FileInfoJson(PatchListCache patchListCache) {
+  FileInfoJson(PatchListCache patchListCache, Provider<WebLinks> webLinks) {
     this.patchListCache = patchListCache;
+    this.webLinks = webLinks;
   }
 
   Map<String, FileInfo> toFileInfoMap(Change change, PatchSet patchSet)
@@ -68,6 +75,14 @@ public class FileInfoJson {
       } else {
         d.linesInserted = e.getInsertions() > 0 ? e.getInsertions() : null;
         d.linesDeleted = e.getDeletions() > 0 ? e.getDeletions() : null;
+      }
+
+      d.webLinks = new LinkedList<>();
+      for (WebLinkInfo link : webLinks.get().getPatchLinks(change.getProject().get(),
+          revision.get(), e.getNewName())) {
+        if (!Strings.isNullOrEmpty(link.name) && !Strings.isNullOrEmpty(link.url)) {
+          d.webLinks.add(link);
+        }
       }
 
       FileInfo o = files.put(e.getNewName(), d);

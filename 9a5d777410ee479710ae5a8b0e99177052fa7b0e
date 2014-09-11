@@ -127,6 +127,24 @@
     },
     {
       "key": {
+        "uuid": "d065072b_ddc0ff63",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeMessages.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-09-11T08:32:33Z",
+      "side": 1,
+      "message": "In PatchSet 3 you will find \u0027edit:{0}\u0027 :)",
+      "parentUuid": "30dae333_ff323fdb",
+      "revId": "9a5d777410ee479710ae5a8b0e99177052fa7b0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d065072b_3d7493a6",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeInfo.java",
         "patchSetId": 2

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "30dae333_62577806",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.ui.xml",
+        "patchSetId": 22
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-09-11T16:10:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d065072b_48f9cfe4",
+      "range": {
+        "startLine": 247,
+        "startChar": 4,
+        "endLine": 247,
+        "endChar": 5
+      },
+      "revId": "e35ed8e8226558eb36489b08c0829d35f8dee979",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "30dae333_225d7026",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Hashtags.java",
         "patchSetId": 22
@@ -36,6 +60,24 @@
       "writtenOn": "2014-09-11T14:36:04Z",
       "side": 1,
       "message": "optional nit: this line can be re-formatted",
+      "revId": "e35ed8e8226558eb36489b08c0829d35f8dee979",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_0807d73c",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Hashtags.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-09-11T16:10:34Z",
+      "side": 1,
+      "message": "What do you mean by re-formatted?",
+      "parentUuid": "30dae333_225d7026",
       "revId": "e35ed8e8226558eb36489b08c0829d35f8dee979",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "30dae333_a270a0a7",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Hashtags.ui.xml",
+        "patchSetId": 22
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-09-11T16:10:34Z",
+      "side": 1,
+      "message": "what?",
+      "parentUuid": "d065072b_28fe13ce",
+      "range": {
+        "startLine": 63,
+        "startChar": 23,
+        "endLine": 63,
+        "endChar": 29
+      },
+      "revId": "e35ed8e8226558eb36489b08c0829d35f8dee979",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d065072b_88f3e704",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/RestHashtagsSuggestOracle.java",
         "patchSetId": 22
@@ -76,6 +142,24 @@
       "writtenOn": "2014-09-11T14:36:04Z",
       "side": 1,
       "message": "-1 : Incomplete change?",
+      "revId": "e35ed8e8226558eb36489b08c0829d35f8dee979",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30dae333_e2e708f6",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/RestHashtagsSuggestOracle.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-09-11T16:10:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d065072b_88f3e704",
       "revId": "e35ed8e8226558eb36489b08c0829d35f8dee979",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -99,6 +183,24 @@
     },
     {
       "key": {
+        "uuid": "d065072b_a86d03d1",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/RestHashtagsSuggestOracle.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-09-11T16:10:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "30dae333_426274e5",
+      "revId": "e35ed8e8226558eb36489b08c0829d35f8dee979",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d065072b_68f80bdf",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/RestHashtagsSuggestOracle.java",
         "patchSetId": 22
@@ -110,6 +212,24 @@
       "writtenOn": "2014-09-11T14:36:04Z",
       "side": 1,
       "message": "See above comment",
+      "revId": "e35ed8e8226558eb36489b08c0829d35f8dee979",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30dae333_02e5cced",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/RestHashtagsSuggestOracle.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-09-11T16:10:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d065072b_68f80bdf",
       "revId": "e35ed8e8226558eb36489b08c0829d35f8dee979",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -139,6 +259,30 @@
     },
     {
       "key": {
+        "uuid": "d065072b_086b57bb",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeMessages.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-09-11T16:10:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d065072b_685c8b27",
+      "range": {
+        "startLine": 40,
+        "startChar": 15,
+        "endLine": 40,
+        "endChar": 22
+      },
+      "revId": "e35ed8e8226558eb36489b08c0829d35f8dee979",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "30dae333_c2da0431",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeMessages.properties",
         "patchSetId": 22
@@ -150,6 +294,30 @@
       "writtenOn": "2014-09-11T16:02:54Z",
       "side": 1,
       "message": "Hashtag",
+      "range": {
+        "startLine": 23,
+        "startChar": 6,
+        "endLine": 23,
+        "endChar": 13
+      },
+      "revId": "e35ed8e8226558eb36489b08c0829d35f8dee979",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_e867fbec",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeMessages.properties",
+        "patchSetId": 22
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-09-11T16:10:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "30dae333_c2da0431",
       "range": {
         "startLine": 23,
         "startChar": 6,

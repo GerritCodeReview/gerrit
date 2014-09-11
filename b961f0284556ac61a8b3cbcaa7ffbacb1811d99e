@@ -46,6 +46,23 @@
       "revId": "b961f0284556ac61a8b3cbcaa7ffbacb1811d99e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d04c27b5_7caa995b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-11T13:19:20Z",
+      "side": 1,
+      "message": "Are these intended to be case-insensitive?",
+      "revId": "b961f0284556ac61a8b3cbcaa7ffbacb1811d99e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

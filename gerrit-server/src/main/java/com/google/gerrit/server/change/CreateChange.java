@@ -15,11 +15,13 @@
 package com.google.gerrit.server.change;
 
 import com.google.common.base.Strings;
+import com.google.common.collect.Iterables;
 import com.google.gerrit.common.data.Capable;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeStatus;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
@@ -29,6 +31,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
@@ -80,6 +83,7 @@ public class CreateChange implements
   private final CommitValidators.Factory commitValidatorsFactory;
   private final ChangeInserter.Factory changeInserterFactory;
   private final ChangeJson json;
+  private final ChangeUtil changeUtil;
 
   @Inject
   CreateChange(Provider<ReviewDb> db,
@@ -89,7 +93,8 @@ public class CreateChange implements
       ProjectsCollection projectsCollection,
       CommitValidators.Factory commitValidatorsFactory,
       ChangeInserter.Factory changeInserterFactory,
-      ChangeJson json) {
+      ChangeJson json,
+      ChangeUtil changeUtil) {
     this.db = db;
     this.gitManager = gitManager;
     this.serverTimeZone = myIdent.getTimeZone();
@@ -98,13 +103,14 @@ public class CreateChange implements
     this.commitValidatorsFactory = commitValidatorsFactory;
     this.changeInserterFactory = changeInserterFactory;
     this.json = json;
+    this.changeUtil = changeUtil;
   }
 
   @Override
   public Response<ChangeJson.ChangeInfo> apply(TopLevelResource parent,
       ChangeInfo input) throws AuthException, OrmException,
       BadRequestException, UnprocessableEntityException, IOException,
-      InvalidChangeOperationException {
+      InvalidChangeOperationException, ResourceNotFoundException {
 
     if (Strings.isNullOrEmpty(input.project)) {
       throw new BadRequestException("project must be non-empty");
@@ -148,17 +154,33 @@ public class CreateChange implements
     try {
       RevWalk rw = new RevWalk(git);
       try {
-        Ref destRef = git.getRef(refName);
-        if (destRef == null) {
-          throw new UnprocessableEntityException(String.format(
-              "Branch %s does not exist.", refName));
+
+        ObjectId parentCommit;
+        if (input.baseChange != null) {
+          List<Change> changes = changeUtil.findChanges(input.baseChange);
+          if (changes.isEmpty()) {
+            throw new InvalidChangeOperationException(
+                "Change not found: " + input.baseChange);
+          }
+          Change change = Iterables.getOnlyElement(changes);
+          PatchSet ps = db.get().patchSets().get(
+              new PatchSet.Id(change.getId(),
+              change.currentPatchSetId().get()));
+          parentCommit = ObjectId.fromString(ps.getRevision().get());
+        } else {
+          Ref destRef = git.getRef(refName);
+          if (destRef == null) {
+            throw new UnprocessableEntityException(String.format(
+                "Branch %s does not exist.", refName));
+          }
+          parentCommit = destRef.getObjectId();
         }
+        RevCommit mergeTip = rw.parseCommit(parentCommit);
 
         Timestamp now = TimeUtil.nowTs();
         IdentifiedUser me = (IdentifiedUser) userProvider.get();
         PersonIdent author = me.newCommitterIdent(now, serverTimeZone);
 
-        RevCommit mergeTip = rw.parseCommit(destRef.getObjectId());
         ObjectId id = ChangeIdUtil.computeChangeId(mergeTip.getTree(),
             mergeTip, author, author, input.subject);
         String commitMessage = ChangeIdUtil.insertId(input.subject, id);
@@ -169,7 +191,7 @@ public class CreateChange implements
             getChangeId(id, c),
             new Change.Id(db.get().nextChangeId()),
             me.getAccountId(),
-            new Branch.NameKey(project, destRef.getName()),
+            new Branch.NameKey(project, refName),
             now);
 
         ChangeInserter ins =

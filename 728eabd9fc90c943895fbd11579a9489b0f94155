@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "30dae333_bf9c37e6",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1781,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-09-11T12:52:21Z",
+      "side": 1,
+      "message": "Done in\n  https://gerrit-review.googlesource.com/60024",
+      "parentUuid": "d065072b_5d534fa0",
+      "revId": "728eabd9fc90c943895fbd11579a9489b0f94155",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "30dae333_1fe8c35a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetDiff.java",
         "patchSetId": 3

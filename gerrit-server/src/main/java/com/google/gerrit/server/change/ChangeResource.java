@@ -26,6 +26,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.ProjectState;
+import com.google.gwtorm.server.OrmException;
 import com.google.inject.TypeLiteral;
 
 import org.eclipse.jgit.lib.ObjectId;
@@ -68,11 +69,24 @@ public class ChangeResource implements RestResource, HasETag {
           : 0);
 
     byte[] buf = new byte[20];
+    ObjectId noteId;
+    try {
+      noteId = getNotes().loadRevision();
+    } catch (OrmException e) {
+      noteId = null; // This ETag will be invalidated if it loads next time.
+    }
+    hashObjectId(h, noteId, buf);
+    // TODO(dborowitz): Include more notedb and other related refs, e.g. drafts
+    // and edits.
+
     for (ProjectState p : control.getProjectControl().getProjectState().tree()) {
-      ObjectId id = p.getConfig().getRevision();
-      MoreObjects.firstNonNull(id, ObjectId.zeroId()).copyRawTo(buf, 0);
-      h.putBytes(buf);
+      hashObjectId(h, p.getConfig().getRevision(), buf);
     }
     return h.hash().toString();
+  }
+
+  private void hashObjectId(Hasher h, ObjectId id, byte[] buf) {
+    MoreObjects.firstNonNull(id, ObjectId.zeroId()).copyRawTo(buf, 0);
+    h.putBytes(buf);
   }
 }

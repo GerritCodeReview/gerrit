@@ -1046,6 +1046,11 @@ patch diff is opened, this preference is reset to `Show`.
 +
 Controls whether the top menu is shown.
 
+- `Auto Hide Diff Table Header`:
++
+Controls whether the diff table header should be automatically hidden
+when scrolling down more than half of a page.
+
 [[mark-reviewed]]
 - `Mark Reviewed`:
 +

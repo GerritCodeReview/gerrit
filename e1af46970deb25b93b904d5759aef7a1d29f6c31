@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d065072b_fd933b03",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 15
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2014-09-11T12:53:54Z",
+      "side": 1,
+      "message": "These two lines is a bit strange:\n/full text search.\\n through:/",
+      "revId": "e1af46970deb25b93b904d5759aef7a1d29f6c31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_dd90fff9",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 15
+      },
+      "lineNbr": 3134,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2014-09-11T12:53:54Z",
+      "side": 1,
+      "message": "*too",
+      "revId": "e1af46970deb25b93b904d5759aef7a1d29f6c31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

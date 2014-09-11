@@ -57,6 +57,7 @@ public class ChangeEditJson {
       throws IOException {
     EditInfo out = new EditInfo();
     out.commit = fillCommit(edit.getEditCommit());
+    out.baseRevision = edit.getBasePatchSet().getRevision().get();
     out.actions = fillActions(edit);
     if (downloadCommands) {
       out.fetch = fillFetchMap(edit);

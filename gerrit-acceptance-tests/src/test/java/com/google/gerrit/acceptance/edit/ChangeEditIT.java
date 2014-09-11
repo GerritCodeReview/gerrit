@@ -393,43 +393,6 @@ public class ChangeEditIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void restoreDeletedFileInEdit() throws Exception {
-    assertEquals(RefUpdate.Result.NEW,
-        modifier.createEdit(
-            change,
-            ps));
-    Optional<ChangeEdit> edit = editUtil.byChange(change);
-    assertEquals(RefUpdate.Result.FORCED,
-        modifier.modifyFile(
-            edit.get(),
-            FILE_NAME,
-            CONTENT_NEW));
-    edit = editUtil.byChange(change);
-    assertArrayEquals(CONTENT_NEW,
-        toBytes(fileUtil.getContent(edit.get().getChange().getProject(),
-            edit.get().getRevision().get(), FILE_NAME)));
-    assertEquals(RefUpdate.Result.FORCED,
-        modifier.deleteFile(
-            edit.get(),
-            FILE_NAME));
-    edit = editUtil.byChange(change);
-    try {
-      fileUtil.getContent(edit.get().getChange().getProject(),
-          edit.get().getRevision().get(), FILE_NAME);
-      fail("ResourceNotFoundException expected");
-    } catch (ResourceNotFoundException rnfe) {
-    }
-    assertEquals(RefUpdate.Result.FORCED,
-        modifier.restoreFile(
-            edit.get(),
-            FILE_NAME));
-    edit = editUtil.byChange(change);
-    assertArrayEquals(CONTENT_OLD,
-        toBytes(fileUtil.getContent(edit.get().getChange().getProject(),
-            edit.get().getRevision().get(), FILE_NAME)));
-  }
-
-  @Test
   public void restoreDeletedFileInPatchSet() throws Exception {
     assertEquals(RefUpdate.Result.NEW,
         modifier.createEdit(

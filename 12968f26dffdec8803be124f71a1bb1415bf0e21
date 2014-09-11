@@ -22,6 +22,30 @@
       "revId": "12968f26dffdec8803be124f71a1bb1415bf0e21",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70d0db0f_4127d2d4",
+        "filename": "lib/jetty/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-11T09:20:24Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "d646df41_ccf46ff1",
+      "range": {
+        "startLine": 41,
+        "startChar": 0,
+        "endLine": 48,
+        "endChar": 1
+      },
+      "revId": "12968f26dffdec8803be124f71a1bb1415bf0e21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "d065072b_c8e31f3c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-09-11T14:28:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d065072b_bdad4322",
+      "range": {
+        "startLine": 7,
+        "startChar": 44,
+        "endLine": 7,
+        "endChar": 49
+      },
+      "revId": "6aa6ed92cd445f6fcfda285b064e5a58b80730eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d065072b_3de8135b",
         "filename": "/COMMIT_MSG",
         "patchSetId": 10
@@ -36,6 +60,30 @@
       "writtenOn": "2014-09-11T14:04:13Z",
       "side": 1,
       "message": "than",
+      "range": {
+        "startLine": 15,
+        "startChar": 41,
+        "endLine": 15,
+        "endChar": 45
+      },
+      "revId": "6aa6ed92cd445f6fcfda285b064e5a58b80730eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_a8e06330",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-09-11T14:28:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d065072b_3de8135b",
       "range": {
         "startLine": 15,
         "startChar": 41,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "d065072b_08eeb722",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-09-11T14:28:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d065072b_1ded576b",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 24
+      },
+      "revId": "6aa6ed92cd445f6fcfda285b064e5a58b80730eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "30dae333_df5bbb62",
         "filename": "/COMMIT_MSG",
         "patchSetId": 10
@@ -82,6 +154,30 @@
       "writtenOn": "2014-09-11T14:04:13Z",
       "side": 1,
       "message": "the",
+      "range": {
+        "startLine": 18,
+        "startChar": 12,
+        "endLine": 18,
+        "endChar": 16
+      },
+      "revId": "6aa6ed92cd445f6fcfda285b064e5a58b80730eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_e8ea5b0c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-09-11T14:28:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "30dae333_df5bbb62",
       "range": {
         "startLine": 18,
         "startChar": 12,
@@ -140,6 +236,54 @@
     },
     {
       "key": {
+        "uuid": "30dae333_c284c452",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-09-11T14:28:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "30dae333_ff587f68",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 4
+      },
+      "revId": "6aa6ed92cd445f6fcfda285b064e5a58b80730eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30dae333_e291c88d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-09-11T14:28:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d065072b_ddb47f6a",
+      "range": {
+        "startLine": 20,
+        "startChar": 57,
+        "endLine": 20,
+        "endChar": 59
+      },
+      "revId": "6aa6ed92cd445f6fcfda285b064e5a58b80730eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d065072b_3de3f36a",
         "filename": "/COMMIT_MSG",
         "patchSetId": 10
@@ -157,6 +301,24 @@
     },
     {
       "key": {
+        "uuid": "30dae333_a287c054",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-09-11T14:28:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d065072b_3de3f36a",
+      "revId": "6aa6ed92cd445f6fcfda285b064e5a58b80730eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d065072b_bd9f03da",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/BaseInit.java",
         "patchSetId": 10
@@ -168,6 +330,24 @@
       "writtenOn": "2014-09-11T14:04:13Z",
       "side": 1,
       "message": "like in a previous change, instead of binding to an empty string bind to null and make it explicit at the @Inject place that the parameter is @Nullable",
+      "revId": "6aa6ed92cd445f6fcfda285b064e5a58b80730eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_68df6b74",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/BaseInit.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-09-11T14:28:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d065072b_bd9f03da",
       "revId": "6aa6ed92cd445f6fcfda285b064e5a58b80730eb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -197,6 +377,30 @@
     },
     {
       "key": {
+        "uuid": "30dae333_227490a6",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/BaseInit.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-09-11T14:28:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "30dae333_22f9f0e5",
+      "range": {
+        "startLine": 213,
+        "startChar": 0,
+        "endLine": 216,
+        "endChar": 46
+      },
+      "revId": "6aa6ed92cd445f6fcfda285b064e5a58b80730eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d065072b_9d9cc7e6",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/BaseInit.java",
         "patchSetId": 10
@@ -208,6 +412,24 @@
       "writtenOn": "2014-09-11T14:04:13Z",
       "side": 1,
       "message": "return null here and use @Nullable at the @Inject point",
+      "revId": "6aa6ed92cd445f6fcfda285b064e5a58b80730eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30dae333_0236acf8",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/BaseInit.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-09-11T14:28:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d065072b_9d9cc7e6",
       "revId": "6aa6ed92cd445f6fcfda285b064e5a58b80730eb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -231,6 +453,24 @@
     },
     {
       "key": {
+        "uuid": "30dae333_8231dc0d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/BaseInit.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-09-11T14:28:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "30dae333_62f3f805",
+      "revId": "6aa6ed92cd445f6fcfda285b064e5a58b80730eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d065072b_1d7a77c9",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/BaseInit.java",
         "patchSetId": 10
@@ -242,6 +482,24 @@
       "writtenOn": "2014-09-11T14:04:13Z",
       "side": 1,
       "message": "why throw the InvalidPluginException at 263 then catch it here and convert into the InvalidSecureStoreExcepion?",
+      "revId": "6aa6ed92cd445f6fcfda285b064e5a58b80730eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_1d4c37aa",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/BaseInit.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-09-11T14:28:23Z",
+      "side": 1,
+      "message": "It is thrown by JarScanner constructor and findImplementationsOf method therefore should be cached here",
+      "parentUuid": "d065072b_1d7a77c9",
       "revId": "6aa6ed92cd445f6fcfda285b064e5a58b80730eb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -265,6 +523,24 @@
     },
     {
       "key": {
+        "uuid": "d065072b_7d41eb71",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/BaseInit.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-09-11T14:28:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d065072b_7d6f2b0b",
+      "revId": "6aa6ed92cd445f6fcfda285b064e5a58b80730eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d065072b_9d85e786",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/SecureStoreClassName.java",
         "patchSetId": 10
@@ -282,6 +558,24 @@
     },
     {
       "key": {
+        "uuid": "30dae333_021dcc7e",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/SecureStoreClassName.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-09-11T14:28:23Z",
+      "side": 1,
+      "message": "This is a bug of rename detector in jgit. Class SecureStoreException was removed by this patch and SecureStoreClassName was added. Because both are small and they don\u0027t differ much, rename detector marks it as rename. It should be to modifications, deletion of SecureStoreException and addition of SecureStoreClassName",
+      "parentUuid": "d065072b_9d85e786",
+      "revId": "6aa6ed92cd445f6fcfda285b064e5a58b80730eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d065072b_fd821b7a",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/SecureStoreJarPath.java",
         "patchSetId": 10
@@ -293,6 +587,24 @@
       "writtenOn": "2014-09-11T14:04:13Z",
       "side": 1,
       "message": "I think we don\u0027t change this on moving files",
+      "revId": "6aa6ed92cd445f6fcfda285b064e5a58b80730eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_bd3a63fc",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/SecureStoreJarPath.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-09-11T14:28:23Z",
+      "side": 1,
+      "message": "same as in previous file, error of rename detector",
+      "parentUuid": "d065072b_fd821b7a",
       "revId": "6aa6ed92cd445f6fcfda285b064e5a58b80730eb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -322,6 +634,30 @@
     },
     {
       "key": {
+        "uuid": "d065072b_dd311f21",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/SecureStoreLib.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-09-11T14:28:23Z",
+      "side": 1,
+      "message": "another error of rename detector",
+      "parentUuid": "d065072b_dd7f5fb2",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "6aa6ed92cd445f6fcfda285b064e5a58b80730eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d065072b_3d5e535b",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/SecureStoreLib.java",
         "patchSetId": 10
@@ -333,6 +669,24 @@
       "writtenOn": "2014-09-11T14:04:13Z",
       "side": 1,
       "message": "Is this used anywhere?",
+      "revId": "6aa6ed92cd445f6fcfda285b064e5a58b80730eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_fd34db12",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/SecureStoreLib.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-09-11T14:28:23Z",
+      "side": 1,
+      "message": "yes this is a leftover will remove it it next patch set",
+      "parentUuid": "d065072b_3d5e535b",
       "revId": "6aa6ed92cd445f6fcfda285b064e5a58b80730eb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -362,6 +716,30 @@
     },
     {
       "key": {
+        "uuid": "30dae333_824abc6b",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/util/SecureStoreClassNameProvider.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-09-11T14:28:23Z",
+      "side": 1,
+      "message": "removed",
+      "parentUuid": "d065072b_7d68cbf9",
+      "range": {
+        "startLine": 27,
+        "startChar": 13,
+        "endLine": 27,
+        "endChar": 41
+      },
+      "revId": "6aa6ed92cd445f6fcfda285b064e5a58b80730eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d065072b_5d6d0f08",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/InvalidSecureStoreException.java",
         "patchSetId": 10
@@ -373,6 +751,30 @@
       "writtenOn": "2014-09-11T14:04:13Z",
       "side": 1,
       "message": "2014",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "6aa6ed92cd445f6fcfda285b064e5a58b80730eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_28d57356",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/InvalidSecureStoreException.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-09-11T14:28:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d065072b_5d6d0f08",
       "range": {
         "startLine": 1,
         "startChar": 17,

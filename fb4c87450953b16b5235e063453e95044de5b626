@@ -22,6 +22,30 @@
       "revId": "fb4c87450953b16b5235e063453e95044de5b626",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_fdd05b8a",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/UsernameField.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-11T13:19:20Z",
+      "side": 1,
+      "message": "IIRC it worked when I tested it a few weeks ago.  I can verify it again though.",
+      "parentUuid": "30dae333_3f4ca7aa",
+      "range": {
+        "startLine": 130,
+        "startChar": 16,
+        "endLine": 130,
+        "endChar": 58
+      },
+      "revId": "fb4c87450953b16b5235e063453e95044de5b626",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

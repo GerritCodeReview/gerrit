@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "30dae333_c29f6480",
+        "filename": "Documentation/cmd-stream-events.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-11T15:43:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "30dae333_ff315f20",
+      "range": {
+        "startLine": 149,
+        "startChar": 8,
+        "endLine": 149,
+        "endChar": 23
+      },
+      "revId": "4f9ceac344271933d5978ac8b494a8a864b4f35d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "30dae333_22d01066",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 4
@@ -36,6 +60,30 @@
       "writtenOn": "2014-09-11T13:52:52Z",
       "side": 1,
       "message": "[optional] hashtagsChangedHook",
+      "range": {
+        "startLine": 1722,
+        "startChar": 8,
+        "endLine": 1722,
+        "endChar": 26
+      },
+      "revId": "4f9ceac344271933d5978ac8b494a8a864b4f35d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30dae333_e29c688e",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 1722,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-11T15:43:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "30dae333_22d01066",
       "range": {
         "startLine": 1722,
         "startChar": 8,
@@ -65,6 +113,24 @@
     },
     {
       "key": {
+        "uuid": "30dae333_029a2c8f",
+        "filename": "Documentation/config-hooks.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-11T15:43:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "30dae333_62da1886",
+      "revId": "4f9ceac344271933d5978ac8b494a8a864b4f35d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d065072b_3d8c93bb",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
         "patchSetId": 4
@@ -76,6 +142,30 @@
       "writtenOn": "2014-09-11T13:52:52Z",
       "side": 1,
       "message": "nit: remove \u0027final\u0027",
+      "range": {
+        "startLine": 619,
+        "startChar": 4,
+        "endLine": 623,
+        "endChar": 66
+      },
+      "revId": "4f9ceac344271933d5978ac8b494a8a864b4f35d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30dae333_82271ca2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 623,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-11T15:43:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d065072b_3d8c93bb",
       "range": {
         "startLine": 619,
         "startChar": 4,
@@ -111,6 +201,30 @@
     },
     {
       "key": {
+        "uuid": "d065072b_e8353bed",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteHashtags.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-11T15:43:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d065072b_7d960bcb",
+      "range": {
+        "startLine": 75,
+        "startChar": 46,
+        "endLine": 75,
+        "endChar": 52
+      },
+      "revId": "4f9ceac344271933d5978ac8b494a8a864b4f35d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "30dae333_e2ed4827",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteHashtags.java",
         "patchSetId": 4
@@ -122,6 +236,30 @@
       "writtenOn": "2014-09-11T13:52:52Z",
       "side": 1,
       "message": "same here",
+      "range": {
+        "startLine": 76,
+        "startChar": 38,
+        "endLine": 76,
+        "endChar": 44
+      },
+      "revId": "4f9ceac344271933d5978ac8b494a8a864b4f35d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_083997e7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteHashtags.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-11T15:43:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "30dae333_e2ed4827",
       "range": {
         "startLine": 76,
         "startChar": 38,
@@ -157,6 +295,30 @@
     },
     {
       "key": {
+        "uuid": "30dae333_8240fc1e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteHashtags.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-11T15:43:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "30dae333_82f8fcdf",
+      "range": {
+        "startLine": 82,
+        "startChar": 6,
+        "endLine": 86,
+        "endChar": 7
+      },
+      "revId": "4f9ceac344271933d5978ac8b494a8a864b4f35d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d065072b_5d9b4fef",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutHashtags.java",
         "patchSetId": 4
@@ -180,6 +342,30 @@
     },
     {
       "key": {
+        "uuid": "d065072b_08923791",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutHashtags.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-11T15:43:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d065072b_5d9b4fef",
+      "range": {
+        "startLine": 77,
+        "startChar": 4,
+        "endLine": 78,
+        "endChar": 46
+      },
+      "revId": "4f9ceac344271933d5978ac8b494a8a864b4f35d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "30dae333_42fef4ce",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutHashtags.java",
         "patchSetId": 4
@@ -191,6 +377,30 @@
       "writtenOn": "2014-09-11T13:52:52Z",
       "side": 1,
       "message": "could this be simplified by using the retainAll method on Set?\n\nsomething like\n\n  toAdd.retainAll(existingHashtags)\n\n?",
+      "range": {
+        "startLine": 86,
+        "startChar": 6,
+        "endLine": 90,
+        "endChar": 7
+      },
+      "revId": "4f9ceac344271933d5978ac8b494a8a864b4f35d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_c8879f54",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutHashtags.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-11T15:43:59Z",
+      "side": 1,
+      "message": "This will do the opposite of what we want.  We want to keep the ones that don\u0027t exist, but this will keep the ones that do exist.",
+      "parentUuid": "30dae333_42fef4ce",
       "range": {
         "startLine": 86,
         "startChar": 6,

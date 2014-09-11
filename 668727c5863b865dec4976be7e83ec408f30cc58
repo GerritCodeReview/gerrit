@@ -16,6 +16,24 @@
       "revId": "668727c5863b865dec4976be7e83ec408f30cc58",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_dd1c7f85",
+        "filename": "tools/util.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-11T07:58:34Z",
+      "side": 0,
+      "message": "Actually it was big exception to switch to Atlassian Maven repository. The normal approach is always to use Maven Central or build it ourself and deploy on Google storage bucket. The reason why it didn\u0027t work this time is vacation: all Googlers were absent, so we just used the build provided by Atlassian. I don\u0027t think we need it ever again.",
+      "parentUuid": "d065072b_9d120771",
+      "revId": "668727c5863b865dec4976be7e83ec408f30cc58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

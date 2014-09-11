@@ -18,6 +18,7 @@ import java.util.Map;
 
 public class EditInfo {
   public CommitInfo commit;
+  public String parentRevision;
   public Map<String, ActionInfo> actions;
   public Map<String, FetchInfo> fetch;
   public Map<String, FileInfo> files;

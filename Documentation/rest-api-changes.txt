@@ -3831,14 +3831,15 @@ The `EditInfo` entity contains information about a change edit.
 
 [options="header",width="50%",cols="1,^1,5"]
 |===========================
-|Field Name    ||Description
-|`commit`      ||The commit of change edit as
+|Field Name      ||Description
+|`commit`        ||The commit of change edit as
 link:#commit-info[CommitInfo] entity.
-|`actions`     ||
+|`parentRevision`||The revision of the patch set change edit i based on.
+|`actions`       ||
 Actions the caller might be able to perform on this change edit. The
 information is a map of view name to link:#action-info[ActionInfo]
 entities.
-|`fetch`       ||
+|`fetch`         ||
 Information about how to fetch this patch set. The fetch information is
 provided as a map that maps the protocol name ("`git`", "`http`",
 "`ssh`") to link:#fetch-info[FetchInfo] entities.

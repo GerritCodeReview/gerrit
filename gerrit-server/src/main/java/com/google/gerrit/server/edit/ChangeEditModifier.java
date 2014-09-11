@@ -15,6 +15,7 @@
 package com.google.gerrit.server.edit;
 
 import static com.google.gerrit.server.edit.ChangeEditUtil.editRefName;
+import static com.google.gerrit.server.edit.ChangeEditUtil.editRefPrefix;
 
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -44,6 +45,7 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.merge.MergeStrategy;
@@ -53,6 +55,7 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.TreeWalk;
 
 import java.io.IOException;
+import java.util.Map;
 import java.util.TimeZone;
 
 /**
@@ -104,10 +107,11 @@ public class ChangeEditModifier {
 
     IdentifiedUser me = (IdentifiedUser) currentUser.get();
     Repository repo = gitManager.openRepository(change.getProject());
-    String refName = editRefName(me.getAccountId(), change.getId());
+    String refPrefix = editRefPrefix(me.getAccountId(), change.getId());
 
     try {
-      if (repo.getRefDatabase().getRef(refName) != null) {
+      Map<String, Ref> refs = repo.getRefDatabase().getRefs(refPrefix);
+      if (!refs.isEmpty()) {
         throw new ResourceConflictException("edit already exists");
       }
 
@@ -116,9 +120,12 @@ public class ChangeEditModifier {
       try {
         RevCommit base = rw.parseCommit(ObjectId.fromString(
             ps.getRevision().get()));
-        ObjectId commit = createCommit(me, inserter, base, base, base.getTree());
+        RevCommit changeBase = base.getParent(0);
+        ObjectId commit = createCommit(me, inserter, base, changeBase, base.getTree());
         inserter.flush();
-        return update(repo, me, refName, rw, ObjectId.zeroId(), commit);
+        String editRefName = editRefName(me.getAccountId(), change.getId(),
+            ps.getId());
+        return update(repo, me, editRefName, rw, ObjectId.zeroId(), commit);
       } finally {
         rw.release();
         inserter.release();
@@ -145,7 +152,8 @@ public class ChangeEditModifier {
 
     Change change = edit.getChange();
     IdentifiedUser me = (IdentifiedUser) currentUser.get();
-    String refName = editRefName(me.getAccountId(), change.getId());
+    String refName = editRefName(me.getAccountId(), change.getId(),
+        current.getId());
     Repository repo = gitManager.openRepository(change.getProject());
     try {
       RevWalk rw = new RevWalk(repo);
@@ -156,24 +164,40 @@ public class ChangeEditModifier {
           throw new InvalidChangeOperationException(
               "Rebase edit against root commit not implemented");
         }
-        RevCommit mergeTip = rw.parseCommit(ObjectId.fromString(
+        RevCommit tip = rw.parseCommit(ObjectId.fromString(
             current.getRevision().get()));
         ThreeWayMerger m = MergeStrategy.RESOLVE.newMerger(repo, true);
         m.setObjectInserter(inserter);
-        m.setBase(editCommit.getParent(0));
-        if (m.merge(mergeTip, editCommit)) {
+        m.setBase(ObjectId.fromString(
+            edit.getBasePatchSet().getRevision().get()));
+
+        if (m.merge(tip, editCommit)) {
           ObjectId tree = m.getResultTreeId();
 
-          CommitBuilder mergeCommit = new CommitBuilder();
-          mergeCommit.setTreeId(tree);
-          mergeCommit.setParentId(mergeTip);
-          mergeCommit.setAuthor(editCommit.getAuthorIdent());
-          mergeCommit.setCommitter(new PersonIdent(
+          CommitBuilder commit = new CommitBuilder();
+          commit.setTreeId(tree);
+          for (int i = 0; i < tip.getParentCount(); i++) {
+            commit.addParentId(tip.getParent(i));
+          }
+          commit.setParentId(tip);
+          commit.setAuthor(editCommit.getAuthorIdent());
+          commit.setCommitter(new PersonIdent(
               editCommit.getCommitterIdent(), TimeUtil.nowTs()));
-          mergeCommit.setMessage(editCommit.getFullMessage());
-          ObjectId newEdit = inserter.insert(mergeCommit);
+          commit.setMessage(editCommit.getFullMessage());
+          ObjectId newEdit = inserter.insert(commit);
           inserter.flush();
-          return update(repo, me, refName, rw, editCommit, newEdit);
+          RefUpdate.Result res = update(repo, me, refName, rw,
+              ObjectId.zeroId(), newEdit);
+          switch (res) {
+            case FORCED:
+            case NEW:
+            case NO_CHANGE:
+              deleteRef(repo, edit);
+              return res;
+            default:
+              throw new IOException(String.format("Failed to delete ref %s: %s",
+                  refName, res));
+          }
         } else {
           // TODO(davido): Allow to resolve conflicts inline
           throw new InvalidChangeOperationException("merge conflict");
@@ -236,6 +260,24 @@ public class ChangeEditModifier {
     return modify(TreeOperation.RESTORE_ENTRY, edit, file, null);
   }
 
+  static void deleteRef(Repository repo, ChangeEdit edit)
+      throws IOException {
+    String refName = edit.getRefName();
+    RefUpdate ru = repo.updateRef(refName, true);
+    ru.setExpectedOldObjectId(edit.getRef().getObjectId());
+    ru.setForceUpdate(true);
+    RefUpdate.Result result = ru.delete();
+    switch (result) {
+      case FORCED:
+      case NEW:
+      case NO_CHANGE:
+        break;
+      default:
+        throw new IOException(String.format("Failed to delete ref %s: %s",
+            refName, result));
+    }
+  }
+
   private RefUpdate.Result modify(TreeOperation op,
       ChangeEdit edit, String file, byte[] content)
       throws AuthException, IOException, InvalidChangeOperationException {
@@ -250,11 +292,10 @@ public class ChangeEditModifier {
       ObjectReader reader = repo.newObjectReader();
       try {
         String refName = edit.getRefName();
-        RevCommit prevEdit = rw.parseCommit(edit.getRef().getObjectId());
-        PatchSet basePs = edit.getBasePatchSet();
+        RevCommit prevEdit = edit.getEditCommit();
+        RevCommit base = prevEdit.getParent(0);
+        base = rw.parseCommit(base);
 
-        RevCommit base = rw.parseCommit(ObjectId.fromString(
-            basePs.getRevision().get()));
         if (base.getParentCount() == 0) {
           throw new InvalidChangeOperationException(
               "Modify edit against root commit not implemented");

@@ -41,13 +41,13 @@ import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.Ref;
-import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Utility functions to manipulate change edits.
@@ -93,15 +93,16 @@ public class ChangeEditUtil {
     Repository repo = gitManager.openRepository(change.getProject());
     try {
       IdentifiedUser me = (IdentifiedUser) user.get();
-      Ref ref = repo.getRefDatabase().getRef(editRefName(
-          me.getAccountId(), change.getId()));
-      if (ref == null) {
+      String editRefPrefix = editRefPrefix(me.getAccountId(), change.getId());
+      Map<String, Ref> refs = repo.getRefDatabase().getRefs(editRefPrefix);
+      if (refs.isEmpty()) {
         return Optional.absent();
       }
+      Ref ref = Iterables.getOnlyElement(refs.values());
       RevWalk rw = new RevWalk(repo);
       try {
         RevCommit commit = rw.parseCommit(ref.getObjectId());
-        PatchSet basePs = getBasePatchSet(change, commit);
+        PatchSet basePs = getBasePatchSet(change, ref);
         return Optional.of(new ChangeEdit(me, change, ref, commit, basePs));
       } finally {
         rw.release();
@@ -148,7 +149,7 @@ public class ChangeEditUtil {
       }
 
       // TODO(davido): This should happen in the same BatchRefUpdate.
-      deleteRef(repo, edit);
+      ChangeEditModifier.deleteRef(repo, edit);
     } finally {
       repo.close();
     }
@@ -165,42 +166,19 @@ public class ChangeEditUtil {
     Change change = edit.getChange();
     Repository repo = gitManager.openRepository(change.getProject());
     try {
-      deleteRef(repo, edit);
+      ChangeEditModifier.deleteRef(repo, edit);
     } finally {
       repo.close();
     }
   }
 
-  private PatchSet getBasePatchSet(Change change, RevCommit commit)
+  private PatchSet getBasePatchSet(Change change, Ref ref)
       throws IOException, InvalidChangeOperationException {
-    if (commit.getParentCount() != 1) {
-      throw new InvalidChangeOperationException(
-          "change edit commit has multiple parents");
-    }
-    RevCommit parentCommit = commit.getParent(0);
-    ObjectId rev = parentCommit.getId();
-    RevId parentRev = new RevId(ObjectId.toString(rev));
     try {
-      List<PatchSet> r = db.get().patchSets().byRevision(parentRev).toList();
-      if (r.isEmpty()) {
-        throw new InvalidChangeOperationException(String.format(
-            "patch set %s change edit is based on doesn't exist",
-            rev.abbreviate(8).name()));
-      }
-      if (r.size() > 1) {
-        throw new InvalidChangeOperationException(String.format(
-            "multiple patch sets for change edit parent %s",
-            rev.abbreviate(8).name()));
-      }
-      PatchSet parentPatchSet = Iterables.getOnlyElement(r);
-      if (!change.getId().equals(
-              parentPatchSet.getId().getParentKey())) {
-        throw new InvalidChangeOperationException(String.format(
-            "different change edit ID %d and its parent patch set %d",
-            change.getId().get(),
-            parentPatchSet.getId().getParentKey().get()));
-      }
-      return parentPatchSet;
+      int pos = ref.getName().lastIndexOf("/");
+      String psId = ref.getName().substring(++pos);
+      return db.get().patchSets().get(new PatchSet.Id(
+          change.getId(), Integer.valueOf(psId)));
     } catch (OrmException e) {
       throw new IOException(e);
     }
@@ -208,14 +186,31 @@ public class ChangeEditUtil {
 
   /**
    * Returns reference for this change edit with sharded user and change number:
-   * refs/users/UU/UUUU/edit-CCCC.
+   * refs/users/UU/UUUU/edit-CCCC/P.
+   *
+   * @param accountId accout id
+   * @param changeId change number
+   * @param psId patch set number
+   * @return reference for this change edit
+   */
+  static String editRefName(Account.Id accountId, Change.Id changeId,
+      PatchSet.Id psId) {
+    return String.format("%s/edit-%d/%d",
+        RefNames.refsUsers(accountId),
+        changeId.get(),
+        psId.get());
+  }
+
+  /**
+   * Returns reference prefix for this change edit with sharded user and
+   * change number: refs/users/UU/UUUU/edit-CCCC/P.
    *
    * @param accountId accout id
    * @param changeId change number
    * @return reference for this change edit
    */
-  static String editRefName(Account.Id accountId, Change.Id changeId) {
-    return String.format("%s/edit-%d",
+  static String editRefPrefix(Account.Id accountId, Change.Id changeId) {
+    return String.format("%s/edit-%d/",
         RefNames.refsUsers(accountId),
         changeId.get());
   }
@@ -251,24 +246,6 @@ public class ChangeEditUtil {
                 ps.getPatchSetId(),
                 basePatchSet.getPatchSetId()))
         .insert();
-  }
-
-  private static void deleteRef(Repository repo, ChangeEdit edit)
-      throws IOException {
-    String refName = edit.getRefName();
-    RefUpdate ru = repo.updateRef(refName, true);
-    ru.setExpectedOldObjectId(edit.getRef().getObjectId());
-    ru.setForceUpdate(true);
-    RefUpdate.Result result = ru.delete();
-    switch (result) {
-      case FORCED:
-      case NEW:
-      case NO_CHANGE:
-        break;
-      default:
-        throw new IOException(String.format("Failed to delete ref %s: %s",
-            refName, result));
-    }
   }
 
   private static RevCommit writeSquashedCommit(RevWalk rw,

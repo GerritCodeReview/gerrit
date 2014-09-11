@@ -91,6 +91,24 @@
     },
     {
       "key": {
+        "uuid": "d065072b_dd675fed",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeMessages.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-09-11T08:27:41Z",
+      "side": 1,
+      "message": "what about:\n\n1. edit-\u003e{0}\n2. edit\u003d\u003e{0}\n3. edit\u003e{0}",
+      "parentUuid": "d065072b_bd70a3a7",
+      "revId": "9a5d777410ee479710ae5a8b0e99177052fa7b0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d065072b_3d7493a6",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeInfo.java",
         "patchSetId": 2

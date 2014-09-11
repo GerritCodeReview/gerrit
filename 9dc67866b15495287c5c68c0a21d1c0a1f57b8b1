@@ -59,6 +59,23 @@
     },
     {
       "key": {
+        "uuid": "30dae333_df081bbc",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/FileTextBox.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-11T10:26:16Z",
+      "side": 1,
+      "message": "Unnecessary",
+      "revId": "9dc67866b15495287c5c68c0a21d1c0a1f57b8b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "30dae333_5f15ebd3",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeFileApi.java",
         "patchSetId": 3
@@ -70,6 +87,40 @@
       "writtenOn": "2014-09-11T10:25:34Z",
       "side": 1,
       "message": "Unrelated changes.",
+      "revId": "9dc67866b15495287c5c68c0a21d1c0a1f57b8b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_5d76af55",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeFileApi.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-11T10:26:16Z",
+      "side": 1,
+      "message": "Unnecessary",
+      "revId": "9dc67866b15495287c5c68c0a21d1c0a1f57b8b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_7d71eb5b",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeFileApi.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-11T10:26:16Z",
+      "side": 1,
+      "message": "Unnecessary",
       "revId": "9dc67866b15495287c5c68c0a21d1c0a1f57b8b1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -34,6 +34,24 @@
       "revId": "f25e1a7e65690a5bff43df8ac119070671ba5495",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30dae333_7faf0f6a",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeFileApi.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-11T09:54:44Z",
+      "side": 1,
+      "message": "Literally the only place the value of editExists is checked is in contentOrEditPs below. Why would you still need to pass that boolean method into callers if it\u0027s not checked in the callers?",
+      "parentUuid": "d065072b_fdd97b2c",
+      "revId": "f25e1a7e65690a5bff43df8ac119070671ba5495",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

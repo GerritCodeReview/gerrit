@@ -332,7 +332,7 @@ public class FileTable extends FlowPanel {
             @Override
             public void onSuccess(String result) {
               EditFileAction edit = new EditFileAction(
-                  id, result, path, style, editButton, replyButton);
+                  id, result, path, style.replyBox(), editButton, replyButton);
               edit.onEdit();
             }
           });

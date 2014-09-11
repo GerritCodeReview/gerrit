@@ -48,6 +48,7 @@ public class SetDiffPreferences implements RestModifyView<AccountResource, Input
     Boolean skipUncommented;
     Boolean syntaxHighlighting;
     Boolean hideTopMenu;
+    Boolean autoHideDiffTableHeader;
     Boolean hideLineNumbers;
     Boolean renderEntireFile;
     Integer tabSize;
@@ -126,6 +127,9 @@ public class SetDiffPreferences implements RestModifyView<AccountResource, Input
       }
       if (input.hideTopMenu != null) {
         p.setHideTopMenu(input.hideTopMenu);
+      }
+      if (input.autoHideDiffTableHeader != null) {
+        p.setAutoHideDiffTableHeader(input.autoHideDiffTableHeader);
       }
       if (input.hideLineNumbers != null) {
         p.setHideLineNumbers(input.hideLineNumbers);

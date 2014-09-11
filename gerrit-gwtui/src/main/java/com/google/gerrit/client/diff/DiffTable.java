@@ -80,6 +80,7 @@ class DiffTable extends Composite {
   private SideBySide2 parent;
   private boolean header;
   private boolean headerVisible;
+  private boolean autoHideHeader;
   private boolean visibleA;
   private ChangeType changeType;
 
@@ -134,7 +135,11 @@ class DiffTable extends Composite {
   }
 
   void setHeaderVisible(boolean show) {
-    headerVisible = show;
+    headerVisible = !autoHideHeader || show;
+    showHeader(headerVisible);
+  }
+
+  private void showHeader(boolean show) {
     UIObject.setVisible(patchSetNavRow, show);
     UIObject.setVisible(diffHeaderRow, show && header);
     if (show) {
@@ -143,6 +148,13 @@ class DiffTable extends Composite {
       parent.header.addStyleName(style.fullscreen());
     }
     parent.resizeCodeMirror();
+  }
+
+  void setAutoHideDiffHeader(boolean hide) {
+    autoHideHeader = hide;
+    if (!hide) {
+      showHeader(true);
+    }
   }
 
   int getHeaderHeight() {
@@ -159,6 +171,7 @@ class DiffTable extends Composite {
 
   void set(DiffPreferences prefs, JsArray<RevisionInfo> list, DiffInfo info) {
     this.changeType = info.change_type();
+    this.autoHideHeader = prefs.autoHideDiffTableHeader();
     patchSetSelectBoxA.setUpPatchSetNav(list, info.meta_a(),
         Natives.asList(info.web_links_a()));
     patchSetSelectBoxB.setUpPatchSetNav(list, info.meta_b(),

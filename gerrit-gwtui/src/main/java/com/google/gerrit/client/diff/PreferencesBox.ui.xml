@@ -250,6 +250,13 @@ limitations under the License.
         </g:ToggleButton></td>
       </tr>
       <tr>
+        <th><ui:msg>Auto Hide Diff Table Header</ui:msg></th>
+        <td><g:ToggleButton ui:field='autoHideDiffTableHeader'>
+          <g:upFace><ui:msg>Yes</ui:msg></g:upFace>
+          <g:downFace><ui:msg>No</ui:msg></g:downFace>
+        </g:ToggleButton></td>
+      </tr>
+      <tr>
         <th><ui:msg>Mark Reviewed</ui:msg></th>
         <td><g:ToggleButton ui:field='manualReview'>
           <g:upFace><ui:msg>Automatic</ui:msg></g:upFace>

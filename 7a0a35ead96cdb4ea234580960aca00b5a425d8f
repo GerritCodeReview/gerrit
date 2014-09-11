@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "30dae333_629f7855",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-11T21:17:54Z",
+      "side": 1,
+      "message": "Right, and we don\u0027t care.",
+      "revId": "7a0a35ead96cdb4ea234580960aca00b5a425d8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_883be7b3",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/CommitBox.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-11T21:17:54Z",
+      "side": 1,
+      "message": "Nit: Wrap this line.",
+      "revId": "7a0a35ead96cdb4ea234580960aca00b5a425d8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,130 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "30dae333_5fa08b4a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-11T11:05:15Z",
+      "side": 1,
+      "message": "rename to \"newChangeForAllNotInTarget\"",
+      "revId": "4d7a8d3efda9a39b63a6d11a73640bb2e7af6e2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_7dfc4b4c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 1310,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-11T11:05:15Z",
+      "side": 1,
+      "message": "the same should be done also if the magicBranch.base !\u003d null",
+      "range": {
+        "startLine": 1308,
+        "startChar": 0,
+        "endLine": 1310,
+        "endChar": 5
+      },
+      "revId": "4d7a8d3efda9a39b63a6d11a73640bb2e7af6e2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30dae333_7fa54f59",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 1480,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-11T11:05:15Z",
+      "side": 1,
+      "message": "remove this empty line",
+      "revId": "4d7a8d3efda9a39b63a6d11a73640bb2e7af6e2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_5d018fa0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 1494,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-11T11:05:15Z",
+      "side": 1,
+      "message": "it shouldn\u0027t be necessary to consider these two conditions here again as useAllNotInTarget \u003d\u003d true implies magicBranch.base \u003d\u003d null",
+      "range": {
+        "startLine": 1494,
+        "startChar": 12,
+        "endLine": 1494,
+        "endChar": 57
+      },
+      "revId": "4d7a8d3efda9a39b63a6d11a73640bb2e7af6e2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30dae333_3f9bc722",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/CreateProjectCommand.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-11T11:05:15Z",
+      "side": 1,
+      "message": "I would rename it to \"--new-changes-for-all-not-in-target\". This name is long but one can at least guess what it means.",
+      "range": {
+        "startLine": 90,
+        "startChar": 18,
+        "endLine": 90,
+        "endChar": 37
+      },
+      "revId": "4d7a8d3efda9a39b63a6d11a73640bb2e7af6e2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_1df7176c",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/CreateProjectCommand.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-11T11:05:15Z",
+      "side": 1,
+      "message": "This is a duplicate. copy/paste mistake?",
+      "range": {
+        "startLine": 113,
+        "startChar": 0,
+        "endLine": 115,
+        "endChar": 48
+      },
+      "revId": "4d7a8d3efda9a39b63a6d11a73640bb2e7af6e2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

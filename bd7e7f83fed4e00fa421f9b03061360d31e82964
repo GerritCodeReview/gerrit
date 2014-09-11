@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "30dae333_bfd35795",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/VisibleRefFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-11T12:32:45Z",
+      "side": 1,
+      "message": "I am a little ambivalent about this. Code review metadata is not quite the same thing as the code itself.\n\nBut the point of using this capability was to allow people to see other users\u0027 refs. Maybe we should use canViewMetadata to bypass the account check on edit refs, but still respect change visibility on edit refs (as well as change refs)? It\u0027s still possible to grant view on refs/*, so admins still have a way out.\n\nI might be overthinking it, though. Maybe it\u0027s just ok to give anybody with accessDatabase access to the code.",
+      "revId": "bd7e7f83fed4e00fa421f9b03061360d31e82964",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

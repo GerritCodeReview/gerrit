@@ -22,6 +22,126 @@
       "revId": "e2d7166c9b0fbb7528505b3b769a168ddc0917c0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30dae333_ff1b1fd1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEdit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-11T12:13:42Z",
+      "side": 1,
+      "message": "This was a joke, you changed it back to /",
+      "range": {
+        "startLine": 32,
+        "startChar": 31,
+        "endLine": 32,
+        "endChar": 32
+      },
+      "revId": "e2d7166c9b0fbb7528505b3b769a168ddc0917c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_fd3a1b4b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-11T12:13:42Z",
+      "side": 1,
+      "message": "I think this should no longer be called \"mergeTip\" just as you changed \"mergeCommit\" below.",
+      "range": {
+        "startLine": 165,
+        "startChar": 18,
+        "endLine": 165,
+        "endChar": 26
+      },
+      "revId": "e2d7166c9b0fbb7528505b3b769a168ddc0917c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30dae333_9fadb322",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-11T12:13:42Z",
+      "side": 1,
+      "message": "Previously, editCommit.getParent(0) was the commit SHA-1 of the patch set the edit was based on.\n\nNow, editCommit.getParent(0) is the commit SHA-1 of the base of the change.\n\nTo keep the merge behavior the same as the old behavior, we want to set this to the commit SHA-1 of the patch set the edit was based on, which I believe is ObjectId.fromString(edit.getBasePatchSet().getRevision())",
+      "revId": "e2d7166c9b0fbb7528505b3b769a168ddc0917c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_dd375f63",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-11T12:13:42Z",
+      "side": 1,
+      "message": "This should happen along with the ref creation in a single BatchRefUpdate",
+      "revId": "e2d7166c9b0fbb7528505b3b769a168ddc0917c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30dae333_dfb73b6c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-11T12:13:42Z",
+      "side": 1,
+      "message": "This is the wrong message. (Will probably be obsolete if we use BatchRefUpdate).",
+      "range": {
+        "startLine": 194,
+        "startChar": 61,
+        "endLine": 194,
+        "endChar": 71
+      },
+      "revId": "e2d7166c9b0fbb7528505b3b769a168ddc0917c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30dae333_3fe82742",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-11T12:13:42Z",
+      "side": 1,
+      "message": "Rather than failing when we encounter the corrupt state where there is more than one ref, how about silently deleting all but the current one in this case?",
+      "revId": "e2d7166c9b0fbb7528505b3b769a168ddc0917c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

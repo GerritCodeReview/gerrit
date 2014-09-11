@@ -124,6 +124,10 @@ public class SearchSuggestOracle extends HighlightSuggestOracle {
     suggestions.add("delta:");
     suggestions.add("size:");
 
+    if (Gerrit.isNoteDbEnabled()) {
+      suggestions.add("hashtag:");
+    }
+
     suggestions.add("AND");
     suggestions.add("OR");
     suggestions.add("NOT");

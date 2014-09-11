@@ -29,7 +29,6 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountProjectWatch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.client.Project.NameKey;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.rules.PrologEnvironment;
 import com.google.gerrit.rules.RulesCache;
@@ -243,12 +242,13 @@ public class Util {
       }
 
       @Override
-      public ProjectState checkedGet(NameKey projectName) throws IOException {
+      public ProjectState checkedGet(Project.NameKey projectName)
+          throws IOException {
         return all.get(projectName);
       }
 
       @Override
-      public void evict(NameKey p) {
+      public void evict(Project.NameKey p) {
       }
     };
 

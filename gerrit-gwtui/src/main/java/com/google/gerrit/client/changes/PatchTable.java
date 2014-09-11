@@ -25,7 +25,6 @@ import com.google.gerrit.common.data.PatchSetDetail;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DiffView;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.Patch.ChangeType;
-import com.google.gerrit.reviewdb.client.Patch.Key;
 import com.google.gerrit.reviewdb.client.Patch.PatchType;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.Scheduler;
@@ -103,7 +102,7 @@ public class PatchTable extends Composite {
     return i != null ? i : -1;
   }
 
-  private Map<Key, Integer> patchMap() {
+  private Map<Patch.Key, Integer> patchMap() {
     if (patchMap == null) {
       patchMap = new HashMap<>();
       for (int i = 0; i < patchList.size(); i++) {
@@ -247,7 +246,7 @@ public class PatchTable extends Composite {
       SafeHtml before, SafeHtml after) {
     Patch patch = patchList.get(index);
 
-    Key thisKey = patch.getKey();
+    Patch.Key thisKey = patch.getKey();
     PatchLink link;
 
     if (isUnifiedPatchLink(patch, screenType)) {

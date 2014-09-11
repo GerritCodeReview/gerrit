@@ -18,7 +18,6 @@ import com.google.common.util.concurrent.Atomics;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.annotations.PluginName;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.client.Project.NameKey;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.RequestCleanup;
@@ -475,7 +474,7 @@ public abstract class BaseCommand implements Command {
     }
 
     @Override
-    public NameKey getProjectNameKey() {
+    public Project.NameKey getProjectNameKey() {
       return projectName;
     }
 

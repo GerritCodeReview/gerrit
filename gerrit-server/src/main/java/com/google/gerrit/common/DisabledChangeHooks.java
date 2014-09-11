@@ -18,7 +18,6 @@ import com.google.gerrit.common.ChangeHookRunner.HookResult;
 import com.google.gerrit.common.data.ContributorAgreement;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
-import com.google.gerrit.reviewdb.client.Branch.NameKey;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
@@ -78,13 +77,13 @@ public final class DisabledChangeHooks implements ChangeHooks {
   }
 
   @Override
-  public void doRefUpdatedHook(NameKey refName, RefUpdate refUpdate,
+  public void doRefUpdatedHook(Branch.NameKey refName, RefUpdate refUpdate,
       Account account) {
   }
 
   @Override
-  public void doRefUpdatedHook(NameKey refName, ObjectId oldId, ObjectId newId,
-      Account account) {
+  public void doRefUpdatedHook(Branch.NameKey refName, ObjectId oldId,
+      ObjectId newId, Account account) {
   }
 
   @Override

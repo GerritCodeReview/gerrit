@@ -34,7 +34,6 @@ import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.Patch.ChangeType;
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.reviewdb.client.PatchSet.Id;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.core.client.JsArrayString;
@@ -200,7 +199,7 @@ public class FileTable extends FlowPanel {
     R.css().ensureInjected();
   }
 
-  public void set(Id base, Id curr, ChangeScreen2.Style style,
+  public void set(PatchSet.Id base, PatchSet.Id curr, ChangeScreen2.Style style,
       Widget editButton, Widget replyButton) {
     this.base = base;
     this.curr = curr;

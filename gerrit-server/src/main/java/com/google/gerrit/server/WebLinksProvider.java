@@ -17,6 +17,7 @@ package com.google.gerrit.server;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.webui.BranchWebLink;
 import com.google.gerrit.extensions.webui.PatchSetWebLink;
+import com.google.gerrit.extensions.webui.PatchWebLink;
 import com.google.gerrit.extensions.webui.ProjectWebLink;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -24,21 +25,23 @@ import com.google.inject.Provider;
 public class WebLinksProvider implements Provider<WebLinks> {
 
   private final DynamicSet<PatchSetWebLink> patchSetLinks;
+  private final DynamicSet<PatchWebLink> patchLinks;
   private final DynamicSet<ProjectWebLink> projectLinks;
   private final DynamicSet<BranchWebLink> branchLinks;
 
   @Inject
   public WebLinksProvider(DynamicSet<PatchSetWebLink> patchSetLinks,
+      DynamicSet<PatchWebLink> patchLinks,
       DynamicSet<ProjectWebLink> projectLinks,
       DynamicSet<BranchWebLink> branchLinks) {
     this.patchSetLinks = patchSetLinks;
+    this.patchLinks = patchLinks;
     this.projectLinks = projectLinks;
     this.branchLinks = branchLinks;
   }
 
   @Override
   public WebLinks get() {
-    WebLinks webLinks = new WebLinks(patchSetLinks, projectLinks, branchLinks);
-    return webLinks;
+    return new WebLinks(patchSetLinks, patchLinks, projectLinks, branchLinks);
   }
 }

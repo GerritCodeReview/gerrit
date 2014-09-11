@@ -16,6 +16,7 @@ package com.google.gerrit.client.diff;
 
 import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.WebLinkInfo;
 import com.google.gerrit.client.changes.ChangeInfo.RevisionInfo;
 import com.google.gerrit.client.patches.PatchUtil;
 import com.google.gerrit.client.ui.InlineHyperlink;
@@ -35,6 +36,8 @@ import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.ImageResourceRenderer;
 import com.google.gwtorm.client.KeyUtil;
+
+import java.util.List;
 
 /** HTMLPanel to select among patch sets */
 class PatchSetSelectBox2 extends Composite {
@@ -76,7 +79,8 @@ class PatchSetSelectBox2 extends Composite {
     this.path = path;
   }
 
-  void setUpPatchSetNav(JsArray<RevisionInfo> list, DiffInfo.FileMeta meta) {
+  void setUpPatchSetNav(JsArray<RevisionInfo> list, DiffInfo.FileMeta meta,
+      List<WebLinkInfo> webLinks) {
     InlineHyperlink baseLink = null;
     InlineHyperlink selectedLink = null;
     if (sideA) {
@@ -99,6 +103,22 @@ class PatchSetSelectBox2 extends Composite {
     }
     if (meta != null && !Patch.COMMIT_MSG.equals(path)) {
       linkPanel.add(createDownloadLink());
+    }
+    if (webLinks != null) {
+      for (WebLinkInfo weblink : webLinks) {
+        Anchor a = new Anchor();
+        a.setHref(weblink.url());
+        if (weblink.imageUrl() != null && !weblink.imageUrl().isEmpty()) {
+          Image img = new Image();
+          img.setAltText(weblink.name());
+          img.setUrl(weblink.imageUrl());
+          img.setTitle(weblink.name());
+          a.getElement().appendChild(img.getElement());
+        } else {
+          a.setText("(" + weblink.name() + ")");
+        }
+        linkPanel.add(a);
+      }
     }
   }
 

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d065072b_3d2db31c",
+        "filename": "Documentation/cmd-stream-events.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2014-09-11T12:04:20Z",
+      "side": 1,
+      "message": "This description should probably be updated to reflect the ADDED/REMOVED part.",
+      "revId": "893236b26dfc85c32cd55e6d27d3c921ca935914",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

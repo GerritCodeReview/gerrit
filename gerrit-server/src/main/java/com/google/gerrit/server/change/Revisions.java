@@ -14,7 +14,9 @@
 
 package com.google.gerrit.server.change;
 
+import com.google.common.base.Function;
 import com.google.common.base.Optional;
+import com.google.common.collect.FluentIterable;
 import com.google.common.collect.Lists;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -74,17 +76,18 @@ public class Revisions implements ChildCollection<ChangeResource, RevisionResour
       }
       throw new ResourceNotFoundException(id);
     }
-    List<PatchSet> match = Lists.newArrayListWithExpectedSize(2);
-    for (PatchSet ps : find(change, id.get())) {
-      Change.Id changeId = ps.getId().getParentKey();
-      if (changeId.equals(change.getChange().getId()) && visible(change, ps)) {
-        match.add(ps);
+    List<RevisionResource> match = Lists.newArrayListWithExpectedSize(2);
+    for (RevisionResource rsrc : find(change, id.get())) {
+      Change.Id changeId = rsrc.getChange().getId();
+      if (changeId.equals(change.getChange().getId())
+          && visible(change, rsrc.getPatchSet())) {
+        match.add(rsrc);
       }
     }
     if (match.size() != 1) {
       throw new ResourceNotFoundException(id);
     }
-    return new RevisionResource(change, match.get(0));
+    return match.get(0);
   }
 
   private boolean visible(ChangeResource change, PatchSet ps)
@@ -92,7 +95,7 @@ public class Revisions implements ChildCollection<ChangeResource, RevisionResour
     return change.getControl().isPatchVisible(ps, dbProvider.get());
   }
 
-  private List<PatchSet> find(ChangeResource change, String id)
+  private List<RevisionResource> find(ChangeResource change, String id)
       throws OrmException {
     ReviewDb db = dbProvider.get();
 
@@ -104,7 +107,7 @@ public class Revisions implements ChildCollection<ChangeResource, RevisionResour
           change.getChange().getId(),
           Integer.parseInt(id)));
       if (ps != null) {
-        return Collections.singletonList(ps);
+        return toResources(change, ps);
       }
       return Collections.emptyList();
     } else if (id.length() < 4 || id.length() > RevId.LEN) {
@@ -118,27 +121,29 @@ public class Revisions implements ChildCollection<ChangeResource, RevisionResour
       // for all patch sets in the change.
       RevId revid = new RevId(id);
       if (revid.isComplete()) {
-        List<PatchSet> list = db.patchSets().byRevision(revid).toList();
+        List<RevisionResource> list =
+            toResources(change, db.patchSets().byRevision(revid));
         if (list.isEmpty()) {
           return loadEdit(change, revid);
         }
         return list;
       } else {
-        return db.patchSets().byRevisionRange(revid, revid.max()).toList();
+        return toResources(
+            change, db.patchSets().byRevisionRange(revid, revid.max()));
       }
     } else {
       // Chance of collision rises; look at all patch sets on the change.
-      List<PatchSet> out = Lists.newArrayList();
+      List<RevisionResource> out = Lists.newArrayList();
       for (PatchSet ps : db.patchSets().byChange(change.getChange().getId())) {
         if (ps.getRevision() != null && ps.getRevision().get().startsWith(id)) {
-          out.add(ps);
+          out.add(new RevisionResource(change, ps));
         }
       }
       return out;
     }
   }
 
-  private List<PatchSet> loadEdit(ChangeResource change, RevId revid)
+  private List<RevisionResource> loadEdit(ChangeResource change, RevId revid)
       throws OrmException {
     try {
       Optional<ChangeEdit> edit = editUtil.byChange(change.getChange());
@@ -147,12 +152,29 @@ public class Revisions implements ChildCollection<ChangeResource, RevisionResour
             change.getChange().getId(), 0));
         ps.setRevision(edit.get().getRevision());
         if (revid == null || edit.get().getRevision().equals(revid)) {
-          return Collections.singletonList(ps);
+          return Collections.singletonList(
+              new RevisionResource(change, ps, edit));
         }
       }
     } catch (AuthException | IOException | InvalidChangeOperationException e) {
       throw new OrmException(e);
     }
     return Collections.emptyList();
+  }
+
+  private static List<RevisionResource> toResources(final ChangeResource change,
+      Iterable<PatchSet> patchSets) {
+    return FluentIterable.from(patchSets)
+        .transform(new Function<PatchSet, RevisionResource>() {
+          @Override
+          public RevisionResource apply(PatchSet in) {
+            return new RevisionResource(change, in);
+          }
+        }).toList();
+  }
+
+  private static List<RevisionResource> toResources(ChangeResource change,
+      PatchSet ps) {
+    return Collections.singletonList(new RevisionResource(change, ps));
   }
 }

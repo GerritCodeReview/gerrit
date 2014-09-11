@@ -21,6 +21,7 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.edit.ChangeEdit;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.inject.TypeLiteral;
@@ -31,11 +32,18 @@ public class RevisionResource implements RestResource, HasETag {
 
   private final ChangeResource change;
   private final PatchSet ps;
+  private final Optional<ChangeEdit> edit;
   private boolean cacheable = true;
 
   public RevisionResource(ChangeResource change, PatchSet ps) {
+    this(change, ps, Optional.<ChangeEdit> absent());
+  }
+
+  public RevisionResource(ChangeResource change, PatchSet ps,
+      Optional<ChangeEdit> edit) {
     this.change = change;
     this.ps = ps;
+    this.edit = edit;
   }
 
   public boolean isCacheable() {
@@ -81,5 +89,9 @@ public class RevisionResource implements RestResource, HasETag {
   RevisionResource doNotCache() {
     cacheable = false;
     return this;
+  }
+
+  Optional<ChangeEdit> getEdit() {
+    return edit;
   }
 }

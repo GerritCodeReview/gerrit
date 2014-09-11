@@ -16,6 +16,24 @@
       "revId": "bd7e7f83fed4e00fa421f9b03061360d31e82964",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30dae333_4279949b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/VisibleRefFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-09-11T14:25:51Z",
+      "side": 1,
+      "message": "I\u0027m fine with both possibilities.\n\nShould the documentation of the \"Access Database\" capability be updated?",
+      "parentUuid": "30dae333_bfd35795",
+      "revId": "bd7e7f83fed4e00fa421f9b03061360d31e82964",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

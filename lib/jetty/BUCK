@@ -41,7 +41,7 @@ maven_jar(
 maven_jar(
   name = 'servlets',
   id = 'org.eclipse.jetty:jetty-servlets:' + VERSION,
-  sha1 = '36053479af8213a14d320845e5b5b1b595778f74',
+  sha1 = '457063f20e3676ddd7e7c4dfce90ef74dd54a276',
   license = 'Apache2.0',
   exclude = EXCLUDE,
   visibility = [

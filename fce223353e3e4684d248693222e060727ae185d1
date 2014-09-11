@@ -16,6 +16,24 @@
       "revId": "fce223353e3e4684d248693222e060727ae185d1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_68400b1e",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Hashtags.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2014-09-11T21:17:50Z",
+      "side": 1,
+      "message": "i have been digging, and I cannot find some straight forward way to pass the canonicalWebUrl as a string to the client layer. Am I missing some obvious helper class here?",
+      "parentUuid": "d065072b_28b45305",
+      "revId": "fce223353e3e4684d248693222e060727ae185d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

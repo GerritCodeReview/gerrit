@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d065072b_dd059fa3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 631,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-09-11T11:39:35Z",
+      "side": 1,
+      "message": "nit: Indentation",
+      "range": {
+        "startLine": 631,
+        "startChar": 9,
+        "endLine": 631,
+        "endChar": 10
+      },
+      "revId": "2b0fed22fe0fdac08ed117b2941e2f4d248978cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

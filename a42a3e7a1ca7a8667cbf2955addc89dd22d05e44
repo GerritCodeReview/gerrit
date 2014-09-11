@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d065072b_a828636f",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/PatchSetSelectBox2.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-11T21:03:01Z",
+      "side": 1,
+      "message": "Why not to add icon title:\n\n  anchor.setTitle(PatchUtil.C.edit());",
+      "revId": "a42a3e7a1ca7a8667cbf2955addc89dd22d05e44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

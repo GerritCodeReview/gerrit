@@ -142,6 +142,30 @@
       "revId": "ef8166296001db89104fce9ad9cf4b5d2cd88ce8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_1dcef743",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/VisibleRefFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-11T10:42:27Z",
+      "side": 1,
+      "message": "In an ideal world we would both reuse \"Query Database\" and rename it to something more generic, but I guess that\u0027s not really an option since capabilities are referred to by name in project.config...\n\nReasons not to respect Read:\n\n* Admins might not know that this metadata even exists, so might be surprised that possibly private user data is exposed.\n* Technically, it is much more expensive to do the permissions check. This is less of an issue for edits, of which there will be relatively few in a repository. But if we were going to do this for edit refs we would probably need to do it for refs/changes/YZ/XYZ/meta...and that would be expensive. I spent significant time optimizing the string parsing code to keep ls-remote time down when we turn on notedb; respecting normal read permissions would make ls-remote time potentially much worse.\n* Even prior to this change, we do not properly respect Read on refs/changes/*. If we extract a Change.Id from a ref, we check if the change is readable, and do not reach the else clause below where we actually create a RefControl for the ref.\n\nRight now I am leaning towards using Query Database. I can\u0027t think of a scenario where an admin should have access to one kind of code review metadata (reviewdb data) but not another (notedb/edits).",
+      "parentUuid": "d065072b_fa34e112",
+      "range": {
+        "startLine": 101,
+        "startChar": 8,
+        "endLine": 101,
+        "endChar": 46
+      },
+      "revId": "ef8166296001db89104fce9ad9cf4b5d2cd88ce8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

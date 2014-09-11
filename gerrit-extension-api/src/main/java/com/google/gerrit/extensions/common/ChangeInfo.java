@@ -39,5 +39,6 @@ public class ChangeInfo {
   public Map<String, LabelInfo> labels;
   public Collection<ChangeMessageInfo> messages;
   public Map<String, RevisionInfo> revisions;
+  public String baseChange;
   public int _number;
 }

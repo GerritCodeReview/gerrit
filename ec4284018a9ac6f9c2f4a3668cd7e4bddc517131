@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d065072b_c86aff67",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/SecureStoreInitData.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-12T08:34:43Z",
+      "side": 1,
+      "message": "optional: this could have been a File as in BaseInit you already have a File instance for the secure store lib",
+      "revId": "ec4284018a9ac6f9c2f4a3668cd7e4bddc517131",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

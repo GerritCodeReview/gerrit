@@ -22,6 +22,30 @@
       "revId": "8dc6bd3179083f79fc1c7eb71017d03b2bdbd088",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_231d9455",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Message.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-09-12T15:39:20Z",
+      "side": 1,
+      "message": "I think it\u0027s fine here without constant, in SshPanel we have something silimar, also without constant.",
+      "parentUuid": "d04c27b5_bce541b3",
+      "range": {
+        "startLine": 145,
+        "startChar": 72,
+        "endLine": 145,
+        "endChar": 74
+      },
+      "revId": "8dc6bd3179083f79fc1c7eb71017d03b2bdbd088",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

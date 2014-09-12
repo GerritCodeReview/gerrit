@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d065072b_039df887",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestReviewers.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-12T15:35:47Z",
+      "side": 1,
+      "message": "MoreObjects.firstNotNull(soundex, new Soundex());",
+      "range": {
+        "startLine": 281,
+        "startChar": 14,
+        "endLine": 281,
+        "endChar": 56
+      },
+      "revId": "8d0272f9619e26e142ad44b891b034184af5f856",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

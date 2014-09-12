@@ -16,6 +16,24 @@
       "revId": "bce59d9f804d90fb119b7a91b457f1f78d4c7acc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_2820d332",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/FollowUp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-12T09:28:21Z",
+      "side": 1,
+      "message": "OK, removed all new stuff and went for manual populating of actions map i ChangeInfo, lie we do for project\u0027s create change and change edits\u0027s endpoints.",
+      "parentUuid": "30dae333_c254c488",
+      "revId": "bce59d9f804d90fb119b7a91b457f1f78d4c7acc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

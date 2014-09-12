@@ -24,7 +24,7 @@ import com.google.gerrit.extensions.restapi.DefaultInput;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.change.PutHashtags.Input;
+import com.google.gerrit.server.change.PostHashtags.Input;
 import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
@@ -39,18 +39,19 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Singleton
-public class PutHashtags implements RestModifyView<ChangeResource, Input> {
+public class PostHashtags implements RestModifyView<ChangeResource, Input> {
   private final ChangeUpdate.Factory updateFactory;
   private final Provider<ReviewDb> dbProvider;
   private final ChangeIndexer indexer;
 
   public static class Input {
     @DefaultInput
-    public String hashtags;
+    public String add;
+    public String remove;
   }
 
   @Inject
-  PutHashtags(ChangeUpdate.Factory updateFactory,
+  PostHashtags(ChangeUpdate.Factory updateFactory,
       Provider<ReviewDb> dbProvider, ChangeIndexer indexer) {
     this.updateFactory = updateFactory;
     this.dbProvider = dbProvider;
@@ -60,7 +61,9 @@ public class PutHashtags implements RestModifyView<ChangeResource, Input> {
   @Override
   public Response<Set<String>> apply(ChangeResource req, Input input)
       throws AuthException, OrmException, IOException, BadRequestException {
-    if (input == null || Strings.isNullOrEmpty(input.hashtags)) {
+    if (input == null
+        || (Strings.isNullOrEmpty(input.add) && Strings
+            .isNullOrEmpty(input.remove))) {
       throw new BadRequestException("Hashtags are required");
     }
 
@@ -75,8 +78,15 @@ public class PutHashtags implements RestModifyView<ChangeResource, Input> {
     if (oldHashtags != null) {
       hashtags.addAll(oldHashtags);
     };
-    hashtags.addAll(Lists.newArrayList(Splitter.on(CharMatcher.anyOf(",;"))
-        .trimResults().omitEmptyStrings().split(input.hashtags)));
+    if (!Strings.isNullOrEmpty(input.add)) {
+      hashtags.addAll(Lists.newArrayList(Splitter.on(CharMatcher.anyOf(",;"))
+          .trimResults().omitEmptyStrings().split(input.add)));
+    }
+    if (!Strings.isNullOrEmpty(input.remove)) {
+      hashtags.removeAll(Lists.newArrayList(Splitter
+          .on(CharMatcher.anyOf(",;")).trimResults().omitEmptyStrings()
+          .split(input.remove)));
+    }
     update.setHashtags(hashtags);
     update.commit();
     indexer.index(dbProvider.get(), update.getChange());

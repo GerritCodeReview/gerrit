@@ -66,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "d065072b_88980765",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeInfo.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-12T07:44:39Z",
+      "side": 1,
+      "message": "We havn\u0027t extended server side JSON container.",
+      "parentUuid": "30dae333_a26a6066",
+      "revId": "554accb2c0740cc39b3a2c096c0894836a81afc8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "30dae333_a2b340d2",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditUtil.java",
         "patchSetId": 5
@@ -77,6 +95,24 @@
       "writtenOn": "2014-09-12T07:20:11Z",
       "side": 1,
       "message": "Maybe:\n\n checkArgument(pos \u003e0, \"invalid edit ref: %s\", ref.getName());",
+      "revId": "554accb2c0740cc39b3a2c096c0894836a81afc8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_689dab52",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditUtil.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-12T07:44:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "30dae333_a2b340d2",
       "revId": "554accb2c0740cc39b3a2c096c0894836a81afc8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -67,6 +67,13 @@ input arguments.
 E.g. a plugin could use this to enforce a certain name scheme for
 group names.
 
+[[hashtag-validation]]
+== Hashtag validation
+
+
+Plugins implementing the `HashtagValidationListener` interface can perform
+validation of hashtags before they are added to changes.
+
 
 GERRIT
 ------

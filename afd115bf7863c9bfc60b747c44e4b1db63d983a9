@@ -1,0 +1,147 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d065072b_a867c39f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-12T09:12:53Z",
+      "side": 1,
+      "message": "The summary line should tell that this is about switching the secure store implementation. Adding the SecureStore.list method is an implementation detail which could be mentioned in the text below.",
+      "revId": "afd115bf7863c9bfc60b747c44e4b1db63d983a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_08651797",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-12T09:12:53Z",
+      "side": 1,
+      "message": "values in the secure store",
+      "range": {
+        "startLine": 10,
+        "startChar": 58,
+        "endLine": 10,
+        "endChar": 64
+      },
+      "revId": "afd115bf7863c9bfc60b747c44e4b1db63d983a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_e861bb8a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-12T09:12:53Z",
+      "side": 1,
+      "message": "and also replace the secure store jar file in the lib folder and change the configuration in the gerrit.config",
+      "revId": "afd115bf7863c9bfc60b747c44e4b1db63d983a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30dae333_221bb00b",
+        "filename": "gerrit-pgm/src/test/java/com/google/gerrit/pgm/init/UpgradeFrom2_0_xTest.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-12T09:12:53Z",
+      "side": 1,
+      "message": "if the assumption is that this is never used then why not throw an UnsupportedOperationException ?",
+      "range": {
+        "startLine": 150,
+        "startChar": 0,
+        "endLine": 151,
+        "endChar": 18
+      },
+      "revId": "afd115bf7863c9bfc60b747c44e4b1db63d983a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_68c80b35",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/DefaultSecureStore.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-12T09:12:53Z",
+      "side": 1,
+      "message": "Do we need the ImmutableSet and why do we need a Set here? Because of using set the EntryKey had to implement the equals/hashCode ... \nBut all we need is to iterate over the entries and a List\u003cEntryKey\u003e would be enough.",
+      "revId": "afd115bf7863c9bfc60b747c44e4b1db63d983a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30dae333_025f8ca0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/SecureStore.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-12T09:12:53Z",
+      "side": 1,
+      "message": "make the field public and remove this methods?",
+      "range": {
+        "startLine": 32,
+        "startChar": 0,
+        "endLine": 42,
+        "endChar": 5
+      },
+      "revId": "afd115bf7863c9bfc60b747c44e4b1db63d983a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_c8dcbff8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/SecureStore.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-12T09:12:53Z",
+      "side": 1,
+      "message": "not needed if returning a List\u003cEntryKey\u003e from the list() method",
+      "range": {
+        "startLine": 44,
+        "startChar": 0,
+        "endLine": 61,
+        "endChar": 5
+      },
+      "revId": "afd115bf7863c9bfc60b747c44e4b1db63d983a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

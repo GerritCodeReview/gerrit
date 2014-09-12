@@ -7,8 +7,10 @@ ANNOTATIONS = [
 ]
 
 EXCLUDES = [
+  SRC + 'common/SiteLibraryLoaderUtil.java',
   SRC + 'common/PluginData.java',
   SRC + 'common/FileUtil.java',
+  SRC + 'common/IoUtil.java',
 ]
 
 java_library(

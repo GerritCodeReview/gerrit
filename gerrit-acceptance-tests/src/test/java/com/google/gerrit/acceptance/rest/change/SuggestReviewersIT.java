@@ -181,7 +181,7 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
 
   @Test
   @GerritConfigs(
-      {@GerritConfig(name = "suggest.fulltextsearch", value = "true"),
+      {@GerritConfig(name = "suggest.fullTextSearch", value = "true"),
        @GerritConfig(name = "suggest.fullTextSearchMaxMatches", value = "2")
   })
   public void suggestReviewersFullTextSearchLimitMaxMatches() throws Exception {
@@ -189,6 +189,24 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
     List<SuggestedReviewerInfo> reviewers =
         suggestReviewers(changeId, "ser", 3);
     assertEquals(2, reviewers.size());
+  }
+
+  @Test
+  @GerritConfig(name = "suggest.fullTextSearch", value = "true")
+  public void suggestReviewersSoundex() throws Exception {
+    accounts.create("sascha", "sascha@example.com", "Sascha", "users1");
+    accounts.create("sasa", "sasa@example.com", "Sasa", "users1");
+    accounts.create("edwin", "edwin@example.com", "Edwin", "users1");
+    accounts.create("erwin", "erwin@example.com", "Erwin", "users1");
+
+    String changeId = createChange().getChangeId();
+    List<SuggestedReviewerInfo> reviewers =
+        suggestReviewers(changeId, "sasa", 5);
+    assertEquals(2, reviewers.size()); // phonetic: "sasa" + "sascha"
+
+    reviewers =
+        suggestReviewers(changeId, "Edwin", 5);
+    assertEquals(1, reviewers.size()); // unphonetic: "edwin" + "erwin" and others
   }
 
   private List<SuggestedReviewerInfo> suggestReviewers(RestSession session,

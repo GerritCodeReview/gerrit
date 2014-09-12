@@ -49,6 +49,53 @@
     },
     {
       "key": {
+        "uuid": "9058ef70_3a414125",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteHashtags.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-12T05:22:35Z",
+      "side": 1,
+      "message": "OK, I stepped through the code and now I see it.",
+      "parentUuid": "9058ef70_fa3509c6",
+      "range": {
+        "startLine": 82,
+        "startChar": 7,
+        "endLine": 82,
+        "endChar": 32
+      },
+      "revId": "0c4fdec781c8c22d131c9e88e22fc713c1d8f930",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9058ef70_1a46fd3c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteHashtags.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-12T05:22:35Z",
+      "side": 1,
+      "message": "This needs to be updated like on the Put to remove empty strings and trim.",
+      "range": {
+        "startLine": 86,
+        "startChar": 9,
+        "endLine": 86,
+        "endChar": 52
+      },
+      "revId": "0c4fdec781c8c22d131c9e88e22fc713c1d8f930",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d065072b_880da710",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteHashtags.java",
         "patchSetId": 9
@@ -131,6 +178,30 @@
       "side": 1,
       "message": "Done",
       "parentUuid": "d065072b_a80343df",
+      "range": {
+        "startLine": 80,
+        "startChar": 4,
+        "endLine": 80,
+        "endChar": 50
+      },
+      "revId": "0c4fdec781c8c22d131c9e88e22fc713c1d8f930",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "705d3b5f_790d870d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutHashtags.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-12T05:22:35Z",
+      "side": 1,
+      "message": "Now I remember why it was done like this.  existingHashtags is an ImmutableSet,  so if we try to add to it we get UnsupportedOperationException.",
+      "parentUuid": "705d3b5f_1918cb4b",
       "range": {
         "startLine": 80,
         "startChar": 4,

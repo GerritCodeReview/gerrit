@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "d065072b_880be789",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/JarScanner.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-09-12T11:43:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d065072b_c8895fd9",
+      "range": {
+        "startLine": 137,
+        "startChar": 26,
+        "endLine": 137,
+        "endChar": 31
+      },
+      "revId": "af847a3474c0354a3a647a90a5cf68dcbe5dc3bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d065072b_a886a3c6",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/JarScanner.java",
         "patchSetId": 12
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "d065072b_c824bf17",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/JarScanner.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-09-12T11:43:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d065072b_a886a3c6",
+      "range": {
+        "startLine": 160,
+        "startChar": 30,
+        "endLine": 160,
+        "endChar": 64
+      },
+      "revId": "af847a3474c0354a3a647a90a5cf68dcbe5dc3bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "30dae333_e205487c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/JarScanner.java",
         "patchSetId": 12
@@ -59,6 +107,30 @@
       "writtenOn": "2014-09-12T10:33:37Z",
       "side": 1,
       "message": "this will find only immediate subclasses of the superClass. What about sub-subclasses, sub-sub-subclasses, etc...",
+      "range": {
+        "startLine": 160,
+        "startChar": 0,
+        "endLine": 162,
+        "endChar": 7
+      },
+      "revId": "af847a3474c0354a3a647a90a5cf68dcbe5dc3bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30dae333_a2ad0022",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/JarScanner.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-09-12T11:43:50Z",
+      "side": 1,
+      "message": "true, but I\u0027m afraid that this can\u0027t be achieved here to do that we would need to load every class and use reflection for this... which is a expensive opeation",
+      "parentUuid": "30dae333_e205487c",
       "range": {
         "startLine": 160,
         "startChar": 0,

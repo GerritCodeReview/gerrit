@@ -34,6 +34,7 @@ import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
@@ -112,9 +113,8 @@ class PatchSetSelectBox2 extends Composite {
     }
     if (Gerrit.isSignedIn() && meta != null
         && !Patch.COMMIT_MSG.equals(path)) {
-      PatchSet.Id id = (idActive == null) ? other.idActive : idActive;
-      if ((editExists && id.get() == 0)
-          || !editExists && id.get() == currentPatchSet) {
+      if (idActive != null && (editExists && idActive.get() == 0)
+          || !editExists && idActive.get() == currentPatchSet) {
         linkPanel.add(createEditIcon());
       }
     }

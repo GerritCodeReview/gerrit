@@ -37,6 +37,7 @@ import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.TreeSet;
 
 @Singleton
 public class PostHashtags implements RestModifyView<ChangeResource, Input> {
@@ -59,7 +60,7 @@ public class PostHashtags implements RestModifyView<ChangeResource, Input> {
   }
 
   @Override
-  public Response<Set<String>> apply(ChangeResource req, Input input)
+  public Response<TreeSet<String>> apply(ChangeResource req, Input input)
       throws AuthException, OrmException, IOException, BadRequestException {
     if (input == null
         || (Strings.isNullOrEmpty(input.add) && Strings
@@ -91,6 +92,6 @@ public class PostHashtags implements RestModifyView<ChangeResource, Input> {
     update.commit();
     indexer.index(dbProvider.get(), update.getChange());
 
-    return Response.ok(hashtags);
+    return Response.ok(new TreeSet<String>(hashtags));
   }
 }

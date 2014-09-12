@@ -15,11 +15,14 @@
 package com.google.gerrit.server.config;
 
 import com.google.common.collect.ComparisonChain;
+import com.google.common.util.concurrent.ListenableFutureTask;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.RestReadView;
+import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.change.MergeabilityChecker;
 import com.google.gerrit.server.git.TaskInfoFactory;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.git.WorkQueue.ProjectTask;
@@ -31,6 +34,10 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.lang.reflect.Field;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -38,10 +45,13 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.FutureTask;
+import java.util.concurrent.RunnableScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 @Singleton
 public class ListTasks implements RestReadView<ConfigResource> {
+  private static final Logger log = LoggerFactory.getLogger(ListTasks.class);
   private final WorkQueue workQueue;
   private final ProjectCache projectCache;
   private final Provider<IdentifiedUser> self;
@@ -127,6 +137,41 @@ public class ListTasks implements RestReadView<ConfigResource> {
         this.projectName = projectTask.getProjectNameKey().get();
         this.remoteName = projectTask.getRemoteName();
       }
+
+      if (this.command.contains("ListenableFutureTask")) {
+        RunnableScheduledFuture<?> t = task.getTask();
+        try {
+          Field runner = FutureTask.class.getDeclaredField("runner");
+          runner.setAccessible(true);
+          Thread thread = (Thread)runner.get(t);
+          if (thread != null) {
+            String regex = "[\\[\\]]";
+            String regex1 = "[,]";
+            this.command  = thread.toString().split(regex)[1].split(regex1)[0];
+
+            Field runnable = Task.class.getDeclaredField("runnable");
+            runnable.setAccessible(true);
+            ListenableFutureTask<?> listenableFutureTask =
+            (ListenableFutureTask<?>)runnable.get(task);
+
+            Field callable = FutureTask.class.getDeclaredField("callable");
+            callable.setAccessible(true);
+            MergeabilityChecker.Task checkerTask =
+                (MergeabilityChecker.Task)callable.get(listenableFutureTask);
+
+            Field change = MergeabilityChecker.Task.class.getDeclaredField("change");
+            change.setAccessible(true);
+            this.command = new StringBuilder()
+              .append(this.command.substring(0, this.command.lastIndexOf('-')))
+              .append(" index-change-")
+              .append(String.valueOf(((Change)change.get(checkerTask)).getChangeId()))
+              .toString();
+          }
+        } catch (NoSuchFieldException | SecurityException |
+            IllegalArgumentException | IllegalAccessException e) {
+          log.error("failed to get the actual command name for the ListenableFutureTask ", e);
+        }
+     }
     }
   }
 }

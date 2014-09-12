@@ -112,9 +112,8 @@ class PatchSetSelectBox2 extends Composite {
     }
     if (Gerrit.isSignedIn() && meta != null
         && !Patch.COMMIT_MSG.equals(path)) {
-      PatchSet.Id id = (idActive == null) ? other.idActive : idActive;
-      if ((editExists && id.get() == 0)
-          || !editExists && id.get() == currentPatchSet) {
+      if (idActive != null && (editExists && idActive.get() == 0)
+          || !editExists && idActive.get() == currentPatchSet) {
         linkPanel.add(createEditIcon());
       }
     }

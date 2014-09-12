@@ -140,6 +140,30 @@
       "revId": "af847a3474c0354a3a647a90a5cf68dcbe5dc3bd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30dae333_02b5cc63",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/JarScanner.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-09-12T11:52:09Z",
+      "side": 1,
+      "message": "will implement all children discovery with recursion",
+      "parentUuid": "30dae333_a2ad0022",
+      "range": {
+        "startLine": 160,
+        "startChar": 0,
+        "endLine": 162,
+        "endChar": 7
+      },
+      "revId": "af847a3474c0354a3a647a90a5cf68dcbe5dc3bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

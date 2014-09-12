@@ -16,6 +16,24 @@
       "revId": "68dcd6a85eb7912e09a016772c2d86c8a65a6166",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_e8ba5ba2",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/edit/ChangeEditIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 396,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-12T09:00:13Z",
+      "side": 0,
+      "message": "Because it appears to be wrong from the beginning. I added tghe comment on the right test for restore operation.",
+      "parentUuid": "30dae333_6271385c",
+      "revId": "68dcd6a85eb7912e09a016772c2d86c8a65a6166",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

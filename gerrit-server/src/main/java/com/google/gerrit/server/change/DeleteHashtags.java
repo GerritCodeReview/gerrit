@@ -39,6 +39,7 @@ import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.TreeSet;
 
 @Singleton
 public class DeleteHashtags implements RestModifyView<ChangeResource, Input> {
@@ -63,7 +64,7 @@ public class DeleteHashtags implements RestModifyView<ChangeResource, Input> {
   }
 
   @Override
-  public Response<Set<String>> apply(ChangeResource req, Input input)
+  public Response<TreeSet<String>> apply(ChangeResource req, Input input)
       throws AuthException, OrmException, IOException, BadRequestException {
     if (input == null || Strings.isNullOrEmpty(input.hashtags)) {
       throw new BadRequestException("Hashtags are required");
@@ -103,6 +104,6 @@ public class DeleteHashtags implements RestModifyView<ChangeResource, Input> {
       }
     }
 
-    return Response.ok(updatedHashtags);
+    return Response.ok(new TreeSet<String>(updatedHashtags));
   }
 }

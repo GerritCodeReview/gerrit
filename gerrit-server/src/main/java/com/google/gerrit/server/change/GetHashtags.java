@@ -26,11 +26,12 @@ import com.google.inject.Singleton;
 
 import java.io.IOException;
 import java.util.Set;
+import java.util.TreeSet;
 
 @Singleton
 public class GetHashtags implements RestReadView<ChangeResource> {
   @Override
-  public Response<Set<String>> apply(ChangeResource req)
+  public Response<TreeSet<String>> apply(ChangeResource req)
       throws AuthException, OrmException, IOException, BadRequestException {
 
     ChangeControl control = req.getControl();
@@ -39,6 +40,6 @@ public class GetHashtags implements RestReadView<ChangeResource> {
     if (hashtags == null) {
       hashtags = ImmutableSet.of();
     }
-    return Response.ok(hashtags);
+    return Response.ok(new TreeSet<String>(hashtags));
   }
 }

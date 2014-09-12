@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "30dae333_2247308b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-12T13:05:33Z",
+      "side": 1,
+      "message": "inline",
+      "range": {
+        "startLine": 7,
+        "startChar": 7,
+        "endLine": 7,
+        "endChar": 14
+      },
+      "revId": "0a401fa402ccdb550f487151c73d1dfb3b815e8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "30dae333_225e505b",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/GerritResources.java",
         "patchSetId": 4

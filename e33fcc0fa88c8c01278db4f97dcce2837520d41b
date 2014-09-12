@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "d065072b_68464b8c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetHashtags.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-12T13:42:58Z",
+      "side": 1,
+      "message": "Without this change it does not compile.",
+      "parentUuid": "d065072b_284c53aa",
+      "range": {
+        "startLine": 34,
+        "startChar": 18,
+        "endLine": 34,
+        "endChar": 22
+      },
+      "revId": "e33fcc0fa88c8c01278db4f97dcce2837520d41b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "30dae333_02322c24",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostHashtags.java",
         "patchSetId": 3

@@ -291,7 +291,7 @@ public class MergeabilityChecker implements GitReferenceUpdatedListener {
     return ProjectConfig.read(metaDataUpdateFactory.create(p), id);
   }
 
-  private class Task implements Callable<Boolean> {
+  public class Task implements Callable<Boolean> {
     private final Change change;
     private final boolean force;
 

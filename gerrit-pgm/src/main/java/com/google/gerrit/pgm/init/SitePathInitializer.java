@@ -131,9 +131,8 @@ public class SitePathInitializer {
 
   private void saveSecureStore() throws IOException {
     if (secureStoreInitData != null) {
-      File secureStoreJar = new File(secureStoreInitData.pathToLib);
-      File dst = new File(site.lib_dir, secureStoreJar.getName());
-      Files.copy(secureStoreJar, dst);
+      File dst = new File(site.lib_dir, secureStoreInitData.file.getName());
+      Files.copy(secureStoreInitData.file, dst);
       Section gerritSection = sectionFactory.get("gerrit", null);
       gerritSection.set("secureStoreClass", secureStoreInitData.className);
     }

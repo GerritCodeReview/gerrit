@@ -289,9 +289,9 @@ public class BaseInit extends SiteProgram {
             getSecureStoreLib(), SecureStore.class.getName()));
       }
       IoUtil.loadJARs(secureStoreLib);
-      return new SecureStoreInitData(getSecureStoreLib(), secureStores.get(0));
+      return new SecureStoreInitData(secureStoreLib, secureStores.get(0));
     } catch (IOException e) {
-      throw new InvalidSecureStoreException(String.format("%s is not a valid jar    ",
+      throw new InvalidSecureStoreException(String.format("%s is not a valid jar",
           getSecureStoreLib()));
     }
   }

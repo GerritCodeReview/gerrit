@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d065072b_a8d34395",
+        "filename": "plugins/its-base",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-09-12T12:29:51Z",
+      "side": 1,
+      "message": "This was included by mistake :(",
+      "revId": "ceeed6b48a433e7daff7b764a4eb05e1c485213b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

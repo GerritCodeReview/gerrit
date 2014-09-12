@@ -52,6 +52,24 @@
       "revId": "dbab4279ca7f4950293fdde652aeaa8209aefc53",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_43aff0b4",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Hashtags.java",
+        "patchSetId": 34
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-09-12T15:23:18Z",
+      "side": 1,
+      "message": "So...you left the -1 in there.",
+      "parentUuid": "30dae333_a5b98a03",
+      "revId": "dbab4279ca7f4950293fdde652aeaa8209aefc53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

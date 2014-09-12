@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "30dae333_25c65a86",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 25
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-09-12T15:09:44Z",
+      "side": 1,
+      "message": "Change to camel case here in the commit message too.",
+      "range": {
+        "startLine": 28,
+        "startChar": 0,
+        "endLine": 34,
+        "endChar": 32
+      },
+      "revId": "656c764c8d922549d5008da4c19e096534047856",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

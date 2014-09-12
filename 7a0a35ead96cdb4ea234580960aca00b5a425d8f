@@ -51,6 +51,24 @@
       "revId": "7a0a35ead96cdb4ea234580960aca00b5a425d8f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_088cf724",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/CommitBox.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-09-12T08:00:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d065072b_883be7b3",
+      "revId": "7a0a35ead96cdb4ea234580960aca00b5a425d8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

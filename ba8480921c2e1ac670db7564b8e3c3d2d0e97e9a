@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "30dae333_4216f4b3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 26
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2014-09-12T10:43:09Z",
+      "side": 1,
+      "message": "Updated the commit message. The change is not suitable for a split. It\u0027s quite minimal as it is.",
+      "parentUuid": "d065072b_e8ec1b9b",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 36
+      },
+      "revId": "ba8480921c2e1ac670db7564b8e3c3d2d0e97e9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "30dae333_4220b433",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.ui.xml",
         "patchSetId": 26
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "d065072b_0894f7eb",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.ui.xml",
+        "patchSetId": 26
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2014-09-12T10:43:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "30dae333_4220b433",
+      "revId": "ba8480921c2e1ac670db7564b8e3c3d2d0e97e9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "30dae333_e23aa84b",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/HashtagApi.java",
         "patchSetId": 26
@@ -53,6 +95,24 @@
       "writtenOn": "2014-09-12T09:24:22Z",
       "side": 1,
       "message": "Is this still used?",
+      "revId": "ba8480921c2e1ac670db7564b8e3c3d2d0e97e9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_e8909bf9",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/HashtagApi.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2014-09-12T10:43:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "30dae333_e23aa84b",
       "revId": "ba8480921c2e1ac670db7564b8e3c3d2d0e97e9a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

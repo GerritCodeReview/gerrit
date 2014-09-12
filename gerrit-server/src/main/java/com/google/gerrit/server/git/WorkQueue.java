@@ -285,6 +285,10 @@ public class WorkQueue {
       this.startTime = new Date();
     }
 
+    public RunnableScheduledFuture<V> getTask(){
+      return task;
+    }
+
     public int getTaskId() {
       return taskId;
     }

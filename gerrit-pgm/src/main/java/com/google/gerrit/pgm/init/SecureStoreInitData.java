@@ -14,12 +14,14 @@
 
 package com.google.gerrit.pgm.init;
 
+import java.io.File;
+
 class SecureStoreInitData {
-  final String pathToLib;
+  final File file;
   final String className;
 
-  SecureStoreInitData(String pathToLib, String className) {
+  SecureStoreInitData(File pathToLib, String className) {
     this.className = className;
-    this.pathToLib = pathToLib;
+    this.file = pathToLib;
   }
 }

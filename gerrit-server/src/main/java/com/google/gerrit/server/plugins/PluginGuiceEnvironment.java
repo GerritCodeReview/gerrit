@@ -34,6 +34,8 @@ import com.google.gerrit.extensions.registration.PrivateInternals_DynamicTypes;
 import com.google.gerrit.extensions.registration.RegistrationHandle;
 import com.google.gerrit.extensions.registration.ReloadableRegistrationHandle;
 import com.google.gerrit.extensions.systemstatus.ServerInformation;
+import com.google.gerrit.pgm.util.SecureStoreProvider;
+import com.google.gerrit.server.securestore.SecureStore;
 import com.google.gerrit.server.util.PluginRequestContext;
 import com.google.gerrit.server.util.RequestContext;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;
@@ -155,6 +157,7 @@ public class PluginGuiceEnvironment {
     sysModule = new AbstractModule() {
       @Override
       protected void configure() {
+        bind(SecureStore.class).toProvider(SecureStoreProvider.class);
         install(copyConfigModule);
         install(cm);
         install(sm);

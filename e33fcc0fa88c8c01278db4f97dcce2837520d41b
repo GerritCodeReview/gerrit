@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d065072b_284c53aa",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetHashtags.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-09-12T13:41:22Z",
+      "side": 1,
+      "message": "This can just stay Set. It\u0027s not needed that the method signature fixes the concrete implementation class that is internally used.",
+      "range": {
+        "startLine": 34,
+        "startChar": 18,
+        "endLine": 34,
+        "endChar": 22
+      },
+      "revId": "e33fcc0fa88c8c01278db4f97dcce2837520d41b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30dae333_02322c24",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostHashtags.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-09-12T13:41:22Z",
+      "side": 1,
+      "message": "could be Set",
+      "range": {
+        "startLine": 76,
+        "startChar": 18,
+        "endLine": 76,
+        "endChar": 25
+      },
+      "revId": "e33fcc0fa88c8c01278db4f97dcce2837520d41b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30dae333_25d01a66",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostHashtags.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-09-12T13:41:22Z",
+      "side": 1,
+      "message": "wrap before \u0027\u0026\u0026\u0027",
+      "range": {
+        "startLine": 79,
+        "startChar": 45,
+        "endLine": 80,
+        "endChar": 44
+      },
+      "revId": "e33fcc0fa88c8c01278db4f97dcce2837520d41b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

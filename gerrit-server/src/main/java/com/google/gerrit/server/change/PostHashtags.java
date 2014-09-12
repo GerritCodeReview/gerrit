@@ -19,6 +19,7 @@ import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
+import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.DefaultInput;
@@ -26,6 +27,7 @@ import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.change.PostHashtags.Input;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
@@ -45,6 +47,7 @@ public class PostHashtags implements RestModifyView<ChangeResource, Input> {
   private final ChangeUpdate.Factory updateFactory;
   private final Provider<ReviewDb> dbProvider;
   private final ChangeIndexer indexer;
+  private final ChangeHooks hooks;
 
   public static class Input {
     @DefaultInput
@@ -54,10 +57,12 @@ public class PostHashtags implements RestModifyView<ChangeResource, Input> {
 
   @Inject
   PostHashtags(ChangeUpdate.Factory updateFactory,
-      Provider<ReviewDb> dbProvider, ChangeIndexer indexer) {
+      Provider<ReviewDb> dbProvider, ChangeIndexer indexer,
+      ChangeHooks hooks) {
     this.updateFactory = updateFactory;
     this.dbProvider = dbProvider;
     this.indexer = indexer;
+    this.hooks = hooks;
   }
 
   private Set<String> extractTags(String input) {
@@ -106,6 +111,12 @@ public class PostHashtags implements RestModifyView<ChangeResource, Input> {
       update.commit();
 
       indexer.index(dbProvider.get(), update.getChange());
+
+      IdentifiedUser currentUser = ((IdentifiedUser) control.getCurrentUser());
+      hooks.doHashtagsChangedHook(
+          req.getChange(), currentUser.getAccount(),
+          toAdd, toRemove, updatedHashtags,
+          dbProvider.get());
     }
 
     return Response.ok(new TreeSet<String>(updatedHashtags));

@@ -1,0 +1,136 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "30dae333_225e505b",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/GerritResources.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-12T12:52:17Z",
+      "side": 1,
+      "message": "Please mention in the commit message the source of this icon, presumably Tango?",
+      "revId": "0a401fa402ccdb550f487151c73d1dfb3b815e8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30dae333_42635420",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/PatchSetSelectBox2.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-12T12:52:17Z",
+      "side": 1,
+      "message": "I think this should be GerritCallback instead of AsyncCallback? Otherwise having an empty onFailure method means you completely swallow any error, which I don\u0027t think we want.",
+      "range": {
+        "startLine": 156,
+        "startChar": 18,
+        "endLine": 156,
+        "endChar": 31
+      },
+      "revId": "0a401fa402ccdb550f487151c73d1dfb3b815e8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_c8883f9e",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/PatchSetSelectBox2.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-12T12:52:17Z",
+      "side": 1,
+      "message": "Side",
+      "range": {
+        "startLine": 159,
+        "startChar": 24,
+        "endLine": 159,
+        "endChar": 28
+      },
+      "revId": "0a401fa402ccdb550f487151c73d1dfb3b815e8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30dae333_626858fa",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/PatchSetSelectBox2.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-12T12:52:17Z",
+      "side": 1,
+      "message": "Same comment as above.",
+      "range": {
+        "startLine": 171,
+        "startChar": 18,
+        "endLine": 171,
+        "endChar": 31
+      },
+      "revId": "0a401fa402ccdb550f487151c73d1dfb3b815e8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30dae333_826d5c0b",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/SideBySide2.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 551,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-12T12:52:17Z",
+      "side": 1,
+      "message": "Side",
+      "range": {
+        "startLine": 551,
+        "startChar": 19,
+        "endLine": 551,
+        "endChar": 23
+      },
+      "revId": "0a401fa402ccdb550f487151c73d1dfb3b815e8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_a8850386",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/SideBySide2.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 555,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-12T12:52:17Z",
+      "side": 1,
+      "message": "Side",
+      "range": {
+        "startLine": 555,
+        "startChar": 17,
+        "endLine": 555,
+        "endChar": 21
+      },
+      "revId": "0a401fa402ccdb550f487151c73d1dfb3b815e8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

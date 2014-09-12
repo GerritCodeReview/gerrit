@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "30dae333_222d701c",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/PatchSetSelectBox2.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-12T09:12:02Z",
+      "side": 1,
+      "message": "I think disabling the edit button on previous patch sets is a requirement, for the same reason it was a requirement on the file table.\n\nFor example, if they click \"edit\" on a file in PS1, then \"save\", it silently undoes any changes made in PS2.",
+      "parentUuid": "d065072b_88c3e71a",
+      "range": {
+        "startLine": 113,
+        "startChar": 9,
+        "endLine": 113,
+        "endChar": 14
+      },
+      "revId": "3ed19f61f4ca5d5d568902af4741677f5437f3a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d065072b_e8d6dbfb",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/PatchSetSelectBox2.java",
         "patchSetId": 3

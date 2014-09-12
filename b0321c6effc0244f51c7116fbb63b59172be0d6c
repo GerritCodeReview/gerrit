@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d065072b_a837c315",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostHashtags.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-12T13:48:14Z",
+      "side": 1,
+      "message": "Nit: space before \u0027:\u0027",
+      "range": {
+        "startLine": 64,
+        "startChar": 25,
+        "endLine": 64,
+        "endChar": 26
+      },
+      "revId": "b0321c6effc0244f51c7116fbb63b59172be0d6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30dae333_85df2673",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostHashtags.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-12T13:48:14Z",
+      "side": 1,
+      "message": "Did I also hear something about trimming whitespace?",
+      "revId": "b0321c6effc0244f51c7116fbb63b59172be0d6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

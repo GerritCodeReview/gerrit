@@ -3118,7 +3118,8 @@ By default 10.
 
 [[suggest.fullTextSearch]]suggest.fullTextSearch::
 +
-If 'true' the reviewer completion suggestions will be based on a full text search.
+If 'true' the reviewer completion suggestions will be based on a full text search
+and phonetic match.
 
 [[suggest.from]]suggest.from::
 +

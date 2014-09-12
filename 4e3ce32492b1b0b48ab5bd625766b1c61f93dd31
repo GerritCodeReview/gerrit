@@ -16,6 +16,24 @@
       "revId": "4e3ce32492b1b0b48ab5bd625766b1c61f93dd31",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30dae333_a240a0bd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-12T09:20:34Z",
+      "side": 1,
+      "message": "From the stack trace you can see I put this on the wrong line, oops.",
+      "parentUuid": "d065072b_e8d37be2",
+      "revId": "4e3ce32492b1b0b48ab5bd625766b1c61f93dd31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

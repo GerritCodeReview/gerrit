@@ -126,6 +126,30 @@
       "revId": "c5502193aa655d614d58454972e7b8a19776ecf3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30dae333_42f7d46a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/FollowUp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-12T08:10:37Z",
+      "side": 1,
+      "message": "Of course not. This this the standard way to gather UiActions. The fact this clas exists and the fact that it is bound in changes module, with:\n\n  post(CHANGE_KIND, \"followup\").to(FollowUp.class);\n\nAnd the method\n\n  getDescription(ChangeResource resource)\n\nbelow give us the JSON fragment in actions map in ChangeJson.\n\nWithout all this we would need to populate all that stuff manually (what we already doing in create change and change edit UiActions).",
+      "parentUuid": "30dae333_02bb0ca8",
+      "range": {
+        "startLine": 47,
+        "startChar": 41,
+        "endLine": 47,
+        "endChar": 46
+      },
+      "revId": "c5502193aa655d614d58454972e7b8a19776ecf3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

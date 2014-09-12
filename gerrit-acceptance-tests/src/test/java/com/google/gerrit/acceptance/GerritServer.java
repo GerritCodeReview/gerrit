@@ -135,6 +135,9 @@ public class GerritServer {
     cfg.setBoolean("sendemail", null, "enable", false);
     cfg.setInt("cache", "projects", "checkFrequency", 0);
     cfg.setInt("plugins", null, "checkFrequency", 0);
+    cfg.setString("gerrit", null, "noteDbPath", "notedb");
+    cfg.setBoolean("notedb", "changes", "read", true);
+    cfg.setBoolean("notedb", "changes", "write", true);
   }
 
   private static Injector createTestInjector(Daemon daemon) throws Exception {

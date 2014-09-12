@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "30dae333_424994f1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-12T08:59:55Z",
+      "side": 1,
+      "message": "Oops, it may contain duplicates after the case is normalized. This is fine.",
+      "parentUuid": "d065072b_88aac758",
+      "range": {
+        "startLine": 238,
+        "startChar": 17,
+        "endLine": 238,
+        "endChar": 36
+      },
+      "revId": "bfc79d408ebdc639d64ecd54b69a887db8ed9b07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "30dae333_6215b8d4",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java",
         "patchSetId": 2

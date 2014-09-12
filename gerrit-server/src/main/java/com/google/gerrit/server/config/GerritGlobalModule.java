@@ -73,6 +73,7 @@ import com.google.gerrit.server.auth.UniversalAuthBackend;
 import com.google.gerrit.server.avatar.AvatarProvider;
 import com.google.gerrit.server.cache.CacheRemovalListener;
 import com.google.gerrit.server.change.ChangeKindCacheImpl;
+import com.google.gerrit.server.change.HashtagValidationListener;
 import com.google.gerrit.server.change.MergeabilityChecker;
 import com.google.gerrit.server.events.EventFactory;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
@@ -274,6 +275,7 @@ public class GerritGlobalModule extends FactoryModule {
     DynamicSet.setOf(binder(), MergeValidationListener.class);
     DynamicSet.setOf(binder(), ProjectCreationValidationListener.class);
     DynamicSet.setOf(binder(), GroupCreationValidationListener.class);
+    DynamicSet.setOf(binder(), HashtagValidationListener.class);
     DynamicItem.itemOf(binder(), AvatarProvider.class);
     DynamicSet.setOf(binder(), LifecycleListener.class);
     DynamicSet.setOf(binder(), TopMenu.class);

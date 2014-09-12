@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "d065072b_a87ea32f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestReviewers.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-09-12T10:44:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "30dae333_e264689d",
+      "range": {
+        "startLine": 77,
+        "startChar": 2,
+        "endLine": 77,
+        "endChar": 27
+      },
+      "revId": "8cd8ac8e10d86f1a5751f2eca88662e33f0816ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "30dae333_02622c8e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestReviewers.java",
         "patchSetId": 18
@@ -36,6 +60,30 @@
       "writtenOn": "2014-09-12T07:33:53Z",
       "side": 1,
       "message": "All config values should be read in ctor.",
+      "range": {
+        "startLine": 114,
+        "startChar": 4,
+        "endLine": 114,
+        "endChar": 19
+      },
+      "revId": "8cd8ac8e10d86f1a5751f2eca88662e33f0816ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30dae333_22f2d07b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestReviewers.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-09-12T10:44:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "30dae333_02622c8e",
       "range": {
         "startLine": 114,
         "startChar": 4,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "30dae333_c2d92406",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestReviewers.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-09-12T10:44:58Z",
+      "side": 1,
+      "message": "done\nI thought it was ugly to retain this int in the ctor even though it\u0027s only used when you use fullTextSearch.",
+      "parentUuid": "30dae333_c267649f",
+      "range": {
+        "startLine": 238,
+        "startChar": 4,
+        "endLine": 240,
+        "endChar": 33
+      },
+      "revId": "8cd8ac8e10d86f1a5751f2eca88662e33f0816ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d065072b_48a54fa4",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestReviewers.java",
         "patchSetId": 18
@@ -82,6 +154,30 @@
       "writtenOn": "2014-09-12T07:33:53Z",
       "side": 1,
       "message": "shouldn\u0027t it be rather a sum of both lists:\n\n  if (fullNameMatches.size() + emailMatches.size() \u003e\u003d maxMatches) {\n\nWell it must be ensured that only different user matches are  counted.",
+      "range": {
+        "startLine": 254,
+        "startChar": 6,
+        "endLine": 254,
+        "endChar": 49
+      },
+      "revId": "8cd8ac8e10d86f1a5751f2eca88662e33f0816ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30dae333_a2dc20f7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestReviewers.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-09-12T10:44:58Z",
+      "side": 1,
+      "message": "I\u0027m trying to stay with the algorithm for suggestAccount.\n* first try to match on fullname\nif (matches \u003c maxMatches)\n* try to match on email",
+      "parentUuid": "d065072b_48a54fa4",
       "range": {
         "startLine": 254,
         "startChar": 6,

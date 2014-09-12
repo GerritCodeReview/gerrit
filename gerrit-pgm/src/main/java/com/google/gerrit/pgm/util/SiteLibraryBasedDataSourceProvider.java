@@ -14,6 +14,7 @@
 
 package com.google.gerrit.pgm.util;
 
+import com.google.gerrit.common.SiteLibraryLoaderUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.schema.DataSourceProvider;

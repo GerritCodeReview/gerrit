@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "30dae333_4220b433",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.ui.xml",
+        "patchSetId": 26
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2014-09-12T09:24:22Z",
+      "side": 1,
+      "message": "Why was this line deleted?",
+      "revId": "ba8480921c2e1ac670db7564b8e3c3d2d0e97e9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30dae333_e23aa84b",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/HashtagApi.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2014-09-12T09:24:22Z",
+      "side": 1,
+      "message": "Is this still used?",
+      "revId": "ba8480921c2e1ac670db7564b8e3c3d2d0e97e9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

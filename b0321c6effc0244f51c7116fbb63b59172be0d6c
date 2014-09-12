@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "d065072b_0835170d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetHashtags.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-09-12T13:48:49Z",
+      "side": 1,
+      "message": "Make it\n\n  Response\u003c? extends Set\u003cString\u003e\u003e",
+      "range": {
+        "startLine": 34,
+        "startChar": 9,
+        "endLine": 34,
+        "endChar": 34
+      },
+      "revId": "b0321c6effc0244f51c7116fbb63b59172be0d6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d065072b_a837c315",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostHashtags.java",
         "patchSetId": 4
@@ -36,6 +59,29 @@
       "writtenOn": "2014-09-12T13:48:14Z",
       "side": 1,
       "message": "Did I also hear something about trimming whitespace?",
+      "revId": "b0321c6effc0244f51c7116fbb63b59172be0d6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30dae333_65da2286",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostHashtags.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-09-12T13:48:49Z",
+      "side": 1,
+      "message": "? extends Set",
+      "range": {
+        "startLine": 74,
+        "startChar": 18,
+        "endLine": 74,
+        "endChar": 25
+      },
       "revId": "b0321c6effc0244f51c7116fbb63b59172be0d6c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

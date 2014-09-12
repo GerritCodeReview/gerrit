@@ -44,6 +44,7 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
+import org.apache.commons.codec.language.Soundex;
 import org.eclipse.jgit.lib.Config;
 import org.kohsuke.args4j.Option;
 
@@ -77,6 +78,7 @@ public class SuggestReviewers implements RestReadView<ChangeResource> {
   private final int fullTextMaxMatches;
   private final int maxSuggestedReviewers;
   private final ReviewerSuggestionCache reviewerSuggestionCache;
+  private Soundex soundex = null;
 
   @Option(name = "--limit", aliases = {"-n"}, metaVar = "CNT",
       usage = "maximum number of reviewers to list")
@@ -247,11 +249,11 @@ public class SuggestReviewers implements RestReadView<ChangeResource> {
     List<Account> emailMatches = Lists.newArrayListWithCapacity(fullTextMaxMatches);
     for (Account a : reviewerSuggestionCache.get()) {
       if (a.getFullName() != null
-          && a.getFullName().toLowerCase().contains(str)) {
+          && match(a.getFullName(), str)) {
         fullNameMatches.add(a);
       } else if (a.getPreferredEmail() != null
           && emailMatches.size() < fullTextMaxMatches
-          && a.getPreferredEmail().toLowerCase().contains(str)) {
+          && match(a.getPreferredEmail(), str)) {
         emailMatches.add(a);
       }
       if (fullNameMatches.size() >= fullTextMaxMatches) {
@@ -273,6 +275,12 @@ public class SuggestReviewers implements RestReadView<ChangeResource> {
       }
     }
     return Lists.newArrayList(accountMap.values());
+  }
+
+  private boolean match(String name, String query) {
+    soundex = soundex != null ? soundex : new Soundex();
+    return name.toLowerCase().contains(query)
+        || soundex.soundex(query).equals(soundex.soundex(name));
   }
 
   private void addSuggestion(Map<Account.Id, AccountInfo> map, Account account,

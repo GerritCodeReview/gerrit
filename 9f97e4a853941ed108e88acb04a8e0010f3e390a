@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d065072b_434b7074",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/PatchSetSelectBox2.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-12T14:18:45Z",
+      "side": 1,
+      "message": "This needs more parentheses, you have a \u0026\u0026 || \u0026\u0026 at the top level.",
+      "revId": "9f97e4a853941ed108e88acb04a8e0010f3e390a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

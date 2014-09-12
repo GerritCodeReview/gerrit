@@ -19,6 +19,52 @@
     },
     {
       "key": {
+        "uuid": "7087fb29_29d56d56",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 1733,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-12T22:42:40Z",
+      "side": 1,
+      "message": "remove this",
+      "range": {
+        "startLine": 1733,
+        "startChar": 37,
+        "endLine": 1733,
+        "endChar": 40
+      },
+      "revId": "0da3d4015207be41d7fc60c56c0755250b48ffe4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9082af17_2ad55f56",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 1734,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-12T22:42:40Z",
+      "side": 1,
+      "message": "passwords",
+      "range": {
+        "startLine": 1734,
+        "startChar": 5,
+        "endLine": 1734,
+        "endChar": 13
+      },
+      "revId": "0da3d4015207be41d7fc60c56c0755250b48ffe4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d096e757_2cd57356",
         "filename": "Documentation/dev-plugins.txt",
         "patchSetId": 14
@@ -58,6 +104,75 @@
         "startChar": 20,
         "endLine": 1736,
         "endChar": 27
+      },
+      "revId": "0da3d4015207be41d7fc60c56c0755250b48ffe4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7087fb29_69df6574",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 1736,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-12T22:42:40Z",
+      "side": 1,
+      "message": "\"a class\"\n\nadd a comma after \"implementation\"",
+      "range": {
+        "startLine": 1736,
+        "startChar": 41,
+        "endLine": 1736,
+        "endChar": 46
+      },
+      "revId": "0da3d4015207be41d7fc60c56c0755250b48ffe4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7087fb29_49daa185",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 1736,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-12T22:42:40Z",
+      "side": 1,
+      "message": "the default",
+      "range": {
+        "startLine": 1736,
+        "startChar": 20,
+        "endLine": 1736,
+        "endChar": 27
+      },
+      "revId": "0da3d4015207be41d7fc60c56c0755250b48ffe4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7087fb29_89e3b93c",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 1738,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-12T22:42:40Z",
+      "side": 1,
+      "message": "a seprate",
+      "range": {
+        "startLine": 1738,
+        "startChar": 3,
+        "endLine": 1738,
+        "endChar": 11
       },
       "revId": "0da3d4015207be41d7fc60c56c0755250b48ffe4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
@@ -105,6 +220,53 @@
     },
     {
       "key": {
+        "uuid": "7087fb29_a9e07d30",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 1740,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-12T22:42:40Z",
+      "side": 1,
+      "message": "unneeded",
+      "parentUuid": "f0892b3b_8de3c13c",
+      "range": {
+        "startLine": 1740,
+        "startChar": 0,
+        "endLine": 1740,
+        "endChar": 2
+      },
+      "revId": "0da3d4015207be41d7fc60c56c0755250b48ffe4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7087fb29_c9edb127",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 1742,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-12T22:42:40Z",
+      "side": 1,
+      "message": "The ...",
+      "range": {
+        "startLine": 1742,
+        "startChar": 0,
+        "endLine": 1742,
+        "endChar": 11
+      },
+      "revId": "0da3d4015207be41d7fc60c56c0755250b48ffe4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d096e757_4cdabf85",
         "filename": "Documentation/dev-plugins.txt",
         "patchSetId": 14
@@ -116,6 +278,75 @@
       "writtenOn": "2014-09-12T21:23:23Z",
       "side": 1,
       "message": "May be mention, that library proiders don\u0027t need to bind the implementation to the interface themself. This is done in Gerrit core.",
+      "revId": "0da3d4015207be41d7fc60c56c0755250b48ffe4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9082af17_8ae3ab3c",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 1743,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-12T22:42:40Z",
+      "side": 1,
+      "message": "enclose in backticks",
+      "range": {
+        "startLine": 1743,
+        "startChar": 42,
+        "endLine": 1743,
+        "endChar": 51
+      },
+      "revId": "0da3d4015207be41d7fc60c56c0755250b48ffe4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9082af17_4ada9385",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 1744,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-12T22:42:40Z",
+      "side": 1,
+      "message": "remove",
+      "range": {
+        "startLine": 1744,
+        "startChar": 59,
+        "endLine": 1744,
+        "endChar": 62
+      },
+      "revId": "0da3d4015207be41d7fc60c56c0755250b48ffe4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9082af17_6adf5774",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 1745,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-12T22:42:40Z",
+      "side": 1,
+      "message": "enclose in backticks",
+      "range": {
+        "startLine": 1745,
+        "startChar": 14,
+        "endLine": 1745,
+        "endChar": 22
+      },
       "revId": "0da3d4015207be41d7fc60c56c0755250b48ffe4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -253,6 +484,52 @@
         "startChar": 66,
         "endLine": 13,
         "endChar": 71
+      },
+      "revId": "0da3d4015207be41d7fc60c56c0755250b48ffe4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7087fb29_e9ea750c",
+        "filename": "Documentation/pgm-switch-secure-store.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-12T22:42:40Z",
+      "side": 1,
+      "message": "in the old",
+      "range": {
+        "startLine": 13,
+        "startChar": 7,
+        "endLine": 13,
+        "endChar": 13
+      },
+      "revId": "0da3d4015207be41d7fc60c56c0755250b48ffe4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9082af17_aae06f30",
+        "filename": "Documentation/pgm-switch-secure-store.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-12T22:42:40Z",
+      "side": 1,
+      "message": "\", and removes the old\"",
+      "range": {
+        "startLine": 13,
+        "startChar": 28,
+        "endLine": 13,
+        "endChar": 46
       },
       "revId": "0da3d4015207be41d7fc60c56c0755250b48ffe4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

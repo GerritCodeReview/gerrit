@@ -64,9 +64,8 @@ limitations under the License.
       font-weight: bold;
     }
     .closed .name {
-      width: 120px;
+      width: 150px;
       overflow: hidden;
-      text-overflow: ellipsis;
       font-weight: normal;
     }
 
@@ -74,7 +73,7 @@ limitations under the License.
       color: #777;
       position: absolute;
       top: 0;
-      left: 120px;
+      left: 150px;
       width: 880px;
       overflow: hidden;
       text-overflow: ellipsis;

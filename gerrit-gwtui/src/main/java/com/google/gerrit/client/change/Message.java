@@ -89,7 +89,7 @@ class Message extends Composite {
     this.history = parent;
     this.info = info;
 
-    name.setInnerText(authorName(info));
+    setName(false);
     date.setInnerText(FormatUtil.shortFormatDayTime(info.date()));
     if (info.message() != null) {
       String msg = info.message().trim();
@@ -129,6 +129,7 @@ class Message extends Composite {
         commentList = Collections.emptyList();
       }
     }
+    setName(open);
 
     UIObject.setVisible(summary, !open);
     UIObject.setVisible(message, open);
@@ -138,6 +139,17 @@ class Message extends Composite {
     } else {
       addStyleName(style.closed());
     }
+  }
+
+  private void setName(boolean open) {
+    name.setInnerText(open ? authorName(info) : elide(authorName(info), 20));
+  }
+
+  private static String elide(final String s, final int len) {
+    if (s == null || s.length() < len || len <= 10) {
+      return s;
+    }
+    return s.substring(0, len - 10) + "..." + s.substring(s.length() - 10);
   }
 
   void autoOpen() {

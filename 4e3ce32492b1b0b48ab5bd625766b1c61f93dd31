@@ -34,6 +34,24 @@
       "revId": "4e3ce32492b1b0b48ab5bd625766b1c61f93dd31",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_68012ba1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-12T09:22:42Z",
+      "side": 1,
+      "message": "I think this is a problem with my test repo, it has some non-/# refs lying around that I thought I had gotten rid of.",
+      "parentUuid": "30dae333_a240a0bd",
+      "revId": "4e3ce32492b1b0b48ab5bd625766b1c61f93dd31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

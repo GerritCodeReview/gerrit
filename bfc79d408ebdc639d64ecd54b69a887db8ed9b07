@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d065072b_88aac758",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-12T08:59:25Z",
+      "side": 1,
+      "message": "No need to make an additional copy, the input is already a set, so it won\u0027t contain duplicates.",
+      "range": {
+        "startLine": 238,
+        "startChar": 17,
+        "endLine": 238,
+        "endChar": 36
+      },
+      "revId": "bfc79d408ebdc639d64ecd54b69a887db8ed9b07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30dae333_6215b8d4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-12T08:59:25Z",
+      "side": 1,
+      "message": "Optional nit: unnecessary blank lines before and after this method.",
+      "revId": "bfc79d408ebdc639d64ecd54b69a887db8ed9b07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_a8b063c6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/HashtagPredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-12T08:59:25Z",
+      "side": 1,
+      "message": "This seems a little inefficient, but this method is probably not called enough to be worth optimizing.\n\nThe simplest optimization I can think of is to have a map of lowercase tag -\u003e actual tag in ChangeNotes, but that seems like overkill until we identify this as a performance bottleneck in practice.",
+      "revId": "bfc79d408ebdc639d64ecd54b69a887db8ed9b07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

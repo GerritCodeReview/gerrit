@@ -14,10 +14,10 @@
 
 package com.google.gerrit.httpd;
 
-public class GerritUiOptions {
+public class GerritOptions {
   private final boolean headless;
 
-  public GerritUiOptions(boolean headless) {
+  public GerritOptions(boolean headless) {
     this.headless = headless;
   }
 

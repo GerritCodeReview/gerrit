@@ -38,7 +38,7 @@ class GerritConfig extends Config {
   @Override
   public String[] getStringList(String section, String subsection, String name) {
     String[] secure = secureStore.getList(section, subsection, name);
-    if (secure != null) {
+    if (secure != null && secure.length > 0) {
       return secure;
     }
     return super.getStringList(section, subsection, name);

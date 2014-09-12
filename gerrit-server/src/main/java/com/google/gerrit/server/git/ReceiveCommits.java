@@ -1304,9 +1304,11 @@ public class ReceiveCommits {
       return;
     }
 
-    // If tip is a merge commit or %base was specified,
-    // ignore newChangeForAllNotInTarget
-    if (tip.getParentCount() > 1 || magicBranch.base != null) {
+    // If tip is a merge commit, or the root commit or
+    // if %base was specified, ignore newChangeForAllNotInTarget
+    if (tip.getParentCount() > 1
+        || magicBranch.base != null
+        || tip.getParentCount() == 0) {
       newChangeForAllNotInTarget = false;
     }
 

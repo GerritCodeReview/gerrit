@@ -14,7 +14,10 @@
 
 package com.google.gerrit.server.change;
 
+import com.google.common.base.CharMatcher;
+import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
+import com.google.common.collect.Lists;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.DefaultInput;
@@ -32,7 +35,6 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -73,7 +75,8 @@ public class DeleteHashtags implements RestModifyView<ChangeResource, Input> {
     if (oldHashtags != null) {
       hashtags.addAll(oldHashtags);
     }
-    hashtags.removeAll(Arrays.asList(input.hashtags.split(",")));
+    hashtags.removeAll(Lists.newArrayList(Splitter.on(CharMatcher.anyOf(",;"))
+        .trimResults().omitEmptyStrings().split(input.hashtags)));
     update.setHashtags(hashtags);
     update.commit();
     indexer.index(dbProvider.get(), update.getChange());

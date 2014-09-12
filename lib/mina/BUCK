@@ -1,4 +1,5 @@
 include_defs('//lib/maven.defs')
+include_defs('//lib/local.defs')
 
 EXCLUDE = [
   'META-INF/DEPENDENCIES',
@@ -8,8 +9,9 @@ EXCLUDE = [
 
 maven_jar(
   name = 'sshd',
-  id = 'org.apache.sshd:sshd-core:0.12.0',
+  id = 'org.apache.sshd:sshd-core:0.12.0-9-g635de65',
   sha1 = 'b411b3b4ae1d3a8c132cd46cddf126d4dc3fcc71',
+  repository = GERRIT,
   license = 'Apache2.0',
   deps = [':core'],
   exclude = EXCLUDE,

@@ -18,6 +18,7 @@ import static org.junit.Assert.assertEquals;
 
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.PatchSet;
 
 import org.junit.Test;
 
@@ -26,7 +27,8 @@ public class ChangeEditTest {
   public void changeEditRef() throws Exception {
     Account.Id accountId = new Account.Id(1000042);
     Change.Id changeId = new Change.Id(56414);
-    String refName = ChangeEditUtil.editRefName(accountId, changeId);
-    assertEquals("refs/users/42/1000042/edit-56414", refName);
+    PatchSet.Id psId = new PatchSet.Id(changeId, 50);
+    String refName = ChangeEditUtil.editRefName(accountId, changeId, psId);
+    assertEquals("refs/users/42/1000042/edit-56414/50", refName);
   }
 }

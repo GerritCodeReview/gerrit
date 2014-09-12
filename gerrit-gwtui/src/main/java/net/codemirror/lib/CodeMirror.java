@@ -96,7 +96,15 @@ public class CodeMirror extends JavaScriptObject {
 
   private final native void addLineClassNative(LineHandle line, String where,
       String lineClass) /*-{
-    this.addLineClass(line, where, lineClass);
+    try {
+      this.addLineClass(line, where, lineClass);
+    } catch (err) {
+      if ("TypeError: Cannot read property 'parrent' of undefinded" == err.toString()) {
+        // ignore CodeMirror bug after going to new line
+        return;
+      }
+      throw err;
+    }
   }-*/;
 
   public final void removeLineClass(int line, LineClassWhere where,
@@ -362,4 +370,8 @@ public class CodeMirror extends JavaScriptObject {
   public interface BeforeSelectionChangeHandler {
     public void handle(CodeMirror instance, LineCharacter anchor, LineCharacter head);
   }
+
+  public final native String getValue() /*-{
+    return this.getValue();
+  }-*/;
 }

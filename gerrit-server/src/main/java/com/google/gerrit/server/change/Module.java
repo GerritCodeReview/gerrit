@@ -53,11 +53,10 @@ public class Module extends RestApiModule {
     get(CHANGE_KIND, "in").to(IncludedIn.class);
     get(CHANGE_KIND, "hashtags").to(GetHashtags.class);
     put(CHANGE_KIND, "topic").to(PutTopic.class);
-    put(CHANGE_KIND, "hashtags").to(PutHashtags.class);
     delete(CHANGE_KIND, "topic").to(PutTopic.class);
     delete(CHANGE_KIND).to(DeleteDraftChange.class);
-    delete(CHANGE_KIND, "hashtags").to(DeleteHashtags.class);
     post(CHANGE_KIND, "abandon").to(Abandon.class);
+    post(CHANGE_KIND, "hashtags").to(PostHashtags.class);
     post(CHANGE_KIND, "publish").to(Publish.CurrentRevision.class);
     post(CHANGE_KIND, "restore").to(Restore.class);
     post(CHANGE_KIND, "revert").to(Revert.class);

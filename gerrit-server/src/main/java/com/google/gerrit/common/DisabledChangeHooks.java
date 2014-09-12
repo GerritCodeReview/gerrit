@@ -29,6 +29,7 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.RefUpdate;
 
 import java.util.Map;
+import java.util.Set;
 
 /** Does not invoke hooks. */
 public final class DisabledChangeHooks implements ChangeHooks {
@@ -94,6 +95,11 @@ public final class DisabledChangeHooks implements ChangeHooks {
   @Override
   public void doTopicChangedHook(Change change, Account account, String oldTopic,
       ReviewDb db) {
+  }
+
+  @Override
+  public void doHashtagsChangedHook(Change change, Account account, Set<String> added,
+      Set<String> removed, Set<String> hashtags, ReviewDb db) {
   }
 
   @Override

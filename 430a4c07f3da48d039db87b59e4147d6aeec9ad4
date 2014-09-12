@@ -16,6 +16,24 @@
       "revId": "430a4c07f3da48d039db87b59e4147d6aeec9ad4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_23d59456",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-12T13:53:04Z",
+      "side": 1,
+      "message": "loadDefaults is only called in the rev \u003d\u003d null case above, so this is still necessary.",
+      "parentUuid": "d065072b_281613b3",
+      "revId": "430a4c07f3da48d039db87b59e4147d6aeec9ad4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

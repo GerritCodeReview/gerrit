@@ -14,17 +14,14 @@
 
 package com.google.gerrit.server.change;
 
-import com.google.common.base.CharMatcher;
-import com.google.common.base.Splitter;
-import com.google.common.base.Strings;
-import com.google.common.collect.Lists;
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.DefaultInput;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.change.PutHashtags.Input;
+import com.google.gerrit.server.change.PostHashtags.Input;
 import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
@@ -37,30 +34,47 @@ import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.TreeSet;
 
 @Singleton
-public class PutHashtags implements RestModifyView<ChangeResource, Input> {
+public class PostHashtags implements RestModifyView<ChangeResource, Input> {
   private final ChangeUpdate.Factory updateFactory;
   private final Provider<ReviewDb> dbProvider;
   private final ChangeIndexer indexer;
 
   public static class Input {
     @DefaultInput
-    public String hashtags;
+    public Set<String> add;
+    public Set<String> remove;
   }
 
   @Inject
-  PutHashtags(ChangeUpdate.Factory updateFactory,
+  PostHashtags(ChangeUpdate.Factory updateFactory,
       Provider<ReviewDb> dbProvider, ChangeIndexer indexer) {
     this.updateFactory = updateFactory;
     this.dbProvider = dbProvider;
     this.indexer = indexer;
   }
 
+  private Set<String> extractTags(Set<String> input)
+      throws BadRequestException {
+    if (input == null) {
+      return ImmutableSet.of();
+    } else {
+      for (String hashtag: input) {
+        if (hashtag.contains(",")) {
+          throw new BadRequestException("Hashtags may not contain commas");
+        }
+      }
+      return input;
+    }
+  }
+
   @Override
-  public Response<Set<String>> apply(ChangeResource req, Input input)
+  public Response<TreeSet<String>> apply(ChangeResource req, Input input)
       throws AuthException, OrmException, IOException, BadRequestException {
-    if (input == null || Strings.isNullOrEmpty(input.hashtags)) {
+    if (input == null
+        || (input.add == null && input.remove == null)) {
       throw new BadRequestException("Hashtags are required");
     }
 
@@ -70,17 +84,27 @@ public class PutHashtags implements RestModifyView<ChangeResource, Input> {
     }
     ChangeUpdate update = updateFactory.create(control);
     ChangeNotes notes = control.getNotes().load();
-    Set<String> oldHashtags = notes.getHashtags();
-    Set<String> hashtags = new HashSet<String>();
-    if (oldHashtags != null) {
-      hashtags.addAll(oldHashtags);
-    };
-    hashtags.addAll(Lists.newArrayList(Splitter.on(CharMatcher.anyOf(",;"))
-        .trimResults().omitEmptyStrings().split(input.hashtags)));
-    update.setHashtags(hashtags);
-    update.commit();
-    indexer.index(dbProvider.get(), update.getChange());
 
-    return Response.ok(hashtags);
+    Set<String> existingHashtags = notes.getHashtags();
+    Set<String> updatedHashtags = new HashSet<>();
+    Set<String> toAdd = new HashSet<>(extractTags(input.add));
+    Set<String> toRemove = new HashSet<>(extractTags(input.remove));
+
+    if (existingHashtags != null && !existingHashtags.isEmpty()) {
+      updatedHashtags.addAll(existingHashtags);
+      toAdd.removeAll(existingHashtags);
+      toRemove.retainAll(existingHashtags);
+    }
+
+    if (toAdd.size() > 0 || toRemove.size() > 0) {
+      updatedHashtags.addAll(toAdd);
+      updatedHashtags.removeAll(toRemove);
+      update.setHashtags(updatedHashtags);
+      update.commit();
+
+      indexer.index(dbProvider.get(), update.getChange());
+    }
+
+    return Response.ok(new TreeSet<String>(updatedHashtags));
   }
 }

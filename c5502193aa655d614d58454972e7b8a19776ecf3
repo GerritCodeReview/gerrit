@@ -2,6 +2,86 @@
   "comments": [
     {
       "key": {
+        "uuid": "30dae333_22c9f03b",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/ChangeInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-12T07:34:58Z",
+      "side": 1,
+      "message": "Document this field.\n\nCurrently you\u0027re only using it on the input side, but it would be simple to populate it in ChangeJson, no?",
+      "revId": "c5502193aa655d614d58454972e7b8a19776ecf3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_c8b83fc8",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/FollowUpAction.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-12T07:34:58Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this be the id from result, not the id passed in to FollowUpAction?",
+      "range": {
+        "startLine": 44,
+        "startChar": 46,
+        "endLine": 44,
+        "endChar": 48
+      },
+      "revId": "c5502193aa655d614d58454972e7b8a19776ecf3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_08b357ea",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-12T07:34:58Z",
+      "side": 1,
+      "message": "Unnecessary blank line",
+      "revId": "c5502193aa655d614d58454972e7b8a19776ecf3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_e8affb7b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-12T07:34:58Z",
+      "side": 1,
+      "message": "\"Base change\"?",
+      "range": {
+        "startLine": 163,
+        "startChar": 17,
+        "endLine": 163,
+        "endChar": 23
+      },
+      "revId": "c5502193aa655d614d58454972e7b8a19776ecf3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d065072b_e8fd3b7c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/FollowUp.java",
         "patchSetId": 1
@@ -13,6 +93,30 @@
       "writtenOn": "2014-09-11T23:03:14Z",
       "side": 1,
       "message": "This method is (currenty) not called from the UI. POST /changes is used directly.",
+      "range": {
+        "startLine": 47,
+        "startChar": 41,
+        "endLine": 47,
+        "endChar": 46
+      },
+      "revId": "c5502193aa655d614d58454972e7b8a19776ecf3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30dae333_02bb0ca8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/FollowUp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-12T07:34:58Z",
+      "side": 1,
+      "message": "So, remove this class?",
+      "parentUuid": "d065072b_e8fd3b7c",
       "range": {
         "startLine": 47,
         "startChar": 41,

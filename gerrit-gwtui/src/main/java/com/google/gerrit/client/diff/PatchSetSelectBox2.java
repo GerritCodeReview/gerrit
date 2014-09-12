@@ -16,12 +16,11 @@ package com.google.gerrit.client.diff;
 
 import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.VoidResult;
 import com.google.gerrit.client.WebLinkInfo;
-import com.google.gerrit.client.change.EditFileAction;
 import com.google.gerrit.client.changes.ChangeFileApi;
 import com.google.gerrit.client.changes.ChangeInfo.RevisionInfo;
 import com.google.gerrit.client.patches.PatchUtil;
-import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.InlineHyperlink;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Patch;
@@ -34,6 +33,7 @@ import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
@@ -133,28 +133,29 @@ class PatchSetSelectBox2 extends Composite {
   }
 
   private Widget createEditIcon() {
-    Anchor anchor = new Anchor(
+    final Anchor anchor = new Anchor(
         new ImageResourceRenderer().render(Gerrit.RESOURCES.edit()));
     anchor.addClickHandler(new ClickHandler() {
+      boolean editing = false;
       @Override
       public void onClick(ClickEvent event) {
-        // TODO(davido): We need to pass here the info if edit exists and
-        // pass 0 ps id in this case to retrieve the content from the edit
-        // and not from the patch set the edit is based on. But it's OK to
-        // do that later, because normal workflow is to go to normal ps,
-        // open SBS2 screen, modify file, save it: change screen is reloaded
-        // and now the change edit is loaded. So the subsequent changes are
-        // done on edit and not on regular patch set.
-        final PatchSet.Id id = (idActive == null) ? other.idActive : idActive;
-        ChangeFileApi.getContent(id, path,
-            new GerritCallback<String>() {
-              @Override
-              public void onSuccess(String result) {
-                EditFileAction edit = new EditFileAction(
-                    id, result, path, style.replyBox(), null, icon);
-                edit.onEdit();
-              }
-            });
+        editing = !editing;
+        parent.editSideB(editing);
+        if (editing) {
+          anchor.setHTML(new ImageResourceRenderer().render(Gerrit.RESOURCES.save()));
+        } else {
+          anchor.setHTML(new ImageResourceRenderer().render(Gerrit.RESOURCES.edit()));
+          ChangeFileApi.putContent(idActive, path, parent.getSiteBContent(),
+              new AsyncCallback<VoidResult>() {
+                @Override
+                public void onSuccess(VoidResult result) {
+                }
+
+                @Override
+                public void onFailure(Throwable caught) {
+                }
+              });
+        }
       }
     });
     anchor.setTitle(PatchUtil.C.edit());

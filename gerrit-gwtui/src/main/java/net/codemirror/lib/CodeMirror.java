@@ -362,4 +362,8 @@ public class CodeMirror extends JavaScriptObject {
   public interface BeforeSelectionChangeHandler {
     public void handle(CodeMirror instance, LineCharacter anchor, LineCharacter head);
   }
+
+  public final native String getValue() /*-{
+    this.getValue();
+  }-*/;
 }

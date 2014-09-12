@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "30dae333_e208e8bb",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/ChangeInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-12T08:58:00Z",
+      "side": 1,
+      "message": "That why i didn\u0027t documeneted it. We don\u0027t need it until now in output, and would need Git operations, like in related changes. May be introduce new BASE_CHANGE option and only return it when  is really need it.",
+      "parentUuid": "30dae333_22c9f03b",
+      "revId": "c5502193aa655d614d58454972e7b8a19776ecf3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d065072b_c8b83fc8",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/FollowUpAction.java",
         "patchSetId": 1
@@ -30,6 +48,30 @@
       "writtenOn": "2014-09-12T07:34:58Z",
       "side": 1,
       "message": "Shouldn\u0027t this be the id from result, not the id passed in to FollowUpAction?",
+      "range": {
+        "startLine": 44,
+        "startChar": 46,
+        "endLine": 44,
+        "endChar": 48
+      },
+      "revId": "c5502193aa655d614d58454972e7b8a19776ecf3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30dae333_a20ee0c6",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/FollowUpAction.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-12T08:58:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d065072b_c8b83fc8",
       "range": {
         "startLine": 44,
         "startChar": 46,
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "30dae333_821abc01",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-12T08:58:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d065072b_08b357ea",
+      "revId": "c5502193aa655d614d58454972e7b8a19776ecf3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d065072b_e8affb7b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateChange.java",
         "patchSetId": 1
@@ -70,6 +130,30 @@
       "writtenOn": "2014-09-12T07:34:58Z",
       "side": 1,
       "message": "\"Base change\"?",
+      "range": {
+        "startLine": 163,
+        "startChar": 17,
+        "endLine": 163,
+        "endChar": 23
+      },
+      "revId": "c5502193aa655d614d58454972e7b8a19776ecf3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_68af6b6a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-12T08:58:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d065072b_e8affb7b",
       "range": {
         "startLine": 163,
         "startChar": 17,
@@ -165,6 +249,30 @@
       "side": 1,
       "message": "Huh, I guess I\u0027m surprised if the module gives us no way to bind UiActions without an associated handler. But I guess this is ok, it\u0027s fine as a standalone API even if it\u0027s not used from gwtui currently.\n\nDocument this endpoint in the REST API docs?",
       "parentUuid": "30dae333_42f7d46a",
+      "range": {
+        "startLine": 47,
+        "startChar": 41,
+        "endLine": 47,
+        "endChar": 46
+      },
+      "revId": "c5502193aa655d614d58454972e7b8a19776ecf3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30dae333_0206acae",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/FollowUp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-12T08:58:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "30dae333_a2e500b3",
       "range": {
         "startLine": 47,
         "startChar": 41,

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "30dae333_62a0584b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-09-12T09:51:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d065072b_a867c39f",
+      "revId": "afd115bf7863c9bfc60b747c44e4b1db63d983a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d065072b_08651797",
         "filename": "/COMMIT_MSG",
         "patchSetId": 10
@@ -30,6 +48,30 @@
       "writtenOn": "2014-09-12T09:12:53Z",
       "side": 1,
       "message": "values in the secure store",
+      "range": {
+        "startLine": 10,
+        "startChar": 58,
+        "endLine": 10,
+        "endChar": 64
+      },
+      "revId": "afd115bf7863c9bfc60b747c44e4b1db63d983a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_c80e7fc8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-09-12T09:51:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d065072b_08651797",
       "range": {
         "startLine": 10,
         "startChar": 58,
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "30dae333_e2938803",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-09-12T09:51:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d065072b_e861bb8a",
+      "revId": "afd115bf7863c9bfc60b747c44e4b1db63d983a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "30dae333_221bb00b",
         "filename": "gerrit-pgm/src/test/java/com/google/gerrit/pgm/init/UpgradeFrom2_0_xTest.java",
         "patchSetId": 10
@@ -70,6 +130,30 @@
       "writtenOn": "2014-09-12T09:12:53Z",
       "side": 1,
       "message": "if the assumption is that this is never used then why not throw an UnsupportedOperationException ?",
+      "range": {
+        "startLine": 150,
+        "startChar": 0,
+        "endLine": 151,
+        "endChar": 18
+      },
+      "revId": "afd115bf7863c9bfc60b747c44e4b1db63d983a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30dae333_229650fc",
+        "filename": "gerrit-pgm/src/test/java/com/google/gerrit/pgm/init/UpgradeFrom2_0_xTest.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-09-12T09:51:25Z",
+      "side": 1,
+      "message": "True, done",
+      "parentUuid": "30dae333_221bb00b",
       "range": {
         "startLine": 150,
         "startChar": 0,
@@ -99,6 +183,24 @@
     },
     {
       "key": {
+        "uuid": "d065072b_08f0776b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/DefaultSecureStore.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-09-12T09:51:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d065072b_68c80b35",
+      "revId": "afd115bf7863c9bfc60b747c44e4b1db63d983a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "30dae333_025f8ca0",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/SecureStore.java",
         "patchSetId": 10
@@ -122,6 +224,30 @@
     },
     {
       "key": {
+        "uuid": "d065072b_28f7336c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/SecureStore.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-09-12T09:51:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "30dae333_025f8ca0",
+      "range": {
+        "startLine": 32,
+        "startChar": 0,
+        "endLine": 42,
+        "endChar": 5
+      },
+      "revId": "afd115bf7863c9bfc60b747c44e4b1db63d983a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d065072b_c8dcbff8",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/SecureStore.java",
         "patchSetId": 10
@@ -133,6 +259,30 @@
       "writtenOn": "2014-09-12T09:12:53Z",
       "side": 1,
       "message": "not needed if returning a List\u003cEntryKey\u003e from the list() method",
+      "range": {
+        "startLine": 44,
+        "startChar": 0,
+        "endLine": 61,
+        "endChar": 5
+      },
+      "revId": "afd115bf7863c9bfc60b747c44e4b1db63d983a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30dae333_822c7c1e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/SecureStore.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-09-12T09:51:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d065072b_c8dcbff8",
       "range": {
         "startLine": 44,
         "startChar": 0,

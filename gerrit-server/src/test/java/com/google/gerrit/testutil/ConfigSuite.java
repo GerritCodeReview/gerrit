@@ -75,9 +75,17 @@ import java.util.List;
  *   <li><strong>firstConfig</strong>: {@code MyTest.myTest[firstConfig]}</li>
  *   <li><strong>secondConfig</strong>: {@code MyTest.myTest[secondConfig]}</li>
  * </ul>
+ *
+ * Additionally, config values used by <strong>default</strong> can be set
+ * in a method annotated with {@code @ConfigSuite.Default}.
  */
 public class ConfigSuite extends Suite {
   private static final String DEFAULT = "default";
+
+  @Target({METHOD})
+  @Retention(RUNTIME)
+  public static @interface Default {
+  }
 
   @Target({METHOD})
   @Retention(RUNTIME)
@@ -122,11 +130,12 @@ public class ConfigSuite extends Suite {
   }
 
   private static List<Runner> runnersFor(Class<?> clazz) {
+    Method defaultConfig = getDefaultConfig(clazz);
     List<Method> configs = getConfigs(clazz);
     Field field = getParameterField(clazz);
     List<Runner> result = Lists.newArrayListWithCapacity(configs.size() + 1);
     try {
-      result.add(new ConfigRunner(clazz, field, null, null));
+      result.add(new ConfigRunner(clazz, field, null, defaultConfig));
       for (Method m : configs) {
         result.add(new ConfigRunner(clazz, field, m.getName(), m));
       }
@@ -134,6 +143,20 @@ public class ConfigSuite extends Suite {
     } catch (InitializationError e) {
       throw new RuntimeException(e);
     }
+  }
+
+  private static Method getDefaultConfig(Class<?> clazz) {
+    Method result = null;
+    for (Method m : clazz.getMethods()) {
+      Default ann = m.getAnnotation(Default.class);
+      if (ann != null) {
+        checkArgument(result == null,
+            "Multiple methods annotated with @ConfigSuite.Method: %s, %s",
+            result, m);
+        result = m;
+      }
+    }
+    return result;
   }
 
   private static List<Method> getConfigs(Class<?> clazz) {

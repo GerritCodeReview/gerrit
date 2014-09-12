@@ -16,9 +16,11 @@ package com.google.gerrit.server.change;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.ChangeHooks;
+import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.DefaultInput;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -28,6 +30,8 @@ import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.validators.HashtagValidationListener;
+import com.google.gerrit.server.validators.ValidationException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -44,6 +48,7 @@ public class PostHashtags implements RestModifyView<ChangeResource, Input> {
   private final Provider<ReviewDb> dbProvider;
   private final ChangeIndexer indexer;
   private final ChangeHooks hooks;
+  private final DynamicSet<HashtagValidationListener> hashtagValidationListeners;
 
   public static class Input {
     @DefaultInput
@@ -54,11 +59,13 @@ public class PostHashtags implements RestModifyView<ChangeResource, Input> {
   @Inject
   PostHashtags(ChangeUpdate.Factory updateFactory,
       Provider<ReviewDb> dbProvider, ChangeIndexer indexer,
-      ChangeHooks hooks) {
+      ChangeHooks hooks,
+      DynamicSet<HashtagValidationListener> hashtagValidationListeners) {
     this.updateFactory = updateFactory;
     this.dbProvider = dbProvider;
     this.indexer = indexer;
     this.hooks = hooks;
+    this.hashtagValidationListeners = hashtagValidationListeners;
   }
 
   private Set<String> extractTags(Set<String> input)
@@ -81,7 +88,8 @@ public class PostHashtags implements RestModifyView<ChangeResource, Input> {
 
   @Override
   public Response<? extends Set<String>> apply(ChangeResource req, Input input)
-      throws AuthException, OrmException, IOException, BadRequestException {
+      throws AuthException, OrmException, IOException, BadRequestException,
+      ResourceConflictException {
     if (input == null
         || (input.add == null && input.remove == null)) {
       throw new BadRequestException("Hashtags are required");
@@ -98,6 +106,14 @@ public class PostHashtags implements RestModifyView<ChangeResource, Input> {
     Set<String> updatedHashtags = new HashSet<>();
     Set<String> toAdd = new HashSet<>(extractTags(input.add));
     Set<String> toRemove = new HashSet<>(extractTags(input.remove));
+
+    for (HashtagValidationListener validator : hashtagValidationListeners) {
+      try {
+        validator.validateHashtags(req.getChange(), toAdd, toRemove);
+      } catch (ValidationException e) {
+        throw new ResourceConflictException(e.getMessage(), e);
+      }
+    }
 
     if (existingHashtags != null && !existingHashtags.isEmpty()) {
       updatedHashtags.addAll(existingHashtags);

@@ -17,8 +17,8 @@ package com.google.gerrit.server.index;
 import com.google.common.base.Function;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Splitter;
+import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.gerrit.reviewdb.client.Account;
@@ -235,15 +235,17 @@ public class ChangeField {
         @Override
         public Iterable<String> get(ChangeData input, FillArgs args)
             throws OrmException {
-          return ImmutableSet.copyOf(Iterables.transform(input.notes().load()
-              .getHashtags(), new Function<String, String>() {
-
-            @Override
-            public String apply(String input) {
-              return input.toLowerCase();
-            }
-
-          }));
+          Set<String> tags = input.notes().load().getHashtags();
+          if (tags == null) {
+            return ImmutableSet.of();
+          }
+          return FluentIterable.from(tags)
+            .transform(new Function<String, String>() {
+              @Override
+              public String apply(String input) {
+                return input.toLowerCase();
+              }
+            }).toSet();
         }
       };
 

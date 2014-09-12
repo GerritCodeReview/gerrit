@@ -16,8 +16,8 @@ package com.google.gerrit.client.diff;
 
 import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.VoidResult;
 import com.google.gerrit.client.WebLinkInfo;
-import com.google.gerrit.client.change.EditFileAction;
 import com.google.gerrit.client.changes.ChangeFileApi;
 import com.google.gerrit.client.changes.ChangeInfo.RevisionInfo;
 import com.google.gerrit.client.patches.PatchUtil;
@@ -139,21 +139,35 @@ class PatchSetSelectBox2 extends Composite {
   }
 
   private Widget createEditIcon() {
-    Anchor anchor = new Anchor(
+    final Anchor anchor = new Anchor(
         new ImageResourceRenderer().render(Gerrit.RESOURCES.edit()));
     anchor.addClickHandler(new ClickHandler() {
+      boolean editing = false;
       @Override
       public void onClick(ClickEvent event) {
         final PatchSet.Id id = (idActive == null) ? other.idActive : idActive;
-        ChangeFileApi.getContent(id, path,
-            new GerritCallback<String>() {
-              @Override
-              public void onSuccess(String result) {
-                EditFileAction edit = new EditFileAction(
-                    id, result, path, style.replyBox(), null, icon);
-                edit.onEdit();
-              }
-            });
+        editing = !editing;
+        parent.editSideB(editing);
+
+        if (editing) {
+          ChangeFileApi.getContent(id, path,
+              new GerritCallback<String>() {
+            @Override
+            public void onSuccess(String content) {
+              parent.setSideBContent(content);
+            }
+          });
+          anchor.setHTML(new ImageResourceRenderer().render(Gerrit.RESOURCES.save()));
+        } else {
+          anchor.setHTML(new ImageResourceRenderer().render(Gerrit.RESOURCES.edit()));
+          String siteBContent = parent.getSideBContent();
+          ChangeFileApi.putContent(id, path, siteBContent,
+              new GerritCallback<VoidResult>() {
+                @Override
+                public void onSuccess(VoidResult result) {
+                }
+              });
+        }
       }
     });
     anchor.setTitle(PatchUtil.C.edit());

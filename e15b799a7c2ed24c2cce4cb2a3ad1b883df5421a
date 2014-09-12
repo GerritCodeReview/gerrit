@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "30dae333_65a942ad",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Hashtags.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-09-12T15:30:10Z",
+      "side": 1,
+      "message": "Wrong import, cannot be resolved when running the tests.",
+      "range": {
+        "startLine": 32,
+        "startChar": 0,
+        "endLine": 32,
+        "endChar": 59
+      },
+      "revId": "e15b799a7c2ed24c2cce4cb2a3ad1b883df5421a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

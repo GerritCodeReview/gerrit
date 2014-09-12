@@ -127,20 +127,25 @@ class CommitBox extends Composite {
     GitwebLink gw = Gerrit.getGitwebLink();
     if (gw != null && gw.canLink(revInfo)) {
       addWebLink(gw.toRevision(change.project(), revision),
-          gw.getLinkName(), null);
+          gw.getLinkName(), null, null);
     }
 
     JsArray<WebLinkInfo> links = revInfo.web_links();
     if (links != null) {
       for (WebLinkInfo link : Natives.asList(links)) {
-        addWebLink(link.url(), parenthesize(link.name()), link.imageUrl());
+        addWebLink(link.url(), parenthesize(link.name()), link.imageUrl(),
+            link.target());
       }
     }
   }
 
-  private void addWebLink(String href, String name, String imageUrl) {
+  private void addWebLink(String href, String name, String imageUrl,
+      String target) {
     Anchor a = new Anchor();
     a.setHref(href);
+    if (target != null && !target.isEmpty()) {
+      a.setTarget(target);
+    }
     if (imageUrl != null && !imageUrl.isEmpty()) {
       Image img = new Image();
       img.setAltText(name);

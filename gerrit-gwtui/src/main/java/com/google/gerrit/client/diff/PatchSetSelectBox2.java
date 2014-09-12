@@ -108,6 +108,9 @@ class PatchSetSelectBox2 extends Composite {
       for (WebLinkInfo weblink : webLinks) {
         Anchor a = new Anchor();
         a.setHref(weblink.url());
+        if (weblink.target() != null && !weblink.target().isEmpty()) {
+          a.setTarget(weblink.target());
+        }
         if (weblink.imageUrl() != null && !weblink.imageUrl().isEmpty()) {
           Image img = new Image();
           img.setAltText(weblink.name());

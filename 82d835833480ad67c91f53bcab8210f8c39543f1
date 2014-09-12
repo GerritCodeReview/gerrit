@@ -22,6 +22,30 @@
       "revId": "82d835833480ad67c91f53bcab8210f8c39543f1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30dae333_05c15665",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/Version.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-09-12T15:25:26Z",
+      "side": 1,
+      "message": "Let\u0027s assume it for now until the opposite is proven.",
+      "parentUuid": "d065072b_9ad32d96",
+      "range": {
+        "startLine": 40,
+        "startChar": 17,
+        "endLine": 40,
+        "endChar": 20
+      },
+      "revId": "82d835833480ad67c91f53bcab8210f8c39543f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

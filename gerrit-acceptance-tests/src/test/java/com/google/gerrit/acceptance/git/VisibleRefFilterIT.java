@@ -210,7 +210,7 @@ public class VisibleRefFilterIT extends AbstractDaemonTest {
         "refs/changes/01/1/meta",
         "refs/heads/master",
         "refs/tags/master-tag",
-        "refs/users/01/1000001/edit-1");
+        "refs/users/01/1000001/edit-1/1");
   }
 
   @Test
@@ -238,8 +238,8 @@ public class VisibleRefFilterIT extends AbstractDaemonTest {
         // See comment in subsetOfBranchesVisibleNotIncludingHead.
         "refs/tags/master-tag",
         // All edits are visible due to accessDatabase capability.
-        "refs/users/00/1000000/edit-1",
-        "refs/users/01/1000001/edit-1");
+        "refs/users/00/1000000/edit-1/1",
+        "refs/users/01/1000001/edit-1/1");
   }
 
   /**

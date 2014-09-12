@@ -22,6 +22,30 @@
       "revId": "d71f997e8b4ffa9c87d473022ae3ed7abb699961",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_48a0af7c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/DeleteBranch.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1013722
+      },
+      "writtenOn": "2014-09-12T08:49:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "30dae333_02feac77",
+      "range": {
+        "startLine": 123,
+        "startChar": 0,
+        "endLine": 137,
+        "endChar": 3
+      },
+      "revId": "d71f997e8b4ffa9c87d473022ae3ed7abb699961",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -20,12 +20,17 @@ import com.google.gwtorm.server.OrmException;
 
 class HashtagPredicate extends IndexPredicate<ChangeData> {
   HashtagPredicate(String hashtag) {
-    super(ChangeField.HASHTAG, hashtag);
+    super(ChangeField.HASHTAG, hashtag.toLowerCase());
   }
 
   @Override
   public boolean match(final ChangeData object) throws OrmException {
-    return object.notes().load().getHashtags().contains(getValue());
+    for (String hashtag : object.notes().load().getHashtags()) {
+      if (hashtag.equalsIgnoreCase(getValue())) {
+        return true;
+      }
+    }
+    return false;
   }
 
   @Override

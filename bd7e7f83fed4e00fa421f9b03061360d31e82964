@@ -34,6 +34,24 @@
       "revId": "bd7e7f83fed4e00fa421f9b03061360d31e82964",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_68cbeb59",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/VisibleRefFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-12T07:11:02Z",
+      "side": 1,
+      "message": "I\u0027m leaning towards fixing it later, but let\u0027s leave it as is for now. I think it\u0027s important to get this in before we deploy inline edit on googlesource.com.\n\nDocumentation updated.",
+      "parentUuid": "30dae333_4279949b",
+      "revId": "bd7e7f83fed4e00fa421f9b03061360d31e82964",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

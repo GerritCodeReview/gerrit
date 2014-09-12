@@ -16,12 +16,11 @@ package com.google.gerrit.client.diff;
 
 import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.VoidResult;
 import com.google.gerrit.client.WebLinkInfo;
-import com.google.gerrit.client.change.EditFileAction;
 import com.google.gerrit.client.changes.ChangeFileApi;
 import com.google.gerrit.client.changes.ChangeInfo.RevisionInfo;
 import com.google.gerrit.client.patches.PatchUtil;
-import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.InlineHyperlink;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Patch;
@@ -34,6 +33,8 @@ import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
@@ -110,7 +111,7 @@ class PatchSetSelectBox2 extends Composite {
     if (meta != null && !Patch.COMMIT_MSG.equals(path)) {
       linkPanel.add(createDownloadLink());
     }
-    if (Gerrit.isSignedIn() && meta != null
+    if (!sideA && Gerrit.isSignedIn() && meta != null
         && !Patch.COMMIT_MSG.equals(path)) {
       PatchSet.Id id = (idActive == null) ? other.idActive : idActive;
       if ((editExists && id.get() == 0)
@@ -140,21 +141,43 @@ class PatchSetSelectBox2 extends Composite {
   }
 
   private Widget createEditIcon() {
-    Anchor anchor = new Anchor(
+    final Anchor anchor = new Anchor(
         new ImageResourceRenderer().render(Gerrit.RESOURCES.edit()));
     anchor.addClickHandler(new ClickHandler() {
+      boolean editing = false;
       @Override
       public void onClick(ClickEvent event) {
         final PatchSet.Id id = (idActive == null) ? other.idActive : idActive;
-        ChangeFileApi.getContent(id, path,
-            new GerritCallback<String>() {
-              @Override
-              public void onSuccess(String result) {
-                EditFileAction edit = new EditFileAction(
-                    id, result, path, style.replyBox(), null, icon);
-                edit.onEdit();
-              }
-            });
+        editing = !editing;
+        parent.editSideB(editing);
+
+        if (editing) {
+          ChangeFileApi.getContent(id, path,
+              new AsyncCallback<String>() {
+            @Override
+            public void onSuccess(String content) {
+              parent.setSiteBContent(content);
+            }
+
+            @Override
+            public void onFailure(Throwable caught) {
+            }
+          });
+          anchor.setHTML(new ImageResourceRenderer().render(Gerrit.RESOURCES.save()));
+        } else {
+          anchor.setHTML(new ImageResourceRenderer().render(Gerrit.RESOURCES.edit()));
+          String siteBContent = parent.getSiteBContent();
+          ChangeFileApi.putContent(id, path, siteBContent,
+              new AsyncCallback<VoidResult>() {
+                @Override
+                public void onSuccess(VoidResult result) {
+                }
+
+                @Override
+                public void onFailure(Throwable caught) {
+                }
+              });
+        }
       }
     });
     anchor.setTitle(PatchUtil.C.edit());

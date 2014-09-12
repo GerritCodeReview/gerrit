@@ -133,6 +133,8 @@ public class SideBySide2 extends Screen {
   private PreferencesAction prefsAction;
   private int reloadVersionId;
 
+  private KeyMap sbsKeyMap;
+
   public SideBySide2(
       PatchSet.Id base,
       PatchSet.Id revision,
@@ -338,7 +340,7 @@ public class SideBySide2 extends Screen {
     cm.on("cursorActivity", updateActiveLine(cm));
     cm.on("gutterClick", onGutterClick(cm));
     cm.on("focus", updateActiveLine(cm));
-    cm.addKeyMap(KeyMap.create()
+    sbsKeyMap = KeyMap.create()
         .on("A", upToChange(true))
         .on("U", upToChange(false))
         .on("[", header.navigate(Direction.PREV))
@@ -403,7 +405,8 @@ public class SideBySide2 extends Screen {
           public void run() {
             cm.execCommand("selectAll");
           }
-        }));
+        });
+    cm.addKeyMap(sbsKeyMap);
     if (prefs.renderEntireFile()) {
       cm.addKeyMap(RENDER_ENTIRE_FILE_KEYMAP);
     }
@@ -531,6 +534,26 @@ public class SideBySide2 extends Screen {
         cmB.focus();
       }
     }));
+  }
+
+  public void editSideB(boolean state) {
+    cmB.setOption("readOnly", !state);
+    JumpKeys.enable(!state);
+    if (state) {
+      removeKeyHandlerRegistrations();
+      cmB.removeKeyMap(sbsKeyMap);
+    } else {
+      cmB.addKeyMap(sbsKeyMap);
+      registerKeys();
+    }
+  }
+
+  public String getSiteBContent() {
+    return cmB.getValue();
+  }
+
+  public void setSiteBContent(String content) {
+    cmB.setValue(content);
   }
 
   private void display(final CommentsCollections comments) {

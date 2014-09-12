@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "70d0db0f_4179929b",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/GitOverHttpServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2014-09-12T14:17:36Z",
+      "side": 1,
+      "message": "wrap",
+      "range": {
+        "startLine": 137,
+        "startChar": 6,
+        "endLine": 137,
+        "endChar": 84
+      },
+      "revId": "6330987705e504f8e573c613698072f826220ecf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d04c27b5_3cf2d17b",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/GitOverHttpServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2014-09-12T14:17:36Z",
+      "side": 1,
+      "message": "wrap",
+      "range": {
+        "startLine": 324,
+        "startChar": 2,
+        "endLine": 324,
+        "endChar": 89
+      },
+      "revId": "6330987705e504f8e573c613698072f826220ecf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

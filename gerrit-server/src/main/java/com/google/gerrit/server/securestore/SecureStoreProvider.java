@@ -12,12 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.pgm.util;
+package com.google.gerrit.server.securestore;
 
 import com.google.common.base.Strings;
+import com.google.gerrit.common.SiteLibraryLoaderUtil;
 import com.google.gerrit.server.config.SitePaths;
-import com.google.gerrit.server.securestore.DefaultSecureStore;
-import com.google.gerrit.server.securestore.SecureStore;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Provider;

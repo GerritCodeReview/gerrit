@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d065072b_e8d37be2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-12T09:18:31Z",
+      "side": 1,
+      "message": "[2014-09-12 11:17:21,167] ERROR com.google.gerrit.httpd.restapi.RestApiServlet : Error in PUT /changes/6/edit/foo\n java.io.IOException: update failed: org.eclipse.jgit.internal.storage.file.RefDirectoryUpdate@294b1c18\n \tat com.google.gerrit.server.edit.ChangeEditModifier.update(ChangeEditModifier.java:329)\n \tat com.google.gerrit.server.edit.ChangeEditModifier.createEdit(ChangeEditModifier.java:131)\n \tat com.google.gerrit.server.change.ChangeEdits$Create.createEdit(ChangeEdits.java:185)\n \tat com.google.gerrit.server.change.ChangeEdits$Create.apply(ChangeEdits.java:174)\n \tat com.google.gerrit.server.change.ChangeEdits$Create.apply(ChangeEdits.java:1)\n \tat com.google.gerrit.httpd.restapi.RestApiServlet.service(RestApiServlet.java:317)",
+      "revId": "4e3ce32492b1b0b48ab5bd625766b1c61f93dd31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

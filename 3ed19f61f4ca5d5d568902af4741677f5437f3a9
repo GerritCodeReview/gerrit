@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d065072b_28aa9373",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/PatchSetSelectBox2.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-12T07:26:28Z",
+      "side": 1,
+      "message": "I think we need a similar (but simpler) check as we have in the file table for when to enable this:\n\n* If an edit exists, is this side displaying the edit?\n* Otherwise, is this side displaying the latest patch set?\n\nI don\u0027t think you need the !sideA check either; the latest patch set or the edit may both appear on the LHS.",
+      "range": {
+        "startLine": 113,
+        "startChar": 9,
+        "endLine": 113,
+        "endChar": 14
+      },
+      "revId": "3ed19f61f4ca5d5d568902af4741677f5437f3a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d065072b_e8d6dbfb",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/PatchSetSelectBox2.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-12T07:26:28Z",
+      "side": 1,
+      "message": "TODO to expose this as a FileWebLink? Or maybe that will never work because of the custom click handler?",
+      "revId": "3ed19f61f4ca5d5d568902af4741677f5437f3a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

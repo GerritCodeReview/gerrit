@@ -1,4 +1,5 @@
 include_defs('//lib/maven.defs')
+include_defs('//lib/local.defs')
 
 EXCLUDE = [
   'META-INF/DEPENDENCIES',
@@ -6,13 +7,19 @@ EXCLUDE = [
   'META-INF/NOTICE',
 ]
 
-maven_jar(
+#maven_jar(
+#  name = 'sshd',
+#  id = 'org.apache.sshd:sshd-core:0.12.0',
+#  sha1 = 'b411b3b4ae1d3a8c132cd46cddf126d4dc3fcc71',
+#  license = 'Apache2.0',
+#  deps = [':core'],
+#  exclude = EXCLUDE,
+#)
+
+local_jar(
   name = 'sshd',
-  id = 'org.apache.sshd:sshd-core:0.12.0',
-  sha1 = 'b411b3b4ae1d3a8c132cd46cddf126d4dc3fcc71',
-  license = 'Apache2.0',
-  deps = [':core'],
-  exclude = EXCLUDE,
+  jar = '/home/davido/projects/sshd/sshd-core/target/sshd-core-0.12.1-SNAPSHOT.jar',
+  deps = [':core']
 )
 
 maven_jar(

@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f0892b3b_0d5d1126",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/ChangeApi.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2014-09-13T11:19:13Z",
+      "side": 1,
+      "message": "We could also use a floating API here like in \"Changes\". But since there is only one additional parameter (limit), it would probably be an overkill.",
+      "revId": "fbc4d074fb16e01f3052e6e74be54313e1f14f6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d096e757_4c7e3f86",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/changes/ChangeApiImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2014-09-13T11:19:13Z",
+      "side": 1,
+      "message": "A floating API would save us from some code duplication here also.",
+      "revId": "fbc4d074fb16e01f3052e6e74be54313e1f14f6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0892b3b_2d62cde4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestReviewers.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2014-09-13T11:19:13Z",
+      "side": 1,
+      "message": "Is this constant actually used?",
+      "revId": "fbc4d074fb16e01f3052e6e74be54313e1f14f6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0892b3b_4d571906",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestReviewers.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2014-09-13T11:19:13Z",
+      "side": 1,
+      "message": "public?",
+      "range": {
+        "startLine": 66,
+        "startChar": 2,
+        "endLine": 66,
+        "endChar": 8
+      },
+      "revId": "fbc4d074fb16e01f3052e6e74be54313e1f14f6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

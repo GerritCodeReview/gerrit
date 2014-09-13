@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d096e757_2c79f39c",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/SuggestReviewersIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2014-09-13T11:19:13Z",
+      "side": 0,
+      "message": "It looks like the import ordering is slightly different. Is there any rule for ordering import for the Gerrit project?",
+      "revId": "7936891a8ad90a4e6162fa9ebb97a62a3c42b7e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d096e757_6c83fb4a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestReviewers.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2014-09-13T11:19:13Z",
+      "side": 0,
+      "message": "Import ordering? Empty line is missing here as well.",
+      "revId": "7936891a8ad90a4e6162fa9ebb97a62a3c42b7e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

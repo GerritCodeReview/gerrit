@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d096e757_4c455f5e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-09-13T09:40:57Z",
+      "side": 1,
+      "message": "The current cookbook plugin version already contains those two changes [1,2]. No need to mention them again :)\n\n [1] https://gerrit-review.googlesource.com/60018\n [2] https://gerrit-review.googlesource.com/60034",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 37
+      },
+      "revId": "7839a1bc79ad4bfd8a3e52d6cff2272b768e5293",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

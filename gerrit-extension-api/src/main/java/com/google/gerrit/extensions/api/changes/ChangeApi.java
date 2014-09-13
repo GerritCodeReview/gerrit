@@ -16,10 +16,12 @@ package com.google.gerrit.extensions.api.changes;
 
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ListChangesOption;
+import com.google.gerrit.extensions.common.SuggestedReviewerInfo;
 import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 
 import java.util.EnumSet;
+import java.util.List;
 import java.util.Set;
 
 public interface ChangeApi {
@@ -78,6 +80,9 @@ public interface ChangeApi {
 
   void addReviewer(AddReviewerInput in) throws RestApiException;
   void addReviewer(String in) throws RestApiException;
+
+  List<SuggestedReviewerInfo> suggestReviewers(String query) throws RestApiException;
+  List<SuggestedReviewerInfo> suggestReviewers(String query, int limit) throws RestApiException;
 
   ChangeInfo get(EnumSet<ListChangesOption> options) throws RestApiException;
 
@@ -173,6 +178,16 @@ public interface ChangeApi {
 
     @Override
     public void addReviewer(String in) throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public List<SuggestedReviewerInfo> suggestReviewers(String query) throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public List<SuggestedReviewerInfo> suggestReviewers(String query, int limit) throws RestApiException {
       throw new NotImplementedException();
     }
 

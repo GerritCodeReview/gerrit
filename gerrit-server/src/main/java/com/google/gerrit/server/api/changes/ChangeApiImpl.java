@@ -26,6 +26,7 @@ import com.google.gerrit.extensions.api.changes.RevertInput;
 import com.google.gerrit.extensions.api.changes.RevisionApi;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ListChangesOption;
+import com.google.gerrit.extensions.common.SuggestedReviewerInfo;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.change.Abandon;
@@ -40,6 +41,7 @@ import com.google.gerrit.server.change.PutTopic;
 import com.google.gerrit.server.change.Restore;
 import com.google.gerrit.server.change.Revert;
 import com.google.gerrit.server.change.Revisions;
+import com.google.gerrit.server.change.SuggestReviewers;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -47,6 +49,7 @@ import com.google.inject.assistedinject.Assisted;
 
 import java.io.IOException;
 import java.util.EnumSet;
+import java.util.List;
 import java.util.Set;
 
 class ChangeApiImpl extends ChangeApi.NotImplemented implements ChangeApi {
@@ -57,6 +60,7 @@ class ChangeApiImpl extends ChangeApi.NotImplemented implements ChangeApi {
   private final Changes changeApi;
   private final Revisions revisions;
   private final RevisionApiImpl.Factory revisionApi;
+  private final SuggestReviewers suggestReviewers;
   private final ChangeResource change;
   private final Abandon abandon;
   private final Revert revert;
@@ -73,6 +77,7 @@ class ChangeApiImpl extends ChangeApi.NotImplemented implements ChangeApi {
   ChangeApiImpl(Changes changeApi,
       Revisions revisions,
       RevisionApiImpl.Factory revisionApi,
+      SuggestReviewers suggestReviewers,
       Abandon abandon,
       Revert revert,
       Restore restore,
@@ -88,6 +93,7 @@ class ChangeApiImpl extends ChangeApi.NotImplemented implements ChangeApi {
     this.revert = revert;
     this.revisions = revisions;
     this.revisionApi = revisionApi;
+    this.suggestReviewers = suggestReviewers;
     this.abandon = abandon;
     this.restore = restore;
     this.getTopic = getTopic;
@@ -196,6 +202,22 @@ class ChangeApiImpl extends ChangeApi.NotImplemented implements ChangeApi {
       postReviewers.apply(change, in);
     } catch (OrmException | EmailException | IOException e) {
       throw new RestApiException("Cannot add change reviewer", e);
+    }
+  }
+
+  @Override
+  public List<SuggestedReviewerInfo> suggestReviewers(String query) throws RestApiException {
+    return suggestReviewers(query, -1);
+  }
+
+  @Override
+  public List<SuggestedReviewerInfo> suggestReviewers(String query, int limit) throws RestApiException {
+    try {
+      suggestReviewers.setQuery(query);
+      suggestReviewers.setLimit(limit);
+      return suggestReviewers.apply(change);
+    } catch (OrmException | IOException e) {
+      throw new RestApiException("Cannot retrieve suggested reviewers", e);
     }
   }
 

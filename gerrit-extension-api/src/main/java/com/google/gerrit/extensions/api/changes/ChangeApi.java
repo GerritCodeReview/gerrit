@@ -16,10 +16,12 @@ package com.google.gerrit.extensions.api.changes;
 
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ListChangesOption;
+import com.google.gerrit.extensions.common.SuggestedReviewerInfo;
 import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 
 import java.util.EnumSet;
+import java.util.List;
 import java.util.Set;
 
 public interface ChangeApi {
@@ -79,6 +81,9 @@ public interface ChangeApi {
   void addReviewer(AddReviewerInput in) throws RestApiException;
   void addReviewer(String in) throws RestApiException;
 
+  SuggestedReviewersRequest suggestReviewers() throws RestApiException;
+  SuggestedReviewersRequest suggestReviewers(String query) throws RestApiException;
+
   ChangeInfo get(EnumSet<ListChangesOption> options) throws RestApiException;
 
   /** {@code get} with {@link ListChangesOption} set to all except CHECK. */
@@ -100,6 +105,31 @@ public interface ChangeApi {
 
   ChangeInfo check() throws RestApiException;
   ChangeInfo check(FixInput fix) throws RestApiException;
+
+  public abstract class SuggestedReviewersRequest {
+    private String query;
+    private int limit;
+
+    public abstract List<SuggestedReviewerInfo> get() throws RestApiException;
+
+    public SuggestedReviewersRequest withQuery(String query) {
+      this.query = query;
+      return this;
+    }
+
+    public SuggestedReviewersRequest withLimit(int limit) {
+      this.limit = limit;
+      return this;
+    }
+
+    public String getQuery() {
+      return query;
+    }
+
+    public int getLimit() {
+      return limit;
+    }
+  }
 
   /**
    * A default implementation which allows source compatibility
@@ -173,6 +203,16 @@ public interface ChangeApi {
 
     @Override
     public void addReviewer(String in) throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public SuggestedReviewersRequest suggestReviewers() throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public SuggestedReviewersRequest suggestReviewers(String query) throws RestApiException {
       throw new NotImplementedException();
     }
 

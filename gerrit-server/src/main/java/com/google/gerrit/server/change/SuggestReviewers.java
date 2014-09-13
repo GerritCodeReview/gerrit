@@ -14,12 +14,17 @@
 
 package com.google.gerrit.server.change;
 
+import com.google.common.base.Function;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Ordering;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.errors.NoSuchGroupException;
+import com.google.gerrit.extensions.common.GroupBaseInfo;
+import com.google.gerrit.extensions.common.SuggestedReviewerInfo;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RestReadView;
@@ -37,7 +42,6 @@ import com.google.gerrit.server.account.AccountVisibility;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupMembers;
 import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gerrit.server.group.GroupJson.GroupBaseInfo;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gwtorm.server.OrmException;
@@ -60,6 +64,20 @@ public class SuggestReviewers implements RestReadView<ChangeResource> {
   private static final String MAX_SUFFIX = "\u9fa5";
   private static final int DEFAULT_MAX_SUGGESTED = 10;
   private static final int DEFAULT_MAX_MATCHES = 100;
+  private static final Ordering<SuggestedReviewerInfo> SUGGESTED_REVIEWER_INFO_ORDERING =
+      Ordering.natural().onResultOf(new Function<SuggestedReviewerInfo, String>() {
+        @Nullable
+        @Override
+        public String apply(@Nullable SuggestedReviewerInfo suggestedReviewerInfo) {
+          if (suggestedReviewerInfo == null) {
+            return null;
+          }
+          return suggestedReviewerInfo.account != null
+              ? MoreObjects.firstNonNull(suggestedReviewerInfo.account.email,
+              Strings.nullToEmpty(suggestedReviewerInfo.account.name))
+              : Strings.nullToEmpty(suggestedReviewerInfo.group.name);
+        }
+      });
 
   private final AccountLoader accountLoader;
   private final AccountControl accountControl;
@@ -159,7 +177,9 @@ public class SuggestReviewers implements RestReadView<ChangeResource> {
 
     List<SuggestedReviewerInfo> reviewer = Lists.newArrayList();
     for (AccountInfo a : suggestedAccounts) {
-      reviewer.add(new SuggestedReviewerInfo(a));
+      SuggestedReviewerInfo info = new SuggestedReviewerInfo();
+      info.account = a;
+      reviewer.add(info);
     }
 
     Project p = rsrc.getControl().getProject();
@@ -169,11 +189,13 @@ public class SuggestReviewers implements RestReadView<ChangeResource> {
         GroupBaseInfo info = new GroupBaseInfo();
         info.id = Url.encode(g.getUUID().get());
         info.name = g.getName();
-        reviewer.add(new SuggestedReviewerInfo(info));
+        SuggestedReviewerInfo suggestedReviewerInfo = new SuggestedReviewerInfo();
+        suggestedReviewerInfo.group = info;
+        reviewer.add(suggestedReviewerInfo);
       }
     }
 
-    Collections.sort(reviewer);
+    reviewer = SUGGESTED_REVIEWER_INFO_ORDERING.immutableSortedCopy(reviewer);
     if (reviewer.size() <= limit) {
       return reviewer;
     } else {
@@ -341,30 +363,5 @@ public class SuggestReviewers implements RestReadView<ChangeResource> {
     }
 
     return false;
-  }
-
-  public static class SuggestedReviewerInfo implements Comparable<SuggestedReviewerInfo> {
-    public AccountInfo account;
-    public GroupBaseInfo group;
-
-    SuggestedReviewerInfo(AccountInfo a) {
-      this.account = a;
-    }
-
-    SuggestedReviewerInfo(GroupBaseInfo g) {
-      this.group = g;
-    }
-
-    @Override
-    public int compareTo(SuggestedReviewerInfo o) {
-      return getSortValue().compareTo(o.getSortValue());
-    }
-
-    private String getSortValue() {
-      return account != null
-          ? MoreObjects.firstNonNull(account.email,
-              Strings.nullToEmpty(account.name))
-          : Strings.nullToEmpty(group.name);
-    }
   }
 }

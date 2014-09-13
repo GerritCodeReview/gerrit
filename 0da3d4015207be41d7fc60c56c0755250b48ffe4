@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "d096e757_2cfe53ce",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 1513,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-09-13T08:15:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f0892b3b_0d2271c5",
+      "revId": "0da3d4015207be41d7fc60c56c0755250b48ffe4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7087fb29_29d56d56",
         "filename": "Documentation/dev-plugins.txt",
         "patchSetId": 14
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "f0892b3b_8d15815d",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 1733,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-09-13T08:15:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7087fb29_29d56d56",
+      "range": {
+        "startLine": 1733,
+        "startChar": 37,
+        "endLine": 1733,
+        "endChar": 40
+      },
+      "revId": "0da3d4015207be41d7fc60c56c0755250b48ffe4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9082af17_2ad55f56",
         "filename": "Documentation/dev-plugins.txt",
         "patchSetId": 14
@@ -53,6 +95,30 @@
       "writtenOn": "2014-09-12T22:42:40Z",
       "side": 1,
       "message": "passwords",
+      "range": {
+        "startLine": 1734,
+        "startChar": 5,
+        "endLine": 1734,
+        "endChar": 13
+      },
+      "revId": "0da3d4015207be41d7fc60c56c0755250b48ffe4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d096e757_6cf85bdf",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 1734,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-09-13T08:15:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9082af17_2ad55f56",
       "range": {
         "startLine": 1734,
         "startChar": 5,
@@ -157,6 +223,102 @@
     },
     {
       "key": {
+        "uuid": "d096e757_8c0ca761",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 1736,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-09-13T08:15:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7087fb29_69df6574",
+      "range": {
+        "startLine": 1736,
+        "startChar": 41,
+        "endLine": 1736,
+        "endChar": 46
+      },
+      "revId": "0da3d4015207be41d7fc60c56c0755250b48ffe4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d096e757_4cf39f05",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 1736,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-09-13T08:15:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d096e757_0cd0b765",
+      "range": {
+        "startLine": 1736,
+        "startChar": 20,
+        "endLine": 1736,
+        "endChar": 27
+      },
+      "revId": "0da3d4015207be41d7fc60c56c0755250b48ffe4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0892b3b_4d2c79b6",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 1736,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-09-13T08:15:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d096e757_2cd57356",
+      "range": {
+        "startLine": 1736,
+        "startChar": 28,
+        "endLine": 1736,
+        "endChar": 40
+      },
+      "revId": "0da3d4015207be41d7fc60c56c0755250b48ffe4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0892b3b_ad123d70",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 1736,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-09-13T08:15:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7087fb29_49daa185",
+      "range": {
+        "startLine": 1736,
+        "startChar": 20,
+        "endLine": 1736,
+        "endChar": 27
+      },
+      "revId": "0da3d4015207be41d7fc60c56c0755250b48ffe4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7087fb29_89e3b93c",
         "filename": "Documentation/dev-plugins.txt",
         "patchSetId": 14
@@ -180,6 +342,30 @@
     },
     {
       "key": {
+        "uuid": "f0892b3b_cd1f8977",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 1738,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-09-13T08:15:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7087fb29_89e3b93c",
+      "range": {
+        "startLine": 1738,
+        "startChar": 3,
+        "endLine": 1738,
+        "endChar": 11
+      },
+      "revId": "0da3d4015207be41d7fc60c56c0755250b48ffe4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f0892b3b_ade07d30",
         "filename": "Documentation/dev-plugins.txt",
         "patchSetId": 14
@@ -191,6 +377,24 @@
       "writtenOn": "2014-09-12T21:23:23Z",
       "side": 1,
       "message": "Shouldn\u0027t be only needed when custom secure store implementation changed? E. g. from default secure store to custom switch-secure-store must not be run? Please provide here more details.",
+      "revId": "0da3d4015207be41d7fc60c56c0755250b48ffe4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0892b3b_2d500d1d",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 1739,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-09-13T08:15:10Z",
+      "side": 1,
+      "message": "You can always run switch-secure-store. It will always work when you want to change SecureStore. Will also work when going from default to custom implementation. In this case (switch-secure-store) will migrate data for you (don\u0027t need to enter them again manually) and set gerrit.secureStoreClass property",
+      "parentUuid": "f0892b3b_ade07d30",
       "revId": "0da3d4015207be41d7fc60c56c0755250b48ffe4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -244,6 +448,54 @@
     },
     {
       "key": {
+        "uuid": "d096e757_ac096350",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 1740,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-09-13T08:15:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7087fb29_a9e07d30",
+      "range": {
+        "startLine": 1740,
+        "startChar": 0,
+        "endLine": 1740,
+        "endChar": 2
+      },
+      "revId": "0da3d4015207be41d7fc60c56c0755250b48ffe4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0892b3b_6d31350b",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 1740,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-09-13T08:15:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f0892b3b_8de3c13c",
+      "range": {
+        "startLine": 1740,
+        "startChar": 0,
+        "endLine": 1740,
+        "endChar": 2
+      },
+      "revId": "0da3d4015207be41d7fc60c56c0755250b48ffe4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7087fb29_c9edb127",
         "filename": "Documentation/dev-plugins.txt",
         "patchSetId": 14
@@ -255,6 +507,30 @@
       "writtenOn": "2014-09-12T22:42:40Z",
       "side": 1,
       "message": "The ...",
+      "range": {
+        "startLine": 1742,
+        "startChar": 0,
+        "endLine": 1742,
+        "endChar": 11
+      },
+      "revId": "0da3d4015207be41d7fc60c56c0755250b48ffe4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0892b3b_ed1c4585",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 1742,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-09-13T08:15:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7087fb29_c9edb127",
       "range": {
         "startLine": 1742,
         "startChar": 0,
@@ -307,6 +583,48 @@
     },
     {
       "key": {
+        "uuid": "f0892b3b_cd3869e6",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 1743,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-09-13T08:15:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9082af17_8ae3ab3c",
+      "range": {
+        "startLine": 1743,
+        "startChar": 42,
+        "endLine": 1743,
+        "endChar": 51
+      },
+      "revId": "0da3d4015207be41d7fc60c56c0755250b48ffe4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d096e757_ec036b2c",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 1743,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-09-13T08:15:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d096e757_4cdabf85",
+      "revId": "0da3d4015207be41d7fc60c56c0755250b48ffe4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9082af17_4ada9385",
         "filename": "Documentation/dev-plugins.txt",
         "patchSetId": 14
@@ -318,6 +636,30 @@
       "writtenOn": "2014-09-12T22:42:40Z",
       "side": 1,
       "message": "remove",
+      "range": {
+        "startLine": 1744,
+        "startChar": 59,
+        "endLine": 1744,
+        "endChar": 62
+      },
+      "revId": "0da3d4015207be41d7fc60c56c0755250b48ffe4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d096e757_cc06af3f",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 1744,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-09-13T08:15:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9082af17_4ada9385",
       "range": {
         "startLine": 1744,
         "startChar": 59,
@@ -353,6 +695,30 @@
     },
     {
       "key": {
+        "uuid": "f0892b3b_0d4b5175",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 1745,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-09-13T08:15:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9082af17_6adf5774",
+      "range": {
+        "startLine": 1745,
+        "startChar": 14,
+        "endLine": 1745,
+        "endChar": 22
+      },
+      "revId": "0da3d4015207be41d7fc60c56c0755250b48ffe4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f0892b3b_cdedc927",
         "filename": "Documentation/dev-plugins.txt",
         "patchSetId": 14
@@ -364,6 +730,30 @@
       "writtenOn": "2014-09-12T21:23:23Z",
       "side": 1,
       "message": "Trailing space.",
+      "range": {
+        "startLine": 1753,
+        "startChar": 4,
+        "endLine": 1753,
+        "endChar": 5
+      },
+      "revId": "0da3d4015207be41d7fc60c56c0755250b48ffe4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d096e757_0c2277c5",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 1753,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-09-13T08:15:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f0892b3b_cdedc927",
       "range": {
         "startLine": 1753,
         "startChar": 4,
@@ -422,6 +812,54 @@
     },
     {
       "key": {
+        "uuid": "f0892b3b_4d45595e",
+        "filename": "Documentation/pgm-index.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-09-13T08:15:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f0892b3b_edea850c",
+      "range": {
+        "startLine": 28,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 2
+      },
+      "revId": "0da3d4015207be41d7fc60c56c0755250b48ffe4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d096e757_2c2733d6",
+        "filename": "Documentation/pgm-index.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-09-13T08:15:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f0892b3b_0df991e5",
+      "range": {
+        "startLine": 28,
+        "startChar": 14,
+        "endLine": 28,
+        "endChar": 25
+      },
+      "revId": "0da3d4015207be41d7fc60c56c0755250b48ffe4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f0892b3b_2dfe4dce",
         "filename": "Documentation/pgm-switch-secure-store.txt",
         "patchSetId": 14
@@ -433,6 +871,30 @@
       "writtenOn": "2014-09-12T21:23:23Z",
       "side": 1,
       "message": "We normally using CamelCase for all pgm applications. RebuildNotesDb, so may be SwitchSecureStore.",
+      "range": {
+        "startLine": 8,
+        "startChar": 24,
+        "endLine": 8,
+        "endChar": 43
+      },
+      "revId": "0da3d4015207be41d7fc60c56c0755250b48ffe4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d096e757_4c2c7fb6",
+        "filename": "Documentation/pgm-switch-secure-store.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-09-13T08:15:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f0892b3b_2dfe4dce",
       "range": {
         "startLine": 8,
         "startChar": 24,
@@ -537,6 +999,102 @@
     },
     {
       "key": {
+        "uuid": "d096e757_6c313b0b",
+        "filename": "Documentation/pgm-switch-secure-store.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-09-13T08:15:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7087fb29_e9ea750c",
+      "range": {
+        "startLine": 13,
+        "startChar": 7,
+        "endLine": 13,
+        "endChar": 13
+      },
+      "revId": "0da3d4015207be41d7fc60c56c0755250b48ffe4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d096e757_cc1f8f77",
+        "filename": "Documentation/pgm-switch-secure-store.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-09-13T08:15:10Z",
+      "side": 1,
+      "message": "IMO this is clear that only one jar will be removed and new one added",
+      "parentUuid": "f0892b3b_6df855df",
+      "range": {
+        "startLine": 13,
+        "startChar": 66,
+        "endLine": 13,
+        "endChar": 71
+      },
+      "revId": "0da3d4015207be41d7fc60c56c0755250b48ffe4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d096e757_8c15875d",
+        "filename": "Documentation/pgm-switch-secure-store.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-09-13T08:15:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9082af17_aae06f30",
+      "range": {
+        "startLine": 13,
+        "startChar": 28,
+        "endLine": 13,
+        "endChar": 46
+      },
+      "revId": "0da3d4015207be41d7fc60c56c0755250b48ffe4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d096e757_ac124370",
+        "filename": "Documentation/pgm-switch-secure-store.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-09-13T08:15:10Z",
+      "side": 1,
+      "message": "will stay with old wording",
+      "parentUuid": "f0892b3b_4df39905",
+      "range": {
+        "startLine": 13,
+        "startChar": 7,
+        "endLine": 13,
+        "endChar": 28
+      },
+      "revId": "0da3d4015207be41d7fc60c56c0755250b48ffe4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f0892b3b_8d0ca161",
         "filename": "Documentation/pgm-switch-secure-store.txt",
         "patchSetId": 14
@@ -548,6 +1106,30 @@
       "writtenOn": "2014-09-12T21:23:23Z",
       "side": 1,
       "message": "What if the new secure store has dependent libraries\u003d Should the ybe put before call to SwitchSecureStore to $gerit_site\u0027/lib for new secure store implementation ro work properly?",
+      "range": {
+        "startLine": 14,
+        "startChar": 9,
+        "endLine": 14,
+        "endChar": 27
+      },
+      "revId": "0da3d4015207be41d7fc60c56c0755250b48ffe4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0892b3b_0d7431a6",
+        "filename": "Documentation/pgm-switch-secure-store.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-09-13T08:15:10Z",
+      "side": 1,
+      "message": "True, dependencies should be either in $gerrit_site/lib or provided to `java` program with `-cp` option",
+      "parentUuid": "f0892b3b_8d0ca161",
       "range": {
         "startLine": 14,
         "startChar": 9,
@@ -583,6 +1165,30 @@
     },
     {
       "key": {
+        "uuid": "f0892b3b_ad3b1de0",
+        "filename": "Documentation/pgm-switch-secure-store.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-09-13T08:15:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d096e757_6cdf7b74",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 22
+      },
+      "revId": "0da3d4015207be41d7fc60c56c0755250b48ffe4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d096e757_8ce3c73c",
         "filename": "Documentation/pgm-switch-secure-store.txt",
         "patchSetId": 14
@@ -594,6 +1200,30 @@
       "writtenOn": "2014-09-12T21:23:23Z",
       "side": 1,
       "message": "Point in the end.",
+      "range": {
+        "startLine": 21,
+        "startChar": 39,
+        "endLine": 21,
+        "endChar": 53
+      },
+      "revId": "0da3d4015207be41d7fc60c56c0755250b48ffe4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0892b3b_8d3e61d1",
+        "filename": "Documentation/pgm-switch-secure-store.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-09-13T08:15:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d096e757_8ce3c73c",
       "range": {
         "startLine": 21,
         "startChar": 39,
@@ -629,6 +1259,30 @@
     },
     {
       "key": {
+        "uuid": "f0892b3b_ed3525ed",
+        "filename": "Documentation/pgm-switch-secure-store.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-09-13T08:15:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d096e757_ccedcf27",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 2
+      },
+      "revId": "0da3d4015207be41d7fc60c56c0755250b48ffe4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d096e757_ace08330",
         "filename": "Documentation/pgm-switch-secure-store.txt",
         "patchSetId": 14
@@ -640,6 +1294,30 @@
       "writtenOn": "2014-09-12T21:23:23Z",
       "side": 1,
       "message": "trailing spaces.",
+      "range": {
+        "startLine": 26,
+        "startChar": 57,
+        "endLine": 26,
+        "endChar": 58
+      },
+      "revId": "0da3d4015207be41d7fc60c56c0755250b48ffe4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0892b3b_6d4a156f",
+        "filename": "Documentation/pgm-switch-secure-store.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-09-13T08:15:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d096e757_ace08330",
       "range": {
         "startLine": 26,
         "startChar": 57,
@@ -675,6 +1353,30 @@
     },
     {
       "key": {
+        "uuid": "d096e757_0c4b5775",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/SecureStore.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-09-13T08:15:10Z",
+      "side": 1,
+      "message": "Answered already in another file:)\n\nSwitching can also be run from default secure store IMO it would be easier to populate configuration options and data then just doing it manually",
+      "parentUuid": "d096e757_0cf997e5",
+      "range": {
+        "startLine": 30,
+        "startChar": 71,
+        "endLine": 30,
+        "endChar": 80
+      },
+      "revId": "0da3d4015207be41d7fc60c56c0755250b48ffe4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d096e757_ecea8b0c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/SecureStore.java",
         "patchSetId": 14
@@ -686,6 +1388,30 @@
       "writtenOn": "2014-09-12T21:23:23Z",
       "side": 1,
       "message": "--new-secure-store-lib",
+      "range": {
+        "startLine": 33,
+        "startChar": 3,
+        "endLine": 33,
+        "endChar": 24
+      },
+      "revId": "0da3d4015207be41d7fc60c56c0755250b48ffe4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0892b3b_6d83f54a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/SecureStore.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-09-13T08:15:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d096e757_ecea8b0c",
       "range": {
         "startLine": 33,
         "startChar": 3,
@@ -715,6 +1441,24 @@
     },
     {
       "key": {
+        "uuid": "f0892b3b_4d7e3986",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/SecureStore.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-09-13T08:15:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f0892b3b_ed03652c",
+      "revId": "0da3d4015207be41d7fc60c56c0755250b48ffe4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f0892b3b_ad095d50",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/SecureStore.java",
         "patchSetId": 14
@@ -738,6 +1482,30 @@
     },
     {
       "key": {
+        "uuid": "f0892b3b_2d79ed9c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/SecureStore.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-09-13T08:15:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f0892b3b_ad095d50",
+      "range": {
+        "startLine": 75,
+        "startChar": 48,
+        "endLine": 75,
+        "endChar": 53
+      },
+      "revId": "0da3d4015207be41d7fc60c56c0755250b48ffe4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f0892b3b_cd06a93f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/SecureStore.java",
         "patchSetId": 14
@@ -749,6 +1517,30 @@
       "writtenOn": "2014-09-12T21:23:23Z",
       "side": 1,
       "message": "point",
+      "range": {
+        "startLine": 112,
+        "startChar": 10,
+        "endLine": 112,
+        "endChar": 21
+      },
+      "revId": "0da3d4015207be41d7fc60c56c0755250b48ffe4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d096e757_ec1c4b85",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/securestore/SecureStore.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-09-13T08:15:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f0892b3b_cd06a93f",
       "range": {
         "startLine": 112,
         "startChar": 10,

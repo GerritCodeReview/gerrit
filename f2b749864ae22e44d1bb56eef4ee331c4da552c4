@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9082af17_caeda327",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-13T06:44:41Z",
+      "side": 1,
+      "message": "nit: Add a space between the subject line and the body",
+      "revId": "f2b749864ae22e44d1bb56eef4ee331c4da552c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7087fb29_29fe4dce",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/ListTasks.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-13T06:44:41Z",
+      "side": 1,
+      "message": "nit: add space after `if` and before opening `{`",
+      "range": {
+        "startLine": 141,
+        "startChar": 6,
+        "endLine": 141,
+        "endChar": 56
+      },
+      "revId": "f2b749864ae22e44d1bb56eef4ee331c4da552c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7087fb29_49f38105",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/ListTasks.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-13T06:44:41Z",
+      "side": 1,
+      "message": "nit: space after `if`",
+      "range": {
+        "startLine": 147,
+        "startChar": 10,
+        "endLine": 147,
+        "endChar": 12
+      },
+      "revId": "f2b749864ae22e44d1bb56eef4ee331c4da552c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7087fb29_69f845df",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/ListTasks.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-13T06:44:41Z",
+      "side": 1,
+      "message": "This can all be done with a single statement:\n\n this.command \u003d newStringBuilder()\n     .append(...)\n     .append(...)\n     ...\n     .toString();",
+      "range": {
+        "startLine": 164,
+        "startChar": 0,
+        "endLine": 168,
+        "endChar": 41
+      },
+      "revId": "f2b749864ae22e44d1bb56eef4ee331c4da552c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

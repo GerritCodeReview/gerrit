@@ -27,17 +27,16 @@ import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
+import com.google.gerrit.extensions.common.SuggestedReviewerInfo;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.account.CreateGroupArgs;
 import com.google.gerrit.server.account.PerformCreateGroup;
-import com.google.gerrit.server.change.SuggestReviewers.SuggestedReviewerInfo;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gson.reflect.TypeToken;
 import com.google.inject.Inject;
-
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.junit.Before;
 import org.junit.Test;

@@ -32,7 +32,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class AccountInfo {
+public class AccountInfo extends com.google.gerrit.extensions.common.AccountInfo {
   public static class Loader {
     private static final Set<FillOptions> DETAILED_OPTIONS =
         Collections.unmodifiableSet(EnumSet.of(
@@ -106,10 +106,6 @@ public class AccountInfo {
     _id = id;
   }
 
-  public Integer _accountId;
-  public String name;
-  public String email;
-  public String username;
   public List<AvatarInfo> avatars;
 
   public static class AvatarInfo {

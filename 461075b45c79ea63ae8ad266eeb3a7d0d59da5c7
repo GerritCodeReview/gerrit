@@ -22,6 +22,30 @@
       "revId": "461075b45c79ea63ae8ad266eeb3a7d0d59da5c7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7087fb29_a9095d50",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/validators/HashtagValidationListener.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-14T07:45:13Z",
+      "side": 1,
+      "message": "Changed it to a single validation method that takes both \"to add\" and \"to remove\" and also the change, so it\u0027s possible to do validation according to project and/or branch.",
+      "parentUuid": "d096e757_cc386fe6",
+      "range": {
+        "startLine": 30,
+        "startChar": 2,
+        "endLine": 31,
+        "endChar": 31
+      },
+      "revId": "461075b45c79ea63ae8ad266eeb3a7d0d59da5c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

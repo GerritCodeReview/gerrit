@@ -20,6 +20,7 @@ import com.google.common.cache.LoadingCache;
 import com.google.common.collect.Sets;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllUsersName;
@@ -35,7 +36,6 @@ import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Repository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import java.io.IOException;
 import java.util.Collections;
 import java.util.Iterator;
@@ -45,6 +45,9 @@ import java.util.SortedSet;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
+
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.Ref;
 
 /** Cache of project information, including access rights. */
 @Singleton
@@ -285,7 +288,24 @@ public class ProjectCacheImpl implements ProjectCache {
       Repository git = mgr.openRepository(key);
       try {
         ProjectConfig cfg = new ProjectConfig(key);
-        cfg.load(git);
+        Project.NameKey cKey = new Project.NameKey("configs");
+        if (! cKey.equals(key)) {
+          try {
+            Repository cGit = mgr.openRepository(cKey);
+            try {
+              Ref ref = git.getRef(RefNames.REFS_CONFIG);
+              ObjectId id = ref != null ? ref.getObjectId() : null;
+              cfg.load(cGit, id);
+            } finally {
+              cGit.close();
+            }
+          } catch (Exception e) {
+            log.error("Config not in configs for project: " + key, e);
+            cfg.load(git);
+          }
+        } else {
+          cfg.load(git);
+        }
         return projectStateFactory.create(cfg);
       } finally {
         git.close();

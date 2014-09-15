@@ -264,14 +264,14 @@ public class ListProjects implements RestReadView<TopLevelResource> {
     try {
       log.error("Starting prefiling Cache");
       List<Thread> threads = new ArrayList<Thread>();
-      Executor ex = Executors.newCachedThreadPool();
+      Executor executor = Executors.newCachedThreadPool();
       for (final Project.NameKey projectName : scan()) {
         Runnable r = new Runnable() {
           public void run() {
             final ProjectState e = projectCache.get(projectName);
           }
         };
-        ex.execute(r);
+        executor.execute(r);
       }
       log.error("Started all Cache prefiling");
 

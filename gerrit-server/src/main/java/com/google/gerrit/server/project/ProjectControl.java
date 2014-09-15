@@ -291,15 +291,9 @@ public class ProjectControl {
   }
 
   private boolean isDeclaredOwner() {
-
     if (declaredOwner == null) {
-      final GroupMembership effectiveGroups = user.getEffectiveGroups();
-      declaredOwner = state.anyOwner(new Predicate<Set<AccountGroup.UUID>>() {
-        @Override
-        public boolean apply(Set<AccountGroup.UUID> owners) {
-          return effectiveGroups.containsAnyOf(owners);
-        }
-      });
+      declaredOwner =
+          projectMembershipChecker.contains(SystemGroupBackend.PROJECT_OWNERS);
     }
     return declaredOwner;
   }
@@ -506,8 +500,8 @@ public class ProjectControl {
   }
 
   boolean match(AccountGroup.UUID uuid, boolean isChangeOwner) {
-    if (SystemGroupBackend.PROJECT_OWNERS.equals(uuid)) {
-      return isDeclaredOwner();
+    if (projectMembershipChecker.contains(uuid)) {
+      return true;
     } else if (SystemGroupBackend.CHANGE_OWNER.equals(uuid)) {
       return isChangeOwner;
     } else {

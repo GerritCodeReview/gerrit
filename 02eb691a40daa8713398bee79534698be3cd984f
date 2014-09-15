@@ -202,6 +202,24 @@
     },
     {
       "key": {
+        "uuid": "d096e757_cc6a2fb6",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticsearchChangeIndex.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1017389
+      },
+      "writtenOn": "2014-09-15T10:43:26Z",
+      "side": 1,
+      "message": "I can\u0027t answer for David\u0027s plans, but what\u0027s described in http://www.elasticsearch.org/guide/en/elasticsearch/guide/current/index-aliases.html seems useful; we could have an alias pointing at the most current index, reindex to a new index, and atomically redirect the alias to the new index as it becomes ready.",
+      "parentUuid": "d04c27b5_1ccb958c",
+      "revId": "02eb691a40daa8713398bee79534698be3cd984f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d04c27b5_5c5cfd26",
         "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticsearchChangeIndex.java",
         "patchSetId": 12

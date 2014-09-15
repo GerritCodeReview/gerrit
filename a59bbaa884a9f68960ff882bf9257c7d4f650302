@@ -70,6 +70,30 @@
       "revId": "a59bbaa884a9f68960ff882bf9257c7d4f650302",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d096e757_ecc0cb63",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Gerrit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 922,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-09-15T14:35:15Z",
+      "side": 1,
+      "message": "Yes, you are right, I\u0027m adding the path now.\n\nDone",
+      "parentUuid": "f0892b3b_cd9ce98e",
+      "range": {
+        "startLine": 915,
+        "startChar": 12,
+        "endLine": 922,
+        "endChar": 42
+      },
+      "revId": "a59bbaa884a9f68960ff882bf9257c7d4f650302",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -14,44 +14,16 @@
 
 package com.google.gerrit.server.account;
 
-import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Sets;
+import com.google.common.base.Predicates;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-
-import java.util.Set;
 
 /**
  * GroupMembership over an explicit list.
  */
-public class ListGroupMembership implements GroupMembership {
-  private final Set<AccountGroup.UUID> groups;
+public class ListGroupMembership extends FilterableListGroupMembership {
 
   public ListGroupMembership(Iterable<AccountGroup.UUID> groupIds) {
-    this.groups = ImmutableSet.copyOf(groupIds);
+    super(groupIds, Predicates.<AccountGroup.UUID> alwaysTrue());
   }
 
-  @Override
-  public boolean contains(AccountGroup.UUID groupId) {
-    return groups.contains(groupId);
-  }
-
-  @Override
-  public boolean containsAnyOf(Iterable<AccountGroup.UUID> groupIds) {
-    for (AccountGroup.UUID groupId : groupIds) {
-      if (contains(groupId)) {
-        return true;
-      }
-    }
-    return false;
-  }
-
-  @Override
-  public Set<AccountGroup.UUID> intersection(Iterable<AccountGroup.UUID> groupIds) {
-    return Sets.intersection(ImmutableSet.copyOf(groupIds), groups);
-  }
-
-  @Override
-  public Set<AccountGroup.UUID> getKnownGroups() {
-    return Sets.newHashSet(groups);
-  }
 }

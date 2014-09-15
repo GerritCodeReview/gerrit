@@ -16,6 +16,7 @@ package com.google.gerrit.server.group;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import com.google.common.base.Predicate;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.data.GroupDescription;
@@ -24,6 +25,7 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AbstractGroupBackend;
 import com.google.gerrit.server.account.GroupMembership;
+import com.google.gerrit.server.account.FilterableListGroupMembership;
 import com.google.gerrit.server.account.ListGroupMembership;
 import com.google.gerrit.server.project.ProjectControl;
 
@@ -100,7 +102,7 @@ public class SystemGroupBackend extends AbstractGroupBackend {
 
   @Override
   public GroupDescription.Basic get(AccountGroup.UUID uuid) {
-    final GroupReference ref = getGroup(uuid);
+    final GroupReference ref = uuids.get(uuid);
     if (ref != null) {
       return new GroupDescription.Basic() {
         @Override
@@ -152,4 +154,33 @@ public class SystemGroupBackend extends AbstractGroupBackend {
         ANONYMOUS_USERS,
         REGISTERED_USERS));
   }
+
+  @Override
+  public GroupMembership membershipsOf(final ProjectControl project) {
+    return new FilterableListGroupMembership(
+        Collections.singleton(PROJECT_OWNERS),
+        new IsProjectOwnerPredicate(project));
+  }
+
+  private static class IsProjectOwnerPredicate implements Predicate<AccountGroup.UUID> {
+    private final ProjectControl project;
+    private Boolean declaredOwner;
+
+    private IsProjectOwnerPredicate(ProjectControl project) {
+      this.project = project;
+    }
+
+    @Override
+    public boolean apply(AccountGroup.UUID input) {
+      if (declaredOwner == null) {
+        GroupMembership effectiveGroups =
+            project.getCurrentUser().getEffectiveGroups();
+        Iterable<AccountGroup.UUID> allOwners =
+            project.getProjectState().getAllOwners();
+        declaredOwner = effectiveGroups.containsAnyOf(allOwners);
+      }
+      return declaredOwner;
+    }
+  }
+
 }

@@ -92,20 +92,38 @@ public class UniversalGroupBackend implements GroupBackend {
 
   @Override
   public GroupMembership membershipsOf(IdentifiedUser user) {
-    return new UniversalGroupMembership(user);
+    return new UniversalGroupMembership((memberships(user)));
   }
 
-  private class UniversalGroupMembership implements GroupMembership {
-   private final Map<GroupBackend, GroupMembership> memberships;
+  @Override
+  public GroupMembership membershipsOf(ProjectControl project) {
+    return new UniversalGroupMembership((memberships(project)));
+  }
 
-   private UniversalGroupMembership(IdentifiedUser user) {
-     ImmutableMap.Builder<GroupBackend, GroupMembership> builder =
+  private Map<GroupBackend, GroupMembership> memberships(IdentifiedUser user) {
+    ImmutableMap.Builder<GroupBackend, GroupMembership> builder =
          ImmutableMap.builder();
      for (GroupBackend g : backends) {
        builder.put(g, g.membershipsOf(user));
      }
-     this.memberships = builder.build();
-   }
+     return builder.build();
+  }
+
+  private Map<GroupBackend, GroupMembership> memberships(ProjectControl project) {
+    ImmutableMap.Builder<GroupBackend, GroupMembership> builder =
+         ImmutableMap.builder();
+     for (GroupBackend g : backends) {
+       builder.put(g, g.membershipsOf(project));
+     }
+     return builder.build();
+  }
+
+  private static class UniversalGroupMembership implements GroupMembership {
+   private final Map<GroupBackend, GroupMembership> memberships;
+
+   public UniversalGroupMembership(Map<GroupBackend, GroupMembership> memberships) {
+     this.memberships = memberships;
+  }
 
    @Nullable
    private GroupMembership membership(AccountGroup.UUID uuid) {

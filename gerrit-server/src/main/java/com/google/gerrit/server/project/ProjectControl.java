@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.project;
 
-import com.google.common.base.Predicate;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -26,6 +25,7 @@ import com.google.gerrit.common.data.ContributorAgreement;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.Permission;
+import com.google.common.base.Predicate;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.common.data.PermissionRule.Action;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -36,6 +36,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.InternalUser;
+import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupMembership;
 import com.google.gerrit.server.change.IncludedInResolver;
 import com.google.gerrit.server.config.CanonicalWebUrl;
@@ -155,12 +156,14 @@ public class ProjectControl {
   private final Collection<ContributorAgreement> contributorAgreements;
   private final TagCache tagCache;
   private final ChangeCache changeCache;
+  private final GroupBackend groupBackend;
 
   private List<SectionMatcher> allSections;
   private List<SectionMatcher> localSections;
   private LabelTypes labelTypes;
   private Map<String, RefControl> refControls;
   private Boolean declaredOwner;
+  private GroupMembership projectDependentMemberships;
 
   @Inject
   ProjectControl(@GitUploadPackGroups Set<AccountGroup.UUID> uploadGroups,
@@ -172,6 +175,7 @@ public class ProjectControl {
       TagCache tagCache,
       ChangeCache changeCache,
       @CanonicalWebUrl @Nullable String canonicalWebUrl,
+      GroupBackend groupBackend,
       @Assisted CurrentUser who,
       @Assisted ProjectState ps) {
     this.repoManager = repoManager;
@@ -181,10 +185,11 @@ public class ProjectControl {
     this.uploadGroups = uploadGroups;
     this.receiveGroups = receiveGroups;
     this.permissionFilter = permissionFilter;
+    this.groupBackend = groupBackend;
     this.contributorAgreements = pc.getAllProjects().getConfig().getContributorAgreements();
     this.canonicalWebUrl = canonicalWebUrl;
-    user = who;
-    state = ps;
+    this.user = who;
+    this.state = ps;
   }
 
   public ProjectControl forUser(CurrentUser who) {
@@ -300,6 +305,13 @@ public class ProjectControl {
       });
     }
     return declaredOwner;
+  }
+
+  private boolean isInProjectDependentGroup(AccountGroup.UUID uuid) {
+    if (projectDependentMemberships == null) {
+      projectDependentMemberships = groupBackend.membershipsOf(this);
+    }
+    return projectDependentMemberships.contains(uuid);
   }
 
   /** Does this user have ownership on at least one reference name? */
@@ -506,6 +518,8 @@ public class ProjectControl {
   boolean match(AccountGroup.UUID uuid, boolean isChangeOwner) {
     if (SystemGroupBackend.PROJECT_OWNERS.equals(uuid)) {
       return isDeclaredOwner();
+    } else if (isInProjectDependentGroup(uuid)) {
+      return true;
     } else if (SystemGroupBackend.CHANGE_OWNER.equals(uuid)) {
       return isChangeOwner;
     } else {

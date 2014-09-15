@@ -21,6 +21,7 @@ import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.reviewdb.client.AccountGroup.UUID;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AbstractGroupBackend;
 import com.google.gerrit.server.account.GroupMembership;
@@ -33,6 +34,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
@@ -100,7 +102,7 @@ public class SystemGroupBackend extends AbstractGroupBackend {
 
   @Override
   public GroupDescription.Basic get(AccountGroup.UUID uuid) {
-    final GroupReference ref = getGroup(uuid);
+    final GroupReference ref = uuids.get(uuid);
     if (ref != null) {
       return new GroupDescription.Basic() {
         @Override
@@ -152,4 +154,58 @@ public class SystemGroupBackend extends AbstractGroupBackend {
         ANONYMOUS_USERS,
         REGISTERED_USERS));
   }
+
+  @Override
+  public GroupMembership membershipsOf(final ProjectControl project) {
+    GroupMembership projectOwnership = new GroupMembership() {
+
+      private Boolean declaredOwner;
+
+      @Override
+      public Set<AccountGroup.UUID> intersection(
+          Iterable<AccountGroup.UUID> groupIds) {
+        for (AccountGroup.UUID uuid : groupIds) {
+          if (contains(uuid)) {
+            return Collections.singleton(PROJECT_OWNERS);
+          }
+        };
+        return Collections.emptySet();
+      }
+
+      @Override
+      public Set<AccountGroup.UUID> getKnownGroups() {
+        if (contains(PROJECT_OWNERS)) {
+          return Collections.singleton(PROJECT_OWNERS);
+        }
+        return Collections.emptySet();
+      }
+
+      @Override
+      public boolean containsAnyOf(Iterable<AccountGroup.UUID> uuids) {
+        for (AccountGroup.UUID uuid : uuids) {
+          if (contains(uuid)) {
+            return true;
+          }
+        }
+        return false;
+      }
+
+      @Override
+      public boolean contains(AccountGroup.UUID uuid) {
+        if (!PROJECT_OWNERS.equals(uuid)) {
+          return false;
+        }
+        if (declaredOwner == null) {
+          GroupMembership effectiveGroups =
+              project.getCurrentUser().getEffectiveGroups();
+          Iterable<UUID> allOwners = project.getProjectState().getAllOwners();
+          declaredOwner = effectiveGroups.containsAnyOf(allOwners);
+        }
+        return declaredOwner;
+      }
+    };
+
+    return projectOwnership;
+  }
+
 }

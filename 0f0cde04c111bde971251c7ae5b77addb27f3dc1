@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "30a82390_0ff985e5",
+        "filename": "gerrit-cache-h2/src/main/java/com/google/gerrit/server/cache/h2/TimeProvider.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-09-15T16:16:40Z",
+      "side": 1,
+      "message": "This is overkill. Just use the Guava Ticker type and have the H2 code use TimeUnit.NANOSECONDS.toMillis() to convert from the Ticker result.",
+      "revId": "0f0cde04c111bde971251c7ae5b77addb27f3dc1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

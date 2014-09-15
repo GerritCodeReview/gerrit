@@ -46,6 +46,30 @@
       "revId": "a59bbaa884a9f68960ff882bf9257c7d4f650302",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0892b3b_cd9ce98e",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Gerrit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 922,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-09-15T14:30:41Z",
+      "side": 1,
+      "message": "this implementation assumes that when gerrit is not deployed in root, then this its path should be included in original URL. Since this path comes from plugin we can\u0027t be sure that url \"prefix\" would be always included. But then condition in line 914 will not be fulfilled...",
+      "parentUuid": "d096e757_ccc30f6e",
+      "range": {
+        "startLine": 915,
+        "startChar": 12,
+        "endLine": 922,
+        "endChar": 42
+      },
+      "revId": "a59bbaa884a9f68960ff882bf9257c7d4f650302",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

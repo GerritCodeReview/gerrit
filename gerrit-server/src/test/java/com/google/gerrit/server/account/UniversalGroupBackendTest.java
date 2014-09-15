@@ -14,6 +14,9 @@
 
 package com.google.gerrit.server.account;
 
+import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
+import static com.google.gerrit.server.group.SystemGroupBackend.PROJECT_OWNERS;
+import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static org.easymock.EasyMock.anyObject;
 import static org.easymock.EasyMock.createMock;
 import static org.easymock.EasyMock.createNiceMock;
@@ -22,17 +25,16 @@ import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.getCurrentArguments;
 import static org.easymock.EasyMock.not;
 import static org.easymock.EasyMock.replay;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
+import com.google.common.collect.Sets;
+import com.google.gerrit.common.data.GroupDescription.Basic;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroup.UUID;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.group.SystemGroupBackend;
-import static com.google.gerrit.server.group.SystemGroupBackend.*;
+import com.google.gerrit.server.project.ProjectControl;
 import com.google.gwtorm.client.KeyUtil;
 import com.google.gwtorm.server.StandardKeyEncoder;
 
@@ -73,10 +75,10 @@ public class UniversalGroupBackendTest {
 
   @Test
   public void testGet() {
-    assertEquals("Registered Users",
-        classUnderTest.get(REGISTERED_USERS).getName());
-    assertEquals("Project Owners",
-        classUnderTest.get(PROJECT_OWNERS).getName());
+    Basic description = classUnderTest.get(REGISTERED_USERS);
+    assertEquals("Registered Users", description.getName());
+    description = classUnderTest.get(PROJECT_OWNERS);
+    assertEquals("Project Owners", description.getName());
     assertNull(classUnderTest.get(OTHER_UUID));
   }
 
@@ -141,6 +143,31 @@ public class UniversalGroupBackendTest {
     checker = classUnderTest.membershipsOf(notMember);
     assertFalse(checker.contains(handled));
     assertFalse(checker.contains(notHandled));
+  }
+
+  @Test
+  public void testProjectDependentMembership() throws Exception {
+    AccountGroup.UUID g1 = new AccountGroup.UUID("g1");
+    AccountGroup.UUID g2 = new AccountGroup.UUID("g2");
+    GroupBackend backend = createMock(GroupBackend.class);
+
+    GroupMembership userChecker = createMock(GroupMembership.class);
+    expect(userChecker.getKnownGroups()).andStubReturn(Sets.newHashSet(g1));
+    expect(backend.membershipsOf(user)).andStubReturn(userChecker);
+
+    ProjectControl project = createMock(ProjectControl.class);
+    GroupMembership projectChecker = createMock(GroupMembership.class);
+    expect(projectChecker.getKnownGroups()).andStubReturn(Sets.newHashSet(g1, g2));
+    expect(backend.membershipsOf(project)).andStubReturn(projectChecker);
+
+    replay(project, userChecker, projectChecker, backend);
+
+    backends = new DynamicSet<GroupBackend>();
+    backends.add(backend);
+    classUnderTest = new UniversalGroupBackend(backends);
+
+    assertEquals(1, classUnderTest.membershipsOf(user).getKnownGroups().size());
+    assertEquals(2, classUnderTest.membershipsOf(project).getKnownGroups().size());
   }
 
 }

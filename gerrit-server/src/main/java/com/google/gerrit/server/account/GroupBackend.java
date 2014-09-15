@@ -48,6 +48,25 @@ public interface GroupBackend {
       String name,
       @Nullable ProjectControl project);
 
-  /** @return the group membership checker for the backend. */
+  /**
+   * @param user the user the returned checker applies to
+   * @return the project-independent group membership checker for the backend.
+   *         The checker does not include project-dependent groups.
+   *
+   * @see GroupDescription.Basic#isProjectDependent()
+   */
   GroupMembership membershipsOf(IdentifiedUser user);
+
+  /**
+   * @param project the project control the returned checker applies to
+   * @return the project-dependent group membership checker for the backend.
+   *         The checker does not include project-independent groups.
+   *         This methods may be called only in a context where the project the
+   *         created checker applies to is known. GroupBackends that do not
+   *         handle any project-dependent groups may simply return an empty
+   *         checker.
+   *
+   * @see GroupDescription.Basic#isProjectDependent
+   */
+  GroupMembership membershipsOf(ProjectControl project);
 }

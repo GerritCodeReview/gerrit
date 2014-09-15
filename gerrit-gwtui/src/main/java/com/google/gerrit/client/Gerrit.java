@@ -908,14 +908,20 @@ public class Gerrit implements EntryPoint {
     LinkMenuItem i = new ProjectLinkMenuItem(item.getName(), item.getUrl()) {
         @Override
         protected void onScreenLoad(Project.NameKey project) {
-          String p = panel.replace("${projectName}", project.get());
-          if (panel.startsWith("/x/")) {
-            setTargetHistoryToken(p);
-          } else if (isAbsolute(panel)) {
-            getElement().setPropertyString("href", p);
-          } else {
-            getElement().setPropertyString("href", selfRedirect(p));
+        String p =
+            panel.replace("${projectName}",
+                URL.encodeQueryString(project.get()));
+          if (!panel.startsWith("/x/") && !isAbsolute(panel)) {
+            UrlBuilder builder = new UrlBuilder();
+            builder.setProtocol(Location.getProtocol());
+            builder.setHost(Location.getHost());
+            String port = Location.getPort();
+            if (port != null && !port.isEmpty()) {
+              builder.setPort(Integer.parseInt(port));
+            }
+            p = builder.buildString() + p;
           }
+          getElement().setPropertyString("href", p);
         }
 
         @Override

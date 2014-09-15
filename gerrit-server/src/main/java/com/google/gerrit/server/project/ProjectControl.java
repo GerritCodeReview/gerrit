@@ -25,7 +25,6 @@ import com.google.gerrit.common.data.ContributorAgreement;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.Permission;
-import com.google.common.base.Predicate;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.common.data.PermissionRule.Action;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -156,6 +155,7 @@ public class ProjectControl {
   private final Collection<ContributorAgreement> contributorAgreements;
   private final TagCache tagCache;
   private final ChangeCache changeCache;
+  private final GroupMembership projectMembershipChecker;
 
   private List<SectionMatcher> allSections;
   private List<SectionMatcher> localSections;
@@ -185,6 +185,7 @@ public class ProjectControl {
     this.permissionFilter = permissionFilter;
     this.contributorAgreements = pc.getAllProjects().getConfig().getContributorAgreements();
     this.canonicalWebUrl = canonicalWebUrl;
+    this.projectMembershipChecker = groupBackend.membershipsOf(this);
     this.user = who;
     this.state = ps;
   }
@@ -291,15 +292,9 @@ public class ProjectControl {
   }
 
   private boolean isDeclaredOwner() {
-
     if (declaredOwner == null) {
-      final GroupMembership effectiveGroups = user.getEffectiveGroups();
-      declaredOwner = state.anyOwner(new Predicate<Set<AccountGroup.UUID>>() {
-        @Override
-        public boolean apply(Set<AccountGroup.UUID> owners) {
-          return effectiveGroups.containsAnyOf(owners);
-        }
-      });
+      declaredOwner =
+          projectMembershipChecker.contains(SystemGroupBackend.PROJECT_OWNERS);
     }
     return declaredOwner;
   }
@@ -506,8 +501,8 @@ public class ProjectControl {
   }
 
   boolean match(AccountGroup.UUID uuid, boolean isChangeOwner) {
-    if (SystemGroupBackend.PROJECT_OWNERS.equals(uuid)) {
-      return isDeclaredOwner();
+    if (projectMembershipChecker.contains(uuid)) {
+      return true;
     } else if (SystemGroupBackend.CHANGE_OWNER.equals(uuid)) {
       return isChangeOwner;
     } else {

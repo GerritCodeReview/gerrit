@@ -22,6 +22,30 @@
       "revId": "a59bbaa884a9f68960ff882bf9257c7d4f650302",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d096e757_ccc30f6e",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Gerrit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 922,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-09-15T14:24:17Z",
+      "side": 1,
+      "message": "I don\u0027t know, but if it doesn\u0027t work we have the same issue in the existing selfRedirect method.",
+      "parentUuid": "d096e757_8cb90704",
+      "range": {
+        "startLine": 915,
+        "startChar": 12,
+        "endLine": 922,
+        "endChar": 42
+      },
+      "revId": "a59bbaa884a9f68960ff882bf9257c7d4f650302",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

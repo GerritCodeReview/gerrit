@@ -63,7 +63,7 @@ public interface GroupBackend {
    *         The checker does not include project-independent groups.
    *         This methods may be called only in a context where the project the
    *         created checker applies to is known. GroupBackends that do not
-   *         handle any project-dependent groups may simply return an empty
+   *         handle any project-dependent groups must return an empty
    *         checker.
    *
    * @see GroupDescription.Basic#isProjectDependent

@@ -25,10 +25,10 @@ import com.google.gerrit.common.data.ContributorAgreement;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.Permission;
-import com.google.common.base.Predicate;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.common.data.PermissionRule.Action;
 import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.reviewdb.client.AccountGroup.UUID;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
@@ -295,8 +295,8 @@ public class ProjectControl {
 
   private boolean isDeclaredOwner() {
     if (declaredOwner == null) {
-      GroupMembership effectiveGroups = user.getEffectiveGroups();
-      declaredOwner = effectiveGroups.containsAnyOf(state.getAllOwners());
+      UUID uuid = SystemGroupBackend.PROJECT_OWNERS;
+      declaredOwner = isInProjectDependentGroup(uuid);
     }
     return declaredOwner;
   }
@@ -510,13 +510,11 @@ public class ProjectControl {
   }
 
   boolean match(AccountGroup.UUID uuid, boolean isChangeOwner) {
-    if (SystemGroupBackend.PROJECT_OWNERS.equals(uuid)) {
-      return isDeclaredOwner();
+    if (SystemGroupBackend.CHANGE_OWNER.equals(uuid)) {
+      return isChangeOwner;
     } else if (isInProjectDependentGroup(uuid)) {
       return true;
-    } else if (SystemGroupBackend.CHANGE_OWNER.equals(uuid)) {
-      return isChangeOwner;
-    } else {
+    } else  {
       return user.getEffectiveGroups().contains(uuid);
     }
   }

@@ -15,8 +15,11 @@
 package com.google.gerrit.acceptance.git;
 
 import static com.google.gerrit.acceptance.GitUtil.cloneProject;
+import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assume.assumeThat;
 
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestAccount;
@@ -27,6 +30,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.testutil.ConfigSuite;
 import com.google.gwtorm.server.OrmException;
+import com.google.inject.Inject;
 
 import com.jcraft.jsch.JSchException;
 
@@ -36,12 +40,16 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.util.Set;
 
 public abstract class AbstractPushForReview extends AbstractDaemonTest {
   @ConfigSuite.Config
   public static Config noteDbEnabled() {
     return NotesMigration.allEnabledConfig();
   }
+
+  @Inject
+  private NotesMigration notesMigration;
 
   protected enum Protocol {
     SSH, HTTP
@@ -198,6 +206,77 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     String branchName = "non-existing";
     PushOneCommit.Result r = pushTo("refs/for/" + branchName);
     r.assertErrorStatus("branch " + branchName + " not found");
+  }
+
+  @Test
+  public void testPushForMasterWithHashtags() throws GitAPIException,
+      OrmException, IOException, RestApiException {
+
+    // Hashtags currently only work when noteDB is enabled
+    assumeThat(notesMigration.enabled(), is(true));
+
+    // specify a single hashtag as option
+    String hashtag1 = "tag1";
+    Set<String> expected = ImmutableSet.of(hashtag1);
+    PushOneCommit.Result r = pushTo("refs/for/master%hashtag=#" + hashtag1);
+    r.assertOkStatus();
+    r.assertChange(Change.Status.NEW, null);
+
+    Set<String> hashtags = gApi.changes().id(r.getChangeId()).getHashtags();
+    assertEquals(expected, hashtags);
+
+    // specify a single hashtag as option in new patch set
+    String hashtag2 = "tag2";
+    PushOneCommit push =
+        pushFactory.create(db, admin.getIdent(), PushOneCommit.SUBJECT,
+            "b.txt", "anotherContent", r.getChangeId());
+    r = push.to(git, "refs/for/master/%hashtag=" + hashtag2);
+    r.assertOkStatus();
+    expected = ImmutableSet.of(hashtag1, hashtag2);
+    hashtags = gApi.changes().id(r.getChangeId()).getHashtags();
+    assertEquals(expected, hashtags);
+  }
+
+  @Test
+  public void testPushForMasterWithMultipleHashtags() throws GitAPIException,
+      OrmException, IOException, RestApiException {
+
+    // Hashtags currently only work when noteDB is enabled
+    assumeThat(notesMigration.enabled(), is(true));
+
+    // specify multiple hashtags as options
+    String hashtag1 = "tag1";
+    String hashtag2 = "tag2";
+    Set<String> expected = ImmutableSet.of(hashtag1, hashtag2);
+    PushOneCommit.Result r = pushTo("refs/for/master%hashtag=#" + hashtag1
+        + ",hashtag=##" + hashtag2);
+    r.assertOkStatus();
+    r.assertChange(Change.Status.NEW, null);
+
+    Set<String> hashtags = gApi.changes().id(r.getChangeId()).getHashtags();
+    assertEquals(expected, hashtags);
+
+    // specify multiple hashtags as options in new patch set
+    String hashtag3 = "tag3";
+    String hashtag4 = "tag4";
+    PushOneCommit push =
+        pushFactory.create(db, admin.getIdent(), PushOneCommit.SUBJECT,
+            "b.txt", "anotherContent", r.getChangeId());
+    r = push.to(git,
+        "refs/for/master%hashtag=" + hashtag3 + ",hashtag=" + hashtag4);
+    r.assertOkStatus();
+    expected = ImmutableSet.of(hashtag1, hashtag2, hashtag3, hashtag4);
+    hashtags = gApi.changes().id(r.getChangeId()).getHashtags();
+    assertEquals(expected, hashtags);
+  }
+
+  @Test
+  public void testPushForMasterWithHashtagsNoteDbDisabled() throws GitAPIException,
+      IOException {
+    // push with hashtags should fail when noteDb is disabled
+    assumeThat(notesMigration.enabled(), is(false));
+    PushOneCommit.Result r = pushTo("refs/for/master%hashtag=tag1");
+    r.assertErrorStatus("cannot add hashtags; noteDb is disabled");
   }
 
   private PushOneCommit.Result pushTo(String ref) throws GitAPIException,

@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "90e54f1e_12eb4c13",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/changes/ChangeApiImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-16T11:12:06Z",
+      "side": 1,
+      "message": "OK, then this should be done in a separate change.",
+      "parentUuid": "30bf43e0_d726dcd7",
+      "range": {
+        "startLine": 62,
+        "startChar": 16,
+        "endLine": 62,
+        "endChar": 24
+      },
+      "revId": "2debbbcc1b3e3903bb0730b0ae0d1a78df010269",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f0d04b3d_f5f8b8e3",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/changes/ChangeApiImpl.java",
         "patchSetId": 1

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "30bf43e0_171d747e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefValidationHelper.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-09-16T12:54:47Z",
+      "side": 1,
+      "message": "wrap line, so that it is not longer than 80 characters",
+      "range": {
+        "startLine": 37,
+        "startChar": 2,
+        "endLine": 37,
+        "endChar": 106
+      },
+      "revId": "e66d07645183e0e1ff4a54b6e746eb7be6c583dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

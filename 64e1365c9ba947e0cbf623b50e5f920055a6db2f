@@ -71,6 +71,30 @@
     },
     {
       "key": {
+        "uuid": "30f4a3d0_8fdef575",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeInserter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-16T10:50:58Z",
+      "side": 1,
+      "message": "\u003e creation of ne change wasn\u0027t completed yet, e. g. ChangeUpdate wash\u0027 committed yet\n\nRight.  I was mistaking db.commit().  I\u0027ll move this after the update.commit()\n\n\u003e Index wasn\u0027t done yet.\n\nThe change is indexed within the postHashtags.  Which means we do a redundant index again at line 222.",
+      "parentUuid": "f0d04b3d_d5fdbcd1",
+      "range": {
+        "startLine": 212,
+        "startChar": 27,
+        "endLine": 212,
+        "endChar": 63
+      },
+      "revId": "64e1365c9ba947e0cbf623b50e5f920055a6db2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "30bf43e0_97f744f0",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeInserter.java",
         "patchSetId": 1
@@ -82,6 +106,30 @@
       "writtenOn": "2014-09-16T10:27:20Z",
       "side": 1,
       "message": "Hm, in apply() method another ChangeUpdate is created for the same change:\n\n    ChangeUpdate update \u003d updateFactory.create(control);\n    ChangeNotes notes \u003d control.getNotes().load();\n\nwhile the original still wasn\u0027t canoe yet, that was created on line 189 above.\n\nMay be we shouldn\u0027t call PostHashtags.apply() method here (and dot\u0027t need to create ChangeResource). Instead extract the code to HashTagUtil class and call changeHashtags from both places: here and PostHashtags class and pass ChangeUpdate instance.",
+      "range": {
+        "startLine": 215,
+        "startChar": 8,
+        "endLine": 215,
+        "endChar": 43
+      },
+      "revId": "64e1365c9ba947e0cbf623b50e5f920055a6db2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30f4a3d0_6fe4f144",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeInserter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-16T10:50:58Z",
+      "side": 1,
+      "message": "Yes, it looks like this could do with a bit more refactoring.",
+      "parentUuid": "30bf43e0_97f744f0",
       "range": {
         "startLine": 215,
         "startChar": 8,

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "30f4a3d0_2feee922",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeInserter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-16T11:49:58Z",
+      "side": 1,
+      "message": "Done.  This code is removed according to comments below.",
+      "parentUuid": "30bf43e0_d7fdbcd1",
+      "range": {
+        "startLine": 71,
+        "startChar": 16,
+        "endLine": 71,
+        "endChar": 24
+      },
+      "revId": "64e1365c9ba947e0cbf623b50e5f920055a6db2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "30bf43e0_b7f24800",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeInserter.java",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2014-09-16T10:27:20Z",
       "side": 1,
       "message": "The same as above.",
+      "range": {
+        "startLine": 72,
+        "startChar": 16,
+        "endLine": 72,
+        "endChar": 24
+      },
+      "revId": "64e1365c9ba947e0cbf623b50e5f920055a6db2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90e54f1e_d2fdc4d1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeInserter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-16T11:49:58Z",
+      "side": 1,
+      "message": "Done.  This code is removed according to comments below.",
+      "parentUuid": "30bf43e0_b7f24800",
       "range": {
         "startLine": 72,
         "startChar": 16,
@@ -95,6 +143,30 @@
     },
     {
       "key": {
+        "uuid": "90e54f1e_b2f24000",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeInserter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-16T11:49:58Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "30f4a3d0_8fdef575",
+      "range": {
+        "startLine": 212,
+        "startChar": 27,
+        "endLine": 212,
+        "endChar": 63
+      },
+      "revId": "64e1365c9ba947e0cbf623b50e5f920055a6db2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "30bf43e0_97f744f0",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeInserter.java",
         "patchSetId": 1
@@ -130,6 +202,30 @@
       "side": 1,
       "message": "Yes, it looks like this could do with a bit more refactoring.",
       "parentUuid": "30bf43e0_97f744f0",
+      "range": {
+        "startLine": 215,
+        "startChar": 8,
+        "endLine": 215,
+        "endChar": 43
+      },
+      "revId": "64e1365c9ba947e0cbf623b50e5f920055a6db2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90e54f1e_92f73cf0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeInserter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-16T11:49:58Z",
+      "side": 1,
+      "message": "Done.  See the change inserted below this one in the stack.",
+      "parentUuid": "30f4a3d0_6fe4f144",
       "range": {
         "startLine": 215,
         "startChar": 8,

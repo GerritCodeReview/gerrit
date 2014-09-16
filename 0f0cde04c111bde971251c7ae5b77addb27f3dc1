@@ -16,6 +16,24 @@
       "revId": "0f0cde04c111bde971251c7ae5b77addb27f3dc1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30bf43e0_f7cfa0c6",
+        "filename": "gerrit-cache-h2/src/main/java/com/google/gerrit/server/cache/h2/TimeProvider.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2014-09-16T08:58:48Z",
+      "side": 1,
+      "message": "Removed the interface and doing the conversion in the H2 code now.\n\nHowever, the Guava Ticker is an abstraction of relative time like System.nanoTime(). The H2 cache needs absolute time as the timestamps are persisted. Hence I am sticking to use the TickerTimeProvider class to do the conversion.",
+      "parentUuid": "30a82390_0ff985e5",
+      "revId": "0f0cde04c111bde971251c7ae5b77addb27f3dc1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

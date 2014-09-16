@@ -15,15 +15,14 @@
 package com.google.gerrit.server.change;
 
 import com.google.gerrit.common.ChangeHooks;
+import com.google.gerrit.extensions.api.changes.HashtagsInput;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
-import com.google.gerrit.extensions.restapi.DefaultInput;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.change.PostHashtags.Input;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.notedb.ChangeNotes;
@@ -43,18 +42,12 @@ import java.util.Set;
 import java.util.TreeSet;
 
 @Singleton
-public class PostHashtags implements RestModifyView<ChangeResource, Input> {
+public class PostHashtags implements RestModifyView<ChangeResource, HashtagsInput> {
   private final ChangeUpdate.Factory updateFactory;
   private final Provider<ReviewDb> dbProvider;
   private final ChangeIndexer indexer;
   private final ChangeHooks hooks;
   private final DynamicSet<HashtagValidationListener> hashtagValidationListeners;
-
-  public static class Input {
-    @DefaultInput
-    public Set<String> add;
-    public Set<String> remove;
-  }
 
   @Inject
   PostHashtags(ChangeUpdate.Factory updateFactory,
@@ -87,7 +80,7 @@ public class PostHashtags implements RestModifyView<ChangeResource, Input> {
   }
 
   @Override
-  public Response<? extends Set<String>> apply(ChangeResource req, Input input)
+  public Response<? extends Set<String>> apply(ChangeResource req, HashtagsInput input)
       throws AuthException, OrmException, IOException, BadRequestException,
       ResourceConflictException {
     if (input == null

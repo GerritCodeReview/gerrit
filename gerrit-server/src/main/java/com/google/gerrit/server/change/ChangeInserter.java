@@ -19,6 +19,8 @@ import static com.google.gerrit.reviewdb.client.Change.INITIAL_PATCH_SET_ID;
 import com.google.common.util.concurrent.CheckedFuture;
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.data.LabelTypes;
+import com.google.gerrit.extensions.api.changes.HashtagsInput;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
@@ -66,6 +68,8 @@ public class ChangeInserter {
   private final ChangeMessagesUtil cmUtil;
   private final MergeabilityChecker mergeabilityChecker;
   private final CreateChangeSender.Factory createChangeSenderFactory;
+  private final Provider<PostHashtags> postHashtags;
+  private final Provider<ChangesCollection> changes;
 
   private final RefControl refControl;
   private final Change change;
@@ -77,6 +81,7 @@ public class ChangeInserter {
   private Set<Account.Id> reviewers;
   private Set<Account.Id> extraCC;
   private Map<String, Short> approvals;
+  private Set<String> hashtags;
   private boolean runHooks;
   private boolean sendMail;
 
@@ -90,6 +95,8 @@ public class ChangeInserter {
       ChangeMessagesUtil cmUtil,
       MergeabilityChecker mergeabilityChecker,
       CreateChangeSender.Factory createChangeSenderFactory,
+      Provider<PostHashtags> postHashtags,
+      Provider<ChangesCollection> changes,
       @Assisted RefControl refControl,
       @Assisted Change change,
       @Assisted RevCommit commit) {
@@ -101,12 +108,15 @@ public class ChangeInserter {
     this.cmUtil = cmUtil;
     this.mergeabilityChecker = mergeabilityChecker;
     this.createChangeSenderFactory = createChangeSenderFactory;
+    this.postHashtags = postHashtags;
+    this.changes = changes;
     this.refControl = refControl;
     this.change = change;
     this.commit = commit;
     this.reviewers = Collections.emptySet();
     this.extraCC = Collections.emptySet();
     this.approvals = Collections.emptyMap();
+    this.hashtags = Collections.emptySet();
     this.runHooks = true;
     this.sendMail = true;
 
@@ -142,6 +152,11 @@ public class ChangeInserter {
   public ChangeInserter setDraft(boolean draft) {
     change.setStatus(draft ? Change.Status.DRAFT : Change.Status.NEW);
     patchSet.setDraft(draft);
+    return this;
+  }
+
+  public ChangeInserter setHashtags(Set<String> hashtags) {
+    this.hashtags = hashtags;
     return this;
   }
 
@@ -191,6 +206,18 @@ public class ChangeInserter {
     } finally {
       db.rollback();
     }
+
+    if (hashtags != null && hashtags.size() > 0) {
+      try {
+        ChangeResource c = changes.get().parse(change.getId());
+        HashtagsInput input = new HashtagsInput();
+        input.add = hashtags;
+        postHashtags.get().apply(c, input);
+      } catch (RestApiException e) {
+        log.error("Cannot add hashtags to change " + change.getId(), e);
+      }
+    }
+
     update.commit();
     CheckedFuture<?, IOException> f = mergeabilityChecker.newCheck()
         .addChange(change)

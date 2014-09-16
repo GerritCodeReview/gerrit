@@ -9,8 +9,8 @@ maven_jar(
   deps = [
     ':noggit',
     ':zookeeper',
-    '//lib/commons:httpclient',
-    '//lib/commons:httpmime',
+    '//lib/httpcomponents:httpclient',
+    '//lib/httpcomponents:httpmime',
     '//lib/commons:io',
   ],
 )

@@ -8,7 +8,7 @@ maven_jar(
   deps = [
     ':nekohtml',
     ':xerces',
-    '//lib/commons:httpclient',
+    '//lib/httpcomponents:httpclient',
     '//lib/log:jcl-over-slf4j',
     '//lib/guice:guice',
   ],

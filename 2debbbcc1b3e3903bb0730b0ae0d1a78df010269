@@ -45,6 +45,30 @@
       "revId": "2debbbcc1b3e3903bb0730b0ae0d1a78df010269",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90e54f1e_92de1c76",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/changes/ChangeApiImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-16T10:35:06Z",
+      "side": 1,
+      "message": "Unit tests already exist for the REST API that is getting called.  What extra testing do we need to add here?",
+      "parentUuid": "30bf43e0_f7f8c0e3",
+      "range": {
+        "startLine": 214,
+        "startChar": 14,
+        "endLine": 214,
+        "endChar": 25
+      },
+      "revId": "2debbbcc1b3e3903bb0730b0ae0d1a78df010269",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

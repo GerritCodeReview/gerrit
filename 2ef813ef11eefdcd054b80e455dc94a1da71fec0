@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f0d04b3d_15045434",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-16T13:14:12Z",
+      "side": 1,
+      "message": "When I tried it the default was \"Show\"",
+      "revId": "2ef813ef11eefdcd054b80e455dc94a1da71fec0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0d04b3d_f521d8c1",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1458,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-16T13:14:12Z",
+      "side": 1,
+      "message": "true",
+      "range": {
+        "startLine": 1458,
+        "startChar": 3,
+        "endLine": 1458,
+        "endChar": 7
+      },
+      "revId": "2ef813ef11eefdcd054b80e455dc94a1da71fec0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30bf43e0_b7448863",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/DiffTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-16T13:14:12Z",
+      "side": 1,
+      "message": "optional: it feels strange that we know here that the header should become visible, call setHeaderVisible(true) and then the called method again depends on the autoHideHeader value... for which we know that it is set to false here.\n\nLooks like there should exist another method setHeaderVisible(boolean show) which simply makes the header visible/invisible regardless of the autoHideHeader value.  Then, from here we would call that new method and also the old \"setHeaderVisible\" method would compute the proper value for the \"show\" variable and then call the new method.",
+      "range": {
+        "startLine": 149,
+        "startChar": 0,
+        "endLine": 154,
+        "endChar": 3
+      },
+      "revId": "2ef813ef11eefdcd054b80e455dc94a1da71fec0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30bf43e0_d74ffc7d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/PreferencesBox.ui.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-16T13:14:12Z",
+      "side": 1,
+      "message": "It feels strange to have an option like this on the screen:\n\n  Auto Hide Diff Table Header: Hide/Show\n\nCould the values be changed from Hide/Show to No/Yes ?",
+      "range": {
+        "startLine": 253,
+        "startChar": 20,
+        "endLine": 253,
+        "endChar": 47
+      },
+      "revId": "2ef813ef11eefdcd054b80e455dc94a1da71fec0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

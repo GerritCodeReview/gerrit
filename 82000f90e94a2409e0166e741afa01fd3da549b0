@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "30f4a3d0_4f0a4d45",
+        "filename": "lib/httpcomponents/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-16T15:59:01Z",
+      "side": 1,
+      "message": "Are these versioned independently? If not, factor out a VERSION?",
+      "range": {
+        "startLine": 18,
+        "startChar": 43,
+        "endLine": 18,
+        "endChar": 48
+      },
+      "revId": "82000f90e94a2409e0166e741afa01fd3da549b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

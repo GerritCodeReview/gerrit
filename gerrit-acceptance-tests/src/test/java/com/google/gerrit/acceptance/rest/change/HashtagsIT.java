@@ -42,7 +42,7 @@ public class HashtagsIT extends AbstractDaemonTest {
     return NotesMigration.allEnabledConfig();
   }
 
-  private void assertResult(RestResponse r, List<String> expected)
+  public static void assertResult(RestResponse r, List<String> expected)
       throws IOException {
     assertEquals(HttpStatus.SC_OK, r.getStatusCode());
     List<String> result = toHashtagList(r);

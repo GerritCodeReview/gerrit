@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "30bf43e0_770dd05a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1155,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-16T10:27:25Z",
+      "side": 1,
+      "message": "Document new magic branch option in user-upload.txt?",
+      "revId": "cbce5127220bf5e15c3955f63d026596ebb9e78d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

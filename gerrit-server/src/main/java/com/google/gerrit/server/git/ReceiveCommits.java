@@ -100,6 +100,7 @@ import com.google.gerrit.server.mail.MailUtil.MailRecipients;
 import com.google.gerrit.server.mail.MergedSender;
 import com.google.gerrit.server.mail.ReplacePatchSetSender;
 import com.google.gerrit.server.notedb.ChangeUpdate;
+import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
@@ -328,6 +329,7 @@ public class ReceiveCommits {
   private final Provider<Submit> submitProvider;
   private final MergeQueue mergeQueue;
   private final DynamicMap<ProjectConfigEntry> pluginConfigEntries;
+  private final NotesMigration notesMigration;
 
   private final List<CommitValidationMessage> messages = new ArrayList<>();
   private ListMultimap<Error, String> errors = LinkedListMultimap.create();
@@ -378,7 +380,8 @@ public class ReceiveCommits {
       final Provider<Submit> submitProvider,
       final MergeQueue mergeQueue,
       final ChangeKindCache changeKindCache,
-      final DynamicMap<ProjectConfigEntry> pluginConfigEntries) throws IOException {
+      final DynamicMap<ProjectConfigEntry> pluginConfigEntries,
+      final NotesMigration notesMigration) throws IOException {
     this.currentUser = (IdentifiedUser) projectControl.getCurrentUser();
     this.db = db;
     this.changeDataFactory = changeDataFactory;
@@ -424,6 +427,7 @@ public class ReceiveCommits {
     this.submitProvider = submitProvider;
     this.mergeQueue = mergeQueue;
     this.pluginConfigEntries = pluginConfigEntries;
+    this.notesMigration = notesMigration;
 
     this.messageSender = new ReceivePackMessageSender();
 
@@ -1110,6 +1114,8 @@ public class ReceiveCommits {
     List<RevCommit> baseCommit;
     LabelTypes labelTypes;
     CmdLineParser clp;
+    Set<String> hashtags = new HashSet<>();
+    NotesMigration notesMigration;
 
     @Option(name = "--base", metaVar = "BASE", usage = "merge base of changes")
     List<ObjectId> base;
@@ -1151,10 +1157,21 @@ public class ReceiveCommits {
       labels.put(v.getLabel(), v.getValue());
     }
 
-    MagicBranchInput(ReceiveCommand cmd, LabelTypes labelTypes) {
+    @Option(name = "--hashtag", metaVar = "HASHTAG", usage = "add hashtag to changes")
+    void addHashtags(String token) throws CmdLineException {
+      if (!notesMigration.enabled()) {
+        throw clp.reject("cannot add hashtags; noteDb is disabled");
+      }
+      hashtags.add(token);
+    }
+
+    @Inject
+    MagicBranchInput(ReceiveCommand cmd, LabelTypes labelTypes,
+        NotesMigration notesMigration) {
       this.cmd = cmd;
       this.draft = cmd.getRefName().startsWith(MagicBranch.NEW_DRAFT_CHANGE);
       this.labelTypes = labelTypes;
+      this.notesMigration = notesMigration;
     }
 
     boolean isDraft() {
@@ -1167,6 +1184,10 @@ public class ReceiveCommits {
 
     MailRecipients getMailRecipients() {
       return new MailRecipients(reviewer, cc);
+    }
+
+    Set<String> getHashtags() {
+      return hashtags;
     }
 
     Map<String, Short> getLabels() {
@@ -1228,7 +1249,7 @@ public class ReceiveCommits {
       return;
     }
 
-    magicBranch = new MagicBranchInput(cmd, labelTypes);
+    magicBranch = new MagicBranchInput(cmd, labelTypes, notesMigration);
     magicBranch.reviewer.addAll(reviewersFromCommandLine);
     magicBranch.cc.addAll(ccFromCommandLine);
 
@@ -1679,6 +1700,7 @@ public class ReceiveCommits {
       if (magicBranch != null) {
         recipients.add(magicBranch.getMailRecipients());
         approvals = magicBranch.getLabels();
+        ins.setHashtags(magicBranch.getHashtags());
       }
       recipients.add(getRecipientsFromFooters(accountResolver, ps, footerLines));
       recipients.remove(me);

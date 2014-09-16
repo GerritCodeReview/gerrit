@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "30bf43e0_d726dcd7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/changes/ChangeApiImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-16T11:09:23Z",
+      "side": 1,
+      "message": "Yes, this is wrong as well and should be used directly.",
+      "parentUuid": "30f4a3d0_cfd4fd5b",
+      "range": {
+        "startLine": 62,
+        "startChar": 16,
+        "endLine": 62,
+        "endChar": 24
+      },
+      "revId": "2debbbcc1b3e3903bb0730b0ae0d1a78df010269",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f0d04b3d_f5f8b8e3",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/changes/ChangeApiImpl.java",
         "patchSetId": 1
@@ -107,6 +131,30 @@
       "side": 1,
       "message": "Unit tests already exist for the REST API that is getting called.  What extra testing do we need to add here?",
       "parentUuid": "30bf43e0_f7f8c0e3",
+      "range": {
+        "startLine": 214,
+        "startChar": 14,
+        "endLine": 214,
+        "endChar": 25
+      },
+      "revId": "2debbbcc1b3e3903bb0730b0ae0d1a78df010269",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30bf43e0_b72b689e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/changes/ChangeApiImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-16T11:09:23Z",
+      "side": 1,
+      "message": "Should be fine then.",
+      "parentUuid": "90e54f1e_92de1c76",
       "range": {
         "startLine": 214,
         "startChar": 14,

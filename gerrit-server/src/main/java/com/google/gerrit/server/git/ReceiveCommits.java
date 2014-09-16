@@ -1110,6 +1110,7 @@ public class ReceiveCommits {
     List<RevCommit> baseCommit;
     LabelTypes labelTypes;
     CmdLineParser clp;
+    Set<String> hashtags = new HashSet<>();
 
     @Option(name = "--base", metaVar = "BASE", usage = "merge base of changes")
     List<ObjectId> base;
@@ -1151,6 +1152,11 @@ public class ReceiveCommits {
       labels.put(v.getLabel(), v.getValue());
     }
 
+    @Option(name = "--hashtag", usage = "add hashtag to changes")
+    void addHashtags(final String token) throws CmdLineException {
+      hashtags.add(token);
+    }
+
     MagicBranchInput(ReceiveCommand cmd, LabelTypes labelTypes) {
       this.cmd = cmd;
       this.draft = cmd.getRefName().startsWith(MagicBranch.NEW_DRAFT_CHANGE);
@@ -1167,6 +1173,10 @@ public class ReceiveCommits {
 
     MailRecipients getMailRecipients() {
       return new MailRecipients(reviewer, cc);
+    }
+
+    Set<String> getHashtags() {
+      return hashtags;
     }
 
     Map<String, Short> getLabels() {
@@ -1679,6 +1689,7 @@ public class ReceiveCommits {
       if (magicBranch != null) {
         recipients.add(magicBranch.getMailRecipients());
         approvals = magicBranch.getLabels();
+        ins.setHashtags(magicBranch.getHashtags());
       }
       recipients.add(getRecipientsFromFooters(accountResolver, ps, footerLines));
       recipients.remove(me);

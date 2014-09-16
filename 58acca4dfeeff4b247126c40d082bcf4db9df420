@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "30bf43e0_5713ec76",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeInserter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-16T12:09:04Z",
+      "side": 1,
+      "message": "[Optional] This  would still create new ChangeUpdate instance. Can\u0027t we reuse the existing one from line 186?",
+      "range": {
+        "startLine": 213,
+        "startChar": 8,
+        "endLine": 213,
+        "endChar": 59
+      },
+      "revId": "58acca4dfeeff4b247126c40d082bcf4db9df420",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

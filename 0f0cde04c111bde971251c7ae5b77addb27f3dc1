@@ -34,6 +34,24 @@
       "revId": "0f0cde04c111bde971251c7ae5b77addb27f3dc1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b0dfb355_ebcfb1c6",
+        "filename": "gerrit-cache-h2/src/main/java/com/google/gerrit/server/cache/h2/TimeProvider.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-09-16T14:57:29Z",
+      "side": 1,
+      "message": "Ick... Right. Google failed to include our Clock abstraction type in the Guava library. We have Clock interface because Ticker has this relative time downside. :(",
+      "parentUuid": "30bf43e0_f7cfa0c6",
+      "revId": "0f0cde04c111bde971251c7ae5b77addb27f3dc1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -87,31 +87,3 @@ maven_jar(
   license = 'Apache2.0',
 )
 
-maven_jar(
-  name = 'httpclient',
-  id = 'org.apache.httpcomponents:httpclient:4.3.4',
-  bin_sha1 = 'a9a1fef2faefed639ee0d0fba5b3b8e4eb2ff2d8',
-  src_sha1 = '7a14aafed8c5e2c4e360a2c1abd1602efa768b1f',
-  license = 'Apache2.0',
-  deps = [
-    ':codec',
-    ':httpcore',
-    '//lib/log:jcl-over-slf4j',
-  ],
-)
-
-maven_jar(
-  name = 'httpcore',
-  id = 'org.apache.httpcomponents:httpcore:4.3.2',
-  bin_sha1 = '31fbbff1ddbf98f3aa7377c94d33b0447c646b6e',
-  src_sha1 = '4809f38359edeea9487f747e09aa58ec8d3a54c5',
-  license = 'Apache2.0',
-)
-
-maven_jar(
-  name = 'httpmime',
-  id = 'org.apache.httpcomponents:httpmime:4.3.4',
-  bin_sha1 = '54ffde537682aea984c22fbcf0106f21397c5f9b',
-  src_sha1 = '0651e21152b0963661068f948d84ed08c18094f8',
-  license = 'Apache2.0',
-)

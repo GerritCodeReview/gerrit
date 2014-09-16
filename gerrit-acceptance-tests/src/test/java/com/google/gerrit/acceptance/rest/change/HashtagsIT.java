@@ -15,7 +15,6 @@
 package com.google.gerrit.acceptance.rest.change;
 
 import static org.junit.Assert.assertEquals;
-import static com.google.gerrit.server.change.PostHashtags.Input;
 
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Splitter;
@@ -23,6 +22,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
+import com.google.gerrit.extensions.api.changes.HashtagsInput;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.testutil.ConfigSuite;
 import com.google.gson.reflect.TypeToken;
@@ -170,7 +170,7 @@ public class HashtagsIT extends AbstractDaemonTest {
 
   private RestResponse POST(String changeId, String toAdd, String toRemove)
       throws IOException {
-    Input input = new Input();
+    HashtagsInput input = new HashtagsInput();
     if (toAdd != null) {
       input.add = new HashSet<String>(
           Lists.newArrayList(Splitter.on(CharMatcher.anyOf(",")).split(toAdd)));

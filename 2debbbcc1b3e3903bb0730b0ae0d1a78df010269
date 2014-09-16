@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "90e54f1e_52e1d432",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/changes/ChangeApiImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-16T10:44:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f0d04b3d_f5f8b8e3",
+      "range": {
+        "startLine": 64,
+        "startChar": 16,
+        "endLine": 64,
+        "endChar": 24
+      },
+      "revId": "2debbbcc1b3e3903bb0730b0ae0d1a78df010269",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "30bf43e0_f7f8c0e3",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/changes/ChangeApiImpl.java",
         "patchSetId": 1

@@ -86,6 +86,11 @@ public interface ChangeApi {
   ChangeInfo info() throws RestApiException;
 
   /**
+   * Set hashtags on a change
+   **/
+  void setHashtags(HashtagsInput input) throws RestApiException;
+
+  /**
    * A default implementation which allows source compatibility
    * when adding new methods to the interface.
    **/
@@ -172,6 +177,11 @@ public interface ChangeApi {
 
     @Override
     public ChangeInfo info() throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public void setHashtags(HashtagsInput input) throws RestApiException {
       throw new NotImplementedException();
     }
   }

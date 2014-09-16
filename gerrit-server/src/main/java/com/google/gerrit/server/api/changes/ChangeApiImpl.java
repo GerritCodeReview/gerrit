@@ -19,6 +19,7 @@ import com.google.gerrit.extensions.api.changes.AbandonInput;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.api.changes.ChangeApi;
 import com.google.gerrit.extensions.api.changes.Changes;
+import com.google.gerrit.extensions.api.changes.HashtagsInput;
 import com.google.gerrit.extensions.api.changes.RestoreInput;
 import com.google.gerrit.extensions.api.changes.RevertInput;
 import com.google.gerrit.extensions.api.changes.RevisionApi;
@@ -30,6 +31,7 @@ import com.google.gerrit.server.change.Abandon;
 import com.google.gerrit.server.change.ChangeJson;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.GetTopic;
+import com.google.gerrit.server.change.PostHashtags;
 import com.google.gerrit.server.change.PostReviewers;
 import com.google.gerrit.server.change.PutTopic;
 import com.google.gerrit.server.change.Restore;
@@ -59,6 +61,7 @@ class ChangeApiImpl extends ChangeApi.NotImplemented implements ChangeApi {
   private final PutTopic putTopic;
   private final Provider<PostReviewers> postReviewers;
   private final Provider<ChangeJson> changeJson;
+  private final PostHashtags postHashtags;
 
   @Inject
   ChangeApiImpl(Changes changeApi,
@@ -71,6 +74,7 @@ class ChangeApiImpl extends ChangeApi.NotImplemented implements ChangeApi {
       PutTopic putTopic,
       Provider<PostReviewers> postReviewers,
       Provider<ChangeJson> changeJson,
+      PostHashtags postHashtags,
       @Assisted ChangeResource change) {
     this.changeApi = changeApi;
     this.revert = revert;
@@ -82,6 +86,7 @@ class ChangeApiImpl extends ChangeApi.NotImplemented implements ChangeApi {
     this.putTopic = putTopic;
     this.postReviewers = postReviewers;
     this.changeJson = changeJson;
+    this.postHashtags = postHashtags;
     this.change = change;
   }
 
@@ -203,5 +208,14 @@ class ChangeApiImpl extends ChangeApi.NotImplemented implements ChangeApi {
   @Override
   public ChangeInfo info() throws RestApiException {
     return get(EnumSet.noneOf(ListChangesOption.class));
+  }
+
+  @Override
+  public void setHashtags(HashtagsInput input) throws RestApiException {
+    try {
+      postHashtags.apply(change, input);
+    } catch (IOException | OrmException e) {
+      throw new RestApiException("Cannot post hashtags", e);
+    }
   }
 }

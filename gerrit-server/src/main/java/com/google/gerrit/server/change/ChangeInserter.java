@@ -19,6 +19,7 @@ import static com.google.gerrit.reviewdb.client.Change.INITIAL_PATCH_SET_ID;
 import com.google.common.util.concurrent.CheckedFuture;
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.data.LabelTypes;
+import com.google.gerrit.extensions.api.changes.HashtagsInput;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
@@ -29,12 +30,15 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
+import com.google.gerrit.server.account.AccountCache;
+import com.google.gerrit.server.auth.AuthException;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.mail.CreateChangeSender;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.RefControl;
+import com.google.gerrit.server.validators.ValidationException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -66,6 +70,8 @@ public class ChangeInserter {
   private final ChangeMessagesUtil cmUtil;
   private final MergeabilityChecker mergeabilityChecker;
   private final CreateChangeSender.Factory createChangeSenderFactory;
+  private final HashtagsUtil hashtagsUtil;
+  private final AccountCache accountCache;
 
   private final RefControl refControl;
   private final Change change;
@@ -77,6 +83,7 @@ public class ChangeInserter {
   private Set<Account.Id> reviewers;
   private Set<Account.Id> extraCC;
   private Map<String, Short> approvals;
+  private Set<String> hashtags;
   private boolean runHooks;
   private boolean sendMail;
 
@@ -90,6 +97,8 @@ public class ChangeInserter {
       ChangeMessagesUtil cmUtil,
       MergeabilityChecker mergeabilityChecker,
       CreateChangeSender.Factory createChangeSenderFactory,
+      HashtagsUtil hashtagsUtil,
+      AccountCache accountCache,
       @Assisted RefControl refControl,
       @Assisted Change change,
       @Assisted RevCommit commit) {
@@ -101,12 +110,15 @@ public class ChangeInserter {
     this.cmUtil = cmUtil;
     this.mergeabilityChecker = mergeabilityChecker;
     this.createChangeSenderFactory = createChangeSenderFactory;
+    this.hashtagsUtil = hashtagsUtil;
+    this.accountCache = accountCache;
     this.refControl = refControl;
     this.change = change;
     this.commit = commit;
     this.reviewers = Collections.emptySet();
     this.extraCC = Collections.emptySet();
     this.approvals = Collections.emptyMap();
+    this.hashtags = Collections.emptySet();
     this.runHooks = true;
     this.sendMail = true;
 
@@ -142,6 +154,11 @@ public class ChangeInserter {
   public ChangeInserter setDraft(boolean draft) {
     change.setStatus(draft ? Change.Status.DRAFT : Change.Status.NEW);
     patchSet.setDraft(draft);
+    return this;
+  }
+
+  public ChangeInserter setHashtags(Set<String> hashtags) {
+    this.hashtags = hashtags;
     return this;
   }
 
@@ -191,7 +208,19 @@ public class ChangeInserter {
     } finally {
       db.rollback();
     }
+
     update.commit();
+
+    if (hashtags != null && hashtags.size() > 0) {
+      try {
+        HashtagsInput input = new HashtagsInput();
+        input.add = hashtags;
+        hashtagsUtil.setHashtags(ctl, input, false, false);
+      } catch (ValidationException | AuthException e) {
+        log.error("Cannot add hashtags to change " + change.getId(), e);
+      }
+    }
+
     CheckedFuture<?, IOException> f = mergeabilityChecker.newCheck()
         .addChange(change)
         .reindex()
@@ -221,6 +250,11 @@ public class ChangeInserter {
 
     if (runHooks) {
       hooks.doPatchsetCreatedHook(change, patchSet, db);
+      if (hashtags != null && hashtags.size() > 0) {
+        hooks.doHashtagsChangedHook(change,
+            accountCache.get(change.getOwner()).getAccount(),
+            hashtags, null, hashtags, db);
+      }
     }
 
     return change;

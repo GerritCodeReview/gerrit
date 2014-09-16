@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.change;
 
-import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.Response;
@@ -25,6 +24,7 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Singleton;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -38,7 +38,7 @@ public class GetHashtags implements RestReadView<ChangeResource> {
     ChangeNotes notes = control.getNotes().load();
     Set<String> hashtags = notes.getHashtags();
     if (hashtags == null) {
-      hashtags = ImmutableSet.of();
+      hashtags = Collections.emptySet();
     }
     return Response.ok(new TreeSet<String>(hashtags));
   }

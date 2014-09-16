@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.change;
 
-import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.extensions.api.changes.HashtagsInput;
 import com.google.gerrit.extensions.registration.DynamicSet;
@@ -37,6 +36,7 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.TreeSet;
@@ -64,7 +64,7 @@ public class PostHashtags implements RestModifyView<ChangeResource, HashtagsInpu
   private Set<String> extractTags(Set<String> input)
       throws BadRequestException {
     if (input == null) {
-      return ImmutableSet.of();
+      return Collections.emptySet();
     } else {
       HashSet<String> result = new HashSet<>();
       for (String hashtag : input) {

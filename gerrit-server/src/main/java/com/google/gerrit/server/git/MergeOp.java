@@ -668,6 +668,14 @@ public class MergeOp {
     return account;
   }
 
+  private String getByAccountName(CodeReviewCommit codeReviewCommit) {
+    Account account = getAccount(codeReviewCommit);
+    if (account != null && account.getFullName() != null) {
+      return " by " + account.getUserName();
+    }
+    return "";
+  }
+
   private void updateChangeStatus(final List<Change> submitted) throws NoSuchChangeException {
     for (final Change c : submitted) {
       final CodeReviewCommit commit = commits.get(c.getId());
@@ -684,12 +692,13 @@ public class MergeOp {
       try {
         switch (s) {
           case CLEAN_MERGE:
-            setMerged(c, message(c, txt));
+            setMerged(c, message(c, txt + getByAccountName(commit)));
             break;
 
           case CLEAN_REBASE:
           case CLEAN_PICK:
-            setMerged(c, message(c, txt + " as " + commit.name()));
+            setMerged(c, message(c, txt + " as " + commit.name()
+                + getByAccountName(commit)));
             break;
 
           case ALREADY_MERGED:

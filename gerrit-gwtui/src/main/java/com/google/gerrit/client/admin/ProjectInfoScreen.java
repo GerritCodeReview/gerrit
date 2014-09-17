@@ -554,9 +554,13 @@ public class ProjectInfoScreen extends ProjectScreen {
   private void initProjectActions(ConfigInfo info) {
     actionsGrid.clear(true);
     actionsGrid.removeAllRows();
+    boolean showCreateChange = Gerrit.isSignedIn();
 
     NativeMap<ActionInfo> actions = info.actions();
-    if (actions == null || actions.isEmpty()) {
+    if (actions == null) {
+      actions = NativeMap.create().cast();
+    }
+    if (actions.isEmpty() && !showCreateChange) {
       return;
     }
     actions.copyKeysIntoChildren("id");
@@ -571,7 +575,9 @@ public class ProjectInfoScreen extends ProjectScreen {
           actions.get(id)));
     }
 
-    if (Gerrit.isSignedIn()) {
+    // TODO: The user should have create permission on the branch referred to by
+    // HEAD. This would have to happen on the server side.
+    if (showCreateChange) {
       actionsPanel.add(createChangeAction());
     }
   }

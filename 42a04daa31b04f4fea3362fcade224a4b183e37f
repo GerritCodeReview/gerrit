@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "30bf43e0_77def027",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-17T16:00:55Z",
+      "side": 1,
+      "message": "Provide an example at least in the commit message.\n\nI guess it will look like:\n\n  $ git push origin HEAD:refs/for/master%hashtag\u003dx\n\nfor one hashtag. And like this:\n\n  $ git push origin HEAD:refs/for/master%hashtag\u003dx,hashtag\u003dy,hashtag\u003d...\n\nfor multiple hashtags?",
+      "revId": "42a04daa31b04f4fea3362fcade224a4b183e37f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f0d04b3d_9582a445",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 2

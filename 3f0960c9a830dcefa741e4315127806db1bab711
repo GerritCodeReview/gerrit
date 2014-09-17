@@ -70,6 +70,30 @@
       "revId": "3f0960c9a830dcefa741e4315127806db1bab711",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0d04b3d_f57318be",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeInserter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-17T07:53:59Z",
+      "side": 1,
+      "message": "But how is this different from adding a new hashtag to the existing change, say 1 second after uploading it from the UI/REST-API and/or by adding it during pushing by using magic branch parameter (or from the UI by hitting create change button on project info screen and extending the dialog an passing has tags there)?\n\nThe consumers of the change-hashtag hook outcome are only interested to be notified about the fact that new hashtag(\u0027s\u0027) was/were added to a change and not the time when this happened: during change upload or afterwards.",
+      "parentUuid": "90e54f1e_723f38cf",
+      "range": {
+        "startLine": 214,
+        "startChar": 45,
+        "endLine": 214,
+        "endChar": 50
+      },
+      "revId": "3f0960c9a830dcefa741e4315127806db1bab711",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -40,6 +40,6 @@ public class GetHashtags implements RestReadView<ChangeResource> {
     if (hashtags == null) {
       hashtags = Collections.emptySet();
     }
-    return Response.ok(new TreeSet<String>(hashtags));
+    return Response.ok(hashtags);
   }
 }

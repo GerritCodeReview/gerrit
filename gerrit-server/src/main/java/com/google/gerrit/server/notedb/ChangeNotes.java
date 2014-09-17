@@ -24,6 +24,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSetMultimap;
+import com.google.common.collect.ImmutableSortedSet;
 import com.google.common.collect.Ordering;
 import com.google.common.collect.Table;
 import com.google.common.primitives.Ints;
@@ -165,8 +166,12 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     return reviewers;
   }
 
+  /**
+   *
+   * @return a ImmutableSet of all hashtags for this change sorted in alphabetical order.
+   */
   public ImmutableSet<String> getHashtags() {
-    return hashtags;
+    return ImmutableSortedSet.copyOf(hashtags);
   }
 
   /**

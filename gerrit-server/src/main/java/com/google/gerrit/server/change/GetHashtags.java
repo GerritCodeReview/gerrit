@@ -26,7 +26,6 @@ import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.Set;
-import java.util.TreeSet;
 
 @Singleton
 public class GetHashtags implements RestReadView<ChangeResource> {

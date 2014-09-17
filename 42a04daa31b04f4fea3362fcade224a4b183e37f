@@ -34,6 +34,29 @@
       "revId": "42a04daa31b04f4fea3362fcade224a4b183e37f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90e54f1e_92829c45",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1706,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-17T09:12:03Z",
+      "side": 1,
+      "message": "Potential NPE here.  This should be moved up inside the conditional block beginning at line 1689",
+      "range": {
+        "startLine": 1706,
+        "startChar": 8,
+        "endLine": 1706,
+        "endChar": 47
+      },
+      "revId": "42a04daa31b04f4fea3362fcade224a4b183e37f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

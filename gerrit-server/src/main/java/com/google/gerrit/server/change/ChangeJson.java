@@ -107,6 +107,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.TreeSet;
 
 public class ChangeJson {
   private static final Logger log = LoggerFactory.getLogger(ChangeJson.class);
@@ -271,7 +272,7 @@ public class ChangeJson {
     out.project = in.getProject().get();
     out.branch = in.getDest().getShortName();
     out.topic = in.getTopic();
-    out.hashtags = ctl.getNotes().load().getHashtags();
+    out.hashtags = new TreeSet<String>(ctl.getNotes().load().getHashtags());
     out.changeId = in.getKey().get();
     out.mergeable = isMergeable(in);
     ChangedLines changedLines = cd.changedLines();

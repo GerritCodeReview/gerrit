@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "90e54f1e_1268ecbb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 674,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-17T20:06:40Z",
+      "side": 1,
+      "message": "Or should this be:\n\n new AccountInfo(account).getNameEmail(anonymousCowardName)\n\nto include the email address?",
+      "range": {
+        "startLine": 674,
+        "startChar": 22,
+        "endLine": 674,
+        "endChar": 43
+      },
+      "revId": "4820d0ee5fea4ceade56b776adae0574c8f6e67b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

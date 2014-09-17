@@ -142,6 +142,30 @@
       "revId": "3f0960c9a830dcefa741e4315127806db1bab711",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0d04b3d_55852c4a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeInserter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-17T09:15:12Z",
+      "side": 1,
+      "message": "That tells us, that the flag in this method is correct, and that the hook should be fired after the reindexing is done on line 249 below:\n\n  if (runHooks) {\n      hooks.doPatchsetCreatedHook(change, patchSet, db);\n      hooks.doHashtagsChangedHook(...); \n  }",
+      "parentUuid": "30f4a3d0_0f1d657e",
+      "range": {
+        "startLine": 214,
+        "startChar": 45,
+        "endLine": 214,
+        "endChar": 50
+      },
+      "revId": "3f0960c9a830dcefa741e4315127806db1bab711",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

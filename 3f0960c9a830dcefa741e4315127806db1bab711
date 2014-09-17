@@ -46,6 +46,30 @@
       "revId": "3f0960c9a830dcefa741e4315127806db1bab711",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30f4a3d0_4f136d77",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeInserter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-17T07:29:06Z",
+      "side": 1,
+      "message": "Note that here only the hashtags-changed hook (which is invoked by the HashtagUtil) is suppressed.",
+      "parentUuid": "90e54f1e_723f38cf",
+      "range": {
+        "startLine": 214,
+        "startChar": 45,
+        "endLine": 214,
+        "endChar": 50
+      },
+      "revId": "3f0960c9a830dcefa741e4315127806db1bab711",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

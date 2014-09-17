@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "30f4a3d0_af2bf99d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/HashtagsUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-17T01:15:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f0d04b3d_151d747e",
+      "range": {
+        "startLine": 63,
+        "startChar": 13,
+        "endLine": 63,
+        "endChar": 32
+      },
+      "revId": "e8bf816ea7d7cfcde2dbfa52d33f2fd14f0ba8ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f0d04b3d_f54af86f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/HashtagsUtil.java",
         "patchSetId": 1
@@ -60,6 +84,30 @@
       "side": 1,
       "message": "We throw RestApiException also within other code, for example in the ssh commands.\n\nInstead of throwing BadRequestException and ResourceConflictException here, we could throw IllegalArgumentException and ValidationException, and then translate them in the REST API.  But I can\u0027t find an appropriate one to throw instead of AuthException.",
       "parentUuid": "f0d04b3d_f54af86f",
+      "range": {
+        "startLine": 82,
+        "startChar": 11,
+        "endLine": 83,
+        "endChar": 50
+      },
+      "revId": "e8bf816ea7d7cfcde2dbfa52d33f2fd14f0ba8ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90e54f1e_52131477",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/HashtagsUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-17T01:15:09Z",
+      "side": 1,
+      "message": "Done.  I didn\u0027t realise there were two AuthException classes.",
+      "parentUuid": "30f4a3d0_ef2101c2",
       "range": {
         "startLine": 82,
         "startChar": 11,

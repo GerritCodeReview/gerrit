@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "30f4a3d0_0f3685f8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-17T14:38:54Z",
+      "side": 1,
+      "message": "timeout",
+      "range": {
+        "startLine": 10,
+        "startChar": 2,
+        "endLine": 10,
+        "endChar": 10
+      },
+      "revId": "778dba4fba1eaa2b7c74af29549d9c2742d4258d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90e54f1e_128fcc6a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MultiProgressMonitor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-17T14:38:54Z",
+      "side": 1,
+      "message": "Add \": \" after \"successful\" otherwise the detail message will be appended directly onto it without any space.",
+      "range": {
+        "startLine": 227,
+        "startChar": 68,
+        "endLine": 227,
+        "endChar": 69
+      },
+      "revId": "778dba4fba1eaa2b7c74af29549d9c2742d4258d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

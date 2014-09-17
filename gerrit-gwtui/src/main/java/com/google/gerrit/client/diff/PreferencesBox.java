@@ -90,6 +90,7 @@ class PreferencesBox extends Composite {
   @UiField ToggleButton leftSide;
   @UiField ToggleButton emptyPane;
   @UiField ToggleButton topMenu;
+  @UiField ToggleButton autoHideDiffTableHeader;
   @UiField ToggleButton manualReview;
   @UiField ToggleButton expandAllComments;
   @UiField ToggleButton renderEntireFile;
@@ -157,6 +158,7 @@ class PreferencesBox extends Composite {
     leftSide.setEnabled(!(prefs.hideEmptyPane()
         && view.diffTable.getChangeType() == ChangeType.ADDED));
     topMenu.setValue(!prefs.hideTopMenu());
+    autoHideDiffTableHeader.setValue(!prefs.autoHideDiffTableHeader());
     manualReview.setValue(prefs.manualReview());
     expandAllComments.setValue(prefs.expandAllComments());
     renderEntireFile.setValue(prefs.renderEntireFile());
@@ -319,6 +321,13 @@ class PreferencesBox extends Composite {
   void onTopMenu(ValueChangeEvent<Boolean> e) {
     prefs.hideTopMenu(!e.getValue());
     Gerrit.setHeaderVisible(!prefs.hideTopMenu());
+    view.resizeCodeMirror();
+  }
+
+  @UiHandler("autoHideDiffTableHeader")
+  void onAutoHideDiffTableHeader(ValueChangeEvent<Boolean> e) {
+    prefs.autoHideDiffTableHeader(!e.getValue());
+    view.setAutoHideDiffHeader(!e.getValue());
     view.resizeCodeMirror();
   }
 

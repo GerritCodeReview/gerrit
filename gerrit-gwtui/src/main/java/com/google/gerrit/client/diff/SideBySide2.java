@@ -716,6 +716,10 @@ public class SideBySide2 extends Screen {
     });
   }
 
+  void setAutoHideDiffHeader(boolean hide) {
+    diffTable.setAutoHideDiffHeader(hide);
+  }
+
   private void render(DiffInfo diff) {
     header.setNoDiff(diff);
     chunkManager.render(diff);

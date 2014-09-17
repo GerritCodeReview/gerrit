@@ -92,6 +92,7 @@ public class AccountDiffPreference {
     p.setContext(DEFAULT_CONTEXT);
     p.setManualReview(false);
     p.setHideEmptyPane(false);
+    p.setAutoHideDiffTableHeader(true);
     return p;
   }
 
@@ -156,6 +157,9 @@ public class AccountDiffPreference {
   @Column(id = 20)
   protected boolean hideEmptyPane;
 
+  @Column(id = 21)
+  protected boolean autoHideDiffTableHeader;
+
   protected AccountDiffPreference() {
   }
 
@@ -183,6 +187,7 @@ public class AccountDiffPreference {
     this.hideLineNumbers = p.hideLineNumbers;
     this.renderEntireFile = p.renderEntireFile;
     this.hideEmptyPane = p.hideEmptyPane;
+    this.autoHideDiffTableHeader = p.autoHideDiffTableHeader;
   }
 
   public Account.Id getAccountId() {
@@ -342,5 +347,13 @@ public class AccountDiffPreference {
 
   public void setHideEmptyPane(boolean hideEmptyPane) {
     this.hideEmptyPane = hideEmptyPane;
+  }
+
+  public void setAutoHideDiffTableHeader(boolean hide) {
+    autoHideDiffTableHeader = hide;
+  }
+
+  public boolean isAutoHideDiffTableHeader() {
+    return autoHideDiffTableHeader;
   }
 }

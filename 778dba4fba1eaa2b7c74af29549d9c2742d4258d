@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b0dfb355_abd9a991",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1016722
+      },
+      "writtenOn": "2014-09-17T14:42:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "30f4a3d0_0f3685f8",
+      "range": {
+        "startLine": 10,
+        "startChar": 2,
+        "endLine": 10,
+        "endChar": 10
+      },
+      "revId": "778dba4fba1eaa2b7c74af29549d9c2742d4258d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "90e54f1e_128fcc6a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MultiProgressMonitor.java",
         "patchSetId": 1

@@ -313,16 +313,19 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements
     private final String url;
     private final KeyType<K> keyType;
     private final long maxSize;
+    private final long expireAfterWrite;
     private final BlockingQueue<SqlHandle> handles;
     private final AtomicLong hitCount = new AtomicLong();
     private final AtomicLong missCount = new AtomicLong();
     private volatile BloomFilter<K> bloomFilter;
     private int estimatedSize;
 
-    SqlStore(String jdbcUrl, TypeLiteral<K> keyType, long maxSize) {
+    SqlStore(String jdbcUrl, TypeLiteral<K> keyType, long maxSize,
+        long expireAfterWrite) {
       this.url = jdbcUrl;
       this.keyType = KeyType.create(keyType);
       this.maxSize = maxSize;
+      this.expireAfterWrite = expireAfterWrite;
 
       int cores = Runtime.getRuntime().availableProcessors();
       int keep = Math.min(cores, 16);
@@ -408,12 +411,19 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements
       try {
         c = acquire();
         if (c.get == null) {
-          c.get = c.conn.prepareStatement("SELECT v FROM data WHERE k=?");
+          c.get = c.conn.prepareStatement("SELECT v, created FROM data WHERE k=?");
         }
         keyType.set(c.get, 1, key);
         ResultSet r = c.get.executeQuery();
         try {
           if (!r.next()) {
+            missCount.incrementAndGet();
+            return null;
+          }
+
+          Timestamp created = r.getTimestamp(2);
+          if (expired(created)) {
+            invalidate(key);
             missCount.incrementAndGet();
             return null;
           }
@@ -436,6 +446,14 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements
       } finally {
         release(c);
       }
+    }
+
+    private boolean expired(Timestamp created) {
+      if (expireAfterWrite == 0) {
+        return false;
+      }
+      long age = TimeUtil.nowMs() - created.getTime();
+      return 1000 * expireAfterWrite < age;
     }
 
     private void touch(SqlHandle c, K key) throws SQLException {
@@ -552,12 +570,14 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements
           r = s.executeQuery("SELECT"
               + " k"
               + ",OCTET_LENGTH(k) + OCTET_LENGTH(v)"
+              + ",created"
               + " FROM data"
               + " ORDER BY accessed");
           try {
             while (maxSize < used && r.next()) {
               K key = keyType.get(r, 1);
-              if (mem.getIfPresent(key) != null) {
+              Timestamp created = r.getTimestamp(3);
+              if (mem.getIfPresent(key) != null && !expired(created)) {
                 touch(c, key);
               } else {
                 invalidate(c, key);

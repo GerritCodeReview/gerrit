@@ -161,7 +161,8 @@ class H2CacheFactory implements PersistentCacheFactory, LifecycleListener {
       return defaultFactory.build(def);
     }
 
-    SqlStore<K, V> store = newSqlStore(def.name(), def.keyType(), limit);
+    SqlStore<K, V> store = newSqlStore(def.name(), def.keyType(), limit,
+        def.expireAfterWrite(TimeUnit.SECONDS));
     H2CacheImpl<K, V> cache = new H2CacheImpl<K, V>(
         executor, store, def.keyType(),
         (Cache<K, ValueHolder<V>>) defaultFactory.create(def, true).build());
@@ -182,7 +183,8 @@ class H2CacheFactory implements PersistentCacheFactory, LifecycleListener {
       return defaultFactory.build(def, loader);
     }
 
-    SqlStore<K, V> store = newSqlStore(def.name(), def.keyType(), limit);
+    SqlStore<K, V> store = newSqlStore(def.name(), def.keyType(), limit,
+        def.expireAfterWrite(TimeUnit.SECONDS));
     Cache<K, ValueHolder<V>> mem = (Cache<K, ValueHolder<V>>)
         defaultFactory.create(def, true)
         .build((CacheLoader<K, V>) new H2CacheImpl.Loader<K, V>(
@@ -209,9 +211,11 @@ class H2CacheFactory implements PersistentCacheFactory, LifecycleListener {
   private <V, K> SqlStore<K, V> newSqlStore(
       String name,
       TypeLiteral<K> keyType,
-      long maxSize) {
+      long maxSize,
+      Long expireAfterWrite) {
     File db = new File(cacheDir, name).getAbsoluteFile();
     String url = "jdbc:h2:" + db.toURI().toString();
-    return new SqlStore<>(url, keyType, maxSize);
+    return new SqlStore<>(url, keyType, maxSize,
+        expireAfterWrite == null ? 0 : expireAfterWrite.longValue());
   }
 }

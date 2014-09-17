@@ -224,6 +224,7 @@ public class MultiProgressMonitor {
             log.warn(String.format(
                     "MultiProgressMonitor worker killed after %sms" + detailMessage, //
                     TimeUnit.MILLISECONDS.convert(now - overallStart, NANOSECONDS)));
+            send(new StringBuilder("The operation was not successful" + detailMessage));
           }
           break;
         }

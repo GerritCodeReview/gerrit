@@ -103,6 +103,7 @@ public class Gerrit implements EntryPoint {
   public static final SystemInfoService SYSTEM_SVC;
   public static final EventBus EVENT_BUS = GWT.create(SimpleEventBus.class);
   public static Themer THEMER = GWT.create(Themer.class);
+  public static final String PROJECT_NAME_MENU_VAR = "${projectName}";
 
   private static String myHost;
   private static GerritConfig myConfig;
@@ -773,15 +774,10 @@ public class Gerrit implements EntryPoint {
         for (TopMenu menu : topMenuExtensions) {
           String name = menu.getName();
           LinkMenuBar existingBar = menuBars.get(name);
-          LinkMenuBar bar = existingBar != null ? existingBar : new LinkMenuBar();
-          if (GerritTopMenu.PROJECTS.menuName.equals(name)) {
-            for (TopMenuItem item : Natives.asList(menu.getItems())) {
-              addProjectLink(bar, item);
-            }
-          } else {
-            for (TopMenuItem item : Natives.asList(menu.getItems())) {
-              addExtensionLink(bar, item);
-            }
+          LinkMenuBar bar =
+              existingBar != null ? existingBar : new LinkMenuBar();
+          for (TopMenuItem item : Natives.asList(menu.getItems())) {
+            addMenuLink(bar, item);
           }
           if (existingBar == null) {
             menuBars.put(name, bar);
@@ -909,7 +905,7 @@ public class Gerrit implements EntryPoint {
         @Override
         protected void onScreenLoad(Project.NameKey project) {
         String p =
-            panel.replace("${projectName}",
+            panel.replace(PROJECT_NAME_MENU_VAR,
                 URL.encodeQueryString(project.get()));
           if (!panel.startsWith("/x/") && !isAbsolute(panel)) {
             UrlBuilder builder = new UrlBuilder();
@@ -967,6 +963,14 @@ public class Gerrit implements EntryPoint {
     final Anchor atag = anchor(text, selfRedirect("/Documentation/" + href));
     atag.setTarget("_blank");
     m.add(atag);
+  }
+
+  private static void addMenuLink(LinkMenuBar m, TopMenuItem item) {
+    if (item.getUrl().contains(PROJECT_NAME_MENU_VAR)) {
+      addProjectLink(m, item);
+    } else {
+      addExtensionLink(m, item);
+    }
   }
 
   private static void addExtensionLink(LinkMenuBar m, TopMenuItem item) {

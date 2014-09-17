@@ -22,6 +22,30 @@
       "revId": "82000f90e94a2409e0166e741afa01fd3da549b0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30f4a3d0_2f07093d",
+        "filename": "lib/httpcomponents/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-17T00:25:13Z",
+      "side": 1,
+      "message": "I did add a VERSION but undid it when I realised that there are two different versions used among the components here.\n\nI assume they are independently versioned because there is no 4.3.4 version of httpcore [1], and the components that I need to add for elasticsearch in the following change don\u0027t have common versions either.\n\n[1] http://search.maven.org/#search%7Cgav%7C1%7Cg%3A%22org.apache.httpcomponents%22%20AND%20a%3A%22httpcore%22",
+      "parentUuid": "30f4a3d0_4f0a4d45",
+      "range": {
+        "startLine": 18,
+        "startChar": 43,
+        "endLine": 18,
+        "endChar": 48
+      },
+      "revId": "82000f90e94a2409e0166e741afa01fd3da549b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

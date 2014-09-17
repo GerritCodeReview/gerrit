@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "90e54f1e_f25c482b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/ListTasks.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-17T14:39:42Z",
+      "side": 1,
+      "message": "nit: indent these lines",
+      "range": {
+        "startLine": 165,
+        "startChar": 12,
+        "endLine": 168,
+        "endChar": 24
+      },
+      "revId": "f5ea85b8d158d1533cedec40560e53949ea10ef8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

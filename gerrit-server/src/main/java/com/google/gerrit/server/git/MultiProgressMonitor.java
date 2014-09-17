@@ -25,6 +25,9 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.lang.management.ManagementFactory;
+import java.lang.management.ThreadInfo;
+import java.lang.management.ThreadMXBean;
 import java.util.List;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -216,6 +219,26 @@ public class MultiProgressMonitor {
         long now = System.nanoTime();
 
         if (deadline > 0 && now > deadline) {
+          //check if a deadlock has occurred
+
+          ThreadMXBean bean = ManagementFactory.getThreadMXBean();
+          long[] threadIds = bean.findDeadlockedThreads();
+
+          if (threadIds != null) {
+              ThreadInfo[] infos = bean.getThreadInfo(threadIds);
+
+              for (ThreadInfo info : infos) {
+                  StackTraceElement[] stack = info.getStackTrace();
+                  StringBuilder sb = new StringBuilder();
+                  for (StackTraceElement stackTraceElement : stack) {
+                    sb.append(stackTraceElement.toString() + "\n");
+                  }
+                  log.warn("MultiProgressMonitor worker detected a deadlock has occurred.\n" +
+                          sb.toString());
+//another test
+              }
+          }
+
           workerFuture.cancel(true);
           if (workerFuture.isCancelled()) {
             detailMessage = String.format(

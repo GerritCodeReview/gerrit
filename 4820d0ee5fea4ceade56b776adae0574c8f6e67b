@@ -22,6 +22,30 @@
       "revId": "4820d0ee5fea4ceade56b776adae0574c8f6e67b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "900e2fb4_6ae4d744",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 674,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-09-17T20:09:20Z",
+      "side": 1,
+      "message": "I think we just want the name and not the email in the message.\n\nBut username is always null to us (for example), you need the DisplayName.",
+      "parentUuid": "90e54f1e_1268ecbb",
+      "range": {
+        "startLine": 674,
+        "startChar": 22,
+        "endLine": 674,
+        "endChar": 43
+      },
+      "revId": "4820d0ee5fea4ceade56b776adae0574c8f6e67b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -46,6 +46,30 @@
       "revId": "4820d0ee5fea4ceade56b776adae0574c8f6e67b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30f4a3d0_0f8fa56a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 674,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-17T20:17:34Z",
+      "side": 1,
+      "message": "Duh. Assuming you meant FullName. Done.",
+      "parentUuid": "900e2fb4_6ae4d744",
+      "range": {
+        "startLine": 674,
+        "startChar": 22,
+        "endLine": 674,
+        "endChar": 43
+      },
+      "revId": "4820d0ee5fea4ceade56b776adae0574c8f6e67b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

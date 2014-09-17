@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f0d04b3d_353990e8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeInserter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-17T07:23:17Z",
+      "side": 1,
+      "message": "Why run hook is suppressed here? I would expect that hooks and stream-events are fired like with patch set added event. When the problem is not bound identified user from background thread, it can be solved by reading and binding user from commit meta data (what Deniz recently did in cookbook-plugin with commit validation).",
+      "range": {
+        "startLine": 214,
+        "startChar": 45,
+        "endLine": 214,
+        "endChar": 50
+      },
+      "revId": "3f0960c9a830dcefa741e4315127806db1bab711",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

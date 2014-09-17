@@ -94,6 +94,30 @@
       "revId": "3f0960c9a830dcefa741e4315127806db1bab711",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30f4a3d0_2f2029b6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeInserter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-17T08:34:01Z",
+      "side": 1,
+      "message": "OK.  I\u0027ll remove this flag.",
+      "parentUuid": "f0d04b3d_f57318be",
+      "range": {
+        "startLine": 214,
+        "startChar": 45,
+        "endLine": 214,
+        "endChar": 50
+      },
+      "revId": "3f0960c9a830dcefa741e4315127806db1bab711",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

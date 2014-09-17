@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "30bf43e0_7755d0d9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-17T15:39:37Z",
+      "side": 1,
+      "message": "Could you provide the \"why\" for this change? Which problem does it address?\nIs it affecting the output of the show-queue command and how (maybe provide an example)?",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 21
+      },
+      "revId": "489c75404a0164368f24073ac37c4e22b509b759",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

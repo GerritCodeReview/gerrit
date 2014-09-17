@@ -22,6 +22,30 @@
       "revId": "d661d946a4f79d4ede9b06f1a8b6158f4ac4f8f9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b0dfb355_4be12533",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MultiProgressMonitor.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1016722
+      },
+      "writtenOn": "2014-09-17T15:03:18Z",
+      "side": 1,
+      "message": "The message is between brackets. It does not need that.",
+      "parentUuid": "90e54f1e_526e74cc",
+      "range": {
+        "startLine": 227,
+        "startChar": 68,
+        "endLine": 227,
+        "endChar": 69
+      },
+      "revId": "d661d946a4f79d4ede9b06f1a8b6158f4ac4f8f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

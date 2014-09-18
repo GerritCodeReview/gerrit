@@ -16,6 +16,24 @@
       "revId": "712dbaaab2773f1cb13d4849e1bfbee8b1c2b5bb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30bf43e0_d7925c46",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-09-18T11:40:59Z",
+      "side": 1,
+      "message": "I don\u0027t want to rework all following patches",
+      "parentUuid": "f0d04b3d_750708ee",
+      "revId": "712dbaaab2773f1cb13d4849e1bfbee8b1c2b5bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

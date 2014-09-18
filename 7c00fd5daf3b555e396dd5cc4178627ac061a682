@@ -22,6 +22,53 @@
       "revId": "7c00fd5daf3b555e396dd5cc4178627ac061a682",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0d04b3d_752ca883",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectControl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2014-09-18T07:57:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "30bf43e0_973f449f",
+      "range": {
+        "startLine": 176,
+        "startChar": 19,
+        "endLine": 176,
+        "endChar": 31
+      },
+      "revId": "7c00fd5daf3b555e396dd5cc4178627ac061a682",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30bf43e0_374f584c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectControl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2014-09-18T07:57:03Z",
+      "side": 1,
+      "message": "unrelated",
+      "range": {
+        "startLine": 188,
+        "startChar": 4,
+        "endLine": 189,
+        "endChar": 19
+      },
+      "revId": "7c00fd5daf3b555e396dd5cc4178627ac061a682",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

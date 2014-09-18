@@ -231,7 +231,9 @@ public class CherryPick extends SubmitStrategy {
   @Override
   public boolean dryRun(final CodeReviewCommit mergeTip,
       final CodeReviewCommit toMerge) throws MergeException {
-    return args.mergeUtil.canCherryPick(args.mergeSorter, args.repo,
-        mergeTip, args.rw, toMerge);
+    // Test for merge instead of cherry pick to avoid false positives
+    // on commit chains.
+    return args.mergeUtil.canMerge(args.mergeSorter, args.repo,
+        mergeTip, toMerge);
   }
 }

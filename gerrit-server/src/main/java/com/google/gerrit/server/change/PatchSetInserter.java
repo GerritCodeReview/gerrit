@@ -290,6 +290,7 @@ public class PatchSetInserter {
       }
       db.commit();
       if (messageIsForChange()) {
+        update.setHashtags(c.getId(), commit);
         update.commit();
       }
 

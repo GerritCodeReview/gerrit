@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "30f4a3d0_cfcabd87",
+        "filename": "Documentation/cmd-index.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-09-18T03:32:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "30dae333_c2b68412",
+      "revId": "5d2fe25a57d636c500f39e485fbda2fc04092662",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d065072b_282733d6",
         "filename": "Documentation/cmd-verify.txt",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2014-09-11T15:26:34Z",
       "side": 1,
       "message": "Why didn\u0027t we go with @dpursehouse\u0027s suggestion of adding this to review instead?",
+      "revId": "5d2fe25a57d636c500f39e485fbda2fc04092662",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30f4a3d0_8fd4b528",
+        "filename": "Documentation/cmd-verify.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-09-18T03:32:52Z",
+      "side": 1,
+      "message": "Not sure, maybe David O. has an answer?",
+      "parentUuid": "d065072b_282733d6",
       "revId": "5d2fe25a57d636c500f39e485fbda2fc04092662",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "30f4a3d0_afcf7995",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/LabelId.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-09-18T03:32:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d065072b_882c87b7",
+      "revId": "5d2fe25a57d636c500f39e485fbda2fc04092662",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d065072b_c815df5c",
         "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/PatchSetVerification.java",
         "patchSetId": 4
@@ -64,6 +118,24 @@
       "writtenOn": "2014-09-11T15:26:34Z",
       "side": 1,
       "message": "optional nit: This would look better if appends were on their own lines",
+      "revId": "5d2fe25a57d636c500f39e485fbda2fc04092662",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90e54f1e_72a3b8ce",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/PatchSetVerification.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-09-18T03:32:52Z",
+      "side": 1,
+      "message": "Not sure what you mean here.  Do you mean each append on a new line?",
+      "parentUuid": "d065072b_c815df5c",
       "revId": "5d2fe25a57d636c500f39e485fbda2fc04092662",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -93,6 +165,30 @@
     },
     {
       "key": {
+        "uuid": "30f4a3d0_6fbab1f8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostVerification.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-09-18T03:32:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d065072b_a8122370",
+      "range": {
+        "startLine": 82,
+        "startChar": 48,
+        "endLine": 82,
+        "endChar": 52
+      },
+      "revId": "5d2fe25a57d636c500f39e485fbda2fc04092662",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d065072b_082077b5",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/VerifyCommand.java",
         "patchSetId": 4
@@ -110,6 +206,24 @@
     },
     {
       "key": {
+        "uuid": "90e54f1e_52a0b4bf",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/VerifyCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-09-18T03:32:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d065072b_082077b5",
+      "revId": "5d2fe25a57d636c500f39e485fbda2fc04092662",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "30dae333_a2a260c7",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/VerifyCommand.java",
         "patchSetId": 4
@@ -121,6 +235,30 @@
       "writtenOn": "2014-09-11T15:26:34Z",
       "side": 1,
       "message": "Can we fine-grain the exception?",
+      "range": {
+        "startLine": 124,
+        "startChar": 15,
+        "endLine": 124,
+        "endChar": 24
+      },
+      "revId": "5d2fe25a57d636c500f39e485fbda2fc04092662",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90e54f1e_329d3088",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/VerifyCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-09-18T03:32:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "30dae333_a2a260c7",
       "range": {
         "startLine": 124,
         "startChar": 15,

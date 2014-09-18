@@ -127,9 +127,7 @@ public class GetRelated implements RestReadView<RevisionResource> {
 
     if (list.size() == 1) {
       ChangeAndCommit r = list.get(0);
-      if (r._changeNumber != null && r._revisionNumber != null
-          && r._changeNumber == rsrc.getChange().getChangeId()
-          && r._revisionNumber == rsrc.getPatchSet().getPatchSetId()) {
+      if (r.commit != null && r.commit.commit.equals(rsrc.getPatchSet().getRevision().get())) {
         return Collections.emptyList();
       }
     }

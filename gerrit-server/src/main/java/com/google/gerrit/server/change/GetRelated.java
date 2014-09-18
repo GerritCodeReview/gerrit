@@ -25,6 +25,7 @@ import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetAncestor;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CommonConverters;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -72,9 +73,22 @@ public class GetRelated implements RestReadView<RevisionResource> {
   @Override
   public RelatedInfo apply(RevisionResource rsrc)
       throws RepositoryNotFoundException, IOException, OrmException {
-    Repository git = gitMgr.openRepository(rsrc.getChange().getProject());
+    Change change = rsrc.getChange();
+    Repository git = gitMgr.openRepository(change.getProject());
     try {
-      Ref ref = git.getRef(rsrc.getChange().getDest().get());
+      if (rsrc.getControl().getProject().getSubmitType() == Project.SubmitType.CHERRY_PICK
+          && change.getStatus() == Change.Status.MERGED) {
+        // For Cherry-Pick strategy, walking from latest patch set (that was created on merge)
+        // yields nothing, so use the last open one
+        final PatchSet.Id patchSetId = rsrc.getPatchSet().getId();
+        if (patchSetId.equals(change.currentPatchSetId()) && patchSetId.get() > 1) {
+          ReviewDb db = dbProvider.get();
+          List<PatchSet> patchSets = db.patchSets().byChange(change.getId()).toList();
+          PatchSet ps = patchSets.get(patchSets.size() - 2);
+          rsrc = new RevisionResource(rsrc.getChangeResource(), ps);
+        }
+      }
+      Ref ref = git.getRef(change.getDest().get());
       RevWalk rw = new RevWalk(git);
       try {
         RelatedInfo info = new RelatedInfo();

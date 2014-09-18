@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f0d04b3d_354f504c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetRelated.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2014-09-18T09:13:54Z",
+      "side": 1,
+      "message": "Is there a cleaner way to get the almost-last patchset?",
+      "revId": "a8877ffbf9a39e9d6d3089c57ac207c9213cc81e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

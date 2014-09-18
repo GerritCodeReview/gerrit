@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f0d04b3d_353630d2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2014-09-18T08:01:08Z",
+      "side": 1,
+      "message": "s/HashTags/Hashtags\n\nIn the other places we have written Hashtag as one word with no upper casing on Tags.",
+      "revId": "5057d66bc6f386fabab2d69a3fcd614ef34d2923",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

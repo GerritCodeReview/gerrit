@@ -52,6 +52,24 @@
       "revId": "712dbaaab2773f1cb13d4849e1bfbee8b1c2b5bb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0d04b3d_f5bb18cd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-09-18T12:19:16Z",
+      "side": 1,
+      "message": "IMO this change is not polluting Git history. Comment provided in previous change was only a \u0027nit\u0027 that IMO can be implemented in separate change to simplify maintenance of this long topic.\n\nSame was for inline-edit, at some point you agreed to merge change in current state and then fix issues and provide improvements in follow up changes.",
+      "parentUuid": "30bf43e0_1789f414",
+      "revId": "712dbaaab2773f1cb13d4849e1bfbee8b1c2b5bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

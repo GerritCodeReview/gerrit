@@ -29,8 +29,21 @@ public class GetReview implements RestReadView<RevisionResource> {
   @Inject
   GetReview(GetChange delegate) {
     this.delegate = delegate;
-    delegate.addOption(ListChangesOption.DETAILED_LABELS);
+    delegate.addOption(ListChangesOption.ALL_COMMITS);
+    delegate.addOption(ListChangesOption.ALL_FILES);
+    delegate.addOption(ListChangesOption.ALL_REVISIONS);
+    delegate.addOption(ListChangesOption.CURRENT_ACTIONS);
+    delegate.addOption(ListChangesOption.CURRENT_COMMIT);
+    delegate.addOption(ListChangesOption.CURRENT_FILES);
+    delegate.addOption(ListChangesOption.CURRENT_REVISION);
     delegate.addOption(ListChangesOption.DETAILED_ACCOUNTS);
+    delegate.addOption(ListChangesOption.DETAILED_LABELS);
+    delegate.addOption(ListChangesOption.DOWNLOAD_COMMANDS);
+    delegate.addOption(ListChangesOption.DRAFT_COMMENTS);
+    delegate.addOption(ListChangesOption.LABELS);
+    delegate.addOption(ListChangesOption.MESSAGES);
+    delegate.addOption(ListChangesOption.REVIEWED);
+    delegate.addOption(ListChangesOption.WEB_LINKS);
   }
 
   @Override

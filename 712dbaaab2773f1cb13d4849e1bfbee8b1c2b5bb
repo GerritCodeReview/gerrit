@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f0d04b3d_750708ee",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-18T11:30:00Z",
+      "side": 1,
+      "message": "Why upload it as its own change and not amend in change where it blond to: [1]?\n\n [1] https://gerrit-review.googlesource.com/59246",
+      "revId": "712dbaaab2773f1cb13d4849e1bfbee8b1c2b5bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -52,6 +52,24 @@
       "revId": "ec4284018a9ac6f9c2f4a3668cd7e4bddc517131",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30bf43e0_9775044a",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/SecureStoreInitData.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-09-18T12:21:40Z",
+      "side": 1,
+      "message": "\u003e This should be done in this change and not in top of this series.\n\nDon\u0027t agree with this. This is only optional nit, that can be done as followup commit for this long and complicated topic.",
+      "parentUuid": "f0d04b3d_350190d7",
+      "revId": "ec4284018a9ac6f9c2f4a3668cd7e4bddc517131",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

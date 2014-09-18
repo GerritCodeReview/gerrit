@@ -27,6 +27,7 @@ import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.change.PatchSetInserter;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -63,14 +64,14 @@ public class ChangeEditUtil {
   private final PatchSetInserter.Factory patchSetInserterFactory;
   private final ChangeControl.GenericFactory changeControlFactory;
   private final Provider<ReviewDb> db;
-  private final Provider<IdentifiedUser> user;
+  private final Provider<CurrentUser> user;
 
   @Inject
   ChangeEditUtil(GitRepositoryManager gitManager,
       PatchSetInserter.Factory patchSetInserterFactory,
       ChangeControl.GenericFactory changeControlFactory,
       Provider<ReviewDb> db,
-      Provider<IdentifiedUser> user) {
+      Provider<CurrentUser> user) {
     this.gitManager = gitManager;
     this.patchSetInserterFactory = patchSetInserterFactory;
     this.changeControlFactory = changeControlFactory;

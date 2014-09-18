@@ -70,6 +70,21 @@ import java.util.Map;
 import java.util.Set;
 
 class ChangeNotesParser implements AutoCloseable {
+  static Set<String> parseHashtags(Change.Id changeId, RevCommit commit)
+      throws ConfigInvalidException {
+    List<String> hashtagsLines = commit.getFooterLines(FOOTER_HASHTAGS);
+    if (hashtagsLines.isEmpty()) {
+      return null;
+    } else if (hashtagsLines.size() > 1) {
+      throw ChangeNotes.parseException(changeId, "missing or multiple %s: %s",
+          FOOTER_HASHTAGS, hashtagsLines);
+    } else if (hashtagsLines.get(0).isEmpty()) {
+      return ImmutableSet.of();
+    } else {
+      return Sets.newHashSet(Splitter.on(',').split(hashtagsLines.get(0)));
+    }
+  }
+
   final Map<Account.Id, ReviewerState> reviewers;
   final List<Account.Id> allPastReviewers;
   final List<SubmitRecord> submitRecords;
@@ -170,20 +185,12 @@ class ChangeNotesParser implements AutoCloseable {
   }
 
   private void parseHashtags(RevCommit commit) throws ConfigInvalidException {
-    // Commits are parsed in reverse order and only the last set of hashtags should be used.
+    // Commits are parsed in reverse order and only the last set of hashtags
+    // should be used.
     if (hashtags != null) {
       return;
     }
-    List<String> hashtagsLines = commit.getFooterLines(FOOTER_HASHTAGS);
-    if (hashtagsLines.isEmpty()) {
-      return;
-    } else if (hashtagsLines.size() > 1) {
-      throw expectedOneFooter(FOOTER_HASHTAGS, hashtagsLines);
-    } else if (hashtagsLines.get(0).isEmpty()) {
-      hashtags = ImmutableSet.of();
-    } else {
-      hashtags = Sets.newHashSet(Splitter.on(',').split(hashtagsLines.get(0)));
-    }
+    hashtags = parseHashTags(changeId, commit);
   }
 
   private Change.Status parseStatus(RevCommit commit)

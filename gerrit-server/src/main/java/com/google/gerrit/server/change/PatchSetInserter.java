@@ -18,7 +18,9 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.collect.SetMultimap;
+import com.google.common.collect.Sets;
 import com.google.gerrit.common.ChangeHooks;
+import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
@@ -46,6 +48,8 @@ import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.ssh.NoSshInfo;
 import com.google.gerrit.server.ssh.SshInfo;
 import com.google.gerrit.server.util.TimeUtil;
+import com.google.gerrit.server.validators.HashtagValidationListener;
+import com.google.gerrit.server.validators.ValidationException;
 import com.google.gwtorm.server.AtomicUpdate;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -63,6 +67,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.Collections;
+import java.util.Set;
 
 public class PatchSetInserter {
   private static final Logger log =
@@ -100,6 +105,7 @@ public class PatchSetInserter {
   private final RevCommit commit;
   private final ChangeControl ctl;
   private final IdentifiedUser user;
+  private final DynamicSet<HashtagValidationListener> hashtagValidationListeners;
 
   private PatchSet patchSet;
   private ChangeMessage changeMessage;
@@ -124,6 +130,7 @@ public class PatchSetInserter {
       CommitValidators.Factory commitValidatorsFactory,
       MergeabilityChecker mergeabilityChecker,
       ReplacePatchSetSender.Factory replacePatchSetFactory,
+      DynamicSet<HashtagValidationListener> hashtagValidationListeners,
       @Assisted Repository git,
       @Assisted RevWalk revWalk,
       @Assisted ChangeControl ctl,
@@ -143,6 +150,7 @@ public class PatchSetInserter {
     this.commitValidatorsFactory = commitValidatorsFactory;
     this.mergeabilityChecker = mergeabilityChecker;
     this.replacePatchSetFactory = replacePatchSetFactory;
+    this.hashtagValidationListeners = hashtagValidationListeners;
 
     this.git = git;
     this.revWalk = revWalk;
@@ -225,6 +233,11 @@ public class PatchSetInserter {
     init();
     validate();
 
+    boolean updateHashtags = false;
+    Set<String> updatedHashtags = null;
+    Set<String> toAdd = null;
+    Set<String> toRemove = null;
+
     Change c = ctl.getChange();
     Change updatedChange;
     RefUpdate ru = git.updateRef(patchSet.getRefName());
@@ -289,7 +302,27 @@ public class PatchSetInserter {
         approvalCopier.copy(db, ctl, patchSet);
       }
       db.commit();
+
       if (messageIsForChange()) {
+        Set<String> existingHashtags = ctl.getNotes().load().getHashtags();
+        updatedHashtags = update.getHashtags(c.getId(), commit);
+
+        if (existingHashtags != null && !updatedHashtags.isEmpty()
+            || existingHashtags != null && !updatedHashtags.isEmpty()) {
+          toAdd = Sets.difference(updatedHashtags, existingHashtags);
+          toRemove = Sets.difference(existingHashtags, updatedHashtags);
+          if (toAdd.size() > 0 || toRemove.size() > 0) {
+            updateHashtags = true;
+            for (HashtagValidationListener validator : hashtagValidationListeners) {
+              try {
+                validator.validateHashtags(update.getChange(), toAdd, toRemove);
+              } catch (ValidationException e) {
+                throw new IOException(e);
+              }
+            }
+            update.setHashtags(updatedHashtags);
+          }
+        }
         update.commit();
       }
 
@@ -323,6 +356,10 @@ public class PatchSetInserter {
         .run();
     if (runHooks) {
       hooks.doPatchsetCreatedHook(updatedChange, patchSet, db);
+      if (updateHashtags) {
+        hooks.doHashtagsChangedHook(updatedChange, user.getAccount(), toAdd,
+            toRemove, updatedHashtags, db);
+      }
     }
     return updatedChange;
   }

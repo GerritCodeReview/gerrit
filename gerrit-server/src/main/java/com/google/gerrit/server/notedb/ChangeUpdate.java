@@ -51,6 +51,7 @@ import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 
+import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -348,6 +349,15 @@ public class ChangeUpdate extends AbstractChangeUpdate {
 
   public void setHashtags(Set<String> hashtags) {
     this.hashtags = hashtags;
+  }
+
+  public Set<String> getHashtags(Change.Id changeId, RevCommit commit)
+      throws IOException {
+    try {
+      return ChangeNotesParser.parseHashtags(changeId, commit);
+    } catch (ConfigInvalidException e) {
+      throw new IOException(e);
+    }
   }
 
   public void putReviewer(Account.Id reviewer, ReviewerState type) {

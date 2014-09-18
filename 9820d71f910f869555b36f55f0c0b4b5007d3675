@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b07b3336_cbcf35c7",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticsearchChangeIndex.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1017389
+      },
+      "writtenOn": "2014-09-18T19:41:43Z",
+      "side": 1,
+      "message": "Quite possibly a premature optimization, but the bulk API would allow us to perform both operations with a single server RTT and a single index refresh (although the latter could be accomplished by other means).\n\nhttp://www.elasticsearch.org/guide/en/elasticsearch/reference/current/docs-bulk.html",
+      "range": {
+        "startLine": 196,
+        "startChar": 0,
+        "endLine": 197,
+        "endChar": 35
+      },
+      "revId": "9820d71f910f869555b36f55f0c0b4b5007d3675",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

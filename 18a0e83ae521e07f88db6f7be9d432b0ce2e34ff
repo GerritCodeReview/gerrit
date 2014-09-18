@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f0d04b3d_95f86498",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-09-18T10:48:36Z",
+      "side": 1,
+      "message": "must be \u0027parseHashtags\u0027 (lowercase \u0027t\u0027 for \u0027tags\u0027), otherwise compilation fails with\n\n  /gerrit/gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesParser.java:193: error: cannot find symbol\n    hashtags \u003d parseHashTags(changeId, commit);",
+      "range": {
+        "startLine": 193,
+        "startChar": 15,
+        "endLine": 193,
+        "endChar": 28
+      },
+      "revId": "18a0e83ae521e07f88db6f7be9d432b0ce2e34ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

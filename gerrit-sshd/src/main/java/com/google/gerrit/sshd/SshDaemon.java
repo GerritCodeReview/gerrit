@@ -607,11 +607,6 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
           @Override
           public SshFile getFile(String file) {
             return null;
-          }
-
-          @Override
-          public FileSystemView getNormalizedView() {
-            return null;
           }};
       }
     });

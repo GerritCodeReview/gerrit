@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "30f4a3d0_0fc1e565",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 3841,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-09-18T04:04:14Z",
+      "side": 1,
+      "message": "should be \u0027.. reported this verification\u0027",
+      "revId": "f757e3e0fe10ee057e443c37f6ba348de69147f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30f4a3d0_2fc4a975",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/changes/RevisionApiImpl.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-09-18T04:04:14Z",
+      "side": 1,
+      "message": "should be \u0027Cannot post verification\u0027",
+      "revId": "f757e3e0fe10ee057e443c37f6ba348de69147f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90e54f1e_b2212091",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 955,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-09-18T04:04:14Z",
+      "side": 1,
+      "message": "should remove, verification is already in revision object.",
+      "revId": "f757e3e0fe10ee057e443c37f6ba348de69147f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

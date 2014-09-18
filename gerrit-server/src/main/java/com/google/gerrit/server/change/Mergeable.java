@@ -125,8 +125,11 @@ public class Mergeable implements RestReadView<RevisionResource> {
       Map<String, Ref> refs = git.getRefDatabase().getRefs(RefDatabase.ALL);
       Ref ref = refs.get(change.getDest().get());
       if (force || isStale(change, ref)) {
+        SubmitType type = result.submitType;
+        if (type == SubmitType.CHERRY_PICK)
+          type = SubmitType.MERGE_IF_NECESSARY;
         result.mergeable =
-            refresh(change, ps, result.submitType, git, refs, ref);
+            refresh(change, ps, type, git, refs, ref);
       }
 
       if (otherBranches) {

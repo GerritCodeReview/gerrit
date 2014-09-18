@@ -91,6 +91,7 @@ public class GetRelated implements RestReadView<RevisionResource> {
   private List<ChangeAndCommit> walk(RevisionResource rsrc, RevWalk rw, Ref ref)
       throws OrmException, IOException {
     Map<Change.Id, Change> changes = allOpenChanges(rsrc);
+    changes.put(rsrc.getChange().getId(), rsrc.getChange());
     Map<PatchSet.Id, PatchSet> patchSets = allPatchSets(rsrc, changes.keySet());
 
     Map<String, PatchSet> commits = Maps.newHashMap();

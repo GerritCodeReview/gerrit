@@ -126,7 +126,7 @@ public class Mergeable implements RestReadView<RevisionResource> {
       Ref ref = refs.get(change.getDest().get());
       if (force || isStale(change, ref)) {
         result.mergeable =
-            refresh(change, ps, result.submitType, git, refs, ref);
+            refresh(change, ps, SubmitType.MERGE_IF_NECESSARY, git, refs, ref);
       }
 
       if (otherBranches) {

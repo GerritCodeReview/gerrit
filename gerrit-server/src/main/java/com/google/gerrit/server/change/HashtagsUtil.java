@@ -39,6 +39,24 @@ import java.util.TreeSet;
 
 @Singleton
 public class HashtagsUtil {
+  static Set<String> extractTags(Set<String> input)
+      throws IllegalArgumentException {
+    if (input == null) {
+      return Collections.emptySet();
+    } else {
+      HashSet<String> result = new HashSet<>();
+      for (String hashtag : input) {
+        if (hashtag.contains(",")) {
+          throw new IllegalArgumentException("Hashtags may not contain commas");
+        }
+        if (!hashtag.trim().isEmpty()) {
+          result.add(hashtag.trim());
+        }
+      }
+      return result;
+    }
+  }
+
   private final ChangeUpdate.Factory updateFactory;
   private final Provider<ReviewDb> dbProvider;
   private final ChangeIndexer indexer;
@@ -55,24 +73,6 @@ public class HashtagsUtil {
     this.indexer = indexer;
     this.hooks = hooks;
     this.hashtagValidationListeners = hashtagValidationListeners;
-  }
-
-  private Set<String> extractTags(Set<String> input)
-      throws IllegalArgumentException {
-    if (input == null) {
-      return Collections.emptySet();
-    } else {
-      HashSet<String> result = new HashSet<>();
-      for (String hashtag : input) {
-        if (hashtag.contains(",")) {
-          throw new IllegalArgumentException("Hashtags may not contain commas");
-        }
-        if (!hashtag.trim().isEmpty()) {
-          result.add(hashtag.trim());
-        }
-      }
-      return result;
-    }
   }
 
   public TreeSet<String> setHashtags(ChangeControl control,

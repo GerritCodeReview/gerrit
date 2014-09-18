@@ -125,8 +125,7 @@ public class Mergeable implements RestReadView<RevisionResource> {
       Map<String, Ref> refs = git.getRefDatabase().getRefs(RefDatabase.ALL);
       Ref ref = refs.get(change.getDest().get());
       if (force || isStale(change, ref)) {
-        result.mergeable =
-            refresh(change, ps, result.submitType, git, refs, ref);
+        result.mergeable = refresh(change, ps, SubmitType.MERGE_IF_NECESSARY, git, refs, ref);
       }
 
       if (otherBranches) {
@@ -165,7 +164,6 @@ public class Mergeable implements RestReadView<RevisionResource> {
 
   private boolean refresh(Change change,
       final PatchSet ps,
-      SubmitType type,
       Repository git,
       Map<String, Ref> refs,
       final Ref ref) throws IOException, OrmException {

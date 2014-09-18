@@ -230,7 +230,7 @@ public class Mergeable implements RestReadView<RevisionResource> {
         accepted.add(tip);
         accepted.addAll(Arrays.asList(rev.getParents()));
         mergeable = submitStrategyFactory.create(
-            type,
+            Project.SubmitType.MERGE_IF_NECESSARY,
             db.get(),
             git,
             rw,

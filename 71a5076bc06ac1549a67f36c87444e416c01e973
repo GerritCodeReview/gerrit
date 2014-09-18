@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f0d04b3d_9511842a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-18T11:29:54Z",
+      "side": 1,
+      "message": "SwitchSecureStore",
+      "range": {
+        "startLine": 13,
+        "startChar": 27,
+        "endLine": 13,
+        "endChar": 46
+      },
+      "revId": "71a5076bc06ac1549a67f36c87444e416c01e973",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0d04b3d_b50c8012",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/BaseInit.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-18T11:29:54Z",
+      "side": 1,
+      "message": "Move this to line 2650. Not needed here, only used in try body.",
+      "range": {
+        "startLine": 258,
+        "startChar": 4,
+        "endLine": 258,
+        "endChar": 30
+      },
+      "revId": "71a5076bc06ac1549a67f36c87444e416c01e973",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30bf43e0_37b3d8eb",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/BaseInit.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-18T11:29:54Z",
+      "side": 1,
+      "message": "Relying in Eclipse\u0027s formatting is not always a good idea, may be:\n\n  String.format(\n      \"SecureStore is already set to %s. To change it use switch-secure-store program.\",\n      currentSecureStore));",
+      "revId": "71a5076bc06ac1549a67f36c87444e416c01e973",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0d04b3d_d517fc1c",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/BaseInit.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-18T11:29:54Z",
+      "side": 1,
+      "message": "SwitchSecureStore",
+      "range": {
+        "startLine": 266,
+        "startChar": 72,
+        "endLine": 266,
+        "endChar": 91
+      },
+      "revId": "71a5076bc06ac1549a67f36c87444e416c01e973",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

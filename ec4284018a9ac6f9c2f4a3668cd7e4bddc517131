@@ -16,6 +16,24 @@
       "revId": "ec4284018a9ac6f9c2f4a3668cd7e4bddc517131",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30bf43e0_37dab821",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/SecureStoreInitData.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-09-18T09:32:27Z",
+      "side": 1,
+      "message": "done in https://gerrit-review.googlesource.com/#/c/60060/8",
+      "parentUuid": "d065072b_c86aff67",
+      "revId": "ec4284018a9ac6f9c2f4a3668cd7e4bddc517131",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

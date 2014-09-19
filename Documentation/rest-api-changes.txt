@@ -3661,6 +3661,11 @@ confirmation] when adding a group as reviewer that has many members.
 === RevisionInfo
 The `RevisionInfo` entity contains information about a patch set.
 
+Additional fields can be obtained by adding `o` parameters, each
+option requires more database lookups and slows down the query
+response time to the client so they are generally disabled by
+default. Fields are described in link:#list-changes[Query Changes].
+
 [options="header",width="50%",cols="1,^1,5"]
 |===========================
 |Field Name    ||Description

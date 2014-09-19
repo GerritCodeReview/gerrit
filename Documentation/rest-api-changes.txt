@@ -295,9 +295,9 @@ default. Optional fields are:
   authenticated and has commented on the current revision.
 --
 
-[[patch-set-links]]
+[[web-links]]
 --
-* `PATCHSET_LINKS`: include the `web_links` field.
+* `WEB_LINKS`: include the `web_links` field.
 --
 
 .Request

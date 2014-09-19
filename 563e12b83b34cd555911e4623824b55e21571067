@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b07b3336_0b6bfdbb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-19T15:24:02Z",
+      "side": 1,
+      "message": "Could you elaborate more on that and provide an example?\n\nI can imagine scenarios where a chain of two commits is mergeable (into a branch) but the second commit alone is not. In these two cases we really have a different merge base.",
+      "revId": "563e12b83b34cd555911e4623824b55e21571067",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

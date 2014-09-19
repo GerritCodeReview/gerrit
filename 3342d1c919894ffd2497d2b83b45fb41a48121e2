@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "706ffb76_490d815a",
+        "filename": "lib/mina/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-19T06:43:07Z",
+      "side": 1,
+      "message": "Needed fix for 1 from 256 handshake failure cleanly applies on 0.10.1 version:\n\n  $ cd ssh\n  $ git checkout sshd-0.10.1\n  $ git cherry-pick 663dd37761fe1800f1af129973a3d6da146e7a8d\n  $ replace version in sshd-core/pom.xml\n  -    \u003cversion\u003e0.10.1\u003c/version\u003e\n  +    \u003cversion\u003e0.10.1-663dd37761\u003c/version\u003e\n  $ mvn clean\n  $ mvn package -DskipTests\u003dtrue\n  $ ls sshd-core/target/sshd-core-0.10.1-663dd37761.jar\n  sshd-core/target/sshd-core-0.10.1-663dd37761.jar\n\nI also verified that all tests are still passing with newly built JAR by replaceing it in lib/mina/BUCK:\n\n  local_jar(\n    name \u003d \u0027sshd\u0027,\n   jar \u003d \u0027/home/davido/projects/sshd/sshd-core/target/sshd-core-0.10.1-663dd37761.jar\u0027,\n  )\n\nAnd uploaded the resulting JAR to one of my servers for use:\n\n  http://ostrovsky.org/gerrit/sshd-core-0.10.1-663dd37761.jar\n\nI think it worth trying to figure out if stream-events thread-pool problem with stuck threads already appears in 0.10.1 and if it doesn\u0027t then we have a trivial path for fixing handshake problem.",
+      "revId": "3342d1c919894ffd2497d2b83b45fb41a48121e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "706ffb76_69b7250f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 328,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-19T15:27:33Z",
+      "side": 1,
+      "message": "Do we need an unmodifiableSet here? The return result doesn\u0027t belong to the state of this object.",
+      "revId": "dcfeb33de32e3aff68a21f9bc7be386ae1b016a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

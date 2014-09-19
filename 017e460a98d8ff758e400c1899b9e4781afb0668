@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "706ffb76_892b799e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-19T09:46:16Z",
+      "side": 1,
+      "message": "this could be simplified to:\n\n  effectiveGroups.containsAnyOf(state.getOwners());",
+      "range": {
+        "startLine": 294,
+        "startChar": 0,
+        "endLine": 300,
+        "endChar": 9
+      },
+      "revId": "017e460a98d8ff758e400c1899b9e4781afb0668",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "706ffb76_4916e168",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-19T09:46:16Z",
+      "side": 1,
+      "message": "looks like we don\u0027t need this method. See my comment in the other file.",
+      "revId": "017e460a98d8ff758e400c1899b9e4781afb0668",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

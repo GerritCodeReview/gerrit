@@ -3660,6 +3660,9 @@ confirmation] when adding a group as reviewer that has many members.
 [[revision-info]]
 === RevisionInfo
 The `RevisionInfo` entity contains information about a patch set.
+Not all fields are returned upon request, additional fields can
+be obtained by adding an `o` parameters as described in
+link:#list-changes[Query Changes].
 
 [options="header",width="50%",cols="1,^1,5"]
 |===========================
@@ -3667,24 +3670,31 @@ The `RevisionInfo` entity contains information about a patch set.
 |`draft`       |not set if `false`|Whether the patch set is a draft.
 |`has_draft_comments`       |not set if `false`|Whether the patch
 set has one or more draft comments by the calling user. Only set if
-link:#draft_comments[draft comments] is requested.
+link:#draft_comments[DRAFT_COMMENTS] field is requested.
 |`_number`     ||The patch set number.
 |`fetch`       ||
 Information about how to fetch this patch set. The fetch information is
 provided as a map that maps the protocol name ("`git`", "`http`",
-"`ssh`") to link:#fetch-info[FetchInfo] entities.
+"`ssh`") to link:#fetch-info[FetchInfo] entities.  Requires the
+link:intro-project-owner.html#download-commands[download-commands] plugin.
+Only set if link:#download_commands[DOWNLOAD_COMMANDS] field is requested.
 |`commit`      |optional|The commit of the patch set as
 link:#commit-info[CommitInfo] entity.
 |`files`       |optional|
 The files of the patch set as a map that maps the file names to
-link:#file-info[FileInfo] entities.
+link:#file-info[FileInfo] entities. Only set if
+link:#current_files[CURRENT_FILES or ALL_FILES] field is requested.
 |`actions`     |optional|
 Actions the caller might be able to perform on this revision. The
 information is a map of view name to link:#action-info[ActionInfo]
 entities.
+|`reviewed`     |optional|
+Indicates whether the caller is authenticated and has commented on the
+current revision. Only set if link:#reviewed[REVIEWED] field is requested.
 |'web_links'   |optional|
 Links to the patch set in external sites as a list of
-link:#web-link-info[WebLinkInfo] entities.
+link:#web-link-info[WebLinkInfo] entities. Only set if
+link:#web_links[WEB_LINKS] field is requested.
 |===========================
 
 [[rule-input]]

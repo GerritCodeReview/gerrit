@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "706ffb76_a930bd08",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/SystemGroupBackend.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-19T09:46:22Z",
+      "side": 1,
+      "message": "replace with:\n\n  effectiveGroups.containsAnyOf(project.getProjectState().getOwners());",
+      "range": {
+        "startLine": 202,
+        "startChar": 0,
+        "endLine": 208,
+        "endChar": 21
+      },
+      "revId": "9139d495a49327406af55576da253b65f4502cca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

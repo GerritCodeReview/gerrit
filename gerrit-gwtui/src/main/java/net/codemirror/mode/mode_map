@@ -7,6 +7,7 @@ text/x-c++hdr
 text/x-java
 text/x-csharp
 text/x-scala
+text/x-objective-c
 
 clojure:
 text/x-clojure

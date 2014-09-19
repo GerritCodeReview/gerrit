@@ -232,6 +232,30 @@
     },
     {
       "key": {
+        "uuid": "b07b3336_2b36f9f8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 368,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-19T12:41:52Z",
+      "side": 1,
+      "message": "I think I am wrong here... as this is only done when updateHashtags is true in which case these variable are not null",
+      "parentUuid": "706ffb76_897db989",
+      "range": {
+        "startLine": 367,
+        "startChar": 70,
+        "endLine": 368,
+        "endChar": 37
+      },
+      "revId": "c64eb9abcfaa0d3faec6fb55a04e523ecdf292de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b07b3336_eb4f917d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
         "patchSetId": 5

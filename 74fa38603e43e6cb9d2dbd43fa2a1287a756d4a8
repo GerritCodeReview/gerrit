@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "706ffb76_89561908",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/util/MostSpecificComparator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-19T13:43:37Z",
+      "side": 1,
+      "message": "Please add a unit test for the MostSpecificComparator to this change. I know that we don\u0027t have one but it would help to verify your change. Since this class has almost no dependencies, adding a unit test should be easy.",
+      "revId": "74fa38603e43e6cb9d2dbd43fa2a1287a756d4a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -70,6 +70,24 @@
       "revId": "ec4284018a9ac6f9c2f4a3668cd7e4bddc517131",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b07b3336_8b7dad89",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/SecureStoreInitData.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-19T13:20:21Z",
+      "side": 1,
+      "message": "I think that making this a File already in this change doesn\u0027t make the review more complicated. Therefore, I would also like to have it already here as a File.",
+      "parentUuid": "30bf43e0_9775044a",
+      "revId": "ec4284018a9ac6f9c2f4a3668cd7e4bddc517131",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

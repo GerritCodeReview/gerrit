@@ -16,6 +16,70 @@
       "revId": "fd67b1d20614c3deb538cf6126becae9e052dd16",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b07b3336_ab82e944",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-09-19T13:26:41Z",
+      "side": 1,
+      "message": "This works for me.",
+      "parentUuid": "30902399_cfcf3dc7",
+      "revId": "fd67b1d20614c3deb538cf6126becae9e052dd16",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "706ffb76_298fed6a",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-09-19T13:26:41Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this be:\nr.getPatchSetId().getParentKey().toString();",
+      "range": {
+        "startLine": 216,
+        "startChar": 22,
+        "endLine": 216,
+        "endChar": 38
+      },
+      "revId": "fd67b1d20614c3deb538cf6126becae9e052dd16",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "706ffb76_c95c112c",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-09-19T13:26:41Z",
+      "side": 1,
+      "message": "Here I get:\norg.apache.http.conn.HttpHostConnectException: Connect to localhost:80 [localhost/127.0.0.1] failed: Connection refused",
+      "range": {
+        "startLine": 217,
+        "startChar": 41,
+        "endLine": 217,
+        "endChar": 44
+      },
+      "revId": "fd67b1d20614c3deb538cf6126becae9e052dd16",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

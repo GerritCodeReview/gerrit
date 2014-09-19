@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "706ffb76_096b09bc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2014-09-19T14:06:39Z",
+      "side": 1,
+      "message": "Hm.\n\nLooking at the implementation of state.getOwners() I\u0027d say that it isn\u0027t equivalent: state.getOwners returns the the set of local owners of the nearest parent project with local owners.\n\nLet\u0027s assume three project GandParent, Parent and Child:\n\nGP \u003c- P \u003c- C\n\nThere is a group PO_GP with owner privilege in GP and another group PO_P with owner privilege in P. There is no group with owner privilege on C.\n\nstate.getOwners() would return PO_P but not PO_GP. If a user is member in PO_GP your proposal would return false.\n\nOne could challenge the implementation of state.getOwners as buggy. But the implementation is in accordance with the JavaDoc.",
+      "parentUuid": "706ffb76_892b799e",
+      "range": {
+        "startLine": 294,
+        "startChar": 0,
+        "endLine": 300,
+        "endChar": 9
+      },
+      "revId": "017e460a98d8ff758e400c1899b9e4781afb0668",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "706ffb76_4916e168",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
         "patchSetId": 1

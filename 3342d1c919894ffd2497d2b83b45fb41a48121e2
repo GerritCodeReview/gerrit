@@ -16,6 +16,24 @@
       "revId": "3342d1c919894ffd2497d2b83b45fb41a48121e2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "706ffb76_29684dbc",
+        "filename": "lib/mina/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-19T15:14:15Z",
+      "side": 1,
+      "message": "For me the cherry-pick of that commit fails:\n\n  [~/dev/sshd ((sshd-0.10.1))]$ git cherry-pick 663dd37761fe1800f1af129973a3d6da146e7a8d\n  fatal: bad object 663dd37761fe1800f1af129973a3d6da146e7a8d",
+      "parentUuid": "706ffb76_490d815a",
+      "revId": "3342d1c919894ffd2497d2b83b45fb41a48121e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

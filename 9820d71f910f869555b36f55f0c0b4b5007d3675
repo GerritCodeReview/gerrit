@@ -22,6 +22,30 @@
       "revId": "9820d71f910f869555b36f55f0c0b4b5007d3675",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90df0f7f_8207ba3a",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticsearchChangeIndex.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-19T19:13:56Z",
+      "side": 1,
+      "message": "+1\n\nThough I assume you mean a single index refresh call, since I thought these were independent Lucene indexes and thus would necessarily be flushed separately on the backend.",
+      "parentUuid": "b07b3336_cbcf35c7",
+      "range": {
+        "startLine": 196,
+        "startChar": 0,
+        "endLine": 197,
+        "endChar": 35
+      },
+      "revId": "9820d71f910f869555b36f55f0c0b4b5007d3675",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

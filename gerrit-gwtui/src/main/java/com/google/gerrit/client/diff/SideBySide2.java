@@ -679,11 +679,11 @@ public class SideBySide2 extends Screen {
 
   void setLineLength(int columns) {
     columnMarginA.getStyle().setMarginLeft(
-        columns * cmA.defaultCharWidth(),
+        (columns * cmA.defaultCharWidth()) * 0.9,
         Unit.PX);
 
     columnMarginB.getStyle().setMarginLeft(
-        columns * cmB.defaultCharWidth(),
+        (columns * cmB.defaultCharWidth()) * 0.9,
         Unit.PX);
   }
 

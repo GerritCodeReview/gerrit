@@ -34,6 +34,24 @@
       "revId": "3342d1c919894ffd2497d2b83b45fb41a48121e2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "706ffb76_c9c5f179",
+        "filename": "lib/mina/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-19T15:18:54Z",
+      "side": 1,
+      "message": "Probably you shoud do git pull -r on master branch first. All is fine here:\n\n  $ git show 663dd37761fe1800f1af129973a3d6da146e7a8d\n  $ commit 663dd37761fe1800f1af129973a3d6da146e7a8d\n  Author: Guillaume Nodet \u003cgnodet@apache.org\u003e\n  Date:   Mon Jun 16 09:31:32 2014 +0200\n  [SSHD-330] Handshake fails (wrong shared secret) 1 out of 256 times\n  [...]",
+      "parentUuid": "706ffb76_29684dbc",
+      "revId": "3342d1c919894ffd2497d2b83b45fb41a48121e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

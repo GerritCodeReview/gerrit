@@ -1,0 +1,285 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b07b3336_0b20ddb5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-19T12:30:34Z",
+      "side": 1,
+      "message": "based on the \"Hashtags\" commit message footer",
+      "range": {
+        "startLine": 7,
+        "startChar": 17,
+        "endLine": 7,
+        "endChar": 43
+      },
+      "revId": "c64eb9abcfaa0d3faec6fb55a04e523ecdf292de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "706ffb76_0939c9e7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-19T12:30:34Z",
+      "side": 1,
+      "message": "Looks like this change changes nothing in the UI? The hashtags are created based on the \"Hashtags\" footer in the commit message regardless if the commit message was edited in the UI or via \"git push\". Remove this text.",
+      "range": {
+        "startLine": 7,
+        "startChar": 47,
+        "endLine": 7,
+        "endChar": 49
+      },
+      "revId": "c64eb9abcfaa0d3faec6fb55a04e523ecdf292de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b07b3336_6b13a177",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-19T12:30:34Z",
+      "side": 1,
+      "message": "\"operate\" or \"Create\" ?",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 7
+      },
+      "revId": "c64eb9abcfaa0d3faec6fb55a04e523ecdf292de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "706ffb76_29360df9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/HashtagsUtil.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-19T12:30:34Z",
+      "side": 1,
+      "message": "This method has little to do with hashtag extraction. It simply trims a set of strings and checks validity of each (non-presence of the comma).\n\nTrimming can (and should) be done as soon as the footer is parsed... (see other comments). The validation can also be done there. I guess we don\u0027t need this method at all.",
+      "range": {
+        "startLine": 42,
+        "startChar": 0,
+        "endLine": 58,
+        "endChar": 3
+      },
+      "revId": "c64eb9abcfaa0d3faec6fb55a04e523ecdf292de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b07b3336_ab49897a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-19T12:30:34Z",
+      "side": 1,
+      "message": "could we avoid local variable initialization here?",
+      "range": {
+        "startLine": 237,
+        "startChar": 0,
+        "endLine": 240,
+        "endChar": 32
+      },
+      "revId": "c64eb9abcfaa0d3faec6fb55a04e523ecdf292de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b07b3336_4b3fc5ce",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-19T12:30:34Z",
+      "side": 1,
+      "message": "checking for null shouldn\u0027t be necessary if we make sure to return empty sets",
+      "range": {
+        "startLine": 311,
+        "startChar": 0,
+        "endLine": 312,
+        "endChar": 71
+      },
+      "revId": "c64eb9abcfaa0d3faec6fb55a04e523ecdf292de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "706ffb76_a982fd44",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-19T12:30:34Z",
+      "side": 1,
+      "message": "this shouldn\u0027t be necessary as these sets should already contain only valid hashtags",
+      "range": {
+        "startLine": 314,
+        "startChar": 14,
+        "endLine": 314,
+        "endChar": 25
+      },
+      "revId": "c64eb9abcfaa0d3faec6fb55a04e523ecdf292de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b07b3336_6b3c01d9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-19T12:30:34Z",
+      "side": 1,
+      "message": "same as the previous comment",
+      "range": {
+        "startLine": 316,
+        "startChar": 14,
+        "endLine": 316,
+        "endChar": 25
+      },
+      "revId": "c64eb9abcfaa0d3faec6fb55a04e523ecdf292de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "706ffb76_49882164",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-19T12:30:34Z",
+      "side": 1,
+      "message": "this shouldn\u0027t be necessary",
+      "range": {
+        "startLine": 330,
+        "startChar": 31,
+        "endLine": 330,
+        "endChar": 42
+      },
+      "revId": "c64eb9abcfaa0d3faec6fb55a04e523ecdf292de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "706ffb76_897db989",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 368,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-19T12:30:34Z",
+      "side": 1,
+      "message": "These variable could all be null here. The doHashtagsChangeHook is not specific about nulls but this has to be clarified.",
+      "range": {
+        "startLine": 367,
+        "startChar": 70,
+        "endLine": 368,
+        "endChar": 37
+      },
+      "revId": "c64eb9abcfaa0d3faec6fb55a04e523ecdf292de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b07b3336_eb4f917d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-19T12:30:34Z",
+      "side": 1,
+      "message": "Why not also here return an empty set like in the line 82? Then the callers don\u0027t have to check the the null case (which is currently handled the same way as teh empty set case).",
+      "revId": "c64eb9abcfaa0d3faec6fb55a04e523ecdf292de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "706ffb76_e978f59a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-19T12:30:34Z",
+      "side": 1,
+      "message": "would it hurt if we do accept multiple Hashtag lines and simply create a union of all hashtags?",
+      "revId": "c64eb9abcfaa0d3faec6fb55a04e523ecdf292de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "706ffb76_c973b1be",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-19T12:30:34Z",
+      "side": 1,
+      "message": "Why not trim the result already here?\n\n  Splitter.on(\u0027,\u0027).trimResults()...\n\nand skip the empty string (tolerate accidental multiple commas):\n\n  Splitter.on(\u0027,\u0027).trimResults().omitEmptyString()...\n \nThen the callers don\u0027t have to care about these cases.",
+      "revId": "c64eb9abcfaa0d3faec6fb55a04e523ecdf292de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

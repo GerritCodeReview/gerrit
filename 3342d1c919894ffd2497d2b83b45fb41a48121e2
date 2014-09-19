@@ -52,6 +52,24 @@
       "revId": "3342d1c919894ffd2497d2b83b45fb41a48121e2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "706ffb76_a9ad1dba",
+        "filename": "lib/mina/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-19T16:58:25Z",
+      "side": 1,
+      "message": "Opps. This was the resulting SHA-1. I meant this commit: [1]. Here is the link: [2].\n\n* [1] 2aed686bdb21681a421033c6ee5997e5cd8a9a83\n* [2] https://git-wip-us.apache.org/repos/asf?p\u003dmina-sshd.git;a\u003dcommit;h\u003d2aed686bdb21681a421033c6ee5997e5cd8a9a83",
+      "parentUuid": "706ffb76_29684dbc",
+      "revId": "3342d1c919894ffd2497d2b83b45fb41a48121e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

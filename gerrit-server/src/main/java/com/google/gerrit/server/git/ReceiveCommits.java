@@ -81,9 +81,11 @@ import com.google.gerrit.server.change.ChangeInserter;
 import com.google.gerrit.server.change.ChangeKind;
 import com.google.gerrit.server.change.ChangeKindCache;
 import com.google.gerrit.server.change.ChangesCollection;
+import com.google.gerrit.server.change.HashtagsUtil;
 import com.google.gerrit.server.change.MergeabilityChecker;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.change.Submit;
+import com.google.gerrit.server.change.HashtagsUtil.ParsedResult;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.PluginConfig;
@@ -303,6 +305,7 @@ public class ReceiveCommits {
   private final AllProjectsName allProjectsName;
   private final ReceiveConfig receiveConfig;
   private final ChangeKindCache changeKindCache;
+  private final HashtagsUtil hashtagsUtil;
 
   private final ProjectControl projectControl;
   private final Project project;
@@ -366,6 +369,7 @@ public class ReceiveCommits {
       @GerritPersonIdent final PersonIdent gerritIdent,
       final WorkQueue workQueue,
       @ChangeUpdateExecutor ListeningExecutorService changeUpdateExector,
+      final HashtagsUtil hashtagsUtil,
       final RequestScopePropagator requestScopePropagator,
       final ChangeIndexer indexer,
       final MergeabilityChecker mergeabilityChecker,
@@ -426,6 +430,7 @@ public class ReceiveCommits {
     this.pluginConfigEntries = pluginConfigEntries;
 
     this.messageSender = new ReceivePackMessageSender();
+    this.hashtagsUtil = hashtagsUtil;
 
     ProjectState ps = projectControl.getProjectState();
 
@@ -2036,6 +2041,7 @@ public class ReceiveCommits {
       final Account.Id me = currentUser.getAccountId();
       final List<FooterLine> footerLines = newCommit.getFooterLines();
       final MailRecipients recipients = new MailRecipients();
+
       Map<String, Short> approvals = new HashMap<>();
       if (magicBranch != null) {
         recipients.add(magicBranch.getMailRecipients());
@@ -2045,6 +2051,7 @@ public class ReceiveCommits {
       recipients.remove(me);
 
       ChangeUpdate update = updateFactory.create(changeCtl, newPatchSet.getCreatedOn());
+      ParsedResult r = hashtagsUtil.new ParsedResult();
       db.changes().beginTransaction(change.getId());
       try {
         change = db.changes().get(change.getId());
@@ -2122,6 +2129,12 @@ public class ReceiveCommits {
       } finally {
         db.rollback();
       }
+      if (changeCtl.canEditHashtags()) {
+        r = hashtagsUtil.parseCommitMessageHashtags(newCommit, changeCtl);
+        if (r.update) {
+          update.setHashtags(r.parsedHashtags);
+        }
+      }
       update.commit();
 
       if (mergedIntoRef != null) {
@@ -2168,6 +2181,10 @@ public class ReceiveCommits {
       gitRefUpdated.fire(project.getNameKey(), newPatchSet.getRefName(),
           ObjectId.zeroId(), newCommit);
       hooks.doPatchsetCreatedHook(change, newPatchSet, db);
+      if (r.update) {
+        hooks.doHashtagsChangedHook(change, currentUser.getAccount(), r.toAdd,
+            r.toRemove, r.parsedHashtags, db);
+      }
       if (mergedIntoRef != null) {
         hooks.doChangeMergedHook(
             change, currentUser.getAccount(), newPatchSet, db);

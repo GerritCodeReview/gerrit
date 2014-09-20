@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "70e45b51_41165268",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 3675,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-20T00:12:06Z",
+      "side": 1,
+      "message": "Here is an example of documentation of a specific field that is only set if a specific option is set. You can leave a brief caveat emptor at the top, but I think we should also be specific in the field documentation.",
+      "range": {
+        "startLine": 3674,
+        "startChar": 56,
+        "endLine": 3675,
+        "endChar": 50
+      },
+      "revId": "1f05dc5b5db09d8e8f897a64b3b8a3afef522e1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

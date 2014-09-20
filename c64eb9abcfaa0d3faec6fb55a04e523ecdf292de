@@ -71,6 +71,42 @@
     },
     {
       "key": {
+        "uuid": "1075df3d_8e2b7b9e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-09-20T16:08:57Z",
+      "side": 1,
+      "message": "Create is better. but it include update if hashtags exists already.\n\nDone",
+      "parentUuid": "b07b3336_6b13a177",
+      "revId": "c64eb9abcfaa0d3faec6fb55a04e523ecdf292de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30902399_0f20e5b5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-09-20T16:08:57Z",
+      "side": 1,
+      "message": "not include \u0027git-push\u0027. but include it in next patch-set.\n\nDone",
+      "parentUuid": "706ffb76_0939c9e7",
+      "revId": "c64eb9abcfaa0d3faec6fb55a04e523ecdf292de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "706ffb76_29360df9",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/HashtagsUtil.java",
         "patchSetId": 5
@@ -88,6 +124,24 @@
         "endLine": 58,
         "endChar": 3
       },
+      "revId": "c64eb9abcfaa0d3faec6fb55a04e523ecdf292de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30902399_2f04c934",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/HashtagsUtil.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-09-20T16:08:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "706ffb76_29360df9",
       "revId": "c64eb9abcfaa0d3faec6fb55a04e523ecdf292de",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -117,6 +171,24 @@
     },
     {
       "key": {
+        "uuid": "1075df3d_0e078b3c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-09-20T16:08:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b07b3336_ab49897a",
+      "revId": "c64eb9abcfaa0d3faec6fb55a04e523ecdf292de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b07b3336_4b3fc5ce",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
         "patchSetId": 5
@@ -134,6 +206,24 @@
         "endLine": 312,
         "endChar": 71
       },
+      "revId": "c64eb9abcfaa0d3faec6fb55a04e523ecdf292de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30902399_cf217dc2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-09-20T16:08:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b07b3336_4b3fc5ce",
       "revId": "c64eb9abcfaa0d3faec6fb55a04e523ecdf292de",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -163,6 +253,24 @@
     },
     {
       "key": {
+        "uuid": "1075df3d_2e04c734",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-09-20T16:08:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "706ffb76_a982fd44",
+      "revId": "c64eb9abcfaa0d3faec6fb55a04e523ecdf292de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b07b3336_6b3c01d9",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
         "patchSetId": 5
@@ -186,6 +294,24 @@
     },
     {
       "key": {
+        "uuid": "30902399_ef26c1d7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-09-20T16:08:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b07b3336_6b3c01d9",
+      "revId": "c64eb9abcfaa0d3faec6fb55a04e523ecdf292de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "706ffb76_49882164",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
         "patchSetId": 5
@@ -203,6 +329,24 @@
         "endLine": 330,
         "endChar": 42
       },
+      "revId": "c64eb9abcfaa0d3faec6fb55a04e523ecdf292de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1075df3d_ce2183c2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-09-20T16:08:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "706ffb76_49882164",
       "revId": "c64eb9abcfaa0d3faec6fb55a04e523ecdf292de",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -273,6 +417,24 @@
     },
     {
       "key": {
+        "uuid": "30902399_8f2b759e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-09-20T16:08:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b07b3336_eb4f917d",
+      "revId": "c64eb9abcfaa0d3faec6fb55a04e523ecdf292de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "706ffb76_e978f59a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
         "patchSetId": 5
@@ -290,6 +452,24 @@
     },
     {
       "key": {
+        "uuid": "30902399_af30b908",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-09-20T16:08:57Z",
+      "side": 1,
+      "message": "no hurt, only benefit when it is from commit message. \nbut here it is from the NoteDb where the Hashtag is save in one line. \n\nI like you idea here, in next patch-set I let commit message accept more line Hashtags footline, and this is cool.\n\nDone",
+      "parentUuid": "706ffb76_e978f59a",
+      "revId": "c64eb9abcfaa0d3faec6fb55a04e523ecdf292de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "706ffb76_c973b1be",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
         "patchSetId": 5
@@ -301,6 +481,24 @@
       "writtenOn": "2014-09-19T12:30:34Z",
       "side": 1,
       "message": "Why not trim the result already here?\n\n  Splitter.on(\u0027,\u0027).trimResults()...\n\nand skip the empty string (tolerate accidental multiple commas):\n\n  Splitter.on(\u0027,\u0027).trimResults().omitEmptyString()...\n \nThen the callers don\u0027t have to care about these cases.",
+      "revId": "c64eb9abcfaa0d3faec6fb55a04e523ecdf292de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1075df3d_ee26bfd7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-09-20T16:08:57Z",
+      "side": 1,
+      "message": "Agree! :)\n\nDone",
+      "parentUuid": "706ffb76_c973b1be",
       "revId": "c64eb9abcfaa0d3faec6fb55a04e523ecdf292de",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

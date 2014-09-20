@@ -115,6 +115,7 @@ public class SuggestReviewers implements RestReadView<ChangeResource> {
     this.reviewerSuggestionCache = reviewerSuggestionCache;
     this.maxSuggestedReviewers =
         cfg.getInt("suggest", "maxSuggestedReviewers", DEFAULT_MAX_SUGGESTED);
+    this.limit = this.maxSuggestedReviewers;
     this.fullTextMaxMatches =
         cfg.getInt("suggest", "fullTextSearchMaxMatches",
             DEFAULT_MAX_MATCHES);

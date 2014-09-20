@@ -68,6 +68,7 @@ public class ActionButton extends Button implements ClickHandler {
       .openDiv()
       .append(action.label())
       .closeDiv());
+    setStyleName("");
     setTitle(action.title());
     setEnabled(action.enabled());
     addClickHandler(this);

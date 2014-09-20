@@ -584,6 +584,7 @@ public class ProjectInfoScreen extends ProjectScreen {
 
   private Button createChangeAction() {
     final Button createChange = new Button(Util.C.buttonCreateChange());
+    createChange.setStyleName("");
     createChange.setTitle(Util.C.buttonCreateChangeDescription());
     createChange.addClickHandler(new ClickHandler() {
       @Override

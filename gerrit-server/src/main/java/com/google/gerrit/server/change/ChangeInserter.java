@@ -19,7 +19,6 @@ import static com.google.gerrit.reviewdb.client.Change.INITIAL_PATCH_SET_ID;
 import com.google.common.util.concurrent.CheckedFuture;
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.data.LabelTypes;
-import com.google.gerrit.extensions.api.changes.HashtagsInput;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
@@ -31,14 +30,13 @@ import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.account.AccountCache;
-import com.google.gerrit.server.auth.AuthException;
+import com.google.gerrit.server.change.HashtagsUtil.ParsedResult;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.mail.CreateChangeSender;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.RefControl;
-import com.google.gerrit.server.validators.ValidationException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -51,6 +49,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -118,7 +117,7 @@ public class ChangeInserter {
     this.reviewers = Collections.emptySet();
     this.extraCC = Collections.emptySet();
     this.approvals = Collections.emptyMap();
-    this.hashtags = Collections.emptySet();
+    this.hashtags = new HashSet<>(0);
     this.runHooks = true;
     this.sendMail = true;
 
@@ -191,6 +190,7 @@ public class ChangeInserter {
     ChangeUpdate update = updateFactory.create(
         ctl,
         change.getCreatedOn());
+    ParsedResult r = hashtagsUtil.new ParsedResult();
     db.changes().beginTransaction(change.getId());
     try {
       ChangeUtil.insertAncestors(db, patchSet.getId(), commit);
@@ -209,17 +209,16 @@ public class ChangeInserter {
       db.rollback();
     }
 
-    update.commit();
-
-    if (hashtags != null && hashtags.size() > 0) {
-      try {
-        HashtagsInput input = new HashtagsInput();
-        input.add = hashtags;
-        hashtagsUtil.setHashtags(ctl, input, false, false);
-      } catch (ValidationException | AuthException e) {
-        log.error("Cannot add hashtags to change " + change.getId(), e);
+    if (ctl.canEditHashtags()) {
+      r = hashtagsUtil.parseCommitMessageHashtags(commit, ctl);
+      if (r.update) {
+        hashtags.addAll(r.parsedHashtags);
       }
     }
+    if (!hashtags.isEmpty()) {
+      update.setHashtags(hashtags);
+    }
+    update.commit();
 
     CheckedFuture<?, IOException> f = mergeabilityChecker.newCheck()
         .addChange(change)
@@ -250,10 +249,9 @@ public class ChangeInserter {
 
     if (runHooks) {
       hooks.doPatchsetCreatedHook(change, patchSet, db);
-      if (hashtags != null && hashtags.size() > 0) {
-        hooks.doHashtagsChangedHook(change,
-            accountCache.get(change.getOwner()).getAccount(),
-            hashtags, null, hashtags, db);
+      if (!hashtags.isEmpty()) {
+        hooks.doHashtagsChangedHook(change, accountCache.get(change.getOwner())
+            .getAccount(), hashtags, null, hashtags, db);
       }
     }
 

@@ -31,6 +31,7 @@ import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.change.HashtagsUtil.ParsedResult;
 import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.BanCommit;
@@ -100,6 +101,7 @@ public class PatchSetInserter {
   private final RevCommit commit;
   private final ChangeControl ctl;
   private final IdentifiedUser user;
+  private final HashtagsUtil hashtagsUtil;
 
   private PatchSet patchSet;
   private ChangeMessage changeMessage;
@@ -124,6 +126,7 @@ public class PatchSetInserter {
       CommitValidators.Factory commitValidatorsFactory,
       MergeabilityChecker mergeabilityChecker,
       ReplacePatchSetSender.Factory replacePatchSetFactory,
+      HashtagsUtil hashtagsUtil,
       @Assisted Repository git,
       @Assisted RevWalk revWalk,
       @Assisted ChangeControl ctl,
@@ -143,6 +146,7 @@ public class PatchSetInserter {
     this.commitValidatorsFactory = commitValidatorsFactory;
     this.mergeabilityChecker = mergeabilityChecker;
     this.replacePatchSetFactory = replacePatchSetFactory;
+    this.hashtagsUtil = hashtagsUtil;
 
     this.git = git;
     this.revWalk = revWalk;
@@ -241,6 +245,7 @@ public class PatchSetInserter {
     final PatchSet.Id currentPatchSetId = c.currentPatchSetId();
 
     ChangeUpdate update = updateFactory.create(ctl, patchSet.getCreatedOn());
+    ParsedResult r = hashtagsUtil.new ParsedResult();
 
     db.changes().beginTransaction(c.getId());
     try {
@@ -289,7 +294,14 @@ public class PatchSetInserter {
         approvalCopier.copy(db, ctl, patchSet);
       }
       db.commit();
+
       if (messageIsForChange()) {
+        if (ctl.canEditHashtags()) {
+          r = hashtagsUtil.parseCommitMessageHashtags(commit, ctl);
+          if (r.update) {
+            update.setHashtags(r.parsedHashtags);
+          }
+        }
         update.commit();
       }
 
@@ -323,6 +335,10 @@ public class PatchSetInserter {
         .run();
     if (runHooks) {
       hooks.doPatchsetCreatedHook(updatedChange, patchSet, db);
+      if (r.update) {
+        hooks.doHashtagsChangedHook(updatedChange, user.getAccount(), r.toAdd,
+            r.toRemove, r.parsedHashtags, db);
+      }
     }
     return updatedChange;
   }

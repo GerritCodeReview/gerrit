@@ -46,6 +46,30 @@
       "revId": "9820d71f910f869555b36f55f0c0b4b5007d3675",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30902399_4f16ed68",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticsearchChangeIndex.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-20T12:05:19Z",
+      "side": 1,
+      "message": "Yes, the add and remove can probably be done in a single call to the bulk API.  I\u0027ll look into implementing this, but there are other things that ought to be fixed first.",
+      "parentUuid": "90df0f7f_8207ba3a",
+      "range": {
+        "startLine": 196,
+        "startChar": 0,
+        "endLine": 197,
+        "endChar": 35
+      },
+      "revId": "9820d71f910f869555b36f55f0c0b4b5007d3675",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

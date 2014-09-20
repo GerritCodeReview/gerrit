@@ -164,7 +164,7 @@ public class Hashtags extends Composite {
           .openAnchor()
           .setAttribute("href", "#" + PageLinks.toChangeQuery("hashtag:" + hashtagName))
           .setAttribute("role", "listitem")
-          .append(hashtagName)
+          .append("#").append(hashtagName)
           .closeAnchor()
           .openElement("button")
           .setAttribute("title", "Remove hashtag")

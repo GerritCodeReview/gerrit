@@ -191,6 +191,21 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
     assertEquals(2, reviewers.size());
   }
 
+  @Test
+  public void suggestReviewersWithoutLimitOptionSpecified() throws Exception {
+    String changeId = createChange().getChangeId();
+    String query = "users3";
+    List<SuggestedReviewerInfo> suggestedReviewerInfos = newGson().fromJson(
+        adminSession.get("/changes/"
+            + changeId
+            + "/suggest_reviewers?q="
+            + query)
+            .getReader(),
+        new TypeToken<List<SuggestedReviewerInfo>>() {}
+        .getType());
+    assertEquals(1, suggestedReviewerInfos.size());
+  }
+
   private List<SuggestedReviewerInfo> suggestReviewers(RestSession session,
       String changeId, String query, int n) throws IOException {
     return newGson().fromJson(

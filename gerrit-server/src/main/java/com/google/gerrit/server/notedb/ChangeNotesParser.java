@@ -27,7 +27,6 @@ import com.google.common.base.Splitter;
 import com.google.common.base.Supplier;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ImmutableListMultimap;
-import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -171,16 +170,16 @@ class ChangeNotesParser implements AutoCloseable {
 
   private void parseHashtags(RevCommit commit) throws ConfigInvalidException {
     // Commits are parsed in reverse order and only the last set of hashtags should be used.
-    if (hashtags != null) {
+    if (hashtags != null && !hashtags.isEmpty()) {
       return;
     }
     List<String> hashtagsLines = commit.getFooterLines(FOOTER_HASHTAGS);
     if (hashtagsLines.isEmpty()) {
-      return;
+      hashtags = Collections.emptySet();
     } else if (hashtagsLines.size() > 1) {
       throw expectedOneFooter(FOOTER_HASHTAGS, hashtagsLines);
     } else if (hashtagsLines.get(0).isEmpty()) {
-      hashtags = ImmutableSet.of();
+      hashtags = Collections.emptySet();
     } else {
       hashtags = Sets.newHashSet(Splitter.on(',').split(hashtagsLines.get(0)));
     }

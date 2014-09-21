@@ -184,11 +184,6 @@ public class DynamicItem<T> {
     NamedProvider<T> old = null;
     while (!ref.compareAndSet(old, item)) {
       old = ref.get();
-      if (old != null && !"gerrit".equals(old.pluginName)) {
-        throw new ProvisionException(String.format(
-            "%s already provided by %s, ignoring plugin %s",
-            this.key.getTypeLiteral(), old.pluginName, pluginName));
-      }
     }
     return new ReloadableHandle(key, item, old);
   }

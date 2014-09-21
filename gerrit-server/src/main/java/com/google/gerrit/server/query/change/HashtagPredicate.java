@@ -20,7 +20,14 @@ import com.google.gwtorm.server.OrmException;
 
 class HashtagPredicate extends IndexPredicate<ChangeData> {
   HashtagPredicate(String hashtag) {
-    super(ChangeField.HASHTAG, hashtag.toLowerCase());
+    super(ChangeField.HASHTAG, cleanupHashtag(hashtag));
+  }
+
+  private static String cleanupHashtag(String hashtag) {
+    if (hashtag.startsWith("#")) {
+      hashtag = hashtag.substring(1);
+    }
+    return hashtag.toLowerCase();
   }
 
   @Override

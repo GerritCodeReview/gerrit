@@ -14,13 +14,14 @@
 
 package com.google.gerrit.server.query.change;
 
+import com.google.gerrit.server.change.HashtagsUtil;
 import com.google.gerrit.server.index.ChangeField;
 import com.google.gerrit.server.index.IndexPredicate;
 import com.google.gwtorm.server.OrmException;
 
 class HashtagPredicate extends IndexPredicate<ChangeData> {
   HashtagPredicate(String hashtag) {
-    super(ChangeField.HASHTAG, hashtag.toLowerCase());
+    super(ChangeField.HASHTAG, HashtagsUtil.cleanupHashtag(hashtag));
   }
 
   @Override

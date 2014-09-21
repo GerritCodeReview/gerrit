@@ -938,9 +938,11 @@ public abstract class AbstractQueryChangesTest {
     assertResultEquals(changes.get(1), results.get(0));
     assertResultEquals(changes.get(0), results.get(1));
     assertResultEquals(changes.get(1), queryOne("hashtag:bar"));
-    assertTrue(query("hashtag:\" bar \"").isEmpty());
     assertResultEquals(changes.get(1), queryOne("hashtag:\"a tag\""));
-    assertTrue(query("hashtag:\" a tag \"").isEmpty());
+    assertResultEquals(changes.get(1), queryOne("hashtag:\"a tag \""));
+    assertResultEquals(changes.get(1), queryOne("hashtag:\" a tag \""));
+    assertResultEquals(changes.get(1), queryOne("hashtag:\"#a tag\""));
+    assertResultEquals(changes.get(1), queryOne("hashtag:\"# #a tag\""));
   }
 
   @Test
@@ -952,6 +954,8 @@ public abstract class AbstractQueryChangesTest {
     assertTrue(query("hashtag:\" bar \"").isEmpty());
     assertTrue(query("hashtag:\"a tag\"").isEmpty());
     assertTrue(query("hashtag:\" a tag \"").isEmpty());
+    assertTrue(query("hashtag:#foo").isEmpty());
+    assertTrue(query("hashtag:\"# #foo\"").isEmpty());
   }
 
   @Test

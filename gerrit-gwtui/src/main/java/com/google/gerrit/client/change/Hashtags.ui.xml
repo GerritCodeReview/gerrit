@@ -60,7 +60,7 @@ limitations under the License.
          addStyleNames='{style.openAdd}'
          visible='false'>
        <ui:attribute name='title'/>
-       <div><ui:msg>Add...</ui:msg></div>
+       <div><ui:msg>Add #...</ui:msg></div>
       </g:Button>
     </div>
     <div ui:field='form' style='display: none' aria-hidden='true'>

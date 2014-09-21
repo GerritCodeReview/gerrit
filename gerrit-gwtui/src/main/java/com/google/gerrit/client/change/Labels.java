@@ -101,7 +101,6 @@ class Labels extends Grid {
 
   boolean set(ChangeInfo info, boolean current) {
     List<String> names = new ArrayList<>(info.labels());
-    Collections.sort(names);
 
     boolean canSubmit = info.status().isOpen();
     resize(names.size(), 2);

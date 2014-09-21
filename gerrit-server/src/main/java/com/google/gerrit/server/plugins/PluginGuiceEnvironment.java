@@ -435,9 +435,6 @@ public class PluginGuiceEnvironment {
       @SuppressWarnings("unchecked")
       TypeLiteral<Object> type = (TypeLiteral<Object>) e.getKey();
 
-      @SuppressWarnings("unchecked")
-      DynamicItem<Object> item = (DynamicItem<Object>) e.getValue();
-
       Iterator<ReloadableRegistrationHandle<?>> oi =
           oldHandles.get(type).iterator();
 
@@ -450,9 +447,6 @@ public class PluginGuiceEnvironment {
             (ReloadableRegistrationHandle<Object>) oi.next();
           oi.remove();
           replace(newPlugin, h, b);
-        } else {
-          newPlugin.add(item.set(b.getKey(), b.getProvider(),
-              newPlugin.getName()));
         }
       }
     }

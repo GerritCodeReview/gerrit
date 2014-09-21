@@ -229,7 +229,6 @@ public class Reviewers extends Composite {
     for (Integer i : r.keySet()) {
       cc.remove(i);
     }
-    r.remove(info.owner()._account_id());
     cc.remove(info.owner()._account_id());
 
     Set<Integer> removable = new HashSet<>();

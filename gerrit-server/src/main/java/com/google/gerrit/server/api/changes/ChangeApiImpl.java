@@ -59,7 +59,7 @@ class ChangeApiImpl extends ChangeApi.NotImplemented implements ChangeApi {
   private final Restore restore;
   private final GetTopic getTopic;
   private final PutTopic putTopic;
-  private final Provider<PostReviewers> postReviewers;
+  private final PostReviewers postReviewers;
   private final Provider<ChangeJson> changeJson;
   private final PostHashtags postHashtags;
 
@@ -72,7 +72,7 @@ class ChangeApiImpl extends ChangeApi.NotImplemented implements ChangeApi {
       Restore restore,
       GetTopic getTopic,
       PutTopic putTopic,
-      Provider<PostReviewers> postReviewers,
+      PostReviewers postReviewers,
       Provider<ChangeJson> changeJson,
       PostHashtags postHashtags,
       @Assisted ChangeResource change) {
@@ -183,7 +183,7 @@ class ChangeApiImpl extends ChangeApi.NotImplemented implements ChangeApi {
   @Override
   public void addReviewer(AddReviewerInput in) throws RestApiException {
     try {
-      postReviewers.get().apply(change, in);
+      postReviewers.apply(change, in);
     } catch (OrmException | EmailException | IOException e) {
       throw new RestApiException("Cannot add change reviewer", e);
     }

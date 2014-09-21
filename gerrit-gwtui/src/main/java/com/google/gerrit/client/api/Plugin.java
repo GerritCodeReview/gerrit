@@ -50,6 +50,7 @@ final class Plugin extends JavaScriptObject {
     var G = $wnd.Gerrit;
     @com.google.gerrit.client.api.Plugin::TYPE.prototype = {
       getPluginName: function(){return this.name},
+      getCurrentUser: @com.google.gerrit.client.api.ApiGlue::getCurrentUser(),
       go: @com.google.gerrit.client.api.ApiGlue::go(Ljava/lang/String;),
       refresh: @com.google.gerrit.client.api.ApiGlue::refresh(),
       refreshMenuBar: @com.google.gerrit.client.api.ApiGlue::refreshMenuBar(),

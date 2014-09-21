@@ -58,7 +58,7 @@ must be explicitly set in `GerritGwtUI.gwt.xml` for SDM to work:
 
 [source,xml]
 ----
-  <set-property name="user.agent" value="geko1_8" />
+  <set-property name="user.agent" value="gecko1_8" />
 ----
 
 or

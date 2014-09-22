@@ -191,6 +191,9 @@ public class Hashtags extends Composite {
   @UiHandler("add")
   void onAdd(ClickEvent e) {
     String hashtag = hashtagTextBox.getText();
+    while (hashtag.startsWith("#")) {
+      hashtag = hashtag.substring(1);
+    }
     if (!hashtag.isEmpty()) {
       addHashtag(hashtag);
     }

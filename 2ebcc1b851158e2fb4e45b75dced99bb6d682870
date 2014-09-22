@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b07b3336_4b8265f7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-22T08:28:52Z",
+      "side": 1,
+      "message": "Given the recent discussion on dev ML, would it work to define an alias for \"hashtag\" to: \"#tag\" as well?\n\n  git push origin HEAD:refs/for/master%#tag\u003dfoo",
+      "revId": "2ebcc1b851158e2fb4e45b75dced99bb6d682870",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b07b3336_0b8c5d24",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1155,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-22T08:28:52Z",
+      "side": 1,
+      "message": "Would this work:\n\n @Option(name \u003d \"--hashtag\", aliases \u003d {\"-#tag\"}, ...",
+      "range": {
+        "startLine": 1155,
+        "startChar": 4,
+        "endLine": 1155,
+        "endChar": 30
+      },
+      "revId": "2ebcc1b851158e2fb4e45b75dced99bb6d682870",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

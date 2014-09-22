@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "1075df3d_4e7113aa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-22T08:39:52Z",
+      "side": 1,
+      "message": "- The series of changes related to the discussion are not merged yet, and this change is not based on that series.\n\n- I\u0027d rather get the basic functionality in now, and then add the additional stuff later if/when it is agreed that \"#tag\" is worth adding as an option.\n\n- I\u0027m not even sure that \"#tag\" is a valid option name, and I\u0027d rather not spend time testing that now when the existing stuff already works.",
+      "parentUuid": "b07b3336_cb765557",
+      "revId": "2ebcc1b851158e2fb4e45b75dced99bb6d682870",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b07b3336_0b8c5d24",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 8

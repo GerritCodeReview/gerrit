@@ -161,7 +161,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     PushOneCommit push =
         pushFactory.create(db, admin.getIdent(), PushOneCommit.SUBJECT,
             "b.txt", "anotherContent", r.getChangeId());
-    r = push.to(git, "refs/for/master/%l=Code-Review+2");
+    r = pushTo("refs/for/master/%l=Code-Review+2");
 
     ci = get(r.getChangeId());
     cr = ci.labels.get("Code-Review");

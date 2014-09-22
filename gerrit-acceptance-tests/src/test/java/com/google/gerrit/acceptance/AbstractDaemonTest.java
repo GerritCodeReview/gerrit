@@ -41,6 +41,7 @@ import com.google.gerrit.server.project.Util;
 import com.google.gerrit.testutil.ConfigSuite;
 import com.google.gerrit.testutil.TempFileUtil;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.util.Providers;
@@ -265,5 +266,20 @@ public abstract class AbstractDaemonTest {
       md.close();
     }
     projectCache.evict(cfg.getProject());
+  }
+
+  protected List<String> toHashtagList(RestResponse r)
+      throws IOException {
+    List<String> result =
+        newGson().fromJson(r.getReader(),
+            new TypeToken<List<String>>() {}.getType());
+    return result;
+  }
+
+  protected void assertResultList(RestResponse r, List<String> expected)
+      throws IOException {
+    assertEquals(HttpStatus.SC_OK, r.getStatusCode());
+    List<String> result = toHashtagList(r);
+    assertEquals(expected, result);
   }
 }

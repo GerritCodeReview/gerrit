@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "706ffb76_49b4a1ba",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-22T13:17:35Z",
+      "side": 1,
+      "message": "Isn\u0027t exactly this (submit out of order) the main reason to use the Cherry-Pick merge strategy? If the commits are not supposed to be submitted out-of-order then why use the Cherry-Pick submit strategy? Wouldn\u0027t then the Merge-if-Necessary or the Rebase-if-Necessary be more suitable?",
+      "revId": "9d068a6757e60f78a7a3d05cfcc9781343cb0165",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b07b3336_eba47191",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-22T13:17:35Z",
+      "side": 1,
+      "message": "The information on the change screen tells if this commit with the displayed merge strategy is mergeable. In that sense it tells the truth even for the Cherry-Pick strategy.\n\nI understand what you want to achieve but I am not sure that this justifies providing a potentially incorrect information (according to the definition of cherry-pick).\n\nMaybe a better option is to provide what you need as a plugin and show the additional info as \"mergeable if cherry-picked in commit order\"?",
+      "revId": "9d068a6757e60f78a7a3d05cfcc9781343cb0165",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "706ffb76_69b165c9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/CherryPick.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-22T13:17:35Z",
+      "side": 1,
+      "message": "I think it is wrong to change this here as the purpose of this class is to verify the mergeability for the Cherry-Pick submit strategy which is a different thing than the mergeability check for the Merge-if-Necessary strategy.",
+      "revId": "9d068a6757e60f78a7a3d05cfcc9781343cb0165",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

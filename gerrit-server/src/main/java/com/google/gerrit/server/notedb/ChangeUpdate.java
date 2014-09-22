@@ -37,7 +37,6 @@ import com.google.gerrit.reviewdb.client.PatchLineComment.Status;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.GerritPersonIdent;
-import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.AnonymousCowardName;
@@ -115,7 +114,6 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       Provider<AllUsersName> allUsers,
       ChangeDraftUpdate.Factory draftUpdateFactory,
       ProjectCache projectCache,
-      IdentifiedUser user,
       @Assisted ChangeControl ctl,
       CommentsInNotesUtil commentsUtil) {
     this(serverIdent, anonymousCowardName, repoManager, migration, accountCache,

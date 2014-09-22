@@ -15,8 +15,11 @@
 package com.google.gerrit.acceptance.git;
 
 import static com.google.gerrit.acceptance.GitUtil.cloneProject;
+import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assume.assumeThat;
 
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestAccount;
@@ -27,6 +30,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.testutil.ConfigSuite;
 import com.google.gwtorm.server.OrmException;
+import com.google.inject.Inject;
 
 import com.jcraft.jsch.JSchException;
 
@@ -36,12 +40,16 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.util.Set;
 
 public abstract class AbstractPushForReview extends AbstractDaemonTest {
   @ConfigSuite.Config
   public static Config noteDbEnabled() {
     return NotesMigration.allEnabledConfig();
   }
+
+  @Inject
+  private NotesMigration notesMigration;
 
   protected enum Protocol {
     SSH, HTTP
@@ -198,6 +206,34 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     String branchName = "non-existing";
     PushOneCommit.Result r = pushTo("refs/for/" + branchName);
     r.assertErrorStatus("branch " + branchName + " not found");
+  }
+
+  @Test
+  public void testPushForMasterWithHashtags() throws GitAPIException,
+      OrmException, IOException, RestApiException {
+
+    // Hashtags currently only work when noteDB is enabled
+    assumeThat(notesMigration.enabled(), is(true));
+
+    // specify a single hashtag as option
+    String hashtag1 = "tag1";
+    Set<String> expected = ImmutableSet.of(hashtag1);
+    PushOneCommit.Result r = pushTo("refs/for/master%hashtag=" + hashtag1);
+    r.assertOkStatus();
+    r.assertChange(Change.Status.NEW, null);
+
+    Set<String> hashtags = gApi.changes().id(r.getChangeId()).getHashtags();
+    assertEquals(expected, hashtags);
+
+    // specify multiple hashtags as options
+    String hashtag2 = "tag2";
+    expected = ImmutableSet.of(hashtag1, hashtag2);
+    r = pushTo("refs/for/master%hashtag=" + hashtag1 + ",hashtag=" + hashtag2);
+    r.assertOkStatus();
+    r.assertChange(Change.Status.NEW, null);
+
+    hashtags = gApi.changes().id(r.getChangeId()).getHashtags();
+    assertEquals(expected, hashtags);
   }
 
   private PushOneCommit.Result pushTo(String ref) throws GitAPIException,

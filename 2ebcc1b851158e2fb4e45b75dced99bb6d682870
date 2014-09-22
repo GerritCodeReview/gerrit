@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "1075df3d_ae5bd72e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-22T08:32:40Z",
+      "side": 1,
+      "message": "If we want to do that I\u0027d rather punt it to a follow-up change.",
+      "parentUuid": "b07b3336_4b8265f7",
+      "revId": "2ebcc1b851158e2fb4e45b75dced99bb6d682870",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b07b3336_0b8c5d24",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 8

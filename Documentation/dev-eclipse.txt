@@ -49,7 +49,7 @@ Duplicate the existing launch configuration:
 
 === Running GWT Debug Mode
 
-The gerrit_gwt_debug launch configuration uses GWT's 
+The gerrit_gwt_debug launch configuration uses GWT's
 link:http://www.gwtproject.org/articles/superdevmode.html[Super Dev Mode].
 
 Due to a problem where the codeserver does not correctly identify the connected
@@ -58,7 +58,7 @@ must be explicitly set in `GerritGwtUI.gwt.xml` for SDM to work:
 
 [source,xml]
 ----
-  <set-property name="user.agent" value="geko1_8" />
+  <set-property name="user.agent" value="gecko1_8" />
 ----
 
 or

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "706ffb76_09bea998",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-22T13:17:42Z",
+      "side": 0,
+      "message": "The different between this version and your version is: creating a new change or uploading a new patch set to existing change i think. Apparently providing labels during upload of new patch set when Notesdb is broken (has never worked) and must be fixed, instead of adjusting the tests to make it pass, leaving broken code in place.",
+      "range": {
+        "startLine": 161,
+        "startChar": 5,
+        "endLine": 163,
+        "endChar": 56
+      },
+      "revId": "37175427d57cec24899be020a120eea5d0403ec8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

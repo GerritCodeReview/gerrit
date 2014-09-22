@@ -467,6 +467,15 @@ covers daemon in http://facebook.github.io/buck/command/buckd.html[buckd].
 To use `buckd` the additional
 link:https://facebook.github.io/watchman[watchman] program must be installed.
 
+To disable `buckd` environment variable `NO_BUCKD` must be set. It's not
+recommended to put it in shell config, as it can be forgotten about it and
+then assumed Buck was working as it should when it should be using buckd.
+Prepend the variable to Buck invocation instead:
+
+----
+  $ NO_BUCKD=1 buck build gerrit
+----
+
 [[watchman]]
 === Installing watchman
 

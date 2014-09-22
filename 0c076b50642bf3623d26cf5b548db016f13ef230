@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b07b3336_6bcde169",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/HashtagsUtil.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-09-22T07:37:50Z",
+      "side": 1,
+      "message": "This doesn\u0027t make sense to me, why remove all present hashtags if commit message contains hashtags?",
+      "range": {
+        "startLine": 104,
+        "startChar": 10,
+        "endLine": 104,
+        "endChar": 75
+      },
+      "revId": "0c076b50642bf3623d26cf5b548db016f13ef230",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b07b3336_4bd02503",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-09-22T07:37:50Z",
+      "side": 1,
+      "message": "All hashtags that are not in Commit message are deleted.",
+      "range": {
+        "startLine": 301,
+        "startChar": 12,
+        "endLine": 301,
+        "endChar": 49
+      },
+      "revId": "0c076b50642bf3623d26cf5b548db016f13ef230",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

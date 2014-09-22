@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "b07b3336_0bda1d21",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/HashtagsUtil.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-09-22T07:43:54Z",
+      "side": 1,
+      "message": "it is based on “Hashtags\" footlines in commit message. not based on \ntoAdd and toRemove.  so if you do not want remove any existing hashtags you can list it in commit message.",
+      "parentUuid": "b07b3336_6bcde169",
+      "revId": "0c076b50642bf3623d26cf5b548db016f13ef230",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b07b3336_4bd02503",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
         "patchSetId": 12
@@ -42,6 +60,24 @@
         "endLine": 301,
         "endChar": 49
       },
+      "revId": "0c076b50642bf3623d26cf5b548db016f13ef230",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b07b3336_2bd7d9f9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-09-22T07:43:54Z",
+      "side": 1,
+      "message": "see my another comments.",
+      "parentUuid": "b07b3336_4bd02503",
       "revId": "0c076b50642bf3623d26cf5b548db016f13ef230",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

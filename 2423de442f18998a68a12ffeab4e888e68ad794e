@@ -34,6 +34,24 @@
       "revId": "2423de442f18998a68a12ffeab4e888e68ad794e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30902399_0fc46575",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectInfoScreen.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 587,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-22T21:28:58Z",
+      "side": 1,
+      "message": "This screenshot is of 2.10-rc0-496-g30565e1 (aka 74b27c6a^):\n\nhttps://drive.google.com/file/d/0B-_Mi3U3QxG8NXNBdTUyVDhZTHc/edit?usp\u003dsharing\n\nCompare the \"Run GC\" button with the \"Save Changes\" button. The reason I say \"unstyled\" is not because it has no stylesheet applied to it, but because it looks like a native OS X button rather than anything found anywhere else on Gerrit.",
+      "parentUuid": "706ffb76_a900bd9e",
+      "revId": "2423de442f18998a68a12ffeab4e888e68ad794e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

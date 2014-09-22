@@ -79,6 +79,24 @@
     },
     {
       "key": {
+        "uuid": "706ffb76_496b416d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/HashtagsUtil.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-09-22T08:47:04Z",
+      "side": 1,
+      "message": "The problem is that if this is the case: you must first check if anyone added any hashtags to the change (architects, ci-systems ...) and append them to the commit message before you push. This is just too error prone.\nYou should only append to existing hashtags.",
+      "parentUuid": "b07b3336_eb923146",
+      "revId": "0c076b50642bf3623d26cf5b548db016f13ef230",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b07b3336_4bd02503",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
         "patchSetId": 12

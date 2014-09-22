@@ -33,6 +33,7 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 
@@ -100,6 +101,23 @@ public class HashtagsIT extends AbstractDaemonTest {
     assertResult(GET(changeId), expected);
     expected = Arrays.asList("tag1", "tag2");
     assertResult(POST(changeId, "tag2, tag1", null), expected);
+    assertResult(GET(changeId), expected);
+  }
+
+  @Test
+  public void testHashtagsWithPrefix() throws Exception {
+    String changeId = createChange().getChangeId();
+    List<String> expected = Arrays.asList("tag1");
+    assertResult(POST(changeId, "#tag1", null), expected);
+    assertResult(GET(changeId), expected);
+    expected = Arrays.asList("tag1", "tag2", "tag3");
+    assertResult(POST(changeId, "#tag2, #tag3", null), expected);
+    assertResult(GET(changeId), expected);
+    expected = Arrays.asList("tag1", "tag3");
+    assertResult(POST(changeId, null, "#tag2"), expected);
+    assertResult(GET(changeId), expected);
+    expected = Collections.emptyList();
+    assertResult(POST(changeId, null, "#tag1, #tag3"), expected);
     assertResult(GET(changeId), expected);
   }
 

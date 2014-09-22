@@ -115,6 +115,24 @@
     },
     {
       "key": {
+        "uuid": "b07b3336_6b68816f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/HashtagsUtil.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-09-22T09:25:49Z",
+      "side": 1,
+      "message": "if Sven win , that would means hashtags  in commit message would be default to-add only. \nit will be safe, but never  to-remove. \n\n may be we should support  \n --------------------------------------------------\n\n A\u003e\n +Hashtag:\n - Hashtag:\n\n or \n B\u003e\n\n Hashtag:\n\n user should not use them all together.  \n if A\u003e exists  Gerrit will never check B\u003e\n --------------------------------------------------\n\n\nI leave the last decision to you all.",
+      "parentUuid": "706ffb76_09654996",
+      "revId": "0c076b50642bf3623d26cf5b548db016f13ef230",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b07b3336_4bd02503",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
         "patchSetId": 12

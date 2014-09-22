@@ -16,6 +16,24 @@
       "revId": "2423de442f18998a68a12ffeab4e888e68ad794e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "706ffb76_a900bd9e",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectInfoScreen.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 587,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-22T21:15:16Z",
+      "side": 1,
+      "message": "What make you think that buttons aren\u0027t styled? Check Actions.ui.xml:\n\n    #change_actions {\n      padding-top: 2px;\n      padding-bottom: 20px;\n    }\n    #change_actions button {\n      margin: 6px 3px 0 0;\n      border-color: rgba(0, 0, 0, 0.1);\n      text-align: center;\n      font-size: 8pt;\n      font-weight: bold;\n      border: 1px solid;\n      cursor: pointer;\n      color: #444;\n      background-color: #f5f5f5;\n      background-image: -webkit-linear-gradient(top, #f5f5f5, #f1f1f1);\n      -webkit-border-radius: 2px;\n      -webkit-box-sizing: content-box;\n    }\n    #change_actions button div {\n      color: #444; \n      height: 10px;\n      min-width: 54px;\n      line-height: 10px;\n      white-space: nowrap;\n    }\n    #change_actions button {\n      color: #444;\n      background-color: #f5f5f5;\n      background-image: -webkit-linear-gradient(top, #f5f5f5, #f1f1f1);\n    }\n    #change_actions button div {color: #444;}\n    #change_actions button.red {\n      color: #d14836;\n      background-color: #d14836;\n      background-image: -webkit-linear-gradient(top, #d14836, #d14836);\n    }\n    #change_actions button.red div {color: #fff;}\n    #change_actions button.submit {\n      float: right;\n      background-color: #4d90fe;\n      background-image: -webkit-linear-gradient(top, #4d90fe, #4d90fe);\n    }\n    #change_actions button.submit div {color: #fff;}\n    #change_actions button:disabled {\n      font-weight: normal;\n      background-color: #999;\n      background-image: -webkit-linear-gradient(top, #999, #999);\n    }",
+      "parentUuid": "1075df3d_2ec12766",
+      "revId": "2423de442f18998a68a12ffeab4e888e68ad794e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -14,6 +14,9 @@
 
 package com.google.gerrit.server.change;
 
+import static com.google.common.base.CharMatcher.WHITESPACE;
+
+import com.google.common.base.CharMatcher;
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.extensions.api.changes.HashtagsInput;
 import com.google.gerrit.extensions.registration.DynamicSet;
@@ -39,6 +42,8 @@ import java.util.TreeSet;
 
 @Singleton
 public class HashtagsUtil {
+  private static final CharMatcher LEADER = WHITESPACE.or(CharMatcher.is('#'));
+
   private final ChangeUpdate.Factory updateFactory;
   private final Provider<ReviewDb> dbProvider;
   private final ChangeIndexer indexer;
@@ -57,6 +62,12 @@ public class HashtagsUtil {
     this.hashtagValidationListeners = hashtagValidationListeners;
   }
 
+  public static String cleanupHashtag(String hashtag) {
+    hashtag = LEADER.trimLeadingFrom(hashtag);
+    hashtag = WHITESPACE.trimTrailingFrom(hashtag);
+    return hashtag.toLowerCase();
+  }
+
   private Set<String> extractTags(Set<String> input)
       throws IllegalArgumentException {
     if (input == null) {
@@ -67,8 +78,9 @@ public class HashtagsUtil {
         if (hashtag.contains(",")) {
           throw new IllegalArgumentException("Hashtags may not contain commas");
         }
-        if (!hashtag.trim().isEmpty()) {
-          result.add(hashtag.trim());
+        hashtag = cleanupHashtag(hashtag);
+        if (!hashtag.isEmpty()) {
+          result.add(hashtag);
         }
       }
       return result;

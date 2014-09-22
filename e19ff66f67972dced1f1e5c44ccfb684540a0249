@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "90df0f7f_22134e78",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/HashtagsUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-22T23:35:13Z",
+      "side": 1,
+      "message": "This doesn\u0027t match the behavior in HashtagPredicate, which is to only strip the first #.",
+      "revId": "e19ff66f67972dced1f1e5c44ccfb684540a0249",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

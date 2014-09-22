@@ -56,10 +56,6 @@ limitations under the License.
     .iconCell {
       width: 16px;
     }
-    .replyBox {
-      background-color: trimColor;
-      z-index: 10;
-    }
   </ui:style>
   <g:HTMLPanel>
     <table class='{style.table}'>

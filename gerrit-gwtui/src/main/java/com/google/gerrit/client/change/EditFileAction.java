@@ -22,22 +22,22 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.gwtexpui.globalkey.client.GlobalKey;
 import com.google.gwtexpui.user.client.PluginSafePopupPanel;
 
-public class EditFileAction {
+class EditFileAction {
  private final PatchSet.Id id;
  private final String content;
  private final String file;
- private final String style;
+ private final ChangeScreen2.Style style;
  private final Widget editMessageButton;
  private final Widget relativeTo;
 
  private EditFileBox editBox;
  private PopupPanel popup;
 
- public EditFileAction(
+ EditFileAction(
      PatchSet.Id id,
      String content,
      String file,
-     String style,
+     ChangeScreen2.Style style,
      Widget editButton,
      Widget relativeTo) {
    this.id = id;
@@ -62,10 +62,8 @@ public class EditFileAction {
    }
 
    final PluginSafePopupPanel p = new PluginSafePopupPanel(true);
-   p.setStyleName(style);
-   if (editMessageButton != null) {
-     p.addAutoHidePartner(editMessageButton.getElement());
-   }
+   p.setStyleName(style.replyBox());
+   p.addAutoHidePartner(editMessageButton.getElement());
    p.addCloseHandler(new CloseHandler<PopupPanel>() {
      @Override
      public void onClose(CloseEvent<PopupPanel> event) {

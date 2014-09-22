@@ -118,6 +118,30 @@
       "revId": "9820d71f910f869555b36f55f0c0b4b5007d3675",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30902399_0f6b05bc",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticsearchChangeIndex.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-22T09:03:03Z",
+      "side": 1,
+      "message": "\u003e  Should we have discussions about more big-picture stuff like online reindexing and use of the bulk API for bulk-able operations in this change or should we move it elsewhere?\n\nWe can keep it here.  Not all of the operations are easily \"bulk-able\" though since the interface is called for single changes.\n\nI was thinking about adding an API on the index interface to add a \"bulk replace\" but that should of course be done in a separate change.",
+      "parentUuid": "b07b3336_8b704d5a",
+      "range": {
+        "startLine": 196,
+        "startChar": 0,
+        "endLine": 197,
+        "endChar": 35
+      },
+      "revId": "9820d71f910f869555b36f55f0c0b4b5007d3675",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

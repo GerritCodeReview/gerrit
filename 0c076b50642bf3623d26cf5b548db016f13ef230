@@ -61,6 +61,24 @@
     },
     {
       "key": {
+        "uuid": "b07b3336_eb923146",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/HashtagsUtil.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-09-22T08:21:05Z",
+      "side": 1,
+      "message": "I know the REST API is in a way  using  toAdd and toRemove to  \n update hastags.  \n\n I thinks here  the ? for you is is just the different ways.  I know the  \n REST API is in a way  using  toAdd and toRemove to update \n hastags, while IMHO  this does not make sense  when it is in \n commit message, if we still make it in commit message like \n\n Hashtags+:  tag1, tag2\n Hashtags-:   tag3, tag4\n\n I think the one in commit message should be like a snapshot of Hashtags\n that is why I will add the update time (timestamp) to  the tip of \u0027Hashtags\u0027 in the UI.\n------\n if there are tags exists already  e,g,  tag-a,  tab-b and want be still\n  kept. we can list it in commit message like \n\n Hashtags:  tag-a,  tab-b\n Hashtags:  tag1, tag2 tag3, tag4. \n\n-----\n each way has its benefit and bad side. welcome discuss and ideas. may be I am the minority:)",
+      "parentUuid": "b07b3336_2bb039db",
+      "revId": "0c076b50642bf3623d26cf5b548db016f13ef230",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b07b3336_4bd02503",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
         "patchSetId": 12

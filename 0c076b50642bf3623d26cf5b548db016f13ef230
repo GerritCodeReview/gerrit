@@ -43,6 +43,24 @@
     },
     {
       "key": {
+        "uuid": "b07b3336_2bb039db",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/HashtagsUtil.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-09-22T08:06:58Z",
+      "side": 1,
+      "message": "I don\u0027t understand, you specify here that every hashtag not in commit message will be removed.",
+      "parentUuid": "b07b3336_0bda1d21",
+      "revId": "0c076b50642bf3623d26cf5b548db016f13ef230",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b07b3336_4bd02503",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
         "patchSetId": 12

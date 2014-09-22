@@ -97,6 +97,24 @@
     },
     {
       "key": {
+        "uuid": "706ffb76_09654996",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/HashtagsUtil.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-09-22T09:11:19Z",
+      "side": 1,
+      "message": "yes it is used as snapshot, not for to-Add. when user want add \nhastags only and do not want check current hashtags, REST API \nand git -push with parameter are better than using hashtags in \ncommit  message.  when user want give a brand new version of \nhashtags user would use  hashtags in commit message. \n \nI appreciate your ideas, where when I think it is in Git commit\u0027s Commit Message, not only about Hashtags API.  I tend to \nunderstand it more  like a snapshot or ttimestamp of Hashtags.\n\nmay you will win at last :)  anyway let wait other\u0027s voice.  if more and\n more user stand by with you, I would like give up and update it.",
+      "parentUuid": "706ffb76_496b416d",
+      "revId": "0c076b50642bf3623d26cf5b548db016f13ef230",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b07b3336_4bd02503",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
         "patchSetId": 12

@@ -67,6 +67,10 @@ public class HashtagsUtil {
         if (hashtag.contains(",")) {
           throw new IllegalArgumentException("Hashtags may not contain commas");
         }
+        hashtag = hashtag.trim();
+        while (hashtag.startsWith("#")) {
+          hashtag = hashtag.substring(1);
+        }
         if (!hashtag.trim().isEmpty()) {
           result.add(hashtag.trim());
         }

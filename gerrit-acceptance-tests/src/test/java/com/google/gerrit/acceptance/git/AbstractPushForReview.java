@@ -157,12 +157,10 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     assertEquals(1, cr.all.size());
     assertEquals("Administrator", cr.all.get(0).name);
     assertEquals(1, cr.all.get(0).value.intValue());
-
     PushOneCommit push =
         pushFactory.create(db, admin.getIdent(), PushOneCommit.SUBJECT,
             "b.txt", "anotherContent", r.getChangeId());
     r = push.to(git, "refs/for/master/%l=Code-Review+2");
-
     ci = get(r.getChangeId());
     cr = ci.labels.get("Code-Review");
     assertEquals(1, cr.all.size());

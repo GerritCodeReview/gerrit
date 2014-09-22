@@ -19,6 +19,7 @@ import static org.junit.Assert.assertEquals;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.LabelInfo;
@@ -27,6 +28,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.testutil.ConfigSuite;
 import com.google.gwtorm.server.OrmException;
+import com.google.inject.Inject;
 
 import com.jcraft.jsch.JSchException;
 
@@ -36,12 +38,17 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 
 public abstract class AbstractPushForReview extends AbstractDaemonTest {
   @ConfigSuite.Config
   public static Config noteDbEnabled() {
     return NotesMigration.allEnabledConfig();
   }
+
+  @Inject
+  private NotesMigration notesMigration;
 
   protected enum Protocol {
     SSH, HTTP
@@ -198,6 +205,34 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     String branchName = "non-existing";
     PushOneCommit.Result r = pushTo("refs/for/" + branchName);
     r.assertErrorStatus("branch " + branchName + " not found");
+  }
+
+  @Test
+  public void testPushForMasterWithHashtags() throws GitAPIException,
+      OrmException, IOException, RestApiException {
+    if (!notesMigration.enabled()) {
+      // Hashtags currently only work when noteDB is enabled
+      return;
+    }
+    // specify a single hashtag as option
+    String hashtag1 = "tag1";
+    List<String> expected = Arrays.asList(hashtag1);
+    PushOneCommit.Result r = pushTo("refs/for/master%hashtag=" + hashtag1);
+    r.assertOkStatus();
+    r.assertChange(Change.Status.NEW, null);
+    String changeId = r.getChangeId();
+    RestResponse response = adminSession.get("/changes/" + changeId + "/hashtags/");
+    assertResultList(response, expected);
+
+    // specify multiple hashtags as options
+    String hashtag2 = "tag2";
+    expected = Arrays.asList(hashtag1, hashtag2);
+    r = pushTo("refs/for/master%hashtag=" + hashtag1 + ",hashtag=" + hashtag2);
+    r.assertOkStatus();
+    r.assertChange(Change.Status.NEW, null);
+    changeId = r.getChangeId();
+    response = adminSession.get("/changes/" + changeId + "/hashtags/");
+    assertResultList(response, expected);
   }
 
   private PushOneCommit.Result pushTo(String ref) throws GitAPIException,

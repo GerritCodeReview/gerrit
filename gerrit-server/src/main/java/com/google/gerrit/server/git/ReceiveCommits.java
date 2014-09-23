@@ -2045,6 +2045,7 @@ public class ReceiveCommits {
       recipients.remove(me);
 
       ChangeUpdate update = updateFactory.create(changeCtl, newPatchSet.getCreatedOn());
+      update.setPatchSetId(newPatchSet.getId());
       db.changes().beginTransaction(change.getId());
       try {
         change = db.changes().get(change.getId());

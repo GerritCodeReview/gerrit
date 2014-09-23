@@ -133,6 +133,24 @@
     },
     {
       "key": {
+        "uuid": "706ffb76_e91f95f3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/HashtagsUtil.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-23T09:17:09Z",
+      "side": 1,
+      "message": "I agree with Sven. We should only have one footer \"Hashtags:\" and we should only add those hash tags which are listed in that footer and are not already present for that change. If an existing hash tag doesn\u0027t appear in the Hashtags footer we leave it.",
+      "parentUuid": "b07b3336_6b68816f",
+      "revId": "0c076b50642bf3623d26cf5b548db016f13ef230",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b07b3336_4bd02503",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
         "patchSetId": 12

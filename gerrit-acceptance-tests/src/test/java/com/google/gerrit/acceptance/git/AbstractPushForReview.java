@@ -24,17 +24,25 @@ import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.LabelInfo;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.server.notedb.NotesMigration;
+import com.google.gerrit.testutil.ConfigSuite;
 import com.google.gwtorm.server.OrmException;
 
 import com.jcraft.jsch.JSchException;
 
 import org.eclipse.jgit.api.errors.GitAPIException;
+import org.eclipse.jgit.lib.Config;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
 
 public abstract class AbstractPushForReview extends AbstractDaemonTest {
+  @ConfigSuite.Config
+  public static Config noteDbEnabled() {
+    return NotesMigration.allEnabledConfig();
+  }
+
   protected enum Protocol {
     SSH, HTTP
   }

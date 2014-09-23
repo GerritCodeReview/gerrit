@@ -22,6 +22,24 @@
       "revId": "f0c580d9bf23ba61d13945dc6921af8f744b8338",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f09dabd4_adcf3dc7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 18
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-09-23T10:31:26Z",
+      "side": 1,
+      "message": "do you mean not let user delete hashtags via commit message?",
+      "parentUuid": "706ffb76_a9199d10",
+      "revId": "f0c580d9bf23ba61d13945dc6921af8f744b8338",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

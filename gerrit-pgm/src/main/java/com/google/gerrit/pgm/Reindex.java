@@ -19,6 +19,7 @@ import static com.google.gerrit.server.schema.DataSourceProvider.Context.MULTI_U
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.Die;
+import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.lucene.LuceneIndexModule;
 import com.google.gerrit.pgm.util.BatchGitModule;
@@ -44,6 +45,7 @@ import com.google.gerrit.server.index.IndexModule;
 import com.google.gerrit.server.index.IndexModule.IndexType;
 import com.google.gerrit.server.mail.ReplacePatchSetSender;
 import com.google.gerrit.server.notedb.NoteDbModule;
+import com.google.gerrit.server.validators.HashtagValidationListener;
 import com.google.gerrit.solr.SolrIndexModule;
 import com.google.inject.AbstractModule;
 import com.google.inject.Injector;
@@ -177,6 +179,7 @@ public class Reindex extends SiteProgram {
 
       factory(MergeUtil.Factory.class);
       install(new NoteDbModule());
+      DynamicSet.setOf(binder(), HashtagValidationListener.class);
       install(new BatchGitModule());
     }
 

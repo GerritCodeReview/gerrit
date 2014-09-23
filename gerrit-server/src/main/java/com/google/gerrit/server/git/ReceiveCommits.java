@@ -81,6 +81,7 @@ import com.google.gerrit.server.change.ChangeInserter;
 import com.google.gerrit.server.change.ChangeKind;
 import com.google.gerrit.server.change.ChangeKindCache;
 import com.google.gerrit.server.change.ChangesCollection;
+import com.google.gerrit.server.change.HashtagsUtil;
 import com.google.gerrit.server.change.MergeabilityChecker;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.change.Submit;
@@ -303,6 +304,7 @@ public class ReceiveCommits {
   private final AllProjectsName allProjectsName;
   private final ReceiveConfig receiveConfig;
   private final ChangeKindCache changeKindCache;
+  private final HashtagsUtil hashtagsUtil;
 
   private final ProjectControl projectControl;
   private final Project project;
@@ -366,6 +368,7 @@ public class ReceiveCommits {
       @GerritPersonIdent final PersonIdent gerritIdent,
       final WorkQueue workQueue,
       @ChangeUpdateExecutor ListeningExecutorService changeUpdateExector,
+      final HashtagsUtil hashtagsUtil,
       final RequestScopePropagator requestScopePropagator,
       final ChangeIndexer indexer,
       final MergeabilityChecker mergeabilityChecker,
@@ -426,6 +429,7 @@ public class ReceiveCommits {
     this.pluginConfigEntries = pluginConfigEntries;
 
     this.messageSender = new ReceivePackMessageSender();
+    this.hashtagsUtil = hashtagsUtil;
 
     ProjectState ps = projectControl.getProjectState();
 
@@ -2046,6 +2050,8 @@ public class ReceiveCommits {
 
       ChangeUpdate update = updateFactory.create(changeCtl, newPatchSet.getCreatedOn());
       update.setPatchSetId(newPatchSet.getId());
+      Set<String> updatedHashtags = new HashSet<>(0);
+      Set<String> toAdd = Collections.emptySet();
       db.changes().beginTransaction(change.getId());
       try {
         change = db.changes().get(change.getId());
@@ -2123,6 +2129,19 @@ public class ReceiveCommits {
       } finally {
         db.rollback();
       }
+      if (changeCtl.canEditHashtags()) {
+        Set<String> cmHashtags =
+            hashtagsUtil.getValidHashtagsFromCommitMessage(newCommit, change);
+        Set<String> existingHashtags =
+            changeCtl.getNotes().load().getHashtags();
+        cmHashtags.removeAll(existingHashtags);
+        toAdd = cmHashtags;
+        if (!toAdd.isEmpty()) {
+          updatedHashtags.addAll(existingHashtags);
+          updatedHashtags.addAll(toAdd);
+          update.setHashtags(updatedHashtags);
+        }
+      }
       update.commit();
 
       if (mergedIntoRef != null) {
@@ -2169,6 +2188,10 @@ public class ReceiveCommits {
       gitRefUpdated.fire(project.getNameKey(), newPatchSet.getRefName(),
           ObjectId.zeroId(), newCommit);
       hooks.doPatchsetCreatedHook(change, newPatchSet, db);
+      if (!toAdd.isEmpty()) {
+        hooks.doHashtagsChangedHook(change, currentUser.getAccount(), toAdd,
+            null, updatedHashtags, db);
+      }
       if (mergedIntoRef != null) {
         hooks.doChangeMergedHook(
             change, currentUser.getAccount(), newPatchSet, db);

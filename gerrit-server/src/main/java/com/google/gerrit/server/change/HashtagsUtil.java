@@ -14,9 +14,14 @@
 
 package com.google.gerrit.server.change;
 
+import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_HASHTAGS;
+
+import com.google.common.base.Splitter;
+import com.google.common.collect.Sets;
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.extensions.api.changes.HashtagsInput;
 import com.google.gerrit.extensions.registration.DynamicSet;
+import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.auth.AuthException;
@@ -31,14 +36,34 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.IOException;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
 @Singleton
 public class HashtagsUtil {
+  private static final Logger log = LoggerFactory.getLogger(HashtagsUtil.class);
+
+  static Set<String> parseCommitMessageHashtags(RevCommit commit) {
+    List<String> hashtagsLines = commit.getFooterLines(FOOTER_HASHTAGS);
+    if (hashtagsLines.isEmpty()) {
+      return Collections.emptySet();
+    }
+    Set<String> result = Sets.newHashSet();
+    for (String hashtagsLine : hashtagsLines) {
+      result.addAll(Sets.newHashSet(Splitter.on(',').omitEmptyStrings()
+          .trimResults().split(hashtagsLine)));
+    }
+    return result;
+  }
+
   private final ChangeUpdate.Factory updateFactory;
   private final Provider<ReviewDb> dbProvider;
   private final ChangeIndexer indexer;
@@ -55,6 +80,22 @@ public class HashtagsUtil {
     this.indexer = indexer;
     this.hooks = hooks;
     this.hashtagValidationListeners = hashtagValidationListeners;
+  }
+
+  public Set<String> getValidHashtagsFromCommitMessage(RevCommit commit,
+      Change change) {
+    Set<String> hashtags = parseCommitMessageHashtags(commit);
+    if (!hashtags.isEmpty()) {
+      try {
+        for (HashtagValidationListener validator : hashtagValidationListeners) {
+          validator.validateHashtags(change, hashtags, null);
+        }
+      } catch (ValidationException e) {
+        log.error("Invalid hashtags", e);
+        return Collections.emptySet();
+      }
+    }
+    return hashtags;
   }
 
   private Set<String> extractTags(Set<String> input)

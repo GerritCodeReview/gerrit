@@ -16,10 +16,11 @@ package com.google.gerrit.server.change;
 
 import static com.google.gerrit.reviewdb.client.Change.INITIAL_PATCH_SET_ID;
 
+import com.google.common.base.MoreObjects;
+import com.google.common.collect.Sets;
 import com.google.common.util.concurrent.CheckedFuture;
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.data.LabelTypes;
-import com.google.gerrit.extensions.api.changes.HashtagsInput;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
@@ -31,14 +32,12 @@ import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.account.AccountCache;
-import com.google.gerrit.server.auth.AuthException;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.mail.CreateChangeSender;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.RefControl;
-import com.google.gerrit.server.validators.ValidationException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -209,17 +208,25 @@ public class ChangeInserter {
       db.rollback();
     }
 
-    update.commit();
-
-    if (hashtags != null && hashtags.size() > 0) {
-      try {
-        HashtagsInput input = new HashtagsInput();
-        input.add = hashtags;
-        hashtagsUtil.setHashtags(ctl, input, false, false);
-      } catch (ValidationException | AuthException e) {
-        log.error("Cannot add hashtags to change " + change.getId(), e);
+    if (ctl.canEditHashtags()) {
+      Set<String> cmHashtags =
+          hashtagsUtil.getValidHashtagsFromCommitMessage(commit, change);
+      if (!cmHashtags.isEmpty()) {
+        // hashtags can still be initial immutable empty set, or be assigned
+        // null or mutable empty set
+        hashtags =
+            MoreObjects.firstNonNull(hashtags, Sets.<String> newHashSet());
+        Set<String> r =
+            Sets.newHashSetWithExpectedSize(hashtags.size() + cmHashtags.size());
+        r.addAll(hashtags);
+        r.addAll(cmHashtags);
+        hashtags = r;
       }
     }
+    if (!hashtags.isEmpty()) {
+      update.setHashtags(hashtags);
+    }
+    update.commit();
 
     CheckedFuture<?, IOException> f = mergeabilityChecker.newCheck()
         .addChange(change)

@@ -14,6 +14,10 @@
 
 package com.google.gerrit.server.change;
 
+import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_HASHTAGS;
+
+import com.google.common.base.Splitter;
+import com.google.common.collect.Sets;
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.extensions.api.changes.HashtagsInput;
 import com.google.gerrit.extensions.registration.DynamicSet;
@@ -31,14 +35,46 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
+import org.eclipse.jgit.revwalk.FooterKey;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.IOException;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
 @Singleton
 public class HashtagsUtil {
+  private static final Logger log = LoggerFactory.getLogger(HashtagsUtil.class);
+  private static final FooterKey FOOTER_ADD_HASHTAGS = new FooterKey(
+      "Hashtags-Add");
+  private static final FooterKey FOOTER_REMOVE_HASHTAGS = new FooterKey(
+      "Hashtags-Remove");
+
+  public class ParsedResult {
+    public boolean update;
+    public Set<String> updatedHashtags;
+    public Set<String> toAdd;
+    public Set<String> toRemove;
+  }
+
+  static Set<String> detectCommitMessageHashtags(RevCommit commit, FooterKey footer) {
+    List<String> hashtagsLines = commit.getFooterLines(footer);
+    if (hashtagsLines.isEmpty()) {
+      return Collections.emptySet();
+    }
+    Set<String> result = Sets.newHashSet();
+    for (String hashtagsLine : hashtagsLines) {
+      result.addAll(Sets.newHashSet(Splitter.on(',').omitEmptyStrings()
+          .trimResults().split(hashtagsLine)));
+    }
+    return result;
+  }
+
   private final ChangeUpdate.Factory updateFactory;
   private final Provider<ReviewDb> dbProvider;
   private final ChangeIndexer indexer;
@@ -55,6 +91,22 @@ public class HashtagsUtil {
     this.indexer = indexer;
     this.hooks = hooks;
     this.hashtagValidationListeners = hashtagValidationListeners;
+  }
+
+  public ParsedResult parseCommitMessageHashtags(RevCommit commit,
+      ChangeControl ctl) {
+    ParsedResult r = calculateDeltaAndUpdatedHashtags(commit, ctl);
+    try {
+      if (!r.toAdd.isEmpty() || !r.toRemove.isEmpty()) {
+        for (HashtagValidationListener validator : hashtagValidationListeners) {
+          validator.validateHashtags(ctl.getChange(), r.toAdd, r.toRemove);
+        }
+        r.update = true;
+      }
+    } catch (ValidationException e) {
+      log.error("Invalid hashtags ", e);
+    }
+    return r;
   }
 
   private Set<String> extractTags(Set<String> input)
@@ -124,5 +176,51 @@ public class HashtagsUtil {
       }
     }
     return new TreeSet<String>(updatedHashtags);
+  }
+
+  private ParsedResult calculateDeltaAndUpdatedHashtags(RevCommit commit,
+      ChangeControl ctl) {
+    ParsedResult r = new ParsedResult();
+    try {
+      Set<String> cmAdd =
+          detectCommitMessageHashtags(commit, FOOTER_ADD_HASHTAGS);
+      Set<String> cmRemove =
+          detectCommitMessageHashtags(commit, FOOTER_REMOVE_HASHTAGS);
+
+      Set<String> existingHashtags = ctl.getNotes().load().getHashtags();
+      if (!cmAdd.isEmpty() || !cmRemove.isEmpty()) {
+        Set<String> updatedHashtags = Sets.newHashSet();
+        if (!existingHashtags.isEmpty()) {
+          updatedHashtags.addAll(existingHashtags);
+          cmAdd.removeAll(existingHashtags);
+          cmRemove.retainAll(existingHashtags);
+        }
+        if (!cmAdd.isEmpty() || !cmRemove.isEmpty()) {
+          updatedHashtags.addAll(cmAdd);
+          updatedHashtags.removeAll(cmRemove);
+        }
+
+        r.updatedHashtags = updatedHashtags;
+        r.toRemove = cmRemove;
+        r.toAdd = cmAdd;
+      } else {
+        r.updatedHashtags = detectCommitMessageHashtags(commit, FOOTER_HASHTAGS);
+        if (!r.updatedHashtags.isEmpty()) {
+          if (existingHashtags.isEmpty()) {
+            r.toAdd = r.updatedHashtags;
+            r.toRemove = Collections.emptySet();
+          } else {
+            r.toAdd = Sets.difference(r.updatedHashtags, existingHashtags);
+            r.toRemove = Sets.difference(existingHashtags, r.updatedHashtags);
+          }
+        } else {
+          r.toAdd = r.toRemove = Collections.emptySet();
+        }
+      }
+    } catch (OrmException err) {
+      log.error("Can not get existing hashtags", err);
+      r.toAdd = r.toRemove = r.updatedHashtags = Collections.emptySet();
+    }
+    return r;
   }
 }

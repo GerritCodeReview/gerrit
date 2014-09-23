@@ -63,6 +63,8 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 public class PatchSetInserter {
   private static final Logger log =
@@ -100,6 +102,7 @@ public class PatchSetInserter {
   private final RevCommit commit;
   private final ChangeControl ctl;
   private final IdentifiedUser user;
+  private final HashtagsUtil hashtagsUtil;
 
   private PatchSet patchSet;
   private ChangeMessage changeMessage;
@@ -124,6 +127,7 @@ public class PatchSetInserter {
       CommitValidators.Factory commitValidatorsFactory,
       MergeabilityChecker mergeabilityChecker,
       ReplacePatchSetSender.Factory replacePatchSetFactory,
+      HashtagsUtil hashtagsUtil,
       @Assisted Repository git,
       @Assisted RevWalk revWalk,
       @Assisted ChangeControl ctl,
@@ -143,6 +147,7 @@ public class PatchSetInserter {
     this.commitValidatorsFactory = commitValidatorsFactory;
     this.mergeabilityChecker = mergeabilityChecker;
     this.replacePatchSetFactory = replacePatchSetFactory;
+    this.hashtagsUtil = hashtagsUtil;
 
     this.git = git;
     this.revWalk = revWalk;
@@ -241,6 +246,8 @@ public class PatchSetInserter {
     final PatchSet.Id currentPatchSetId = c.currentPatchSetId();
 
     ChangeUpdate update = updateFactory.create(ctl, patchSet.getCreatedOn());
+    Set<String> updatedHashtags = new HashSet<>(0);
+    Set<String> newHashtags = Collections.emptySet();
 
     db.changes().beginTransaction(c.getId());
     try {
@@ -290,6 +297,14 @@ public class PatchSetInserter {
       }
       db.commit();
       if (messageIsForChange()) {
+        if (ctl.canEditHashtags()) {
+          newHashtags = hashtagsUtil.parseCommitMessageHashtags(commit, ctl);
+          if (!newHashtags.isEmpty()) {
+            updatedHashtags.addAll(ctl.getNotes().load().getHashtags());
+            updatedHashtags.addAll(newHashtags);
+            update.setHashtags(updatedHashtags);
+          }
+        }
         update.commit();
       }
 
@@ -323,6 +338,10 @@ public class PatchSetInserter {
         .run();
     if (runHooks) {
       hooks.doPatchsetCreatedHook(updatedChange, patchSet, db);
+      if (!newHashtags.isEmpty()) {
+        hooks.doHashtagsChangedHook(updatedChange, user.getAccount(),
+            newHashtags, null, updatedHashtags, db);
+      }
     }
     return updatedChange;
   }

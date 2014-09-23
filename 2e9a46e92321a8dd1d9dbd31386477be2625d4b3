@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b07b3336_2b06f9ae",
+        "filename": "tools/eclipse/project.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-23T14:31:09Z",
+      "side": 1,
+      "message": "True\n\nsorry I missed this one in the previous review",
+      "range": {
+        "startLine": 98,
+        "startChar": 33,
+        "endLine": 98,
+        "endChar": 39
+      },
+      "revId": "2e9a46e92321a8dd1d9dbd31386477be2625d4b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

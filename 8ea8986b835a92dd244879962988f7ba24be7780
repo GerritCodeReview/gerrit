@@ -16,6 +16,24 @@
       "revId": "8ea8986b835a92dd244879962988f7ba24be7780",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "10a15f0c_0ee12b34",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 459,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-09-23T13:09:39Z",
+      "side": 1,
+      "message": "I ever felt its redundant in notedb commit message. still not understand it clearly that we still need save this holder when all hashtags are deleted.",
+      "parentUuid": "706ffb76_a952fd9a",
+      "revId": "8ea8986b835a92dd244879962988f7ba24be7780",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -456,7 +456,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       addFooter(msg, FOOTER_STATUS, status.name().toLowerCase());
     }
 
-    if (hashtags != null) {
+    if (hashtags != null && !hashtags.isEmpty()) {
       addFooter(msg, FOOTER_HASHTAGS, Joiner.on(",").join(hashtags));
     }
 

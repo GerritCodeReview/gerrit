@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b07b3336_6b0c01cf",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/util/MostSpecificComparatorTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-23T13:41:52Z",
+      "side": 1,
+      "message": "This one fails without your fix.",
+      "revId": "4c400b4bc0a62e8e710a6dacd8e8aaff8d8911db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

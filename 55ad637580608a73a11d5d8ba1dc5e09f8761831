@@ -22,6 +22,24 @@
       "revId": "55ad637580608a73a11d5d8ba1dc5e09f8761831",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "10a15f0c_aecf37c7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/HashtagsUtil.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-09-23T08:50:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1075df3d_6eb72f0f",
+      "revId": "55ad637580608a73a11d5d8ba1dc5e09f8761831",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

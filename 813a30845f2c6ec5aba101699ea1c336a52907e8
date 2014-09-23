@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "706ffb76_49e6e1be",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-23T07:11:08Z",
+      "side": 1,
+      "message": "OK, i see what\u0027s happens:\n\n* Approvals get passed and inserted in Notedb CRVW+2.\n* During read from the Notedb it also retrieved correctly, but it is ignored, as ChangeJson ine 492:\n\n    for (PatchSetApproval psa : cd.currentApprovals()) {\n      current.put(psa.getAccountId(), psa.getLabel(), psa);\n    }\n\nBecause it thinks it is not current:\n\n  cd.allAppovals \u003d {1,1\u003d[[1%2C1,1000000,Code-Review: 2]]}\n  cd.currentApprovals \u003d {}\n\nAs we can see it is references wrong patch set: 1, while t belongs to the patch set 2.",
+      "range": {
+        "startLine": 168,
+        "startChar": 4,
+        "endLine": 168,
+        "endChar": 52
+      },
+      "revId": "813a30845f2c6ec5aba101699ea1c336a52907e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -14,6 +14,10 @@
 
 package com.google.gerrit.server.change;
 
+import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_HASHTAGS;
+
+import com.google.common.base.Splitter;
+import com.google.common.collect.Sets;
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.extensions.api.changes.HashtagsInput;
 import com.google.gerrit.extensions.registration.DynamicSet;
@@ -31,14 +35,40 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.IOException;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
 @Singleton
 public class HashtagsUtil {
+  private static final Logger log = LoggerFactory.getLogger(HashtagsUtil.class);
+
+  public class ParsedResult {
+    public boolean update;
+    public Set<String> updatedHashtags;
+    public Set<String> toAdd;
+  }
+
+  static Set<String> detectCommitMessageHashtags(RevCommit commit) {
+    List<String> hashtagsLines = commit.getFooterLines(FOOTER_HASHTAGS);
+    if (hashtagsLines.isEmpty()) {
+      return Collections.emptySet();
+    }
+    Set<String> result = Sets.newHashSet();
+    for (String hashtagsLine : hashtagsLines) {
+      result.addAll(Sets.newHashSet(Splitter.on(',').omitEmptyStrings()
+          .trimResults().split(hashtagsLine)));
+    }
+    return result;
+  }
+
   private final ChangeUpdate.Factory updateFactory;
   private final Provider<ReviewDb> dbProvider;
   private final ChangeIndexer indexer;
@@ -55,6 +85,35 @@ public class HashtagsUtil {
     this.indexer = indexer;
     this.hooks = hooks;
     this.hashtagValidationListeners = hashtagValidationListeners;
+  }
+
+  public ParsedResult parseCommitMessageHashtags(RevCommit commit,
+      ChangeControl ctl) {
+    ParsedResult r = new ParsedResult();
+    r.toAdd = detectCommitMessageHashtags(commit);
+    try {
+      if (!r.toAdd.isEmpty()) {
+        Set<String> existingHashtags = ctl.getNotes().load().getHashtags();
+        if (!existingHashtags.isEmpty()) {
+          r.toAdd.removeAll(existingHashtags);
+        }
+        if (!r.toAdd.isEmpty()) {
+          Set<String> updatedHashtags = Sets.newHashSet(existingHashtags);
+          updatedHashtags.addAll(r.toAdd);
+          r.updatedHashtags = updatedHashtags;
+
+          for (HashtagValidationListener validator : hashtagValidationListeners) {
+            validator.validateHashtags(ctl.getChange(), r.toAdd, null);
+          }
+          r.update = true;
+        }
+      }
+    } catch (OrmException err) {
+      log.error("Can not get existing hashtags", err);
+    } catch (ValidationException e) {
+      log.error("Invalid hashtags ", e);
+    }
+    return r;
   }
 
   private Set<String> extractTags(Set<String> input)

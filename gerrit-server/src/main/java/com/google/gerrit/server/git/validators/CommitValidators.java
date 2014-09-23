@@ -16,6 +16,8 @@ package com.google.gerrit.server.git.validators;
 
 import com.google.common.base.CharMatcher;
 import com.google.gerrit.common.FooterConstants;
+import com.google.gerrit.common.ChangeHookRunner.HookResult;
+import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.extensions.registration.DynamicSet;
@@ -39,6 +41,7 @@ import com.jcraft.jsch.HostKey;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.notes.NoteMap;
@@ -71,6 +74,7 @@ public class CommitValidators {
   private final String installCommitMsgHookCommand;
   private final SshInfo sshInfo;
   private final Repository repo;
+  private final ChangeHooks hooks;
   private final DynamicSet<CommitValidationListener> commitValidationListeners;
 
   @Inject
@@ -78,6 +82,7 @@ public class CommitValidators {
       @CanonicalWebUrl @Nullable final String canonicalWebUrl,
       @GerritServerConfig final Config config,
       final DynamicSet<CommitValidationListener> commitValidationListeners,
+      final ChangeHooks hooks,
       @Assisted final SshInfo sshInfo,
       @Assisted final Repository repo, @Assisted final RefControl refControl) {
     this.gerritIdent = gerritIdent;
@@ -87,6 +92,7 @@ public class CommitValidators {
         config.getString("gerrit", null, "installCommitMsgHookCommand");
     this.sshInfo = sshInfo;
     this.repo = repo;
+    this.hooks = hooks;
     this.commitValidationListeners = commitValidationListeners;
   }
 
@@ -144,6 +150,7 @@ public class CommitValidators {
     }
     validators.add(new ConfigValidator(refControl, repo));
     validators.add(new PluginCommitValidationListener(commitValidationListeners));
+    validators.add(new ChangeHookValidator(refControl, hooks));
 
     List<CommitValidationMessage> messages = new LinkedList<>();
 
@@ -519,6 +526,49 @@ public class CommitValidators {
         log.warn(m, e);
         throw new CommitValidationException(m, e);
       }
+    }
+  }
+
+  /** Reject commits that don't pass user-supplied ref-update hook. */
+  public static class ChangeHookValidator implements
+      CommitValidationListener {
+    private final RefControl refControl;
+    private final ChangeHooks hooks;
+
+    public ChangeHookValidator(final RefControl refControl, final ChangeHooks hooks) {
+      this.refControl = refControl;
+      this.hooks = hooks;
+    }
+
+    @Override
+    public List<CommitValidationMessage> onCommitReceived(
+        CommitReceivedEvent receiveEvent) throws CommitValidationException {
+
+      if (refControl.getCurrentUser().isIdentifiedUser()) {
+        final IdentifiedUser user = (IdentifiedUser) refControl.getCurrentUser();
+
+        String refname = receiveEvent.refName;
+        ObjectId old = receiveEvent.commit.getParent(0);
+
+        if (receiveEvent.command.getRefName().startsWith("refs/changes")) {
+          /*
+           * If the ref-update hook tries to distinguish behavior between pushes to
+           * refs/heads/... and refs/for/..., make sure we send it the correct refname.
+           * Also, if this is targetting refs/for/, make sure we behave the same as
+           * what a push to refs/for/ would behave; in particular, setting oldrev to
+           * 0000000000000000000000000000000000000000.
+           */
+          refname = refname.replace("refs/heads/", "refs/for/refs/heads/");
+          old = ObjectId.zeroId();
+        }
+        HookResult result = hooks.doRefUpdateHook(receiveEvent.project, refname,
+            user.getAccount(), old, receiveEvent.commit);
+        if (result != null && result.getExitValue() != 0) {
+            final String message = result.toString().trim();
+            throw new CommitValidationException(message);
+        }
+      }
+      return Collections.emptyList();
     }
   }
 

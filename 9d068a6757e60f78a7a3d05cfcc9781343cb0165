@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "706ffb76_69e3a5ad",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-23T08:53:49Z",
+      "side": 1,
+      "message": "\u003e We usually do push unrelated changes without dependencies, but it happens occasionally that a change needs to be submitted out of order.\n\nI understand, but don\u0027t agree that this justifies showing a potentially false information for the Cherry-Pick submit strategy... at least I wouldn\u0027t like\nto have that as a hardcoded default in Gerrit core.\n\n\u003e Other advantages of the Cherry-Pick strategy are that it updates the committer details (name/email and date) according to the user that submits the change, and adds the Reviewed-by footers.\n\nThe reviewnotes plugin will also add such information (probably even more) on submit. However, it will not update the commit message but create a git note on that commit. The notes are created in the refs/notes/review branch and can be seen by:\n\n  $ git fetch origin refs/notes/review:refs/notes/review\n  $ git log --notes\u003dreview\n\nEclipse EGit also shows the review notes in the commit view.",
+      "parentUuid": "b07b3336_abc74925",
+      "revId": "9d068a6757e60f78a7a3d05cfcc9781343cb0165",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b07b3336_eba47191",
         "filename": "/COMMIT_MSG",
         "patchSetId": 8

@@ -14,12 +14,15 @@
 
 package com.google.gerrit.server.notedb;
 
+import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.server.config.FactoryModule;
+import com.google.gerrit.server.validators.HashtagValidationListener;
 
 public class NoteDbModule extends FactoryModule {
   @Override
   public void configure() {
     factory(ChangeUpdate.Factory.class);
     factory(ChangeDraftUpdate.Factory.class);
+    DynamicSet.setOf(binder(), HashtagValidationListener.class);
   }
 }

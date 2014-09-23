@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server;
 
-import static com.google.gerrit.server.change.PatchSetInserter.ValidatePolicy.RECEIVE_COMMITS;
+import static com.google.gerrit.server.change.PatchSetInserter.ValidatePolicy.GERRIT;
 import static com.google.gerrit.server.query.change.ChangeData.asChanges;
 
 import com.google.common.base.Optional;
@@ -385,7 +385,7 @@ public class ChangeUtil {
           .create(git, revWalk, ctl, newCommit)
           .setPatchSet(newPatchSet)
           .setMessage(msg)
-          .setValidatePolicy(RECEIVE_COMMITS)
+          .setValidatePolicy(GERRIT)
           .setDraft(ps.isDraft())
           .insert();
 

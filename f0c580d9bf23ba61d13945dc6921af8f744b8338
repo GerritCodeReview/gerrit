@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "706ffb76_a9199d10",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 18
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-23T09:21:47Z",
+      "side": 1,
+      "message": "I may have missed some important part of discussion but why this???\n\n3 kind of commit message footers just for hashtags?\n\nWhat is bad with having only one footer \"Hashtags\" and adding only those from the footer which are not yet added?\n\nIf one wants to remove any existing hash tag then use the UI or REST.",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 40
+      },
+      "revId": "f0c580d9bf23ba61d13945dc6921af8f744b8338",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

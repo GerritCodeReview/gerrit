@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "706ffb76_a952fd9a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 459,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2014-09-23T10:36:59Z",
+      "side": 1,
+      "message": "You need to be able to store an empty \"Hashtag: \" footer to allow notedb to go from hashtags to no hashtags.",
+      "revId": "8ea8986b835a92dd244879962988f7ba24be7780",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

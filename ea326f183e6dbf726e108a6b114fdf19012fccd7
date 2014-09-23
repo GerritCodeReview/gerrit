@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "706ffb76_894db9ff",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2014-09-23T10:34:50Z",
+      "side": 1,
+      "message": "I don\u0027t think this will work. This function will be entered many times as noteDb walks the commit graph. We need to keep hashtags null until we find a footer named \"hashtags: \", so we know when we can stop looking for hashtags.",
+      "revId": "ea326f183e6dbf726e108a6b114fdf19012fccd7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

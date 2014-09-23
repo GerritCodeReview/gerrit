@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b07b3336_8b14cdd9",
+        "filename": "tools/eclipse/project.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-23T11:10:45Z",
+      "side": 1,
+      "message": "nit: I think this should be indented only two levels (4 spaces).\n\nI guess you checked the style in other python scripts in our source code, found how multi-line add_opion is indented and applied the same style here... IMO this doesn\u0027t comply with our code style.",
+      "revId": "71be5b4dcfe5934002b2468a994a3aeb03236ac7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "706ffb76_09622968",
+        "filename": "tools/eclipse/project.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-23T11:10:45Z",
+      "side": 1,
+      "message": "exported\u003dTrue\n\nUse a boolean constant instead of string",
+      "range": {
+        "startLine": 169,
+        "startChar": 36,
+        "endLine": 169,
+        "endChar": 51
+      },
+      "revId": "71be5b4dcfe5934002b2468a994a3aeb03236ac7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -25,9 +25,8 @@ import org.eclipse.jgit.revwalk.FooterKey;
 import java.util.Date;
 
 public class ChangeNoteUtil {
+  static public final FooterKey FOOTER_HASHTAGS = new FooterKey("Hashtags");
   static final String GERRIT_PLACEHOLDER_HOST = "gerrit";
-
-  static final FooterKey FOOTER_HASHTAGS = new FooterKey("Hashtags");
   static final FooterKey FOOTER_LABEL = new FooterKey("Label");
   static final FooterKey FOOTER_PATCH_SET = new FooterKey("Patch-set");
   static final FooterKey FOOTER_STATUS = new FooterKey("Status");

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "706ffb76_09f0e96b",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-23T08:18:36Z",
+      "side": 1,
+      "message": "It makes only sense to replace the default backend (Database \u003d\u003e Notedb) when *all* tests are only Notedb specific. This is not the case in this class and derived classes. So what you want is to add Notedb configuration to Database and not to replace it:\n\n  @ConfigSuite.Config\n  public static Config noteDbEnabled() {\n    NotesMigration.allEnabledConfig();\n  }\n\nIn this case default configuration is still Database backend and in addition all tests are get executed against Notedb configuration. The problem you would is that your hashtags tests only makes sense with Notedb backend and not with Dtabase, so that you would need to skip theses tests programmatically, by retrieve NotesMigration values, for example. What you cannot do is shutdown all tests against Database backend until we wiped out Database backend from the code base.",
+      "range": {
+        "startLine": 44,
+        "startChar": 2,
+        "endLine": 47,
+        "endChar": 3
+      },
+      "revId": "673391ae420f8f13e9769f5170b791f61c88341d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

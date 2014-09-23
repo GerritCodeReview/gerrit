@@ -46,6 +46,30 @@
       "revId": "813a30845f2c6ec5aba101699ea1c336a52907e8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "706ffb76_c943b1d4",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-23T10:28:37Z",
+      "side": 1,
+      "message": "I think something is wrong during pushing of approvals in meta data. I don\u0027t have currently access to my dev environment. To track down the problem we could do the following:\n\n* 1. Enable Notedb on Gerrit site.\n* 2. push change 4711\n* 2.1 vote +1 on 4711,1\n* 2.2 push new ps for change 4711\n* 2.3 vote +2 on 4711,2\n* 3. push change 4712 and provide vote+1 per magic branch during push: refs/for/master/%l\u003dCode-Review\n* 3.1 push new patch set for 4712 and vote approve per magic branch during push: refs/for/master/%l\u003dCode-Review+2\n\nNow we can compare commits on meta branch of two changes 4711 and 4712 and see the difference, why CRVW+2 is erroneously referencing ps 1 and not 2.",
+      "parentUuid": "706ffb76_0909c9bd",
+      "range": {
+        "startLine": 168,
+        "startChar": 4,
+        "endLine": 168,
+        "endChar": 52
+      },
+      "revId": "813a30845f2c6ec5aba101699ea1c336a52907e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

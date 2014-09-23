@@ -44,9 +44,13 @@ public class WebLinks {
   public Iterable<WebLinkInfo> getPatchSetLinks(String project, String commit) {
     List<WebLinkInfo> links = Lists.newArrayList();
     for (PatchSetWebLink webLink : patchSetLinks) {
+      // Must be called first so that plugin can alter
+      // ImageUrl and LinkName depending on the values of
+      // project and commit.
+      String patchSetUrl = webLink.getPatchSetUrl(project, commit);
       links.add(new WebLinkInfo(webLink.getLinkName(),
           webLink.getImageUrl(),
-          webLink.getPatchSetUrl(project, commit),
+          patchSetUrl,
           webLink.getTarget()));
     }
     return links;
@@ -56,9 +60,13 @@ public class WebLinks {
       String file) {
     List<WebLinkInfo> links = Lists.newArrayList();
     for (FileWebLink webLink : fileLinks) {
+      // Must be called first so that plugin can alter
+      // ImageUrl and LinkName depending on the values of
+      // project, revision and file.
+      String fileUrl = webLink.getFileUrl(project, revision, file);
       links.add(new WebLinkInfo(webLink.getLinkName(),
           webLink.getImageUrl(),
-          webLink.getFileUrl(project, revision, file),
+          fileUrl,
           webLink.getTarget()));
     }
     return links;
@@ -67,9 +75,13 @@ public class WebLinks {
   public Iterable<WebLinkInfo> getProjectLinks(String project) {
     List<WebLinkInfo> links = Lists.newArrayList();
     for (ProjectWebLink webLink : projectLinks) {
+      // Must be called first so that plugin can alter
+      // ImageUrl and LinkName depending on the value of
+      // project.
+      String projectUrl = webLink.getProjectUrl(project);
       links.add(new WebLinkInfo(webLink.getLinkName(),
           webLink.getImageUrl(),
-          webLink.getProjectUrl(project),
+          projectUrl,
           webLink.getTarget()));
     }
     return links;
@@ -78,9 +90,13 @@ public class WebLinks {
   public Iterable<WebLinkInfo> getBranchLinks(String project, String branch) {
     List<WebLinkInfo> links = Lists.newArrayList();
     for (BranchWebLink webLink : branchLinks) {
+      // Must be called first so that plugin can alter
+      // ImageUrl and LinkName depending on the values of
+      // project and branch.
+      String branchUrl = webLink.getBranchUrl(project, branch);
       links.add(new WebLinkInfo(webLink.getLinkName(),
           webLink.getImageUrl(),
-          webLink.getBranchUrl(project, branch),
+          branchUrl,
           webLink.getTarget()));
     }
     return links;

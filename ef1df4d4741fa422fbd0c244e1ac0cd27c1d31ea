@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f09dabd4_ed2b059d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/HashtagsUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-24T12:45:55Z",
+      "side": 1,
+      "message": "One line shorter, but requires another import.",
+      "parentUuid": "90646fc9_3a136178",
+      "range": {
+        "startLine": 71,
+        "startChar": 8,
+        "endLine": 73,
+        "endChar": 9
+      },
+      "revId": "ef1df4d4741fa422fbd0c244e1ac0cd27c1d31ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "90646fc9_1a169d67",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/HashtagsUtil.java",
         "patchSetId": 4
@@ -36,6 +60,30 @@
       "writtenOn": "2014-09-24T12:39:46Z",
       "side": 1,
       "message": "trim() was already done on line 70.",
+      "range": {
+        "startLine": 74,
+        "startChar": 8,
+        "endLine": 76,
+        "endChar": 9
+      },
+      "revId": "ef1df4d4741fa422fbd0c244e1ac0cd27c1d31ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "10a15f0c_6e20afb7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/HashtagsUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-24T12:45:55Z",
+      "side": 1,
+      "message": "Need to trim it again in case the input string is something like:\n\n \"## tag\"\n\nnote the space after the leading ##.",
+      "parentUuid": "90646fc9_1a169d67",
       "range": {
         "startLine": 74,
         "startChar": 8,

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "10a15f0c_8e4fdb7e",
+        "filename": "lib/hamcrest/BUCK",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-24T14:39:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b095f3be_9b738bbf",
+      "range": {
+        "startLine": 10,
+        "startChar": 16,
+        "endLine": 11,
+        "endChar": 47
+      },
+      "revId": "55bb619bdfe10c70eb24eb270da8d07ef3c3e451",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "90646fc9_ba78519a",
         "filename": "lib/hamcrest/BUCK",
         "patchSetId": 2
@@ -36,6 +60,24 @@
       "writtenOn": "2014-09-24T14:33:05Z",
       "side": 1,
       "message": "The same.",
+      "revId": "55bb619bdfe10c70eb24eb270da8d07ef3c3e451",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f09dabd4_ad4a9d6e",
+        "filename": "lib/hamcrest/BUCK",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-24T14:39:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "90646fc9_ba78519a",
       "revId": "55bb619bdfe10c70eb24eb270da8d07ef3c3e451",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

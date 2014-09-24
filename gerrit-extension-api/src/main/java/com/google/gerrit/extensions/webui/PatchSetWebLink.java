@@ -14,6 +14,7 @@
 package com.google.gerrit.extensions.webui;
 
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
+import com.google.gerrit.extensions.common.WebLinkInfo;
 
 @ExtensionPoint
 public interface PatchSetWebLink extends WebLink {
@@ -23,7 +24,7 @@ public interface PatchSetWebLink extends WebLink {
    *
    * @param projectName Name of the project
    * @param commit Commit of the patch set
-   * @return url to patch set in external service.
+   * @return WebLinkInfo that links to patch set in external service.
    */
-  String getPatchSetUrl(final String projectName, final String commit);
+  WebLinkInfo getPathSetWebLink(final String projectName, final String commit);
 }

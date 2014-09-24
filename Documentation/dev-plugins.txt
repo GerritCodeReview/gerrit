@@ -1744,18 +1744,18 @@ are provided by the Gerrit core plugin `download-commands`.
 == Links To External Tools
 
 Gerrit has extension points that enables development of a
-light-weight plugin that links commits to external
-tools (GitBlit, CGit, company specific resources etc).
+plugin that links commits to external tools
+(GitBlit, CGit, company specific resources etc).
 
-PatchSetWebLinks will appear to the right of the commit-SHA1 in the UI.
+WebLink<RevisionResource>  will appear to the right of the commit-SHA1 in the UI.
 
 [source, java]
 ----
-import com.google.gerrit.extensions.annotations.Listen;
-import com.google.gerrit.extensions.webui.PatchSetWebLink;;
+import com.google.gerrit.extensions.common.WebLinkInfo;
+import com.google.gerrit.extensions.webui.WebLink;
+import com.google.gerrit.server.change.RevisionResource;
 
-@Listen
-public class MyWeblinkPlugin implements PatchSetWebLink {
+class MyWeblinkPlugin {
 
   private String name = "MyLink";
   private String placeHolderUrlProjectCommit = "http://my.tool.com/project=%s/commit=%s";
@@ -1780,16 +1780,36 @@ public class MyWeblinkPlugin implements PatchSetWebLink {
   public String getTarget() {
     return "_blank";
   }
+
+  public static class PatchSetWebLink implements WebLink<RevisionResource> {
+    @Override
+    public WebLinkInfo getWebLinkInfoFor(RevisionResource resource) {
+      return new WebLinkInfo(getLinkName(),
+        getImageUrl(),
+        getPatchSetUrl(resource.getChange().getProject().get(),
+            resource.getPatchSet().getRevision().get()),
+        getTarget());
+    }
+  }
+}
+
+public class Module extends AbstractModule {
+  @Override
+  protected void configure() {
+    DynamicSet.bind(binder(),
+        new TypeLiteral<WebLink<RevisionResource>>() {})
+        .to(MyWeblinkPlugin.PatchSetWebLink.class);
+  }
 }
 ----
 
-FileWebLinks will appear in the side-by-side diff screen on the right
+WebLink<FileResource> will appear in the side-by-side diff screen on the right
 side of the patch selection on each side.
 
-ProjectWebLinks will appear in the project list in the
+WebLink<ProjectResource> will appear in the project list in the
 `Repository Browser` column.
 
-BranchWebLinks will appear in the branch list in the last column.
+WebLink<BranchResource> will appear in the branch list in the last column.
 
 [[documentation]]
 == Documentation

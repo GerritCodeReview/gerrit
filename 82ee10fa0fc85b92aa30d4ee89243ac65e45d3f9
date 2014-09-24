@@ -16,6 +16,24 @@
       "revId": "82ee10fa0fc85b92aa30d4ee89243ac65e45d3f9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "10787f6e_76eb3012",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/HashtagPredicate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-24T19:17:59Z",
+      "side": 1,
+      "message": "What about \" # # # # # # # tag\"? :)\n\nAssuming you\u0027re ok with trimming everything in that case, I think this would be cleaner as:\n\n import static com.google.common.base.CharMatcher.WHITESPACE;\n ...\n private static final CharMatcher LEADER \u003d WHITESPACE.or(CharMatcher.is(\u0027#\u0027));\n ...\n   hashtag \u003d LEADER.trimLeadingFrom(hashtag);\n   hashtag \u003d WHITESPACE.trimTrailingFrom(hashtag);\n   return hashTag.toLowerCase();",
+      "parentUuid": "f09dabd4_2d16ad67",
+      "revId": "82ee10fa0fc85b92aa30d4ee89243ac65e45d3f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,140 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "90646fc9_9aae2db7",
+        "filename": "Documentation/cmd-logging-ls-level.txt",
+        "patchSetId": 20
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-24T16:38:04Z",
+      "side": 1,
+      "message": "any special reason to use this library and not the standard JDK regex API?",
+      "revId": "62fbc670d56829558853147478423535fc81f855",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b095f3be_bb6127e2",
+        "filename": "Documentation/cmd-logging-ls-level.txt",
+        "patchSetId": 20
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-24T16:38:04Z",
+      "side": 1,
+      "message": "Or have the administrate_server capability?",
+      "revId": "62fbc670d56829558853147478423535fc81f855",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90646fc9_bab3f11d",
+        "filename": "Documentation/cmd-logging-ls-level.txt",
+        "patchSetId": 20
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-24T16:38:04Z",
+      "side": 1,
+      "message": "This will also match: com.googleeee.xyz, comxgooglex.y.z...\n\nTo be more precise the dots needs to be escaped:\n\n  ^com\\.google\\..*\n\nFor most cases you example will work and is easier to type. However, you could provide a remark on what I commented here.",
+      "revId": "62fbc670d56829558853147478423535fc81f855",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b095f3be_db56f308",
+        "filename": "Documentation/cmd-logging-set-level.txt",
+        "patchSetId": 20
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-24T16:38:04Z",
+      "side": 1,
+      "message": "here it may be more important to be precise about escaping the dot as the regex may match more than expected.",
+      "revId": "62fbc670d56829558853147478423535fc81f855",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90646fc9_daa8a5ac",
+        "filename": "gerrit-sshd/BUCK",
+        "patchSetId": 20
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-24T16:38:04Z",
+      "side": 1,
+      "message": "why not the standard JDK regex support?",
+      "revId": "62fbc670d56829558853147478423535fc81f855",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b095f3be_fb5baf2d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ListLoggingLevelCommand.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-24T16:38:04Z",
+      "side": 1,
+      "message": "this method is called only when the given logger pattern starts with the \"^\" (lines 45-46). Therefore this if condition is always true and can be removed.",
+      "revId": "62fbc670d56829558853147478423535fc81f855",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b095f3be_1b713bab",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ListLoggingLevelCommand.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-24T16:38:04Z",
+      "side": 1,
+      "message": "I still don\u0027t see why to use the brics library here and not the standard regex",
+      "revId": "62fbc670d56829558853147478423535fc81f855",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b095f3be_3b6ef7cb",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetLoggingLevelCommand.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-24T16:38:04Z",
+      "side": 1,
+      "message": "this is always true, remove",
+      "revId": "62fbc670d56829558853147478423535fc81f855",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

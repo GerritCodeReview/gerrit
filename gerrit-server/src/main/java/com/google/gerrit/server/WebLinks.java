@@ -52,7 +52,7 @@ public class WebLinks {
     return links;
   }
 
-  public Iterable<WebLinkInfo> getPatchLinks(String project, String revision,
+  public Iterable<WebLinkInfo> getFileLinks(String project, String revision,
       String file) {
     List<WebLinkInfo> links = Lists.newArrayList();
     for (FileWebLink webLink : fileLinks) {

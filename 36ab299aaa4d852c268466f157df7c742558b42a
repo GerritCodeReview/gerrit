@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "10787f6e_16e4bc43",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 3664,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-24T19:07:20Z",
+      "side": 1,
+      "message": "s/an //",
+      "range": {
+        "startLine": 3664,
+        "startChar": 22,
+        "endLine": 3664,
+        "endChar": 25
+      },
+      "revId": "36ab299aaa4d852c268466f157df7c742558b42a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "10787f6e_f6de6076",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 3673,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-24T19:07:20Z",
+      "side": 1,
+      "message": "s/field/option/ here and below.",
+      "range": {
+        "startLine": 3673,
+        "startChar": 37,
+        "endLine": 3673,
+        "endChar": 55
+      },
+      "revId": "36ab299aaa4d852c268466f157df7c742558b42a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "505e77fe_38e1a934",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 3679,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-24T19:07:20Z",
+      "side": 1,
+      "message": "I think \"requires\" is too strong a word here.\n\nFirst of all, I believe an empty list is returned even if no commands are provided (not 100% sure though).\n\nSecond of all, the map may not be empty if there are download commands provided by other plugins besides the core download-commands plugin.\n\nPerhaps: \"Fetch information is only provided by plugins, such as the link:...[download-commands] plugin.\"",
+      "range": {
+        "startLine": 3678,
+        "startChar": 51,
+        "endLine": 3679,
+        "endChar": 73
+      },
+      "revId": "36ab299aaa4d852c268466f157df7c742558b42a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "10787f6e_36e1b834",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 3686,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-24T19:07:20Z",
+      "side": 1,
+      "message": "Separate links.",
+      "range": {
+        "startLine": 3686,
+        "startChar": 20,
+        "endLine": 3686,
+        "endChar": 46
+      },
+      "revId": "36ab299aaa4d852c268466f157df7c742558b42a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

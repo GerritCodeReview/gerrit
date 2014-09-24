@@ -21,13 +21,18 @@ import static java.util.concurrent.TimeUnit.MINUTES;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+import static org.junit.Assume.assumeFalse;
+import static org.junit.Assume.assumeTrue;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 import com.google.common.hash.Hashing;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.extensions.api.GerritApi;
+import com.google.gerrit.extensions.api.changes.HashtagsInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.projects.ProjectInput;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -48,12 +53,14 @@ import com.google.gerrit.server.change.ChangeJson.ChangeInfo;
 import com.google.gerrit.server.change.ChangesCollection;
 import com.google.gerrit.server.change.PostReview;
 import com.google.gerrit.server.change.RevisionResource;
+import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.project.CreateProject;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.schema.SchemaCreator;
 import com.google.gerrit.server.util.RequestContext;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;
 import com.google.gerrit.server.util.TimeUtil;
+import com.google.gerrit.testutil.ConfigSuite;
 import com.google.gerrit.testutil.InMemoryDatabase;
 import com.google.gerrit.testutil.InMemoryRepositoryManager;
 import com.google.inject.Inject;
@@ -63,6 +70,7 @@ import com.google.inject.util.Providers;
 
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeUtils;
@@ -71,21 +79,31 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 
 @Ignore
+@RunWith(ConfigSuite.class)
 public abstract class AbstractQueryChangesTest {
   private static final TopLevelResource TLR = TopLevelResource.INSTANCE;
 
+  @ConfigSuite.Config
+  public static Config noteDbEnabled() {
+    return NotesMigration.allEnabledConfig();
+  }
+
+  @ConfigSuite.Parameter public Config config;
   @Inject protected AccountManager accountManager;
   @Inject protected ChangeInserter.Factory changeFactory;
   @Inject protected ChangesCollection changes;
   @Inject protected CreateProject.Factory projectFactory;
+  @Inject protected GerritApi gApi;
   @Inject protected IdentifiedUser.RequestFactory userFactory;
   @Inject protected InMemoryDatabase schemaFactory;
   @Inject protected InMemoryRepositoryManager repoManager;
+  @Inject protected NotesMigration notesMigration;
   @Inject protected PostReview postReview;
   @Inject protected ProjectControl.GenericFactory projectControlFactory;
   @Inject protected Provider<QueryChanges> queryProvider;
@@ -894,6 +912,46 @@ public abstract class AbstractQueryChangesTest {
       assertResultEquals(change2, queryOne(str + ":<3"));
       assertResultEquals(change2, queryOne(str + ":<=2"));
     }
+  }
+
+  private List<Change> setUpHashtagChanges() throws Exception {
+    TestRepository<InMemoryRepository> repo = createProject("repo");
+    Change change1 = newChange(repo, null, null, null, null).insert();
+    Change change2 = newChange(repo, null, null, null, null).insert();
+
+    HashtagsInput in = new HashtagsInput();
+    in.add = ImmutableSet.of("foo");
+    gApi.changes().id(change1.getId().get()).setHashtags(in);
+
+    in.add = ImmutableSet.of("foo", "bar", "a tag");
+    gApi.changes().id(change2.getId().get()).setHashtags(in);
+
+    return ImmutableList.of(change1, change2);
+  }
+
+  @Test
+  public void byHashtagWithNotedb() throws Exception {
+    assumeTrue("notedb disabled", notesMigration.enabled());
+    List<Change> changes = setUpHashtagChanges();
+    List<ChangeInfo> results = query("hashtag:foo");
+    assertEquals(2, results.size());
+    assertResultEquals(changes.get(1), results.get(0));
+    assertResultEquals(changes.get(0), results.get(1));
+    assertResultEquals(changes.get(1), queryOne("hashtag:bar"));
+    assertTrue(query("hashtag:\" bar \"").isEmpty());
+    assertResultEquals(changes.get(1), queryOne("hashtag:\"a tag\""));
+    assertTrue(query("hashtag:\" a tag \"").isEmpty());
+  }
+
+  @Test
+  public void byHashtagWithoutNotedb() throws Exception {
+    assumeFalse("notedb enabled", notesMigration.enabled());
+    setUpHashtagChanges();
+    assertTrue(query("hashtag:foo").isEmpty());
+    assertTrue(query("hashtag:bar").isEmpty());
+    assertTrue(query("hashtag:\" bar \"").isEmpty());
+    assertTrue(query("hashtag:\"a tag\"").isEmpty());
+    assertTrue(query("hashtag:\" a tag \"").isEmpty());
   }
 
   @Test

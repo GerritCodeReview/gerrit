@@ -22,13 +22,16 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Test;
 
 public class LuceneQueryChangesTest extends AbstractQueryChangesTest {
   protected Injector createInjector() {
-    return Guice.createInjector(new InMemoryModule());
+    Config luceneConfig = new Config(config);
+    InMemoryModule.setDefaults(luceneConfig);
+    return Guice.createInjector(new InMemoryModule(luceneConfig));
   }
 
   @Test

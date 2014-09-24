@@ -81,6 +81,11 @@ import java.net.SocketAddress;
 public class InMemoryModule extends FactoryModule {
   public static Config newDefaultConfig() {
     Config cfg = new Config();
+    setDefaults(cfg);
+    return cfg;
+  }
+
+  public static void setDefaults(Config cfg) {
     cfg.setEnum("auth", null, "type", AuthType.DEVELOPMENT_BECOME_ANY_ACCOUNT);
     cfg.setString("gerrit", null, "basePath", "git");
     cfg.setString("gerrit", null, "allProjects", "Test-Projects");
@@ -92,7 +97,6 @@ public class InMemoryModule extends FactoryModule {
     cfg.setBoolean("index", "lucene", "testInmemory", true);
     cfg.setInt("index", "lucene", "testVersion",
         ChangeSchemas.getLatest().getVersion());
-    return cfg;
   }
 
   private final Config cfg;

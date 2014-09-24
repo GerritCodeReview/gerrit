@@ -70,6 +70,24 @@
       "revId": "2423de442f18998a68a12ffeab4e888e68ad794e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f09dabd4_ed44a564",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectInfoScreen.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 587,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-24T14:44:19Z",
+      "side": 1,
+      "message": "Actually, looking a bit closer at the buttons on the change screen, the Codenvy button IS different.  However the difference is not as obvious as it was when viewing on Ubuntu.",
+      "parentUuid": "f09dabd4_8d26c1d6",
+      "revId": "2423de442f18998a68a12ffeab4e888e68ad794e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "90646fc9_3a3c41d8",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/util/MostSpecificComparatorTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1017359
+      },
+      "writtenOn": "2014-09-24T13:18:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "90646fc9_ba4f717e",
+      "revId": "2e9c65be78a4ef4bebf3aabd8354d82879fc0f67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "90646fc9_7a1dd97d",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/util/MostSpecificComparatorTest.java",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2014-09-24T13:04:19Z",
       "side": 1,
       "message": "They have both the same distance and are both infinite. The first one is more specific because it has a higher number of transitions. Therefore, this case belongs to the higherNumberOfTransitionsWins.",
+      "revId": "2e9c65be78a4ef4bebf3aabd8354d82879fc0f67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b095f3be_bb4f677e",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/util/MostSpecificComparatorTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1017359
+      },
+      "writtenOn": "2014-09-24T13:18:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "90646fc9_7a1dd97d",
       "revId": "2e9c65be78a4ef4bebf3aabd8354d82879fc0f67",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "90646fc9_5a39f5e6",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/util/MostSpecificComparatorTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1017359
+      },
+      "writtenOn": "2014-09-24T13:18:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "90646fc9_1a3f7dcf",
+      "revId": "2e9c65be78a4ef4bebf3aabd8354d82879fc0f67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "90646fc9_da442565",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/util/MostSpecificComparatorTest.java",
         "patchSetId": 4
@@ -64,6 +118,24 @@
       "writtenOn": "2014-09-24T13:04:19Z",
       "side": 1,
       "message": "this one also belongs to the higherNumberOfTransitionsWins as they have the same distance and are both infinite.",
+      "revId": "2e9c65be78a4ef4bebf3aabd8354d82879fc0f67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b095f3be_db443365",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/util/MostSpecificComparatorTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1017359
+      },
+      "writtenOn": "2014-09-24T13:18:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "90646fc9_da442565",
       "revId": "2e9c65be78a4ef4bebf3aabd8354d82879fc0f67",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

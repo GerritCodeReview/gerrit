@@ -22,6 +22,30 @@
       "revId": "e958c0750a76fa8f834e558d6b22c7bd2d7a3f9e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "10a15f0c_4e1df37d",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-24T13:19:09Z",
+      "side": 1,
+      "message": "This currently can\u0027t be used because is() is in org.hamcrest.Matchers which is not included in the dependencies.  I\u0027d rather not add another dependency for this; perhaps better if we can find a few other places where it would be useful and add it in a separate change.\n\nI can\u0027t find where true() is defined.\n\nWe used assumeNoException in the gwtorm code.",
+      "parentUuid": "90646fc9_5a2015b7",
+      "range": {
+        "startLine": 213,
+        "startChar": 4,
+        "endLine": 216,
+        "endChar": 5
+      },
+      "revId": "e958c0750a76fa8f834e558d6b22c7bd2d7a3f9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

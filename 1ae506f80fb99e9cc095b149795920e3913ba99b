@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "10a15f0c_8efd1bd3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/HashtagPredicate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-24T01:33:07Z",
+      "side": 1,
+      "message": "Change this to `while` so we remove all leading `#`?",
+      "range": {
+        "startLine": 27,
+        "startChar": 4,
+        "endLine": 27,
+        "endChar": 6
+      },
+      "revId": "1ae506f80fb99e9cc095b149795920e3913ba99b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

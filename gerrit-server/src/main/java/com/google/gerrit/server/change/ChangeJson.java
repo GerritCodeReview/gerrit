@@ -798,6 +798,8 @@ public class ChangeJson {
   private RevisionInfo toRevisionInfo(ChangeControl ctl, ChangeData cd,
       PatchSet in, String project) throws OrmException {
     RevisionInfo out = new RevisionInfo();
+    RevisionResource revisionRsrc =
+        new RevisionResource(new ChangeResource(ctl), in);
     out.isCurrent = in.getId().equals(cd.change().currentPatchSetId());
     out._number = in.getId().get();
     out.draft = in.isDraft() ? true : null;
@@ -826,7 +828,7 @@ public class ChangeJson {
       out.actions = Maps.newTreeMap();
       for (UiAction.Description d : UiActions.from(
           revisions,
-          new RevisionResource(new ChangeResource(ctl), in),
+          revisionRsrc,
           userProvider)) {
         out.actions.put(d.getId(), new ActionInfo(d));
       }
@@ -843,8 +845,7 @@ public class ChangeJson {
     }
 
     if (has(WEB_LINKS)) {
-      List<WebLinkInfo> links =
-          webLinks.getPatchSetLinks(project, in.getRevision().get());
+      List<WebLinkInfo> links = webLinks.getPatchSetLinks(revisionRsrc);
       out.webLinks = !links.isEmpty() ? links : null;
     }
     return out;

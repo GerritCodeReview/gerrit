@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b095f3be_1be4db43",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-09-24T07:02:17Z",
+      "side": 1,
+      "message": "also I am cooking another commit to protect it from removing from UI",
+      "revId": "5360b9c95600a6e5603e42b26cbbdfdc8397891c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

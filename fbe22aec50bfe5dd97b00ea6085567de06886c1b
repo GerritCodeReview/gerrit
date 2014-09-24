@@ -118,6 +118,30 @@
       "revId": "fbe22aec50bfe5dd97b00ea6085567de06886c1b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f09dabd4_0d3c91d7",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-24T19:34:27Z",
+      "side": 1,
+      "message": "David Pursehouse is correct.",
+      "parentUuid": "90646fc9_bafdb1d2",
+      "range": {
+        "startLine": 41,
+        "startChar": 2,
+        "endLine": 44,
+        "endChar": 3
+      },
+      "revId": "fbe22aec50bfe5dd97b00ea6085567de06886c1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

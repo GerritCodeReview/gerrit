@@ -46,6 +46,30 @@
       "revId": "fbe22aec50bfe5dd97b00ea6085567de06886c1b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b095f3be_9bf8ebe3",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-09-24T07:51:53Z",
+      "side": 1,
+      "message": "I\u0027m afraid i did that :-) \nSo the @Config.Parameter produces a default config magically?",
+      "parentUuid": "b095f3be_5bee6323",
+      "range": {
+        "startLine": 41,
+        "startChar": 2,
+        "endLine": 44,
+        "endChar": 3
+      },
+      "revId": "fbe22aec50bfe5dd97b00ea6085567de06886c1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

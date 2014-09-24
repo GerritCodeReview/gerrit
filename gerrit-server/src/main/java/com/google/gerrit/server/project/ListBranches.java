@@ -158,9 +158,11 @@ public class ListBranches implements RestReadView<ProjectResource> {
     BranchInfo info = new BranchInfo(ref.getName(),
         ref.getObjectId() != null ? ref.getObjectId().name() : null,
         !targets.contains(ref.getName()) && refControl.canDelete());
+    BranchResource branchRsrc =
+        new BranchResource(refControl.getProjectControl(), info);
     for (UiAction.Description d : UiActions.from(
         branchViews,
-        new BranchResource(refControl.getProjectControl(), info),
+        branchRsrc,
         Providers.of(refControl.getCurrentUser()))) {
       if (info.actions == null) {
         info.actions = new TreeMap<>();
@@ -168,8 +170,7 @@ public class ListBranches implements RestReadView<ProjectResource> {
       info.actions.put(d.getId(), new ActionInfo(d));
     }
     info.webLinks = Lists.newArrayList();
-    for (WebLinkInfo link : webLinks.getBranchLinks(
-        refControl.getProjectControl().getProject().getName(), ref.getName())) {
+    for (WebLinkInfo link : webLinks.getBranchLinks(branchRsrc)) {
       if (!Strings.isNullOrEmpty(link.name) && !Strings.isNullOrEmpty(link.url)) {
         info.webLinks.add(link);
       }

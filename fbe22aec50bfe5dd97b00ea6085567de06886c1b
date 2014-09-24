@@ -22,6 +22,30 @@
       "revId": "fbe22aec50bfe5dd97b00ea6085567de06886c1b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b095f3be_5bee6323",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-24T07:38:48Z",
+      "side": 1,
+      "message": "See the javadoc in this class gerrit-server/src/test/java/com/google/gerrit/testutil/ConfigSuite.java:\n\n  /**\n  * Suite to run tests with different {@code gerrit.config} values.\n  * \u003cp\u003e\n  * For each {@link Config} method in the class and base classes, a new group of\n  * tests is created with the {@link Parameter} field set to the config.\n  *\n  * \u003cpre\u003e\n  * {@literal @}RunWith(ConfigSuite.class)\n  * public abstract class MyAbstractTest {\n  *   {@literal @}ConfigSuite.Parameter\n  *   protected Config cfg;\n  *\n  *   {@literal @}ConfigSuite.Config\n  *   public static Config firstConfig() {\n  *     Config cfg \u003d new Config();\n  *     cfg.setString(\"gerrit\", null, \"testValue\", \"a\");\n  *   }\n  * }\n  *\n  * public class MyTest extends MyAbstractTest {\n  *   {@literal @}ConfigSuite.Config\n  *   public static Config secondConfig() {\n  *     Config cfg \u003d new Config();\n  *     cfg.setString(\"gerrit\", null, \"testValue\", \"b\");\n  *   }\n  *\n  *   {@literal @}Test\n  *   public void myTest() {\n  *     // Test using cfg.\n  *   }\n  * }\n  * \u003c/pre\u003e\n  *\n  * This creates a suite of tests with three groups:\n  * \u003cul\u003e\n  *   \u003cli\u003e\u003cstrong\u003edefault\u003c/strong\u003e: {@code MyTest.myTest}\u003c/li\u003e\n  *   \u003cli\u003e\u003cstrong\u003efirstConfig\u003c/strong\u003e: {@code MyTest.myTest[firstConfig]}\u003c/li\u003e\n  *   \u003cli\u003e\u003cstrong\u003esecondConfig\u003c/strong\u003e: {@code MyTest.myTest[secondConfig]}\u003c/li\u003e\n  * \u003c/ul\u003e\n  *\n  * Additionally, config values used by \u003cstrong\u003edefault\u003c/strong\u003e can be set\n  * in a method annotated with {@code @ConfigSuite.Default}.\n  */",
+      "parentUuid": "b095f3be_dbd99391",
+      "range": {
+        "startLine": 41,
+        "startChar": 2,
+        "endLine": 44,
+        "endChar": 3
+      },
+      "revId": "fbe22aec50bfe5dd97b00ea6085567de06886c1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

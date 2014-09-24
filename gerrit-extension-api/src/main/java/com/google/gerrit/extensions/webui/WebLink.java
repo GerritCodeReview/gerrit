@@ -21,25 +21,4 @@ public interface WebLink {
     public final static String PARENT = "_parent";
     public final static String TOP = "_top";
   }
-  /**
-   * The link-name displayed in UI.
-   *
-   * @return name of link or title of the link if image URL is available.
-   */
-  String getLinkName();
-
-  /**
-   * URL of image to be displayed
-   *
-   * @return URL to image for link or null for using a text-only link.
-   * Recommended image size is 16x16.
-   */
-  String getImageUrl();
-
-  /**
-   * Target window in which the link should be opened (e.g. "_blank", "_self".).
-   *
-   * @return link target, if null the link is opened in the current window
-   */
-  String getTarget();
 }

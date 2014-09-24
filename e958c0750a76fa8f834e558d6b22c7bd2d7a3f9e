@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "90646fc9_5a2015b7",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-24T12:48:25Z",
+      "side": 1,
+      "message": "JUnit way to skip some test methods from the unit tests (compared to ignore all tests. in which case it Assume is used in @Before method, ins which case all test methods are skipped) is to use Assume in that method (that we introduced last year in GWTORM):\n\n  assumeThat(notesMigration.enabled(), is(true()));\n  // normal test code follow\n\nWhen the assumption is met, the tests is executed otherwise the test is skipped. The only question is: does Buck support it?",
+      "range": {
+        "startLine": 213,
+        "startChar": 4,
+        "endLine": 216,
+        "endChar": 5
+      },
+      "revId": "e958c0750a76fa8f834e558d6b22c7bd2d7a3f9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

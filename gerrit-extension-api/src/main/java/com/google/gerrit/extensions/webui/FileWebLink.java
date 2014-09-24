@@ -15,6 +15,7 @@
 package com.google.gerrit.extensions.webui;
 
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
+import com.google.gerrit.extensions.common.WebLinkInfo;
 
 @ExtensionPoint
 public interface FileWebLink extends WebLink {
@@ -25,7 +26,7 @@ public interface FileWebLink extends WebLink {
    * @param projectName Name of the project
    * @param revision Name of the revision (e.g. branch or commit ID)
    * @param fileName Name of the file
-   * @return url to project in external service.
+   * @return WebLinkInfo that links to project in external service.
    */
-  String getFileUrl(String projectName, String revision, String fileName);
+  WebLinkInfo getFileWebLink(String projectName, String revision, String fileName);
 }

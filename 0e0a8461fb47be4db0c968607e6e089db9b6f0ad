@@ -46,6 +46,30 @@
       "revId": "0e0a8461fb47be4db0c968607e6e089db9b6f0ad",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90646fc9_7aeb1912",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/WebLinks.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-09-24T08:59:02Z",
+      "side": 1,
+      "message": "Like so [1] cookbook-plugin that works with this [2]\n\nhttps://gerrit-review.googlesource.com/#/c/60322/\nhttps://gerrit-review.googlesource.com/#/c/60321/",
+      "parentUuid": "b095f3be_fbf72fee",
+      "range": {
+        "startLine": 47,
+        "startChar": 6,
+        "endLine": 49,
+        "endChar": 28
+      },
+      "revId": "0e0a8461fb47be4db0c968607e6e089db9b6f0ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

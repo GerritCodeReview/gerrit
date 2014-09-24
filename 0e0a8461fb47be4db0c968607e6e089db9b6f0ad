@@ -22,6 +22,30 @@
       "revId": "0e0a8461fb47be4db0c968607e6e089db9b6f0ad",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b095f3be_fbf72fee",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/WebLinks.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-09-24T07:51:25Z",
+      "side": 1,
+      "message": "Yes, that\u0027s much better, but that\u0027s not backwards compatible.\nIMO it \"could\" use these values.\nAnd as it was the order in wich they where evaluated was arbitrary and this could just as well have worked if the Url method was called first.\n\nI\u0027m thinking about rewriting the whole weblink support to make it evident that you can manipulate these values with the states that can be used to manipulate the Url:\n\n* Remove the Weblink base interface (Or leave it empty and keep it as a marker)\n* Let all the @ExtensionPoints [1] return a WebLinkInfo instead of a separate method for each value.\n\nMaybe I should start a discussion at repo-discuss.\n\n[1] PatchSetWebLink, FileWebLink, BranchWebLink, ProjectWeblink",
+      "parentUuid": "10a15f0c_2e0d075c",
+      "range": {
+        "startLine": 47,
+        "startChar": 6,
+        "endLine": 49,
+        "endChar": 28
+      },
+      "revId": "0e0a8461fb47be4db0c968607e6e089db9b6f0ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

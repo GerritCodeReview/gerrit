@@ -1761,24 +1761,28 @@ public class MyWeblinkPlugin implements PatchSetWebLink {
   private String placeHolderUrlProjectCommit = "http://my.tool.com/project=%s/commit=%s";
   private String imageUrl = "http://placehold.it/16x16.gif";
 
-  @Override
-  public String getLinkName() {
+  private String getLinkName() {
     return name;
   }
 
-  @Override
-  public String getPatchSetUrl(String project, String commit) {
+  private String getPatchSetUrl(String project, String commit) {
     return String.format(placeHolderUrlProjectCommit, project, commit);
   }
 
-  @Override
-  public String getImageUrl() {
+  private String getImageUrl() {
     return imageUrl;
   }
 
-  @Override
-  public String getTarget() {
+  private String getTarget() {
     return "_blank";
+  }
+
+  @Override
+  public WebLinkInfo getPathSetWebLink(String projectName, String commit) {
+    return new WebLinkInfo(getLinkName(),
+        getImageUrl(),
+        getPatchSetUrl(projectName, commit),
+        getTarget());
   }
 }
 ----

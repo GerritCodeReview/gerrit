@@ -25,9 +25,11 @@ import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.extensions.api.changes.HashtagsInput;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.auth.AuthException;
+import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
@@ -39,7 +41,9 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -70,6 +74,7 @@ public class HashtagsUtil {
 
   private final ChangeUpdate.Factory updateFactory;
   private final Provider<ReviewDb> dbProvider;
+  private final GitRepositoryManager gitManager;
   private final ChangeIndexer indexer;
   private final ChangeHooks hooks;
   private final DynamicSet<HashtagValidationListener> hashtagValidationListeners;
@@ -77,10 +82,12 @@ public class HashtagsUtil {
   @Inject
   HashtagsUtil(ChangeUpdate.Factory updateFactory,
       Provider<ReviewDb> dbProvider, ChangeIndexer indexer,
+      GitRepositoryManager gitManager,
       ChangeHooks hooks,
       DynamicSet<HashtagValidationListener> hashtagValidationListeners) {
     this.updateFactory = updateFactory;
     this.dbProvider = dbProvider;
+    this.gitManager = gitManager;
     this.indexer = indexer;
     this.hooks = hooks;
     this.hashtagValidationListeners = hashtagValidationListeners;
@@ -176,5 +183,17 @@ public class HashtagsUtil {
       }
     }
     return new TreeSet<String>(updatedHashtags);
+  }
+
+  public Set<String> getHashtagsInCurrentPSCommitMessage(Change change)
+      throws OrmException, IOException {
+    PatchSet.Id patchSetId =
+        new PatchSet.Id(change.getId(), change.currentPatchSetId().get());
+    ObjectId objectId =
+        ObjectId.fromString(dbProvider.get().patchSets().get(patchSetId)
+            .getRevision().get());
+
+    RevWalk rw = new RevWalk(gitManager.openRepository(change.getProject()));
+    return parseCommitMessageHashtags(rw.parseCommit(objectId));
   }
 }

@@ -15,6 +15,7 @@
 package com.google.gerrit.server.notedb;
 
 import com.google.gerrit.extensions.registration.DynamicSet;
+import com.google.gerrit.server.change.ValidateRemovedHashtags;
 import com.google.gerrit.server.config.FactoryModule;
 import com.google.gerrit.server.validators.HashtagValidationListener;
 
@@ -24,5 +25,7 @@ public class NoteDbModule extends FactoryModule {
     factory(ChangeUpdate.Factory.class);
     factory(ChangeDraftUpdate.Factory.class);
     DynamicSet.setOf(binder(), HashtagValidationListener.class);
+    DynamicSet.bind(binder(), HashtagValidationListener.class).to(
+        ValidateRemovedHashtags.class);
   }
 }

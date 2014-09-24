@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f09dabd4_2d16ad67",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/HashtagPredicate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-24T12:48:10Z",
+      "side": 1,
+      "message": "Need to trim again before returning, in case the input includes a space after the leading hashes, i.e.\n\n \"## tag\"",
+      "revId": "82ee10fa0fc85b92aa30d4ee89243ac65e45d3f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

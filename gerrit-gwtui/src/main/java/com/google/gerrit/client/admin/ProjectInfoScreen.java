@@ -103,6 +103,7 @@ public class ProjectInfoScreen extends ProjectScreen {
 
     Resources.I.style().ensureInjected();
     saveProject = new Button(Util.C.buttonSaveChanges());
+    saveProject.setStyleName("");
     saveProject.addClickHandler(new ClickHandler() {
       @Override
       public void onClick(ClickEvent event) {

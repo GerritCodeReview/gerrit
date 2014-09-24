@@ -46,6 +46,30 @@
       "revId": "673391ae420f8f13e9769f5170b791f61c88341d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f09dabd4_4d04d935",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-24T12:35:53Z",
+      "side": 1,
+      "message": "\u003e you would need to skip theses tests programmatically, by retrieve NotesMigration values\n\nDone.",
+      "parentUuid": "706ffb76_09f0e96b",
+      "range": {
+        "startLine": 44,
+        "startChar": 2,
+        "endLine": 47,
+        "endChar": 3
+      },
+      "revId": "673391ae420f8f13e9769f5170b791f61c88341d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

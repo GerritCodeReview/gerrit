@@ -70,6 +70,30 @@
       "revId": "fbe22aec50bfe5dd97b00ea6085567de06886c1b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "10a15f0c_6e070f3c",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-24T07:54:17Z",
+      "side": 1,
+      "message": "As far as I understand, the default config is always there, and this annotation is adding an additional config with note db enabled.",
+      "parentUuid": "b095f3be_9bf8ebe3",
+      "range": {
+        "startLine": 41,
+        "startChar": 2,
+        "endLine": 44,
+        "endChar": 3
+      },
+      "revId": "fbe22aec50bfe5dd97b00ea6085567de06886c1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

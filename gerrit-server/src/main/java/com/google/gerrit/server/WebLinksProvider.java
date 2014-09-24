@@ -15,25 +15,26 @@
 package com.google.gerrit.server;
 
 import com.google.gerrit.extensions.registration.DynamicSet;
-import com.google.gerrit.extensions.webui.BranchWebLink;
-import com.google.gerrit.extensions.webui.PatchSetWebLink;
-import com.google.gerrit.extensions.webui.FileWebLink;
-import com.google.gerrit.extensions.webui.ProjectWebLink;
+import com.google.gerrit.extensions.webui.WebLink;
+import com.google.gerrit.server.change.FileResource;
+import com.google.gerrit.server.change.RevisionResource;
+import com.google.gerrit.server.project.BranchResource;
+import com.google.gerrit.server.project.ProjectResource;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
 public class WebLinksProvider implements Provider<WebLinks> {
 
-  private final DynamicSet<PatchSetWebLink> patchSetLinks;
-  private final DynamicSet<FileWebLink> fileLinks;
-  private final DynamicSet<ProjectWebLink> projectLinks;
-  private final DynamicSet<BranchWebLink> branchLinks;
+  private final DynamicSet<WebLink<RevisionResource>> patchSetLinks;
+  private final DynamicSet<WebLink<FileResource>> fileLinks;
+  private final DynamicSet<WebLink<ProjectResource>> projectLinks;
+  private final DynamicSet<WebLink<BranchResource>> branchLinks;
 
   @Inject
-  public WebLinksProvider(DynamicSet<PatchSetWebLink> patchSetLinks,
-      DynamicSet<FileWebLink> fileLinks,
-      DynamicSet<ProjectWebLink> projectLinks,
-      DynamicSet<BranchWebLink> branchLinks) {
+  public WebLinksProvider(DynamicSet<WebLink<RevisionResource>> patchSetLinks,
+      DynamicSet<WebLink<FileResource>> fileLinks,
+      DynamicSet<WebLink<ProjectResource>> projectLinks,
+      DynamicSet<WebLink<BranchResource>> branchLinks) {
     this.patchSetLinks = patchSetLinks;
     this.fileLinks = fileLinks;
     this.projectLinks = projectLinks;

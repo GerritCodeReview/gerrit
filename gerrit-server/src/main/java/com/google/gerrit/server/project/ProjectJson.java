@@ -41,7 +41,13 @@ public class ProjectJson {
   }
 
   public ProjectInfo format(ProjectResource rsrc) {
-    return format(rsrc.getControl().getProject());
+    ProjectInfo info = format(rsrc.getControl().getProject());
+    for (WebLinkInfo link : webLinks.get().getProjectLinks(rsrc)) {
+      if (!Strings.isNullOrEmpty(link.name) && !Strings.isNullOrEmpty(link.url)) {
+        info.webLinks.add(link);
+      }
+    }
+    return info;
   }
 
   public ProjectInfo format(Project p) {
@@ -52,13 +58,7 @@ public class ProjectJson {
     info.description = Strings.emptyToNull(p.getDescription());
     info.state = p.getState();
     info.id = Url.encode(info.name);
-
     info.webLinks = Lists.newArrayList();
-    for (WebLinkInfo link : webLinks.get().getProjectLinks(p.getName())) {
-      if (!Strings.isNullOrEmpty(link.name) && !Strings.isNullOrEmpty(link.url)) {
-        info.webLinks.add(link);
-      }
-    }
 
     return info;
   }

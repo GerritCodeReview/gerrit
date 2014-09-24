@@ -99,8 +99,9 @@ public class GetDiff implements RestReadView<FileResource> {
       throws ResourceConflictException, ResourceNotFoundException,
       OrmException, AuthException, InvalidChangeOperationException, IOException {
     PatchSet basePatchSet = null;
+    RevisionResource baseResource = null;
     if (base != null) {
-      RevisionResource baseResource = revisions.parse(
+      baseResource = revisions.parse(
           resource.getRevision().getChangeResource(), IdString.fromDecoded(base));
       basePatchSet = baseResource.getPatchSet();
     }
@@ -162,8 +163,10 @@ public class GetDiff implements RestReadView<FileResource> {
         String rev = basePatchSet != null
             ? basePatchSet.getRefName()
             : resource.getRevision().getPatchSet().getRefName() + "^1";
-        result.webLinksA =
-            getFileWebLinks(state.getProject(), rev, result.metaA.name);
+        if (baseResource != null) {
+          result.webLinksA =
+              getFileWebLinks(new FileResource(baseResource, result.metaA.name));
+        }
       }
 
       if (ps.getDisplayMethodB() != DisplayMethod.NONE) {
@@ -171,9 +174,7 @@ public class GetDiff implements RestReadView<FileResource> {
         result.metaB.name = ps.getNewName();
         setContentType(result.metaB, state, ps.getFileModeB(), ps.getMimeTypeB());
         result.metaB.lines = ps.getB().size();
-        result.webLinksB = getFileWebLinks(state.getProject(),
-            resource.getRevision().getPatchSet().getRefName(),
-            result.metaB.name);
+        result.webLinksB = getFileWebLinks(new FileResource(resource.getRevision(),result.metaB.name));
       }
 
       if (intraline) {
@@ -203,11 +204,9 @@ public class GetDiff implements RestReadView<FileResource> {
     }
   }
 
-  private List<WebLinkInfo> getFileWebLinks(Project project, String rev,
-      String file) {
+  private List<WebLinkInfo> getFileWebLinks(FileResource resource) {
     List<WebLinkInfo> fileWebLinks = new ArrayList<>();
-    for (WebLinkInfo link : webLinks.get().getFileLinks(project.getName(),
-        rev, file)) {
+    for (WebLinkInfo link : webLinks.get().getFileLinks(resource)) {
       if (!Strings.isNullOrEmpty(link.name) && !Strings.isNullOrEmpty(link.url)) {
         fileWebLinks.add(link);
       }

@@ -26,6 +26,8 @@ java_library(
     '//lib:junit',
     '//lib:servlet-api-3_1',
 
+    '//lib/hamcrest:hamcrest-core',
+    '//lib/hamcrest:hamcrest-library',
     '//lib/httpcomponents:httpclient',
     '//lib/httpcomponents:httpcore',
     '//lib/log:impl_log4j',

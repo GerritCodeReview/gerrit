@@ -17,10 +17,11 @@ package com.google.gerrit.server;
 import com.google.common.collect.Lists;
 import com.google.gerrit.extensions.common.WebLinkInfo;
 import com.google.gerrit.extensions.registration.DynamicSet;
-import com.google.gerrit.extensions.webui.BranchWebLink;
-import com.google.gerrit.extensions.webui.FileWebLink;
-import com.google.gerrit.extensions.webui.PatchSetWebLink;
-import com.google.gerrit.extensions.webui.ProjectWebLink;
+import com.google.gerrit.extensions.webui.WebLink;
+import com.google.gerrit.server.change.FileResource;
+import com.google.gerrit.server.change.RevisionResource;
+import com.google.gerrit.server.project.BranchResource;
+import com.google.gerrit.server.project.ProjectResource;
 
 import java.util.List;
 
@@ -28,63 +29,51 @@ import javax.inject.Inject;
 
 public class WebLinks {
 
-  private final DynamicSet<PatchSetWebLink> patchSetLinks;
-  private final DynamicSet<FileWebLink> fileLinks;
-  private final DynamicSet<ProjectWebLink> projectLinks;
-  private final DynamicSet<BranchWebLink> branchLinks;
+  private final DynamicSet<WebLink<RevisionResource>> patchSetLinks;
+  private final DynamicSet<WebLink<FileResource>> fileLinks;
+  private final DynamicSet<WebLink<ProjectResource>> projectLinks;
+  private final DynamicSet<WebLink<BranchResource>> branchLinks;
 
   @Inject
-  public WebLinks(DynamicSet<PatchSetWebLink> patchSetLinks,
-      DynamicSet<FileWebLink> fileLinks,
-      DynamicSet<ProjectWebLink> projectLinks,
-      DynamicSet<BranchWebLink> branchLinks) {
+  public WebLinks(DynamicSet<WebLink<RevisionResource>> patchSetLinks,
+      DynamicSet<WebLink<FileResource>> fileLinks,
+      DynamicSet<WebLink<ProjectResource>> projectLinks,
+      DynamicSet<WebLink<BranchResource>> branchLinks) {
     this.patchSetLinks = patchSetLinks;
     this.fileLinks = fileLinks;
     this.projectLinks = projectLinks;
     this.branchLinks = branchLinks;
   }
 
-  public Iterable<WebLinkInfo> getPatchSetLinks(String project, String commit) {
+
+  public Iterable<WebLinkInfo> getPatchSetLinks(RevisionResource resource) {
     List<WebLinkInfo> links = Lists.newArrayList();
-    for (PatchSetWebLink webLink : patchSetLinks) {
-      links.add(new WebLinkInfo(webLink.getLinkName(),
-          webLink.getImageUrl(),
-          webLink.getPatchSetUrl(project, commit),
-          webLink.getTarget()));
+    for (WebLink<RevisionResource> webLink : patchSetLinks) {
+      links.add(webLink.getWebLinkInfoFor(resource));
     }
     return links;
   }
 
-  public Iterable<WebLinkInfo> getFileLinks(String project, String revision,
-      String file) {
+  public Iterable<WebLinkInfo> getFileLinks(FileResource resource) {
     List<WebLinkInfo> links = Lists.newArrayList();
-    for (FileWebLink webLink : fileLinks) {
-      links.add(new WebLinkInfo(webLink.getLinkName(),
-          webLink.getImageUrl(),
-          webLink.getFileUrl(project, revision, file),
-          webLink.getTarget()));
+    for (WebLink<FileResource> webLink : fileLinks) {
+      links.add(webLink.getWebLinkInfoFor(resource));
     }
     return links;
   }
 
-  public Iterable<WebLinkInfo> getProjectLinks(String project) {
+  public Iterable<WebLinkInfo> getProjectLinks(ProjectResource resource) {
     List<WebLinkInfo> links = Lists.newArrayList();
-    for (ProjectWebLink webLink : projectLinks) {
-      links.add(new WebLinkInfo(webLink.getLinkName(),
-          webLink.getImageUrl(),
-          webLink.getProjectUrl(project),
-          webLink.getTarget()));
+    for (WebLink<ProjectResource> webLink : projectLinks) {
+      links.add(webLink.getWebLinkInfoFor(resource));
     }
     return links;
   }
 
-  public Iterable<WebLinkInfo> getBranchLinks(String project, String branch) {
+  public Iterable<WebLinkInfo> getBranchLinks(BranchResource resource) {
     List<WebLinkInfo> links = Lists.newArrayList();
-    for (BranchWebLink webLink : branchLinks) {
-      links.add(new WebLinkInfo(webLink.getLinkName(),
-          webLink.getImageUrl(),
-          webLink.getBranchUrl(project, branch),
-          webLink.getTarget()));
+    for (WebLink<BranchResource> webLink : branchLinks) {
+      links.add(webLink.getWebLinkInfoFor(resource));
     }
     return links;
   }

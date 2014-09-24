@@ -15,16 +15,17 @@
 package com.google.gerrit.extensions.webui;
 
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
+import com.google.gerrit.extensions.common.WebLinkInfo;
 
 @ExtensionPoint
-public interface BranchWebLink extends WebLink {
+public interface BranchWebLink {
 
   /**
    * URL to branch in external service.
    *
    * @param projectName Name of the project
    * @param branchName Name of the branch
-   * @return url to branch in external service.
+   * @return WebLinkInfo that links to branch in external service.
    */
-  String getBranchUrl(String projectName, String branchName);
+  WebLinkInfo getBranchWebLink(String projectName, String branchName);
 }

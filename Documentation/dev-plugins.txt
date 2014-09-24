@@ -1753,6 +1753,7 @@ PatchSetWebLinks will appear to the right of the commit-SHA1 in the UI.
 ----
 import com.google.gerrit.extensions.annotations.Listen;
 import com.google.gerrit.extensions.webui.PatchSetWebLink;;
+import com.google.gerrit.extensions.webui.WebLinkTarget;
 
 @Listen
 public class MyWeblinkPlugin implements PatchSetWebLink {
@@ -1762,23 +1763,11 @@ public class MyWeblinkPlugin implements PatchSetWebLink {
   private String imageUrl = "http://placehold.it/16x16.gif";
 
   @Override
-  public String getLinkName() {
-    return name;
-  }
-
-  @Override
-  public String getPatchSetUrl(String project, String commit) {
-    return String.format(placeHolderUrlProjectCommit, project, commit);
-  }
-
-  @Override
-  public String getImageUrl() {
-    return imageUrl;
-  }
-
-  @Override
-  public String getTarget() {
-    return "_blank";
+  public WebLinkInfo getPathSetWebLink(String projectName, String commit) {
+    return new WebLinkInfo(name,
+        imageUrl,
+        String.format(placeHolderUrlProjectCommit, project, commit),
+        WebLinkTarget.BLANK);
   }
 }
 ----

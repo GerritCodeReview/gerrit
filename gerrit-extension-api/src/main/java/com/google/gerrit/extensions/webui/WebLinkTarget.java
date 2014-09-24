@@ -11,22 +11,26 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-
 package com.google.gerrit.extensions.webui;
 
-import com.google.gerrit.extensions.annotations.ExtensionPoint;
-import com.google.gerrit.extensions.common.WebLinkInfo;
-
-@ExtensionPoint
-public interface FileWebLink {
-
+/**
+ * Class that holds target defaults for WebLink anchors.
+ */
+public class WebLinkTarget {
   /**
-   * URL to file in external service.
-   *
-   * @param projectName Name of the project
-   * @param revision Name of the revision (e.g. branch or commit ID)
-   * @param fileName Name of the file
-   * @return WebLinkInfo that links to project in external service.
+   * Opens the link in a new window or tab
    */
-  WebLinkInfo getFileWebLink(String projectName, String revision, String fileName);
+  public final static String BLANK = "_blank";
+  /**
+   * Opens the link in the frame it was clicked.
+   */
+  public final static String SELF = "_self";
+  /**
+   * Opens link in parent frame.
+   */
+  public final static String PARENT = "_parent";
+  /**
+   * Opens link in the full body of the window.
+   */
+  public final static String TOP = "_top";
 }

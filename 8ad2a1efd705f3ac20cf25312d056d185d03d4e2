@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "90646fc9_3aa0c1bf",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-24T21:01:30Z",
+      "side": 1,
+      "message": "This REST call and on line 236 below cannot work as is. That\u0027s because this class is used by both:\n\n* HttpPushForReviewIT\n* SshPushForReviewIT\n\nAnd SshPushForReviewIT is optimized by not booting Http daemon because only SSH communication is used. This is achived by this annotation:\n\n  @NoHttpd\n  public class SshPushForReviewIT extends AbstractPushForReview {\n\nThe ideal solution to this problem is of course not to use REST API at all for retrieving hastags but Plugin API. You have already introduced setHastags. What you need is a read operation.\n\nBut i think it can be done in follow-up change. For now the workaround is to remove the annotation mentioned above.",
+      "range": {
+        "startLine": 226,
+        "startChar": 4,
+        "endLine": 226,
+        "endChar": 84
+      },
+      "revId": "8ad2a1efd705f3ac20cf25312d056d185d03d4e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

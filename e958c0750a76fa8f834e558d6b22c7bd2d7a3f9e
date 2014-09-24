@@ -70,6 +70,30 @@
       "revId": "e958c0750a76fa8f834e558d6b22c7bd2d7a3f9e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f09dabd4_4d1df97d",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-24T14:31:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "90646fc9_9a738dbf",
+      "range": {
+        "startLine": 213,
+        "startChar": 4,
+        "endLine": 216,
+        "endChar": 5
+      },
+      "revId": "e958c0750a76fa8f834e558d6b22c7bd2d7a3f9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

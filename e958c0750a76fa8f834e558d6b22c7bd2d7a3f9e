@@ -46,6 +46,30 @@
       "revId": "e958c0750a76fa8f834e558d6b22c7bd2d7a3f9e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90646fc9_9a738dbf",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-24T14:23:44Z",
+      "side": 1,
+      "message": "| I\u0027d rather not add another dependency for this; ... and add it in a separate change.\n\nOK, i see you did it in follow up change. Why not to swap the change order and add hashtag test method after Assume + Hamcrest support is added to Buck? This is preferable way to go: to upload dependencies change and then do something on top of it. And not do it wrong first, upload dependency change to  be able to do it right and fix what was done wrong first on top of it.\n\n| I can\u0027t find where true() is defined.\nSorry i meant true.",
+      "parentUuid": "10a15f0c_4e1df37d",
+      "range": {
+        "startLine": 213,
+        "startChar": 4,
+        "endLine": 216,
+        "endChar": 5
+      },
+      "revId": "e958c0750a76fa8f834e558d6b22c7bd2d7a3f9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

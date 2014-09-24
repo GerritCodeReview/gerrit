@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "10a15f0c_2e0d075c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/WebLinks.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-24T07:39:51Z",
+      "side": 1,
+      "message": "If I understand correctly, the plugin is supposed to know that getImageUrl and getLinkName should use the project and commit values that were passed in a previous call to getPatchSetUrl().\n\nWould it not be better to pass project and commit explicitly into those methods?",
+      "range": {
+        "startLine": 47,
+        "startChar": 6,
+        "endLine": 49,
+        "endChar": 28
+      },
+      "revId": "0e0a8461fb47be4db0c968607e6e089db9b6f0ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

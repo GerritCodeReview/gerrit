@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "90646fc9_7a36b9f9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 19
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-24T14:15:00Z",
+      "side": 1,
+      "message": "What about secret key option, a lá --secret-key XXX or JVM system property -Dfoo\u003dbar? Given that we are on JVM we cannot hide the secret that is needed for symmetric encryption within the secure store implementation so that the only way to make it secure (without messing around with JNI module trying to hide it in native code) is to pass it from the outside to Gerrit/SecureStore-implementation. The same approach of passing secret key is needed, when gerrit daemon is started. For example one way to do it is to save secure store secret so that only root can read it and pass during gerrit start in init process.",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 5
+      },
+      "revId": "49cf189a60de441eae9fc8472c7afec5b3a74c32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

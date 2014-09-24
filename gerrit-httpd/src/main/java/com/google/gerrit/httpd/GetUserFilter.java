@@ -34,8 +34,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 
 /**
- * Stores user as a request attribute, so the servlet container access log like
- * {@link HttpLog} can include the the user for the request outside of the
+ * Stores user as a request attribute, so servlets can access it outside of the
  * request scope.
  */
 @Singleton

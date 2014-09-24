@@ -16,6 +16,8 @@ package com.google.gerrit.acceptance.git;
 
 import static com.google.gerrit.acceptance.GitUtil.cloneProject;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assume.assumeThat;
+import static org.hamcrest.Matchers.is;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
@@ -210,10 +212,10 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   @Test
   public void testPushForMasterWithHashtags() throws GitAPIException,
       OrmException, IOException, RestApiException {
-    if (!notesMigration.enabled()) {
-      // Hashtags currently only work when noteDB is enabled
-      return;
-    }
+
+    // Hashtags currently only work when noteDB is enabled
+    assumeThat(notesMigration.enabled(), is(true));
+
     // specify a single hashtag as option
     String hashtag1 = "tag1";
     List<String> expected = Arrays.asList(hashtag1);

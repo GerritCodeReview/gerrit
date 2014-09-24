@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "10787f6e_b6fdc8d2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/HashtagsUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-24T19:19:31Z",
+      "side": 1,
+      "message": "Seriously, you\u0027re worried about the import?\n\nAnyway, see my comments on the previous change. I think using CharMatcher can increase clarity and correctness.\n\nHonestly, though, cleanupHashtags should just be moved to this class as a static method so there is no code duplication regardless of implementation.",
+      "parentUuid": "f09dabd4_ed2b059d",
+      "range": {
+        "startLine": 71,
+        "startChar": 8,
+        "endLine": 73,
+        "endChar": 9
+      },
+      "revId": "ef1df4d4741fa422fbd0c244e1ac0cd27c1d31ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "90646fc9_1a169d67",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/HashtagsUtil.java",
         "patchSetId": 4

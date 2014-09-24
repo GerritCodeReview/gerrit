@@ -15,6 +15,7 @@
 package com.google.gerrit.extensions.webui;
 
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
+import com.google.gerrit.extensions.common.WebLinkInfo;
 
 @ExtensionPoint
 public interface ProjectWebLink extends WebLink {
@@ -23,7 +24,7 @@ public interface ProjectWebLink extends WebLink {
    * URL to project in external service.
    *
    * @param projectName Name of the project
-   * @return url to project in external service.
+   * @return WebLinkInfo that links to project in external service.
    */
-  String getProjectUrl(String projectName);
+  WebLinkInfo getProjectWeblink(String projectName);
 }

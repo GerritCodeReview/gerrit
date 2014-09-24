@@ -23,6 +23,7 @@ import com.google.gerrit.extensions.webui.PatchSetWebLink;
 import com.google.gerrit.extensions.webui.ProjectWebLink;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import com.google.gerrit.extensions.webui.WebLink;
 
 import java.util.List;
 
@@ -48,10 +49,7 @@ public class WebLinks {
   public Iterable<WebLinkInfo> getPatchSetLinks(String project, String commit) {
     List<WebLinkInfo> links = Lists.newArrayList();
     for (PatchSetWebLink webLink : patchSetLinks) {
-      links.add(new WebLinkInfo(webLink.getLinkName(),
-          webLink.getImageUrl(),
-          webLink.getPatchSetUrl(project, commit),
-          webLink.getTarget()));
+      links.add(webLink.getPathSetWebLink(project, commit));
     }
     return links;
   }
@@ -60,10 +58,7 @@ public class WebLinks {
       String file) {
     List<WebLinkInfo> links = Lists.newArrayList();
     for (FileWebLink webLink : fileLinks) {
-      links.add(new WebLinkInfo(webLink.getLinkName(),
-          webLink.getImageUrl(),
-          webLink.getFileUrl(project, revision, file),
-          webLink.getTarget()));
+      links.add(webLink.getFileWebLink(project, revision, file));
     }
     return links;
   }
@@ -71,10 +66,7 @@ public class WebLinks {
   public Iterable<WebLinkInfo> getProjectLinks(String project) {
     List<WebLinkInfo> links = Lists.newArrayList();
     for (ProjectWebLink webLink : projectLinks) {
-      links.add(new WebLinkInfo(webLink.getLinkName(),
-          webLink.getImageUrl(),
-          webLink.getProjectUrl(project),
-          webLink.getTarget()));
+      links.add(webLink.getProjectWeblink(project));
     }
     return links;
   }
@@ -82,10 +74,7 @@ public class WebLinks {
   public Iterable<WebLinkInfo> getBranchLinks(String project, String branch) {
     List<WebLinkInfo> links = Lists.newArrayList();
     for (BranchWebLink webLink : branchLinks) {
-      links.add(new WebLinkInfo(webLink.getLinkName(),
-          webLink.getImageUrl(),
-          webLink.getBranchUrl(project, branch),
-          webLink.getTarget()));
+      links.add(webLink.getBranchWebLink(project, branch));
     }
     return links;
   }

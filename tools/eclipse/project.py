@@ -37,15 +37,17 @@ while not path.exists(path.join(ROOT, '.buckconfig')):
 
 opts = OptionParser()
 opts.add_option('--src', action='store_true')
+opts.add_option('--plugins', help='create eclipse projects for plugins',
+                action='store_true')
 args, _ = opts.parse_args()
 
-def gen_project():
-  p = path.join(ROOT, '.project')
+def gen_project(name='gerrit', dir=ROOT):
+  p = path.join(dir, '.project')
   with open(p, 'w') as fd:
     print("""\
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-  <name>gerrit</name>
+  <name>""" + name + """</name>
   <buildSpec>
     <buildCommand>
       <name>org.eclipse.jdt.core.javabuilder</name>
@@ -56,6 +58,18 @@ def gen_project():
   </natures>
 </projectDescription>\
 """, file=fd)
+
+def gen_plugin_classpath(dir):
+  p = path.join(dir, '.classpath')
+  with open(p, 'w') as fd:
+    print("""\
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+    <classpathentry kind="src" path="src/main/java"/>
+    <classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+    <classpathentry combineaccessrules="false" kind="src" path="/gerrit"/>
+    <classpathentry kind="output" path="buck-out/eclipse/classes"/>
+</classpath>""", file=fd)
 
 def gen_classpath():
   def query_classpath(targets):
@@ -72,7 +86,7 @@ def gen_classpath():
     impl = minidom.getDOMImplementation()
     return impl.createDocument(None, 'classpath', None)
 
-  def classpathentry(kind, path, src=None, out=None):
+  def classpathentry(kind, path, src=None, out=None, exported=None):
     e = doc.createElement('classpathentry')
     e.setAttribute('kind', kind)
     e.setAttribute('path', path)
@@ -80,6 +94,8 @@ def gen_classpath():
       e.setAttribute('sourcepath', src)
     if out:
       e.setAttribute('output', out)
+    if exported:
+      e.setAttribute('exported', 'true')
     doc.documentElement.appendChild(e)
 
   doc = make_classpath()
@@ -87,6 +103,7 @@ def gen_classpath():
   lib = set()
   gwt_src = set()
   gwt_lib = set()
+  plugins = set()
 
   java_library = re.compile(r'[^/]+/gen/(.*)/lib__[^/]+__output/[^/]+[.]jar$')
   for p in query_classpath(MAIN):
@@ -119,6 +136,9 @@ def gen_classpath():
     if s.startswith('lib/'):
       out = 'buck-out/eclipse/lib'
     elif s.startswith('plugins/'):
+      if args.plugins:
+        plugins.add(s)
+        continue
       out = 'buck-out/eclipse/' + s
 
     p = path.join(s, 'java')
@@ -145,8 +165,10 @@ def gen_classpath():
         s = j[:-4] + '-src.jar'
         if not path.exists(s):
           s = None
-      classpathentry('lib', j, s)
-
+      if args.plugins:
+        classpathentry('lib', j, s, exported=True)
+      else:
+        classpathentry('lib', j, s)
   for s in sorted(gwt_src):
     p = path.join(ROOT, s, 'src', 'main', 'java')
     classpathentry('lib', p, out='buck-out/eclipse/gwtsrc')
@@ -157,6 +179,15 @@ def gen_classpath():
   p = path.join(ROOT, '.classpath')
   with open(p, 'w') as fd:
     doc.writexml(fd, addindent='\t', newl='\n', encoding='UTF-8')
+
+  if args.plugins:
+    for plugin in plugins:
+      plugindir = path.join(ROOT, plugin)
+      try:
+        gen_project(plugin.replace('plugins/', ""), plugindir)
+        gen_plugin_classpath(plugindir)
+      except (IOError, OSError) as err:
+        print('error generating project for %s: %s' % (plugin, err), file=sys.stderr)
 
 try:
   if args.src:

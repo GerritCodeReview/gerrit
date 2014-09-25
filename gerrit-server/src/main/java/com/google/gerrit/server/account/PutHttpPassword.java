@@ -79,19 +79,19 @@ public class PutHttpPassword implements RestModifyView<AccountResource, Input> {
     String newPassword;
     if (input.generate) {
       if (self.get() != rsrc.getUser()
-          && !self.get().getCapabilities().canGenerateHttpPassword()) {
+          && !self.get().getCapabilities().canAdministrateServer()) {
         throw new AuthException("not allowed to generate HTTP password");
       }
       newPassword = generate();
 
     } else if (input.httpPassword == null) {
       if (self.get() != rsrc.getUser()
-          && !self.get().getCapabilities().canGenerateHttpPassword()) {
+          && !self.get().getCapabilities().canAdministrateServer()) {
         throw new AuthException("not allowed to clear HTTP password");
       }
       newPassword = null;
     } else {
-      if (!self.get().getCapabilities().canGenerateHttpPassword()) {
+      if (!self.get().getCapabilities().canAdministrateServer()) {
         throw new AuthException("not allowed to set HTTP password directly, "
             + "requires the Generate HTTP Password permission");
       }

@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "b095f3be_5bc4a376",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 25
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-09-25T09:42:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b095f3be_5b92e392",
+      "revId": "b16d934a42589029196802415f2a46af60755f0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "90646fc9_dacfc594",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeInserter.java",
         "patchSetId": 25
@@ -42,6 +60,24 @@
     },
     {
       "key": {
+        "uuid": "b095f3be_1bba1bf7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeInserter.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-09-25T09:42:37Z",
+      "side": 1,
+      "message": "yes I find it is used in  https://gerrit-review.googlesource.com/60106",
+      "parentUuid": "90646fc9_dacfc594",
+      "revId": "b16d934a42589029196802415f2a46af60755f0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b095f3be_9b5c6b2b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeInserter.java",
         "patchSetId": 25
@@ -53,6 +89,24 @@
       "writtenOn": "2014-09-24T16:01:42Z",
       "side": 1,
       "message": "This doesn\u0027t seem to be necessary as \u0027r\u0027 is only used in 213-215",
+      "revId": "b16d934a42589029196802415f2a46af60755f0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90646fc9_da218590",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeInserter.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-09-25T09:42:37Z",
+      "side": 1,
+      "message": "exact \n\n\nDone",
+      "parentUuid": "b095f3be_9b5c6b2b",
       "revId": "b16d934a42589029196802415f2a46af60755f0b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -99,6 +153,24 @@
     },
     {
       "key": {
+        "uuid": "90646fc9_7a9a3991",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/HashtagsUtil.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-09-25T09:42:37Z",
+      "side": 1,
+      "message": "as our decision the hashtags in commit message  are only about  toAdd.  let parse method return toAdd directly.",
+      "parentUuid": "90646fc9_fad48929",
+      "revId": "b16d934a42589029196802415f2a46af60755f0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "90646fc9_1aba1df7",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/HashtagsUtil.java",
         "patchSetId": 25
@@ -116,6 +188,24 @@
     },
     {
       "key": {
+        "uuid": "90646fc9_3a29a173",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/HashtagsUtil.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-09-25T09:42:37Z",
+      "side": 1,
+      "message": "exactly \n\nadjusted to a better granularity  \n\nDone",
+      "parentUuid": "90646fc9_1aba1df7",
+      "revId": "b16d934a42589029196802415f2a46af60755f0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "90646fc9_3ab7e10f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 25
@@ -127,6 +217,24 @@
       "writtenOn": "2014-09-24T16:01:42Z",
       "side": 1,
       "message": "This pattern appears here and is a few other classes. The only purpose of this initialization is actually to set the r.hasNew\u003dfalse.\nDo we need the r.hasNew? Can we use a local boolean variable instead?",
+      "revId": "b16d934a42589029196802415f2a46af60755f0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90646fc9_fa2649a5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 2053,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-09-25T09:42:37Z",
+      "side": 1,
+      "message": "better grain size！\n\nDone",
+      "parentUuid": "90646fc9_3ab7e10f",
       "revId": "b16d934a42589029196802415f2a46af60755f0b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

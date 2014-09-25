@@ -46,6 +46,30 @@
       "revId": "8d297fe9f591e980ed3fd20997826b57fcabf972",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b095f3be_3bb7d70f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 1692,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-25T04:53:15Z",
+      "side": 1,
+      "message": "That\u0027s wrong, obviously. Try to pass label that wasn\u0027t configured on the site:\n\n \n  $ git push gerrit HEAD:refs/for/master%l\u003dLibrary-Compilence+1\n  Counting objects: 12, done.\n  Delta compression using up to 8 threads.\n  Compressing objects: 100% (2/2), done.\n  Writing objects: 100% (3/3), 307 bytes | 0 bytes/s, done.\n  Total 3 (delta 1), reused 0 (delta 0)\n  remote: Resolving deltas: 100% (1/1)\n  remote: Processing changes: refs: 1, done    \n  To ssh://david@gerrit:29418/myProject\n   ! [remote rejected] HEAD -\u003e refs/for/master%l\u003dLibrary-Compilence+1 (label   \n  \"Library-Compilence\" is not a configured label)\n  error: failed to push some refs to \u0027ssh://david@gerrit:29418/myProject\u0027\n\nFrom usability point of view that\u0027s absolutely a no go, to silenly drop some user\u0027s input. I would prefer to reject the push as in case of wrong label  above:\n\n  ! [remote rejected] HEAD -\u003e \n  refs/for/master%hashtag\u003dThisSiteIsNotNotedbEnabled (Hashtags   \n  cannot be used on non Notedb enabled site)\n\nWe can discuss only issue a warning and not reject the push operation in this case, but silently drop input and let user think that all was just fine is wrong:\n\n  $ git push gerritd HEAD:refs/for/master%hashtag\u003dThisSiteIsNotNotedbEnabled\n  Counting objects: 12, done.\n  Delta compression using up to 8 threads.\n  Compressing objects: 100% (2/2), done.\n  Writing objects: 100% (3/3), 307 bytes | 0 bytes/s, done.\n  Total 3 (delta 1), reused 0 (delta 0)\n  remote: Resolving deltas: 100% (1/1)\n  remote: Processing changes: new: 1, refs: 1, done    \n  remote: \n  remote: New Changes:\n  remote:   http://localhost:8080/673 Hallo\n  remote: \n  To ssh://david@gerrit:29418/myProject\n   * [new branch]      HEAD -\u003e   \n  refs/for/master%hashtag\u003dThisSiteIsNotNotedbEnabled",
+      "parentUuid": "f09dabd4_4d8fb969",
+      "range": {
+        "startLine": 1692,
+        "startChar": 8,
+        "endLine": 1692,
+        "endChar": 51
+      },
+      "revId": "8d297fe9f591e980ed3fd20997826b57fcabf972",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "b095f3be_1b55bbda",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-25T11:27:08Z",
+      "side": 1,
+      "message": "These words should be separated, i think.",
+      "range": {
+        "startLine": 10,
+        "startChar": 25,
+        "endLine": 10,
+        "endChar": 40
+      },
+      "revId": "f18a24435f7df53e46f5479fb16976f651725e56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "90646fc9_da0c2514",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/webui/ProjectWebLink.java",
         "patchSetId": 3

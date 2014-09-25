@@ -206,7 +206,7 @@ public class GetDiff implements RestReadView<FileResource> {
   private List<WebLinkInfo> getFileWebLinks(Project project, String rev,
       String file) {
     List<WebLinkInfo> fileWebLinks = new ArrayList<>();
-    for (WebLinkInfo link : webLinks.get().getPatchLinks(project.getName(),
+    for (WebLinkInfo link : webLinks.get().getFileLinks(project.getName(),
         rev, file)) {
       if (!Strings.isNullOrEmpty(link.name) && !Strings.isNullOrEmpty(link.url)) {
         fileWebLinks.add(link);

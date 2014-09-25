@@ -78,6 +78,10 @@ public class GetArchive implements RestReadView<RevisionResource> {
     public Set<ArchiveFormat> getAllowed() {
       return allowed;
     }
+
+    public ImmutableMap<String, ArchiveFormat> getExtensions() {
+      return extensions;
+    }
   }
 
   private final GitRepositoryManager repoManager;

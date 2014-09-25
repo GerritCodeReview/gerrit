@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.api.changes;
 
+import com.google.common.base.Function;
+import com.google.common.collect.FluentIterable;
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.extensions.api.changes.AbandonInput;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
@@ -29,6 +31,7 @@ import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.change.Abandon;
 import com.google.gerrit.server.change.ChangeJson;
+import com.google.gerrit.server.change.ChangeJson.HashtagInfo;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.GetHashtags;
 import com.google.gerrit.server.change.GetTopic;
@@ -227,8 +230,14 @@ class ChangeApiImpl extends ChangeApi.NotImplemented implements ChangeApi {
   @Override
   public Set<String> getHashtags() throws RestApiException {
     try {
-      return getHashtags.apply(change).value();
-    } catch (IOException | OrmException e) {
+      return FluentIterable.from(getHashtags.apply(change).value())
+          .transform(new Function<HashtagInfo, String>() {
+            @Override
+            public String apply(HashtagInfo arg0) {
+              return arg0.name;
+            }
+          }).toSet();
+    } catch (OrmException e) {
       throw new RestApiException("Cannot get hashtags", e);
     }
   }

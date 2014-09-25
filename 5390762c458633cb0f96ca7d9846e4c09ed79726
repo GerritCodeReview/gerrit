@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f09dabd4_6d927593",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/HashtagsIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-25T02:00:42Z",
+      "side": 1,
+      "message": "Here the call to `getClient().execute(post)` in RestSession.java hangs.\n\nIf I remove previous POST calls (comment out lines 112-129) it passes.",
+      "range": {
+        "startLine": 138,
+        "startChar": 17,
+        "endLine": 138,
+        "endChar": 47
+      },
+      "revId": "5390762c458633cb0f96ca7d9846e4c09ed79726",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

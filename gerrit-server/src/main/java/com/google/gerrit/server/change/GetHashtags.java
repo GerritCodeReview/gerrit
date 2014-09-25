@@ -14,31 +14,27 @@
 
 package com.google.gerrit.server.change;
 
-import com.google.gerrit.extensions.restapi.AuthException;
-import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
-import com.google.gerrit.server.notedb.ChangeNotes;
-import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.change.ChangeJson.HashtagInfo;
 import com.google.gwtorm.server.OrmException;
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import java.io.IOException;
-import java.util.Collections;
 import java.util.Set;
 
 @Singleton
 public class GetHashtags implements RestReadView<ChangeResource> {
-  @Override
-  public Response<? extends Set<String>> apply(ChangeResource req)
-      throws AuthException, OrmException, IOException, BadRequestException {
+  private HashtagsUtil hashtagsUtil;
 
-    ChangeControl control = req.getControl();
-    ChangeNotes notes = control.getNotes().load();
-    Set<String> hashtags = notes.getHashtags();
-    if (hashtags == null) {
-      hashtags = Collections.emptySet();
-    }
-    return Response.ok(hashtags);
+  @Inject
+  GetHashtags(HashtagsUtil hashtagsUtil) {
+    this.hashtagsUtil = hashtagsUtil;
+  }
+
+  @Override
+  public Response<? extends Set<HashtagInfo>> apply(ChangeResource req)
+      throws OrmException {
+    return Response.ok(hashtagsUtil.getHashtagsInfo(req.getControl()));
   }
 }

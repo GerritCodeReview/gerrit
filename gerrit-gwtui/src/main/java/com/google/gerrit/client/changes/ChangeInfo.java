@@ -107,7 +107,7 @@ public class ChangeInfo extends JavaScriptObject {
   public final native void set_edit(EditInfo edit) /*-{ this.edit = edit; }-*/;
   public final native EditInfo edit() /*-{ return this.edit; }-*/;
   public final native boolean has_edit() /*-{ return this.hasOwnProperty('edit') }-*/;
-  public final native JsArrayString hashtags() /*-{ return this.hashtags; }-*/;
+  public final native JsArray<HashtagInfo> hashtags() /*-{ return this.hashtags; }-*/;
 
   public final native boolean has_permitted_labels()
   /*-{ return this.hasOwnProperty('permitted_labels') }-*/;
@@ -364,6 +364,14 @@ public class ChangeInfo extends JavaScriptObject {
     public final native JsArrayString tags() /*-{ return this.tags; }-*/;
 
     protected IncludedInInfo() {
+    }
+  }
+
+  public static class HashtagInfo extends JavaScriptObject {
+    public final native String name() /*-{ return this.name }-*/;
+    public final native boolean isProtected() /*-{ return this.is_protected }-*/;
+
+    protected HashtagInfo() {
     }
   }
 }

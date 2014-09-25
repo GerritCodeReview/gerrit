@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b095f3be_fbf80f99",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-09-25T12:14:24Z",
+      "side": 1,
+      "message": "Done\nI\u0027m not sure either...",
+      "parentUuid": "b095f3be_1b55bbda",
+      "range": {
+        "startLine": 10,
+        "startChar": 25,
+        "endLine": 10,
+        "endChar": 40
+      },
+      "revId": "f18a24435f7df53e46f5479fb16976f651725e56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "90646fc9_da0c2514",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/webui/ProjectWebLink.java",
         "patchSetId": 3
@@ -36,6 +60,30 @@
       "writtenOn": "2014-09-25T11:25:07Z",
       "side": 1,
       "message": "I just commented on another change [1], that we should do it like UiAction. And there we called it UiAction.Description: WebLink.Description? But that\u0027s only names.\n\n [1] https://gerrit-review.googlesource.com/60324/",
+      "range": {
+        "startLine": 29,
+        "startChar": 2,
+        "endLine": 29,
+        "endChar": 13
+      },
+      "revId": "f18a24435f7df53e46f5479fb16976f651725e56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90646fc9_facac954",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/webui/ProjectWebLink.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-09-25T12:14:24Z",
+      "side": 1,
+      "message": "I\u0027m not entirely sure what you\u0027re after here except that WebLink doesn\u0027t \"own\" WebLinkInfo.\n(I thought about refactoring it into the WebLink interface since it\u0027s unlikely that the structure is very useful in a scenario where the Interface can\u0027t be used).",
+      "parentUuid": "90646fc9_da0c2514",
       "range": {
         "startLine": 29,
         "startChar": 2,

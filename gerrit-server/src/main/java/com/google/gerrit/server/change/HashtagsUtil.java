@@ -16,6 +16,7 @@ package com.google.gerrit.server.change;
 
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_HASHTAGS;
 
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.ChangeHooks;
@@ -26,6 +27,7 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.auth.AuthException;
+import com.google.gerrit.server.change.ChangeJson.HashtagInfo;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.notedb.ChangeNotes;
@@ -46,10 +48,10 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.TreeSet;
 
 @Singleton
 public class HashtagsUtil {
@@ -130,7 +132,7 @@ public class HashtagsUtil {
     }
   }
 
-  public TreeSet<String> setHashtags(ChangeControl control,
+  public Set<HashtagInfo> setHashtags(ChangeControl control,
       HashtagsInput input, boolean runHooks, boolean index)
           throws IllegalArgumentException, IOException,
           ValidationException, AuthException, OrmException {
@@ -178,7 +180,7 @@ public class HashtagsUtil {
             dbProvider.get());
       }
     }
-    return new TreeSet<String>(updatedHashtags);
+    return getHashtagsInfo(control, updatedHashtags);
   }
 
   public Set<String> getHashtagsInCurrentPSCommitMessage(Change change)
@@ -191,5 +193,44 @@ public class HashtagsUtil {
 
     RevWalk rw = new RevWalk(gitManager.openRepository(change.getProject()));
     return HashtagsUtil.detectCommitMessageHashtags(rw.parseCommit(objectId));
+  }
+
+  public Set<HashtagInfo> getHashtagsInfo(ChangeControl ctl)
+      throws OrmException {
+    return getHashtagsInfo(ctl, null);
+  }
+
+  private Set<HashtagInfo> getHashtagsInfo(ChangeControl ctl,
+      Set<String> hashtags) throws OrmException {
+    Set<String> cmHashtags;
+    try {
+      cmHashtags =
+          MoreObjects.firstNonNull(
+              getHashtagsInCurrentPSCommitMessage(ctl.getChange()),
+              Collections.<String> emptySet());
+    } catch (IOException e) {
+      String err = String.format(
+                  "Can not get hashtags of current patch-set commit message of change %s",
+                  ctl.getChange().getChangeId());
+      log.error(err, e);
+      throw new OrmException(err, e);
+    }
+
+    if (hashtags == null) {
+      hashtags = ctl.getNotes().load().getHashtags();
+    }
+    Set<HashtagInfo> r = Sets.newTreeSet(new Comparator<HashtagInfo>() {
+      @Override
+      public int compare(HashtagInfo o1, HashtagInfo o2) {
+        return o1.name.compareTo(o2.name);
+      }
+    });
+    for (String name : hashtags) {
+      HashtagInfo info = new HashtagInfo();
+      info.name = name;
+      info.pretected = cmHashtags.contains(name);
+      r.add(info);
+    }
+    return r;
   }
 }

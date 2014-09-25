@@ -119,6 +119,7 @@ public class ChangeJson {
   private final AnonymousUser anonymous;
   private final IdentifiedUser.GenericFactory userFactory;
   private final ChangeData.Factory changeDataFactory;
+  private final HashtagsUtil hashtagUtil;
   private final PatchSetInfoFactory patchSetInfoFactory;
   private final FileInfoJson fileInfoJson;
   private final AccountInfo.Loader.Factory accountLoaderFactory;
@@ -143,6 +144,7 @@ public class ChangeJson {
       ProjectControl.GenericFactory pcf,
       ChangeData.Factory cdf,
       PatchSetInfoFactory psi,
+      HashtagsUtil hashtagUtil,
       FileInfoJson fileInfoJson,
       AccountInfo.Loader.Factory ailf,
       DynamicMap<DownloadScheme> downloadSchemes,
@@ -159,6 +161,7 @@ public class ChangeJson {
     this.userFactory = uf;
     this.changeDataFactory = cdf;
     this.patchSetInfoFactory = psi;
+    this.hashtagUtil = hashtagUtil;
     this.fileInfoJson = fileInfoJson;
     this.accountLoaderFactory = ailf;
     this.downloadSchemes = downloadSchemes;
@@ -271,7 +274,7 @@ public class ChangeJson {
     out.project = in.getProject().get();
     out.branch = in.getDest().getShortName();
     out.topic = in.getTopic();
-    out.hashtags = ctl.getNotes().load().getHashtags();
+    out.hashtags = hashtagUtil.getHashtagsInfo(ctl);
     out.changeId = in.getKey().get();
     out.mergeable = isMergeable(in);
     ChangedLines changedLines = cd.changedLines();
@@ -937,7 +940,7 @@ public class ChangeJson {
     public String project;
     public String branch;
     public String topic;
-    public Collection<String> hashtags;
+    public Collection<HashtagInfo> hashtags;
     public String changeId;
     public String subject;
     public Change.Status status;
@@ -1011,5 +1014,10 @@ public class ChangeJson {
     public Timestamp date;
     public String message;
     public Integer _revisionNumber;
+  }
+
+  public static class HashtagInfo{
+    public String name;
+    public Boolean pretected;
   }
 }

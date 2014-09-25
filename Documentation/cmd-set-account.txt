@@ -29,9 +29,7 @@ link:access-control.html#capability_modifyAccount[the 'Modify Account' global ca
 
 To set the HTTP password for the user account (option --http-password) or
 to clear the HTTP password (option --clear-http-password) caller must be
-a member of the privileged 'Administrators' group, or have been granted
-link:access-control.html#capability_generateHttpPassword[the 'Generate HTTP Password' global capability]
-in addition to 'Modify Account' global capability.
+a member of the privileged 'Administrators' group.
 
 == SCRIPTING
 This command is intended to be used in scripts.

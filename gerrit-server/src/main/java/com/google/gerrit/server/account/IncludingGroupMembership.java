@@ -16,7 +16,6 @@ package com.google.gerrit.server.account;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.IdentifiedUser;
@@ -26,6 +25,7 @@ import com.google.inject.assistedinject.Assisted;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Group membership checker for the internal group system.
@@ -53,7 +53,7 @@ public class IncludingGroupMembership implements GroupMembership {
     this.user = user;
 
     Set<AccountGroup.UUID> groups = user.state().getInternalGroups();
-    memberOf = Maps.newHashMapWithExpectedSize(groups.size());
+    memberOf = new ConcurrentHashMap<>(groups.size());
     for (AccountGroup.UUID g : groups) {
       memberOf.put(g, true);
     }

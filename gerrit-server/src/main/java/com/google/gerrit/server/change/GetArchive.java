@@ -78,6 +78,10 @@ public class GetArchive implements RestReadView<RevisionResource> {
     public Set<ArchiveFormat> getAllowed() {
       return allowed;
     }
+
+    public ImmutableMap<String, ArchiveFormat> getExtensions() {
+      return extensions;
+    }
   }
 
   private final GitRepositoryManager repoManager;
@@ -99,7 +103,7 @@ public class GetArchive implements RestReadView<RevisionResource> {
       throw new BadRequestException("format is not specified");
     }
     final ArchiveFormat f = allowedFormats.extensions.get("." + format);
-    if (f == null) {
+    if (f == null || f == ArchiveFormat.ZIP) {
       throw new BadRequestException("unknown archive format");
     }
     boolean close = true;

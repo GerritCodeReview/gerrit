@@ -16,6 +16,7 @@ package com.google.gerrit.httpd;
 
 import com.google.common.base.Function;
 import com.google.common.base.Optional;
+import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.data.GerritConfig;
@@ -133,8 +134,18 @@ class GerritConfigProvider implements Provider<GerritConfig> {
     config.setChangeUpdateDelay((int) ConfigUtil.getTimeUnit(
         cfg, "change", null, "updateDelay", 30, TimeUnit.SECONDS));
     config.setLargeChangeSize(cfg.getInt("change", "largeChange", 500));
+
+    // Zip is not supported because it may be interpreted by a Java plugin as a
+    // valid JAR file, whose code would have access to cookies on the domain.
     config.setArchiveFormats(Lists.newArrayList(Iterables.transform(
-        archiveFormats.getAllowed(),
+        Iterables.filter(
+            archiveFormats.getAllowed(),
+            new Predicate<ArchiveFormat>() {
+              @Override
+              public boolean apply(ArchiveFormat format) {
+                return (format != ArchiveFormat.ZIP);
+              }
+            }),
         new Function<ArchiveFormat, String>() {
           @Override
           public String apply(ArchiveFormat in) {

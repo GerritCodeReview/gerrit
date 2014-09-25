@@ -70,6 +70,8 @@ public class DefaultCommandModule extends CommandModule {
     // Honor the legacy hyphenated forms as aliases for the non-hyphenated forms
     command("git-upload-pack").to(Commands.key(git, "upload-pack"));
     command(git, "upload-pack").to(Upload.class);
+    command("git-upload-archive").to(Commands.key(git, "upload-archive"));
+    command(git, "upload-archive").to(UploadArchive.class);
     command("suexec").to(SuExec.class);
     listener().to(ShowCaches.StartupListener.class);
 

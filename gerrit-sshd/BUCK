@@ -28,6 +28,7 @@ java_library(
     '//lib/mina:core',
     '//lib/mina:sshd',
     '//lib/jgit:jgit',
+    '//lib/jgit:jgit-archive',
   ],
   provided_deps = [
     '//lib/bouncycastle:bcprov',
@@ -43,6 +44,7 @@ java_sources(
 
 java_test(
   name = 'sshd_tests',
+  labels = ['ssh'],
   srcs = glob(
     ['src/test/java/**/*.java'],
   ),
@@ -50,6 +52,7 @@ java_test(
     ':sshd',
     '//gerrit-extension-api:api',
     '//gerrit-server:server',
+    '//lib/commons:compress',
     '//lib:guava',
     '//lib:junit',
   ],

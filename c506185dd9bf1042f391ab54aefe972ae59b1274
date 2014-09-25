@@ -1,0 +1,222 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b095f3be_9b762b56",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-25T19:37:25Z",
+      "side": 1,
+      "message": "May be add an example e. g.:\n\n  $ git archive -f tar.bz2 --prefix\u003dfoo-1.0/ \\\n  --remote\u003dssh://john@gerrit:29418/foo \\\n  refs/changes/73/673/1 \u003e foo-1.0.tar.bz2",
+      "revId": "c506185dd9bf1042f391ab54aefe972ae59b1274",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b095f3be_fb9c8f58",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/UploadArchive.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-25T19:37:25Z",
+      "side": 1,
+      "message": "unused",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 46
+      },
+      "revId": "c506185dd9bf1042f391ab54aefe972ae59b1274",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90646fc9_9a9f0d3e",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/UploadArchive.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-25T19:37:25Z",
+      "side": 1,
+      "message": "unused",
+      "range": {
+        "startLine": 32,
+        "startChar": 0,
+        "endLine": 32,
+        "endChar": 42
+      },
+      "revId": "c506185dd9bf1042f391ab54aefe972ae59b1274",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b095f3be_1b821bf6",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/UploadArchive.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-25T19:37:25Z",
+      "side": 1,
+      "message": "unused",
+      "range": {
+        "startLine": 39,
+        "startChar": 0,
+        "endLine": 40,
+        "endChar": 31
+      },
+      "revId": "c506185dd9bf1042f391ab54aefe972ae59b1274",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b095f3be_5b8ca325",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/UploadArchive.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-25T19:37:25Z",
+      "side": 1,
+      "message": "Mention in help message that this should probably end with \"/\" char?",
+      "range": {
+        "startLine": 61,
+        "startChar": 4,
+        "endLine": 61,
+        "endChar": 30
+      },
+      "revId": "c506185dd9bf1042f391ab54aefe972ae59b1274",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b095f3be_7b895f14",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/UploadArchive.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-25T19:37:25Z",
+      "side": 1,
+      "message": "That seems to have problem with \".\" path. Native git archive produces whole repo content. This command returns tar that is empty. Empty value for path is the workaround.",
+      "range": {
+        "startLine": 89,
+        "startChar": 25,
+        "endLine": 89,
+        "endChar": 29
+      },
+      "revId": "c506185dd9bf1042f391ab54aefe972ae59b1274",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90646fc9_baa4d190",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/UploadArchive.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-25T19:37:25Z",
+      "side": 1,
+      "message": "naming convention: no m_ prefix for instance variables.",
+      "range": {
+        "startLine": 91,
+        "startChar": 18,
+        "endLine": 91,
+        "endChar": 27
+      },
+      "revId": "c506185dd9bf1042f391ab54aefe972ae59b1274",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b095f3be_3b7fd72e",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/UploadArchive.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-25T19:37:25Z",
+      "side": 1,
+      "message": "final only when they are really needed.",
+      "range": {
+        "startLine": 164,
+        "startChar": 4,
+        "endLine": 164,
+        "endChar": 9
+      },
+      "revId": "c506185dd9bf1042f391ab54aefe972ae59b1274",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90646fc9_daa98567",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/UploadArchive.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-25T19:37:25Z",
+      "side": 1,
+      "message": "untabify",
+      "range": {
+        "startLine": 278,
+        "startChar": 0,
+        "endLine": 278,
+        "endChar": 3
+      },
+      "revId": "c506185dd9bf1042f391ab54aefe972ae59b1274",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b095f3be_bb7be73c",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/UploadArchive.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-25T19:37:25Z",
+      "side": 1,
+      "message": "We always use curly brackets even for single statements. Her and in other places. JGit project handes this differently. So if you move some code there as suggested by Dave, then it\u0027s OK.",
+      "revId": "c506185dd9bf1042f391ab54aefe972ae59b1274",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

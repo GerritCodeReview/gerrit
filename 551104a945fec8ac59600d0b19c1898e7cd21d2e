@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "10787f6e_160d9c5b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2014-09-25T14:40:11Z",
+      "side": 1,
+      "message": "I know these line exceed the 80 characters but it look ugly when I wrapped them, let me know if you still want me to do it.",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 78
+      },
+      "revId": "551104a945fec8ac59600d0b19c1898e7cd21d2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

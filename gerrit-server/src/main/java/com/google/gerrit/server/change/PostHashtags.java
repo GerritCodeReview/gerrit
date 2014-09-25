@@ -20,6 +20,7 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
+import com.google.gerrit.server.change.ChangeJson.HashtagInfo;
 import com.google.gerrit.server.validators.ValidationException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -38,7 +39,7 @@ public class PostHashtags implements RestModifyView<ChangeResource, HashtagsInpu
   }
 
   @Override
-  public Response<? extends Set<String>> apply(ChangeResource req, HashtagsInput input)
+  public Response<? extends Set<HashtagInfo>> apply(ChangeResource req, HashtagsInput input)
       throws AuthException, OrmException, IOException, BadRequestException,
       ResourceConflictException {
 

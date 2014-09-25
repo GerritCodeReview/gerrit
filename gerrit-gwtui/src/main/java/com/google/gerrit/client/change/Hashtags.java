@@ -16,12 +16,14 @@ package com.google.gerrit.client.change;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.changes.ChangeApi;
 import com.google.gerrit.client.changes.ChangeInfo;
+import com.google.gerrit.client.changes.ChangeInfo.HashtagInfo;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.core.client.JsArray;
 import com.google.gwt.core.client.JsArrayString;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NativeEvent;
@@ -142,7 +144,8 @@ public class Hashtags extends Composite {
   private void display(ChangeInfo info) {
     hashtagsText.setInnerSafeHtml(formatHashtags(info));
   }
-  private void display(JsArrayString hashtags) {
+
+  private void display(JsArray<HashtagInfo> hashtags) {
     hashtagsText.setInnerSafeHtml(formatHashtags(hashtags));
   }
 
@@ -153,27 +156,29 @@ public class Hashtags extends Composite {
     return new SafeHtmlBuilder();
   }
 
-  private SafeHtmlBuilder formatHashtags(JsArrayString hashtags) {
+  private SafeHtmlBuilder formatHashtags(JsArray<HashtagInfo> hashtags) {
     SafeHtmlBuilder html = new SafeHtmlBuilder();
-    Iterator<String> itr = Natives.asList(hashtags).iterator();
+    Iterator<HashtagInfo> itr = Natives.asList(hashtags).iterator();
     while (itr.hasNext()) {
-      String hashtagName = itr.next();
+      HashtagInfo info = itr.next();
       html.openSpan()
-          .setAttribute(DATA_ID, hashtagName)
+          .setAttribute(DATA_ID, info.name())
           .setStyleName(style.hashtagName())
           .openAnchor()
           .setAttribute("href",
-              "#" + PageLinks.toChangeQuery("hashtag:\"" + hashtagName + "\""))
+              "#" + PageLinks.toChangeQuery("hashtag:\"" + info.name() + "\""))
           .setAttribute("role", "listitem")
-          .append("#").append(hashtagName)
-          .closeAnchor()
-          .openElement("button")
-          .setAttribute("title", "Remove hashtag")
-          .setAttribute("onclick", REMOVE + "(event)")
-          .append(
-              new ImageResourceRenderer().render(Resources.I.remove_reviewer()))
-          .closeElement("button")
-          .closeSpan();
+          .append("#").append(info.name())
+          .closeAnchor();
+      if (!info.pretected()) {
+        html.openElement("button")
+            .setAttribute("title", "Remove hashtag")
+            .setAttribute("onclick", REMOVE + "(event)")
+            .append(
+                new ImageResourceRenderer().render(Resources.I.remove_reviewer()))
+            .closeElement("button");
+      }
+      html.closeSpan();
       if (itr.hasNext()) {
         html.append(' ');
       }
@@ -199,8 +204,8 @@ public class Hashtags extends Composite {
   private void addHashtag(final String hashtags) {
     ChangeApi.hashtags(changeId.get()).post(
         PostInput.create(hashtags, null),
-        new GerritCallback<JsArrayString>() {
-          public void onSuccess(JsArrayString result) {
+        new GerritCallback<JsArray<HashtagInfo>>() {
+          public void onSuccess(JsArray<HashtagInfo> result) {
             hashtagTextBox.setEnabled(true);
             UIObject.setVisible(error, false);
             error.setInnerText("");
@@ -232,7 +237,7 @@ public class Hashtags extends Composite {
         });
   }
 
-  protected void updateHashtagList(JsArrayString hashtags){
+  protected void updateHashtagList(JsArray<HashtagInfo> hashtags) {
     display(hashtags);
   }
 

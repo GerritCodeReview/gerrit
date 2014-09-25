@@ -46,6 +46,30 @@
       "revId": "5390762c458633cb0f96ca7d9846e4c09ed79726",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b095f3be_fb11ef28",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/HashtagsIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-25T13:32:08Z",
+      "side": 1,
+      "message": "See [1] and try to increase 10 to 512.\n\n [1] https://gerrit-review.googlesource.com/#/c/58001/5/\n gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/HttpSession.java",
+      "parentUuid": "90646fc9_3ab601db",
+      "range": {
+        "startLine": 138,
+        "startChar": 17,
+        "endLine": 138,
+        "endChar": 47
+      },
+      "revId": "5390762c458633cb0f96ca7d9846e4c09ed79726",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

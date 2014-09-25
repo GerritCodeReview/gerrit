@@ -42,11 +42,12 @@ public class SshSession {
   }
 
   @SuppressWarnings("resource")
-  public String exec(String command) throws JSchException, IOException {
+  public String exec(String command, InputStream opt) throws JSchException,
+      IOException {
     ChannelExec channel = (ChannelExec) getSession().openChannel("exec");
     try {
       channel.setCommand(command);
-      channel.setInputStream(null);
+      channel.setInputStream(opt);
       InputStream in = channel.getInputStream();
       channel.connect();
 
@@ -58,6 +59,20 @@ public class SshSession {
     } finally {
       channel.disconnect();
     }
+  }
+
+  public InputStream exec2(String command, InputStream opt) throws JSchException,
+      IOException {
+    ChannelExec channel = (ChannelExec) getSession().openChannel("exec");
+    channel.setCommand(command);
+    channel.setInputStream(opt);
+    InputStream in = channel.getInputStream();
+    channel.connect();
+    return in;
+  }
+
+  public String exec(String command) throws JSchException, IOException {
+    return exec(command, null);
   }
 
   public boolean hasError() {

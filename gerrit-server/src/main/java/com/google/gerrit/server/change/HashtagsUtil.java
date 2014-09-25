@@ -15,8 +15,10 @@
 package com.google.gerrit.server.change;
 
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_HASHTAGS;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.base.Splitter;
+import com.google.common.collect.ImmutableSortedSet;
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.extensions.api.changes.HashtagsInput;
@@ -26,6 +28,7 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.auth.AuthException;
+import com.google.gerrit.server.change.ChangeJson.HashtagInfo;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.notedb.ChangeNotes;
@@ -46,10 +49,10 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.TreeSet;
 
 @Singleton
 public class HashtagsUtil {
@@ -123,7 +126,7 @@ public class HashtagsUtil {
     }
   }
 
-  public TreeSet<String> setHashtags(ChangeControl control,
+  public Set<HashtagInfo> setHashtags(ChangeControl control,
       HashtagsInput input, boolean runHooks, boolean index)
           throws IllegalArgumentException, IOException,
           ValidationException, AuthException, OrmException {
@@ -171,7 +174,7 @@ public class HashtagsUtil {
             dbProvider.get());
       }
     }
-    return new TreeSet<String>(updatedHashtags);
+    return getHashtagsInfo(control, updatedHashtags);
   }
 
   public Set<String> getHashtagsInCurrentPSCommitMessage(Change change)
@@ -184,5 +187,40 @@ public class HashtagsUtil {
 
     RevWalk rw = new RevWalk(gitManager.openRepository(change.getProject()));
     return parseCommitMessageHashtags(rw.parseCommit(objectId));
+  }
+
+  public Set<HashtagInfo> getHashtagsInfo(ChangeControl ctl)
+      throws OrmException {
+    Set<String> hashtags = ctl.getNotes().load().getHashtags();
+    try {
+      return getHashtagsInfo(ctl, hashtags);
+    } catch (IOException e) {
+      throw new OrmException(e);
+    }
+  }
+
+  private Set<HashtagInfo> getHashtagsInfo(ChangeControl ctl,
+      Set<String> hashtags) throws OrmException, IOException {
+    checkNotNull(hashtags);
+    if (hashtags.isEmpty()) {
+      return Collections.emptySet();
+    }
+
+    Set<String> cmHashtags =
+        getHashtagsInCurrentPSCommitMessage(ctl.getChange());
+    Set<HashtagInfo> r =
+        Sets.<HashtagInfo> newHashSetWithExpectedSize(hashtags.size());
+    for (String name : hashtags) {
+      HashtagInfo info = new HashtagInfo();
+      info.name = name;
+      info.pretected = cmHashtags.contains(name);
+      r.add(info);
+    }
+    return ImmutableSortedSet.copyOf(new Comparator<HashtagInfo>() {
+      @Override
+      public int compare(HashtagInfo o1, HashtagInfo o2) {
+        return o1.name.compareTo(o2.name);
+      }
+    }, r);
   }
 }

@@ -19,14 +19,14 @@ import org.eclipse.jgit.archive.TarFormat;
 import org.eclipse.jgit.archive.Tbz2Format;
 import org.eclipse.jgit.archive.TgzFormat;
 import org.eclipse.jgit.archive.TxzFormat;
+import org.eclipse.jgit.archive.ZipFormat;
 
 public enum ArchiveFormat {
   TGZ("application/x-gzip", new TgzFormat()),
   TAR("application/x-tar", new TarFormat()),
   TBZ2("application/x-bzip2", new Tbz2Format()),
-  TXZ("application/x-xz", new TxzFormat());
-  // Zip is not supported because it may be interpreted by a Java plugin as a
-  // valid JAR file, whose code would have access to cookies on the domain.
+  TXZ("application/x-xz", new TxzFormat()),
+  ZIP("application/x-zip", new ZipFormat());
 
   private final ArchiveCommand.Format<?> format;
   private final String mimeType;

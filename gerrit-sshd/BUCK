@@ -28,6 +28,7 @@ java_library(
     '//lib/mina:core',
     '//lib/mina:sshd',
     '//lib/jgit:jgit',
+    '//lib/jgit:jgit-archive',
   ],
   provided_deps = [
     '//lib/bouncycastle:bcprov',

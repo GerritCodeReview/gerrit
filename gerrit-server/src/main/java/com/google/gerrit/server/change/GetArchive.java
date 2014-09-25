@@ -18,6 +18,7 @@ import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.BinaryResult;
+import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -78,6 +79,10 @@ public class GetArchive implements RestReadView<RevisionResource> {
     public Set<ArchiveFormat> getAllowed() {
       return allowed;
     }
+
+    public ImmutableMap<String, ArchiveFormat> getExtensions() {
+      return extensions;
+    }
   }
 
   private final GitRepositoryManager repoManager;
@@ -93,14 +98,17 @@ public class GetArchive implements RestReadView<RevisionResource> {
   }
 
   @Override
-  public BinaryResult apply(RevisionResource rsrc)
-      throws BadRequestException, IOException {
+  public BinaryResult apply(RevisionResource rsrc) throws BadRequestException,
+      IOException, MethodNotAllowedException {
     if (Strings.isNullOrEmpty(format)) {
       throw new BadRequestException("format is not specified");
     }
     final ArchiveFormat f = allowedFormats.extensions.get("." + format);
     if (f == null) {
       throw new BadRequestException("unknown archive format");
+    }
+    if (f == ArchiveFormat.ZIP) {
+      throw new MethodNotAllowedException("zip format is disabled");
     }
     boolean close = true;
     final Repository repo = repoManager

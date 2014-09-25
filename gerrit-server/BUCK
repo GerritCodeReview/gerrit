@@ -48,6 +48,7 @@ java_library(
     '//lib/antlr:java_runtime',
     '//lib/auto:auto-value',
     '//lib/commons:codec',
+    '//lib/commons:compress',
     '//lib/commons:dbcp',
     '//lib/commons:lang',
     '//lib/commons:net',

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "10a15f0c_0e85ab4b",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/UploadArchive.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-25T09:57:50Z",
+      "side": 1,
+      "message": "2014",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "5ac7bd3ad9e947b2e659aeff185463b30fbf75d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "10a15f0c_6e926f93",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/UploadArchive.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-25T09:57:50Z",
+      "side": 1,
+      "message": "nit: please wrap lines at 80 chars.",
+      "range": {
+        "startLine": 48,
+        "startChar": 86,
+        "endLine": 48,
+        "endChar": 99
+      },
+      "revId": "5ac7bd3ad9e947b2e659aeff185463b30fbf75d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

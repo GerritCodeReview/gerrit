@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b095f3be_db70b35b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-25T21:49:45Z",
+      "side": 1,
+      "message": "The main reason to remove this capability is security whole. The one who is granted this capability can modify Administrators\u0027s HTTP password and impersonate admin user.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 61
+      },
+      "revId": "859390f6e3a03bd500fda51d1a15a05d98c0bd40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b095f3be_fb756f48",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-25T21:49:45Z",
+      "side": 1,
+      "message": "I don\u0027t think that many sites make use of this ACL (you have added this one or two months ago) to the dcumentation. But may be we should add a warning to release notes and also encourage users to cean their project.config manually, as it is overkill to increase schema version for that and perform ACL removing during schema upgrade.",
+      "revId": "859390f6e3a03bd500fda51d1a15a05d98c0bd40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1451,7 +1451,7 @@ downloads are allowed.
 [[download.archive]]download.archive::
 +
 Specifies which archive formats, if any, should be offered on the change
-screen:
+screen and supported for `git-upload-archive` operation:
 +
 ----
 [download]
@@ -1459,10 +1459,16 @@ screen:
   archive = tbz2
   archive = tgz
   archive = txz
+  archive = zip
 ----
 
 If `download.archive` is not specified defaults to all archive
 commands. Set to `off` or empty string to disable.
+
+Zip is not supported because it may be interpreted by a Java plugin as a
+valid JAR file, whose code would have access to cookies on the domain.
+For this reason `zip` format is always excluded from formats offered
+through the `Download` drop down or accessible in the REST API.
 
 [[gc]]
 === Section gc

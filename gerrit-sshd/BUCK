@@ -20,6 +20,7 @@ java_library(
     '//lib/auto:auto-value',
     '//lib/commons:codec',
     '//lib/commons:collections',
+    '//lib/commons:compress',
     '//lib/guice:guice',
     '//lib/guice:guice-assistedinject',
     '//lib/guice:guice-servlet',  # SSH should not depend on servlet
@@ -28,6 +29,7 @@ java_library(
     '//lib/mina:core',
     '//lib/mina:sshd',
     '//lib/jgit:jgit',
+    '//lib/jgit:jgit-archive',
   ],
   provided_deps = [
     '//lib/bouncycastle:bcprov',

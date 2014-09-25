@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.change;
 
+import com.google.gerrit.server.git.archive.ZipFormat;
+
 import org.eclipse.jgit.api.ArchiveCommand;
 import org.eclipse.jgit.archive.TarFormat;
 import org.eclipse.jgit.archive.Tbz2Format;
@@ -24,9 +26,8 @@ public enum ArchiveFormat {
   TGZ("application/x-gzip", new TgzFormat()),
   TAR("application/x-tar", new TarFormat()),
   TBZ2("application/x-bzip2", new Tbz2Format()),
-  TXZ("application/x-xz", new TxzFormat());
-  // Zip is not supported because it may be interpreted by a Java plugin as a
-  // valid JAR file, whose code would have access to cookies on the domain.
+  TXZ("application/x-xz", new TxzFormat()),
+  ZIP("application/x-zip", new ZipFormat());
 
   private final ArchiveCommand.Format<?> format;
   private final String mimeType;

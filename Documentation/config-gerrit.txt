@@ -1409,7 +1409,7 @@ downloads are allowed.
 [[download.archive]]download.archive::
 +
 Specifies which archive formats, if any, should be offered on the change
-screen:
+screen and supported for `git-upload-archive` operation:
 +
 ----
 [download]
@@ -1417,10 +1417,14 @@ screen:
   archive = tbz2
   archive = tgz
   archive = txz
+  archive = zip
 ----
 
 If `download.archive` is not specified defaults to all archive
 commands. Set to `off` or empty string to disable.
+
+Note: Due to security considerations, `zip` format is always excluded
+from formats offered on the change screen.
 
 [[gc]]
 === Section gc

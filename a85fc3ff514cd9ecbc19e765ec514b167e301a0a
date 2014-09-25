@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "90646fc9_ba921145",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/HttpSession.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-25T13:49:05Z",
+      "side": 1,
+      "message": "This is the same value as here as well: [1].\n\n [1] https://gerrit-review.googlesource.com/#/c/57570/36/gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/github/PooledHttpClientProvider.java",
+      "revId": "a85fc3ff514cd9ecbc19e765ec514b167e301a0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "505e77fe_180dc55b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-09-26T17:16:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "10a15f0c_6e9d4f87",
+      "range": {
+        "startLine": 18,
+        "startChar": 13,
+        "endLine": 18,
+        "endChar": 19
+      },
+      "revId": "393db381c6dff9d2898215fc42e95ede65f5fde4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "10a15f0c_0ea00bbf",
         "filename": "ReleaseNotes/ReleaseNotes-2.11.txt",
         "patchSetId": 3
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "10787f6e_f630200a",
+        "filename": "ReleaseNotes/ReleaseNotes-2.11.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-09-26T17:16:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "10a15f0c_0ea00bbf",
+      "range": {
+        "startLine": 55,
+        "startChar": 0,
+        "endLine": 55,
+        "endChar": 4
+      },
+      "revId": "393db381c6dff9d2898215fc42e95ede65f5fde4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f09dabd4_6d9d5587",
         "filename": "ReleaseNotes/ReleaseNotes-2.11.txt",
         "patchSetId": 3
@@ -59,6 +107,30 @@
       "writtenOn": "2014-09-26T00:14:34Z",
       "side": 1,
       "message": "It is usually preferred to update the release notes in a separate change.",
+      "range": {
+        "startLine": 46,
+        "startChar": 0,
+        "endLine": 56,
+        "endChar": 0
+      },
+      "revId": "393db381c6dff9d2898215fc42e95ede65f5fde4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "505e77fe_380a8944",
+        "filename": "ReleaseNotes/ReleaseNotes-2.11.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-09-26T17:16:24Z",
+      "side": 1,
+      "message": "Done.  The change is I59a4aaf37",
+      "parentUuid": "f09dabd4_6d9d5587",
       "range": {
         "startLine": 46,
         "startChar": 0,

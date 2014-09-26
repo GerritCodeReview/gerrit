@@ -17,56 +17,12 @@ package com.google.gerrit.sshd;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import org.apache.sshd.common.Session;
-import org.apache.sshd.common.SessionListener;
-import org.apache.sshd.server.PublickeyAuthenticator;
-import org.apache.sshd.server.session.ServerSession;
-
-import java.security.PublicKey;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-
 @Singleton
-public class CachingPublicKeyAuthenticator implements PublickeyAuthenticator,
-    SessionListener {
-
-  private final PublickeyAuthenticator authenticator;
-  private final Map<ServerSession, Map<PublicKey, Boolean>> sessionCache;
+public class CachingPublicKeyAuthenticator
+    extends org.apache.sshd.server.auth.CachingPublicKeyAuthenticator {
 
   @Inject
   public CachingPublicKeyAuthenticator(DatabasePubKeyAuth authenticator) {
-    this.authenticator = authenticator;
-    this.sessionCache = new ConcurrentHashMap<>();
-  }
-
-  @Override
-  public boolean authenticate(String username, PublicKey key,
-      ServerSession session) {
-    Map<PublicKey, Boolean> m = sessionCache.get(session);
-    if (m == null) {
-      m = new HashMap<>();
-      sessionCache.put(session, m);
-      session.addListener(this);
-    }
-    if (m.containsKey(key)) {
-      return m.get(key);
-    }
-    boolean r = authenticator.authenticate(username, key, session);
-    m.put(key, r);
-    return r;
-  }
-
-  @Override
-  public void sessionCreated(Session session) {
-  }
-
-  @Override
-  public void sessionEvent(Session sesssion, Event event) {
-  }
-
-  @Override
-  public void sessionClosed(Session session) {
-    sessionCache.remove(session);
+    super(authenticator);
   }
 }

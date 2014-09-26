@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b095f3be_3bb197ca",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 1694,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-09-26T08:09:35Z",
+      "side": 1,
+      "message": "Shouldn\u0027t it be possible to create hashtags when pushing a new patchset as well.",
+      "range": {
+        "startLine": 1694,
+        "startChar": 17,
+        "endLine": 1694,
+        "endChar": 29
+      },
+      "revId": "66cd70d4340e1763d222086c9671114a3e7cd012",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

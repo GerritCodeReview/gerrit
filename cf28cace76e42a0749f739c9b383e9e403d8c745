@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "90646fc9_baf6916c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/HashtagsUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-09-26T09:07:53Z",
+      "side": 1,
+      "message": "I think it would be cleaner to put this code in the ValidationListener.\nAnd call detectCommitMessagHashtags(...) from there. But I\u0027m not sure...",
+      "range": {
+        "startLine": 184,
+        "startChar": 2,
+        "endLine": 192,
+        "endChar": 77
+      },
+      "revId": "cf28cace76e42a0749f739c9b383e9e403d8c745",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

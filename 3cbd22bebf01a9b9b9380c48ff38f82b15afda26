@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "90646fc9_7a9159fb",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/DefaultCommandModule.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-26T13:00:48Z",
+      "side": 1,
+      "message": "As for my previous comment: site admins must be able to disable this. The simplest way would be to access here [download.archive] configuration option and check if it\u0027s \"off\". I don\u0027t think we need two different options for UI and SSH. I cannot imagine that someone would enable UI but would like to disable SSH or the other way around.",
+      "range": {
+        "startLine": 71,
+        "startChar": 4,
+        "endLine": 72,
+        "endChar": 59
+      },
+      "revId": "3cbd22bebf01a9b9b9380c48ff38f82b15afda26",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

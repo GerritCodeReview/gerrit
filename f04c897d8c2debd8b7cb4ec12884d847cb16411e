@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "90646fc9_fa0009a0",
+        "filename": "Documentation/cmd-logging-ls-level.txt",
+        "patchSetId": 21
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-26T09:13:25Z",
+      "side": 1,
+      "message": "I would prefer to name this only \"ls\". Typing ls-level feels like too much as we are already in the \"logging\" context.\n\nIf you want to keep the \"ls-level\" please add the \"ls\" as an alias.",
+      "range": {
+        "startLine": 4,
+        "startChar": 15,
+        "endLine": 4,
+        "endChar": 23
+      },
+      "revId": "f04c897d8c2debd8b7cb4ec12884d847cb16411e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90646fc9_3ae361ae",
+        "filename": "Documentation/cmd-logging-set-level.txt",
+        "patchSetId": 21
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-26T09:13:25Z",
+      "side": 1,
+      "message": "Also here I would like to have only \"set\" as the name.",
+      "range": {
+        "startLine": 4,
+        "startChar": 15,
+        "endLine": 4,
+        "endChar": 24
+      },
+      "revId": "f04c897d8c2debd8b7cb4ec12884d847cb16411e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b095f3be_fb000fa0",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetLoggingLevelCommand.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-26T09:13:25Z",
+      "side": 1,
+      "message": "We don\u0027t use all-uppercase class/enum names.",
+      "range": {
+        "startLine": 43,
+        "startChar": 22,
+        "endLine": 43,
+        "endChar": 27
+      },
+      "revId": "f04c897d8c2debd8b7cb4ec12884d847cb16411e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

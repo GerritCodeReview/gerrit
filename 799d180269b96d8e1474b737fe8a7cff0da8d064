@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f09dabd4_2d2ced82",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-09-26T18:39:48Z",
+      "side": 1,
+      "message": "Why is it 10% off?\n\nAnd does that 10% error hold when the page is zoomed?",
+      "revId": "799d180269b96d8e1474b737fe8a7cff0da8d064",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

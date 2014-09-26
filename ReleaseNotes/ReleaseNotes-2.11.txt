@@ -61,7 +61,11 @@ TODO
 Other
 ~~~~~
 
-TODO
+The 'Generate HTTP Password' capability has been removed to close a
+security vulnerability.  Now only administrators are allowed to generate
+and delete other user's http passwords via the REST or SSH interface.
+We would encourage you to clean up your project.config setting after upgrading.
+link:https://gerrit-review.googlesource.com/#/c/60372[change 60372]
 
 Upgrades
 --------

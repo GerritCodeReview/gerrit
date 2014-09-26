@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "505e77fe_f8f731ee",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 3663,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-09-26T16:59:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "10a15f0c_8e1cfb59",
+      "range": {
+        "startLine": 3663,
+        "startChar": 0,
+        "endLine": 3663,
+        "endChar": 63
+      },
+      "revId": "2ce9e4403756d29976a28a9ab669aa6bad8ad9b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "10a15f0c_ee213f90",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 3
@@ -36,6 +60,30 @@
       "writtenOn": "2014-09-26T00:47:58Z",
       "side": 1,
       "message": "\"only included if a plugin implementing the download commands interface is installed.\"",
+      "range": {
+        "startLine": 3679,
+        "startChar": 0,
+        "endLine": 3680,
+        "endChar": 73
+      },
+      "revId": "2ce9e4403756d29976a28a9ab669aa6bad8ad9b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "10787f6e_b626a8d6",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 3680,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-09-26T16:59:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "10a15f0c_ee213f90",
       "range": {
         "startLine": 3679,
         "startChar": 0,

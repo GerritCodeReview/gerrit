@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "90646fc9_7aedd993",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/DefaultCommandModule.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-26T09:17:09Z",
+      "side": 1,
+      "message": "I think it should be possible to disable this per configuration. This is already the case for archive feature in change screen 2. May be the same config option can be used for SSH as well. The rational behind it is: For very big repositories we don\u0027t want to activate it site wide. Another option is to allow it per project base [1]:\n\n [download.archive]\n\nSpecifies which archive formats, if any, should be offered on the change screen:\n\n [download]\n   archive \u003d tar\n   archive \u003d tbz2\n   archive \u003d tgz\n   archive \u003d txz\n\nIf download.archive is not specified defaults to all archive commands. Set to off or empty string to disable.\n\n [1] https://gerrit-review.googlesource.com/Documentation/config-gerrit.html#download",
+      "revId": "c506185dd9bf1042f391ab54aefe972ae59b1274",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b095f3be_fb9c8f58",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/UploadArchive.java",
         "patchSetId": 4

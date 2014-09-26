@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b095f3be_7b331fe1",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 624,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2014-09-26T10:01:28Z",
+      "side": 1,
+      "message": "The name is a bit strange. Accounts_members? group_members or group_accounts or something like that seems more representative of the cache.",
+      "revId": "026f7b3e705bc5372229762c5b53827bca33c630",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90646fc9_3acd216b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2014-09-26T10:01:28Z",
+      "side": 1,
+      "message": "groupIncludeCache. I don\u0027t think we need to shorten group here.",
+      "revId": "026f7b3e705bc5372229762c5b53827bca33c630",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b095f3be_3bdb5737",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/CreateAccount.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2014-09-26T10:01:28Z",
+      "side": 1,
+      "message": "No need to shorten \"group\" into \"g\"",
+      "revId": "026f7b3e705bc5372229762c5b53827bca33c630",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b095f3be_7be5dfec",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GroupIncludeCacheImpl.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2014-09-26T10:01:28Z",
+      "side": 1,
+      "message": "Nit: s/account/accounts/",
+      "revId": "026f7b3e705bc5372229762c5b53827bca33c630",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b095f3be_5b0903bd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/PerformCreateGroup.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2014-09-26T10:01:28Z",
+      "side": 1,
+      "message": "Do you really need to evict here? Will the group get added to the cache before it is actually populated with the initial users?",
+      "revId": "026f7b3e705bc5372229762c5b53827bca33c630",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

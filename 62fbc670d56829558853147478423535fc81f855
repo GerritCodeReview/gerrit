@@ -229,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "b095f3be_fbae4f6c",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ListLoggingLevelCommand.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-26T08:08:22Z",
+      "side": 1,
+      "message": "We actually already make use of the standard java.util.regex in many places.\n\n  $ git grep \u0027import java.util.regex\u0027 | wc -l\n  41\n\nOne reason to use the brics for the regex support in the ref patterns in the access control was, as I understood it, the \"getShortestExample\" method...\nwhich generates a shortest string which is matched by that regex. This is then used for computing the edit distance of each matching ref pattern to the target branch in order to decide which pattern is the most specific. \n\nThe brics library also has its disadvantages... If I remember well it doesn\u0027t support the negative/positive lookahead and because of that it is impossible (I guess) to express something like: \"all branches except master\" in the ref pattern.\n\nSince we are already using java.util.regex I would vote to also make use of it here.... assuming we really want regular expression here?\nA simple String.contains or String.startsWith is probably more than enough.\nIt also avoids the issue with escaping the dot in command line:\n\n  com\\\\.google\\\\.gerrit...\n\nwhich would be as simple as:\n\n  com.google.gerrit\n\nif we don\u0027t use regular expressions.",
+      "parentUuid": "10a15f0c_ae5c572a",
+      "revId": "62fbc670d56829558853147478423535fc81f855",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b095f3be_3b6ef7cb",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetLoggingLevelCommand.java",
         "patchSetId": 20

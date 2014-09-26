@@ -22,6 +22,53 @@
       "revId": "66cd70d4340e1763d222086c9671114a3e7cd012",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b095f3be_dbfb5353",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 1694,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-26T08:48:28Z",
+      "side": 1,
+      "message": "Yes. I added comment below where magic brand options are handled for new patch set upload. Hashtags handling is missing there.",
+      "parentUuid": "b095f3be_3bb197ca",
+      "range": {
+        "startLine": 1694,
+        "startChar": 17,
+        "endLine": 1694,
+        "endChar": 29
+      },
+      "revId": "66cd70d4340e1763d222086c9671114a3e7cd012",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90646fc9_7ad4f9cb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 2065,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-26T08:48:28Z",
+      "side": 1,
+      "message": "This is the place where magic branch is evaluated for upload of new patch set.",
+      "range": {
+        "startLine": 2062,
+        "startChar": 6,
+        "endLine": 2065,
+        "endChar": 7
+      },
+      "revId": "66cd70d4340e1763d222086c9671114a3e7cd012",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

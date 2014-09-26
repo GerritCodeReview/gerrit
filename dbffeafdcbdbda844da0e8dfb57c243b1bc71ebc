@@ -1,0 +1,268 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "90646fc9_7a5f999f",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/UploadArchive.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-26T10:01:35Z",
+      "side": 1,
+      "message": "Nit: missing blank line.",
+      "revId": "dbffeafdcbdbda844da0e8dfb57c243b1bc71ebc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90646fc9_9a438dd5",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/UploadArchive.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-26T10:01:35Z",
+      "side": 1,
+      "message": "No prefix m_ for instance variables.",
+      "range": {
+        "startLine": 136,
+        "startChar": 46,
+        "endLine": 136,
+        "endChar": 53
+      },
+      "revId": "dbffeafdcbdbda844da0e8dfb57c243b1bc71ebc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90646fc9_5a62d568",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/UploadArchive.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-26T10:01:35Z",
+      "side": 1,
+      "message": "Which plugin? That should be bound once. Can\u0027t you reused archive format that were already registered for git archive  download implementation in change screen? One problem would be to set compressing level per command invocation.",
+      "range": {
+        "startLine": 154,
+        "startChar": 12,
+        "endLine": 154,
+        "endChar": 40
+      },
+      "revId": "dbffeafdcbdbda844da0e8dfb57c243b1bc71ebc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90646fc9_ba4851f0",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/UploadArchive.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-26T10:01:35Z",
+      "side": 1,
+      "message": "no prefiex.",
+      "range": {
+        "startLine": 157,
+        "startChar": 50,
+        "endLine": 157,
+        "endChar": 59
+      },
+      "revId": "dbffeafdcbdbda844da0e8dfb57c243b1bc71ebc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90646fc9_1a585db9",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/UploadArchive.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-26T10:01:35Z",
+      "side": 1,
+      "message": "Stale comment. This was renamed to options.",
+      "range": {
+        "startLine": 217,
+        "startChar": 34,
+        "endLine": 217,
+        "endChar": 43
+      },
+      "revId": "dbffeafdcbdbda844da0e8dfb57c243b1bc71ebc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90646fc9_da4d05ff",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/UploadArchive.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-26T10:01:35Z",
+      "side": 1,
+      "message": "no final.",
+      "range": {
+        "startLine": 220,
+        "startChar": 4,
+        "endLine": 220,
+        "endChar": 9
+      },
+      "revId": "dbffeafdcbdbda844da0e8dfb57c243b1bc71ebc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b095f3be_db1433db",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/UploadArchive.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-26T10:01:35Z",
+      "side": 1,
+      "message": "Naming convention for vars: camelCase and not_underscore.",
+      "range": {
+        "startLine": 220,
+        "startChar": 17,
+        "endLine": 220,
+        "endChar": 24
+      },
+      "revId": "dbffeafdcbdbda844da0e8dfb57c243b1bc71ebc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90646fc9_fa52c99b",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/UploadArchive.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-26T10:01:35Z",
+      "side": 1,
+      "message": "nit: extra blank",
+      "range": {
+        "startLine": 225,
+        "startChar": 12,
+        "endLine": 225,
+        "endChar": 13
+      },
+      "revId": "dbffeafdcbdbda844da0e8dfb57c243b1bc71ebc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b095f3be_fb19ef0f",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/UploadArchive.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-26T10:01:35Z",
+      "side": 1,
+      "message": "Stale comment.",
+      "range": {
+        "startLine": 240,
+        "startChar": 29,
+        "endLine": 240,
+        "endChar": 38
+      },
+      "revId": "dbffeafdcbdbda844da0e8dfb57c243b1bc71ebc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90646fc9_3a552182",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/UploadArchive.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-26T10:01:35Z",
+      "side": 1,
+      "message": "Nit: unneeded blank line.",
+      "revId": "dbffeafdcbdbda844da0e8dfb57c243b1bc71ebc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b095f3be_1b0f7bc5",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/UploadArchive.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-26T10:01:35Z",
+      "side": 1,
+      "message": "no final.",
+      "range": {
+        "startLine": 275,
+        "startChar": 6,
+        "endLine": 275,
+        "endChar": 11
+      },
+      "revId": "dbffeafdcbdbda844da0e8dfb57c243b1bc71ebc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90646fc9_9a2c6d21",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/UploadArchive.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-26T10:01:35Z",
+      "side": 1,
+      "message": "no final.",
+      "range": {
+        "startLine": 276,
+        "startChar": 6,
+        "endLine": 276,
+        "endChar": 11
+      },
+      "revId": "dbffeafdcbdbda844da0e8dfb57c243b1bc71ebc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

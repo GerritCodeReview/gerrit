@@ -73,6 +73,7 @@ public class CreateAccount implements RestModifyView<TopLevelResource, Input> {
   private final SshKeyCache sshKeyCache;
   private final AccountCache accountCache;
   private final AccountByEmailCache byEmailCache;
+  private final GroupIncludeCache groupIncludeCache;
   private final AccountLoader.Factory infoLoader;
   private final String username;
   private final AuditService auditService;
@@ -81,6 +82,7 @@ public class CreateAccount implements RestModifyView<TopLevelResource, Input> {
   CreateAccount(ReviewDb db, Provider<IdentifiedUser> currentUser,
       GroupsCollection groupsCollection, SshKeyCache sshKeyCache,
       AccountCache accountCache, AccountByEmailCache byEmailCache,
+      GroupIncludeCache groupIncludeCache,
       AccountLoader.Factory infoLoader,
       @Assisted String username, AuditService auditService) {
     this.db = db;
@@ -89,6 +91,7 @@ public class CreateAccount implements RestModifyView<TopLevelResource, Input> {
     this.sshKeyCache = sshKeyCache;
     this.accountCache = accountCache;
     this.byEmailCache = byEmailCache;
+    this.groupIncludeCache = groupIncludeCache;
     this.infoLoader = infoLoader;
     this.username = username;
     this.auditService = auditService;
@@ -110,7 +113,7 @@ public class CreateAccount implements RestModifyView<TopLevelResource, Input> {
           + " must contain only letters, numbers, _, - or .");
     }
 
-    Set<AccountGroup.Id> groups = parseGroups(input.groups);
+    Set<AccountGroup> groups = parseGroups(input.groups);
 
     Account.Id id = new Account.Id(db.nextAccountId());
     AccountSshKey key = createSshKey(id, input.sshKey);
@@ -169,12 +172,13 @@ public class CreateAccount implements RestModifyView<TopLevelResource, Input> {
       db.accountSshKeys().insert(Collections.singleton(key));
     }
 
-    for (AccountGroup.Id groupId : groups) {
+    for (AccountGroup g : groups) {
       AccountGroupMember m =
-          new AccountGroupMember(new AccountGroupMember.Key(id, groupId));
+          new AccountGroupMember(new AccountGroupMember.Key(id, g.getId()));
       auditService.dispatchAddAccountsToGroup(currentUser.get().getAccountId(),
           Collections.singleton(m));
       db.accountGroupMembers().insert(Collections.singleton(m));
+      groupIncludeCache.evictAccountsOf(g.getGroupUUID());
     }
 
     sshKeyCache.evict(username);
@@ -187,16 +191,16 @@ public class CreateAccount implements RestModifyView<TopLevelResource, Input> {
     return Response.created(info);
   }
 
-  private Set<AccountGroup.Id> parseGroups(List<String> groups)
+  private Set<AccountGroup> parseGroups(List<String> groups)
       throws UnprocessableEntityException {
-    Set<AccountGroup.Id> groupIds = Sets.newHashSet();
+    Set<AccountGroup> r = Sets.newHashSet();
     if (groups != null) {
       for (String g : groups) {
-        groupIds.add(GroupDescriptions.toAccountGroup(
-            groupsCollection.parseInternal(g)).getId());
+        r.add(GroupDescriptions.toAccountGroup(groupsCollection
+            .parseInternal(g)));
       }
     }
-    return groupIds;
+    return r;
   }
 
   private AccountSshKey createSshKey(Account.Id id, String sshKey)

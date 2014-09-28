@@ -91,9 +91,9 @@ public class DeleteIncludedGroups implements RestModifyView<GroupResource, Input
       writeAudits(toRemove);
       db.get().accountGroupById().delete(toRemove);
       for (final AccountGroupById g : toRemove) {
-        groupIncludeCache.evictMemberIn(g.getIncludeUUID());
+        groupIncludeCache.evictParentGroupsOf(g.getIncludeUUID());
       }
-      groupIncludeCache.evictMembersOf(internalGroup.getGroupUUID());
+      groupIncludeCache.evictSubgroupsOf(internalGroup.getGroupUUID());
     }
 
     return Response.none();

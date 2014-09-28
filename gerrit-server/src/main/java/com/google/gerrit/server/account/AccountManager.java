@@ -48,6 +48,7 @@ public class AccountManager {
   private final SchemaFactory<ReviewDb> schema;
   private final AccountCache byIdCache;
   private final AccountByEmailCache byEmailCache;
+  private final GroupIncludeCache groupIncludeCache;
   private final Realm realm;
   private final IdentifiedUser.GenericFactory userFactory;
   private final ChangeUserName.Factory changeUserNameFactory;
@@ -58,6 +59,7 @@ public class AccountManager {
   @Inject
   AccountManager(final SchemaFactory<ReviewDb> schema,
       final AccountCache byIdCache, final AccountByEmailCache byEmailCache,
+      GroupIncludeCache groupIncludeCache,
       final Realm accountMapper,
       final IdentifiedUser.GenericFactory userFactory,
       final ChangeUserName.Factory changeUserNameFactory,
@@ -66,6 +68,7 @@ public class AccountManager {
     this.schema = schema;
     this.byIdCache = byIdCache;
     this.byEmailCache = byEmailCache;
+    this.groupIncludeCache = groupIncludeCache;
     this.realm = accountMapper;
     this.userFactory = userFactory;
     this.changeUserNameFactory = changeUserNameFactory;
@@ -232,6 +235,7 @@ public class AccountManager {
           new AccountGroupMember(new AccountGroupMember.Key(newId, adminId));
       auditService.dispatchAddAccountsToGroup(newId, Collections.singleton(m));
       db.accountGroupMembers().insert(Collections.singleton(m));
+      groupIncludeCache.evictAccountsOf(g.getGroupUUID());
     }
 
     if (who.getUserName() != null) {

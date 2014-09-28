@@ -42,23 +42,23 @@ import java.util.concurrent.ExecutionException;
 public class GroupIncludeCacheImpl implements GroupIncludeCache {
   private static final Logger log = LoggerFactory
       .getLogger(GroupIncludeCacheImpl.class);
-  private static final String BYINCLUDE_NAME = "groups_byinclude";
-  private static final String MEMBERS_NAME = "groups_members";
+  private static final String PARENT_GROUPS_NAME = "groups_byinclude";
+  private static final String SUBGROUPS_NAME = "groups_members";
   private static final String EXTERNAL_NAME = "groups_external";
 
   public static Module module() {
     return new CacheModule() {
       @Override
       protected void configure() {
-        cache(BYINCLUDE_NAME,
+        cache(PARENT_GROUPS_NAME,
             AccountGroup.UUID.class,
             new TypeLiteral<Set<AccountGroup.UUID>>() {})
-          .loader(MemberInLoader.class);
+          .loader(parentGroupsLoader.class);
 
-        cache(MEMBERS_NAME,
+        cache(SUBGROUPS_NAME,
             AccountGroup.UUID.class,
             new TypeLiteral<Set<AccountGroup.UUID>>() {})
-          .loader(MembersOfLoader.class);
+          .loader(subgroupsLoader.class);
 
         cache(EXTERNAL_NAME,
             String.class,
@@ -71,24 +71,24 @@ public class GroupIncludeCacheImpl implements GroupIncludeCache {
     };
   }
 
-  private final LoadingCache<AccountGroup.UUID, Set<AccountGroup.UUID>> membersOf;
-  private final LoadingCache<AccountGroup.UUID, Set<AccountGroup.UUID>> memberIn;
+  private final LoadingCache<AccountGroup.UUID, Set<AccountGroup.UUID>> subgroups;
+  private final LoadingCache<AccountGroup.UUID, Set<AccountGroup.UUID>> parentGroups;
   private final LoadingCache<String, Set<AccountGroup.UUID>> external;
 
   @Inject
   GroupIncludeCacheImpl(
-      @Named(MEMBERS_NAME) LoadingCache<AccountGroup.UUID, Set<AccountGroup.UUID>> membersOf,
-      @Named(BYINCLUDE_NAME) LoadingCache<AccountGroup.UUID, Set<AccountGroup.UUID>> memberIn,
+      @Named(SUBGROUPS_NAME) LoadingCache<AccountGroup.UUID, Set<AccountGroup.UUID>> subgroups,
+      @Named(PARENT_GROUPS_NAME) LoadingCache<AccountGroup.UUID, Set<AccountGroup.UUID>> parentGroups,
       @Named(EXTERNAL_NAME) LoadingCache<String, Set<AccountGroup.UUID>> external) {
-    this.membersOf = membersOf;
-    this.memberIn = memberIn;
+    this.subgroups = subgroups;
+    this.parentGroups = parentGroups;
     this.external = external;
   }
 
   @Override
-  public Set<AccountGroup.UUID> membersOf(AccountGroup.UUID groupId) {
+  public Set<AccountGroup.UUID> subgroupsOf(AccountGroup.UUID groupId) {
     try {
-      return membersOf.get(groupId);
+      return subgroups.get(groupId);
     } catch (ExecutionException e) {
       log.warn("Cannot load members of group", e);
       return Collections.emptySet();
@@ -96,9 +96,9 @@ public class GroupIncludeCacheImpl implements GroupIncludeCache {
   }
 
   @Override
-  public Set<AccountGroup.UUID> memberIn(AccountGroup.UUID groupId) {
+  public Set<AccountGroup.UUID> parentGroupsOf(AccountGroup.UUID groupId) {
     try {
-      return memberIn.get(groupId);
+      return parentGroups.get(groupId);
     } catch (ExecutionException e) {
       log.warn("Cannot load included groups", e);
       return Collections.emptySet();
@@ -106,16 +106,16 @@ public class GroupIncludeCacheImpl implements GroupIncludeCache {
   }
 
   @Override
-  public void evictMembersOf(AccountGroup.UUID groupId) {
+  public void evictSubgroupsOf(AccountGroup.UUID groupId) {
     if (groupId != null) {
-      membersOf.invalidate(groupId);
+      subgroups.invalidate(groupId);
     }
   }
 
   @Override
-  public void evictMemberIn(AccountGroup.UUID groupId) {
+  public void evictParentGroupsOf(AccountGroup.UUID groupId) {
     if (groupId != null) {
-      memberIn.invalidate(groupId);
+      parentGroups.invalidate(groupId);
 
       if (!AccountGroup.isInternalGroup(groupId)) {
         external.invalidate(EXTERNAL_NAME);
@@ -133,12 +133,12 @@ public class GroupIncludeCacheImpl implements GroupIncludeCache {
     }
   }
 
-  static class MembersOfLoader extends
+  static class subgroupsLoader extends
       CacheLoader<AccountGroup.UUID, Set<AccountGroup.UUID>> {
     private final SchemaFactory<ReviewDb> schema;
 
     @Inject
-    MembersOfLoader(final SchemaFactory<ReviewDb> sf) {
+    subgroupsLoader(final SchemaFactory<ReviewDb> sf) {
       schema = sf;
     }
 
@@ -163,12 +163,12 @@ public class GroupIncludeCacheImpl implements GroupIncludeCache {
     }
   }
 
-  static class MemberInLoader extends
+  static class parentGroupsLoader extends
       CacheLoader<AccountGroup.UUID, Set<AccountGroup.UUID>> {
     private final SchemaFactory<ReviewDb> schema;
 
     @Inject
-    MemberInLoader(final SchemaFactory<ReviewDb> sf) {
+    parentGroupsLoader(final SchemaFactory<ReviewDb> sf) {
       schema = sf;
     }
 

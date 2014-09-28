@@ -116,7 +116,7 @@ public class PerformCreateGroup {
 
     if (createGroupArgs.initialGroups != null) {
       addGroups(groupId, createGroupArgs.initialGroups);
-      groupIncludeCache.evictMembersOf(uuid);
+      groupIncludeCache.evictSubgroupsOf(uuid);
     }
 
     groupCache.onCreateGroup(createGroupArgs.getGroup());
@@ -162,7 +162,7 @@ public class PerformCreateGroup {
     db.accountGroupByIdAud().insert(includesAudit);
 
     for (AccountGroup.UUID uuid : groups) {
-      groupIncludeCache.evictMemberIn(uuid);
+      groupIncludeCache.evictParentGroupsOf(uuid);
     }
   }
 }

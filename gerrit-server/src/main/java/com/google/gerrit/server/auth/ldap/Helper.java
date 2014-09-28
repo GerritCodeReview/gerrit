@@ -96,7 +96,7 @@ import javax.security.auth.login.LoginException;
     return null;
   }
 
-  private final Cache<String, ImmutableSet<String>> groupsByInclude;
+  private final Cache<String, ImmutableSet<String>> parentGroups;
   private final Config config;
   private final String server;
   private final String username;
@@ -110,8 +110,8 @@ import javax.security.auth.login.LoginException;
 
   @Inject
   Helper(@GerritServerConfig final Config config,
-      @Named(LdapModule.GROUPS_BYINCLUDE_CACHE)
-      Cache<String, ImmutableSet<String>> groupsByInclude) {
+      @Named(LdapModule.PARENT_GROUPS_CACHE)
+      Cache<String, ImmutableSet<String>> parentGroups) {
     this.config = config;
     this.server = LdapRealm.optional(config, "server");
     this.username = LdapRealm.optional(config, "username");
@@ -128,7 +128,7 @@ import javax.security.auth.login.LoginException;
     } else {
       readTimeOutMillis = null;
     }
-    this.groupsByInclude = groupsByInclude;
+    this.parentGroups = parentGroups;
     this.connectionPoolConfig = getPoolProperties(config);
   }
 
@@ -303,8 +303,8 @@ import javax.security.auth.login.LoginException;
   private void recursivelyExpandGroups(final Set<String> groupDNs,
       final LdapSchema schema, final DirContext ctx, final String groupDN) {
     if (groupDNs.add(groupDN) && schema.accountMemberField != null) {
-      ImmutableSet<String> cachedGroupDNs = groupsByInclude.getIfPresent(groupDN);
-      if (cachedGroupDNs == null) {
+      ImmutableSet<String> cachedParentsDNs = parentGroups.getIfPresent(groupDN);
+      if (cachedParentsDNs == null) {
         // Recursively identify the groups it is a member of.
         ImmutableSet.Builder<String> dns = ImmutableSet.builder();
         try {
@@ -323,10 +323,10 @@ import javax.security.auth.login.LoginException;
         } catch (NamingException e) {
           LdapRealm.log.warn("Could not find group " + groupDN, e);
         }
-        cachedGroupDNs = dns.build();
-        groupsByInclude.put(groupDN, cachedGroupDNs);
+        cachedParentsDNs = dns.build();
+        parentGroups.put(groupDN, cachedParentsDNs);
       }
-      for (String dn : cachedGroupDNs) {
+      for (String dn : cachedParentsDNs) {
         recursivelyExpandGroups(groupDNs, schema, ctx, dn);
       }
     }

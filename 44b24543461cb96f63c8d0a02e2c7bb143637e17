@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b095f3be_dbf19346",
+        "filename": "ReleaseNotes/ReleaseNotes-2.11.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2014-09-28T07:50:34Z",
+      "side": 1,
+      "message": "Please use permalink form",
+      "revId": "44b24543461cb96f63c8d0a02e2c7bb143637e17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "90646fc9_babe914b",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 624,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-09-28T06:25:04Z",
+      "side": 1,
+      "message": "Please see my feedback in https://gerrit-review.googlesource.com/#/c/58302/9/gerrit-server/src/main/java/com/google/gerrit/server/account/GroupIncludeCacheImpl.java",
+      "parentUuid": "b095f3be_7b331fe1",
+      "revId": "026f7b3e705bc5372229762c5b53827bca33c630",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "90646fc9_3acd216b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountManager.java",
         "patchSetId": 9
@@ -30,6 +48,24 @@
       "writtenOn": "2014-09-26T10:01:28Z",
       "side": 1,
       "message": "groupIncludeCache. I don\u0027t think we need to shorten group here.",
+      "revId": "026f7b3e705bc5372229762c5b53827bca33c630",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90646fc9_5a1f35c0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-09-28T06:25:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "90646fc9_3acd216b",
       "revId": "026f7b3e705bc5372229762c5b53827bca33c630",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,41 @@
     },
     {
       "key": {
+        "uuid": "b095f3be_9be70b8d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/CreateAccount.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-09-28T06:25:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b095f3be_3bdb5737",
+      "revId": "026f7b3e705bc5372229762c5b53827bca33c630",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90646fc9_fac809ef",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GroupIncludeCacheImpl.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-09-28T06:25:04Z",
+      "side": 1,
+      "message": "\u003eThe name is a bit strange. Accounts_members? group_members or group_accounts or something like that seems more representative of the cache.\n\nThe \u0027groups_members\u0027 exists already in the line 50 to present a given group\u0027s subgroups, just for keeping the same naming style I named it as \u0027accounts_member\u0027 to present a given group\u0027s accounts.\n\nBUT I agree the name is strange and not precise as now we not only cache the subgroups of a give group, but also cache its accounts, so the words \u0027member\u0027 and \u0027include\u0027 is not precise any more. \n\nSo I rename it to \u0027groups_accounts\u0027 and add a commit I9a5be1cb  to keep the semantic environment of group inclusion caches clean and easy to read .",
+      "revId": "026f7b3e705bc5372229762c5b53827bca33c630",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b095f3be_7be5dfec",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GroupIncludeCacheImpl.java",
         "patchSetId": 9
@@ -70,6 +141,24 @@
     },
     {
       "key": {
+        "uuid": "90646fc9_7a1cf9ca",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GroupIncludeCacheImpl.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-09-28T06:25:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b095f3be_7be5dfec",
+      "revId": "026f7b3e705bc5372229762c5b53827bca33c630",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b095f3be_5b0903bd",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/PerformCreateGroup.java",
         "patchSetId": 9
@@ -81,6 +170,24 @@
       "writtenOn": "2014-09-26T10:01:28Z",
       "side": 1,
       "message": "Do you really need to evict here? Will the group get added to the cache before it is actually populated with the initial users?",
+      "revId": "026f7b3e705bc5372229762c5b53827bca33c630",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90646fc9_9ab9cd68",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/PerformCreateGroup.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-09-28T06:25:04Z",
+      "side": 1,
+      "message": "Redundant. Removed \n\nDone.",
+      "parentUuid": "b095f3be_5b0903bd",
       "revId": "026f7b3e705bc5372229762c5b53827bca33c630",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

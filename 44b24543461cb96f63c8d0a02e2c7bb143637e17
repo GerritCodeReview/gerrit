@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "90646fc9_5ab8155c",
+        "filename": "ReleaseNotes/ReleaseNotes-2.11.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-28T09:38:59Z",
+      "side": 1,
+      "message": "vulnerability",
+      "range": {
+        "startLine": 65,
+        "startChar": 9,
+        "endLine": 65,
+        "endChar": 21
+      },
+      "revId": "44b24543461cb96f63c8d0a02e2c7bb143637e17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b095f3be_dbf19346",
         "filename": "ReleaseNotes/ReleaseNotes-2.11.txt",
         "patchSetId": 1

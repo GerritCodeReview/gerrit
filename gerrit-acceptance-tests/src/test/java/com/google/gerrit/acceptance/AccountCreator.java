@@ -24,6 +24,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.account.AccountByEmailCache;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.GroupCache;
+import com.google.gerrit.server.account.GroupIncludeCache;
 import com.google.gerrit.server.ssh.SshKeyCache;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
@@ -43,16 +44,19 @@ public class AccountCreator {
   private GroupCache groupCache;
   private SshKeyCache sshKeyCache;
   private AccountCache accountCache;
+  private GroupIncludeCache groupIncludeCache;
   private AccountByEmailCache byEmailCache;
 
   @Inject
   AccountCreator(SchemaFactory<ReviewDb> schema, GroupCache groupCache,
       SshKeyCache sshKeyCache, AccountCache accountCache,
+      GroupIncludeCache groupIncludeCache,
       AccountByEmailCache byEmailCache) {
     reviewDbProvider = schema;
     this.groupCache = groupCache;
     this.sshKeyCache = sshKeyCache;
     this.accountCache = accountCache;
+    this.groupIncludeCache = groupIncludeCache;
     this.byEmailCache = byEmailCache;
   }
 
@@ -92,6 +96,7 @@ public class AccountCreator {
           AccountGroupMember m =
               new AccountGroupMember(new AccountGroupMember.Key(id, g.getId()));
           db.accountGroupMembers().insert(Collections.singleton(m));
+          groupIncludeCache.evictAccountsOf(g.getGroupUUID());
         }
       }
 

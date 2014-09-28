@@ -90,7 +90,7 @@ public class IncludingGroupMembership implements GroupMembership {
         }
 
         memberOf.put(id, false);
-        if (search(includeCache.membersOf(id))) {
+        if (search(includeCache.subgroupsOf(id))) {
           memberOf.put(id, true);
           return true;
         }
@@ -131,7 +131,7 @@ public class IncludingGroupMembership implements GroupMembership {
 
     while (!q.isEmpty()) {
       AccountGroup.UUID id = q.remove(q.size() - 1);
-      for (AccountGroup.UUID g : includeCache.memberIn(id)) {
+      for (AccountGroup.UUID g : includeCache.parentGroupsOf(id)) {
         if (g != null && r.add(g)) {
           q.add(g);
           memberOf.put(g, true);

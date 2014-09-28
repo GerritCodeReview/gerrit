@@ -126,9 +126,9 @@ public class AddIncludedGroups implements RestModifyView<GroupResource, Input> {
       auditService.dispatchAddGroupsToGroup(me, newIncludedGroups.values());
       db.get().accountGroupById().insert(newIncludedGroups.values());
       for (AccountGroupById agi : newIncludedGroups.values()) {
-        groupIncludeCache.evictMemberIn(agi.getIncludeUUID());
+        groupIncludeCache.evictParentGroupsOf(agi.getIncludeUUID());
       }
-      groupIncludeCache.evictMembersOf(group.getGroupUUID());
+      groupIncludeCache.evictSubgroupsOf(group.getGroupUUID());
     }
 
     return result;

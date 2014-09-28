@@ -166,7 +166,7 @@ public class ProjectWatch {
       for (AccountGroupMember m : db.accountGroupMembers().byGroup(ig.getId())) {
         matching.accounts.add(m.getAccountId());
       }
-      for (AccountGroup.UUID m : args.groupIncludes.membersOf(uuid)) {
+      for (AccountGroup.UUID m : args.groupIncludes.subgroupsOf(uuid)) {
         if (seen.add(m)) {
           q.add(m);
         }

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.account;
 
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 
 import java.util.Set;
@@ -23,6 +24,9 @@ public interface GroupIncludeCache {
   /** @return groups directly a member of the passed group. */
   public Set<AccountGroup.UUID> subgroupsOf(AccountGroup.UUID group);
 
+  /** @return accounts directly a member of the passed group. */
+  public Set<Account.Id> accountsOf(AccountGroup.UUID group);
+
   /** @return any groups the passed group belongs to. */
   public Set<AccountGroup.UUID> parentGroupsOf(AccountGroup.UUID groupId);
 
@@ -31,4 +35,5 @@ public interface GroupIncludeCache {
 
   public void evictSubgroupsOf(AccountGroup.UUID groupId);
   public void evictParentGroupsOf(AccountGroup.UUID groupId);
+  public void evictAccountsOf(AccountGroup.UUID groupId);
 }

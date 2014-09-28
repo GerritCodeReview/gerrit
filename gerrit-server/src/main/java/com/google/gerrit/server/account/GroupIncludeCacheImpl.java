@@ -18,8 +18,11 @@ import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
+import com.google.gerrit.reviewdb.client.Account.Id;
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroupById;
+import com.google.gerrit.reviewdb.client.AccountGroupMember;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gwtorm.server.SchemaFactory;
@@ -44,6 +47,7 @@ public class GroupIncludeCacheImpl implements GroupIncludeCache {
       .getLogger(GroupIncludeCacheImpl.class);
   private static final String PARENT_GROUPS_NAME = "groups_byinclude";
   private static final String SUBGROUPS_NAME = "groups_members";
+  private static final String GROUPS_ACCOUNTS = "groups_accounts";
   private static final String EXTERNAL_NAME = "groups_external";
 
   public static Module module() {
@@ -60,6 +64,10 @@ public class GroupIncludeCacheImpl implements GroupIncludeCache {
             new TypeLiteral<Set<AccountGroup.UUID>>() {})
           .loader(subgroupsLoader.class);
 
+        cache(GROUPS_ACCOUNTS, AccountGroup.UUID.class,
+            new TypeLiteral<Set<Account.Id>>() {})
+           .loader(AccountsOfLoader.class);
+
         cache(EXTERNAL_NAME,
             String.class,
             new TypeLiteral<Set<AccountGroup.UUID>>() {})
@@ -73,13 +81,16 @@ public class GroupIncludeCacheImpl implements GroupIncludeCache {
 
   private final LoadingCache<AccountGroup.UUID, Set<AccountGroup.UUID>> subgroups;
   private final LoadingCache<AccountGroup.UUID, Set<AccountGroup.UUID>> parentGroups;
+  private final LoadingCache<AccountGroup.UUID, Set<Account.Id>> accounts;
   private final LoadingCache<String, Set<AccountGroup.UUID>> external;
 
   @Inject
   GroupIncludeCacheImpl(
+      @Named(GROUPS_ACCOUNTS) LoadingCache<AccountGroup.UUID, Set<Account.Id>> accounts,
       @Named(SUBGROUPS_NAME) LoadingCache<AccountGroup.UUID, Set<AccountGroup.UUID>> subgroups,
       @Named(PARENT_GROUPS_NAME) LoadingCache<AccountGroup.UUID, Set<AccountGroup.UUID>> parentGroups,
       @Named(EXTERNAL_NAME) LoadingCache<String, Set<AccountGroup.UUID>> external) {
+    this.accounts = accounts;
     this.subgroups = subgroups;
     this.parentGroups = parentGroups;
     this.external = external;
@@ -91,6 +102,16 @@ public class GroupIncludeCacheImpl implements GroupIncludeCache {
       return subgroups.get(groupId);
     } catch (ExecutionException e) {
       log.warn("Cannot load members of group", e);
+      return Collections.emptySet();
+    }
+  }
+
+  @Override
+  public Set<Id> accountsOf(AccountGroup.UUID groupId) {
+    try {
+      return accounts.get(groupId);
+    } catch (ExecutionException e) {
+      log.warn("Cannot load accounts of group", e);
       return Collections.emptySet();
     }
   }
@@ -109,6 +130,13 @@ public class GroupIncludeCacheImpl implements GroupIncludeCache {
   public void evictSubgroupsOf(AccountGroup.UUID groupId) {
     if (groupId != null) {
       subgroups.invalidate(groupId);
+    }
+  }
+
+  @Override
+  public void evictAccountsOf(AccountGroup.UUID groupId) {
+    if (groupId != null) {
+      accounts.invalidate(groupId);
     }
   }
 
@@ -155,6 +183,36 @@ public class GroupIncludeCacheImpl implements GroupIncludeCache {
         for (AccountGroupById agi : db.accountGroupById()
             .byGroup(group.get(0).getId())) {
           ids.add(agi.getIncludeUUID());
+        }
+        return ImmutableSet.copyOf(ids);
+      } finally {
+        db.close();
+      }
+    }
+  }
+
+  static class AccountsOfLoader extends
+      CacheLoader<AccountGroup.UUID, Set<Account.Id>> {
+    private final SchemaFactory<ReviewDb> schema;
+
+    @Inject
+    AccountsOfLoader(final SchemaFactory<ReviewDb> sf) {
+      schema = sf;
+    }
+
+    @Override
+    public Set<Account.Id> load(AccountGroup.UUID key) throws Exception {
+      final ReviewDb db = schema.open();
+      try {
+        List<AccountGroup> group = db.accountGroups().byUUID(key).toList();
+        if (group.size() != 1) {
+          return Collections.emptySet();
+        }
+
+        Set<Account.Id> ids = Sets.newHashSet();
+        for (AccountGroupMember m : db.accountGroupMembers().byGroup(
+            group.get(0).getId())) {
+          ids.add(m.getAccountId());
         }
         return ImmutableSet.copyOf(ids);
       } finally {

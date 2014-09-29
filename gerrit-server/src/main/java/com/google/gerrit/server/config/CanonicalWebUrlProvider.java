@@ -14,10 +14,11 @@
 
 package com.google.gerrit.server.config;
 
-import com.google.inject.Inject;
 import com.google.inject.Provider;
 
 import org.eclipse.jgit.lib.Config;
+
+import javax.inject.Inject;
 
 /** Provides {@link CanonicalWebUrl} from {@code gerrit.canonicalWebUrl}. */
 public class CanonicalWebUrlProvider implements Provider<String> {

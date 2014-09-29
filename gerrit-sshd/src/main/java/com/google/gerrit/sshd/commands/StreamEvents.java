@@ -28,7 +28,6 @@ import com.google.gerrit.sshd.BaseCommand;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.StreamCommandExecutor;
 import com.google.gson.Gson;
-import com.google.inject.Inject;
 
 import org.apache.sshd.server.Environment;
 
@@ -36,6 +35,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.concurrent.Future;
 import java.util.concurrent.LinkedBlockingQueue;
+
+import javax.inject.Inject;
 
 @RequiresCapability(GlobalCapability.STREAM_EVENTS)
 @CommandMetaData(name = "stream-events", description = "Monitor events occurring in real time",

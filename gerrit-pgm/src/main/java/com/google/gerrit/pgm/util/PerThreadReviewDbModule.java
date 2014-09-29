@@ -20,12 +20,13 @@ import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
-import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.ProvisionException;
 
 import java.util.Collections;
 import java.util.List;
+
+import javax.inject.Inject;
 
 /**
  * Module to bind a single {@link ReviewDb} instance per thread.

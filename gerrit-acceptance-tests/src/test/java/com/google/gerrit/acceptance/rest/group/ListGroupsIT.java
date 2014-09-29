@@ -31,7 +31,6 @@ import com.google.gerrit.server.group.CreateGroup;
 import com.google.gerrit.server.group.GroupJson.GroupInfo;
 import com.google.gson.reflect.TypeToken;
 import com.google.gwtorm.server.OrmException;
-import com.google.inject.Inject;
 
 import com.jcraft.jsch.JSchException;
 
@@ -41,6 +40,8 @@ import org.junit.Test;
 import java.io.IOException;
 import java.util.Map;
 import java.util.Set;
+
+import javax.inject.Inject;
 
 public class ListGroupsIT extends AbstractDaemonTest {
 

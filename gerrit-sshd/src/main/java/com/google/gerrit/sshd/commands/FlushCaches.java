@@ -27,13 +27,14 @@ import com.google.gerrit.server.config.ListCaches.OutputFormat;
 import com.google.gerrit.server.config.PostCaches;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
-import com.google.inject.Inject;
 import com.google.inject.Provider;
 
 import org.kohsuke.args4j.Option;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.inject.Inject;
 
 /** Causes the caches to purge all entries and reload. */
 @RequiresCapability(GlobalCapability.FLUSH_CACHES)

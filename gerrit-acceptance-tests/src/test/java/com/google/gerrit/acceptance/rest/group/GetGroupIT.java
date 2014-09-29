@@ -21,11 +21,12 @@ import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.group.GroupJson.GroupInfo;
-import com.google.inject.Inject;
 
 import org.junit.Test;
 
 import java.io.IOException;
+
+import javax.inject.Inject;
 
 public class GetGroupIT extends AbstractDaemonTest {
 

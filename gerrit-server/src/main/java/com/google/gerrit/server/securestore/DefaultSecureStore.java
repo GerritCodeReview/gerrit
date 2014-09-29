@@ -16,7 +16,6 @@ package com.google.gerrit.server.securestore;
 
 import com.google.gerrit.common.FileUtil;
 import com.google.gerrit.server.config.SitePaths;
-import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import org.eclipse.jgit.internal.storage.file.LockFile;
@@ -27,6 +26,8 @@ import org.eclipse.jgit.util.FS;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+
+import javax.inject.Inject;
 
 @Singleton
 public class DefaultSecureStore implements SecureStore {

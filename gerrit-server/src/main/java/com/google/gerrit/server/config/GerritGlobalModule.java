@@ -130,7 +130,6 @@ import com.google.gerrit.server.util.ThreadLocalRequestContext;
 import com.google.gerrit.server.validators.GroupCreationValidationListener;
 import com.google.gerrit.server.validators.HashtagValidationListener;
 import com.google.gerrit.server.validators.ProjectCreationValidationListener;
-import com.google.inject.Inject;
 import com.google.inject.TypeLiteral;
 import com.google.inject.internal.UniqueAnnotations;
 
@@ -140,6 +139,8 @@ import org.eclipse.jgit.transport.PreUploadHook;
 
 import java.util.List;
 import java.util.Set;
+
+import javax.inject.Inject;
 
 
 /** Starts global state with standard dependencies. */

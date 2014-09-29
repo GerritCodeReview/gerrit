@@ -22,13 +22,14 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllProjectsNameProvider;
-import com.google.inject.Inject;
 
 import org.kohsuke.args4j.Option;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+
+import javax.inject.Inject;
 
 public class ListChildProjects implements RestReadView<ProjectResource> {
 

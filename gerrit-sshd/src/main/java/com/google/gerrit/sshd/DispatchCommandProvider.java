@@ -17,7 +17,6 @@ package com.google.gerrit.sshd;
 import com.google.common.collect.Maps;
 import com.google.gerrit.extensions.registration.RegistrationHandle;
 import com.google.inject.Binding;
-import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Provider;
 import com.google.inject.TypeLiteral;
@@ -27,6 +26,8 @@ import org.apache.sshd.server.Command;
 import java.lang.annotation.Annotation;
 import java.util.List;
 import java.util.concurrent.ConcurrentMap;
+
+import javax.inject.Inject;
 
 /**
  * Creates DispatchCommand using commands registered by {@link CommandModule}.

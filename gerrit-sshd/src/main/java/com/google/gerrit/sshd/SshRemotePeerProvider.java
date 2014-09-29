@@ -14,11 +14,12 @@
 
 package com.google.gerrit.sshd;
 
-import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import java.net.SocketAddress;
+
+import javax.inject.Inject;
 
 @Singleton
 public class SshRemotePeerProvider implements Provider<SocketAddress> {

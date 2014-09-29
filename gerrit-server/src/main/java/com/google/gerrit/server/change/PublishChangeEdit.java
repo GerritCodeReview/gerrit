@@ -31,10 +31,11 @@ import com.google.gerrit.server.edit.ChangeEditUtil;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.server.OrmException;
-import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import java.io.IOException;
+
+import javax.inject.Inject;
 
 @Singleton
 public class PublishChangeEdit implements

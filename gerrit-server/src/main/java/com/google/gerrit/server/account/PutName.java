@@ -32,11 +32,12 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.PutName.Input;
 import com.google.gerrit.server.auth.ldap.LdapRealm;
 import com.google.gwtorm.server.OrmException;
-import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import java.util.Collections;
+
+import javax.inject.Inject;
 
 @Singleton
 public class PutName implements RestModifyView<AccountResource, Input> {

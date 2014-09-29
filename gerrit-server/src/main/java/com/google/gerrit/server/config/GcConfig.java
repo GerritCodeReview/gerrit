@@ -14,11 +14,12 @@
 
 package com.google.gerrit.server.config;
 
-import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ConfigConstants;
+
+import javax.inject.Inject;
 
 @Singleton
 public class GcConfig {

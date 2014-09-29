@@ -20,7 +20,6 @@ import com.google.gerrit.common.Die;
 import com.google.gerrit.common.IoUtil;
 import com.google.gerrit.pgm.init.api.ConsoleUI;
 import com.google.gerrit.server.config.SitePaths;
-import com.google.inject.Inject;
 
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.util.HttpSupport;
@@ -42,6 +41,8 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.inject.Inject;
 
 /** Get optional or required 3rd party library files into $site_path/lib. */
 class LibraryDownloader {

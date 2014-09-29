@@ -15,7 +15,6 @@
 package com.google.gerrit.sshd;
 
 import com.google.gerrit.server.config.SitePaths;
-import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.ProvisionException;
 
@@ -27,6 +26,8 @@ import org.apache.sshd.server.keyprovider.SimpleGeneratorHostKeyProvider;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.inject.Inject;
 
 class HostKeyProvider implements Provider<KeyPairProvider> {
   private final SitePaths site;

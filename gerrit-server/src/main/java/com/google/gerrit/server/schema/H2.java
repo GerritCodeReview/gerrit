@@ -16,12 +16,13 @@ package com.google.gerrit.server.schema;
 
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
-import com.google.inject.Inject;
 
 import org.eclipse.jgit.lib.Config;
 
 import java.io.File;
 import java.io.IOException;
+
+import javax.inject.Inject;
 
 class H2 extends BaseDataSourceType {
 

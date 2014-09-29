@@ -17,7 +17,6 @@ package com.google.gerrit.server.project;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import org.eclipse.jgit.lib.Config;
@@ -25,6 +24,8 @@ import org.eclipse.jgit.lib.Config;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+
+import javax.inject.Inject;
 
 /** Ticks periodically to force refresh events for {@link ProjectCacheImpl}. */
 @Singleton

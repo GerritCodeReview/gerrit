@@ -24,12 +24,13 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.git.RenameGroupOp;
 import com.google.gwtorm.server.OrmException;
-import com.google.inject.Inject;
 
 import java.util.Collections;
 import java.util.Date;
 import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
+
+import javax.inject.Inject;
 
 public class PerformRenameGroup {
 

@@ -36,7 +36,6 @@ import com.google.gerrit.server.util.TimeUtil;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.gerrit.sshd.SshDaemon;
-import com.google.inject.Inject;
 import com.google.inject.Provider;
 
 import org.apache.sshd.common.io.IoAcceptor;
@@ -51,6 +50,8 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.Map;
 import java.util.Map.Entry;
+
+import javax.inject.Inject;
 
 /** Show the current cache states. */
 @RequiresCapability(GlobalCapability.VIEW_CACHES)

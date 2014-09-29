@@ -24,8 +24,9 @@ import com.google.gerrit.server.account.StarredChanges;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.ChangesCollection;
 import com.google.gwtorm.server.OrmException;
-import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+
+import javax.inject.Inject;
 
 public class AccountApiImpl extends AccountApi.NotImplemented implements AccountApi {
   interface Factory {

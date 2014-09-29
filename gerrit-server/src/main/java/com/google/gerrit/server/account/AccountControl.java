@@ -25,11 +25,12 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.git.AccountsSection;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.project.ProjectCache;
-import com.google.inject.Inject;
 import com.google.inject.Provider;
 
 import java.util.HashSet;
 import java.util.Set;
+
+import javax.inject.Inject;
 
 /** Access control management for one account's access to other accounts. */
 public class AccountControl {

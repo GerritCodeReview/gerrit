@@ -24,7 +24,6 @@ import com.google.gerrit.server.cache.CacheModule;
 import com.google.gwtorm.server.OrmDuplicateKeyException;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
-import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
@@ -36,6 +35,8 @@ import org.slf4j.LoggerFactory;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
+
+import javax.inject.Inject;
 
 /** Tracks group objects in memory for efficient access. */
 @Singleton

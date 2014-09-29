@@ -25,11 +25,12 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.GetDiffPreferences.DiffPreferencesInfo;
 import com.google.gerrit.server.account.SetDiffPreferences.Input;
 import com.google.gwtorm.server.OrmException;
-import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import java.util.Collections;
+
+import javax.inject.Inject;
 
 @Singleton
 public class SetDiffPreferences implements RestModifyView<AccountResource, Input> {

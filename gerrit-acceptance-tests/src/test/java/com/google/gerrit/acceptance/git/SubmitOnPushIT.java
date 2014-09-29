@@ -40,7 +40,6 @@ import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gwtorm.server.OrmException;
-import com.google.inject.Inject;
 
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -54,6 +53,8 @@ import org.eclipse.jgit.transport.RefSpec;
 import org.junit.Test;
 
 import java.io.IOException;
+
+import javax.inject.Inject;
 
 @NoHttpd
 public class SubmitOnPushIT extends AbstractDaemonTest {

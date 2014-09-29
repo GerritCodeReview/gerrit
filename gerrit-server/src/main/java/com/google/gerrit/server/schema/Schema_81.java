@@ -25,7 +25,6 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gwtorm.server.OrmException;
-import com.google.inject.Inject;
 import com.google.inject.Provider;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -37,6 +36,8 @@ import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
 import java.sql.SQLException;
+
+import javax.inject.Inject;
 
 public class Schema_81 extends SchemaVersion {
 

@@ -16,7 +16,6 @@ package com.google.gerrit.httpd;
 
 import com.google.common.base.Strings;
 import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
@@ -24,6 +23,8 @@ import org.eclipse.jgit.lib.Config;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+
+import javax.inject.Inject;
 
 @Singleton
 class ProxyPropertiesProvider implements Provider<ProxyProperties> {

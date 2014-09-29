@@ -22,13 +22,14 @@ import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.server.config.GcConfig;
 import com.google.gerrit.server.config.ScheduleConfig;
 import com.google.gerrit.server.project.ProjectCache;
-import com.google.inject.Inject;
 import com.google.inject.Module;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.concurrent.TimeUnit;
+
+import javax.inject.Inject;
 
 /** Runnable to enable scheduling gc to run periodically */
 public class GarbageCollectionRunner implements Runnable {

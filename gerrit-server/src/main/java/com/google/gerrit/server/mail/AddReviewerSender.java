@@ -16,8 +16,9 @@ package com.google.gerrit.server.mail;
 
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+
+import javax.inject.Inject;
 
 /** Asks a user to review a change. */
 public class AddReviewerSender extends NewChangeSender {

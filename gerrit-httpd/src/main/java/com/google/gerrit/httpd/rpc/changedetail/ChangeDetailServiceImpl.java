@@ -19,7 +19,8 @@ import com.google.gerrit.common.data.PatchSetDetail;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwtjsonrpc.common.AsyncCallback;
-import com.google.inject.Inject;
+
+import javax.inject.Inject;
 
 class ChangeDetailServiceImpl implements ChangeDetailService {
   private final PatchSetDetailFactory.Factory patchSetDetail;

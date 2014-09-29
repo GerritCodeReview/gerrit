@@ -22,11 +22,12 @@ import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.validators.ValidationException;
 import com.google.gwtorm.server.OrmException;
-import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import java.io.IOException;
 import java.util.Set;
+
+import javax.inject.Inject;
 
 @Singleton
 public class PostHashtags implements RestModifyView<ChangeResource, HashtagsInput> {

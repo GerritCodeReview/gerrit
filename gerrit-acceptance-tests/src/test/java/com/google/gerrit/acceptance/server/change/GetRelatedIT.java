@@ -31,7 +31,6 @@ import com.google.gerrit.server.change.GetRelated.RelatedInfo;
 import com.google.gerrit.server.edit.ChangeEditModifier;
 import com.google.gerrit.server.edit.ChangeEditUtil;
 import com.google.gwtorm.server.OrmException;
-import com.google.inject.Inject;
 
 import org.eclipse.jgit.api.ResetCommand.ResetType;
 import org.eclipse.jgit.api.errors.GitAPIException;
@@ -39,6 +38,8 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.util.List;
+
+import javax.inject.Inject;
 
 public class GetRelatedIT extends AbstractDaemonTest {
   @Inject

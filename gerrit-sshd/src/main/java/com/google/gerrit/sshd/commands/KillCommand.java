@@ -25,12 +25,13 @@ import com.google.gerrit.server.config.TaskResource;
 import com.google.gerrit.server.config.TasksCollection;
 import com.google.gerrit.sshd.AdminHighPriorityCommand;
 import com.google.gerrit.sshd.SshCommand;
-import com.google.inject.Inject;
 
 import org.kohsuke.args4j.Argument;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.inject.Inject;
 
 /** Kill a task in the work queue. */
 @AdminHighPriorityCommand

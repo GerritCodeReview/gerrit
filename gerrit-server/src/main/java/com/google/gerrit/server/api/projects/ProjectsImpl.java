@@ -22,12 +22,13 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.server.project.ListProjects;
 import com.google.gerrit.server.project.ProjectsCollection;
-import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import java.io.IOException;
 import java.util.List;
+
+import javax.inject.Inject;
 
 @Singleton
 class ProjectsImpl extends Projects.NotImplemented implements Projects {

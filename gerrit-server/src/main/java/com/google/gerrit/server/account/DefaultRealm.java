@@ -19,10 +19,11 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.config.AuthConfig;
-import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import java.util.Set;
+
+import javax.inject.Inject;
 
 @Singleton
 public class DefaultRealm implements Realm {

@@ -35,7 +35,6 @@ import com.google.gwtorm.schema.sql.DialectMySQL;
 import com.google.gwtorm.schema.sql.DialectPostgreSQL;
 import com.google.gwtorm.schema.sql.SqlDialect;
 import com.google.gwtorm.server.OrmException;
-import com.google.inject.Inject;
 import com.google.inject.Provider;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -50,6 +49,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
 import java.util.Map;
+
+import javax.inject.Inject;
 
 public class Schema_77 extends SchemaVersion {
   private final GitRepositoryManager mgr;

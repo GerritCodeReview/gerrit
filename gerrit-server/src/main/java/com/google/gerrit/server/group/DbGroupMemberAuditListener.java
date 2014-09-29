@@ -29,7 +29,6 @@ import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.account.UniversalGroupBackend;
 import com.google.gerrit.server.util.TimeUtil;
 import com.google.gwtorm.server.OrmException;
-import com.google.inject.Inject;
 import com.google.inject.Provider;
 
 import org.slf4j.Logger;
@@ -38,6 +37,8 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+
+import javax.inject.Inject;
 
 class DbGroupMemberAuditListener implements GroupMemberAuditListener {
   private static final Logger log = org.slf4j.LoggerFactory

@@ -26,7 +26,6 @@ import com.google.gerrit.server.git.TransferConfig;
 import com.google.gerrit.server.git.VisibleRefFilter;
 import com.google.gerrit.sshd.AbstractGitCommand;
 import com.google.gerrit.sshd.CommandMetaData;
-import com.google.inject.Inject;
 
 import org.eclipse.jgit.errors.TooLargeObjectInPackException;
 import org.eclipse.jgit.errors.UnpackException;
@@ -46,6 +45,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import javax.inject.Inject;
 
 /** Receives change upload over SSH using the Git receive-pack protocol. */
 @CommandMetaData(name = "receive-pack", description = "Standard Git server side command for client side git push")

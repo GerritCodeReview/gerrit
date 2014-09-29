@@ -17,8 +17,9 @@ package com.google.gerrit.sshd;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.git.QueueProvider;
 import com.google.gerrit.server.git.WorkQueue;
-import com.google.inject.Inject;
 import com.google.inject.Provider;
+
+import javax.inject.Inject;
 
 class CommandExecutorProvider implements Provider<WorkQueue.Executor> {
 

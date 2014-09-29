@@ -31,12 +31,13 @@ import com.google.gerrit.server.ioutil.ColumnFormatter;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.gwtorm.server.OrmException;
-import com.google.inject.Inject;
 import com.google.inject.Provider;
 
 import org.kohsuke.args4j.Option;
 
 import java.io.PrintWriter;
+
+import javax.inject.Inject;
 
 @CommandMetaData(name = "ls-groups", description = "List groups visible to the caller",
   runsAt = MASTER_OR_SLAVE)

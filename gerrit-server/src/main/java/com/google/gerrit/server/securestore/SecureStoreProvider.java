@@ -17,7 +17,6 @@ package com.google.gerrit.server.securestore;
 import com.google.common.base.Strings;
 import com.google.gerrit.common.SiteLibraryLoaderUtil;
 import com.google.gerrit.server.config.SitePaths;
-import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Provider;
 
@@ -29,6 +28,8 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
+
+import javax.inject.Inject;
 
 public class SecureStoreProvider implements Provider<SecureStore> {
   private static final Logger log = LoggerFactory

@@ -17,10 +17,11 @@ package com.google.gerrit.acceptance;
 import static org.junit.Assert.assertEquals;
 
 import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.inject.Inject;
 
 import org.eclipse.jgit.lib.Config;
 import org.junit.Test;
+
+import javax.inject.Inject;
 
 public class UseGerritConfigAnnotationTest extends AbstractDaemonTest {
 

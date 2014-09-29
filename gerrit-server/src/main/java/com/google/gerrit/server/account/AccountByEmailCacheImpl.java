@@ -23,7 +23,6 @@ import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gwtorm.server.SchemaFactory;
-import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
@@ -35,6 +34,8 @@ import org.slf4j.LoggerFactory;
 import java.util.Collections;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
+
+import javax.inject.Inject;
 
 /** Translates an email address to a set of matching accounts. */
 @Singleton

@@ -20,7 +20,6 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import org.eclipse.jgit.api.GarbageCollectCommand;
@@ -30,6 +29,8 @@ import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.lib.Repository;
 
 import java.io.IOException;
+
+import javax.inject.Inject;
 
 @RequiresCapability(GlobalCapability.RUN_GC)
 @Singleton

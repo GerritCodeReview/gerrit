@@ -15,13 +15,14 @@
 package com.google.gerrit.server;
 
 import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.UserConfig;
+
+import javax.inject.Inject;
 
 /** Provides {@link PersonIdent} annotated with {@link GerritPersonIdent}. */
 @Singleton

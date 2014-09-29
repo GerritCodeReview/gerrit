@@ -18,10 +18,11 @@ import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.change.FileContentUtil;
-import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import java.io.IOException;
+
+import javax.inject.Inject;
 
 @Singleton
 public class GetContent implements RestReadView<FileResource> {

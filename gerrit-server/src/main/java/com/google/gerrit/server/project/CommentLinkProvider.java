@@ -18,7 +18,6 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.ProjectConfig;
-import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.ProvisionException;
 
@@ -26,6 +25,8 @@ import org.eclipse.jgit.lib.Config;
 
 import java.util.List;
 import java.util.Set;
+
+import javax.inject.Inject;
 
 public class CommentLinkProvider implements Provider<List<CommentLinkInfo>> {
   private final Config cfg;

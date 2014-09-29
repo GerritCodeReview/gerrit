@@ -18,7 +18,6 @@ import com.google.common.base.Strings;
 import com.google.gerrit.common.Die;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
-import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import org.apache.log4j.Appender;
@@ -35,6 +34,8 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
+
+import javax.inject.Inject;
 
 @Singleton
 public class SystemLog {

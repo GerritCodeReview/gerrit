@@ -28,7 +28,6 @@ import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.WebLinks;
 import com.google.gerrit.server.extensions.webui.UiActions;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.google.inject.util.Providers;
@@ -46,6 +45,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
+
+import javax.inject.Inject;
 
 @Singleton
 public class ListBranches implements RestReadView<ProjectResource> {

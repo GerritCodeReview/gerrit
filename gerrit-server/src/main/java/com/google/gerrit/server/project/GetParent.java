@@ -17,8 +17,9 @@ package com.google.gerrit.server.project;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.AllProjectsName;
-import com.google.inject.Inject;
 import com.google.inject.Singleton;
+
+import javax.inject.Inject;
 
 @Singleton
 class GetParent implements RestReadView<ProjectResource> {

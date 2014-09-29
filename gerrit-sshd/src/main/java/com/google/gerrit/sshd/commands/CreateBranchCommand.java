@@ -20,9 +20,10 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
-import com.google.inject.Inject;
 
 import org.kohsuke.args4j.Argument;
+
+import javax.inject.Inject;
 
 /** Create a new branch. **/
 @CommandMetaData(name = "create-branch", description = "Create a new branch")

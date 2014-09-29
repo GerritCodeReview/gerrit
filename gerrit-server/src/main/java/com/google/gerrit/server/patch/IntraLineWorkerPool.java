@@ -19,7 +19,6 @@ import static com.google.gerrit.server.patch.IntraLineLoader.log;
 
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.AbstractModule;
-import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import org.eclipse.jgit.lib.Config;
@@ -28,6 +27,8 @@ import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
+
+import javax.inject.Inject;
 
 @Singleton
 public class IntraLineWorkerPool {

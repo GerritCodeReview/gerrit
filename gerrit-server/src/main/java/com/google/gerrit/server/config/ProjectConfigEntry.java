@@ -25,7 +25,6 @@ import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.project.ProjectState;
-import com.google.inject.Inject;
 import com.google.inject.ProvisionException;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -37,6 +36,8 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+
+import javax.inject.Inject;
 
 @ExtensionPoint
 public class ProjectConfigEntry {

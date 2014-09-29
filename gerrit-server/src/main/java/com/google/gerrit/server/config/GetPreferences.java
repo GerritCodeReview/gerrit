@@ -18,13 +18,14 @@ import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.account.GetPreferences.PreferenceInfo;
 import com.google.gerrit.server.account.VersionedAccountPreferences;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Repository;
 
 import java.io.IOException;
+
+import javax.inject.Inject;
 
 @Singleton
 public class GetPreferences implements RestReadView<ConfigResource> {

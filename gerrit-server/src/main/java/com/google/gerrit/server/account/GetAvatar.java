@@ -21,11 +21,12 @@ import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.avatar.AvatarProvider;
-import com.google.inject.Inject;
 
 import org.kohsuke.args4j.Option;
 
 import java.util.concurrent.TimeUnit;
+
+import javax.inject.Inject;
 
 class GetAvatar implements RestReadView<AccountResource> {
   private final DynamicItem<AvatarProvider> avatarProvider;

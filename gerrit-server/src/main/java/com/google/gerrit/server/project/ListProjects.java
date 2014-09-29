@@ -42,7 +42,6 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.util.RegexListSearcher;
 import com.google.gerrit.server.util.TreeFormatter;
 import com.google.gson.reflect.TypeToken;
-import com.google.inject.Inject;
 import com.google.inject.Provider;
 
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
@@ -69,6 +68,8 @@ import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeMap;
 import java.util.TreeSet;
+
+import javax.inject.Inject;
 
 /** List projects visible to the calling user. */
 public class ListProjects implements RestReadView<TopLevelResource> {

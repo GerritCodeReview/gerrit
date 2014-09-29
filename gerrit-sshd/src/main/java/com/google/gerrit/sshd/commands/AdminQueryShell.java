@@ -21,9 +21,10 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.sshd.AdminHighPriorityCommand;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
-import com.google.inject.Inject;
 
 import org.kohsuke.args4j.Option;
+
+import javax.inject.Inject;
 
 /** Opens a query processor. */
 @AdminHighPriorityCommand

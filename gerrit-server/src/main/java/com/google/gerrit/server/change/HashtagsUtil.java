@@ -27,7 +27,6 @@ import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.validators.HashtagValidationListener;
 import com.google.gerrit.server.validators.ValidationException;
 import com.google.gwtorm.server.OrmException;
-import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
@@ -36,6 +35,8 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.TreeSet;
+
+import javax.inject.Inject;
 
 @Singleton
 public class HashtagsUtil {

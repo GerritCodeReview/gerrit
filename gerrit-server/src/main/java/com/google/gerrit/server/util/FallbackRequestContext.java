@@ -17,10 +17,11 @@ package com.google.gerrit.server.util;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
-import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.ProvisionException;
 import com.google.inject.Singleton;
+
+import javax.inject.Inject;
 
 /**
  * The default RequestContext to use when not in a request scope e.g.

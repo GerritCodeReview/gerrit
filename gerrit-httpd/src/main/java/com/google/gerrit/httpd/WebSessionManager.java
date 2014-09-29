@@ -33,7 +33,6 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
 import org.eclipse.jgit.lib.Config;
@@ -47,6 +46,8 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.security.SecureRandom;
 import java.util.concurrent.TimeUnit;
+
+import javax.inject.Inject;
 
 public class WebSessionManager {
   private static final Logger log = LoggerFactory.getLogger(WebSessionManager.class);

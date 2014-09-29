@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "10a15f0c_ae12972d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 1694,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-29T10:15:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b095f3be_dbfb5353",
+      "range": {
+        "startLine": 1694,
+        "startChar": 17,
+        "endLine": 1694,
+        "endChar": 29
+      },
+      "revId": "66cd70d4340e1763d222086c9671114a3e7cd012",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "90646fc9_7ad4f9cb",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 12
@@ -60,6 +84,30 @@
       "writtenOn": "2014-09-26T08:48:28Z",
       "side": 1,
       "message": "This is the place where magic branch is evaluated for upload of new patch set.",
+      "range": {
+        "startLine": 2062,
+        "startChar": 6,
+        "endLine": 2065,
+        "endChar": 7
+      },
+      "revId": "66cd70d4340e1763d222086c9671114a3e7cd012",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "10a15f0c_8e17db1d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 2065,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-29T10:15:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "90646fc9_7ad4f9cb",
       "range": {
         "startLine": 2062,
         "startChar": 6,

@@ -117,6 +117,30 @@
       "revId": "f18a24435f7df53e46f5479fb16976f651725e56",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b095f3be_1bae9b1c",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/webui/ProjectWebLink.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-09-29T14:57:52Z",
+      "side": 1,
+      "message": "This is nice, but my intentions were that you should be able to implement the various weblinks with one single class, to reuse link name and image url. Maybe we don\u0027t want to care about that.\nIt could work if the plugin implemented the raw WebLink\u003cRestResource\u003e interface and did something like [1]. I don\u0027t know any better way to implement it (not saying there isn\u0027t a better way) but maybe we don\u0027t care to much about the implementability of the extensionpoints.\n\n[1]\n  private WebLinkInfo getWebLinkInfo(BranchResource br){\n    return new  WebLinkInfo(getLinkName(), getImageUrl(),\n        getBranchUrl(br.getName(), br.getBranchKey().get()), getTarget());\n  }\n  private WebLinkInfo getWeblinkInfo(RevisionResource rr) {\n    return new WebLinkInfo(getLinkName(),\n        getImageUrl(),\n        getPatchSetUrl(rr.getChange().getProject().get(),\n            rr.getPatchSet().getRevision().get()),\n        getTarget());\n  }\n  @Override\n  public WebLinkInfo getWebLinkInfoFor(RestResource resource) {\n    if(resource instanceof RevisionResource) {\n      return getWeblinkInfo((RevisionResource) resource);\n    }else if (resource instanceof BranchResource) {\n      return getWebLinkInfo((BranchResource) resource);\n    } else {\n      return null;\n    }\n  }",
+      "parentUuid": "90646fc9_da6ee50d",
+      "range": {
+        "startLine": 29,
+        "startChar": 2,
+        "endLine": 29,
+        "endChar": 13
+      },
+      "revId": "f18a24435f7df53e46f5479fb16976f651725e56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

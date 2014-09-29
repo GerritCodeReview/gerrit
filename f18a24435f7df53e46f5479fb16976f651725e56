@@ -93,6 +93,30 @@
       "revId": "f18a24435f7df53e46f5479fb16976f651725e56",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90646fc9_da6ee50d",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/webui/ProjectWebLink.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-29T12:11:42Z",
+      "side": 1,
+      "message": "I haven\u0027t checked, if this would work, but can\u0027t we redesign the whole WebLink machinery to match UiAction with Resource parametrizing? That way we could for example define WebLink\u003cRevisionResource\u003e to specify WebLink for revision. The interface would define one method:\n\n  public interface WebLink\u003cR\u003e {\n    Description getDescription(R resource);\n  }\n\nOr to stay with your WebLinkInfo class:\n\n  public interface WebLink\u003cR\u003e {\n    WebLinkInfo getDescription(R resource);\n  }\n\nWe do have resources for every web link you are providing:\n\n* FileResource\n* RevisionResource\n* BranchResource\n* ProjectResource\n\nWith this design all what you need is just gather web links for specific resource, \"evaluate it\" by passing resource instance and render JSON response context specific. That way you are potentially supporting web links for all existing resources:\n\n* gerrit-server/src/main/java/com/google/gerrit/server/access/AccessResource.java\n* gerrit-server/src/main/java/com/google/gerrit/server/account/AccountResource.java\n* gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeResource.java\n* gerrit-server/src/main/java/com/google/gerrit/server/change/CommentResource.java\n* gerrit-server/src/main/java/com/google/gerrit/server/change/DraftResource.java\n* gerrit-server/src/main/java/com/google/gerrit/server/change/FileResource.java\n* gerrit-server/src/main/java/com/google/gerrit/server/change/ReviewerResource.java\n* gerrit-server/src/main/java/com/google/gerrit/server/change/RevisionResource.java\n* gerrit-server/src/main/java/com/google/gerrit/server/config/CapabilityResource.java\n* gerrit-server/src/main/java/com/google/gerrit/server/config/ConfigResource.java\n* [...]\n\nwithout creating a new link type specific class, like you are doing now with extending the attribute name for specific resource. Resources are aware of their attribute, e. g. BranchResource is branch aware and FileResource is file aware, etc.",
+      "parentUuid": "90646fc9_facac954",
+      "range": {
+        "startLine": 29,
+        "startChar": 2,
+        "endLine": 29,
+        "endChar": 13
+      },
+      "revId": "f18a24435f7df53e46f5479fb16976f651725e56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

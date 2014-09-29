@@ -18,8 +18,8 @@ import com.google.common.collect.Lists;
 import com.google.gerrit.extensions.common.WebLinkInfo;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.webui.BranchWebLink;
-import com.google.gerrit.extensions.webui.PatchSetWebLink;
 import com.google.gerrit.extensions.webui.FileWebLink;
+import com.google.gerrit.extensions.webui.PatchSetWebLink;
 import com.google.gerrit.extensions.webui.ProjectWebLink;
 
 import java.util.List;

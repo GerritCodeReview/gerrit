@@ -16,8 +16,8 @@ package com.google.gerrit.server;
 
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.webui.BranchWebLink;
-import com.google.gerrit.extensions.webui.PatchSetWebLink;
 import com.google.gerrit.extensions.webui.FileWebLink;
+import com.google.gerrit.extensions.webui.PatchSetWebLink;
 import com.google.gerrit.extensions.webui.ProjectWebLink;
 import com.google.inject.Inject;
 import com.google.inject.Provider;

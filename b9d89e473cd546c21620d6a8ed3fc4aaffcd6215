@@ -1,0 +1,95 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b095f3be_fbc80fef",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeInserter.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-29T15:10:26Z",
+      "side": 1,
+      "message": "1. If null is not allowed then why not throw a NPE?\n\nOtherwise, I find the semantics (that the null is simply ignored) strange...\n\n2. This method is NOT even used from within this change... why then it needs to be \"fixed\" here?",
+      "revId": "b9d89e473cd546c21620d6a8ed3fc4aaffcd6215",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b095f3be_5bb8235c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/HashtagsUtil.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-29T15:10:26Z",
+      "side": 1,
+      "message": "This method is still doing more than just parsing the commit message hash tags. I would name the detectCommitMessageHashtags to become parseCommitMEssageHashtags and then think of a different name for this method.",
+      "revId": "b9d89e473cd546c21620d6a8ed3fc4aaffcd6215",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b095f3be_7bb5df62",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/HashtagsUtil.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-29T15:10:26Z",
+      "side": 1,
+      "message": "Looks like you only want to validate an empty set of hashtags? :-)",
+      "range": {
+        "startLine": 93,
+        "startChar": 0,
+        "endLine": 97,
+        "endChar": 9
+      },
+      "revId": "b9d89e473cd546c21620d6a8ed3fc4aaffcd6215",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b095f3be_9be2ab64",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/HashtagsUtil.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-29T15:10:26Z",
+      "side": 1,
+      "message": "What is the effect of a hashtag validator throwsing a ValidationException?\nThe error is logged but the toAdd set is, nevertheless, returned unchanged?\nWhat is the contract with the hashtag validators?",
+      "revId": "b9d89e473cd546c21620d6a8ed3fc4aaffcd6215",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90646fc9_fa73a9f2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNoteUtil.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-29T15:10:26Z",
+      "side": 1,
+      "message": "looks like this line was unnecessarily moved up? It should stay where it was... together with other FOOTER_... definitions",
+      "revId": "b9d89e473cd546c21620d6a8ed3fc4aaffcd6215",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "90646fc9_3ad4417d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeInfo.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 372,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-09-29T10:39:00Z",
+      "side": 1,
+      "message": "protected",
+      "range": {
+        "startLine": 372,
+        "startChar": 32,
+        "endLine": 372,
+        "endChar": 41
+      },
+      "revId": "bedcb2ef370e58f7a5f1afa384a59791ce4a3e60",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

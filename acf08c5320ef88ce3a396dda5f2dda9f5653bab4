@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "10a15f0c_eec5bf47",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-09-29T15:02:25Z",
+      "side": 1,
+      "message": "This may be the use case you have in mind but there\u0027s also Assert.assertThat as well. This could be phrased more generically, like \"Allow tests to use hamcrest matchers directly\"",
+      "range": {
+        "startLine": 7,
+        "startChar": 25,
+        "endLine": 7,
+        "endChar": 35
+      },
+      "revId": "acf08c5320ef88ce3a396dda5f2dda9f5653bab4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

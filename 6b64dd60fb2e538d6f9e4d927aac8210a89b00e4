@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b095f3be_bbe76773",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-29T15:11:39Z",
+      "side": 1,
+      "message": "I suggested to add aliases \u003d {\"-#tag\"} in this comment:\n\n  https://gerrit-review.googlesource.com/#/c/60106/8/gerrit-server/\n  src/main/java/com/google/gerrit/server/git/ReceiveCommits.java@1155",
+      "parentUuid": "10a15f0c_2ed06702",
+      "range": {
+        "startLine": 13,
+        "startChar": 39,
+        "endLine": 13,
+        "endChar": 66
+      },
+      "revId": "6b64dd60fb2e538d6f9e4d927aac8210a89b00e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "90646fc9_5aaad5f7",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
         "patchSetId": 13

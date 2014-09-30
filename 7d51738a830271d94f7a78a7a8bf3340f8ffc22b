@@ -65,6 +65,24 @@
     },
     {
       "key": {
+        "uuid": "70245ca4_b6888845",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ValidateRemovedHashtags.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-09-30T14:25:03Z",
+      "side": 1,
+      "message": "I really do not know. :) just thinks it is better to list them than leaving none here for some special case I do not know.",
+      "parentUuid": "900f1024_5757ec1b",
+      "revId": "7d51738a830271d94f7a78a7a8bf3340f8ffc22b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b03fb4b4_70b9f0f3",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ValidateRemovedHashtags.java",
         "patchSetId": 9
@@ -129,6 +147,24 @@
         "endLine": 61,
         "endChar": 58
       },
+      "revId": "7d51738a830271d94f7a78a7a8bf3340f8ffc22b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "900f1024_975c643b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ValidateRemovedHashtags.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-09-30T14:25:03Z",
+      "side": 1,
+      "message": "but what should we do with the exceptions even if after we compress the try block?\nignore it? or still throw ValidationException?",
+      "parentUuid": "900f1024_7752f02d",
       "revId": "7d51738a830271d94f7a78a7a8bf3340f8ffc22b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

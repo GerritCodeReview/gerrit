@@ -52,7 +52,7 @@ public class HttpSession {
       client = HttpClientBuilder
           .create()
           .setDefaultCredentialsProvider(creds)
-          .setMaxConnPerRoute(10)
+          .setMaxConnPerRoute(512)
           .setMaxConnTotal(1024)
           .build();
     }

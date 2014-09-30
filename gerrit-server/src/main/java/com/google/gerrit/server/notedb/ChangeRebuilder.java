@@ -40,6 +40,7 @@ import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.server.OrmException;
+import com.google.inject.Inject;
 import com.google.inject.Provider;
 
 import org.eclipse.jgit.lib.BatchRefUpdate;
@@ -54,8 +55,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
-
-import javax.inject.Inject;
 
 public class ChangeRebuilder {
   private static final long TS_WINDOW_MS =

@@ -25,6 +25,7 @@ import com.google.gerrit.server.account.CreateAccount;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.gwtorm.server.OrmException;
+import com.google.inject.Inject;
 
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
@@ -35,8 +36,6 @@ import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.inject.Inject;
 
 /** Create a new user account. **/
 @RequiresCapability(GlobalCapability.CREATE_ACCOUNT)

@@ -16,10 +16,9 @@ package com.google.gerrit.httpd.raw;
 
 import com.google.gerrit.common.data.HostPageData;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.inject.Inject;
 
 import org.eclipse.jgit.lib.Config;
-
-import javax.inject.Inject;
 
 class ThemeFactory {
   private final Config cfg;

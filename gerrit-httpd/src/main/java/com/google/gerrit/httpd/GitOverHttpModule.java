@@ -15,9 +15,9 @@
 package com.google.gerrit.httpd;
 
 import com.google.gerrit.server.config.AuthConfig;
+import com.google.inject.Inject;
 import com.google.inject.servlet.ServletModule;
 
-import javax.inject.Inject;
 import javax.servlet.Filter;
 
 /** Configures Git access over HTTP with authentication. */

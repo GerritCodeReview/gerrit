@@ -15,6 +15,7 @@
 package com.google.gerrit.server.config;
 
 import com.google.gerrit.server.securestore.SecureStore;
+import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.ProvisionException;
 
@@ -26,8 +27,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-
-import javax.inject.Inject;
 
 /** Provides {@link Config} annotated with {@link GerritServerConfig}. */
 class GerritServerConfigProvider implements Provider<Config> {

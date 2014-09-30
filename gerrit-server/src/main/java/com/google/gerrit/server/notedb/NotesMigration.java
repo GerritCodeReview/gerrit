@@ -17,14 +17,13 @@ package com.google.gerrit.server.notedb;
 import static com.google.common.base.Preconditions.checkArgument;
 
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import org.eclipse.jgit.lib.Config;
 
 import java.util.HashSet;
 import java.util.Set;
-
-import javax.inject.Inject;
 
 /**
  * Holds the current state of the NoteDb migration.

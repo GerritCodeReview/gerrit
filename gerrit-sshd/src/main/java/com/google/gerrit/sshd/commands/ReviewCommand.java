@@ -43,6 +43,7 @@ import com.google.gerrit.util.cli.CmdLineParser;
 import com.google.gson.JsonSyntaxException;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
+import com.google.inject.Inject;
 import com.google.inject.Provider;
 
 import org.kohsuke.args4j.Argument;
@@ -58,8 +59,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import javax.inject.Inject;
 
 @CommandMetaData(name = "review", description = "Apply reviews to one or more patch sets")
 public class ReviewCommand extends SshCommand {

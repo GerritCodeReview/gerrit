@@ -15,6 +15,7 @@
 package com.google.gerrit.server.documentation;
 
 import com.google.common.collect.Lists;
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
@@ -38,8 +39,6 @@ import java.io.InputStream;
 import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
-
-import javax.inject.Inject;
 
 @Singleton
 public class QueryDocumentationExecutor {

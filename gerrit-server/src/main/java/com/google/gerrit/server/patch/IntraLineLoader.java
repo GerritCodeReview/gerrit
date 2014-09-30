@@ -18,6 +18,7 @@ package com.google.gerrit.server.patch;
 import com.google.common.cache.CacheLoader;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.inject.Inject;
 
 import org.eclipse.jgit.diff.Edit;
 import org.eclipse.jgit.diff.MyersDiff;
@@ -30,8 +31,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
-
-import javax.inject.Inject;
 
 class IntraLineLoader extends CacheLoader<IntraLineDiffKey, IntraLineDiff> {
   static final Logger log = LoggerFactory.getLogger(IntraLineLoader.class);

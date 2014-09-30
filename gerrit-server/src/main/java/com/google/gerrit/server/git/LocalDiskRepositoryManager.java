@@ -23,6 +23,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.notedb.NotesMigration;
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import com.jcraft.jsch.Session;
@@ -54,8 +55,6 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
-
-import javax.inject.Inject;
 
 /** Manages Git repositories stored on the local filesystem. */
 @Singleton

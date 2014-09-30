@@ -26,6 +26,7 @@ import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.group.CreateGroup;
 import com.google.gerrit.server.group.GroupJson.GroupInfo;
 import com.google.gwtorm.server.OrmException;
+import com.google.inject.Inject;
 
 import com.jcraft.jsch.JSchException;
 
@@ -33,8 +34,6 @@ import org.apache.http.HttpStatus;
 import org.junit.Test;
 
 import java.io.IOException;
-
-import javax.inject.Inject;
 
 public class CreateGroupIT extends AbstractDaemonTest {
 

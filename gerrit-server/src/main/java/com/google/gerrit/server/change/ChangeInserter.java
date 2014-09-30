@@ -40,6 +40,7 @@ import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.RefControl;
 import com.google.gerrit.server.validators.ValidationException;
 import com.google.gwtorm.server.OrmException;
+import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 
@@ -52,8 +53,6 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
-
-import javax.inject.Inject;
 
 public class ChangeInserter {
   public static interface Factory {

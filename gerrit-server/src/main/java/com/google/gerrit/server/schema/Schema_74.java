@@ -21,6 +21,7 @@ import com.google.gerrit.reviewdb.client.AccountGroupByIdAud;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gwtorm.jdbc.JdbcSchema;
 import com.google.gwtorm.server.OrmException;
+import com.google.inject.Inject;
 import com.google.inject.Provider;
 
 import java.sql.Connection;
@@ -30,8 +31,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
-
-import javax.inject.Inject;
 
 /* Handles copying all entries from AccountGroupIncludes(Audit) to the new tables */
 public class Schema_74 extends SchemaVersion {

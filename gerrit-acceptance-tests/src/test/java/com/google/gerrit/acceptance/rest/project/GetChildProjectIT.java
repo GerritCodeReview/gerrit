@@ -25,6 +25,7 @@ import com.google.gerrit.extensions.common.ProjectInfo;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.project.ProjectCache;
+import com.google.inject.Inject;
 
 import com.jcraft.jsch.JSchException;
 
@@ -32,8 +33,6 @@ import org.apache.http.HttpStatus;
 import org.junit.Test;
 
 import java.io.IOException;
-
-import javax.inject.Inject;
 
 public class GetChildProjectIT extends AbstractDaemonTest {
 

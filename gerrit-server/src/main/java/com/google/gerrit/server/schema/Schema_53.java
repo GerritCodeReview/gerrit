@@ -49,6 +49,7 @@ import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.schema.Schema_77.LegacyLabelTypes;
 import com.google.gwtorm.jdbc.JdbcSchema;
 import com.google.gwtorm.server.OrmException;
+import com.google.inject.Inject;
 import com.google.inject.Provider;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -65,8 +66,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import javax.inject.Inject;
 
 class Schema_53 extends SchemaVersion {
   private final GitRepositoryManager mgr;

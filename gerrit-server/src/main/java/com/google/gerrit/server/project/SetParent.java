@@ -30,14 +30,13 @@ import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.project.SetParent.Input;
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 
 import java.io.IOException;
-
-import javax.inject.Inject;
 
 @Singleton
 public class SetParent implements RestModifyView<ProjectResource, Input> {

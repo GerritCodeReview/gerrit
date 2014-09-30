@@ -35,6 +35,7 @@ import com.google.gwtexpui.server.CacheHeaders;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
 import com.google.gwtorm.server.SchemaFactory;
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import org.w3c.dom.Document;
@@ -47,7 +48,6 @@ import java.io.Writer;
 import java.util.List;
 import java.util.UUID;
 
-import javax.inject.Inject;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;

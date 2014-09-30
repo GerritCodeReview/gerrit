@@ -25,14 +25,13 @@ import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.server.project.DashboardsCollection.DashboardInfo;
+import com.google.inject.Inject;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.kohsuke.args4j.Option;
 
 import java.io.IOException;
 import java.util.List;
-
-import javax.inject.Inject;
 
 class GetDashboard implements RestReadView<DashboardResource> {
   private final DashboardsCollection dashboards;

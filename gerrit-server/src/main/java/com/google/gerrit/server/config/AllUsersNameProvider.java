@@ -14,11 +14,10 @@
 
 package com.google.gerrit.server.config;
 
+import com.google.inject.Inject;
 import com.google.inject.Provider;
 
 import org.eclipse.jgit.lib.Config;
-
-import javax.inject.Inject;
 
 public class AllUsersNameProvider implements Provider<AllUsersName> {
   public static final String DEFAULT = "All-Users";

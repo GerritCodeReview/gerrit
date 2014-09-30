@@ -19,9 +19,8 @@ import com.google.gerrit.extensions.webui.BranchWebLink;
 import com.google.gerrit.extensions.webui.FileWebLink;
 import com.google.gerrit.extensions.webui.PatchSetWebLink;
 import com.google.gerrit.extensions.webui.ProjectWebLink;
+import com.google.inject.Inject;
 import com.google.inject.Provider;
-
-import javax.inject.Inject;
 
 public class WebLinksProvider implements Provider<WebLinks> {
 

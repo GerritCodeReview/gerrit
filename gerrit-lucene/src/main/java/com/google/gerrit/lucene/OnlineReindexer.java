@@ -21,6 +21,7 @@ import com.google.gerrit.server.index.ChangeBatchIndexer;
 import com.google.gerrit.server.index.ChangeIndex;
 import com.google.gerrit.server.index.IndexCollection;
 import com.google.gerrit.server.project.ProjectCache;
+import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
 import org.slf4j.Logger;
@@ -28,8 +29,6 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.List;
-
-import javax.inject.Inject;
 
 public class OnlineReindexer {
   private static final Logger log = LoggerFactory

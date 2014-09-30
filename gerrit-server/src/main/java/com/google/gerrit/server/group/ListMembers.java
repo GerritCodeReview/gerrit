@@ -30,6 +30,7 @@ import com.google.gerrit.server.account.AccountInfo;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.account.GroupDetailFactory;
 import com.google.gwtorm.server.OrmException;
+import com.google.inject.Inject;
 
 import org.kohsuke.args4j.Option;
 
@@ -38,8 +39,6 @@ import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-
-import javax.inject.Inject;
 
 public class ListMembers implements RestReadView<GroupResource> {
   private final GroupCache groupCache;

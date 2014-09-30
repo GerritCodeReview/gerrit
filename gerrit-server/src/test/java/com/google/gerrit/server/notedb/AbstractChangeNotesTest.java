@@ -55,6 +55,7 @@ import com.google.gwtorm.client.KeyUtil;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.StandardKeyEncoder;
 import com.google.inject.Guice;
+import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.util.Providers;
 
@@ -70,8 +71,6 @@ import org.junit.Before;
 import java.sql.Timestamp;
 import java.util.TimeZone;
 import java.util.concurrent.atomic.AtomicLong;
-
-import javax.inject.Inject;
 
 public class AbstractChangeNotesTest {
   private static final TimeZone TZ =

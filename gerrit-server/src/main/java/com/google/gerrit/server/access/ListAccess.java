@@ -44,6 +44,7 @@ import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.ProjectJson;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.project.RefControl;
+import com.google.inject.Inject;
 import com.google.inject.Provider;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -55,8 +56,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import javax.inject.Inject;
 
 public class ListAccess implements RestReadView<TopLevelResource> {
 

@@ -17,12 +17,11 @@ package com.google.gerrit.server.schema;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gwtorm.jdbc.JdbcSchema;
 import com.google.gwtorm.schema.sql.DialectPostgreSQL;
+import com.google.inject.Inject;
 import com.google.inject.Provider;
 
 import java.sql.SQLException;
 import java.sql.Statement;
-
-import javax.inject.Inject;
 
 public class Schema_63 extends SchemaVersion {
   @Inject

@@ -40,13 +40,12 @@ import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.group.AddMembers.Input;
 import com.google.gwtorm.server.OrmException;
+import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import java.util.List;
 import java.util.Map;
-
-import javax.inject.Inject;
 
 @Singleton
 public class AddMembers implements RestModifyView<GroupResource, Input> {

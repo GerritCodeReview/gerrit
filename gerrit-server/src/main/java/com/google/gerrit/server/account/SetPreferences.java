@@ -40,6 +40,7 @@ import com.google.gerrit.server.account.SetPreferences.Input;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gwtorm.server.OrmException;
+import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
@@ -49,8 +50,6 @@ import org.eclipse.jgit.lib.Config;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
-
-import javax.inject.Inject;
 
 @Singleton
 public class SetPreferences implements RestModifyView<AccountResource, Input> {

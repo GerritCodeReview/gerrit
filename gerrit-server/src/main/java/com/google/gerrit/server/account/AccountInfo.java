@@ -22,6 +22,7 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.account.AccountDirectory.DirectoryException;
 import com.google.gerrit.server.account.AccountDirectory.FillOptions;
 import com.google.gwtorm.server.OrmException;
+import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
 import java.util.Collection;
@@ -30,8 +31,6 @@ import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import javax.inject.Inject;
 
 public class AccountInfo {
   public static class Loader {

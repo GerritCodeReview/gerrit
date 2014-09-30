@@ -32,6 +32,7 @@ import com.google.gerrit.testutil.InMemoryDatabase;
 import com.google.gerrit.testutil.InMemoryModule;
 import com.google.gwtorm.jdbc.JdbcSchema;
 import com.google.gwtorm.server.OrmException;
+import com.google.inject.Inject;
 
 import org.eclipse.jgit.lib.Repository;
 import org.junit.After;
@@ -44,8 +45,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.List;
-
-import javax.inject.Inject;
 
 public class SchemaCreatorTest {
   @Inject

@@ -15,6 +15,7 @@
 package com.google.gerrit.server.mail;
 
 import com.google.gerrit.server.config.SitePaths;
+import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.ProvisionException;
 
@@ -26,8 +27,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Properties;
-
-import javax.inject.Inject;
 
 /** Configures Velocity template engine for sending email. */
 public class VelocityRuntimeProvider implements Provider<RuntimeInstance> {

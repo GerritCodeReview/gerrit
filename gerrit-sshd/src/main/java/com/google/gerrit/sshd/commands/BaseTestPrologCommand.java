@@ -24,6 +24,7 @@ import com.google.gerrit.server.change.Revisions;
 import com.google.gerrit.server.change.TestSubmitRule.Filters;
 import com.google.gerrit.server.change.TestSubmitRule.Input;
 import com.google.gerrit.sshd.SshCommand;
+import com.google.inject.Inject;
 
 import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.RawParseUtils;
@@ -31,8 +32,6 @@ import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
 
 import java.nio.ByteBuffer;
-
-import javax.inject.Inject;
 
 abstract class BaseTestPrologCommand extends SshCommand {
   private Input input = new Input();

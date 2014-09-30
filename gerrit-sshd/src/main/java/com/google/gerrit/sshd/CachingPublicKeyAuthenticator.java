@@ -14,6 +14,7 @@
 
 package com.google.gerrit.sshd;
 
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import org.apache.sshd.common.Session;
@@ -25,8 +26,6 @@ import java.security.PublicKey;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-
-import javax.inject.Inject;
 
 @Singleton
 public class CachingPublicKeyAuthenticator implements PublickeyAuthenticator,

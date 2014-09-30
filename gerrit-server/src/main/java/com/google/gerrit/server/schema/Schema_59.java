@@ -17,12 +17,11 @@ package com.google.gerrit.server.schema;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gwtorm.server.OrmException;
+import com.google.inject.Inject;
 import com.google.inject.Provider;
 
 import java.sql.SQLException;
 import java.util.List;
-
-import javax.inject.Inject;
 
 public class Schema_59 extends SchemaVersion {
   @Inject

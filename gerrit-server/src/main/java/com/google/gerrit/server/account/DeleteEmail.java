@@ -27,10 +27,9 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.DeleteEmail.Input;
 import com.google.gwtorm.server.OrmException;
+import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
-import javax.inject.Inject;
 
 @Singleton
 public class DeleteEmail implements RestModifyView<AccountResource.Email, Input> {

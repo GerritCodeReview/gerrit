@@ -26,6 +26,7 @@ import com.google.gerrit.server.git.GarbageCollection;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.LocalDiskRepositoryManager;
 import com.google.gerrit.server.project.GarbageCollect.Input;
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import java.io.IOException;
@@ -33,8 +34,6 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.util.Collections;
-
-import javax.inject.Inject;
 
 @RequiresCapability(GlobalCapability.RUN_GC)
 @Singleton

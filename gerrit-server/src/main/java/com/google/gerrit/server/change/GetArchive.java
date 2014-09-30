@@ -22,6 +22,7 @@ import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import org.eclipse.jgit.api.ArchiveCommand;
@@ -42,8 +43,6 @@ import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
-
-import javax.inject.Inject;
 
 public class GetArchive implements RestReadView<RevisionResource> {
   @Singleton

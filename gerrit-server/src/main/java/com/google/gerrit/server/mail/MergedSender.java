@@ -25,9 +25,8 @@ import com.google.gerrit.reviewdb.client.AccountProjectWatch.NotifyType;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gwtorm.server.OrmException;
+import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
-
-import javax.inject.Inject;
 
 /** Send notice about a change successfully merged. */
 public class MergedSender extends ReplyToChangeSender {

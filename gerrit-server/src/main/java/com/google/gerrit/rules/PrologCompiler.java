@@ -19,6 +19,7 @@ import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.util.TimeUtil;
+import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
 import com.googlecode.prolog_cafe.compiler.CompileException;
@@ -45,7 +46,6 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarOutputStream;
 import java.util.jar.Manifest;
 
-import javax.inject.Inject;
 import javax.tools.Diagnostic;
 import javax.tools.DiagnosticCollector;
 import javax.tools.JavaCompiler;

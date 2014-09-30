@@ -29,12 +29,11 @@ import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.group.GroupJson.GroupInfo;
 import com.google.gerrit.server.group.PutOwner.Input;
 import com.google.gwtorm.server.OrmException;
+import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import java.util.Collections;
-
-import javax.inject.Inject;
 
 @Singleton
 public class PutOwner implements RestModifyView<GroupResource, Input> {

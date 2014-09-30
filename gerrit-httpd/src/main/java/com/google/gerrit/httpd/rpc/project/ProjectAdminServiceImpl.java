@@ -20,12 +20,11 @@ import com.google.gerrit.common.data.ProjectAdminService;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwtjsonrpc.common.AsyncCallback;
+import com.google.inject.Inject;
 
 import org.eclipse.jgit.lib.ObjectId;
 
 import java.util.List;
-
-import javax.inject.Inject;
 
 class ProjectAdminServiceImpl implements ProjectAdminService {
   private final ChangeProjectAccess.Factory changeProjectAccessFactory;

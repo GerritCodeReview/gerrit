@@ -19,10 +19,9 @@ import static com.google.gerrit.server.schema.JdbcUtil.port;
 
 import com.google.gerrit.server.config.ConfigSection;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.inject.Inject;
 
 import org.eclipse.jgit.lib.Config;
-
-import javax.inject.Inject;
 
 public class Oracle extends BaseDataSourceType {
   private Config cfg;

@@ -33,12 +33,11 @@ import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import java.util.Collection;
 import java.util.List;
-
-import javax.inject.Inject;
 
 /**
  * Normalizes votes on labels according to project config and permissions.

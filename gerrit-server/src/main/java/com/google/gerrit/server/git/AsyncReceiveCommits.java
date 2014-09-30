@@ -20,6 +20,7 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.WorkQueue.Executor;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.util.RequestScopePropagator;
+import com.google.inject.Inject;
 import com.google.inject.PrivateModule;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
@@ -40,8 +41,6 @@ import java.io.OutputStream;
 import java.util.Collection;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
-
-import javax.inject.Inject;
 
 /** Hook that delegates to {@link ReceiveCommits} in a worker thread. */
 public class AsyncReceiveCommits implements PreReceiveHook {

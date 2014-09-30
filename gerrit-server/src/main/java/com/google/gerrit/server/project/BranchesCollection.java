@@ -21,14 +21,13 @@ import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.server.project.ListBranches.BranchInfo;
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import org.eclipse.jgit.lib.Constants;
 
 import java.io.IOException;
 import java.util.List;
-
-import javax.inject.Inject;
 
 @Singleton
 public class BranchesCollection implements

@@ -21,9 +21,8 @@ import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.plugins.DisablePlugin.Input;
 import com.google.gerrit.server.plugins.ListPlugins.PluginInfo;
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
-import javax.inject.Inject;
 
 @RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)
 @Singleton

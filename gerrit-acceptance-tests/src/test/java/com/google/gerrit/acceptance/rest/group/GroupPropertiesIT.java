@@ -32,13 +32,12 @@ import com.google.gerrit.server.group.PutName;
 import com.google.gerrit.server.group.PutOptions;
 import com.google.gerrit.server.group.PutOwner;
 import com.google.gerrit.server.group.SystemGroupBackend;
+import com.google.inject.Inject;
 
 import org.apache.http.HttpStatus;
 import org.junit.Test;
 
 import java.io.IOException;
-
-import javax.inject.Inject;
 
 public class GroupPropertiesIT extends AbstractDaemonTest {
 

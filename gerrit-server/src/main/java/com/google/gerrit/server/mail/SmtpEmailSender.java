@@ -21,6 +21,7 @@ import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.util.TimeUtil;
 import com.google.inject.AbstractModule;
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import org.apache.commons.net.smtp.AuthSMTPClient;
@@ -40,8 +41,6 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
-
-import javax.inject.Inject;
 
 /** Sends email via a nearby SMTP server. */
 @Singleton

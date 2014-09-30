@@ -22,6 +22,7 @@ import com.google.gson.JsonObject;
 import com.google.gwtorm.jdbc.JdbcSchema;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
+import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
 import java.io.BufferedReader;
@@ -42,8 +43,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
-
-import javax.inject.Inject;
 
 /** Simple interactive SQL query tool. */
 public class QueryShell {

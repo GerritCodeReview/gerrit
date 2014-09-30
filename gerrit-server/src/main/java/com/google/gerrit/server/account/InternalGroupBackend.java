@@ -24,11 +24,10 @@ import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.project.ProjectControl;
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import java.util.Collection;
-
-import javax.inject.Inject;
 
 /** Implementation of GroupBackend for the internal group system. */
 @Singleton

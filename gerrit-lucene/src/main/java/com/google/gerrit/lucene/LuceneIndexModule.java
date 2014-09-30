@@ -22,10 +22,9 @@ import com.google.gerrit.server.index.IndexCollection;
 import com.google.gerrit.server.index.IndexModule;
 import com.google.gerrit.server.index.Schema;
 import com.google.gerrit.server.query.change.ChangeData;
+import com.google.inject.Inject;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
-
-import javax.inject.Inject;
 
 public class LuceneIndexModule extends LifecycleModule {
   private final Integer singleVersion;

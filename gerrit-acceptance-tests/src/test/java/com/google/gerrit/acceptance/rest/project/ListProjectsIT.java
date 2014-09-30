@@ -29,6 +29,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gson.reflect.TypeToken;
+import com.google.inject.Inject;
 
 import com.jcraft.jsch.JSchException;
 
@@ -38,8 +39,6 @@ import org.junit.Test;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Map;
-
-import javax.inject.Inject;
 
 public class ListProjectsIT extends AbstractDaemonTest {
 

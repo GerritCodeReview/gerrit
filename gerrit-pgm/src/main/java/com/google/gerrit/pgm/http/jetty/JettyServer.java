@@ -33,6 +33,7 @@ import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.util.TimeUtil;
 import com.google.gwtexpui.linker.server.UserAgentRule;
 import com.google.gwtexpui.server.CacheHeaders;
+import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Singleton;
 import com.google.inject.servlet.GuiceFilter;
@@ -91,7 +92,6 @@ import java.util.Set;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
-import javax.inject.Inject;
 import javax.servlet.DispatcherType;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;

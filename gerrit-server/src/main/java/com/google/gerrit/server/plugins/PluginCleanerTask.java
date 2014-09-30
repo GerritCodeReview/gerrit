@@ -16,12 +16,11 @@ package com.google.gerrit.server.plugins;
 
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.util.TimeUtil;
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
-
-import javax.inject.Inject;
 
 @Singleton
 class PluginCleanerTask implements Runnable {

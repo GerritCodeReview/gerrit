@@ -16,10 +16,9 @@ package com.google.gerrit.httpd.rpc.project;
 
 import com.google.gerrit.httpd.restapi.RestApiServlet;
 import com.google.gerrit.server.project.ProjectsCollection;
+import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
-import javax.inject.Inject;
 
 @Singleton
 public class ProjectsRestApiServlet extends RestApiServlet {

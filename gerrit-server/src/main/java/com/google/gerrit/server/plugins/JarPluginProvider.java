@@ -18,6 +18,7 @@ import static com.google.gerrit.server.plugins.PluginLoader.asTemp;
 
 import com.google.common.base.MoreObjects;
 import com.google.gerrit.server.config.SitePaths;
+import com.google.inject.Inject;
 
 import org.eclipse.jgit.internal.storage.file.FileSnapshot;
 import org.slf4j.Logger;
@@ -36,8 +37,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.jar.JarFile;
 import java.util.jar.Manifest;
-
-import javax.inject.Inject;
 
 public class JarPluginProvider implements ServerPluginProvider {
   static final String PLUGIN_TMP_PREFIX = "plugin_";

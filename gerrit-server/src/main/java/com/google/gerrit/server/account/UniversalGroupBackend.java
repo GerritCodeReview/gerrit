@@ -28,6 +28,7 @@ import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.project.ProjectControl;
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import org.slf4j.Logger;
@@ -36,8 +37,6 @@ import org.slf4j.LoggerFactory;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
-
-import javax.inject.Inject;
 
 /**
  * Universal implementation of the GroupBackend that works with the injected

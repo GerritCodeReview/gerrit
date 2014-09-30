@@ -32,6 +32,7 @@ import com.google.gerrit.server.plugins.StartPluginListener;
 import com.google.gerrit.server.ssh.SshInfo;
 import com.google.gerrit.server.util.RequestScopePropagator;
 import com.google.gerrit.sshd.commands.QueryShell;
+import com.google.inject.Inject;
 import com.google.inject.internal.UniqueAnnotations;
 import com.google.inject.servlet.RequestScoped;
 
@@ -42,8 +43,6 @@ import org.eclipse.jgit.lib.Config;
 
 import java.net.SocketAddress;
 import java.util.Map;
-
-import javax.inject.Inject;
 
 /** Configures standard dependencies for {@link SshDaemon}. */
 public class SshModule extends LifecycleModule {

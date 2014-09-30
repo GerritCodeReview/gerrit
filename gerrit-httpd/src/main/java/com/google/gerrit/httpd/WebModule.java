@@ -38,13 +38,12 @@ import com.google.gerrit.server.git.AsyncReceiveCommits;
 import com.google.gerrit.server.util.GuiceRequestScopePropagator;
 import com.google.gerrit.server.util.RequestScopePropagator;
 import com.google.inject.AbstractModule;
+import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.ProvisionException;
 import com.google.inject.servlet.RequestScoped;
 
 import java.net.SocketAddress;
-
-import javax.inject.Inject;
 
 public class WebModule extends LifecycleModule {
   private final AuthConfig authConfig;

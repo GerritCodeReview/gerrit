@@ -22,12 +22,11 @@ import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gwtorm.server.OrmException;
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import java.util.Collections;
 import java.util.List;
-
-import javax.inject.Inject;
 
 /**
  * Utility functions to manipulate ChangeMessages.

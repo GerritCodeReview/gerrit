@@ -17,12 +17,11 @@ package com.google.gerrit.server.project;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.util.TreeFormatter.TreeNode;
+import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
 import java.util.SortedSet;
 import java.util.TreeSet;
-
-import javax.inject.Inject;
 
 /** Node of a Project in a tree formatted by {@link ListProjects}. */
 public class ProjectNode implements TreeNode, Comparable<ProjectNode> {

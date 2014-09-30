@@ -20,13 +20,12 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.server.git.ReloadSubmitQueueOp;
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import org.eclipse.jgit.lib.Config;
 
 import java.util.concurrent.ScheduledFuture;
-
-import javax.inject.Inject;
 
 /** Configuration for a master node in a cluster of servers. */
 public class MasterNodeStartup extends LifecycleModule {

@@ -44,6 +44,7 @@ import com.google.gerrit.server.git.BranchOrderSection;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.git.ProjectLevelConfig;
+import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
 import com.googlecode.prolog_cafe.compiler.CompileException;
@@ -66,8 +67,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import javax.inject.Inject;
 
 /** Cached information on a project. */
 public class ProjectState {

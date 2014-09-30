@@ -27,6 +27,7 @@ import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.util.TimeUtil;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
+import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
@@ -40,8 +41,6 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
-
-import javax.inject.Inject;
 
 /** Caches important (but small) account state to avoid database hits. */
 @Singleton

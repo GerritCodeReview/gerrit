@@ -15,6 +15,7 @@
 package com.google.gerrit.server.plugins;
 
 import com.google.gerrit.extensions.registration.DynamicSet;
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import org.eclipse.jgit.internal.storage.file.FileSnapshot;
@@ -24,8 +25,6 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.inject.Inject;
 
 @Singleton
 class UniversalServerPluginProvider implements ServerPluginProvider {

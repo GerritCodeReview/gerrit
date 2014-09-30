@@ -22,6 +22,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.rules.PrologCompiler;
 import com.google.gerrit.server.config.FactoryModule;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.inject.Inject;
 import com.google.inject.Injector;
 
 import com.googlecode.prolog_cafe.compiler.CompileException;
@@ -33,8 +34,6 @@ import org.kohsuke.args4j.Option;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
-
-import javax.inject.Inject;
 
 /**
  * Gets rules.pl at refs/meta/config and compiles into jar file called

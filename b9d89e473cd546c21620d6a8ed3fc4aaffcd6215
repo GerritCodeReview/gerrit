@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "f035acd2_52d4b44e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeInserter.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-09-30T05:15:38Z",
+      "side": 1,
+      "message": "Not 1 and 2.\nIt is just to keep hashtags to be initial value when it is set to be NULL here, see above line 119, and thus need not check NULL in below line 215.\nwhile your comment shows reviewer can be confused here so I made a shift in next patch-set.\n\nDone",
+      "parentUuid": "b095f3be_fbc80fef",
+      "revId": "b9d89e473cd546c21620d6a8ed3fc4aaffcd6215",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b095f3be_5bb8235c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/HashtagsUtil.java",
         "patchSetId": 28
@@ -30,6 +48,24 @@
       "writtenOn": "2014-09-29T15:10:26Z",
       "side": 1,
       "message": "This method is still doing more than just parsing the commit message hash tags. I would name the detectCommitMessageHashtags to become parseCommitMEssageHashtags and then think of a different name for this method.",
+      "revId": "b9d89e473cd546c21620d6a8ed3fc4aaffcd6215",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f035acd2_32d93087",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/HashtagsUtil.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-09-30T05:15:38Z",
+      "side": 1,
+      "message": "accepted\n\nDone",
+      "parentUuid": "b095f3be_5bb8235c",
       "revId": "b9d89e473cd546c21620d6a8ed3fc4aaffcd6215",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -59,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "b03fb4b4_70cfb0bc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/HashtagsUtil.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-09-30T05:15:38Z",
+      "side": 1,
+      "message": "My bad! hmm ...\n\nDone",
+      "parentUuid": "b095f3be_7bb5df62",
+      "range": {
+        "startLine": 93,
+        "startChar": 0,
+        "endLine": 97,
+        "endChar": 9
+      },
+      "revId": "b9d89e473cd546c21620d6a8ed3fc4aaffcd6215",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b095f3be_9be2ab64",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/HashtagsUtil.java",
         "patchSetId": 28
@@ -76,6 +136,24 @@
     },
     {
       "key": {
+        "uuid": "b03fb4b4_50d4ac4e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/HashtagsUtil.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-09-30T05:15:38Z",
+      "side": 1,
+      "message": "its wrong here.\nupdated to return empty set when it turn to be invalid hastags\n\nDone",
+      "parentUuid": "b095f3be_9be2ab64",
+      "revId": "b9d89e473cd546c21620d6a8ed3fc4aaffcd6215",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "90646fc9_fa73a9f2",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNoteUtil.java",
         "patchSetId": 28
@@ -87,6 +165,24 @@
       "writtenOn": "2014-09-29T15:10:26Z",
       "side": 1,
       "message": "looks like this line was unnecessarily moved up? It should stay where it was... together with other FOOTER_... definitions",
+      "revId": "b9d89e473cd546c21620d6a8ed3fc4aaffcd6215",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b03fb4b4_30d92887",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNoteUtil.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-09-30T05:15:38Z",
+      "side": 1,
+      "message": "do you still remember the \u0027define static types, members, and methods, in decreasing order of visibility (public to private).\u0027 in \nhttps://gerrit-review.googlesource.com/Documentation/dev-contributing.html#_code_organization which your introduced for me a few weeks ago.",
+      "parentUuid": "90646fc9_fa73a9f2",
       "revId": "b9d89e473cd546c21620d6a8ed3fc4aaffcd6215",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

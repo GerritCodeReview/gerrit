@@ -46,6 +46,30 @@
       "revId": "49cf189a60de441eae9fc8472c7afec5b3a74c32",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b03fb4b4_70f690f6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 19
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-30T07:41:59Z",
+      "side": 1,
+      "message": "The SecureStire interface should provide means to be initialized with secret provided by user. The whole toolchain should seamlessly support that. That why i think that --secure-store-secret gerrit daemon option should be provided and passed in to SecureStore implementation. If you don\u0027t do that, you cannot easily hide the secret in pure Java. Any obfuscation attempts can be easily overcomes due ti decompilation of Java byte code. What you need if yodn\u0027t pass in secret from the outside to the secure store implementation and make is still secure, you would need to load native library from secure store implementation where decompiling in not that easy and there are more options to hide obfuscated secret for secure store encryption/decryption.",
+      "parentUuid": "f035acd2_f2096853",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 5
+      },
+      "revId": "49cf189a60de441eae9fc8472c7afec5b3a74c32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -27,6 +27,7 @@ import com.google.gerrit.server.ssh.SshKeyCache;
 import com.google.gerrit.server.util.TimeUtil;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
+import com.google.inject.Inject;
 
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
@@ -35,8 +36,6 @@ import com.jcraft.jsch.KeyPair;
 import java.io.ByteArrayOutputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.Collections;
-
-import javax.inject.Inject;
 
 public class AccountCreator {
 

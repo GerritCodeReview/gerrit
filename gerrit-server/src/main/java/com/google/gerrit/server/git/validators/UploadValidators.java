@@ -17,6 +17,7 @@ package com.google.gerrit.server.git.validators;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.validators.ValidationException;
+import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
 import org.eclipse.jgit.lib.ObjectId;
@@ -26,8 +27,6 @@ import org.eclipse.jgit.transport.ServiceMayNotContinueException;
 import org.eclipse.jgit.transport.UploadPack;
 
 import java.util.Collection;
-
-import javax.inject.Inject;
 
 public class UploadValidators implements PreUploadHook {
 

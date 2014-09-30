@@ -207,6 +207,23 @@
     },
     {
       "key": {
+        "uuid": "70245ca4_962eacab",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-30T13:53:53Z",
+      "side": 1,
+      "message": "Changes in this file conflict with \"Support adding hashtags to changes via git push\" [1].  I suggest you rebase this on top of that change.\n\n[1] https://gerrit-review.googlesource.com/60106",
+      "revId": "5b5714ba886432c4759a1b8a5fcf15e36d608cf7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f035acd2_52a5d4bb",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 31

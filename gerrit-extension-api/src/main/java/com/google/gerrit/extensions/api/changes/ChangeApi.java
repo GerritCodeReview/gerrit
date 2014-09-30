@@ -20,6 +20,7 @@ import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 
 import java.util.EnumSet;
+import java.util.Set;
 
 public interface ChangeApi {
   String id();
@@ -89,6 +90,13 @@ public interface ChangeApi {
    * Set hashtags on a change
    **/
   void setHashtags(HashtagsInput input) throws RestApiException;
+
+  /**
+   * Get hashtags on a change.
+   * @return hashtags
+   * @throws RestApiException
+   */
+  Set<String> getHashtags() throws RestApiException;
 
   /**
    * A default implementation which allows source compatibility
@@ -182,6 +190,11 @@ public interface ChangeApi {
 
     @Override
     public void setHashtags(HashtagsInput input) throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public Set<String> getHashtags() throws RestApiException {
       throw new NotImplementedException();
     }
   }

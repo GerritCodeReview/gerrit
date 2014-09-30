@@ -30,6 +30,7 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.change.Abandon;
 import com.google.gerrit.server.change.ChangeJson;
 import com.google.gerrit.server.change.ChangeResource;
+import com.google.gerrit.server.change.GetHashtags;
 import com.google.gerrit.server.change.GetTopic;
 import com.google.gerrit.server.change.PostHashtags;
 import com.google.gerrit.server.change.PostReviewers;
@@ -44,6 +45,7 @@ import com.google.inject.assistedinject.Assisted;
 
 import java.io.IOException;
 import java.util.EnumSet;
+import java.util.Set;
 
 class ChangeApiImpl extends ChangeApi.NotImplemented implements ChangeApi {
   interface Factory {
@@ -62,6 +64,7 @@ class ChangeApiImpl extends ChangeApi.NotImplemented implements ChangeApi {
   private final PostReviewers postReviewers;
   private final Provider<ChangeJson> changeJson;
   private final PostHashtags postHashtags;
+  private final GetHashtags getHashtags;
 
   @Inject
   ChangeApiImpl(Changes changeApi,
@@ -75,6 +78,7 @@ class ChangeApiImpl extends ChangeApi.NotImplemented implements ChangeApi {
       PostReviewers postReviewers,
       Provider<ChangeJson> changeJson,
       PostHashtags postHashtags,
+      GetHashtags getHashtags,
       @Assisted ChangeResource change) {
     this.changeApi = changeApi;
     this.revert = revert;
@@ -87,6 +91,7 @@ class ChangeApiImpl extends ChangeApi.NotImplemented implements ChangeApi {
     this.postReviewers = postReviewers;
     this.changeJson = changeJson;
     this.postHashtags = postHashtags;
+    this.getHashtags = getHashtags;
     this.change = change;
   }
 
@@ -216,6 +221,15 @@ class ChangeApiImpl extends ChangeApi.NotImplemented implements ChangeApi {
       postHashtags.apply(change, input);
     } catch (IOException | OrmException e) {
       throw new RestApiException("Cannot post hashtags", e);
+    }
+  }
+
+  @Override
+  public Set<String> getHashtags() throws RestApiException {
+    try {
+      return getHashtags.apply(change).value();
+    } catch (IOException | OrmException e) {
+      throw new RestApiException("Cannot get hashtags", e);
     }
   }
 }

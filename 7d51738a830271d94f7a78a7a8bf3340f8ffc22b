@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b03fb4b4_303ec8e4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/HashtagsUtil.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2014-09-30T09:06:13Z",
+      "side": 1,
+      "message": "Still comment in PS7 applies",
+      "revId": "7d51738a830271d94f7a78a7a8bf3340f8ffc22b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

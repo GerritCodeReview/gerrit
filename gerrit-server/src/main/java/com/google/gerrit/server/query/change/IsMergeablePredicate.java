@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.query.change;
 
+import com.google.common.base.Optional;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.index.ChangeField;
 import com.google.gerrit.server.index.IndexPredicate;
@@ -27,7 +28,8 @@ class IsMergeablePredicate extends IndexPredicate<ChangeData> {
   @Override
   public boolean match(ChangeData object) throws OrmException {
     Change c = object.change();
-    return c != null && c.isMergeable();
+    Optional<Boolean> m = object.isMergeable();
+    return c != null && m.isPresent() && m.get();
   }
 
   @Override

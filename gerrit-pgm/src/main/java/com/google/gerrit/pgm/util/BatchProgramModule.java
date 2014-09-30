@@ -30,6 +30,7 @@ import com.google.gerrit.server.account.GroupIncludeCacheImpl;
 import com.google.gerrit.server.cache.CacheRemovalListener;
 import com.google.gerrit.server.cache.h2.DefaultCacheFactory;
 import com.google.gerrit.server.change.ChangeKindCacheImpl;
+import com.google.gerrit.server.change.MergeabilityCache;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.CanonicalWebUrlProvider;
 import com.google.gerrit.server.config.DisableReverseDnsLookup;
@@ -100,6 +101,7 @@ public class BatchProgramModule extends FactoryModule {
     install(SectionSortCache.module());
     install(ChangeKindCacheImpl.module());
     install(ChangeCache.module());
+    install(MergeabilityCache.module());
     install(TagCache.module());
     factory(CapabilityControl.Factory.class);
     factory(ChangeData.Factory.class);

@@ -47,6 +47,7 @@ import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
+
 import org.eclipse.jgit.diff.Edit;
 import org.eclipse.jgit.diff.ReplaceEdit;
 import org.kohsuke.args4j.CmdLineException;

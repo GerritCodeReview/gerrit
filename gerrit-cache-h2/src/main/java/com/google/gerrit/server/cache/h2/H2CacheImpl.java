@@ -309,7 +309,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements
     };
   }
 
-  static class SqlStore<K, V> {
+  public static class SqlStore<K, V> implements AutoCloseable {
     private final String url;
     private final KeyType<K> keyType;
     private final long maxSize;
@@ -338,7 +338,8 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements
       }
     }
 
-    void close() {
+    @Override
+    public void close() {
       SqlHandle h;
       while ((h = handles.poll()) != null) {
         h.close();
@@ -467,6 +468,12 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements
       } finally {
         c.touch.clearParameters();
       }
+    }
+
+    public void put(K key, V value) {
+      ValueHolder<V> holder = new ValueHolder<V>(value);
+      holder.created = TimeUtil.nowMs();
+      put(key, holder);
     }
 
     void put(K key, ValueHolder<V> holder) {

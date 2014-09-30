@@ -40,6 +40,7 @@ import com.google.gerrit.server.account.GroupMembership;
 import com.google.gerrit.server.account.ListGroupMembership;
 import com.google.gerrit.server.change.ChangeKindCache;
 import com.google.gerrit.server.change.ChangeKindCacheImpl;
+import com.google.gerrit.server.change.MergeabilityCache;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.config.AnonymousCowardNameProvider;
@@ -58,6 +59,7 @@ import com.google.gerrit.testutil.FakeAccountCache;
 import com.google.gerrit.testutil.InMemoryRepositoryManager;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import com.google.inject.Provider;
 import com.google.inject.util.Providers;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -253,14 +255,15 @@ public class Util {
     };
 
     Injector injector = Guice.createInjector(new FactoryModule() {
+      @SuppressWarnings({"rawtypes", "unchecked"})
       @Override
       protected void configure() {
+        Provider nullProvider = Providers.of(null);
         bind(Config.class).annotatedWith(GerritServerConfig.class).toInstance(
             new Config());
-        bind(ReviewDb.class).toProvider(Providers.<ReviewDb> of(null));
+        bind(ReviewDb.class).toProvider(nullProvider);
         bind(GitRepositoryManager.class).toInstance(repoManager);
-        bind(PatchListCache.class)
-            .toProvider(Providers.<PatchListCache> of(null));
+        bind(PatchListCache.class).toProvider(nullProvider);
 
         factory(CapabilityControl.Factory.class);
         factory(ChangeControl.AssistedFactory.class);
@@ -275,6 +278,7 @@ public class Util {
         bind(String.class).annotatedWith(AnonymousCowardName.class)
             .toProvider(AnonymousCowardNameProvider.class);
         bind(ChangeKindCache.class).to(ChangeKindCacheImpl.NoCache.class);
+        bind(MergeabilityCache.bindingKey()).toProvider(nullProvider);
       }
     });
 

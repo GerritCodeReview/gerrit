@@ -634,8 +634,11 @@ public class MergeUtil {
 
   public ThreeWayMerger newThreeWayMerger(final Repository repo,
       final ObjectInserter inserter) {
-    return newThreeWayMerger(repo, inserter,
-        mergeStrategyName(useContentMerge, useRecursiveMerge));
+    return newThreeWayMerger(repo, inserter, mergeStrategyName());
+  }
+
+  public String mergeStrategyName() {
+    return mergeStrategyName(useContentMerge, useRecursiveMerge);
   }
 
   public static String mergeStrategyName(boolean useContentMerge,

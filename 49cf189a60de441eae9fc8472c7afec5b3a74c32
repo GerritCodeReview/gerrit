@@ -70,6 +70,30 @@
       "revId": "49cf189a60de441eae9fc8472c7afec5b3a74c32",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f035acd2_9200dc23",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 19
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-09-30T07:55:29Z",
+      "side": 1,
+      "message": "I would rather lean to -D JVM option defined by plugin and not add yet another (conditional) parameter to daemon",
+      "parentUuid": "b03fb4b4_70f690f6",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 5
+      },
+      "revId": "49cf189a60de441eae9fc8472c7afec5b3a74c32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

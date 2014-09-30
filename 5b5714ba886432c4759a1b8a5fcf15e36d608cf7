@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "900f1024_b731a80f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/HashtagsUtil.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-09-30T12:16:56Z",
+      "side": 1,
+      "message": "I recall the comments, [1] and [2] added by Sasa.\n \nthe only case where line 65 and 66 can not clean up and we must call extractTags() I can image now is\n  \"Hashtags: #tag1, #tag2, #tag3\"\nbut isn\u0027t be more simple to input \n  \"Hashtags: tag1, tag2, tag3\"\nAnyway this is case I can find and will apply extractTags() here. so \"or call cleanupHashtag() for each hashtag.\"\nis just what I want in fact.\" Thanks! Sven.\n@Sasa,@Gustaf:\nany comments here? I hope we all can reach one same point before I add a new patchset.:)\n\n[1] https://gerrit-review.googlesource.com/#/c/60201/5/gerrit-server/src/main/java/com/google/gerrit/server/change/HashtagsUtil.java\n\n[2] https://gerrit-review.googlesource.com/#/c/60201/5/gerrit-server/src/main/java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+      "parentUuid": "b03fb4b4_50702cce",
+      "revId": "5b5714ba886432c4759a1b8a5fcf15e36d608cf7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b03fb4b4_d062dcf8",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
         "patchSetId": 31
@@ -54,6 +72,24 @@
         "endLine": 300,
         "endChar": 34
       },
+      "revId": "5b5714ba886432c4759a1b8a5fcf15e36d608cf7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "900f1024_972ea4ab",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-09-30T12:16:56Z",
+      "side": 1,
+      "message": "I do not think so. just like fails of  email and hook. it should not stop the process of insert new patch-set.  \n\nI agree, only silently fail is not good but still I can not find out a good way to satisfied every kind insert patchset scenario, from ssh command from REST API, from UI.\n\nalso I find today when Motedb is enabled but user, e.g. anonymous user , who can not edit the hashtags still can delete it from UI. not get time to fix it yet.",
+      "parentUuid": "b03fb4b4_d062dcf8",
       "revId": "5b5714ba886432c4759a1b8a5fcf15e36d608cf7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

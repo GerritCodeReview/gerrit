@@ -369,6 +369,24 @@
       "revId": "5b5714ba886432c4759a1b8a5fcf15e36d608cf7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "900f1024_374c788c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 2133,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-09-30T14:00:30Z",
+      "side": 1,
+      "message": "update the cases:\n\n firstly new change        [1] \"Hashtags: a,b,c\"\n                              they are same \n then upload a patch-set   [2] \"Hashtags: a,b,z\"\n                              they are not same",
+      "parentUuid": "70245ca4_d6342401",
+      "revId": "5b5714ba886432c4759a1b8a5fcf15e36d608cf7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -144,6 +144,30 @@
     },
     {
       "key": {
+        "uuid": "70245ca4_761d508c",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-30T00:57:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "900f1024_771d508c",
+      "range": {
+        "startLine": 219,
+        "startChar": 23,
+        "endLine": 219,
+        "endChar": 27
+      },
+      "revId": "6b64dd60fb2e538d6f9e4d927aac8210a89b00e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b095f3be_5b1f43c0",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 13

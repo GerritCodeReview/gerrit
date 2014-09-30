@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "900f1024_177a94ae",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeInserter.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-09-30T13:58:00Z",
+      "side": 1,
+      "message": "only because I don\u0027t know where and how the setHashtags() is called, line 159, I have to take in all cases it would be. \n\nDo you mean when we do not know where and how the setHashtags() will be called, we should just think it as the initial immutable empty set only and ignore the  setHashtags()\u0027s existing for now ?",
+      "parentUuid": "f035acd2_b2b640fd",
+      "revId": "5b5714ba886432c4759a1b8a5fcf15e36d608cf7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b03fb4b4_50702cce",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/HashtagsUtil.java",
         "patchSetId": 31
@@ -107,6 +125,24 @@
     },
     {
       "key": {
+        "uuid": "900f1024_f77e00a1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/HashtagsUtil.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-09-30T13:58:00Z",
+      "side": 1,
+      "message": "I do like \"one invalid hashtag invalidate all other hashtags\" too, but how to \"skip only the invalid ones and keep valid ones\" now? should we update the return type of validateHashtags() to let it return invalid hashtags ? \n\n\u003ewill the user who is doing \"git push ...\" know ? \n\nwe should discuss it in  ReceiveCommits.java and ChangeInserter.java I think we have a chance to give out an warning there I will update there.",
+      "parentUuid": "f035acd2_72b9f8f3",
+      "revId": "5b5714ba886432c4759a1b8a5fcf15e36d608cf7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f035acd2_f293a862",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/HashtagsUtil.java",
         "patchSetId": 31
@@ -124,6 +160,24 @@
         "endLine": 139,
         "endChar": 34
       },
+      "revId": "5b5714ba886432c4759a1b8a5fcf15e36d608cf7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70245ca4_f6372003",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/HashtagsUtil.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-09-30T13:58:00Z",
+      "side": 1,
+      "message": "yes, we should disable it early from UI.",
+      "parentUuid": "f035acd2_f293a862",
       "revId": "5b5714ba886432c4759a1b8a5fcf15e36d608cf7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -207,6 +261,24 @@
     },
     {
       "key": {
+        "uuid": "900f1024_d77bfcae",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-09-30T13:58:00Z",
+      "side": 1,
+      "message": "it should be warning to keep consistent with 60106 \"Support adding hashtags to changes via git push\"",
+      "parentUuid": "f035acd2_329a507c",
+      "revId": "5b5714ba886432c4759a1b8a5fcf15e36d608cf7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "70245ca4_962eacab",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 31
@@ -247,6 +319,24 @@
     },
     {
       "key": {
+        "uuid": "70245ca4_b631a80f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 2054,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-09-30T13:58:00Z",
+      "side": 1,
+      "message": "please see line 2191, 2192,",
+      "parentUuid": "f035acd2_52a5d4bb",
+      "revId": "5b5714ba886432c4759a1b8a5fcf15e36d608cf7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b03fb4b4_30c36866",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 31
@@ -258,6 +348,24 @@
       "writtenOn": "2014-09-30T12:44:32Z",
       "side": 1,
       "message": "use the toAdd here and avoid the cmHashtags variable?",
+      "revId": "5b5714ba886432c4759a1b8a5fcf15e36d608cf7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70245ca4_d6342401",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 2133,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-09-30T13:58:00Z",
+      "side": 1,
+      "message": "no, they are not same in all cases, e.g.\n\n firstly new change        [1] \"Hashtags: a,b,c\"\n                              they are same \n then upload a patch-set   [2] \"Hashtags: a,b\"\n                              they are not same",
+      "parentUuid": "b03fb4b4_30c36866",
       "revId": "5b5714ba886432c4759a1b8a5fcf15e36d608cf7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

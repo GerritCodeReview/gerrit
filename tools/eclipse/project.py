@@ -65,8 +65,12 @@ def gen_plugin_classpath(dir):
     print("""\
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-    <classpathentry kind="src" path="src/main/java"/>
-    <classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+    <classpathentry kind="src" path="src/main/java"/>""" +
+    
+    ("""<classpathentry kind="src" path="src/test/java" out="buck-out/eclipse/test"/>""" 
+    if path.exists(path.join(dir, 'src', 'test', 'java')) else "") +
+          
+    """<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
     <classpathentry combineaccessrules="false" kind="src" path="/gerrit"/>
     <classpathentry kind="output" path="buck-out/eclipse/classes"/>
 </classpath>""", file=fd)

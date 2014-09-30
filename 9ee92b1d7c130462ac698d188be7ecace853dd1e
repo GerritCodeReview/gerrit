@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b03fb4b4_b0887845",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetDiff.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-09-30T10:52:55Z",
+      "side": 1,
+      "message": "Doesn\u0027t give you a file-icon if diffed against base. Don\u0027t know if that\u0027s tolerable?\nReason being that I can\u0027t figure out how to get a file resource for the file in base revision.",
+      "range": {
+        "startLine": 166,
+        "startChar": 12,
+        "endLine": 166,
+        "endChar": 33
+      },
+      "revId": "9ee92b1d7c130462ac698d188be7ecace853dd1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f035acd2_b2888045",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectJson.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-09-30T10:52:55Z",
+      "side": 1,
+      "message": "This is as hacky as they come, can\u0027t follow all the code paths that calls format(Project p) from other locations than here so I don\u0027t know the impact.\nI just could not figure out a descent way to get a ProjectResource from a Project. It gives you nice icons on list projects...",
+      "range": {
+        "startLine": 44,
+        "startChar": 1,
+        "endLine": 50,
+        "endChar": 16
+      },
+      "revId": "9ee92b1d7c130462ac698d188be7ecace853dd1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

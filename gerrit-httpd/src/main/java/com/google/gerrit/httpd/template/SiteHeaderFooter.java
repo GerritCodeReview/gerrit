@@ -18,6 +18,7 @@ import com.google.common.base.Strings;
 import com.google.gerrit.httpd.HtmlDomUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import org.eclipse.jgit.lib.Config;
@@ -28,8 +29,6 @@ import org.w3c.dom.Element;
 
 import java.io.File;
 import java.io.IOException;
-
-import javax.inject.Inject;
 
 @Singleton
 public class SiteHeaderFooter {

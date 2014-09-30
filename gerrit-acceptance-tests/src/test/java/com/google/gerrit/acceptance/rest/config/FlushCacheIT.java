@@ -30,13 +30,12 @@ import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.Util;
+import com.google.inject.Inject;
 
 import org.apache.http.HttpStatus;
 import org.junit.Test;
 
 import java.io.IOException;
-
-import javax.inject.Inject;
 
 public class FlushCacheIT extends AbstractDaemonTest {
 

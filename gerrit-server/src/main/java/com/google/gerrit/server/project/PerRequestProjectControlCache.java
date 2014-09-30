@@ -16,12 +16,11 @@ package com.google.gerrit.server.project;
 
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.CurrentUser;
+import com.google.inject.Inject;
 import com.google.inject.servlet.RequestScoped;
 
 import java.util.HashMap;
 import java.util.Map;
-
-import javax.inject.Inject;
 
 /** Caches {@link ProjectControl} objects for the current user of the request. */
 @RequestScoped

@@ -15,13 +15,12 @@
 package com.google.gerrit.extensions.registration;
 
 import com.google.inject.Binding;
+import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Provider;
 import com.google.inject.TypeLiteral;
 
 import java.util.List;
-
-import javax.inject.Inject;
 
 class DynamicMapProvider<T> implements Provider<DynamicMap<T>> {
   private final TypeLiteral<T> type;

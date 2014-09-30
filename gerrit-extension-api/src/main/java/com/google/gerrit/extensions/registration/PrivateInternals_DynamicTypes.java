@@ -16,6 +16,7 @@ package com.google.gerrit.extensions.registration;
 
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.inject.Binding;
+import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Key;
 import com.google.inject.TypeLiteral;
@@ -26,8 +27,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import javax.inject.Inject;
 
 /** <b>DO NOT USE</b> */
 public class PrivateInternals_DynamicTypes {

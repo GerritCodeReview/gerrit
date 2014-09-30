@@ -28,9 +28,8 @@ import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.account.PerformRenameGroup;
 import com.google.gerrit.server.group.PutName.Input;
 import com.google.gwtorm.server.OrmException;
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
-import javax.inject.Inject;
 
 @Singleton
 public class PutName implements RestModifyView<GroupResource, Input> {

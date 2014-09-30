@@ -24,6 +24,7 @@ import com.google.gerrit.pgm.init.api.Section;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Binding;
 import com.google.inject.Guice;
+import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Key;
 import com.google.inject.Singleton;
@@ -34,8 +35,6 @@ import com.google.inject.name.Names;
 import java.lang.annotation.Annotation;
 import java.util.List;
 import java.util.Set;
-
-import javax.inject.Inject;
 
 /** Initialize the {@code database} configuration section. */
 @Singleton

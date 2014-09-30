@@ -14,9 +14,8 @@
 
 package com.google.gerrit.server.schema;
 
+import com.google.inject.Inject;
 import com.google.inject.Provider;
-
-import javax.inject.Inject;
 
 public class Schema_85 extends SchemaVersion {
   @Inject

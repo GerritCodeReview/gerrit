@@ -21,12 +21,12 @@ import com.google.gerrit.httpd.restapi.RestApiServlet;
 import com.google.gerrit.server.documentation.QueryDocumentationExecutor;
 import com.google.gerrit.server.documentation.QueryDocumentationExecutor.DocQueryException;
 import com.google.gerrit.server.documentation.QueryDocumentationExecutor.DocResult;
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import java.io.IOException;
 import java.util.List;
 
-import javax.inject.Inject;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;

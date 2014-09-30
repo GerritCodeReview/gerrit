@@ -25,6 +25,7 @@ import com.google.gerrit.server.util.ThreadLocalRequestContext;
 import com.google.gerrit.server.util.ThreadLocalRequestScopePropagator;
 import com.google.gerrit.server.util.TimeUtil;
 import com.google.gwtorm.server.SchemaFactory;
+import com.google.inject.Inject;
 import com.google.inject.Key;
 import com.google.inject.OutOfScopeException;
 import com.google.inject.Provider;
@@ -32,8 +33,6 @@ import com.google.inject.Scope;
 import com.google.inject.util.Providers;
 
 import java.util.Map;
-
-import javax.inject.Inject;
 
 /** Guice scopes for state during an SSH connection. */
 public class SshScope {

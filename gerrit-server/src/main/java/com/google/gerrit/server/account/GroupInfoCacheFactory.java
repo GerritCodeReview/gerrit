@@ -18,10 +18,9 @@ import com.google.common.collect.Maps;
 import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.data.GroupInfoCache;
 import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.inject.Inject;
 
 import java.util.Map;
-
-import javax.inject.Inject;
 
 /** Efficiently builds a {@link GroupInfoCache}. */
 public class GroupInfoCacheFactory {

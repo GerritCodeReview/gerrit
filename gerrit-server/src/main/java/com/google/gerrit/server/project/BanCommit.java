@@ -24,6 +24,7 @@ import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.server.git.BanCommitResult;
 import com.google.gerrit.server.git.MergeException;
 import com.google.gerrit.server.project.BanCommit.Input;
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import org.eclipse.jgit.api.errors.ConcurrentRefUpdateException;
@@ -32,8 +33,6 @@ import org.eclipse.jgit.lib.ObjectId;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.inject.Inject;
 
 @Singleton
 public class BanCommit implements RestModifyView<ProjectResource, Input> {

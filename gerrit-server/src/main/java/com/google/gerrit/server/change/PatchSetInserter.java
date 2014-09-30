@@ -48,6 +48,7 @@ import com.google.gerrit.server.ssh.SshInfo;
 import com.google.gerrit.server.util.TimeUtil;
 import com.google.gwtorm.server.AtomicUpdate;
 import com.google.gwtorm.server.OrmException;
+import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
 import org.eclipse.jgit.lib.ObjectId;
@@ -62,8 +63,6 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.Collections;
-
-import javax.inject.Inject;
 
 public class PatchSetInserter {
   private static final Logger log =

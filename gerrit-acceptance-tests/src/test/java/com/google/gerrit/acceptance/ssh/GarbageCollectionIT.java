@@ -29,6 +29,7 @@ import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.git.GarbageCollection;
 import com.google.gerrit.server.git.GarbageCollectionQueue;
 import com.google.gwtorm.server.OrmException;
+import com.google.inject.Inject;
 
 import com.jcraft.jsch.JSchException;
 
@@ -38,8 +39,6 @@ import org.junit.Test;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Locale;
-
-import javax.inject.Inject;
 
 public class GarbageCollectionIT extends AbstractDaemonTest {
 

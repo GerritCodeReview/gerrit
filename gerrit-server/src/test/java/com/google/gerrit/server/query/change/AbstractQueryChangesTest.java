@@ -56,6 +56,7 @@ import com.google.gerrit.server.util.ThreadLocalRequestContext;
 import com.google.gerrit.server.util.TimeUtil;
 import com.google.gerrit.testutil.InMemoryDatabase;
 import com.google.gerrit.testutil.InMemoryRepositoryManager;
+import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Provider;
 import com.google.inject.util.Providers;
@@ -73,8 +74,6 @@ import org.junit.Test;
 
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
-
-import javax.inject.Inject;
 
 @Ignore
 public abstract class AbstractQueryChangesTest {

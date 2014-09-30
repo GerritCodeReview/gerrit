@@ -22,10 +22,9 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.InternalUser;
+import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
-import javax.inject.Inject;
 
 /** Access control management for a group of accounts managed in Gerrit. */
 public class GroupControl {

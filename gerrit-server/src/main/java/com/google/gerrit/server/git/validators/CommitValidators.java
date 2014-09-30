@@ -31,6 +31,7 @@ import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.RefControl;
 import com.google.gerrit.server.ssh.SshInfo;
 import com.google.gerrit.server.util.MagicBranch;
+import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
 import com.jcraft.jsch.HostKey;
@@ -53,8 +54,6 @@ import java.net.URL;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
-
-import javax.inject.Inject;
 
 public class CommitValidators {
   private static final Logger log = LoggerFactory

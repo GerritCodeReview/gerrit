@@ -17,13 +17,13 @@ package com.google.gerrit.httpd.raw;
 import com.google.gerrit.httpd.HtmlDomUtil;
 import com.google.gwtexpui.server.CacheHeaders;
 import com.google.gwtjsonrpc.server.RPCServletUtils;
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStream;
 
-import javax.inject.Inject;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;

@@ -19,6 +19,7 @@ import com.google.gerrit.server.config.RequestScopedReviewDbProvider;
 import com.google.gerrit.server.util.RequestContext;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;
 import com.google.gerrit.server.util.ThreadLocalRequestScopePropagator;
+import com.google.inject.Inject;
 import com.google.inject.Key;
 import com.google.inject.OutOfScopeException;
 import com.google.inject.Provider;
@@ -26,8 +27,6 @@ import com.google.inject.Scope;
 
 import java.util.Map;
 import java.util.concurrent.Callable;
-
-import javax.inject.Inject;
 
 public class PerThreadRequestScope {
   public interface Scoper {

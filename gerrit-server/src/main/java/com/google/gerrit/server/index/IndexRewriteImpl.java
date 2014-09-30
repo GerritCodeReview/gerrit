@@ -33,13 +33,12 @@ import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gerrit.server.query.change.ChangeQueryRewriter;
 import com.google.gerrit.server.query.change.ChangeStatusPredicate;
 import com.google.gerrit.server.query.change.OrSource;
+import com.google.inject.Inject;
 
 import java.util.BitSet;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Set;
-
-import javax.inject.Inject;
 
 /** Rewriter that pushes boolean logic into the secondary index. */
 public class IndexRewriteImpl implements ChangeQueryRewriter {

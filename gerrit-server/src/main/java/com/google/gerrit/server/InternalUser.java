@@ -18,12 +18,11 @@ import com.google.gerrit.reviewdb.client.AccountProjectWatch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.account.CapabilityControl;
 import com.google.gerrit.server.account.GroupMembership;
+import com.google.inject.Inject;
 
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Set;
-
-import javax.inject.Inject;
 
 /**
  * User identity for plugin code that needs an identity.

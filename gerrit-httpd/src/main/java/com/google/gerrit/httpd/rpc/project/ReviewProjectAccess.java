@@ -48,6 +48,7 @@ import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.SetParent;
 import com.google.gerrit.server.util.TimeUtil;
 import com.google.gwtorm.server.OrmException;
+import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 
@@ -60,8 +61,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
-import javax.inject.Inject;
 
 public class ReviewProjectAccess extends ProjectAccessHandler<Change.Id> {
   private static final Logger log =

@@ -25,14 +25,13 @@ import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.git.ProjectConfig;
+import com.google.inject.Inject;
 
 import org.apache.http.HttpStatus;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
-
-import javax.inject.Inject;
 
 public class DeleteBranchIT extends AbstractDaemonTest {
   @Inject

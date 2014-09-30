@@ -22,12 +22,11 @@ import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.server.plugins.PluginLoader;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
+import com.google.inject.Inject;
 
 import org.kohsuke.args4j.Argument;
 
 import java.util.List;
-
-import javax.inject.Inject;
 
 @RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)
 @CommandMetaData(name = "remove", description = "Disable plugins",

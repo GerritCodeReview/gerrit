@@ -36,6 +36,7 @@ import com.google.gerrit.server.change.ChangesCollection;
 import com.google.gerrit.server.query.change.QueryChanges;
 import com.google.gwtorm.server.OrmDuplicateKeyException;
 import com.google.gwtorm.server.OrmException;
+import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
@@ -43,8 +44,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Collections;
-
-import javax.inject.Inject;
 
 @Singleton
 public class StarredChanges implements

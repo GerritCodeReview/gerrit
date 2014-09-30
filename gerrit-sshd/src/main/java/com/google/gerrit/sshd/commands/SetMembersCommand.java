@@ -33,6 +33,7 @@ import com.google.gerrit.server.group.GroupResource;
 import com.google.gerrit.server.group.GroupsCollection;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
+import com.google.inject.Inject;
 import com.google.inject.Provider;
 
 import org.kohsuke.args4j.Argument;
@@ -41,8 +42,6 @@ import org.kohsuke.args4j.Option;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
-
-import javax.inject.Inject;
 
 @CommandMetaData(name = "set-members", description = "Modify members of specific group or number of groups")
 public class SetMembersCommand extends SshCommand {

@@ -29,6 +29,7 @@ import com.google.gerrit.server.change.TestSubmitRule.Input;
 import com.google.gerrit.server.project.RuleEvalException;
 import com.google.gerrit.server.project.SubmitRuleEvaluator;
 import com.google.gerrit.server.query.change.ChangeData;
+import com.google.inject.Inject;
 import com.google.inject.Provider;
 
 import com.googlecode.prolog_cafe.lang.SymbolTerm;
@@ -38,8 +39,6 @@ import org.kohsuke.args4j.Option;
 
 import java.io.ByteArrayInputStream;
 import java.util.List;
-
-import javax.inject.Inject;
 
 public class TestSubmitType implements RestModifyView<RevisionResource, Input> {
   private final Provider<ReviewDb> db;

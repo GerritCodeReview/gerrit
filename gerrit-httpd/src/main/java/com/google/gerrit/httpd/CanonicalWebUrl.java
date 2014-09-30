@@ -15,9 +15,9 @@
 package com.google.gerrit.httpd;
 
 import com.google.gerrit.common.Nullable;
+import com.google.inject.Inject;
 import com.google.inject.Provider;
 
-import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 
 public class CanonicalWebUrl {

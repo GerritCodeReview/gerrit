@@ -18,11 +18,10 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.RequestCleanup;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
+import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.ProvisionException;
 import com.google.inject.servlet.RequestScoped;
-
-import javax.inject.Inject;
 
 /** Provides {@link ReviewDb} database handle live only for this request. */
 @RequestScoped

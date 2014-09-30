@@ -41,6 +41,7 @@ import com.google.gerrit.server.account.PutPreferred;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.gwtorm.server.OrmException;
+import com.google.inject.Inject;
 
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
@@ -54,8 +55,6 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
-import javax.inject.Inject;
 
 /** Set a user's account settings. **/
 @CommandMetaData(name = "set-account", description = "Change an account's settings")

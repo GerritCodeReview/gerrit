@@ -40,6 +40,7 @@ import com.google.gerrit.server.ssh.SshKeyCache;
 import com.google.gerrit.server.util.TimeUtil;
 import com.google.gwtorm.server.OrmDuplicateKeyException;
 import com.google.gwtorm.server.OrmException;
+import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 
@@ -48,8 +49,6 @@ import org.apache.commons.validator.routines.EmailValidator;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
-
-import javax.inject.Inject;
 
 @RequiresCapability(GlobalCapability.CREATE_ACCOUNT)
 public class CreateAccount implements RestModifyView<TopLevelResource, Input> {

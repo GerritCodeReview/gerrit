@@ -21,6 +21,7 @@ import com.google.gerrit.pgm.init.api.InitFlags;
 import com.google.gerrit.pgm.init.api.InitStep;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.plugins.JarPluginProvider;
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import java.io.File;
@@ -30,8 +31,6 @@ import java.util.List;
 import java.util.jar.Attributes;
 import java.util.jar.JarFile;
 import java.util.jar.Manifest;
-
-import javax.inject.Inject;
 
 @Singleton
 public class InitPlugins implements InitStep {

@@ -34,14 +34,13 @@ import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gwtorm.server.AtomicUpdate;
 import com.google.gwtorm.server.OrmException;
+import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import org.eclipse.jgit.lib.Config;
 
 import java.io.IOException;
-
-import javax.inject.Inject;
 
 @Singleton
 public class Publish implements RestModifyView<RevisionResource, Input>,

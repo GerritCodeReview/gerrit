@@ -42,6 +42,7 @@ import com.google.gson.reflect.TypeToken;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
 import com.google.gwtorm.server.SchemaFactory;
+import com.google.inject.Inject;
 
 import org.apache.http.HttpStatus;
 import org.junit.After;
@@ -53,8 +54,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import javax.inject.Inject;
 
 public class AddRemoveGroupMembersIT extends AbstractDaemonTest {
 

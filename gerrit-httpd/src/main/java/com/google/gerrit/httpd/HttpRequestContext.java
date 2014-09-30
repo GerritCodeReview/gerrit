@@ -19,9 +19,8 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.config.RequestScopedReviewDbProvider;
 import com.google.gerrit.server.util.RequestContext;
+import com.google.inject.Inject;
 import com.google.inject.Provider;
-
-import javax.inject.Inject;
 
 class HttpRequestContext implements RequestContext {
   private final DynamicItem<WebSession> session;

@@ -15,6 +15,7 @@
 package com.google.gerrit.extensions.registration;
 
 import com.google.inject.Binding;
+import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Provider;
 import com.google.inject.TypeLiteral;
@@ -23,8 +24,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
-
-import javax.inject.Inject;
 
 class DynamicSetProvider<T> implements Provider<DynamicSet<T>> {
   private final TypeLiteral<T> type;

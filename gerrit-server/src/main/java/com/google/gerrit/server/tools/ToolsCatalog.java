@@ -15,6 +15,7 @@
 package com.google.gerrit.server.tools;
 
 import com.google.gerrit.common.Version;
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import org.eclipse.jgit.lib.Constants;
@@ -33,8 +34,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.SortedMap;
 import java.util.TreeMap;
-
-import javax.inject.Inject;
 
 /**
  * Listing of all client side tools stored on this server.

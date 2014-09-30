@@ -47,13 +47,12 @@ import com.google.gerrit.server.util.TimeUtil;
 import com.google.gwtjsonrpc.common.AsyncCallback;
 import com.google.gwtjsonrpc.common.VoidResult;
 import com.google.gwtorm.server.OrmException;
+import com.google.inject.Inject;
 import com.google.inject.Provider;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
-
-import javax.inject.Inject;
 
 class AccountSecurityImpl extends BaseServiceImplementation implements
     AccountSecurity {

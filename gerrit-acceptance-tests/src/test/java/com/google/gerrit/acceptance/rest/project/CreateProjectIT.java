@@ -39,6 +39,7 @@ import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gwtorm.server.OrmException;
+import com.google.inject.Inject;
 
 import com.jcraft.jsch.JSchException;
 
@@ -54,8 +55,6 @@ import org.junit.Test;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.Set;
-
-import javax.inject.Inject;
 
 public class CreateProjectIT extends AbstractDaemonTest {
 

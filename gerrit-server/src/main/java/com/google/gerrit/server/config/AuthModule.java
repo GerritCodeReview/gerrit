@@ -22,8 +22,7 @@ import com.google.gerrit.server.auth.AuthBackend;
 import com.google.gerrit.server.auth.InternalAuthBackend;
 import com.google.gerrit.server.auth.ldap.LdapModule;
 import com.google.inject.AbstractModule;
-
-import javax.inject.Inject;
+import com.google.inject.Inject;
 
 public class AuthModule extends AbstractModule {
   private final AuthType loginType;

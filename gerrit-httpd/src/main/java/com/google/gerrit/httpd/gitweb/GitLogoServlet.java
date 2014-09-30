@@ -16,6 +16,7 @@ package com.google.gerrit.httpd.gitweb;
 
 import com.google.gerrit.httpd.GitWebConfig;
 import com.google.gwtexpui.server.CacheHeaders;
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import org.eclipse.jgit.util.IO;
@@ -25,7 +26,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
-import javax.inject.Inject;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;

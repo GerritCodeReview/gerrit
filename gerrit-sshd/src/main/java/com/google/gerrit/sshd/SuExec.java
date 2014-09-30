@@ -21,6 +21,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PeerDaemonUser;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.sshd.SshScope.Context;
+import com.google.inject.Inject;
 import com.google.inject.Provider;
 
 import org.apache.sshd.server.Command;
@@ -33,8 +34,6 @@ import java.net.SocketAddress;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
-
-import javax.inject.Inject;
 
 /**
  * Executes any other command as a different user identity.

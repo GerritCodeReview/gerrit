@@ -17,12 +17,12 @@ package com.google.gerrit.httpd.rpc.change;
 import com.google.gerrit.server.query.change.QueryProcessor;
 import com.google.gerrit.server.query.change.QueryProcessor.OutputFormat;
 import com.google.gson.Gson;
+import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import java.io.IOException;
 
-import javax.inject.Inject;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;

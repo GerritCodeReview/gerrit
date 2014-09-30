@@ -17,14 +17,13 @@ package com.google.gerrit.pgm.init.api;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.SitePaths;
+import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Set;
-
-import javax.inject.Inject;
 
 /** Helper to edit a section of the configuration files. */
 public class Section {

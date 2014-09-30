@@ -22,13 +22,12 @@ import com.google.gerrit.server.account.GetPreferences.PreferenceInfo;
 import com.google.gerrit.server.account.SetPreferences.Input;
 import com.google.gerrit.server.account.VersionedAccountPreferences;
 import com.google.gerrit.server.git.MetaDataUpdate;
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
 import java.io.IOException;
-
-import javax.inject.Inject;
 
 @RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)
 @Singleton

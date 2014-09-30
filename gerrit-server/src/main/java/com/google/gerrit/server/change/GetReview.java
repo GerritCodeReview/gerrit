@@ -19,9 +19,8 @@ import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.change.ChangeJson.ChangeInfo;
 import com.google.gwtorm.server.OrmException;
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
-import javax.inject.Inject;
 
 @Singleton
 public class GetReview implements RestReadView<RevisionResource> {

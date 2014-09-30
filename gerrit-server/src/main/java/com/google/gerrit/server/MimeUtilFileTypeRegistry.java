@@ -16,6 +16,7 @@ package com.google.gerrit.server;
 
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.util.HostPlatform;
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import eu.medsea.mimeutil.MimeException;
@@ -33,8 +34,6 @@ import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
-import javax.inject.Inject;
 
 @Singleton
 public class MimeUtilFileTypeRegistry implements FileTypeRegistry {

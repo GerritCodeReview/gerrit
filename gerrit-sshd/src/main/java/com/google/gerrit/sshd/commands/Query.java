@@ -17,13 +17,12 @@ package com.google.gerrit.sshd.commands;
 import com.google.gerrit.server.query.change.QueryProcessor;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
+import com.google.inject.Inject;
 
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
 
 import java.util.List;
-
-import javax.inject.Inject;
 
 @CommandMetaData(name = "query", description = "Query the change database")
 class Query extends SshCommand {

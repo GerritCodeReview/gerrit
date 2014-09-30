@@ -21,10 +21,9 @@ import com.google.gerrit.server.account.PerformRenameGroup;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.gwtorm.server.OrmException;
+import com.google.inject.Inject;
 
 import org.kohsuke.args4j.Argument;
-
-import javax.inject.Inject;
 
 @CommandMetaData(name = "rename-group", description = "Rename an account group")
 public class RenameGroupCommand extends SshCommand {

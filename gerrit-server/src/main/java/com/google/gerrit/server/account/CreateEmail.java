@@ -32,14 +32,13 @@ import com.google.gerrit.server.account.GetEmails.EmailInfo;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.mail.RegisterNewEmailSender;
 import com.google.gwtorm.server.OrmException;
+import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 
 import org.apache.commons.validator.routines.EmailValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import javax.inject.Inject;
 
 public class CreateEmail implements RestModifyView<AccountResource, Input> {
   private final Logger log = LoggerFactory.getLogger(getClass());

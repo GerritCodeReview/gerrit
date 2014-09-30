@@ -16,10 +16,9 @@ package com.google.gerrit.httpd.rpc.change;
 
 import com.google.gerrit.httpd.restapi.RestApiServlet;
 import com.google.gerrit.server.change.ChangesCollection;
+import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
-import javax.inject.Inject;
 
 @Singleton
 public class ChangesRestApiServlet extends RestApiServlet {

@@ -33,6 +33,7 @@ import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
+import com.google.inject.Inject;
 import com.google.inject.Provider;
 
 import org.kohsuke.args4j.Argument;
@@ -45,8 +46,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
-import javax.inject.Inject;
 
 @CommandMetaData(name = "set-reviewers", description = "Add or remove reviewers on a change")
 public class SetReviewersCommand extends SshCommand {

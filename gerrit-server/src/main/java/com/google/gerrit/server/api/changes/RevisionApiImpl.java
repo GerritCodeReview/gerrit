@@ -37,13 +37,12 @@ import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.change.Submit;
 import com.google.gerrit.server.changedetail.RebaseChange;
 import com.google.gwtorm.server.OrmException;
+import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 
 import java.io.IOException;
 import java.util.Set;
-
-import javax.inject.Inject;
 
 class RevisionApiImpl extends RevisionApi.NotImplemented implements RevisionApi {
   interface Factory {

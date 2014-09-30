@@ -19,12 +19,11 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.IdentifiedUser.GenericFactory;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import org.apache.sshd.server.auth.gss.GSSAuthenticator;
 import org.apache.sshd.server.session.ServerSession;
-
-import javax.inject.Inject;
 
 /**
  * Authenticates users with kerberos (gssapi-with-mic).

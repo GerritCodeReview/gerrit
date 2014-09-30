@@ -28,13 +28,12 @@ import com.google.gerrit.server.account.AccountInfo;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupControl;
 import com.google.gwtorm.server.OrmException;
+import com.google.inject.Inject;
 import com.google.inject.Provider;
 
 import java.util.Collection;
 import java.util.EnumSet;
 import java.util.List;
-
-import javax.inject.Inject;
 
 public class GroupJson {
   private final GroupBackend groupBackend;

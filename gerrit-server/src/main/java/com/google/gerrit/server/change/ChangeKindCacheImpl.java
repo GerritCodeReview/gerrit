@@ -34,6 +34,7 @@ import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
+import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
@@ -53,8 +54,6 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.concurrent.ExecutionException;
-
-import javax.inject.Inject;
 
 public class ChangeKindCacheImpl implements ChangeKindCache {
   private static final Logger log =

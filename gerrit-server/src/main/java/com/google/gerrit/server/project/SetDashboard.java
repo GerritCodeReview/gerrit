@@ -22,12 +22,11 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.project.SetDashboard.Input;
+import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import java.io.IOException;
-
-import javax.inject.Inject;
 
 @Singleton
 class SetDashboard implements RestModifyView<DashboardResource, Input> {

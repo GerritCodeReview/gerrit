@@ -18,6 +18,7 @@ import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.git.VersionedMetaData;
+import com.google.inject.Inject;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.internal.storage.file.FileRepository;
@@ -34,8 +35,6 @@ import org.eclipse.jgit.util.FS;
 
 import java.io.File;
 import java.io.IOException;
-
-import javax.inject.Inject;
 
 public class AllProjectsConfig extends VersionedMetaData {
   private final String project;

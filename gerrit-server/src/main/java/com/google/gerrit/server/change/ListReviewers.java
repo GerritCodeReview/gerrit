@@ -21,13 +21,12 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.change.ReviewerJson.ReviewerInfo;
 import com.google.gwtorm.server.OrmException;
+import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import java.util.List;
 import java.util.Map;
-
-import javax.inject.Inject;
 
 @Singleton
 class ListReviewers implements RestReadView<ChangeResource> {

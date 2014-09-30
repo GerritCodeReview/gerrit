@@ -15,11 +15,10 @@
 package com.google.gerrit.server.mail;
 
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import org.eclipse.jgit.lib.Config;
-
-import javax.inject.Inject;
 
 @Singleton
 class EmailSettings {

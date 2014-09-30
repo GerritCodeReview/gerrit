@@ -23,6 +23,7 @@ import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.ssh.SshInfo;
 import com.google.gwtjsonrpc.common.AsyncCallback;
 import com.google.gwtjsonrpc.common.VoidResult;
+import com.google.inject.Inject;
 import com.google.inject.Provider;
 
 import com.jcraft.jsch.HostKey;
@@ -35,7 +36,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 
 class SystemInfoServiceImpl implements SystemInfoService {

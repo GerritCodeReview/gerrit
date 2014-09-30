@@ -16,11 +16,10 @@
 package com.google.gerrit.server.config;
 
 import com.google.gerrit.server.account.EmailExpander;
+import com.google.inject.Inject;
 import com.google.inject.Provider;
 
 import org.eclipse.jgit.lib.Config;
-
-import javax.inject.Inject;
 
 class EmailExpanderProvider implements Provider<EmailExpander> {
   private final EmailExpander expander;

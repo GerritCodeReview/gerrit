@@ -35,13 +35,12 @@ import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gerrit.server.ssh.SshAdvertisedAddresses;
+import com.google.inject.Inject;
 import com.google.inject.Provider;
 
 import org.apache.velocity.runtime.RuntimeInstance;
 
 import java.util.List;
-
-import javax.inject.Inject;
 
 public class EmailArguments {
   final GitRepositoryManager server;

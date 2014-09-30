@@ -30,6 +30,7 @@ import com.google.gerrit.server.ssh.SshInfo;
 import com.google.gerrit.server.ssh.SshListenAddresses;
 import com.google.gerrit.server.util.IdGenerator;
 import com.google.gerrit.server.util.SocketUtil;
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import com.jcraft.jsch.HostKey;
@@ -121,8 +122,6 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-
-import javax.inject.Inject;
 
 /**
  * SSH daemon to communicate with Gerrit.

@@ -24,12 +24,11 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.group.PutOptions.Input;
 import com.google.gwtorm.server.OrmException;
+import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import java.util.Collections;
-
-import javax.inject.Inject;
 
 @Singleton
 public class PutOptions implements RestModifyView<GroupResource, Input> {

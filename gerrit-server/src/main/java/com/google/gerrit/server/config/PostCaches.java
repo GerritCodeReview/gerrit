@@ -25,12 +25,11 @@ import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.server.config.PostCaches.Input;
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.inject.Inject;
 
 @RequiresCapability(GlobalCapability.FLUSH_CACHES)
 @Singleton

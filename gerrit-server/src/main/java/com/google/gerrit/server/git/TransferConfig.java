@@ -17,14 +17,13 @@ package com.google.gerrit.server.git;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.project.ProjectState;
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.storage.pack.PackConfig;
 
 import java.util.concurrent.TimeUnit;
-
-import javax.inject.Inject;
 
 @Singleton
 public class TransferConfig {

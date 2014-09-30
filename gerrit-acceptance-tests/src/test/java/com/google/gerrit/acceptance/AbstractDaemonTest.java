@@ -42,6 +42,7 @@ import com.google.gerrit.testutil.ConfigSuite;
 import com.google.gerrit.testutil.TempFileUtil;
 import com.google.gson.Gson;
 import com.google.gwtorm.server.SchemaFactory;
+import com.google.inject.Inject;
 import com.google.inject.util.Providers;
 
 import org.apache.http.HttpStatus;
@@ -59,8 +60,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.EnumSet;
 import java.util.List;
-
-import javax.inject.Inject;
 
 @RunWith(ConfigSuite.class)
 public abstract class AbstractDaemonTest {

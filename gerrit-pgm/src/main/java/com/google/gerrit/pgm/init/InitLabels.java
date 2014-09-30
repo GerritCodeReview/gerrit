@@ -17,13 +17,12 @@ package com.google.gerrit.pgm.init;
 import com.google.gerrit.pgm.init.api.AllProjectsConfig;
 import com.google.gerrit.pgm.init.api.ConsoleUI;
 import com.google.gerrit.pgm.init.api.InitStep;
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import org.eclipse.jgit.lib.Config;
 
 import java.util.Arrays;
-
-import javax.inject.Inject;
 
 @Singleton
 public class InitLabels implements InitStep {

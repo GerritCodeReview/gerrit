@@ -27,6 +27,7 @@ import com.google.gerrit.server.config.SitePaths;
 import com.google.gwtorm.jdbc.JdbcExecutor;
 import com.google.gwtorm.jdbc.JdbcSchema;
 import com.google.gwtorm.server.OrmException;
+import com.google.inject.Inject;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -34,8 +35,6 @@ import org.eclipse.jgit.lib.PersonIdent;
 import java.io.File;
 import java.io.IOException;
 import java.util.Collections;
-
-import javax.inject.Inject;
 
 /** Creates the current database schema and populates initial code rows. */
 public class SchemaCreator {

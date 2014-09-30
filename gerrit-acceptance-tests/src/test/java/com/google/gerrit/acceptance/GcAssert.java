@@ -18,6 +18,7 @@ import static org.junit.Assert.assertTrue;
 
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.inject.Inject;
 
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Repository;
@@ -25,8 +26,6 @@ import org.eclipse.jgit.lib.Repository;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
-
-import javax.inject.Inject;
 
 public class GcAssert {
 

@@ -26,6 +26,7 @@ import com.google.gerrit.server.auth.UnknownUserException;
 import com.google.gerrit.server.auth.UserNotAllowedException;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.inject.Inject;
 
 import org.eclipse.jgit.lib.Config;
 import org.slf4j.Logger;
@@ -33,7 +34,6 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Locale;
 
-import javax.inject.Inject;
 import javax.naming.NamingException;
 import javax.naming.directory.DirContext;
 import javax.security.auth.login.LoginException;

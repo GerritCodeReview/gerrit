@@ -36,6 +36,7 @@ import com.google.gerrit.server.util.TimeUtil;
 import com.google.gson.Gson;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
+import com.google.inject.Inject;
 import com.google.inject.Provider;
 
 import org.eclipse.jgit.util.io.DisabledOutputStream;
@@ -56,8 +57,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
-
-import javax.inject.Inject;
 
 public class QueryProcessor {
   private static final Logger log =

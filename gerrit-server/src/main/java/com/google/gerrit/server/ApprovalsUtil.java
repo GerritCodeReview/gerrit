@@ -48,6 +48,7 @@ import com.google.gerrit.server.notedb.ReviewerState;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.util.TimeUtil;
 import com.google.gwtorm.server.OrmException;
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import java.sql.Timestamp;
@@ -57,8 +58,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import javax.inject.Inject;
 
 /**
  * Utility functions to manipulate patchset approvals.

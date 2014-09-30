@@ -23,6 +23,7 @@ import com.google.gerrit.pgm.init.api.InitStep;
 import com.google.gerrit.pgm.init.api.Section;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.util.SocketUtil;
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import org.apache.sshd.common.util.SecurityUtils;
@@ -31,8 +32,6 @@ import org.apache.sshd.server.keyprovider.SimpleGeneratorHostKeyProvider;
 import java.io.File;
 import java.io.IOException;
 import java.net.InetSocketAddress;
-
-import javax.inject.Inject;
 
 /** Initialize the {@code sshd} configuration section. */
 @Singleton

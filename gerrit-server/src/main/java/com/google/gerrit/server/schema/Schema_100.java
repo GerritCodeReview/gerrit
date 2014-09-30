@@ -1,4 +1,4 @@
-// Copyright (C) 2011 The Android Open Source Project
+// Copyright (C) 2014 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -17,11 +17,11 @@ package com.google.gerrit.server.schema;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
-public class Schema_59 extends SchemaVersion {
+public class Schema_100 extends SchemaVersion {
   @Inject
-  Schema_59(Provider<Schema_58> prior) {
+  Schema_100(Provider<Schema_99> prior) {
     super(prior);
   }
 
-  // Don't migrate columns; they are removed in Schema_100.
+  // No database migration; merges are rechecked on reindex.
 }

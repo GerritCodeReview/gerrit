@@ -22,15 +22,14 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.git.BranchOrderSection;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.SubmitRuleEvaluator;
 import com.google.gerrit.server.query.change.ChangeData;
-import com.google.gwtorm.server.AtomicUpdate;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -119,7 +118,6 @@ public class Mergeable implements RestReadView<RevisionResource> {
       throw new OrmException("Submit type rule failed: " + rec);
     }
     result.submitType = rec.type;
-    result.mergeable = change.isMergeable();
 
     Repository git = gitManager.openRepository(change.getProject());
     try {
@@ -181,24 +179,12 @@ public class Mergeable implements RestReadView<RevisionResource> {
       Repository git, Boolean old) throws OrmException, IOException {
     final boolean mergeable =
         cache.load(commit, into, type, change.getDest(), git);
-    db.get().changes().atomicUpdate(
-        change.getId(),
-        new AtomicUpdate<Change>() {
-          @Override
-          public Change update(Change c) {
-            if (c.getStatus().isOpen()
-                && ps.getId().equals(c.currentPatchSetId())) {
-              c.setMergeable(mergeable);
-              c.setLastSha1MergeTested(new RevId(
-                  !into.equals(ObjectId.zeroId()) ? into.name() : ""));
-              return c;
-            } else {
-              return null;
-            }
-          }
-        });
-    if (reindex && !Objects.equals(mergeable, old)) {
-      indexer.index(db.get(), change);
+    if (!Objects.equals(mergeable, old)) {
+      // TODO(dborowitz): Include cache info in ETag somehow instead.
+      ChangeUtil.bumpRowVersionNotLastUpdatedOn(change.getId(), db.get());
+      if (reindex) {
+        indexer.index(db.get(), change);
+      }
     }
     return mergeable;
   }

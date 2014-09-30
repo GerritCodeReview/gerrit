@@ -269,7 +269,6 @@ public class PatchSetInserter {
               if (change.getStatus() != Change.Status.DRAFT) {
                 change.setStatus(Change.Status.NEW);
               }
-              change.setLastSha1MergeTested(null);
               change.setCurrentPatchSet(patchSetInfoFactory.get(commit,
                   patchSet.getId()));
               ChangeUtil.updated(change);

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.change;
 
+import com.google.common.base.Optional;
 import com.google.common.collect.Sets;
 import com.google.gerrit.extensions.common.SubmitType;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -22,7 +23,6 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.git.BranchOrderSection;
 import com.google.gerrit.server.git.CodeReviewCommit;
@@ -32,7 +32,6 @@ import com.google.gerrit.server.git.strategy.SubmitStrategyFactory;
 import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
-import com.google.gwtorm.server.AtomicUpdate;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -79,6 +78,10 @@ public class Mergeable implements RestReadView<RevisionResource> {
     this.force = force;
   }
 
+  void setReindex(boolean reindex) {
+    this.reindex = reindex;
+  }
+
   private final TestSubmitType.Get submitType;
   private final GitRepositoryManager gitManager;
   private final ProjectCache projectCache;
@@ -88,6 +91,7 @@ public class Mergeable implements RestReadView<RevisionResource> {
   private final MergeabilityCache cache;
 
   private boolean force;
+  private boolean reindex;
 
   @Inject
   Mergeable(TestSubmitType.Get submitType,
@@ -104,6 +108,7 @@ public class Mergeable implements RestReadView<RevisionResource> {
     this.db = db;
     this.indexer = indexer;
     this.cache = cache;
+    reindex = true;
   }
 
   @Override
@@ -121,7 +126,6 @@ public class Mergeable implements RestReadView<RevisionResource> {
     }
 
     result.submitType = submitType.apply(resource);
-    result.mergeable = change.isMergeable();
 
     Repository git = gitManager.openRepository(change.getProject());
     try {
@@ -130,6 +134,8 @@ public class Mergeable implements RestReadView<RevisionResource> {
       if (force || isStale(change, ref)) {
         result.mergeable =
             refresh(change, ps, result.submitType, git, refs, ref);
+      } else {
+        result.mergeable = cache.get(change, ref).or(false);
       }
 
       if (otherBranches) {
@@ -155,45 +161,29 @@ public class Mergeable implements RestReadView<RevisionResource> {
     return result;
   }
 
-  private static boolean isStale(Change change, Ref ref) {
-    return change.getLastSha1MergeTested() == null
-        || !toRevId(ref).equals(change.getLastSha1MergeTested());
-  }
-
-  private static RevId toRevId(Ref ref) {
-    return new RevId(ref != null && ref.getObjectId() != null
-        ? ref.getObjectId().name()
-        : "");
+  private boolean isStale(Change change, Ref ref) {
+    return !cache.get(change, ref).isPresent();
   }
 
   private boolean refresh(Change change,
-      final PatchSet ps,
+      PatchSet ps,
       SubmitType type,
       Repository git,
       Map<String, Ref> refs,
-      final Ref ref) throws IOException, OrmException {
-
-    final boolean mergeable = isMergeable(change, ps, type, git, refs, ref);
-
-    Change c = db.get().changes().atomicUpdate(
-        change.getId(),
-        new AtomicUpdate<Change>() {
-          @Override
-          public Change update(Change c) {
-            if (c.getStatus().isOpen()
-                && ps.getId().equals(c.currentPatchSetId())) {
-              c.setMergeable(mergeable);
-              c.setLastSha1MergeTested(toRevId(ref));
-              return c;
-            } else {
-              return null;
-            }
-          }
-        });
-    if (c != null) {
-      indexer.index(db.get(), c);
-      cache.save(c, ref, mergeable);
+      Ref ref) throws IOException, OrmException {
+    boolean mergeable;
+    if (reindex) {
+      // Slightly racy because Cache doesn't support set-and-get, but there
+      // should only be one check running concurrently per patch set.
+      Optional<Boolean> old = cache.get(change, ref);
+      mergeable = isMergeable(change, ps, type, git, refs, ref);
+      if (!old.isPresent() || old.get() != mergeable) {
+        indexer.index(db.get(), change);
+      }
+    } else {
+      mergeable = isMergeable(change, ps, type, git, refs, ref);
     }
+    cache.save(change, ref, mergeable);
     return mergeable;
   }
 

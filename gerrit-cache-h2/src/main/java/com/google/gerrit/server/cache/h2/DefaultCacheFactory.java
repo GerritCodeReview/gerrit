@@ -28,13 +28,20 @@ import com.google.gerrit.server.cache.PersistentCacheFactory;
 import com.google.gerrit.server.cache.h2.H2CacheImpl.ValueHolder;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Inject;
 
 import org.eclipse.jgit.lib.Config;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import java.io.File;
 import java.util.concurrent.TimeUnit;
 
 public class DefaultCacheFactory implements MemoryCacheFactory {
+  private static final Logger log =
+      LoggerFactory.getLogger(DefaultCacheFactory.class);
+
   public static class Module extends LifecycleModule {
     @Override
     protected void configure() {
@@ -43,6 +50,23 @@ public class DefaultCacheFactory implements MemoryCacheFactory {
       bind(MemoryCacheFactory.class).to(DefaultCacheFactory.class);
       bind(PersistentCacheFactory.class).to(H2CacheFactory.class);
       listener().to(H2CacheFactory.class);
+    }
+  }
+
+  public static File getCacheDir(Config cfg, SitePaths site) {
+    File loc = site.resolve(cfg.getString("cache", null, "directory"));
+    if (loc == null) {
+      return null;
+    } else if (loc.exists() || loc.mkdirs()) {
+      if (loc.canWrite()) {
+        return loc;
+      } else {
+        log.warn("Can't write to disk cache: " + loc.getAbsolutePath());
+        return null;
+      }
+    } else {
+      log.warn("Can't create disk cache: " + loc.getAbsolutePath());
+      return null;
     }
   }
 

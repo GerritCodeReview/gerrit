@@ -17,6 +17,7 @@ package com.google.gerrit.server.query.change;
 import static com.google.gerrit.server.ApprovalsUtil.sortApprovals;
 
 import com.google.common.base.MoreObjects;
+import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
@@ -36,6 +37,7 @@ import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchLineCommentsUtil;
+import com.google.gerrit.server.change.MergeabilityCache;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.NotesMigration;
@@ -155,7 +157,7 @@ public class ChangeData {
    */
   static ChangeData createForTest(Change.Id id, int currentPatchSetId) {
     ChangeData cd = new ChangeData(null, null, null, null, null,
-        null, null, null, null, null, id);
+        null, null, null, null, null, null, id);
     cd.currentPatchSet = new PatchSet(new PatchSet.Id(id, currentPatchSetId));
     return cd;
   }
@@ -170,6 +172,7 @@ public class ChangeData {
   private final PatchLineCommentsUtil plcUtil;
   private final PatchListCache patchListCache;
   private final NotesMigration notesMigration;
+  private final MergeabilityCache mergeabilityCache;
   private final Change.Id legacyId;
   private ChangeDataSource returnedBySource;
   private Change change;
@@ -199,6 +202,7 @@ public class ChangeData {
       PatchLineCommentsUtil plcUtil,
       PatchListCache patchListCache,
       NotesMigration notesMigration,
+      MergeabilityCache mergeabilityCache,
       @Assisted ReviewDb db,
       @Assisted Change.Id id) {
     this.db = db;
@@ -211,6 +215,7 @@ public class ChangeData {
     this.plcUtil = plcUtil;
     this.patchListCache = patchListCache;
     this.notesMigration = notesMigration;
+    this.mergeabilityCache = mergeabilityCache;
     legacyId = id;
   }
 
@@ -225,6 +230,7 @@ public class ChangeData {
       PatchLineCommentsUtil plcUtil,
       PatchListCache patchListCache,
       NotesMigration notesMigration,
+      MergeabilityCache mergeabilityCache,
       @Assisted ReviewDb db,
       @Assisted Change c) {
     this.db = db;
@@ -237,6 +243,7 @@ public class ChangeData {
     this.plcUtil = plcUtil;
     this.patchListCache = patchListCache;
     this.notesMigration = notesMigration;
+    this.mergeabilityCache = mergeabilityCache;
     legacyId = c.getId();
     change = c;
   }
@@ -252,6 +259,7 @@ public class ChangeData {
       PatchLineCommentsUtil plcUtil,
       PatchListCache patchListCache,
       NotesMigration notesMigration,
+      MergeabilityCache mergeabilityCache,
       @Assisted ReviewDb db,
       @Assisted ChangeControl c) {
     this.db = db;
@@ -264,6 +272,7 @@ public class ChangeData {
     this.plcUtil = plcUtil;
     this.patchListCache = patchListCache;
     this.notesMigration = notesMigration;
+    this.mergeabilityCache = mergeabilityCache;
     legacyId = c.getChange().getId();
     change = c.getChange();
     changeControl = c;
@@ -549,6 +558,10 @@ public class ChangeData {
 
   public List<SubmitRecord> getSubmitRecords() {
     return submitRecords;
+  }
+
+  public Optional<Boolean> isMergeable() throws OrmException {
+    return mergeabilityCache.get(change());
   }
 
   @Override

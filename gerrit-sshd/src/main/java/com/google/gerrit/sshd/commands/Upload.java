@@ -25,7 +25,6 @@ import com.google.gerrit.server.git.validators.UploadValidationException;
 import com.google.gerrit.server.git.validators.UploadValidators;
 import com.google.gerrit.sshd.AbstractGitCommand;
 import com.google.gerrit.sshd.SshSession;
-import com.google.inject.Inject;
 import com.google.inject.Provider;
 
 import org.eclipse.jgit.transport.PreUploadHook;
@@ -34,6 +33,8 @@ import org.eclipse.jgit.transport.UploadPack;
 
 import java.io.IOException;
 import java.util.List;
+
+import javax.inject.Inject;
 
 /** Publishes Git repositories over SSH using the Git upload-pack protocol. */
 final class Upload extends AbstractGitCommand {

@@ -20,11 +20,12 @@ import com.google.gwtorm.jdbc.JdbcSchema;
 import com.google.gwtorm.schema.sql.DialectMySQL;
 import com.google.gwtorm.schema.sql.SqlDialect;
 import com.google.gwtorm.server.OrmException;
-import com.google.inject.Inject;
 import com.google.inject.Provider;
 
 import java.sql.SQLException;
 import java.sql.Statement;
+
+import javax.inject.Inject;
 
 public class Schema_89 extends SchemaVersion {
   @Inject

@@ -26,7 +26,6 @@ import com.google.gerrit.common.Version;
 import com.google.gerrit.server.tools.ToolsCatalog;
 import com.google.gerrit.server.tools.ToolsCatalog.Entry;
 import com.google.gwtjsonrpc.server.RPCServletUtils;
-import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import org.w3c.dom.Document;
@@ -35,6 +34,7 @@ import org.w3c.dom.Element;
 import java.io.IOException;
 import java.io.OutputStream;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

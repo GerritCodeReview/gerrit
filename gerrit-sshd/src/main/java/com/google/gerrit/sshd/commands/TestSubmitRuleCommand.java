@@ -19,8 +19,9 @@ import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.change.TestSubmitRule;
 import com.google.gerrit.server.change.TestSubmitRule.Input;
 import com.google.gerrit.sshd.CommandMetaData;
-import com.google.inject.Inject;
 import com.google.inject.Provider;
+
+import javax.inject.Inject;
 
 /** Command that allows testing of prolog submit-rules in a live instance. */
 @CommandMetaData(name = "rule", description = "Test prolog submit rules")

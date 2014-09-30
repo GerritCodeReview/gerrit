@@ -18,10 +18,11 @@ import com.google.common.base.Strings;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.config.AuthConfig;
-import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import java.util.Locale;
+
+import javax.inject.Inject;
 
 @Singleton
 public class InternalAuthBackend implements AuthBackend {

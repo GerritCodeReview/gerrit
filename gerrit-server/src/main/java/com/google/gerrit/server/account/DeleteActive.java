@@ -23,11 +23,12 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.account.DeleteActive.Input;
 import com.google.gwtorm.server.OrmException;
-import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import java.util.Collections;
+
+import javax.inject.Inject;
 
 @RequiresCapability(GlobalCapability.MODIFY_ACCOUNT)
 @Singleton

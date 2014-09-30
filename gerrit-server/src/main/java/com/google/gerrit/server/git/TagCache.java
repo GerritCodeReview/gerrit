@@ -17,7 +17,6 @@ package com.google.gerrit.server.git;
 import com.google.common.cache.Cache;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.cache.CacheModule;
-import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
@@ -28,6 +27,8 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+
+import javax.inject.Inject;
 
 @Singleton
 public class TagCache {

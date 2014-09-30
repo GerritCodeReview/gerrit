@@ -38,7 +38,6 @@ import com.google.gwtorm.server.StatementExecutor;
 import com.google.inject.AbstractModule;
 import com.google.inject.CreationException;
 import com.google.inject.Guice;
-import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Module;
 import com.google.inject.Provider;
@@ -55,6 +54,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.inject.Inject;
 import javax.sql.DataSource;
 
 /** Initialize a new Gerrit installation. */

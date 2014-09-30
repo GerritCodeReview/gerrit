@@ -27,11 +27,12 @@ import com.google.gerrit.server.account.AccountInfo.AvatarInfo;
 import com.google.gerrit.server.avatar.AvatarProvider;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.AbstractModule;
-import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import java.util.Set;
+
+import javax.inject.Inject;
 
 @Singleton
 public class InternalAccountDirectory extends AccountDirectory {

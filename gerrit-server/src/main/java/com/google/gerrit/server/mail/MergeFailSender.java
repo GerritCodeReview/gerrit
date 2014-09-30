@@ -16,8 +16,9 @@ package com.google.gerrit.server.mail;
 
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+
+import javax.inject.Inject;
 
 /** Send notice about a change failing to merged. */
 public class MergeFailSender extends ReplyToChangeSender {

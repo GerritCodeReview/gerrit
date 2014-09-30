@@ -16,7 +16,8 @@ package com.google.gerrit.extensions.webui;
 
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
 import com.google.gerrit.extensions.annotations.PluginName;
-import com.google.inject.Inject;
+
+import javax.inject.Inject;
 
 /**
  * Specifies JavaScript to dynamically load into the web UI.

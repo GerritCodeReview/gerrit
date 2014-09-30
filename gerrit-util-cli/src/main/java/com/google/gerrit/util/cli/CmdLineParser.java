@@ -39,7 +39,6 @@ import com.google.common.collect.LinkedHashMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
-import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
 import org.kohsuke.args4j.Argument;
@@ -62,6 +61,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
+
+import javax.inject.Inject;
 
 /**
  * Extended command line parser which handles --foo=value arguments.

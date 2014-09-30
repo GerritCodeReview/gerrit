@@ -21,7 +21,6 @@ import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.ssh.SshInfo;
 import com.google.gerrit.sshd.SshScope.Context;
 import com.google.gwtorm.server.SchemaFactory;
-import com.google.inject.Inject;
 import com.google.inject.Provider;
 
 import org.apache.sshd.common.Factory;
@@ -38,6 +37,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+
+import javax.inject.Inject;
 
 /**
  * Dummy shell which prints a message and terminates.

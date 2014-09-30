@@ -17,13 +17,14 @@ package com.google.gerrit.httpd;
 import com.google.gerrit.common.data.GitWebType;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
-import com.google.inject.Inject;
 
 import org.eclipse.jgit.lib.Config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+
+import javax.inject.Inject;
 
 public class GitWebConfig {
   private static final Logger log = LoggerFactory.getLogger(GitWebConfig.class);

@@ -16,7 +16,7 @@ package ${package};
 
 import com.google.gerrit.extensions.annotations.PluginName;
 import com.google.gerrit.extensions.webui.TopMenu;
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 import java.util.ArrayList;
 import java.util.Collections;

@@ -46,7 +46,6 @@ import com.google.gerrit.server.edit.ChangeEditUtil;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gwtorm.server.OrmException;
-import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.google.inject.assistedinject.Assisted;
@@ -54,6 +53,8 @@ import com.google.inject.assistedinject.Assisted;
 import org.kohsuke.args4j.Option;
 
 import java.io.IOException;
+
+import javax.inject.Inject;
 
 @Singleton
 public class ChangeEdits implements

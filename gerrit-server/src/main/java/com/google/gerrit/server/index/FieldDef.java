@@ -18,9 +18,10 @@ import com.google.common.base.Preconditions;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gwtorm.server.OrmException;
-import com.google.inject.Inject;
 
 import org.eclipse.jgit.lib.Config;
+
+import javax.inject.Inject;
 
 /**
  * Definition of a field stored in the secondary index.

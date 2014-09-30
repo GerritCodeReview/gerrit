@@ -21,8 +21,9 @@ import com.google.gerrit.pgm.init.api.InitStep;
 import com.google.gerrit.pgm.init.api.Section;
 import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gwtjsonrpc.server.SignedToken;
-import com.google.inject.Inject;
 import com.google.inject.Singleton;
+
+import javax.inject.Inject;
 
 /** Initialize the {@code auth} configuration section. */
 @Singleton

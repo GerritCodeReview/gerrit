@@ -23,11 +23,12 @@ import com.google.gerrit.server.plugins.PluginInstallException;
 import com.google.gerrit.server.plugins.PluginLoader;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
-import com.google.inject.Inject;
 
 import org.kohsuke.args4j.Argument;
 
 import java.util.List;
+
+import javax.inject.Inject;
 
 @RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)
 @CommandMetaData(name = "enable", description = "Enable plugins",

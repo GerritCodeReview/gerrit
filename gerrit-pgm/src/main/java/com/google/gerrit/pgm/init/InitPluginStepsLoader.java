@@ -22,7 +22,6 @@ import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.plugins.JarPluginProvider;
 import com.google.gerrit.server.plugins.PluginLoader;
 import com.google.inject.AbstractModule;
-import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Singleton;
 
@@ -39,6 +38,8 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.jar.Attributes;
 import java.util.jar.JarFile;
+
+import javax.inject.Inject;
 
 @Singleton
 public class InitPluginStepsLoader {

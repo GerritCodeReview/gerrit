@@ -28,8 +28,9 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.patch.PatchScriptFactory;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gwtjsonrpc.common.AsyncCallback;
-import com.google.inject.Inject;
 import com.google.inject.Provider;
+
+import javax.inject.Inject;
 
 class PatchDetailServiceImpl extends BaseServiceImplementation implements
     PatchDetailService {

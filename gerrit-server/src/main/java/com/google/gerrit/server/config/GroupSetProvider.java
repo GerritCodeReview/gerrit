@@ -22,7 +22,6 @@ import com.google.gerrit.server.account.GroupBackends;
 import com.google.gerrit.server.util.RequestContext;
 import com.google.gerrit.server.util.ServerRequestContext;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;
-import com.google.inject.Inject;
 import com.google.inject.Provider;
 
 import org.eclipse.jgit.lib.Config;
@@ -30,6 +29,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Set;
+
+import javax.inject.Inject;
 
 public abstract class GroupSetProvider implements
     Provider<Set<AccountGroup.UUID>> {

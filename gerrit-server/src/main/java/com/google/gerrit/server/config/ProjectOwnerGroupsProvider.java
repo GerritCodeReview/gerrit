@@ -17,9 +17,10 @@ package com.google.gerrit.server.config;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.util.ServerRequestContext;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;
-import com.google.inject.Inject;
 
 import org.eclipse.jgit.lib.Config;
+
+import javax.inject.Inject;
 
 /**
  * Provider of the group(s) which should become owners of a newly created

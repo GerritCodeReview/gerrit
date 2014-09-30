@@ -18,7 +18,6 @@ import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.index.ChangeSchemas;
-import com.google.inject.Inject;
 import com.google.inject.ProvisionException;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -28,6 +27,8 @@ import org.eclipse.jgit.util.FS;
 import java.io.File;
 import java.io.IOException;
 import java.util.Map;
+
+import javax.inject.Inject;
 
 class IndexVersionCheck implements LifecycleListener {
   public static final Map<String, Integer> SCHEMA_VERSIONS = ImmutableMap.of(

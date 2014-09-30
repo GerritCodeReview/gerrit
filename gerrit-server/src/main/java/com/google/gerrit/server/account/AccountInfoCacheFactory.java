@@ -17,12 +17,13 @@ package com.google.gerrit.server.account;
 import com.google.gerrit.common.data.AccountInfo;
 import com.google.gerrit.common.data.AccountInfoCache;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.inject.Inject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.inject.Inject;
 
 /** Efficiently builds an {@link AccountInfoCache}. */
 public class AccountInfoCacheFactory {

@@ -26,13 +26,14 @@ import com.google.gerrit.pgm.init.api.InitStep;
 import com.google.gerrit.pgm.init.api.Section;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gwtjsonrpc.server.SignedToken;
-import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+
+import javax.inject.Inject;
 
 /** Initialize the {@code httpd} configuration section. */
 @Singleton

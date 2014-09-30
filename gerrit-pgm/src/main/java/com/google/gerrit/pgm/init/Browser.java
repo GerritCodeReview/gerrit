@@ -16,7 +16,6 @@ package com.google.gerrit.pgm.init;
 
 import com.google.common.base.Strings;
 import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.inject.Inject;
 
 import org.eclipse.jgit.lib.Config;
 
@@ -24,6 +23,8 @@ import java.io.IOException;
 import java.net.Socket;
 import java.net.URI;
 import java.net.URISyntaxException;
+
+import javax.inject.Inject;
 
 /** Opens the user's web browser to the web UI. */
 public class Browser {

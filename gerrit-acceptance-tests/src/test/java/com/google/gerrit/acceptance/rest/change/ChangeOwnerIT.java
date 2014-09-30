@@ -34,7 +34,6 @@ import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gwtorm.server.OrmException;
-import com.google.inject.Inject;
 
 import org.apache.http.HttpStatus;
 import org.eclipse.jgit.api.errors.GitAPIException;
@@ -43,6 +42,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
+
+import javax.inject.Inject;
 
 public class ChangeOwnerIT extends AbstractDaemonTest {
 

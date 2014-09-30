@@ -20,7 +20,6 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.LocalDiskRepositoryManager;
 import com.google.gwtorm.server.OrmException;
-import com.google.inject.Inject;
 import com.google.inject.Provider;
 
 import org.eclipse.jgit.lib.Constants;
@@ -29,6 +28,8 @@ import org.eclipse.jgit.util.FS;
 
 import java.io.File;
 import java.util.Collections;
+
+import javax.inject.Inject;
 
 public class Schema_55 extends SchemaVersion {
   private final GitRepositoryManager mgr;

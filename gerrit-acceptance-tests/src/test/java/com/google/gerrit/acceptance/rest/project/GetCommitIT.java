@@ -29,7 +29,6 @@ import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.project.ProjectCache;
-import com.google.inject.Inject;
 
 import org.apache.http.HttpStatus;
 import org.eclipse.jgit.junit.TestRepository;
@@ -39,6 +38,8 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
+import javax.inject.Inject;
 
 public class GetCommitIT extends AbstractDaemonTest {
   @Inject

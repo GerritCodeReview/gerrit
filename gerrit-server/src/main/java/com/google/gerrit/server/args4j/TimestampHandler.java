@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.args4j;
 
-import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
 import org.kohsuke.args4j.CmdLineException;
@@ -29,6 +28,8 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.TimeZone;
+
+import javax.inject.Inject;
 
 public class TimestampHandler extends OptionHandler<Timestamp> {
   public final static String TIMESTAMP_FORMAT = "yyyyMMdd_HHmm";

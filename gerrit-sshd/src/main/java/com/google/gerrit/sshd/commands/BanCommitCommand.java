@@ -26,7 +26,6 @@ import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
-import com.google.inject.Inject;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.eclipse.jgit.lib.ObjectId;
@@ -36,6 +35,8 @@ import org.kohsuke.args4j.Option;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.inject.Inject;
 
 @CommandMetaData(name = "ban-commit", description = "Ban a commit from a project's repository",
   runsAt = MASTER_OR_SLAVE)

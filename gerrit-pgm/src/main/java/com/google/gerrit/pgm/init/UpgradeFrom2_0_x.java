@@ -24,7 +24,6 @@ import com.google.gerrit.pgm.init.api.InitStep;
 import com.google.gerrit.pgm.init.api.Section;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.util.SocketUtil;
-import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -40,6 +39,8 @@ import java.net.URLDecoder;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.Properties;
+
+import javax.inject.Inject;
 
 /** Upgrade from a 2.0.x site to a 2.1 site. */
 @Singleton

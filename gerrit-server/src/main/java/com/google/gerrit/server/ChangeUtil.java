@@ -52,7 +52,6 @@ import com.google.gerrit.server.util.MagicBranch;
 import com.google.gerrit.server.util.TimeUtil;
 import com.google.gwtorm.server.OrmConcurrencyException;
 import com.google.gwtorm.server.OrmException;
-import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
@@ -82,6 +81,8 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+
+import javax.inject.Inject;
 
 @Singleton
 public class ChangeUtil {

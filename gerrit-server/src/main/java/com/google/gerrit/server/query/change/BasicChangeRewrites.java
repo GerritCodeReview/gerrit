@@ -19,10 +19,11 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.query.IntPredicate;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryRewriter;
-import com.google.inject.Inject;
 import com.google.inject.OutOfScopeException;
 import com.google.inject.Provider;
 import com.google.inject.name.Named;
+
+import javax.inject.Inject;
 
 public class BasicChangeRewrites extends QueryRewriter<ChangeData> {
   private static final ChangeQueryBuilder BUILDER = new ChangeQueryBuilder(

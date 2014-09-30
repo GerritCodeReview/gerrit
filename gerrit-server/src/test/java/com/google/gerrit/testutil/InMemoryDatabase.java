@@ -26,7 +26,6 @@ import com.google.gwtorm.jdbc.SimpleDataSource;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Guice;
-import com.google.inject.Inject;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
@@ -35,6 +34,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Properties;
 
+import javax.inject.Inject;
 import javax.sql.DataSource;
 
 /**

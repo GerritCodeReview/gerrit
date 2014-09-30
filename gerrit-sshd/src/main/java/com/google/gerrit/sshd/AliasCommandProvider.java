@@ -15,10 +15,11 @@
 package com.google.gerrit.sshd;
 
 import com.google.gerrit.server.CurrentUser;
-import com.google.inject.Inject;
 import com.google.inject.Provider;
 
 import org.apache.sshd.server.Command;
+
+import javax.inject.Inject;
 
 /** Resolves an alias to another command. */
 public class AliasCommandProvider implements Provider<Command> {

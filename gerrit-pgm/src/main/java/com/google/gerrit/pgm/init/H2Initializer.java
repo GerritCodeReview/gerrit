@@ -16,9 +16,10 @@ package com.google.gerrit.pgm.init;
 
 import com.google.gerrit.pgm.init.api.Section;
 import com.google.gerrit.server.config.SitePaths;
-import com.google.inject.Inject;
 
 import java.io.File;
+
+import javax.inject.Inject;
 
 class H2Initializer implements DatabaseConfigInitializer {
 

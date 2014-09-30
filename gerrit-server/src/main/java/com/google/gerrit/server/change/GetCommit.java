@@ -21,10 +21,11 @@ import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gwtorm.server.OrmException;
-import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import java.util.concurrent.TimeUnit;
+
+import javax.inject.Inject;
 
 @Singleton
 public class GetCommit implements RestReadView<RevisionResource> {

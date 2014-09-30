@@ -20,9 +20,10 @@ import com.google.gerrit.server.PatchLineCommentsUtil;
 import com.google.gerrit.server.account.AccountInfo;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gwtorm.server.OrmException;
-import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
+
+import javax.inject.Inject;
 
 @Singleton
 class ListComments extends ListDrafts {

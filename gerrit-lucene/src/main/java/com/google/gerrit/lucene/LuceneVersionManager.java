@@ -25,7 +25,6 @@ import com.google.gerrit.server.index.ChangeSchemas;
 import com.google.gerrit.server.index.IndexCollection;
 import com.google.gerrit.server.index.Schema;
 import com.google.gerrit.server.query.change.ChangeData;
-import com.google.inject.Inject;
 import com.google.inject.ProvisionException;
 import com.google.inject.Singleton;
 
@@ -41,6 +40,8 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
 import java.util.TreeMap;
+
+import javax.inject.Inject;
 
 @Singleton
 class LuceneVersionManager implements LifecycleListener {

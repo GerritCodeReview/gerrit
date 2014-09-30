@@ -16,9 +16,10 @@ package com.google.gerrit.httpd.rpc;
 
 import com.google.gwtjsonrpc.common.RemoteJsonService;
 import com.google.inject.AbstractModule;
-import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Provider;
+
+import javax.inject.Inject;
 
 /** Creates {@link GerritJsonServlet} with a {@link RemoteJsonService}. */
 class GerritJsonServletProvider implements Provider<GerritJsonServlet> {

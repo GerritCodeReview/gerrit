@@ -19,9 +19,10 @@ import static com.google.gerrit.sshd.CommandMetaData.Mode.MASTER_OR_SLAVE;
 import com.google.gerrit.server.project.ListProjects;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
-import com.google.inject.Inject;
 
 import java.util.List;
+
+import javax.inject.Inject;
 
 @CommandMetaData(name = "ls-projects", description = "List projects visible to the caller",
   runsAt = MASTER_OR_SLAVE)

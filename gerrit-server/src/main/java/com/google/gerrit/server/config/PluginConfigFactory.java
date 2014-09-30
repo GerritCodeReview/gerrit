@@ -22,7 +22,6 @@ import com.google.gerrit.server.plugins.ReloadPluginListener;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
-import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -36,6 +35,8 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.io.IOException;
 import java.util.Map;
+
+import javax.inject.Inject;
 
 @Singleton
 public class PluginConfigFactory implements ReloadPluginListener {

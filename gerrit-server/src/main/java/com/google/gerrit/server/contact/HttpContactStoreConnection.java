@@ -3,7 +3,6 @@
 package com.google.gerrit.server.contact;
 
 import com.google.inject.AbstractModule;
-import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
@@ -16,6 +15,8 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
+
+import javax.inject.Inject;
 
 /** {@link ContactStoreConnection} with an underlying {@literal @HttpURLConnection}. */
 public class HttpContactStoreConnection implements ContactStoreConnection {

@@ -28,13 +28,14 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.server.OrmException;
-import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import org.eclipse.jgit.lib.Config;
 
 import java.io.IOException;
+
+import javax.inject.Inject;
 
 @Singleton
 public class DeleteDraftChange implements

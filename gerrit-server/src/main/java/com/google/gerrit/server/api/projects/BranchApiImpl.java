@@ -19,10 +19,11 @@ import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.project.CreateBranch;
 import com.google.gerrit.server.project.ProjectResource;
-import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
 import java.io.IOException;
+
+import javax.inject.Inject;
 
 public class BranchApiImpl extends BranchApi.NotImplemented implements BranchApi {
   interface Factory {

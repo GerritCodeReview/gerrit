@@ -27,7 +27,6 @@ import com.google.gerrit.server.ssh.SshKeyCache;
 import com.google.gwtjsonrpc.common.VoidResult;
 import com.google.gwtorm.server.OrmDuplicateKeyException;
 import com.google.gwtorm.server.OrmException;
-import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 
@@ -36,6 +35,8 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.concurrent.Callable;
 import java.util.regex.Pattern;
+
+import javax.inject.Inject;
 
 /** Operation to change the username of an account. */
 public class ChangeUserName implements Callable<VoidResult> {

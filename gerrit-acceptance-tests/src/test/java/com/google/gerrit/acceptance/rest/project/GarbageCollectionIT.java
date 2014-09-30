@@ -24,7 +24,6 @@ import com.google.gerrit.acceptance.UseLocalDisk;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gwtorm.server.OrmException;
-import com.google.inject.Inject;
 
 import com.jcraft.jsch.JSchException;
 
@@ -33,6 +32,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
+
+import javax.inject.Inject;
 
 public class GarbageCollectionIT extends AbstractDaemonTest {
 

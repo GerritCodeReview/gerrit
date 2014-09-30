@@ -16,8 +16,9 @@ package com.google.gerrit.httpd;
 
 import com.google.gerrit.server.ssh.SshInfo;
 import com.google.inject.AbstractModule;
-import com.google.inject.Inject;
 import com.google.inject.Provider;
+
+import javax.inject.Inject;
 
 /**
  * Pulls objects from the SSH injector over the HTTP injector.

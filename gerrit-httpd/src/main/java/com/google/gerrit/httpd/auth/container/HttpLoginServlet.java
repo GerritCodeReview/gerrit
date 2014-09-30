@@ -26,7 +26,6 @@ import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.AuthResult;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gwtexpui.server.CacheHeaders;
-import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import org.slf4j.Logger;
@@ -38,6 +37,7 @@ import org.w3c.dom.NodeList;
 
 import java.io.IOException;
 
+import javax.inject.Inject;
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServlet;

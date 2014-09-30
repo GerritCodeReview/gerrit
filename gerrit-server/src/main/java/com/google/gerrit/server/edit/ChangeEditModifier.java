@@ -28,7 +28,6 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.util.TimeUtil;
-import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
@@ -60,6 +59,8 @@ import org.eclipse.jgit.treewalk.TreeWalk;
 import java.io.IOException;
 import java.util.Map;
 import java.util.TimeZone;
+
+import javax.inject.Inject;
 
 /**
  * Utility functions to manipulate change edits.

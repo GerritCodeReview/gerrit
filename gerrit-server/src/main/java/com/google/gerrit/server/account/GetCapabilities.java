@@ -48,7 +48,6 @@ import com.google.gerrit.server.OutputFormat;
 import com.google.gerrit.server.account.AccountResource.Capability;
 import com.google.gerrit.server.git.QueueProvider;
 import com.google.gson.reflect.TypeToken;
-import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
@@ -57,6 +56,8 @@ import org.kohsuke.args4j.Option;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
+
+import javax.inject.Inject;
 
 class GetCapabilities implements RestReadView<AccountResource> {
   @Deprecated

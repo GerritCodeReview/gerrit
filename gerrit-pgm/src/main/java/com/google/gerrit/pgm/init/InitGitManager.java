@@ -19,10 +19,11 @@ import static com.google.gerrit.pgm.init.InitUtil.die;
 import com.google.gerrit.pgm.init.api.ConsoleUI;
 import com.google.gerrit.pgm.init.api.InitStep;
 import com.google.gerrit.pgm.init.api.Section;
-import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import java.io.File;
+
+import javax.inject.Inject;
 
 /** Initialize the GitRepositoryManager configuration section. */
 @Singleton

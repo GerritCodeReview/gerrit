@@ -49,7 +49,6 @@ import com.google.gerrit.server.edit.ChangeEditModifier;
 import com.google.gerrit.server.edit.ChangeEditUtil;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gwtorm.server.SchemaFactory;
-import com.google.inject.Inject;
 import com.google.inject.util.Providers;
 
 import org.apache.commons.codec.binary.Base64;
@@ -69,6 +68,8 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
+
+import javax.inject.Inject;
 
 public class ChangeEditIT extends AbstractDaemonTest {
 

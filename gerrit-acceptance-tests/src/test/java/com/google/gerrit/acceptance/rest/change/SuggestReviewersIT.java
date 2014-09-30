@@ -36,7 +36,6 @@ import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gson.reflect.TypeToken;
-import com.google.inject.Inject;
 
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.junit.Before;
@@ -45,6 +44,8 @@ import org.junit.Test;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
+
+import javax.inject.Inject;
 
 public class SuggestReviewersIT extends AbstractDaemonTest {
   @Inject

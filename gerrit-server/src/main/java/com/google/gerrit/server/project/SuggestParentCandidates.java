@@ -17,7 +17,6 @@ package com.google.gerrit.server.project;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gwtorm.server.OrmException;
-import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import java.util.ArrayList;
@@ -25,6 +24,8 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
+
+import javax.inject.Inject;
 
 @Singleton
 public class SuggestParentCandidates {

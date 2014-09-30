@@ -22,10 +22,11 @@ import com.google.gerrit.pgm.init.api.Section;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.index.ChangeSchemas;
 import com.google.gerrit.server.index.IndexModule.IndexType;
-import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import java.io.IOException;
+
+import javax.inject.Inject;
 
 /** Initialize the {@code index} configuration section. */
 @Singleton

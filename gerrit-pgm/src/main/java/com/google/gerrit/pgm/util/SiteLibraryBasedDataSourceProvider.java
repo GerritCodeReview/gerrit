@@ -19,13 +19,13 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.schema.DataSourceProvider;
 import com.google.gerrit.server.schema.DataSourceType;
-import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import org.eclipse.jgit.lib.Config;
 
 import java.io.File;
 
+import javax.inject.Inject;
 import javax.sql.DataSource;
 
 /** Loads the site library if not yet loaded. */

@@ -27,7 +27,6 @@ import com.google.gerrit.server.util.IdGenerator;
 import com.google.gerrit.server.util.SystemLog;
 import com.google.gerrit.server.util.TimeUtil;
 import com.google.gerrit.sshd.SshScope.Context;
-import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
@@ -36,6 +35,8 @@ import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.log4j.spi.LoggingEvent;
 import org.eclipse.jgit.lib.Config;
+
+import javax.inject.Inject;
 
 @Singleton
 class SshLog implements LifecycleListener {

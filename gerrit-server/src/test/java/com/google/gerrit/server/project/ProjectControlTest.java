@@ -34,7 +34,6 @@ import com.google.gerrit.testutil.InMemoryDatabase;
 import com.google.gerrit.testutil.InMemoryModule;
 import com.google.gerrit.testutil.InMemoryRepositoryManager;
 import com.google.inject.Guice;
-import com.google.inject.Inject;
 import com.google.inject.Injector;
 
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
@@ -45,6 +44,8 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
+import javax.inject.Inject;
 
 /** Unit tests for {@link ProjectControl}. */
 public class ProjectControlTest {

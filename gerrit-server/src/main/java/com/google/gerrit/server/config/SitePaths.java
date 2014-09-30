@@ -14,12 +14,13 @@
 
 package com.google.gerrit.server.config;
 
-import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+
+import javax.inject.Inject;
 
 /** Important paths within a {@link SitePath}. */
 @Singleton

@@ -25,7 +25,6 @@ import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.server.OutputFormat;
 import com.google.gson.JsonElement;
 import com.google.gson.reflect.TypeToken;
-import com.google.inject.Inject;
 
 import org.kohsuke.args4j.Option;
 
@@ -34,6 +33,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+
+import javax.inject.Inject;
 
 /** List the installed plugins. */
 @RequiresCapability(GlobalCapability.VIEW_PLUGINS)

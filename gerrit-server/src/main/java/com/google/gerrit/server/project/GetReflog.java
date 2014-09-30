@@ -23,7 +23,6 @@ import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.CommonConverters;
 import com.google.gerrit.server.args4j.TimestampHandler;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.inject.Inject;
 
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.ReflogEntry;
@@ -35,6 +34,8 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.inject.Inject;
 
 public class GetReflog implements RestReadView<BranchResource> {
   private final GitRepositoryManager repoManager;

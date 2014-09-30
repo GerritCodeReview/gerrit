@@ -25,7 +25,6 @@ package com.google.gerrit.sshd.commands;
 import com.google.gerrit.server.tools.ToolsCatalog;
 import com.google.gerrit.server.tools.ToolsCatalog.Entry;
 import com.google.gerrit.sshd.BaseCommand;
-import com.google.inject.Inject;
 
 import org.apache.sshd.server.Environment;
 import org.slf4j.Logger;
@@ -35,6 +34,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+
+import javax.inject.Inject;
 
 final class ScpCommand extends BaseCommand {
   private static final String TYPE_DIR = "D";

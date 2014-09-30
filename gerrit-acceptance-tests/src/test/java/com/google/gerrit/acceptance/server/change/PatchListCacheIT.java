@@ -33,7 +33,6 @@ import com.google.gerrit.server.patch.PatchListEntry;
 import com.google.gerrit.server.patch.PatchListKey;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gwtorm.server.OrmException;
-import com.google.inject.Inject;
 
 import org.eclipse.jgit.api.ResetCommand.ResetType;
 import org.eclipse.jgit.api.errors.GitAPIException;
@@ -42,6 +41,8 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.util.List;
+
+import javax.inject.Inject;
 
 public class PatchListCacheIT extends AbstractDaemonTest {
   private static String SUBJECT_1 = "subject 1";

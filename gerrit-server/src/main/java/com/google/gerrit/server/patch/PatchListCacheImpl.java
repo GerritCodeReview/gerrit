@@ -22,7 +22,6 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
@@ -31,6 +30,8 @@ import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 
 import java.util.concurrent.ExecutionException;
+
+import javax.inject.Inject;
 
 /** Provides a cached list of {@link PatchListEntry}. */
 @Singleton

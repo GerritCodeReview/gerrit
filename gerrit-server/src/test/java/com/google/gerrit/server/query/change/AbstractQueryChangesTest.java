@@ -63,7 +63,6 @@ import com.google.gerrit.server.util.TimeUtil;
 import com.google.gerrit.testutil.ConfigSuite;
 import com.google.gerrit.testutil.InMemoryDatabase;
 import com.google.gerrit.testutil.InMemoryRepositoryManager;
-import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Provider;
 import com.google.inject.util.Providers;
@@ -83,6 +82,8 @@ import org.junit.runner.RunWith;
 
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
+
+import javax.inject.Inject;
 
 @Ignore
 @RunWith(ConfigSuite.class)

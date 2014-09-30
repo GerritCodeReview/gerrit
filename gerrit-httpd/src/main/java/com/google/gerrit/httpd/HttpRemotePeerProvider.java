@@ -14,7 +14,6 @@
 
 package com.google.gerrit.httpd;
 
-import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.ProvisionException;
 import com.google.inject.servlet.RequestScoped;
@@ -24,6 +23,7 @@ import java.net.InetSocketAddress;
 import java.net.SocketAddress;
 import java.net.UnknownHostException;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 
 @RequestScoped

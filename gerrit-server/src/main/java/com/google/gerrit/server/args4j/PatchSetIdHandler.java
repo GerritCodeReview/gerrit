@@ -15,7 +15,6 @@
 package com.google.gerrit.server.args4j;
 
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
 import org.kohsuke.args4j.CmdLineException;
@@ -24,6 +23,8 @@ import org.kohsuke.args4j.OptionDef;
 import org.kohsuke.args4j.spi.OptionHandler;
 import org.kohsuke.args4j.spi.Parameters;
 import org.kohsuke.args4j.spi.Setter;
+
+import javax.inject.Inject;
 
 public class PatchSetIdHandler extends OptionHandler<PatchSet.Id> {
 

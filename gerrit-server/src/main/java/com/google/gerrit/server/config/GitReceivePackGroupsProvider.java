@@ -18,11 +18,12 @@ import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.util.ServerRequestContext;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;
-import com.google.inject.Inject;
 
 import org.eclipse.jgit.lib.Config;
 
 import java.util.Collections;
+
+import javax.inject.Inject;
 
 public class GitReceivePackGroupsProvider extends GroupSetProvider {
   @Inject

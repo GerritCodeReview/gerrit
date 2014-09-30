@@ -17,7 +17,6 @@ package com.google.gerrit.server.git;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
-import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
 import org.eclipse.jgit.api.errors.ConcurrentRefUpdateException;
@@ -42,6 +41,8 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 
 import java.io.IOException;
+
+import javax.inject.Inject;
 
 /**
  * A utility class for updating a notes branch with automatic merge of note

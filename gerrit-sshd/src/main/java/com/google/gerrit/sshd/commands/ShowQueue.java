@@ -27,7 +27,6 @@ import com.google.gerrit.server.util.TimeUtil;
 import com.google.gerrit.sshd.AdminHighPriorityCommand;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
-import com.google.inject.Inject;
 
 import org.apache.sshd.server.Environment;
 import org.kohsuke.args4j.Option;
@@ -36,6 +35,8 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+
+import javax.inject.Inject;
 
 /** Display the current work queue. */
 @AdminHighPriorityCommand

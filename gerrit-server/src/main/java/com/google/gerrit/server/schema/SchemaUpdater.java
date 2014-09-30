@@ -20,7 +20,6 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
-import com.google.inject.Inject;
 import com.google.inject.Provider;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -28,6 +27,8 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Collections;
+
+import javax.inject.Inject;
 
 /** Creates or updates the current database schema. */
 public class SchemaUpdater {

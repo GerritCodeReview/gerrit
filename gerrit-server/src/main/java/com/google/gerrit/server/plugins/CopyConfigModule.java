@@ -27,7 +27,6 @@ import com.google.gerrit.server.securestore.SecureStore;
 import com.google.gerrit.server.securestore.SecureStoreProvider;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.AbstractModule;
-import com.google.inject.Inject;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
 
@@ -35,6 +34,8 @@ import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.PersonIdent;
 
 import java.io.File;
+
+import javax.inject.Inject;
 
 /**
  * Copies critical objects from the {@code dbInjector} into a plugin.

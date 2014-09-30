@@ -38,7 +38,6 @@ import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.project.Util;
 import com.google.gerrit.testutil.ConfigSuite;
-import com.google.inject.Inject;
 
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
@@ -50,6 +49,8 @@ import org.junit.runner.RunWith;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.inject.Inject;
 
 @RunWith(ConfigSuite.class)
 public class VisibleRefFilterIT extends AbstractDaemonTest {

@@ -29,7 +29,6 @@ import com.google.gerrit.server.util.RequestContext;
 import com.google.gerrit.server.util.RequestScopePropagator;
 import com.google.gerrit.server.util.TimeUtil;
 import com.google.inject.AbstractModule;
-import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.OutOfScopeException;
 import com.google.inject.Provider;
@@ -49,6 +48,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
+
+import javax.inject.Inject;
 
 @Singleton
 public class ChangeMergeQueue implements MergeQueue {

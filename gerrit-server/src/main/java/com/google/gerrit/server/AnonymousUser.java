@@ -20,11 +20,12 @@ import com.google.gerrit.server.account.CapabilityControl;
 import com.google.gerrit.server.account.GroupMembership;
 import com.google.gerrit.server.account.ListGroupMembership;
 import com.google.gerrit.server.group.SystemGroupBackend;
-import com.google.inject.Inject;
 
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Set;
+
+import javax.inject.Inject;
 
 /** An anonymous user who has not yet authenticated. */
 public class AnonymousUser extends CurrentUser {

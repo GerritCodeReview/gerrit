@@ -40,7 +40,6 @@ import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.AllUsersNameProvider;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gwtorm.server.OrmException;
-import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -56,6 +55,8 @@ import java.text.ParseException;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+
+import javax.inject.Inject;
 
 /** View of a single {@link Change} based on the log of its notes branch. */
 public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {

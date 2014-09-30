@@ -45,7 +45,6 @@ import com.google.gerrit.server.util.TimeUtil;
 import com.google.gerrit.testutil.InMemoryDatabase;
 import com.google.gerrit.testutil.InMemoryModule;
 import com.google.inject.Guice;
-import com.google.inject.Inject;
 import com.google.inject.Injector;
 
 import org.eclipse.jgit.lib.Repository;
@@ -54,6 +53,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.List;
+
+import javax.inject.Inject;
 
 /** Unit tests for {@link LabelNormalizer}. */
 public class LabelNormalizerTest {

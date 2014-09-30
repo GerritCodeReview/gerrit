@@ -45,7 +45,6 @@ import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.PutConfig;
 import com.google.gson.reflect.TypeToken;
 import com.google.gwtorm.server.OrmException;
-import com.google.inject.Inject;
 
 import com.jcraft.jsch.JSchException;
 
@@ -66,6 +65,8 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Collections;
 import java.util.List;
+
+import javax.inject.Inject;
 
 public abstract class AbstractSubmit extends AbstractDaemonTest {
 

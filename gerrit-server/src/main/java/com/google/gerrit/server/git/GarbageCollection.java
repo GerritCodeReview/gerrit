@@ -17,7 +17,6 @@ package com.google.gerrit.server.git;
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.data.GarbageCollectionResult;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.inject.Inject;
 
 import org.eclipse.jgit.api.GarbageCollectCommand;
 import org.eclipse.jgit.api.Git;
@@ -35,6 +34,8 @@ import java.io.PrintWriter;
 import java.util.List;
 import java.util.Properties;
 import java.util.Set;
+
+import javax.inject.Inject;
 
 public class GarbageCollection {
   private static final Logger log = LoggerFactory

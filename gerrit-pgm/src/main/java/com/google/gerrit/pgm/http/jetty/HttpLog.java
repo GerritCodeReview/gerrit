@@ -17,7 +17,6 @@ package com.google.gerrit.pgm.http.jetty;
 import com.google.gerrit.httpd.GetUserFilter;
 import com.google.gerrit.server.util.SystemLog;
 import com.google.gerrit.server.util.TimeUtil;
-import com.google.inject.Inject;
 
 import org.apache.log4j.AsyncAppender;
 import org.apache.log4j.Level;
@@ -27,6 +26,8 @@ import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.RequestLog;
 import org.eclipse.jetty.server.Response;
 import org.eclipse.jetty.util.component.AbstractLifeCycle;
+
+import javax.inject.Inject;
 
 /** Writes the {@code httpd_log} file with per-request data. */
 class HttpLog extends AbstractLifeCycle implements RequestLog {

@@ -36,7 +36,6 @@ import com.google.gerrit.server.project.RuleEvalException;
 import com.google.gerrit.server.project.SubmitRuleEvaluator;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
-import com.google.inject.Inject;
 import com.google.inject.Provider;
 
 import com.googlecode.prolog_cafe.lang.Term;
@@ -46,6 +45,8 @@ import org.kohsuke.args4j.Option;
 import java.io.ByteArrayInputStream;
 import java.util.List;
 import java.util.Map;
+
+import javax.inject.Inject;
 
 public class TestSubmitRule implements RestModifyView<RevisionResource, Input> {
   public enum Filters {

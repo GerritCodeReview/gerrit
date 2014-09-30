@@ -17,10 +17,11 @@ package com.google.gerrit.server.change;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.change.ReviewerJson.ReviewerInfo;
 import com.google.gwtorm.server.OrmException;
-import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import java.util.List;
+
+import javax.inject.Inject;
 
 @Singleton
 public class GetReviewer implements RestReadView<ReviewerResource> {

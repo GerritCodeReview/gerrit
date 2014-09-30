@@ -23,7 +23,6 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.schema.SchemaVersionCheck;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
-import com.google.inject.Inject;
 import com.google.inject.Injector;
 
 import org.eclipse.jgit.lib.TextProgressMonitor;
@@ -33,6 +32,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
+
+import javax.inject.Inject;
 
 /** Converts the local username for all accounts to lower case */
 public class LocalUsernamesToLowerCase extends SiteProgram {

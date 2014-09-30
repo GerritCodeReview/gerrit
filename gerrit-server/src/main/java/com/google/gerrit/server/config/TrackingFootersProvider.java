@@ -15,7 +15,6 @@
 package com.google.gerrit.server.config;
 
 import com.google.gerrit.reviewdb.client.TrackingId;
-import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
@@ -26,6 +25,8 @@ import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.PatternSyntaxException;
+
+import javax.inject.Inject;
 
 /** Provides a list of all configured {@link TrackingFooter}s. */
 @Singleton

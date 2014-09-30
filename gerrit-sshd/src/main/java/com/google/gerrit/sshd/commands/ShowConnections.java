@@ -26,7 +26,6 @@ import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.gerrit.sshd.SshDaemon;
 import com.google.gerrit.sshd.SshSession;
-import com.google.inject.Inject;
 
 import org.apache.sshd.common.io.IoAcceptor;
 import org.apache.sshd.common.io.IoSession;
@@ -47,6 +46,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+
+import javax.inject.Inject;
 
 /** Show the current SSH connections. */
 @RequiresCapability(GlobalCapability.VIEW_CONNECTIONS)

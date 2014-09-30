@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "900f1024_57beccdd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeInserter.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1006818
+      },
+      "writtenOn": "2014-09-30T14:58:02Z",
+      "side": 1,
+      "message": "\u003e why not initialize it as an empty mutable set?\n\neven though the setHashtags() still can bring in an immutable set.\nI will base this one on 60106 just as David suggested, thus we can talk with feet on the earth.:)",
+      "parentUuid": "f035acd2_d2178436",
+      "revId": "5b5714ba886432c4759a1b8a5fcf15e36d608cf7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b03fb4b4_50702cce",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/HashtagsUtil.java",
         "patchSetId": 31
@@ -510,6 +528,24 @@
       "side": 1,
       "message": "... aren\u0027t toAdd and cmHashtags the same after the line 2138?\n\nAnd since the toAdd is not used before 2138 it could be used instead of teh cmHashtags. Or?",
       "parentUuid": "900f1024_374c788c",
+      "revId": "5b5714ba886432c4759a1b8a5fcf15e36d608cf7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "900f1024_37c35866",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 2133,
+      "author": {
+        "id": 1006818
+      },
+      "writtenOn": "2014-09-30T14:58:02Z",
+      "side": 1,
+      "message": "or I may get comments like the name is not precise :)\n\nOk I will use the toAdd only here.",
+      "parentUuid": "f035acd2_523394eb",
       "revId": "5b5714ba886432c4759a1b8a5fcf15e36d608cf7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

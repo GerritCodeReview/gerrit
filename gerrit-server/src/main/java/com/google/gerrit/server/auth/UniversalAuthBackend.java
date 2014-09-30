@@ -21,8 +21,8 @@ import com.google.gerrit.extensions.registration.DynamicSet;
 
 import java.util.List;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
 /**
  * Universal implementation of the AuthBackend that works with the injected

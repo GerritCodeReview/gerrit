@@ -20,7 +20,7 @@ import com.google.inject.binder.LinkedBindingBuilder;
 
 import org.apache.sshd.server.Command;
 
-import javax.inject.Inject;
+import com.google.inject.Inject;
 
 public abstract class PluginCommandModule extends CommandModule {
   private CommandName command;

@@ -27,7 +27,7 @@ import org.eclipse.jgit.transport.UploadPack;
 
 import java.util.Collection;
 
-import javax.inject.Inject;
+import com.google.inject.Inject;
 
 public class UploadValidators implements PreUploadHook {
 

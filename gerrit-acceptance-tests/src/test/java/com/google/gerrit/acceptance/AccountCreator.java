@@ -36,7 +36,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.Collections;
 
-import javax.inject.Inject;
+import com.google.inject.Inject;
 
 public class AccountCreator {
 

@@ -35,7 +35,7 @@ import org.kohsuke.args4j.Argument;
 import java.io.PrintWriter;
 import java.util.List;
 
-import javax.inject.Inject;
+import com.google.inject.Inject;
 
 /**
  * Implements a command that allows the user to see the members of a group.

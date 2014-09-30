@@ -55,7 +55,7 @@ public abstract class WebUiPlugin {
   }
 
   @Inject
-  void setPluginName(@PluginName String pluginName) {
+  public void setPluginName(@PluginName String pluginName) {
     this.pluginName = pluginName;
   }
 

@@ -22,6 +22,30 @@
       "revId": "49cf189a60de441eae9fc8472c7afec5b3a74c32",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f035acd2_f2096853",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 19
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-09-30T07:31:38Z",
+      "side": 1,
+      "message": "This is up to SecureStore implementer how, where, and when key/passowrd/encryption method is provided.\n\nThe aim of SecureStore extension point for gerrit is to provide abstract interface for storing and retrieving sensitive data. It doesn\u0027t enforce where or how data should stored/encrypted. If one need to store passwords eg in /etc/my-secure-file instead of $site_path/etc/secure.config this API allows him to do it. And that is it, nothing more, no enforcement on having those values encrypted nor stored in $site_path/etc/secure.config",
+      "parentUuid": "90646fc9_7a36b9f9",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 5
+      },
+      "revId": "49cf189a60de441eae9fc8472c7afec5b3a74c32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

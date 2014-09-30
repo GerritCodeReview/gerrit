@@ -14,10 +14,23 @@
 
 package com.google.gerrit.extensions.common;
 
-public enum SubmitType {
-  FAST_FORWARD_ONLY,
-  MERGE_IF_NECESSARY,
-  REBASE_IF_NECESSARY,
-  MERGE_ALWAYS,
-  CHERRY_PICK
+import com.google.gerrit.reviewdb.client.CodedEnum;
+
+public enum SubmitType implements CodedEnum {
+  FAST_FORWARD_ONLY('F'),
+  MERGE_IF_NECESSARY('M'),
+  REBASE_IF_NECESSARY('R'),
+  MERGE_ALWAYS('A'),
+  CHERRY_PICK('C');
+
+  private final char code;
+
+  private SubmitType(char code) {
+    this.code = code;
+  }
+
+  @Override
+  public char getCode() {
+    return code;
+  }
 }

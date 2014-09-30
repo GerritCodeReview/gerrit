@@ -16,6 +16,24 @@
       "revId": "799d180269b96d8e1474b737fe8a7cff0da8d064",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "900f1024_373eb8e4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-30T01:24:05Z",
+      "side": 1,
+      "message": "\u003e Why is it 10% off?\n\nI\u0027m not sure.\n\n\u003e And does that 10% error hold when the page is zoomed?\n\nIt does if you just zoom in, but not if you zoom in and then F5.",
+      "parentUuid": "f09dabd4_2d2ced82",
+      "revId": "799d180269b96d8e1474b737fe8a7cff0da8d064",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

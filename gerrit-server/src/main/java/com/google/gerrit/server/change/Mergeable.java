@@ -85,6 +85,7 @@ public class Mergeable implements RestReadView<RevisionResource> {
   private final SubmitStrategyFactory submitStrategyFactory;
   private final Provider<ReviewDb> db;
   private final ChangeIndexer indexer;
+  private final MergeabilityCache cache;
 
   private boolean force;
 
@@ -94,13 +95,15 @@ public class Mergeable implements RestReadView<RevisionResource> {
       ProjectCache projectCache,
       SubmitStrategyFactory submitStrategyFactory,
       Provider<ReviewDb> db,
-      ChangeIndexer indexer) {
+      ChangeIndexer indexer,
+      MergeabilityCache cache) {
     this.submitType = submitType;
     this.gitManager = gitManager;
     this.projectCache = projectCache;
     this.submitStrategyFactory = submitStrategyFactory;
     this.db = db;
     this.indexer = indexer;
+    this.cache = cache;
   }
 
   @Override
@@ -189,6 +192,7 @@ public class Mergeable implements RestReadView<RevisionResource> {
         });
     if (c != null) {
       indexer.index(db.get(), c);
+      cache.save(c, ref, mergeable);
     }
     return mergeable;
   }

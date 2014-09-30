@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "f035acd2_92b33c0d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/HashtagsUtil.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2014-09-30T12:24:19Z",
+      "side": 1,
+      "message": "Yes. I thought extractTags() handled the splitting of \"taga,tagb\" too. But I was wrong. It should be enough to just reuse cleanupHashtag() for the trimming.",
+      "parentUuid": "900f1024_b731a80f",
+      "revId": "5b5714ba886432c4759a1b8a5fcf15e36d608cf7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b03fb4b4_d062dcf8",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
         "patchSetId": 31

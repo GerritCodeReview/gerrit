@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "f035acd2_922e9cab",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/HashtagsUtil.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2014-09-30T09:05:24Z",
+      "side": 1,
+      "message": "The HashtagsUtil.cleanupHashtag() must be applied somewhere. If you cannot use extractTags(), you have to apply it yourself on the extracted hashtags. \n\nBut still. I don\u0027t see what the extractTags() method in this class have to do with JGit. I just mean that before you return your set from this class, you let extractTags() clean them up.",
+      "parentUuid": "b03fb4b4_9000d423",
+      "revId": "da4dc7cf36e5303f485d96a7c766c248db30b6ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b03fb4b4_d0065c41",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ValidateRemovedHashtags.java",
         "patchSetId": 7

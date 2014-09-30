@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f035acd2_7207b80b",
+        "filename": "tools/eclipse/project.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1006276
+      },
+      "writtenOn": "2014-09-30T13:13:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f035acd2_d290a458",
+      "range": {
+        "startLine": 69,
+        "startChar": 0,
+        "endLine": 69,
+        "endChar": 4
+      },
+      "revId": "d6eab86bb32242cc760120ce30b58e6b9c53bf3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f035acd2_b28d203f",
         "filename": "tools/eclipse/project.py",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2014-09-30T13:02:04Z",
       "side": 1,
       "message": "We don\u0027t provide specific out directory for source? Why to do it for test?",
+      "range": {
+        "startLine": 70,
+        "startChar": 56,
+        "endLine": 70,
+        "endChar": 83
+      },
+      "revId": "d6eab86bb32242cc760120ce30b58e6b9c53bf3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b03fb4b4_10c8647e",
+        "filename": "tools/eclipse/project.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1006276
+      },
+      "writtenOn": "2014-09-30T13:13:43Z",
+      "side": 1,
+      "message": "I mimicked the structure of the main gerrit .classpath file: I specified the default classpathentry kind\u003d\"output\" used by non-test sources with \"buck-out/eclipse/classes\" and define an exception for test sources, \"buck-out/eclipse/test\".",
+      "parentUuid": "f035acd2_b28d203f",
       "range": {
         "startLine": 70,
         "startChar": 56,

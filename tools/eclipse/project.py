@@ -62,15 +62,20 @@ def gen_project(name='gerrit', dir=ROOT):
 def gen_plugin_classpath(dir):
   p = path.join(dir, '.classpath')
   with open(p, 'w') as fd:
+    if path.exists(path.join(dir, 'src', 'test', 'java')):
+      testpath = """
+  <classpathentry kind="src" path="src/test/java"\
+ out="buck-out/eclipse/test"/>"""
+    else:
+      testpath = ""
     print("""\
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-    <classpathentry kind="src" path="src/main/java"/>
-    <classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-    <classpathentry combineaccessrules="false" kind="src" path="/gerrit"/>
-    <classpathentry kind="output" path="buck-out/eclipse/classes"/>
-</classpath>""", file=fd)
-
+  <classpathentry kind="src" path="src/main/java"/>%(testpath)s
+  <classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+  <classpathentry combineaccessrules="false" kind="src" path="/gerrit"/>
+  <classpathentry kind="output" path="buck-out/eclipse/classes"/>
+</classpath>""" % {"testpath": testpath}, file=fd)
 def gen_classpath():
   def query_classpath(targets):
     deps = []
@@ -187,7 +192,8 @@ def gen_classpath():
         gen_project(plugin.replace('plugins/', ""), plugindir)
         gen_plugin_classpath(plugindir)
       except (IOError, OSError) as err:
-        print('error generating project for %s: %s' % (plugin, err), file=sys.stderr)
+        print('error generating project for %s: %s' % (plugin, err),
+              file=sys.stderr)
 
 try:
   if args.src:

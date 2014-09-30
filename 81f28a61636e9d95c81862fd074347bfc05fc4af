@@ -16,6 +16,24 @@
       "revId": "81f28a61636e9d95c81862fd074347bfc05fc4af",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b03fb4b4_b031980f",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/RestReviewerSuggestOracle.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1006818
+      },
+      "writtenOn": "2014-09-30T09:44:36Z",
+      "side": 1,
+      "message": "\u003egetSelectedReviewerId() is dependent on this method to be executed first ...\n yes , it will be called firstly , please see  Suggestion.getDisplayString()   \"Gets the replacement string associated with this suggestion. When this suggestion is selected, the replacement string will be entered into the SuggestBox\u0027s text box.\"\n\nI remember I get 3 ways and only this way can work.  (by the way this commit is verified can work in my local environment. ) \n\nI know this one still looks not good enough .  welcome suggestions :)",
+      "parentUuid": "b03fb4b4_9017b465",
+      "revId": "81f28a61636e9d95c81862fd074347bfc05fc4af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

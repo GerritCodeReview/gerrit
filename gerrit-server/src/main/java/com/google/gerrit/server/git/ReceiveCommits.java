@@ -2118,7 +2118,6 @@ public class ReceiveCommits {
                   } else {
                     change.setStatus(Change.Status.NEW);
                   }
-                  change.setLastSha1MergeTested(null);
                   change.setCurrentPatchSet(info);
 
                   final List<String> idList = newCommit.getFooterLines(CHANGE_ID);

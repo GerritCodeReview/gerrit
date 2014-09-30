@@ -29,13 +29,12 @@ import com.google.gerrit.server.ioutil.ColumnFormatter;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.gwtorm.server.OrmException;
+import com.google.inject.Inject;
 
 import org.kohsuke.args4j.Argument;
 
 import java.io.PrintWriter;
 import java.util.List;
-
-import javax.inject.Inject;
 
 /**
  * Implements a command that allows the user to see the members of a group.

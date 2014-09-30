@@ -16,11 +16,10 @@ package com.google.gerrit.server.change;
 
 import com.google.common.collect.Sets;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.inject.Singleton;
 
 import java.util.Collection;
 import java.util.Set;
-
-import javax.inject.Singleton;
 
 @Singleton
 class MergeabilityCheckQueue {

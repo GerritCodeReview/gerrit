@@ -73,6 +73,24 @@
     },
     {
       "key": {
+        "uuid": "b03fb4b4_902e94ab",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/HashtagsUtil.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2014-09-30T10:10:34Z",
+      "side": 1,
+      "message": "Yes. I think extractTags() could be used by parseCommitMessageHashtags() to cleanup the tags. We have some redundant code here. I\u0027ll continue the discussion over there.",
+      "parentUuid": "b03fb4b4_d0341c01",
+      "revId": "da4dc7cf36e5303f485d96a7c766c248db30b6ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b03fb4b4_d0065c41",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ValidateRemovedHashtags.java",
         "patchSetId": 7

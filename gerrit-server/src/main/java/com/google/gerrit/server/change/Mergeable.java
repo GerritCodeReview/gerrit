@@ -42,7 +42,6 @@ import com.google.inject.Provider;
 
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
-import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
@@ -88,6 +87,7 @@ public class Mergeable implements RestReadView<RevisionResource> {
   private final SubmitStrategyFactory submitStrategyFactory;
   private final Provider<ReviewDb> db;
   private final ChangeIndexer indexer;
+  private final MergeabilityCache cache;
 
   private boolean force;
 
@@ -97,13 +97,15 @@ public class Mergeable implements RestReadView<RevisionResource> {
       ChangeData.Factory changeDataFactory,
       SubmitStrategyFactory submitStrategyFactory,
       Provider<ReviewDb> db,
-      ChangeIndexer indexer) {
+      ChangeIndexer indexer,
+      MergeabilityCache cache) {
     this.gitManager = gitManager;
     this.projectCache = projectCache;
     this.changeDataFactory = changeDataFactory;
     this.submitStrategyFactory = submitStrategyFactory;
     this.db = db;
     this.indexer = indexer;
+    this.cache = cache;
   }
 
   @Override
@@ -132,29 +134,36 @@ public class Mergeable implements RestReadView<RevisionResource> {
 
     Repository git = gitManager.openRepository(change.getProject());
     try {
-      Map<String, Ref> refs = git.getRefDatabase().getRefs(RefDatabase.ALL);
-      Ref ref = refs.get(change.getDest().get());
-      if (force || isStale(change, ref)) {
-        result.mergeable =
-            refresh(change, ps, result.submitType, git, refs, ref);
-      }
+      RevWalk rw = CodeReviewCommit.newRevWalk(git);
+      try {
+        CodeReviewCommit rev = parse(rw, ps);
+        Map<String, Ref> refs = git.getRefDatabase().getRefs(RefDatabase.ALL);
+        Ref ref = refs.get(change.getDest().get());
+        if (force || isStale(change, ref)) {
+          result.mergeable =
+              refresh(change, ps, rev, result.submitType, git, rw, refs, ref);
+        }
 
-      if (otherBranches) {
-        result.mergeableInto = new ArrayList<>();
-        BranchOrderSection branchOrder =
-            projectCache.get(change.getProject()).getBranchOrderSection();
-        if (branchOrder != null) {
-          int prefixLen = Constants.R_HEADS.length();
-          for (String n : branchOrder.getMoreStable(ref.getName())) {
-            Ref other = refs.get(n);
-            if (other == null) {
-              continue;
-            }
-            if (isMergeable(change, ps, SubmitType.CHERRY_PICK, git, refs, other)) {
-              result.mergeableInto.add(other.getName().substring(prefixLen));
+        if (otherBranches) {
+          result.mergeableInto = new ArrayList<>();
+          BranchOrderSection branchOrder =
+              projectCache.get(change.getProject()).getBranchOrderSection();
+          if (branchOrder != null) {
+            int prefixLen = Constants.R_HEADS.length();
+            for (String n : branchOrder.getMoreStable(ref.getName())) {
+              Ref other = refs.get(n);
+              if (other == null) {
+                continue;
+              }
+              if (isMergeable(change, rev, SubmitType.CHERRY_PICK, git, rw,
+                  refs, other)) {
+                result.mergeableInto.add(other.getName().substring(prefixLen));
+              }
             }
           }
         }
+      } finally {
+        rw.release();
       }
     } finally {
       git.close();
@@ -175,60 +184,54 @@ public class Mergeable implements RestReadView<RevisionResource> {
 
   private boolean refresh(Change change,
       final PatchSet ps,
+      CodeReviewCommit rev,
       SubmitType type,
       Repository git,
+      RevWalk rw,
       Map<String, Ref> refs,
       final Ref ref) throws IOException, OrmException {
-
-    final boolean mergeable = isMergeable(change, ps, type, git, refs, ref);
-
-    Change c = db.get().changes().atomicUpdate(
-        change.getId(),
-        new AtomicUpdate<Change>() {
-          @Override
-          public Change update(Change c) {
-            if (c.getStatus().isOpen()
-                && ps.getId().equals(c.currentPatchSetId())) {
-              c.setMergeable(mergeable);
-              c.setLastSha1MergeTested(toRevId(ref));
-              return c;
-            } else {
-              return null;
-            }
-          }
-        });
-    if (c != null) {
-      indexer.index(db.get(), c);
+    if (rev == null) {
+      return false;
     }
-    return mergeable;
+    try {
+      final boolean mergeable =
+          isMergeable(change, rev, type, git, rw, refs, ref);
+
+      Change c = db.get().changes().atomicUpdate(
+          change.getId(),
+          new AtomicUpdate<Change>() {
+            @Override
+            public Change update(Change c) {
+              if (c.getStatus().isOpen()
+                  && ps.getId().equals(c.currentPatchSetId())) {
+                c.setMergeable(mergeable);
+                c.setLastSha1MergeTested(toRevId(ref));
+                return c;
+              } else {
+                return null;
+              }
+            }
+          });
+      if (c != null) {
+        indexer.index(db.get(), c);
+        cache.save(rev, ref != null ? ref.getObjectId() : ObjectId.zeroId(),
+            type, mergeable);
+      }
+      return mergeable;
+    } finally {
+      rw.release();
+    }
   }
 
   private boolean isMergeable(Change change,
-      final PatchSet ps,
+      CodeReviewCommit rev,
       SubmitType type,
       Repository git,
+      RevWalk rw,
       Map<String, Ref> refs,
-      final Ref ref) throws IOException, OrmException {
-    RevWalk rw = new RevWalk(git) {
-      @Override
-      protected CodeReviewCommit createCommit(AnyObjectId id) {
-        return new CodeReviewCommit(id);
-      }
-    };
+      Ref ref) throws IOException, OrmException {
+    RevFlag canMerge = rw.newFlag("CAN_MERGE");
     try {
-      ObjectId id;
-      try {
-        id = ObjectId.fromString(ps.getRevision().get());
-      } catch (IllegalArgumentException e) {
-        log.error(String.format(
-            "Invalid revision on patch set %d of %d",
-            ps.getId().get(),
-            change.getId().get()));
-        return false;
-      }
-
-      RevFlag canMerge = rw.newFlag("CAN_MERGE");
-      CodeReviewCommit rev = parse(rw, id);
       rev.add(canMerge);
 
       final boolean mergeable;
@@ -255,7 +258,7 @@ public class Mergeable implements RestReadView<RevisionResource> {
           "Cannot merge test change %d", change.getId().get()), e);
       return false;
     } finally {
-      rw.release();
+      rw.disposeFlag(canMerge);
     }
   }
 
@@ -273,6 +276,21 @@ public class Mergeable implements RestReadView<RevisionResource> {
       }
     }
     return accepted;
+  }
+
+  private static CodeReviewCommit parse(RevWalk rw, PatchSet ps)
+      throws MissingObjectException, IncorrectObjectTypeException, IOException {
+    ObjectId id;
+    try {
+      id = ObjectId.fromString(ps.getRevision().get());
+    } catch (IllegalArgumentException e) {
+      log.error(String.format(
+          "Invalid revision on patch set %d of %d",
+          ps.getId().get(),
+          ps.getId().getParentKey().get()));
+      return null;
+    }
+    return parse(rw, id);
   }
 
   private static CodeReviewCommit parse(RevWalk rw, ObjectId id)

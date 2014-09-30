@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f035acd2_b203e02f",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Hashtags.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2014-09-30T07:55:27Z",
+      "side": 1,
+      "message": "\"Protected\" does not really explains to the user why it is protected. Perhaps a better explanation is needed.",
+      "revId": "35e06679438a579d537113e74883bde765355ce7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

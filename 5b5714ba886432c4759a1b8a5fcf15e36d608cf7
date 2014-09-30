@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "f035acd2_d2178436",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeInserter.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-30T14:41:50Z",
+      "side": 1,
+      "message": "At least I don\u0027t see why would we need to care about all 3 cases.\nI think that the null case is not necessary and that we should protect from it and  then don\u0027t have to care about it here.\nIn addition if the hashtags set is assumed to be mutable then why not initialize it as an empty mutable set?\n\nWe could then simplify the code below as:\n\n  hashtags.addAll(cmHashtags)",
+      "parentUuid": "900f1024_177a94ae",
+      "revId": "5b5714ba886432c4759a1b8a5fcf15e36d608cf7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b03fb4b4_50702cce",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/HashtagsUtil.java",
         "patchSetId": 31
@@ -154,6 +172,24 @@
       "writtenOn": "2014-09-30T14:03:52Z",
       "side": 1,
       "message": "I DO NOT like \"one invalid hashtag invalidate all other hashtags\" too, ...",
+      "parentUuid": "900f1024_f77e00a1",
+      "revId": "5b5714ba886432c4759a1b8a5fcf15e36d608cf7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b03fb4b4_70a0d0ad",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/HashtagsUtil.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-30T14:41:50Z",
+      "side": 1,
+      "message": "\u003e but how to \"skip only the invalid ones and keep valid ones\" now?\n\nI see... the HashtagValidationListener is not really helpful here as, when it throws the ValidationException, the caller doesn\u0027t know which tags were (in)valid. Maybe the set of (in)valid tags should be contained in the throws exception and the exception should have a method:\n\n  Set\u003cString\u003e getInvalidHashtags()",
       "parentUuid": "900f1024_f77e00a1",
       "revId": "5b5714ba886432c4759a1b8a5fcf15e36d608cf7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
@@ -297,6 +333,24 @@
     },
     {
       "key": {
+        "uuid": "b03fb4b4_50a5ccbb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-30T14:41:50Z",
+      "side": 1,
+      "message": "Which exactly place in 60106 are you referring to?",
+      "parentUuid": "900f1024_d77bfcae",
+      "revId": "5b5714ba886432c4759a1b8a5fcf15e36d608cf7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "70245ca4_962eacab",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 31
@@ -308,6 +362,24 @@
       "writtenOn": "2014-09-30T13:53:53Z",
       "side": 1,
       "message": "Changes in this file conflict with \"Support adding hashtags to changes via git push\" [1].  I suggest you rebase this on top of that change.\n\n[1] https://gerrit-review.googlesource.com/60106",
+      "revId": "5b5714ba886432c4759a1b8a5fcf15e36d608cf7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f035acd2_9221fc94",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-30T14:41:50Z",
+      "side": 1,
+      "message": "It is, anyway, hard to follow these two changed decoupled from each other",
+      "parentUuid": "70245ca4_962eacab",
       "revId": "5b5714ba886432c4759a1b8a5fcf15e36d608cf7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -349,6 +421,24 @@
       "side": 1,
       "message": "please see line 2191, 2192,",
       "parentUuid": "f035acd2_52a5d4bb",
+      "revId": "5b5714ba886432c4759a1b8a5fcf15e36d608cf7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f035acd2_722e9885",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 2054,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-30T14:41:50Z",
+      "side": 1,
+      "message": "I saw them but still these variable will be visible at 2191/2 if they are moved where I proposed.",
+      "parentUuid": "70245ca4_b631a80f",
       "revId": "5b5714ba886432c4759a1b8a5fcf15e36d608cf7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -402,6 +492,24 @@
       "side": 1,
       "message": "update the cases:\n\n firstly new change        [1] \"Hashtags: a,b,c\"\n                              they are same \n then upload a patch-set   [2] \"Hashtags: a,b,z\"\n                              they are not same",
       "parentUuid": "70245ca4_d6342401",
+      "revId": "5b5714ba886432c4759a1b8a5fcf15e36d608cf7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f035acd2_523394eb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 2133,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-30T14:41:50Z",
+      "side": 1,
+      "message": "... aren\u0027t toAdd and cmHashtags the same after the line 2138?\n\nAnd since the toAdd is not used before 2138 it could be used instead of teh cmHashtags. Or?",
+      "parentUuid": "900f1024_374c788c",
       "revId": "5b5714ba886432c4759a1b8a5fcf15e36d608cf7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

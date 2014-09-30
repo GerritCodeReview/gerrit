@@ -898,10 +898,6 @@ public class MergeOp {
       @Override
       public Change update(Change c) {
         c.setStatus(Change.Status.MERGED);
-        // It could be possible that the change being merged
-        // has never had its mergeability tested. So we insure
-        // merged changes has mergeable field true.
-        c.setMergeable(true);
         if (!merged.equals(c.currentPatchSetId())) {
           // Uncool; the patch set changed after we merged it.
           // Go back to the patch set that was actually merged.

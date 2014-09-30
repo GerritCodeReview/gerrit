@@ -24,7 +24,6 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.git.BranchOrderSection;
 import com.google.gerrit.server.git.CodeReviewCommit;
@@ -36,7 +35,6 @@ import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.SubmitRuleEvaluator;
 import com.google.gerrit.server.query.change.ChangeData;
-import com.google.gwtorm.server.AtomicUpdate;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -137,7 +135,6 @@ public class Mergeable implements RestReadView<RevisionResource> {
       throw new OrmException("Submit type rule failed: " + rec);
     }
     result.submitType = rec.type;
-    result.mergeable = change.isMergeable();
 
     Repository git = gitManager.openRepository(change.getProject());
     try {
@@ -187,33 +184,19 @@ public class Mergeable implements RestReadView<RevisionResource> {
     return !cache.get(id, into, submitType).isPresent();
   }
 
-  private boolean refresh(final Change change,
-      final CodeReviewCommit rev,
+  private boolean refresh(Change change,
+      CodeReviewCommit rev,
       SubmitType type,
       Repository git,
       RevWalk rw,
       Map<String, Ref> refs,
       ObjectId into,
       Optional<Boolean> old) throws IOException, OrmException {
-    final boolean mergeable =
-        isMergeable(change, rev, type, git, rw, refs, into);
-    cache.save(rev, into, type, mergeable);
-    db.get().changes().atomicUpdate(
-        change.getId(),
-        new AtomicUpdate<Change>() {
-          @Override
-          public Change update(Change c) {
-            if (c.getStatus().isOpen()
-                && c.currentPatchSetId().equals(change.currentPatchSetId())) {
-              c.setMergeable(mergeable);
-              c.setLastSha1MergeTested(new RevId(rev.name()));
-            }
-            return c;
-          }
-        });
+    boolean mergeable = isMergeable(change, rev, type, git, rw, refs, into);
     if (reindex && !old.equals(Optional.of(mergeable))) {
       indexer.index(db.get(), change);
     }
+    cache.save(rev, into, type, mergeable);
     return mergeable;
   }
 

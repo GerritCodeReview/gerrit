@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "f035acd2_b2b640fd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeInserter.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-30T12:44:32Z",
+      "side": 1,
+      "message": "Where and where is it set to null? Are all these 3 cases necessary?",
+      "revId": "5b5714ba886432c4759a1b8a5fcf15e36d608cf7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b03fb4b4_50702cce",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/HashtagsUtil.java",
         "patchSetId": 31
@@ -73,6 +90,23 @@
     },
     {
       "key": {
+        "uuid": "f035acd2_72b9f8f3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/HashtagsUtil.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-30T12:44:32Z",
+      "side": 1,
+      "message": "This means that one invalid hashtag invalidate all other hashtags from this commit message? Why not skip only the invalid ones and keep valid ones?\n\nAfter all this method is called \"getVALIDHashtags....\" so it should do what is says.\n\nAnother question: will the user who is doing \"git push ...\" know that some or all hashtags where ignored? Will there be an warning or an error printed out in his shell?",
+      "revId": "5b5714ba886432c4759a1b8a5fcf15e36d608cf7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b03fb4b4_d062dcf8",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
         "patchSetId": 31
@@ -126,6 +160,64 @@
       "side": 1,
       "message": "\u003e when Motedb is enabled but user, e.g. anonymous user , who can not edit the hashtags still can delete it from UI\n\n\nI will upload a commit based on 60351 to fix it this week.",
       "parentUuid": "900f1024_972ea4ab",
+      "revId": "5b5714ba886432c4759a1b8a5fcf15e36d608cf7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f035acd2_329a507c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-30T12:44:32Z",
+      "side": 1,
+      "message": "Silently ignoring hashtags is bad I think. The user should see at least a warning in his consolve... but I would prefer to see an error and the the push fails.\n\nThe analogy with the emails or hooks is not a good example as these things happen after the fact. Here, we still have a chance to reject the new patch set.",
+      "parentUuid": "900f1024_972ea4ab",
+      "revId": "5b5714ba886432c4759a1b8a5fcf15e36d608cf7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f035acd2_52a5d4bb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 2054,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-30T12:44:32Z",
+      "side": 1,
+      "message": "these two variable are not used before the line 2138 and could be moved down between the 2131 and 2132",
+      "range": {
+        "startLine": 2053,
+        "startChar": 0,
+        "endLine": 2054,
+        "endChar": 49
+      },
+      "revId": "5b5714ba886432c4759a1b8a5fcf15e36d608cf7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b03fb4b4_30c36866",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 2133,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-09-30T12:44:32Z",
+      "side": 1,
+      "message": "use the toAdd here and avoid the cmHashtags variable?",
       "revId": "5b5714ba886432c4759a1b8a5fcf15e36d608cf7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

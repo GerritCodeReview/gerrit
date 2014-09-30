@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b03fb4b4_9017b465",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/RestReviewerSuggestOracle.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2014-09-30T08:29:52Z",
+      "side": 1,
+      "message": "I don\u0027t think a public get-method like this should change the state for other get-methods. Now the public getSelectedReviewerId() is dependent on this method to be executed first. Using this class in other places, and having these methods dependent on the execution order could open up for some future issues.",
+      "revId": "81f28a61636e9d95c81862fd074347bfc05fc4af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

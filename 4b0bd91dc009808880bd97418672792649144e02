@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f035acd2_32c37066",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-09-30T11:42:44Z",
+      "side": 1,
+      "message": "These testcases should not be in this change. See other comment.",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 70
+      },
+      "revId": "4b0bd91dc009808880bd97418672792649144e02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f035acd2_52bef4dd",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/HashtagsIT.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-09-30T11:42:44Z",
+      "side": 1,
+      "message": "This test should be in the change for Creating hashtags from commit message[1], or in separate change. It doesn\u0027t test the features of this change.\n\n[1] https://gerrit-review.googlesource.com/#/c/60201/",
+      "range": {
+        "startLine": 68,
+        "startChar": 14,
+        "endLine": 68,
+        "endChar": 52
+      },
+      "revId": "4b0bd91dc009808880bd97418672792649144e02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f035acd2_12c86c7e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/HashtagsUtil.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-09-30T11:42:44Z",
+      "side": 1,
+      "message": "nit: getHashtagsInfo -\u003e getHashtagsInfos",
+      "range": {
+        "startLine": 203,
+        "startChar": 26,
+        "endLine": 203,
+        "endChar": 41
+      },
+      "revId": "4b0bd91dc009808880bd97418672792649144e02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b03fb4b4_10518424",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/HashtagsUtil.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-09-30T11:42:44Z",
+      "side": 1,
+      "message": "nit: getHashtagsInfo -\u003e getHashtagsInfos",
+      "range": {
+        "startLine": 213,
+        "startChar": 27,
+        "endLine": 213,
+        "endChar": 42
+      },
+      "revId": "4b0bd91dc009808880bd97418672792649144e02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

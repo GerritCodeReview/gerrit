@@ -19,6 +19,52 @@
     },
     {
       "key": {
+        "uuid": "900f1024_17517424",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ValidateRemovedHashtags.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-30T14:01:25Z",
+      "side": 1,
+      "message": "\"Hashtags specified in the commit message cannot be removed\"",
+      "range": {
+        "startLine": 54,
+        "startChar": 14,
+        "endLine": 54,
+        "endChar": 62
+      },
+      "revId": "7d51738a830271d94f7a78a7a8bf3340f8ffc22b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "900f1024_5757ec1b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ValidateRemovedHashtags.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-30T14:01:25Z",
+      "side": 1,
+      "message": "Is the intersection variable really necessary?\n\n if (!Sets.intersection(hashtagsUtil.getHash..(change), toRemove).isEmpty()) {\n   throw new ValidationException(...);\n }\n\n(I know it\u0027s needed if we list the hashtags, but do we really need to be that specific?)",
+      "range": {
+        "startLine": 48,
+        "startChar": 8,
+        "endLine": 56,
+        "endChar": 9
+      },
+      "revId": "7d51738a830271d94f7a78a7a8bf3340f8ffc22b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b03fb4b4_70b9f0f3",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ValidateRemovedHashtags.java",
         "patchSetId": 9
@@ -35,6 +81,53 @@
         "startChar": 16,
         "endLine": 59,
         "endChar": 60
+      },
+      "revId": "7d51738a830271d94f7a78a7a8bf3340f8ffc22b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70245ca4_567014ce",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ValidateRemovedHashtags.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-30T14:01:25Z",
+      "side": 1,
+      "message": "Does this need to be logged?",
+      "parentUuid": "b03fb4b4_70b9f0f3",
+      "range": {
+        "startLine": 59,
+        "startChar": 16,
+        "endLine": 59,
+        "endChar": 60
+      },
+      "revId": "7d51738a830271d94f7a78a7a8bf3340f8ffc22b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "900f1024_7752f02d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ValidateRemovedHashtags.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-30T14:01:25Z",
+      "side": 1,
+      "message": "Is this a validation exception?  IIUC it\u0027s caused by a failure to get the hashtags from the commit message.\n\nPerhaps the scope of the try block started at line 46 is too large.",
+      "range": {
+        "startLine": 60,
+        "startChar": 6,
+        "endLine": 61,
+        "endChar": 58
       },
       "revId": "7d51738a830271d94f7a78a7a8bf3340f8ffc22b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

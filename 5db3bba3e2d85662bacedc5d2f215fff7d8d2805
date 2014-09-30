@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f035acd2_b2ec0026",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-30T06:39:27Z",
+      "side": 1,
+      "message": "The dea behind JSR330 is to rely on container\u0027s own DI implementations, e. g. without using own DI solutions (like Guice, Spring and Dagger) and just drop WAR file in JSR330 aware containers, like JBoss, WebLogic and friends and this would just work. This change didn\u0027t really break it, it was already broken because Guice own annotations were mixed with JSR330 annotations, preventing JEE aware containers to deploy gerrit WAR. The reason that nobody have complained until now is probably because nobody really care and ever tried to deploy Gerit on JEE container. If we do care then the fix is to do the opposite what was done in this change: [1].\n\n [1] https://gerrit-review.googlesource.com/60411",
+      "range": {
+        "startLine": 10,
+        "startChar": 10,
+        "endLine": 10,
+        "endChar": 39
+      },
+      "revId": "5db3bba3e2d85662bacedc5d2f215fff7d8d2805",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

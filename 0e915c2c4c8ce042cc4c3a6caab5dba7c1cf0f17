@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b03fb4b4_107aa4ae",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectControl.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2014-09-30T10:16:58Z",
+      "side": 1,
+      "message": "Nit: I wonder if we could gain some performance by evaluating isHidden() first.",
+      "revId": "0e915c2c4c8ce042cc4c3a6caab5dba7c1cf0f17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

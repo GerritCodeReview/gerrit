@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f0104c40_dadfa567",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 3673,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-09-30T20:21:44Z",
+      "side": 1,
+      "message": "Done.  Seems like references don\u0027t always use the same convention, some use \u0027-\u0027 and some use \u0027_\u0027 for spaces.  Anyways i\u0027ve generated the doc and verified that all the links are working now.",
+      "parentUuid": "70245ca4_162cdcbe",
+      "range": {
+        "startLine": 3673,
+        "startChar": 5,
+        "endLine": 3673,
+        "endChar": 20
+      },
+      "revId": "b69f11e8f0d94d2ae9c8f5c91b99a6f1aef9cc55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "70245ca4_3627d8de",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 5
@@ -36,6 +60,30 @@
       "writtenOn": "2014-09-30T01:09:13Z",
       "side": 1,
       "message": "all_files",
+      "range": {
+        "startLine": 3687,
+        "startChar": 44,
+        "endLine": 3687,
+        "endChar": 57
+      },
+      "revId": "b69f11e8f0d94d2ae9c8f5c91b99a6f1aef9cc55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "300584fe_bcece125",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 3687,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-09-30T20:21:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "70245ca4_3627d8de",
       "range": {
         "startLine": 3687,
         "startChar": 44,

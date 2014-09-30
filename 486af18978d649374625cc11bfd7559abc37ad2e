@@ -33,6 +33,24 @@
       "revId": "486af18978d649374625cc11bfd7559abc37ad2e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f035acd2_3275b0be",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GroupDetail.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-09-30T09:24:41Z",
+      "side": 1,
+      "message": "Agree, the name is not good. \nThe origin of it is at line 61 of \nhttps://gerrit-review.googlesource.com/#/c/58303/7/gerrit-server/src/main/java/com/google/gerrit/server/account/GroupMembers.java\n\nif we change the name we will have to change related callers . I hope this can be done late in a another commit.",
+      "parentUuid": "b03fb4b4_f0104071",
+      "revId": "486af18978d649374625cc11bfd7559abc37ad2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

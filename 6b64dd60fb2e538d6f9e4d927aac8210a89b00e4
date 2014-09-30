@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "900f1024_9700e423",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-09-30T00:19:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "10a15f0c_2ed06702",
+      "range": {
+        "startLine": 13,
+        "startChar": 39,
+        "endLine": 13,
+        "endChar": 66
+      },
+      "revId": "6b64dd60fb2e538d6f9e4d927aac8210a89b00e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "90646fc9_5aaad5f7",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
         "patchSetId": 13

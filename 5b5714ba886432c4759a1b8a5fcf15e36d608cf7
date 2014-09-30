@@ -143,6 +143,24 @@
     },
     {
       "key": {
+        "uuid": "70245ca4_d67b04af",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/HashtagsUtil.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-09-30T14:03:52Z",
+      "side": 1,
+      "message": "I DO NOT like \"one invalid hashtag invalidate all other hashtags\" too, ...",
+      "parentUuid": "900f1024_f77e00a1",
+      "revId": "5b5714ba886432c4759a1b8a5fcf15e36d608cf7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f035acd2_f293a862",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/HashtagsUtil.java",
         "patchSetId": 31

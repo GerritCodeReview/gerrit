@@ -2,6 +2,46 @@
   "comments": [
     {
       "key": {
+        "uuid": "b03fb4b4_f093a062",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-30T15:25:54Z",
+      "side": 1,
+      "message": "May be rename this to something like: \"WebLink: Refactore to one generic method that is resource aware\"? Or similar?",
+      "revId": "9ee92b1d7c130462ac698d188be7ecace853dd1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f035acd2_122d0c84",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetDiff.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-30T15:25:54Z",
+      "side": 1,
+      "message": "It looks like Edwin did already some hacks to reference parent commit:\n\n  refs/changes/12/60012/1^1\n\nSo we should find a way to express something like this with pseudo RevisionResource to have a contract with WebLink(RevisionResource) so that plugin authors know that they are dealing with parent commit. Something similar we are doing with Inline Edit. There we also don\u0027t have real PatchSet (inline edit isn\u0027t saved in database) and construct a pseudo one with patch set number \u003d 0.",
+      "range": {
+        "startLine": 165,
+        "startChar": 66,
+        "endLine": 165,
+        "endChar": 71
+      },
+      "revId": "9ee92b1d7c130462ac698d188be7ecace853dd1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b03fb4b4_b0887845",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetDiff.java",
         "patchSetId": 8
@@ -36,6 +76,30 @@
       "writtenOn": "2014-09-30T10:52:55Z",
       "side": 1,
       "message": "This is as hacky as they come, can\u0027t follow all the code paths that calls format(Project p) from other locations than here so I don\u0027t know the impact.\nI just could not figure out a descent way to get a ProjectResource from a Project. It gives you nice icons on list projects...",
+      "range": {
+        "startLine": 44,
+        "startChar": 1,
+        "endLine": 50,
+        "endChar": 16
+      },
+      "revId": "9ee92b1d7c130462ac698d188be7ecace853dd1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b03fb4b4_908a1423",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectJson.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-09-30T15:25:54Z",
+      "side": 1,
+      "message": "As a start to de-messify that may be you could pass ProjectResource to format method below to keep the rendering of ProjectInfo in one place.",
+      "parentUuid": "f035acd2_b2888045",
       "range": {
         "startLine": 44,
         "startChar": 1,

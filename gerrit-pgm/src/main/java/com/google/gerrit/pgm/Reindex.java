@@ -28,6 +28,8 @@ import com.google.gerrit.pgm.util.ThreadLimiter;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.cache.h2.DefaultCacheFactory;
+import com.google.gerrit.server.change.MergeabilityCache;
 import com.google.gerrit.server.change.MergeabilityChecker;
 import com.google.gerrit.server.change.MergeabilityChecksExecutor;
 import com.google.gerrit.server.change.MergeabilityChecksExecutor.Priority;
@@ -175,6 +177,8 @@ public class Reindex extends SiteProgram {
       factory(MergeUtil.Factory.class);
       install(new NoteDbModule());
       install(new BatchGitModule());
+      install(new DefaultCacheFactory.Module());
+      install(MergeabilityCache.module());
     }
 
     @Provides

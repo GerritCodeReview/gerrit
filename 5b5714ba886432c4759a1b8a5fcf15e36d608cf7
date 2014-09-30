@@ -16,6 +16,47 @@
       "revId": "5b5714ba886432c4759a1b8a5fcf15e36d608cf7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f035acd2_f2acc8b0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/HashtagsUtil.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-09-30T11:58:10Z",
+      "side": 1,
+      "message": "or call cleanupHashtag() for each hashtag.",
+      "parentUuid": "b03fb4b4_50702cce",
+      "revId": "5b5714ba886432c4759a1b8a5fcf15e36d608cf7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b03fb4b4_d062dcf8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-09-30T11:58:10Z",
+      "side": 1,
+      "message": "If a user that cannot edit hashtags tries to add hashtags through commit message, Gerrit shouldn\u0027t silently fail to add hashtags it should fail to insert the patchset and send feedback to the user.",
+      "range": {
+        "startLine": 300,
+        "startChar": 9,
+        "endLine": 300,
+        "endChar": 34
+      },
+      "revId": "5b5714ba886432c4759a1b8a5fcf15e36d608cf7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

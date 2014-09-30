@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f035acd2_9217bc65",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GroupDetail.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2014-09-30T08:17:13Z",
+      "side": 1,
+      "message": "s/allAcconunts/allAccounts",
+      "revId": "486af18978d649374625cc11bfd7559abc37ad2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b03fb4b4_f0104071",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GroupDetail.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2014-09-30T08:17:13Z",
+      "side": 1,
+      "message": "getAccounts() us more close to the Java naming convention we are using",
+      "revId": "486af18978d649374625cc11bfd7559abc37ad2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -45,8 +45,21 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 @Singleton
-class H2CacheFactory implements PersistentCacheFactory, LifecycleListener {
+public class H2CacheFactory
+    implements PersistentCacheFactory, LifecycleListener {
   static final Logger log = LoggerFactory.getLogger(H2CacheFactory.class);
+
+  public static <K, V> SqlStore<K, V> newSqlStore(
+      File cacheDir,
+      String name,
+      TypeLiteral<K> keyType,
+      long maxSize,
+      Long expireAfterWrite) {
+    File db = new File(cacheDir, name).getAbsoluteFile();
+    String url = "jdbc:h2:" + db.toURI().toString();
+    return new SqlStore<>(url, keyType, maxSize,
+        expireAfterWrite == null ? 0 : expireAfterWrite.longValue());
+  }
 
   private final DefaultCacheFactory defaultFactory;
   private final Config config;
@@ -64,23 +77,10 @@ class H2CacheFactory implements PersistentCacheFactory, LifecycleListener {
       DynamicMap<Cache<?, ?>> cacheMap) {
     defaultFactory = defaultCacheFactory;
     config = cfg;
-
-    File loc = site.resolve(cfg.getString("cache", null, "directory"));
-    if (loc == null) {
-      cacheDir = null;
-    } else if (loc.exists() || loc.mkdirs()) {
-      if (loc.canWrite()) {
-        log.info("Enabling disk cache " + loc.getAbsolutePath());
-        cacheDir = loc;
-      } else {
-        log.warn("Can't write to disk cache: " + loc.getAbsolutePath());
-        cacheDir = null;
-      }
-    } else {
-      log.warn("Can't create disk cache: " + loc.getAbsolutePath());
-      cacheDir = null;
+    cacheDir = DefaultCacheFactory.getCacheDir(cfg, site);
+    if (cacheDir != null) {
+      log.info("Enabling disk cache " + cacheDir.getAbsolutePath());
     }
-
     caches = Lists.newLinkedList();
     this.cacheMap = cacheMap;
 
@@ -212,9 +212,6 @@ class H2CacheFactory implements PersistentCacheFactory, LifecycleListener {
       TypeLiteral<K> keyType,
       long maxSize,
       Long expireAfterWrite) {
-    File db = new File(cacheDir, name).getAbsoluteFile();
-    String url = "jdbc:h2:" + db.toURI().toString();
-    return new SqlStore<>(url, keyType, maxSize,
-        expireAfterWrite == null ? 0 : expireAfterWrite.longValue());
+    return newSqlStore(cacheDir, name, keyType, maxSize, expireAfterWrite);
   }
 }

@@ -14,14 +14,14 @@
 
 package com.google.gerrit.server.schema;
 
-import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gwtorm.jdbc.JdbcSchema;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
 import java.sql.SQLException;
-import java.util.List;
+import java.sql.Statement;
 
 public class Schema_59 extends SchemaVersion {
   @Inject
@@ -32,11 +32,10 @@ public class Schema_59 extends SchemaVersion {
   @Override
   protected void migrateData(ReviewDb db, UpdateUI ui) throws OrmException,
       SQLException {
-    List<Change> allChanges = db.changes().all().toList();
-    for (Change change : allChanges) {
-      change.setMergeable(true);
-      change.setLastSha1MergeTested(null);
+    try (Statement stmt = ((JdbcSchema) db).getConnection().createStatement()) {
+      stmt.executeUpdate(
+          "UPDATE changes " +
+          "SET mergeable = 'Y', last_sha1_merge_tested = NULL");
     }
-    db.changes().update(allChanges);
   }
 }

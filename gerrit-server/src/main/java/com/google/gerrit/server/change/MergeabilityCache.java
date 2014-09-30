@@ -26,9 +26,12 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.inject.Inject;
+import com.google.inject.Key;
 import com.google.inject.Module;
 import com.google.inject.Singleton;
+import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
+import com.google.inject.name.Names;
 
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
@@ -41,7 +44,13 @@ import java.util.Objects;
 
 @Singleton
 public class MergeabilityCache {
-  private static final String CACHE_NAME = "mergeability";
+  public static final String CACHE_NAME = "mergeability";
+
+  @SuppressWarnings("rawtypes")
+  public static Key bindingKey() {
+    return Key.get(new TypeLiteral<Cache<EntryKey, EntryVal>>() {},
+        Names.named(CACHE_NAME));
+  }
 
   public static Module module() {
     return new CacheModule() {
@@ -97,13 +106,13 @@ public class MergeabilityCache {
     }
   }
 
-  private static class EntryKey implements Serializable {
+  public static class EntryKey implements Serializable {
     private static final long serialVersionUID = 17L;
 
     private transient int changeId;
     private transient int psId;
 
-    private EntryKey(Change c) {
+    public EntryKey(Change c) {
       this.changeId = c.getId().get();
       this.psId = c.currentPatchSetId().get();
     }
@@ -134,15 +143,19 @@ public class MergeabilityCache {
     }
   }
 
-  private static class EntryVal implements Serializable {
+  public static class EntryVal implements Serializable {
     private static final long serialVersionUID = 17L;
 
     private transient ObjectId tip;
     private transient boolean mergeable;
 
-    private EntryVal(Ref ref, boolean mergeable) {
-      this.tip = ref != null ? ref.getObjectId() : ObjectId.zeroId();
+    public EntryVal(ObjectId tip, boolean mergeable) {
+      this.tip = tip;
       this.mergeable = mergeable;
+    }
+
+    private EntryVal(Ref ref, boolean mergeable) {
+      this(ref != null ? ref.getObjectId() : ObjectId.zeroId(), mergeable);
     }
 
     private void writeObject(ObjectOutputStream out) throws IOException {

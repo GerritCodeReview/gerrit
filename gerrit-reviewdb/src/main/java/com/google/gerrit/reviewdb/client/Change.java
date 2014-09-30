@@ -432,17 +432,6 @@ public final class Change {
   @Column(id = 14, notNull = false)
   protected String topic;
 
-  /**
-   * Null if the change has never been tested.
-   * Empty if it has been tested but against a branch that does
-   * not exist.
-   */
-  @Column(id = 15, notNull = false)
-  protected RevId lastSha1MergeTested;
-
-  @Column(id = 16)
-  protected boolean mergeable;
-
   protected Change() {
   }
 
@@ -455,7 +444,6 @@ public final class Change {
     owner = ownedBy;
     dest = forBranch;
     setStatus(Status.NEW);
-    setLastSha1MergeTested(null);
   }
 
   public Change(Change other) {
@@ -472,8 +460,6 @@ public final class Change {
     currentPatchSetId = other.currentPatchSetId;
     subject = other.subject;
     topic = other.topic;
-    mergeable = other.mergeable;
-    lastSha1MergeTested = other.lastSha1MergeTested;
   }
 
   /** Legacy 32 bit integer identity for a change. */
@@ -563,21 +549,5 @@ public final class Change {
 
   public void setTopic(String topic) {
     this.topic = topic;
-  }
-
-  public RevId getLastSha1MergeTested() {
-    return lastSha1MergeTested;
-  }
-
-  public void setLastSha1MergeTested(RevId lastSha1MergeTested) {
-    this.lastSha1MergeTested = lastSha1MergeTested;
-  }
-
-  public boolean isMergeable() {
-    return mergeable;
-  }
-
-  public void setMergeable(boolean mergeable) {
-    this.mergeable = mergeable;
   }
 }

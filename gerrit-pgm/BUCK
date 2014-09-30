@@ -36,6 +36,7 @@ java_library(
   deps = [
     ':init-api',
     ':util',
+    '//gerrit-cache-h2:cache-h2',
     '//gerrit-common:server',
     '//gerrit-extension-api:api',
     '//gerrit-lucene:lucene',

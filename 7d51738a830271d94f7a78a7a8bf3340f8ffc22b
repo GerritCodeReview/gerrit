@@ -16,6 +16,29 @@
       "revId": "7d51738a830271d94f7a78a7a8bf3340f8ffc22b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b03fb4b4_70b9f0f3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ValidateRemovedHashtags.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-09-30T12:13:05Z",
+      "side": 1,
+      "message": "nit: \"Cannot remove hashtags that are specified in commit message\"",
+      "range": {
+        "startLine": 59,
+        "startChar": 16,
+        "endLine": 59,
+        "endChar": 60
+      },
+      "revId": "7d51738a830271d94f7a78a7a8bf3340f8ffc22b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

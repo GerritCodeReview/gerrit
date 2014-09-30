@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.change;
 
+import com.google.common.base.Optional;
 import com.google.common.collect.Sets;
 import com.google.gerrit.extensions.common.SubmitType;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -22,7 +23,6 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.git.BranchOrderSection;
 import com.google.gerrit.server.git.CodeReviewCommit;
@@ -32,7 +32,6 @@ import com.google.gerrit.server.git.strategy.SubmitStrategyFactory;
 import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
-import com.google.gwtorm.server.AtomicUpdate;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -78,6 +77,10 @@ public class Mergeable implements RestReadView<RevisionResource> {
     this.force = force;
   }
 
+  public void setReindex(boolean reindex) {
+    this.reindex = reindex;
+  }
+
   private final TestSubmitType.Get submitType;
   private final GitRepositoryManager gitManager;
   private final ProjectCache projectCache;
@@ -87,6 +90,7 @@ public class Mergeable implements RestReadView<RevisionResource> {
   private final MergeabilityCache cache;
 
   private boolean force;
+  private boolean reindex;
 
   @Inject
   Mergeable(TestSubmitType.Get submitType,
@@ -103,6 +107,7 @@ public class Mergeable implements RestReadView<RevisionResource> {
     this.db = db;
     this.indexer = indexer;
     this.cache = cache;
+    reindex = true;
   }
 
   @Override
@@ -120,7 +125,6 @@ public class Mergeable implements RestReadView<RevisionResource> {
     }
 
     result.submitType = submitType.apply(resource);
-    result.mergeable = change.isMergeable();
 
     Repository git = gitManager.openRepository(change.getProject());
     try {
@@ -129,9 +133,14 @@ public class Mergeable implements RestReadView<RevisionResource> {
         CodeReviewCommit rev = parse(rw, ps);
         Map<String, Ref> refs = git.getRefDatabase().getRefs(RefDatabase.ALL);
         Ref ref = refs.get(change.getDest().get());
-        if (force || isStale(change, ref)) {
+        ObjectId into = ref != null ? ref.getObjectId() : ObjectId.zeroId();
+
+        Optional<Boolean> m = cache.get(rev, into, result.submitType);
+        if (!m.isPresent() || force || isStale(rev, into, result.submitType)) {
           result.mergeable =
-              refresh(change, ps, rev, result.submitType, git, rw, refs, ref);
+              refresh(change, rev, result.submitType, git, rw, refs, into, m);
+        } else {
+          result.mergeable = m.get();
         }
 
         if (otherBranches) {
@@ -146,7 +155,7 @@ public class Mergeable implements RestReadView<RevisionResource> {
                 continue;
               }
               if (isMergeable(change, rev, SubmitType.CHERRY_PICK, git, rw,
-                  refs, other)) {
+                  refs, other.getObjectId())) {
                 result.mergeableInto.add(other.getName().substring(prefixLen));
               }
             }
@@ -161,56 +170,24 @@ public class Mergeable implements RestReadView<RevisionResource> {
     return result;
   }
 
-  private static boolean isStale(Change change, Ref ref) {
-    return change.getLastSha1MergeTested() == null
-        || !toRevId(ref).equals(change.getLastSha1MergeTested());
-  }
-
-  private static RevId toRevId(Ref ref) {
-    return new RevId(ref != null && ref.getObjectId() != null
-        ? ref.getObjectId().name()
-        : "");
+  private boolean isStale(ObjectId id, ObjectId into, SubmitType submitType) {
+    return !cache.get(id, into, submitType).isPresent();
   }
 
   private boolean refresh(Change change,
-      final PatchSet ps,
       CodeReviewCommit rev,
       SubmitType type,
       Repository git,
       RevWalk rw,
       Map<String, Ref> refs,
-      final Ref ref) throws IOException, OrmException {
-    if (rev == null) {
-      return false;
+      ObjectId into,
+      Optional<Boolean> old) throws IOException, OrmException {
+    boolean mergeable = isMergeable(change, rev, type, git, rw, refs, into);
+    if (reindex && !old.equals(Optional.of(mergeable))) {
+      indexer.index(db.get(), change);
     }
-    try {
-      final boolean mergeable =
-          isMergeable(change, rev, type, git, rw, refs, ref);
-
-      Change c = db.get().changes().atomicUpdate(
-          change.getId(),
-          new AtomicUpdate<Change>() {
-            @Override
-            public Change update(Change c) {
-              if (c.getStatus().isOpen()
-                  && ps.getId().equals(c.currentPatchSetId())) {
-                c.setMergeable(mergeable);
-                c.setLastSha1MergeTested(toRevId(ref));
-                return c;
-              } else {
-                return null;
-              }
-            }
-          });
-      if (c != null) {
-        indexer.index(db.get(), c);
-        cache.save(rev, ref != null ? ref.getObjectId() : ObjectId.zeroId(),
-            type, mergeable);
-      }
-      return mergeable;
-    } finally {
-      rw.release();
-    }
+    cache.save(rev, into, type, mergeable);
+    return mergeable;
   }
 
   private boolean isMergeable(Change change,
@@ -219,16 +196,16 @@ public class Mergeable implements RestReadView<RevisionResource> {
       Repository git,
       RevWalk rw,
       Map<String, Ref> refs,
-      Ref ref) throws IOException, OrmException {
+      ObjectId into) throws IOException, OrmException {
     RevFlag canMerge = rw.newFlag("CAN_MERGE");
     try {
       rev.add(canMerge);
 
       final boolean mergeable;
-      if (ref == null || ref.getObjectId() == null) {
+      if (into.equals(ObjectId.zeroId())) {
         mergeable = true; // Assume yes on new branch.
       } else {
-        CodeReviewCommit tip = parse(rw, ref.getObjectId());
+        CodeReviewCommit tip = parse(rw, into);
         Set<RevCommit> accepted = alreadyAccepted(rw, refs.values());
         accepted.add(tip);
         accepted.addAll(Arrays.asList(rev.getParents()));

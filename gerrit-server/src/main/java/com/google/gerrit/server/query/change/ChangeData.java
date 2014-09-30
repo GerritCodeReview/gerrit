@@ -17,12 +17,15 @@ package com.google.gerrit.server.query.change;
 import static com.google.gerrit.server.ApprovalsUtil.sortApprovals;
 
 import com.google.common.base.MoreObjects;
+import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.SetMultimap;
 import com.google.gerrit.common.data.SubmitRecord;
+import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
@@ -36,6 +39,9 @@ import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchLineCommentsUtil;
+import com.google.gerrit.server.change.MergeabilityCache;
+import com.google.gerrit.server.change.RevisionResource;
+import com.google.gerrit.server.change.TestSubmitType;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.NotesMigration;
@@ -55,6 +61,7 @@ import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.FooterLine;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -155,7 +162,7 @@ public class ChangeData {
    */
   static ChangeData createForTest(Change.Id id, int currentPatchSetId) {
     ChangeData cd = new ChangeData(null, null, null, null, null,
-        null, null, null, null, null, id);
+        null, null, null, null, null, null, null, id);
     cd.currentPatchSet = new PatchSet(new PatchSet.Id(id, currentPatchSetId));
     return cd;
   }
@@ -170,6 +177,8 @@ public class ChangeData {
   private final PatchLineCommentsUtil plcUtil;
   private final PatchListCache patchListCache;
   private final NotesMigration notesMigration;
+  private final MergeabilityCache mergeabilityCache;
+  private final TestSubmitType.Get submitType;
   private final Change.Id legacyId;
   private ChangeDataSource returnedBySource;
   private Change change;
@@ -187,6 +196,7 @@ public class ChangeData {
   private List<ChangeMessage> messages;
   private List<SubmitRecord> submitRecords;
   private ChangedLines changedLines;
+  private Optional<Boolean> mergeable;
 
   @AssistedInject
   private ChangeData(
@@ -199,6 +209,8 @@ public class ChangeData {
       PatchLineCommentsUtil plcUtil,
       PatchListCache patchListCache,
       NotesMigration notesMigration,
+      MergeabilityCache mergeabilityCache,
+      TestSubmitType.Get submitType,
       @Assisted ReviewDb db,
       @Assisted Change.Id id) {
     this.db = db;
@@ -211,6 +223,8 @@ public class ChangeData {
     this.plcUtil = plcUtil;
     this.patchListCache = patchListCache;
     this.notesMigration = notesMigration;
+    this.mergeabilityCache = mergeabilityCache;
+    this.submitType = submitType;
     legacyId = id;
   }
 
@@ -225,6 +239,8 @@ public class ChangeData {
       PatchLineCommentsUtil plcUtil,
       PatchListCache patchListCache,
       NotesMigration notesMigration,
+      MergeabilityCache mergeabilityCache,
+      TestSubmitType.Get submitType,
       @Assisted ReviewDb db,
       @Assisted Change c) {
     this.db = db;
@@ -237,6 +253,8 @@ public class ChangeData {
     this.plcUtil = plcUtil;
     this.patchListCache = patchListCache;
     this.notesMigration = notesMigration;
+    this.mergeabilityCache = mergeabilityCache;
+    this.submitType = submitType;
     legacyId = c.getId();
     change = c;
   }
@@ -252,6 +270,8 @@ public class ChangeData {
       PatchLineCommentsUtil plcUtil,
       PatchListCache patchListCache,
       NotesMigration notesMigration,
+      MergeabilityCache mergeabilityCache,
+      TestSubmitType.Get submitType,
       @Assisted ReviewDb db,
       @Assisted ChangeControl c) {
     this.db = db;
@@ -264,6 +284,8 @@ public class ChangeData {
     this.plcUtil = plcUtil;
     this.patchListCache = patchListCache;
     this.notesMigration = notesMigration;
+    this.mergeabilityCache = mergeabilityCache;
+    this.submitType = submitType;
     legacyId = c.getChange().getId();
     change = c.getChange();
     changeControl = c;
@@ -549,6 +571,32 @@ public class ChangeData {
 
   public List<SubmitRecord> getSubmitRecords() {
     return submitRecords;
+  }
+
+  public Optional<Boolean> isMergeable() throws OrmException {
+    if (mergeable == null) {
+      if (change().getStatus() == Change.Status.MERGED) {
+        mergeable = Optional.of(true);
+      } else {
+        PatchSet ps = currentPatchSet();
+        Repository repo = null;
+        try {
+          repo = repoManager.openRepository(change().getProject());
+          Ref ref = repo.getRef(change.getDest().get());
+          mergeable = mergeabilityCache.get(
+              ObjectId.fromString(ps.getRevision().get()),
+              ref != null ? ref.getObjectId() : ObjectId.zeroId(),
+              submitType.apply(new RevisionResource(changeControl(), ps)));
+        } catch (AuthException | BadRequestException | IOException e) {
+          throw new OrmException(e);
+        } finally {
+          if (repo != null) {
+            repo.close();
+          }
+        }
+      }
+    }
+    return mergeable;
   }
 
   @Override

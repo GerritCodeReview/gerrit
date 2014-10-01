@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1077a0c2_1375ecbd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/GarbageCollection.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-10-01T13:40:50Z",
+      "side": 1,
+      "message": "optional: the method name resembles the java.lang.Object.notifyAll and may be confusing on the first look.\n\nFor the GitReferenceUpdated event we use a method name \"fire\" to fire the events.",
+      "range": {
+        "startLine": 113,
+        "startChar": 15,
+        "endLine": 113,
+        "endChar": 24
+      },
+      "revId": "e57c1b5c64212d3ceed6b854d0a2a4e828d6e974",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "906b90dc_17d95486",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-10-01T06:56:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b03fb4b4_f093a062",
+      "revId": "9ee92b1d7c130462ac698d188be7ecace853dd1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f035acd2_122d0c84",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetDiff.java",
         "patchSetId": 8
@@ -30,6 +48,30 @@
       "writtenOn": "2014-09-30T15:25:54Z",
       "side": 1,
       "message": "It looks like Edwin did already some hacks to reference parent commit:\n\n  refs/changes/12/60012/1^1\n\nSo we should find a way to express something like this with pseudo RevisionResource to have a contract with WebLink(RevisionResource) so that plugin authors know that they are dealing with parent commit. Something similar we are doing with Inline Edit. There we also don\u0027t have real PatchSet (inline edit isn\u0027t saved in database) and construct a pseudo one with patch set number \u003d 0.",
+      "range": {
+        "startLine": 165,
+        "startChar": 66,
+        "endLine": 165,
+        "endChar": 71
+      },
+      "revId": "9ee92b1d7c130462ac698d188be7ecace853dd1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "300584fe_3cf0d1f4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetDiff.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-10-01T06:56:11Z",
+      "side": 1,
+      "message": "Do you mean that this is just a marker that the base is the parent of the revision? I can\u0027t imagine that f.e. issue-trackers are git-reference-notation-aware and can link to the first parent of a commit with provided sha1.\n\nI might need some help in budging this ref or the non-patch-set base into a valid RevisionResource.",
+      "parentUuid": "f035acd2_122d0c84",
       "range": {
         "startLine": 165,
         "startChar": 66,
@@ -100,6 +142,30 @@
       "side": 1,
       "message": "As a start to de-messify that may be you could pass ProjectResource to format method below to keep the rendering of ProjectInfo in one place.",
       "parentUuid": "f035acd2_b2888045",
+      "range": {
+        "startLine": 44,
+        "startChar": 1,
+        "endLine": 50,
+        "endChar": 16
+      },
+      "revId": "9ee92b1d7c130462ac698d188be7ecace853dd1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "906b90dc_57cfccbb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectJson.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-10-01T06:56:11Z",
+      "side": 1,
+      "message": "The problem is that format(Project) is called by multiple code paths and messing with the signature would call for some major refactoring.\nIs there another case than \"list projects\" where projectlinks are valid ui-wise?",
+      "parentUuid": "b03fb4b4_908a1423",
       "range": {
         "startLine": 44,
         "startChar": 1,

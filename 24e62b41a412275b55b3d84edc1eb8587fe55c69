@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f0d12ce3_9231dc0f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-10-01T13:38:20Z",
+      "side": 1,
+      "message": "Please add a bit more detail.\n\nDoes this only add validation of branch creation and deletion?  What about non-ffwd ref updates?",
+      "revId": "24e62b41a412275b55b3d84edc1eb8587fe55c69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

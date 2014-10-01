@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f0d12ce3_722238cf",
+        "filename": "tools/eclipse/project.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-10-01T12:54:34Z",
+      "side": 1,
+      "message": "This would be more readable if the string constant were a single string with formatting in it, i.e.\n\n if path.exists(path.join(...)):\n   testpathpath \u003d \"\u003cclasspathentry ...\u003e\"\n else:\n   testpath \u003d \"\"\n print(\"\"\"\\\n \u003c?xml ...\n \u003cclasspath\u003e\n    ...\n    ...\n    $(testpath)s\n    ...\n    ...\n \u003c/classpath\u003e\"\"\" % {\"testpath\": path}, file\u003dfd)",
+      "range": {
+        "startLine": 68,
+        "startChar": 53,
+        "endLine": 73,
+        "endChar": 7
+      },
+      "revId": "9a786a6046f61b1e5ce19df0e130dccf90b5e307",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

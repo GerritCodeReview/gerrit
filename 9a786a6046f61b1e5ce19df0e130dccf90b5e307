@@ -46,6 +46,30 @@
       "revId": "9a786a6046f61b1e5ce19df0e130dccf90b5e307",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1077a0c2_935fbc2f",
+        "filename": "tools/eclipse/project.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-01T13:58:39Z",
+      "side": 1,
+      "message": "You have two typos in your example, i think this should be:\n\n  if path.exists(path.join(...)):\n    testpath \u003d \"\u003cclasspathentry ...\u003e\"\n  [...]\n  \u003c/classpath\u003e\"\"\" % {\"testpath\": testpath}, file\u003dfd)",
+      "parentUuid": "f0d12ce3_722238cf",
+      "range": {
+        "startLine": 68,
+        "startChar": 53,
+        "endLine": 73,
+        "endChar": 7
+      },
+      "revId": "9a786a6046f61b1e5ce19df0e130dccf90b5e307",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

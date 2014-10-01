@@ -22,6 +22,30 @@
       "revId": "9a786a6046f61b1e5ce19df0e130dccf90b5e307",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "307ae4aa_f434d800",
+        "filename": "tools/eclipse/project.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1006276
+      },
+      "writtenOn": "2014-10-01T13:42:06Z",
+      "side": 1,
+      "message": "Done\n\nI didn\u0027t manage to use the placeholder $(testpath)",
+      "parentUuid": "f0d12ce3_722238cf",
+      "range": {
+        "startLine": 68,
+        "startChar": 53,
+        "endLine": 73,
+        "endChar": 7
+      },
+      "revId": "9a786a6046f61b1e5ce19df0e130dccf90b5e307",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

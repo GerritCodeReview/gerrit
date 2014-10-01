@@ -22,6 +22,30 @@
       "revId": "e57c1b5c64212d3ceed6b854d0a2a4e828d6e974",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1077a0c2_f37b90ae",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/GarbageCollection.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2014-10-01T13:44:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1077a0c2_1375ecbd",
+      "range": {
+        "startLine": 113,
+        "startChar": 15,
+        "endLine": 113,
+        "endChar": 24
+      },
+      "revId": "e57c1b5c64212d3ceed6b854d0a2a4e828d6e974",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

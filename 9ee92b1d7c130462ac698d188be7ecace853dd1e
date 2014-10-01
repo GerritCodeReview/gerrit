@@ -175,6 +175,30 @@
       "revId": "9ee92b1d7c130462ac698d188be7ecace853dd1e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "307ae4aa_14d95486",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectJson.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-01T08:24:39Z",
+      "side": 1,
+      "message": "Opps. Now i see your problem:\n\n  public ProjectInfo format(Project p)\n\nis public. I overlooked it yesterday.\n\n| Is there another case than \"list projects\" where projectlinks are valid ui-wise?\n\nHaven\u0027t look into it.",
+      "parentUuid": "906b90dc_57cfccbb",
+      "range": {
+        "startLine": 44,
+        "startChar": 1,
+        "endLine": 50,
+        "endChar": 16
+      },
+      "revId": "9ee92b1d7c130462ac698d188be7ecace853dd1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

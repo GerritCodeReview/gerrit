@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1077a0c2_531da48b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/WebLinks.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-01T11:29:50Z",
+      "side": 1,
+      "message": "Use Guice\u0027s own inject annotations class.",
+      "range": {
+        "startLine": 27,
+        "startChar": 7,
+        "endLine": 27,
+        "endChar": 27
+      },
+      "revId": "dfde04644f223f90a4fc079b3f70be4020f9ab90",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "307ae4aa_94032430",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/WebLinks.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-01T11:29:50Z",
+      "side": 1,
+      "message": "@Singleton annotation is missing.",
+      "range": {
+        "startLine": 29,
+        "startChar": 13,
+        "endLine": 29,
+        "endChar": 21
+      },
+      "revId": "dfde04644f223f90a4fc079b3f70be4020f9ab90",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1077a0c2_13272cde",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/WebLinks.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-01T11:29:50Z",
+      "side": 1,
+      "message": "To much UiAction approach, we have UiActions static class, that convert for all kind of UiAction from UiAction to Description, (WebLinkInfo in your case). If we would follow this approach then this class can be converted to one static helper method. The difference would only be that JSON renderer classes would need to inject the specific WebLink DynamiSet and not the combined WebLinks container.",
+      "range": {
+        "startLine": 37,
+        "startChar": 2,
+        "endLine": 40,
+        "endChar": 46
+      },
+      "revId": "dfde04644f223f90a4fc079b3f70be4020f9ab90",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

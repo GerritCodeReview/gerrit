@@ -19,7 +19,6 @@ import static com.google.gerrit.extensions.common.ListChangesOption.CURRENT_REVI
 import static com.google.gerrit.extensions.common.ListChangesOption.DETAILED_LABELS;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
 import com.google.common.collect.Iterables;
@@ -235,7 +234,9 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     Repository repo = localGit.getRepository();
     RevCommit localHead = getHead(repo);
     RevCommit remoteHead = getRemoteHead();
-    assertNotEquals(localHead.getId(), remoteHead.getId());
+    assertFalse(
+        String.format("%s not equal %s", localHead.name(), remoteHead.name()),
+        localHead.getId().equals(remoteHead.getId()));
     assertEquals(1, remoteHead.getParentCount());
     if (!contentMerge) {
       assertEquals(getLatestDiff(repo), getLatestRemoteDiff());

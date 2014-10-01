@@ -21,7 +21,6 @@ import static java.util.concurrent.TimeUnit.MINUTES;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
-import static org.junit.Assume.assumeFalse;
 import static org.junit.Assume.assumeTrue;
 
 import com.google.common.base.MoreObjects;
@@ -931,7 +930,7 @@ public abstract class AbstractQueryChangesTest {
 
   @Test
   public void byHashtagWithNotedb() throws Exception {
-    assumeTrue("notedb disabled", notesMigration.enabled());
+    assumeTrue(notesMigration.enabled());
     List<Change> changes = setUpHashtagChanges();
     List<ChangeInfo> results = query("hashtag:foo");
     assertEquals(2, results.size());
@@ -947,7 +946,7 @@ public abstract class AbstractQueryChangesTest {
 
   @Test
   public void byHashtagWithoutNotedb() throws Exception {
-    assumeFalse("notedb enabled", notesMigration.enabled());
+    assumeTrue(!notesMigration.enabled());
     setUpHashtagChanges();
     assertTrue(query("hashtag:foo").isEmpty());
     assertTrue(query("hashtag:bar").isEmpty());

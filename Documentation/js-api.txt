@@ -60,6 +60,11 @@ self.get(url, callback)
   a string, otherwise the result is a JavaScript object or array,
   as described in the relevant REST API documentation.
 
+[[self_getCurrentUser]]
+=== self.getCurrentUser()
+Returns the currently signed in user's AccountInfo data; empty account
+data if no user is currently signed in.
+
 [[self_getPluginName]]
 === self.getPluginName()
 Returns the name this plugin was installed as by the server
@@ -624,6 +629,11 @@ Gerrit.get('/changes/?q=status:open', function (open) {
   }
 });
 ----
+
+[[Gerrit_getCurrentUser]]
+=== Gerrit.getCurrentUser()
+Returns the currently signed in user's AccountInfo data; empty account
+data if no user is currently signed in.
 
 [[Gerrit_getPluginName]]
 === Gerrit.getPluginName()

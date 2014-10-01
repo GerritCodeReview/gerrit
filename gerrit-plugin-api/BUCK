@@ -7,7 +7,10 @@ SRCS = [
 PLUGIN_API = [
   '//gerrit-httpd:httpd',
   '//gerrit-pgm:init-api',
+  '//gerrit-server:config',
+  '//gerrit-server:lifecycle',
   '//gerrit-server:server',
+  '//gerrit-server:time-util',
   '//gerrit-sshd:sshd',
 ]
 

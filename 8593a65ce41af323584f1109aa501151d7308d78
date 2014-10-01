@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f0d12ce3_3243506d",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 18
+      },
+      "lineNbr": 1755,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-10-01T13:26:22Z",
+      "side": 1,
+      "message": "automatically",
+      "range": {
+        "startLine": 1755,
+        "startChar": 55,
+        "endLine": 1755,
+        "endChar": 67
+      },
+      "revId": "8593a65ce41af323584f1109aa501151d7308d78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d0d6e8da_d109a453",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 18
+      },
+      "lineNbr": 1755,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-10-01T13:26:22Z",
+      "side": 1,
+      "message": "\"or\"?",
+      "range": {
+        "startLine": 1755,
+        "startChar": 17,
+        "endLine": 1755,
+        "endChar": 20
+      },
+      "revId": "8593a65ce41af323584f1109aa501151d7308d78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0d12ce3_123e4ce4",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 18
+      },
+      "lineNbr": 1755,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-10-01T13:26:22Z",
+      "side": 1,
+      "message": "bindings",
+      "range": {
+        "startLine": 1755,
+        "startChar": 9,
+        "endLine": 1755,
+        "endChar": 16
+      },
+      "revId": "8593a65ce41af323584f1109aa501151d7308d78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d0d6e8da_31f590e5",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 18
+      },
+      "lineNbr": 1756,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-10-01T13:26:22Z",
+      "side": 1,
+      "message": "\"the implementation\"",
+      "range": {
+        "startLine": 1756,
+        "startChar": 18,
+        "endLine": 1756,
+        "endChar": 32
+      },
+      "revId": "8593a65ce41af323584f1109aa501151d7308d78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

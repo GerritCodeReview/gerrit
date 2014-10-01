@@ -91,6 +91,30 @@
       "revId": "787f3b3e4d8bf4b9d7d780e9fdcbad0536440076",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "307ae4aa_3451f024",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-10-01T14:11:22Z",
+      "side": 1,
+      "message": "It may be more elegant but, in this case, I find it harder to read than the for loop. And it is 5 lines of code... compared with 3 lines (when the tree() is inlined.",
+      "parentUuid": "1077a0c2_5352842d",
+      "range": {
+        "startLine": 324,
+        "startChar": 4,
+        "endLine": 326,
+        "endChar": 5
+      },
+      "revId": "787f3b3e4d8bf4b9d7d780e9fdcbad0536440076",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

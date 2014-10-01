@@ -228,14 +228,14 @@ default. Optional fields are:
 * `ALL_REVISIONS`: describe all revisions, not just current.
 --
 
-[[download_commands]]
+[[download-commands]]
 --
 * `DOWNLOAD_COMMANDS`: include the `commands` field in the
   link:#fetch-info[FetchInfo] for revisions. Only valid when the
   `CURRENT_REVISION` or `ALL_REVISIONS` option is selected.
 --
 
-[[draft_comments]]
+[[draft-comments]]
 --
 * `DRAFT_COMMENTS`: include the `has_draft_comments` field for
   revisions. Only valid when the `CURRENT_REVISION` or `ALL_REVISIONS`
@@ -3424,7 +3424,7 @@ set via a certain protocol.
 |`commands`    |optional|
 The download commands for this patch set as a map that maps the command
 names to the commands. +
-Only set if link:#download_commands[download commands] are requested.
+Only set if link:#download-commands[download commands] are requested.
 |==========================
 
 [[file-info]]
@@ -3670,7 +3670,7 @@ link:#list-changes[Query Changes].
 |`draft`       |not set if `false`|Whether the patch set is a draft.
 |`has_draft_comments`       |not set if `false`|Whether the patch
 set has one or more draft comments by the calling user. Only set if
-link:#draft_comments[DRAFT_COMMENTS] option is requested.
+link:#draft-comments[DRAFT_COMMENTS] option is requested.
 |`_number`     ||The patch set number.
 |`fetch`       ||
 Information about how to fetch this patch set. The fetch information is

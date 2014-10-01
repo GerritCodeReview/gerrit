@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "307ae4aa_1475d4bd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-10-01T13:44:28Z",
+      "side": 1,
+      "message": "This part of the commit message is not correct any more.",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 22
+      },
+      "revId": "787f3b3e4d8bf4b9d7d780e9fdcbad0536440076",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

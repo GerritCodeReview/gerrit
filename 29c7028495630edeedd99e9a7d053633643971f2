@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1077a0c2_d31a1461",
+        "filename": "lib/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-01T19:03:03Z",
+      "side": 1,
+      "message": "This may break compilation in tree Buck build mode for plugins, as plugins may rely in this mode on 4.11 JUnit version being available in Gerrit core. Announce the downgrade more prominently?",
+      "range": {
+        "startLine": 174,
+        "startChar": 20,
+        "endLine": 174,
+        "endChar": 24
+      },
+      "revId": "29c7028495630edeedd99e9a7d053633643971f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

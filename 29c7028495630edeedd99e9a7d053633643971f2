@@ -22,6 +22,30 @@
       "revId": "29c7028495630edeedd99e9a7d053633643971f2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d0d6e8da_511db48b",
+        "filename": "lib/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-10-01T19:46:59Z",
+      "side": 1,
+      "message": "Message posted to repo-discuss.",
+      "parentUuid": "1077a0c2_d31a1461",
+      "range": {
+        "startLine": 174,
+        "startChar": 20,
+        "endLine": 174,
+        "endChar": 24
+      },
+      "revId": "29c7028495630edeedd99e9a7d053633643971f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

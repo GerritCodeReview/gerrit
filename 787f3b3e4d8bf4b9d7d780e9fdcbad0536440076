@@ -48,6 +48,23 @@
     },
     {
       "key": {
+        "uuid": "1077a0c2_d393f462",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-10-01T15:17:30Z",
+      "side": 1,
+      "message": "I don\u0027t see a reason to return an Iterable here instead of the more specific return type Set. The result is very small and a lazy evaluation is not necessary (which could justify returning an Iterable).\n\nReturning Iterable instead of a more specific type unnecessarily limits what the caller can do with the return result.",
+      "revId": "787f3b3e4d8bf4b9d7d780e9fdcbad0536440076",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1077a0c2_b385182d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
         "patchSetId": 3
@@ -154,6 +171,30 @@
       "side": 1,
       "message": "I have nothing against the functional style... actually I like it.\nHowever, one cannot say that functional style is, by definition, easier to read than procedural. And I didn\u0027t want to claim that the procedural style is easier to read than functional either.\n\nJust for *this* example I find this:\n\n  for (ProjectState p : tree) {\n    result.addAll(p.localOwners);\n  }\n\neasier to read than:\n\n  return Lists.transform(tree(), new Function\u003cProjectState, AccountGroup.UUID\u003e() {\n      @Override\n      public String apply(ProjectState p) {\n        return p.localOwners;\n      }});",
       "parentUuid": "307ae4aa_54b90cf3",
+      "range": {
+        "startLine": 324,
+        "startChar": 4,
+        "endLine": 326,
+        "endChar": 5
+      },
+      "revId": "787f3b3e4d8bf4b9d7d780e9fdcbad0536440076",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1077a0c2_938d7c3f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-10-01T15:17:30Z",
+      "side": 1,
+      "message": "btw, this code wouldn\u0027t compile. The return result of the apply doesn\u0027t match the function declaration.\n\nfurther, p.localOwners is a set of AccountGroup.UUID. If the function is modified to be\n\n  Function\u003cProjectState, Set\u003cAccountGroup.UUID\u003e\u003e\n\nthen the result would be a List\u003cSet\u003cAccountGroup.UUID\u003e\u003e... however, we need a flat list: List\u003cAccountGroup.UUID\u003e.  Can this be achieved with one transform function?",
+      "parentUuid": "1077a0c2_5352842d",
       "range": {
         "startLine": 324,
         "startChar": 4,

@@ -126,7 +126,7 @@ public class ChangeJson {
   private final DynamicMap<DownloadCommand> downloadCommands;
   private final DynamicMap<RestView<ChangeResource>> changeViews;
   private final Revisions revisions;
-  private final Provider<WebLinks> webLinks;
+  private final WebLinks webLinks;
   private final EnumSet<ListChangesOption> options;
   private final ChangeMessagesUtil cmUtil;
   private final PatchLineCommentsUtil plcUtil;
@@ -149,7 +149,7 @@ public class ChangeJson {
       DynamicMap<DownloadCommand> downloadCommands,
       DynamicMap<RestView<ChangeResource>> changeViews,
       Revisions revisions,
-      Provider<WebLinks> webLinks,
+      WebLinks webLinks,
       ChangeMessagesUtil cmUtil,
       PatchLineCommentsUtil plcUtil) {
     this.db = db;
@@ -844,7 +844,7 @@ public class ChangeJson {
 
     if (has(WEB_LINKS)) {
       out.webLinks = Lists.newArrayList();
-      for (WebLinkInfo link : webLinks.get().getPatchSetLinks(
+      for (WebLinkInfo link : webLinks.getPatchSetLinks(
           project, in.getRevision().get())) {
         out.webLinks.add(link);
       }

@@ -47,8 +47,6 @@ import com.google.gerrit.server.FileTypeRegistry;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.MimeUtilFileTypeRegistry;
 import com.google.gerrit.server.PluginUser;
-import com.google.gerrit.server.WebLinks;
-import com.google.gerrit.server.WebLinksProvider;
 import com.google.gerrit.server.account.AccountByEmailCacheImpl;
 import com.google.gerrit.server.account.AccountCacheImpl;
 import com.google.gerrit.server.account.AccountControl;
@@ -235,7 +233,6 @@ public class GerritGlobalModule extends FactoryModule {
         .in(SINGLETON);
     bind(FromAddressGenerator.class).toProvider(
         FromAddressGeneratorProvider.class).in(SINGLETON);
-    bind(WebLinks.class).toProvider(WebLinksProvider.class).in(SINGLETON);
     bind(Boolean.class).annotatedWith(DisableReverseDnsLookup.class)
         .toProvider(DisableReverseDnsLookupProvider.class).in(SINGLETON);
 

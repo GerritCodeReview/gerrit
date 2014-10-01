@@ -29,7 +29,6 @@ import com.google.gerrit.server.WebLinks;
 import com.google.gerrit.server.extensions.webui.UiActions;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.google.inject.util.Providers;
 
@@ -51,12 +50,12 @@ import java.util.TreeMap;
 public class ListBranches implements RestReadView<ProjectResource> {
   private final GitRepositoryManager repoManager;
   private final DynamicMap<RestView<BranchResource>> branchViews;
-  private final Provider<WebLinks> webLinks;
+  private final WebLinks webLinks;
 
   @Inject
   public ListBranches(GitRepositoryManager repoManager,
       DynamicMap<RestView<BranchResource>> branchViews,
-      Provider<WebLinks> webLinks) {
+      WebLinks webLinks) {
     this.repoManager = repoManager;
     this.branchViews = branchViews;
     this.webLinks = webLinks;
@@ -169,7 +168,7 @@ public class ListBranches implements RestReadView<ProjectResource> {
       info.actions.put(d.getId(), new ActionInfo(d));
     }
     info.webLinks = Lists.newArrayList();
-    for (WebLinkInfo link : webLinks.get().getBranchLinks(
+    for (WebLinkInfo link : webLinks.getBranchLinks(
         refControl.getProjectControl().getProject().getName(), ref.getName())) {
       if (!Strings.isNullOrEmpty(link.name) && !Strings.isNullOrEmpty(link.url)) {
         info.webLinks.add(link);

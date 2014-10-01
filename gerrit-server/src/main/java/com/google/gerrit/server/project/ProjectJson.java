@@ -24,18 +24,17 @@ import com.google.gerrit.server.WebLinks;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllProjectsNameProvider;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 @Singleton
 public class ProjectJson {
 
   private final AllProjectsName allProjects;
-  private final Provider<WebLinks> webLinks;
+  private final WebLinks webLinks;
 
   @Inject
   ProjectJson(AllProjectsNameProvider allProjectsNameProvider,
-      Provider<WebLinks> webLinks) {
+      WebLinks webLinks) {
     this.allProjects = allProjectsNameProvider.get();
     this.webLinks = webLinks;
   }
@@ -54,7 +53,7 @@ public class ProjectJson {
     info.id = Url.encode(info.name);
 
     info.webLinks = Lists.newArrayList();
-    for (WebLinkInfo link : webLinks.get().getProjectLinks(p.getName())) {
+    for (WebLinkInfo link : webLinks.getProjectLinks(p.getName())) {
       if (!Strings.isNullOrEmpty(link.name) && !Strings.isNullOrEmpty(link.url)) {
         info.webLinks.add(link);
       }

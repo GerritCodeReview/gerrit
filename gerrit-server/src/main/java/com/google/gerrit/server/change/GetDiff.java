@@ -47,8 +47,6 @@ import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
-
 import org.eclipse.jgit.diff.Edit;
 import org.eclipse.jgit.diff.ReplaceEdit;
 import org.kohsuke.args4j.CmdLineException;
@@ -69,7 +67,7 @@ public class GetDiff implements RestReadView<FileResource> {
   private final ProjectCache projectCache;
   private final PatchScriptFactory.Factory patchScriptFactoryFactory;
   private final Revisions revisions;
-  private final Provider<WebLinks> webLinks;
+  private final WebLinks webLinks;
 
   @Option(name = "--base", metaVar = "REVISION")
   String base;
@@ -87,7 +85,7 @@ public class GetDiff implements RestReadView<FileResource> {
   GetDiff(ProjectCache projectCache,
       PatchScriptFactory.Factory patchScriptFactoryFactory,
       Revisions revisions,
-      Provider<WebLinks> webLinks) {
+      WebLinks webLinks) {
     this.projectCache = projectCache;
     this.patchScriptFactoryFactory = patchScriptFactoryFactory;
     this.revisions = revisions;
@@ -206,7 +204,7 @@ public class GetDiff implements RestReadView<FileResource> {
   private List<WebLinkInfo> getFileWebLinks(Project project, String rev,
       String file) {
     List<WebLinkInfo> fileWebLinks = new ArrayList<>();
-    for (WebLinkInfo link : webLinks.get().getFileLinks(project.getName(),
+    for (WebLinkInfo link : webLinks.getFileLinks(project.getName(),
         rev, file)) {
       if (!Strings.isNullOrEmpty(link.name) && !Strings.isNullOrEmpty(link.url)) {
         fileWebLinks.add(link);

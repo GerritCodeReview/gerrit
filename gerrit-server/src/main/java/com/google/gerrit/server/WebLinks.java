@@ -21,9 +21,12 @@ import com.google.gerrit.extensions.webui.BranchWebLink;
 import com.google.gerrit.extensions.webui.FileWebLink;
 import com.google.gerrit.extensions.webui.PatchSetWebLink;
 import com.google.gerrit.extensions.webui.ProjectWebLink;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
 import java.util.List;
 
+@Singleton
 public class WebLinks {
 
   private final DynamicSet<PatchSetWebLink> patchSetLinks;
@@ -31,6 +34,7 @@ public class WebLinks {
   private final DynamicSet<ProjectWebLink> projectLinks;
   private final DynamicSet<BranchWebLink> branchLinks;
 
+  @Inject
   public WebLinks(DynamicSet<PatchSetWebLink> patchSetLinks,
       DynamicSet<FileWebLink> fileLinks,
       DynamicSet<ProjectWebLink> projectLinks,

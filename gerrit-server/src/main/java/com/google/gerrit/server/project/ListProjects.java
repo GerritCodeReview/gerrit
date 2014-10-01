@@ -43,8 +43,6 @@ import com.google.gerrit.server.util.RegexListSearcher;
 import com.google.gerrit.server.util.TreeFormatter;
 import com.google.gson.reflect.TypeToken;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
-
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Ref;
@@ -112,7 +110,7 @@ public class ListProjects implements RestReadView<TopLevelResource> {
   private final GroupControl.Factory groupControlFactory;
   private final GitRepositoryManager repoManager;
   private final ProjectNode.Factory projectNodeFactory;
-  private final Provider<WebLinks> webLinks;
+  private final WebLinks webLinks;
 
   @Deprecated
   @Option(name = "--format", usage = "(deprecated) output format")
@@ -193,7 +191,7 @@ public class ListProjects implements RestReadView<TopLevelResource> {
   protected ListProjects(CurrentUser currentUser, ProjectCache projectCache,
       GroupCache groupCache, GroupControl.Factory groupControlFactory,
       GitRepositoryManager repoManager, ProjectNode.Factory projectNodeFactory,
-      Provider<WebLinks> webLinks) {
+      WebLinks webLinks) {
     this.currentUser = currentUser;
     this.projectCache = projectCache;
     this.groupCache = groupCache;
@@ -385,7 +383,7 @@ public class ListProjects implements RestReadView<TopLevelResource> {
           }
 
           info.webLinks = Lists.newArrayList();
-          for (WebLinkInfo link : webLinks.get().getProjectLinks(projectName.get())) {
+          for (WebLinkInfo link : webLinks.getProjectLinks(projectName.get())) {
             if (!Strings.isNullOrEmpty(link.name) && !Strings.isNullOrEmpty(link.url)) {
               info.webLinks.add(link);
             }

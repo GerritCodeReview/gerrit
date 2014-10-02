@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "1077a0c2_b3e678ea",
+        "filename": "tools/eclipse/project.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1006276
+      },
+      "writtenOn": "2014-10-02T07:43:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d0d6e8da_b1174065",
+      "revId": "6a16806aebb1f15bf588de2caef05b58610350e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d0d6e8da_7149d88c",
         "filename": "tools/eclipse/project.py",
         "patchSetId": 6
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "307ae4aa_74da082e",
+        "filename": "tools/eclipse/project.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1006276
+      },
+      "writtenOn": "2014-10-02T07:43:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d0d6e8da_7149d88c",
+      "range": {
+        "startLine": 70,
+        "startChar": 0,
+        "endLine": 78,
+        "endChar": 25
+      },
+      "revId": "6a16806aebb1f15bf588de2caef05b58610350e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d0d6e8da_5144d475",
         "filename": "tools/eclipse/project.py",
         "patchSetId": 6
@@ -53,6 +95,30 @@
       "writtenOn": "2014-10-02T02:30:46Z",
       "side": 1,
       "message": "This is also too long.",
+      "range": {
+        "startLine": 196,
+        "startChar": 68,
+        "endLine": 196,
+        "endChar": 85
+      },
+      "revId": "6a16806aebb1f15bf588de2caef05b58610350e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1077a0c2_93e9fcbe",
+        "filename": "tools/eclipse/project.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1006276
+      },
+      "writtenOn": "2014-10-02T07:43:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d0d6e8da_5144d475",
       "range": {
         "startLine": 196,
         "startChar": 68,

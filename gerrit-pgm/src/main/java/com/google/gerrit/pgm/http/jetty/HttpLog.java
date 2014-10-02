@@ -14,9 +14,9 @@
 
 package com.google.gerrit.pgm.http.jetty;
 
+import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.httpd.GetUserFilter;
 import com.google.gerrit.server.util.SystemLog;
-import com.google.gerrit.server.util.TimeUtil;
 import com.google.inject.Inject;
 
 import org.apache.log4j.AsyncAppender;

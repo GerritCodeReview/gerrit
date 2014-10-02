@@ -17,6 +17,7 @@ package com.google.gerrit.server.edit;
 import static com.google.gerrit.server.edit.ChangeEditUtil.editRefName;
 import static com.google.gerrit.server.edit.ChangeEditUtil.editRefPrefix;
 
+import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.reviewdb.client.Change;
@@ -27,7 +28,6 @@ import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
-import com.google.gerrit.server.util.TimeUtil;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;

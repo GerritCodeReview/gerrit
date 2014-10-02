@@ -130,6 +130,7 @@ java_library(
   srcs = PROLOG_TEST_CASE,
   deps = [
     ':server',
+    '//gerrit-common:server',
     '//lib:junit',
     '//lib/guice:guice',
     '//lib/prolog:prolog-cafe',

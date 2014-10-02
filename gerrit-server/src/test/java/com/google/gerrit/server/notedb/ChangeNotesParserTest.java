@@ -16,7 +16,7 @@ package com.google.gerrit.server.notedb;
 
 import static org.junit.Assert.fail;
 
-import com.google.gerrit.server.util.TimeUtil;
+import com.google.gerrit.common.TimeUtil;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;

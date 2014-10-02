@@ -19,6 +19,7 @@ import static com.google.gerrit.server.project.Util.allow;
 import static com.google.gerrit.server.project.Util.category;
 import static com.google.gerrit.server.project.Util.value;
 
+import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
@@ -27,7 +28,6 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.project.Util;
-import com.google.gerrit.server.util.TimeUtil;
 import com.google.gerrit.testutil.InMemoryRepositoryManager;
 import com.google.inject.AbstractModule;
 

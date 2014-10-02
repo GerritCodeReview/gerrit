@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "1077a0c2_53a36492",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2014-10-02T07:44:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "307ae4aa_1475d4bd",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 22
+      },
+      "revId": "787f3b3e4d8bf4b9d7d780e9fdcbad0536440076",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "307ae4aa_b485002d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectControl.java",
         "patchSetId": 3

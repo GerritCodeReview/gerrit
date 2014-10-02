@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1077a0c2_13df2c1d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 20
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-02T06:40:30Z",
+      "side": 1,
+      "message": "Looks like the example provided on GH is outdated and wasn\u0027t adjusted to API change: SecureStore is abstract class now and not interface. I created an issue on GH for secure-store example. Please update the example:\n\n  $ java -jar buck-out/gen/gerrit.war SwitchSecureStore --new-secure-store-lib ../example-gerrit-secure-store-lib/target/secure-store-lib-1.0-SNAPSHOT.jar -d ../test_site_master\nException in thread \"main\" java.lang.RuntimeException: Cannot find implementation of SecureStore interface in [...]target/secure-store-lib-1.0-SNAPSHOT.jar\n\tat com.google.gerrit.pgm.SwitchSecureStore.getNewSecureStoreClassName(SwitchSecureStore.java:152)\n\tat com.google.gerrit.pgm.SwitchSecureStore.run(SwitchSecureStore.java:64)",
+      "revId": "56051b62fb1fb1d5d854eb2aacac2551e5610de1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

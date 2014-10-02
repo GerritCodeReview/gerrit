@@ -140,7 +140,9 @@ public class PatchListLoader extends CacheLoader<PatchListKey, PatchList> {
 
       Set<String> paths = key.getOldId() != null
           ? FluentIterable.from(patchListCache.get(
-                  new PatchListKey(key.projectKey, null, key.getNewId(),
+                  new PatchListKey(key.projectKey, null,
+                  key.getBPatchSetId() - key.getAPatchSetId() >= 0 ?
+                      key.getNewId() : key.getOldId(),
                   key.getWhitespace())).getPatches())
               .transform(new Function<PatchListEntry, String>() {
                 @Override

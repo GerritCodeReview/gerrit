@@ -21,6 +21,7 @@ import static com.google.gerrit.acceptance.GitUtil.pushHead;
 import static com.google.gerrit.acceptance.GitUtil.rm;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.fail;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GitUtil.Commit;
@@ -142,6 +143,13 @@ public class PatchListCacheIT extends AbstractDaemonTest {
     pushHead(git, "refs/for/master", false);
     ObjectId a = getCurrentRevisionId(c.getChangeId());
 
+    // Logic relies on timestamps to separate commits.
+    try {
+      Thread.sleep(1000);
+    } catch (InterruptedException e) {
+      fail("Thread.sleep interrupted");
+    }
+
     // Change 1,2 (+FILE_A, +FILE_B, -FILE_D)
     add(git, FILE_B, "2");
     rm(git, FILE_C);
@@ -154,6 +162,12 @@ public class PatchListCacheIT extends AbstractDaemonTest {
     assertEquals(2, entries.size());
     assertModified(Patch.COMMIT_MSG, entries.get(0));
     assertAdded(FILE_B, entries.get(1));
+
+    // Compare Change 1,2 with Change 1,1 (-FILE_B)
+    List<PatchListEntry>  entriesReverse = getPatches(b, a);
+    assertEquals(2, entriesReverse.size());
+    assertModified(Patch.COMMIT_MSG, entriesReverse.get(0));
+    assertDeleted(FILE_B, entriesReverse.get(1));
   }
 
   @Test
@@ -171,11 +185,25 @@ public class PatchListCacheIT extends AbstractDaemonTest {
     pushHead(git, "refs/for/master", false);
     ObjectId a = getCurrentRevisionId(c.getChangeId());
 
+    // Logic relies on timestamps to separate commits.
+    try {
+      Thread.sleep(1000);
+    } catch (InterruptedException e) {
+      fail("Thread.sleep interrupted");
+    }
+
     // Change 2,1 (+FILE_B)
     git.reset().setMode(ResetType.HARD).setRef("HEAD~1").call();
     add(git, FILE_B, "2");
     createCommit(git, admin.getIdent(), SUBJECT_3);
     pushHead(git, "refs/for/master", false);
+
+    // Logic relies on timestamps to separate commits.
+    try {
+      Thread.sleep(1000);
+    } catch (InterruptedException e) {
+      fail("Thread.sleep interrupted");
+    }
 
     // Change 1,2 (+FILE_A, +FILE_C, -FILE_D)
     git.cherryPick().include(c.getCommit()).call();
@@ -189,6 +217,12 @@ public class PatchListCacheIT extends AbstractDaemonTest {
     assertEquals(2, entries.size());
     assertModified(Patch.COMMIT_MSG, entries.get(0));
     assertAdded(FILE_C, entries.get(1));
+
+    // Compare Change 1,2 with Change 1,1 (-FILE_C)
+    List<PatchListEntry>  entriesReverse = getPatches(b, a);
+    assertEquals(2, entriesReverse.size());
+    assertModified(Patch.COMMIT_MSG, entriesReverse.get(0));
+    assertDeleted(FILE_C, entriesReverse.get(1));
   }
 
   private static void assertAdded(String expectedNewName, PatchListEntry e) {

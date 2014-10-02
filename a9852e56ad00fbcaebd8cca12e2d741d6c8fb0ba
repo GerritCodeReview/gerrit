@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "1077a0c2_b3cf5864",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 19
+      },
+      "lineNbr": 1755,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-10-02T07:12:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d0d6e8da_911a3c8e",
+      "range": {
+        "startLine": 1755,
+        "startChar": 55,
+        "endLine": 1755,
+        "endChar": 73
+      },
+      "revId": "a9852e56ad00fbcaebd8cca12e2d741d6c8fb0ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f0d12ce3_f27b88ae",
         "filename": "Documentation/dev-plugins.txt",
         "patchSetId": 19
@@ -36,6 +60,30 @@
       "writtenOn": "2014-10-02T00:18:30Z",
       "side": 1,
       "message": "the implementation",
+      "range": {
+        "startLine": 1756,
+        "startChar": 18,
+        "endLine": 1756,
+        "endChar": 32
+      },
+      "revId": "a9852e56ad00fbcaebd8cca12e2d741d6c8fb0ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1077a0c2_53fcc484",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 19
+      },
+      "lineNbr": 1756,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-10-02T07:12:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f0d12ce3_f27b88ae",
       "range": {
         "startLine": 1756,
         "startChar": 18,

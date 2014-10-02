@@ -150,10 +150,16 @@ public class PatchListCacheIT extends AbstractDaemonTest {
     ObjectId b = getCurrentRevisionId(c.getChangeId());
 
     // Compare Change 1,1 with Change 1,2 (+FILE_B)
-    List<PatchListEntry>  entries = getPatches(a, b);
+    List<PatchListEntry>  entries = getPatches(a, b, 1, 2);
     assertEquals(2, entries.size());
     assertModified(Patch.COMMIT_MSG, entries.get(0));
     assertAdded(FILE_B, entries.get(1));
+
+    // Compare Change 1,2 with Change 1,1 (-FILE_B)
+    List<PatchListEntry>  entriesReverse = getPatches(b, a, 2, 1);
+    assertEquals(2, entriesReverse.size());
+    assertModified(Patch.COMMIT_MSG, entriesReverse.get(0));
+    assertDeleted(FILE_B, entriesReverse.get(1));
   }
 
   @Test
@@ -185,10 +191,16 @@ public class PatchListCacheIT extends AbstractDaemonTest {
     ObjectId b = getCurrentRevisionId(c.getChangeId());
 
     // Compare Change 1,1 with Change 1,2 (+FILE_C)
-    List<PatchListEntry>  entries = getPatches(a, b);
+    List<PatchListEntry>  entries = getPatches(a, b, 1, 2);
     assertEquals(2, entries.size());
     assertModified(Patch.COMMIT_MSG, entries.get(0));
     assertAdded(FILE_C, entries.get(1));
+
+    // Compare Change 1,2 with Change 1,1 (-FILE_C)
+    List<PatchListEntry>  entriesReverse = getPatches(b, a, 2, 1);
+    assertEquals(2, entriesReverse.size());
+    assertModified(Patch.COMMIT_MSG, entriesReverse.get(0));
+    assertDeleted(FILE_C, entriesReverse.get(1));
   }
 
   private static void assertAdded(String expectedNewName, PatchListEntry e) {
@@ -216,9 +228,12 @@ public class PatchListCacheIT extends AbstractDaemonTest {
     return patchListCache.get(getKey(null, getCurrentRevisionId(changeId))).getPatches();
   }
 
-  private List<PatchListEntry> getPatches(ObjectId revisionIdA, ObjectId revisionIdB)
+  private List<PatchListEntry> getPatches(ObjectId revisionIdA, ObjectId revisionIdB,
+      int aPatchSetId, int bPatchSetId)
       throws PatchListNotAvailableException, OrmException {
-    return patchListCache.get(getKey(revisionIdA, revisionIdB)).getPatches();
+    PatchListKey key = getKey(revisionIdA, revisionIdB);
+    key.setPatchSetIds(aPatchSetId, bPatchSetId);
+    return patchListCache.get(key).getPatches();
   }
 
   private PatchListKey getKey(ObjectId revisionIdA, ObjectId revisionIdB) throws OrmException {

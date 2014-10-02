@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "90571041_d7173c64",
+        "filename": "gerrit-war/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-10-02T21:05:05Z",
+      "side": 0,
+      "message": "Hm, what is exporting //gerrit-common:server such that you don\u0027t need to include it here (and elsewhere)?\n\nOh, //gerrit-plugin-api:lib, I guess?",
+      "revId": "31ced468c8e8bff4255fca6969887cc6d86b73eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

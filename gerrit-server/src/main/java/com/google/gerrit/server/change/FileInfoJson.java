@@ -45,17 +45,28 @@ public class FileInfoJson {
 
   Map<String, FileInfo> toFileInfoMap(Change change, PatchSet patchSet)
       throws PatchListNotAvailableException {
-    return toFileInfoMap(change, patchSet.getRevision(), null);
+    return toFileInfoMap(change, patchSet.getRevision(), patchSet.getId(), null);
   }
 
-  Map<String, FileInfo> toFileInfoMap(Change change, RevId revision, @Nullable PatchSet base)
+  Map<String, FileInfo> toFileInfoMap(Change change, RevId revision,
+      PatchSet.Id id, @Nullable PatchSet base)
       throws PatchListNotAvailableException {
     ObjectId a = (base == null)
         ? null
         : ObjectId.fromString(base.getRevision().get());
     ObjectId b = ObjectId.fromString(revision.get());
-    PatchList list = patchListCache.get(
-        new PatchListKey(change.getProject(), a, b, Whitespace.IGNORE_NONE));
+
+    PatchListKey patchListKey;
+    if (base != null) {
+      patchListKey = new PatchListKey(change.getProject(), a, b,
+          base.getId().get(), (id == null) ? 0 : id.get(),
+          Whitespace.IGNORE_NONE);
+    } else {
+      patchListKey = new PatchListKey(change.getProject(), a, b,
+        Whitespace.IGNORE_NONE);
+    }
+
+    PatchList list = patchListCache.get(patchListKey);
 
     Map<String, FileInfo> files = Maps.newTreeMap();
     for (PatchListEntry e : list.getPatches()) {

@@ -93,6 +93,23 @@
       "revId": "a9852e56ad00fbcaebd8cca12e2d741d6c8fb0ba",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1077a0c2_d3ef74c2",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 19
+      },
+      "lineNbr": 1757,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-02T07:30:38Z",
+      "side": 1,
+      "message": "Would it make sense to reference example secure-store-library implementation on GH: [1]? Or even better, as i suggested during the last Hackathon: create new project on gerrit-review: secure-store where different implementations can be provided (sample and real production ready implementations that are using symmetric encryption).\n\n [1] https://github.com/dluksza/example-gerrit-secure-store-lib",
+      "revId": "a9852e56ad00fbcaebd8cca12e2d741d6c8fb0ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

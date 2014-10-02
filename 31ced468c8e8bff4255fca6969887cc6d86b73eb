@@ -52,6 +52,24 @@
       "revId": "31ced468c8e8bff4255fca6969887cc6d86b73eb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "307ae4aa_54bfcc89",
+        "filename": "gerrit-war/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-02T22:03:12Z",
+      "side": 0,
+      "message": "It was unused.",
+      "parentUuid": "b0db3405_d010bc71",
+      "revId": "31ced468c8e8bff4255fca6969887cc6d86b73eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

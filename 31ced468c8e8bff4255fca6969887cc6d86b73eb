@@ -94,6 +94,30 @@
     },
     {
       "key": {
+        "uuid": "1077a0c2_13e08ca2",
+        "filename": "gerrit-server/BUCK",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-02T20:52:46Z",
+      "side": 1,
+      "message": "Forgot to mention that gerrit-common already has some common util classes, like FileUtil, IoUtil and other util classes.",
+      "parentUuid": "1077a0c2_d3d214e0",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 63
+      },
+      "revId": "31ced468c8e8bff4255fca6969887cc6d86b73eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1077a0c2_f3cf1035",
         "filename": "gerrit-server/BUCK",
         "patchSetId": 2

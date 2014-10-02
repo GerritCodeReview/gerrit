@@ -348,6 +348,30 @@
       "revId": "787f3b3e4d8bf4b9d7d780e9fdcbad0536440076",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "307ae4aa_d4c8bc60",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-02T07:50:47Z",
+      "side": 1,
+      "message": "That\u0027s not fair, you\u0027ve arbitrary skipped two lines, without your procedural approach wouldn\u0027t work. The whole truth is:\n\n  Set\u003cAccountGroup.UUID\u003e result \u003d new HashSet\u003cAccountGroup.UUID\u003e();\n  for (ProjectState p : tree()) {\n    result.addAll(p.localOwners);\n  }\n  return result.addAll;\n\nAs for my previous comment: I prefer functional style.",
+      "parentUuid": "307ae4aa_b438a0c2",
+      "range": {
+        "startLine": 324,
+        "startChar": 4,
+        "endLine": 326,
+        "endChar": 5
+      },
+      "revId": "787f3b3e4d8bf4b9d7d780e9fdcbad0536440076",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

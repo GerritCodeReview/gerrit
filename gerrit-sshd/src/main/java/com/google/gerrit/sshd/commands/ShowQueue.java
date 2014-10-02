@@ -17,13 +17,13 @@ package com.google.gerrit.sshd.commands;
 import static com.google.gerrit.sshd.CommandMetaData.Mode.MASTER_OR_SLAVE;
 
 import com.google.common.base.MoreObjects;
+import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.ConfigResource;
 import com.google.gerrit.server.config.ListTasks;
 import com.google.gerrit.server.config.ListTasks.TaskInfo;
 import com.google.gerrit.server.git.WorkQueue.Task;
-import com.google.gerrit.server.util.TimeUtil;
 import com.google.gerrit.sshd.AdminHighPriorityCommand;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;

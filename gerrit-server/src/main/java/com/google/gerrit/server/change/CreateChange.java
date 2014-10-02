@@ -16,6 +16,7 @@ package com.google.gerrit.server.change;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.Iterables;
+import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.Capable;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeStatus;
@@ -46,7 +47,6 @@ import com.google.gerrit.server.project.ProjectResource;
 import com.google.gerrit.server.project.ProjectsCollection;
 import com.google.gerrit.server.project.RefControl;
 import com.google.gerrit.server.ssh.NoSshInfo;
-import com.google.gerrit.server.util.TimeUtil;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;

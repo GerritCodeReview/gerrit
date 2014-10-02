@@ -18,7 +18,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import com.google.gerrit.server.util.TimeUtil;
+import com.google.gerrit.common.TimeUtil;
 import com.google.inject.Guice;
 import com.google.inject.Module;
 

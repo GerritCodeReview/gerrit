@@ -16,6 +16,7 @@ package com.google.gerrit.sshd;
 
 import com.google.common.util.concurrent.Atomics;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.annotations.PluginName;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.CurrentUser;
@@ -26,7 +27,6 @@ import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.git.WorkQueue.CancelableRunnable;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.NoSuchProjectException;
-import com.google.gerrit.server.util.TimeUtil;
 import com.google.gerrit.sshd.SshScope.Context;
 import com.google.gerrit.util.cli.CmdLineParser;
 import com.google.gerrit.util.cli.EndOfOptionsHandler;

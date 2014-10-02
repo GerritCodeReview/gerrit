@@ -11,6 +11,7 @@ EXCLUDES = [
   SRC + 'common/PluginData.java',
   SRC + 'common/FileUtil.java',
   SRC + 'common/IoUtil.java',
+  SRC + 'common/TimeUtil.java',
 ]
 
 java_library(
@@ -49,6 +50,7 @@ java_library(
     '//lib:gwtorm',
     '//lib:guava',
     '//lib/jgit:jgit',
+    '//lib/joda:joda-time',
   ],
   visibility = ['PUBLIC'],
 )

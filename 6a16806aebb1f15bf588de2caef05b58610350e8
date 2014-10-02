@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d0d6e8da_b1174065",
+        "filename": "tools/eclipse/project.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-10-02T02:30:46Z",
+      "side": 1,
+      "message": "This line is too long; it should be wrapped at \u003c80 characters.",
+      "revId": "6a16806aebb1f15bf588de2caef05b58610350e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d0d6e8da_7149d88c",
+        "filename": "tools/eclipse/project.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-10-02T02:30:46Z",
+      "side": 1,
+      "message": "This works:\n\n     print(\"\"\"\\\n \u003c?xml version\u003d\"1.0\" encoding\u003d\"UTF-8\"?\u003e\n \u003cclasspath\u003e\n   \u003cclasspathentry kind\u003d\"src\" path\u003d\"src/main/java\"/\u003e\n   %(testpath)s\n   \u003cclasspathentry kind\u003d\"con\" path\u003d\"org.eclipse.jdt.launching.JRE_CONTAINER\"/\u003e\n   \u003cclasspathentry combineaccessrules\u003d\"false\" kind\u003d\"src\" path\u003d\"/gerrit\"/\u003e\n   \u003cclasspathentry kind\u003d\"output\" path\u003d\"buck-out/eclipse/classes\"/\u003e\n \u003c/classpath\u003e\"\"\" % {\"testpath\": testpath}, file\u003dfd)",
+      "range": {
+        "startLine": 70,
+        "startChar": 0,
+        "endLine": 78,
+        "endChar": 25
+      },
+      "revId": "6a16806aebb1f15bf588de2caef05b58610350e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d0d6e8da_5144d475",
+        "filename": "tools/eclipse/project.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-10-02T02:30:46Z",
+      "side": 1,
+      "message": "This is also too long.",
+      "range": {
+        "startLine": 196,
+        "startChar": 68,
+        "endLine": 196,
+        "endChar": 85
+      },
+      "revId": "6a16806aebb1f15bf588de2caef05b58610350e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

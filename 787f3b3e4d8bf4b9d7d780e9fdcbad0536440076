@@ -228,6 +228,30 @@
       "revId": "787f3b3e4d8bf4b9d7d780e9fdcbad0536440076",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "307ae4aa_b438a0c2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-10-02T07:42:36Z",
+      "side": 1,
+      "message": "OK. Now again, compare any of these two with the:\n\n  for (ProjectState p : tree()) {\n    result.addAll(p.localOwners);\n  }",
+      "parentUuid": "1077a0c2_532e0485",
+      "range": {
+        "startLine": 324,
+        "startChar": 4,
+        "endLine": 326,
+        "endChar": 5
+      },
+      "revId": "787f3b3e4d8bf4b9d7d780e9fdcbad0536440076",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

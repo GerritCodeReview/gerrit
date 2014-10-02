@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.config;
 
+import com.google.common.annotations.VisibleForTesting;
+
 import org.eclipse.jgit.lib.Config;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDateTime;
@@ -52,12 +54,13 @@ public class ScheduleConfig {
     this(rc, section, subsection, keyInterval, keyStartTime, DateTime.now());
   }
 
-  /* For testing we need to be able to pass now */
+  @VisibleForTesting
   ScheduleConfig(Config rc, String section, String subsection, DateTime now) {
     this(rc, section, subsection, KEY_INTERVAL, KEY_STARTTIME, now);
   }
 
-  private ScheduleConfig(Config rc, String section, String subsection,
+  @VisibleForTesting
+  ScheduleConfig(Config rc, String section, String subsection,
       String keyInterval, String keyStartTime, DateTime now) {
     this.interval = interval(rc, section, subsection, keyInterval);
     if (interval > 0) {
@@ -68,10 +71,18 @@ public class ScheduleConfig {
     }
   }
 
+  /**
+   * Milliseconds between constructor invocation and first event time.
+   * <p>
+   * If there is any lag between the constructor invocation and queuing the
+   * object into an executor the event will run later, as there is no method
+   * to adjust for the scheduling delay.
+   */
   public long getInitialDelay() {
     return initialDelay;
   }
 
+  /** Number of milliseconds between events. */
   public long getInterval() {
     return interval;
   }

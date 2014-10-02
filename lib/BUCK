@@ -171,8 +171,8 @@ maven_jar(
 
 maven_jar(
   name = 'junit',
-  id = 'junit:junit:4.11',
-  sha1 = '4e031bb61df09069aeb2bffb4019e7a5034a4ee0',
+  id = 'junit:junit:4.10',
+  sha1 = 'e4f1766ce7404a08f45d859fb9c226fc9e41a861',
   license = 'DO_NOT_DISTRIBUTE',
   deps = ['//lib/hamcrest:hamcrest-core'],
 )

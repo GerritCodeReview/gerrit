@@ -19,14 +19,12 @@ import static java.util.concurrent.TimeUnit.HOURS;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.MINUTES;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
 import org.joda.time.DateTime;
 import org.junit.Test;
 
-import java.text.MessageFormat;
 import java.util.concurrent.TimeUnit;
 
 public class ScheduleConfigTest {
@@ -60,42 +58,32 @@ public class ScheduleConfigTest {
 
   @Test
   public void testCustomKeys() throws ConfigInvalidException {
-    Config rc = readConfig(MessageFormat.format(
-            "[section \"subsection\"]\n{0} = {1}\n{2} = {3}\n",
-            "myStartTime", "01:00", "myInterval", "1h"));
+    Config rc = new Config();
+    rc.setString("a", "b", "i", "1h");
+    rc.setString("a", "b", "s", "01:00");
 
-    ScheduleConfig scheduleConfig;
+    ScheduleConfig s = new ScheduleConfig(rc, "a", "b", "i", "s", NOW);
+    assertEquals(ms(1, HOURS), s.getInterval());
+    assertEquals(ms(1, HOURS), s.getInitialDelay());
 
-    scheduleConfig = new ScheduleConfig(rc, "section",
-        "subsection", "myInterval", "myStartTime");
-    assertNotEquals(scheduleConfig.getInterval(), ScheduleConfig.MISSING_CONFIG);
-    assertNotEquals(scheduleConfig.getInitialDelay(), ScheduleConfig.MISSING_CONFIG);
-
-    scheduleConfig = new ScheduleConfig(rc, "section",
-        "subsection", "nonExistent", "myStartTime");
-    assertEquals(scheduleConfig.getInterval(), ScheduleConfig.MISSING_CONFIG);
-    assertEquals(scheduleConfig.getInitialDelay(), ScheduleConfig.MISSING_CONFIG);
+    s = new ScheduleConfig(rc, "a", "b", "myInterval", "myStart", NOW);
+    assertEquals(s.getInterval(), ScheduleConfig.MISSING_CONFIG);
+    assertEquals(s.getInitialDelay(), ScheduleConfig.MISSING_CONFIG);
   }
 
   private static long initialDelay(String startTime, String interval)
       throws ConfigInvalidException {
-    return config(startTime, interval).getInitialDelay();
+    return new ScheduleConfig(
+        config(startTime, interval),
+        "section", "subsection", NOW).getInitialDelay();
   }
 
-  private static ScheduleConfig config(String startTime, String interval)
+  private static Config config(String startTime, String interval)
       throws ConfigInvalidException {
-    Config rc =
-        readConfig(MessageFormat.format(
-            "[section \"subsection\"]\nstartTime = {0}\ninterval = {1}\n",
-            startTime, interval));
-    return new ScheduleConfig(rc, "section", "subsection", NOW);
-  }
-
-  private static Config readConfig(String dat)
-      throws ConfigInvalidException {
-    Config config = new Config();
-    config.fromText(dat);
-    return config;
+    Config rc = new Config();
+    rc.setString("section", "subsection", "startTime", startTime);
+    rc.setString("section", "subsection", "interval", interval);
+    return rc;
   }
 
   private static long ms(int cnt, TimeUnit unit) {

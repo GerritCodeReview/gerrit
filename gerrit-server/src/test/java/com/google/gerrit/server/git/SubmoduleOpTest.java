@@ -24,6 +24,7 @@ import static org.easymock.EasyMock.verify;
 import static org.junit.Assert.assertEquals;
 
 import com.google.gerrit.common.ChangeHooks;
+import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
@@ -32,7 +33,6 @@ import com.google.gerrit.reviewdb.client.SubmoduleSubscription;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.reviewdb.server.SubmoduleSubscriptionAccess;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
-import com.google.gerrit.server.util.TimeUtil;
 import com.google.gwtorm.client.KeyUtil;
 import com.google.gwtorm.server.ListResultSet;
 import com.google.gwtorm.server.ResultSet;

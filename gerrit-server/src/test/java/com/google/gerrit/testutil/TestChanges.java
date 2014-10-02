@@ -17,6 +17,7 @@ package com.google.gerrit.testutil;
 import static org.easymock.EasyMock.expect;
 
 import com.google.common.collect.Ordering;
+import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -32,7 +33,6 @@ import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.project.ChangeControl;
-import com.google.gerrit.server.util.TimeUtil;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Injector;
 

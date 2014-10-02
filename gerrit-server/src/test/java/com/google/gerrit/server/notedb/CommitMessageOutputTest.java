@@ -19,9 +19,9 @@ import static com.google.gerrit.server.notedb.ReviewerState.REVIEWER;
 import static org.junit.Assert.assertEquals;
 
 import com.google.common.collect.ImmutableList;
+import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.server.util.TimeUtil;
 import com.google.gerrit.testutil.TestChanges;
 
 import org.eclipse.jgit.lib.ObjectId;

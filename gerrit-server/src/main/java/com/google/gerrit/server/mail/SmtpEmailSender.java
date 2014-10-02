@@ -15,11 +15,11 @@
 package com.google.gerrit.server.mail;
 
 import com.google.common.primitives.Ints;
+import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.Version;
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gerrit.server.util.TimeUtil;
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;

@@ -14,13 +14,13 @@
 
 package com.google.gerrit.server.contact;
 
+import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.errors.ContactInformationStoreException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.reviewdb.client.ContactInformation;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.UrlEncoded;
-import com.google.gerrit.server.util.TimeUtil;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.ProvisionException;

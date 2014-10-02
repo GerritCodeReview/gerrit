@@ -1,0 +1,349 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1077a0c2_530da4d9",
+        "filename": "gerrit-openid/BUCK",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-02T22:25:23Z",
+      "side": 1,
+      "message": "unused",
+      "range": {
+        "startLine": 12,
+        "startChar": 4,
+        "endLine": 12,
+        "endChar": 28
+      },
+      "revId": "0196b433014820a9613892a5ff2d587092da0560",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1077a0c2_731220fd",
+        "filename": "gerrit-openid/BUCK",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-02T22:25:23Z",
+      "side": 1,
+      "message": "unused",
+      "range": {
+        "startLine": 14,
+        "startChar": 4,
+        "endLine": 14,
+        "endChar": 32
+      },
+      "revId": "0196b433014820a9613892a5ff2d587092da0560",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "307ae4aa_74c4481d",
+        "filename": "gerrit-openid/BUCK",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-02T22:25:23Z",
+      "side": 1,
+      "message": "unused",
+      "range": {
+        "startLine": 16,
+        "startChar": 4,
+        "endLine": 16,
+        "endChar": 31
+      },
+      "revId": "0196b433014820a9613892a5ff2d587092da0560",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1077a0c2_13172cec",
+        "filename": "gerrit-pgm/BUCK",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-02T22:25:23Z",
+      "side": 1,
+      "message": "unused",
+      "range": {
+        "startLine": 13,
+        "startChar": 4,
+        "endLine": 13,
+        "endChar": 28
+      },
+      "revId": "0196b433014820a9613892a5ff2d587092da0560",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "307ae4aa_14c95434",
+        "filename": "gerrit-pgm/BUCK",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-02T22:25:23Z",
+      "side": 1,
+      "message": "unused",
+      "range": {
+        "startLine": 15,
+        "startChar": 4,
+        "endLine": 15,
+        "endChar": 32
+      },
+      "revId": "0196b433014820a9613892a5ff2d587092da0560",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "307ae4aa_34ced03d",
+        "filename": "gerrit-pgm/BUCK",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-02T22:25:23Z",
+      "side": 1,
+      "message": "unused",
+      "range": {
+        "startLine": 17,
+        "startChar": 4,
+        "endLine": 17,
+        "endChar": 32
+      },
+      "revId": "0196b433014820a9613892a5ff2d587092da0560",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "307ae4aa_d4d2fcdf",
+        "filename": "gerrit-pgm/BUCK",
+        "patchSetId": 3
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-02T22:25:23Z",
+      "side": 1,
+      "message": "unused",
+      "range": {
+        "startLine": 43,
+        "startChar": 3,
+        "endLine": 43,
+        "endChar": 28
+      },
+      "revId": "0196b433014820a9613892a5ff2d587092da0560",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1077a0c2_331ca80d",
+        "filename": "gerrit-pgm/BUCK",
+        "patchSetId": 3
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-02T22:25:23Z",
+      "side": 1,
+      "message": "unused",
+      "range": {
+        "startLine": 45,
+        "startChar": 4,
+        "endLine": 45,
+        "endChar": 32
+      },
+      "revId": "0196b433014820a9613892a5ff2d587092da0560",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1077a0c2_d300d49f",
+        "filename": "gerrit-pgm/BUCK",
+        "patchSetId": 3
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-02T22:25:23Z",
+      "side": 1,
+      "message": "unused",
+      "range": {
+        "startLine": 47,
+        "startChar": 4,
+        "endLine": 47,
+        "endChar": 32
+      },
+      "revId": "0196b433014820a9613892a5ff2d587092da0560",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1077a0c2_f3fdd044",
+        "filename": "gerrit-pgm/BUCK",
+        "patchSetId": 3
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-02T22:25:23Z",
+      "side": 1,
+      "message": "unused",
+      "range": {
+        "startLine": 81,
+        "startChar": 4,
+        "endLine": 81,
+        "endChar": 32
+      },
+      "revId": "0196b433014820a9613892a5ff2d587092da0560",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "307ae4aa_f4cff834",
+        "filename": "gerrit-pgm/BUCK",
+        "patchSetId": 3
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-02T22:25:23Z",
+      "side": 1,
+      "message": "unused",
+      "range": {
+        "startLine": 123,
+        "startChar": 4,
+        "endLine": 123,
+        "endChar": 28
+      },
+      "revId": "0196b433014820a9613892a5ff2d587092da0560",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "307ae4aa_94dc84f4",
+        "filename": "gerrit-solr/BUCK",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-02T22:25:23Z",
+      "side": 1,
+      "message": "unused",
+      "range": {
+        "startLine": 9,
+        "startChar": 4,
+        "endLine": 9,
+        "endChar": 28
+      },
+      "revId": "0196b433014820a9613892a5ff2d587092da0560",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "307ae4aa_b4d98003",
+        "filename": "gerrit-solr/BUCK",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-02T22:25:23Z",
+      "side": 1,
+      "message": "unused",
+      "range": {
+        "startLine": 13,
+        "startChar": 4,
+        "endLine": 13,
+        "endChar": 32
+      },
+      "revId": "0196b433014820a9613892a5ff2d587092da0560",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1077a0c2_b30758b3",
+        "filename": "gerrit-war/BUCK",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-02T22:25:23Z",
+      "side": 1,
+      "message": "unused",
+      "range": {
+        "startLine": 16,
+        "startChar": 4,
+        "endLine": 16,
+        "endChar": 28
+      },
+      "revId": "0196b433014820a9613892a5ff2d587092da0560",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "307ae4aa_54e6ecc3",
+        "filename": "gerrit-war/BUCK",
+        "patchSetId": 3
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-02T22:25:23Z",
+      "side": 1,
+      "message": "unused",
+      "range": {
+        "startLine": 20,
+        "startChar": 4,
+        "endLine": 20,
+        "endChar": 32
+      },
+      "revId": "0196b433014820a9613892a5ff2d587092da0560",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

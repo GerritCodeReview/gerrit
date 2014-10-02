@@ -53,9 +53,17 @@ public class FileInfoJson {
         ? null
         : ObjectId.fromString(base.getRevision().get());
     ObjectId b = ObjectId.fromString(patchSet.getRevision().get());
-    PatchList list = patchListCache.get(
-        new PatchListKey(change.getProject(), a, b, Whitespace.IGNORE_NONE));
 
+    PatchListKey patchListKey;
+    if (base != null) {
+      patchListKey = new PatchListKey(change.getProject(), a, b,
+          base.getId().get(), patchSet.getId().get(), Whitespace.IGNORE_NONE);
+    } else {
+      patchListKey = new PatchListKey(change.getProject(), a, b,
+        Whitespace.IGNORE_NONE);
+    }
+
+    PatchList list = patchListCache.get(patchListKey);
     Map<String, FileInfo> files = Maps.newTreeMap();
     for (PatchListEntry e : list.getPatches()) {
       FileInfo d = new FileInfo();

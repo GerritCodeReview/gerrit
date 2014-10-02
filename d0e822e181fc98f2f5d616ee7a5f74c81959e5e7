@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "d0d6e8da_51a054ad",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-10-02T23:20:13Z",
+      "side": 1,
+      "message": "Hah. I don\u0027t have that kind of time, I copy and paste the two emails from my existing .git/config entries and move on with life.",
+      "parentUuid": "d0d6e8da_91b6bcfd",
+      "revId": "d0e822e181fc98f2f5d616ee7a5f74c81959e5e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b0db3405_901a348e",
         "filename": "contrib/git-push-review",
         "patchSetId": 1

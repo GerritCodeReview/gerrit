@@ -16,6 +16,24 @@
       "revId": "31ced468c8e8bff4255fca6969887cc6d86b73eb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "307ae4aa_9445640e",
+        "filename": "gerrit-war/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-02T21:46:14Z",
+      "side": 0,
+      "message": "Plugin-api:lib isn\u0027t involved in gerrit.war. It is so-to-say parallel artifact to gerrit.war.\n\nHere we don\u0027t need to include //gerrit-common:server directly, because the sources in this project don\u0027t use TimeUtil and friends.\n\nOr was your question related to: why in the end //gerrit-common:server included in gerrit.war? This works not over export but explictly gathered over transitive dependency graph:\n\n* gerrit_war() rule calls war() rule\n* war() rule calls pack_war.py\n* pack_war.py calls `buck audit classpath //gerrit-war:init [...]` and uses the output to gather the libs.\n\nCheck graphviz (dot) representation of Buck dep graph to see exact answer to your question which libs are in charge for gerrit-common/server to be included:\n\n  $ buck audit classpath --dot //gerrit-war:init | grep \" -\u003e \\\"//gerrit-common:server\"\nUsing buckd.\n  \"//gerrit-cache-h2:cache-h2\" -\u003e \"//gerrit-common:server\";\n  \"//gerrit-util-cli:cli\" -\u003e \"//gerrit-common:server\";\n  \"//gerrit-server:server\" -\u003e \"//gerrit-common:server\";\n  \"//gerrit-httpd:httpd\" -\u003e \"//gerrit-common:server\";\n  \"//gerrit-pgm:init-api\" -\u003e \"//gerrit-common:server\";\n  \"//gerrit-sshd:sshd\" -\u003e \"//gerrit-common:server\";\n  \"//gerrit-pgm:util\" -\u003e \"//gerrit-common:server\";\n  \"//gerrit-lucene:lucene\" -\u003e \"//gerrit-common:server\";\n  \"//gerrit-openid:openid\" -\u003e \"//gerrit-common:server\";\n  \"//gerrit-pgm:init\" -\u003e \"//gerrit-common:server\";",
+      "parentUuid": "90571041_d7173c64",
+      "revId": "31ced468c8e8bff4255fca6969887cc6d86b73eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

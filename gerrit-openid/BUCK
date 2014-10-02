@@ -13,7 +13,6 @@ java_library(
     '//gerrit-server:config',
     '//gerrit-server:lifecycle',
     '//gerrit-server:server',
-    '//gerrit-server:time-util',
     '//lib:guava',
     '//lib:gwtorm',
     '//lib/guice:guice',

@@ -14,9 +14,9 @@
 
 package com.google.gerrit.sshd.commands;
 
+import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.Version;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.util.TimeUtil;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gwtorm.jdbc.JdbcSchema;

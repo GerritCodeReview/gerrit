@@ -11,8 +11,8 @@ import com.google.common.hash.BloomFilter;
 import com.google.common.hash.Funnel;
 import com.google.common.hash.Funnels;
 import com.google.common.hash.PrimitiveSink;
+import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.server.cache.PersistentCache;
-import com.google.gerrit.server.util.TimeUtil;
 import com.google.inject.TypeLiteral;
 
 import org.h2.jdbc.JdbcSQLException;

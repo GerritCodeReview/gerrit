@@ -31,6 +31,7 @@ import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
+import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
@@ -41,7 +42,6 @@ import com.google.gerrit.reviewdb.client.PatchLineComment.Status;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.server.git.VersionedMetaData.BatchMetaDataUpdate;
-import com.google.gerrit.server.util.TimeUtil;
 import com.google.gwtorm.server.OrmException;
 
 import org.eclipse.jgit.lib.BatchRefUpdate;

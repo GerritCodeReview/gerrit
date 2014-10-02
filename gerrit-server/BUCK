@@ -11,7 +11,6 @@ CONFIG_SRCS = [SRC_DIR + '/server/config/' + f for f in [
   'SitePaths.java',
 ]]
 LIFECYCLE_SRCS = glob([SRC_DIR + '/lifecycle/**/*.java'])
-TIME_UTIL_SRCS = glob([SRC_DIR + '/server/util/TimeUtil.java'])
 
 SRCS = glob(
   ['src/main/java/**/*.java'],
@@ -20,7 +19,6 @@ SRCS = glob(
     + CONFIG_SRCS
     + CONSTANTS_SRCS
     + LIFECYCLE_SRCS
-    + TIME_UTIL_SRCS
   ),
 )
 RESOURCES =  glob(['src/main/resources/**/*'])
@@ -79,7 +77,6 @@ java_library(
     ':config',
     ':constants',
     ':lifecycle',
-    ':time-util',
     '//gerrit-antlr:query_exception',
     '//gerrit-antlr:query_parser',
     '//gerrit-common:annotations',
@@ -141,13 +138,6 @@ java_sources(
   visibility = ['PUBLIC'],
 )
 
-java_library(
-  name = 'time-util',
-  srcs = TIME_UTIL_SRCS,
-  deps = ['//lib/joda:joda-time'],
-  visibility = ['PUBLIC'],
-)
-
 TESTUTIL = glob([
   'src/test/java/com/google/gerrit/testutil/**/*.java',
   'src/test/java/com/google/gerrit/server/project/Util.java',
@@ -159,7 +149,6 @@ java_library(
     ':config',
     ':lifecycle',
     ':server',
-    ':time-util',
     '//gerrit-common:server',
     '//gerrit-cache-h2:cache-h2',
     '//gerrit-lucene:lucene',
@@ -200,7 +189,7 @@ java_library(
   deps = [
     ':config',
     ':server',
-    ':time-util',
+    '//gerrit-common:server',
     '//lib:junit',
     '//lib/guice:guice',
     '//lib/prolog:prolog-cafe',
@@ -215,7 +204,6 @@ java_test(
     ':prolog_test_case',
     ':server',
     ':testutil',
-    ':time-util',
     '//gerrit-common:server',
     '//gerrit-reviewdb:server',
     '//gerrit-server/src/main/prolog:common',
@@ -239,7 +227,6 @@ java_test(
     ':lifecycle',
     ':server',
     ':testutil',
-    ':time-util',
     '//gerrit-antlr:query_exception',
     '//gerrit-antlr:query_parser',
     '//gerrit-common:annotations',
@@ -270,7 +257,6 @@ java_test(
     ':lifecycle',
     ':server',
     ':testutil',
-    ':time-util',
     '//gerrit-antlr:query_exception',
     '//gerrit-common:annotations',
     '//gerrit-common:server',

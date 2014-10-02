@@ -17,7 +17,6 @@ java_library(
     '//gerrit-server:config',
     '//gerrit-server:lifecycle',
     '//gerrit-server:server',
-    '//gerrit-server:time-util',
     '//gerrit-server/src/main/prolog:common',
     '//gerrit-solr:solr',
     '//gerrit-sshd:sshd',

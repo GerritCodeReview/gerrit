@@ -40,8 +40,8 @@ permission by commenting on the same issue.
 * Generate and publish a PGP key
 +
 Generate and publish a PGP key as described in
-link:https://docs.sonatype.org/display/Repository/How+To+Generate+PGP+Signatures+With+Maven[
-How To Generate PGP Signatures With Maven].
+link:http://central.sonatype.org/pages/working-with-pgp-signatures.html[
+Working with PGP Signatures].
 +
 Please be aware that after publishing your public key it may take a
 while until it is visible to the Sonatype server.

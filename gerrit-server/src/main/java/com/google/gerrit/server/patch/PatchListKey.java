@@ -39,6 +39,8 @@ public class PatchListKey implements Serializable {
   private transient ObjectId oldId;
   private transient ObjectId newId;
   private transient Whitespace whitespace;
+  private transient int oldSeqNum;
+  private transient int newSeqNum;
 
   transient Project.NameKey projectKey; // not required to form the key
 
@@ -48,6 +50,24 @@ public class PatchListKey implements Serializable {
     oldId = a != null ? a.copy() : null;
     newId = b.copy();
     whitespace = ws;
+  }
+
+  public PatchListKey(Project.NameKey pk, AnyObjectId a, AnyObjectId b,
+      int aSeqNum, int bSeqNum,  final Whitespace ws) {
+    projectKey = pk;
+    oldId = a != null ? a.copy() : null;
+    newId = b.copy();
+    whitespace = ws;
+    oldSeqNum = aSeqNum;
+    newSeqNum = bSeqNum;
+  }
+
+  public int getOldSeqNum() {
+    return oldSeqNum;
+  }
+
+  public int getNewSeqNum() {
+    return newSeqNum;
   }
 
   /** Old side commit, or null to assume ancestor or combined merge. */
@@ -101,6 +121,12 @@ public class PatchListKey implements Serializable {
     n.append(oldId != null ? oldId.name() : "BASE");
     n.append("..");
     n.append(newId.name());
+    if (oldSeqNum > 0 && newSeqNum > 0) {
+      n.append(" ");
+      n.append(oldSeqNum);
+      n.append("..");
+      n.append(newSeqNum);
+    }
     n.append(" ");
     n.append(whitespace.name());
     n.append("]");

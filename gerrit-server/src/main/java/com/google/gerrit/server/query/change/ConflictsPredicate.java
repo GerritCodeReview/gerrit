@@ -35,7 +35,6 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Provider;
 
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
-import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
@@ -112,12 +111,7 @@ class ConflictsPredicate extends OrPredicate<ChangeData> {
             Repository repo =
                 args.repoManager.openRepository(otherChange.getProject());
             try {
-              RevWalk rw = new RevWalk(repo) {
-                @Override
-                protected RevCommit createCommit(AnyObjectId id) {
-                  return new CodeReviewCommit(id);
-                }
-              };
+              RevWalk rw = CodeReviewCommit.newRevWalk(repo);
               try {
                 RevFlag canMergeFlag = rw.newFlag("CAN_MERGE");
                 CodeReviewCommit commit =

@@ -73,7 +73,6 @@ import com.google.inject.assistedinject.Assisted;
 
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
-import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
@@ -389,12 +388,7 @@ public class MergeOp {
       throw new MergeException(m, err);
     }
 
-    rw = new RevWalk(repo) {
-      @Override
-      protected RevCommit createCommit(final AnyObjectId id) {
-        return new CodeReviewCommit(id);
-      }
-    };
+    rw = CodeReviewCommit.newRevWalk(repo);
     rw.sort(RevSort.TOPO);
     rw.sort(RevSort.COMMIT_TIME_DESC, true);
     canMergeFlag = rw.newFlag("CAN_MERGE");

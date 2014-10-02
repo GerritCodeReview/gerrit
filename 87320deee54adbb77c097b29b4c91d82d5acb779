@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1077a0c2_13288c73",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-02T06:13:13Z",
+      "side": 1,
+      "message": "Querying on whole documentation directory reveals that we are not consistent with anchor naming conventions:\n\n  $ grep --regex \"\\[\\[[a-z_]*\\]\\]\" *.txt | wc -l\n  269\n  $ grep --regex \"\\[\\[[a-z-]*\\]\\]\" *.txt | wc -l\n  583\n\nIf we harmonize them, do it in all places?",
+      "revId": "87320deee54adbb77c097b29b4c91d82d5acb779",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

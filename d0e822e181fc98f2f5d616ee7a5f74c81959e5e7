@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "d0d6e8da_91b6bcfd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-10-02T23:10:52Z",
+      "side": 1,
+      "message": "I wrote this in anger after having no ready alias for %r\u003dsop@google.com,r\u003dedwin.kempin@gmail.com\n\nAutodetecting the upstream origin and branch is a bonus.",
+      "parentUuid": "d0d6e8da_11c3ac65",
+      "revId": "d0e822e181fc98f2f5d616ee7a5f74c81959e5e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b0db3405_901a348e",
         "filename": "contrib/git-push-review",
         "patchSetId": 1

@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "307ae4aa_f43e18b0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2014-10-02T07:43:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "307ae4aa_b485002d",
+      "range": {
+        "startLine": 294,
+        "startChar": 22,
+        "endLine": 294,
+        "endChar": 23
+      },
+      "revId": "787f3b3e4d8bf4b9d7d780e9fdcbad0536440076",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1077a0c2_d393f462",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
         "patchSetId": 3
@@ -76,6 +100,30 @@
       "writtenOn": "2014-10-01T13:52:50Z",
       "side": 1,
       "message": "Unneeded, just inline tree().",
+      "range": {
+        "startLine": 323,
+        "startChar": 4,
+        "endLine": 323,
+        "endChar": 31
+      },
+      "revId": "787f3b3e4d8bf4b9d7d780e9fdcbad0536440076",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1077a0c2_f3ecf0cf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2014-10-02T07:43:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1077a0c2_b385182d",
       "range": {
         "startLine": 323,
         "startChar": 4,
@@ -242,6 +290,30 @@
       "writtenOn": "2014-10-02T07:42:36Z",
       "side": 1,
       "message": "OK. Now again, compare any of these two with the:\n\n  for (ProjectState p : tree()) {\n    result.addAll(p.localOwners);\n  }",
+      "parentUuid": "1077a0c2_532e0485",
+      "range": {
+        "startLine": 324,
+        "startChar": 4,
+        "endLine": 326,
+        "endChar": 5
+      },
+      "revId": "787f3b3e4d8bf4b9d7d780e9fdcbad0536440076",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "307ae4aa_943b24bf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2014-10-02T07:43:37Z",
+      "side": 1,
+      "message": "The Guava guys are not exactly encouraging to use functional programming as a general idiom the place: https://code.google.com/p/guava-libraries/wiki/FunctionalExplained",
       "parentUuid": "1077a0c2_532e0485",
       "range": {
         "startLine": 324,

@@ -287,7 +287,7 @@ public class ChangeEdits implements
           editInfo.files =
               fileInfoJson.toFileInfoMap(
                   rsrc.getChange(),
-                  edit.get().getRevision(),
+                  edit.get().getRevision(), null,
                   basePatchSet);
         } catch (PatchListNotAvailableException e) {
           throw new ResourceNotFoundException(e.getMessage());

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b0db3405_302ca8bf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-10-02T21:38:09Z",
+      "side": 1,
+      "message": "This was where the need for the cache-h2 dependency came from. After writing all of this I\u0027m not especially convinced that injecting the whole cache shebang into Schema_100 is actually intractable.",
+      "range": {
+        "startLine": 21,
+        "startChar": 50,
+        "endLine": 23,
+        "endChar": 8
+      },
+      "revId": "a64f52300b1ea407258dd1c4a15c558f9944f203",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

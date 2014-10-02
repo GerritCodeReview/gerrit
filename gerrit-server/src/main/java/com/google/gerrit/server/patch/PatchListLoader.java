@@ -146,7 +146,9 @@ public class PatchListLoader extends CacheLoader<PatchListKey, PatchList> {
 
       Set<String> paths = key.getOldId() != null
           ? FluentIterable.from(patchListCache.get(
-                  new PatchListKey(key.projectKey, null, key.getNewId(),
+                  new PatchListKey(key.projectKey, null,
+                  key.getNewSeqNum() >= key.getOldSeqNum() ?
+                      key.getNewId() : key.getOldId(),
                   key.getWhitespace())).getPatches())
               .transform(new Function<PatchListEntry, String>() {
                 @Override
@@ -156,6 +158,22 @@ public class PatchListLoader extends CacheLoader<PatchListKey, PatchList> {
               })
           .toSet()
           : null;
+
+          Set<String> pathsReverse = key.getOldId() != null
+              ? FluentIterable.from(patchListCache.get(
+                      new PatchListKey(key.projectKey, null,
+                      key.getNewSeqNum() >= key.getOldSeqNum() ?
+                          key.getOldId() : key.getNewId(),
+                      key.getWhitespace())).getPatches())
+                  .transform(new Function<PatchListEntry, String>() {
+                    @Override
+                    public String apply(PatchListEntry entry) {
+                      return entry.getNewName();
+                    }
+                  })
+              .toSet()
+              : null;
+
       int cnt = diffEntries.size();
       List<PatchListEntry> entries = new ArrayList<>();
       entries.add(newCommitMessage(cmp, reader,
@@ -164,6 +182,10 @@ public class PatchListLoader extends CacheLoader<PatchListKey, PatchList> {
         DiffEntry diffEntry = diffEntries.get(i);
         if (paths == null || paths.contains(diffEntry.getNewPath())
             || paths.contains(diffEntry.getOldPath())) {
+          FileHeader fh = df.toFileHeader(diffEntry);
+          entries.add(newEntry(aTree, fh));
+        } else if (pathsReverse.contains(diffEntry.getNewPath())
+            || pathsReverse.contains(diffEntry.getOldPath())) {
           FileHeader fh = df.toFileHeader(diffEntry);
           entries.add(newEntry(aTree, fh));
         }

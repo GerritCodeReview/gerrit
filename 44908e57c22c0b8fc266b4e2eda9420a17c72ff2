@@ -22,6 +22,30 @@
       "revId": "44908e57c22c0b8fc266b4e2eda9420a17c72ff2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1077a0c2_13adec7c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2014-10-02T07:58:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "307ae4aa_94d2440d",
+      "range": {
+        "startLine": 321,
+        "startChar": 48,
+        "endLine": 321,
+        "endChar": 65
+      },
+      "revId": "44908e57c22c0b8fc266b4e2eda9420a17c72ff2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

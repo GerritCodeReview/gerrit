@@ -34,6 +34,24 @@
       "revId": "31ced468c8e8bff4255fca6969887cc6d86b73eb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b0db3405_d010bc71",
+        "filename": "gerrit-war/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-10-02T21:56:27Z",
+      "side": 0,
+      "message": "My question was: why is it ok to remove this line without replacing it with a dep on //gerrit-common:server?\n\nI\u0027m perfectly willing to believe that I added it unnecessarily in my previous change. I don\u0027t really care.",
+      "parentUuid": "307ae4aa_9445640e",
+      "revId": "31ced468c8e8bff4255fca6969887cc6d86b73eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

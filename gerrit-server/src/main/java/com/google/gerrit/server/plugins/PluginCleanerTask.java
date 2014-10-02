@@ -14,8 +14,8 @@
 
 package com.google.gerrit.server.plugins;
 
+import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.server.git.WorkQueue;
-import com.google.gerrit.server.util.TimeUtil;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 

@@ -2,11 +2,11 @@ java_library(
   name = 'cache-h2',
   srcs = glob(['src/main/java/**/*.java']),
   deps = [
+    '//gerrit-common:server',
     '//gerrit-extension-api:api',
     '//gerrit-server:cache',
     '//gerrit-server:config',
     '//gerrit-server:lifecycle',
-    '//gerrit-server:time-util',
     '//lib:guava',
     '//lib:h2',
     '//lib/guice:guice',

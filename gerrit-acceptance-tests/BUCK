@@ -16,7 +16,6 @@ java_library(
     '//gerrit-server:lifecycle',
     '//gerrit-server:server',
     '//gerrit-server:testutil',
-    '//gerrit-server:time-util',
     '//gerrit-sshd:sshd',
 
     '//lib:args4j',

@@ -750,6 +750,22 @@ link:cmd-flush-caches.html[gerrit flush-caches].
 +
 Default is 5 minutes.
 
+[[cache.projects.loadOnStartup]]cache.projects.loadOnStartup::
++
+If the project cache should be loaded during server startup. The cache is loaded
+concurrently. Admins should ensure that the cache size is not smaller than the
+number of repos. Cache size is allocated under cache.projects.memoryLimit.
++
+Default is false, disabled.
+
+[[cache.projects.loadThreads]]cache.projects.loadThreads::
++
+Only relevant if loadOnStartup is true. The number of threads to allocate
+for loading the cache at startup, these threads will die out after the cache is
+loaded.
++
+Default is the number of CPUs.
+
 [[change]]
 === Section change
 

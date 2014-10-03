@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1077a0c2_f324f04e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_100.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-03T09:00:33Z",
+      "side": 1,
+      "message": "So this design change make the reshuffling of gerrit-server library unnecessary. But this would require to reindex the site with --recheck-mergeable option. With previous design where you\u0027ve populated the mergeable data from the database in persistent H2 cache this wasn\u0027t strictly necessary.",
+      "revId": "9b3514be106a76023449dce641a298d396c55800",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

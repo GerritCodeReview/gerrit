@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d0d6e8da_f1170836",
+        "filename": "Documentation/user-upload.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-10-03T10:04:53Z",
+      "side": 1,
+      "message": "It would be better to write this in the same style as is done for the email option below.\n\nAlso it should be mentioned that the option can be given multiple times.\n\n Review labels can be applied to the change\n \n \u003d\u003d\u003d\u003d\n   git push ...\n \u003d\u003d\u003d\u003d\n \n The `l\u003d\u0027label\u0027` option may be specified more than once to\n apply multiple review labels.\n \n The value is optional.  If not specified, it defaults to +1.",
+      "range": {
+        "startLine": 158,
+        "startChar": 0,
+        "endLine": 168,
+        "endChar": 4
+      },
+      "revId": "944aad8b38096bddc67f2f077adf5ddb654a5ef3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0d12ce3_b28ae022",
+        "filename": "Documentation/user-upload.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-10-03T10:04:53Z",
+      "side": 1,
+      "message": "See here for comparison.",
+      "range": {
+        "startLine": 186,
+        "startChar": 0,
+        "endLine": 198,
+        "endChar": 40
+      },
+      "revId": "944aad8b38096bddc67f2f077adf5ddb654a5ef3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

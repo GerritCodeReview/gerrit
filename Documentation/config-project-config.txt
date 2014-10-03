@@ -247,6 +247,7 @@ This is what the default groups file for +All-Projects.git+ looks like:
 #
 3d6da7dc4e99e6f6e5b5196e21b6f504fc530bba       Administrators
 global:Anonymous-Users                         Anonymous Users
+global:Change-Owner                            Change Owner
 global:Project-Owners                          Project Owners
 global:Registered-Users                        Registered Users
 ----

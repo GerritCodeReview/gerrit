@@ -269,7 +269,7 @@ Retrieves the HTTP password of an account.
   Content-Type: application/json;charset=UTF-8
 
   )]}'
-  "ETxgpih8xrNs"
+  "Qmxlc21ydCB1YmVyIGFsbGVzIGluIGRlciBXZWx0IQ"
 ----
 
 If the account does not have an HTTP password the response is `404 Not Found`.

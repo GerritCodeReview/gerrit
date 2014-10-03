@@ -221,7 +221,7 @@ For more about Change-Ids, see link:user-changeid.html[Change-Id Lines].
 [[manual_replacement_mapping]]
 ==== Manual Replacement Mapping
 
-.Deprecation Warning
+.Note
 ****
 The remainder of this section describes a manual method of replacing
 changes by matching each commit name to an existing change number.

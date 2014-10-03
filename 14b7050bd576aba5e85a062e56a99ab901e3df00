@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "307ae4aa_34e570b3",
+        "filename": "Documentation/user-upload.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-10-03T08:53:35Z",
+      "side": 1,
+      "message": "perhaps mention that the default is +1 and that the format should be %l\u003d\u003clabel\u003e+\u003cvalue\u003e",
+      "range": {
+        "startLine": 160,
+        "startChar": 25,
+        "endLine": 160,
+        "endChar": 35
+      },
+      "revId": "14b7050bd576aba5e85a062e56a99ab901e3df00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

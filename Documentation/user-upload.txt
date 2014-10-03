@@ -155,8 +155,8 @@ updates:
   git push ssh://john.doe@git.example.com:29418/kernel/common HEAD:refs/for/experimental%topic=driver/i42
 ====
 
-Review labels can be applied to the change by using the -l option
-in the reference:
+Review labels can be applied to the change by using the `label` (or `l`)
+option in the reference:
 
 ====
   git push ssh://john.doe@git.example.com:29418/kernel/common HEAD:refs/for/experimental%l=Verified+1
@@ -185,8 +185,8 @@ shorter URLs on the command line, such as:
 ====
 
 Specific reviewers can be requested and/or additional 'carbon
-copies' of the notification message may be sent by including these
-as options in the reference
+copies' of the notification message may be sent by including the
+`reviewer` (or `r`) and `cc` options in the reference:
 
 ====
   git push tr:kernel/common HEAD:refs/for/experimental%r=a@a.com,cc=b@o.com

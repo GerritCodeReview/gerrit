@@ -1131,7 +1131,8 @@ public class ReceiveCommits {
     @Option(name = "--submit", usage = "immediately submit the change")
     boolean submit;
 
-    @Option(name = "-r", metaVar = "EMAIL", usage = "add reviewer to changes")
+    @Option(name = "--reviewer", aliases = {"-r"}, metaVar = "EMAIL",
+        usage = "add reviewer to changes")
     void reviewer(Account.Id id) {
       reviewer.add(id);
     }
@@ -1146,7 +1147,7 @@ public class ReceiveCommits {
       draft = !publish;
     }
 
-    @Option(name = "-l", metaVar = "LABEL+VALUE",
+    @Option(name = "--label", aliases = {"-l"}, metaVar = "LABEL+VALUE",
         usage = "label(s) to assign (defaults to +1 if no value provided")
     void addLabel(final String token) throws CmdLineException {
       LabelVote v = LabelVote.parse(token);

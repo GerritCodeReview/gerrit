@@ -16,6 +16,24 @@
       "revId": "9b3514be106a76023449dce641a298d396c55800",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d0d6e8da_312d9084",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_100.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-10-03T17:49:44Z",
+      "side": 1,
+      "message": "My current plan is to modify the reindexer (both online and offline) such that when it detects that the mergeability cache is empty, it rechecks mergeability for all changes automatically. There have already been 2 index schema changes since 2.10, so this will trigger for anybody upgrading from 2.10 to a later stable version.\n\n(People running a dev version who have already upgraded to v13 will have to run --recheck-mergeable manually. We could in theory trigger an online reindex of the same schema version in this case, but I don\u0027t think it\u0027s worth putting significant effort into.)",
+      "parentUuid": "1077a0c2_f324f04e",
+      "revId": "9b3514be106a76023449dce641a298d396c55800",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

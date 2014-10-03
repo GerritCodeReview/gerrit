@@ -237,6 +237,8 @@ public class CommitValidators {
       sb.append("Hint: To automatically insert Change-Id, install the hook:\n");
       sb.append(getCommitMessageHookInstallationHint());
       sb.append('\n');
+      sb.append("And then amend the commit:\n");
+      sb.append("  git commit --amend\n");
 
       return new CommitValidationMessage(sb.toString(), false);
     }

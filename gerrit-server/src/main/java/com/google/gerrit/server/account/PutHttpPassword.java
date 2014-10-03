@@ -43,7 +43,7 @@ public class PutHttpPassword implements RestModifyView<AccountResource, Input> {
     public boolean generate;
   }
 
-  private static final int LEN = 12;
+  private static final int LEN = 31;
   private static final SecureRandom rng;
 
   static {

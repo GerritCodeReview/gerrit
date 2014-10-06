@@ -16,6 +16,24 @@
       "revId": "441cba6dd2fcee92e3366cad6f0dec822538aa9e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "307ae4aa_d400bc9f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1012247
+      },
+      "writtenOn": "2014-10-06T08:38:20Z",
+      "side": 1,
+      "message": "Done. Do you have a vim autosetting for that, btw? I\u0027m pretty used to 80 chars per line, which happens to be vim\u0027s default. I\u0027m happy to stick with a project\u0027s defaults, but what is actually the reationale for this?",
+      "parentUuid": "f0d12ce3_322d9084",
+      "revId": "441cba6dd2fcee92e3366cad6f0dec822538aa9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

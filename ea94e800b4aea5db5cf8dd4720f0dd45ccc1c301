@@ -70,6 +70,30 @@
       "revId": "ea94e800b4aea5db5cf8dd4720f0dd45ccc1c301",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1077a0c2_53a92421",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/events/GarbageCollectorListener.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-10-06T09:21:45Z",
+      "side": 1,
+      "message": "\u003e Good idea. But the Properties object returned by the GC is untyped...\n\nIf this is considered a problem then shouldn\u0027t it be fixed in JGit?\n\n\u003e ... I\u0027d rather expose the values using dedicated get methods.\n\nand then you have to regularly maintain this API whenever JGit changes something in its GC statistics return value... otherwise the newly added values will not be available...",
+      "parentUuid": "1077a0c2_936edc9c",
+      "range": {
+        "startLine": 24,
+        "startChar": 19,
+        "endLine": 24,
+        "endChar": 24
+      },
+      "revId": "ea94e800b4aea5db5cf8dd4720f0dd45ccc1c301",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

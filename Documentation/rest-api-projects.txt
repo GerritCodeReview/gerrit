@@ -1356,6 +1356,102 @@ describes the child project.
   }
 ----
 
+[[tag-endpoints]]
+== Tag Endpoints
+
+[[list-tags]]
+=== List Tags
+--
+'GET /projects/link:#project-name[\{project-name\}]/tags/'
+--
+
+List the tags of a project.
+
+As result a list of link:#tag-info[TagInfo] entries is
+returned.
+
+.Request
+----
+  GET /projects/work%2Fmy-project/tags/ HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  [
+    {
+      "ref": "refs/tags/v1.0",
+      "revision": "49ce77fdcfd3398dc0dedbe016d1a425fd52d666",
+      "object": "1624f5af8ae89148d1a3730df8c290413e3dcf30",
+      "message": "Annotated tag",
+      "tagger": {
+        "name": "David Pursehouse",
+        "email": "david.pursehouse@sonymobile.com",
+        "date": "2014-10-06 07:35:03.000000000",
+        "tz": 540
+      }
+    },
+    {
+      "ref": "refs/tags/v2.0",
+      "revision": "1624f5af8ae89148d1a3730df8c290413e3dcf30"
+    },
+    {
+      "ref": "refs/tags/v3.0",
+      "revision": "c628685b3c5a3614571ecb5c8fceb85db9112313",
+      "object": "1624f5af8ae89148d1a3730df8c290413e3dcf30",
+      "message": "Signed tag\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1.4.11 (GNU/Linux)\n\niQEcBAABAgAGBQJUMlqYAAoJEPI2qVPgglptp7MH/j+KFcittFbxfSnZjUl8n5IZ\nveZo7wE+syjD9sUbMH4EGv0WYeVjphNTyViBof+stGTNkB0VQzLWI8+uWmOeiJ4a\nzj0LsbDOxodOEMI5tifo02L7r4Lzj++EbqtKv8IUq2kzYoQ2xjhKfFiGjeYOn008\n9PGnhNblEHZgCHguGR6GsfN8bfA2XNl9B5Ysl5ybX1kAVs/TuLZR4oDMZ/pW2S75\nhuyNnSgcgq7vl2gLGefuPs9lxkg5Fj3GZr7XPZk4pt/x1oiH7yXxV4UzrUwg2CC1\nfHrBlNbQ4uJNY8TFcwof52Z0cagM5Qb/ZSLglHbqEDGA68HPqbwf5z2hQyU2/U4\u003d\n\u003dZtUX\n-----END PGP SIGNATURE-----",
+      "tagger": {
+        "name": "David Pursehouse",
+        "email": "david.pursehouse@sonymobile.com",
+        "date": "2014-10-06 09:02:16.000000000",
+        "tz": 540
+      }
+    }
+  ]
+----
+
+[[get-tag]]
+=== Get Tag
+--
+'GET /projects/link:#project-name[\{project-name\}]/tags/link:#tag-id[\{tag-id\}]'
+--
+
+Retrieves a tag of a project.
+
+.Request
+----
+  GET /projects/work%2Fmy-project/tags/v1.0 HTTP/1.0
+----
+
+As response a link:#tag-info[TagInfo] entity is returned that
+describes the tag.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  {
+    "ref": "refs/tags/v1.0",
+    "revision": "49ce77fdcfd3398dc0dedbe016d1a425fd52d666",
+    "object": "1624f5af8ae89148d1a3730df8c290413e3dcf30",
+    "message": "Annotated tag",
+    "tagger": {
+      "name": "David Pursehouse",
+      "email": "david.pursehouse@sonymobile.com",
+      "date": "2014-10-06 07:35:03.000000000",
+      "tz": 540
+    }
+  }
+----
+
+
 [[commit-endpoints]]
 == Commit Endpoints
 
@@ -1663,6 +1759,10 @@ omitted.
 [[commit-id]]
 === \{commit-id\}
 Commit ID.
+
+[[tag-id]]
+=== \{tag-id\}
+The name of a tag. The prefix `refs/tags/` can be omitted.
 
 [[dashboard-id]]
 === \{dashboard-id\}
@@ -2167,6 +2267,24 @@ statistics of a Git repository.
 |`size_of_loose_objects`   |Size of loose objects in bytes.
 |`size_of_packed_objects`  |Size of packed objects in bytes.
 |======================================
+
+[[tag-info]]
+=== TagInfo
+The `TagInfo` entity contains information about a tag.
+
+[options="header",width="50%",cols="1,^2,4"]
+|=========================
+|Field Name  ||Description
+|`ref`       ||The ref of the tag.
+|`revision`  ||For lightweight tags, the revision of the commit to which the tag
+points. For annotated tags, the revision of the tag object.
+|`object`|Only set for annotated tags.|The revision of the object to which the
+tag points.
+|`message`|Only set for annotated tags.|The tag message. For signed tags, includes
+the signature.
+|`tagger`|Only set for annotated tags.|The tagger as a
+link:rest-api-changes.html#git-person-info[GitPersonInfo] entity.
+|=========================
 
 [[theme-info]]
 === ThemeInfo

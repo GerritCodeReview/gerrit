@@ -118,6 +118,30 @@
       "revId": "ea94e800b4aea5db5cf8dd4720f0dd45ccc1c301",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "307ae4aa_7439a87a",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/events/GarbageCollectorListener.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2014-10-06T11:47:42Z",
+      "side": 1,
+      "message": "Well, It would be much better expose the API (as methods or constants) from JGit.  However I have learned that this has been discussed but rejected:\n\nhttps://git.eclipse.org/r/#/c/7614/1..2/org.eclipse.jgit/src/org/eclipse/jgit/api/GarbageCollectCommand.java\n\nAs I can\u0027t find a trace of the discussion maybe one of the JGit contributors in this loop (Chris, Matthias, Saša) could recall why the repo statistics have not been exposed on the JGit API.",
+      "parentUuid": "1077a0c2_13b3ac93",
+      "range": {
+        "startLine": 24,
+        "startChar": 19,
+        "endLine": 24,
+        "endChar": 24
+      },
+      "revId": "ea94e800b4aea5db5cf8dd4720f0dd45ccc1c301",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

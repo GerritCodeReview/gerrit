@@ -34,6 +34,24 @@
       "revId": "441cba6dd2fcee92e3366cad6f0dec822538aa9e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d0d6e8da_71da382e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-10-06T10:35:01Z",
+      "side": 1,
+      "message": "\u003e Do you have a vim autosetting for that, btw?\n\nNot that I know of.\n\n\u003e but what is actually the reationale for this?\n\n70/72 chars seems to be the commonly used length for git commit messages.",
+      "parentUuid": "307ae4aa_d400bc9f",
+      "revId": "441cba6dd2fcee92e3366cad6f0dec822538aa9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

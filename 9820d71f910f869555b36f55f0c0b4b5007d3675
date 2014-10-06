@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "307ae4aa_141714ec",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 2110,
+      "author": {
+        "id": 1017389
+      },
+      "writtenOn": "2014-10-06T06:24:35Z",
+      "side": 1,
+      "message": "I assume HTTPS will be supported out of box, but we should also support authentication. Doesn\u0027t appear to be any support for it in JEST though :-/",
+      "revId": "9820d71f910f869555b36f55f0c0b4b5007d3675",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1077a0c2_d3553491",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 2117,
+      "author": {
+        "id": 1017389
+      },
+      "writtenOn": "2014-10-06T06:24:35Z",
+      "side": 1,
+      "message": "Will this be compatible with a (future?) change to support online index rebuilds via aliases?\n\nhttp://www.elasticsearch.org/guide/en/elasticsearch/guide/current/index-aliases.html\n\nI\u0027m thinking we\u0027ll want to have one configuration parameter containing the name of the read index, which is actually an alias pointing to the index that\u0027s currently online. We may then want another parameter (or two) containing the names of the actual indexes. Something like\n\n index.name \u003d gerrit\n index.alternating-names \u003d gerrit-a, gerrit-b\n\nperhaps? With that feature in place I\u0027d find it more descriptive to call index.name something else, like index.alias or index.readonly, but that wouldn\u0027t fly with an implementation without online reindexing support.",
+      "revId": "9820d71f910f869555b36f55f0c0b4b5007d3675",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b07b3336_cbcf35c7",
         "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticsearchChangeIndex.java",
         "patchSetId": 14

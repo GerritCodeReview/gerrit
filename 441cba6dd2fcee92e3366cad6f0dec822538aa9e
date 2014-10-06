@@ -52,6 +52,24 @@
       "revId": "441cba6dd2fcee92e3366cad6f0dec822538aa9e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "307ae4aa_d4275c51",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-10-06T12:53:26Z",
+      "side": 1,
+      "message": "\u003e Do you have a vim autosetting for that, btw?\n\nI have textwidth [1] set to 70.\n\n  set textwidth\u003d70\n\n[1] http://blog.ezyang.com/2010/03/vim-textwidth/",
+      "parentUuid": "d0d6e8da_71da382e",
+      "revId": "441cba6dd2fcee92e3366cad6f0dec822538aa9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

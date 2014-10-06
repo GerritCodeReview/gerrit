@@ -189,6 +189,15 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
         IDLE_TIMEOUT,
         String.valueOf(SECONDS.toMillis(idleTimeoutSeconds)));
 
+    long rekeyTimeLimit = ConfigUtil.getTimeUnit(cfg, "sshd", null,
+        "rekeyTimeLimit", 3600, SECONDS);
+    getProperties().put(
+        REKEY_TIME_LIMIT,
+        String.valueOf(SECONDS.toMillis(rekeyTimeLimit)));
+
+    getProperties().put(REKEY_BYTES_LIMIT,
+        String.valueOf(cfg.getLong("sshd", "rekeyBytesLimit", 1024 * 1024 * 1024 /* 1GB */)));
+
     final int maxConnectionsPerUser =
         cfg.getInt("sshd", "maxConnectionsPerUser", 64);
     if (0 < maxConnectionsPerUser) {

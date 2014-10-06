@@ -20,6 +20,7 @@ import static com.google.gerrit.server.project.CommitResource.COMMIT_KIND;
 import static com.google.gerrit.server.project.DashboardResource.DASHBOARD_KIND;
 import static com.google.gerrit.server.project.FileResource.FILE_KIND;
 import static com.google.gerrit.server.project.ProjectResource.PROJECT_KIND;
+import static com.google.gerrit.server.project.TagResource.TAG_KIND;
 
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.RestApiModule;
@@ -37,6 +38,7 @@ public class Module extends RestApiModule {
     DynamicMap.mapOf(binder(), DASHBOARD_KIND);
     DynamicMap.mapOf(binder(), FILE_KIND);
     DynamicMap.mapOf(binder(), COMMIT_KIND);
+    DynamicMap.mapOf(binder(), TAG_KIND);
 
     put(PROJECT_KIND).to(PutProject.class);
     get(PROJECT_KIND).to(GetProject.class);
@@ -70,6 +72,9 @@ public class Module extends RestApiModule {
     child(PROJECT_KIND, "commits").to(CommitsCollection.class);
     get(COMMIT_KIND).to(GetCommit.class);
     child(COMMIT_KIND, "files").to(FilesInCommitCollection.class);
+
+    child(PROJECT_KIND, "tags").to(TagsCollection.class);
+    get(TAG_KIND).to(GetTag.class);
 
     child(PROJECT_KIND, "dashboards").to(DashboardsCollection.class);
     get(DASHBOARD_KIND).to(GetDashboard.class);

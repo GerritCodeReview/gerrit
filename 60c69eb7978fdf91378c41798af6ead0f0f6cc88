@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d0d6e8da_51fcd484",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-10-06T17:37:25Z",
+      "side": 1,
+      "message": "Either add a companion TimeUnit constant or include a unit suffix in this variable name, like TIMEOUT_S.",
+      "revId": "60c69eb7978fdf91378c41798af6ead0f0f6cc88",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d0d6e8da_7101d8db",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1030,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-10-06T17:37:25Z",
+      "side": 1,
+      "message": "I think the fancy Java way to do this would be to use Hamcrest matchers, or better yet Truth. But considering we want to be able to ditch this eventually, might not be worth the effort.",
+      "revId": "60c69eb7978fdf91378c41798af6ead0f0f6cc88",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -166,6 +166,30 @@
       "revId": "ea94e800b4aea5db5cf8dd4720f0dd45ccc1c301",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1077a0c2_93a6dc4b",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/events/GarbageCollectorListener.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-10-06T13:46:54Z",
+      "side": 1,
+      "message": "If it makes sense to expose and maintain such an API here then I cannot imagine why it wouldn\u0027t make sense to do that in JGit.\n\n@Chris Halstrick: could you tell us more about the reason for returning untyped Properties.",
+      "parentUuid": "307ae4aa_f424d84e",
+      "range": {
+        "startLine": 24,
+        "startChar": 19,
+        "endLine": 24,
+        "endChar": 24
+      },
+      "revId": "ea94e800b4aea5db5cf8dd4720f0dd45ccc1c301",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

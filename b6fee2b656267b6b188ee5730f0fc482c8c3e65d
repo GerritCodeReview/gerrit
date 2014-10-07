@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "307ae4aa_143cf459",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListTags.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-07T06:31:31Z",
+      "side": 1,
+      "message": "Alternatively this can be done in functional style:\n\n  return Ordering.natural().onResultOf(\n    new Function\u003cTagInfo, String\u003e() {\n      @Override\n      public String apply(TagInfo tag) {\n        return tag.ref;\n      }\n    }).sortedCopy(tags);",
+      "range": {
+        "startLine": 89,
+        "startChar": 4,
+        "endLine": 96,
+        "endChar": 16
+      },
+      "revId": "b6fee2b656267b6b188ee5730f0fc482c8c3e65d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -834,8 +834,7 @@ public class RestApiServlet extends HttpServlet {
     if (core != null) {
       return new ViewData(null, core);
     } else {
-      name = "GET." + p.get(0);
-      core = views.get("gerrit", name);
+      core = views.get("gerrit", "GET." + p.get(0));
       if (core instanceof AcceptsPost && "POST".equals(method)) {
         @SuppressWarnings("unchecked")
         AcceptsPost<RestResource> ap = (AcceptsPost<RestResource>) core;

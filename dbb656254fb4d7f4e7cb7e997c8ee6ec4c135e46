@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1077a0c2_f3a3900b",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/GerritServer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-07T19:49:43Z",
+      "side": 1,
+      "message": "You meant:\n\n  if (!basePath.mkdir()) {\n\notherwise all @UseLocalDisk tests are failing.",
+      "range": {
+        "startLine": 297,
+        "startChar": 12,
+        "endLine": 297,
+        "endChar": 28
+      },
+      "revId": "dbb656254fb4d7f4e7cb7e997c8ee6ec4c135e46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

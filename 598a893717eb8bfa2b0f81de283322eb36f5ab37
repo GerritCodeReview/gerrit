@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "307ae4aa_b475003b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-07T03:52:35Z",
+      "side": 1,
+      "message": "You already did all this reproduction work and tracked it down. I would expect you to create an issue upstream with all these useful information + observed failure, like error and stacktrace in [1].\n\n [1] https://github.com/codemirror/CodeMirror/issues",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 40
+      },
+      "revId": "598a893717eb8bfa2b0f81de283322eb36f5ab37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

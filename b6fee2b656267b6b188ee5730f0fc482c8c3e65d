@@ -183,6 +183,30 @@
       "revId": "b6fee2b656267b6b188ee5730f0fc482c8c3e65d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d0d6e8da_91e9dcbe",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/TagsCollection.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-10-07T07:11:38Z",
+      "side": 1,
+      "message": "What problem?",
+      "parentUuid": "1077a0c2_d30a148f",
+      "range": {
+        "startLine": 57,
+        "startChar": 25,
+        "endLine": 57,
+        "endChar": 43
+      },
+      "revId": "b6fee2b656267b6b188ee5730f0fc482c8c3e65d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

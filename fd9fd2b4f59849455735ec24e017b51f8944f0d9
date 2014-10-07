@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "1077a0c2_73fc601c",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/TagInfo.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-07T06:22:49Z",
+      "side": 1,
+      "message": "This is true for REST API, that is done in this change. But when this functionality is exposed through Plugin API and ne w methos Project.getTags() is introduced that is using this endpoint, there is no easy way for consumer of this interface to figure out that these attributes are null.",
+      "parentUuid": "f0d12ce3_12f64ca3",
+      "range": {
+        "startLine": 20,
+        "startChar": 2,
+        "endLine": 22,
+        "endChar": 19
+      },
+      "revId": "fd9fd2b4f59849455735ec24e017b51f8944f0d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "307ae4aa_d46e7c6f",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/TagInfo.java",
         "patchSetId": 3

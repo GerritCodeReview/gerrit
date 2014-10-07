@@ -14,6 +14,8 @@
 
 package com.google.gerrit.acceptance.rest.config;
 
+import static com.google.gerrit.acceptance.Spec.Operation.REST;
+import static com.google.gerrit.acceptance.Spec.Operation.USER;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -23,6 +25,7 @@ import static org.junit.Assert.assertTrue;
 import com.google.common.collect.Ordering;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
+import com.google.gerrit.acceptance.Spec;
 import com.google.gerrit.server.config.ListCaches.CacheInfo;
 import com.google.gerrit.server.config.ListCaches.CacheType;
 import com.google.gson.reflect.TypeToken;
@@ -39,6 +42,7 @@ import java.util.Map;
 public class ListCachesIT extends AbstractDaemonTest {
 
   @Test
+  @Spec({REST, USER})
   public void listCaches() throws IOException {
     RestResponse r = adminSession.get("/config/server/caches/");
     assertEquals(HttpStatus.SC_OK, r.getStatusCode());
@@ -67,12 +71,14 @@ public class ListCachesIT extends AbstractDaemonTest {
   }
 
   @Test
+  @Spec({REST, USER})
   public void listCaches_Forbidden() throws IOException {
     RestResponse r = userSession.get("/config/server/caches/");
     assertEquals(HttpStatus.SC_FORBIDDEN, r.getStatusCode());
   }
 
   @Test
+  @Spec({REST, USER})
   public void listCacheNames() throws IOException {
     RestResponse r = adminSession.get("/config/server/caches/?format=LIST");
     assertEquals(HttpStatus.SC_OK, r.getStatusCode());
@@ -85,6 +91,7 @@ public class ListCachesIT extends AbstractDaemonTest {
   }
 
   @Test
+  @Spec({REST, USER})
   public void listCacheNamesTextList() throws IOException {
     RestResponse r = adminSession.get("/config/server/caches/?format=TEXT_LIST");
     assertEquals(HttpStatus.SC_OK, r.getStatusCode());
@@ -96,6 +103,7 @@ public class ListCachesIT extends AbstractDaemonTest {
   }
 
   @Test
+  @Spec({REST, USER})
   public void listCaches_BadRequest() throws IOException {
     RestResponse r = adminSession.get("/config/server/caches/?format=NONSENSE");
     assertEquals(HttpStatus.SC_BAD_REQUEST, r.getStatusCode());

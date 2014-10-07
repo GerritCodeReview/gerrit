@@ -21,6 +21,7 @@ import static com.google.gerrit.acceptance.GitUtil.initSsh;
 import static org.junit.Assert.assertEquals;
 
 import com.google.common.base.Joiner;
+import com.google.common.base.Stopwatch;
 import com.google.common.primitives.Chars;
 import com.google.gerrit.acceptance.AcceptanceTestRequestScope.Context;
 import com.google.gerrit.extensions.api.GerritApi;
@@ -62,6 +63,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.EnumSet;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 @RunWith(ConfigSuite.class)
 public abstract class AbstractDaemonTest {
@@ -119,9 +121,11 @@ public abstract class AbstractDaemonTest {
               && description.getTestClass().getAnnotation(NoHttpd.class) == null;
           boolean hasCustomConfig = hasCustomConfig(description);
           beforeTest(config(description), hasCustomConfig, mem, enableHttpd);
+          Stopwatch sw = Stopwatch.createStarted();
           try {
             base.evaluate();
           } finally {
+            System.out.format("Test run in %dms\n", sw.elapsed(TimeUnit.MILLISECONDS));
             afterTest(hasCustomConfig);
           }
         }
@@ -160,6 +164,7 @@ public abstract class AbstractDaemonTest {
 
   private void beforeTest(Config cfg, boolean hasCustomConfig, boolean memory,
       boolean enableHttpd) throws Exception {
+    Stopwatch sw = Stopwatch.createStarted();
     if (hasCustomConfig) {
       server = GerritServer.start(cfg, memory, enableHttpd);
     } else {
@@ -169,21 +174,33 @@ public abstract class AbstractDaemonTest {
       server = commonServer;
     }
     server.getTestInjector().injectMembers(this);
+    System.out.format("Injection finished in %dms\n", sw.elapsed(TimeUnit.MILLISECONDS));
+    sw.reset().start();
     admin = accounts.admin();
     user = accounts.user();
     adminSession = new RestSession(server, admin);
     userSession = new RestSession(server, user);
+    System.out.format("Pre-SSH finished in %dms\n", sw.elapsed(TimeUnit.MILLISECONDS));
+    sw.reset().start();
     initSsh(admin);
+    System.out.format("SSH finished in %dms\n", sw.elapsed(TimeUnit.MILLISECONDS));
+    sw.reset().start();
     db = reviewDbProvider.open();
     Context ctx = newRequestContext(admin);
     atrScope.set(ctx);
     sshSession = ctx.getSession();
     project = new Project.NameKey("p");
+    System.out.format("Context setup finished in %dms\n", sw.elapsed(TimeUnit.MILLISECONDS));
+    sw.reset().start();
     createProject(sshSession, project.get());
+    System.out.format("Project creation finished in %dms\n", sw.elapsed(TimeUnit.MILLISECONDS));
+    sw.reset().start();
     git = cloneProject(sshSession.getUrl() + "/" + project.get());
+    System.out.format("Clone finished in %dms\n", sw.elapsed(TimeUnit.MILLISECONDS));
   }
 
   private void afterTest(boolean hasCustomConfig) throws Exception {
+    Stopwatch sw = Stopwatch.createStarted();
     db.close();
     sshSession.close();
     if (hasCustomConfig) {
@@ -191,6 +208,7 @@ public abstract class AbstractDaemonTest {
     } else {
       server.clearAllData();
     }
+    System.out.format("Test cleanup in %dms\n", sw.elapsed(TimeUnit.MILLISECONDS));
   }
 
   protected PushOneCommit.Result createChange() throws GitAPIException,

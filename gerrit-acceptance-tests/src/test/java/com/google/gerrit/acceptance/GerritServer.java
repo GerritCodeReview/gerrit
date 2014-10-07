@@ -14,6 +14,7 @@
 
 package com.google.gerrit.acceptance;
 
+import com.google.common.base.Stopwatch;
 import com.google.common.cache.Cache;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.extensions.annotations.Export;
@@ -69,6 +70,7 @@ public class GerritServer {
   /** Returns fully started Gerrit server */
   static GerritServer start(Config cfg, boolean memory, boolean enableHttpd)
       throws Exception {
+    Stopwatch sw = Stopwatch.createStarted();
     final CyclicBarrier serverStarted = new CyclicBarrier(2);
     final Daemon daemon = new Daemon(new Runnable() {
       public void run() {
@@ -115,6 +117,7 @@ public class GerritServer {
     }
 
     Injector i = createTestInjector(daemon);
+    System.out.format("Started Gerrit server in %dms\n", sw.elapsed(TimeUnit.MILLISECONDS));
     return new GerritServer(i, daemon, daemonService);
   }
 
@@ -230,7 +233,12 @@ public class GerritServer {
   void clearAllData() throws Exception {
     // Explicitly pass in injector since injected injector doesn't contain the
     // cache bindings we need.
-    testInjector.getInstance(ServerCleanup.class).run(testInjector);
+    Stopwatch sw = Stopwatch.createStarted();
+    ServerCleanup c = testInjector.getInstance(ServerCleanup.class);
+    System.out.format("Created ServerCleanup in %dms\n", sw.elapsed(TimeUnit.MILLISECONDS));
+    sw.reset().start();
+    c.run(testInjector);
+    System.out.format("Cleaned server in %dms\n", sw.elapsed(TimeUnit.MILLISECONDS));
   }
 
   private static class ServerCleanup {
@@ -274,7 +282,7 @@ public class GerritServer {
         JdbcExecutor e = new JdbcExecutor(schema);
         try {
           for (String table : dialect.listTables(conn)) {
-            e.execute("DROP TABLE " + table);
+            e.execute("DELETE FROM " + table);
           }
           schema.restartSequences(e);
         } finally {

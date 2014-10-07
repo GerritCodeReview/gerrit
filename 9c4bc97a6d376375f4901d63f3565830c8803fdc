@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "d0d6e8da_31891004",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/ListTagsIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-10-07T08:39:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1077a0c2_d331b460",
+      "range": {
+        "startLine": 32,
+        "startChar": 13,
+        "endLine": 32,
+        "endChar": 23
+      },
+      "revId": "9c4bc97a6d376375f4901d63f3565830c8803fdc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1077a0c2_331d88d2",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/ListTagsIT.java",
         "patchSetId": 5
@@ -36,6 +60,30 @@
       "writtenOn": "2014-10-07T08:26:32Z",
       "side": 1,
       "message": "When this helper method only used once, remove it? Or reuse it below?",
+      "range": {
+        "startLine": 36,
+        "startChar": 8,
+        "endLine": 36,
+        "endChar": 11
+      },
+      "revId": "9c4bc97a6d376375f4901d63f3565830c8803fdc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0d12ce3_32891004",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/ListTagsIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-10-07T08:39:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1077a0c2_331d88d2",
       "range": {
         "startLine": 36,
         "startChar": 8,
@@ -94,6 +142,30 @@
     },
     {
       "key": {
+        "uuid": "f0d12ce3_d29d2442",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/ListTagsIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-10-07T08:39:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "307ae4aa_54a90c21",
+      "range": {
+        "startLine": 64,
+        "startChar": 17,
+        "endLine": 64,
+        "endChar": 25
+      },
+      "revId": "9c4bc97a6d376375f4901d63f3565830c8803fdc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "307ae4aa_74ae882c",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/ListTagsIT.java",
         "patchSetId": 5
@@ -105,6 +177,30 @@
       "writtenOn": "2014-10-07T08:26:32Z",
       "side": 1,
       "message": "GET(...)",
+      "range": {
+        "startLine": 65,
+        "startChar": 41,
+        "endLine": 65,
+        "endChar": 49
+      },
+      "revId": "9c4bc97a6d376375f4901d63f3565830c8803fdc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d0d6e8da_11840ceb",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/ListTagsIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-10-07T08:39:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "307ae4aa_74ae882c",
       "range": {
         "startLine": 65,
         "startChar": 41,

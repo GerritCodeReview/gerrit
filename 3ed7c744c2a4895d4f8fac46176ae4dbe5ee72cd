@@ -46,6 +46,30 @@
       "revId": "3ed7c744c2a4895d4f8fac46176ae4dbe5ee72cd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1077a0c2_13cf2ceb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListTags.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1013182
+      },
+      "writtenOn": "2014-10-07T10:13:16Z",
+      "side": 1,
+      "message": "I mention it because I am not sure of the reachability checks done by isVisible compared to VisibleRefFilter, which may leak read access to parts of a branch.\n\nThe use case would be to filter out tags pointing to commits in branches not visible to the user, beyond default access controls defined in the project configuration.",
+      "parentUuid": "f0d12ce3_f29aa847",
+      "range": {
+        "startLine": 65,
+        "startChar": 8,
+        "endLine": 65,
+        "endChar": 79
+      },
+      "revId": "3ed7c744c2a4895d4f8fac46176ae4dbe5ee72cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

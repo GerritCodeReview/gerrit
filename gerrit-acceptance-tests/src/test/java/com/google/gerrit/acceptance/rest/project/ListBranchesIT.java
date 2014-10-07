@@ -16,17 +16,13 @@ package com.google.gerrit.acceptance.rest.project;
 
 import static com.google.gerrit.acceptance.GitUtil.createProject;
 import static com.google.gerrit.acceptance.rest.project.BranchAssert.assertBranches;
-import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
-import static com.google.gerrit.server.project.Util.block;
 import static org.junit.Assert.assertEquals;
 
 import com.google.common.collect.Lists;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.RestResponse;
-import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.project.ListBranches.BranchInfo;
 import com.google.gson.reflect.TypeToken;
 
@@ -121,12 +117,6 @@ public class ListBranchesIT extends AbstractDaemonTest {
 
   private RestResponse GET(String endpoint) throws IOException {
     return adminSession.get(endpoint);
-  }
-
-  private void blockRead(Project.NameKey project, String ref) throws Exception {
-    ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
-    block(cfg, Permission.READ, REGISTERED_USERS, ref);
-    saveProjectConfig(project, cfg);
   }
 
   private static List<BranchInfo> toBranchInfoList(RestResponse r)

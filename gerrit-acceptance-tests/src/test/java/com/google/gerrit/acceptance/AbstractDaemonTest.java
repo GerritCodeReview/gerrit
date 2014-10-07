@@ -17,7 +17,11 @@ package com.google.gerrit.acceptance;
 import static com.google.gerrit.acceptance.GitUtil.cloneProject;
 import static com.google.gerrit.acceptance.GitUtil.createProject;
 import static com.google.gerrit.acceptance.GitUtil.initSsh;
-
+import static com.google.gerrit.acceptance.InitOperations.GIT;
+import static com.google.gerrit.acceptance.InitOperations.PROJECT;
+import static com.google.gerrit.acceptance.InitOperations.REST;
+import static com.google.gerrit.acceptance.InitOperations.SSH;
+import static com.google.gerrit.acceptance.InitOperations.USER;
 import static org.junit.Assert.assertEquals;
 
 import com.google.common.base.Joiner;
@@ -118,7 +122,12 @@ public abstract class AbstractDaemonTest {
           boolean enableHttpd = description.getAnnotation(NoHttpd.class) == null
               && description.getTestClass().getAnnotation(NoHttpd.class) == null;
           boolean hasCustomConfig = hasCustomConfig(description);
-          beforeTest(config(description), hasCustomConfig, mem, enableHttpd);
+          Spec spec = description.getAnnotation(Spec.class);
+          EnumSet<InitOperations> initOp = spec == null
+              ? EnumSet.allOf(InitOperations.class)
+              : EnumSet.copyOf(Arrays.asList(spec.init()));
+          beforeTest(config(description), hasCustomConfig, mem, enableHttpd,
+              initOp);
           try {
             base.evaluate();
           } finally {
@@ -159,7 +168,7 @@ public abstract class AbstractDaemonTest {
   }
 
   private void beforeTest(Config cfg, boolean hasCustomConfig, boolean memory,
-      boolean enableHttpd) throws Exception {
+      boolean enableHttpd, EnumSet<InitOperations> initOp) throws Exception {
     if (hasCustomConfig ||
         (commonServer != null && memory != commonServer.isMemory())) {
       server = GerritServer.start(cfg, memory, enableHttpd);
@@ -170,23 +179,35 @@ public abstract class AbstractDaemonTest {
       server = commonServer;
     }
     server.getTestInjector().injectMembers(this);
-    admin = accounts.admin();
-    user = accounts.user();
-    adminSession = new RestSession(server, admin);
-    userSession = new RestSession(server, user);
-    initSsh(admin);
     db = reviewDbProvider.open();
-    Context ctx = newRequestContext(admin);
-    atrScope.set(ctx);
-    sshSession = ctx.getSession();
-    project = new Project.NameKey("p");
-    createProject(sshSession, project.get());
-    git = cloneProject(sshSession.getUrl() + "/" + project.get());
+    if (initOp.contains(USER)) {
+      admin = accounts.admin();
+      user = accounts.user();
+    }
+    if (initOp.contains(REST)) {
+      adminSession = new RestSession(server, admin);
+      userSession = new RestSession(server, user);
+    }
+    if (initOp.contains(SSH)) {
+      initSsh(admin);
+      Context ctx = newRequestContext(admin);
+      atrScope.set(ctx);
+      sshSession = ctx.getSession();
+    }
+    if (initOp.contains(PROJECT)) {
+      project = new Project.NameKey("p");
+      createProject(sshSession, project.get());
+    }
+    if (initOp.contains(GIT)) {
+      git = cloneProject(sshSession.getUrl() + "/" + project.get());
+    }
   }
 
   private void afterTest(boolean hasCustomConfig) throws Exception {
     db.close();
-    sshSession.close();
+    if (sshSession != null) {
+      sshSession.close();
+    }
     if (hasCustomConfig) {
       server.stop();
     } else {

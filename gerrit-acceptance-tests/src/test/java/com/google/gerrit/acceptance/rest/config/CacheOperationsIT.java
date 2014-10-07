@@ -14,6 +14,10 @@
 
 package com.google.gerrit.acceptance.rest.config;
 
+import static com.google.gerrit.acceptance.Spec.Operation.PROJECT;
+import static com.google.gerrit.acceptance.Spec.Operation.REST;
+import static com.google.gerrit.acceptance.Spec.Operation.SSH;
+import static com.google.gerrit.acceptance.Spec.Operation.USER;
 import static com.google.gerrit.server.config.PostCaches.Operation.FLUSH;
 import static com.google.gerrit.server.config.PostCaches.Operation.FLUSH_ALL;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
@@ -23,6 +27,7 @@ import static org.junit.Assert.assertTrue;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
+import com.google.gerrit.acceptance.Spec;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.config.AllProjectsName;
@@ -31,7 +36,6 @@ import com.google.gerrit.server.config.PostCaches;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.group.SystemGroupBackend;
-import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.Util;
 import com.google.inject.Inject;
 
@@ -44,15 +48,10 @@ import java.util.Arrays;
 public class CacheOperationsIT extends AbstractDaemonTest {
 
   @Inject
-  private ProjectCache projectCache;
-
-  @Inject
   private AllProjectsName allProjects;
 
-  @Inject
-  private MetaDataUpdate.Server metaDataUpdateFactory;
-
   @Test
+  @Spec({REST, USER, PROJECT, SSH})
   public void flushAll() throws IOException {
     RestResponse r = adminSession.get("/config/server/caches/project_list");
     CacheInfo cacheInfo = newGson().fromJson(r.getReader(), CacheInfo.class);
@@ -68,6 +67,7 @@ public class CacheOperationsIT extends AbstractDaemonTest {
   }
 
   @Test
+  @Spec({REST, USER})
   public void flushAll_Forbidden() throws IOException {
     RestResponse r = userSession.post("/config/server/caches/",
         new PostCaches.Input(FLUSH_ALL));
@@ -75,6 +75,7 @@ public class CacheOperationsIT extends AbstractDaemonTest {
   }
 
   @Test
+  @Spec({REST, USER})
   public void flushAll_BadRequest() throws IOException {
     RestResponse r = adminSession.post("/config/server/caches/",
         new PostCaches.Input(FLUSH_ALL, Arrays.asList("projects")));
@@ -82,6 +83,7 @@ public class CacheOperationsIT extends AbstractDaemonTest {
   }
 
   @Test
+  @Spec({REST, USER, PROJECT, SSH})
   public void flush() throws IOException {
     RestResponse r = adminSession.get("/config/server/caches/project_list");
     CacheInfo cacheInfo = newGson().fromJson(r.getReader(), CacheInfo.class);
@@ -106,6 +108,7 @@ public class CacheOperationsIT extends AbstractDaemonTest {
   }
 
   @Test
+  @Spec({REST, USER})
   public void flush_Forbidden() throws IOException {
     RestResponse r = userSession.post("/config/server/caches/",
         new PostCaches.Input(FLUSH, Arrays.asList("projects")));
@@ -113,6 +116,7 @@ public class CacheOperationsIT extends AbstractDaemonTest {
   }
 
   @Test
+  @Spec({REST, USER})
   public void flush_BadRequest() throws IOException {
     RestResponse r = adminSession.post("/config/server/caches/",
         new PostCaches.Input(FLUSH));
@@ -120,6 +124,7 @@ public class CacheOperationsIT extends AbstractDaemonTest {
   }
 
   @Test
+  @Spec({REST, USER})
   public void flush_UnprocessableEntity() throws IOException {
     RestResponse r = adminSession.get("/config/server/caches/projects");
     CacheInfo cacheInfo = newGson().fromJson(r.getReader(), CacheInfo.class);
@@ -136,6 +141,7 @@ public class CacheOperationsIT extends AbstractDaemonTest {
   }
 
   @Test
+  @Spec({REST, USER})
   public void flushWebSessions_Forbidden() throws IOException {
     ProjectConfig cfg = projectCache.checkedGet(allProjects).getConfig();
     AccountGroup.UUID registeredUsers =

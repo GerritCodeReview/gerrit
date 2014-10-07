@@ -15,11 +15,15 @@
 package com.google.gerrit.acceptance.rest.project;
 
 import static com.google.gerrit.acceptance.GitUtil.createProject;
+import static com.google.gerrit.acceptance.Spec.Operation.REST;
+import static com.google.gerrit.acceptance.Spec.Operation.SSH;
+import static com.google.gerrit.acceptance.Spec.Operation.USER;
 import static org.junit.Assert.assertEquals;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GcAssert;
 import com.google.gerrit.acceptance.RestResponse;
+import com.google.gerrit.acceptance.Spec;
 import com.google.gerrit.acceptance.UseLocalDisk;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.AllProjectsName;
@@ -55,11 +59,13 @@ public class GarbageCollectionIT extends AbstractDaemonTest {
   }
 
   @Test
+  @Spec({REST, USER, SSH})
   public void testGcNonExistingProject_NotFound() throws IOException {
     assertEquals(HttpStatus.SC_NOT_FOUND, POST("/projects/non-existing/gc"));
   }
 
   @Test
+  @Spec({REST, USER, SSH})
   public void testGcNotAllowed_Forbidden() throws IOException, OrmException,
       JSchException {
     assertEquals(HttpStatus.SC_FORBIDDEN,
@@ -69,6 +75,7 @@ public class GarbageCollectionIT extends AbstractDaemonTest {
 
   @Test
   @UseLocalDisk
+  @Spec({REST, USER, SSH})
   public void testGcOneProject() throws JSchException, IOException {
     assertEquals(HttpStatus.SC_OK, POST("/projects/" + allProjects.get() + "/gc"));
     gcAssert.assertHasPackFile(allProjects);

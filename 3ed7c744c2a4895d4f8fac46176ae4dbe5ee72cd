@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1077a0c2_932b3ced",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListTags.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1013182
+      },
+      "writtenOn": "2014-10-07T08:52:49Z",
+      "side": 1,
+      "message": "Question, the implementation of the SSH ls-user-refs command uses VisibleRefFilter, would it make sense to use it here too?\n\nfinal Map\u003cString, Ref\u003e all \u003d\n    new VisibleRefFilter(tagCache, changeCache, repo, rsrc.getControl(), reviewDb,\n        showChanges).filter(repo.getRefDatabase().getRefs(RefDatabase.ALL), false);",
+      "range": {
+        "startLine": 65,
+        "startChar": 8,
+        "endLine": 65,
+        "endChar": 79
+      },
+      "revId": "3ed7c744c2a4895d4f8fac46176ae4dbe5ee72cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

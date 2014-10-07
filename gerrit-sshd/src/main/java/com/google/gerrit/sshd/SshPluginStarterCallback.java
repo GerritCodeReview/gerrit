@@ -17,6 +17,7 @@ package com.google.gerrit.sshd;
 import com.google.gerrit.server.plugins.Plugin;
 import com.google.gerrit.server.plugins.ReloadPluginListener;
 import com.google.gerrit.server.plugins.StartPluginListener;
+import com.google.inject.Inject;
 import com.google.inject.Key;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -24,8 +25,6 @@ import com.google.inject.Singleton;
 import org.apache.sshd.server.Command;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import javax.inject.Inject;
 
 @Singleton
 class SshPluginStarterCallback

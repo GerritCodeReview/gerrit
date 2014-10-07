@@ -1,0 +1,280 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d0d6e8da_31b270de",
+        "filename": "Documentation/cmd-index.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-10-07T08:15:33Z",
+      "side": 1,
+      "message": "\"Verify a patch set from the command line\"\n\nto make it consistent with how it\u0027s written for the `review` command above.",
+      "range": {
+        "startLine": 82,
+        "startChar": 1,
+        "endLine": 82,
+        "endChar": 52
+      },
+      "revId": "3d086c2d22ba2b125ab02413c200f118d52d4d10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0d12ce3_f2b388dd",
+        "filename": "Documentation/cmd-verify.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-10-07T08:15:33Z",
+      "side": 1,
+      "message": "should be a comma",
+      "range": {
+        "startLine": 17,
+        "startChar": 55,
+        "endLine": 17,
+        "endChar": 56
+      },
+      "revId": "3d086c2d22ba2b125ab02413c200f118d52d4d10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d0d6e8da_d1b684d0",
+        "filename": "Documentation/cmd-verify.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-10-07T08:15:33Z",
+      "side": 1,
+      "message": "\"the verification\"",
+      "range": {
+        "startLine": 20,
+        "startChar": 52,
+        "endLine": 20,
+        "endChar": 64
+      },
+      "revId": "3d086c2d22ba2b125ab02413c200f118d52d4d10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d0d6e8da_f1b388dd",
+        "filename": "Documentation/cmd-verify.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-10-07T08:15:33Z",
+      "side": 1,
+      "message": "separated",
+      "range": {
+        "startLine": 51,
+        "startChar": 48,
+        "endLine": 51,
+        "endChar": 57
+      },
+      "revId": "3d086c2d22ba2b125ab02413c200f118d52d4d10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d0d6e8da_91c0fc24",
+        "filename": "Documentation/cmd-verify.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-10-07T08:15:33Z",
+      "side": 1,
+      "message": "for",
+      "range": {
+        "startLine": 54,
+        "startChar": 18,
+        "endLine": 54,
+        "endChar": 22
+      },
+      "revId": "3d086c2d22ba2b125ab02413c200f118d52d4d10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0d12ce3_12840ceb",
+        "filename": "Documentation/cmd-verify.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-10-07T08:15:33Z",
+      "side": 1,
+      "message": "I don\u0027t understand why a verification category needs a URL.",
+      "range": {
+        "startLine": 55,
+        "startChar": 7,
+        "endLine": 55,
+        "endChar": 43
+      },
+      "revId": "3d086c2d22ba2b125ab02413c200f118d52d4d10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0d12ce3_92c0fc24",
+        "filename": "Documentation/cmd-verify.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-10-07T08:15:33Z",
+      "side": 1,
+      "message": "remove this",
+      "range": {
+        "startLine": 56,
+        "startChar": 35,
+        "endLine": 56,
+        "endChar": 38
+      },
+      "revId": "3d086c2d22ba2b125ab02413c200f118d52d4d10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0d12ce3_b2bd00ac",
+        "filename": "Documentation/cmd-verify.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-10-07T08:15:33Z",
+      "side": 1,
+      "message": "Is this relevant to this command?",
+      "range": {
+        "startLine": 62,
+        "startChar": 2,
+        "endLine": 62,
+        "endChar": 63
+      },
+      "revId": "3d086c2d22ba2b125ab02413c200f118d52d4d10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0d12ce3_528a94fc",
+        "filename": "Documentation/cmd-verify.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-10-07T08:15:33Z",
+      "side": 1,
+      "message": "are",
+      "range": {
+        "startLine": 73,
+        "startChar": 29,
+        "endLine": 73,
+        "endChar": 31
+      },
+      "revId": "3d086c2d22ba2b125ab02413c200f118d52d4d10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d0d6e8da_b1bd00ac",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 1773,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-10-07T08:15:33Z",
+      "side": 1,
+      "message": "Unrelated addition?",
+      "range": {
+        "startLine": 1772,
+        "startChar": 7,
+        "endLine": 1773,
+        "endChar": 22
+      },
+      "revId": "3d086c2d22ba2b125ab02413c200f118d52d4d10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0d12ce3_728f980b",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 3900,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-10-07T08:15:33Z",
+      "side": 1,
+      "message": "\"a verification\"",
+      "range": {
+        "startLine": 3900,
+        "startChar": 40,
+        "endLine": 3900,
+        "endChar": 57
+      },
+      "revId": "3d086c2d22ba2b125ab02413c200f118d52d4d10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d0d6e8da_518a94fc",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 3908,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-10-07T08:15:33Z",
+      "side": 1,
+      "message": "Is this relevant?  A bot is still a user.",
+      "range": {
+        "startLine": 3908,
+        "startChar": 22,
+        "endLine": 3908,
+        "endChar": 30
+      },
+      "revId": "3d086c2d22ba2b125ab02413c200f118d52d4d10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

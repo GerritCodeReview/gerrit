@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "307ae4aa_d49c3cff",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-07T08:57:08Z",
+      "side": 1,
+      "message": "Gerrit sites",
+      "range": {
+        "startLine": 10,
+        "startChar": 27,
+        "endLine": 10,
+        "endChar": 35
+      },
+      "revId": "3d086c2d22ba2b125ab02413c200f118d52d4d10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1077a0c2_f32e30fe",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-07T08:57:08Z",
+      "side": 1,
+      "message": "Remove this as documentation was added in last patch set.",
+      "range": {
+        "startLine": 53,
+        "startChar": 21,
+        "endLine": 53,
+        "endChar": 46
+      },
+      "revId": "3d086c2d22ba2b125ab02413c200f118d52d4d10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d0d6e8da_31b270de",
         "filename": "Documentation/cmd-index.txt",
         "patchSetId": 9

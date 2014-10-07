@@ -71,6 +71,52 @@
     },
     {
       "key": {
+        "uuid": "1077a0c2_338fc8ba",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/GetTag.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-07T03:43:13Z",
+      "side": 1,
+      "message": "Can\u0027t return type be TagInfo?",
+      "range": {
+        "startLine": 27,
+        "startChar": 9,
+        "endLine": 27,
+        "endChar": 15
+      },
+      "revId": "fd9fd2b4f59849455735ec24e017b51f8944f0d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1077a0c2_d383f490",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/GetTag.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-07T03:43:13Z",
+      "side": 1,
+      "message": "Are all these exceptions really thrown?",
+      "range": {
+        "startLine": 27,
+        "startChar": 51,
+        "endLine": 28,
+        "endChar": 63
+      },
+      "revId": "fd9fd2b4f59849455735ec24e017b51f8944f0d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "307ae4aa_f46b785c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListTags.java",
         "patchSetId": 3

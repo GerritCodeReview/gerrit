@@ -22,6 +22,23 @@
       "revId": "ce43e64c7057cbc153cd8c2eb6c0eebcdfe6cd76",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "307ae4aa_74fc481c",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/GerritServer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-07T18:02:06Z",
+      "side": 1,
+      "message": "You are missing to drop indeces. All tests are failing: [1]. Alternatively don\u0027t drop tables, just delete the content, and you don\u0027t need to re-create the whole site, just re-init it [2].\n\n* [1] http://paste.openstack.org/show/119434\n* [2] https://gerrit-review.googlesource.com/#/c/59398/3/gerrit-server/\n  src/main/java/com/google/gerrit/server/schema/SchemaCreator.java@108",
+      "revId": "ce43e64c7057cbc153cd8c2eb6c0eebcdfe6cd76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

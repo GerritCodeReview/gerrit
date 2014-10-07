@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f0d12ce3_32fb508c",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/TagInfo.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-10-07T04:31:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "307ae4aa_346a505d",
+      "range": {
+        "startLine": 18,
+        "startChar": 2,
+        "endLine": 18,
+        "endChar": 13
+      },
+      "revId": "fd9fd2b4f59849455735ec24e017b51f8944f0d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "307ae4aa_1465d48b",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/TagInfo.java",
         "patchSetId": 3
@@ -36,6 +60,30 @@
       "writtenOn": "2014-10-07T03:40:44Z",
       "side": 1,
       "message": "Seems like these attributes are null for lightweight tags. May be create a hierarchie of classes:\n\n  (Lightweight)Tag with only ref and revision and\n  AnnotatedTag\n\nwith the rest? Otherwise it should be somehow marked as optional/possible null values.",
+      "range": {
+        "startLine": 20,
+        "startChar": 2,
+        "endLine": 22,
+        "endChar": 19
+      },
+      "revId": "fd9fd2b4f59849455735ec24e017b51f8944f0d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0d12ce3_12f64ca3",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/TagInfo.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-10-07T04:31:59Z",
+      "side": 1,
+      "message": "They are marked as optional in the documentation.  If they are null they are not included in the returned data.",
+      "parentUuid": "307ae4aa_1465d48b",
       "range": {
         "startLine": 20,
         "startChar": 2,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "d0d6e8da_f1ece8cf",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/TagInfo.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-10-07T04:31:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "307ae4aa_d46e7c6f",
+      "range": {
+        "startLine": 31,
+        "startChar": 4,
+        "endLine": 32,
+        "endChar": 29
+      },
+      "revId": "fd9fd2b4f59849455735ec24e017b51f8944f0d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1077a0c2_338fc8ba",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/GetTag.java",
         "patchSetId": 3
@@ -82,6 +154,30 @@
       "writtenOn": "2014-10-07T03:43:13Z",
       "side": 1,
       "message": "Can\u0027t return type be TagInfo?",
+      "range": {
+        "startLine": 27,
+        "startChar": 9,
+        "endLine": 27,
+        "endChar": 15
+      },
+      "revId": "fd9fd2b4f59849455735ec24e017b51f8944f0d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0d12ce3_d2ef64c2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/GetTag.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-10-07T04:31:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1077a0c2_338fc8ba",
       "range": {
         "startLine": 27,
         "startChar": 9,
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "f0d12ce3_f2ece8cf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/GetTag.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-10-07T04:31:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1077a0c2_d383f490",
+      "range": {
+        "startLine": 27,
+        "startChar": 51,
+        "endLine": 28,
+        "endChar": 63
+      },
+      "revId": "fd9fd2b4f59849455735ec24e017b51f8944f0d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "307ae4aa_f46b785c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListTags.java",
         "patchSetId": 3
@@ -128,6 +248,30 @@
       "writtenOn": "2014-10-07T03:40:44Z",
       "side": 1,
       "message": "Would it make sense to differentiate this case? Say provide a parameter, like:\n\n  boolean annotated or\n  boolean leightweight\n\nand have seensible deafult? When parameter, then the endpoint cannot be singleton any more.",
+      "range": {
+        "startLine": 73,
+        "startChar": 12,
+        "endLine": 79,
+        "endChar": 13
+      },
+      "revId": "fd9fd2b4f59849455735ec24e017b51f8944f0d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0d12ce3_92e9dcbe",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListTags.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-10-07T04:31:59Z",
+      "side": 1,
+      "message": "I don\u0027t think it\u0027s necessary to do this, especially if it means it can\u0027t be a singleton.",
+      "parentUuid": "307ae4aa_f46b785c",
       "range": {
         "startLine": 73,
         "startChar": 12,

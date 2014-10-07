@@ -327,6 +327,30 @@
       "revId": "b6fee2b656267b6b188ee5730f0fc482c8c3e65d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "307ae4aa_944fa4fd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/TagsCollection.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-07T07:32:17Z",
+      "side": 1,
+      "message": "Why Exception is thrown in method declaration.",
+      "parentUuid": "d0d6e8da_91e9dcbe",
+      "range": {
+        "startLine": 57,
+        "startChar": 25,
+        "endLine": 57,
+        "endChar": 43
+      },
+      "revId": "b6fee2b656267b6b188ee5730f0fc482c8c3e65d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

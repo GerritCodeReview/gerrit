@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "307ae4aa_d483dc90",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-07T14:20:22Z",
+      "side": 1,
+      "message": "Nice idea to make it static and seamlessly support @Before and @After in consumer tests. In my previous attempt to implement warm server pattern, the idea was to reuse the same server instance with optionally not nuking the world. There were substantial number of tests, that were just attempting to perform some actions that were prohibited (for example REST 404 or some such) and without leaving any traces in underlying server. With my approach i can only have one @Test annotated method and called all actually test methods from it. with or with cleanUp() method invocation between single method calls. This was messy and not so easy testable from Eclipse. static warm server instance approach is much cleaner. \n\nTo revive this feature with this implementation we could support @NoCleanUp method annotation to optimize those test methods where \"nuke the world\" between tests isn\u0027t necessary, see [1], where i combined different tests classes together to be able to reuse the same server and only called flush() method between tests where this was really necessary.\n\n [1] https://gerrit-review.googlesource.com/#/c/59549/2/gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/config/CachesIT.java",
+      "range": {
+        "startLine": 108,
+        "startChar": 10,
+        "endLine": 108,
+        "endChar": 16
+      },
+      "revId": "ce43e64c7057cbc153cd8c2eb6c0eebcdfe6cd76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

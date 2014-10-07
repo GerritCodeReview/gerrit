@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "307ae4aa_341d70d2",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-07T20:03:00Z",
+      "side": 1,
+      "message": "This logic is wrong, when one test runner has a switch between memory and disk tests. When first test method was memory repo method, then GerritServer with memory repo is created. When second method with @UseLocalDisk is activated, then the existing server instance is used that erroneosly using in memory repository and GC JGit operation is failing with wrong repo type. The failing test is:\n\n com.google.gerrit.acceptance.rest.project.GarbageCollectionIT\n\nThe error is:\n\n java.lang.UnsupportedOperationException: Unsupported garbage collector for \n repository type: class com.google.gerrit.testutil.InMemoryRepositoryManager$Repo\n\tat org.eclipse.jgit.api.GarbageCollectCommand.\u003cinit\u003e(GarbageCollectCommand.java:83)\n\tat org.eclipse.jgit.api.Git.gc(Git.java:673)\n\tat com.google.gerrit.server.git.GarbageCollection.run(GarbageCollection.java:79)\n\tat com.google.gerrit.server.project.GarbageCollect$1.writeTo(GarbageCollect.java:71)",
+      "range": {
+        "startLine": 163,
+        "startChar": 4,
+        "endLine": 170,
+        "endChar": 5
+      },
+      "revId": "cabde43b1713d45d102d6c95bfb8c6cc262d0f0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

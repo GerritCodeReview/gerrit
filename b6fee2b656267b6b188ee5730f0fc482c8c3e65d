@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f0d12ce3_72a8f86d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListTags.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-10-07T07:16:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "307ae4aa_f45298a6",
+      "range": {
+        "startLine": 53,
+        "startChar": 62,
+        "endLine": 53,
+        "endChar": 75
+      },
+      "revId": "b6fee2b656267b6b188ee5730f0fc482c8c3e65d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1077a0c2_b31198c2",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListTags.java",
         "patchSetId": 4
@@ -94,6 +118,30 @@
     },
     {
       "key": {
+        "uuid": "f0d12ce3_12adec7c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListTags.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-10-07T07:16:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1077a0c2_f3071084",
+      "range": {
+        "startLine": 54,
+        "startChar": 54,
+        "endLine": 54,
+        "endChar": 63
+      },
+      "revId": "b6fee2b656267b6b188ee5730f0fc482c8c3e65d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1077a0c2_3306e88c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListTags.java",
         "patchSetId": 4
@@ -105,6 +153,30 @@
       "writtenOn": "2014-10-07T06:39:03Z",
       "side": 1,
       "message": "No final in new code.",
+      "range": {
+        "startLine": 67,
+        "startChar": 8,
+        "endLine": 67,
+        "endChar": 13
+      },
+      "revId": "b6fee2b656267b6b188ee5730f0fc482c8c3e65d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0d12ce3_32b270de",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListTags.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-10-07T07:16:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1077a0c2_3306e88c",
       "range": {
         "startLine": 67,
         "startChar": 8,
@@ -140,6 +212,30 @@
     },
     {
       "key": {
+        "uuid": "d0d6e8da_51a37492",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListTags.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-10-07T07:16:55Z",
+      "side": 1,
+      "message": "I\u0027d prefer to leave it like this (it\u0027s same as in the ListBranches implementation) unless there is any significant advantage.",
+      "parentUuid": "307ae4aa_143cf459",
+      "range": {
+        "startLine": 89,
+        "startChar": 4,
+        "endLine": 96,
+        "endChar": 16
+      },
+      "revId": "b6fee2b656267b6b188ee5730f0fc482c8c3e65d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "307ae4aa_d4551c91",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/TagsCollection.java",
         "patchSetId": 4
@@ -151,6 +247,30 @@
       "writtenOn": "2014-10-07T06:39:03Z",
       "side": 1,
       "message": "We never throw Exception in non test code.",
+      "range": {
+        "startLine": 52,
+        "startChar": 40,
+        "endLine": 52,
+        "endChar": 49
+      },
+      "revId": "b6fee2b656267b6b188ee5730f0fc482c8c3e65d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d0d6e8da_71a8f86d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/TagsCollection.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-10-07T07:16:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "307ae4aa_d4551c91",
       "range": {
         "startLine": 52,
         "startChar": 40,

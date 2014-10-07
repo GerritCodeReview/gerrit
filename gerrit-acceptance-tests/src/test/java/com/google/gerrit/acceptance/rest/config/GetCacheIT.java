@@ -14,6 +14,8 @@
 
 package com.google.gerrit.acceptance.rest.config;
 
+import static com.google.gerrit.acceptance.InitOperations.REST;
+import static com.google.gerrit.acceptance.InitOperations.USER;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -21,6 +23,7 @@ import static org.junit.Assert.assertTrue;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
+import com.google.gerrit.acceptance.Spec;
 import com.google.gerrit.server.config.ListCaches.CacheInfo;
 import com.google.gerrit.server.config.ListCaches.CacheType;
 
@@ -32,6 +35,7 @@ import java.io.IOException;
 public class GetCacheIT extends AbstractDaemonTest {
 
   @Test
+  @Spec(init = {REST, USER})
   public void getCache() throws IOException {
     RestResponse r = adminSession.get("/config/server/caches/accounts");
     assertEquals(HttpStatus.SC_OK, r.getStatusCode());
@@ -56,18 +60,21 @@ public class GetCacheIT extends AbstractDaemonTest {
   }
 
   @Test
+  @Spec(init = {REST, USER})
   public void getCache_Forbidden() throws IOException {
     RestResponse r = userSession.get("/config/server/caches/accounts");
     assertEquals(HttpStatus.SC_FORBIDDEN, r.getStatusCode());
   }
 
   @Test
+  @Spec(init = {REST, USER})
   public void getCache_NotFound() throws IOException {
     RestResponse r = adminSession.get("/config/server/caches/nonExisting");
     assertEquals(HttpStatus.SC_NOT_FOUND, r.getStatusCode());
   }
 
   @Test
+  @Spec(init = {REST, USER})
   public void getCacheWithGerritPrefix() throws IOException {
     RestResponse r = adminSession.get("/config/server/caches/gerrit-accounts");
     assertEquals(HttpStatus.SC_OK, r.getStatusCode());

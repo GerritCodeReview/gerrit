@@ -22,29 +22,21 @@ import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
-import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.Permission;
-import com.google.gerrit.common.data.PermissionRule;
-import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.GerritPersonIdent;
-import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.git.CommitMergeStatus;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.git.MetaDataUpdate;
-import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.notedb.ChangeNotes;
-import com.google.gerrit.server.project.ProjectCache;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
@@ -62,15 +54,6 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
 
   @Inject
   private ApprovalsUtil approvalsUtil;
-
-  @Inject
-  private MetaDataUpdate.Server metaDataUpdateFactory;
-
-  @Inject
-  private ProjectCache projectCache;
-
-  @Inject
-  private GroupCache groupCache;
 
   @Inject
   private ChangeNotes.Factory changeNotesFactory;
@@ -224,19 +207,6 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
     assertEquals(Change.Status.MERGED, c.getStatus());
   }
 
-  private void grant(String permission, Project.NameKey project, String ref)
-      throws RepositoryNotFoundException, IOException, ConfigInvalidException {
-    MetaDataUpdate md = metaDataUpdateFactory.create(project);
-    md.setMessage(String.format("Grant %s on %s", permission, ref));
-    ProjectConfig config = ProjectConfig.read(md);
-    AccessSection s = config.getAccessSection(ref, true);
-    Permission p = s.getPermission(permission, true);
-    AccountGroup adminGroup = groupCache.get(new AccountGroup.NameKey("Administrators"));
-    p.add(new PermissionRule(config.resolve(adminGroup)));
-    config.commit(md);
-    projectCache.evict(config.getProject());
-  }
-
   private PatchSetApproval getSubmitter(PatchSet.Id patchSetId)
       throws OrmException {
     Change c = db.changes().get(patchSetId.getParentKey());
@@ -296,12 +266,6 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
     } finally {
       r.close();
     }
-  }
-
-  private PushOneCommit.Result pushTo(String ref) throws GitAPIException,
-      IOException {
-    PushOneCommit push = pushFactory.create(db, admin.getIdent());
-    return push.to(git, ref);
   }
 
   private PushOneCommit.Result push(String ref, String subject,

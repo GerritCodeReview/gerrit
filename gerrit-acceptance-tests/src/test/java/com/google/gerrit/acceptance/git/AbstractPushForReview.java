@@ -278,10 +278,4 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     PushOneCommit.Result r = pushTo("refs/for/master%hashtag=tag1");
     r.assertErrorStatus("cannot add hashtags; noteDb is disabled");
   }
-
-  private PushOneCommit.Result pushTo(String ref) throws GitAPIException,
-      IOException {
-    PushOneCommit push = pushFactory.create(db, admin.getIdent());
-    return push.to(git, ref);
-  }
 }

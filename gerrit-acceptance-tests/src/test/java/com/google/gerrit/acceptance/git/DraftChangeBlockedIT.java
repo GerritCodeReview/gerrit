@@ -70,12 +70,6 @@ public class DraftChangeBlockedIT extends AbstractDaemonTest {
     r.assertErrorStatus("cannot upload drafts");
   }
 
-  private PushOneCommit.Result pushTo(String ref) throws GitAPIException,
-      IOException {
-    PushOneCommit push = pushFactory.create(db, admin.getIdent());
-    return push.to(git, ref);
-  }
-
   private void saveProjectConfig(ProjectConfig cfg) throws IOException {
     MetaDataUpdate md = metaDataUpdateFactory.create(allProjects);
     try {

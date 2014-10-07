@@ -2,6 +2,121 @@
   "comments": [
     {
       "key": {
+        "uuid": "307ae4aa_f45298a6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListTags.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-07T06:39:03Z",
+      "side": 1,
+      "message": "not used",
+      "range": {
+        "startLine": 53,
+        "startChar": 62,
+        "endLine": 53,
+        "endChar": 75
+      },
+      "revId": "b6fee2b656267b6b188ee5730f0fc482c8c3e65d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1077a0c2_b31198c2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListTags.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-07T06:39:03Z",
+      "side": 1,
+      "message": "not used",
+      "range": {
+        "startLine": 54,
+        "startChar": 27,
+        "endLine": 54,
+        "endChar": 52
+      },
+      "revId": "b6fee2b656267b6b188ee5730f0fc482c8c3e65d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1077a0c2_f3071084",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListTags.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-07T06:39:03Z",
+      "side": 1,
+      "message": "s/Exception/IOException\n\nand add ResourceNotFoundException to the list of thrown exceptions.",
+      "range": {
+        "startLine": 54,
+        "startChar": 54,
+        "endLine": 54,
+        "endChar": 63
+      },
+      "revId": "b6fee2b656267b6b188ee5730f0fc482c8c3e65d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1077a0c2_531e04d3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListTags.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-07T06:39:03Z",
+      "side": 1,
+      "message": "not used",
+      "range": {
+        "startLine": 54,
+        "startChar": 6,
+        "endLine": 54,
+        "endChar": 25
+      },
+      "revId": "b6fee2b656267b6b188ee5730f0fc482c8c3e65d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1077a0c2_3306e88c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListTags.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-07T06:39:03Z",
+      "side": 1,
+      "message": "No final in new code.",
+      "range": {
+        "startLine": 67,
+        "startChar": 8,
+        "endLine": 67,
+        "endChar": 13
+      },
+      "revId": "b6fee2b656267b6b188ee5730f0fc482c8c3e65d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "307ae4aa_143cf459",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListTags.java",
         "patchSetId": 4
@@ -18,6 +133,52 @@
         "startChar": 4,
         "endLine": 96,
         "endChar": 16
+      },
+      "revId": "b6fee2b656267b6b188ee5730f0fc482c8c3e65d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "307ae4aa_d4551c91",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/TagsCollection.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-07T06:39:03Z",
+      "side": 1,
+      "message": "We never throw Exception in non test code.",
+      "range": {
+        "startLine": 52,
+        "startChar": 40,
+        "endLine": 52,
+        "endChar": 49
+      },
+      "revId": "b6fee2b656267b6b188ee5730f0fc482c8c3e65d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1077a0c2_d30a148f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/TagsCollection.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-07T06:39:03Z",
+      "side": 1,
+      "message": "The problem seems to be in this method.",
+      "range": {
+        "startLine": 57,
+        "startChar": 25,
+        "endLine": 57,
+        "endChar": 43
       },
       "revId": "b6fee2b656267b6b188ee5730f0fc482c8c3e65d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

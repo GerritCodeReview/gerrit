@@ -31,7 +31,6 @@ import com.google.gerrit.server.config.PostCaches;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.group.SystemGroupBackend;
-import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.Util;
 import com.google.inject.Inject;
 
@@ -44,13 +43,7 @@ import java.util.Arrays;
 public class CacheOperationsIT extends AbstractDaemonTest {
 
   @Inject
-  private ProjectCache projectCache;
-
-  @Inject
   private AllProjectsName allProjects;
-
-  @Inject
-  private MetaDataUpdate.Server metaDataUpdateFactory;
 
   @Test
   public void flushAll() throws IOException {

@@ -14,12 +14,15 @@
 
 package com.google.gerrit.acceptance.rest.config;
 
+import static com.google.gerrit.acceptance.InitOperations.REST;
+import static com.google.gerrit.acceptance.InitOperations.USER;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
+import com.google.gerrit.acceptance.Spec;
 import com.google.gerrit.server.config.ListTasks.TaskInfo;
 import com.google.gson.reflect.TypeToken;
 
@@ -32,6 +35,7 @@ import java.util.List;
 public class ListTasksIT extends AbstractDaemonTest {
 
   @Test
+  @Spec(init = {REST, USER})
   public void listTasks() throws IOException {
     RestResponse r = adminSession.get("/config/server/tasks/");
     assertEquals(HttpStatus.SC_OK, r.getStatusCode());
@@ -53,6 +57,7 @@ public class ListTasksIT extends AbstractDaemonTest {
   }
 
   @Test
+  @Spec(init = {REST, USER})
   public void listTasksWithoutViewQueueCapability() throws IOException {
     RestResponse r = userSession.get("/config/server/tasks/");
     assertEquals(HttpStatus.SC_OK, r.getStatusCode());

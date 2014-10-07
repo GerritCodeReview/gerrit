@@ -14,11 +14,14 @@
 
 package com.google.gerrit.acceptance.rest.config;
 
+import static com.google.gerrit.acceptance.InitOperations.REST;
+import static com.google.gerrit.acceptance.InitOperations.USER;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
+import com.google.gerrit.acceptance.Spec;
 import com.google.gerrit.server.config.ListTasks.TaskInfo;
 import com.google.gson.reflect.TypeToken;
 
@@ -31,6 +34,7 @@ import java.util.List;
 public class GetTaskIT extends AbstractDaemonTest {
 
   @Test
+  @Spec(init = {REST, USER})
   public void getTask() throws IOException {
     RestResponse r =
         adminSession.get("/config/server/tasks/" + getLogFileCompressorTaskId());
@@ -45,6 +49,7 @@ public class GetTaskIT extends AbstractDaemonTest {
   }
 
   @Test
+  @Spec(init = {REST, USER})
   public void getTask_NotFound() throws IOException {
     RestResponse r =
         userSession.get("/config/server/tasks/" + getLogFileCompressorTaskId());

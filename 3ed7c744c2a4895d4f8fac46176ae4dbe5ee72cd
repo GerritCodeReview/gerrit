@@ -22,6 +22,30 @@
       "revId": "3ed7c744c2a4895d4f8fac46176ae4dbe5ee72cd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0d12ce3_f29aa847",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListTags.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-10-07T08:58:09Z",
+      "side": 1,
+      "message": "I\u0027m not sure.  We don\u0027t use VisibleRefFilter in any of the other REST implementations, including ListBranches which is what I based this on.",
+      "parentUuid": "1077a0c2_932b3ced",
+      "range": {
+        "startLine": 65,
+        "startChar": 8,
+        "endLine": 65,
+        "endChar": 79
+      },
+      "revId": "3ed7c744c2a4895d4f8fac46176ae4dbe5ee72cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

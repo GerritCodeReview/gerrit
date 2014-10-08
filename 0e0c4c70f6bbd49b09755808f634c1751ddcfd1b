@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "307ae4aa_14cf14eb",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/InitOperations.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-08T06:48:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d0d6e8da_f16148ad",
+      "range": {
+        "startLine": 17,
+        "startChar": 12,
+        "endLine": 17,
+        "endChar": 26
+      },
+      "revId": "0e0c4c70f6bbd49b09755808f634c1751ddcfd1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f0d12ce3_3257d0cb",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/InitOperations.java",
         "patchSetId": 4
@@ -36,6 +60,30 @@
       "writtenOn": "2014-10-08T06:01:52Z",
       "side": 1,
       "message": "Would it make more sense to have NONE as the first entry of the enum?",
+      "range": {
+        "startLine": 19,
+        "startChar": 2,
+        "endLine": 19,
+        "endChar": 6
+      },
+      "revId": "0e0c4c70f6bbd49b09755808f634c1751ddcfd1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1077a0c2_13740cf9",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/InitOperations.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-08T06:48:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f0d12ce3_3257d0cb",
       "range": {
         "startLine": 19,
         "startChar": 2,

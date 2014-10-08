@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "1077a0c2_734d40b9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2014-10-08T10:04:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "307ae4aa_b4bf4032",
+      "revId": "2d16be67fc970e893bbe4399d954e5a5762d5cea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1077a0c2_f38ab075",
         "filename": "/COMMIT_MSG",
         "patchSetId": 5
@@ -53,6 +71,30 @@
       "writtenOn": "2014-10-08T07:56:31Z",
       "side": 1,
       "message": "Mina will automatically raise the limit if it is set to a value lower than 32.",
+      "parentUuid": "1077a0c2_f38ab075",
+      "range": {
+        "startLine": 26,
+        "startChar": 11,
+        "endLine": 26,
+        "endChar": 21
+      },
+      "revId": "2d16be67fc970e893bbe4399d954e5a5762d5cea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "307ae4aa_d4a67c1e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2014-10-08T10:04:22Z",
+      "side": 1,
+      "message": "Done",
       "parentUuid": "1077a0c2_f38ab075",
       "range": {
         "startLine": 26,

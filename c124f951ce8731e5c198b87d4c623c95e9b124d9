@@ -128,6 +128,30 @@
       "revId": "c124f951ce8731e5c198b87d4c623c95e9b124d9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1077a0c2_56cfd2bb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetDiff.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-08T15:51:39Z",
+      "side": 1,
+      "message": "Another hint? What is the first hint? Für Change Edit we\u0027ve extended RevisionResource with Optional\u003cChangeEdit\u003e attribute. So why not to create FileResource with baseResource \u003d null to denote base resource?",
+      "parentUuid": "1077a0c2_3347c899",
+      "range": {
+        "startLine": 158,
+        "startChar": 8,
+        "endLine": 161,
+        "endChar": 9
+      },
+      "revId": "c124f951ce8731e5c198b87d4c623c95e9b124d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

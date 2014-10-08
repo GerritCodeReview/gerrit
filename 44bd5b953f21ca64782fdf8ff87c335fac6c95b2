@@ -22,6 +22,30 @@
       "revId": "44bd5b953f21ca64782fdf8ff87c335fac6c95b2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0d12ce3_52bff489",
+        "filename": "lib/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-10-08T08:16:25Z",
+      "side": 1,
+      "message": "Ah, I see.  This is the sha1 after checking out your series of changes [1] that is currently up for review.\n\n[1] https://gerrit-review.googlesource.com/#/c/60602/1",
+      "parentUuid": "f0d12ce3_b242e001",
+      "range": {
+        "startLine": 28,
+        "startChar": 35,
+        "endLine": 28,
+        "endChar": 39
+      },
+      "revId": "44bd5b953f21ca64782fdf8ff87c335fac6c95b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "307ae4aa_34eb303a",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/webui/WebLink.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-10-08T08:44:50Z",
+      "side": 1,
+      "message": "Please update the plugin documentation. Section \"Links To External Tools\" in dev-plugins.txt still describes the old way to implement web links.",
+      "revId": "c124f951ce8731e5c198b87d4c623c95e9b124d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "307ae4aa_74f1a829",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/webui/WebLink.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-10-08T08:44:50Z",
+      "side": 1,
+      "message": "Does it make sense to have the Weblink interface in the extensions package? All RestResources for which web links are supported are not accessible from extensions, but only from plugins. Means this interface is useless for extensions, and hence it doesn\u0027t need to be contained in the extensions-api.jar?\n\nI actually liked that with the previous solution it was possible to implement web links from extensions and it\u0027s a pity that now only plugins can do this.\n\nIt looks very elegant to bind the web links to RestResources because it unifies the interfaces and I like it, but this has also some limitations. Can we imagine web links that are not tight to a RestResource? Or could there be a need for different types of web links for the same RestResource type (e.g. revision links that should show up in different places in the change screen)?",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 50
+      },
+      "revId": "c124f951ce8731e5c198b87d4c623c95e9b124d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1077a0c2_b3843868",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetDiff.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-10-08T08:44:50Z",
+      "side": 1,
+      "message": "baseResource is null when a patch set is compared with its base. As result there will be no file web link on the base version in the side-by-side comparison :(",
+      "range": {
+        "startLine": 158,
+        "startChar": 8,
+        "endLine": 161,
+        "endChar": 9
+      },
+      "revId": "c124f951ce8731e5c198b87d4c623c95e9b124d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

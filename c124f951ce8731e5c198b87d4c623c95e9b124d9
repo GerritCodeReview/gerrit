@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "1077a0c2_d33bf40f",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/webui/WebLink.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-10-08T10:15:27Z",
+      "side": 1,
+      "message": "This must be done if we this change to be merged, but since I share your concerns below I\u0027m not sure if I want it to be merged. :-S",
+      "parentUuid": "307ae4aa_34eb303a",
+      "revId": "c124f951ce8731e5c198b87d4c623c95e9b124d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "307ae4aa_74f1a829",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/webui/WebLink.java",
         "patchSetId": 18
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "307ae4aa_b4ad00fa",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/webui/WebLink.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-10-08T10:15:27Z",
+      "side": 1,
+      "message": "All valid points and I share your concerns.\nMaybe WebLink\u003cT extends RestResource\u003e is not the way to go at all.\nI made a mistake by pushing this refactoring as new patch set on my previous refactoring [1], which I was more comfortable with because it was less intrusive.\n\nWould you mind looking at that as well?\n\n[1] ps7 https://gerrit-review.googlesource.com/#/c/60322/7",
+      "parentUuid": "307ae4aa_74f1a829",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 50
+      },
+      "revId": "c124f951ce8731e5c198b87d4c623c95e9b124d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1077a0c2_b3843868",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetDiff.java",
         "patchSetId": 18
@@ -53,6 +95,30 @@
       "writtenOn": "2014-10-08T08:44:50Z",
       "side": 1,
       "message": "baseResource is null when a patch set is compared with its base. As result there will be no file web link on the base version in the side-by-side comparison :(",
+      "range": {
+        "startLine": 158,
+        "startChar": 8,
+        "endLine": 161,
+        "endChar": 9
+      },
+      "revId": "c124f951ce8731e5c198b87d4c623c95e9b124d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1077a0c2_3347c899",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetDiff.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-10-08T10:15:27Z",
+      "side": 1,
+      "message": "Yes I know.\nI found the previous solution with ref + \"^1\" a little peculiar and I couldn\u0027t think of a way to create a valid FileResource out of the base.\nMaybe yet another hint that RestResource is not the way to go.",
+      "parentUuid": "1077a0c2_b3843868",
       "range": {
         "startLine": 158,
         "startChar": 8,

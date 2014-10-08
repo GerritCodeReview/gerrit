@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "1077a0c2_36ded66f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-08T22:13:11Z",
+      "side": 1,
+      "message": "[Optional]: replace this by abbreviated (9 char) ChangeId so that we get a hyperlink for this:\n\n  I67a7c62be",
+      "range": {
+        "startLine": 9,
+        "startChar": 7,
+        "endLine": 9,
+        "endChar": 18
+      },
+      "revId": "c0a1745291ac5878b5a465974aa087cd3c4c392b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1077a0c2_53ecc452",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -13,6 +36,30 @@
       "writtenOn": "2014-10-07T14:50:41Z",
       "side": 1,
       "message": "Can you (artificially) conduct a acceptance test for this?",
+      "range": {
+        "startLine": 10,
+        "startChar": 50,
+        "endLine": 11,
+        "endChar": 72
+      },
+      "revId": "c0a1745291ac5878b5a465974aa087cd3c4c392b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1077a0c2_16d95a86",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-08T22:13:11Z",
+      "side": 1,
+      "message": "It seems not so easy to conduct a unit test for this, because acceptance framework doesnÄt support plugins.\n\nI was confused by this statement because i forgot, that Delete project UiAction placed on Project info screen doesn\u0027t use DELETE, but POST. So it still worked with button. But not with DELET from the command line:\n\n  $ curl -X DELETE --digest --user john:secret \\\n  http://localhost:8080/a/projects/foo\n  )]}\u0027\n  {\n    \"id\": \"foo\",\n    \"name\": \"foo\",\n    \"parent\": \"All-Projects\",\n    [...]\n  }\n\nNice effect, DELETE./ was replaced by GET./ ;-)",
+      "parentUuid": "1077a0c2_53ecc452",
       "range": {
         "startLine": 10,
         "startChar": 50,

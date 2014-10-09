@@ -26,9 +26,12 @@ import com.google.common.cache.Weigher;
 import com.google.gerrit.extensions.common.SubmitType;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.inject.Inject;
+import com.google.inject.Key;
 import com.google.inject.Module;
 import com.google.inject.Singleton;
+import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
+import com.google.inject.name.Names;
 
 import org.eclipse.jgit.lib.ObjectId;
 
@@ -40,7 +43,13 @@ import java.util.Objects;
 
 @Singleton
 public class MergeabilityCache {
-  private static final String CACHE_NAME = "mergeability";
+  public static final String CACHE_NAME = "mergeability";
+
+  @SuppressWarnings("rawtypes")
+  public static Key bindingKey() {
+    return Key.get(new TypeLiteral<Cache<EntryKey, Boolean>>() {},
+        Names.named(CACHE_NAME));
+  }
 
   public static Module module() {
     return new CacheModule() {

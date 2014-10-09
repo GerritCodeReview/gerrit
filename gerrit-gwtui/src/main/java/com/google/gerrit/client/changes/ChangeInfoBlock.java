@@ -125,7 +125,7 @@ public class ChangeInfoBlock extends Composite {
     if (Gerrit.getConfig().getNewFeatures()
         && (status.equals(Change.Status.NEW) || status.equals(Change.Status.DRAFT))) {
       table.getRowFormatter().setVisible(R_MERGE_TEST, true);
-      table.setText(R_MERGE_TEST, 1, chg.isMergeable() ? Util.C
+      table.setText(R_MERGE_TEST, 1, changeDetail.isMergeable() ? Util.C
           .changeInfoBlockCanMergeYes() : Util.C.changeInfoBlockCanMergeNo());
     } else {
       table.getRowFormatter().setVisible(R_MERGE_TEST, false);

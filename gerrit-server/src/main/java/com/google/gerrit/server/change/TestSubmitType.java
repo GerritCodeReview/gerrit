@@ -77,7 +77,7 @@ public class TestSubmitType implements RestModifyView<RevisionResource, Input> {
     return rec.type;
   }
 
-  static class Get implements RestReadView<RevisionResource> {
+  public static class Get implements RestReadView<RevisionResource> {
     private final TestSubmitType test;
 
     @Inject

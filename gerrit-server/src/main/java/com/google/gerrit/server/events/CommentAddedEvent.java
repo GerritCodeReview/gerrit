@@ -14,16 +14,40 @@
 
 package com.google.gerrit.server.events;
 
+import static org.eclipse.jgit.lib.Constants.R_HEADS;
+
+import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.data.AccountAttribute;
 import com.google.gerrit.server.data.ApprovalAttribute;
 import com.google.gerrit.server.data.ChangeAttribute;
 import com.google.gerrit.server.data.PatchSetAttribute;
 
 public class CommentAddedEvent extends ChangeEvent {
-    public final String type = "comment-added";
-    public ChangeAttribute change;
-    public PatchSetAttribute patchSet;
-    public AccountAttribute author;
-    public ApprovalAttribute[] approvals;
-    public String comment;
+  public final String type = "comment-added";
+  public ChangeAttribute change;
+  public PatchSetAttribute patchSet;
+  public AccountAttribute author;
+  public ApprovalAttribute[] approvals;
+  public String comment;
+
+  @Override
+  public String getType() {
+    return type;
+  }
+
+  @Override
+  public Project.NameKey getProjectNameKey() {
+    return new Project.NameKey(change.project);
+  }
+
+  @Override
+  public Change.Key getChangeKey() {
+    return new Change.Key(change.id);
+  }
+
+  @Override
+  public String getRefName() {
+    return R_HEADS + change.branch;
+  }
 }

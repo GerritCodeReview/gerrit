@@ -13,6 +13,7 @@
 // limitations under the License.
 package com.google.gerrit.server.events;
 
+import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.IdentifiedUser;
 
@@ -23,4 +24,24 @@ public class RefOperationReceivedEvent extends ChangeEvent {
   public ReceiveCommand command;
   public Project project;
   public IdentifiedUser user;
+
+  @Override
+  public String getType() {
+    return type;
+  }
+
+  @Override
+  public Project.NameKey getProjectNameKey() {
+    return project.getNameKey();
+  }
+
+  @Override
+  public Change.Key getChangeKey() {
+    return null;
+  }
+
+  @Override
+  public String getRefName() {
+    return command.getRefName();
+  }
 }

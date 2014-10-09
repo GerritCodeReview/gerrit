@@ -45,6 +45,7 @@ public class ChangeDetail {
   protected SubmitType submitType;
   protected SubmitTypeRecord submitTypeRecord;
   protected boolean canSubmit;
+  protected boolean mergeable;
   protected List<ChangeMessage> messages;
   protected PatchSet.Id currentPatchSetId;
   protected PatchSetDetail currentDetail;
@@ -273,5 +274,13 @@ public class ChangeDetail {
 
   public boolean canEdit() {
     return canEdit;
+  }
+
+  public void setMergeable(boolean m) {
+    mergeable = m;
+  }
+
+  public boolean isMergeable() {
+    return mergeable;
   }
 }

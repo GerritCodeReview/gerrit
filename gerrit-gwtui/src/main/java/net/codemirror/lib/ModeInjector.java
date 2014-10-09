@@ -53,7 +53,6 @@ public class ModeInjector {
       Modes.I.gas(),
       Modes.I.gerrit_commit(),
       Modes.I.gfm(),
-      Modes.I.go(),
       Modes.I.groovy(),
       Modes.I.haskell(),
       Modes.I.htmlmixed(),

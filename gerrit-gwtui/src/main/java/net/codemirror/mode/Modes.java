@@ -36,7 +36,6 @@ public interface Modes extends ClientBundle {
   @Source("gas/gas.js") @DoNotEmbed DataResource gas();
   @Source("gerrit/commit.js") @DoNotEmbed DataResource gerrit_commit();
   @Source("gfm/gfm.js") @DoNotEmbed DataResource gfm();
-  @Source("go/go.js") @DoNotEmbed DataResource go();
   @Source("groovy/groovy.js") @DoNotEmbed DataResource groovy();
   @Source("haskell/haskell.js") @DoNotEmbed DataResource haskell();
   @Source("htmlmixed/htmlmixed.js") @DoNotEmbed DataResource htmlmixed();

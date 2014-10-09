@@ -16,6 +16,7 @@ package com.google.gerrit.server.index;
 
 import com.google.common.base.Function;
 import com.google.common.base.MoreObjects;
+import com.google.common.base.Optional;
 import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
@@ -447,7 +448,8 @@ public class ChangeField {
         @Override
         public String get(ChangeData input, FillArgs args)
             throws OrmException {
-          return input.change().isMergeable() ? "1" : null;
+          Optional<Boolean> m = input.isMergeable();
+          return m.isPresent() && m.get() ? "1" : null;
         }
       };
 

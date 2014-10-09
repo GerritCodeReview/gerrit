@@ -40,6 +40,7 @@ import com.google.gerrit.server.account.GroupMembership;
 import com.google.gerrit.server.account.ListGroupMembership;
 import com.google.gerrit.server.change.ChangeKindCache;
 import com.google.gerrit.server.change.ChangeKindCacheImpl;
+import com.google.gerrit.server.change.MergeabilityCache;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.config.AnonymousCowardNameProvider;
@@ -56,8 +57,11 @@ import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.testutil.FakeAccountCache;
 import com.google.gerrit.testutil.InMemoryRepositoryManager;
+import com.google.gwtorm.server.OrmException;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import com.google.inject.Provider;
+import com.google.inject.ProvisionException;
 import com.google.inject.util.Providers;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -253,18 +257,18 @@ public class Util {
     };
 
     Injector injector = Guice.createInjector(new FactoryModule() {
+      @SuppressWarnings({"rawtypes", "unchecked"})
       @Override
       protected void configure() {
+        Provider nullProvider = Providers.of(null);
         bind(Config.class).annotatedWith(GerritServerConfig.class).toInstance(
             new Config());
-        bind(ReviewDb.class).toProvider(Providers.<ReviewDb> of(null));
+        bind(ReviewDb.class).toProvider(nullProvider);
         bind(GitRepositoryManager.class).toInstance(repoManager);
-        bind(PatchListCache.class)
-            .toProvider(Providers.<PatchListCache> of(null));
+        bind(PatchListCache.class).toProvider(nullProvider);
 
         factory(CapabilityControl.Factory.class);
         factory(ChangeControl.AssistedFactory.class);
-        factory(ChangeData.Factory.class);
         bind(ProjectCache.class).toInstance(projectCache);
         bind(AccountCache.class).toInstance(new FakeAccountCache());
         bind(GroupBackend.class).to(SystemGroupBackend.class);
@@ -275,6 +279,34 @@ public class Util {
         bind(String.class).annotatedWith(AnonymousCowardName.class)
             .toProvider(AnonymousCowardNameProvider.class);
         bind(ChangeKindCache.class).to(ChangeKindCacheImpl.NoCache.class);
+        bind(MergeabilityCache.bindingKey()).toProvider(nullProvider);
+        bind(RulesCache.class).toProvider(nullProvider);
+
+        bind(ChangeData.Factory.class).toInstance(new ChangeData.Factory() {
+          @Override
+          public ChangeData create(ReviewDb db, Change.Id id) {
+            try {
+              return ChangeData.createForTest(
+                  id, db.changes().get(id).currentPatchSetId().get());
+            } catch (OrmException e) {
+              ProvisionException pe = new ProvisionException("bad change");
+              pe.initCause(e);
+              throw pe;
+            }
+          }
+
+          @Override
+          public ChangeData create(ReviewDb db, Change c) {
+            return ChangeData.createForTest(
+                c.getId(), c.currentPatchSetId().get());
+          }
+
+          @Override
+          public ChangeData create(ReviewDb db, ChangeControl c) {
+            return create(db, c.getChange());
+          }
+
+        });
       }
     });
 

@@ -91,6 +91,7 @@ public class ChangeDetailCache extends ListenableValue<ChangeDetail> {
     r.setChange(toChange(info));
     r.setStarred(info.starred());
     r.setPatchSets(toPatchSets(info));
+    r.setMergeable(info.mergeable());
     r.setMessages(toMessages(info));
     r.setAccounts(users(info));
     r.setCurrentPatchSetId(new PatchSet.Id(info.legacy_id(), rev._number()));
@@ -224,7 +225,6 @@ public class ChangeDetailCache extends ListenableValue<ChangeDetail> {
     c.setStatus(info.status());
     c.setCurrentPatchSet(p);
     c.setLastUpdatedOn(info.updated());
-    c.setMergeable(info.mergeable());
     return c;
   }
 

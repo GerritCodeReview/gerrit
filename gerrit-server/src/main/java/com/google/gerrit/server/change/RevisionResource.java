@@ -36,6 +36,10 @@ public class RevisionResource implements RestResource, HasETag {
   private final Optional<ChangeEdit> edit;
   private boolean cacheable = true;
 
+  public RevisionResource(ChangeControl ctl, PatchSet ps) {
+    this(new ChangeResource(ctl), ps);
+  }
+
   public RevisionResource(ChangeResource change, PatchSet ps) {
     this(change, ps, Optional.<ChangeEdit> absent());
   }

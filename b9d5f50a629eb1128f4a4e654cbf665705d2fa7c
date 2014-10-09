@@ -96,6 +96,29 @@
     },
     {
       "key": {
+        "uuid": "307ae4aa_d710be71",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteChangeEdit.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-09T09:57:53Z",
+      "side": 1,
+      "message": "I would prefer to decouple two different use cases:\n\n* 1. Deleting a file in ChangeEdit\n* 2. Delete Change edit\n\nBecause after the REST API bug (3d227bbadfa) was fixed, ChangeCollection handles deletion of edits itself, while ChangeEdit handle the deletion of files in edit. We should simplify the implementation her, by remove the path, and putting the one line here and not mix things that don\u0027t belong together any more: [1].\n\nSo remove that factory above, inject instead ChangeEditUtil editUtil, and call it something like:\n\n Optional\u003cChangeEdit\u003e edit \u003d editUtil.byChange(rsrc.getChange());\n      if (edit.isPresent()) {\n        // Edit is wiped out\n        editUtil.delete(edit.get());\n      } else {\n      // throw bad request change edit doesn\u0027t exist and cannot be deleted.\n     }\n  \n\n [1] https://gerrit-review.googlesource.com/#/c/58933/21/gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeEdits.java@218",
+      "range": {
+        "startLine": 43,
+        "startChar": 11,
+        "endLine": 43,
+        "endChar": 79
+      },
+      "revId": "b9d5f50a629eb1128f4a4e654cbf665705d2fa7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "307ae4aa_77220acf",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Module.java",
         "patchSetId": 2

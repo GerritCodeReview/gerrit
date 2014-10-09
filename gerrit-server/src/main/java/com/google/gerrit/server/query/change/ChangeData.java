@@ -159,7 +159,7 @@ public class ChangeData {
    * @param id change ID
    * @return instance for testing.
    */
-  static ChangeData createForTest(Change.Id id, int currentPatchSetId) {
+  public static ChangeData createForTest(Change.Id id, int currentPatchSetId) {
     ChangeData cd = new ChangeData(null, null, null, null, null, null, null,
         null, null, null, null, null, null, id);
     cd.currentPatchSet = new PatchSet(new PatchSet.Id(id, currentPatchSetId));

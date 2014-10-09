@@ -176,6 +176,30 @@
       "revId": "c124f951ce8731e5c198b87d4c623c95e9b124d9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1077a0c2_36f576e5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetDiff.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-09T06:17:36Z",
+      "side": 1,
+      "message": "| Hint nbr eins is\n\nWhy mix the languages? Say it in German or in English:\n\n* Hinweis nummer eins ist: ...\n* Hint number one is: ...\n\n;-)",
+      "parentUuid": "1077a0c2_56f6f2f5",
+      "range": {
+        "startLine": 158,
+        "startChar": 8,
+        "endLine": 161,
+        "endChar": 9
+      },
+      "revId": "c124f951ce8731e5c198b87d4c623c95e9b124d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

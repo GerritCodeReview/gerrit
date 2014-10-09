@@ -34,7 +34,6 @@ CM3_MODES = [
   'erlang/erlang.js',
   'gas/gas.js',
   'gfm/gfm.js',
-  'go/go.js',
   'groovy/groovy.js',
   'haskell/haskell.js',
   'htmlmixed/htmlmixed.js',

@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1077a0c2_f6905e58",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-09T20:33:19Z",
+      "side": 1,
+      "message": "[Optional] We agreed on 9 char change id abbreviation to linkify it.",
+      "range": {
+        "startLine": 9,
+        "startChar": 7,
+        "endLine": 9,
+        "endChar": 15
+      },
+      "revId": "963fa2b7374bc0c988ec948952a3c620b1f8fcc0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1077a0c2_968d6a3f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-09T20:33:19Z",
+      "side": 1,
+      "message": "[Optional] Upload the stack trace to some place and link it to this change for the record.",
+      "revId": "963fa2b7374bc0c988ec948952a3c620b1f8fcc0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

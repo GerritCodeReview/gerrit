@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "90571041_b741e833",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteChangeEdit.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-10-09T09:32:55Z",
+      "side": 1,
+      "message": "Do we need final here?",
+      "range": {
+        "startLine": 32,
+        "startChar": 10,
+        "endLine": 32,
+        "endChar": 15
+      },
+      "revId": "b9d5f50a629eb1128f4a4e654cbf665705d2fa7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

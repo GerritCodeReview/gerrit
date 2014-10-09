@@ -63,7 +63,7 @@ public class ChangeEdits implements
     AcceptsDelete<ChangeResource> {
   private final DynamicMap<RestView<ChangeEditResource>> views;
   private final Create.Factory createFactory;
-  private final DeleteEdit.Factory deleteEditFactory;
+  private final DeleteFile.Factory deleteFileFactory;
   private final Provider<Detail> detail;
   private final ChangeEditUtil editUtil;
   private final Post post;
@@ -74,13 +74,13 @@ public class ChangeEdits implements
       Provider<Detail> detail,
       ChangeEditUtil editUtil,
       Post post,
-      DeleteEdit.Factory deleteEditFactory) {
+      DeleteFile.Factory deleteFileFactory) {
     this.views = views;
     this.createFactory = createFactory;
     this.detail = detail;
     this.editUtil = editUtil;
     this.post = post;
-    this.deleteEditFactory = deleteEditFactory;
+    this.deleteFileFactory = deleteFileFactory;
   }
 
   @Override
@@ -126,10 +126,12 @@ public class ChangeEdits implements
   */
   @SuppressWarnings("unchecked")
   @Override
-  public DeleteEdit delete(ChangeResource parent, IdString id)
+  public DeleteFile delete(ChangeResource parent, IdString id)
       throws RestApiException {
-    return deleteEditFactory.create(parent.getChange(),
-        id != null ? id.get() : null);
+    // It's safe to assume that id can never be null, because
+    // otherwise we would end up in dedicated endpoint for
+    // deleting of change edits and not a file in change edit
+    return deleteFileFactory.create(id.get());
   }
 
   static class Create implements
@@ -188,13 +190,13 @@ public class ChangeEdits implements
     }
   }
 
-  static class DeleteEdit implements
-      RestModifyView<ChangeResource, DeleteEdit.Input> {
+  static class DeleteFile implements
+      RestModifyView<ChangeResource, DeleteFile.Input> {
     public static class Input {
     }
 
     interface Factory {
-      DeleteEdit create(Change change, String path);
+      DeleteFile create(String path);
     }
 
     private final ChangeEditUtil editUtil;
@@ -203,10 +205,10 @@ public class ChangeEdits implements
     private final String path;
 
     @Inject
-    DeleteEdit(ChangeEditUtil editUtil,
+    DeleteFile(ChangeEditUtil editUtil,
         ChangeEditModifier editModifier,
         Provider<ReviewDb> db,
-        @Assisted @Nullable String path) {
+        @Assisted String path) {
       this.editUtil = editUtil;
       this.editModifier = editModifier;
       this.db = db;
@@ -214,14 +216,14 @@ public class ChangeEdits implements
     }
 
     @Override
-    public Response<?> apply(ChangeResource rsrc, DeleteEdit.Input in)
+    public Response<?> apply(ChangeResource rsrc, DeleteFile.Input in)
         throws IOException, AuthException, ResourceConflictException,
         OrmException, InvalidChangeOperationException, BadRequestException {
       Optional<ChangeEdit> edit = editUtil.byChange(rsrc.getChange());
-      if (edit.isPresent() && path == null) {
+      if (edit.isPresent()) {
         // Edit is wiped out
         editUtil.delete(edit.get());
-      } else if (!edit.isPresent() && path != null) {
+      } else {
         // Edit is created on top of current patch set by deleting path.
         // Even if the latest patch set changed since the user triggered
         // the operation, deleting the whole file is probably still what
@@ -230,10 +232,6 @@ public class ChangeEdits implements
             rsrc.getChange().currentPatchSetId()));
         edit = editUtil.byChange(rsrc.getChange());
         editModifier.deleteFile(edit.get(), path);
-      } else {
-        // Bad request
-        throw new BadRequestException(
-            "change edit doesn't exist and no path was provided");
       }
       return Response.none();
     }

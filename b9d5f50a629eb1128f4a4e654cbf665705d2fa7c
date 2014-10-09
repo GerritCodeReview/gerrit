@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "1077a0c2_760c4e2e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-09T21:15:00Z",
+      "side": 1,
+      "message": "Nope, we cannot delete it, this is still needed to handle the deletion of files in change edit, e. g.:\n\n  DELETE /changs/\u003cid\u003e/edit/foo\n\nWould involve change edit collection operation and would check if AcceptsDelete can be performed on change edit collection, DeleteFile handler is created and invoked to handle the deletion. I decoupled and adjusted the implementation to this change: [1].\n\n [1] https://gerrit-review.googlesource.com/60666",
+      "parentUuid": "1077a0c2_76be8ede",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 18
+      },
+      "revId": "b9d5f50a629eb1128f4a4e654cbf665705d2fa7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "90571041_b741e833",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteChangeEdit.java",
         "patchSetId": 2

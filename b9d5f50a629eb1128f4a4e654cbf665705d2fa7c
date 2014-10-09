@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "1077a0c2_76be8ede",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-10-09T11:57:38Z",
+      "side": 1,
+      "message": "Yes, I believe this could be reverted now. But ChangeEdits needs to be adapted as well to not implement AcceptsDelete anymore? I\u0027m not that familiar with the inline edit code and would rather do the code cleanup in an seperate change and have the test failures fixed first.",
+      "parentUuid": "307ae4aa_372c92bf",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 18
+      },
+      "revId": "b9d5f50a629eb1128f4a4e654cbf665705d2fa7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "90571041_b741e833",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteChangeEdit.java",
         "patchSetId": 2
@@ -96,6 +120,30 @@
     },
     {
       "key": {
+        "uuid": "307ae4aa_971a468e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteChangeEdit.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-10-09T11:57:38Z",
+      "side": 1,
+      "message": "class member variables are the exception where we still use final :)",
+      "parentUuid": "b0db3405_b08ad822",
+      "range": {
+        "startLine": 32,
+        "startChar": 10,
+        "endLine": 32,
+        "endChar": 15
+      },
+      "revId": "b9d5f50a629eb1128f4a4e654cbf665705d2fa7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "307ae4aa_d710be71",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteChangeEdit.java",
         "patchSetId": 2
@@ -119,6 +167,30 @@
     },
     {
       "key": {
+        "uuid": "1077a0c2_d6ac42b1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteChangeEdit.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-10-09T11:57:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "307ae4aa_d710be71",
+      "range": {
+        "startLine": 43,
+        "startChar": 11,
+        "endLine": 43,
+        "endChar": 79
+      },
+      "revId": "b9d5f50a629eb1128f4a4e654cbf665705d2fa7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "307ae4aa_77220acf",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Module.java",
         "patchSetId": 2
@@ -130,6 +202,24 @@
       "writtenOn": "2014-10-09T09:46:50Z",
       "side": 1,
       "message": "Move this line to other edit endpoints, on line 108 in this ps.",
+      "revId": "b9d5f50a629eb1128f4a4e654cbf665705d2fa7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1077a0c2_36c8167f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Module.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-10-09T11:57:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "307ae4aa_77220acf",
       "revId": "b9d5f50a629eb1128f4a4e654cbf665705d2fa7c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -118,6 +118,30 @@
       "revId": "fc3daa862df156fe35879a7d9282d9a6600a4673",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1077a0c2_7670cece",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/SetParentIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-10-09T08:23:44Z",
+      "side": 1,
+      "message": "You can give it CR-1 with a remark that it will be continued later...",
+      "parentUuid": "1077a0c2_961a4a8e",
+      "range": {
+        "startLine": 110,
+        "startChar": 14,
+        "endLine": 110,
+        "endChar": 29
+      },
+      "revId": "fc3daa862df156fe35879a7d9282d9a6600a4673",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

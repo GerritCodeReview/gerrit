@@ -59,6 +59,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
@@ -67,6 +68,8 @@ import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeMap;
 import java.util.TreeSet;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Executor;
 
 /** List projects visible to the calling user. */
 public class ListProjects implements RestReadView<TopLevelResource> {
@@ -259,6 +262,19 @@ public class ListProjects implements RestReadView<TopLevelResource> {
 
     final TreeMap<Project.NameKey, ProjectNode> treeMap = new TreeMap<>();
     try {
+      log.error("Starting prefiling Cache");
+      List<Thread> threads = new ArrayList<Thread>();
+      Executor ex = Executors.newCachedThreadPool();
+      for (final Project.NameKey projectName : scan()) {
+        Runnable r = new Runnable() {
+          public void run() {
+            final ProjectState e = projectCache.get(projectName);
+          }
+        };
+        ex.execute(r);
+      }
+      log.error("Started all Cache prefiling");
+
       for (final Project.NameKey projectName : scan()) {
         final ProjectState e = projectCache.get(projectName);
         if (e == null) {

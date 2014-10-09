@@ -14,8 +14,6 @@
 
 package com.google.gerrit.server.change;
 
-import static com.google.gerrit.extensions.common.SubmitType.CHERRY_PICK;
-
 import com.google.gerrit.common.data.SubmitTypeRecord;
 import com.google.gerrit.extensions.common.SubmitType;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -50,6 +48,7 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Mergeable implements RestReadView<RevisionResource> {
   private static final Logger log = LoggerFactory.getLogger(Mergeable.class);
@@ -123,18 +122,22 @@ public class Mergeable implements RestReadView<RevisionResource> {
 
     Repository git = gitManager.openRepository(change.getProject());
     try {
-      Ref ref = git.getRef(change.getDest().get());
-      boolean refresh = force || isStale(change, ref);
-      if (!refresh && !otherBranches) {
+      ObjectId commit = toId(ps);
+      if (commit == null) {
+        result.mergeable = false;
         return result;
       }
+
+      Ref ref = git.getRef(change.getDest().get());
       ProjectState projectState = projectCache.get(change.getProject());
       String strategy = mergeUtilFactory.create(projectState)
           .mergeStrategyName();
+      Boolean old =
+          cache.getIfPresent(commit, ref, result.submitType, strategy);
 
-      if (refresh) {
-        result.mergeable =
-            refresh(change, ps, ref, result.submitType, strategy, git);
+      if (force || old == null) {
+        result.mergeable = refresh(change, ps, commit, ref, result.submitType,
+            strategy, git, old);
       }
 
       if (otherBranches) {
@@ -147,7 +150,8 @@ public class Mergeable implements RestReadView<RevisionResource> {
             if (other == null) {
               continue;
             }
-            if (isMergeable(change, ps, other, CHERRY_PICK, strategy, git)) {
+            if (cache.get(commit, other, SubmitType.CHERRY_PICK, strategy,
+                change.getDest(), git)) {
               result.mergeableInto.add(other.getName().substring(prefixLen));
             }
           }
@@ -159,23 +163,21 @@ public class Mergeable implements RestReadView<RevisionResource> {
     return result;
   }
 
-  private static boolean isStale(Change change, Ref ref) {
-    return change.getLastSha1MergeTested() == null
-        || !toRevId(ref).equals(change.getLastSha1MergeTested());
-  }
-
-  private static RevId toRevId(Ref ref) {
-    return new RevId(ref != null && ref.getObjectId() != null
-        ? ref.getObjectId().name()
-        : "");
+  private static ObjectId toId(PatchSet ps) {
+    try {
+      return ObjectId.fromString(ps.getRevision().get());
+    } catch (IllegalArgumentException e) {
+      log.error("Invalid revision on patch set " + ps);
+      return null;
+    }
   }
 
   private boolean refresh(final Change change, final PatchSet ps,
-      final Ref ref, SubmitType type, String strategy, Repository git)
-      throws OrmException, IOException {
-    final boolean mergeable = isMergeable(change, ps, ref, type, strategy, git);
-
-    Change c = db.get().changes().atomicUpdate(
+      ObjectId commit, final Ref ref, SubmitType type, String strategy,
+      Repository git, Boolean old) throws OrmException, IOException {
+    final boolean mergeable =
+        cache.get(commit, ref, type, strategy, change.getDest(), git);
+    db.get().changes().atomicUpdate(
         change.getId(),
         new AtomicUpdate<Change>() {
           @Override
@@ -183,28 +185,18 @@ public class Mergeable implements RestReadView<RevisionResource> {
             if (c.getStatus().isOpen()
                 && ps.getId().equals(c.currentPatchSetId())) {
               c.setMergeable(mergeable);
-              c.setLastSha1MergeTested(toRevId(ref));
+              ObjectId into = MergeabilityCache.toId(ref);
+              c.setLastSha1MergeTested(new RevId(
+                  !into.equals(ObjectId.zeroId()) ? into.name() : ""));
               return c;
             } else {
               return null;
             }
           }
         });
-    if (c != null) {
-      indexer.index(db.get(), c);
+    if (!Objects.equals(mergeable, old)) {
+      indexer.index(db.get(), change);
     }
     return mergeable;
-  }
-
-  private boolean isMergeable(Change change, PatchSet ps, Ref ref,
-      SubmitType type, String strategy, Repository git) {
-    ObjectId commit;
-    try {
-      commit = ObjectId.fromString(ps.getRevision().get());
-    } catch (IllegalArgumentException e) {
-      log.error("Invalid revision on patch set " + ps);
-      return false;
-    }
-    return cache.get(commit, ref, type, strategy, change.getDest(), git);
   }
 }

@@ -16,7 +16,7 @@ package com.google.gerrit.server.change;
 
 import com.google.common.base.Optional;
 import com.google.gerrit.extensions.restapi.AuthException;
-import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.change.DeleteChangeEdit.Input;
@@ -42,13 +42,13 @@ public class DeleteChangeEdit implements RestModifyView<ChangeResource, Input> {
 
   @Override
   public Response<?> apply(ChangeResource rsrc, Input input)
-      throws AuthException, BadRequestException, IOException,
+      throws AuthException, ResourceNotFoundException, IOException,
       InvalidChangeOperationException {
     Optional<ChangeEdit> edit = editUtil.byChange(rsrc.getChange());
     if (edit.isPresent()) {
       editUtil.delete(edit.get());
     } else {
-      throw new BadRequestException("change edit doesn't exist");
+      throw new ResourceNotFoundException();
     }
 
     return Response.none();

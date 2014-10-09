@@ -17,7 +17,7 @@ package com.google.gerrit.acceptance.edit;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
-import static org.apache.http.HttpStatus.SC_BAD_REQUEST;
+import static org.apache.http.HttpStatus.SC_NOT_FOUND;
 import static org.apache.http.HttpStatus.SC_NO_CONTENT;
 import static org.apache.http.HttpStatus.SC_OK;
 import static org.junit.Assert.assertArrayEquals;
@@ -373,7 +373,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
   @Test
   public void deletingNonExistingEditRest() throws Exception {
     RestResponse r = session.delete(urlEdit());
-    assertEquals(SC_BAD_REQUEST, r.getStatusCode());
+    assertEquals(SC_NOT_FOUND, r.getStatusCode());
   }
 
   @Test

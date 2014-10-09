@@ -21,39 +21,24 @@ import com.google.common.collect.Sets;
 import com.google.gerrit.common.Die;
 import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.lucene.LuceneIndexModule;
-import com.google.gerrit.pgm.util.BatchGitModule;
 import com.google.gerrit.pgm.util.BatchProgramModule;
 import com.google.gerrit.pgm.util.SiteProgram;
 import com.google.gerrit.pgm.util.ThreadLimiter;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.cache.h2.DefaultCacheFactory;
-import com.google.gerrit.server.change.MergeabilityCache;
 import com.google.gerrit.server.change.MergeabilityChecker;
-import com.google.gerrit.server.change.MergeabilityChecksExecutor;
-import com.google.gerrit.server.change.MergeabilityChecksExecutor.Priority;
-import com.google.gerrit.server.change.PatchSetInserter;
-import com.google.gerrit.server.config.FactoryModule;
 import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gerrit.server.git.MergeUtil;
-import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.index.ChangeBatchIndexer;
 import com.google.gerrit.server.index.ChangeIndex;
 import com.google.gerrit.server.index.ChangeSchemas;
 import com.google.gerrit.server.index.IndexCollection;
 import com.google.gerrit.server.index.IndexModule;
 import com.google.gerrit.server.index.IndexModule.IndexType;
-import com.google.gerrit.server.mail.ReplacePatchSetSender;
-import com.google.gerrit.server.notedb.NoteDbModule;
 import com.google.gerrit.solr.SolrIndexModule;
-import com.google.inject.AbstractModule;
 import com.google.inject.Injector;
 import com.google.inject.Key;
 import com.google.inject.Module;
-import com.google.inject.Provides;
-import com.google.inject.Singleton;
-import com.google.inject.util.Providers;
 
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ProgressMonitor;
@@ -146,15 +131,6 @@ public class Reindex extends SiteProgram {
     }
     modules.add(changeIndexModule);
     modules.add(dbInjector.getInstance(BatchProgramModule.class));
-    modules.add(new AbstractModule() {
-      @Override
-      protected void configure() {
-        if (recheckMergeable) {
-          install(new MergeabilityModule());
-        }
-      }
-    });
-
     return dbInjector.createChildInjector(modules);
   }
 
@@ -164,38 +140,6 @@ public class Reindex extends SiteProgram {
     if (IndexModule.getIndexType(dbInjector) == IndexType.LUCENE) {
       cfg.setLong("index", "changes_open", "commitWithin", -1);
       cfg.setLong("index", "changes_closed", "commitWithin", -1);
-    }
-  }
-
-  private static class MergeabilityModule extends FactoryModule {
-    @Override
-    public void configure() {
-      factory(PatchSetInserter.Factory.class);
-      bind(ReplacePatchSetSender.Factory.class).toProvider(
-          Providers.<ReplacePatchSetSender.Factory>of(null));
-
-      factory(MergeUtil.Factory.class);
-      install(new NoteDbModule());
-      install(new BatchGitModule());
-      install(new DefaultCacheFactory.Module());
-      install(MergeabilityCache.module());
-    }
-
-    @Provides
-    @Singleton
-    @MergeabilityChecksExecutor(Priority.BACKGROUND)
-    public WorkQueue.Executor createMergeabilityChecksExecutor(
-        WorkQueue queues) {
-      return queues.createQueue(1, "MergeabilityChecks");
-    }
-
-    @Provides
-    @Singleton
-    @MergeabilityChecksExecutor(Priority.INTERACTIVE)
-    public WorkQueue.Executor createInteractiveMergeabilityChecksExecutor(
-        @MergeabilityChecksExecutor(Priority.BACKGROUND)
-          WorkQueue.Executor bg) {
-      return bg;
     }
   }
 

@@ -30,14 +30,22 @@ import com.google.gerrit.server.account.GroupIncludeCacheImpl;
 import com.google.gerrit.server.cache.CacheRemovalListener;
 import com.google.gerrit.server.cache.h2.DefaultCacheFactory;
 import com.google.gerrit.server.change.ChangeKindCacheImpl;
+import com.google.gerrit.server.change.MergeabilityCache;
+import com.google.gerrit.server.change.MergeabilityChecksExecutor;
+import com.google.gerrit.server.change.MergeabilityChecksExecutor.Priority;
+import com.google.gerrit.server.change.PatchSetInserter;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.CanonicalWebUrlProvider;
 import com.google.gerrit.server.config.DisableReverseDnsLookup;
 import com.google.gerrit.server.config.DisableReverseDnsLookupProvider;
 import com.google.gerrit.server.config.FactoryModule;
 import com.google.gerrit.server.git.ChangeCache;
+import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.git.TagCache;
+import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.group.GroupModule;
+import com.google.gerrit.server.mail.ReplacePatchSetSender;
+import com.google.gerrit.server.notedb.NoteDbModule;
 import com.google.gerrit.server.patch.PatchListCacheImpl;
 import com.google.gerrit.server.project.AccessControlModule;
 import com.google.gerrit.server.project.CommentLinkInfo;
@@ -48,6 +56,8 @@ import com.google.gerrit.server.project.SectionSortCache;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Inject;
 import com.google.inject.Module;
+import com.google.inject.Provides;
+import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import com.google.inject.util.Providers;
 
@@ -87,10 +97,16 @@ public class BatchProgramModule extends FactoryModule {
         .toProvider(DisableReverseDnsLookupProvider.class).in(SINGLETON);
     bind(IdentifiedUser.class)
       .toProvider(Providers.<IdentifiedUser> of(null));
+    bind(ReplacePatchSetSender.Factory.class).toProvider(
+        Providers.<ReplacePatchSetSender.Factory>of(null));
     bind(CurrentUser.class).to(IdentifiedUser.class);
+    factory(MergeUtil.Factory.class);
+    factory(PatchSetInserter.Factory.class);
     install(new AccessControlModule());
+    install(new BatchGitModule());
     install(new DefaultCacheFactory.Module());
     install(new GroupModule());
+    install(new NoteDbModule());
     install(new PrologModule());
     install(AccountByEmailCacheImpl.module());
     install(AccountCacheImpl.module());
@@ -100,9 +116,27 @@ public class BatchProgramModule extends FactoryModule {
     install(SectionSortCache.module());
     install(ChangeKindCacheImpl.module());
     install(ChangeCache.module());
+    install(MergeabilityCache.module());
     install(TagCache.module());
     factory(CapabilityControl.Factory.class);
     factory(ChangeData.Factory.class);
     factory(ProjectState.Factory.class);
+  }
+
+  @Provides
+  @Singleton
+  @MergeabilityChecksExecutor(Priority.BACKGROUND)
+  public WorkQueue.Executor createMergeabilityChecksExecutor(
+      WorkQueue queues) {
+    return queues.createQueue(1, "MergeabilityChecks");
+  }
+
+  @Provides
+  @Singleton
+  @MergeabilityChecksExecutor(Priority.INTERACTIVE)
+  public WorkQueue.Executor createInteractiveMergeabilityChecksExecutor(
+      @MergeabilityChecksExecutor(Priority.BACKGROUND)
+        WorkQueue.Executor bg) {
+    return bg;
   }
 }

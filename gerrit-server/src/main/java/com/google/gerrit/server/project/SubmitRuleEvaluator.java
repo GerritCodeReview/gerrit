@@ -98,8 +98,8 @@ public class SubmitRuleEvaluator {
   }
 
   private final ChangeData cd;
-  private final ChangeControl control;
 
+  private ChangeControl control;
   private PatchSet patchSet;
   private boolean fastEvalLabels;
   private boolean allowDraft;
@@ -112,7 +112,16 @@ public class SubmitRuleEvaluator {
 
   public SubmitRuleEvaluator(ChangeData cd) throws OrmException {
     this.cd = cd;
-    this.control = cd.changeControl();
+    control = cd.changeControl();
+  }
+
+  /**
+   * @param user user to evaluate visibility for and pass to prolog.
+   * @return this
+   */
+  public SubmitRuleEvaluator setUser(CurrentUser user) {
+    control = control.forUser(user);
+    return this;
   }
 
   /**

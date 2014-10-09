@@ -120,7 +120,7 @@ public class Module extends RestApiModule {
         factory(ChangeInserter.Factory.class);
         factory(PatchSetInserter.Factory.class);
         factory(ChangeEdits.Create.Factory.class);
-        factory(ChangeEdits.DeleteEdit.Factory.class);
+        factory(ChangeEdits.DeleteFile.Factory.class);
       }
     });
   }

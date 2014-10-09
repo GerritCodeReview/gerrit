@@ -35,7 +35,6 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.change.MergeabilityChecksExecutor.Priority;
-import com.google.gerrit.server.change.Mergeable.MergeableInfo;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.git.WorkQueue.Executor;
@@ -150,20 +149,18 @@ public class MergeabilityChecker implements GitReferenceUpdatedListener {
               List<ListenableFuture<?>> result =
                   Lists.newArrayListWithCapacity(changes.size());
               for (final Change c : changes) {
-                ListenableFuture<Boolean> b =
-                    executor.submit(new Task(c, force));
+                // Don't try to guess whether Mergeable will reindex; just turn
+                // off reindexing in that code path and do it explicitly below.
+                ListenableFuture<Object> b =
+                    executor.submit(new Task(c, force, !reindex));
                 if (reindex) {
                   result.add(Futures.transform(
-                      b, new AsyncFunction<Boolean, Object>() {
+                      b, new AsyncFunction<Object, Object>() {
                         @SuppressWarnings("unchecked")
                         @Override
-                        public ListenableFuture<Object> apply(
-                            Boolean indexUpdated) throws Exception {
-                          if (!indexUpdated) {
-                            return (ListenableFuture<Object>)
-                                indexer.indexAsync(c.getId());
-                          }
-                          return Futures.immediateFuture(null);
+                        public ListenableFuture<Object> apply(Object o) {
+                          return (ListenableFuture<Object>)
+                              indexer.indexAsync(c.getId());
                         }
                       }));
                 } else {
@@ -291,19 +288,21 @@ public class MergeabilityChecker implements GitReferenceUpdatedListener {
     return ProjectConfig.read(metaDataUpdateFactory.create(p), id);
   }
 
-  private class Task implements Callable<Boolean> {
+  private class Task implements Callable<Object> {
     private final Change change;
     private final boolean force;
+    private final boolean reindex;
 
     private ReviewDb reviewDb;
 
-    Task(Change change, boolean force) {
+    Task(Change change, boolean force, boolean reindex) {
       this.change = change;
       this.force = force;
+      this.reindex = reindex;
     }
 
     @Override
-    public Boolean call() throws Exception {
+    public Object call() throws Exception {
       mergeabilityCheckQueue.updatingMergeabilityFlag(change, force);
 
       RequestContext context = new RequestContext() {
@@ -335,20 +334,20 @@ public class MergeabilityChecker implements GitReferenceUpdatedListener {
         PatchSet ps = db.patchSets().get(change.currentPatchSetId());
         if (ps == null) {
           // Cannot compute mergeability if current patch set is missing.
-          return false;
+          return null;
         }
 
         Mergeable m = mergeable.get();
         m.setForce(force);
+        m.setReindex(reindex);
 
         ChangeControl control =
             changeControlFactory.controlFor(change.getId(), context.getCurrentUser());
-        MergeableInfo info = m.apply(
-            new RevisionResource(new ChangeResource(control), ps));
-        return change.isMergeable() != info.mergeable;
+        m.apply(new RevisionResource(control, ps));
+        return null;
       } catch (ResourceConflictException e) {
         // change is closed
-        return false;
+        return null;
       } catch (Exception e) {
         log.error(String.format(
             "cannot update mergeability flag of change %d in project %s after update of %s",

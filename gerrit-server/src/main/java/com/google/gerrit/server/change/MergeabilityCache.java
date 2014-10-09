@@ -34,10 +34,13 @@ import com.google.gerrit.server.git.MergeException;
 import com.google.gerrit.server.git.strategy.SubmitStrategyFactory;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.inject.Inject;
+import com.google.inject.Key;
 import com.google.inject.Module;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
+import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
+import com.google.inject.name.Names;
 
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
@@ -69,6 +72,12 @@ public class MergeabilityCache {
       LoggerFactory.getLogger(MergeabilityCache.class);
 
   private static final String CACHE_NAME = "mergeability";
+
+  @SuppressWarnings("rawtypes")
+  public static Key bindingKey() {
+    return Key.get(new TypeLiteral<Cache<EntryKey, Boolean>>() {},
+        Names.named(CACHE_NAME));
+  }
 
   public static Module module() {
     return new CacheModule() {
@@ -209,6 +218,12 @@ public class MergeabilityCache {
     this.submitStrategyFactory = submitStrategyFactory;
   }
 
+  public Boolean getIfPresent(ObjectId commit, ObjectId into,
+      SubmitType submitType, String mergeStrategy) {
+    return cache.getIfPresent(
+        new EntryKey(commit, into, submitType, mergeStrategy));
+  }
+
   public boolean get(ObjectId commit, ObjectId into, SubmitType submitType,
       String mergeStrategy, Branch.NameKey dest) {
     EntryKey key = new EntryKey(commit, into, submitType, mergeStrategy);
@@ -228,6 +243,16 @@ public class MergeabilityCache {
     } catch (IOException e) {
       return failed(key, e);
     }
+  }
+
+  public boolean get(ObjectId commit, ObjectId into, SubmitType submitType,
+      String mergeStrategy, Branch.NameKey dest, Repository repo) {
+    EntryKey key = new EntryKey(commit, into, submitType, mergeStrategy);
+    Boolean result = cache.getIfPresent(key);
+    if (result != null) {
+      return result;
+    }
+    return load(key, dest, repo);
   }
 
   public boolean load(ObjectId commit, ObjectId into, SubmitType submitType,

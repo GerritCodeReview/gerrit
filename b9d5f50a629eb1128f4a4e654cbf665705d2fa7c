@@ -22,6 +22,30 @@
       "revId": "b9d5f50a629eb1128f4a4e654cbf665705d2fa7c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "307ae4aa_b700a223",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteChangeEdit.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-10-09T09:36:52Z",
+      "side": 1,
+      "message": "Don\u0027t we always use final for class member variables if possible?",
+      "parentUuid": "90571041_b741e833",
+      "range": {
+        "startLine": 32,
+        "startChar": 10,
+        "endLine": 32,
+        "endChar": 15
+      },
+      "revId": "b9d5f50a629eb1128f4a4e654cbf665705d2fa7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

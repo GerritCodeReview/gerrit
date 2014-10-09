@@ -104,6 +104,7 @@ public class Module extends RestApiModule {
     get(FILE_KIND, "diff").to(GetDiff.class);
 
     child(CHANGE_KIND, "edit").to(ChangeEdits.class);
+    delete(CHANGE_KIND, "edit").to(DeleteChangeEdit.class);
     child(CHANGE_KIND, "publish_edit").to(PublishChangeEdit.class);
     child(CHANGE_KIND, "rebase_edit").to(RebaseChangeEdit.class);
     put(CHANGE_EDIT_KIND, "/").to(ChangeEdits.Put.class);

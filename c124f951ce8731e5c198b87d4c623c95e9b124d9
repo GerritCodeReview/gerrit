@@ -152,6 +152,30 @@
       "revId": "c124f951ce8731e5c198b87d4c623c95e9b124d9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1077a0c2_56f6f2f5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetDiff.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-10-09T05:56:22Z",
+      "side": 1,
+      "message": "Hint nbr eins is \"What if we want to create a link to something that hasn\u0027t got a RestResource, or if we want to differentiate between two links that has the same RestResource.",
+      "parentUuid": "1077a0c2_56cfd2bb",
+      "range": {
+        "startLine": 158,
+        "startChar": 8,
+        "endLine": 161,
+        "endChar": 9
+      },
+      "revId": "c124f951ce8731e5c198b87d4c623c95e9b124d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

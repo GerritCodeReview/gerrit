@@ -224,6 +224,30 @@
       "revId": "c124f951ce8731e5c198b87d4c623c95e9b124d9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1077a0c2_163e3ae4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetDiff.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-09T07:27:17Z",
+      "side": 1,
+      "message": "Just to make it clear, it wasn\u0027t /me. Someone hacked gerrit-review server and added this comment in my name ;-)",
+      "parentUuid": "307ae4aa_37ded26f",
+      "range": {
+        "startLine": 158,
+        "startChar": 8,
+        "endLine": 161,
+        "endChar": 9
+      },
+      "revId": "c124f951ce8731e5c198b87d4c623c95e9b124d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -106,6 +106,12 @@ public class MergeabilityCache {
     };
   }
 
+  public static ObjectId toId(Ref ref) {
+    return ref != null && ref.getObjectId() != null
+        ? ref.getObjectId()
+        : ObjectId.zeroId();
+  }
+
   public static class EntryKey implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -298,5 +304,11 @@ public class MergeabilityCache {
           e.getCause());
       return false;
     }
+  }
+
+  public boolean getIfPresent(ObjectId commit, Ref intoRef,
+      SubmitType submitType, String mergeStrategy) {
+    return cache.getIfPresent(new EntryKey(
+        commit, toId(intoRef), submitType, mergeStrategy, null, null, null));
   }
 }

@@ -106,6 +106,20 @@ public class SetParentIT extends AbstractDaemonTest {
     r.consume();
   }
 
+  @Test
+  public void deleteProject() throws IOException {
+    // This request cannot succceed because currently
+    // acceptance test framework doesn't support testing
+    // of plugins. However due to a bug in RestApiServlet
+    // method DELETE was overriden with method GET in the
+    // following request returned 200 instead of 404. Test
+    // it here, so we can be sure in future that similar
+    // bug is going to be discovered.
+    RestResponse r =
+        adminSession.delete("/projects/" + project.get());
+    assertEquals(HttpStatus.SC_NOT_FOUND, r.getStatusCode());
+  }
+
   SetParent.Input newParentInput(String project) {
     SetParent.Input in = new SetParent.Input();
     in.parent = project;

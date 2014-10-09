@@ -142,6 +142,30 @@
       "revId": "fc3daa862df156fe35879a7d9282d9a6600a4673",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1077a0c2_96880a46",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/SetParentIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-09T08:53:30Z",
+      "side": 1,
+      "message": "Sure, i could, but this still wouldn\u0027t remove this change from reviewers dashboard and wouldn\u0027t prepend \"WIP:\" to the subject of this change, to prevent other potential reviewers to open this change and try to review it. My point was: I am really sad that we cannot agree on merging this change in gerrit core: [1] and activate WIP workflow on gerrit-review. Especially after Dave agreement in his comment that the objection to extend Change.Status is not applicable any more, because this enum was extended in core and used in core and *not* extended in core to use new enum value in WIP [2] plugin only. But as i\u0027ve learned if a maintainer rejected a change and that change was reworked and the comments and reason for rejections were addressed and solved, neither the same maintainer nor other maintainers are going to approve new version of the rejected change. Let\u0027s fase it: that sucks, but this is where we are.\n\n* [1] https://gerrit-review.googlesource.com/50254\n* [2] https://gerrit-review.googlesource.com/#/admin/projects/plugins/wip",
+      "parentUuid": "1077a0c2_7670cece",
+      "range": {
+        "startLine": 110,
+        "startChar": 14,
+        "endLine": 110,
+        "endChar": 29
+      },
+      "revId": "fc3daa862df156fe35879a7d9282d9a6600a4673",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

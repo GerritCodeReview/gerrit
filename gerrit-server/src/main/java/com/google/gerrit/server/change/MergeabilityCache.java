@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.change;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.server.ioutil.BasicSerialization.readString;
@@ -225,6 +226,9 @@ public class MergeabilityCache {
     @Override
     public Boolean load(EntryKey key)
         throws NoSuchProjectException, MergeException, IOException {
+      // Keys constructed without a branch are only suitable for getIfPresent.
+      checkArgument(key.dest != null,
+          "Key cannot be loaded without a destination branch");
       boolean open = key.repo == null;
       Repository repo = open
           ? repoManager.openRepository(key.dest.getParentKey())
@@ -306,6 +310,12 @@ public class MergeabilityCache {
   @Inject
   MergeabilityCache(@Named(CACHE_NAME) LoadingCache<EntryKey, Boolean> cache) {
     this.cache = cache;
+  }
+
+  public Boolean getIfPresent(ObjectId commit, ObjectId into,
+      SubmitType submitType, String mergeStrategy) {
+    return cache.getIfPresent(
+        new EntryKey(commit, into, submitType, mergeStrategy));
   }
 
   public boolean get(ObjectId commit, ObjectId into, SubmitType submitType,

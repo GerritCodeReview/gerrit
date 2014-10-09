@@ -46,6 +46,30 @@
       "revId": "fc3daa862df156fe35879a7d9282d9a6600a4673",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1077a0c2_f60dbe56",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/SetParentIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-09T06:43:30Z",
+      "side": 1,
+      "message": "We can of course agree upon not to merge it at all in hope that such regression bug would never happen again.",
+      "parentUuid": "1077a0c2_d610c271",
+      "range": {
+        "startLine": 110,
+        "startChar": 14,
+        "endLine": 110,
+        "endChar": 29
+      },
+      "revId": "fc3daa862df156fe35879a7d9282d9a6600a4673",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

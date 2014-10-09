@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b0db3405_902474a5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-10-09T20:40:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1077a0c2_f6905e58",
+      "range": {
+        "startLine": 9,
+        "startChar": 7,
+        "endLine": 9,
+        "endChar": 15
+      },
+      "revId": "963fa2b7374bc0c988ec948952a3c620b1f8fcc0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1077a0c2_968d6a3f",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -53,6 +77,24 @@
       "writtenOn": "2014-10-09T20:34:47Z",
       "side": 1,
       "message": "+ mention the offended Go code sniplet, so that someone can easily test it later with new versions of CM3.",
+      "parentUuid": "1077a0c2_968d6a3f",
+      "revId": "963fa2b7374bc0c988ec948952a3c620b1f8fcc0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90571041_b7c8c85f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-10-09T20:40:22Z",
+      "side": 1,
+      "message": "\u003e [Optional] Upload the stack trace to some place and link it to this change for the record.\n\nWorking on getting a stack trace with real line numbers.\n\n\u003e + mention the offended Go code sniplet, so that someone can easily test it later with new versions of CM3.\n\nCan\u0027t, it\u0027s proprietary. With effort I might be able to reduce it to a non-confidential snippet but I don\u0027t really want to have to do that.",
       "parentUuid": "1077a0c2_968d6a3f",
       "revId": "963fa2b7374bc0c988ec948952a3c620b1f8fcc0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

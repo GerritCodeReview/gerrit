@@ -25,12 +25,10 @@ import com.google.gerrit.extensions.api.changes.CherryPickInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.LabelInfo;
-import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.notedb.NotesMigration;
-import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.testutil.ConfigSuite;
 import com.google.inject.Inject;
 
@@ -48,15 +46,6 @@ public class LabelTypeIT extends AbstractDaemonTest {
 
   @Inject
   private GitRepositoryManager repoManager;
-
-  @Inject
-  private ProjectCache projectCache;
-
-  @Inject
-  private AllProjectsName allProjects;
-
-  @Inject
-  private MetaDataUpdate.Server metaDataUpdateFactory;
 
   private LabelType codeReview;
 

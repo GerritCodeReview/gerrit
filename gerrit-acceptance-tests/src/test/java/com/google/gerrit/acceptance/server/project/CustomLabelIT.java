@@ -31,28 +31,16 @@ import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.LabelInfo;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.group.SystemGroupBackend;
-import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.Util;
-import com.google.inject.Inject;
 
 import org.junit.Before;
 import org.junit.Test;
 
 @NoHttpd
 public class CustomLabelIT extends AbstractDaemonTest {
-
-  @Inject
-  private ProjectCache projectCache;
-
-  @Inject
-  private AllProjectsName allProjects;
-
-  @Inject
-  private MetaDataUpdate.Server metaDataUpdateFactory;
 
   private final LabelType Q = category("CustomLabel",
       value(1, "Positive"),

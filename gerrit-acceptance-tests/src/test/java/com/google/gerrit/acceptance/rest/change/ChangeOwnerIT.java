@@ -32,9 +32,7 @@ import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.group.SystemGroupBackend;
-import com.google.gerrit.server.project.ProjectCache;
 import com.google.gwtorm.server.OrmException;
-import com.google.inject.Inject;
 
 import org.apache.http.HttpStatus;
 import org.eclipse.jgit.api.errors.GitAPIException;
@@ -45,12 +43,6 @@ import org.junit.Test;
 import java.io.IOException;
 
 public class ChangeOwnerIT extends AbstractDaemonTest {
-
-  @Inject
-  private MetaDataUpdate.Server metaDataUpdateFactory;
-
-  @Inject
-  private ProjectCache projectCache;
 
   private TestAccount user2;
 

@@ -38,7 +38,6 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.notedb.ChangeNotes;
-import com.google.gerrit.server.project.ProjectCache;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
@@ -62,12 +61,6 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
 
   @Inject
   private ApprovalsUtil approvalsUtil;
-
-  @Inject
-  private MetaDataUpdate.Server metaDataUpdateFactory;
-
-  @Inject
-  private ProjectCache projectCache;
 
   @Inject
   private GroupCache groupCache;

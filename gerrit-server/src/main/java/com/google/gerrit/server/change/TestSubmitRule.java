@@ -14,11 +14,7 @@
 
 package com.google.gerrit.server.change;
 
-import com.google.common.base.Function;
-import com.google.common.base.Joiner;
 import com.google.common.base.MoreObjects;
-import com.google.common.base.Throwables;
-import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.gerrit.common.data.SubmitRecord;
@@ -30,14 +26,11 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.rules.RulesCache;
 import com.google.gerrit.server.account.AccountInfo;
 import com.google.gerrit.server.change.TestSubmitRule.Input;
-import com.google.gerrit.server.project.RuleEvalException;
 import com.google.gerrit.server.project.SubmitRuleEvaluator;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-
-import com.googlecode.prolog_cafe.lang.Term;
 
 import org.kohsuke.args4j.Option;
 
@@ -88,31 +81,10 @@ public class TestSubmitRule implements RestModifyView<RevisionResource, Input> {
         changeDataFactory.create(db.get(), rsrc.getChange()),
         rsrc.getPatchSet());
 
-    List<Term> results;
-    try {
-      results = evaluator.setSkipSubmitFilters(input.filters == Filters.SKIP)
+    List<SubmitRecord> records = evaluator.setLogErrors(false)
+          .setSkipSubmitFilters(input.filters == Filters.SKIP)
           .setRule(input.rule)
-          .evaluate();
-    } catch (RuleEvalException e) {
-      String msg = Joiner.on(": ").skipNulls().join(Iterables.transform(
-          Throwables.getCausalChain(e),
-          new Function<Throwable, String>() {
-            @Override
-            public String apply(Throwable in) {
-              return in.getMessage();
-            }
-          }));
-      throw new BadRequestException("rule failed: " + msg);
-    }
-    if (results.isEmpty()) {
-      throw new BadRequestException(String.format(
-          "rule %s has no solutions",
-          evaluator.getSubmitRule().toString()));
-    }
-
-    List<SubmitRecord> records = rsrc.getControl().resultsToSubmitRecord(
-        evaluator.getSubmitRule(),
-        results);
+          .canSubmit();
     List<Record> out = Lists.newArrayListWithCapacity(records.size());
     AccountInfo.Loader accounts = accountInfoFactory.create(true);
     for (SubmitRecord r : records) {

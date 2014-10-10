@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f0e5ac1c_b2d80084",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-10T06:35:08Z",
+      "side": 1,
+      "message": "I find this formulation a bit confusing. It\u0027s decision of site administrator to choose between online and offline reindexing after site upgrade. So, of course she can already with this change go for offline reindex and run `reindex --recheck-mergeable ...` and she is done.\n\nI think it makes sense to mention this option here as well.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 16
+      },
+      "revId": "f41ea40acb47185f79aee628efdf9d11f390ee4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

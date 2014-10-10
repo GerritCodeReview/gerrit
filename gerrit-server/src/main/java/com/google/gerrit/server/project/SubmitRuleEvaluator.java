@@ -15,6 +15,7 @@
 package com.google.gerrit.server.project;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkState;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.collect.Lists;
@@ -125,19 +126,19 @@ public class SubmitRuleEvaluator {
       String filterRuleWrapperName) throws RuleEvalException {
     PrologEnvironment env = getPrologEnvironment();
     try {
-      submitRule = env.once("gerrit", userRuleLocatorName, new VariableTerm());
+      Term sr = env.once("gerrit", userRuleLocatorName, new VariableTerm());
       if (fastEvalLabels) {
         env.once("gerrit", "assume_range_from_label");
       }
 
       List<Term> results = new ArrayList<>();
       try {
-        for (Term[] template : env.all("gerrit", userRuleWrapperName,
-            submitRule, new VariableTerm())) {
+        for (Term[] template : env.all("gerrit", userRuleWrapperName, sr,
+              new VariableTerm())) {
           results.add(template[1]);
         }
       } catch (RuntimeException err) {
-        throw new RuleEvalException("Exception calling " + submitRule
+        throw new RuleEvalException("Exception calling " + sr
             + " on change " + cd.getId() + " of " + getProjectName(),
             err);
       }
@@ -147,16 +148,19 @@ public class SubmitRuleEvaluator {
         resultsTerm = runSubmitFilters(
             resultsTerm, env, filterRuleLocatorName, filterRuleWrapperName);
       }
+      List<Term> r;
       if (resultsTerm.isList()) {
-        List<Term> r = Lists.newArrayList();
+        r = Lists.newArrayList();
         for (Term t = resultsTerm; t.isList();) {
           ListTerm l = (ListTerm) t;
           r.add(l.car().dereference());
           t = l.cdr().dereference();
         }
-        return r;
+      } else {
+        r = Collections.emptyList();
       }
-      return Collections.emptyList();
+      submitRule = sr;
+      return r;
     } finally {
       env.close();
     }
@@ -241,6 +245,7 @@ public class SubmitRuleEvaluator {
   }
 
   public Term getSubmitRule() {
+    checkState(submitRule != null, "getSubmitRule() invalid before evaluation");
     return submitRule;
   }
 

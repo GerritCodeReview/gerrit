@@ -34,6 +34,24 @@
       "revId": "64e03bc96fbe5183dfb9bc4cf041b5f1b8bc6470",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f00e8cb4_8a2b8ba8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectCacheWarmer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-10-10T14:27:46Z",
+      "side": 1,
+      "message": "continue the java doc \"This method does not wait for previously submitted tasks to complete execution. Use awaitTermination \nto do that. \"\n\nwhile the default value of executeExistingDelayedTasksAfterShutdown is true, this may help here.",
+      "parentUuid": "d0ea68ee_d1d38466",
+      "revId": "64e03bc96fbe5183dfb9bc4cf041b5f1b8bc6470",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

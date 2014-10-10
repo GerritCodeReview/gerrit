@@ -25,14 +25,11 @@ import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
-import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.group.SystemGroupBackend;
-import com.google.gerrit.server.project.ProjectCache;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.google.inject.Inject;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.junit.Test;
@@ -40,15 +37,6 @@ import org.junit.Test;
 import java.io.IOException;
 
 public class CapabilitiesIT extends AbstractDaemonTest {
-
-  @Inject
-  private AllProjectsName allProjects;
-
-  @Inject
-  private MetaDataUpdate.Server metaDataUpdateFactory;
-
-  @Inject
-  private ProjectCache projectCache;
 
   @Test
   public void testCapabilitiesUser() throws IOException,

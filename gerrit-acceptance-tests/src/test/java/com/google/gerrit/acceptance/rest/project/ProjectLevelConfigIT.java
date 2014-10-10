@@ -23,7 +23,6 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.config.AllProjectsNameProvider;
-import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
 
@@ -36,8 +35,6 @@ import org.junit.Test;
 import java.io.IOException;
 
 public class ProjectLevelConfigIT extends AbstractDaemonTest {
-  @Inject
-  private ProjectCache projectCache;
 
   @Inject
   private AllProjectsNameProvider allProjects;

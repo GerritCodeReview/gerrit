@@ -25,10 +25,8 @@ import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.common.CommitInfo;
-import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.ProjectConfig;
-import com.google.gerrit.server.project.ProjectCache;
 import com.google.inject.Inject;
 
 import org.apache.http.HttpStatus;
@@ -42,13 +40,7 @@ import org.junit.Test;
 
 public class GetCommitIT extends AbstractDaemonTest {
   @Inject
-  private AllProjectsName allProjects;
-
-  @Inject
   private GitRepositoryManager repoManager;
-
-  @Inject
-  private ProjectCache projectCache;
 
   private TestRepository<Repository> repo;
 

@@ -31,10 +31,8 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.account.CreateGroupArgs;
 import com.google.gerrit.server.account.PerformCreateGroup;
 import com.google.gerrit.server.change.SuggestReviewers.SuggestedReviewerInfo;
-import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
-import com.google.gerrit.server.project.ProjectCache;
 import com.google.gson.reflect.TypeToken;
 import com.google.inject.Inject;
 
@@ -49,15 +47,6 @@ import java.util.List;
 public class SuggestReviewersIT extends AbstractDaemonTest {
   @Inject
   private PerformCreateGroup.Factory createGroupFactory;
-
-  @Inject
-  private MetaDataUpdate.Server metaDataUpdateFactory;
-
-  @Inject
-  private AllProjectsName allProjects;
-
-  @Inject
-  private ProjectCache projectCache;
 
   private AccountGroup group1;
   private TestAccount user1;

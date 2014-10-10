@@ -24,7 +24,6 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
-import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.api.projects.ProjectInput;
 import com.google.gerrit.extensions.common.InheritableBoolean;
 import com.google.gerrit.extensions.common.ProjectInfo;
@@ -36,7 +35,6 @@ import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.group.SystemGroupBackend;
-import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -59,16 +57,10 @@ import java.util.Set;
 public class CreateProjectIT extends AbstractDaemonTest {
 
   @Inject
-  private ProjectCache projectCache;
-
-  @Inject
   private GroupCache groupCache;
 
   @Inject
   private GitRepositoryManager git;
-
-  @Inject
-  private GerritApi gApi;
 
   @Test
   public void testCreateProjectApi() throws RestApiException, IOException {

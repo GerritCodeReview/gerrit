@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "70ab7c9e_1e010d27",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 589,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-10-10T18:34:06Z",
+      "side": 1,
+      "message": "No need for another Util class, I just started moving this logic into SubmitRuleEvaluator:\n\nhttps://gerrit-review.googlesource.com/60731\n\n(Haven\u0027t gotten to submit type yet, but will.)",
+      "parentUuid": "f00e8cb4_6a117773",
+      "range": {
+        "startLine": 589,
+        "startChar": 14,
+        "endLine": 589,
+        "endChar": 75
+      },
+      "revId": "9b3514be106a76023449dce641a298d396c55800",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1077a0c2_f324f04e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_100.java",
         "patchSetId": 4

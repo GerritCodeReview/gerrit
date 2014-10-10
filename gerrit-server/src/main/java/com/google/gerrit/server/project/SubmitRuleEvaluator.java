@@ -14,15 +14,16 @@
 
 package com.google.gerrit.server.project;
 
-import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkArgument;
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.collect.Lists;
-import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.rules.PrologEnvironment;
 import com.google.gerrit.rules.StoredValues;
 import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gwtorm.server.OrmException;
 
 import com.googlecode.prolog_cafe.compiler.CompileException;
 import com.googlecode.prolog_cafe.lang.ListTerm;
@@ -31,7 +32,7 @@ import com.googlecode.prolog_cafe.lang.PrologException;
 import com.googlecode.prolog_cafe.lang.Term;
 import com.googlecode.prolog_cafe.lang.VariableTerm;
 
-import java.io.InputStream;
+import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -42,91 +43,86 @@ import java.util.List;
  * all the way up to All-Projects.
  */
 public class SubmitRuleEvaluator {
-  private final ReviewDb db;
-  private final PatchSet patchSet;
-  private final ProjectControl projectControl;
-  private final ChangeControl changeControl;
-  private final Change change;
   private final ChangeData cd;
-  private final boolean fastEvalLabels;
-  private final String userRuleLocatorName;
-  private final String userRuleWrapperName;
-  private final String filterRuleLocatorName;
-  private final String filterRuleWrapperName;
-  private final boolean skipFilters;
-  private final InputStream rulesInputStream;
+  private final ChangeControl control;
+
+  private PatchSet patchSet;
+  private boolean fastEvalLabels;
+  private boolean skipFilters;
+  private String rule;
 
   private Term submitRule;
-  private String projectName;
 
-  /**
-   * @param userRuleLocatorName The name of the rule used to locate the
-   *        user-supplied rule.
-   * @param userRuleWrapperName The name of the wrapper rule used to evaluate
-   *        the user-supplied rule.
-   * @param filterRuleLocatorName The name of the rule used to locate the filter
-   *        rule.
-   * @param filterRuleWrapperName The name of the rule used to evaluate the
-   *        filter rule.
-   */
-  public SubmitRuleEvaluator(ReviewDb db, PatchSet patchSet,
-      ProjectControl projectControl,
-      ChangeControl changeControl, Change change, ChangeData cd,
-      boolean fastEvalLabels,
-      String userRuleLocatorName, String userRuleWrapperName,
-      String filterRuleLocatorName, String filterRuleWrapperName) {
-    this(db, patchSet, projectControl, changeControl, change, cd,
-        fastEvalLabels, userRuleLocatorName, userRuleWrapperName,
-        filterRuleLocatorName, filterRuleWrapperName, false, null);
+  public SubmitRuleEvaluator(ChangeData cd) throws OrmException {
+    this.cd = cd;
+    this.control = cd.changeControl();
   }
 
   /**
-   * @param userRuleLocatorName The name of the rule used to locate the
-   *        user-supplied rule.
-   * @param userRuleWrapperName The name of the wrapper rule used to evaluate
-   *        the user-supplied rule.
-   * @param filterRuleLocatorName The name of the rule used to locate the filter
-   *        rule.
-   * @param filterRuleWrapperName The name of the rule used to evaluate the
-   *        filter rule.
-   * @param skipSubmitFilters if {@code true} submit filter will not be
-   *        applied
-   * @param rules when non-null the rules will be read from this input stream
-   *        instead of refs/meta/config:rules.pl file
+   * @param ps patch set to evaluate, rather than current patch set.
+   * @return this
    */
-  public SubmitRuleEvaluator(ReviewDb db, PatchSet patchSet,
-      ProjectControl projectControl,
-      ChangeControl changeControl, Change change, ChangeData cd,
-      boolean fastEvalLabels,
-      String userRuleLocatorName, String userRuleWrapperName,
-      String filterRuleLocatorName, String filterRuleWrapperName,
-      boolean skipSubmitFilters, InputStream rules) {
-    this.db = db;
-    this.patchSet = patchSet;
-    this.projectControl = projectControl;
-    this.changeControl = changeControl;
-    this.change = change;
-    this.cd = checkNotNull(cd, "ChangeData");
-    this.fastEvalLabels = fastEvalLabels;
-    this.userRuleLocatorName = userRuleLocatorName;
-    this.userRuleWrapperName = userRuleWrapperName;
-    this.filterRuleLocatorName = filterRuleLocatorName;
-    this.filterRuleWrapperName = filterRuleWrapperName;
-    this.skipFilters = skipSubmitFilters;
-    this.rulesInputStream = rules;
+  public SubmitRuleEvaluator setPatchSet(PatchSet ps) {
+    checkArgument(ps.getId().getParentKey().equals(cd.getId()));
+    patchSet = ps;
+    return this;
   }
 
   /**
-   * Evaluates the given rule and filters.
-   *
-   * Sets the {@link #submitRule} to the Term found by the
-   * {@link #userRuleLocatorName}. This can be used when reporting error(s) on
-   * unexpected return value of this method.
+   * @param fast if true, infer label information from rules rather than reading
+   *     from project config.
+   * @return this
+   */
+  public SubmitRuleEvaluator setFastEvalLabels(boolean fast) {
+    fastEvalLabels = fast;
+    return this;
+  }
+
+  /**
+   * @param skip if true, submit filter will not be applied.
+   * @return this
+   */
+  public SubmitRuleEvaluator setSkipSubmitFilters(boolean skip) {
+    skipFilters = skip;
+    return this;
+  }
+
+  /**
+   * @param rule custom rule to use, or null to use refs/meta/config:rules.pl.
+   * @return this
+   */
+  public SubmitRuleEvaluator setRule(@Nullable String rule) {
+    this.rule = rule;
+    return this;
+  }
+
+  /**
+   * Evaluate the submit rules.
    *
    * @return List of {@link Term} objects returned from the evaluated rules.
    * @throws RuleEvalException
    */
   public List<Term> evaluate() throws RuleEvalException {
+    return evaluateImpl("locate_submit_rule", "can_submit",
+          "locate_submit_filter", "filter_submit_results");
+  }
+
+  /**
+   * Evaluate the submit type rules.
+   *
+   * @return List of {@link Term} objects returned from the evaluated rules.
+   * @throws RuleEvalException
+   */
+  public List<Term> evaluateSubmitType() throws RuleEvalException {
+    return evaluateImpl("locate_submit_type", "get_submit_type",
+          "locate_submit_type_filter", "filter_submit_type_results");
+  }
+
+  private List<Term> evaluateImpl(
+      String userRuleLocatorName,
+      String userRuleWrapperName,
+      String filterRuleLocatorName,
+      String filterRuleWrapperName) throws RuleEvalException {
     PrologEnvironment env = getPrologEnvironment();
     try {
       submitRule = env.once("gerrit", userRuleLocatorName, new VariableTerm());
@@ -140,19 +136,16 @@ public class SubmitRuleEvaluator {
             submitRule, new VariableTerm())) {
           results.add(template[1]);
         }
-      } catch (PrologException err) {
-        throw new RuleEvalException("Exception calling " + submitRule
-            + " on change " + change.getId() + " of " + getProjectName(),
-            err);
       } catch (RuntimeException err) {
         throw new RuleEvalException("Exception calling " + submitRule
-            + " on change " + change.getId() + " of " + getProjectName(),
+            + " on change " + cd.getId() + " of " + getProjectName(),
             err);
       }
 
       Term resultsTerm = toListTerm(results);
       if (!skipFilters) {
-        resultsTerm = runSubmitFilters(resultsTerm, env);
+        resultsTerm = runSubmitFilters(
+            resultsTerm, env, filterRuleLocatorName, filterRuleWrapperName);
       }
       if (resultsTerm.isList()) {
         List<Term> r = Lists.newArrayList();
@@ -170,27 +163,39 @@ public class SubmitRuleEvaluator {
   }
 
   private PrologEnvironment getPrologEnvironment() throws RuleEvalException {
-    ProjectState projectState = projectControl.getProjectState();
+    if (patchSet == null) {
+      try {
+        patchSet = cd.currentPatchSet();
+      } catch (OrmException err) {
+        throw new RuleEvalException("Missing current patch set on change "
+            + cd.getId() + " of " + getProjectName(),
+            err);
+      }
+    }
+    ProjectState projectState = control.getProjectControl().getProjectState();
     PrologEnvironment env;
     try {
-      if (rulesInputStream == null) {
+      if (rule == null) {
         env = projectState.newPrologEnvironment();
       } else {
-        env = projectState.newPrologEnvironment("stdin", rulesInputStream);
+        env = projectState.newPrologEnvironment(
+            "stdin", new ByteArrayInputStream(rule.getBytes(UTF_8)));
       }
     } catch (CompileException err) {
       throw new RuleEvalException("Cannot consult rules.pl for "
           + getProjectName(), err);
     }
-    env.set(StoredValues.REVIEW_DB, db);
+    env.set(StoredValues.REVIEW_DB, cd.db());
     env.set(StoredValues.CHANGE_DATA, cd);
     env.set(StoredValues.PATCH_SET, patchSet);
-    env.set(StoredValues.CHANGE_CONTROL, changeControl);
+    env.set(StoredValues.CHANGE_CONTROL, control);
     return env;
   }
 
-  private Term runSubmitFilters(Term results, PrologEnvironment env) throws RuleEvalException {
-    ProjectState projectState = projectControl.getProjectState();
+  private Term runSubmitFilters(Term results, PrologEnvironment env,
+      String filterRuleLocatorName, String filterRuleWrapperName)
+      throws RuleEvalException {
+    ProjectState projectState = control.getProjectControl().getProjectState();
     PrologEnvironment childEnv = env;
     for (ProjectState parentState : projectState.parents()) {
       PrologEnvironment parentEnv;
@@ -215,11 +220,11 @@ public class SubmitRuleEvaluator {
         results = template[2];
       } catch (PrologException err) {
         throw new RuleEvalException("Exception calling " + filterRule
-            + " on change " + change.getId() + " of "
+            + " on change " + cd.getId() + " of "
             + parentState.getProject().getName(), err);
       } catch (RuntimeException err) {
         throw new RuleEvalException("Exception calling " + filterRule
-            + " on change " + change.getId() + " of "
+            + " on change " + cd.getId() + " of "
             + parentState.getProject().getName(), err);
       }
       childEnv = parentEnv;
@@ -240,9 +245,6 @@ public class SubmitRuleEvaluator {
   }
 
   private String getProjectName() {
-    if (projectName == null) {
-      projectName = projectControl.getProjectState().getProject().getName();
-    }
-    return projectName;
+    return control.getProjectControl().getProjectState().getProject().getName();
   }
 }

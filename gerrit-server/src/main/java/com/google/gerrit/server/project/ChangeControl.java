@@ -461,14 +461,11 @@ public class ChangeControl {
     List<Term> results;
     SubmitRuleEvaluator evaluator;
     try {
-      evaluator = new SubmitRuleEvaluator(db, patchSet,
-          getProjectControl(),
-          this, getChange(), cd,
-          fastEvalLabels,
-          "locate_submit_rule", "can_submit",
-          "locate_submit_filter", "filter_submit_results");
-      results = evaluator.evaluate();
-    } catch (RuleEvalException e) {
+      evaluator = new SubmitRuleEvaluator(cd);
+      results = evaluator.setPatchSet(patchSet)
+          .setFastEvalLabels(fastEvalLabels)
+          .evaluate();
+    } catch (OrmException | RuleEvalException e) {
       return logRuleError(e.getMessage(), e);
     }
 
@@ -617,13 +614,9 @@ public class ChangeControl {
     List<Term> results;
     SubmitRuleEvaluator evaluator;
     try {
-      evaluator = new SubmitRuleEvaluator(db, patchSet,
-          getProjectControl(), this, getChange(), cd,
-          false,
-          "locate_submit_type", "get_submit_type",
-          "locate_submit_type_filter", "filter_submit_type_results");
-      results = evaluator.evaluate();
-    } catch (RuleEvalException e) {
+      evaluator = new SubmitRuleEvaluator(cd);
+      results = evaluator.evaluateSubmitType();
+    } catch (OrmException | RuleEvalException e) {
       return logTypeRuleError(e.getMessage(), e);
     }
 

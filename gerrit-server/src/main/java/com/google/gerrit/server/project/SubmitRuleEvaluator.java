@@ -21,6 +21,8 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.SubmitRecord;
+import com.google.gerrit.common.data.SubmitTypeRecord;
+import com.google.gerrit.extensions.common.SubmitType;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.rules.PrologEnvironment;
@@ -34,6 +36,7 @@ import com.googlecode.prolog_cafe.lang.ListTerm;
 import com.googlecode.prolog_cafe.lang.Prolog;
 import com.googlecode.prolog_cafe.lang.PrologException;
 import com.googlecode.prolog_cafe.lang.StructureTerm;
+import com.googlecode.prolog_cafe.lang.SymbolTerm;
 import com.googlecode.prolog_cafe.lang.Term;
 import com.googlecode.prolog_cafe.lang.VariableTerm;
 
@@ -54,8 +57,11 @@ public class SubmitRuleEvaluator {
   private static final Logger log = LoggerFactory
       .getLogger(SubmitRuleEvaluator.class);
 
+  private static final String DEFAULT_MSG =
+      "Error evaluating project rules, check server log";
+
   public static List<SubmitRecord> defaultRuleError() {
-    return createRuleError("Error evaluating project rules, check server log");
+    return createRuleError(DEFAULT_MSG);
   }
 
   public static List<SubmitRecord> createRuleError(String err) {
@@ -63,6 +69,17 @@ public class SubmitRuleEvaluator {
     rec.status = SubmitRecord.Status.RULE_ERROR;
     rec.errorMessage = err;
     return Collections.singletonList(rec);
+  }
+
+  public static SubmitTypeRecord defaultTypeError() {
+    return createTypeError(DEFAULT_MSG);
+  }
+
+  public static SubmitTypeRecord createTypeError(String err) {
+    SubmitTypeRecord rec = new SubmitTypeRecord();
+    rec.status = SubmitTypeRecord.Status.RULE_ERROR;
+    rec.errorMessage = err;
+    return rec;
   }
 
   /**
@@ -283,14 +300,58 @@ public class SubmitRuleEvaluator {
   }
 
   /**
-   * Evaluate the submit type rules.
+   * Evaluate the submit type rules to get the submit type.
    *
-   * @return List of {@link Term} objects returned from the evaluated rules.
-   * @throws RuleEvalException
+   * @return record from the evaluated rules.
    */
-  public List<Term> evaluateSubmitType() throws RuleEvalException {
-    return evaluateImpl("locate_submit_type", "get_submit_type",
+  public SubmitTypeRecord getSubmitType() {
+    List<Term> results;
+    try {
+      results = evaluateImpl("locate_submit_type", "get_submit_type",
           "locate_submit_type_filter", "filter_submit_type_results");
+    } catch (RuleEvalException e) {
+      return typeError(e.getMessage(), e);
+    }
+
+    if (results.isEmpty()) {
+      // Should never occur for a well written rule
+      return typeError("Submit rule '" + getSubmitRule() + "' for change "
+          + cd.getId() + " of " + getProjectName() + " has no solution.");
+    }
+
+    Term typeTerm = results.get(0);
+    if (!typeTerm.isSymbol()) {
+      return typeError("Submit rule '" + getSubmitRule() + "' for change "
+          + cd.getId() + " of " + getProjectName()
+          + " did not return a symbol.");
+    }
+
+    String typeName = ((SymbolTerm) typeTerm).name();
+    try {
+      return SubmitTypeRecord.OK(
+          SubmitType.valueOf(typeName.toUpperCase()));
+    } catch (IllegalArgumentException e) {
+      return typeError("Submit type rule " + getSubmitRule() + " for change "
+          + cd.getId() + " of " + getProjectName() + " output invalid result: "
+          + typeName);
+    }
+  }
+
+  private SubmitTypeRecord typeError(String err) {
+    return typeError(err, null);
+  }
+
+  private SubmitTypeRecord typeError(String err, Exception e) {
+    if (logErrors) {
+      if (e == null) {
+        log.error(err);
+      } else {
+        log.error(err, e);
+      }
+      return defaultTypeError();
+    } else {
+      return createTypeError(err);
+    }
   }
 
   private List<Term> evaluateImpl(

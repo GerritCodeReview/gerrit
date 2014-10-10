@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f00e8cb4_6a117773",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 589,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-10-10T15:34:46Z",
+      "side": 1,
+      "message": "Yes, I was going for a minimal change, but as you noted this produces problems when not in request scope. Hopefully factoring out some utilities will fix this.\n\n(I am still not happy with this block, in particular I am worried about its impact on search result latency. I think we will have to do something in ChangeJson.formatList2 to optimize, in a later change.)",
+      "parentUuid": "307ae4aa_541eecd2",
+      "range": {
+        "startLine": 589,
+        "startChar": 14,
+        "endLine": 589,
+        "endChar": 75
+      },
+      "revId": "9b3514be106a76023449dce641a298d396c55800",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1077a0c2_f324f04e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_100.java",
         "patchSetId": 4
@@ -72,6 +96,24 @@
       "side": 1,
       "message": "| (People running a dev version who have already upgraded to v13 will have to run --recheck-mergeable manually. We could in theory trigger an online reindex of the same schema version in this case, but I don\u0027t think it\u0027s worth putting significant effort into.)\n\nI agree, we don\u0027t care about dev Gerrit versions. It might be much better invested time to move forward with noteb migration process.",
       "parentUuid": "d0d6e8da_312d9084",
+      "revId": "9b3514be106a76023449dce641a298d396c55800",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70ab7c9e_5e07953d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_100.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-10-10T15:34:46Z",
+      "side": 1,
+      "message": "For the record, the specific reason that online reindexing of the same version is nontrivial is that there is a single directory name per schema version, and we delete all content from the new version before the upgrade.",
+      "parentUuid": "307ae4aa_b41180c2",
       "revId": "9b3514be106a76023449dce641a298d396c55800",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

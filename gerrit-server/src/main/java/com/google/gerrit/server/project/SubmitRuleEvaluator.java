@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.project;
 
+import static com.google.common.base.Preconditions.checkState;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.collect.Lists;
@@ -120,7 +121,7 @@ public class SubmitRuleEvaluator {
       String filterRuleWrapperName) throws RuleEvalException {
     PrologEnvironment env = getPrologEnvironment();
     try {
-      submitRule = env.once("gerrit", userRuleLocatorName, new VariableTerm());
+      Term submitRule = env.once("gerrit", userRuleLocatorName, new VariableTerm());
       if (fastEvalLabels) {
         env.once("gerrit", "assume_range_from_label");
       }
@@ -146,16 +147,19 @@ public class SubmitRuleEvaluator {
         resultsTerm = runSubmitFilters(
             resultsTerm, env, filterRuleLocatorName, filterRuleWrapperName);
       }
+      List<Term> r;
       if (resultsTerm.isList()) {
-        List<Term> r = Lists.newArrayList();
+        r = Lists.newArrayList();
         for (Term t = resultsTerm; t.isList();) {
           ListTerm l = (ListTerm) t;
           r.add(l.car().dereference());
           t = l.cdr().dereference();
         }
-        return r;
+      } else {
+        r = Collections.emptyList();
       }
-      return Collections.emptyList();
+      this.submitRule = submitRule;
+      return r;
     } finally {
       env.close();
     }
@@ -231,6 +235,7 @@ public class SubmitRuleEvaluator {
   }
 
   public Term getSubmitRule() {
+    checkState(submitRule != null, "getSubmitRule() invalid before evaluation");
     return submitRule;
   }
 

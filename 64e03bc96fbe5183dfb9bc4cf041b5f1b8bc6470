@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "10cb2096_f3ce90be",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectCacheWarmer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-10-10T06:00:38Z",
+      "side": 1,
+      "message": "this may shutdown some running tasks though it is tolerated",
+      "revId": "64e03bc96fbe5183dfb9bc4cf041b5f1b8bc6470",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

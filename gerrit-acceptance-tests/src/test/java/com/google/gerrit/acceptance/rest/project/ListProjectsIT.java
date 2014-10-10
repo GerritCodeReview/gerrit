@@ -26,7 +26,6 @@ import com.google.gerrit.extensions.api.projects.ProjectInput;
 import com.google.gerrit.extensions.common.ProjectInfo;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gson.reflect.TypeToken;
 import com.google.inject.Inject;
@@ -41,9 +40,6 @@ import java.util.Arrays;
 import java.util.Map;
 
 public class ListProjectsIT extends AbstractDaemonTest {
-
-  @Inject
-  private AllProjectsName allProjects;
 
   @Inject
   private AllUsersName allUsers;

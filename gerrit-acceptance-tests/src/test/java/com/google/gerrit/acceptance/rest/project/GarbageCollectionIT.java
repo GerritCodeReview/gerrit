@@ -22,7 +22,6 @@ import com.google.gerrit.acceptance.GcAssert;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.UseLocalDisk;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
@@ -37,19 +36,12 @@ import java.io.IOException;
 public class GarbageCollectionIT extends AbstractDaemonTest {
 
   @Inject
-  private AllProjectsName allProjects;
-
-  @Inject
   private GcAssert gcAssert;
 
-  private Project.NameKey project1;
   private Project.NameKey project2;
 
   @Before
   public void setUp() throws Exception {
-    project1 = new Project.NameKey("p1");
-    createProject(sshSession, project1.get());
-
     project2 = new Project.NameKey("p2");
     createProject(sshSession, project2.get());
   }
@@ -72,7 +64,7 @@ public class GarbageCollectionIT extends AbstractDaemonTest {
   public void testGcOneProject() throws JSchException, IOException {
     assertEquals(HttpStatus.SC_OK, POST("/projects/" + allProjects.get() + "/gc"));
     gcAssert.assertHasPackFile(allProjects);
-    gcAssert.assertHasNoPackFile(project1, project2);
+    gcAssert.assertHasNoPackFile(project, project2);
   }
 
   private int POST(String endPoint) throws IOException {

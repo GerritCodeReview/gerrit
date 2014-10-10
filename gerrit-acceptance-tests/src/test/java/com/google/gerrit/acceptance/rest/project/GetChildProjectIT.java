@@ -23,9 +23,6 @@ import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.SshSession;
 import com.google.gerrit.extensions.common.ProjectInfo;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.server.config.AllProjectsName;
-import com.google.gerrit.server.project.ProjectCache;
-import com.google.inject.Inject;
 
 import com.jcraft.jsch.JSchException;
 
@@ -35,12 +32,6 @@ import org.junit.Test;
 import java.io.IOException;
 
 public class GetChildProjectIT extends AbstractDaemonTest {
-
-  @Inject
-  private AllProjectsName allProjects;
-
-  @Inject
-  private ProjectCache projectCache;
 
   @Test
   public void getNonExistingChildProject_NotFound() throws IOException {

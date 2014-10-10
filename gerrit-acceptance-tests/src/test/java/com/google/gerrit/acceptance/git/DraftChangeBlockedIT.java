@@ -21,12 +21,9 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.common.data.Permission;
-import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
-import com.google.gerrit.server.project.ProjectCache;
 import com.google.gwtorm.server.OrmException;
-import com.google.inject.Inject;
 
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.junit.Before;
@@ -36,15 +33,6 @@ import java.io.IOException;
 
 @NoHttpd
 public class DraftChangeBlockedIT extends AbstractDaemonTest {
-
-  @Inject
-  private ProjectCache projectCache;
-
-  @Inject
-  private AllProjectsName allProjects;
-
-  @Inject
-  private MetaDataUpdate.Server metaDataUpdateFactory;
 
   @Before
   public void setUp() throws Exception {

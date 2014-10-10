@@ -23,9 +23,7 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.extensions.common.ProjectInfo;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gson.reflect.TypeToken;
-import com.google.inject.Inject;
 
 import com.jcraft.jsch.JSchException;
 
@@ -37,9 +35,6 @@ import java.util.Arrays;
 import java.util.List;
 
 public class ListChildProjectsIT extends AbstractDaemonTest {
-
-  @Inject
-  private AllProjectsName allProjects;
 
   @Test
   public void listChildrenOfNonExistingProject_NotFound() throws IOException {

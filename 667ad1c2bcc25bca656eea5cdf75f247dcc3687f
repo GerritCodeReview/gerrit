@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f0e5ac1c_92797cbc",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 1779,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-10T18:11:16Z",
+      "side": 1,
+      "message": "On second though we probably don\u0027t want to extend:\n\n  GET /changes/\u003cid\u003e/detail\n\nendpoint. For the same reason we didn\u0027t extend it for change edits: At least on the new change screen the result is cached and to refresh the request we would need to bump change version number (what probably wouldn\u0027t be that trival to do after database \u003e Git migration). So we need a dedicated REST endpoint here.",
+      "range": {
+        "startLine": 1773,
+        "startChar": 6,
+        "endLine": 1779,
+        "endChar": 9
+      },
+      "revId": "667ad1c2bcc25bca656eea5cdf75f247dcc3687f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

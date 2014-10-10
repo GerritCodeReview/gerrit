@@ -24,19 +24,13 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.rules.RulesCache;
 import com.google.gerrit.server.change.TestSubmitRule.Filters;
 import com.google.gerrit.server.change.TestSubmitRule.Input;
-import com.google.gerrit.server.project.RuleEvalException;
 import com.google.gerrit.server.project.SubmitRuleEvaluator;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
-import com.googlecode.prolog_cafe.lang.SymbolTerm;
-import com.googlecode.prolog_cafe.lang.Term;
-
 import org.kohsuke.args4j.Option;
-
-import java.util.List;
 
 public class TestSubmitType implements RestModifyView<RevisionResource, Input> {
   private final Provider<ReviewDb> db;
@@ -66,41 +60,13 @@ public class TestSubmitType implements RestModifyView<RevisionResource, Input> {
     }
     input.filters = MoreObjects.firstNonNull(input.filters, filters);
     SubmitRuleEvaluator evaluator = new SubmitRuleEvaluator(
-        changeDataFactory.create(db.get(), rsrc.getControl()));
-
-    List<Term> results;
-    try {
-      results = evaluator.setPatchSet(rsrc.getPatchSet())
-          .setSkipSubmitFilters(input.filters == Filters.SKIP)
-          .setRule(input.rule)
-          .evaluateSubmitType();
-    } catch (RuleEvalException e) {
-      throw new BadRequestException(String.format(
-          "rule failed with exception: %s",
-          e.getMessage()));
-    }
-    if (results.isEmpty()) {
-      throw new BadRequestException(String.format(
-          "rule %s has no solution",
-          evaluator.getSubmitRule()));
-    }
-    Term type = results.get(0);
-    if (!type.isSymbol()) {
-      throw new BadRequestException(String.format(
-          "rule %s produced invalid result: %s",
-          evaluator.getSubmitRule().toString(),
-          type));
-    }
-
-    String typeName = ((SymbolTerm) type).name();
-    try {
-      return SubmitType.valueOf(typeName.toUpperCase());
-    } catch (IllegalArgumentException e) {
-      throw new BadRequestException(String.format(
-          "rule %s produced invalid result: %s",
-          evaluator.getSubmitRule().toString(),
-          type));
-    }
+          changeDataFactory.create(db.get(), rsrc.getControl()));
+    return evaluator.setPatchSet(rsrc.getPatchSet())
+        .setLogErrors(false)
+        .setSkipSubmitFilters(input.filters == Filters.SKIP)
+        .setRule(input.rule)
+        .getSubmitType()
+        .type;
   }
 
   static class Get implements RestReadView<RevisionResource> {

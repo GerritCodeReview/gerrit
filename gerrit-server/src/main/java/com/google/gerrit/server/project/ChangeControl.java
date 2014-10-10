@@ -24,7 +24,6 @@ import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.common.data.RefConfigSection;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.common.data.SubmitTypeRecord;
-import com.google.gerrit.extensions.common.SubmitType;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -487,73 +486,26 @@ public class ChangeControl {
     try {
       if (getChange().getStatus() == Change.Status.DRAFT
           && !isDraftVisible(db, cd)) {
-        return typeRuleError("Patch set " + patchSet.getPatchSetId()
-            + " not found");
+        return SubmitRuleEvaluator.createTypeError(
+            "Patch set " + patchSet.getPatchSetId() + " not found");
       }
       if (patchSet.isDraft() && !isDraftVisible(db, cd)) {
-        return typeRuleError("Patch set " + patchSet.getPatchSetId()
-            + " not found");
+        return SubmitRuleEvaluator.createTypeError(
+            "Patch set " + patchSet.getPatchSetId() + " not found");
       }
     } catch (OrmException err) {
-      return logTypeRuleError("Cannot read patch set " + patchSet.getId(),
-          err);
+      String msg = "Cannot read patch set " + patchSet.getId();
+      log.error(msg, err);
+      return SubmitRuleEvaluator.createTypeError(msg);
     }
 
-    List<Term> results;
-    SubmitRuleEvaluator evaluator;
     try {
-      evaluator = new SubmitRuleEvaluator(cd);
-      results = evaluator.evaluateSubmitType();
-    } catch (OrmException | RuleEvalException e) {
-      return logTypeRuleError(e.getMessage(), e);
+      return new SubmitRuleEvaluator(cd).setPatchSet(patchSet)
+          .getSubmitType();
+    } catch (OrmException e) {
+      log.error(e.getMessage(), e);
+      return SubmitRuleEvaluator.defaultTypeError();
     }
-
-    if (results.isEmpty()) {
-      // Should never occur for a well written rule
-      log.error("Submit rule '" + evaluator.getSubmitRule() + "' for change "
-          + getChange().getId() + " of " + getProject().getName()
-          + " has no solution.");
-      return typeRuleError("Project submit rule has no solution");
-    }
-
-    Term typeTerm = results.get(0);
-    if (!typeTerm.isSymbol()) {
-      log.error("Submit rule '" + evaluator.getSubmitRule() + "' for change "
-          + getChange().getId() + " of " + getProject().getName()
-          + " did not return a symbol.");
-      return typeRuleError("Project submit rule has invalid solution");
-    }
-
-    String typeName = ((SymbolTerm)typeTerm).name();
-    try {
-      return SubmitTypeRecord.OK(
-          SubmitType.valueOf(typeName.toUpperCase()));
-    } catch (IllegalArgumentException e) {
-      return logInvalidType(evaluator.getSubmitRule(), typeName);
-    }
-  }
-
-  private SubmitTypeRecord logInvalidType(Term rule, String record) {
-    return logTypeRuleError("Submit type rule " + rule + " for change "
-        + getChange().getId() + " of " + getProject().getName()
-        + " output invalid result: " + record);
-  }
-
-  private SubmitTypeRecord logTypeRuleError(String err, Exception e) {
-    log.error(err, e);
-    return typeRuleError("Error evaluating project type rules, check server log");
-  }
-
-  private SubmitTypeRecord logTypeRuleError(String err) {
-    log.error(err);
-    return typeRuleError("Error evaluating project type rules, check server log");
-  }
-
-  private SubmitTypeRecord typeRuleError(String err) {
-    SubmitTypeRecord rec = new SubmitTypeRecord();
-    rec.status = SubmitTypeRecord.Status.RULE_ERROR;
-    rec.errorMessage = err;
-    return rec;
   }
 
   private ChangeData changeData(ReviewDb db, @Nullable ChangeData cd) {

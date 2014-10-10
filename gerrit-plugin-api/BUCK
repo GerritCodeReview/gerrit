@@ -34,6 +34,7 @@ java_library(
     '//lib:mime-util',
     '//lib:servlet-api-3_1',
     '//lib/commons:io',
+    '//lib/commons:lang',
     '//lib/guice:guice',
     '//lib/guice:guice-assistedinject',
     '//lib/guice:guice-servlet',

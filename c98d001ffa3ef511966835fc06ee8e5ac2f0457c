@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "10cb2096_737f209e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SubmitRuleEvaluator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-10T19:29:25Z",
+      "side": 0,
+      "message": "I liked this generic name more.",
+      "range": {
+        "startLine": 101,
+        "startChar": 20,
+        "endLine": 101,
+        "endChar": 30
+      },
+      "revId": "c98d001ffa3ef511966835fc06ee8e5ac2f0457c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -270,6 +270,10 @@ public class ChangeData {
     notes = c.getNotes();
   }
 
+  public ReviewDb db() {
+    return db;
+  }
+
   public boolean isFromSource(ChangeDataSource s) {
     return s == returnedBySource;
   }

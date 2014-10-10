@@ -14,8 +14,6 @@
 
 package com.google.gerrit.server.change;
 
-import static java.nio.charset.StandardCharsets.UTF_8;
-
 import com.google.common.base.Function;
 import com.google.common.base.Joiner;
 import com.google.common.base.MoreObjects;
@@ -43,7 +41,6 @@ import com.googlecode.prolog_cafe.lang.Term;
 
 import org.kohsuke.args4j.Option;
 
-import java.io.ByteArrayInputStream;
 import java.util.List;
 import java.util.Map;
 
@@ -87,25 +84,15 @@ public class TestSubmitRule implements RestModifyView<RevisionResource, Input> {
       throw new AuthException("project rules are disabled");
     }
     input.filters = MoreObjects.firstNonNull(input.filters, filters);
-
     SubmitRuleEvaluator evaluator = new SubmitRuleEvaluator(
-        db.get(),
-        rsrc.getPatchSet(),
-        rsrc.getControl().getProjectControl(),
-        rsrc.getControl(),
-        rsrc.getChange(),
-        changeDataFactory.create(db.get(), rsrc.getControl()),
-        false,
-        "locate_submit_rule", "can_submit",
-        "locate_submit_filter", "filter_submit_results",
-        input.filters == Filters.SKIP,
-        input.rule != null
-          ? new ByteArrayInputStream(input.rule.getBytes(UTF_8))
-          : null);
+        changeDataFactory.create(db.get(), rsrc.getControl()));
 
     List<Term> results;
     try {
-      results = eval(evaluator);
+      results = evaluator.setPatchSet(rsrc.getPatchSet())
+          .setSkipSubmitFilters(input.filters == Filters.SKIP)
+          .setRule(input.rule)
+          .evaluate();
     } catch (RuleEvalException e) {
       String msg = Joiner.on(": ").skipNulls().join(Iterables.transform(
           Throwables.getCausalChain(e),
@@ -133,11 +120,6 @@ public class TestSubmitRule implements RestModifyView<RevisionResource, Input> {
     }
     accounts.fill();
     return out;
-  }
-
-  private static List<Term> eval(SubmitRuleEvaluator evaluator)
-      throws RuleEvalException {
-    return evaluator.evaluate();
   }
 
   static class Record {

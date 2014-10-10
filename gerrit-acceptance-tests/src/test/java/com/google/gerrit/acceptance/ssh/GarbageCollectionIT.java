@@ -21,6 +21,7 @@ import static org.junit.Assert.assertTrue;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GcAssert;
+import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.SshSession;
 import com.google.gerrit.acceptance.UseLocalDisk;
 import com.google.gerrit.common.data.GarbageCollectionResult;
@@ -39,6 +40,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Locale;
 
+@NoHttpd
 public class GarbageCollectionIT extends AbstractDaemonTest {
 
   @Inject

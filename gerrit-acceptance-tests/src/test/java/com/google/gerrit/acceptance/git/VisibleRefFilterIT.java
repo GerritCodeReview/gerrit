@@ -22,6 +22,7 @@ import com.google.common.base.CharMatcher;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Ordering;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GlobalCapability;
@@ -52,6 +53,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RunWith(ConfigSuite.class)
+@NoHttpd
 public class VisibleRefFilterIT extends AbstractDaemonTest {
   @ConfigSuite.Config
   public static Config noteDbWriteEnabled() {

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "10cb2096_d3d39466",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 589,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-10T06:31:42Z",
+      "side": 1,
+      "message": "This can only work from Request scope, where ReviewDb is bound and not from background thread, where it is not. I suggested to differentiate code path between endpoint and this place in previous comment. Atm when the follow-up change is applied, and the site is upgraded, without running the reindex, start Gerrit, online reindexing dosn\u0027t work any more:\n\n 1) Automatic ReviewDb only available in request scope\n  at com.google.gerrit.server.util.ThreadLocalRequestContext$1.provideReviewDb(ThreadLocalRequestContext.java:70) \n(via modules: com.google.gerrit.server.config.GerritGlobalModule -\u003e com.google.gerrit.server.util.ThreadLocalRequestContext$1)\n \n while locating com.google.gerrit.reviewdb.server.ReviewDb\n\n1 error\n\tat com.google.inject.internal.InjectorImpl$2.get(InjectorImpl.java:1018)\n\tat com.google.gerrit.server.change.TestSubmitType.apply(TestSubmitType.java:72)\n\tat com.google.gerrit.server.change.TestSubmitType$Get.apply(TestSubmitType.java:129)\n\tat com.google.gerrit.server.query.change.ChangeData.isMergeable(ChangeData.java:589)\n\tat com.google.gerrit.server.index.ChangeField$24.get(ChangeField.java:451)\n\tat com.google.gerrit.server.index.ChangeField$24.get(ChangeField.java:1)\n\tat com.google.gerrit.server.index.Schema$1.apply(Schema.java:107)\n\tat com.google.gerrit.server.index.Schema$1.apply(Schema.java:1)\n\tat com.google.common.collect.Iterators$8.transform(Iterators.java:799)\n\tat com.google.common.collect.TransformedIterator.next(TransformedIterator.java:48)\n\tat com.google.common.collect.Iterators$7.computeNext(Iterators.java:651)\n\tat com.google.common.collect.AbstractIterator.tryToComputeNext(AbstractIterator.java:143)\n\tat com.google.common.collect.AbstractIterator.hasNext(AbstractIterator.java:138)\n\tat com.google.gerrit.lucene.LuceneChangeIndex.toDocument(LuceneChangeIndex.java:489)\n\tat com.google.gerrit.lucene.LuceneChangeIndex.replace(LuceneChangeIndex.java:293)\n\tat com.google.gerrit.server.index.ChangeIndexer.index(ChangeIndexer.java:131)\n\tat com.google.gerrit.server.index.ChangeBatchIndexer$ProjectIndexer.getPathsAndIndex(ChangeBatchIndexer.java:347)\n\tat com.google.gerrit.server.index.ChangeBatchIndexer$ProjectIndexer.call(ChangeBatchIndexer.java:321)\n\tat com.google.gerrit.server.index.ChangeBatchIndexer$3.call(ChangeBatchIndexer.java:254)\n\tat com.google.gerrit.server.index.ChangeBatchIndexer$3.call(ChangeBatchIndexer.java:1)\n\tat java.util.concurrent.FutureTask.run(FutureTask.java:262)\n\tat com.google.common.util.concurrent.MoreExecutors$DirectExecutorService.execute(MoreExecutors.java:299)\n\tat java.util.concurrent.AbstractExecutorService.submit(AbstractExecutorService.java:132)\n\tat com.google.common.util.concurrent.AbstractListeningExecutorService.submit(AbstractListeningExecutorService.java:58)\n\tat com.google.gerrit.server.index.ChangeBatchIndexer.indexAll(ChangeBatchIndexer.java:162)\n\tat com.google.gerrit.lucene.OnlineReindexer.reindex(OnlineReindexer.java:79)\n\tat com.google.gerrit.lucene.OnlineReindexer.access$0(OnlineReindexer.java:74)\n\tat com.google.gerrit.lucene.OnlineReindexer$1.run(OnlineReindexer.java:62)\n[2014-10-10 10:09:20,007] WARN  com.google.gerrit.server.index.ChangeBatchIndexer : Failed to index change 65\ncom.google.inject.ProvisionException: Unable to provision, see the following errors:",
+      "range": {
+        "startLine": 589,
+        "startChar": 14,
+        "endLine": 589,
+        "endChar": 74
+      },
+      "revId": "df9b18c5ee5fef1ce6c0931a43074983cb952a5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

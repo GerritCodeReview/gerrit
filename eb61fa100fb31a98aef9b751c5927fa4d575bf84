@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "10cb2096_1386ac37",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/TestSubmitType.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-10T19:17:12Z",
+      "side": 1,
+      "message": "Here we can pass arbitrary patch set, not necessary current. So my suggestion would be to streamline the ctor of SubmitRuleEvaluator and only have one parameter: change data. In addition provide a setter, as it is following builder pattern and explicitly name the setter: setPatchSet(). We  cannot check and report the error, in case tht current patch set was passed in into setPatchSet() setter, because TestSubmitType sould also work for current patch sets.",
+      "range": {
+        "startLine": 70,
+        "startChar": 8,
+        "endLine": 70,
+        "endChar": 26
+      },
+      "revId": "eb61fa100fb31a98aef9b751c5927fa4d575bf84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0e5ac1c_72661810",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 453,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-10T19:17:12Z",
+      "side": 1,
+      "message": "So here we explicitly test that the patch set on line 464 below is the current ps.",
+      "range": {
+        "startLine": 451,
+        "startChar": 4,
+        "endLine": 453,
+        "endChar": 5
+      },
+      "revId": "eb61fa100fb31a98aef9b751c5927fa4d575bf84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0e5ac1c_526314fe",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 464,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-10T19:17:12Z",
+      "side": 1,
+      "message": "Not needed to pass this parameter explicitly.",
+      "range": {
+        "startLine": 464,
+        "startChar": 44,
+        "endLine": 464,
+        "endChar": 54
+      },
+      "revId": "eb61fa100fb31a98aef9b751c5927fa4d575bf84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0e5ac1c_b24b6075",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SubmitRuleEvaluator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-10T19:17:12Z",
+      "side": 1,
+      "message": "Just to test my understanding: We can induce current patch set from change data, but we still need explicit construcor in case we may want to test against non current patch set? May be emphasize the difference between two constructor more prominently?",
+      "range": {
+        "startLine": 56,
+        "startChar": 4,
+        "endLine": 56,
+        "endChar": 34
+      },
+      "revId": "eb61fa100fb31a98aef9b751c5927fa4d575bf84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

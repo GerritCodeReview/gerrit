@@ -21,6 +21,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.GitUtil.Commit;
 
 import com.jcraft.jsch.JSchException;
@@ -32,6 +33,7 @@ import org.junit.Test;
 import java.io.IOException;
 import java.util.Locale;
 
+@NoHttpd
 public class BanCommitIT extends AbstractDaemonTest {
 
   @Test

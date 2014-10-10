@@ -23,6 +23,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.GitUtil.Commit;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference.Whitespace;
@@ -43,6 +44,7 @@ import org.junit.Test;
 import java.io.IOException;
 import java.util.List;
 
+@NoHttpd
 public class PatchListCacheIT extends AbstractDaemonTest {
   private static String SUBJECT_1 = "subject 1";
   private static String SUBJECT_2 = "subject 2";

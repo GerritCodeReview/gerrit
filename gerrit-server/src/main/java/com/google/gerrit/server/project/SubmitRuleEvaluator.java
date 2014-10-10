@@ -20,6 +20,8 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.common.data.SubmitRecord;
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.rules.PrologEnvironment;
 import com.google.gerrit.rules.StoredValues;
@@ -27,11 +29,16 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
 
 import com.googlecode.prolog_cafe.compiler.CompileException;
+import com.googlecode.prolog_cafe.lang.IntegerTerm;
 import com.googlecode.prolog_cafe.lang.ListTerm;
 import com.googlecode.prolog_cafe.lang.Prolog;
 import com.googlecode.prolog_cafe.lang.PrologException;
+import com.googlecode.prolog_cafe.lang.StructureTerm;
 import com.googlecode.prolog_cafe.lang.Term;
 import com.googlecode.prolog_cafe.lang.VariableTerm;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
@@ -44,6 +51,33 @@ import java.util.List;
  * all the way up to All-Projects.
  */
 public class SubmitRuleEvaluator {
+  private static final Logger log = LoggerFactory
+      .getLogger(SubmitRuleEvaluator.class);
+
+  public static List<SubmitRecord> defaultRuleError() {
+    return createRuleError("Error evaluating project rules, check server log");
+  }
+
+  public static List<SubmitRecord> createRuleError(String err) {
+    SubmitRecord rec = new SubmitRecord();
+    rec.status = SubmitRecord.Status.RULE_ERROR;
+    rec.errorMessage = err;
+    return Collections.singletonList(rec);
+  }
+
+  /**
+   * Exception thrown when the label term of a submit record
+   * unexpectedly didn't contain a user term.
+   */
+  private static class UserTermExpected extends Exception {
+    private static final long serialVersionUID = 1L;
+
+    public UserTermExpected(SubmitRecord.Label label) {
+      super(String.format("A label with the status %s must contain a user.",
+          label.toString()));
+    }
+  }
+
   private final ChangeData cd;
   private final ChangeControl control;
 
@@ -51,6 +85,7 @@ public class SubmitRuleEvaluator {
   private boolean fastEvalLabels;
   private boolean skipFilters;
   private String rule;
+  private boolean logErrors = true;
 
   private Term submitRule;
 
@@ -98,14 +133,153 @@ public class SubmitRuleEvaluator {
   }
 
   /**
+   * @param log whether to log error messages in addition to returning error
+   *     records. If true, error record messages will be less descriptive.
+   */
+  public SubmitRuleEvaluator setLogErrors(boolean log) {
+    logErrors = log;
+    return this;
+  }
+
+  /**
    * Evaluate the submit rules.
    *
-   * @return List of {@link Term} objects returned from the evaluated rules.
-   * @throws RuleEvalException
+   * @return List of {@link SubmitRecord} objects returned from the evaluated
+   *     rules, including any errors.
    */
-  public List<Term> evaluate() throws RuleEvalException {
-    return evaluateImpl("locate_submit_rule", "can_submit",
+  public List<SubmitRecord> canSubmit() {
+    List<Term> results;
+    try {
+      results = evaluateImpl("locate_submit_rule", "can_submit",
           "locate_submit_filter", "filter_submit_results");
+    } catch (RuleEvalException e) {
+      return ruleError(e.getMessage(), e);
+    }
+
+    if (results.isEmpty()) {
+      // This should never occur. A well written submit rule will always produce
+      // at least one result informing the caller of the labels that are
+      // required for this change to be submittable. Each label will indicate
+      // whether or not that is actually possible given the permissions.
+      return ruleError(String.format("Submit rule '%s' for change %s of %s has "
+            + "no solution.", getSubmitRule(), cd.getId(), getProjectName()));
+    }
+
+    return resultsToSubmitRecord(getSubmitRule(), results);
+  }
+
+  /**
+   * Convert the results from Prolog Cafe's format to Gerrit's common format.
+   *
+   * can_submit/1 terminates when an ok(P) record is found. Therefore walk
+   * the results backwards, using only that ok(P) record if it exists. This
+   * skips partial results that occur early in the output. Later after the loop
+   * the out collection is reversed to restore it to the original ordering.
+   */
+  private List<SubmitRecord> resultsToSubmitRecord(
+      Term submitRule, List<Term> results) {
+    List<SubmitRecord> out = new ArrayList<>(results.size());
+    for (int resultIdx = results.size() - 1; 0 <= resultIdx; resultIdx--) {
+      Term submitRecord = results.get(resultIdx);
+      SubmitRecord rec = new SubmitRecord();
+      out.add(rec);
+
+      if (!submitRecord.isStructure() || 1 != submitRecord.arity()) {
+        return invalidResult(submitRule, submitRecord);
+      }
+
+      if ("ok".equals(submitRecord.name())) {
+        rec.status = SubmitRecord.Status.OK;
+
+      } else if ("not_ready".equals(submitRecord.name())) {
+        rec.status = SubmitRecord.Status.NOT_READY;
+
+      } else {
+        return invalidResult(submitRule, submitRecord);
+      }
+
+      // Unpack the one argument. This should also be a structure with one
+      // argument per label that needs to be reported on to the caller.
+      //
+      submitRecord = submitRecord.arg(0);
+
+      if (!submitRecord.isStructure()) {
+        return invalidResult(submitRule, submitRecord);
+      }
+
+      rec.labels = new ArrayList<>(submitRecord.arity());
+
+      for (Term state : ((StructureTerm) submitRecord).args()) {
+        if (!state.isStructure() || 2 != state.arity() || !"label".equals(state.name())) {
+          return invalidResult(submitRule, submitRecord);
+        }
+
+        SubmitRecord.Label lbl = new SubmitRecord.Label();
+        rec.labels.add(lbl);
+
+        lbl.label = state.arg(0).name();
+        Term status = state.arg(1);
+
+        try {
+          if ("ok".equals(status.name())) {
+            lbl.status = SubmitRecord.Label.Status.OK;
+            appliedBy(lbl, status);
+
+          } else if ("reject".equals(status.name())) {
+            lbl.status = SubmitRecord.Label.Status.REJECT;
+            appliedBy(lbl, status);
+
+          } else if ("need".equals(status.name())) {
+            lbl.status = SubmitRecord.Label.Status.NEED;
+
+          } else if ("may".equals(status.name())) {
+            lbl.status = SubmitRecord.Label.Status.MAY;
+
+          } else if ("impossible".equals(status.name())) {
+            lbl.status = SubmitRecord.Label.Status.IMPOSSIBLE;
+
+          } else {
+            return invalidResult(submitRule, submitRecord);
+          }
+        } catch (UserTermExpected e) {
+          return invalidResult(submitRule, submitRecord, e.getMessage());
+        }
+      }
+
+      if (rec.status == SubmitRecord.Status.OK) {
+        break;
+      }
+    }
+    Collections.reverse(out);
+
+    return out;
+  }
+
+  private List<SubmitRecord> invalidResult(Term rule, Term record, String reason) {
+    return ruleError(String.format("Submit rule %s for change %s of %s output "
+        + "invalid result: %s%s", rule, cd.getId(), getProjectName(), record,
+        (reason == null ? "" : ". Reason: " + reason)));
+  }
+
+  private List<SubmitRecord> invalidResult(Term rule, Term record) {
+    return invalidResult(rule, record, null);
+  }
+
+  private List<SubmitRecord> ruleError(String err) {
+    return ruleError(err, null);
+  }
+
+  private List<SubmitRecord> ruleError(String err, Exception e) {
+    if (logErrors) {
+      if (e == null) {
+        log.error(err);
+      } else {
+        log.error(err, e);
+      }
+      return defaultRuleError();
+    } else {
+      return createRuleError(err);
+    }
   }
 
   /**
@@ -242,6 +416,25 @@ public class SubmitRuleEvaluator {
       list = new ListTerm(terms.get(i), list);
     }
     return list;
+  }
+
+  private void appliedBy(SubmitRecord.Label label, Term status)
+      throws UserTermExpected {
+    if (status.isStructure() && status.arity() == 1) {
+      Term who = status.arg(0);
+      if (isUser(who)) {
+        label.appliedBy = new Account.Id(((IntegerTerm) who.arg(0)).intValue());
+      } else {
+        throw new UserTermExpected(label);
+      }
+    }
+  }
+
+  private static boolean isUser(Term who) {
+    return who.isStructure()
+        && who.arity() == 1
+        && who.name().equals("user")
+        && who.arg(0).isInteger();
   }
 
   public Term getSubmitRule() {

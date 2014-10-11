@@ -138,6 +138,8 @@ public class LuceneChangeIndex implements ChangeIndex {
     Version lucene47 = Version.LUCENE_47;
     @SuppressWarnings("deprecation")
     Version lucene48 = Version.LUCENE_48;
+    @SuppressWarnings("deprecation")
+    Version lucene410 = Version.LUCENE_4_10_0;
     for (Map.Entry<Integer, Schema<ChangeData>> e
         : ChangeSchemas.ALL.entrySet()) {
       if (e.getKey() <= 3) {
@@ -150,8 +152,10 @@ public class LuceneChangeIndex implements ChangeIndex {
         versions.put(e.getValue(), lucene47);
       } else if (e.getKey() <= 11) {
         versions.put(e.getValue(), lucene48);
+      } else if (e.getKey() <= 13) {
+        versions.put(e.getValue(), lucene410);
       } else {
-        versions.put(e.getValue(), Version.LUCENE_4_10_0);
+        versions.put(e.getValue(), Version.LUCENE_4_10_1);
       }
     }
     LUCENE_VERSIONS = versions.build();

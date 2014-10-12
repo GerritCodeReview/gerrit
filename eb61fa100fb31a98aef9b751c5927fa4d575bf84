@@ -91,6 +91,30 @@
       "revId": "eb61fa100fb31a98aef9b751c5927fa4d575bf84",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f00e8cb4_8a426b66",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SubmitRuleEvaluator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-10-12T03:07:44Z",
+      "side": 1,
+      "message": "Yes, when you\u0027re running the SRE \"for real\", you can obviously only submit the latest patch set. But TestSubmitRule/TestSubmitType are handlers on revision resources, so you can actually test your prolog rules on any patch set.",
+      "parentUuid": "f0e5ac1c_b24b6075",
+      "range": {
+        "startLine": 56,
+        "startChar": 4,
+        "endLine": 56,
+        "endChar": 34
+      },
+      "revId": "eb61fa100fb31a98aef9b751c5927fa4d575bf84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

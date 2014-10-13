@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "302ae414_f4d3f865",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/TestSubmitType.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-10-13T19:43:01Z",
+      "side": 1,
+      "message": "Done. Required another catch block but what can you do.",
+      "parentUuid": "10cb2096_1386ac37",
+      "range": {
+        "startLine": 70,
+        "startChar": 8,
+        "endLine": 70,
+        "endChar": 26
+      },
+      "revId": "eb61fa100fb31a98aef9b751c5927fa4d575bf84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f0e5ac1c_72661810",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
         "patchSetId": 1
@@ -59,6 +83,30 @@
       "writtenOn": "2014-10-10T19:17:12Z",
       "side": 1,
       "message": "Not needed to pass this parameter explicitly.",
+      "range": {
+        "startLine": 464,
+        "startChar": 44,
+        "endLine": 464,
+        "endChar": 54
+      },
+      "revId": "eb61fa100fb31a98aef9b751c5927fa4d575bf84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "302ae414_94d88484",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 464,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-10-13T19:43:01Z",
+      "side": 1,
+      "message": "This avoids an additional db lookup from cd.currentPatchSet() in the case where cd was null.",
+      "parentUuid": "f0e5ac1c_526314fe",
       "range": {
         "startLine": 464,
         "startChar": 44,

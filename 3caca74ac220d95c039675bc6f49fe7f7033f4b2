@@ -22,6 +22,30 @@
       "revId": "3caca74ac220d95c039675bc6f49fe7f7033f4b2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f00e8cb4_2a893f49",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/TestSubmitRule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-10-13T19:48:32Z",
+      "side": 1,
+      "message": "This was chosen to match ChangeControl.canSubmit.\n\nI too think it\u0027s odd to have a method called canFoo return a list, but we would need to come up with a better name for both places. \"evaluate\" doesn\u0027t work because it\u0027s not specific enough for ChangeControl.",
+      "parentUuid": "f0e5ac1c_3289b049",
+      "range": {
+        "startLine": 87,
+        "startChar": 11,
+        "endLine": 87,
+        "endChar": 23
+      },
+      "revId": "3caca74ac220d95c039675bc6f49fe7f7033f4b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

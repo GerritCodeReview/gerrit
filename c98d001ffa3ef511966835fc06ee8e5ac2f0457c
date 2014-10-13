@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f00e8cb4_6a7f379e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SubmitRuleEvaluator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-10-13T19:46:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f0e5ac1c_326090ef",
+      "range": {
+        "startLine": 124,
+        "startChar": 6,
+        "endLine": 124,
+        "endChar": 21
+      },
+      "revId": "c98d001ffa3ef511966835fc06ee8e5ac2f0457c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "10cb2096_b34b7875",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SubmitRuleEvaluator.java",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2014-10-10T19:29:19Z",
       "side": 1,
       "message": "This can be done without using this then.",
+      "range": {
+        "startLine": 161,
+        "startChar": 6,
+        "endLine": 161,
+        "endChar": 35
+      },
+      "revId": "c98d001ffa3ef511966835fc06ee8e5ac2f0457c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "302ae414_b4dd8073",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SubmitRuleEvaluator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-10-13T19:46:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "10cb2096_b34b7875",
       "range": {
         "startLine": 161,
         "startChar": 6,

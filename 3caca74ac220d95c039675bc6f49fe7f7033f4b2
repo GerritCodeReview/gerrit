@@ -46,6 +46,30 @@
       "revId": "3caca74ac220d95c039675bc6f49fe7f7033f4b2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f00e8cb4_0a867b37",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/TestSubmitRule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-10-13T19:53:20Z",
+      "side": 1,
+      "message": "Another reason \"evaluate\" is too generic is that the SubmitRuleEvaluator can evaluate two different things, whether submit is possible and what the submit type is.",
+      "parentUuid": "f00e8cb4_2a893f49",
+      "range": {
+        "startLine": 87,
+        "startChar": 11,
+        "endLine": 87,
+        "endChar": 23
+      },
+      "revId": "3caca74ac220d95c039675bc6f49fe7f7033f4b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

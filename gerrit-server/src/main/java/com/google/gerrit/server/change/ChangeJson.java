@@ -353,13 +353,9 @@ public class ChangeJson {
     return c.isMergeable();
   }
 
-  private List<SubmitRecord> submitRecords(ChangeControl ctl, ChangeData cd)
-      throws OrmException {
+  private List<SubmitRecord> submitRecords(ChangeData cd) throws OrmException {
     if (cd.getSubmitRecords() != null) {
       return cd.getSubmitRecords();
-    }
-    if (ctl == null) {
-      return ImmutableList.of();
     }
     PatchSet ps = cd.currentPatchSet();
     if (ps == null) {
@@ -422,7 +418,7 @@ public class ChangeJson {
       LabelTypes labelTypes, boolean standard) throws OrmException {
     // Don't use Maps.newTreeMap(Comparator) due to OpenJDK bug 100167.
     Map<String, LabelInfo> labels = new TreeMap<>(labelTypes.nameComparator());
-    for (SubmitRecord rec : submitRecords(ctl, cd)) {
+    for (SubmitRecord rec : submitRecords(cd)) {
       if (rec.labels == null) {
         continue;
       }
@@ -623,7 +619,7 @@ public class ChangeJson {
 
     LabelTypes labelTypes = ctl.getLabelTypes();
     SetMultimap<String, String> permitted = LinkedHashMultimap.create();
-    for (SubmitRecord rec : submitRecords(ctl, cd)) {
+    for (SubmitRecord rec : submitRecords(cd)) {
       if (rec.labels == null) {
         continue;
       }

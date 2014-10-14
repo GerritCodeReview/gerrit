@@ -94,6 +94,30 @@
       "revId": "3caca74ac220d95c039675bc6f49fe7f7033f4b2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d0ea68ee_912bbca8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/TestSubmitRule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-10-14T18:00:26Z",
+      "side": 1,
+      "message": "I still want to come up with a better name eventually. Right now ChangeControl#canSubmit() and ChangeControl#canSubmit(...) do completely different things, so canSumbit is not exactly a good name.\n\nBut, later.",
+      "parentUuid": "f0e5ac1c_523f94ac",
+      "range": {
+        "startLine": 87,
+        "startChar": 11,
+        "endLine": 87,
+        "endChar": 23
+      },
+      "revId": "3caca74ac220d95c039675bc6f49fe7f7033f4b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

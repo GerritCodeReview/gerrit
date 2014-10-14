@@ -22,6 +22,30 @@
       "revId": "7c7122e2df2444a74bf44083244a507fe953bf91",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70d9bc6e_aeef7714",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/TestSubmitType.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-10-14T17:42:12Z",
+      "side": 1,
+      "message": "This is the kind of thing I\u0027ve literally wasted days or weeks trying to get things ready for notedb. If there\u0027s one thing I\u0027ve learned, it\u0027s if you can initialize something in two ways, and you assume it\u0027s been initialized in one way, you are guaranteed to find some call path where it\u0027s initialized the wrong way.\n\nBelieve me, I wish we could guarantee a ChangeData was always constructed with a ChangeControl. The 3 @AssistedInject methods in ChangeData are already pretty ugly. But in this case, I know off the top of my head the reason we can\u0027t guarantee a ChangeData comes with a ChangeControl is in the search code path you just get Change.Ids back from the index. (Actually schema versions \u003e\u003d 2 have a serialized Change in the index, but still no ChangeControl. I digress.)\n\nThrowing OrmException from SubmitRuleEvaluator methods is unfortunate, yes, but how bad is it really? Some errors get converted to error records, some result in thrown exceptions. This is true even if we work to convert this one more OrmException case to a record.\n\nAlso, if we forced callers to construct a ChangeControl when they didn\u0027t have one, and the database were corrupt in such a way that that operation would generate an OrmException, it _still_ wouldn\u0027t get converted to an error record, because the OrmException would get thrown before the ChangeControl ever got constructed.\n\nSo it seems to me we\u0027re just left with the ugliness of one more extra exception thrown from this handler, which I\u0027m not too worried about considering its signature already.",
+      "parentUuid": "10cb2096_5391c459",
+      "range": {
+        "startLine": 60,
+        "startChar": 49,
+        "endLine": 60,
+        "endChar": 61
+      },
+      "revId": "7c7122e2df2444a74bf44083244a507fe953bf91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

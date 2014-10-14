@@ -46,6 +46,53 @@
       "revId": "7c7122e2df2444a74bf44083244a507fe953bf91",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "10cb2096_73c96062",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/TestSubmitType.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-14T19:09:44Z",
+      "side": 1,
+      "message": "Two points:\n\n1. One reason for all this reshuffling is to make it easier (if not to say possible) to use SRE in context of moving mergeable bits out of database to notedb. It\u0027s a bit ridiculus, that to make the code notedb ready, we have to add ORM exception to method signatures. Probably we need a generall replacement to rethrow a ORM exception if something unexpected happens. For example NotedbException. We ca do this later.\n\n2. I\u0027m kind of concerned about the performance along the notedb conversion way. You mentioned this too in other comments. For example you argued in this change to explicitly pass patch set to SRE to prevent unnecessary database lookup. OTOH here, in curernt patch set we make things worse by not passing already created change control instance in SRE and forcing to retrieve/create it again even though we have the instance and even though the ChangeData class has AssistedInject ctor that accepts change control instance. As shown in my prototype, on line 69 different ChangeData ctor should be used:\n\n  changeDataFactory.create(db.get(), rsrc.getControl())\n\nNote, that ChangeData in ChangControl is created this way  (when it\u0027s created there and not passed in already) passing existing ChangeControl instance (this):\n\n  changeDataFactory.create(db, this);",
+      "parentUuid": "70d9bc6e_aeef7714",
+      "range": {
+        "startLine": 60,
+        "startChar": 49,
+        "endLine": 60,
+        "endChar": 61
+      },
+      "revId": "7c7122e2df2444a74bf44083244a507fe953bf91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0e5ac1c_12e7cce8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/TestSubmitType.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-14T19:09:44Z",
+      "side": 1,
+      "message": "This should be:\n\n  changeDataFactory.create(db.get(), rsrc.getControl()));",
+      "range": {
+        "startLine": 69,
+        "startChar": 8,
+        "endLine": 69,
+        "endChar": 62
+      },
+      "revId": "7c7122e2df2444a74bf44083244a507fe953bf91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

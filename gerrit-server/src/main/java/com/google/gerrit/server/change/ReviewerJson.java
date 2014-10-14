@@ -31,6 +31,7 @@ import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.account.AccountInfo;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.project.SubmitRuleEvaluator;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -109,8 +110,11 @@ public class ReviewerJson {
     ChangeData cd = changeDataFactory.create(db.get(), ctl);
     PatchSet ps = cd.currentPatchSet();
     if (ps != null) {
-      for (SubmitRecord rec :
-          ctl.canSubmit(db.get(), ps, cd, true, false, true)) {
+      for (SubmitRecord rec : new SubmitRuleEvaluator(cd)
+          .setPatchSet(ps)
+          .setFastEvalLabels(true)
+          .setAllowDraft(true)
+          .canSubmit()) {
         if (rec.labels == null) {
           continue;
         }

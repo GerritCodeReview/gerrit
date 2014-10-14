@@ -89,6 +89,7 @@ import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.ProjectControl;
+import com.google.gerrit.server.project.SubmitRuleEvaluator;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeData.ChangedLines;
 import com.google.gwtorm.server.OrmException;
@@ -364,7 +365,10 @@ public class ChangeJson {
     if (ps == null) {
       return ImmutableList.of();
     }
-    cd.setSubmitRecords(ctl.canSubmit(db.get(), ps, cd, true, false, true));
+    cd.setSubmitRecords(new SubmitRuleEvaluator(cd).setPatchSet(ps)
+        .setFastEvalLabels(true)
+        .setAllowDraft(true)
+        .canSubmit());
     return cd.getSubmitRecords();
   }
 

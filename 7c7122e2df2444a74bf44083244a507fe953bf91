@@ -97,6 +97,30 @@
     },
     {
       "key": {
+        "uuid": "10cb2096_53c66452",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/TestSubmitType.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-14T20:00:19Z",
+      "side": 1,
+      "message": "| I appreciate your input here, I really do, but if we stall incremental improvements with long discussions about sweeping API changes, nothing will get done.\n\nSo let\u0027s stop the discussion then, swap to another assisted inject ctor on line 69 and move forward with the life.",
+      "parentUuid": "70d9bc6e_4e07f33d",
+      "range": {
+        "startLine": 60,
+        "startChar": 49,
+        "endLine": 60,
+        "endChar": 61
+      },
+      "revId": "7c7122e2df2444a74bf44083244a507fe953bf91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f0e5ac1c_12e7cce8",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/TestSubmitType.java",
         "patchSetId": 2

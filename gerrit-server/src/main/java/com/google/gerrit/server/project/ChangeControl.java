@@ -20,7 +20,6 @@ import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.common.data.RefConfigSection;
-import com.google.gerrit.common.data.SubmitTypeRecord;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -37,9 +36,6 @@ import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
@@ -47,9 +43,6 @@ import java.util.List;
 
 /** Access control management for a user accessing a single change. */
 public class ChangeControl {
-  private static final Logger log = LoggerFactory
-      .getLogger(ChangeControl.class);
-
   public static class GenericFactory {
     private final ProjectControl.GenericFactory projectControl;
     private final Provider<ReviewDb> db;
@@ -409,38 +402,6 @@ public class ChangeControl {
   private boolean match(String destBranch, String refPattern) {
     return RefPatternMatcher.getMatcher(refPattern).match(destBranch,
         this.getRefControl().getCurrentUser().getUserName());
-  }
-
-  public SubmitTypeRecord getSubmitTypeRecord(ReviewDb db, PatchSet patchSet) {
-    return getSubmitTypeRecord(db, patchSet, null);
-  }
-
-  public SubmitTypeRecord getSubmitTypeRecord(ReviewDb db, PatchSet patchSet,
-      @Nullable ChangeData cd) {
-    cd = changeData(db, cd);
-    try {
-      if (getChange().getStatus() == Change.Status.DRAFT
-          && !isDraftVisible(db, cd)) {
-        return SubmitRuleEvaluator.createTypeError(
-            "Patch set " + patchSet.getPatchSetId() + " not found");
-      }
-      if (patchSet.isDraft() && !isDraftVisible(db, cd)) {
-        return SubmitRuleEvaluator.createTypeError(
-            "Patch set " + patchSet.getPatchSetId() + " not found");
-      }
-    } catch (OrmException err) {
-      String msg = "Cannot read patch set " + patchSet.getId();
-      log.error(msg, err);
-      return SubmitRuleEvaluator.createTypeError(msg);
-    }
-
-    try {
-      return new SubmitRuleEvaluator(cd).setPatchSet(patchSet)
-          .getSubmitType();
-    } catch (OrmException e) {
-      log.error(e.getMessage(), e);
-      return SubmitRuleEvaluator.defaultTypeError();
-    }
   }
 
   private ChangeData changeData(ReviewDb db, @Nullable ChangeData cd) {

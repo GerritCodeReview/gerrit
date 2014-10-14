@@ -20,7 +20,6 @@ import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.common.data.RefConfigSection;
-import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.common.data.SubmitTypeRecord;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
@@ -37,9 +36,6 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
-
-import com.googlecode.prolog_cafe.lang.SymbolTerm;
-import com.googlecode.prolog_cafe.lang.Term;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -402,11 +398,6 @@ public class ChangeControl {
           || getRefControl().canEditHashtags(); // user can edit hashtag on a specific ref
   }
 
-
-  public List<SubmitRecord> getSubmitRecords(ReviewDb db, PatchSet patchSet) {
-    return canSubmit(db, patchSet, null, false, true, false);
-  }
-
   public boolean canSubmit() {
     return getRefControl().canSubmit();
   }
@@ -415,32 +406,10 @@ public class ChangeControl {
     return getRefControl().canSubmitAs();
   }
 
-  public List<SubmitRecord> canSubmit(ReviewDb db, PatchSet patchSet) {
-    return canSubmit(db, patchSet, null, false, false, false);
-  }
-
-  public List<SubmitRecord> canSubmit(ReviewDb db, PatchSet patchSet,
-      @Nullable ChangeData cd, boolean fastEvalLabels, boolean allowClosed,
-      boolean allowDraft) {
-    cd = changeData(db, cd);
-    try {
-      return new SubmitRuleEvaluator(cd)
-          .setPatchSet(patchSet)
-          .setFastEvalLabels(fastEvalLabels)
-          .setAllowClosed(allowClosed)
-          .setAllowDraft(allowDraft)
-          .canSubmit();
-    } catch (OrmException e) {
-      log.error("Error evaluating submit rule", e);
-      return SubmitRuleEvaluator.defaultRuleError();
-    }
-  }
-
   private boolean match(String destBranch, String refPattern) {
     return RefPatternMatcher.getMatcher(refPattern).match(destBranch,
         this.getRefControl().getCurrentUser().getUserName());
   }
-
 
   public SubmitTypeRecord getSubmitTypeRecord(ReviewDb db, PatchSet patchSet) {
     return getSubmitTypeRecord(db, patchSet, null);

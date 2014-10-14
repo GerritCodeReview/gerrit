@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "70d9bc6e_4e07f33d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/TestSubmitType.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-10-14T19:44:46Z",
+      "side": 1,
+      "message": "\u003e Probably we need a generall replacement to rethrow a ORM exception if something unexpected happens.\n\nUndecided.\n\nI made notedb methods throw OrmException to avoid throwing two exception types from every utility class method during the transitional period.\n\nOnce reviewdb is gone, OrmException will no longer be overloaded, it will go back to meaning \"error reading from the database.\" (Ok, so OrmException is in gwtorm, and if we kill gwtorm we will have to use something else. But you see my point.)\n\nDefinitely unrelated to this change.\n\n\u003e we make things worse by not passing already created change control instance\n\nYes, there are likely lots of places we are calling the wrong factory method.\n\nMaybe we should revisit the ChangeData factory methods. Force everyone to provide a ChangeControl except in the search results case. Rename the method  to something like ChangeDataFactory.createNoReallyIOnlyHaveAChangeIdIPromise to make it obvious that \n\nAlso mostly unrelated to this change (although I will fix the instance below).\n\nI appreciate your input here, I really do, but if we stall incremental improvements with long discussions about sweeping API changes, nothing will get done. I know this from experience working on sweeping API changes for notedb :)",
+      "parentUuid": "10cb2096_73c96062",
+      "range": {
+        "startLine": 60,
+        "startChar": 49,
+        "endLine": 60,
+        "endChar": 61
+      },
+      "revId": "7c7122e2df2444a74bf44083244a507fe953bf91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f0e5ac1c_12e7cce8",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/TestSubmitType.java",
         "patchSetId": 2

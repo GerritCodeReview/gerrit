@@ -16,6 +16,7 @@ package com.google.gerrit.server.project;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
+
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.collect.Lists;
@@ -24,6 +25,7 @@ import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.common.data.SubmitTypeRecord;
 import com.google.gerrit.extensions.common.SubmitType;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.rules.PrologEnvironment;
 import com.google.gerrit.rules.StoredValues;
@@ -100,6 +102,8 @@ public class SubmitRuleEvaluator {
 
   private PatchSet patchSet;
   private boolean fastEvalLabels;
+  private boolean allowDraft;
+  private boolean allowClosed;
   private boolean skipFilters;
   private String rule;
   private boolean logErrors = true;
@@ -128,6 +132,24 @@ public class SubmitRuleEvaluator {
    */
   public SubmitRuleEvaluator setFastEvalLabels(boolean fast) {
     fastEvalLabels = fast;
+    return this;
+  }
+
+  /**
+   * @param allow whether to allow {@link #canSubmit()} on closed changes.
+   * @return this
+   */
+  public SubmitRuleEvaluator setAllowClosed(boolean allow) {
+    allowClosed = allow;
+    return this;
+  }
+
+  /**
+   * @param allow whether to allow {@link #canSubmit()} on closed changes.
+   * @return this
+   */
+  public SubmitRuleEvaluator setAllowDraft(boolean allow) {
+    allowDraft = allow;
     return this;
   }
 
@@ -164,7 +186,23 @@ public class SubmitRuleEvaluator {
    * @return List of {@link SubmitRecord} objects returned from the evaluated
    *     rules, including any errors.
    */
-  public List<SubmitRecord> canSubmit() {
+  public List<SubmitRecord> canSubmit() throws OrmException {
+    Change c = control.getChange();
+    if (!allowClosed && c.getStatus().isClosed()) {
+      SubmitRecord rec = new SubmitRecord();
+      rec.status = SubmitRecord.Status.CLOSED;
+      return Collections.singletonList(rec);
+    }
+    PatchSet ps = getPatchSet();
+    if (!ps.getId().equals(c.currentPatchSetId())) {
+      return createRuleError(
+          "Patch set " + ps.getPatchSetId() + " is not current");
+    }
+    if ((c.getStatus() == Change.Status.DRAFT || ps.isDraft())
+        && !allowDraft) {
+      return cannotSubmitDraft();
+    }
+
     List<Term> results;
     try {
       results = evaluateImpl("locate_submit_rule", "can_submit",
@@ -183,6 +221,24 @@ public class SubmitRuleEvaluator {
     }
 
     return resultsToSubmitRecord(getSubmitRule(), results);
+  }
+
+  private List<SubmitRecord> cannotSubmitDraft() throws OrmException {
+    PatchSet ps = getPatchSet();
+    try {
+      if (!control.isDraftVisible(cd.db(), cd)) {
+        return createRuleError(
+            "Patch set " + ps.getPatchSetId() + " not found");
+      } else if (patchSet.isDraft()) {
+        return createRuleError("Cannot submit draft patch sets");
+      } else {
+        return createRuleError("Cannot submit draft changes");
+      }
+    } catch (OrmException err) {
+      String msg = "Cannot read patch set " + ps;
+      log.error(msg, err);
+      return createRuleError(msg);
+    }
   }
 
   /**
@@ -404,15 +460,6 @@ public class SubmitRuleEvaluator {
   }
 
   private PrologEnvironment getPrologEnvironment() throws RuleEvalException {
-    if (patchSet == null) {
-      try {
-        patchSet = cd.currentPatchSet();
-      } catch (OrmException err) {
-        throw new RuleEvalException("Missing current patch set on change "
-            + cd.getId() + " of " + getProjectName(),
-            err);
-      }
-    }
     ProjectState projectState = control.getProjectControl().getProjectState();
     PrologEnvironment env;
     try {
@@ -503,6 +550,13 @@ public class SubmitRuleEvaluator {
   public Term getSubmitRule() {
     checkState(submitRule != null, "getSubmitRule() invalid before evaluation");
     return submitRule;
+  }
+
+  private PatchSet getPatchSet() throws OrmException {
+    if (patchSet == null) {
+      patchSet = cd.currentPatchSet();
+    }
+    return patchSet;
   }
 
   private String getProjectName() {

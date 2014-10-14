@@ -23,10 +23,10 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.MergeException;
 import com.google.gerrit.server.git.strategy.SubmitStrategy;
-import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.project.SubmitRuleEvaluator;
 import com.google.gerrit.server.query.OperatorPredicate;
 import com.google.gerrit.server.query.OrPredicate;
 import com.google.gerrit.server.query.Predicate;
@@ -148,18 +148,11 @@ class ConflictsPredicate extends OrPredicate<ChangeData> {
         }
 
         private SubmitType getSubmitType(Change change, ChangeData cd) throws OrmException {
-          try {
-            final SubmitTypeRecord r =
-                args.changeControlGenericFactory.controlFor(change,
-                    args.userFactory.create(change.getOwner()))
-                    .getSubmitTypeRecord(db.get(), cd.currentPatchSet(), cd);
-            if (r.status != SubmitTypeRecord.Status.OK) {
-              return null;
-            }
-            return r.type;
-          } catch (NoSuchChangeException e) {
+          SubmitTypeRecord r = new SubmitRuleEvaluator(cd).getSubmitType();
+          if (r.status != SubmitTypeRecord.Status.OK) {
             return null;
           }
+          return r.type;
         }
 
         private Set<RevCommit> getAlreadyAccepted(Repository repo, RevWalk rw,

@@ -369,6 +369,21 @@ public class SubmitRuleEvaluator {
       return typeError("Error looking up patch set "
           + control.getChange().currentPatchSetId());
     }
+
+    try {
+      if (control.getChange().getStatus() == Change.Status.DRAFT
+          && !control.isDraftVisible(cd.db(), cd)) {
+        return createTypeError("Patch set " + ps.getId() + " not found");
+      }
+      if (ps.isDraft() && !control.isDraftVisible(cd.db(), cd)) {
+        return createTypeError("Patch set " + ps.getId() + " not found");
+      }
+    } catch (OrmException err) {
+      String msg = "Cannot read patch set " + ps.getId();
+      log.error(msg, err);
+      return createTypeError(msg);
+    }
+
     List<Term> results;
     try {
       results = evaluateImpl("locate_submit_type", "get_submit_type",

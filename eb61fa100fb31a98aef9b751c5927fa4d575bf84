@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "10cb2096_7394c04b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/TestSubmitType.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-14T06:21:04Z",
+      "side": 1,
+      "message": "You mean this block in SRE?\n\n  if (patchSet \u003d\u003d null) {\n      try {\n        patchSet \u003d cd.currentPatchSet();\n      } catch (OrmException err) {\n        throw new RuleEvalException(\"Missing current patch set on change \"\n            + cd.getId() + \" of \" + getProjectName(),\n            err);\n      }\n    }\n\nTrue. Nevertheless the SRE ctor interface looks cleaner to me without ps.",
+      "parentUuid": "302ae414_f4d3f865",
+      "range": {
+        "startLine": 70,
+        "startChar": 8,
+        "endLine": 70,
+        "endChar": 26
+      },
+      "revId": "eb61fa100fb31a98aef9b751c5927fa4d575bf84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f0e5ac1c_72661810",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
         "patchSetId": 1

@@ -933,6 +933,54 @@ returned.
 [[branch-options]]
 ==== Branch Options
 
+Limit(n)::
+Limit the number of branches to be included in the results.
++
+.Request
+----
+  GET /projects/testproject/branches?n=1 HTTP/1.0
+----
++
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  [
+    {
+      "ref": "HEAD",
+      "revision": "master",
+      "can_delete": false
+    }
+  ]
+----
+
+Skip(s)::
+Skip the given number of branches from the beginning of the list.
++
+.Request
+----
+  GET /projects/testproject/branches?n=1&s=0 HTTP/1.0
+----
++
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  [
+    {
+      "ref": "HEAD",
+      "revision": "master",
+      "can_delete": false
+    }
+  ]
+----
+
 Substring(m)::
 Limit the results to those projects that match the specified substring.
 +

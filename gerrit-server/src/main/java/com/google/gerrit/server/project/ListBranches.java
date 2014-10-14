@@ -58,6 +58,12 @@ public class ListBranches implements RestReadView<ProjectResource> {
   private final DynamicMap<RestView<BranchResource>> branchViews;
   private final WebLinks webLinks;
 
+  @Option(name = "--limit", aliases = {"-n"}, metaVar = "CNT", usage = "maximum number of branches to list")
+  private int limit;
+
+  @Option(name = "--start", aliases = {"-s"}, metaVar = "CNT", usage = "number of branches to skip")
+  private int start;
+
   @Option(name = "--match", aliases = {"-m"}, metaVar = "MATCH", usage = "match branches substring")
   private String matchSubstring;
 
@@ -169,6 +175,17 @@ public class ListBranches implements RestReadView<ProjectResource> {
       filteredBranches = filterBranches(branches);
     } else {
       filteredBranches = branches;
+    }
+    if (!filteredBranches.isEmpty()) {
+      int end = filteredBranches.size();
+      if (limit > 0 && start + limit < end) {
+        end = start + limit;
+      }
+      if (start <= end) {
+        filteredBranches = filteredBranches.subList(start, end);
+      } else {
+        filteredBranches = Collections.emptyList();
+      }
     }
     return filteredBranches;
   }

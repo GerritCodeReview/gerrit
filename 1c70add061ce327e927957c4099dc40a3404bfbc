@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "302ae414_d41cbc92",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-10-14T07:56:13Z",
+      "side": 1,
+      "message": "Add a bit more detail about what is simplified and why?",
+      "revId": "1c70add061ce327e927957c4099dc40a3404bfbc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

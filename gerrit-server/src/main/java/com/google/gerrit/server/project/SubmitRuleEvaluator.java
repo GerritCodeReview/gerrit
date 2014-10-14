@@ -100,7 +100,7 @@ public class SubmitRuleEvaluator {
   private final ChangeData cd;
   private final ChangeControl control;
 
-  private PatchSet patchSet;
+  private PatchSet customPatchSet;
   private boolean fastEvalLabels;
   private boolean allowDraft;
   private boolean allowClosed;
@@ -120,8 +120,9 @@ public class SubmitRuleEvaluator {
    * @return this
    */
   public SubmitRuleEvaluator setPatchSet(PatchSet ps) {
-    checkArgument(ps.getId().getParentKey().equals(cd.getId()));
-    patchSet = ps;
+    checkArgument(ps.getId().getParentKey().equals(cd.getId()),
+        "Patch set %s does not match change %s", ps.getId(), cd.getId());
+    customPatchSet = ps;
     return this;
   }
 
@@ -186,26 +187,31 @@ public class SubmitRuleEvaluator {
    * @return List of {@link SubmitRecord} objects returned from the evaluated
    *     rules, including any errors.
    */
-  public List<SubmitRecord> canSubmit() throws OrmException {
+  public List<SubmitRecord> canSubmit() {
     Change c = control.getChange();
     if (!allowClosed && c.getStatus().isClosed()) {
       SubmitRecord rec = new SubmitRecord();
       rec.status = SubmitRecord.Status.CLOSED;
       return Collections.singletonList(rec);
     }
-    PatchSet ps = getPatchSet();
-    if (!ps.getId().equals(c.currentPatchSetId())) {
-      return createRuleError(
-          "Patch set " + ps.getPatchSetId() + " is not current");
+    PatchSet ps = customPatchSet;
+    if (customPatchSet == null) {
+      try {
+        ps = cd.currentPatchSet();
+        customPatchSet = ps;
+      } catch (OrmException e) {
+        return ruleError("Error looking up patch set "
+            + control.getChange().currentPatchSetId());
+      }
     }
     if ((c.getStatus() == Change.Status.DRAFT || ps.isDraft())
         && !allowDraft) {
-      return cannotSubmitDraft();
+      return cannotSubmitDraft(ps);
     }
 
     List<Term> results;
     try {
-      results = evaluateImpl("locate_submit_rule", "can_submit",
+      results = evaluateImpl(ps, "locate_submit_rule", "can_submit",
           "locate_submit_filter", "filter_submit_results");
     } catch (RuleEvalException e) {
       return ruleError(e.getMessage(), e);
@@ -223,19 +229,17 @@ public class SubmitRuleEvaluator {
     return resultsToSubmitRecord(getSubmitRule(), results);
   }
 
-  private List<SubmitRecord> cannotSubmitDraft() throws OrmException {
-    PatchSet ps = getPatchSet();
+  private List<SubmitRecord> cannotSubmitDraft(PatchSet ps) {
     try {
       if (!control.isDraftVisible(cd.db(), cd)) {
-        return createRuleError(
-            "Patch set " + ps.getPatchSetId() + " not found");
-      } else if (patchSet.isDraft()) {
+        return createRuleError("Patch set " + ps.getId() + " not found");
+      } else if (ps.isDraft()) {
         return createRuleError("Cannot submit draft patch sets");
       } else {
         return createRuleError("Cannot submit draft changes");
       }
     } catch (OrmException err) {
-      String msg = "Cannot read patch set " + ps;
+      String msg = "Cannot check visibility of patch set " + ps.getId();
       log.error(msg, err);
       return createRuleError(msg);
     }
@@ -362,9 +366,19 @@ public class SubmitRuleEvaluator {
    * @return record from the evaluated rules.
    */
   public SubmitTypeRecord getSubmitType() {
+    PatchSet ps = customPatchSet;
+    if (customPatchSet == null) {
+      try {
+        ps = cd.currentPatchSet();
+        customPatchSet = ps;
+      } catch (OrmException e) {
+        return typeError("Error looking up patch set "
+            + control.getChange().currentPatchSetId());
+      }
+    }
     List<Term> results;
     try {
-      results = evaluateImpl("locate_submit_type", "get_submit_type",
+      results = evaluateImpl(ps, "locate_submit_type", "get_submit_type",
           "locate_submit_type_filter", "filter_submit_type_results");
     } catch (RuleEvalException e) {
       return typeError(e.getMessage(), e);
@@ -413,11 +427,12 @@ public class SubmitRuleEvaluator {
   }
 
   private List<Term> evaluateImpl(
+      PatchSet ps,
       String userRuleLocatorName,
       String userRuleWrapperName,
       String filterRuleLocatorName,
       String filterRuleWrapperName) throws RuleEvalException {
-    PrologEnvironment env = getPrologEnvironment();
+    PrologEnvironment env = getPrologEnvironment(ps);
     try {
       Term sr = env.once("gerrit", userRuleLocatorName, new VariableTerm());
       if (fastEvalLabels) {
@@ -459,7 +474,8 @@ public class SubmitRuleEvaluator {
     }
   }
 
-  private PrologEnvironment getPrologEnvironment() throws RuleEvalException {
+  private PrologEnvironment getPrologEnvironment(PatchSet ps)
+      throws RuleEvalException {
     ProjectState projectState = control.getProjectControl().getProjectState();
     PrologEnvironment env;
     try {
@@ -475,7 +491,7 @@ public class SubmitRuleEvaluator {
     }
     env.set(StoredValues.REVIEW_DB, cd.db());
     env.set(StoredValues.CHANGE_DATA, cd);
-    env.set(StoredValues.PATCH_SET, patchSet);
+    env.set(StoredValues.PATCH_SET, ps);
     env.set(StoredValues.CHANGE_CONTROL, control);
     return env;
   }
@@ -550,13 +566,6 @@ public class SubmitRuleEvaluator {
   public Term getSubmitRule() {
     checkState(submitRule != null, "getSubmitRule() invalid before evaluation");
     return submitRule;
-  }
-
-  private PatchSet getPatchSet() throws OrmException {
-    if (patchSet == null) {
-      patchSet = cd.currentPatchSet();
-    }
-    return patchSet;
   }
 
   private String getProjectName() {

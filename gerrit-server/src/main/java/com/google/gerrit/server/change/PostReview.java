@@ -289,7 +289,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
         in.entrySet().iterator();
     Set<String> filePaths =
         Sets.newHashSet(changeDataFactory.create(
-            db.get(), revision.getChange()).filePaths(
+            db.get(), revision.getControl()).filePaths(
                 revision.getPatchSet()));
     while (mapItr.hasNext()) {
       Map.Entry<String, List<CommentInput>> ent = mapItr.next();

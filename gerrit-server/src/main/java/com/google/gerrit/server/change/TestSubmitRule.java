@@ -94,7 +94,7 @@ public class TestSubmitRule implements RestModifyView<RevisionResource, Input> {
         rsrc.getControl().getProjectControl(),
         rsrc.getControl(),
         rsrc.getChange(),
-        changeDataFactory.create(db.get(), rsrc.getChange()),
+        changeDataFactory.create(db.get(), rsrc.getControl()),
         false,
         "locate_submit_rule", "can_submit",
         "locate_submit_filter", "filter_submit_results",

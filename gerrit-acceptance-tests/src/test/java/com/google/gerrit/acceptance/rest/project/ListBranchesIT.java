@@ -119,6 +119,36 @@ public class ListBranchesIT extends AbstractDaemonTest {
         devCommit, false)), toBranchInfoList(r));
   }
 
+  @Test
+  public void listBranchesUsingFilter() throws Exception {
+    pushTo("refs/heads/master");
+    pushTo("refs/heads/someBranch1");
+    pushTo("refs/heads/someBranch2");
+    pushTo("refs/heads/someBranch3");
+
+    //using substring
+    RestResponse r =
+        adminSession.get("/projects/" + project.get() + "/branches?m=some");
+    List<BranchInfo> result = toBranchInfoList(r);
+    assertEquals(3, result.size());
+    assertEquals("refs/heads/someBranch1", result.get(0).ref);
+    assertEquals("refs/heads/someBranch2", result.get(1).ref);
+    assertEquals("refs/heads/someBranch3", result.get(2).ref);
+
+    r = adminSession.get("/projects/" + project.get() + "/branches?m=Branch");
+    result = toBranchInfoList(r);
+    assertEquals(3, result.size());
+    assertEquals("refs/heads/someBranch1", result.get(0).ref);
+    assertEquals("refs/heads/someBranch2", result.get(1).ref);
+    assertEquals("refs/heads/someBranch3", result.get(2).ref);
+
+    //using regex
+    r = adminSession.get("/projects/" + project.get() + "/branches?r=.*ast.*r");
+    result = toBranchInfoList(r);
+    assertEquals(1, result.size());
+    assertEquals("refs/heads/master", result.get(0).ref);
+  }
+
   private RestResponse GET(String endpoint) throws IOException {
     return adminSession.get(endpoint);
   }

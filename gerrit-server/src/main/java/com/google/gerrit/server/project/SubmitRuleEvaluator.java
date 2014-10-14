@@ -115,11 +115,14 @@ public class SubmitRuleEvaluator {
   }
 
   /**
-   * @param ps patch set to evaluate, rather than current patch set.
+   * @param ps patch set of the change to evaluate. If not set, the current
+   * patch set will be loaded from {@link #canSubmit()} or {@link
+   * #getSubmitType}.
    * @return this
    */
   public SubmitRuleEvaluator setPatchSet(PatchSet ps) {
-    checkArgument(ps.getId().getParentKey().equals(cd.getId()));
+    checkArgument(ps.getId().getParentKey().equals(cd.getId()),
+        "Patch set %s does not match change %s", ps.getId(), cd.getId());
     patchSet = ps;
     return this;
   }
@@ -185,14 +188,20 @@ public class SubmitRuleEvaluator {
    * @return List of {@link SubmitRecord} objects returned from the evaluated
    *     rules, including any errors.
    */
-  public List<SubmitRecord> canSubmit() throws OrmException {
+  public List<SubmitRecord> canSubmit() {
+    try {
+      initPatchSet();
+    } catch (OrmException e) {
+      return ruleError("Error looking up patch set "
+          + control.getChange().currentPatchSetId());
+    }
     Change c = control.getChange();
     if (!allowClosed && c.getStatus().isClosed()) {
       SubmitRecord rec = new SubmitRecord();
       rec.status = SubmitRecord.Status.CLOSED;
       return Collections.singletonList(rec);
     }
-    if ((c.getStatus() == Change.Status.DRAFT || getPatchSet().isDraft())
+    if ((c.getStatus() == Change.Status.DRAFT || patchSet.isDraft())
         && !allowDraft) {
       return cannotSubmitDraft();
     }
@@ -217,19 +226,17 @@ public class SubmitRuleEvaluator {
     return resultsToSubmitRecord(getSubmitRule(), results);
   }
 
-  private List<SubmitRecord> cannotSubmitDraft() throws OrmException {
-    PatchSet ps = getPatchSet();
+  private List<SubmitRecord> cannotSubmitDraft() {
     try {
       if (!control.isDraftVisible(cd.db(), cd)) {
-        return createRuleError(
-            "Patch set " + ps.getPatchSetId() + " not found");
+        return createRuleError("Patch set " + patchSet.getId() + " not found");
       } else if (patchSet.isDraft()) {
         return createRuleError("Cannot submit draft patch sets");
       } else {
         return createRuleError("Cannot submit draft changes");
       }
     } catch (OrmException err) {
-      String msg = "Cannot read patch set " + ps;
+      String msg = "Cannot check visibility of patch set " + patchSet.getId();
       log.error(msg, err);
       return createRuleError(msg);
     }
@@ -355,6 +362,12 @@ public class SubmitRuleEvaluator {
    * @return record from the evaluated rules.
    */
   public SubmitTypeRecord getSubmitType() {
+    try {
+      initPatchSet();
+    } catch (OrmException e) {
+      return typeError("Error looking up patch set "
+          + control.getChange().currentPatchSetId());
+    }
     List<Term> results;
     try {
       results = evaluateImpl("locate_submit_type", "get_submit_type",
@@ -452,6 +465,8 @@ public class SubmitRuleEvaluator {
   }
 
   private PrologEnvironment getPrologEnvironment() throws RuleEvalException {
+    checkState(patchSet != null,
+        "getPrologEnvironment() called before initPatchSet()");
     ProjectState projectState = control.getProjectControl().getProjectState();
     PrologEnvironment env;
     try {
@@ -544,11 +559,10 @@ public class SubmitRuleEvaluator {
     return submitRule;
   }
 
-  private PatchSet getPatchSet() throws OrmException {
+  private void initPatchSet() throws OrmException {
     if (patchSet == null) {
       patchSet = cd.currentPatchSet();
     }
-    return patchSet;
   }
 
   private String getProjectName() {

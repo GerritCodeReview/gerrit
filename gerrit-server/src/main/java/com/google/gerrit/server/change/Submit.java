@@ -60,6 +60,8 @@ import com.google.gerrit.server.git.VersionedMetaData.BatchMetaDataUpdate;
 import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.project.SubmitRuleEvaluator;
+import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.AtomicUpdate;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -102,6 +104,7 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
   private final Provider<ReviewDb> dbProvider;
   private final GitRepositoryManager repoManager;
   private final IdentifiedUser.GenericFactory userFactory;
+  private final ChangeData.Factory changeDataFactory;
   private final ChangeUpdate.Factory updateFactory;
   private final ApprovalsUtil approvalsUtil;
   private final ChangeMessagesUtil cmUtil;
@@ -118,6 +121,7 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
       Provider<ReviewDb> dbProvider,
       GitRepositoryManager repoManager,
       IdentifiedUser.GenericFactory userFactory,
+      ChangeData.Factory changeDataFactory,
       ChangeUpdate.Factory updateFactory,
       ApprovalsUtil approvalsUtil,
       ChangeMessagesUtil cmUtil,
@@ -131,6 +135,7 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
     this.dbProvider = dbProvider;
     this.repoManager = repoManager;
     this.userFactory = userFactory;
+    this.changeDataFactory = changeDataFactory;
     this.updateFactory = updateFactory;
     this.approvalsUtil = approvalsUtil;
     this.cmUtil = cmUtil;
@@ -374,10 +379,12 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
   }
 
   private List<SubmitRecord> checkSubmitRule(RevisionResource rsrc,
-      boolean force) throws ResourceConflictException {
-    List<SubmitRecord> results = rsrc.getControl().canSubmit(
-        dbProvider.get(),
-        rsrc.getPatchSet());
+      boolean force) throws ResourceConflictException, OrmException {
+    ChangeData cd =
+        changeDataFactory.create(dbProvider.get(), rsrc.getControl());
+    List<SubmitRecord> results = new SubmitRuleEvaluator(cd)
+        .setPatchSet(rsrc.getPatchSet())
+        .canSubmit();
     Optional<SubmitRecord> ok = findOkRecord(results);
     if (ok.isPresent()) {
       // Rules supplied a valid solution.

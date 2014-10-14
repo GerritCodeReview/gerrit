@@ -14,8 +14,6 @@
 
 package com.google.gerrit.server.project;
 
-import static com.google.gerrit.server.project.SubmitRuleEvaluator.createRuleError;
-
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.LabelType;
@@ -48,7 +46,6 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 
@@ -425,27 +422,13 @@ public class ChangeControl {
   public List<SubmitRecord> canSubmit(ReviewDb db, PatchSet patchSet,
       @Nullable ChangeData cd, boolean fastEvalLabels, boolean allowClosed,
       boolean allowDraft) {
-    if (!allowClosed && getChange().getStatus().isClosed()) {
-      SubmitRecord rec = new SubmitRecord();
-      rec.status = SubmitRecord.Status.CLOSED;
-      return Collections.singletonList(rec);
-    }
-
-    if (!patchSet.getId().equals(getChange().currentPatchSetId())) {
-      return createRuleError(
-          "Patch set " + patchSet.getPatchSetId() + " is not current");
-    }
-
     cd = changeData(db, cd);
-    if ((getChange().getStatus() == Change.Status.DRAFT || patchSet.isDraft())
-        && !allowDraft) {
-      return cannotSubmitDraft(db, patchSet, cd);
-    }
-
     try {
       return new SubmitRuleEvaluator(cd)
           .setPatchSet(patchSet)
           .setFastEvalLabels(fastEvalLabels)
+          .setAllowClosed(allowClosed)
+          .setAllowDraft(allowDraft)
           .canSubmit();
     } catch (OrmException e) {
       log.error("Error evaluating submit rule", e);
@@ -456,23 +439,6 @@ public class ChangeControl {
   private boolean match(String destBranch, String refPattern) {
     return RefPatternMatcher.getMatcher(refPattern).match(destBranch,
         this.getRefControl().getCurrentUser().getUserName());
-  }
-
-  private List<SubmitRecord> cannotSubmitDraft(ReviewDb db, PatchSet patchSet,
-      @Nullable ChangeData cd) {
-    try {
-      if (!isDraftVisible(db, cd)) {
-        return createRuleError("Patch set " + patchSet.getPatchSetId() + " not found");
-      } else if (patchSet.isDraft()) {
-        return createRuleError("Cannot submit draft patch sets");
-      } else {
-        return createRuleError("Cannot submit draft changes");
-      }
-    } catch (OrmException err) {
-      String msg = "Cannot read patch set " + patchSet.getId();
-      log.error(msg, err);
-      return createRuleError(msg);
-    }
   }
 
 
@@ -512,7 +478,7 @@ public class ChangeControl {
     return cd != null ? cd : changeDataFactory.create(db, this);
   }
 
-  private boolean isDraftVisible(ReviewDb db, ChangeData cd)
+  public boolean isDraftVisible(ReviewDb db, ChangeData cd)
       throws OrmException {
     return isOwner() || isReviewer(db, cd) || getRefControl().canViewDrafts();
   }

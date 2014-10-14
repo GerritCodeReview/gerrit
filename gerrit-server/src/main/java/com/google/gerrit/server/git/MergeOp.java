@@ -64,6 +64,8 @@ import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.project.SubmitRuleEvaluator;
+import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.util.RequestScopePropagator;
 import com.google.gwtorm.server.AtomicUpdate;
 import com.google.gwtorm.server.OrmException;
@@ -137,6 +139,7 @@ public class MergeOp {
   private final PatchSetInfoFactory patchSetInfoFactory;
   private final IdentifiedUser.GenericFactory identifiedUserFactory;
   private final ChangeControl.GenericFactory changeControlFactory;
+  private final ChangeData.Factory changeDataFactory;
   private final ChangeUpdate.Factory updateFactory;
   private final MergeQueue mergeQueue;
   private final MergeValidators.Factory mergeValidatorsFactory;
@@ -175,6 +178,7 @@ public class MergeOp {
       final MergeFailSender.Factory mfsf,
       final PatchSetInfoFactory psif, final IdentifiedUser.GenericFactory iuf,
       final ChangeControl.GenericFactory changeControlFactory,
+      final ChangeData.Factory changeDataFactory,
       final ChangeUpdate.Factory updateFactory,
       final MergeQueue mergeQueue, @Assisted final Branch.NameKey branch,
       final ChangeHooks hooks, final AccountCache accountCache,
@@ -197,6 +201,7 @@ public class MergeOp {
     patchSetInfoFactory = psif;
     identifiedUserFactory = iuf;
     this.changeControlFactory = changeControlFactory;
+    this.changeDataFactory = changeDataFactory;
     this.updateFactory = updateFactory;
     this.mergeQueue = mergeQueue;
     this.hooks = hooks;
@@ -561,7 +566,12 @@ public class MergeOp {
         }
       }
 
-      SubmitType submitType = getSubmitType(commit.getControl(), ps);
+      SubmitType submitType;
+      try {
+        submitType = getSubmitType(commit.getControl(), ps);
+      } catch (OrmException err) {
+        throw new MergeException("Cannot check submit type", err);
+      }
       if (submitType == null) {
         commits.put(changeId,
             CodeReviewCommit.error(CommitMergeStatus.NO_SUBMIT_TYPE));
@@ -576,13 +586,21 @@ public class MergeOp {
     return toSubmit;
   }
 
-  private SubmitType getSubmitType(ChangeControl ctl, PatchSet ps) {
-    SubmitTypeRecord r = ctl.getSubmitTypeRecord(db, ps);
-    if (r.status != SubmitTypeRecord.Status.OK) {
-      log.error("Failed to get submit type for " + ctl.getChange().getKey());
+  private SubmitType getSubmitType(ChangeControl ctl, PatchSet ps)
+      throws OrmException {
+    try {
+      ChangeData cd = changeDataFactory.create(db, ctl);
+      SubmitTypeRecord r = new SubmitRuleEvaluator(cd).setPatchSet(ps)
+          .getSubmitType();
+      if (r.status != SubmitTypeRecord.Status.OK) {
+        log.error("Failed to get submit type for " + ctl.getChange().getKey());
+        return null;
+      }
+      return r.type;
+    } catch (OrmException e) {
+      log.error("Failed to get submit type for " + ctl.getChange().getKey(), e);
       return null;
     }
-    return r.type;
   }
 
   private RefUpdate updateBranch(final SubmitStrategy strategy,

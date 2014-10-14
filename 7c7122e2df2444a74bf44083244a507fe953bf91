@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "10cb2096_5391c459",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/TestSubmitType.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-14T06:21:34Z",
+      "side": 1,
+      "message": "In second thought leaking OrmException from SRE is, well, unfortunate. It\u0027s only needed to construct/retrieve ChangeControl. Looks like we could easily avoid this ugliness. Number of different approaches:\n\n* we could construct ChangeData with ChangControl, and provide another interface for ChangeData.changeControl() throws OrmException; that doesn\u0027t throw anything, say changeControlExists(). We could even checkNotNull() in this implementation. Justification: we have AssistedInject constructor that accepts ChangeControl and initilizes this instance in the ctor.\n* we could pass ChangeControl instance (that we have in all caller places) in SRE constructor and not bother to retrieve it from ChangeData at all.\n* Use a combintaion of two approaches above, something like this [1].\n\n [1] http://paste.openstack.org/show/120907",
+      "range": {
+        "startLine": 60,
+        "startChar": 49,
+        "endLine": 60,
+        "endChar": 61
+      },
+      "revId": "7c7122e2df2444a74bf44083244a507fe953bf91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

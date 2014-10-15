@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "d0ea68ee_b17480c2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-10-15T15:09:20Z",
+      "side": 1,
+      "message": "Also mention here that using this timestamp avoids creating patch sets with duplicate SHA-1s in the case where the merge queue fails after creating a new cherry-pick patch set but before merging it to tip.",
+      "revId": "b45bce3cef62cd850480db2fbddd6ca8dd09ecd5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "302ae414_5438acf4",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/CherryPick.java",
         "patchSetId": 3
@@ -37,6 +54,30 @@
       "side": 1,
       "message": "IMHO we should never use submitAudit for the time, as it is the easiest way to get duplicate patch set SHA-1s, which permanently corrupt the change page.\n\nWell, maybe not \"never\", but at least not until we fix all the places that are assuming one PS per SHA-1.",
       "parentUuid": "302ae414_5438acf4",
+      "range": {
+        "startLine": 151,
+        "startChar": 10,
+        "endLine": 151,
+        "endChar": 29
+      },
+      "revId": "b45bce3cef62cd850480db2fbddd6ca8dd09ecd5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d0ea68ee_d16f04ed",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/CherryPick.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-10-15T15:09:20Z",
+      "side": 1,
+      "message": "IOW what I think you have here is good. If the merge fails and is picked up by the merge queue later, that\u0027s enough time to produce a new timestamp.",
+      "parentUuid": "70d9bc6e_ae2657de",
       "range": {
         "startLine": 151,
         "startChar": 10,

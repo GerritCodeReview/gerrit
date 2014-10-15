@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "302ae414_5438acf4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/CherryPick.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-10-15T06:18:02Z",
+      "side": 1,
+      "message": "Another option could be to look at mergeTip time relative to submitAudit, e.g.:\n\n  Date when;\n  if (submitAudit.getGranted() \u003e mergeTip.getCommitTime())\n    when \u003d submitAudit.getGranted();\n  else\n    when \u003d serverNow.getWhen()",
+      "range": {
+        "startLine": 151,
+        "startChar": 10,
+        "endLine": 151,
+        "endChar": 29
+      },
+      "revId": "b45bce3cef62cd850480db2fbddd6ca8dd09ecd5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

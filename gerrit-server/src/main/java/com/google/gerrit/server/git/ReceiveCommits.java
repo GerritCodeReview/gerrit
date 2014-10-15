@@ -26,6 +26,7 @@ import static org.eclipse.jgit.transport.ReceiveCommand.Result.OK;
 import static org.eclipse.jgit.transport.ReceiveCommand.Result.REJECTED_MISSING_OBJECT;
 import static org.eclipse.jgit.transport.ReceiveCommand.Result.REJECTED_NONFASTFORWARD;
 import static org.eclipse.jgit.transport.ReceiveCommand.Result.REJECTED_OTHER_REASON;
+import static org.eclipse.jgit.transport.ReceiveCommand.Type.UPDATE;
 
 import com.google.common.base.Function;
 import com.google.common.base.Joiner;
@@ -598,31 +599,24 @@ public class ReceiveCommits {
     for (final ReceiveCommand c : commands) {
         if (c.getResult() == OK) {
           try {
-            switch (c.getType()) {
-              case CREATE:
-                if (isHead(c) || isConfig(c)) {
-                  autoCloseChanges(c);
-                }
-                break;
-
-              case UPDATE: // otherwise known as a fast-forward
+            if (c.getType() == UPDATE) { // otherwise known as a fast-forward
                 tagCache.updateFastForward(project.getNameKey(),
                     c.getRefName(),
                     c.getOldId(),
                     c.getNewId());
-                if (isHead(c) || isConfig(c)) {
-                  autoCloseChanges(c);
-                }
-                break;
+            }
 
-              case UPDATE_NONFASTFORWARD:
-                if (isHead(c) || isConfig(c)) {
+            if (isHead(c) || isConfig(c)) {
+              switch (c.getType()) {
+                case CREATE:
+                case UPDATE:
+                case UPDATE_NONFASTFORWARD:
                   autoCloseChanges(c);
-                }
-                break;
+                  break;
 
-              case DELETE:
-                break;
+                case DELETE:
+                  break;
+              }
             }
 
             if (isConfig(c)) {

@@ -70,6 +70,30 @@
       "revId": "b4d809541e56479eb14fde527d03c3c361eb66c0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0e5ac1c_32465019",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/documentation/MarkdownFormatter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-10-15T10:57:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f00e8cb4_6a1bb766",
+      "range": {
+        "startLine": 82,
+        "startChar": 4,
+        "endLine": 82,
+        "endChar": 19
+      },
+      "revId": "b4d809541e56479eb14fde527d03c3c361eb66c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

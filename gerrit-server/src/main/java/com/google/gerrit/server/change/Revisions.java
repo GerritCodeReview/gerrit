@@ -15,6 +15,7 @@
 package com.google.gerrit.server.change;
 
 import com.google.common.base.Function;
+import com.google.common.base.Joiner;
 import com.google.common.base.Optional;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.Lists;
@@ -84,10 +85,16 @@ public class Revisions implements ChildCollection<ChangeResource, RevisionResour
         match.add(rsrc);
       }
     }
-    if (match.size() != 1) {
-      throw new ResourceNotFoundException(id);
+    switch (match.size()) {
+      case 0:
+        throw new ResourceNotFoundException(id);
+      case 1:
+        return match.get(0);
+      default:
+        throw new ResourceNotFoundException(
+            "Multiple patch sets for \"" + id.get() + "\": "
+            + Joiner.on("; ").join(match));
     }
-    return match.get(0);
   }
 
   private boolean visible(ChangeResource change, PatchSet ps)

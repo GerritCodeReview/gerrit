@@ -95,4 +95,13 @@ public class RevisionResource implements RestResource, HasETag {
   Optional<ChangeEdit> getEdit() {
     return edit;
   }
+
+  @Override
+  public String toString() {
+    String s = ps.getId().toString();
+    if (edit.isPresent()) {
+      s = "edit:" + s;
+    }
+    return s;
+  }
 }

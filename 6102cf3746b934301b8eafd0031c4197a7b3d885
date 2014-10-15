@@ -46,6 +46,30 @@
       "revId": "6102cf3746b934301b8eafd0031c4197a7b3d885",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "10cb2096_73d3a0e5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SubmitRuleEvaluator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-15T16:14:03Z",
+      "side": 1,
+      "message": "| I don\u0027t understand what you\u0027re suggesting.\n\nEither preserve this check in old place (ChangeControl.canSubmit()). Or remove it entirely (what you did in follow-up change in the series).\n\n| What do you mean by \"that\u0027s wrong\"?\n\nI think this is wrong to generally reject SRE.canSubmit() on non current patch set.",
+      "parentUuid": "f00e8cb4_ca32a3e7",
+      "range": {
+        "startLine": 197,
+        "startChar": 4,
+        "endLine": 200,
+        "endChar": 5
+      },
+      "revId": "6102cf3746b934301b8eafd0031c4197a7b3d885",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

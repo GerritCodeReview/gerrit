@@ -70,6 +70,30 @@
       "revId": "08982342a4cebb5448edb13ad392a48db7ea3e35",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "302ae414_f46f78ec",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SubmitRuleEvaluator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-10-15T16:08:33Z",
+      "side": 1,
+      "message": "That throws an exception rather than producing incorrect results.\n\nAdding the argument makes it easy to reason that the method body is not going to produce incorrect results or an exception.",
+      "parentUuid": "10cb2096_b3c81832",
+      "range": {
+        "startLine": 198,
+        "startChar": 4,
+        "endLine": 206,
+        "endChar": 5
+      },
+      "revId": "08982342a4cebb5448edb13ad392a48db7ea3e35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

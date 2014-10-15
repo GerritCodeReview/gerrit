@@ -22,6 +22,30 @@
       "revId": "b45bce3cef62cd850480db2fbddd6ca8dd09ecd5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70d9bc6e_ae2657de",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/CherryPick.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-10-15T14:37:05Z",
+      "side": 1,
+      "message": "IMHO we should never use submitAudit for the time, as it is the easiest way to get duplicate patch set SHA-1s, which permanently corrupt the change page.\n\nWell, maybe not \"never\", but at least not until we fix all the places that are assuming one PS per SHA-1.",
+      "parentUuid": "302ae414_5438acf4",
+      "range": {
+        "startLine": 151,
+        "startChar": 10,
+        "endLine": 151,
+        "endChar": 29
+      },
+      "revId": "b45bce3cef62cd850480db2fbddd6ca8dd09ecd5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -22,6 +22,30 @@
       "revId": "b4d809541e56479eb14fde527d03c3c361eb66c0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "10cb2096_5362e4b2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/documentation/MarkdownFormatter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-10-15T08:39:49Z",
+      "side": 1,
+      "message": "I don\u0027t know an easy way to do this in Java, do you?\n\nI think it\u0027s okay without validation, it\u0027s only accessible for plugins and plugins can anyway mess around.\n\nIn the xdocs plugin that is calling this method I do escape any HTML in the css to prevent any scripting attacks if the css is provided by the project:\n\n  StringEscapeUtils.escapeHtml(css)\n\nDoes it make sense to do this escaping here?",
+      "parentUuid": "302ae414_7435a8f9",
+      "range": {
+        "startLine": 82,
+        "startChar": 4,
+        "endLine": 82,
+        "endChar": 19
+      },
+      "revId": "b4d809541e56479eb14fde527d03c3c361eb66c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

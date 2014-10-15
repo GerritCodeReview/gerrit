@@ -2385,12 +2385,12 @@ public class ReceiveCommits {
       final Map<Change.Key, Change.Id> byKey = openChangesByKey(
           new Branch.NameKey(project.getNameKey(), cmd.getRefName()));
       final List<ReplaceRequest> toClose = new ArrayList<>();
-      RevCommit c;
-      while ((c = rw.next()) != null) {
+      for (RevCommit c; (c = rw.next()) != null;) {
+        rw.parseBody(c);
+
         final Set<Ref> refs = byCommit.get(c.copy());
         for (Ref ref : refs) {
           if (ref != null) {
-            rw.parseBody(c);
             Change.Key closedChange =
                 closeChange(cmd, PatchSet.Id.fromRef(ref.getName()), c);
             closeProgress.update(1);
@@ -2400,7 +2400,6 @@ public class ReceiveCommits {
           }
         }
 
-        rw.parseBody(c);
         for (final String changeId : c.getFooterLines(CHANGE_ID)) {
           final Change.Id onto = byKey.get(new Change.Key(changeId.trim()));
           if (onto != null) {

@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "f0e5ac1c_12434c09",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/webui/WebLink.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-10-15T11:18:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "307ae4aa_34eb303a",
+      "revId": "c124f951ce8731e5c198b87d4c623c95e9b124d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "307ae4aa_74f1a829",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/webui/WebLink.java",
         "patchSetId": 18
@@ -72,6 +90,30 @@
       "side": 1,
       "message": "All valid points and I share your concerns.\nMaybe WebLink\u003cT extends RestResource\u003e is not the way to go at all.\nI made a mistake by pushing this refactoring as new patch set on my previous refactoring [1], which I was more comfortable with because it was less intrusive.\n\nWould you mind looking at that as well?\n\n[1] ps7 https://gerrit-review.googlesource.com/#/c/60322/7",
       "parentUuid": "307ae4aa_74f1a829",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 50
+      },
+      "revId": "c124f951ce8731e5c198b87d4c623c95e9b124d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "10cb2096_d35cb4f1",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/webui/WebLink.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-10-15T11:18:58Z",
+      "side": 1,
+      "message": "I\u0027m confused about which package WebLink should belong to.\nFor example UiAction is also in the extensions package.",
+      "parentUuid": "307ae4aa_b4ad00fa",
       "range": {
         "startLine": 14,
         "startChar": 0,
@@ -239,6 +281,30 @@
       "side": 1,
       "message": "Just to make it clear, it wasn\u0027t /me. Someone hacked gerrit-review server and added this comment in my name ;-)",
       "parentUuid": "307ae4aa_37ded26f",
+      "range": {
+        "startLine": 158,
+        "startChar": 8,
+        "endLine": 161,
+        "endChar": 9
+      },
+      "revId": "c124f951ce8731e5c198b87d4c623c95e9b124d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "10cb2096_136c6ca2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetDiff.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-10-15T11:18:58Z",
+      "side": 1,
+      "message": "\"So why not to create FileResource with baseResource \u003d null to denote base resource?\"\nIf the Revision resource is null all you get from the FileResource is fileName. You can\u0027t find the revision from:\n\u003cref\u003e^1 because you don\u0027t have the \u003cref\u003e of side B.\nI can\u0027t think of a way to get a valid RevisionResource since it is depending on that the RevisionResource is for a patch set.\nWhat if the base revision in the diff is not a patch set?",
+      "parentUuid": "1077a0c2_163e3ae4",
       "range": {
         "startLine": 158,
         "startChar": 8,

@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "10cb2096_93887c01",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SubmitRuleEvaluator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-15T06:36:22Z",
+      "side": 1,
+      "message": "You missed here:\n\n  customPatchSet \u003d ps;",
+      "revId": "51be7afdca460067689fb1129d646740e59b7b66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0e5ac1c_12958c14",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SubmitRuleEvaluator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-15T06:36:22Z",
+      "side": 1,
+      "message": "customPatchSet is still unset in this if statement, so when someone call canSubmit() and then getSubmitType() (not sure when it makes sense) on the same instance of SRE then currentPatchSet() is going to be retrieved twice.",
+      "range": {
+        "startLine": 197,
+        "startChar": 8,
+        "endLine": 197,
+        "endChar": 30
+      },
+      "revId": "51be7afdca460067689fb1129d646740e59b7b66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "10cb2096_739e003f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SubmitRuleEvaluator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-15T06:36:22Z",
+      "side": 1,
+      "message": "Do it in initialization statement is shorter:\n\n  PatchSet ps \u003d customPatchSet;\n  if (ps \u003d\u003d null) {\n      try {\n        ps \u003d cd.currentPatchSet();\n      } catch (OrmException e) {\n        return ruleError(\"Error looking up patch set \"\n            + control.getChange().currentPatchSetId());\n      }\n   }",
+      "range": {
+        "startLine": 204,
+        "startChar": 4,
+        "endLine": 206,
+        "endChar": 5
+      },
+      "revId": "51be7afdca460067689fb1129d646740e59b7b66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -46,6 +46,30 @@
       "revId": "840ae907d4d39c8d387e350a2c525c7c12e549bd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d0ea68ee_112fcca9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 437,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-10-15T15:06:54Z",
+      "side": 0,
+      "message": "Oh, and to clarify, my intention was definitely to drop it. I should probably just do that in this change instead of moving it here and dropping it later.",
+      "parentUuid": "70d9bc6e_6e118f73",
+      "range": {
+        "startLine": 434,
+        "startChar": 4,
+        "endLine": 437,
+        "endChar": 5
+      },
+      "revId": "840ae907d4d39c8d387e350a2c525c7c12e549bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

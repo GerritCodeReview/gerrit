@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "70d9bc6e_0e18cb94",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SubmitRuleEvaluator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-10-15T15:05:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "10cb2096_93887c01",
+      "revId": "51be7afdca460067689fb1129d646740e59b7b66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f0e5ac1c_12958c14",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SubmitRuleEvaluator.java",
         "patchSetId": 1
@@ -30,6 +48,30 @@
       "writtenOn": "2014-10-15T06:36:22Z",
       "side": 1,
       "message": "customPatchSet is still unset in this if statement, so when someone call canSubmit() and then getSubmitType() (not sure when it makes sense) on the same instance of SRE then currentPatchSet() is going to be retrieved twice.",
+      "range": {
+        "startLine": 197,
+        "startChar": 8,
+        "endLine": 197,
+        "endChar": 30
+      },
+      "revId": "51be7afdca460067689fb1129d646740e59b7b66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d0ea68ee_713858f5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SubmitRuleEvaluator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-10-15T15:05:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f0e5ac1c_12958c14",
       "range": {
         "startLine": 197,
         "startChar": 8,
@@ -59,6 +101,47 @@
         "endLine": 206,
         "endChar": 5
       },
+      "revId": "51be7afdca460067689fb1129d646740e59b7b66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d0ea68ee_513554f9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SubmitRuleEvaluator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-10-15T15:05:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "10cb2096_739e003f",
+      "range": {
+        "startLine": 204,
+        "startChar": 4,
+        "endLine": 206,
+        "endChar": 5
+      },
+      "revId": "51be7afdca460067689fb1129d646740e59b7b66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70d9bc6e_ee433f6d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SubmitRuleEvaluator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 369,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-10-15T15:05:50Z",
+      "side": 1,
+      "message": "Made same changes as above.",
       "revId": "51be7afdca460067689fb1129d646740e59b7b66",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

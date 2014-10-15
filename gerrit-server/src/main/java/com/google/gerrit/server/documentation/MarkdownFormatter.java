@@ -20,6 +20,7 @@ import static org.pegdown.Extensions.SUPPRESS_ALL_HTML;
 
 import com.google.common.base.Strings;
 
+import org.apache.commons.lang.StringEscapeUtils;
 import org.eclipse.jgit.util.RawParseUtils;
 import org.eclipse.jgit.util.TemporaryBuffer;
 import org.pegdown.LinkRenderer;
@@ -44,7 +45,7 @@ public class MarkdownFormatter {
   private static final Logger log =
       LoggerFactory.getLogger(MarkdownFormatter.class);
 
-  private static final String css;
+  private static final String defaultCss;
 
   static {
     AtomicBoolean file = new AtomicBoolean();
@@ -55,12 +56,12 @@ public class MarkdownFormatter {
       log.warn("Cannot load pegdown.css", err);
       src = "";
     }
-    css = file.get() ? null : src;
+    defaultCss = file.get() ? null : src;
   }
 
   private static String readCSS() {
-    if (css != null) {
-      return css;
+    if (defaultCss != null) {
+      return defaultCss;
     }
     try {
       return readPegdownCss(new AtomicBoolean());
@@ -71,9 +72,15 @@ public class MarkdownFormatter {
   }
 
   private boolean suppressHtml;
+  private String css;
 
   public MarkdownFormatter suppressHtml() {
     suppressHtml = true;
+    return this;
+  }
+
+  public MarkdownFormatter setCss(String css) {
+    this.css = StringEscapeUtils.escapeHtml(css);
     return this;
   }
 
@@ -88,9 +95,13 @@ public class MarkdownFormatter {
     if (!Strings.isNullOrEmpty(title)) {
       html.append("<title>").append(title).append("</title>");
     }
-    html.append("<style type=\"text/css\">\n")
-        .append(readCSS())
-        .append("\n</style>");
+    html.append("<style type=\"text/css\">\n");
+    if (css != null) {
+      html.append(css);
+    } else {
+      html.append(readCSS());
+    }
+    html.append("\n</style>");
     html.append("</head>");
     html.append("<body>\n");
     html.append(new ToHtmlSerializer(new LinkRenderer()).toHtml(root));

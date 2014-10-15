@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "70d9bc6e_ce21a3ca",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2014-10-15T15:03:34Z",
+      "side": 1,
+      "message": "Done, I fixed the commit message to include filtering and I broke this change into smaller changes(ps11). I am still working of the change in the UI, will see if it\u0027s worth it to move the filtering into a separate change.",
+      "parentUuid": "d065072b_bab9c903",
+      "range": {
+        "startLine": 7,
+        "startChar": 10,
+        "endLine": 7,
+        "endChar": 20
+      },
+      "revId": "cea997787eccd844d241dcfb3e43e03473cb04da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d065072b_5a83554a",
         "filename": "Documentation/rest-api-projects.txt",
         "patchSetId": 7
@@ -587,6 +611,30 @@
       "writtenOn": "2014-09-10T19:16:31Z",
       "side": 1,
       "message": "On line 135 I implemented the check for the size which will determine the visibility of the next  button.",
+      "parentUuid": "d065072b_baa269c7",
+      "range": {
+        "startLine": 127,
+        "startChar": 44,
+        "endLine": 127,
+        "endChar": 52
+      },
+      "revId": "cea997787eccd844d241dcfb3e43e03473cb04da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70d9bc6e_4e0ed353",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectBranchesScreen.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2014-10-15T15:03:34Z",
+      "side": 1,
+      "message": "Done",
       "parentUuid": "d065072b_baa269c7",
       "range": {
         "startLine": 127,

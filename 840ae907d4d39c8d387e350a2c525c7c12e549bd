@@ -70,6 +70,30 @@
       "revId": "840ae907d4d39c8d387e350a2c525c7c12e549bd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0e5ac1c_92cdfc41",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 437,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-15T16:01:14Z",
+      "side": 0,
+      "message": "This is public method and can be called from plugins. Or someone can have screwed database, so that something unexpected happens.",
+      "parentUuid": "d0ea68ee_112fcca9",
+      "range": {
+        "startLine": 434,
+        "startChar": 4,
+        "endLine": 437,
+        "endChar": 5
+      },
+      "revId": "840ae907d4d39c8d387e350a2c525c7c12e549bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

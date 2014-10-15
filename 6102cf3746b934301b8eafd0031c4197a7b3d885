@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "10cb2096_f3be908c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SubmitRuleEvaluator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-15T16:01:14Z",
+      "side": 1,
+      "message": "If you think we don\u0027t need this check then it should be removed and not moved. It hurts more then it helps in this generic place, that is perfectly valid to be called with non current patch set. IOW: this is a behavioral change and that\u0027s wrong. Before this change SRE.canSubmit() that was called not from ChangeControl.canSubmit() worked for non current patch set.",
+      "range": {
+        "startLine": 197,
+        "startChar": 4,
+        "endLine": 200,
+        "endChar": 5
+      },
+      "revId": "6102cf3746b934301b8eafd0031c4197a7b3d885",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

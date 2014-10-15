@@ -94,6 +94,30 @@
       "revId": "08982342a4cebb5448edb13ad392a48db7ea3e35",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "10cb2096_53d0a4d6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SubmitRuleEvaluator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-15T16:38:09Z",
+      "side": 1,
+      "message": "OK.",
+      "parentUuid": "302ae414_f46f78ec",
+      "range": {
+        "startLine": 198,
+        "startChar": 4,
+        "endLine": 206,
+        "endChar": 5
+      },
+      "revId": "08982342a4cebb5448edb13ad392a48db7ea3e35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

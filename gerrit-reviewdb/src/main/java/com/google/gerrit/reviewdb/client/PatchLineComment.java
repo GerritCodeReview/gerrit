@@ -249,6 +249,11 @@ public final class PatchLineComment {
   }
 
   @Override
+  public int hashCode() {
+    return key.hashCode();
+  }
+
+  @Override
   public String toString() {
     StringBuilder builder = new StringBuilder();
     builder.append("PatchLineComment{");

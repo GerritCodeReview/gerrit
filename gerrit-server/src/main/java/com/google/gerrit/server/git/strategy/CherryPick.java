@@ -138,15 +138,16 @@ public class CherryPick extends SubmitStrategy {
     final PatchSetApproval submitAudit = args.mergeUtil.getSubmitter(n);
 
     IdentifiedUser cherryPickUser;
+    PersonIdent serverNow = args.serverIdent.get();
     PersonIdent cherryPickCommitterIdent;
     if (submitAudit != null) {
       cherryPickUser =
           args.identifiedUserFactory.create(submitAudit.getAccountId());
       cherryPickCommitterIdent = cherryPickUser.newCommitterIdent(
-          submitAudit.getGranted(), args.serverIdent.get().getTimeZone());
+          serverNow.getWhen(), serverNow.getTimeZone());
     } else {
       cherryPickUser = args.identifiedUserFactory.create(n.change().getOwner());
-      cherryPickCommitterIdent = args.serverIdent.get();
+      cherryPickCommitterIdent = serverNow;
     }
 
     final String cherryPickCmtMsg = args.mergeUtil.createCherryPickCommitMessage(n);

@@ -57,6 +57,7 @@ public class QueryBuilder {
 
   private final Schema<ChangeData> schema;
   private final org.apache.lucene.util.QueryBuilder queryBuilder;
+  private final int defaultMaxClauseCount = BooleanQuery.getMaxClauseCount();
 
   public QueryBuilder(Schema<ChangeData> schema, Analyzer analyzer) {
     this.schema = schema;
@@ -81,6 +82,10 @@ public class QueryBuilder {
       throws QueryParseException {
     try {
       BooleanQuery q = new BooleanQuery();
+      if (p.getChildCount() >= BooleanQuery.getMaxClauseCount()) {
+        BooleanQuery.setMaxClauseCount((p.getChildCount() /
+            defaultMaxClauseCount + 1)*defaultMaxClauseCount);
+      }
       for (int i = 0; i < p.getChildCount(); i++) {
         q.add(toQuery(p.getChild(i)), SHOULD);
       }
@@ -94,6 +99,10 @@ public class QueryBuilder {
       throws QueryParseException {
     try {
       BooleanQuery b = new BooleanQuery();
+      if (p.getChildCount() >= BooleanQuery.getMaxClauseCount()) {
+        BooleanQuery.setMaxClauseCount((p.getChildCount() /
+            defaultMaxClauseCount + 1)*defaultMaxClauseCount);
+      }
       List<Query> not = Lists.newArrayListWithCapacity(p.getChildCount());
       for (int i = 0; i < p.getChildCount(); i++) {
         Predicate<ChangeData> c = p.getChild(i);

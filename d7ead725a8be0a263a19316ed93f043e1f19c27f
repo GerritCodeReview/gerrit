@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "70d9bc6e_ae3d37e8",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Dispatcher.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 959,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2014-10-15T15:24:57Z",
+      "side": 1,
+      "message": "unnecessary empty line",
+      "revId": "d7ead725a8be0a263a19316ed93f043e1f19c27f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70d9bc6e_8e427b66",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectBranchesScreen.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2014-10-15T15:24:57Z",
+      "side": 1,
+      "message": "As Edwin said, buttons are way too far on the right, they should align with the right side of the branch table",
+      "range": {
+        "startLine": 280,
+        "startChar": 5,
+        "endLine": 280,
+        "endChar": 17
+      },
+      "revId": "d7ead725a8be0a263a19316ed93f043e1f19c27f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70d9bc6e_6e386ff5",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectBranchesScreen.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 338,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2014-10-15T15:24:57Z",
+      "side": 1,
+      "message": "Edwin\u0027s comment(posting it on the latest ps to know what is left to be fixed): \n\nWhen new branches are created and inserted into the list the page size limitation is violated, then more branches than the page size are displayed.\n\nAnother problem is that new branches are shown regardless of the current filter. Also new branches that do not match the filter are shown.\n\nThis is actually tricky to solve. Users likely expect that they immediately see any newly created branch in the list. It might make sense to clear the filter on branch creation, but I\u0027m not sure what should happen if a new branch is created that would e.g. be sorted in into the third page while you are watching the first page.",
+      "range": {
+        "startLine": 328,
+        "startChar": 5,
+        "endLine": 338,
+        "endChar": 11
+      },
+      "revId": "d7ead725a8be0a263a19316ed93f043e1f19c27f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

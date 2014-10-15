@@ -106,6 +106,12 @@ public class LabelVote {
   }
 
   @Override
+  public int hashCode() {
+    assert false : "hashCode not designed";
+    return 42; // any arbitrary constant will do
+  }
+
+  @Override
   public String toString() {
     return format();
   }

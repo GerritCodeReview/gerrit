@@ -40,6 +40,7 @@ import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.extensions.common.ListChangesOption;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.client.Change.Status;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.core.client.Scheduler;
@@ -223,7 +224,8 @@ public class SideBySide2 extends Screen {
         int currentPatchSet = info.revision(info.current_revision())._number();
         JsArray<RevisionInfo> list = info.revisions().values();
         RevisionInfo.sortRevisionInfoByNumber(list);
-        diffTable.set(prefs, list, diff, edit != null, currentPatchSet);
+        diffTable.set(prefs, list, diff, edit != null, currentPatchSet,
+            info.status() == Status.NEW);
         header.setChangeInfo(info);
       }}));
 

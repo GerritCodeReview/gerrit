@@ -86,7 +86,8 @@ class PatchSetSelectBox2 extends Composite {
   }
 
   void setUpPatchSetNav(JsArray<RevisionInfo> list, DiffInfo.FileMeta meta,
-      List<WebLinkInfo> webLinks, boolean editExists, int currentPatchSet) {
+      List<WebLinkInfo> webLinks, boolean editExists, int currentPatchSet,
+      boolean changeNew) {
     InlineHyperlink baseLink = null;
     InlineHyperlink selectedLink = null;
     if (sideA) {
@@ -110,7 +111,7 @@ class PatchSetSelectBox2 extends Composite {
     if (meta != null && !Patch.COMMIT_MSG.equals(path)) {
       linkPanel.add(createDownloadLink());
     }
-    if (idActive != null && Gerrit.isSignedIn() && meta != null
+    if (changeNew && idActive != null && Gerrit.isSignedIn() && meta != null
         && !Patch.COMMIT_MSG.equals(path)) {
       if ((editExists && idActive.get() == 0)
           || (!editExists && idActive.get() == currentPatchSet)) {

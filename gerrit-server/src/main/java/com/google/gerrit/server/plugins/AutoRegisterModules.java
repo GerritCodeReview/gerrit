@@ -65,32 +65,24 @@ class AutoRegisterModules {
     this.env = env;
     this.scanner = scanner;
     this.classLoader = classLoader;
-    this.sshGen = env.hasSshModule() ? env.newSshModuleGenerator() : null;
-    this.httpGen = env.hasHttpModule() ? env.newHttpModuleGenerator() : null;
+    this.sshGen = env.hasSshModule() ? env.newSshModuleGenerator() : ModuleGenerator.NOP;
+    this.httpGen = env.hasHttpModule() ? env.newHttpModuleGenerator() : ModuleGenerator.NOP;
   }
 
   AutoRegisterModules discover() throws InvalidPluginException {
     sysSingletons = Sets.newHashSet();
     sysListen = LinkedListMultimap.create();
 
-    if (sshGen != null) {
-      sshGen.setPluginName(pluginName);
-    }
-    if (httpGen != null) {
-      httpGen.setPluginName(pluginName);
-    }
+    sshGen.setPluginName(pluginName);
+    httpGen.setPluginName(pluginName);
 
     scan();
 
     if (!sysSingletons.isEmpty() || !sysListen.isEmpty()) {
       sysModule = makeSystemModule();
     }
-    if (sshGen != null) {
-      sshModule = sshGen.create();
-    }
-    if (httpGen != null) {
-      httpModule = httpGen.create();
-    }
+    sshModule = sshGen.create();
+    httpModule = httpGen.create();
     return this;
   }
 
@@ -158,14 +150,10 @@ class AutoRegisterModules {
     }
 
     if (is("org.apache.sshd.server.Command", clazz)) {
-      if (sshGen != null) {
-        sshGen.export(export, clazz);
-      }
+      sshGen.export(export, clazz);
     } else if (is("javax.servlet.http.HttpServlet", clazz)) {
-      if (httpGen != null) {
-        httpGen.export(export, clazz);
-        listen(clazz, clazz);
-      }
+      httpGen.export(export, clazz);
+      listen(clazz, clazz);
     } else {
       int cnt = sysListen.size();
       listen(clazz, clazz);

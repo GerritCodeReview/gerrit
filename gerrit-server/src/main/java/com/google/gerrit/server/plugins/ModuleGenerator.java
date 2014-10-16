@@ -26,4 +26,27 @@ public interface ModuleGenerator {
   void listen(TypeLiteral<?> tl, Class<?> clazz);
 
   Module create() throws InvalidPluginException;
+
+  public static final ModuleGenerator NOP = new ModuleGenerator() {
+
+    @Override
+    public void setPluginName(String name) {
+      // do nothing
+    }
+
+    @Override
+    public void listen(TypeLiteral<?> tl, Class<?> clazz) {
+      // do nothing
+    }
+
+    @Override
+    public void export(Export export, Class<?> type) {
+      // do nothing
+    }
+
+    @Override
+    public Module create() throws InvalidPluginException {
+      return null;
+    }
+  };
 }

@@ -22,6 +22,30 @@
       "revId": "863da9b699838ae3c26e41815b4b4b7938aaca90",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d0ea68ee_71adf8a9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListBranches.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2014-10-16T14:19:50Z",
+      "side": 1,
+      "message": "I need to add casting (List\u003cBranchInfo\u003e) if I want to use the suggested syntax. I would prefer leaving it like that, I think it is easier to read.",
+      "parentUuid": "10cb2096_3322c841",
+      "range": {
+        "startLine": 184,
+        "startChar": 6,
+        "endLine": 188,
+        "endChar": 7
+      },
+      "revId": "863da9b699838ae3c26e41815b4b4b7938aaca90",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -22,6 +22,30 @@
       "revId": "511cb0d5c0f8651c81dde71087840d2b1c66c593",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d0ea68ee_312530a0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2424,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-10-16T22:34:02Z",
+      "side": 0,
+      "message": "Shawn is no fun at all.",
+      "parentUuid": "302ae414_f4bd38e0",
+      "range": {
+        "startLine": 2424,
+        "startChar": 8,
+        "endLine": 2424,
+        "endChar": 41
+      },
+      "revId": "511cb0d5c0f8651c81dde71087840d2b1c66c593",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

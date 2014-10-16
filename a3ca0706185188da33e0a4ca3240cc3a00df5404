@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "10cb2096_3379a837",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SubmitRuleEvaluator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 376,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-16T18:36:38Z",
+      "side": 1,
+      "message": "Bad rebase? This doesn\u0027t compile. We are using now patchSet, here and in all places below.",
+      "range": {
+        "startLine": 376,
+        "startChar": 46,
+        "endLine": 376,
+        "endChar": 48
+      },
+      "revId": "a3ca0706185188da33e0a4ca3240cc3a00df5404",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b0e9742d_007566bd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ConflictsPredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-16T18:36:38Z",
+      "side": 1,
+      "message": "First place where we don\u0027t set patch set and relies on cd.currentPatchSet().",
+      "range": {
+        "startLine": 151,
+        "startChar": 35,
+        "endLine": 151,
+        "endChar": 58
+      },
+      "revId": "a3ca0706185188da33e0a4ca3240cc3a00df5404",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

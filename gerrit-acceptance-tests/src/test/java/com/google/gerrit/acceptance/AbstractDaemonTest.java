@@ -17,11 +17,16 @@ package com.google.gerrit.acceptance;
 import static com.google.gerrit.acceptance.GitUtil.cloneProject;
 import static com.google.gerrit.acceptance.GitUtil.createProject;
 import static com.google.gerrit.acceptance.GitUtil.initSsh;
+import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
+import static com.google.gerrit.server.project.Util.block;
 import static org.junit.Assert.assertEquals;
 
 import com.google.common.base.Joiner;
 import com.google.common.primitives.Chars;
 import com.google.gerrit.acceptance.AcceptanceTestRequestScope.Context;
+import com.google.gerrit.common.data.AccessSection;
+import com.google.gerrit.common.data.Permission;
+import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.api.changes.RevisionApi;
 import com.google.gerrit.extensions.common.ChangeInfo;
@@ -32,6 +37,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.OutputFormat;
+import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.change.ChangeJson;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.git.MetaDataUpdate;
@@ -48,6 +54,8 @@ import com.google.inject.util.Providers;
 import org.apache.http.HttpStatus;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
+import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Config;
 import org.junit.Rule;
 import org.junit.rules.TestRule;
@@ -92,6 +100,9 @@ public abstract class AbstractDaemonTest {
 
   @Inject
   protected ProjectCache projectCache;
+
+  @Inject
+  protected GroupCache groupCache;
 
   protected Git git;
   protected GerritServer server;
@@ -265,5 +276,30 @@ public abstract class AbstractDaemonTest {
       md.close();
     }
     projectCache.evict(cfg.getProject());
+  }
+
+  protected void grant(String permission, Project.NameKey project, String ref)
+      throws RepositoryNotFoundException, IOException, ConfigInvalidException {
+    MetaDataUpdate md = metaDataUpdateFactory.create(project);
+    md.setMessage(String.format("Grant %s on %s", permission, ref));
+    ProjectConfig config = ProjectConfig.read(md);
+    AccessSection s = config.getAccessSection(ref, true);
+    Permission p = s.getPermission(permission, true);
+    AccountGroup adminGroup = groupCache.get(new AccountGroup.NameKey("Administrators"));
+    p.add(new PermissionRule(config.resolve(adminGroup)));
+    config.commit(md);
+    projectCache.evict(config.getProject());
+  }
+
+  protected void blockRead(Project.NameKey project, String ref) throws Exception {
+    ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
+    block(cfg, Permission.READ, REGISTERED_USERS, ref);
+    saveProjectConfig(project, cfg);
+  }
+
+  protected PushOneCommit.Result pushTo(String ref) throws GitAPIException,
+      IOException {
+    PushOneCommit push = pushFactory.create(db, admin.getIdent());
+    return push.to(git, ref);
   }
 }

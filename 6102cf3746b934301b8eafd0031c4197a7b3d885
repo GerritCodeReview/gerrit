@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "10cb2096_93e4fcb7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SubmitRuleEvaluator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-16T07:31:06Z",
+      "side": 1,
+      "message": "That\u0027s a contradiction now and kind of pointless telling my how to provide non-current patch set in SRE instance just to unconditionally reject it on line 198.",
+      "range": {
+        "startLine": 119,
+        "startChar": 6,
+        "endLine": 119,
+        "endChar": 68
+      },
+      "revId": "6102cf3746b934301b8eafd0031c4197a7b3d885",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "10cb2096_f3be908c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SubmitRuleEvaluator.java",
         "patchSetId": 1

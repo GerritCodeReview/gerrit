@@ -2375,15 +2375,18 @@ public class ReceiveCommits {
   private void autoCloseChanges(final ReceiveCommand cmd) throws NoSuchChangeException {
     final RevWalk rw = rp.getRevWalk();
     try {
+      RevCommit newTip = rw.parseCommit(cmd.getNewId());
+      Branch.NameKey branch =
+          new Branch.NameKey(project.getNameKey(), cmd.getRefName());
+
       rw.reset();
-      rw.markStart(rw.parseCommit(cmd.getNewId()));
+      rw.markStart(newTip);
       if (!ObjectId.zeroId().equals(cmd.getOldId())) {
         rw.markUninteresting(rw.parseCommit(cmd.getOldId()));
       }
 
       final SetMultimap<ObjectId, Ref> byCommit = changeRefsById();
-      final Map<Change.Key, Change.Id> byKey = openChangesByKey(
-          new Branch.NameKey(project.getNameKey(), cmd.getRefName()));
+      final Map<Change.Key, Change.Id> byKey = openChangesByKey(branch);
       final List<ReplaceRequest> toClose = new ArrayList<>();
       for (RevCommit c; (c = rw.next()) != null;) {
         rw.parseBody(c);
@@ -2421,18 +2424,12 @@ public class ReceiveCommits {
         }
       }
 
-      // It handles gitlinks if required.
-
-      rw.reset();
-      final RevCommit codeReviewCommit = rw.parseCommit(cmd.getNewId());
-
-      final SubmoduleOp subOp =
-          subOpFactory.create(
-              new Branch.NameKey(project.getNameKey(), cmd.getRefName()),
-              codeReviewCommit, rw, repo, project, new ArrayList<Change>(),
-              new HashMap<Change.Id, CodeReviewCommit>(),
-              currentUser.getAccount());
-      subOp.update();
+      // Update superproject gitlinks if required.
+      subOpFactory.create(
+          branch, newTip, rw, repo, project,
+          new ArrayList<Change>(),
+          new HashMap<Change.Id, CodeReviewCommit>(),
+          currentUser.getAccount()).update();
     } catch (InsertException e) {
       log.error("Can't insert patchset", e);
     } catch (IOException e) {

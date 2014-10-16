@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "d0ea68ee_919e1c6d",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2014-10-16T17:37:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d0ea68ee_b1992089",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 52
+      },
+      "revId": "30ca906e60f8ab4a7be846c272f29079247430ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "302ae414_148eb439",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
         "patchSetId": 2
@@ -71,6 +95,30 @@
       "writtenOn": "2014-10-16T17:17:05Z",
       "side": 1,
       "message": "nit: one space after \u003d\u003d",
+      "range": {
+        "startLine": 514,
+        "startChar": 30,
+        "endLine": 514,
+        "endChar": 35
+      },
+      "revId": "30ca906e60f8ab4a7be846c272f29079247430ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70d9bc6e_4eaa5394",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 514,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2014-10-16T17:37:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f00e8cb4_ca8e230e",
       "range": {
         "startLine": 514,
         "startChar": 30,

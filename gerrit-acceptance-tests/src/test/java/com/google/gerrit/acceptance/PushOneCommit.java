@@ -39,6 +39,7 @@ import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 
 import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.api.TagCommand;
 import org.eclipse.jgit.api.errors.ConcurrentRefUpdateException;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.InvalidTagNameException;
@@ -80,6 +81,25 @@ public class PushOneCommit {
         @Assisted("changeId") String changeId);
   }
 
+  public static class Tag {
+    public String name;
+
+    public Tag(String name) {
+      this.name = name;
+    }
+  }
+
+  public static class AnnotatedTag extends Tag {
+    public String message;
+    public PersonIdent tagger;
+
+    public AnnotatedTag(String name, String message, PersonIdent tagger) {
+      super(name);
+      this.message = message;
+      this.tagger = tagger;
+    }
+  }
+
   private final ChangeNotes.Factory notesFactory;
   private final ApprovalsUtil approvalsUtil;
   private final ReviewDb db;
@@ -89,7 +109,7 @@ public class PushOneCommit {
   private final String fileName;
   private final String content;
   private String changeId;
-  private String tagName;
+  private Tag tag;
 
   @AssistedInject
   PushOneCommit(ChangeNotes.Factory notesFactory,
@@ -151,14 +171,23 @@ public class PushOneCommit {
       c = createCommit(git, i, subject);
       changeId = c.getChangeId();
     }
-    if (tagName != null) {
-      git.tag().setName(tagName).setAnnotated(false).call();
+    if (tag != null) {
+      TagCommand tagCommand = git.tag().setName(tag.name);
+      if (tag instanceof AnnotatedTag) {
+        AnnotatedTag annotatedTag = (AnnotatedTag)tag;
+        tagCommand.setAnnotated(true)
+          .setMessage(annotatedTag.message)
+          .setTagger(annotatedTag.tagger);
+      } else {
+        tagCommand.setAnnotated(false);
+      }
+      tagCommand.call();
     }
-    return new Result(ref, pushHead(git, ref, tagName != null), c, subject);
+    return new Result(ref, pushHead(git, ref, tag != null), c, subject);
   }
 
-  public void setTag(final String tagName) {
-    this.tagName = tagName;
+  public void setTag(final Tag tag) {
+    this.tag = tag;
   }
 
   public class Result {

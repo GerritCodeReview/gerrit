@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b0e9742d_6086f238",
+        "filename": "Documentation/cmd-set-account.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-16T19:30:04Z",
+      "side": 1,
+      "message": "Yeah, but this is usual wording we are using:\n\n $ git grep \"member of the privileged \u0027Administrators\u0027 group\"  | wc -l\n 20",
+      "parentUuid": "10cb2096_93699c6a",
+      "range": {
+        "startLine": 29,
+        "startChar": 30,
+        "endLine": 30,
+        "endChar": 5
+      },
+      "revId": "c055d46280a314ad5912af3cb734c10e383e917c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b0e9742d_6018b296",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AddSshKey.java",
         "patchSetId": 6
@@ -36,6 +60,30 @@
       "writtenOn": "2014-10-16T15:56:49Z",
       "side": 1,
       "message": "Should we check for both privileges (also for canModifyAccount)?",
+      "range": {
+        "startLine": 66,
+        "startChar": 41,
+        "endLine": 66,
+        "endChar": 62
+      },
+      "revId": "c055d46280a314ad5912af3cb734c10e383e917c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b0e9742d_8089764b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AddSshKey.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-16T19:30:04Z",
+      "side": 1,
+      "message": "Well, this is actually partial revert of anoter change that switched from AdministrateServer to ModifyAccount capability. I am undecided if we should require anothe capability to modify accounts for administratpor. We did it for Database Access but more to protect it against corruption.",
+      "parentUuid": "b0e9742d_6018b296",
       "range": {
         "startLine": 66,
         "startChar": 41,

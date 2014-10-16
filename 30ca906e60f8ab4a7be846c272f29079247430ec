@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "f00e8cb4_6a9e173f",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-10-16T17:18:47Z",
+      "side": 1,
+      "message": "\u003e I think the lucene stuff has a bug.\n\nI agree, this is a bug, but I don\u0027t want to hold gerrithub (or other CI systems depending on a working, non-flaky Gerrit build) hostage until someone has the time to track down what I expect is a subtle bug.",
+      "parentUuid": "302ae414_148eb439",
+      "revId": "30ca906e60f8ab4a7be846c272f29079247430ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f00e8cb4_ca8e230e",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
         "patchSetId": 2

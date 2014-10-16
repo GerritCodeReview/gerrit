@@ -27,7 +27,7 @@ public interface ModuleGenerator {
 
   Module create() throws InvalidPluginException;
 
-  public static final ModuleGenerator NOP = new ModuleGenerator() {
+  static class NOP implements ModuleGenerator {
 
     @Override
     public void setPluginName(String name) {
@@ -48,5 +48,5 @@ public interface ModuleGenerator {
     public Module create() throws InvalidPluginException {
       return null;
     }
-  };
+  }
 }

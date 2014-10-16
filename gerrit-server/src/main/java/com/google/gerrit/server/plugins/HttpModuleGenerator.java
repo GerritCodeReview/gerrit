@@ -14,6 +14,15 @@
 
 package com.google.gerrit.server.plugins;
 
+
 public interface HttpModuleGenerator extends ModuleGenerator {
   void export(String javascript);
+
+  static class NOP extends ModuleGenerator.NOP
+      implements HttpModuleGenerator {
+    @Override
+    public void export(String javascript) {
+      // do nothing
+    }
+  }
 }

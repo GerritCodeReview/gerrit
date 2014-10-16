@@ -178,6 +178,30 @@
     },
     {
       "key": {
+        "uuid": "f00e8cb4_6ab737cd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListTags.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-10-16T06:41:22Z",
+      "side": 1,
+      "message": "I don\u0027t follow what you mean by \"reviews are also tags internally\".",
+      "parentUuid": "f0e5ac1c_32d3f014",
+      "range": {
+        "startLine": 87,
+        "startChar": 14,
+        "endLine": 87,
+        "endChar": 47
+      },
+      "revId": "4fd07558c6c9cb8fab8f2a546c28391ff05e49d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "302ae414_747cc8a7",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListTags.java",
         "patchSetId": 8

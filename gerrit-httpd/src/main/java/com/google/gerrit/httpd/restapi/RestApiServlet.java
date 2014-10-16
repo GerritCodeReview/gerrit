@@ -74,6 +74,7 @@ import com.google.gerrit.extensions.restapi.RestResource;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
+import com.google.gerrit.httpd.RequestUtil;
 import com.google.gerrit.httpd.WebSession;
 import com.google.gerrit.server.AccessPath;
 import com.google.gerrit.server.AnonymousUser;
@@ -871,7 +872,7 @@ public class RestApiServlet extends HttpServlet {
   }
 
   private static List<IdString> splitPath(HttpServletRequest req) {
-    String path = req.getPathInfo();
+    String path = RequestUtil.getEncodedPathInfo(req);
     if (Strings.isNullOrEmpty(path)) {
       return Collections.emptyList();
     }

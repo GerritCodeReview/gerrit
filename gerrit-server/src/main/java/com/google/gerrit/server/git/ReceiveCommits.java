@@ -2215,6 +2215,10 @@ public class ReceiveCommits {
   }
 
   private List<Ref> refs(Change.Id changeId) {
+    return refsByChange().get(changeId);
+  }
+
+  private ListMultimap<Change.Id, Ref> refsByChange() {
     if (refsByChange == null) {
       int estRefsPerChange = 4;
       refsByChange = ArrayListMultimap.create(
@@ -2229,7 +2233,7 @@ public class ReceiveCommits {
         }
       }
     }
-    return refsByChange.get(changeId);
+    return refsByChange;
   }
 
   static boolean parentsEqual(RevCommit a, RevCommit b) {
@@ -2479,10 +2483,8 @@ public class ReceiveCommits {
   private SetMultimap<ObjectId, Ref> changeRefsById() throws IOException {
     if (refsById == null) {
       refsById =  HashMultimap.create();
-      for (Ref r : repo.getRefDatabase().getRefs(REFS_CHANGES).values()) {
-        if (PatchSet.isRef(r.getName())) {
-          refsById.put(r.getObjectId(), r);
-        }
+      for (Ref r : refsByChange().values()) {
+        refsById.put(r.getObjectId(), r);
       }
     }
     return refsById;

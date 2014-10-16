@@ -2391,15 +2391,12 @@ public class ReceiveCommits {
       for (RevCommit c; (c = rw.next()) != null;) {
         rw.parseBody(c);
 
-        final Set<Ref> refs = byCommit.get(c.copy());
-        for (Ref ref : refs) {
-          if (ref != null) {
-            Change.Key closedChange =
-                closeChange(cmd, PatchSet.Id.fromRef(ref.getName()), c);
-            closeProgress.update(1);
-            if (closedChange != null) {
-              byKey.remove(closedChange);
-            }
+        for (Ref ref : byCommit.get(c.copy())) {
+          Change.Key closedChange =
+              closeChange(cmd, PatchSet.Id.fromRef(ref.getName()), c);
+          closeProgress.update(1);
+          if (closedChange != null) {
+            byKey.remove(closedChange);
           }
         }
 

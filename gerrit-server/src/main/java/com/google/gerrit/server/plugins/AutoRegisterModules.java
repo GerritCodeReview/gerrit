@@ -66,7 +66,9 @@ class AutoRegisterModules {
     this.scanner = scanner;
     this.classLoader = classLoader;
     this.sshGen = env.hasSshModule() ? env.newSshModuleGenerator() : ModuleGenerator.NOP;
-    this.httpGen = env.hasHttpModule() ? env.newHttpModuleGenerator() : ModuleGenerator.NOP;
+    this.httpGen = env.hasHttpModule()
+        ? env.newHttpModuleGenerator()
+        : (HttpModuleGenerator)ModuleGenerator.NOP;
   }
 
   AutoRegisterModules discover() throws InvalidPluginException {

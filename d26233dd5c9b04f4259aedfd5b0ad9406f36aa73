@@ -22,6 +22,30 @@
       "revId": "d26233dd5c9b04f4259aedfd5b0ad9406f36aa73",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70d9bc6e_6e662f10",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/BranchesCollection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2014-10-16T14:16:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b0e9742d_200eaa52",
+      "range": {
+        "startLine": 36,
+        "startChar": 16,
+        "endLine": 36,
+        "endChar": 28
+      },
+      "revId": "d26233dd5c9b04f4259aedfd5b0ad9406f36aa73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

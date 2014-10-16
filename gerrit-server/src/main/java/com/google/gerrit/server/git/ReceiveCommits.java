@@ -26,6 +26,7 @@ import static org.eclipse.jgit.transport.ReceiveCommand.Result.OK;
 import static org.eclipse.jgit.transport.ReceiveCommand.Result.REJECTED_MISSING_OBJECT;
 import static org.eclipse.jgit.transport.ReceiveCommand.Result.REJECTED_NONFASTFORWARD;
 import static org.eclipse.jgit.transport.ReceiveCommand.Result.REJECTED_OTHER_REASON;
+import static org.eclipse.jgit.transport.ReceiveCommand.Type.UPDATE;
 
 import com.google.common.base.Function;
 import com.google.common.base.Joiner;
@@ -598,31 +599,24 @@ public class ReceiveCommits {
     for (final ReceiveCommand c : commands) {
         if (c.getResult() == OK) {
           try {
-            switch (c.getType()) {
-              case CREATE:
-                if (isHead(c) || isConfig(c)) {
-                  autoCloseChanges(c);
-                }
-                break;
-
-              case UPDATE: // otherwise known as a fast-forward
+            if (c.getType() == UPDATE) { // otherwise known as a fast-forward
                 tagCache.updateFastForward(project.getNameKey(),
                     c.getRefName(),
                     c.getOldId(),
                     c.getNewId());
-                if (isHead(c) || isConfig(c)) {
-                  autoCloseChanges(c);
-                }
-                break;
+            }
 
-              case UPDATE_NONFASTFORWARD:
-                if (isHead(c) || isConfig(c)) {
+            if (isHead(c) || isConfig(c)) {
+              switch (c.getType()) {
+                case CREATE:
+                case UPDATE:
+                case UPDATE_NONFASTFORWARD:
                   autoCloseChanges(c);
-                }
-                break;
+                  break;
 
-              case DELETE:
-                break;
+                case DELETE:
+                  break;
+              }
             }
 
             if (isConfig(c)) {
@@ -2221,6 +2215,10 @@ public class ReceiveCommits {
   }
 
   private List<Ref> refs(Change.Id changeId) {
+    return refsByChange().get(changeId);
+  }
+
+  private ListMultimap<Change.Id, Ref> refsByChange() {
     if (refsByChange == null) {
       int estRefsPerChange = 4;
       refsByChange = ArrayListMultimap.create(
@@ -2235,7 +2233,7 @@ public class ReceiveCommits {
         }
       }
     }
-    return refsByChange.get(changeId);
+    return refsByChange;
   }
 
   static boolean parentsEqual(RevCommit a, RevCommit b) {
@@ -2381,33 +2379,36 @@ public class ReceiveCommits {
   private void autoCloseChanges(final ReceiveCommand cmd) throws NoSuchChangeException {
     final RevWalk rw = rp.getRevWalk();
     try {
+      RevCommit newTip = rw.parseCommit(cmd.getNewId());
+      Branch.NameKey branch =
+          new Branch.NameKey(project.getNameKey(), cmd.getRefName());
+
       rw.reset();
-      rw.markStart(rw.parseCommit(cmd.getNewId()));
+      rw.markStart(newTip);
       if (!ObjectId.zeroId().equals(cmd.getOldId())) {
         rw.markUninteresting(rw.parseCommit(cmd.getOldId()));
       }
 
       final SetMultimap<ObjectId, Ref> byCommit = changeRefsById();
-      final Map<Change.Key, Change.Id> byKey = openChangesByKey(
-          new Branch.NameKey(project.getNameKey(), cmd.getRefName()));
+      Map<Change.Key, Change.Id> byKey = null;
       final List<ReplaceRequest> toClose = new ArrayList<>();
-      RevCommit c;
-      while ((c = rw.next()) != null) {
-        final Set<Ref> refs = byCommit.get(c.copy());
-        for (Ref ref : refs) {
-          if (ref != null) {
-            rw.parseBody(c);
-            Change.Key closedChange =
-                closeChange(cmd, PatchSet.Id.fromRef(ref.getName()), c);
-            closeProgress.update(1);
-            if (closedChange != null) {
-              byKey.remove(closedChange);
-            }
+      for (RevCommit c; (c = rw.next()) != null;) {
+        rw.parseBody(c);
+
+        for (Ref ref : byCommit.get(c.copy())) {
+          Change.Key closedChange =
+              closeChange(cmd, PatchSet.Id.fromRef(ref.getName()), c);
+          closeProgress.update(1);
+          if (closedChange != null) {
+            byKey.remove(closedChange);
           }
         }
 
-        rw.parseBody(c);
         for (final String changeId : c.getFooterLines(CHANGE_ID)) {
+          if (byKey == null) {
+            byKey = openChangesByKey(branch);
+          }
+
           final Change.Id onto = byKey.get(new Change.Key(changeId.trim()));
           if (onto != null) {
             final ReplaceRequest req = new ReplaceRequest(onto, c, cmd, false);
@@ -2428,18 +2429,12 @@ public class ReceiveCommits {
         }
       }
 
-      // It handles gitlinks if required.
-
-      rw.reset();
-      final RevCommit codeReviewCommit = rw.parseCommit(cmd.getNewId());
-
-      final SubmoduleOp subOp =
-          subOpFactory.create(
-              new Branch.NameKey(project.getNameKey(), cmd.getRefName()),
-              codeReviewCommit, rw, repo, project, new ArrayList<Change>(),
-              new HashMap<Change.Id, CodeReviewCommit>(),
-              currentUser.getAccount());
-      subOp.update();
+      // Update superproject gitlinks if required.
+      subOpFactory.create(
+          branch, newTip, rw, repo, project,
+          new ArrayList<Change>(),
+          new HashMap<Change.Id, CodeReviewCommit>(),
+          currentUser.getAccount()).update();
     } catch (InsertException e) {
       log.error("Can't insert patchset", e);
     } catch (IOException e) {
@@ -2488,10 +2483,8 @@ public class ReceiveCommits {
   private SetMultimap<ObjectId, Ref> changeRefsById() throws IOException {
     if (refsById == null) {
       refsById =  HashMultimap.create();
-      for (Ref r : repo.getRefDatabase().getRefs(REFS_CHANGES).values()) {
-        if (PatchSet.isRef(r.getName())) {
-          refsById.put(r.getObjectId(), r);
-        }
+      for (Ref r : refsByChange().values()) {
+        refsById.put(r.getObjectId(), r);
       }
     }
     return refsById;

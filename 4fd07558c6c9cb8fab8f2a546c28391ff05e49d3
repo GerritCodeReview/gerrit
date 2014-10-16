@@ -131,6 +131,53 @@
     },
     {
       "key": {
+        "uuid": "b0e9742d_00d9e686",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListTags.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1013182
+      },
+      "writtenOn": "2014-10-16T06:33:58Z",
+      "side": 1,
+      "message": "Idem. This would allow to add the list of refs/changes with an extra option.",
+      "parentUuid": "302ae414_54666c0f",
+      "range": {
+        "startLine": 84,
+        "startChar": 42,
+        "endLine": 84,
+        "endChar": 57
+      },
+      "revId": "4fd07558c6c9cb8fab8f2a546c28391ff05e49d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0e5ac1c_32d3f014",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListTags.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1013182
+      },
+      "writtenOn": "2014-10-16T06:33:58Z",
+      "side": 1,
+      "message": "Given that reviews are also tags internally (e.g cgit/gitweb could read git-notes), do you think is reasonable to add an option to show ref/changes in this new resource? or better somewhere else?\n\nI\u0027m thinking of this:\n\n if (name.startsWith(Constants.R_TAGS) ||\n     (showChanges \u0026\u0026 name.startsWith(RefNames.REFS_CHANGES))) {",
+      "range": {
+        "startLine": 87,
+        "startChar": 14,
+        "endLine": 87,
+        "endChar": 47
+      },
+      "revId": "4fd07558c6c9cb8fab8f2a546c28391ff05e49d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "302ae414_747cc8a7",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListTags.java",
         "patchSetId": 8

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "10cb2096_536c2475",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SubmitRuleEvaluator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-16T18:13:46Z",
+      "side": 1,
+      "message": "DEFAULT_MSG",
+      "range": {
+        "startLine": 75,
+        "startChar": 27,
+        "endLine": 75,
+        "endChar": 77
+      },
+      "revId": "840ae907d4d39c8d387e350a2c525c7c12e549bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b0e9742d_e0420267",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SubmitRuleEvaluator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-16T18:13:46Z",
+      "side": 1,
+      "message": "[Optional]: combine both methods not to duplicate code, e.g.:\n\n  private List\u003cSubmitRecord\u003e ruleError(String err, Exception e) {\n    if (logErrors) {\n      if (e \u003d\u003d null) {\n        log.error(err);\n      } else {\n        log.error(err, e);\n      }\n      return defaultRuleError();\n    } else {\n      return createRuleError(err);\n    }\n  }",
+      "range": {
+        "startLine": 341,
+        "startChar": 2,
+        "endLine": 357,
+        "endChar": 3
+      },
+      "revId": "840ae907d4d39c8d387e350a2c525c7c12e549bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -22,6 +22,29 @@
       "revId": "6102cf3746b934301b8eafd0031c4197a7b3d885",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b0e9742d_e0dde272",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SubmitRuleEvaluator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-16T06:45:34Z",
+      "side": 0,
+      "message": "The replace of this check with this code block:\n\n  if (customPatchSet \u003d\u003d null) {\n      try {\n        ps \u003d cd.currentPatchSet();\n        customPatchSet \u003d ps;\n      } catch (OrmException e) {\n        return ruleError(\"Error looking up patch set \"\n            + control.getChange().currentPatchSetId());\n      }\n  }\n\nis obviously not equivalent, because now non current patch set can be set to SRE from the outside and no check for non-current patch set takes place any more. From the discussion on previous change we are probably OK with this, because all places in code that are using this method (except test.submit-rule REST endpoint, where it must be possible anyway to pass non-current ps) are passing current patch set already. But i would prefer to emphasisze this in the commit message and/or Javadoc of setPatchSet(PatchSet ps) method, that caller now responsible for providing current patch set (or not providing it at all, in which case current ps is used) and no check takes place any more.",
+      "range": {
+        "startLine": 197,
+        "startChar": 4,
+        "endLine": 200,
+        "endChar": 5
+      },
+      "revId": "6102cf3746b934301b8eafd0031c4197a7b3d885",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

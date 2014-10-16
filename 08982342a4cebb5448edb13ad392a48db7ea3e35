@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "b0e9742d_40e3ee36",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SubmitRuleEvaluator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-16T06:45:34Z",
+      "side": 1,
+      "message": "Not accurate any more and must be updated. In fact it\u0027s set to current patch set t not perform unnecessary lookup of current ps in the database.",
+      "range": {
+        "startLine": 118,
+        "startChar": 2,
+        "endLine": 121,
+        "endChar": 5
+      },
+      "revId": "08982342a4cebb5448edb13ad392a48db7ea3e35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f0e5ac1c_b2c80032",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SubmitRuleEvaluator.java",
         "patchSetId": 2

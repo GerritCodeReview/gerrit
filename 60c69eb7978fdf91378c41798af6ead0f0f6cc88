@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "70d9bc6e_cebd23e1",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2014-10-16T14:38:14Z",
+      "side": 1,
+      "message": "You replied \u0027Done\u0027 but never uploaded the new patchset.",
+      "parentUuid": "1077a0c2_56b912f3",
+      "revId": "60c69eb7978fdf91378c41798af6ead0f0f6cc88",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d0d6e8da_7101d8db",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
         "patchSetId": 1

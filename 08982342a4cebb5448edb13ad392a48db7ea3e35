@@ -141,6 +141,30 @@
       "revId": "08982342a4cebb5448edb13ad392a48db7ea3e35",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "10cb2096_73fa8057",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SubmitRuleEvaluator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-16T07:43:36Z",
+      "side": 1,
+      "message": "| Making it an explicit argument avoids this problem.\n\nWhy? Someone can still very easy screw it up with:\n\n  public void testFoo() {\n    cannotSubmitDraft(customPatchSet);\n  }\n\nand end up with NPE. We are talking about programming error, right? The problem only arises when some one introduces new method testFoo() and forgot to initialize customPatchSet var. From the maintainability and readability point of view, i would probably go for KISS approach, provide one method initPatchSet() that would be called from all public methods and use guarded checkNotNull(customPatchSet) check in all private methods that access it.",
+      "parentUuid": "f00e8cb4_0a22fb97",
+      "range": {
+        "startLine": 198,
+        "startChar": 4,
+        "endLine": 206,
+        "endChar": 5
+      },
+      "revId": "08982342a4cebb5448edb13ad392a48db7ea3e35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -202,6 +202,30 @@
     },
     {
       "key": {
+        "uuid": "10cb2096_33f40865",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListTags.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1013182
+      },
+      "writtenOn": "2014-10-16T07:53:39Z",
+      "side": 1,
+      "message": "Sorry, it should read refs. My rationale is to mimic the functionality from the SSH ls-user-refs command.",
+      "parentUuid": "f00e8cb4_6ab737cd",
+      "range": {
+        "startLine": 87,
+        "startChar": 14,
+        "endLine": 87,
+        "endChar": 47
+      },
+      "revId": "4fd07558c6c9cb8fab8f2a546c28391ff05e49d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "302ae414_747cc8a7",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListTags.java",
         "patchSetId": 8

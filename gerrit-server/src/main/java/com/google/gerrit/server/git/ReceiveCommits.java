@@ -2386,7 +2386,7 @@ public class ReceiveCommits {
       }
 
       final SetMultimap<ObjectId, Ref> byCommit = changeRefsById();
-      final Map<Change.Key, Change.Id> byKey = openChangesByKey(branch);
+      Map<Change.Key, Change.Id> byKey = null;
       final List<ReplaceRequest> toClose = new ArrayList<>();
       for (RevCommit c; (c = rw.next()) != null;) {
         rw.parseBody(c);
@@ -2401,6 +2401,10 @@ public class ReceiveCommits {
         }
 
         for (final String changeId : c.getFooterLines(CHANGE_ID)) {
+          if (byKey == null) {
+            byKey = openChangesByKey(branch);
+          }
+
           final Change.Id onto = byKey.get(new Change.Key(changeId.trim()));
           if (onto != null) {
             final ReplaceRequest req = new ReplaceRequest(onto, c, cmd, false);

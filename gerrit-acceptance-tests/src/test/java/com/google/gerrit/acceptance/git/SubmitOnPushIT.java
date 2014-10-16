@@ -41,6 +41,8 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevObject;
+import org.eclipse.jgit.revwalk.RevTag;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.RefSpec;
 import org.junit.Test;
@@ -81,7 +83,7 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
     grant(Permission.SUBMIT, project, "refs/for/refs/heads/master");
     grant(Permission.CREATE, project, "refs/tags/*");
     grant(Permission.PUSH, project, "refs/tags/*");
-    final String tag = "v1.0";
+    PushOneCommit.Tag tag = new PushOneCommit.Tag("v1.0");
     PushOneCommit push = pushFactory.create(db, admin.getIdent());
     push.setTag(tag);
     PushOneCommit.Result r = push.to(git, "refs/for/master%submit");
@@ -89,7 +91,24 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
     r.assertChange(Change.Status.MERGED, null, admin);
     assertSubmitApproval(r.getPatchSetId());
     assertCommit(project, "refs/heads/master");
-    assertTag(project, "refs/heads/master", tag);
+    assertTag(project, "refs/heads/master", tag.name, null);
+  }
+
+  @Test
+  public void submitOnPushWithAnnotatedTag() throws GitAPIException,
+      OrmException, IOException, ConfigInvalidException {
+    grant(Permission.SUBMIT, project, "refs/for/refs/heads/master");
+    grant(Permission.CREATE, project, "refs/tags/*");
+    grant(Permission.PUSH, project, "refs/tags/*");
+    PushOneCommit.Tag tag = new PushOneCommit.Tag("v1.0", "annotation");
+    PushOneCommit push = pushFactory.create(db, admin.getIdent());
+    push.setTag(tag);
+    PushOneCommit.Result r = push.to(git, "refs/for/master%submit");
+    r.assertOkStatus();
+    r.assertChange(Change.Status.MERGED, null, admin);
+    assertSubmitApproval(r.getPatchSetId());
+    assertCommit(project, "refs/heads/master");
+    assertTag(project, "refs/heads/master", tag.name, tag.message);
   }
 
   @Test
@@ -256,13 +275,24 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
     }
   }
 
-  private void assertTag(Project.NameKey project, String branch, String tagName)
-      throws IOException {
+  private void assertTag(Project.NameKey project, String branch, String tagName,
+      String tagMessage) throws IOException {
     Repository r = repoManager.openRepository(project);
     try {
       ObjectId headCommit = r.getRef(branch).getObjectId();
       ObjectId taggedCommit = r.getRef(tagName).getObjectId();
       assertEquals(headCommit, taggedCommit);
+      if (tagMessage != null) {
+        RevWalk rw = new RevWalk(r);
+        try {
+          RevObject object = rw.parseAny(taggedCommit);
+          assertTrue(object instanceof RevTag);
+          RevTag tag = (RevTag)object;
+          assertEquals(tagMessage, tag.getFullMessage());
+        } finally {
+          rw.dispose();
+        }
+      }
     } finally {
       r.close();
     }

@@ -80,6 +80,20 @@ public class PushOneCommit {
         @Assisted("changeId") String changeId);
   }
 
+  public static class Tag {
+    public String name;
+    public String message;
+
+    public Tag(String name, String message) {
+      this.name = name;
+      this.message = message;
+    }
+
+    public Tag(String name) {
+      this(name, null);
+    }
+  }
+
   private final ChangeNotes.Factory notesFactory;
   private final ApprovalsUtil approvalsUtil;
   private final ReviewDb db;
@@ -89,7 +103,7 @@ public class PushOneCommit {
   private final String fileName;
   private final String content;
   private String changeId;
-  private String tagName;
+  private Tag tag;
 
   @AssistedInject
   PushOneCommit(ChangeNotes.Factory notesFactory,
@@ -151,14 +165,18 @@ public class PushOneCommit {
       c = createCommit(git, i, subject);
       changeId = c.getChangeId();
     }
-    if (tagName != null) {
-      git.tag().setName(tagName).setAnnotated(false).call();
+    if (tag != null) {
+      git.tag()
+        .setName(tag.name)
+        .setAnnotated(tag.message != null)
+        .setMessage(tag.message)
+        .call();
     }
-    return new Result(ref, pushHead(git, ref, tagName != null), c, subject);
+    return new Result(ref, pushHead(git, ref, tag != null), c, subject);
   }
 
-  public void setTag(final String tagName) {
-    this.tagName = tagName;
+  public void setTag(final Tag tag) {
+    this.tag = tag;
   }
 
   public class Result {

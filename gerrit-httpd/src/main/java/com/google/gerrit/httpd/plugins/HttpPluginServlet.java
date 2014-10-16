@@ -26,6 +26,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.net.HttpHeaders;
 import com.google.gerrit.extensions.registration.RegistrationHandle;
+import com.google.gerrit.httpd.RequestUtil;
 import com.google.gerrit.httpd.resources.Resource;
 import com.google.gerrit.httpd.resources.ResourceKey;
 import com.google.gerrit.httpd.resources.SmallResource;
@@ -208,7 +209,7 @@ class HttpPluginServlet extends HttpServlet
       throws IOException, ServletException {
     List<String> parts = Lists.newArrayList(
       Splitter.on('/').limit(3).omitEmptyStrings()
-        .split(Strings.nullToEmpty(req.getPathInfo())));
+        .split(Strings.nullToEmpty(RequestUtil.getEncodedPathInfo(req))));
 
     if (isApiCall(req, parts)) {
       managerApi.service(req, res);
@@ -255,7 +256,7 @@ class HttpPluginServlet extends HttpServlet
       return;
     }
 
-    String pathInfo = req.getPathInfo();
+    String pathInfo = RequestUtil.getEncodedPathInfo(req);
     if (pathInfo.length() < 1) {
       Resource.NOT_FOUND.send(req, res);
       return;

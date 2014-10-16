@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "302ae414_148eb439",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-10-16T17:17:05Z",
+      "side": 1,
+      "message": "I think the lucene stuff has a bug. We are supposed to be waiting inside of the insert() method, see line 224 and 246 of ChangeInserter. The indexing is done async while the email is created, but we wait for the future to finish.\n\nThat future should have updated the index. If the index update isn\u0027t live yet, then there is a bug in the lucene glue.",
+      "revId": "30ca906e60f8ab4a7be846c272f29079247430ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f00e8cb4_ca8e230e",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 514,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-10-16T17:17:05Z",
+      "side": 1,
+      "message": "nit: one space after \u003d\u003d",
+      "range": {
+        "startLine": 514,
+        "startChar": 30,
+        "endLine": 514,
+        "endChar": 35
+      },
+      "revId": "30ca906e60f8ab4a7be846c272f29079247430ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

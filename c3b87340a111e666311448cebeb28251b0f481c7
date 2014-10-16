@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f00e8cb4_aa7acf5d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-10-16T17:29:37Z",
+      "side": 1,
+      "message": "This isn\u0027t really what the change does.\n\n  Always raise BooleanQuery limit higher than current query\n\n  Raising the limit avoids failing a query BooleanQuery.TooManyClauses,\n  preventing users from seeing \"400 cannot create query for index\" error\n  in the conflict withs part of the change screen.",
+      "revId": "c3b87340a111e666311448cebeb28251b0f481c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "302ae414_f40bf814",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/QueryBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-10-16T17:29:37Z",
+      "side": 1,
+      "message": "I don\u0027t think this is thread safe.\n\nThread A could sample that the value is 50, want needs 52, then get paused.\nThread B samples the value is 50, and wants 70. It sets to 70.\nThread A resumes and sets to 52.\n\nNow thread B\u0027s query still fails, even through we tried to raise the limit.\n\nSince this is a static for the server I think we should make this configurable by the server admin. There are CPU and memory resource consumption reasons to limit the max clause count. We may even want to raise the default higher, but we shouldn\u0027t always set it from the query.",
+      "range": {
+        "startLine": 124,
+        "startChar": 0,
+        "endLine": 127,
+        "endChar": 5
+      },
+      "revId": "c3b87340a111e666311448cebeb28251b0f481c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.change;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.gerrit.server.ioutil.BasicSerialization.readVarInt32;
 import static com.google.gerrit.server.ioutil.BasicSerialization.writeVarInt32;
@@ -25,6 +26,7 @@ import com.google.common.cache.Cache;
 import com.google.common.cache.Weigher;
 import com.google.gerrit.extensions.common.SubmitType;
 import com.google.gerrit.server.cache.CacheModule;
+import com.google.gerrit.server.cache.PersistentCache;
 import com.google.inject.Inject;
 import com.google.inject.Key;
 import com.google.inject.Module;
@@ -67,6 +69,8 @@ public class MergeabilityCache {
 
   @Inject
   MergeabilityCache(@Named(CACHE_NAME) Cache<EntryKey, Boolean> cache) {
+    checkArgument(cache instanceof PersistentCache,
+        "mergeability cache must be persistent");
     this.cache = cache;
   }
 
@@ -79,6 +83,10 @@ public class MergeabilityCache {
   public void save(ObjectId commit, ObjectId into, SubmitType submitType,
       boolean mergeable) {
     cache.put(new EntryKey(commit, into, submitType), mergeable);
+  }
+
+  public boolean isEmpty() {
+    return ((PersistentCache) cache).diskStats().size() == 0;
   }
 
   private static class MergeabilityWeigher

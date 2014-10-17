@@ -28,6 +28,7 @@ import com.google.gerrit.pgm.util.ThreadLimiter;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.change.MergeabilityCache;
 import com.google.gerrit.server.change.MergeabilityChecker;
 import com.google.gerrit.server.change.MergeabilityChecksExecutor;
 import com.google.gerrit.server.change.MergeabilityChecksExecutor.Priority;
@@ -58,12 +59,16 @@ import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.TextProgressMonitor;
 import org.eclipse.jgit.util.io.NullOutputStream;
 import org.kohsuke.args4j.Option;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 public class Reindex extends SiteProgram {
+  private static final Logger log = LoggerFactory.getLogger(Reindex.class);
+
   @Option(name = "--threads", usage = "Number of threads to use for indexing")
   private int threads = Runtime.getRuntime().availableProcessors();
 
@@ -85,6 +90,7 @@ public class Reindex extends SiteProgram {
 
   private Injector dbInjector;
   private Injector sysInjector;
+  private Config cfg;
   private ChangeIndex index;
 
   @Override
@@ -92,6 +98,8 @@ public class Reindex extends SiteProgram {
     mustHaveValidSite();
     dbInjector = createDbInjector(MULTI_USER);
     threads = ThreadLimiter.limitThreads(dbInjector, threads);
+    cfg = dbInjector.getInstance(
+        Key.get(Config.class, GerritServerConfig.class));
     checkNotSlaveMode();
     disableLuceneAutomaticCommit();
     if (version == null) {
@@ -122,14 +130,25 @@ public class Reindex extends SiteProgram {
   }
 
   private void checkNotSlaveMode() throws Die {
-    Config cfg = dbInjector.getInstance(
-        Key.get(Config.class, GerritServerConfig.class));
     if (cfg.getBoolean("container", "slave", false)) {
       throw die("Cannot run reindex in slave mode");
     }
   }
 
   private Injector createSysInjector() {
+    Injector base = dbInjector;
+    if (!recheckMergeable && !cfg.getBoolean(
+        "gerrit-test", null, "bypassAutoRecheckMergeable", false)) {
+      base = base.createChildInjector(
+          base.getInstance(BatchProgramModule.class));
+      MergeabilityCache mergeabilityCache =
+          base.getInstance(MergeabilityCache.class);
+      if (mergeabilityCache.isEmpty()) {
+        log.info("Forcing --recheck-mergeable to populate cache");
+        recheckMergeable = true;
+      }
+    }
+
     List<Module> modules = Lists.newArrayList();
     Module changeIndexModule;
     switch (IndexModule.getIndexType(dbInjector)) {

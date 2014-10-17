@@ -14,6 +14,7 @@
 
 package com.google.gerrit.httpd;
 
+import static com.google.gerrit.httpd.restapi.RestApiServlet.replyError;
 import static javax.servlet.http.HttpServletResponse.SC_FORBIDDEN;
 import static javax.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
 
@@ -77,17 +78,19 @@ class RunAsFilter implements Filter {
     String runas = req.getHeader(RUN_AS);
     if (runas != null) {
       if (!enabled) {
-        RestApiServlet.replyError(req, res,
+        replyError(req, res,
             SC_FORBIDDEN,
-            RUN_AS + " disabled by auth.enableRunAs = false");
+            RUN_AS + " disabled by auth.enableRunAs = false",
+            null);
         return;
       }
 
       CurrentUser self = session.get().getCurrentUser();
       if (!self.getCapabilities().canRunAs()) {
-        RestApiServlet.replyError(req, res,
+        replyError(req, res,
             SC_FORBIDDEN,
-            "not permitted to use " + RUN_AS);
+            "not permitted to use " + RUN_AS,
+            null);
         return;
       }
 
@@ -96,15 +99,17 @@ class RunAsFilter implements Filter {
         target = accountResolver.find(runas);
       } catch (OrmException e) {
         log.warn("cannot resolve account for " + RUN_AS, e);
-        RestApiServlet.replyError(req, res,
+        replyError(req, res,
             SC_INTERNAL_SERVER_ERROR,
-            "cannot resolve " + RUN_AS);
+            "cannot resolve " + RUN_AS,
+            e);
         return;
       }
       if (target == null) {
-        RestApiServlet.replyError(req, res,
+        replyError(req, res,
             SC_FORBIDDEN,
-            "no account matches " + RUN_AS);
+            "no account matches " + RUN_AS,
+            null);
         return;
       }
       session.get().setUserAccountId(target.getId());

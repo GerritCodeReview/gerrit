@@ -236,6 +236,30 @@
       "revId": "e466622dc519d8b0b180f6d7cae37870256b8a3e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b0e9742d_c006de0d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/SideBySide2.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-17T09:08:53Z",
+      "side": 1,
+      "message": "I see your point, but this would fail for DRAFT for two reasons:\n\n* 1 we don\u0027t (yet) render edit icon on CS2 for DRAFT, only after my other change\n* 2. we don\u0027t pass DRAFT status in publish new patch set for drafts.",
+      "parentUuid": "10cb2096_b38938b7",
+      "range": {
+        "startLine": 228,
+        "startChar": 25,
+        "endLine": 228,
+        "endChar": 39
+      },
+      "revId": "e466622dc519d8b0b180f6d7cae37870256b8a3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

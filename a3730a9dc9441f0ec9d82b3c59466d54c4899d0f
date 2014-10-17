@@ -70,6 +70,30 @@
       "revId": "a3730a9dc9441f0ec9d82b3c59466d54c4899d0f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "701c5c1f_562f34a8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Mergeable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-10-17T18:16:19Z",
+      "side": 1,
+      "message": "Not worth rebasing at this point. If you really care you can clean your friend up when it\u0027s merged.",
+      "parentUuid": "30c4a4d1_247ff29e",
+      "range": {
+        "startLine": 123,
+        "startChar": 4,
+        "endLine": 123,
+        "endChar": 17
+      },
+      "revId": "a3730a9dc9441f0ec9d82b3c59466d54c4899d0f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

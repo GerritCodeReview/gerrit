@@ -425,7 +425,7 @@ public class ChangeScreen2 extends Screen {
   }
 
   private void initEditMode(ChangeInfo info) {
-    if (Gerrit.isSignedIn() && info.status() == Status.NEW) {
+    if (Gerrit.isSignedIn() && info.status().isOpen()) {
       RevisionInfo rev = info.revision(revision);
       if (isEditModeEnabled(info, rev)) {
         editMode.setVisible(fileTableMode == FileTable.Mode.REVIEW);
@@ -831,7 +831,7 @@ public class ChangeScreen2 extends Screen {
   private void loadSubmitType(final Change.Status status, final boolean canSubmit) {
     if (canSubmit) {
       actions.setSubmitEnabled();
-      if (status == Change.Status.NEW) {
+      if (status.isOpen()) {
         statusText.setInnerText(Util.C.readyToSubmit());
       }
     }
@@ -841,7 +841,7 @@ public class ChangeScreen2 extends Screen {
         @Override
         public void onSuccess(NativeString result) {
           if (canSubmit) {
-            if (status == Change.Status.NEW) {
+            if (status.isOpen()) {
               statusText.setInnerText(changeInfo.mergeable()
                   ? Util.C.readyToSubmit()
                   : Util.C.mergeConflict());
@@ -922,7 +922,7 @@ public class ChangeScreen2 extends Screen {
 
     if (revisionInfo.is_edit()) {
       statusText.setInnerText(Util.C.changeEdit());
-    } else if (!current && info.status() == Change.Status.NEW) {
+    } else if (!current && info.status().isOpen()) {
       statusText.setInnerText(Util.C.notCurrent());
       labels.setVisible(false);
     } else {

@@ -106,6 +106,11 @@ public class LabelVote {
   }
 
   @Override
+  public int hashCode() {
+    return 17 * value  + name.hashCode();
+  }
+
+  @Override
   public String toString() {
     return format();
   }

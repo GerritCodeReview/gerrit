@@ -6,15 +6,22 @@ EXCLUDE = [
   'META-INF/NOTICE',
 ]
 
-maven_jar(
+local_jar(
   name = 'sshd',
-  id = 'org.apache.sshd:sshd-core:0.12.0-9-g635de65',
-  sha1 = '1ff3c9ebd0acfcd095eef30a0ee0b99846967711',
-  repository = GERRIT,
-  license = 'Apache2.0',
+  jar = '/home/davido/projects/sshd/sshd-core/target/sshd-core-0.13.0.jar',
   deps = [':core'],
-  exclude = EXCLUDE,
 )
+
+#maven_jar(
+#  name = 'sshd',
+#  id = 'org.apache.sshd:sshd-core:0.13.0',
+#  sha1 = '8abdcc2a5f864a8c89dad07dda989eb5d53c2a2d',
+#  repository = GERRIT,
+#  license = 'Apache2.0',
+#  deps = [':core'],
+#  exclude = EXCLUDE,
+#  repository = GERRIT,
+#)
 
 maven_jar(
   name = 'core',

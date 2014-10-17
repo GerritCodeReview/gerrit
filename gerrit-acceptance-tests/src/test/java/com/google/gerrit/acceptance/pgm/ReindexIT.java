@@ -19,18 +19,21 @@ import static org.junit.Assert.assertEquals;
 import com.google.gerrit.launcher.GerritLauncher;
 import com.google.gerrit.testutil.TempFileUtil;
 
+import org.eclipse.jgit.storage.file.FileBasedConfig;
+import org.eclipse.jgit.util.FS;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.io.File;
+import java.nio.file.Path;
 
 public class ReindexIT {
-  private File sitePath;
+  private Path sitePath;
 
   @Before
   public void createTempDirectory() throws Exception {
-    sitePath = TempFileUtil.createTempDirectory();
+    sitePath = TempFileUtil.createTempDirectory().toPath();
   }
 
   @After
@@ -43,21 +46,33 @@ public class ReindexIT {
   @Test
   public void reindexEmptySite() throws Exception {
     initSite();
-    runGerrit("reindex", "-d", sitePath.getPath(),
+    FileBasedConfig cfg = gerritConfig();
+    cfg.load();
+    // Bypass auto-rechecking mergeable bit, which would be enabled on an empty
+    // site which has an empty persistent cache, and tests a different set of
+    // injectors.
+    cfg.setBoolean("gerrit-test", null, "bypassAutoRecheckMergeable", true);
+    cfg.save();
+    runGerrit("reindex", "-d", sitePath.toString(),
         "--show-stack-trace");
   }
 
   @Test
   public void reindexEmptySiteWithRecheckMergeable() throws Exception {
     initSite();
-    runGerrit("reindex", "-d", sitePath.getPath(),
+    runGerrit("reindex", "-d", sitePath.toString(),
         "--show-stack-trace",
         "--recheck-mergeable");
   }
 
   private void initSite() throws Exception {
-    runGerrit("init", "-d", sitePath.getPath(),
+    runGerrit("init", "-d", sitePath.toString(),
         "--batch", "--no-auto-start", "--skip-plugins", "--show-stack-trace");
+  }
+
+  private FileBasedConfig gerritConfig() {
+    File f = sitePath.resolve("etc").resolve("gerrit.config").toFile();
+    return new FileBasedConfig(f, FS.detect());
   }
 
   private static void runGerrit(String... args) throws Exception {

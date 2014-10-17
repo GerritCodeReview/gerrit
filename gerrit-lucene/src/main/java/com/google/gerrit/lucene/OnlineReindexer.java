@@ -17,11 +17,13 @@ package com.google.gerrit.lucene;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.collect.Lists;
+import com.google.gerrit.server.change.MergeabilityChecker;
 import com.google.gerrit.server.index.ChangeBatchIndexer;
 import com.google.gerrit.server.index.ChangeIndex;
 import com.google.gerrit.server.index.IndexCollection;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 
 import org.slf4j.Logger;
@@ -39,19 +41,22 @@ public class OnlineReindexer {
   }
 
   private final IndexCollection indexes;
-  private final ChangeBatchIndexer batchIndexer;
+  private final Provider<ChangeBatchIndexer> batchIndexer;
   private final ProjectCache projectCache;
+  private final MergeabilityChecker mergeabilityChecker;
   private final int version;
 
   @Inject
   OnlineReindexer(
       IndexCollection indexes,
-      ChangeBatchIndexer batchIndexer,
+      Provider<ChangeBatchIndexer> batchIndexer,
       ProjectCache projectCache,
+      MergeabilityChecker mergeabilityChecker,
       @Assisted int version) {
     this.indexes = indexes;
     this.batchIndexer = batchIndexer;
     this.projectCache = projectCache;
+    this.mergeabilityChecker = mergeabilityChecker;
     this.version = version;
   }
 
@@ -76,8 +81,9 @@ public class OnlineReindexer {
         "not an active write schema version: %s", version);
     log.info("Starting online reindex from schema version {} to {}",
         version(indexes.getSearchIndex()), version(index));
-    ChangeBatchIndexer.Result result = batchIndexer.indexAll(
-        index, projectCache.all(), -1, -1, null, null);
+    ChangeBatchIndexer.Result result = batchIndexer.get()
+        .setMergeabilityChecker(mergeabilityChecker)
+        .indexAll(index, projectCache.all());
     if (!result.success()) {
       log.error("Online reindex of schema version {} failed", version(index));
       return;

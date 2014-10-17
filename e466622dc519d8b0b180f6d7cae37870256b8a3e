@@ -260,6 +260,30 @@
       "revId": "e466622dc519d8b0b180f6d7cae37870256b8a3e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b0e9742d_0011e645",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/SideBySide2.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-10-17T09:13:09Z",
+      "side": 1,
+      "message": "Ok, if it currently fails for DRAFT then for now the edit icon should not be available on drafts :)",
+      "parentUuid": "b0e9742d_c006de0d",
+      "range": {
+        "startLine": 228,
+        "startChar": 25,
+        "endLine": 228,
+        "endChar": 39
+      },
+      "revId": "e466622dc519d8b0b180f6d7cae37870256b8a3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

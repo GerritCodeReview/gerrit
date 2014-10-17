@@ -28,8 +28,6 @@ public class DiffInfo extends JavaScriptObject {
   public final native FileMeta meta_b() /*-{ return this.meta_b; }-*/;
   public final native JsArrayString diff_header() /*-{ return this.diff_header; }-*/;
   public final native JsArray<Region> content() /*-{ return this.content; }-*/;
-  public final native JsArray<WebLinkInfo> web_links_a() /*-{ return this.web_links_a; }-*/;
-  public final native JsArray<WebLinkInfo> web_links_b() /*-{ return this.web_links_b; }-*/;
 
   public final ChangeType change_type() {
     return ChangeType.valueOf(change_typeRaw());
@@ -103,6 +101,7 @@ public class DiffInfo extends JavaScriptObject {
     public final native String name() /*-{ return this.name; }-*/;
     public final native String content_type() /*-{ return this.content_type; }-*/;
     public final native int lines() /*-{ return this.lines || 0 }-*/;
+    public final native JsArray<WebLinkInfo> web_links() /*-{ return this.web_links; }-*/;
 
     protected FileMeta() {
     }

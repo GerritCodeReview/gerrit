@@ -17,7 +17,6 @@ package com.google.gerrit.server.change;
 import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.base.MoreObjects;
-import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.data.PatchScript;
@@ -47,6 +46,7 @@ import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
+
 import org.eclipse.jgit.diff.Edit;
 import org.eclipse.jgit.diff.ReplaceEdit;
 import org.kohsuke.args4j.CmdLineException;
@@ -59,7 +59,6 @@ import org.kohsuke.args4j.spi.Parameters;
 import org.kohsuke.args4j.spi.Setter;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -160,7 +159,7 @@ public class GetDiff implements RestReadView<FileResource> {
         String rev = basePatchSet != null
             ? basePatchSet.getRefName()
             : resource.getRevision().getPatchSet().getRefName() + "^1";
-        result.webLinksA =
+        result.metaA.webLinks =
             getFileWebLinks(state.getProject(), rev, result.metaA.name);
       }
 
@@ -169,7 +168,7 @@ public class GetDiff implements RestReadView<FileResource> {
         result.metaB.name = ps.getNewName();
         setContentType(result.metaB, state, ps.getFileModeB(), ps.getMimeTypeB());
         result.metaB.lines = ps.getB().size();
-        result.webLinksB = getFileWebLinks(state.getProject(),
+        result.metaB.webLinks = getFileWebLinks(state.getProject(),
             resource.getRevision().getPatchSet().getRefName(),
             result.metaB.name);
       }
@@ -203,14 +202,9 @@ public class GetDiff implements RestReadView<FileResource> {
 
   private List<WebLinkInfo> getFileWebLinks(Project project, String rev,
       String file) {
-    List<WebLinkInfo> fileWebLinks = new ArrayList<>();
-    for (WebLinkInfo link : webLinks.getFileLinks(project.getName(),
-        rev, file)) {
-      if (!Strings.isNullOrEmpty(link.name) && !Strings.isNullOrEmpty(link.url)) {
-        fileWebLinks.add(link);
-      }
-    }
-    return fileWebLinks;
+    List<WebLinkInfo> links =
+        webLinks.getFileLinks(project.getName(), rev, file);
+    return !links.isEmpty() ? links : null;
   }
 
   static class Result {
@@ -220,14 +214,13 @@ public class GetDiff implements RestReadView<FileResource> {
     ChangeType changeType;
     List<String> diffHeader;
     List<ContentEntry> content;
-    List<WebLinkInfo> webLinksA;
-    List<WebLinkInfo> webLinksB;
   }
 
   static class FileMeta {
     String name;
     String contentType;
     Integer lines;
+    List<WebLinkInfo> webLinks;
   }
 
   private void setContentType(FileMeta meta, ProjectState project,

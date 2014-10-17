@@ -28,6 +28,7 @@ import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.cache.CacheModule;
+import com.google.gerrit.server.cache.PersistentCache;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeException;
@@ -218,6 +219,11 @@ public class MergeabilityCache {
     } catch (IOException e) {
       return failed(key, e);
     }
+  }
+
+  public boolean isPersistentCacheEmpty() {
+    return (cache instanceof PersistentCache)
+        && ((PersistentCache) cache).diskStats().size() == 0;
   }
 
   private boolean load(final EntryKey key, final Branch.NameKey dest,

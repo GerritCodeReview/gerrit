@@ -38,10 +38,13 @@ import com.google.gerrit.server.git.MergeException;
 import com.google.gerrit.server.git.strategy.SubmitStrategyFactory;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.inject.Inject;
+import com.google.inject.Key;
 import com.google.inject.Module;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
+import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
+import com.google.inject.name.Names;
 
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
@@ -85,6 +88,12 @@ public class MergeabilityCache {
   static {
     checkState(SUBMIT_TYPES.size() == SubmitType.values().length,
         "SubmitType <-> char BiMap needs updating");
+  }
+
+  @SuppressWarnings("rawtypes")
+  public static Key bindingKey() {
+    return Key.get(new TypeLiteral<LoadingCache<EntryKey, Boolean>>() {},
+        Names.named(CACHE_NAME));
   }
 
   public static Module module() {

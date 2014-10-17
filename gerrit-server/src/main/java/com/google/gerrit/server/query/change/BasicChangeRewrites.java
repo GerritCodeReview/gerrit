@@ -26,11 +26,11 @@ import com.google.inject.name.Named;
 
 public class BasicChangeRewrites extends QueryRewriter<ChangeData> {
   private static final ChangeQueryBuilder BUILDER = new ChangeQueryBuilder(
-      new ChangeQueryBuilder.Arguments( //
-          new InvalidProvider<ReviewDb>(), //
-          new InvalidProvider<ChangeQueryRewriter>(), //
-          null, null, null, null, null, null, null, //
-          null, null, null, null, null, null, null, null, null, null, null),
+      new ChangeQueryBuilder.Arguments(
+          new InvalidProvider<ReviewDb>(),
+          new InvalidProvider<ChangeQueryRewriter>(),
+          null, null, null, null, null, null, null, null, null, null, null,
+          null, null, null, null, null, null, null, null),
           null);
 
   private static final QueryRewriter.Definition<ChangeData, BasicChangeRewrites> mydef =

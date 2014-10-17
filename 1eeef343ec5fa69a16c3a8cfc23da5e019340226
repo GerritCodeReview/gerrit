@@ -1,0 +1,159 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "30c4a4d1_e4d83a85",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListTags.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-17T11:50:03Z",
+      "side": 1,
+      "message": "We don\u0027t mix field and ctor injection types. Remove the annotation, and move it into ctor. (In SSH code we are still using field injection, but not ctor injection; in sever code we are only using ctor injection).",
+      "range": {
+        "startLine": 55,
+        "startChar": 2,
+        "endLine": 55,
+        "endChar": 9
+      },
+      "revId": "1eeef343ec5fa69a16c3a8cfc23da5e019340226",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50c758d5_25e36e38",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListTags.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-17T11:50:03Z",
+      "side": 1,
+      "message": "private final",
+      "range": {
+        "startLine": 56,
+        "startChar": 2,
+        "endLine": 56,
+        "endChar": 9
+      },
+      "revId": "1eeef343ec5fa69a16c3a8cfc23da5e019340226",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30c4a4d1_c4dd3e73",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListTags.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-17T11:50:03Z",
+      "side": 1,
+      "message": "the same",
+      "range": {
+        "startLine": 58,
+        "startChar": 3,
+        "endLine": 58,
+        "endChar": 9
+      },
+      "revId": "1eeef343ec5fa69a16c3a8cfc23da5e019340226",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30c4a4d1_24e37238",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListTags.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-17T11:50:03Z",
+      "side": 1,
+      "message": "the same",
+      "range": {
+        "startLine": 59,
+        "startChar": 2,
+        "endLine": 59,
+        "endChar": 9
+      },
+      "revId": "1eeef343ec5fa69a16c3a8cfc23da5e019340226",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50c758d5_e5d83685",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListTags.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-17T11:50:03Z",
+      "side": 1,
+      "message": "You\u0027ve moved all private methods on the top of the class. Shouldn\u0027t they stay at the bottom?",
+      "revId": "1eeef343ec5fa69a16c3a8cfc23da5e019340226",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50c758d5_c5dd3a73",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListTags.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-17T11:50:03Z",
+      "side": 1,
+      "message": "private static",
+      "range": {
+        "startLine": 83,
+        "startChar": 2,
+        "endLine": 83,
+        "endChar": 9
+      },
+      "revId": "1eeef343ec5fa69a16c3a8cfc23da5e019340226",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50c758d5_85d34267",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListTags.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-17T11:50:03Z",
+      "side": 1,
+      "message": "not needed.",
+      "range": {
+        "startLine": 151,
+        "startChar": 46,
+        "endLine": 151,
+        "endChar": 57
+      },
+      "revId": "1eeef343ec5fa69a16c3a8cfc23da5e019340226",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

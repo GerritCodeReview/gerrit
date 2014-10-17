@@ -23,6 +23,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.SetMultimap;
 import com.google.gerrit.common.data.SubmitRecord;
+import com.google.gerrit.common.data.SubmitTypeRecord;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
@@ -36,7 +37,9 @@ import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchLineCommentsUtil;
+import com.google.gerrit.server.change.MergeabilityCache;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.notedb.ReviewerState;
@@ -46,6 +49,8 @@ import com.google.gerrit.server.patch.PatchListEntry;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
+import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.SubmitRuleEvaluator;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
 import com.google.inject.assistedinject.Assisted;
@@ -55,6 +60,7 @@ import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.FooterLine;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -154,8 +160,8 @@ public class ChangeData {
    * @return instance for testing.
    */
   static ChangeData createForTest(Change.Id id, int currentPatchSetId) {
-    ChangeData cd = new ChangeData(null, null, null, null, null,
-        null, null, null, null, null, id);
+    ChangeData cd = new ChangeData(null, null, null, null, null, null, null,
+        null, null, null, null, null, null, id);
     cd.currentPatchSet = new PatchSet(new PatchSet.Id(id, currentPatchSetId));
     return cd;
   }
@@ -164,12 +170,15 @@ public class ChangeData {
   private final GitRepositoryManager repoManager;
   private final ChangeControl.GenericFactory changeControlFactory;
   private final IdentifiedUser.GenericFactory userFactory;
+  private final ProjectCache projectCache;
+  private final MergeUtil.Factory mergeUtilFactory;
   private final ChangeNotes.Factory notesFactory;
   private final ApprovalsUtil approvalsUtil;
   private final ChangeMessagesUtil cmUtil;
   private final PatchLineCommentsUtil plcUtil;
   private final PatchListCache patchListCache;
   private final NotesMigration notesMigration;
+  private final MergeabilityCache mergeabilityCache;
   private final Change.Id legacyId;
   private ChangeDataSource returnedBySource;
   private Change change;
@@ -187,30 +196,37 @@ public class ChangeData {
   private List<ChangeMessage> messages;
   private List<SubmitRecord> submitRecords;
   private ChangedLines changedLines;
+  private Boolean mergeable;
 
   @AssistedInject
   private ChangeData(
       GitRepositoryManager repoManager,
       ChangeControl.GenericFactory changeControlFactory,
       IdentifiedUser.GenericFactory userFactory,
+      ProjectCache projectCache,
+      MergeUtil.Factory mergeUtilFactory,
       ChangeNotes.Factory notesFactory,
       ApprovalsUtil approvalsUtil,
       ChangeMessagesUtil cmUtil,
       PatchLineCommentsUtil plcUtil,
       PatchListCache patchListCache,
       NotesMigration notesMigration,
+      MergeabilityCache mergeabilityCache,
       @Assisted ReviewDb db,
       @Assisted Change.Id id) {
     this.db = db;
     this.repoManager = repoManager;
     this.changeControlFactory = changeControlFactory;
     this.userFactory = userFactory;
+    this.projectCache = projectCache;
+    this.mergeUtilFactory = mergeUtilFactory;
     this.notesFactory = notesFactory;
     this.approvalsUtil = approvalsUtil;
     this.cmUtil = cmUtil;
     this.plcUtil = plcUtil;
     this.patchListCache = patchListCache;
     this.notesMigration = notesMigration;
+    this.mergeabilityCache = mergeabilityCache;
     legacyId = id;
   }
 
@@ -219,24 +235,30 @@ public class ChangeData {
       GitRepositoryManager repoManager,
       ChangeControl.GenericFactory changeControlFactory,
       IdentifiedUser.GenericFactory userFactory,
+      ProjectCache projectCache,
+      MergeUtil.Factory mergeUtilFactory,
       ChangeNotes.Factory notesFactory,
       ApprovalsUtil approvalsUtil,
       ChangeMessagesUtil cmUtil,
       PatchLineCommentsUtil plcUtil,
       PatchListCache patchListCache,
       NotesMigration notesMigration,
+      MergeabilityCache mergeabilityCache,
       @Assisted ReviewDb db,
       @Assisted Change c) {
     this.db = db;
     this.repoManager = repoManager;
     this.changeControlFactory = changeControlFactory;
     this.userFactory = userFactory;
+    this.projectCache = projectCache;
+    this.mergeUtilFactory = mergeUtilFactory;
     this.notesFactory = notesFactory;
     this.approvalsUtil = approvalsUtil;
     this.cmUtil = cmUtil;
     this.plcUtil = plcUtil;
     this.patchListCache = patchListCache;
     this.notesMigration = notesMigration;
+    this.mergeabilityCache = mergeabilityCache;
     legacyId = c.getId();
     change = c;
   }
@@ -246,24 +268,30 @@ public class ChangeData {
       GitRepositoryManager repoManager,
       ChangeControl.GenericFactory changeControlFactory,
       IdentifiedUser.GenericFactory userFactory,
+      ProjectCache projectCache,
+      MergeUtil.Factory mergeUtilFactory,
       ChangeNotes.Factory notesFactory,
       ApprovalsUtil approvalsUtil,
       ChangeMessagesUtil cmUtil,
       PatchLineCommentsUtil plcUtil,
       PatchListCache patchListCache,
       NotesMigration notesMigration,
+      MergeabilityCache mergeabilityCache,
       @Assisted ReviewDb db,
       @Assisted ChangeControl c) {
     this.db = db;
     this.repoManager = repoManager;
     this.changeControlFactory = changeControlFactory;
     this.userFactory = userFactory;
+    this.projectCache = projectCache;
+    this.mergeUtilFactory = mergeUtilFactory;
     this.notesFactory = notesFactory;
     this.approvalsUtil = approvalsUtil;
     this.cmUtil = cmUtil;
     this.plcUtil = plcUtil;
     this.patchListCache = patchListCache;
     this.notesMigration = notesMigration;
+    this.mergeabilityCache = mergeabilityCache;
     legacyId = c.getChange().getId();
     change = c.getChange();
     changeControl = c;
@@ -553,6 +581,48 @@ public class ChangeData {
 
   public List<SubmitRecord> getSubmitRecords() {
     return submitRecords;
+  }
+
+  public void setMergeable(boolean mergeable) {
+    this.mergeable = mergeable;
+  }
+
+  public boolean isMergeable() throws OrmException {
+    if (mergeable == null) {
+      Change c = change();
+      if (c.getStatus() == Change.Status.MERGED) {
+        mergeable = true;
+      } else {
+        PatchSet ps = currentPatchSet();
+        Ref ref;
+        Repository repo = null;
+        try {
+          repo = repoManager.openRepository(c.getProject());
+          ref = repo.getRef(c.getDest().get());
+        } catch (IOException e) {
+          throw new OrmException(e);
+        } finally {
+          if (repo != null) {
+            repo.close();
+          }
+        }
+
+        SubmitTypeRecord rec = new SubmitRuleEvaluator(this)
+            .getSubmitType();
+        if (rec.status != SubmitTypeRecord.Status.OK) {
+          throw new OrmException(
+              "Error in mergeability check: " + rec.errorMessage);
+        }
+        String mergeStrategy = mergeUtilFactory
+            .create(projectCache.get(c.getProject()))
+            .mergeStrategyName();
+        mergeable = mergeabilityCache.get(
+            ObjectId.fromString(ps.getRevision().get()),
+            ref != null ? ref.getObjectId() : ObjectId.zeroId(),
+            rec.type, mergeStrategy, c.getDest());
+      }
+    }
+    return mergeable;
   }
 
   @Override

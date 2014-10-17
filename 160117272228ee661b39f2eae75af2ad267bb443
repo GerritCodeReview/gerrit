@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b0e9742d_e09e826d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-17T08:34:35Z",
+      "side": 1,
+      "message": "Ah, was apparently decaffeinated and missed it. This change was a spontan reaction to this comment: [1]. In which case we probably don\u0027t want to show change edit icon on SBS2 for SUBMITTED, MERGED PENDING and DRAFT changes?\n\n  [1]\n  https://gerrit-review.googlesource.com/#/c/60817/1/gerrit-gwtui/\n  src/main/java/com/google/gerrit/client/diff/SideBySide2.java@228",
+      "parentUuid": "10cb2096_33a7684a",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 34
+      },
+      "revId": "160117272228ee661b39f2eae75af2ad267bb443",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b0e9742d_c09ffe6b",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
         "patchSetId": 1

@@ -441,13 +441,25 @@ public class ChangeField {
       };
 
   /** Whether the change is mergeable. */
-  public static final FieldDef<ChangeData, String> MERGEABLE =
+  @Deprecated
+  public static final FieldDef<ChangeData, String> LEGACY_MERGEABLE =
       new FieldDef.Single<ChangeData, String>(
           ChangeQueryBuilder.FIELD_MERGEABLE, FieldType.EXACT, false) {
         @Override
         public String get(ChangeData input, FillArgs args)
             throws OrmException {
-          return input.change().isMergeable() ? "1" : null;
+          return input.isMergeable() ? "1" : null;
+        }
+      };
+
+  /** Whether the change is mergeable. */
+  public static final FieldDef<ChangeData, String> MERGEABLE =
+      new FieldDef.Single<ChangeData, String>(
+          "mergeable2", FieldType.EXACT, true) {
+        @Override
+        public String get(ChangeData input, FillArgs args)
+            throws OrmException {
+          return input.isMergeable() ? "1" : "0";
         }
       };
 

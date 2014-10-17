@@ -37,6 +37,7 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.strategy.SubmitStrategyFactory;
 import com.google.gerrit.server.index.ChangeField;
 import com.google.gerrit.server.index.ChangeIndex;
+import com.google.gerrit.server.index.FieldDef;
 import com.google.gerrit.server.index.IndexCollection;
 import com.google.gerrit.server.index.Schema;
 import com.google.gerrit.server.patch.PatchListCache;
@@ -146,6 +147,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     final CapabilityControl.Factory capabilityControlFactory;
     final ChangeControl.GenericFactory changeControlGenericFactory;
     final ChangeData.Factory changeDataFactory;
+    final FieldDef.FillArgs fillArgs;
     final PatchLineCommentsUtil plcUtil;
     final AccountResolver accountResolver;
     final GroupBackend groupBackend;
@@ -169,6 +171,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
         CapabilityControl.Factory capabilityControlFactory,
         ChangeControl.GenericFactory changeControlGenericFactory,
         ChangeData.Factory changeDataFactory,
+        FieldDef.FillArgs fillArgs,
         PatchLineCommentsUtil plcUtil,
         AccountResolver accountResolver,
         GroupBackend groupBackend,
@@ -189,6 +192,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       this.capabilityControlFactory = capabilityControlFactory;
       this.changeControlGenericFactory = changeControlGenericFactory;
       this.changeDataFactory = changeDataFactory;
+      this.fillArgs = fillArgs;
       this.plcUtil = plcUtil;
       this.accountResolver = accountResolver;
       this.groupBackend = groupBackend;
@@ -326,7 +330,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     }
 
     if ("mergeable".equalsIgnoreCase(value)) {
-      return new IsMergeablePredicate();
+      return new IsMergeablePredicate(schema(args.indexes), args.fillArgs);
     }
 
     try {

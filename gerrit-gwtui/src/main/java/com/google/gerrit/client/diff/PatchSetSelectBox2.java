@@ -118,7 +118,8 @@ class PatchSetSelectBox2 extends Composite {
         linkPanel.add(createEditIcon());
       }
     }
-    List<WebLinkInfo> webLinks = Natives.asList(meta.web_links());
+    List<WebLinkInfo> webLinks =
+        meta != null ? Natives.asList(meta.web_links()) : null;
     if (webLinks != null) {
       for (WebLinkInfo weblink : webLinks) {
         Anchor a = new Anchor();

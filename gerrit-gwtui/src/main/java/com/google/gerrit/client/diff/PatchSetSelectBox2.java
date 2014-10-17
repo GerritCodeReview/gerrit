@@ -108,10 +108,14 @@ class PatchSetSelectBox2 extends Composite {
     } else if (sideA) {
       baseLink.setStyleName(style.selected());
     }
-    if (meta != null && !Patch.COMMIT_MSG.equals(path)) {
+
+    if (meta == null) {
+      return;
+    }
+    if (!Patch.COMMIT_MSG.equals(path)) {
       linkPanel.add(createDownloadLink());
     }
-    if (idActive != null && Gerrit.isSignedIn() && meta != null
+    if (idActive != null && Gerrit.isSignedIn()
         && !Patch.COMMIT_MSG.equals(path)) {
       if ((editExists && idActive.get() == 0)
           || (!editExists && idActive.get() == currentPatchSet)) {

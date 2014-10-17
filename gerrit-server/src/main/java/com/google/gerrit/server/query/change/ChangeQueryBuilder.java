@@ -328,7 +328,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     }
 
     if ("mergeable".equalsIgnoreCase(value)) {
-      return new IsMergeablePredicate();
+      return new IsMergeablePredicate(schema(args.indexes));
     }
 
     try {

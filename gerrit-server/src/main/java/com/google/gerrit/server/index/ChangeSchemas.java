@@ -118,7 +118,7 @@ public class ChangeSchemas {
         ChangeField.COMMENT,
         ChangeField.CHANGE,
         ChangeField.APPROVAL,
-        ChangeField.MERGEABLE);
+        ChangeField.LEGACY_MERGEABLE);
 
   // For upgrade to Lucene 4.6.0 index format only.
   static final Schema<ChangeData> V6 = release(V5.getFields().values());
@@ -145,7 +145,7 @@ public class ChangeSchemas {
         ChangeField.COMMENT,
         ChangeField.CHANGE,
         ChangeField.APPROVAL,
-        ChangeField.MERGEABLE);
+        ChangeField.LEGACY_MERGEABLE);
 
   @SuppressWarnings("deprecation")
   static final Schema<ChangeData> V8 = release(
@@ -168,7 +168,7 @@ public class ChangeSchemas {
         ChangeField.COMMENT,
         ChangeField.CHANGE,
         ChangeField.APPROVAL,
-        ChangeField.MERGEABLE);
+        ChangeField.LEGACY_MERGEABLE);
 
   @SuppressWarnings("deprecation")
   static final Schema<ChangeData> V9 = release(
@@ -192,8 +192,9 @@ public class ChangeSchemas {
         ChangeField.COMMENT,
         ChangeField.CHANGE,
         ChangeField.APPROVAL,
-        ChangeField.MERGEABLE);
+        ChangeField.LEGACY_MERGEABLE);
 
+  @SuppressWarnings("deprecation")
   static final Schema<ChangeData> V10 = release(
         ChangeField.LEGACY_ID,
         ChangeField.ID,
@@ -215,8 +216,9 @@ public class ChangeSchemas {
         ChangeField.COMMENT,
         ChangeField.CHANGE,
         ChangeField.APPROVAL,
-        ChangeField.MERGEABLE);
+        ChangeField.LEGACY_MERGEABLE);
 
+  @SuppressWarnings("deprecation")
   static final Schema<ChangeData> V11 = release(
         ChangeField.LEGACY_ID,
         ChangeField.ID,
@@ -238,7 +240,7 @@ public class ChangeSchemas {
         ChangeField.COMMENT,
         ChangeField.CHANGE,
         ChangeField.APPROVAL,
-        ChangeField.MERGEABLE,
+        ChangeField.LEGACY_MERGEABLE,
         ChangeField.ADDED,
         ChangeField.DELETED,
         ChangeField.DELTA);
@@ -246,7 +248,35 @@ public class ChangeSchemas {
   // For upgrade to Lucene 4.10.0 index format only.
   static final Schema<ChangeData> V12 = release(V11.getFields().values());
 
+  @SuppressWarnings("deprecation")
   static final Schema<ChangeData> V13 = release(
+      ChangeField.LEGACY_ID,
+      ChangeField.ID,
+      ChangeField.STATUS,
+      ChangeField.PROJECT,
+      ChangeField.PROJECTS,
+      ChangeField.REF,
+      ChangeField.TOPIC,
+      ChangeField.UPDATED,
+      ChangeField.FILE_PART,
+      ChangeField.PATH,
+      ChangeField.OWNER,
+      ChangeField.REVIEWER,
+      ChangeField.COMMIT,
+      ChangeField.TR,
+      ChangeField.LABEL,
+      ChangeField.REVIEWED,
+      ChangeField.COMMIT_MESSAGE,
+      ChangeField.COMMENT,
+      ChangeField.CHANGE,
+      ChangeField.APPROVAL,
+      ChangeField.LEGACY_MERGEABLE,
+      ChangeField.ADDED,
+      ChangeField.DELETED,
+      ChangeField.DELTA,
+      ChangeField.HASHTAG);
+
+  static final Schema<ChangeData> V14 = release(
       ChangeField.LEGACY_ID,
       ChangeField.ID,
       ChangeField.STATUS,

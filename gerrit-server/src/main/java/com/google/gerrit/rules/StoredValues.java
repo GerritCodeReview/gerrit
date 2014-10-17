@@ -25,6 +25,7 @@ import com.google.gerrit.reviewdb.client.PatchSetInfo;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.AnonymousUser;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.patch.PatchList;
@@ -50,7 +51,13 @@ public final class StoredValues {
   public static final StoredValue<ReviewDb> REVIEW_DB = create(ReviewDb.class);
   public static final StoredValue<ChangeData> CHANGE_DATA = create(ChangeData.class);
   public static final StoredValue<PatchSet> PATCH_SET = create(PatchSet.class);
+
+  // Note: no guarantees are made about the user passed in the ChangeControl; do
+  // not depend on this directly. Either use .forUser(otherUser) to get a
+  // control for a specific known user, or use CURRENT_USER, which may be null
+  // for rule types that may not depend on the current user.
   public static final StoredValue<ChangeControl> CHANGE_CONTROL = create(ChangeControl.class);
+  public static final StoredValue<CurrentUser> CURRENT_USER = create(CurrentUser.class);
 
   public static Change getChange(Prolog engine) throws SystemException {
     ChangeData cd = CHANGE_DATA.get(engine);

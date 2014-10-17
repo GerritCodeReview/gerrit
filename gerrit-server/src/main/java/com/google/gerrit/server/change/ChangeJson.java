@@ -843,11 +843,9 @@ public class ChangeJson {
     }
 
     if (has(WEB_LINKS)) {
-      out.webLinks = Lists.newArrayList();
-      for (WebLinkInfo link : webLinks.getPatchSetLinks(
-          project, in.getRevision().get())) {
-        out.webLinks.add(link);
-      }
+      List<WebLinkInfo> links =
+          webLinks.getPatchSetLinks(project, in.getRevision().get());
+      out.webLinks = !links.isEmpty() ? links : null;
     }
     return out;
   }

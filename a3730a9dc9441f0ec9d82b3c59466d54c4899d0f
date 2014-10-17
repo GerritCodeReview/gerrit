@@ -46,6 +46,30 @@
       "revId": "a3730a9dc9441f0ec9d82b3c59466d54c4899d0f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30c4a4d1_247ff29e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Mergeable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-17T18:10:43Z",
+      "side": 1,
+      "message": "Well, i am a big friend to be consistent. You did it differently in this change: [1].\n\n [1] https://gerrit-review.googlesource.com/#/c/60781/2/gerrit-server/src/main/java/com/google/gerrit/server/change/TestSubmitType.java",
+      "parentUuid": "30166401_d4505c23",
+      "range": {
+        "startLine": 123,
+        "startChar": 4,
+        "endLine": 123,
+        "endChar": 17
+      },
+      "revId": "a3730a9dc9441f0ec9d82b3c59466d54c4899d0f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

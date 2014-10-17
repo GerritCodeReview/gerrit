@@ -17,7 +17,6 @@ package com.google.gerrit.lucene;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.collect.Lists;
-import com.google.gerrit.server.change.MergeabilityChecker;
 import com.google.gerrit.server.index.ChangeBatchIndexer;
 import com.google.gerrit.server.index.ChangeIndex;
 import com.google.gerrit.server.index.IndexCollection;
@@ -43,7 +42,6 @@ public class OnlineReindexer {
   private final IndexCollection indexes;
   private final Provider<ChangeBatchIndexer> batchIndexer;
   private final ProjectCache projectCache;
-  private final MergeabilityChecker mergeabilityChecker;
   private final int version;
 
   @Inject
@@ -51,12 +49,10 @@ public class OnlineReindexer {
       IndexCollection indexes,
       Provider<ChangeBatchIndexer> batchIndexer,
       ProjectCache projectCache,
-      MergeabilityChecker mergeabilityChecker,
       @Assisted int version) {
     this.indexes = indexes;
     this.batchIndexer = batchIndexer;
     this.projectCache = projectCache;
-    this.mergeabilityChecker = mergeabilityChecker;
     this.version = version;
   }
 
@@ -82,7 +78,6 @@ public class OnlineReindexer {
     log.info("Starting online reindex from schema version {} to {}",
         version(indexes.getSearchIndex()), version(index));
     ChangeBatchIndexer.Result result = batchIndexer.get()
-        .setMergeabilityChecker(mergeabilityChecker)
         .indexAll(index, projectCache.all());
     if (!result.success()) {
       log.error("Online reindex of schema version {} failed", version(index));

@@ -197,6 +197,10 @@ class SubIndex {
     searcherManager.release(searcher);
   }
 
+  void refresh() throws IOException {
+    searcherManager.maybeRefreshBlocking();
+  }
+
   private final class NrtFuture extends AbstractFuture<Void> {
     private final long gen;
 

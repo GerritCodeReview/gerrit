@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "10cb2096_f38fb0b9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-10-17T08:37:37Z",
+      "side": 1,
+      "message": "DRAFT changes should be editable. Just when publishing the edit it should create another DRAFT patch set. I would say that also SUBMITTED, MERGE PENDING changes can be editable, at least in this state you can also still upload new patch sets (which sets the change state back to NEW).",
+      "parentUuid": "b0e9742d_e09e826d",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 34
+      },
+      "revId": "160117272228ee661b39f2eae75af2ad267bb443",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b0e9742d_c09ffe6b",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
         "patchSetId": 1

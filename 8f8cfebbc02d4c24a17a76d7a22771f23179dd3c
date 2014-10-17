@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "50c758d5_856fc2ed",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/SubIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-17T22:32:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "701c5c1f_56b454f4",
+      "range": {
+        "startLine": 200,
+        "startChar": 7,
+        "endLine": 200,
+        "endChar": 19
+      },
+      "revId": "8f8cfebbc02d4c24a17a76d7a22771f23179dd3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "701c5c1f_b69fa86c",
         "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/SubIndex.java",
         "patchSetId": 1
@@ -59,6 +83,24 @@
       "writtenOn": "2014-10-17T21:03:36Z",
       "side": 1,
       "message": "I still don\u0027t understand why this doesn\u0027t work without your change.\n\nThe javadoc for this method says:\n\n   * If the current searcher is older than the\n   * target generation, this method will block\n   * until the searcher is reopened, by another via\n   * {@link ReferenceManager#maybeRefresh} or until the\n     {@link ReferenceManager} is closed.\n\nThat implies that if waitForGeneration has been called and returned (and it must have), then maybeRefresh() was already called after the target generation was reached. Why would we need to call it again?\n\nSo I glanced through the CRTRT implementation to see what might be happening. Indeed, the only place refreshDone() is called, which notifies the sleeping object in waitForGeneration() is from doMaybeRefresh().\n\nSo why is doMaybeRefresh() not getting called late enough for this to work?",
+      "revId": "8f8cfebbc02d4c24a17a76d7a22771f23179dd3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30c4a4d1_6460caf0",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/SubIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-17T22:32:09Z",
+      "side": 1,
+      "message": "| That implies that if waitForGeneration has been called and returned (and it must have) ...\n\nAre you sure that reopenThread.waitForGeneration(gen); is actually get called? If the method would be like this:\n\n    if (!isDone()) {\n      set(null);\n    }\n    reopenThread.waitForGeneration(gen);\n    return super.get();\n  }\n\nthen it would be called for sure.",
+      "parentUuid": "701c5c1f_b69fa86c",
       "revId": "8f8cfebbc02d4c24a17a76d7a22771f23179dd3c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

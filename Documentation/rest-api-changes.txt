@@ -3366,6 +3366,8 @@ The `DiffFileMetaInfo` entity contains meta information about a file diff.
 |`name`        |The name of the file.
 |`content_type`|The content type of the file.
 |`lines`       |The total number of lines in the file.
+|'web_links'   |Links to the file in external sites as a list of
+link:rest-api-changes.html#web-link-info[WebLinkInfo] entries.
 |==========================
 
 [[diff-info]]
@@ -3389,12 +3391,6 @@ Intraline status (`OK`, `ERROR`, `TIMEOUT`).
 |`diff_header`     ||A list of strings representing the patch set diff header.
 |`content`         ||The content differences in the file as a list of
 link:#diff-content[DiffContent] entities.
-|'web_links_a'     |optional|
-Links to the side A file in external sites as a list of
-link:rest-api-changes.html#web-link-info[WebLinkInfo] entries.
-|'web_links_b'     |optional|
-Links to the side B file in external sites as a list of
-link:rest-api-changes.html#web-link-info[WebLinkInfo] entries.
 |==========================
 
 [[diff-intraline-info]]

@@ -22,6 +22,7 @@ import com.google.gerrit.client.changes.ChangeFileApi;
 import com.google.gerrit.client.changes.ChangeInfo.RevisionInfo;
 import com.google.gerrit.client.patches.PatchUtil;
 import com.google.gerrit.client.rpc.GerritCallback;
+import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.client.ui.InlineHyperlink;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Patch;
@@ -86,7 +87,7 @@ class PatchSetSelectBox2 extends Composite {
   }
 
   void setUpPatchSetNav(JsArray<RevisionInfo> list, DiffInfo.FileMeta meta,
-      List<WebLinkInfo> webLinks, boolean editExists, int currentPatchSet) {
+      boolean editExists, int currentPatchSet) {
     InlineHyperlink baseLink = null;
     InlineHyperlink selectedLink = null;
     if (sideA) {
@@ -117,6 +118,7 @@ class PatchSetSelectBox2 extends Composite {
         linkPanel.add(createEditIcon());
       }
     }
+    List<WebLinkInfo> webLinks = Natives.asList(meta.web_links());
     if (webLinks != null) {
       for (WebLinkInfo weblink : webLinks) {
         Anchor a = new Anchor();

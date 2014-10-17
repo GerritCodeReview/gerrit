@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server;
 
+import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.gerrit.extensions.common.WebLinkInfo;
 import com.google.gerrit.extensions.registration.DynamicSet;
@@ -57,14 +58,18 @@ public class WebLinks {
     return links;
   }
 
-  public Iterable<WebLinkInfo> getFileLinks(String project, String revision,
+  public List<WebLinkInfo> getFileLinks(String project, String revision,
       String file) {
-    List<WebLinkInfo> links = Lists.newArrayList();
+    List<WebLinkInfo> links = new ArrayList<>(4);
     for (FileWebLink webLink : fileLinks) {
-      links.add(new WebLinkInfo(webLink.getLinkName(),
-          webLink.getImageUrl(),
-          webLink.getFileUrl(project, revision, file),
-          webLink.getTarget()));
+      String name = webLink.getLinkName();
+      String url = webLink.getFileUrl(project, revision, file);
+      if (!Strings.isNullOrEmpty(name) && !Strings.isNullOrEmpty(url)) {
+        links.add(new WebLinkInfo(name,
+            webLink.getImageUrl(),
+            url,
+            webLink.getTarget()));
+      }
     }
     return links;
   }

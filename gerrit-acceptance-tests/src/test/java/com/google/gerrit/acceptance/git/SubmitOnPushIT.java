@@ -39,8 +39,11 @@ import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevObject;
+import org.eclipse.jgit.revwalk.RevTag;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.RefSpec;
 import org.junit.Test;
@@ -81,7 +84,25 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
     grant(Permission.SUBMIT, project, "refs/for/refs/heads/master");
     grant(Permission.CREATE, project, "refs/tags/*");
     grant(Permission.PUSH, project, "refs/tags/*");
-    final String tag = "v1.0";
+    PushOneCommit.Tag tag = new PushOneCommit.Tag("v1.0");
+    PushOneCommit push = pushFactory.create(db, admin.getIdent());
+    push.setTag(tag);
+    PushOneCommit.Result r = push.to(git, "refs/for/master%submit");
+    r.assertOkStatus();
+    r.assertChange(Change.Status.MERGED, null, admin);
+    assertSubmitApproval(r.getPatchSetId());
+    assertCommit(project, "refs/heads/master");
+    assertTag(project, "refs/heads/master", tag);
+  }
+
+  @Test
+  public void submitOnPushWithAnnotatedTag() throws GitAPIException,
+      OrmException, IOException, ConfigInvalidException {
+    grant(Permission.SUBMIT, project, "refs/for/refs/heads/master");
+    grant(Permission.CREATE, project, "refs/tags/*");
+    grant(Permission.PUSH, project, "refs/tags/*");
+    PushOneCommit.AnnotatedTag tag =
+        new PushOneCommit.AnnotatedTag("v1.0", "annotation", admin.getIdent());
     PushOneCommit push = pushFactory.create(db, admin.getIdent());
     push.setTag(tag);
     PushOneCommit.Result r = push.to(git, "refs/for/master%submit");
@@ -256,15 +277,34 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
     }
   }
 
-  private void assertTag(Project.NameKey project, String branch, String tagName)
-      throws IOException {
-    Repository r = repoManager.openRepository(project);
+  private void assertTag(Project.NameKey project, String branch,
+      PushOneCommit.Tag tag) throws IOException {
+    Repository repo = repoManager.openRepository(project);
     try {
-      ObjectId headCommit = r.getRef(branch).getObjectId();
-      ObjectId taggedCommit = r.getRef(tagName).getObjectId();
+      Ref tagRef = repo.getRef(tag.name);
+      assertTrue(tagRef != null);
+      ObjectId taggedCommit = null;
+      if (tag instanceof PushOneCommit.AnnotatedTag) {
+        PushOneCommit.AnnotatedTag annotatedTag = (PushOneCommit.AnnotatedTag)tag;
+        RevWalk rw = new RevWalk(repo);
+        try {
+          RevObject object = rw.parseAny(tagRef.getObjectId());
+          assertTrue(object instanceof RevTag);
+          RevTag tagObject = (RevTag)object;
+          assertEquals(annotatedTag.message, tagObject.getFullMessage());
+          assertEquals(annotatedTag.tagger, tagObject.getTaggerIdent());
+          taggedCommit = tagObject.getObject();
+        } finally {
+          rw.dispose();
+        }
+      } else {
+        taggedCommit = tagRef.getObjectId();
+      }
+      ObjectId headCommit = repo.getRef(branch).getObjectId();
+      assertTrue(taggedCommit != null);
       assertEquals(headCommit, taggedCommit);
     } finally {
-      r.close();
+      repo.close();
     }
   }
 

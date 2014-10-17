@@ -15,6 +15,7 @@
 package com.google.gerrit.server.change;
 
 import com.google.common.collect.Sets;
+import com.google.gerrit.common.data.SubmitTypeRecord;
 import com.google.gerrit.extensions.common.SubmitType;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -32,6 +33,8 @@ import com.google.gerrit.server.git.strategy.SubmitStrategyFactory;
 import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.SubmitRuleEvaluator;
+import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.AtomicUpdate;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -79,9 +82,9 @@ public class Mergeable implements RestReadView<RevisionResource> {
     this.force = force;
   }
 
-  private final TestSubmitType.Get submitType;
   private final GitRepositoryManager gitManager;
   private final ProjectCache projectCache;
+  private final ChangeData.Factory changeDataFactory;
   private final SubmitStrategyFactory submitStrategyFactory;
   private final Provider<ReviewDb> db;
   private final ChangeIndexer indexer;
@@ -89,15 +92,15 @@ public class Mergeable implements RestReadView<RevisionResource> {
   private boolean force;
 
   @Inject
-  Mergeable(TestSubmitType.Get submitType,
-      GitRepositoryManager gitManager,
+  Mergeable(GitRepositoryManager gitManager,
       ProjectCache projectCache,
+      ChangeData.Factory changeDataFactory,
       SubmitStrategyFactory submitStrategyFactory,
       Provider<ReviewDb> db,
       ChangeIndexer indexer) {
-    this.submitType = submitType;
     this.gitManager = gitManager;
     this.projectCache = projectCache;
+    this.changeDataFactory = changeDataFactory;
     this.submitStrategyFactory = submitStrategyFactory;
     this.db = db;
     this.indexer = indexer;
@@ -117,7 +120,14 @@ public class Mergeable implements RestReadView<RevisionResource> {
       return result;
     }
 
-    result.submitType = submitType.apply(resource);
+    ChangeData cd = changeDataFactory.create(db.get(), resource.getControl());
+    SubmitTypeRecord rec = new SubmitRuleEvaluator(cd)
+        .setPatchSet(ps)
+        .getSubmitType();
+    if (rec.status != SubmitTypeRecord.Status.OK) {
+      throw new OrmException("Submit type rule failed: " + rec);
+    }
+    result.submitType = rec.type;
     result.mergeable = change.isMergeable();
 
     Repository git = gitManager.openRepository(change.getProject());

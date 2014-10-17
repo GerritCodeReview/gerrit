@@ -104,6 +104,24 @@
       "revId": "8f8cfebbc02d4c24a17a76d7a22771f23179dd3c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50c758d5_c579babb",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/SubIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-17T22:55:57Z",
+      "side": 1,
+      "message": "It turns out that this change didn\u0027t fix it. It\u0027s more stable, but the tests are still flaky: 2 failures from 10 runs (under heavy load).",
+      "parentUuid": "701c5c1f_b69fa86c",
+      "revId": "8f8cfebbc02d4c24a17a76d7a22771f23179dd3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

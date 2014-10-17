@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "701c5c1f_d62b44a7",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/DiffTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-10-17T06:40:29Z",
+      "side": 1,
+      "message": "Haha, that\u0027s very fair. I personally found changeNew too limiting. We should allow editing while the change is open. isOpen would also be acceptable, but that\u0027s a method name usually not a boolean variable. :)",
+      "parentUuid": "10cb2096_93407cd0",
+      "range": {
+        "startLine": 173,
+        "startChar": 55,
+        "endLine": 173,
+        "endChar": 64
+      },
+      "revId": "e466622dc519d8b0b180f6d7cae37870256b8a3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "701c5c1f_16077c3e",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/PatchSetSelectBox2.java",
         "patchSetId": 1

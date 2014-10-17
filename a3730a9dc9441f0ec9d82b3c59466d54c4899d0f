@@ -22,6 +22,30 @@
       "revId": "a3730a9dc9441f0ec9d82b3c59466d54c4899d0f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30166401_d4505c23",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Mergeable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-10-17T18:04:50Z",
+      "side": 1,
+      "message": "Eh, it messes up the indentation in the fluent method calls.",
+      "parentUuid": "30c4a4d1_c479bebb",
+      "range": {
+        "startLine": 123,
+        "startChar": 4,
+        "endLine": 123,
+        "endChar": 17
+      },
+      "revId": "a3730a9dc9441f0ec9d82b3c59466d54c4899d0f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

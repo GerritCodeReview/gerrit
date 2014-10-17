@@ -14,9 +14,8 @@
 
 package com.google.gerrit.server.change;
 
-import static java.nio.charset.StandardCharsets.UTF_8;
-
 import com.google.common.base.MoreObjects;
+import com.google.gerrit.common.data.SubmitTypeRecord;
 import com.google.gerrit.extensions.common.SubmitType;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -26,19 +25,13 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.rules.RulesCache;
 import com.google.gerrit.server.change.TestSubmitRule.Filters;
 import com.google.gerrit.server.change.TestSubmitRule.Input;
-import com.google.gerrit.server.project.RuleEvalException;
 import com.google.gerrit.server.project.SubmitRuleEvaluator;
 import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
-import com.googlecode.prolog_cafe.lang.SymbolTerm;
-import com.googlecode.prolog_cafe.lang.Term;
-
 import org.kohsuke.args4j.Option;
-
-import java.io.ByteArrayInputStream;
-import java.util.List;
 
 public class TestSubmitType implements RestModifyView<RevisionResource, Input> {
   private final Provider<ReviewDb> db;
@@ -59,7 +52,7 @@ public class TestSubmitType implements RestModifyView<RevisionResource, Input> {
 
   @Override
   public SubmitType apply(RevisionResource rsrc, Input input)
-      throws AuthException, BadRequestException {
+      throws AuthException, BadRequestException, OrmException {
     if (input == null) {
       input = new Input();
     }
@@ -67,52 +60,21 @@ public class TestSubmitType implements RestModifyView<RevisionResource, Input> {
       throw new AuthException("project rules are disabled");
     }
     input.filters = MoreObjects.firstNonNull(input.filters, filters);
-
     SubmitRuleEvaluator evaluator = new SubmitRuleEvaluator(
-        db.get(),
-        rsrc.getPatchSet(),
-        rsrc.getControl().getProjectControl(),
-        rsrc.getControl(),
-        rsrc.getChange(),
-        changeDataFactory.create(db.get(), rsrc.getChange()),
-        false,
-        "locate_submit_type", "get_submit_type",
-        "locate_submit_type_filter", "filter_submit_type_results",
-        input.filters == Filters.SKIP,
-        input.rule != null
-          ? new ByteArrayInputStream(input.rule.getBytes(UTF_8))
-          : null);
+          changeDataFactory.create(db.get(), rsrc.getControl()));
 
-    List<Term> results;
-    try {
-      results = evaluator.evaluate();
-    } catch (RuleEvalException e) {
-      throw new BadRequestException(String.format(
-          "rule failed with exception: %s",
-          e.getMessage()));
-    }
-    if (results.isEmpty()) {
-      throw new BadRequestException(String.format(
-          "rule %s has no solution",
-          evaluator.getSubmitRule()));
-    }
-    Term type = results.get(0);
-    if (!type.isSymbol()) {
+    SubmitTypeRecord rec = evaluator.setPatchSet(rsrc.getPatchSet())
+        .setLogErrors(false)
+        .setSkipSubmitFilters(input.filters == Filters.SKIP)
+        .setRule(input.rule)
+        .getSubmitType();
+    if (rec.status != SubmitTypeRecord.Status.OK) {
       throw new BadRequestException(String.format(
           "rule %s produced invalid result: %s",
-          evaluator.getSubmitRule().toString(),
-          type));
+          evaluator.getSubmitRule(), rec));
     }
 
-    String typeName = ((SymbolTerm) type).name();
-    try {
-      return SubmitType.valueOf(typeName.toUpperCase());
-    } catch (IllegalArgumentException e) {
-      throw new BadRequestException(String.format(
-          "rule %s produced invalid result: %s",
-          evaluator.getSubmitRule().toString(),
-          type));
-    }
+    return rec.type;
   }
 
   static class Get implements RestReadView<RevisionResource> {
@@ -125,7 +87,7 @@ public class TestSubmitType implements RestModifyView<RevisionResource, Input> {
 
     @Override
     public SubmitType apply(RevisionResource resource)
-        throws AuthException, BadRequestException {
+        throws AuthException, BadRequestException, OrmException {
       return test.apply(resource, null);
     }
   }

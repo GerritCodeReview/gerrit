@@ -20,9 +20,6 @@ import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.common.data.RefConfigSection;
-import com.google.gerrit.common.data.SubmitRecord;
-import com.google.gerrit.common.data.SubmitTypeRecord;
-import com.google.gerrit.extensions.common.SubmitType;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -39,28 +36,13 @@ import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 
-import com.googlecode.prolog_cafe.lang.IntegerTerm;
-import com.googlecode.prolog_cafe.lang.ListTerm;
-import com.googlecode.prolog_cafe.lang.Prolog;
-import com.googlecode.prolog_cafe.lang.StructureTerm;
-import com.googlecode.prolog_cafe.lang.SymbolTerm;
-import com.googlecode.prolog_cafe.lang.Term;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 
 /** Access control management for a user accessing a single change. */
 public class ChangeControl {
-  private static final Logger log = LoggerFactory
-      .getLogger(ChangeControl.class);
-
   public static class GenericFactory {
     private final ProjectControl.GenericFactory projectControl;
     private final Provider<ReviewDb> db;
@@ -173,19 +155,6 @@ public class ChangeControl {
   interface AssistedFactory {
     ChangeControl create(RefControl refControl, Change change);
     ChangeControl create(RefControl refControl, ChangeNotes notes);
-  }
-
-  /**
-   * Exception thrown when the label term of a submit record
-   * unexpectedly didn't contain a user term.
-   */
-  private static class UserTermExpected extends Exception {
-    private static final long serialVersionUID = 1L;
-
-    public UserTermExpected(SubmitRecord.Label label) {
-      super(String.format("A label with the status %s must contain a user.",
-          label.toString()));
-    }
   }
 
   private final ChangeData.Factory changeDataFactory;
@@ -422,11 +391,6 @@ public class ChangeControl {
           || getRefControl().canEditHashtags(); // user can edit hashtag on a specific ref
   }
 
-
-  public List<SubmitRecord> getSubmitRecords(ReviewDb db, PatchSet patchSet) {
-    return canSubmit(db, patchSet, null, false, true, false);
-  }
-
   public boolean canSubmit() {
     return getRefControl().canSubmit();
   }
@@ -435,306 +399,17 @@ public class ChangeControl {
     return getRefControl().canSubmitAs();
   }
 
-  public List<SubmitRecord> canSubmit(ReviewDb db, PatchSet patchSet) {
-    return canSubmit(db, patchSet, null, false, false, false);
-  }
-
-  public List<SubmitRecord> canSubmit(ReviewDb db, PatchSet patchSet,
-      @Nullable ChangeData cd, boolean fastEvalLabels, boolean allowClosed,
-      boolean allowDraft) {
-    if (!allowClosed && getChange().getStatus().isClosed()) {
-      SubmitRecord rec = new SubmitRecord();
-      rec.status = SubmitRecord.Status.CLOSED;
-      return Collections.singletonList(rec);
-    }
-
-    if (!patchSet.getId().equals(getChange().currentPatchSetId())) {
-      return ruleError("Patch set " + patchSet.getPatchSetId() + " is not current");
-    }
-
-    cd = changeData(db, cd);
-    if ((getChange().getStatus() == Change.Status.DRAFT || patchSet.isDraft())
-        && !allowDraft) {
-      return cannotSubmitDraft(db, patchSet, cd);
-    }
-
-    List<Term> results;
-    SubmitRuleEvaluator evaluator;
-    try {
-      evaluator = new SubmitRuleEvaluator(db, patchSet,
-          getProjectControl(),
-          this, getChange(), cd,
-          fastEvalLabels,
-          "locate_submit_rule", "can_submit",
-          "locate_submit_filter", "filter_submit_results");
-      results = evaluator.evaluate();
-    } catch (RuleEvalException e) {
-      return logRuleError(e.getMessage(), e);
-    }
-
-    if (results.isEmpty()) {
-      // This should never occur. A well written submit rule will always produce
-      // at least one result informing the caller of the labels that are
-      // required for this change to be submittable. Each label will indicate
-      // whether or not that is actually possible given the permissions.
-      log.error("Submit rule '" + evaluator.getSubmitRule() + "' for change "
-          + getChange().getId() + " of " + getProject().getName()
-          + " has no solution.");
-      return ruleError("Project submit rule has no solution");
-    }
-
-    return resultsToSubmitRecord(evaluator.getSubmitRule(), results);
-  }
-
   private boolean match(String destBranch, String refPattern) {
     return RefPatternMatcher.getMatcher(refPattern).match(destBranch,
         this.getRefControl().getCurrentUser().getUserName());
-  }
-
-  private List<SubmitRecord> cannotSubmitDraft(ReviewDb db, PatchSet patchSet,
-      @Nullable ChangeData cd) {
-    try {
-      if (!isDraftVisible(db, cd)) {
-        return ruleError("Patch set " + patchSet.getPatchSetId() + " not found");
-      } else if (patchSet.isDraft()) {
-        return ruleError("Cannot submit draft patch sets");
-      } else {
-        return ruleError("Cannot submit draft changes");
-      }
-    } catch (OrmException err) {
-      return logRuleError("Cannot read patch set " + patchSet.getId(), err);
-    }
-  }
-
-  /**
-   * Convert the results from Prolog Cafe's format to Gerrit's common format.
-   *
-   * can_submit/1 terminates when an ok(P) record is found. Therefore walk
-   * the results backwards, using only that ok(P) record if it exists. This
-   * skips partial results that occur early in the output. Later after the loop
-   * the out collection is reversed to restore it to the original ordering.
-   */
-  public List<SubmitRecord> resultsToSubmitRecord(Term submitRule, List<Term> results) {
-    List<SubmitRecord> out = new ArrayList<>(results.size());
-    for (int resultIdx = results.size() - 1; 0 <= resultIdx; resultIdx--) {
-      Term submitRecord = results.get(resultIdx);
-      SubmitRecord rec = new SubmitRecord();
-      out.add(rec);
-
-      if (!submitRecord.isStructure() || 1 != submitRecord.arity()) {
-        return logInvalidResult(submitRule, submitRecord);
-      }
-
-      if ("ok".equals(submitRecord.name())) {
-        rec.status = SubmitRecord.Status.OK;
-
-      } else if ("not_ready".equals(submitRecord.name())) {
-        rec.status = SubmitRecord.Status.NOT_READY;
-
-      } else {
-        return logInvalidResult(submitRule, submitRecord);
-      }
-
-      // Unpack the one argument. This should also be a structure with one
-      // argument per label that needs to be reported on to the caller.
-      //
-      submitRecord = submitRecord.arg(0);
-
-      if (!submitRecord.isStructure()) {
-        return logInvalidResult(submitRule, submitRecord);
-      }
-
-      rec.labels = new ArrayList<>(submitRecord.arity());
-
-      for (Term state : ((StructureTerm) submitRecord).args()) {
-        if (!state.isStructure() || 2 != state.arity() || !"label".equals(state.name())) {
-          return logInvalidResult(submitRule, submitRecord);
-        }
-
-        SubmitRecord.Label lbl = new SubmitRecord.Label();
-        rec.labels.add(lbl);
-
-        lbl.label = state.arg(0).name();
-        Term status = state.arg(1);
-
-        try {
-          if ("ok".equals(status.name())) {
-            lbl.status = SubmitRecord.Label.Status.OK;
-            appliedBy(lbl, status);
-
-          } else if ("reject".equals(status.name())) {
-            lbl.status = SubmitRecord.Label.Status.REJECT;
-            appliedBy(lbl, status);
-
-          } else if ("need".equals(status.name())) {
-            lbl.status = SubmitRecord.Label.Status.NEED;
-
-          } else if ("may".equals(status.name())) {
-            lbl.status = SubmitRecord.Label.Status.MAY;
-
-          } else if ("impossible".equals(status.name())) {
-            lbl.status = SubmitRecord.Label.Status.IMPOSSIBLE;
-
-          } else {
-            return logInvalidResult(submitRule, submitRecord);
-          }
-        } catch (UserTermExpected e) {
-          return logInvalidResult(submitRule, submitRecord, e.getMessage());
-        }
-      }
-
-      if (rec.status == SubmitRecord.Status.OK) {
-        break;
-      }
-    }
-    Collections.reverse(out);
-
-    return out;
-  }
-
-  public SubmitTypeRecord getSubmitTypeRecord(ReviewDb db, PatchSet patchSet) {
-    return getSubmitTypeRecord(db, patchSet, null);
-  }
-
-  public SubmitTypeRecord getSubmitTypeRecord(ReviewDb db, PatchSet patchSet,
-      @Nullable ChangeData cd) {
-    cd = changeData(db, cd);
-    try {
-      if (getChange().getStatus() == Change.Status.DRAFT
-          && !isDraftVisible(db, cd)) {
-        return typeRuleError("Patch set " + patchSet.getPatchSetId()
-            + " not found");
-      }
-      if (patchSet.isDraft() && !isDraftVisible(db, cd)) {
-        return typeRuleError("Patch set " + patchSet.getPatchSetId()
-            + " not found");
-      }
-    } catch (OrmException err) {
-      return logTypeRuleError("Cannot read patch set " + patchSet.getId(),
-          err);
-    }
-
-    List<Term> results;
-    SubmitRuleEvaluator evaluator;
-    try {
-      evaluator = new SubmitRuleEvaluator(db, patchSet,
-          getProjectControl(), this, getChange(), cd,
-          false,
-          "locate_submit_type", "get_submit_type",
-          "locate_submit_type_filter", "filter_submit_type_results");
-      results = evaluator.evaluate();
-    } catch (RuleEvalException e) {
-      return logTypeRuleError(e.getMessage(), e);
-    }
-
-    if (results.isEmpty()) {
-      // Should never occur for a well written rule
-      log.error("Submit rule '" + evaluator.getSubmitRule() + "' for change "
-          + getChange().getId() + " of " + getProject().getName()
-          + " has no solution.");
-      return typeRuleError("Project submit rule has no solution");
-    }
-
-    Term typeTerm = results.get(0);
-    if (!typeTerm.isSymbol()) {
-      log.error("Submit rule '" + evaluator.getSubmitRule() + "' for change "
-          + getChange().getId() + " of " + getProject().getName()
-          + " did not return a symbol.");
-      return typeRuleError("Project submit rule has invalid solution");
-    }
-
-    String typeName = ((SymbolTerm)typeTerm).name();
-    try {
-      return SubmitTypeRecord.OK(
-          SubmitType.valueOf(typeName.toUpperCase()));
-    } catch (IllegalArgumentException e) {
-      return logInvalidType(evaluator.getSubmitRule(), typeName);
-    }
-  }
-
-  private List<SubmitRecord> logInvalidResult(Term rule, Term record, String reason) {
-    return logRuleError("Submit rule " + rule + " for change " + getChange().getId()
-        + " of " + getProject().getName() + " output invalid result: " + record
-        + (reason == null ? "" : ". Reason: " + reason));
-  }
-
-  private List<SubmitRecord> logInvalidResult(Term rule, Term record) {
-    return logInvalidResult(rule, record, null);
-  }
-
-  private List<SubmitRecord> logRuleError(String err, Exception e) {
-    log.error(err, e);
-    return ruleError("Error evaluating project rules, check server log");
-  }
-
-  private List<SubmitRecord> logRuleError(String err) {
-    log.error(err);
-    return ruleError("Error evaluating project rules, check server log");
-  }
-
-  private List<SubmitRecord> ruleError(String err) {
-    SubmitRecord rec = new SubmitRecord();
-    rec.status = SubmitRecord.Status.RULE_ERROR;
-    rec.errorMessage = err;
-    return Collections.singletonList(rec);
-  }
-
-  private SubmitTypeRecord logInvalidType(Term rule, String record) {
-    return logTypeRuleError("Submit type rule " + rule + " for change "
-        + getChange().getId() + " of " + getProject().getName()
-        + " output invalid result: " + record);
-  }
-
-  private SubmitTypeRecord logTypeRuleError(String err, Exception e) {
-    log.error(err, e);
-    return typeRuleError("Error evaluating project type rules, check server log");
-  }
-
-  private SubmitTypeRecord logTypeRuleError(String err) {
-    log.error(err);
-    return typeRuleError("Error evaluating project type rules, check server log");
-  }
-
-  private SubmitTypeRecord typeRuleError(String err) {
-    SubmitTypeRecord rec = new SubmitTypeRecord();
-    rec.status = SubmitTypeRecord.Status.RULE_ERROR;
-    rec.errorMessage = err;
-    return rec;
   }
 
   private ChangeData changeData(ReviewDb db, @Nullable ChangeData cd) {
     return cd != null ? cd : changeDataFactory.create(db, this);
   }
 
-  private void appliedBy(SubmitRecord.Label label, Term status)
-      throws UserTermExpected {
-    if (status.isStructure() && status.arity() == 1) {
-      Term who = status.arg(0);
-      if (isUser(who)) {
-        label.appliedBy = new Account.Id(((IntegerTerm) who.arg(0)).intValue());
-      } else {
-        throw new UserTermExpected(label);
-      }
-    }
-  }
-
-  private boolean isDraftVisible(ReviewDb db, ChangeData cd)
+  public boolean isDraftVisible(ReviewDb db, ChangeData cd)
       throws OrmException {
     return isOwner() || isReviewer(db, cd) || getRefControl().canViewDrafts();
-  }
-
-  private static boolean isUser(Term who) {
-    return who.isStructure()
-        && who.arity() == 1
-        && who.name().equals("user")
-        && who.arg(0).isInteger();
-  }
-
-  public static Term toListTerm(List<Term> terms) {
-    Term list = Prolog.Nil;
-    for (int i = terms.size() - 1; i >= 0; i--) {
-      list = new ListTerm(terms.get(i), list);
-    }
-    return list;
   }
 }

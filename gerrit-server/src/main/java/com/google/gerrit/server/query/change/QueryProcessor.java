@@ -20,9 +20,7 @@ import com.google.common.collect.Lists;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.LabelTypes;
-import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.data.ChangeAttribute;
@@ -31,13 +29,13 @@ import com.google.gerrit.server.data.QueryStatsAttribute;
 import com.google.gerrit.server.events.EventFactory;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
+import com.google.gerrit.server.project.SubmitRuleEvaluator;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
 import com.google.gson.Gson;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 
 import org.eclipse.jgit.util.io.DisabledOutputStream;
 import org.slf4j.Logger;
@@ -97,7 +95,6 @@ public class QueryProcessor {
   private final EventFactory eventFactory;
   private final ChangeQueryBuilder queryBuilder;
   private final ChangeQueryRewriter queryRewriter;
-  private final Provider<ReviewDb> db;
   private final TrackingFooters trackingFooters;
   private final CurrentUser user;
   private final int maxLimit;
@@ -124,12 +121,11 @@ public class QueryProcessor {
   @Inject
   QueryProcessor(EventFactory eventFactory,
       ChangeQueryBuilder.Factory queryBuilder, CurrentUser currentUser,
-      ChangeQueryRewriter queryRewriter, Provider<ReviewDb> db,
+      ChangeQueryRewriter queryRewriter,
       TrackingFooters trackingFooters) {
     this.eventFactory = eventFactory;
     this.queryBuilder = queryBuilder.create(currentUser);
     this.queryRewriter = queryRewriter;
-    this.db = db;
     this.trackingFooters = trackingFooters;
     this.user = currentUser;
     this.maxLimit = currentUser.getCapabilities()
@@ -325,11 +321,10 @@ public class QueryProcessor {
           }
 
           if (includeSubmitRecords) {
-            PatchSet.Id psId = d.change().currentPatchSetId();
-            PatchSet patchSet = db.get().patchSets().get(psId);
-            List<SubmitRecord> submitResult = cc.canSubmit( //
-                db.get(), patchSet, null, false, true, true);
-            eventFactory.addSubmitRecords(c, submitResult);
+            eventFactory.addSubmitRecords(c, new SubmitRuleEvaluator(d)
+                .setAllowClosed(true)
+                .setAllowDraft(true)
+                .canSubmit());
           }
 
           if (includeCommitMessage) {

@@ -89,6 +89,7 @@ import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.ProjectControl;
+import com.google.gerrit.server.project.SubmitRuleEvaluator;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeData.ChangedLines;
 import com.google.gwtorm.server.OrmException;
@@ -352,19 +353,18 @@ public class ChangeJson {
     return c.isMergeable();
   }
 
-  private List<SubmitRecord> submitRecords(ChangeControl ctl, ChangeData cd)
-      throws OrmException {
+  private List<SubmitRecord> submitRecords(ChangeData cd) throws OrmException {
     if (cd.getSubmitRecords() != null) {
       return cd.getSubmitRecords();
-    }
-    if (ctl == null) {
-      return ImmutableList.of();
     }
     PatchSet ps = cd.currentPatchSet();
     if (ps == null) {
       return ImmutableList.of();
     }
-    cd.setSubmitRecords(ctl.canSubmit(db.get(), ps, cd, true, false, true));
+    cd.setSubmitRecords(new SubmitRuleEvaluator(cd).setPatchSet(ps)
+        .setFastEvalLabels(true)
+        .setAllowDraft(true)
+        .canSubmit());
     return cd.getSubmitRecords();
   }
 
@@ -418,7 +418,7 @@ public class ChangeJson {
       LabelTypes labelTypes, boolean standard) throws OrmException {
     // Don't use Maps.newTreeMap(Comparator) due to OpenJDK bug 100167.
     Map<String, LabelInfo> labels = new TreeMap<>(labelTypes.nameComparator());
-    for (SubmitRecord rec : submitRecords(ctl, cd)) {
+    for (SubmitRecord rec : submitRecords(cd)) {
       if (rec.labels == null) {
         continue;
       }
@@ -619,7 +619,7 @@ public class ChangeJson {
 
     LabelTypes labelTypes = ctl.getLabelTypes();
     SetMultimap<String, String> permitted = LinkedHashMultimap.create();
-    for (SubmitRecord rec : submitRecords(ctl, cd)) {
+    for (SubmitRecord rec : submitRecords(cd)) {
       if (rec.labels == null) {
         continue;
       }

@@ -316,8 +316,6 @@ public class ReceiveCommits {
   private List<CreateRequest> newChanges = Collections.emptyList();
   private final Map<Change.Id, ReplaceRequest> replaceByChange =
       new HashMap<>();
-  private final Map<RevCommit, ReplaceRequest> replaceByCommit =
-      new HashMap<>();
   private final Set<RevCommit> validCommits = new HashSet<>();
 
   private ListMultimap<Change.Id, Ref> refsByChange;
@@ -1459,12 +1457,7 @@ public class ReceiveCommits {
       reject(cmd, "duplicate request");
       return false;
     }
-    if (replaceByCommit.containsKey(req.newCommit)) {
-      reject(cmd, "duplicate request");
-      return false;
-    }
     replaceByChange.put(req.ontoChange, req);
-    replaceByCommit.put(req.newCommit, req);
     return true;
   }
 
@@ -1502,9 +1495,7 @@ public class ReceiveCommits {
         if (c == null) {
           break;
         }
-        if (existing.contains(c) || replaceByCommit.containsKey(c)) {
-          // This commit was already scheduled to replace an existing PatchSet.
-          //
+        if (existing.contains(c)) { // Commit is already tracked.
           continue;
         }
 
@@ -1783,7 +1774,6 @@ public class ReceiveCommits {
           req.validate(false);
           if (req.skip && req.cmd == null) {
             itr.remove();
-            replaceByCommit.remove(req.newCommit);
           }
         }
       }

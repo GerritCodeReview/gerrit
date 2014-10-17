@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f00e8cb4_aa83efe3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SubmitRuleEvaluator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-10-17T00:50:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "10cb2096_93e4fcb7",
+      "range": {
+        "startLine": 119,
+        "startChar": 6,
+        "endLine": 119,
+        "endChar": 68
+      },
+      "revId": "6102cf3746b934301b8eafd0031c4197a7b3d885",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "10cb2096_f3be908c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SubmitRuleEvaluator.java",
         "patchSetId": 1
@@ -108,6 +132,30 @@
       "side": 1,
       "message": "| I think this is wrong to generally reject SRE.canSubmit() on non current patch set.\n\nParticularly, moving this check from ChangeControl.canSubmit() to this generic place is breaking  test.submit_rule REST endpoint (in backwards non-compatible way) for non current patch set. Before this change:\n\n  $ curl POST --digest --user john:secret --data-binary @rules.pl \\\n http://localhost:8080/a/changes/foo~master~Iab5f6f845bb291c50939784c4fad512e7fe82f20/ \\\n  revisions/3a6a15c88095cfa2c2755e6fc9c3d3d12df78cf3/test.submit_rule?filters\u003dSKIP\n  {\n    \"status\": \"NOT_READY\",\n    \"need\": {\n      \"Code-Review\": {}\n    }\n  }\n\nAfter this change the outcome is:\n\n  {\n    \"status\": \"RULE_ERROR\",\n    \"error_message\": \"Patch set 1 is not current\"\n  }\n\nThis (temporarily) breakage is even more confusing, as the moved check against current-patch-set was unconditionally removed in follow-up change [1], making the REST endpoint test.submit_rule work again.\n\n [1] https://gerrit-review.googlesource.com/#/c/60783/2/\ngerrit-server/src/main/java/com/google/gerrit/server/project/SubmitRuleEvaluator.java@197",
       "parentUuid": "10cb2096_73d3a0e5",
+      "range": {
+        "startLine": 197,
+        "startChar": 4,
+        "endLine": 200,
+        "endChar": 5
+      },
+      "revId": "6102cf3746b934301b8eafd0031c4197a7b3d885",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "302ae414_7491285a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SubmitRuleEvaluator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-10-17T00:50:54Z",
+      "side": 1,
+      "message": "I think we agree. Removed this check and mentioned it in the commit message.",
+      "parentUuid": "b0e9742d_c0cedebe",
       "range": {
         "startLine": 197,
         "startChar": 4,

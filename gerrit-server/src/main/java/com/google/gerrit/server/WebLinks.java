@@ -24,6 +24,7 @@ import com.google.gerrit.extensions.webui.ProjectWebLink;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Singleton
@@ -45,8 +46,8 @@ public class WebLinks {
     this.branchLinks = branchLinks;
   }
 
-  public Iterable<WebLinkInfo> getPatchSetLinks(String project, String commit) {
-    List<WebLinkInfo> links = Lists.newArrayList();
+  public List<WebLinkInfo> getPatchSetLinks(String project, String commit) {
+    List<WebLinkInfo> links = new ArrayList<>(4);
     for (PatchSetWebLink webLink : patchSetLinks) {
       links.add(new WebLinkInfo(webLink.getLinkName(),
           webLink.getImageUrl(),

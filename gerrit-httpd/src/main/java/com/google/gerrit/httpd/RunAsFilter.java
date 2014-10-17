@@ -79,7 +79,7 @@ class RunAsFilter implements Filter {
       if (!enabled) {
         RestApiServlet.replyError(req, res,
             SC_FORBIDDEN,
-            RUN_AS + " disabled by auth.enableRunAs = false");
+            RUN_AS + " disabled by auth.enableRunAs = false", null);
         return;
       }
 
@@ -87,7 +87,7 @@ class RunAsFilter implements Filter {
       if (!self.getCapabilities().canRunAs()) {
         RestApiServlet.replyError(req, res,
             SC_FORBIDDEN,
-            "not permitted to use " + RUN_AS);
+            "not permitted to use " + RUN_AS, null);
         return;
       }
 
@@ -98,13 +98,13 @@ class RunAsFilter implements Filter {
         log.warn("cannot resolve account for " + RUN_AS, e);
         RestApiServlet.replyError(req, res,
             SC_INTERNAL_SERVER_ERROR,
-            "cannot resolve " + RUN_AS);
+            "cannot resolve " + RUN_AS, e);
         return;
       }
       if (target == null) {
         RestApiServlet.replyError(req, res,
             SC_FORBIDDEN,
-            "no account matches " + RUN_AS);
+            "no account matches " + RUN_AS, null);
         return;
       }
       session.get().setUserAccountId(target.getId());

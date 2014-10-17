@@ -218,6 +218,7 @@ public class LuceneChangeIndex implements ChangeIndex {
   private final QueryBuilder queryBuilder;
   private final SubIndex openIndex;
   private final SubIndex closedIndex;
+  private final boolean refreshBeforeRead;
 
   @AssistedInject
   LuceneChangeIndex(
@@ -257,9 +258,11 @@ public class LuceneChangeIndex implements ChangeIndex {
     if (cfg.getBoolean("index", "lucene", "testInmemory", false)) {
       openIndex = new SubIndex(new RAMDirectory(), "ramOpen", openConfig);
       closedIndex = new SubIndex(new RAMDirectory(), "ramClosed", closedConfig);
+      refreshBeforeRead = true;
     } else {
       openIndex = new SubIndex(new File(dir, CHANGES_OPEN), openConfig);
       closedIndex = new SubIndex(new File(dir, CHANGES_CLOSED), closedConfig);
+      refreshBeforeRead = false;
     }
   }
 
@@ -401,7 +404,11 @@ public class LuceneChangeIndex implements ChangeIndex {
         int realLimit = start + limit;
         TopDocs[] hits = new TopDocs[indexes.size()];
         for (int i = 0; i < indexes.size(); i++) {
-          searchers[i] = indexes.get(i).acquire();
+          SubIndex subIndex = indexes.get(i);
+          if (refreshBeforeRead) {
+            subIndex.maybeRefresh();
+          }
+          searchers[i] = subIndex.acquire();
           hits[i] = searchers[i].search(query, realLimit, sort);
         }
         TopDocs docs = TopDocs.merge(sort, realLimit, hits);

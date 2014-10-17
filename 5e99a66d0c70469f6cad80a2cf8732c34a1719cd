@@ -1,0 +1,124 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "30166401_f43d98e7",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 2175,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-10-17T06:39:13Z",
+      "side": 1,
+      "message": "annotated tags can point at trees and blobs too. https://kernel.googlesource.com/pub/scm/linux/kernel/git/torvalds/linux/+/v2.6.11-tree",
+      "revId": "5e99a66d0c70469f6cad80a2cf8732c34a1719cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30166401_3438b0f4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListTags.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-10-17T06:39:13Z",
+      "side": 1,
+      "message": "nit: one space after \u003d",
+      "range": {
+        "startLine": 68,
+        "startChar": 23,
+        "endLine": 68,
+        "endChar": 27
+      },
+      "revId": "5e99a66d0c70469f6cad80a2cf8732c34a1719cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30166401_1435b4fa",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListTags.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-10-17T06:39:13Z",
+      "side": 1,
+      "message": "Lightweight tags can point to any object, not just RevCommit.",
+      "range": {
+        "startLine": 92,
+        "startChar": 19,
+        "endLine": 93,
+        "endChar": 32
+      },
+      "revId": "5e99a66d0c70469f6cad80a2cf8732c34a1719cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "701c5c1f_f62640df",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListTags.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-10-17T06:39:13Z",
+      "side": 1,
+      "message": "By the time you have parsed every annotated tag, you have the tagger data for free. Along with the timestamp. Makes me wonder if we should be sorting these by reverse timestamp descending, so you can see the most recently created tags first from the API.\n\nYou\u0027ve already incurred all of the cost necessary to get there. :(",
+      "revId": "5e99a66d0c70469f6cad80a2cf8732c34a1719cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "701c5c1f_9621cccb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListTags.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-10-17T06:39:13Z",
+      "side": 1,
+      "message": "Just accept the Ref and use Ref.getName(), Ref.getObjectId().getName()",
+      "revId": "5e99a66d0c70469f6cad80a2cf8732c34a1719cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "701c5c1f_b61cc891",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/TagsCollection.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-10-17T06:39:13Z",
+      "side": 1,
+      "message": "This is a pretty inefficient way to go about tag lookup.\n\nWe should use the JGit API and issue a getRef(tagName), then parseObject only that one thing to build the TagResource.\n\nWe probably still need to use VisibleRefFilter to make sure the caller can see the tag. But we shouldn\u0027t be parsing every tag in the repo and converting them to TagInfo structures just to discard all but one.",
+      "range": {
+        "startLine": 56,
+        "startChar": 0,
+        "endLine": 58,
+        "endChar": 34
+      },
+      "revId": "5e99a66d0c70469f6cad80a2cf8732c34a1719cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

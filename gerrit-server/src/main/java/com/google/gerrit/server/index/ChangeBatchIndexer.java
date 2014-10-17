@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.index;
 
+import static com.google.common.base.Preconditions.checkNotNull;
 import static org.eclipse.jgit.lib.RefDatabase.ALL;
 
 import com.google.common.base.Stopwatch;
@@ -27,7 +28,6 @@ import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.common.util.concurrent.MoreExecutors;
-import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -65,6 +65,7 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -114,8 +115,13 @@ public class ChangeBatchIndexer {
   private final GitRepositoryManager repoManager;
   private final ListeningExecutorService executor;
   private final ChangeIndexer.Factory indexerFactory;
-  private final MergeabilityChecker mergeabilityChecker;
   private final ThreeWayMergeStrategy mergeStrategy;
+
+  private MergeabilityChecker mergeabilityChecker;
+  private int numChanges = -1;
+  private OutputStream progressOut = NullOutputStream.INSTANCE;
+  private PrintWriter verboseWriter =
+      new PrintWriter(NullOutputStream.INSTANCE);
 
   @Inject
   ChangeBatchIndexer(SchemaFactory<ReviewDb> schemaFactory,
@@ -123,31 +129,45 @@ public class ChangeBatchIndexer {
       GitRepositoryManager repoManager,
       @IndexExecutor ListeningExecutorService executor,
       ChangeIndexer.Factory indexerFactory,
-      @GerritServerConfig Config config,
-      @Nullable MergeabilityChecker mergeabilityChecker) {
+      @GerritServerConfig Config config) {
     this.schemaFactory = schemaFactory;
     this.changeDataFactory = changeDataFactory;
     this.repoManager = repoManager;
     this.executor = executor;
     this.indexerFactory = indexerFactory;
-    this.mergeabilityChecker = mergeabilityChecker;
     this.mergeStrategy = MergeUtil.getMergeStrategy(config);
   }
 
-  public Result indexAll(ChangeIndex index, Iterable<Project.NameKey> projects,
-      int numProjects, int numChanges, OutputStream progressOut,
-      OutputStream verboseOut) {
-    if (progressOut == null) {
-      progressOut = NullOutputStream.INSTANCE;
-    }
-    PrintWriter verboseWriter = verboseOut != null ? new PrintWriter(verboseOut)
-        : null;
+  public ChangeBatchIndexer setMergeabilityChecker(
+      MergeabilityChecker checker) {
+    mergeabilityChecker = checkNotNull(checker);
+    return this;
+  }
 
+  public ChangeBatchIndexer setNumChanges(int num) {
+    numChanges = num;
+    return this;
+  }
+
+  public ChangeBatchIndexer setProgressOut(OutputStream out) {
+    progressOut = checkNotNull(out);
+    return this;
+  }
+
+  public ChangeBatchIndexer setVerboseOut(OutputStream out) {
+    verboseWriter = new PrintWriter(checkNotNull(out));
+    return this;
+  }
+
+  public Result indexAll(ChangeIndex index,
+      Iterable<Project.NameKey> projects) {
     Stopwatch sw = Stopwatch.createStarted();
     final MultiProgressMonitor mpm =
         new MultiProgressMonitor(progressOut, "Reindexing changes");
     final Task projTask = mpm.beginSubTask("projects",
-        numProjects >= 0 ? numProjects : MultiProgressMonitor.UNKNOWN);
+        (projects instanceof Collection)
+          ? ((Collection<?>) projects).size()
+          : MultiProgressMonitor.UNKNOWN);
     final Task doneTask = mpm.beginSubTask(null,
         numChanges >= 0 ? numChanges : MultiProgressMonitor.UNKNOWN);
     final Task failedTask = mpm.beginSubTask("failed", MultiProgressMonitor.UNKNOWN);

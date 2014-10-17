@@ -28,6 +28,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.rules.PrologEnvironment;
 import com.google.gerrit.rules.StoredValues;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
 
@@ -209,7 +210,8 @@ public class SubmitRuleEvaluator {
     List<Term> results;
     try {
       results = evaluateImpl("locate_submit_rule", "can_submit",
-          "locate_submit_filter", "filter_submit_results");
+          "locate_submit_filter", "filter_submit_results",
+          control.getCurrentUser());
     } catch (RuleEvalException e) {
       return ruleError(e.getMessage(), e);
     }
@@ -386,7 +388,11 @@ public class SubmitRuleEvaluator {
     List<Term> results;
     try {
       results = evaluateImpl("locate_submit_type", "get_submit_type",
-          "locate_submit_type_filter", "filter_submit_type_results");
+          "locate_submit_type_filter", "filter_submit_type_results",
+          // Do not include current user in submit type evaluation. This is used
+          // for mergeability checks, which are stored persistently and so must
+          // have a consistent view of the submit type.
+          null);
     } catch (RuleEvalException e) {
       return typeError(e.getMessage(), e);
     }
@@ -436,8 +442,9 @@ public class SubmitRuleEvaluator {
       String userRuleLocatorName,
       String userRuleWrapperName,
       String filterRuleLocatorName,
-      String filterRuleWrapperName) throws RuleEvalException {
-    PrologEnvironment env = getPrologEnvironment();
+      String filterRuleWrapperName,
+      CurrentUser user) throws RuleEvalException {
+    PrologEnvironment env = getPrologEnvironment(user);
     try {
       Term sr = env.once("gerrit", userRuleLocatorName, new VariableTerm());
       if (fastEvalLabels) {
@@ -479,7 +486,8 @@ public class SubmitRuleEvaluator {
     }
   }
 
-  private PrologEnvironment getPrologEnvironment() throws RuleEvalException {
+  private PrologEnvironment getPrologEnvironment(CurrentUser user)
+      throws RuleEvalException {
     checkState(patchSet != null,
         "getPrologEnvironment() called before initPatchSet()");
     ProjectState projectState = control.getProjectControl().getProjectState();
@@ -499,6 +507,9 @@ public class SubmitRuleEvaluator {
     env.set(StoredValues.CHANGE_DATA, cd);
     env.set(StoredValues.PATCH_SET, patchSet);
     env.set(StoredValues.CHANGE_CONTROL, control);
+    if (user != null) {
+      env.set(StoredValues.CURRENT_USER, user);
+    }
     return env;
   }
 

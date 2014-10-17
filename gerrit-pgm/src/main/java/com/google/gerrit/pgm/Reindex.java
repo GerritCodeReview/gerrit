@@ -149,9 +149,6 @@ public class Reindex extends SiteProgram {
       protected void configure() {
         if (recheckMergeable) {
           install(new MergeabilityModule());
-        } else {
-          bind(MergeabilityChecker.class)
-              .toProvider(Providers.<MergeabilityChecker> of(null));
         }
       }
     });
@@ -219,9 +216,14 @@ public class Reindex extends SiteProgram {
 
     ChangeBatchIndexer batchIndexer =
         sysInjector.getInstance(ChangeBatchIndexer.class);
-    ChangeBatchIndexer.Result result = batchIndexer.indexAll(
-      index, projects, projects.size(), changeCount, System.err,
-      verbose ? System.out : NullOutputStream.INSTANCE);
+    if (recheckMergeable) {
+      batchIndexer.setMergeabilityChecker(
+          sysInjector.getInstance(MergeabilityChecker.class));
+    }
+    ChangeBatchIndexer.Result result = batchIndexer.setNumChanges(changeCount)
+        .setProgressOut(System.err)
+        .setVerboseOut(verbose ? System.out : NullOutputStream.INSTANCE)
+        .indexAll(index, projects);
     int n = result.doneCount() + result.failedCount();
     double t = result.elapsed(TimeUnit.MILLISECONDS) / 1000d;
     System.out.format("Reindexed %d changes in %.01fs (%.01f/s)\n", n, t, n/t);

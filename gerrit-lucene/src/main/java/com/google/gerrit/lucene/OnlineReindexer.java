@@ -76,8 +76,8 @@ public class OnlineReindexer {
         "not an active write schema version: %s", version);
     log.info("Starting online reindex from schema version {} to {}",
         version(indexes.getSearchIndex()), version(index));
-    ChangeBatchIndexer.Result result = batchIndexer.indexAll(
-        index, projectCache.all(), -1, -1, null, null);
+    ChangeBatchIndexer.Result result =
+        batchIndexer.indexAll(index, projectCache.all());
     if (!result.success()) {
       log.error("Online reindex of schema version {} failed", version(index));
       return;

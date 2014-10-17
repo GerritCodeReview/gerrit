@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "701c5c1f_36e39838",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/PatchLineComment.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-10-17T00:13:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f00e8cb4_ea89e707",
+      "revId": "082f4b0c5d33eb50d8c732a2f3dde54a0cabfc5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b0e9742d_a048fa8a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/util/LabelVote.java",
         "patchSetId": 1
@@ -53,6 +71,30 @@
       "writtenOn": "2014-10-16T17:03:27Z",
       "side": 1,
       "message": "Yes, I prefer Adrian\u0027s implementation.",
+      "parentUuid": "b0e9742d_a048fa8a",
+      "range": {
+        "startLine": 110,
+        "startChar": 0,
+        "endLine": 111,
+        "endChar": 48
+      },
+      "revId": "082f4b0c5d33eb50d8c732a2f3dde54a0cabfc5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "701c5c1f_d6dd0473",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/util/LabelVote.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-10-17T00:13:23Z",
+      "side": 1,
+      "message": "Done",
       "parentUuid": "b0e9742d_a048fa8a",
       "range": {
         "startLine": 110,

@@ -98,7 +98,7 @@ class RunAsFilter implements Filter {
         log.warn("cannot resolve account for " + RUN_AS, e);
         RestApiServlet.replyError(req, res,
             SC_INTERNAL_SERVER_ERROR,
-            "cannot resolve " + RUN_AS);
+            "cannot resolve " + RUN_AS, e);
         return;
       }
       if (target == null) {

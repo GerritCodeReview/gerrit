@@ -54,7 +54,7 @@ public class CodeReviewCommit extends RevCommit {
    * #setStatusCode(CommitMergeStatus)}, enumerated in the methods above.
    *
    * @param ctl control for change that caused this error
-   * @param CommitMergeStatus status
+   * @param s status
    * @return new commit instance
    */
   private static CodeReviewCommit error(ChangeControl ctl,

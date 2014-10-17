@@ -2180,22 +2180,34 @@ public class ReceiveCommits {
     return refsByChange().get(changeId);
   }
 
-  private ListMultimap<Change.Id, Ref> refsByChange() {
+  private void initChangeRefMaps() {
     if (refsByChange == null) {
       int estRefsPerChange = 4;
+      refsById = HashMultimap.create();
       refsByChange = ArrayListMultimap.create(
           allRefs.size() / estRefsPerChange,
           estRefsPerChange);
       for (Ref ref : allRefs.values()) {
-        if (ref.getObjectId() != null) {
+        ObjectId obj = ref.getObjectId();
+        if (obj != null) {
           PatchSet.Id psId = PatchSet.Id.fromRef(ref.getName());
           if (psId != null) {
+            refsById.put(obj, ref);
             refsByChange.put(psId.getParentKey(), ref);
           }
         }
       }
     }
+  }
+
+  private ListMultimap<Change.Id, Ref> refsByChange() {
+    initChangeRefMaps();
     return refsByChange;
+  }
+
+  private SetMultimap<ObjectId, Ref> changeRefsById() {
+    initChangeRefMaps();
+    return refsById;
   }
 
   static boolean parentsEqual(RevCommit a, RevCommit b) {
@@ -2443,16 +2455,6 @@ public class ReceiveCommits {
         change, currentUser.getAccount(), result.newPatchSet, db);
     sendMergedEmail(result);
     return change.getKey();
-  }
-
-  private SetMultimap<ObjectId, Ref> changeRefsById() {
-    if (refsById == null) {
-      refsById =  HashMultimap.create();
-      for (Ref r : refsByChange().values()) {
-        refsById.put(r.getObjectId(), r);
-      }
-    }
-    return refsById;
   }
 
   private Map<Change.Key, Change> openChangesByKey(Branch.NameKey branch)

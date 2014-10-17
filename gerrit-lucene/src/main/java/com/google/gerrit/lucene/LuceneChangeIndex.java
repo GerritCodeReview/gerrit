@@ -119,8 +119,10 @@ public class LuceneChangeIndex implements ChangeIndex {
   private static final String CHANGE_FIELD = ChangeField.CHANGE.getName();
   private static final String DELETED_FIELD = ChangeField.DELETED.getName();
   private static final String ID_FIELD = ChangeField.LEGACY_ID.getName();
+  private static final String MERGEABLE_FIELD = ChangeField.MERGEABLE.getName();
   private static final ImmutableSet<String> FIELDS = ImmutableSet.of(
-      ADDED_FIELD, APPROVAL_FIELD, CHANGE_FIELD, DELETED_FIELD, ID_FIELD);
+      ADDED_FIELD, APPROVAL_FIELD, CHANGE_FIELD, DELETED_FIELD, ID_FIELD,
+      MERGEABLE_FIELD);
   private static final Map<String, String> CUSTOM_CHAR_MAPPING = ImmutableMap.of(
       "_", " ", ".", " ");
 
@@ -138,6 +140,8 @@ public class LuceneChangeIndex implements ChangeIndex {
     Version lucene47 = Version.LUCENE_47;
     @SuppressWarnings("deprecation")
     Version lucene48 = Version.LUCENE_48;
+    @SuppressWarnings("deprecation")
+    Version lucene410 = Version.LUCENE_4_10_0;
     for (Map.Entry<Integer, Schema<ChangeData>> e
         : ChangeSchemas.ALL.entrySet()) {
       if (e.getKey() <= 3) {
@@ -150,8 +154,10 @@ public class LuceneChangeIndex implements ChangeIndex {
         versions.put(e.getValue(), lucene47);
       } else if (e.getKey() <= 11) {
         versions.put(e.getValue(), lucene48);
+      } else if (e.getKey() <= 13) {
+        versions.put(e.getValue(), lucene410);
       } else {
-        versions.put(e.getValue(), Version.LUCENE_4_10_0);
+        versions.put(e.getValue(), Version.LUCENE_4_10_1);
       }
     }
     LUCENE_VERSIONS = versions.build();
@@ -478,6 +484,14 @@ public class LuceneChangeIndex implements ChangeIndex {
       cd.setChangedLines(
           added.numericValue().intValue(),
           deleted.numericValue().intValue());
+    }
+
+    // Mergeable.
+    String mergeable = doc.get(MERGEABLE_FIELD);
+    if ("1".equals(mergeable)) {
+      cd.setMergeable(true);
+    } else if ("0".equals(mergeable)) {
+      cd.setMergeable(false);
     }
 
     return cd;

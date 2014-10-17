@@ -165,6 +165,30 @@
       "revId": "08982342a4cebb5448edb13ad392a48db7ea3e35",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "302ae414_d406fc0d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SubmitRuleEvaluator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-10-17T00:51:06Z",
+      "side": 1,
+      "message": "Well, I was thinking calling it \"custom\" would be enough discouragement.\n\nBut I went with the initPatchSet approach, that works too.",
+      "parentUuid": "10cb2096_73fa8057",
+      "range": {
+        "startLine": 198,
+        "startChar": 4,
+        "endLine": 206,
+        "endChar": 5
+      },
+      "revId": "08982342a4cebb5448edb13ad392a48db7ea3e35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

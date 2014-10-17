@@ -16,6 +16,24 @@
       "revId": "220d5cd9e97539082aeb7385d7417e7513eeaf6b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "10cb2096_7384c099",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/PatchSetSelectBox2.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-10-17T08:47:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "10cb2096_13a46c41",
+      "revId": "220d5cd9e97539082aeb7385d7417e7513eeaf6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

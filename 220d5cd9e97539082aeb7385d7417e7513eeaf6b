@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "10cb2096_13a46c41",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/PatchSetSelectBox2.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-17T08:27:57Z",
+      "side": 1,
+      "message": "Looks like from this line on every block is checking if meta !\u003d null. So we can probably use earlier exit here:\n\n  if (meta \u003d null) {\n   return;\n  }\n\nAnd void dozen meta !\u003d null checks in rest code below.",
+      "revId": "220d5cd9e97539082aeb7385d7417e7513eeaf6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -568,6 +568,10 @@ public class ChangeData {
     return submitRecords;
   }
 
+  public void setMergeable(Optional<Boolean> mergeable) {
+    this.mergeable = mergeable;
+  }
+
   public Optional<Boolean> isMergeable() throws OrmException {
     if (mergeable == null) {
       Change c = change();

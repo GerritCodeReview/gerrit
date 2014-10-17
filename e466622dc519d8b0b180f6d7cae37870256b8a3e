@@ -212,6 +212,30 @@
       "revId": "e466622dc519d8b0b180f6d7cae37870256b8a3e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "10cb2096_b38938b7",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/SideBySide2.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-10-17T08:40:10Z",
+      "side": 1,
+      "message": "Actually I think they should be editable, see my reply on the other change :)\n\n  https://gerrit-review.googlesource.com/#/c/60819/1//COMMIT_MSG",
+      "parentUuid": "b0e9742d_20918a5b",
+      "range": {
+        "startLine": 228,
+        "startChar": 25,
+        "endLine": 228,
+        "endChar": 39
+      },
+      "revId": "e466622dc519d8b0b180f6d7cae37870256b8a3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

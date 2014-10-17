@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "30166401_f42758a2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-10-17T21:03:36Z",
+      "side": 1,
+      "message": "load?",
+      "range": {
+        "startLine": 20,
+        "startChar": 33,
+        "endLine": 20,
+        "endChar": 37
+      },
+      "revId": "8f8cfebbc02d4c24a17a76d7a22771f23179dd3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "701c5c1f_56b454f4",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/SubIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-10-17T21:03:36Z",
+      "side": 1,
+      "message": "maybe",
+      "range": {
+        "startLine": 200,
+        "startChar": 7,
+        "endLine": 200,
+        "endChar": 19
+      },
+      "revId": "8f8cfebbc02d4c24a17a76d7a22771f23179dd3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "701c5c1f_b69fa86c",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/SubIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-10-17T21:03:36Z",
+      "side": 1,
+      "message": "I still don\u0027t understand why this doesn\u0027t work without your change.\n\nThe javadoc for this method says:\n\n   * If the current searcher is older than the\n   * target generation, this method will block\n   * until the searcher is reopened, by another via\n   * {@link ReferenceManager#maybeRefresh} or until the\n     {@link ReferenceManager} is closed.\n\nThat implies that if waitForGeneration has been called and returned (and it must have), then maybeRefresh() was already called after the target generation was reached. Why would we need to call it again?\n\nSo I glanced through the CRTRT implementation to see what might be happening. Indeed, the only place refreshDone() is called, which notifies the sleeping object in waitForGeneration() is from doMaybeRefresh().\n\nSo why is doMaybeRefresh() not getting called late enough for this to work?",
+      "revId": "8f8cfebbc02d4c24a17a76d7a22771f23179dd3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

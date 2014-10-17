@@ -68,7 +68,7 @@ class ParameterParser {
       clp.parseOptionMap(in);
     } catch (CmdLineException e) {
       if (!clp.wasHelpRequestedByOption()) {
-        replyError(req, res, SC_BAD_REQUEST, e.getMessage());
+        replyError(req, res, SC_BAD_REQUEST, e.getMessage(), e);
         return false;
       }
     }

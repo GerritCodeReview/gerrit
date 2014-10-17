@@ -18,6 +18,18 @@ import javax.servlet.http.HttpServletRequest;
 
 /** Utilities for manipulating HTTP request objects. */
 public class RequestUtil {
+  /** HTTP request attribute for storing the Throwable that caused an error condition. */
+  private static final String ATTRIBUTE_ERROR_TRACE =
+      RequestUtil.class.getName() + "/ErrorTraceThrowable";
+
+  public static void setErrorTraceAttribute(HttpServletRequest req, Throwable t) {
+    req.setAttribute(ATTRIBUTE_ERROR_TRACE, t);
+  }
+
+  public static Throwable getErrorTraceAttribute(HttpServletRequest req) {
+    return (Throwable) req.getAttribute(ATTRIBUTE_ERROR_TRACE);
+  }
+
   /**
    * @return the same value as {@link HttpServletRequest#getPathInfo()}, but
    *     without decoding URL-encoded characters.

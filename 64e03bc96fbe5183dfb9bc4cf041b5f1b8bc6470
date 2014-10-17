@@ -2,6 +2,155 @@
   "comments": [
     {
       "key": {
+        "uuid": "30166401_f4991888",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 760,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-10-17T19:27:22Z",
+      "side": 1,
+      "message": "nit: loadThreads",
+      "range": {
+        "startLine": 760,
+        "startChar": 48,
+        "endLine": 760,
+        "endChar": 62
+      },
+      "revId": "64e03bc96fbe5183dfb9bc4cf041b5f1b8bc6470",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30166401_94a424c2",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 760,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-10-17T19:27:22Z",
+      "side": 1,
+      "message": "nit: loadThreads",
+      "range": {
+        "startLine": 760,
+        "startChar": 17,
+        "endLine": 760,
+        "endChar": 31
+      },
+      "revId": "64e03bc96fbe5183dfb9bc4cf041b5f1b8bc6470",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30166401_d49e9c6d",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 762,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-10-17T19:27:22Z",
+      "side": 1,
+      "message": "is true",
+      "range": {
+        "startLine": 762,
+        "startChar": 31,
+        "endLine": 762,
+        "endChar": 41
+      },
+      "revId": "64e03bc96fbe5183dfb9bc4cf041b5f1b8bc6470",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30166401_3494304b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectCacheWarmer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-10-17T19:27:22Z",
+      "side": 1,
+      "message": "loadThreads",
+      "range": {
+        "startLine": 49,
+        "startChar": 50,
+        "endLine": 49,
+        "endChar": 64
+      },
+      "revId": "64e03bc96fbe5183dfb9bc4cf041b5f1b8bc6470",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "701c5c1f_76899048",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectCacheWarmer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-10-17T19:27:22Z",
+      "side": 1,
+      "message": "You can improve the formatting by putting this into a local variable, e.g. cpus.",
+      "range": {
+        "startLine": 50,
+        "startChar": 18,
+        "endLine": 50,
+        "endChar": 61
+      },
+      "revId": "64e03bc96fbe5183dfb9bc4cf041b5f1b8bc6470",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30166401_1491345b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectCacheWarmer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-10-17T19:27:22Z",
+      "side": 1,
+      "message": "Put this also as a task on the pool. That way the recursion through the filesystem is also moved into the background.",
+      "revId": "64e03bc96fbe5183dfb9bc4cf041b5f1b8bc6470",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30166401_548bac28",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectCacheWarmer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-10-17T19:27:22Z",
+      "side": 1,
+      "message": "This will cause things to fall out of cache if the cache size is smaller than the set of repositories returned by all().\n\nWe may want to mention on the docs the admin should ensure the cache size is larger than the number of repos they have. And maybe log a warning at startup if the cache is smaller than the number of repos discovered at startup.",
+      "revId": "64e03bc96fbe5183dfb9bc4cf041b5f1b8bc6470",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "10cb2096_f3ce90be",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectCacheWarmer.java",
         "patchSetId": 1
@@ -67,6 +216,24 @@
       "side": 1,
       "message": "\u003e This method does not wait for previously submitted tasks to complete execution. Use awaitTermination\n\nThis means that shutdown method is not a blocking call until submitted task a completed and if you want to wait, use awaitTermination.\n\nThe method to shutdown a poll without executing the submitted task is shutdownNow",
       "parentUuid": "f00e8cb4_8a2b8ba8",
+      "revId": "64e03bc96fbe5183dfb9bc4cf041b5f1b8bc6470",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30166401_748ea83a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectCacheWarmer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-10-17T19:27:22Z",
+      "side": 1,
+      "message": "Move the shutdown into the deferred Runnable so its not racy with the background listing/scheduling.",
+      "parentUuid": "70d9bc6e_8edddb73",
       "revId": "64e03bc96fbe5183dfb9bc4cf041b5f1b8bc6470",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

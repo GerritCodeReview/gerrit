@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "10cb2096_33a7684a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-10-17T08:27:42Z",
+      "side": 1,
+      "message": "Say which problem is fixed by this?\n\nI guess you are aware that Change.Status.isOpen() !\u003d Change.Status.NEW ?",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 34
+      },
+      "revId": "160117272228ee661b39f2eae75af2ad267bb443",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b0e9742d_c09ffe6b",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 836,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-10-17T08:27:42Z",
+      "side": 1,
+      "message": "I think \u0027Ready to submit\" should only be displayed for NEW changes, but not for other open changes such as SUBMITTED, MERGED PENDING and DRAFT.",
+      "range": {
+        "startLine": 834,
+        "startChar": 6,
+        "endLine": 836,
+        "endChar": 7
+      },
+      "revId": "160117272228ee661b39f2eae75af2ad267bb443",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "10cb2096_539ae401",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 848,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-10-17T08:27:42Z",
+      "side": 1,
+      "message": "Does this really apply for open changes that are not NEW?",
+      "range": {
+        "startLine": 844,
+        "startChar": 12,
+        "endLine": 848,
+        "endChar": 13
+      },
+      "revId": "160117272228ee661b39f2eae75af2ad267bb443",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

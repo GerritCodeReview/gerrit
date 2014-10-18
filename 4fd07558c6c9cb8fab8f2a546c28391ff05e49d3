@@ -179,6 +179,30 @@
     },
     {
       "key": {
+        "uuid": "30166401_5439ecc4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListTags.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-10-18T12:38:56Z",
+      "side": 1,
+      "message": "It wasn\u0027t returning all the tags in some cases.  Took a closer look into it now and it turns out I needed to set filterTagsSeparately to true in the call to VisibleRefsFilter.filter().",
+      "parentUuid": "f07bec5d_e2ef8613",
+      "range": {
+        "startLine": 84,
+        "startChar": 42,
+        "endLine": 84,
+        "endChar": 57
+      },
+      "revId": "4fd07558c6c9cb8fab8f2a546c28391ff05e49d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f0e5ac1c_32d3f014",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListTags.java",
         "patchSetId": 8
@@ -321,6 +345,24 @@
       "side": 1,
       "message": "Depends what you mean by \"always\".\n\nYou can of course make any ref point to an annotated tag if you want, even something in refs/heads/. \"git tag\" (and its JGit counterpart, ListTagCommand) only looks in refs/tags/.\n\nWithin each annotated tag object, there is a field \"tag\" that is what getName() returns:\n\n $ git rev-parse v2.9; git cat-file tag v2.9\n 6ccb02b6a937d1adfab0804e69becb88c936c481\n object ed82b66901775f491ebf66b20534fdd6b0232e8c\n type commit\n tag v2.9\n tagger Edwin Kempin \u003cedwin.kempin@sap.com\u003e 1405679640 +0200\n \n Gerrit 2.9\n\n\"git tag -a\" (and JGit\u0027s TagCommand) will only ever create a tag under refs/tags/X with name X, where is guaranteed to be the same.\n\nBut there are other permutations that git will allow.\n\nAll I\u0027m saying is, if you look at ListTagCommand.java, the Comparator it uses to compare refs uses tag.getName(), whereas Ref.compareTo() uses ref.getName().",
       "parentUuid": "f00e8cb4_4ac6b352",
+      "revId": "4fd07558c6c9cb8fab8f2a546c28391ff05e49d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30166401_b4d4c000",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListTags.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-10-18T12:38:56Z",
+      "side": 1,
+      "message": "For now is it enough to note in the documentation that this API only returns tags that are under the refs/tags/ namespace?",
+      "parentUuid": "d080a87b_01de2a6e",
       "revId": "4fd07558c6c9cb8fab8f2a546c28391ff05e49d3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

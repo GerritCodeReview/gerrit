@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "701c5c1f_f6100044",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/RunAsFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-10-18T12:57:36Z",
+      "side": 1,
+      "message": "Add another replyError that doesn\u0027t have the err parameter, and make it just call the existing replyError with err\u003dnull?  Then it won\u0027t be necessary to change the calls in this file.",
+      "range": {
+        "startLine": 82,
+        "startChar": 62,
+        "endLine": 82,
+        "endChar": 66
+      },
+      "revId": "68a1c31750c0c107f26937af323503359ca93933",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

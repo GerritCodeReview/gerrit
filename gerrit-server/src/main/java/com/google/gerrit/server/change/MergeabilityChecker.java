@@ -84,7 +84,8 @@ public class MergeabilityChecker implements GitReferenceUpdatedListener {
     private List<Change> changes;
     private List<Branch.NameKey> branches;
     private List<Project.NameKey> projects;
-    private boolean force;
+    private boolean forceMergeabilityCheck;
+    private boolean forceReindex;
     private boolean reindex;
     private boolean interactive;
 
@@ -97,6 +98,7 @@ public class MergeabilityChecker implements GitReferenceUpdatedListener {
 
     public Check addChange(Change change) {
       changes.add(change);
+      forceReindex = true;
       return this;
     }
 
@@ -120,7 +122,7 @@ public class MergeabilityChecker implements GitReferenceUpdatedListener {
 
     /** Force mergeability check even if change is not stale. */
     private Check force() {
-      force = true;
+      forceMergeabilityCheck = true;
       return this;
     }
 
@@ -151,7 +153,7 @@ public class MergeabilityChecker implements GitReferenceUpdatedListener {
                   Lists.newArrayListWithCapacity(changes.size());
               for (final Change c : changes) {
                 ListenableFuture<Boolean> b =
-                    executor.submit(new Task(c, force));
+                    executor.submit(new Task(c, forceMergeabilityCheck));
                 if (reindex) {
                   result.add(Futures.transform(
                       b, new AsyncFunction<Boolean, Object>() {
@@ -159,7 +161,7 @@ public class MergeabilityChecker implements GitReferenceUpdatedListener {
                         @Override
                         public ListenableFuture<Object> apply(
                             Boolean indexUpdated) throws Exception {
-                          if (!indexUpdated) {
+                          if (!indexUpdated || forceReindex) {
                             return (ListenableFuture<Object>)
                                 indexer.indexAsync(c.getId());
                           }

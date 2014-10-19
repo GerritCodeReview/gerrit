@@ -25,6 +25,29 @@
     },
     {
       "key": {
+        "uuid": "50c758d5_c5c7fa6d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListTags.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-19T10:27:54Z",
+      "side": 1,
+      "message": "Nit: In ctors annotated with @Inject we list each parameter on its own line.",
+      "range": {
+        "startLine": 58,
+        "startChar": 37,
+        "endLine": 58,
+        "endChar": 54
+      },
+      "revId": "8f5ea577474fba01fedabfa2262d3957b00e9cfe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "50c758d5_e5c2f65f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListTags.java",
         "patchSetId": 12

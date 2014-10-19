@@ -599,6 +599,17 @@ public class ReceiveCommits {
             break;
 
           case DELETE:
+            ResultSet<SubmoduleSubscription> submoduleSubscriptions = null;
+            Branch.NameKey projRef = new Branch.NameKey(project.getNameKey(),
+                c.getRefName());
+            try {
+              submoduleSubscriptions =
+                  db.submoduleSubscriptions().bySuperProject(projRef);
+              db.submoduleSubscriptions().delete(submoduleSubscriptions);
+            } catch (OrmException e) {
+              log.error("Cannot delete submodule subscription(s) of branch "
+                  + projRef + ": " + submoduleSubscriptions, e);
+            }
             break;
         }
 

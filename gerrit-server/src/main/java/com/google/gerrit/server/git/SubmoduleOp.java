@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.git;
 
+import com.google.common.collect.Lists;
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Account;
@@ -233,26 +234,35 @@ public class SubmoduleOp {
         }
 
         // update subscribers of this module
+        List<SubmoduleSubscription> incorrectSubscriptions = Lists.newLinkedList();
         for (final SubmoduleSubscription s : subscribers) {
-          if (!updatedSubscribers.add(s.getSuperProject())) {
-            log.error("Possible circular subscription involving "
-                + s.toString());
-          } else {
+          try {
+            if (!updatedSubscribers.add(s.getSuperProject())) {
+              log.error("Possible circular subscription involving " + s);
+            } else {
 
-            Map<Branch.NameKey, ObjectId> modules =
-                new HashMap<Branch.NameKey, ObjectId>(1);
-            modules.put(updatedBranch, mergedCommit);
+              Map<Branch.NameKey, ObjectId> modules =
+                  new HashMap<Branch.NameKey, ObjectId>(1);
+              modules.put(updatedBranch, mergedCommit);
 
-            Map<Branch.NameKey, String> paths =
-                new HashMap<Branch.NameKey, String>(1);
-            paths.put(updatedBranch, s.getPath());
-
-            try {
+              Map<Branch.NameKey, String> paths =
+                  new HashMap<Branch.NameKey, String>(1);
+              paths.put(updatedBranch, s.getPath());
               updateGitlinks(s.getSuperProject(), myRw, modules, paths, msgbuf);
-            } catch (SubmoduleException e) {
-              throw e;
             }
+          } catch (SubmoduleException e) {
+              log.warn("Cannot update gitlinks for " + s + " due to " + e.getMessage());
+              incorrectSubscriptions.add(s);
+          } catch (Exception e) {
+              log.error("Cannot update gitlinks for " + s, e);
           }
+        }
+
+        try {
+          schema.submoduleSubscriptions().delete(incorrectSubscriptions);
+          log.info("Deleted incorrect submodule subscription(s) " + incorrectSubscriptions);
+        } catch (OrmException e) {
+          log.error("Cannot delete submodule subscription(s) " + incorrectSubscriptions, e);
         }
       }
     } catch (OrmException e) {
@@ -362,8 +372,7 @@ public class SubmoduleOp {
       // Recursive call: update subscribers of the subscriber
       updateSuperProjects(subscriber, recRw, commitId, msgbuf.toString());
     } catch (IOException e) {
-      logAndThrowSubmoduleException("Cannot update gitlinks for "
-          + subscriber.get(), e);
+        throw new SubmoduleException("Unknown IO exception", e);
     } finally {
       if (recRw != null) {
         recRw.release();

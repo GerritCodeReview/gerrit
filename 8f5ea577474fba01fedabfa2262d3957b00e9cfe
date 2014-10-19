@@ -68,6 +68,30 @@
       "revId": "8f5ea577474fba01fedabfa2262d3957b00e9cfe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "503af8a9_edf4c5ea",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListTags.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-19T19:48:02Z",
+      "side": 1,
+      "message": "Or even better, use ![...].isEmpty() instead of size() \u003d\u003d 1. And two ifs can be combined to one:\n\n  if (ref !\u003d null \u0026\u0026 !visibleTags(resource.getControl(), repo,\n      ImmutableMap.of(ref.getName(), ref)).isEmpty()) {\n    return createTagInfo(ref, rw);\n  }",
+      "parentUuid": "50c758d5_e5c2f65f",
+      "range": {
+        "startLine": 112,
+        "startChar": 10,
+        "endLine": 118,
+        "endChar": 11
+      },
+      "revId": "8f5ea577474fba01fedabfa2262d3957b00e9cfe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

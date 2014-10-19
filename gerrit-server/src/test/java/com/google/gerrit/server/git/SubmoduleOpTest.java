@@ -14,13 +14,10 @@
 
 package com.google.gerrit.server.git;
 
+import static org.easymock.EasyMock.anyObject;
 import static org.easymock.EasyMock.capture;
-import static org.easymock.EasyMock.createNiceMock;
-import static org.easymock.EasyMock.createStrictMock;
 import static org.easymock.EasyMock.eq;
 import static org.easymock.EasyMock.expect;
-import static org.easymock.EasyMock.replay;
-import static org.easymock.EasyMock.verify;
 import static org.junit.Assert.assertEquals;
 
 import com.google.gerrit.common.ChangeHooks;
@@ -41,6 +38,8 @@ import com.google.gwtorm.server.StandardKeyEncoder;
 import com.google.inject.Provider;
 
 import org.easymock.Capture;
+import org.easymock.EasyMock;
+import org.easymock.IMocksControl;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.dircache.DirCacheBuilder;
 import org.eclipse.jgit.dircache.DirCacheEntry;
@@ -75,6 +74,7 @@ public class SubmoduleOpTest extends LocalDiskRepositoryTestCase {
 
   private static final String newLine = System.getProperty("line.separator");
 
+  private IMocksControl mockMaker;
   private SchemaFactory<ReviewDb> schemaFactory;
   private SubmoduleSubscriptionAccess subscriptions;
   private ReviewDb schema;
@@ -89,23 +89,22 @@ public class SubmoduleOpTest extends LocalDiskRepositoryTestCase {
   public void setUp() throws Exception {
     super.setUp();
 
-    schemaFactory = createStrictMock(SchemaFactory.class);
-    schema = createStrictMock(ReviewDb.class);
-    subscriptions = createStrictMock(SubmoduleSubscriptionAccess.class);
-    urlProvider = createStrictMock(Provider.class);
-    repoManager = createStrictMock(GitRepositoryManager.class);
-    gitRefUpdated = createStrictMock(GitReferenceUpdated.class);
-    changeHooks = createNiceMock(ChangeHooks.class);
+    mockMaker = EasyMock.createStrictControl();
+    schemaFactory = mockMaker.createMock(SchemaFactory.class);
+    schema = mockMaker.createMock(ReviewDb.class);
+    subscriptions = mockMaker.createMock(SubmoduleSubscriptionAccess.class);
+    urlProvider = mockMaker.createMock(Provider.class);
+    repoManager = mockMaker.createMock(GitRepositoryManager.class);
+    gitRefUpdated = mockMaker.createMock(GitReferenceUpdated.class);
+    changeHooks = mockMaker.createMock(ChangeHooks.class);
   }
 
   private void doReplay() {
-    replay(schemaFactory, schema, subscriptions, urlProvider, repoManager,
-        gitRefUpdated);
+    mockMaker.replay();
   }
 
   private void doVerify() {
-    verify(schemaFactory, schema, subscriptions, urlProvider, repoManager,
-        gitRefUpdated);
+    mockMaker.verify();
   }
 
   /**
@@ -651,12 +650,17 @@ public class SubmoduleOpTest extends LocalDiskRepositoryTestCase {
     Capture<RefUpdate> ruCapture = new Capture<RefUpdate>();
     gitRefUpdated.fire(eq(targetBranchNameKey.getParentKey()),
         capture(ruCapture));
+    changeHooks.doRefUpdatedHook(eq(targetBranchNameKey),
+        anyObject(RefUpdate.class), EasyMock.<Account>isNull());
 
     expect(schema.submoduleSubscriptions()).andReturn(subscriptions);
     final ResultSet<SubmoduleSubscription> emptySubscriptions =
-        new ListResultSet<SubmoduleSubscription>(new ArrayList<SubmoduleSubscription>());
+      new ListResultSet<SubmoduleSubscription>(new ArrayList<SubmoduleSubscription>());
     expect(subscriptions.bySubmodule(targetBranchNameKey)).andReturn(
         emptySubscriptions);
+
+    expect(schema.submoduleSubscriptions()).andReturn(subscriptions);
+    subscriptions.delete(EasyMock.<Iterable<SubmoduleSubscription>>anyObject());
 
     schema.close();
 
@@ -755,6 +759,8 @@ public class SubmoduleOpTest extends LocalDiskRepositoryTestCase {
     Capture<RefUpdate> ruCapture = new Capture<RefUpdate>();
     gitRefUpdated.fire(eq(targetBranchNameKey.getParentKey()),
         capture(ruCapture));
+    changeHooks.doRefUpdatedHook(eq(targetBranchNameKey),
+          anyObject(RefUpdate.class), EasyMock.<Account>isNull());
 
     expect(schema.submoduleSubscriptions()).andReturn(subscriptions);
     final ResultSet<SubmoduleSubscription> incorrectSubscriptions =
@@ -763,6 +769,11 @@ public class SubmoduleOpTest extends LocalDiskRepositoryTestCase {
                 targetBranchNameKey, "target-project")));
     expect(subscriptions.bySubmodule(targetBranchNameKey)).andReturn(
         incorrectSubscriptions);
+
+    expect(schema.submoduleSubscriptions()).andReturn(subscriptions);
+    subscriptions.delete(EasyMock.<Iterable<SubmoduleSubscription>>anyObject());
+    expect(schema.submoduleSubscriptions()).andReturn(subscriptions);
+    subscriptions.delete(EasyMock.<Iterable<SubmoduleSubscription>>anyObject());
 
     schema.close();
 

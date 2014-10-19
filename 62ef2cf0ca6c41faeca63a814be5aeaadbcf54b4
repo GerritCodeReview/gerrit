@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "50c758d5_45b4aaf4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-19T20:23:27Z",
+      "side": 1,
+      "message": "I see the value having as small changes as possible, but here i would argue to put this in one (this) change: moving MergeabilityChecker from injectable to builder patten and removing mergeability check from online reindexer.\n\nOtherwise you are injecting MergeabilityChecker and set it to ChangeBatchIndexer. All this just to revert this new code in the follow up change.",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 7
+      },
+      "revId": "62ef2cf0ca6c41faeca63a814be5aeaadbcf54b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50c758d5_a59f5e6c",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/OnlineReindexer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-19T20:23:27Z",
+      "side": 1,
+      "message": "I don\u0027t see any advantage of using Provider here. Yes, ChangeBatchIndexer is not stateless any more, but why this would imply to use Provider? The code path that involves batchIndexer instance creation on line 84 is non-optional, so the instance is created anyway.",
+      "range": {
+        "startLine": 44,
+        "startChar": 16,
+        "endLine": 44,
+        "endChar": 24
+      },
+      "revId": "62ef2cf0ca6c41faeca63a814be5aeaadbcf54b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "503af8a9_2d07ad3e",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/OnlineReindexer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-19T20:23:27Z",
+      "side": 1,
+      "message": "Don\u0027t inject mergeabilityChecker in this change, instead of  doing it here and reverting this change in follow-up change?",
+      "range": {
+        "startLine": 46,
+        "startChar": 2,
+        "endLine": 46,
+        "endChar": 56
+      },
+      "revId": "62ef2cf0ca6c41faeca63a814be5aeaadbcf54b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

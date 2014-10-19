@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "50c758d5_85bd02e2",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/TagsIT.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-19T10:22:50Z",
+      "side": 1,
+      "message": "Why use scope guard? Just reuse the var:\n\n  TagInfo t \u003d result.get(0);\n  assertEquals(\"refs/tags/\" + tag1.name, t.ref);\n  assertEquals(r1.getCommitId().getName(), t.revision);\n  t \u003d result.get(1);\n  [...]",
+      "range": {
+        "startLine": 69,
+        "startChar": 4,
+        "endLine": 75,
+        "endChar": 5
+      },
+      "revId": "8f5ea577474fba01fedabfa2262d3957b00e9cfe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50c758d5_e5c2f65f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListTags.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-19T10:22:50Z",
+      "side": 1,
+      "message": "Simplify:\n\n  if (visibleTags(resource.getControl(), repo,\n      ImmutableMap.of(ref.getName(), ref)).size() \u003d\u003d 1) {\n    return createTagInfo(ref, rw);\n  }",
+      "range": {
+        "startLine": 112,
+        "startChar": 10,
+        "endLine": 118,
+        "endChar": 11
+      },
+      "revId": "8f5ea577474fba01fedabfa2262d3957b00e9cfe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -19,6 +19,7 @@ import static org.easymock.EasyMock.createNiceMock;
 import static org.easymock.EasyMock.createStrictMock;
 import static org.easymock.EasyMock.eq;
 import static org.easymock.EasyMock.expect;
+import static org.easymock.EasyMock.expectLastCall;
 import static org.easymock.EasyMock.replay;
 import static org.easymock.EasyMock.verify;
 import static org.junit.Assert.assertEquals;
@@ -41,6 +42,7 @@ import com.google.gwtorm.server.StandardKeyEncoder;
 import com.google.inject.Provider;
 
 import org.easymock.Capture;
+import org.easymock.EasyMock;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.dircache.DirCacheBuilder;
 import org.eclipse.jgit.dircache.DirCacheEntry;
@@ -637,7 +639,7 @@ public class SubmoduleOpTest extends LocalDiskRepositoryTestCase {
 
     expect(urlProvider.get()).andReturn("http://localhost:8080");
 
-    expect(schema.submoduleSubscriptions()).andReturn(subscriptions);
+    expect(schema.submoduleSubscriptions()).andReturn(subscriptions).times(3);
     final ResultSet<SubmoduleSubscription> subscribers =
         new ListResultSet<SubmoduleSubscription>(Collections
             .singletonList(new SubmoduleSubscription(targetBranchNameKey,
@@ -652,12 +654,12 @@ public class SubmoduleOpTest extends LocalDiskRepositoryTestCase {
     gitRefUpdated.fire(eq(targetBranchNameKey.getParentKey()),
         capture(ruCapture));
 
-    expect(schema.submoduleSubscriptions()).andReturn(subscriptions);
     final ResultSet<SubmoduleSubscription> emptySubscriptions =
         new ListResultSet<SubmoduleSubscription>(new ArrayList<SubmoduleSubscription>());
     expect(subscriptions.bySubmodule(targetBranchNameKey)).andReturn(
         emptySubscriptions);
 
+    subscriptions.delete(EasyMock.<Iterable<SubmoduleSubscription>>anyObject());
     schema.close();
 
     final PersonIdent myIdent =
@@ -741,7 +743,7 @@ public class SubmoduleOpTest extends LocalDiskRepositoryTestCase {
 
     expect(urlProvider.get()).andReturn("http://localhost:8080");
 
-    expect(schema.submoduleSubscriptions()).andReturn(subscriptions);
+    expect(schema.submoduleSubscriptions()).andReturn(subscriptions).times(4);
     final ResultSet<SubmoduleSubscription> subscribers =
         new ListResultSet<SubmoduleSubscription>(Collections
             .singletonList(new SubmoduleSubscription(targetBranchNameKey,
@@ -756,7 +758,6 @@ public class SubmoduleOpTest extends LocalDiskRepositoryTestCase {
     gitRefUpdated.fire(eq(targetBranchNameKey.getParentKey()),
         capture(ruCapture));
 
-    expect(schema.submoduleSubscriptions()).andReturn(subscriptions);
     final ResultSet<SubmoduleSubscription> incorrectSubscriptions =
         new ListResultSet<SubmoduleSubscription>(Collections
             .singletonList(new SubmoduleSubscription(sourceBranchNameKey,
@@ -764,6 +765,8 @@ public class SubmoduleOpTest extends LocalDiskRepositoryTestCase {
     expect(subscriptions.bySubmodule(targetBranchNameKey)).andReturn(
         incorrectSubscriptions);
 
+    subscriptions.delete(EasyMock.<Iterable<SubmoduleSubscription>>anyObject());
+    expectLastCall().times(2);
     schema.close();
 
     final PersonIdent myIdent =

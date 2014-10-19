@@ -19,12 +19,14 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
+import com.google.gerrit.reviewdb.client.SubmoduleSubscription;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.project.DeleteBranch.Input;
 import com.google.gwtorm.server.OrmException;
+import com.google.gwtorm.server.ResultSet;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
@@ -90,6 +92,9 @@ public class DeleteBranch implements RestModifyView<BranchResource, Input>{
         case FORCED:
           referenceUpdated.fire(rsrc.getNameKey(), u);
           hooks.doRefUpdatedHook(rsrc.getBranchKey(), u, identifiedUser.get().getAccount());
+          ResultSet<SubmoduleSubscription> submoduleSubscriptions =
+            dbProvider.get().submoduleSubscriptions().bySuperProject(rsrc.getBranchKey());
+          dbProvider.get().submoduleSubscriptions().delete(submoduleSubscriptions);
           break;
 
         case REJECTED_CURRENT_BRANCH:

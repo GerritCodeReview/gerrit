@@ -22,6 +22,30 @@
       "revId": "cf9bce21911943ff5a66e2a9d97c2f2a71a35f81",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50c758d5_e57af65e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-10-20T14:00:11Z",
+      "side": 1,
+      "message": "Ok, looking at the documentation it looks like I had a wrong understanding of this capability...",
+      "parentUuid": "50c758d5_a570fe80",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 44
+      },
+      "revId": "cf9bce21911943ff5a66e2a9d97c2f2a71a35f81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

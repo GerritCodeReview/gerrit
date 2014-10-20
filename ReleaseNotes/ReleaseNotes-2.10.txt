@@ -1,0 +1,333 @@
+Release notes for Gerrit 2.10
+=============================
+
+
+Gerrit 2.10 is now available:
+
+link:https://gerrit-releases.storage.googleapis.com/gerrit-2.10.war[
+https://gerrit-releases.storage.googleapis.com/gerrit-2.10.war]
+
+Gerrit 2.10 includes the bug fixes done with
+link:ReleaseNotes-2.9.1.html[Gerrit 2.9.1].
+These bug fixes are *not* listed in these release notes.
+
+Important Notes
+---------------
+
+
+*WARNING:* This release contains schema changes.  To upgrade:
+----
+  java -jar gerrit.war init -d site_path
+  java -jar gerrit.war reindex --recheck-mergeable -d site_path
+----
+
+*WARNING:* Upgrading to 2.10.x requires the server be first upgraded to 2.1.7 (or
+a later 2.1.x version), and then to 2.10.x.  If you are upgrading from 2.2.x.x or
+later, you may ignore this warning and upgrade directly to 2.10.x.
+
+
+Release Highlights
+------------------
+
+
+TODO
+
+
+New Features
+------------
+
+
+Web UI
+~~~~~~
+
+
+Global
+^^^^^^
+
+
+TODO
+
+
+Change Screen
+^^^^^^^^^^^^^
+
+
+* Remove 'send email' checkbox from reply box on change screen.
+
+* Do not linkify trailing dot or comma in messages.
++
+As linkifying trailing dots and trailing commas does more harm than
+good, we only treat dots and commas as being part of urls, if they are
+neither followed by whitespace nor occur at the end of a string.
+
+* Always show 'No Score' as label help for zero votings.
+
+* Improve message when removing a reviewer.
+
+* Display avatar for author, committer, and change owner.
+
+
+Side-by-Side Diff Screen
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+* Add support for reStructuredText.
+
+* Allow text selection in diff header.
+
+* Hide empty pane for added and deleted files.
+
+* Display diff header on mode changes and renames.
+
+
+Change List / Dashboards
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+* Remove age operator when drilling down from a dashboard to a query.
+
+
+TODO
+
+Project Screens
+^^^^^^^^^^^^^^^
+
+* Add support for filtering by regex in project list screen.
+
+* Disable content merge option if project'sd merge strategy is fast forward only.
+
+User Preferences
+^^^^^^^^^^^^^^^^
+
+
+TODO
+
+Secondary Index
+~~~~~~~~~~~~~~~
+
+
+TODO
+
+ssh
+~~~
+
+
+TODO
+
+REST API
+~~~~~~~~
+
+Config
+^^^^^^
+
+* link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.10/rest-api-config.html#list-tasks[
+List tasks].
+
+* link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.10/rest-api-config.html#get-task[
+Get task].
+
+* link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.10/rest-api-config.html#delete-task[
+Delete task].
+
+* link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.10/rest-api-config.html#list-caches[
+List caches].
+
+* link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.10/rest-api-config.html#flush-cache[
+Flush cache].
+
+* link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.10/rest-api-config.html#flush-several-caches[
+Flush several caches].
+
+* link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.10/rest-api-config.html#flush-all-caches[
+Flush all caches].
+
+* link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.10/rest-api-config.html#get-summary[
+Get server summary].
+
+Changes
+^^^^^^^
+
+* link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.10/rest-api-changes.html#create-change[
+Create change].
+
+Projects
+^^^^^^^^
+
+* link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.10/rest-api-projects.html#ban-commit[
+Ban commits].
+
+* link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.10/rest-api-projects.html#get-content[
+Get the content of a file from a certain commit].
+
+* link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.10/rest-api-projects.html#get-commit[
+Get an arbitrary commit from a project].
+
+* link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.10/rest-api-projects.html#get-reflog[
+Get the reflog of a branch].
+
+
+Documentation
+^^^^^^^^^^^^^
+
+
+TODO
+
+Access Rights
+~~~~~~~~~~~~~
+
+
+TODO
+
+Search
+~~~~~~
+
+TODO
+
+Daemon
+~~~~~~
+
+
+* Add change subject to output of change URL on push.
+
+* Indicate trivial rebase and commit message update on push.
+
+
+Documentation
+~~~~~~~~~~~~~
+
+
+TODO
+
+
+Configuration
+~~~~~~~~~~~~~
+
+* Use
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.10/config-gerrit.html#core.useRecursiveMerge[
+recursive merge] by default.
+
+
+
+Misc
+~~~~
+
+TODO
+
+Plugins
+~~~~~~~
+
+
+* Allow creation of persistent caches after server is started.
++
+This enables plugins to create own persistent caches when they are
+installed.
+
+
+Extension Points
+^^^^^^^^^^^^^^^^
+
+
+TODO
+
+
+JavaScript Plugins
+^^^^^^^^^^^^^^^^^^
+
+
+TODO
+
+
+Bug Fixes
+---------
+
+
+Access Rights
+~~~~~~~~~~~~~
+
+
+TODO
+
+
+Web UI
+~~~~~~
+
+Changes
+^^^^^^^
+
+* link:http://code.google.com/p/gerrit/issues/detail?id=527[Issue 527]:
+Preserve line breaks in inline and review comments.
+
+Side-By-Side Diff
+^^^^^^^^^^^^^^^^^
+
+* Fix line length column margin to appear at correct column.
+
+* Give B side full width when A side is hidden.
+
+* Fix scroll alignment when showing hidden A side.
+
+
+
+Secondary Index
+~~~~~~~~~~~~~~~
+
+TODO
+
+
+REST
+~~~~
+
+Changes
+^^^^^^^
+
+* Allow forcing mergeability check on 
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.10/rest-api-changes.html#get-mergeable[
+Get mergeable].
+
+* Fix `MESSAGES` and `CURRENT_REVISION` options to only return current revision.
+
+TODO
+
+SSH
+~~~
+
+
+* Prevent double authentication for the same public key.
++
+This is a workaround for link:https://issues.apache.org/jira/browse/SSHD-300[
+SSHD-300].
+
+* Let `kill` SSH command only kill tasks that are visible to the caller.
+
+Plugins
+~~~~~~~
+
+
+TODO
+
+Other
+~~~~~
+
+
+TODO
+
+Upgrades
+--------
+
+
+* Update Jetty to version 9.2
+
+* Update Apache Velocity to 1.7
+
+Plugins
+-------
+
+Replication
+~~~~~~~~~~~
+
+
+TODO
+
+Issue Tracker System plugins
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+TODO
+

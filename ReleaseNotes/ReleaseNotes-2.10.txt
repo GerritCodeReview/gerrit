@@ -1,0 +1,519 @@
+Release notes for Gerrit 2.10
+=============================
+
+
+Gerrit 2.10 is now available:
+
+link:https://gerrit-releases.storage.googleapis.com/gerrit-2.10.war[
+https://gerrit-releases.storage.googleapis.com/gerrit-2.10.war]
+
+Gerrit 2.10 includes the bug fixes done with
+link:ReleaseNotes-2.9.1.html[Gerrit 2.9.1].
+These bug fixes are *not* listed in these release notes.
+
+Important Notes
+---------------
+
+
+*WARNING:* This release contains schema changes.  To upgrade:
+----
+  java -jar gerrit.war init -d site_path
+  java -jar gerrit.war reindex --recheck-mergeable -d site_path
+----
+
+*WARNING:* Upgrading to 2.10.x requires the server be first upgraded to 2.1.7 (or
+a later 2.1.x version), and then to 2.10.x.  If you are upgrading from 2.2.x.x or
+later, you may ignore this warning and upgrade directly to 2.10.x.
+
+*WARNING:* The `auth.allowGoogleAccountUpgrade` setting is no longer supported.
+
+
+Release Highlights
+------------------
+
+
+* Support for externally loaded plugins.
++
+Plugins can be implemented in Scala or Groovy using the
+link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/scripting/groovy-provider[
+Groovy provider] and
+link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/scripting/scala-provider[
+Scala provider] plugins.
+
+* Customizable "My" menu.
++
+Users can customize the contents of the "My" menu in the top menu.  Administrators
+can configure the default contents of the menu.
+
+
+New Features
+------------
+
+
+Web UI
+~~~~~~
+
+
+Global
+^^^^^^
+
+* Add All-Users project to store meta data for all users.
+
+* Administrators can customize the default contents of the "My" menu.
+
+* Add 'My' > 'Groups' menu entry that shows the list of own groups.
+
+* Remove `auth.allowGoogleAccountUpgrade` setting.
++
+It's been more than 5 years since Gerrit ran on Google AppEngine.  It is assumed
+that everyone has upgraded their installations to a modern 2.x based server, and
+will not need to have this upgrade path enabled.
+
+
+Change Screen
+^^^^^^^^^^^^^
+
+
+* Remove 'send email' checkbox from reply box on change screen.
+
+* Do not linkify trailing dot or comma in messages.
++
+As linkifying trailing dots and trailing commas does more harm than
+good, we only treat dots and commas as being part of urls, if they are
+neither followed by whitespace nor occur at the end of a string.
+
+* Improve message when removing a reviewer.
+
+* Display avatar for author, committer, and change owner.
+
+* Remove message box when editing topic of change.
+
+* Add option to quickly add current user as reviewer of a change.
+
+* Link project name to dashboard.
+
+* Allow to customize Submit button label and tooltip.
+
+
+Side-by-Side Diff Screen
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+* Allow the user to select the syntax highlighter.
+
+* Add `Shift-a` keybinding to show/hide left side.
+
+* Allow to toggle empty pane for added and deleted files.
+
+* Add syntax highlighting of the commit message.
+
+
+Change List / Dashboards
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+* Remove age operator when drilling down from a dashboard to a query.
+
+* Add option to show Change-ID in change table.
+
+
+Project Screens
+^^^^^^^^^^^^^^^
+
+* Add support for filtering by regex in project list screen.
+
+* Disable content merge option if project's merge strategy is fast forward only.
+
+* Add branch actions to Projects > Branches view.
+
+User Preferences
+^^^^^^^^^^^^^^^^
+
+
+* Users can customize the contents of the "My" menu from the preferences
+screen.
+
+* Replace "display name in review category" preference with a list of options.
++
+Including new options "Show Abbreviated Name" to display abbreviated reviewer
+names and "Show Username" to show usernames in the change list.
+
+
+Secondary Index / Search
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+* Allow to search projects by prefix.
+
+* Add search fields for number of changed lines.
+
+* Add suggestions for 'is:pending' and 'status:pending'.
+
+* Add 'pending' as alias for 'open'.
+
+* Support `topic:""` to find changes with no topic.
+
+* Search more fields in the default search query.
++
+If a search is given with only a text, search over a variety of fields
+rather than just the project name.
+
+
+ssh
+~~~
+
+
+* Expose SSHD backend in
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.10/cmd-show-connections.html[
+`show connections`] SSH command.
+
+* Add support for JCE (Java Cryptography Extension) ciphers.
+
+REST API
+~~~~~~~~
+
+
+General
+^^^^^^^
+
+
+* Remove `kind` attribute from REST containers.
+
+* Support AcceptsPost on non top-level REST collections.
+
+Accounts
+^^^^^^^^
+
+
+* link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.10/rest-api-accounts.html#get-user-preferences[
+Get user preferences].
+
+* link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.10/rest-api-accounts.html#set-user-preferences[
+Set user preferences].
+
+Changes
+^^^^^^^
+
+
+* link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.10/rest-api-changes.html#create-change[
+Create change].
+
+Config
+^^^^^^
+
+
+* link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.10/rest-api-config.html#list-tasks[
+List tasks].
+
+* link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.10/rest-api-config.html#get-task[
+Get task].
+
+* link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.10/rest-api-config.html#delete-task[
+Delete task].
+
+* link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.10/rest-api-config.html#list-caches[
+List caches].
+
+* link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.10/rest-api-config.html#flush-cache[
+Flush cache].
+
+* link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.10/rest-api-config.html#flush-several-caches[
+Flush several caches].
+
+* link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.10/rest-api-config.html#flush-all-caches[
+Flush all caches].
+
+* link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.10/rest-api-config.html#get-summary[
+Get server summary].
+
+Projects
+^^^^^^^^
+
+
+* link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.10/rest-api-projects.html#ban-commit[
+Ban commits].
+
+* link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.10/rest-api-projects.html#get-content[
+Get the content of a file from a certain commit].
+
+* link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.10/rest-api-projects.html#get-commit[
+Get an arbitrary commit from a project].
+
+* link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.10/rest-api-projects.html#get-reflog[
+Get the reflog of a branch].
+
+
+Daemon
+~~~~~~
+
+
+* Add change subject to output of change URL on push.
+
+* Indicate trivial rebase and commit message update on push.
+
+
+Configuration
+~~~~~~~~~~~~~
+
+* Use
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.10/config-gerrit.html#core.useRecursiveMerge[
+recursive merge] by default.
+
+* Allow to configure the
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.10/config-gerrit.html#download.archive[
+available download archive formats].
+
+* Add support for
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.10/database-setup.html#createdb_maxdb[
+SAP MaxDB].
+
+* Allow
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.10/config-labels.html#label_defaultValue[
+configuration of a default value for a label].
+
+* Allow projects to
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.10/config-project-config.html#mimetype-section[
+configure MIME types for files].
+
+* Allow to configure
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.10/config-gerrit.html#gc[
+periodic garbage collection of all projects].
+
+Misc
+~~~~
+
+* Don't allow empty user name and passwords in InternalAuthBackend.
+
+
+Plugins
+~~~~~~~
+
+* Support for externally loaded plugins.
++
+Plugins can be implemented in Scala or Groovy using the
+link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/scripting/groovy-provider[
+Groovy provider] and
+link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/scripting/scala-provider[
+Scala provider] plugins.
+
+* Allow plugins to replace the WebSession implementation.
++
+Plugins can replace the existing implementation with the statement:
+`DynamicItem.bind(binder(), WebSession.class).to(...);`
+in a module designated as a `<Gerrit-HttpModule>` in the manifest.
++
+Just the Cache implementation used for web sessions can be changed
+by binding to a subclass of the now abstract `CacheBasedWebSession`
+which supplies the Cache in the superclass constructor.
++
+This is a step towards solving web session issues with multi-master.
++
+The link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/websession-flatfile[
+websession-flatfile plugin] replaces the built-in Gerrit WebSession implementation
+with one that uses a flat file based cache.
+
+* Allow http and ssh plugins to replace the Gerrit-provided DynamicItem.
+
+* New extension point to listen to usage data published events.
++
+Plugins implementing the `UsageDataPublishedListener` can listen to
+events published about usage data.
+
+* New extension point to link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.10/dev-plugins.html#pre-upload-hook[
+register JGit PreUploadHook].
++
+Plugins may register PreUploadHook instances in order to get
+notified when JGit is about to upload a pack. This may be useful
+for those plugins which would like to monitor usage in Git
+repositories.
+
+* New link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.10/config-validation.html#pre-upload-validation[
+pre-upload validation extension point].
++
+Plugins implementing the `UploadValidationListener` interface can
+perform additional validation checks before any upload operations
+(clone, fetch, pull). The validation is executed right before Gerrit
+begins to send a pack back to the git client.
+
+* New link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.10/dev-plugins.html#links-to-external-tools[
+external tool links extension points].
++
+Plugins can now contribute project links that will be displayed on the project
+list screen in the 'Repository Browser' column, and revision links that will be
+shown on the change screen.
+
+* Allow creation of persistent caches after server is started.
++
+This enables plugins to create own persistent caches when they are
+installed.
+
+
+Bug Fixes
+---------
+
+General
+~~~~~~~
+
+Use fixed rate instead of fixed delay for log file compression.
++
+Log file compression was scheduled using a fixed delay. This caused the start
+times to drift over time. Use a fixed rate instead so that the compression
+reoccurs at the same time every day.
+
+* Make gitweb redirect to login.
++
+Gitweb redirects to the login page if the user isn't currently logged.
+
+
+Web UI
+~~~~~~
+
+Changes
+^^^^^^^
+
+* link:http://code.google.com/p/gerrit/issues/detail?id=527[Issue 527]:
+Preserve line breaks in inline and review comments.
+
+* Always show 'No Score' as label help for zero votings.
+
+* Only reset the edited commit message text on cancel.
+
+* Only include message on quick approve if reply is open.
+
+* List reviewers with dummy approvals on closed changes.
+
+
+Side-By-Side Diff
+^^^^^^^^^^^^^^^^^
+
+* Fix line length column margin to appear at correct column.
+
+* Give B side full width when A side is hidden.
+
+* Fix scroll alignment when showing hidden A side.
+
+* Bind Shift-N to search-prev in vim mode.
+
+* Allow text selection in diff header.
+
+* Display diff header on mode changes and renames.
+
+* Document Shift-{Left,Right} in `?` help popup.
+
+* Show `[` and `]` shortcut keys in nav arrow tooltips.
+
+* Disable "Render = Slow" mode on files over 4000 lines.
+
+* Keep keyboard bindings alive after click in padding.
+
+* Jump to the first change on either side.
+
+* Expand margin between paragraphs in comments.
+
+* Include content on identical files with mode change.
+
+
+User Settings
+^^^^^^^^^^^^^
+
+* Avoid loading all SSH keys when adding a new one.
+
+
+Secondary Index
+~~~~~~~~~~~~~~~
+
+* Omit corrupt changes from search results.
+
+
+REST
+~~~~
+
+General
+^^^^^^^
+
+* Fix REST API responses for 3xx and 4xx classes.
+
+
+Changes
+^^^^^^^
+
+* Allow forcing mergeability check on
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.10/rest-api-changes.html#get-mergeable[
+Get mergeable].
+
+* Fix `MESSAGES` and `CURRENT_REVISION` options to only return current revision.
+
+SSH
+~~~
+
+
+* Prevent double authentication for the same public key.
++
+This is a workaround for link:https://issues.apache.org/jira/browse/SSHD-300[
+SSHD-300].
+
+* Let `kill` SSH command only kill tasks that are visible to the caller.
+
+* Enforce HTTP password checking on gitBasicAuth.
+
+* Require 'Administrate Server' capability to see server summary output from
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.10/cmd-show-caches.txt[
+`show-caches`] command.
+
+Plugins
+~~~~~~~
+
+General
+^^^^^^^
+
+
+* Invoke `StartPluginListener` and `ReloadPluginListener` only after start/reload
+is fully done.
+
+* Set `Last-Modified` on cached Documentation resources.
+
+* Return HTTP 304 for not modified SmallResources.
+
+Replication
+^^^^^^^^^^^
+
+
+* Move replication logs into a separate file.
+
+* Promote replication scheduled logs to info.
+
+* Show replication ID in the log and in show-queue command.
+
+
+TODO
+
+Other
+~~~~~
+
+
+TODO
+
+Upgrades
+--------
+
+
+* Update Guava to 17.0
+
+* Update GWT to 2.6.1
+
+* Update httpclient to 4.3.4
+
+* Update httpcore to 4.3.2
+
+* Update Jcraft SSH to 0.1.51
+
+* Update Jetty to 9.2
+
+* Update JGit to 3.4.0.201406110918-r
+
+* Update log4j to 1.2.17
+
+* Update Servlet API to 8.0.5
+
+* Update slf4j to 1.7.7
+
+* Update Velocity to 1.7
+

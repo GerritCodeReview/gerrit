@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "503af8a9_ed9e856d",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 29
+      },
+      "lineNbr": 1782,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-10-20T11:51:59Z",
+      "side": 1,
+      "message": "The @Override annotation on these methods should be removed.",
+      "range": {
+        "startLine": 1764,
+        "startChar": 2,
+        "endLine": 1782,
+        "endChar": 3
+      },
+      "revId": "de2f9f0f161b2c7a438954c96670ae00c0404a41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "503af8a9_0d94b14a",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 29
+      },
+      "lineNbr": 1791,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-10-20T11:51:59Z",
+      "side": 1,
+      "message": "Just inline the parameters and get rid of the MyWeblinkPlugin class?\n\nCurrently this example looks overcomplicated.",
+      "range": {
+        "startLine": 1787,
+        "startChar": 29,
+        "endLine": 1791,
+        "endChar": 19
+      },
+      "revId": "de2f9f0f161b2c7a438954c96670ae00c0404a41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50c758d5_85a7c29c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetDiff.java",
+        "patchSetId": 29
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-10-20T11:51:59Z",
+      "side": 1,
+      "message": "If baseResource is null we still don\u0027t get the web link on the A side, do we?",
+      "range": {
+        "startLine": 157,
+        "startChar": 8,
+        "endLine": 160,
+        "endChar": 9
+      },
+      "revId": "de2f9f0f161b2c7a438954c96670ae00c0404a41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

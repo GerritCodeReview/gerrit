@@ -264,7 +264,7 @@ its result will be filtered as described above.
 
 [[HowToWriteSubmitType]]
 == How to write submit type
-Writing custom submit type logic in Prolog is the similar top
+Writing custom submit type logic in Prolog is similar to
 xref:HowToWriteSubmitRules[writing submit rules]. The only difference is that
 one has to implement a `submit_type` predicate (instead of the `submit_rule`)
 and that the return result of the `submit_type` has to be an atom that

@@ -13,6 +13,29 @@
  * limitations under the License.
  */
 
+@external .cm-s-midnight;
+@external .cm-s-night;
+@external .cm-s-twilight;
+@external .com-google-gerrit-client-diff-PublishedBox_BinderImpl_GenCss_style-name;
+@external .com-google-gerrit-client-diff-Resources-Style-message;
+@external .com-google-gerrit-client-diff-Resources-Style-date;
+@external .com-google-gerrit-client-diff-DiffTable_BinderImpl_GenCss_style-rangeHighlight;
+
+.cm-s-midnight .com-google-gerrit-client-diff-PublishedBox_BinderImpl_GenCss_style-name { color: black }
+.cm-s-midnight .com-google-gerrit-client-diff-Resources-Style-message { color: black }
+.cm-s-midnight .com-google-gerrit-client-diff-Resources-Style-date { color: black }
+.cm-s-midnight .com-google-gerrit-client-diff-DiffTable_BinderImpl_GenCss_style-rangeHighlight { color: #777 }
+
+.cm-s-night .com-google-gerrit-client-diff-PublishedBox_BinderImpl_GenCss_style-name { color: black }
+.cm-s-night .com-google-gerrit-client-diff-Resources-Style-message { color: black }
+.cm-s-night .com-google-gerrit-client-diff-Resources-Style-date { color: black }
+.cm-s-night .com-google-gerrit-client-diff-DiffTable_BinderImpl_GenCss_style-rangeHighlight { color: #777 }
+
+.cm-s-twilight .com-google-gerrit-client-diff-PublishedBox_BinderImpl_GenCss_style-name { color: black }
+.cm-s-twilight .com-google-gerrit-client-diff-Resources-Style-message { color: black }
+.cm-s-twilight .com-google-gerrit-client-diff-Resources-Style-date { color: black }
+.cm-s-twilight .com-google-gerrit-client-diff-DiffTable_BinderImpl_GenCss_style-rangeHighlight { color: #777 }
+
 .commentWidgets {
   max-width: 650px;
 

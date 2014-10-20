@@ -77,6 +77,24 @@
     },
     {
       "key": {
+        "uuid": "701c5c1f_56229498",
+        "filename": "ReleaseNotes/ReleaseNotes-2.10.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-10-20T09:24:43Z",
+      "side": 1,
+      "message": "It\u0027s reverted on master; should it also be reverted on stable-2.10?",
+      "parentUuid": "50c758d5_c52c1a8a",
+      "revId": "3b5b00951430dacc7f74f09b6369a5232385ecfc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "50c758d5_25424e37",
         "filename": "ReleaseNotes/ReleaseNotes-2.10.txt",
         "patchSetId": 4
@@ -88,6 +106,24 @@
       "writtenOn": "2014-10-20T09:17:00Z",
       "side": 1,
       "message": "Note that this feature is not persistent?",
+      "revId": "3b5b00951430dacc7f74f09b6369a5232385ecfc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "701c5c1f_b62de888",
+        "filename": "ReleaseNotes/ReleaseNotes-2.10.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-10-20T09:24:43Z",
+      "side": 1,
+      "message": "Too much detail?",
+      "parentUuid": "50c758d5_25424e37",
       "revId": "3b5b00951430dacc7f74f09b6369a5232385ecfc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -145,6 +181,30 @@
       "writtenOn": "2014-10-20T09:17:00Z",
       "side": 1,
       "message": "Toggle Show/Hide ...\n\nI would rather expect this being mentioned above on new features. And not under bugs section, around line 87.",
+      "range": {
+        "startLine": 321,
+        "startChar": 2,
+        "endLine": 321,
+        "endChar": 46
+      },
+      "revId": "3b5b00951430dacc7f74f09b6369a5232385ecfc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1044003a_8bcecdbd",
+        "filename": "ReleaseNotes/ReleaseNotes-2.10.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-10-20T09:24:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "50c758d5_653c46b7",
       "range": {
         "startLine": 321,
         "startChar": 2,

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "50c758d5_e55156d7",
+        "filename": "ReleaseNotes/ReleaseNotes-2.10.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 356,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-10-20T14:52:12Z",
+      "side": 1,
+      "message": "trailing whitespace is still here ;-)",
+      "range": {
+        "startLine": 356,
+        "startChar": 1,
+        "endLine": 356,
+        "endChar": 5
+      },
+      "revId": "99e11ffdb8363dc9a1e8a816ce7663ec869ff9d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

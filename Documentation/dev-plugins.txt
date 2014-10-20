@@ -300,7 +300,7 @@ can get `com.google.gerrit.pgm.init.AllProjectsConfig` injected:
       ui.message("\n");
       ui.header(pluginName + " Integration");
       boolean enabled = ui.yesno(true, "By default enabled for all projects");
-      Config cfg = allProjectsConfig.load();
+      Config cfg = allProjectsConfig.load().getConfig();
       if (enabled) {
         cfg.setBoolean("plugin", pluginName, "enabled", enabled);
       } else {

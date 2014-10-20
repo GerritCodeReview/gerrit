@@ -16,7 +16,9 @@ package com.google.gerrit.pgm.init.api;
 
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.server.git.GroupList;
 import com.google.gerrit.server.git.ProjectConfig;
+import com.google.gerrit.server.git.ValidationError;
 import com.google.gerrit.server.git.VersionedMetaData;
 import com.google.inject.Inject;
 
@@ -28,21 +30,28 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.lib.RepositoryCache;
 import org.eclipse.jgit.lib.RepositoryCache.FileKey;
 import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.util.FS;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
 
 public class AllProjectsConfig extends VersionedMetaData {
+
+  private static final Logger log = LoggerFactory.getLogger(AllProjectsConfig.class);
+
   private final String project;
   private final SitePaths site;
   private final InitFlags flags;
 
   private Config cfg;
   private ObjectId revision;
+  private GroupList groupList;
 
   @Inject
   AllProjectsConfig(AllProjectsNameOnInitProvider allProjects, SitePaths site,
@@ -66,25 +75,44 @@ public class AllProjectsConfig extends VersionedMetaData {
     return FileKey.resolve(new File(basePath, project), FS.DETECTED);
   }
 
-  public Config load() throws IOException, ConfigInvalidException {
+  public AllProjectsConfig load() throws IOException, ConfigInvalidException {
     File path = getPath();
-    if (path == null) {
-      return null;
+    if (path != null) {
+      Repository repo = new FileRepository(path);
+      try {
+        load(repo);
+      } finally {
+        repo.close();
+      }
     }
+    return this;
+  }
 
-    Repository repo = new FileRepository(path);
-    try {
-      load(repo);
-    } finally {
-      repo.close();
-    }
+  public Config getConfig() throws ConfigInvalidException {
     return cfg;
+  }
+
+  public GroupList getGroups() throws ConfigInvalidException {
+    return groupList;
   }
 
   @Override
   protected void onLoad() throws IOException, ConfigInvalidException {
+    groupList = readGroupList();
     cfg = readConfig(ProjectConfig.PROJECT_CONFIG);
     revision = getRevision();
+  }
+
+  private GroupList readGroupList() throws IOException {
+    ValidationError.Sink errors = new ValidationError.Sink() {
+      @Override
+      public void error(ValidationError error) {
+        log.error("Error parsing file " + GroupList.FILE_NAME + ": " + error.getMessage());
+      }
+    };
+    String text = readUTF8(GroupList.FILE_NAME);
+
+    return GroupList.parse(text, errors);
   }
 
   @Override
@@ -118,6 +146,7 @@ public class AllProjectsConfig extends VersionedMetaData {
           RevTree srcTree = revision != null ? rw.parseTree(revision) : null;
           newTree = readTree(srcTree);
           saveConfig(ProjectConfig.PROJECT_CONFIG, cfg);
+          saveGroupList();
           ObjectId res = newTree.writeTree(inserter);
           if (res.equals(srcTree)) {
             // If there are no changes to the content, don't create the commit.
@@ -151,6 +180,14 @@ public class AllProjectsConfig extends VersionedMetaData {
     } finally {
       repo.close();
     }
+
+    // we need to invalidate the JGit cache if the group list is invalidated in
+    // an unattended init step
+    RepositoryCache.clear();
+  }
+
+  private void saveGroupList() throws IOException {
+    saveUTF8(GroupList.FILE_NAME, groupList.asText());
   }
 
   private void updateRef(Repository repo, PersonIdent ident,

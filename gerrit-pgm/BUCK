@@ -16,6 +16,9 @@ java_library(
     '//lib/guice:guice-assistedinject',
     '//lib/jgit:jgit',
   ],
+  provided_deps = [
+    '//lib/log:api',
+  ],
   visibility = ['PUBLIC'],
 )
 

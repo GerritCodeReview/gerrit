@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "50c758d5_a570fe80",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-10-20T13:58:06Z",
+      "side": 1,
+      "message": "I might remember this incorrectly, but I thought that the intention of this capability was to decide whether a user can generate an HTTP password for himself or not. If this capability is removed now, can an administrator prevent users from generating HTTP passwords for themselves?",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 44
+      },
+      "revId": "cf9bce21911943ff5a66e2a9d97c2f2a71a35f81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

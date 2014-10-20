@@ -122,6 +122,24 @@
       "revId": "8f8cfebbc02d4c24a17a76d7a22771f23179dd3c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "701c5c1f_f6de401e",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/SubIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-10-20T16:39:42Z",
+      "side": 1,
+      "message": "\u003e Are you sure that reopenThread.waitForGeneration(gen); is actually get called?\n\nLook at the source for AbstractFuture. isDone() calls sync.isDone(). The only methods that mutate sync are set(), setException(), and cancel().\n\nSo yes, it is called at least once, as long as the future did not fail or get canceled.\n\n\n\u003e   if (!isDone()) {\n\u003e     set(null);\n\u003e   }\n\nThis is crazy. You are unconditionally setting the future to done the first time get() is called. If you do this it defeats the purpose of get(); it will always return null even if the future was canceled or failed with an exception.",
+      "parentUuid": "30c4a4d1_6460caf0",
+      "revId": "8f8cfebbc02d4c24a17a76d7a22771f23179dd3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

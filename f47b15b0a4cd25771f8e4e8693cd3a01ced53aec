@@ -16,6 +16,24 @@
       "revId": "f47b15b0a4cd25771f8e4e8693cd3a01ced53aec",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d037c8c1_29e08d28",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/MergeabilityCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-10-20T17:42:45Z",
+      "side": 1,
+      "message": "As well it should. The acceptance tests disable disk caching, which is a valid configuration.\n\nWe need to change the cache to be a LoadingCache, and move most of the logic from Mergeable into the loader.",
+      "parentUuid": "d080a87b_41e03229",
+      "revId": "f47b15b0a4cd25771f8e4e8693cd3a01ced53aec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -58,9 +58,7 @@ import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.util.StringUtils;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -75,7 +73,7 @@ import java.util.Set;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
-public class ProjectConfig extends VersionedMetaData {
+public class ProjectConfig extends VersionedMetaData implements ValidationError.Sink {
   public static final String COMMENTLINK = "commentlink";
   private static final String KEY_MATCH = "match";
   private static final String KEY_HTML = "html";
@@ -83,7 +81,6 @@ public class ProjectConfig extends VersionedMetaData {
   private static final String KEY_ENABLED = "enabled";
 
   public static final String PROJECT_CONFIG = "project.config";
-  private static final String GROUP_LIST = "groups";
 
   private static final String PROJECT = "project";
   private static final String KEY_DESCRIPTION = "description";
@@ -154,7 +151,7 @@ public class ProjectConfig extends VersionedMetaData {
   private Project.NameKey projectName;
   private Project project;
   private AccountsSection accountsSection;
-  private Map<AccountGroup.UUID, GroupReference> groupsByUUID;
+  private GroupList groupList;
   private Map<String, AccessSection> accessSections;
   private BranchOrderSection branchOrderSection;
   private Map<String, ContributorAgreement> contributorAgreements;
@@ -324,24 +321,17 @@ public class ProjectConfig extends VersionedMetaData {
   }
 
   public GroupReference resolve(GroupReference group) {
-    if (group != null) {
-      GroupReference ref = groupsByUUID.get(group.getUUID());
-      if (ref != null) {
-        return ref;
-      }
-      groupsByUUID.put(group.getUUID(), group);
-    }
-    return group;
+    return groupList.resolve(group);
   }
 
   /** @return the group reference, if the group is used by at least one rule. */
   public GroupReference getGroup(AccountGroup.UUID uuid) {
-    return groupsByUUID.get(uuid);
+    return groupList.byUUID(uuid);
   }
 
   /** @return set of all groups used by this configuration. */
   public Set<AccountGroup.UUID> getAllGroupUUIDs() {
-    return Collections.unmodifiableSet(groupsByUUID.keySet());
+    return groupList.uuids();
   }
 
   /**
@@ -375,7 +365,7 @@ public class ProjectConfig extends VersionedMetaData {
    */
   public boolean updateGroupNames(GroupBackend groupBackend) {
     boolean dirty = false;
-    for (GroupReference ref : groupsByUUID.values()) {
+    for (GroupReference ref : groupList.references()) {
       GroupDescription.Basic g = groupBackend.get(ref.getUUID());
       if (g != null && !g.getName().equals(ref.getName())) {
         dirty = true;
@@ -405,7 +395,8 @@ public class ProjectConfig extends VersionedMetaData {
 
   @Override
   protected void onLoad() throws IOException, ConfigInvalidException {
-    Map<String, GroupReference> groupsByName = readGroupList();
+    readGroupList();
+    Map<String, GroupReference> groupsByName = mapGroupReferences();
 
     rulesId = getObjectId("rules.pl");
     Config rc = readConfig(PROJECT_CONFIG);
@@ -531,7 +522,7 @@ public class ProjectConfig extends VersionedMetaData {
             n.addEmail(ref);
           } else {
             error(new ValidationError(PROJECT_CONFIG,
-                "group \"" + ref.getName() + "\" not in " + GROUP_LIST));
+                "group \"" + ref.getName() + "\" not in " + GroupList.FILE_NAME));
           }
         } else if (dst.startsWith("user ")) {
           error(new ValidationError(PROJECT_CONFIG, dst + " not supported"));
@@ -627,7 +618,7 @@ public class ProjectConfig extends VersionedMetaData {
         ref = rule.getGroup();
         groupsByName.put(ref.getName(), ref);
         error(new ValidationError(PROJECT_CONFIG,
-            "group \"" + ref.getName() + "\" not in " + GROUP_LIST));
+            "group \"" + ref.getName() + "\" not in " + GroupList.FILE_NAME));
       }
 
       rule.setGroup(ref);
@@ -774,31 +765,18 @@ public class ProjectConfig extends VersionedMetaData {
     return new PluginConfig(pluginName, pluginConfig, this);
   }
 
-  private Map<String, GroupReference> readGroupList() throws IOException {
-    groupsByUUID = new HashMap<>();
-    Map<String, GroupReference> groupsByName = new HashMap<>();
+  public void readGroupList() throws IOException {
+    groupList = GroupList.parse(readUTF8(GroupList.FILE_NAME), this);
+  }
 
-    BufferedReader br = new BufferedReader(new StringReader(readUTF8(GROUP_LIST)));
-    String s;
-    for (int lineNumber = 1; (s = br.readLine()) != null; lineNumber++) {
-      if (s.isEmpty() || s.startsWith("#")) {
-        continue;
-      }
-
-      int tab = s.indexOf('\t');
-      if (tab < 0) {
-        error(new ValidationError(GROUP_LIST, lineNumber, "missing tab delimiter"));
-        continue;
-      }
-
-      AccountGroup.UUID uuid = new AccountGroup.UUID(s.substring(0, tab).trim());
-      String name = s.substring(tab + 1).trim();
-      GroupReference ref = new GroupReference(uuid, name);
-
-      groupsByUUID.put(uuid, ref);
-      groupsByName.put(name, ref);
+  private Map<String, GroupReference> mapGroupReferences() {
+    Collection<GroupReference> references = groupList.references();
+    Map<String, GroupReference> result = new HashMap<>(references.size());
+    for (GroupReference ref : references) {
+      result.put(ref.getName(), ref);
     }
-    return groupsByName;
+
+    return result;
   }
 
   @Override
@@ -837,7 +815,7 @@ public class ProjectConfig extends VersionedMetaData {
     saveContributorAgreements(rc, keepGroups);
     saveAccessSections(rc, keepGroups);
     saveNotifySections(rc, keepGroups);
-    groupsByUUID.keySet().retainAll(keepGroups);
+    groupList.retainUUIDs(keepGroups);
     saveLabelSections(rc);
     savePluginSections(rc);
 
@@ -1110,30 +1088,7 @@ public class ProjectConfig extends VersionedMetaData {
   }
 
   private void saveGroupList() throws IOException {
-    if (groupsByUUID.isEmpty()) {
-      saveFile(GROUP_LIST, null);
-      return;
-    }
-
-    final int uuidLen = 40;
-    StringBuilder buf = new StringBuilder();
-    buf.append(pad(uuidLen, "# UUID"));
-    buf.append('\t');
-    buf.append("Group Name");
-    buf.append('\n');
-
-    buf.append('#');
-    buf.append('\n');
-
-    for (GroupReference g : sort(groupsByUUID.values())) {
-      if (g.getUUID() != null && g.getName() != null) {
-        buf.append(pad(uuidLen, g.getUUID().get()));
-        buf.append('\t');
-        buf.append(g.getName());
-        buf.append('\n');
-      }
-    }
-    saveUTF8(GROUP_LIST, buf.toString());
+    saveUTF8(GroupList.FILE_NAME, groupList.asText());
   }
 
   private <E extends Enum<?>> E getEnum(Config rc, String section,
@@ -1146,24 +1101,11 @@ public class ProjectConfig extends VersionedMetaData {
     }
   }
 
-  private void error(ValidationError error) {
+  public void error(ValidationError error) {
     if (validationErrors == null) {
       validationErrors = new ArrayList<>(4);
     }
     validationErrors.add(error);
-  }
-
-  private static String pad(int len, String src) {
-    if (len <= src.length()) {
-      return src;
-    }
-
-    StringBuilder r = new StringBuilder(len);
-    r.append(src);
-    while (r.length() < len) {
-      r.append(' ');
-    }
-    return r.toString();
   }
 
   private static <T extends Comparable<? super T>> List<T> sort(Collection<T> m) {

@@ -34,6 +34,24 @@
       "revId": "b11ce9d3189823f611015f87355b158a7377535e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "701c5c1f_36c9d863",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/MergeabilityChecker.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-10-20T17:17:04Z",
+      "side": 1,
+      "message": "FWIW I\u0027m pretty sure in my mergeability cache series I already do the latter, so that will probably squash this change. I will have you try to reproduce the test flakiness on that series as well, if you don\u0027t mind.",
+      "parentUuid": "50c758d5_0562b2b1",
+      "revId": "b11ce9d3189823f611015f87355b158a7377535e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

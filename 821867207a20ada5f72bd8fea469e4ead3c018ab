@@ -16,6 +16,24 @@
       "revId": "821867207a20ada5f72bd8fea469e4ead3c018ab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1044003a_4bedc51f",
+        "filename": "ReleaseNotes/ReleaseNotes-2.10.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 376,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-10-20T10:06:31Z",
+      "side": 1,
+      "message": "Done.\n\n(Documentation for this seems to be missing, unless I\u0027m looking in the wrong place.  For now I will just link to the plugin providers on gerrit-review).",
+      "parentUuid": "50c758d5_a5fbde8c",
+      "revId": "821867207a20ada5f72bd8fea469e4ead3c018ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

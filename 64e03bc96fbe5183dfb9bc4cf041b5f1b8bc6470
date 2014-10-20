@@ -48,6 +48,54 @@
     },
     {
       "key": {
+        "uuid": "f07bec5d_420e7253",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 760,
+      "author": {
+        "id": 1016317
+      },
+      "writtenOn": "2014-10-20T18:08:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "30166401_f4991888",
+      "range": {
+        "startLine": 760,
+        "startChar": 48,
+        "endLine": 760,
+        "endChar": 62
+      },
+      "revId": "64e03bc96fbe5183dfb9bc4cf041b5f1b8bc6470",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f07bec5d_22116e74",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 760,
+      "author": {
+        "id": 1016317
+      },
+      "writtenOn": "2014-10-20T18:08:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "30166401_94a424c2",
+      "range": {
+        "startLine": 760,
+        "startChar": 17,
+        "endLine": 760,
+        "endChar": 31
+      },
+      "revId": "64e03bc96fbe5183dfb9bc4cf041b5f1b8bc6470",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "30166401_d49e9c6d",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 1
@@ -59,6 +107,30 @@
       "writtenOn": "2014-10-17T19:27:22Z",
       "side": 1,
       "message": "is true",
+      "range": {
+        "startLine": 762,
+        "startChar": 31,
+        "endLine": 762,
+        "endChar": 41
+      },
+      "revId": "64e03bc96fbe5183dfb9bc4cf041b5f1b8bc6470",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d037c8c1_a9d39d66",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 762,
+      "author": {
+        "id": 1016317
+      },
+      "writtenOn": "2014-10-20T18:08:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "30166401_d49e9c6d",
       "range": {
         "startLine": 762,
         "startChar": 31,
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "f07bec5d_621b7694",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectCacheWarmer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1016317
+      },
+      "writtenOn": "2014-10-20T18:08:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "30166401_3494304b",
+      "range": {
+        "startLine": 49,
+        "startChar": 50,
+        "endLine": 49,
+        "endChar": 64
+      },
+      "revId": "64e03bc96fbe5183dfb9bc4cf041b5f1b8bc6470",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "701c5c1f_76899048",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectCacheWarmer.java",
         "patchSetId": 1
@@ -105,6 +201,30 @@
       "writtenOn": "2014-10-17T19:27:22Z",
       "side": 1,
       "message": "You can improve the formatting by putting this into a local variable, e.g. cpus.",
+      "range": {
+        "startLine": 50,
+        "startChar": 18,
+        "endLine": 50,
+        "endChar": 61
+      },
+      "revId": "64e03bc96fbe5183dfb9bc4cf041b5f1b8bc6470",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d037c8c1_c9d8d185",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectCacheWarmer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1016317
+      },
+      "writtenOn": "2014-10-20T18:08:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "701c5c1f_76899048",
       "range": {
         "startLine": 50,
         "startChar": 18,
@@ -134,6 +254,24 @@
     },
     {
       "key": {
+        "uuid": "d037c8c1_e9dd9572",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectCacheWarmer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1016317
+      },
+      "writtenOn": "2014-10-20T18:08:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "30166401_1491345b",
+      "revId": "64e03bc96fbe5183dfb9bc4cf041b5f1b8bc6470",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "30166401_548bac28",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectCacheWarmer.java",
         "patchSetId": 1
@@ -145,6 +283,24 @@
       "writtenOn": "2014-10-17T19:27:22Z",
       "side": 1,
       "message": "This will cause things to fall out of cache if the cache size is smaller than the set of repositories returned by all().\n\nWe may want to mention on the docs the admin should ensure the cache size is larger than the number of repos they have. And maybe log a warning at startup if the cache is smaller than the number of repos discovered at startup.",
+      "revId": "64e03bc96fbe5183dfb9bc4cf041b5f1b8bc6470",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f07bec5d_82187a97",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectCacheWarmer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1016317
+      },
+      "writtenOn": "2014-10-20T18:08:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "30166401_548bac28",
       "revId": "64e03bc96fbe5183dfb9bc4cf041b5f1b8bc6470",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -234,6 +390,24 @@
       "side": 1,
       "message": "Move the shutdown into the deferred Runnable so its not racy with the background listing/scheduling.",
       "parentUuid": "70d9bc6e_8edddb73",
+      "revId": "64e03bc96fbe5183dfb9bc4cf041b5f1b8bc6470",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d037c8c1_49edc11f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectCacheWarmer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1016317
+      },
+      "writtenOn": "2014-10-20T18:08:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "30166401_748ea83a",
       "revId": "64e03bc96fbe5183dfb9bc4cf041b5f1b8bc6470",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

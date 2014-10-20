@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "503af8a9_2d3fadad",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 1777,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-10-20T14:19:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "503af8a9_6d229599",
+      "range": {
+        "startLine": 1777,
+        "startChar": 11,
+        "endLine": 1777,
+        "endChar": 19
+      },
+      "revId": "9e6e212c2d87c456d674f97d672c30d0f611793a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "503af8a9_4d25d99e",
         "filename": "Documentation/dev-plugins.txt",
         "patchSetId": 6
@@ -36,6 +60,30 @@
       "writtenOn": "2014-10-20T13:16:46Z",
       "side": 1,
       "message": "[optional] I think it would simplify the example if the private methods above are just inlined:\n\n  @Override\n  public WebLinkInfo getPathSetWebLink(String projectName, String commit) {\n    return new WebLinkInfo(name, imageUrl,\n        String.format(placeHolderUrlProjectCommit, project, commit),\n        WebLinkTarget.BLANK);\n  }",
+      "range": {
+        "startLine": 1780,
+        "startChar": 2,
+        "endLine": 1786,
+        "endChar": 3
+      },
+      "revId": "9e6e212c2d87c456d674f97d672c30d0f611793a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "503af8a9_4d3cf9b6",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 1786,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-10-20T14:19:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "503af8a9_4d25d99e",
       "range": {
         "startLine": 1780,
         "startChar": 2,

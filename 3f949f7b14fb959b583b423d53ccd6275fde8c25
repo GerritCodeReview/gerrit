@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "503af8a9_4dc15927",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/account/UniversalGroupBackendTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-10-20T16:26:34Z",
+      "side": 1,
+      "message": "style nit: static imports before non-static",
+      "revId": "3f949f7b14fb959b583b423d53ccd6275fde8c25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "503af8a9_cdac6983",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/account/UniversalGroupBackendTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-10-20T16:26:34Z",
+      "side": 1,
+      "message": "[optional] I know that it is a kind of pattern to use the classUnderTest name for the tested instance. However, it doesn\u0027t always help with the readability.\nFor me, this:\n\n  assertTrue(backend.handles(ANONYMOUS_USERS));\n\nis more readable than:\n\n  assertTrue(classUnderTest.handles(ANONYMOUS_USERS));",
+      "range": {
+        "startLine": 69,
+        "startChar": 15,
+        "endLine": 69,
+        "endChar": 29
+      },
+      "revId": "3f949f7b14fb959b583b423d53ccd6275fde8c25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

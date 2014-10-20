@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "30166401_d4e33ce6",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/TagsIT.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-10-20T02:55:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "50c758d5_85bd02e2",
+      "range": {
+        "startLine": 69,
+        "startChar": 4,
+        "endLine": 75,
+        "endChar": 5
+      },
+      "revId": "8f5ea577474fba01fedabfa2262d3957b00e9cfe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "50c758d5_c5c7fa6d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListTags.java",
         "patchSetId": 12
@@ -36,6 +60,30 @@
       "writtenOn": "2014-10-19T10:27:54Z",
       "side": 1,
       "message": "Nit: In ctors annotated with @Inject we list each parameter on its own line.",
+      "range": {
+        "startLine": 58,
+        "startChar": 37,
+        "endLine": 58,
+        "endChar": 54
+      },
+      "revId": "8f5ea577474fba01fedabfa2262d3957b00e9cfe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30166401_34c9d063",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListTags.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-10-20T02:55:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "50c758d5_c5c7fa6d",
       "range": {
         "startLine": 58,
         "startChar": 37,
@@ -83,6 +131,30 @@
       "side": 1,
       "message": "Or even better, use ![...].isEmpty() instead of size() \u003d\u003d 1. And two ifs can be combined to one:\n\n  if (ref !\u003d null \u0026\u0026 !visibleTags(resource.getControl(), repo,\n      ImmutableMap.of(ref.getName(), ref)).isEmpty()) {\n    return createTagInfo(ref, rw);\n  }",
       "parentUuid": "50c758d5_e5c2f65f",
+      "range": {
+        "startLine": 112,
+        "startChar": 10,
+        "endLine": 118,
+        "endChar": 11
+      },
+      "revId": "8f5ea577474fba01fedabfa2262d3957b00e9cfe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30166401_14c65451",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListTags.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-10-20T02:55:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "503af8a9_edf4c5ea",
       "range": {
         "startLine": 112,
         "startChar": 10,

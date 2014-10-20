@@ -16,6 +16,24 @@
       "revId": "b11ce9d3189823f611015f87355b158a7377535e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50c758d5_0562b2b1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/MergeabilityChecker.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-20T14:05:15Z",
+      "side": 1,
+      "message": "Yes. This is the case when reindex took place during Mergeable call and it is still enforced again here, on line 166 below, so we would reindex twice. Another change to consider would be to suppress reindexing in Mergeable and always force reindexing here.",
+      "parentUuid": "50c758d5_c57ffa4c",
+      "revId": "b11ce9d3189823f611015f87355b158a7377535e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

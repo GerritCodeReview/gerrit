@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "50c758d5_25fa4e56",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 1015662
+      },
+      "writtenOn": "2014-10-20T18:19:54Z",
+      "side": 1,
+      "message": "It does not, I saw the code within this class uses final local vars hence I followed the code style.",
+      "parentUuid": "30166401_b4fb208d",
+      "range": {
+        "startLine": 237,
+        "startChar": 8,
+        "endLine": 237,
+        "endChar": 13
+      },
+      "revId": "d8cf4f3e983f07c60fa5df8aa12be8e1a651aa47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "30166401_54d0cc04",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/DeleteBranch.java",
         "patchSetId": 5
@@ -36,6 +60,30 @@
       "writtenOn": "2014-10-20T03:02:40Z",
       "side": 1,
       "message": "nit: please wrap long lines at around 80 columns.",
+      "range": {
+        "startLine": 97,
+        "startChar": 66,
+        "endLine": 97,
+        "endChar": 68
+      },
+      "revId": "d8cf4f3e983f07c60fa5df8aa12be8e1a651aa47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50c758d5_c5e41ab9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/DeleteBranch.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1015662
+      },
+      "writtenOn": "2014-10-20T18:19:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "30166401_54d0cc04",
       "range": {
         "startLine": 97,
         "startChar": 66,

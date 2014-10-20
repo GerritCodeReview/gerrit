@@ -22,6 +22,30 @@
       "revId": "df9b18c5ee5fef1ce6c0931a43074983cb952a5e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d037c8c1_09e3c937",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 589,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-10-20T17:41:53Z",
+      "side": 1,
+      "message": "There may be other problems with this series but I can\u0027t reproduce this one.",
+      "parentUuid": "10cb2096_d3d39466",
+      "range": {
+        "startLine": 589,
+        "startChar": 14,
+        "endLine": 589,
+        "endChar": 74
+      },
+      "revId": "df9b18c5ee5fef1ce6c0931a43074983cb952a5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

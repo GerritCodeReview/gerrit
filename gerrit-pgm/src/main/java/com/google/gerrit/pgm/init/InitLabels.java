@@ -44,7 +44,8 @@ public class InitLabels implements InitStep {
 
   @Override
   public void run() throws Exception {
-    Config cfg = allProjectsConfig.load();
+    allProjectsConfig.load();
+    Config cfg = allProjectsConfig.getConfig();
     if (cfg == null || !cfg.getSubsections(KEY_LABEL).contains(LABEL_VERIFIED)) {
       ui.header("Review Labels");
       installVerified = ui.yesno(false, "Install Verified label");
@@ -53,7 +54,8 @@ public class InitLabels implements InitStep {
 
   @Override
   public void postRun() throws Exception {
-    Config cfg = allProjectsConfig.load();
+    allProjectsConfig.load();
+    Config cfg = allProjectsConfig.getConfig();
     if (installVerified) {
       cfg.setString(KEY_LABEL, LABEL_VERIFIED, KEY_FUNCTION, "MaxWithBlock");
       cfg.setStringList(KEY_LABEL, LABEL_VERIFIED, KEY_VALUE,

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "50c758d5_c57ffa4c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/MergeabilityChecker.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-10-20T14:02:14Z",
+      "side": 1,
+      "message": "Is there any possibility that, with this change, we will (re)index more often than necessary?",
+      "revId": "b11ce9d3189823f611015f87355b158a7377535e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

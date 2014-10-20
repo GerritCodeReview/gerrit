@@ -22,6 +22,53 @@
       "revId": "68a1c31750c0c107f26937af323503359ca93933",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "701c5c1f_16c65c51",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/RunAsFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-10-20T18:17:51Z",
+      "side": 1,
+      "message": "I\u0027ll let David comment, but I think it could go either way. There are really relatively few cases where there is not an exception available.\n\nAlso the advantage of making the parameter required is it forces the person making the method change to consider each call individually to fix all the compile errors. (Of course, a second method can always be added later.)",
+      "parentUuid": "701c5c1f_f6100044",
+      "range": {
+        "startLine": 82,
+        "startChar": 62,
+        "endLine": 82,
+        "endChar": 66
+      },
+      "revId": "68a1c31750c0c107f26937af323503359ca93933",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1044003a_ab21c9ca",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-10-20T18:17:51Z",
+      "side": 1,
+      "message": "This is not strictly REST API behavior; in fact some callers are outside the restapi package, hence the publicness of the static method below.\n\nWould the recently-added com.google.gerrit.httpd.RequestUtil maybe be a better home?",
+      "range": {
+        "startLine": 143,
+        "startChar": 6,
+        "endLine": 143,
+        "endChar": 34
+      },
+      "revId": "68a1c31750c0c107f26937af323503359ca93933",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

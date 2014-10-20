@@ -270,8 +270,8 @@ class SshLog implements LifecycleListener {
   private String extractWhat(DispatchCommand dcmd) {
     String commandName = dcmd.getCommandName();
     String[] args = dcmd.getArguments();
-    if (args.length > 1) {
-      return commandName + "." + args[1];
+    for (int i = 1; i < args.length; i++) {
+      commandName = commandName + "." + args[i];
     }
     return commandName;
   }

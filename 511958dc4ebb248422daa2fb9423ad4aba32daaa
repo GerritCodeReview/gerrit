@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "30166401_74ea28b3",
+        "filename": "ReleaseNotes/ReleaseNotes-2.10.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-10-20T08:28:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "503af8a9_6d18d596",
+      "range": {
+        "startLine": 63,
+        "startChar": 0,
+        "endLine": 63,
+        "endChar": 56
+      },
+      "revId": "511958dc4ebb248422daa2fb9423ad4aba32daaa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "503af8a9_8d43416e",
         "filename": "ReleaseNotes/ReleaseNotes-2.10.txt",
         "patchSetId": 1
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "30166401_14edb4c9",
+        "filename": "ReleaseNotes/ReleaseNotes-2.10.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-10-20T08:28:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "503af8a9_8d43416e",
+      "range": {
+        "startLine": 95,
+        "startChar": 34,
+        "endLine": 95,
+        "endChar": 44
+      },
+      "revId": "511958dc4ebb248422daa2fb9423ad4aba32daaa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "50c758d5_e5103644",
         "filename": "ReleaseNotes/ReleaseNotes-2.10.txt",
         "patchSetId": 1
@@ -59,6 +107,30 @@
       "writtenOn": "2014-10-20T07:50:49Z",
       "side": 1,
       "message": "trailing whitespace",
+      "range": {
+        "startLine": 281,
+        "startChar": 37,
+        "endLine": 281,
+        "endChar": 38
+      },
+      "revId": "511958dc4ebb248422daa2fb9423ad4aba32daaa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30166401_34f0b0a3",
+        "filename": "ReleaseNotes/ReleaseNotes-2.10.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-10-20T08:28:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "50c758d5_e5103644",
       "range": {
         "startLine": 281,
         "startChar": 37,

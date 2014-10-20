@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "50c758d5_a5fbde8c",
+        "filename": "ReleaseNotes/ReleaseNotes-2.10.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 376,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-20T09:59:33Z",
+      "side": 1,
+      "message": "Suport for scripting plugins: Groovy + Scala. Was it added in 2.10? This requires groovy-plugin-provider and scala-plugin-provider plugins.",
+      "revId": "821867207a20ada5f72bd8fea469e4ead3c018ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

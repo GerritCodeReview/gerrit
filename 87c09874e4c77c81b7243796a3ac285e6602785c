@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "50c758d5_c5b1bada",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-10-20T11:59:06Z",
+      "side": 1,
+      "message": "I think this change is fine. If wanted we can still follow-up with the other approach [1] after this was merged.\n\n[1] https://gerrit-review.googlesource.com/60322",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 5
+      },
+      "revId": "87c09874e4c77c81b7243796a3ac285e6602785c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "503af8a9_8d06e10c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-10-20T11:59:06Z",
+      "side": 1,
+      "message": "The example in dev-plugins.txt needs to be updated.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 5
+      },
+      "revId": "87c09874e4c77c81b7243796a3ac285e6602785c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "503af8a9_6d8b7529",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/webui/WebLink.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-10-20T11:59:06Z",
+      "side": 1,
+      "message": "Having an empty interface to host a static class looks a bit weird. Maybe we should just have a normal WebLinkTarget class that contains those static fields?",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 3
+      },
+      "revId": "87c09874e4c77c81b7243796a3ac285e6602785c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "503af8a9_4d8eb93a",
+        "filename": "plugins/replication",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-10-20T11:59:06Z",
+      "side": 1,
+      "message": "Unintended update of submodule?",
+      "revId": "87c09874e4c77c81b7243796a3ac285e6602785c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

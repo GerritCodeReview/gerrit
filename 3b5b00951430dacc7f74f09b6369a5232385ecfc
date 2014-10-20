@@ -137,6 +137,24 @@
     },
     {
       "key": {
+        "uuid": "701c5c1f_d62ce489",
+        "filename": "ReleaseNotes/ReleaseNotes-2.10.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-10-20T09:30:34Z",
+      "side": 1,
+      "message": "Reverted with https://gerrit-review.googlesource.com/#/c/60952/",
+      "parentUuid": "701c5c1f_56229498",
+      "revId": "3b5b00951430dacc7f74f09b6369a5232385ecfc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "50c758d5_25424e37",
         "filename": "ReleaseNotes/ReleaseNotes-2.10.txt",
         "patchSetId": 4

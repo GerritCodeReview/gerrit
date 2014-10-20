@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "503af8a9_2daa4d93",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2014-10-20T10:46:41Z",
+      "side": 1,
+      "message": "s/content/context",
+      "range": {
+        "startLine": 15,
+        "startChar": 22,
+        "endLine": 15,
+        "endChar": 29
+      },
+      "revId": "89a8d57ecdb9f1d3e00c2525f4a098cfaf835bfa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "503af8a9_4db799fa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2014-10-20T10:46:41Z",
+      "side": 1,
+      "message": "maybe there is a root cause we should investigate ...",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 50
+      },
+      "revId": "89a8d57ecdb9f1d3e00c2525f4a098cfaf835bfa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

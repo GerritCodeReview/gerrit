@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "701c5c1f_16d01cd6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-10-21T14:40:31Z",
+      "side": 1,
+      "message": "Can you elaborate on why this might happen? Does it indicate a malfunctioning plugin? If so, perhaps leaving a warning in the log would be more useful to the administrators/plugin authors than silently filtering them out.",
+      "range": {
+        "startLine": 10,
+        "startChar": 35,
+        "endLine": 11,
+        "endChar": 31
+      },
+      "revId": "53961c432f16c9eed28ca7a5e7b4850df0710462",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b50a4612_18f645f3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_59.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-10-21T23:55:32Z",
+      "side": 1,
+      "message": "Whoa. No, just delete this.\n\nIf you are upgrading from 58 or earlier, these columns will never exist and will flat out fail.",
+      "range": {
+        "startLine": 36,
+        "startChar": 6,
+        "endLine": 38,
+        "endChar": 64
+      },
+      "revId": "787ea77e1b4d0788d569c8bcb1852952f6609eb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

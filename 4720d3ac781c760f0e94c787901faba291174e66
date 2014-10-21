@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "50c758d5_e5b2f68d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-10-21T13:21:39Z",
+      "side": 1,
+      "message": "Actually this was a bad proposal. WebLinkInfos without name or URL were also not returned before this change, only the check for this was moved from the caller into the WebLinks class. Maybe something like this is better:\n\n  Make handling of web links consistent\n\n  The WebLinks class now provides all web links as lists  \n  which avoids unnecessary copying in the caller. Web \n  links that do not have a name or URL are now always\n  filtered out in the WebLinks class and callers don\u0027t need \n  to do this anymore. In addition, if there are no web \n  links, the web_links field is not set in the JSON that \n  is sent to clients.\n\n  These improvements were already done for file web links \n  by b62414c0c and 2ae832e7e.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 47
+      },
+      "revId": "4720d3ac781c760f0e94c787901faba291174e66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -429,6 +429,24 @@
       "revId": "64e03bc96fbe5183dfb9bc4cf041b5f1b8bc6470",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f07bec5d_e2c22660",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectCacheWarmer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1016317
+      },
+      "writtenOn": "2014-10-21T18:05:58Z",
+      "side": 1,
+      "message": "I\u0027m not sure this is necessary, as Hugo has pointed out before.",
+      "parentUuid": "50c758d5_a533de9b",
+      "revId": "64e03bc96fbe5183dfb9bc4cf041b5f1b8bc6470",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

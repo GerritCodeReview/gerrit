@@ -22,6 +22,30 @@
       "revId": "9b07f7585ad0bad4819598bf4098ab0132c9bb42",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d037c8c1_2935edfa",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshLog.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 1017729
+      },
+      "writtenOn": "2014-10-21T16:13:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "503af8a9_ed7f654c",
+      "range": {
+        "startLine": 272,
+        "startChar": 4,
+        "endLine": 275,
+        "endChar": 5
+      },
+      "revId": "9b07f7585ad0bad4819598bf4098ab0132c9bb42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

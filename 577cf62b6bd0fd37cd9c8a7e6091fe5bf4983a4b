@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1044003a_4b25c59e",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 947,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-10-21T14:45:21Z",
+      "side": 1,
+      "message": "Food for the next change that factors these methods out: a pattern I tend to write is a pair of static, typed get/set methods for attributes, rather than exposing the attribute name directly and documenting that it contains a particular type:\n\n private static String ATTR \u003d ...;\n\n public static void setErrorAttribute(ServletRequest req, Throwable t) {\n   req.setAttribute(ATTR, t);\n }\n\n public static Throwable getErrorAttribute(ServletRequest req) {\n   return (Throwable) req.getAttribute(ATTR);\n }",
+      "revId": "577cf62b6bd0fd37cd9c8a7e6091fe5bf4983a4b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

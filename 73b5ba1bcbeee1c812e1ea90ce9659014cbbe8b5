@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "1044003a_0b949d4a",
+        "filename": "ReleaseNotes/ReleaseNotes-2.10.txt",
+        "patchSetId": 16
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-10-21T13:07:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "503af8a9_ed1be514",
+      "range": {
+        "startLine": 37,
+        "startChar": 0,
+        "endLine": 41,
+        "endChar": 24
+      },
+      "revId": "73b5ba1bcbeee1c812e1ea90ce9659014cbbe8b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "701c5c1f_b657a8cb",
         "filename": "ReleaseNotes/ReleaseNotes-2.10.txt",
         "patchSetId": 16
@@ -60,6 +84,30 @@
       "writtenOn": "2014-10-21T13:06:12Z",
       "side": 1,
       "message": "should be linked to the doc",
+      "range": {
+        "startLine": 331,
+        "startChar": 4,
+        "endLine": 331,
+        "endChar": 44
+      },
+      "revId": "73b5ba1bcbeee1c812e1ea90ce9659014cbbe8b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "701c5c1f_f65120d7",
+        "filename": "ReleaseNotes/ReleaseNotes-2.10.txt",
+        "patchSetId": 16
+      },
+      "lineNbr": 331,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-10-21T13:07:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "701c5c1f_b657a8cb",
       "range": {
         "startLine": 331,
         "startChar": 4,
@@ -95,6 +143,53 @@
     },
     {
       "key": {
+        "uuid": "701c5c1f_d656a4cc",
+        "filename": "ReleaseNotes/ReleaseNotes-2.10.txt",
+        "patchSetId": 16
+      },
+      "lineNbr": 352,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-10-21T13:07:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1044003a_cb99b588",
+      "range": {
+        "startLine": 348,
+        "startChar": 0,
+        "endLine": 352,
+        "endChar": 24
+      },
+      "revId": "73b5ba1bcbeee1c812e1ea90ce9659014cbbe8b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "701c5c1f_364c383a",
+        "filename": "ReleaseNotes/ReleaseNotes-2.10.txt",
+        "patchSetId": 16
+      },
+      "lineNbr": 366,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-10-21T13:07:31Z",
+      "side": 1,
+      "message": "also broken, done.",
+      "range": {
+        "startLine": 366,
+        "startChar": 47,
+        "endLine": 366,
+        "endChar": 51
+      },
+      "revId": "73b5ba1bcbeee1c812e1ea90ce9659014cbbe8b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "701c5c1f_965c2cf1",
         "filename": "ReleaseNotes/ReleaseNotes-2.10.txt",
         "patchSetId": 16
@@ -106,6 +201,30 @@
       "writtenOn": "2014-10-21T13:06:12Z",
       "side": 1,
       "message": "html",
+      "range": {
+        "startLine": 557,
+        "startChar": 92,
+        "endLine": 557,
+        "endChar": 95
+      },
+      "revId": "73b5ba1bcbeee1c812e1ea90ce9659014cbbe8b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1044003a_2b91595b",
+        "filename": "ReleaseNotes/ReleaseNotes-2.10.txt",
+        "patchSetId": 16
+      },
+      "lineNbr": 557,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-10-21T13:07:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "701c5c1f_965c2cf1",
       "range": {
         "startLine": 557,
         "startChar": 92,

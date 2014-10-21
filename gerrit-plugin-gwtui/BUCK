@@ -26,7 +26,13 @@ java_library(
   name = 'gwtui-api-lib2',
   srcs = SRCS,
   resources = glob(['src/main/**/*']),
-  exported_deps = ['//gerrit-gwtui-common:client-lib2'],
+  exported_deps = [
+    '//gerrit-gwtui-common:client-lib2',
+    '//gerrit-gwtexpui:Clippy',
+    '//gerrit-gwtexpui:GlobalKey',
+    '//gerrit-gwtexpui:SafeHtml',
+    '//gerrit-gwtexpui:UserAgent',
+  ],
   provided_deps = DEPS,
   visibility = ['PUBLIC'],
 )

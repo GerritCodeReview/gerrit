@@ -50,7 +50,7 @@ java_library(
 java_doc(
   name = 'gwtui-api-javadoc',
   title = 'Gerrit Review GWT Extension API Documentation',
-  pkg = 'com.google.gerrit',
+  pkgs = ['com.google.gerrit'],
   paths = ['src/main/java'] + COMMON,
   srcs = SRCS,
   deps = DEPS + ['//gerrit-gwtui-common:client-lib2'],

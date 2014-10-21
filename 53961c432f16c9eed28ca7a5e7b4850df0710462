@@ -46,6 +46,30 @@
       "revId": "53961c432f16c9eed28ca7a5e7b4850df0710462",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "701c5c1f_56da94f7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-10-21T14:55:07Z",
+      "side": 1,
+      "message": "Two questions:\n\n* Links are just entered into a DynamicSet, right? Why add a null link instead of just not adding the link?\n* Even in this case, would it make sense to allow only _both_ name and URL either null or not null, disallowing one null/other not null?",
+      "parentUuid": "503af8a9_8d5a61cc",
+      "range": {
+        "startLine": 10,
+        "startChar": 35,
+        "endLine": 11,
+        "endChar": 31
+      },
+      "revId": "53961c432f16c9eed28ca7a5e7b4850df0710462",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

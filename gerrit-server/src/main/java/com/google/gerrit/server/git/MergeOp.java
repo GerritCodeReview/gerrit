@@ -806,9 +806,8 @@ public class MergeOp {
       try {
         subOp.update();
       } catch (SubmoduleException e) {
-        log
-            .error("The gitLinks were not updated according to the subscriptions "
-                + e.getMessage());
+        logError(
+            "The gitLinks were not updated according to the subscriptions" , e);
       }
     }
   }

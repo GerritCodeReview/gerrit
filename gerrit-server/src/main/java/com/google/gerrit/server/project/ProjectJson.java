@@ -15,7 +15,7 @@
 package com.google.gerrit.server.project;
 
 import com.google.common.base.Strings;
-import com.google.common.collect.Lists;
+import com.google.common.collect.FluentIterable;
 import com.google.gerrit.extensions.common.ProjectInfo;
 import com.google.gerrit.extensions.common.WebLinkInfo;
 import com.google.gerrit.extensions.restapi.Url;
@@ -51,14 +51,9 @@ public class ProjectJson {
     info.description = Strings.emptyToNull(p.getDescription());
     info.state = p.getState();
     info.id = Url.encode(info.name);
-
-    info.webLinks = Lists.newArrayList();
-    for (WebLinkInfo link : webLinks.getProjectLinks(p.getName())) {
-      if (!Strings.isNullOrEmpty(link.name) && !Strings.isNullOrEmpty(link.url)) {
-        info.webLinks.add(link);
-      }
-    }
-
+    FluentIterable<WebLinkInfo> links =
+        webLinks.getProjectLinks(p.getName());
+    info.webLinks = links.isEmpty() ? null : links.toList();
     return info;
   }
 }

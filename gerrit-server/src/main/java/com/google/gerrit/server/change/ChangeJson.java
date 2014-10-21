@@ -33,6 +33,7 @@ import static com.google.gerrit.extensions.common.ListChangesOption.WEB_LINKS;
 import com.google.common.base.Joiner;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Optional;
+import com.google.common.collect.FluentIterable;
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.ImmutableList;
@@ -843,9 +844,9 @@ public class ChangeJson {
     }
 
     if (has(WEB_LINKS)) {
-      List<WebLinkInfo> links =
+      FluentIterable<WebLinkInfo> links =
           webLinks.getPatchSetLinks(project, in.getRevision().get());
-      out.webLinks = !links.isEmpty() ? links : null;
+      out.webLinks = links.isEmpty() ? null : links.toList();
     }
     return out;
   }

@@ -22,6 +22,30 @@
       "revId": "9fc79ae86d35817d265d1bc4d57a24428bfc43b3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "95446258_8fe8b50f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-10-21T22:17:17Z",
+      "side": 1,
+      "message": "No, look at the code, it should be no-op.\n\nI literally turned this:\n\n for (Ref r : repo.getRefs(ALL)) {\n   if (r.getName().startsWith(Constants.R_HEADS).values()) {\n     ...\n   }\n }\n\ninto this:\n\n for (Ref r : repo.getRefs(Constants.R_HEADS).values()) {\n   ...\n }\n\n(Note that the keys of repo.getRefs(foo) have the prefix foo stripped, but the values are unchanged. Bit of a double-take myself there.)",
+      "parentUuid": "d515fa2f_f90a7745",
+      "range": {
+        "startLine": 7,
+        "startChar": 33,
+        "endLine": 7,
+        "endChar": 50
+      },
+      "revId": "9fc79ae86d35817d265d1bc4d57a24428bfc43b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

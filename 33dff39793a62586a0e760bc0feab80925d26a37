@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "b53fa6b4_10dd0471",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-21T21:52:35Z",
+      "side": 1,
+      "message": "5 chars shorter. Done",
+      "parentUuid": "701c5c1f_d61b4415",
+      "revId": "33dff39793a62586a0e760bc0feab80925d26a37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "701c5c1f_3628b822",
         "filename": "/COMMIT_MSG",
         "patchSetId": 9
@@ -30,6 +48,30 @@
       "writtenOn": "2014-10-21T15:54:26Z",
       "side": 1,
       "message": "This paragraph needs to be rewritten to describe the new approach.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 58
+      },
+      "revId": "33dff39793a62586a0e760bc0feab80925d26a37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b53fa6b4_f0e1602f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-21T21:52:35Z",
+      "side": 1,
+      "message": "This paragraph describes old approach. What and why should i change here?",
+      "parentUuid": "701c5c1f_3628b822",
       "range": {
         "startLine": 9,
         "startChar": 0,
@@ -89,6 +131,30 @@
     },
     {
       "key": {
+        "uuid": "95446258_4fd3ed68",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-21T21:52:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "701c5c1f_b633289c",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 59
+      },
+      "revId": "33dff39793a62586a0e760bc0feab80925d26a37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "701c5c1f_5608d4c3",
         "filename": "/COMMIT_MSG",
         "patchSetId": 9
@@ -100,6 +166,30 @@
       "writtenOn": "2014-10-21T15:54:26Z",
       "side": 1,
       "message": "I",
+      "range": {
+        "startLine": 34,
+        "startChar": 60,
+        "endLine": 34,
+        "endChar": 61
+      },
+      "revId": "33dff39793a62586a0e760bc0feab80925d26a37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "95446258_6fceb1c0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-21T21:52:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "701c5c1f_5608d4c3",
       "range": {
         "startLine": 34,
         "startChar": 60,
@@ -129,6 +219,24 @@
     },
     {
       "key": {
+        "uuid": "95446258_2fd8a980",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-21T21:52:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1044003a_4b3ce5b6",
+      "revId": "33dff39793a62586a0e760bc0feab80925d26a37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1044003a_6b39a1c5",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/MergeabilityChecker.java",
         "patchSetId": 9
@@ -140,6 +248,24 @@
       "writtenOn": "2014-10-21T15:54:26Z",
       "side": 1,
       "message": "Bring in the comment I made on this statement as well.",
+      "revId": "33dff39793a62586a0e760bc0feab80925d26a37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b53fa6b4_50d38c68",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/MergeabilityChecker.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-21T21:52:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1044003a_6b39a1c5",
       "revId": "33dff39793a62586a0e760bc0feab80925d26a37",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -180,6 +306,30 @@
       "writtenOn": "2014-10-21T15:54:26Z",
       "side": 1,
       "message": "Sure, that probably makes it clearer. I think I was being lazy and trying to avoid an explicit \u003cVoid\u003e somewhere above.",
+      "parentUuid": "503af8a9_4df4f965",
+      "range": {
+        "startLine": 289,
+        "startChar": 32,
+        "endLine": 289,
+        "endChar": 48
+      },
+      "revId": "33dff39793a62586a0e760bc0feab80925d26a37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b53fa6b4_30d80881",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/MergeabilityChecker.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-21T21:52:35Z",
+      "side": 1,
+      "message": "Done",
       "parentUuid": "503af8a9_4df4f965",
       "range": {
         "startLine": 289,

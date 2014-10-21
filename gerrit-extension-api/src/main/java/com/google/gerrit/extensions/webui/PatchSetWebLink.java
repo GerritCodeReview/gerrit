@@ -20,7 +20,12 @@ import com.google.gerrit.extensions.common.WebLinkInfo;
 public interface PatchSetWebLink {
 
   /**
-   * URL to patch set in external service.
+   * {@link com.google.gerrit.extensions.common.WebLinkInfo} describing a link from a patch set
+   * to an external service.
+   * <p>In order for the web link to be visible
+   * {@link com.google.gerrit.extensions.common.WebLinkInfo#url}
+   * and {@link com.google.gerrit.extensions.common.WebLinkInfo#name}
+   * must be set.<p>
    *
    * @param projectName Name of the project
    * @param commit Commit of the patch set

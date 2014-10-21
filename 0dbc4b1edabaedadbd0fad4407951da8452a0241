@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "50c758d5_05fe3240",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/SwitchSecureStore.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-10-21T08:45:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "701c5c1f_968eec0c",
+      "range": {
+        "startLine": 102,
+        "startChar": 12,
+        "endLine": 102,
+        "endChar": 68
+      },
+      "revId": "0dbc4b1edabaedadbd0fad4407951da8452a0241",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "701c5c1f_b6896809",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/SwitchSecureStore.java",
         "patchSetId": 22
@@ -36,6 +60,30 @@
       "writtenOn": "2014-10-21T07:57:08Z",
       "side": 1,
       "message": "Bug: Format string \"%s\" needs argument 1 but only 0 are provided",
+      "range": {
+        "startLine": 181,
+        "startChar": 10,
+        "endLine": 181,
+        "endChar": 73
+      },
+      "revId": "0dbc4b1edabaedadbd0fad4407951da8452a0241",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50c758d5_c5325a95",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/SwitchSecureStore.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-10-21T08:45:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "701c5c1f_b6896809",
       "range": {
         "startLine": 181,
         "startChar": 10,

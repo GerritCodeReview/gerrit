@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "d037c8c1_c97451c4",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/PatchListCacheIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1016722
+      },
+      "writtenOn": "2014-10-21T18:33:43Z",
+      "side": 1,
+      "message": "DateTimeUtils does not wor the same as Thread.sleep",
+      "parentUuid": "503af8a9_2d25ed48",
+      "range": {
+        "startLine": 147,
+        "startChar": 6,
+        "endLine": 147,
+        "endChar": 25
+      },
+      "revId": "3c0262e8e582f45a0eccc1a4303423b28072006f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1044003a_2b6319ff",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/PatchListCacheIT.java",
         "patchSetId": 1
@@ -108,6 +132,30 @@
       "side": 1,
       "message": "Or fail(\"Thread.sleep interrupted\"), whichever looks better.",
       "parentUuid": "701c5c1f_d6cd0441",
+      "range": {
+        "startLine": 149,
+        "startChar": 6,
+        "endLine": 149,
+        "endChar": 26
+      },
+      "revId": "3c0262e8e582f45a0eccc1a4303423b28072006f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d037c8c1_e97915bb",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/PatchListCacheIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1016722
+      },
+      "writtenOn": "2014-10-21T18:33:43Z",
+      "side": 1,
+      "message": "Added fail.",
+      "parentUuid": "701c5c1f_36d398e6",
       "range": {
         "startLine": 149,
         "startChar": 6,

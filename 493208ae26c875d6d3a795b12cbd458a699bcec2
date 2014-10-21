@@ -46,6 +46,30 @@
       "revId": "493208ae26c875d6d3a795b12cbd458a699bcec2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1044003a_6b228199",
+        "filename": "ReleaseNotes/ReleaseNotes-2.10.txt",
+        "patchSetId": 18
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2014-10-21T15:18:14Z",
+      "side": 1,
+      "message": "Wow, that\u0027s magical. Does that belong in dev-release?",
+      "parentUuid": "50c758d5_85fb4224",
+      "range": {
+        "startLine": 40,
+        "startChar": 44,
+        "endLine": 40,
+        "endChar": 45
+      },
+      "revId": "493208ae26c875d6d3a795b12cbd458a699bcec2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

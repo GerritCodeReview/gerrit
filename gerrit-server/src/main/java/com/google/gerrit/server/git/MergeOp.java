@@ -86,6 +86,7 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevFlag;
 import org.eclipse.jgit.revwalk.RevSort;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.joda.time.format.ISODateTimeFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -129,6 +130,7 @@ public class MergeOp {
   private static final long MAX_SUBMIT_WINDOW =
       MILLISECONDS.convert(12, HOURS);
 
+  private final String logPrefix;
   private final GitRepositoryManager repoManager;
   private final SchemaFactory<ReviewDb> schemaFactory;
   private final ChangeNotes.Factory notesFactory;
@@ -191,6 +193,8 @@ public class MergeOp {
       final MergeValidators.Factory mergeValidatorsFactory,
       final ApprovalsUtil approvalsUtil,
       final ChangeMessagesUtil cmUtil) {
+    logPrefix = String.format("[%s@%s]: ", branch.toString(),
+        ISODateTimeFormat.hourMinuteSecond().print(TimeUtil.nowMs()));
     repoManager = grm;
     schemaFactory = sf;
     notesFactory = nf;
@@ -236,6 +240,7 @@ public class MergeOp {
   }
 
   public void merge() throws MergeException, NoSuchChangeException, IOException {
+    logDebug("Beginning merge attempt on {}", destBranch);
     setDestProject();
     try {
       openSchema();
@@ -251,11 +256,14 @@ public class MergeOp {
       final List<CodeReviewCommit> potentiallyStillSubmittableOnNextRun =
           new ArrayList<>();
       while (!toMerge.isEmpty()) {
+        logDebug("Beginning merge iteration with {} left to merge",
+            toMerge.size());
         toMergeNextTurn.clear();
         final Set<SubmitType> submitTypes =
             new HashSet<>(toMerge.keySet());
         for (final SubmitType submitType : submitTypes) {
           if (reopen) {
+            logDebug("Reopening branch");
             branchUpdate = openBranch();
           }
           final SubmitStrategy strategy = createStrategy(submitType);
@@ -277,17 +285,23 @@ public class MergeOp {
               // change has missing dependencies, but all commits which are
               // missing are still attempted to be merged with another submit
               // strategy, retry to merge this commit in the next turn
+              logDebug("Revision {} of patch set {} has missing dependencies with"
+                  + " different submit types, reconsidering on next run",
+                  commit.name(), commit.getPatchsetId());
               it.remove();
               commit.setStatusCode(null);
               commit.missing = null;
               toMergeNextTurn.put(submitType, commit);
             }
           }
+          logDebug("Adding {} changes potentially submittable on next run",
+              potentiallyStillSubmittable.size());
           potentiallyStillSubmittableOnNextRun.addAll(potentiallyStillSubmittable);
           potentiallyStillSubmittable.clear();
         }
         toMerge.clear();
         toMerge.putAll(toMergeNextTurn);
+        logDebug("Adding {} changes to merge on next run", toMerge.size());
       }
 
       updateChangeStatus(toUpdate);
@@ -300,9 +314,8 @@ public class MergeOp {
         }
       }
     } catch (NoSuchProjectException noProject) {
-      log.warn(String.format(
-          "Project %s no longer exists, abandoning open changes",
-          destBranch.getParentKey().get()));
+      logWarn("Project " + destBranch.getParentKey() + " no longer exists,"
+          + " abandoning open changes");
       abandonAllOpenChanges();
     } catch (OrmException e) {
       throw new MergeException("Cannot query the database", e);
@@ -338,7 +351,10 @@ public class MergeOp {
   }
 
   private boolean isSubmitForMissingCommitsStillPossible(final CodeReviewCommit commit) {
+    PatchSet.Id psId = commit.getPatchsetId();
     if (commit.missing == null || commit.missing.isEmpty()) {
+      logDebug("Patch set {} is not submittable: no list of missing commits",
+          psId);
       return false;
     }
 
@@ -346,7 +362,7 @@ public class MergeOp {
       try {
         loadChangeInfo(missingCommit);
       } catch (NoSuchChangeException | OrmException e) {
-        log.error("Cannot check if missing commits can be submitted", e);
+        logError("Cannot check if missing commits can be submitted", e);
         return false;
       }
 
@@ -354,14 +370,21 @@ public class MergeOp {
         // The commit doesn't have a patch set, so it cannot be
         // submitted to the branch.
         //
+        logDebug("Patch set {} is not submittable: dependency {} has no"
+            + " associated patch set", psId, missingCommit.name());
         return false;
       }
 
       if (!missingCommit.change().currentPatchSetId().equals(
           missingCommit.getPatchsetId())) {
+        PatchSet.Id missingId = missingCommit.getPatchsetId();
         // If the missing commit is not the current patch set,
         // the change must be rebased to use the proper parent.
         //
+        logDebug("Patch set {} is not submittable: depends on patch set {} of"
+            + " change {}, but current patch set is {}", psId, missingId,
+            missingId.getParentKey(),
+            missingCommit.change().currentPatchSetId());
         return false;
       }
     }
@@ -371,8 +394,11 @@ public class MergeOp {
 
   private void preMerge(final SubmitStrategy strategy,
       final List<CodeReviewCommit> toMerge) throws MergeException {
+    logDebug("Running submit strategy {} for {} commits",
+        strategy.getClass().getSimpleName(), toMerge.size());
     mergeTip = strategy.run(branchTip, toMerge);
     refLogIdent = strategy.getRefLogIdent();
+    logDebug("Produced {} new commits", strategy.getNewCommits().size());
     commits.putAll(strategy.getNewCommits());
   }
 
@@ -444,6 +470,7 @@ public class MergeOp {
       throw new MergeException("Failed to determine already accepted commits.", e);
     }
 
+    logDebug("Found {} existing heads", alreadyAccepted.size());
     return alreadyAccepted;
   }
 
@@ -475,6 +502,7 @@ public class MergeOp {
       }
       final Change.Id changeId = chg.getId();
       if (chg.currentPatchSetId() == null) {
+        logError("Missing current patch set on change " + changeId);
         commits.put(changeId, CodeReviewCommit.noPatchSet(ctl));
         toUpdate.add(chg);
         continue;
@@ -488,6 +516,7 @@ public class MergeOp {
       }
       if (ps == null || ps.getRevision() == null
           || ps.getRevision().get() == null) {
+        logError("Missing patch set or revision on change " + changeId);
         commits.put(changeId, CodeReviewCommit.noPatchSet(ctl));
         toUpdate.add(chg);
         continue;
@@ -498,6 +527,7 @@ public class MergeOp {
       try {
         id = ObjectId.fromString(idstr);
       } catch (IllegalArgumentException iae) {
+        logError("Invalid revision on patch set " + ps.getId());
         commits.put(changeId, CodeReviewCommit.noPatchSet(ctl));
         toUpdate.add(chg);
         continue;
@@ -513,6 +543,8 @@ public class MergeOp {
         // want to merge the issue. We can't safely do that if the
         // tip is not reachable.
         //
+        logError("Revision " + idstr + " of patch set " + ps.getId()
+            + " is not contained in any ref");
         commits.put(changeId, CodeReviewCommit.revisionGone(ctl));
         toUpdate.add(chg);
         continue;
@@ -522,7 +554,8 @@ public class MergeOp {
       try {
         commit = (CodeReviewCommit) rw.parseCommit(id);
       } catch (IOException e) {
-        log.error("Invalid commit " + id.name() + " on " + chg.getKey(), e);
+        logError(
+            "Invalid commit " + idstr + " on patch set " + ps.getId(), e);
         commits.put(changeId, CodeReviewCommit.revisionGone(ctl));
         toUpdate.add(chg);
         continue;
@@ -537,6 +570,8 @@ public class MergeOp {
       try {
         mergeValidators.validatePreMerge(repo, commit, destProject, destBranch, ps.getId());
       } catch (MergeValidationException mve) {
+        logDebug("Revision {} of patch set {} failed validation: {}",
+            idstr, ps.getId(), mve.getStatus());
         commit.setStatusCode(mve.getStatus());
         toUpdate.add(chg);
         continue;
@@ -549,11 +584,13 @@ public class MergeOp {
         //
         try {
           if (rw.isMergedInto(commit, branchTip)) {
+            logDebug("Revision {} of patch set {} is already merged",
+                idstr, ps.getId());
             commit.setStatusCode(CommitMergeStatus.ALREADY_MERGED);
             try {
               setMerged(chg, null);
             } catch (OrmException e) {
-              log.error("Cannot mark change " + chg.getId() + " merged", e);
+              logError("Cannot mark change " + chg.getId() + " merged", e);
             }
             continue;
           }
@@ -569,6 +606,8 @@ public class MergeOp {
         throw new MergeException("Cannot check submit type", err);
       }
       if (submitType == null) {
+        logError("No submit type for revision " + idstr + " of patch set "
+            + ps.getId());
         commit.setStatusCode(CommitMergeStatus.NO_SUBMIT_TYPE);
         toUpdate.add(chg);
         continue;
@@ -588,24 +627,29 @@ public class MergeOp {
       SubmitTypeRecord r = new SubmitRuleEvaluator(cd).setPatchSet(ps)
           .getSubmitType();
       if (r.status != SubmitTypeRecord.Status.OK) {
-        log.error("Failed to get submit type for " + ctl.getChange().getKey());
+        logError("Failed to get submit type for " + ctl.getChange().getKey());
         return null;
       }
       return r.type;
     } catch (OrmException e) {
-      log.error("Failed to get submit type for " + ctl.getChange().getKey(), e);
+      logError("Failed to get submit type for " + ctl.getChange().getKey(), e);
       return null;
     }
   }
 
   private RefUpdate updateBranch(final SubmitStrategy strategy,
       final RefUpdate branchUpdate) throws MergeException {
-    if (branchTip == mergeTip || mergeTip == null) {
-      // nothing to do
+    if (branchTip == mergeTip) {
+      logDebug("Branch already at merge tip {}, no update to perform",
+          mergeTip.name());
+      return null;
+    } else if (mergeTip == null) {
+      logDebug("No merge tip, no update to perform");
       return null;
     }
 
     if (RefNames.REFS_CONFIG.equals(branchUpdate.getName())) {
+      logDebug("Loading new configuration from {}", RefNames.REFS_CONFIG);
       try {
         ProjectConfig cfg =
             new ProjectConfig(destProject.getProject().getNameKey());
@@ -622,7 +666,11 @@ public class MergeOp {
     branchUpdate.setNewObjectId(mergeTip);
     branchUpdate.setRefLogMessage("merged", true);
     try {
-      switch (branchUpdate.update(rw)) {
+      RefUpdate.Result result = branchUpdate.update(rw);
+      logDebug("Update of {}: {}..{} returned status {}",
+          branchUpdate.getName(), branchUpdate.getOldObjectId(),
+          branchUpdate.getNewObjectId(), result);
+      switch (result) {
         case NEW:
         case FAST_FORWARD:
           if (branchUpdate.getResult() == RefUpdate.Result.FAST_FORWARD) {
@@ -661,6 +709,7 @@ public class MergeOp {
   }
 
   private void fireRefUpdated(RefUpdate branchUpdate) {
+    logDebug("Firing ref updated hooks for {}", branchUpdate.getName());
     gitRefUpdated.fire(destBranch.getParentKey(), branchUpdate);
     hooks.doRefUpdatedHook(destBranch, branchUpdate, getAccount(mergeTip));
   }
@@ -684,6 +733,7 @@ public class MergeOp {
   }
 
   private void updateChangeStatus(final List<Change> submitted) throws NoSuchChangeException {
+    logDebug("Updating change status for {} changes", submitted);
     for (final Change c : submitted) {
       final CodeReviewCommit commit = commits.get(c.getId());
       final CommitMergeStatus s = commit != null ? commit.getStatusCode() : null;
@@ -691,10 +741,13 @@ public class MergeOp {
         // Shouldn't ever happen, but leave the change alone. We'll pick
         // it up on the next pass.
         //
+        logDebug("Submitted change {} did not appear in set of new commits"
+            + " produced by merge strategy", c.getId());
         continue;
       }
 
       final String txt = s.getMessage();
+      logDebug("Status of change {} on {}: {}", c.getId(), c.getDest(), s);
 
       try {
         switch (s) {
@@ -726,6 +779,7 @@ public class MergeOp {
             break;
 
           case MISSING_DEPENDENCY:
+            logDebug("Change {} is missing dependency", c.getId());
             potentiallyStillSubmittable.add(commit);
             break;
 
@@ -734,15 +788,17 @@ public class MergeOp {
             break;
         }
       } catch (OrmException err) {
-        log.warn("Error updating change status for " + c.getId(), err);
+        logWarn("Error updating change status for " + c.getId(), err);
       } catch (IOException err) {
-        log.warn("Error updating change status for " + c.getId(), err);
+        logWarn("Error updating change status for " + c.getId(), err);
       }
     }
   }
 
   private void updateSubscriptions(final List<Change> submitted) {
     if (mergeTip != null && (branchTip == null || branchTip != mergeTip)) {
+      logDebug("Updating submodule subscriptions for {} changes",
+          submitted.size());
       SubmoduleOp subOp =
           subOpFactory.create(destBranch, mergeTip, rw, repo,
               destProject.getProject(), submitted, commits,
@@ -764,16 +820,21 @@ public class MergeOp {
     final long now = TimeUtil.nowMs();
     final long waitUntil = c.getLastUpdatedOn().getTime() + DEPENDENCY_DELAY;
     if (submitStillPossible && now < waitUntil) {
+      long recheckIn = waitUntil - now;
+      logDebug("Submit for {} is still possible; rechecking in {}ms",
+          c.getId(), recheckIn);
       // If we waited a short while we might still be able to get
       // this change submitted. Reschedule an attempt in a bit.
       //
-      mergeQueue.recheckAfter(destBranch, waitUntil - now, MILLISECONDS);
+      mergeQueue.recheckAfter(destBranch, recheckIn, MILLISECONDS);
       capable = Capable.OK;
     } else if (submitStillPossible) {
       // It would be possible to submit the change if the missing
       // dependencies are also submitted. Perhaps the user just
       // forgot to submit those.
       //
+      logDebug("Submit for {} is still possible after missing dependencies",
+          c.getId());
       StringBuilder m = new StringBuilder();
       m.append("Change could not be merged because of a missing dependency.");
       m.append("\n");
@@ -793,6 +854,7 @@ public class MergeOp {
       // needs to rebase it in order to work around the missing
       // dependencies.
       //
+      logDebug("Submit for {} is not possible", c.getId());
       StringBuilder m = new StringBuilder();
       m.append("Change cannot be merged due to unsatisfiable dependencies.\n");
       m.append("\n");
@@ -852,6 +914,7 @@ public class MergeOp {
 
   private void setMerged(Change c, ChangeMessage msg)
       throws OrmException, IOException, NoSuchChangeException {
+    logDebug("Setting change {} merged", c.getId());
     ChangeUpdate update = null;
     try {
       db.changes().beginTransaction(c.getId());
@@ -882,7 +945,7 @@ public class MergeOp {
               accountCache.get(submitter.getAccountId()).getAccount(),
               db.patchSets().get(merged), db);
         } catch (OrmException ex) {
-          log.error("Cannot run hook for submitted patch set " + c.getId(), ex);
+          logError("Cannot run hook for submitted patch set " + c.getId(), ex);
         }
       }
     } finally {
@@ -909,7 +972,7 @@ public class MergeOp {
           try {
             c.setCurrentPatchSet(patchSetInfoFactory.get(db, merged));
           } catch (PatchSetInfoNotAvailableException e1) {
-            log.error("Cannot read merged patch set " + merged, e1);
+            logError("Cannot read merged patch set " + merged, e1);
           }
         }
         ChangeUtil.updated(c);
@@ -932,7 +995,7 @@ public class MergeOp {
             reviewDb.close();
           }
         } catch (Exception e) {
-          log.error("Cannot send email for submitted patch set " + c.getId(), e);
+          logError("Cannot send email for submitted patch set " + c.getId(), e);
           return;
         }
 
@@ -944,7 +1007,7 @@ public class MergeOp {
           cm.setPatchSet(patchSet);
           cm.send();
         } catch (Exception e) {
-          log.error("Cannot send email for submitted patch set " + c.getId(), e);
+          logError("Cannot send email for submitted patch set " + c.getId(), e);
         }
       }
 
@@ -976,10 +1039,17 @@ public class MergeOp {
       @Nullable PatchSetApproval submitter,
       ChangeMessage msg,
       ChangeNotes notes) {
-    if (submitter != null
-        && TimeUtil.nowMs() - submitter.getGranted().getTime()
-          > MAX_SUBMIT_WINDOW) {
-      return RetryStatus.UNSUBMIT;
+    Change.Id id = notes.getChangeId();
+    if (submitter != null) {
+      long sinceMs = TimeUtil.nowMs() - submitter.getGranted().getTime();
+      if (sinceMs > MAX_SUBMIT_WINDOW) {
+        logDebug("Change {} submitted {}ms ago, unsubmitting", id, sinceMs);
+        return RetryStatus.UNSUBMIT;
+      } else {
+        logDebug("Change {} submitted {}ms ago, within window", id, sinceMs);
+      }
+    } else {
+      logDebug("No submitter for change {}", id);
     }
 
     try {
@@ -989,26 +1059,37 @@ public class MergeOp {
             && Objects.equal(last.getMessage(), msg.getMessage())) {
           long lastMs = last.getWrittenOn().getTime();
           long msgMs = msg.getWrittenOn().getTime();
-          return msgMs - lastMs > MAX_SUBMIT_WINDOW
-              ? RetryStatus.UNSUBMIT
-              : RetryStatus.RETRY_NO_MESSAGE;
+          long sinceMs = msgMs - lastMs;
+          if (sinceMs > MAX_SUBMIT_WINDOW) {
+            logDebug("Last message for change {} was {}ms ago, unsubmitting",
+                id, sinceMs);
+            return RetryStatus.UNSUBMIT;
+          } else {
+            logDebug("Last message for change {} was {}ms ago, within window",
+                id, sinceMs);
+            return RetryStatus.RETRY_NO_MESSAGE;
+          }
+        } else {
+          logDebug("Last message for change {} differed, adding message", id);
         }
       }
       return RetryStatus.RETRY_ADD_MESSAGE;
     } catch (OrmException err) {
-      log.warn("Cannot check previous merge failure, unsubmitting", err);
+      logWarn("Cannot check previous merge failure, unsubmitting", err);
       return RetryStatus.UNSUBMIT;
     }
   }
 
   private void sendMergeFail(ChangeNotes notes, final ChangeMessage msg,
       boolean makeNew) throws NoSuchChangeException, IOException {
+    logDebug("Possibly sending merge failure notification for {}",
+        notes.getChangeId());
     PatchSetApproval submitter = null;
     try {
       submitter = approvalsUtil.getSubmitter(
           db, notes, notes.getChange().currentPatchSetId());
     } catch (Exception e) {
-      log.error("Cannot get submitter", e);
+      logError("Cannot get submitter for change " + notes.getChangeId(), e);
     }
 
     if (!makeNew) {
@@ -1053,7 +1134,7 @@ public class MergeOp {
         db.rollback();
       }
     } catch (OrmException err) {
-      log.warn("Cannot record merge failure message", err);
+      logWarn("Cannot record merge failure message", err);
     }
     if (update != null) {
       update.commit();
@@ -1079,7 +1160,7 @@ public class MergeOp {
             reviewDb.close();
           }
         } catch (Exception e) {
-          log.error("Cannot send email notifications about merge failure", e);
+          logError("Cannot send email notifications about merge failure", e);
           return;
         }
 
@@ -1092,7 +1173,7 @@ public class MergeOp {
           cm.setChangeMessage(msg);
           cm.send();
         } catch (Exception e) {
-          log.error("Cannot send email notifications about merge failure", e);
+          logError("Cannot send email notifications about merge failure", e);
         }
       }
 
@@ -1106,7 +1187,7 @@ public class MergeOp {
       try {
         indexFuture.checkedGet();
       } catch (IOException e) {
-        log.error("Failed to index new change message", e);
+        logError("Failed to index new change message", e);
       }
     }
 
@@ -1116,7 +1197,7 @@ public class MergeOp {
             accountCache.get(submitter.getAccountId()).getAccount(),
             db.patchSets().get(c.currentPatchSetId()), msg.getMessage(), db);
       } catch (OrmException ex) {
-        log.error("Cannot run hook for merge failed " + c.getId(), ex);
+        logError("Cannot run hook for merge failed " + c.getId(), ex);
       }
     }
   }
@@ -1136,9 +1217,8 @@ public class MergeOp {
       err = e;
     }
     if (err != null) {
-      log.warn(String.format(
-          "Cannot abandon changes for deleted project %s",
-          destBranch.getParentKey().get()), err);
+      logWarn("Cannot abandon changes for deleted project "
+          + destBranch.getParentKey().get(), err);
     }
   }
 
@@ -1183,5 +1263,35 @@ public class MergeOp {
       db.rollback();
     }
     update.commit();
+  }
+
+  private void logDebug(String msg, Object... args) {
+    if (log.isDebugEnabled()) {
+      log.debug(logPrefix + msg, args);
+    }
+  }
+
+  private void logWarn(String msg, Throwable t) {
+    if (log.isWarnEnabled()) {
+      log.warn(logPrefix + msg, t);
+    }
+  }
+
+  private void logWarn(String msg) {
+    if (log.isWarnEnabled()) {
+      log.warn(logPrefix + msg);
+    }
+  }
+
+  private void logError(String msg, Throwable t) {
+    if (log.isErrorEnabled()) {
+      log.error(logPrefix + msg, t);
+    }
+  }
+
+  private void logError(String msg) {
+    if (log.isErrorEnabled()) {
+      log.error(logPrefix + msg);
+    }
   }
 }

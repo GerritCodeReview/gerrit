@@ -14,22 +14,45 @@
 
 package com.google.gerrit.server;
 
+import com.google.common.base.Function;
+import com.google.common.base.Predicate;
 import com.google.common.base.Strings;
-import com.google.common.collect.Lists;
+import com.google.common.collect.FluentIterable;
 import com.google.gerrit.extensions.common.WebLinkInfo;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.webui.BranchWebLink;
 import com.google.gerrit.extensions.webui.FileWebLink;
 import com.google.gerrit.extensions.webui.PatchSetWebLink;
 import com.google.gerrit.extensions.webui.ProjectWebLink;
+import com.google.gerrit.extensions.webui.WebLink;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import java.util.ArrayList;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.List;
+
 
 @Singleton
 public class WebLinks {
+
+  private static final Logger log = LoggerFactory.getLogger(WebLinks.class);
+  private static final Predicate<WebLinkInfo> INVALID_WEBLINK =
+      new Predicate<WebLinkInfo>() {
+
+        @Override
+        public boolean apply(WebLinkInfo link) {
+          if (link == null){
+            return false;
+          } else if (Strings.isNullOrEmpty(link.name)
+              || Strings.isNullOrEmpty(link.url)) {
+            log.warn("Weblink is missing name and/or url");
+            return false;
+          }
+          return true;
+        }
+      };
 
   private final DynamicSet<PatchSetWebLink> patchSetLinks;
   private final DynamicSet<FileWebLink> fileLinks;
@@ -47,39 +70,78 @@ public class WebLinks {
     this.branchLinks = branchLinks;
   }
 
-  public List<WebLinkInfo> getPatchSetLinks(String project, String commit) {
-    List<WebLinkInfo> links = new ArrayList<>(4);
-    for (PatchSetWebLink webLink : patchSetLinks) {
-      links.add(webLink.getPathSetWebLink(project, commit));
-    }
-    return links;
-  }
+  /**
+   *
+   * @param project Project name.
+   * @param commit SHA1 of commit.
+   * @return Null if no valid WebLinks are available for PatchSet.
+   */
+  public List<WebLinkInfo> getPatchSetLinks(final String project,
+      final String commit) {
+    return linksToList(patchSetLinks, new Function<WebLink, WebLinkInfo>() {
 
-  public List<WebLinkInfo> getFileLinks(String project, String revision,
-      String file) {
-    List<WebLinkInfo> links = new ArrayList<>(4);
-    for (FileWebLink webLink : fileLinks) {
-      WebLinkInfo info = webLink.getFileWebLink(project, revision, file);
-      if (!Strings.isNullOrEmpty(info.name) && !Strings.isNullOrEmpty(info.url)) {
-        links.add(info);
+      @Override
+      public WebLinkInfo apply(WebLink webLink) {
+        return ((PatchSetWebLink)webLink).getPathSetWebLink(project, commit);
       }
-    }
-    return links;
+    });
   }
 
-  public Iterable<WebLinkInfo> getProjectLinks(String project) {
-    List<WebLinkInfo> links = Lists.newArrayList();
-    for (ProjectWebLink webLink : projectLinks) {
-      links.add(webLink.getProjectWeblink(project));
-    }
-    return links;
+  /**
+   *
+   * @param project Project name.
+   * @param revision SHA1 of revision.
+   * @param file File name.
+   * @return Null if no valid WebLinks are available for file.
+   */
+  public List<WebLinkInfo> getFileLinks(final String project, final String revision,
+      final String file) {
+    return linksToList(fileLinks, new Function<WebLink, WebLinkInfo>() {
+
+      @Override
+      public WebLinkInfo apply(WebLink webLink) {
+        return ((FileWebLink)webLink).getFileWebLink(project, revision, file);
+      }
+    });
   }
 
-  public Iterable<WebLinkInfo> getBranchLinks(String project, String branch) {
-    List<WebLinkInfo> links = Lists.newArrayList();
-    for (BranchWebLink webLink : branchLinks) {
-      links.add(webLink.getBranchWebLink(project, branch));
-    }
-    return links;
+  /**
+   *
+   * @param project Project name.
+   * @return Null if no valid WebLinks are available for project.
+   */
+  public List<WebLinkInfo> getProjectLinks(final String project) {
+    return linksToList(projectLinks, new Function<WebLink, WebLinkInfo>() {
+
+      @Override
+      public WebLinkInfo apply(WebLink webLink) {
+        return ((ProjectWebLink)webLink).getProjectWeblink(project);
+      }
+    });
+  }
+
+  /**
+   *
+   * @param project Project name
+   * @param branch Branch name
+   * @return Null if no valid WebLinks are available for branch.
+   */
+  public List<WebLinkInfo> getBranchLinks(final String project, final String branch) {
+    return linksToList(branchLinks, new Function<WebLink, WebLinkInfo>() {
+
+      @Override
+      public WebLinkInfo apply(WebLink webLink) {
+        return ((BranchWebLink)webLink).getBranchWebLink(project, branch);
+      }
+    });
+  }
+
+  private List<WebLinkInfo> linksToList(DynamicSet<? extends WebLink> links,
+      Function<WebLink, WebLinkInfo> transformer) {
+    FluentIterable<WebLinkInfo> linkInfos = FluentIterable
+        .from(links)
+        .transform(transformer)
+        .filter(INVALID_WEBLINK);
+    return linkInfos.isEmpty() ? null : linkInfos.toList();
   }
 }

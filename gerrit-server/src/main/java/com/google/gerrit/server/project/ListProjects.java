@@ -23,7 +23,6 @@ import com.google.common.collect.Maps;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.extensions.common.ProjectInfo;
-import com.google.gerrit.extensions.common.WebLinkInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.RestReadView;
@@ -383,12 +382,7 @@ public class ListProjects implements RestReadView<TopLevelResource> {
             continue;
           }
 
-          info.webLinks = Lists.newArrayList();
-          for (WebLinkInfo link : webLinks.getProjectLinks(projectName.get())) {
-            if (!Strings.isNullOrEmpty(link.name) && !Strings.isNullOrEmpty(link.url)) {
-              info.webLinks.add(link);
-            }
-          }
+          info.webLinks = webLinks.getProjectLinks(projectName.get());
         }
 
         if (foundIndex++ < start) {

@@ -173,26 +173,26 @@ public class MergeOp {
   private final ChangeIndexer indexer;
 
   @Inject
-  MergeOp(final GitRepositoryManager grm, final SchemaFactory<ReviewDb> sf,
-      final ChangeNotes.Factory nf,
-      final ProjectCache pc,
-      final GitReferenceUpdated gru, final MergedSender.Factory msf,
-      final MergeFailSender.Factory mfsf,
-      final PatchSetInfoFactory psif, final IdentifiedUser.GenericFactory iuf,
-      final ChangeControl.GenericFactory changeControlFactory,
-      final ChangeData.Factory changeDataFactory,
-      final ChangeUpdate.Factory updateFactory,
-      final MergeQueue mergeQueue, @Assisted final Branch.NameKey branch,
-      final ChangeHooks hooks, final AccountCache accountCache,
-      final TagCache tagCache,
-      final SubmitStrategyFactory submitStrategyFactory,
-      final SubmoduleOp.Factory subOpFactory,
-      final WorkQueue workQueue,
-      final RequestScopePropagator requestScopePropagator,
-      final ChangeIndexer indexer,
-      final MergeValidators.Factory mergeValidatorsFactory,
-      final ApprovalsUtil approvalsUtil,
-      final ChangeMessagesUtil cmUtil) {
+  MergeOp(GitRepositoryManager grm, SchemaFactory<ReviewDb> sf,
+      ChangeNotes.Factory nf,
+      ProjectCache pc,
+      GitReferenceUpdated gru, MergedSender.Factory msf,
+      MergeFailSender.Factory mfsf,
+      PatchSetInfoFactory psif, IdentifiedUser.GenericFactory iuf,
+      ChangeControl.GenericFactory changeControlFactory,
+      ChangeData.Factory changeDataFactory,
+      ChangeUpdate.Factory updateFactory,
+      MergeQueue mergeQueue, @Assisted Branch.NameKey branch,
+      ChangeHooks hooks, AccountCache accountCache,
+      TagCache tagCache,
+      SubmitStrategyFactory submitStrategyFactory,
+      SubmoduleOp.Factory subOpFactory,
+      WorkQueue workQueue,
+      RequestScopePropagator requestScopePropagator,
+      ChangeIndexer indexer,
+      MergeValidators.Factory mergeValidatorsFactory,
+      ApprovalsUtil approvalsUtil,
+      ChangeMessagesUtil cmUtil) {
     logPrefix = String.format("[%s@%s]: ", branch.toString(),
         ISODateTimeFormat.hourMinuteSecond().print(TimeUtil.nowMs()));
     repoManager = grm;
@@ -249,24 +249,23 @@ public class MergeOp {
       RefUpdate branchUpdate = openBranch();
       boolean reopen = false;
 
-      final ListMultimap<SubmitType, Change> toSubmit =
+      ListMultimap<SubmitType, Change> toSubmit =
           validateChangeList(db.changes().submitted(destBranch).toList());
-      final ListMultimap<SubmitType, CodeReviewCommit> toMergeNextTurn =
+      ListMultimap<SubmitType, CodeReviewCommit> toMergeNextTurn =
           ArrayListMultimap.create();
-      final List<CodeReviewCommit> potentiallyStillSubmittableOnNextRun =
+      List<CodeReviewCommit> potentiallyStillSubmittableOnNextRun =
           new ArrayList<>();
       while (!toMerge.isEmpty()) {
         logDebug("Beginning merge iteration with {} left to merge",
             toMerge.size());
         toMergeNextTurn.clear();
-        final Set<SubmitType> submitTypes =
-            new HashSet<>(toMerge.keySet());
-        for (final SubmitType submitType : submitTypes) {
+        Set<SubmitType> submitTypes = new HashSet<>(toMerge.keySet());
+        for (SubmitType submitType : submitTypes) {
           if (reopen) {
             logDebug("Reopening branch");
             branchUpdate = openBranch();
           }
-          final SubmitStrategy strategy = createStrategy(submitType);
+          SubmitStrategy strategy = createStrategy(submitType);
           preMerge(strategy, toMerge.get(submitType));
           RefUpdate update = updateBranch(strategy, branchUpdate);
           reopen = true;
@@ -277,9 +276,9 @@ public class MergeOp {
             fireRefUpdated(update);
           }
 
-          for (final Iterator<CodeReviewCommit> it =
+          for (Iterator<CodeReviewCommit> it =
               potentiallyStillSubmittable.iterator(); it.hasNext();) {
-            final CodeReviewCommit commit = it.next();
+            CodeReviewCommit commit = it.next();
             if (containsMissingCommits(toMerge, commit)
                 || containsMissingCommits(toMergeNextTurn, commit)) {
               // change has missing dependencies, but all commits which are
@@ -306,8 +305,8 @@ public class MergeOp {
 
       updateChangeStatus(toUpdate);
 
-      for (final CodeReviewCommit commit : potentiallyStillSubmittableOnNextRun) {
-        final Capable capable = isSubmitStillPossible(commit);
+      for (CodeReviewCommit commit : potentiallyStillSubmittableOnNextRun) {
+        Capable capable = isSubmitStillPossible(commit);
         if (capable != Capable.OK) {
           sendMergeFail(commit.notes(),
               message(commit.change(), capable.getMessage()), false);
@@ -336,13 +335,12 @@ public class MergeOp {
   }
 
   private boolean containsMissingCommits(
-      final ListMultimap<SubmitType, CodeReviewCommit> map,
-      final CodeReviewCommit commit) {
+      ListMultimap<SubmitType, CodeReviewCommit> map, CodeReviewCommit commit) {
     if (!isSubmitForMissingCommitsStillPossible(commit)) {
       return false;
     }
 
-    for (final CodeReviewCommit missingCommit : commit.missing) {
+    for (CodeReviewCommit missingCommit : commit.missing) {
       if (!map.containsValue(missingCommit)) {
         return false;
       }
@@ -350,7 +348,7 @@ public class MergeOp {
     return true;
   }
 
-  private boolean isSubmitForMissingCommitsStillPossible(final CodeReviewCommit commit) {
+  private boolean isSubmitForMissingCommitsStillPossible(CodeReviewCommit commit) {
     PatchSet.Id psId = commit.getPatchsetId();
     if (commit.missing == null || commit.missing.isEmpty()) {
       logDebug("Patch set {} is not submittable: no list of missing commits",
@@ -392,8 +390,8 @@ public class MergeOp {
     return true;
   }
 
-  private void preMerge(final SubmitStrategy strategy,
-      final List<CodeReviewCommit> toMerge) throws MergeException {
+  private void preMerge(SubmitStrategy strategy,
+      List<CodeReviewCommit> toMerge) throws MergeException {
     logDebug("Running submit strategy {} for {} commits",
         strategy.getClass().getSimpleName(), toMerge.size());
     mergeTip = strategy.run(branchTip, toMerge);
@@ -402,20 +400,20 @@ public class MergeOp {
     commits.putAll(strategy.getNewCommits());
   }
 
-  private SubmitStrategy createStrategy(final SubmitType submitType)
+  private SubmitStrategy createStrategy(SubmitType submitType)
       throws MergeException, NoSuchProjectException {
     return submitStrategyFactory.create(submitType, db, repo, rw, inserter,
         canMergeFlag, getAlreadyAccepted(branchTip), destBranch);
   }
 
   private void openRepository() throws MergeException, NoSuchProjectException {
-    final Project.NameKey name = destBranch.getParentKey();
+    Project.NameKey name = destBranch.getParentKey();
     try {
       repo = repoManager.openRepository(name);
     } catch (RepositoryNotFoundException notFound) {
       throw new NoSuchProjectException(name, notFound);
     } catch (IOException err) {
-      final String m = "Error opening repository \"" + name.get() + '"';
+      String m = "Error opening repository \"" + name.get() + '"';
       throw new MergeException(m, err);
     }
 
@@ -429,7 +427,7 @@ public class MergeOp {
 
   private RefUpdate openBranch() throws MergeException, OrmException, NoSuchChangeException {
     try {
-      final RefUpdate branchUpdate = repo.updateRef(destBranch.get());
+      RefUpdate branchUpdate = repo.updateRef(destBranch.get());
       if (branchUpdate.getOldObjectId() != null) {
         branchTip =
             (CodeReviewCommit) rw.parseCommit(branchUpdate.getOldObjectId());
@@ -437,7 +435,7 @@ public class MergeOp {
         branchTip = null;
         branchUpdate.setExpectedOldObjectId(ObjectId.zeroId());
       } else {
-        for (final Change c : db.changes().submitted(destBranch).toList()) {
+        for (Change c : db.changes().submitted(destBranch).toList()) {
           setNew(c, message(c, "Your change could not be merged, "
               + "because the destination branch does not exist anymore."));
         }
@@ -448,16 +446,16 @@ public class MergeOp {
     }
   }
 
-  private Set<RevCommit> getAlreadyAccepted(final CodeReviewCommit branchTip)
+  private Set<RevCommit> getAlreadyAccepted(CodeReviewCommit branchTip)
       throws MergeException {
-    final Set<RevCommit> alreadyAccepted = new HashSet<>();
+    Set<RevCommit> alreadyAccepted = new HashSet<>();
 
     if (branchTip != null) {
       alreadyAccepted.add(branchTip);
     }
 
     try {
-      for (final Ref r : repo.getRefDatabase().getRefs(ALL).values()) {
+      for (Ref r : repo.getRefDatabase().getRefs(ALL).values()) {
         if (r.getName().startsWith(Constants.R_HEADS)) {
           try {
             alreadyAccepted.add(rw.parseCommit(r.getObjectId()));
@@ -475,24 +473,23 @@ public class MergeOp {
   }
 
   private ListMultimap<SubmitType, Change> validateChangeList(
-      final List<Change> submitted) throws MergeException, NoSuchChangeException {
-    final ListMultimap<SubmitType, Change> toSubmit =
-        ArrayListMultimap.create();
+      List<Change> submitted) throws MergeException, NoSuchChangeException {
+    ListMultimap<SubmitType, Change> toSubmit = ArrayListMultimap.create();
 
-    final Map<String, Ref> allRefs;
+    Map<String, Ref> allRefs;
     try {
       allRefs = repo.getRefDatabase().getRefs(ALL);
     } catch (IOException e) {
       throw new MergeException(e.getMessage(), e);
     }
 
-    final Set<ObjectId> tips = new HashSet<>();
-    for (final Ref r : allRefs.values()) {
+    Set<ObjectId> tips = new HashSet<>();
+    for (Ref r : allRefs.values()) {
       tips.add(r.getObjectId());
     }
 
     int commitOrder = 0;
-    for (final Change chg : submitted) {
+    for (Change chg : submitted) {
       ChangeControl ctl;
       try {
         ctl = changeControlFactory.controlFor(chg,
@@ -500,7 +497,7 @@ public class MergeOp {
       } catch (NoSuchChangeException e) {
         throw new MergeException("Failed to validate changes", e);
       }
-      final Change.Id changeId = chg.getId();
+      Change.Id changeId = chg.getId();
       if (chg.currentPatchSetId() == null) {
         logError("Missing current patch set on change " + changeId);
         commits.put(changeId, CodeReviewCommit.noPatchSet(ctl));
@@ -508,7 +505,7 @@ public class MergeOp {
         continue;
       }
 
-      final PatchSet ps;
+      PatchSet ps;
       try {
         ps = db.patchSets().get(chg.currentPatchSetId());
       } catch (OrmException e) {
@@ -522,8 +519,8 @@ public class MergeOp {
         continue;
       }
 
-      final String idstr = ps.getRevision().get();
-      final ObjectId id;
+      String idstr = ps.getRevision().get();
+      ObjectId id;
       try {
         id = ObjectId.fromString(idstr);
       } catch (IllegalArgumentException iae) {
@@ -550,7 +547,7 @@ public class MergeOp {
         continue;
       }
 
-      final CodeReviewCommit commit;
+      CodeReviewCommit commit;
       try {
         commit = (CodeReviewCommit) rw.parseCommit(id);
       } catch (IOException e) {
@@ -637,8 +634,8 @@ public class MergeOp {
     }
   }
 
-  private RefUpdate updateBranch(final SubmitStrategy strategy,
-      final RefUpdate branchUpdate) throws MergeException {
+  private RefUpdate updateBranch(SubmitStrategy strategy,
+      RefUpdate branchUpdate) throws MergeException {
     if (branchTip == mergeTip) {
       logDebug("Branch already at merge tip {}, no update to perform",
           mergeTip.name());
@@ -732,11 +729,11 @@ public class MergeOp {
     return "";
   }
 
-  private void updateChangeStatus(final List<Change> submitted) throws NoSuchChangeException {
+  private void updateChangeStatus(List<Change> submitted) throws NoSuchChangeException {
     logDebug("Updating change status for {} changes", submitted);
-    for (final Change c : submitted) {
-      final CodeReviewCommit commit = commits.get(c.getId());
-      final CommitMergeStatus s = commit != null ? commit.getStatusCode() : null;
+    for (Change c : submitted) {
+      CodeReviewCommit commit = commits.get(c.getId());
+      CommitMergeStatus s = commit != null ? commit.getStatusCode() : null;
       if (s == null) {
         // Shouldn't ever happen, but leave the change alone. We'll pick
         // it up on the next pass.
@@ -746,7 +743,7 @@ public class MergeOp {
         continue;
       }
 
-      final String txt = s.getMessage();
+      String txt = s.getMessage();
       logDebug("Status of change {} on {}: {}", c.getId(), c.getDest(), s);
 
       try {
@@ -795,7 +792,7 @@ public class MergeOp {
     }
   }
 
-  private void updateSubscriptions(final List<Change> submitted) {
+  private void updateSubscriptions(List<Change> submitted) {
     if (mergeTip != null && (branchTip == null || branchTip != mergeTip)) {
       logDebug("Updating submodule subscriptions for {} changes",
           submitted.size());
@@ -813,12 +810,12 @@ public class MergeOp {
     }
   }
 
-  private Capable isSubmitStillPossible(final CodeReviewCommit commit) {
-    final Capable capable;
-    final Change c = commit.change();
-    final boolean submitStillPossible = isSubmitForMissingCommitsStillPossible(commit);
-    final long now = TimeUtil.nowMs();
-    final long waitUntil = c.getLastUpdatedOn().getTime() + DEPENDENCY_DELAY;
+  private Capable isSubmitStillPossible(CodeReviewCommit commit) {
+    Capable capable;
+    Change c = commit.change();
+    boolean submitStillPossible = isSubmitForMissingCommitsStillPossible(commit);
+    long now = TimeUtil.nowMs();
+    long waitUntil = c.getLastUpdatedOn().getTime() + DEPENDENCY_DELAY;
     if (submitStillPossible && now < waitUntil) {
       long recheckIn = waitUntil - now;
       logDebug("Submit for {} is still possible; rechecking in {}ms",
@@ -886,7 +883,7 @@ public class MergeOp {
     return capable;
   }
 
-  private void loadChangeInfo(final CodeReviewCommit commit)
+  private void loadChangeInfo(CodeReviewCommit commit)
       throws NoSuchChangeException, OrmException {
     if (commit.getControl() == null) {
       List<PatchSet> matches =
@@ -899,8 +896,8 @@ public class MergeOp {
     }
   }
 
-  private ChangeMessage message(final Change c, final String body) {
-    final String uuid;
+  private ChangeMessage message(Change c, String body) {
+    String uuid;
     try {
       uuid = ChangeUtil.messageUUID(db);
     } catch (OrmException e) {
@@ -1165,7 +1162,7 @@ public class MergeOp {
         }
 
         try {
-          final MergeFailSender cm = mergeFailSenderFactory.create(c);
+          MergeFailSender cm = mergeFailSenderFactory.create(c);
           if (from != null) {
             cm.setFrom(from.getAccountId());
           }

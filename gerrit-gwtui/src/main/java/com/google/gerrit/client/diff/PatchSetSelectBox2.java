@@ -52,7 +52,6 @@ class PatchSetSelectBox2 extends Composite {
 
   interface BoxStyle extends CssResource {
     String selected();
-    String replyBox();
   }
 
   @UiField Image icon;

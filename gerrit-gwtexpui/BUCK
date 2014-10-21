@@ -8,10 +8,10 @@ gwt_module(
     SRC + 'clippy/client/clippy.css',
     SRC + 'clippy/client/clippy.swf',
   ],
+  provided_deps = ['//lib/gwt:user'],
   deps = [
     ':SafeHtml',
     ':UserAgent',
-    '//lib/gwt:user',
     '//lib:LICENSE-clippy',
   ],
   visibility = ['PUBLIC'],
@@ -21,7 +21,7 @@ java_library(
   name = 'CSS',
   srcs = glob([SRC + 'css/rebind/*.java']),
   resources = [SRC + 'css/CSS.gwt.xml'],
-  deps = ['//lib/gwt:dev'],
+  provided_deps = ['//lib/gwt:dev'],
   visibility = ['PUBLIC'],
 )
 
@@ -33,10 +33,10 @@ gwt_module(
     SRC + 'globalkey/client/KeyConstants.properties',
     SRC + 'globalkey/client/key.css',
   ],
+  provided_deps = ['//lib/gwt:user'],
   deps = [
     ':SafeHtml',
     ':UserAgent',
-    '//lib/gwt:user',
   ],
   visibility = ['PUBLIC'],
 )
@@ -53,7 +53,7 @@ gwt_module(
   srcs = glob([SRC + 'progress/client/*.java']),
   gwt_xml = SRC + 'progress/Progress.gwt.xml',
   resources = [SRC + 'progress/client/progress.css'],
-  deps = ['//lib/gwt:user'],
+  provided_deps = ['//lib/gwt:user'],
   visibility = ['PUBLIC'],
 )
 
@@ -62,7 +62,7 @@ gwt_module(
   srcs = glob([SRC + 'safehtml/client/*.java']),
   gwt_xml = SRC + 'safehtml/SafeHtml.gwt.xml',
   resources = [SRC + 'safehtml/client/safehtml.css'],
-  deps = ['//lib/gwt:user'],
+  provided_deps = ['//lib/gwt:user'],
   visibility = ['PUBLIC'],
 )
 
@@ -84,7 +84,7 @@ gwt_module(
   name = 'UserAgent',
   srcs = glob([SRC + 'user/client/*.java']),
   gwt_xml = SRC + 'user/User.gwt.xml',
-  deps = ['//lib/gwt:user'],
+  provided_deps = ['//lib/gwt:user'],
   visibility = ['PUBLIC'],
 )
 
@@ -92,5 +92,19 @@ java_library(
   name = 'server',
   srcs = glob([SRC + 'server/*.java']),
   provided_deps = ['//lib:servlet-api-3_1'],
+  visibility = ['PUBLIC'],
+)
+
+java_library(
+  name = 'client-src-lib',
+  srcs = [],
+  resources = glob(
+    [SRC + n for n in [
+      'clippy/**/*',
+      'globalkey/**/*',
+      'safehtml/**/*',
+      'user/**/*',
+    ]]
+  ),
   visibility = ['PUBLIC'],
 )

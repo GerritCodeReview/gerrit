@@ -22,6 +22,30 @@
       "revId": "493208ae26c875d6d3a795b12cbd458a699bcec2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50c758d5_85fb4224",
+        "filename": "ReleaseNotes/ReleaseNotes-2.10.txt",
+        "patchSetId": 18
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-10-21T15:09:28Z",
+      "side": 1,
+      "message": "No, escaping must not be done here :)\n\nAs far as I understand it, \u0027#\u0027 must only be escaped if it appears twice in a line and then only the first occurrance must be escaped. Don\u0027t ask me why, but this makes the link work.",
+      "parentUuid": "701c5c1f_96ea6c85",
+      "range": {
+        "startLine": 40,
+        "startChar": 44,
+        "endLine": 40,
+        "endChar": 45
+      },
+      "revId": "493208ae26c875d6d3a795b12cbd458a699bcec2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

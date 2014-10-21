@@ -73,6 +73,24 @@
     },
     {
       "key": {
+        "uuid": "701c5c1f_9600acda",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/RunAsFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1017247
+      },
+      "writtenOn": "2014-10-21T01:35:11Z",
+      "side": 1,
+      "message": "With Dave B.\u0027s point in mind, I\u0027ll revert the addition of the extra method. There\u0027s some merit in compelling new callers to investigate whether there\u0027s an applicable value available for this parameter. This class merits modification anyway, since one of the calls has an available exception to log.\n\nBreaking the existing method signature was also, as noted, useful as a one-time expedient for identifying all callers requiring review.",
+      "parentUuid": "701c5c1f_16c65c51",
+      "revId": "68a1c31750c0c107f26937af323503359ca93933",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1044003a_ab21c9ca",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
         "patchSetId": 1
@@ -90,6 +108,24 @@
         "endLine": 143,
         "endChar": 34
       },
+      "revId": "68a1c31750c0c107f26937af323503359ca93933",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d037c8c1_090ae947",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1017247
+      },
+      "writtenOn": "2014-10-21T01:35:11Z",
+      "side": 1,
+      "message": "Yes. A few methods from this class should move too. I\u0027ll move the constant now but tackle the rest in a separate CL, to avoid diluting the purpose of this one.",
+      "parentUuid": "1044003a_ab21c9ca",
       "revId": "68a1c31750c0c107f26937af323503359ca93933",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -46,6 +46,30 @@
       "revId": "cf57cbd5ace7c7a9153c6f0144f4436cb2333b38",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "95446258_efe1812f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-21T22:03:23Z",
+      "side": 1,
+      "message": "Just noticed.",
+      "parentUuid": "d037c8c1_498ea13a",
+      "range": {
+        "startLine": 176,
+        "startChar": 36,
+        "endLine": 176,
+        "endChar": 63
+      },
+      "revId": "cf57cbd5ace7c7a9153c6f0144f4436cb2333b38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

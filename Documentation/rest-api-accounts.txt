@@ -908,7 +908,7 @@ link:#preferences-input[PreferencesInput] entity.
 
 .Request
 ----
-  GET /a/accounts/self/preferences HTTP/1.0
+  PUT /a/accounts/self/preferences HTTP/1.0
   Content-Type: application/json;charset=UTF-8
 
   {

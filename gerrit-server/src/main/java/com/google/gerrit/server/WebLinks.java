@@ -50,10 +50,14 @@ public class WebLinks {
   public List<WebLinkInfo> getPatchSetLinks(String project, String commit) {
     List<WebLinkInfo> links = new ArrayList<>(4);
     for (PatchSetWebLink webLink : patchSetLinks) {
-      links.add(new WebLinkInfo(webLink.getLinkName(),
-          webLink.getImageUrl(),
-          webLink.getPatchSetUrl(project, commit),
-          webLink.getTarget()));
+      String name = webLink.getLinkName();
+      String url = webLink.getPatchSetUrl(project, commit);
+      if (!Strings.isNullOrEmpty(name) && !Strings.isNullOrEmpty(url)) {
+        links.add(new WebLinkInfo(name,
+            webLink.getImageUrl(),
+            url,
+            webLink.getTarget()));
+      }
     }
     return links;
   }
@@ -77,10 +81,12 @@ public class WebLinks {
   public Iterable<WebLinkInfo> getProjectLinks(String project) {
     List<WebLinkInfo> links = Lists.newArrayList();
     for (ProjectWebLink webLink : projectLinks) {
-      links.add(new WebLinkInfo(webLink.getLinkName(),
-          webLink.getImageUrl(),
-          webLink.getProjectUrl(project),
-          webLink.getTarget()));
+      String name = webLink.getLinkName();
+      String url = webLink.getProjectUrl(project);
+      if (!Strings.isNullOrEmpty(name) && !Strings.isNullOrEmpty(url)) {
+        links.add(new WebLinkInfo(name, webLink.getImageUrl(), url, webLink
+            .getTarget()));
+      }
     }
     return links;
   }
@@ -88,10 +94,14 @@ public class WebLinks {
   public Iterable<WebLinkInfo> getBranchLinks(String project, String branch) {
     List<WebLinkInfo> links = Lists.newArrayList();
     for (BranchWebLink webLink : branchLinks) {
-      links.add(new WebLinkInfo(webLink.getLinkName(),
-          webLink.getImageUrl(),
-          webLink.getBranchUrl(project, branch),
-          webLink.getTarget()));
+      String name = webLink.getLinkName();
+      String url = webLink.getBranchUrl(project, branch);
+      if (!Strings.isNullOrEmpty(name) && !Strings.isNullOrEmpty(url)) {
+        links.add(new WebLinkInfo(name,
+            webLink.getImageUrl(),
+            url,
+            webLink.getTarget()));
+      }
     }
     return links;
   }

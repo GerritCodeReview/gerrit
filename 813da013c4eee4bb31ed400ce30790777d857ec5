@@ -22,6 +22,30 @@
       "revId": "813da013c4eee4bb31ed400ce30790777d857ec5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1044003a_0b7f3d9e",
+        "filename": "ReleaseNotes/ReleaseNotes-2.10.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 419,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-10-21T07:36:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "503af8a9_ad755d70",
+      "range": {
+        "startLine": 418,
+        "startChar": 0,
+        "endLine": 419,
+        "endChar": 40
+      },
+      "revId": "813da013c4eee4bb31ed400ce30790777d857ec5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -46,6 +46,30 @@
       "revId": "9fc79ae86d35817d265d1bc4d57a24428bfc43b3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d515fa2f_b904ff39",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2014-10-21T22:26:47Z",
+      "side": 1,
+      "message": "Right. Reading. I swear I can do that.",
+      "parentUuid": "95446258_8fe8b50f",
+      "range": {
+        "startLine": 7,
+        "startChar": 33,
+        "endLine": 7,
+        "endChar": 50
+      },
+      "revId": "9fc79ae86d35817d265d1bc4d57a24428bfc43b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

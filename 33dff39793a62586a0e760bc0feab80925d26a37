@@ -2,6 +2,126 @@
   "comments": [
     {
       "key": {
+        "uuid": "701c5c1f_d61b4415",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-10-21T15:54:26Z",
+      "side": 1,
+      "message": "Long line, perhaps:\n\n Reindex unconditionally in MergeabilityChecker, not in Mergeable",
+      "revId": "33dff39793a62586a0e760bc0feab80925d26a37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "701c5c1f_3628b822",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-10-21T15:54:26Z",
+      "side": 1,
+      "message": "This paragraph needs to be rewritten to describe the new approach.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 58
+      },
+      "revId": "33dff39793a62586a0e760bc0feab80925d26a37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "701c5c1f_b633289c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-10-21T15:54:26Z",
+      "side": 1,
+      "message": "Per my other comment, do we believe this is because of a racy Change mutation? If so, mention the cause in the commit message. If not, we should come up with another hypothesis :)",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 59
+      },
+      "revId": "33dff39793a62586a0e760bc0feab80925d26a37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "701c5c1f_5608d4c3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-10-21T15:54:26Z",
+      "side": 1,
+      "message": "I",
+      "range": {
+        "startLine": 34,
+        "startChar": 60,
+        "endLine": 34,
+        "endChar": 61
+      },
+      "revId": "33dff39793a62586a0e760bc0feab80925d26a37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1044003a_4b3ce5b6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-10-21T15:54:26Z",
+      "side": 1,
+      "message": "Blank line before Change-Id",
+      "revId": "33dff39793a62586a0e760bc0feab80925d26a37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1044003a_6b39a1c5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/MergeabilityChecker.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-10-21T15:54:26Z",
+      "side": 1,
+      "message": "Bring in the comment I made on this statement as well.",
+      "revId": "33dff39793a62586a0e760bc0feab80925d26a37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "503af8a9_4df4f965",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/MergeabilityChecker.java",
         "patchSetId": 9
@@ -13,6 +133,30 @@
       "writtenOn": "2014-10-21T12:33:59Z",
       "side": 1,
       "message": "If it always returns null it should be Callable\u003cVoid\u003e, I think.",
+      "range": {
+        "startLine": 289,
+        "startChar": 32,
+        "endLine": 289,
+        "endChar": 48
+      },
+      "revId": "33dff39793a62586a0e760bc0feab80925d26a37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "701c5c1f_d6322495",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/MergeabilityChecker.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-10-21T15:54:26Z",
+      "side": 1,
+      "message": "Sure, that probably makes it clearer. I think I was being lazy and trying to avoid an explicit \u003cVoid\u003e somewhere above.",
+      "parentUuid": "503af8a9_4df4f965",
       "range": {
         "startLine": 289,
         "startChar": 32,

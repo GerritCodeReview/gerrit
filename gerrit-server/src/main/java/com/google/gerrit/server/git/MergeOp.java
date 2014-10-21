@@ -130,30 +130,39 @@ public class MergeOp {
   private static final long MAX_SUBMIT_WINDOW =
       MILLISECONDS.convert(12, HOURS);
 
-  private final String logPrefix;
-  private final GitRepositoryManager repoManager;
-  private final SchemaFactory<ReviewDb> schemaFactory;
-  private final ChangeNotes.Factory notesFactory;
-  private final ProjectCache projectCache;
-  private final GitReferenceUpdated gitRefUpdated;
-  private final MergedSender.Factory mergedSenderFactory;
-  private final MergeFailSender.Factory mergeFailSenderFactory;
-  private final PatchSetInfoFactory patchSetInfoFactory;
-  private final IdentifiedUser.GenericFactory identifiedUserFactory;
+  private final AccountCache accountCache;
+  private final ApprovalsUtil approvalsUtil;
   private final ChangeControl.GenericFactory changeControlFactory;
   private final ChangeData.Factory changeDataFactory;
+  private final ChangeHooks hooks;
+  private final ChangeIndexer indexer;
+  private final ChangeMessagesUtil cmUtil;
+  private final ChangeNotes.Factory notesFactory;
   private final ChangeUpdate.Factory updateFactory;
+  private final GitReferenceUpdated gitRefUpdated;
+  private final GitRepositoryManager repoManager;
+  private final IdentifiedUser.GenericFactory identifiedUserFactory;
+  private final MergedSender.Factory mergedSenderFactory;
+  private final MergeFailSender.Factory mergeFailSenderFactory;
   private final MergeQueue mergeQueue;
   private final MergeValidators.Factory mergeValidatorsFactory;
-  private final ApprovalsUtil approvalsUtil;
-  private final ChangeMessagesUtil cmUtil;
+  private final PatchSetInfoFactory patchSetInfoFactory;
+  private final ProjectCache projectCache;
+  private final RequestScopePropagator requestScopePropagator;
+  private final SchemaFactory<ReviewDb> schemaFactory;
+  private final SubmitStrategyFactory submitStrategyFactory;
+  private final SubmoduleOp.Factory subOpFactory;
+  private final TagCache tagCache;
+  private final WorkQueue workQueue;
 
+  private final String logPrefix;
   private final Branch.NameKey destBranch;
-  private ProjectState destProject;
   private final ListMultimap<SubmitType, CodeReviewCommit> toMerge;
   private final List<CodeReviewCommit> potentiallyStillSubmittable;
   private final Map<Change.Id, CodeReviewCommit> commits;
   private final List<Change> toUpdate;
+
+  private ProjectState destProject;
   private ReviewDb db;
   private Repository repo;
   private RevWalk rw;
@@ -163,62 +172,58 @@ public class MergeOp {
   private ObjectInserter inserter;
   private PersonIdent refLogIdent;
 
-  private final ChangeHooks hooks;
-  private final AccountCache accountCache;
-  private final TagCache tagCache;
-  private final SubmitStrategyFactory submitStrategyFactory;
-  private final SubmoduleOp.Factory subOpFactory;
-  private final WorkQueue workQueue;
-  private final RequestScopePropagator requestScopePropagator;
-  private final ChangeIndexer indexer;
-
   @Inject
-  MergeOp(GitRepositoryManager grm, SchemaFactory<ReviewDb> sf,
-      ChangeNotes.Factory nf,
-      ProjectCache pc,
-      GitReferenceUpdated gru, MergedSender.Factory msf,
-      MergeFailSender.Factory mfsf,
-      PatchSetInfoFactory psif, IdentifiedUser.GenericFactory iuf,
+  MergeOp(AccountCache accountCache,
+      ApprovalsUtil approvalsUtil,
       ChangeControl.GenericFactory changeControlFactory,
       ChangeData.Factory changeDataFactory,
+      ChangeHooks hooks,
+      ChangeIndexer indexer,
+      ChangeMessagesUtil cmUtil,
+      ChangeNotes.Factory notesFactory,
       ChangeUpdate.Factory updateFactory,
-      MergeQueue mergeQueue, @Assisted Branch.NameKey branch,
-      ChangeHooks hooks, AccountCache accountCache,
-      TagCache tagCache,
+      GitReferenceUpdated gitRefUpdated,
+      GitRepositoryManager repoManager,
+      IdentifiedUser.GenericFactory identifiedUserFactory,
+      MergedSender.Factory mergedSenderFactory,
+      MergeFailSender.Factory mergeFailSenderFactory,
+      MergeQueue mergeQueue,
+      MergeValidators.Factory mergeValidatorsFactory,
+      PatchSetInfoFactory patchSetInfoFactory,
+      ProjectCache projectCache,
+      RequestScopePropagator requestScopePropagator,
+      SchemaFactory<ReviewDb> schemaFactory,
       SubmitStrategyFactory submitStrategyFactory,
       SubmoduleOp.Factory subOpFactory,
+      TagCache tagCache,
       WorkQueue workQueue,
-      RequestScopePropagator requestScopePropagator,
-      ChangeIndexer indexer,
-      MergeValidators.Factory mergeValidatorsFactory,
-      ApprovalsUtil approvalsUtil,
-      ChangeMessagesUtil cmUtil) {
-    logPrefix = String.format("[%s@%s]: ", branch.toString(),
-        ISODateTimeFormat.hourMinuteSecond().print(TimeUtil.nowMs()));
-    repoManager = grm;
-    schemaFactory = sf;
-    notesFactory = nf;
-    projectCache = pc;
-    gitRefUpdated = gru;
-    mergedSenderFactory = msf;
-    mergeFailSenderFactory = mfsf;
-    patchSetInfoFactory = psif;
-    identifiedUserFactory = iuf;
+      @Assisted Branch.NameKey branch) {
+    this.accountCache = accountCache;
+    this.approvalsUtil = approvalsUtil;
     this.changeControlFactory = changeControlFactory;
     this.changeDataFactory = changeDataFactory;
-    this.updateFactory = updateFactory;
-    this.mergeQueue = mergeQueue;
     this.hooks = hooks;
-    this.accountCache = accountCache;
-    this.tagCache = tagCache;
+    this.indexer = indexer;
+    this.cmUtil = cmUtil;
+    this.notesFactory = notesFactory;
+    this.updateFactory = updateFactory;
+    this.gitRefUpdated = gitRefUpdated;
+    this.repoManager = repoManager;
+    this.identifiedUserFactory = identifiedUserFactory;
+    this.mergedSenderFactory = mergedSenderFactory;
+    this.mergeFailSenderFactory = mergeFailSenderFactory;
+    this.mergeQueue = mergeQueue;
+    this.mergeValidatorsFactory = mergeValidatorsFactory;
+    this.patchSetInfoFactory = patchSetInfoFactory;
+    this.projectCache = projectCache;
+    this.requestScopePropagator = requestScopePropagator;
+    this.schemaFactory = schemaFactory;
     this.submitStrategyFactory = submitStrategyFactory;
     this.subOpFactory = subOpFactory;
+    this.tagCache = tagCache;
     this.workQueue = workQueue;
-    this.requestScopePropagator = requestScopePropagator;
-    this.indexer = indexer;
-    this.mergeValidatorsFactory = mergeValidatorsFactory;
-    this.approvalsUtil = approvalsUtil;
-    this.cmUtil = cmUtil;
+    logPrefix = String.format("[%s@%s]: ", branch.toString(),
+        ISODateTimeFormat.hourMinuteSecond().print(TimeUtil.nowMs()));
     destBranch = branch;
     toMerge = ArrayListMultimap.create();
     potentiallyStillSubmittable = new ArrayList<>();

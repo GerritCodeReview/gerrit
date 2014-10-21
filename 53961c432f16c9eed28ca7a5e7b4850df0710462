@@ -22,6 +22,30 @@
       "revId": "53961c432f16c9eed28ca7a5e7b4850df0710462",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "503af8a9_8d5a61cc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-10-21T14:44:12Z",
+      "side": 1,
+      "message": "Actually the xdocs plugin makes use of this feature. E.g. for project web links it returns the URL to the README.md file in the project, but null if the project has no README.md file. As result the web link is only shown for projects that have a README.md file.",
+      "parentUuid": "701c5c1f_16d01cd6",
+      "range": {
+        "startLine": 10,
+        "startChar": 35,
+        "endLine": 11,
+        "endChar": 31
+      },
+      "revId": "53961c432f16c9eed28ca7a5e7b4850df0710462",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

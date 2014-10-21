@@ -22,6 +22,7 @@ import com.google.gerrit.extensions.webui.BranchWebLink;
 import com.google.gerrit.extensions.webui.FileWebLink;
 import com.google.gerrit.extensions.webui.PatchSetWebLink;
 import com.google.gerrit.extensions.webui.ProjectWebLink;
+import com.google.gerrit.extensions.webui.WebLink;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -50,10 +51,7 @@ public class WebLinks {
   public List<WebLinkInfo> getPatchSetLinks(String project, String commit) {
     List<WebLinkInfo> links = new ArrayList<>(4);
     for (PatchSetWebLink webLink : patchSetLinks) {
-      links.add(new WebLinkInfo(webLink.getLinkName(),
-          webLink.getImageUrl(),
-          webLink.getPatchSetUrl(project, commit),
-          webLink.getTarget()));
+      addWebLink(links, webLink, webLink.getPatchSetUrl(project, commit));
     }
     return links;
   }
@@ -62,14 +60,7 @@ public class WebLinks {
       String file) {
     List<WebLinkInfo> links = new ArrayList<>(4);
     for (FileWebLink webLink : fileLinks) {
-      String name = webLink.getLinkName();
-      String url = webLink.getFileUrl(project, revision, file);
-      if (!Strings.isNullOrEmpty(name) && !Strings.isNullOrEmpty(url)) {
-        links.add(new WebLinkInfo(name,
-            webLink.getImageUrl(),
-            url,
-            webLink.getTarget()));
-      }
+      addWebLink(links, webLink, webLink.getFileUrl(project, revision, file));
     }
     return links;
   }
@@ -77,10 +68,7 @@ public class WebLinks {
   public Iterable<WebLinkInfo> getProjectLinks(String project) {
     List<WebLinkInfo> links = Lists.newArrayList();
     for (ProjectWebLink webLink : projectLinks) {
-      links.add(new WebLinkInfo(webLink.getLinkName(),
-          webLink.getImageUrl(),
-          webLink.getProjectUrl(project),
-          webLink.getTarget()));
+      addWebLink(links, webLink, webLink.getProjectUrl(project));
     }
     return links;
   }
@@ -88,11 +76,18 @@ public class WebLinks {
   public Iterable<WebLinkInfo> getBranchLinks(String project, String branch) {
     List<WebLinkInfo> links = Lists.newArrayList();
     for (BranchWebLink webLink : branchLinks) {
-      links.add(new WebLinkInfo(webLink.getLinkName(),
-          webLink.getImageUrl(),
-          webLink.getBranchUrl(project, branch),
-          webLink.getTarget()));
+      addWebLink(links, webLink, webLink.getBranchUrl(project, branch));
     }
     return links;
+  }
+
+  private void addWebLink(List<WebLinkInfo> links, WebLink webLink, String url) {
+    String name = webLink.getLinkName();
+    if (!Strings.isNullOrEmpty(name) && !Strings.isNullOrEmpty(url)) {
+      links.add(new WebLinkInfo(name,
+          webLink.getImageUrl(),
+          url,
+          webLink.getTarget()));
+    }
   }
 }

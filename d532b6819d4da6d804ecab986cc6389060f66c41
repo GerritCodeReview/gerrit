@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f07bec5d_2266ce0e",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 755,
+      "author": {
+        "id": 1016317
+      },
+      "writtenOn": "2014-10-21T18:05:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1044003a_4b322514",
+      "range": {
+        "startLine": 755,
+        "startChar": 60,
+        "endLine": 755,
+        "endChar": 61
+      },
+      "revId": "d532b6819d4da6d804ecab986cc6389060f66c41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1044003a_6b2fe1a8",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2014-10-21T06:26:00Z",
       "side": 1,
       "message": "Link to the project cache size setting?",
+      "range": {
+        "startLine": 756,
+        "startChar": 40,
+        "endLine": 756,
+        "endChar": 54
+      },
+      "revId": "d532b6819d4da6d804ecab986cc6389060f66c41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d037c8c1_a948fd8a",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 756,
+      "author": {
+        "id": 1016317
+      },
+      "writtenOn": "2014-10-21T18:05:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1044003a_6b2fe1a8",
       "range": {
         "startLine": 756,
         "startChar": 40,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "f07bec5d_4263d2fd",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 764,
+      "author": {
+        "id": 1016317
+      },
+      "writtenOn": "2014-10-21T18:05:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "701c5c1f_f6ac8082",
+      "range": {
+        "startLine": 764,
+        "startChar": 32,
+        "endLine": 764,
+        "endChar": 35
+      },
+      "revId": "d532b6819d4da6d804ecab986cc6389060f66c41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1044003a_8b6a4dde",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectCacheImpl.java",
         "patchSetId": 2
@@ -82,6 +154,24 @@
       "writtenOn": "2014-10-21T06:26:00Z",
       "side": 1,
       "message": "Is it feasible to move the check:\n\n if (config.getBoolean(\"cache\", \"projects\", \"loadOnStartup\", false)) {\n\nto here, and only bind the ProjectCacheWarmer if needed?",
+      "revId": "d532b6819d4da6d804ecab986cc6389060f66c41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f07bec5d_02c8ea7e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectCacheImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1016317
+      },
+      "writtenOn": "2014-10-21T18:05:24Z",
+      "side": 1,
+      "message": "I don\u0027t see an easy way to do this. I might have to do some refactoring if I want to do this.",
+      "parentUuid": "1044003a_8b6a4dde",
       "revId": "d532b6819d4da6d804ecab986cc6389060f66c41",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

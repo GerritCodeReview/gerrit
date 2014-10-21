@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "50c758d5_259d2ef9",
+        "filename": "ReleaseNotes/ReleaseNotes-2.10.txt",
+        "patchSetId": 17
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-10-21T13:30:16Z",
+      "side": 1,
+      "message": "The second link is still broken for me. It works if the \u0027#\u0027 for the second link is not encoded.",
+      "range": {
+        "startLine": 40,
+        "startChar": 44,
+        "endLine": 40,
+        "endChar": 46
+      },
+      "revId": "2e147e47391d61e224eb53b20eada7c87f387da4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "503af8a9_ad38fd78",
+        "filename": "ReleaseNotes/ReleaseNotes-2.10.txt",
+        "patchSetId": 17
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-10-21T13:30:16Z",
+      "side": 1,
+      "message": "same here",
+      "range": {
+        "startLine": 353,
+        "startChar": 44,
+        "endLine": 353,
+        "endChar": 46
+      },
+      "revId": "2e147e47391d61e224eb53b20eada7c87f387da4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50c758d5_059ab200",
+        "filename": "ReleaseNotes/ReleaseNotes-2.10.txt",
+        "patchSetId": 17
+      },
+      "lineNbr": 368,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-10-21T13:30:16Z",
+      "side": 1,
+      "message": "Now it\u0027s broken for me. As far as I understand it, \u0027#\u0027 must only be escaped if it appears twice in a line and then only the first occurrance must be escaped.",
+      "range": {
+        "startLine": 368,
+        "startChar": 48,
+        "endLine": 368,
+        "endChar": 50
+      },
+      "revId": "2e147e47391d61e224eb53b20eada7c87f387da4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -17,6 +17,7 @@ package com.google.gerrit.server.change;
 import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.base.MoreObjects;
+import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.data.PatchScript;
@@ -202,9 +203,9 @@ public class GetDiff implements RestReadView<FileResource> {
 
   private List<WebLinkInfo> getFileWebLinks(Project project, String rev,
       String file) {
-    List<WebLinkInfo> links =
+    FluentIterable<WebLinkInfo> links =
         webLinks.getFileLinks(project.getName(), rev, file);
-    return !links.isEmpty() ? links : null;
+    return links.isEmpty() ? null : links.toList();
   }
 
   static class Result {

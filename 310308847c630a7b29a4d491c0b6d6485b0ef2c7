@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "75528e24_26d8d680",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 574,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-10-21T23:53:22Z",
+      "side": 1,
+      "message": "This used to be null in the JSON to the UI.",
+      "range": {
+        "startLine": 573,
+        "startChar": 6,
+        "endLine": 574,
+        "endChar": 25
+      },
+      "revId": "310308847c630a7b29a4d491c0b6d6485b0ef2c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

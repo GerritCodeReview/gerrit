@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "503af8a9_2d9b2d4e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/MergeabilityChecker.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-21T06:58:13Z",
+      "side": 1,
+      "message": "This is exact the code change that fixed query test flakiness. And the approach i went for to disable reindexing in this code path and do it explicitly below. Why to do this change in removing mergeability bits? This should be a own independent change, that can bed merged out of this series. Or just rebase your series on top of this change: [1].\n\n [1] https://gerrit-review.googlesource.com/60910",
+      "range": {
+        "startLine": 152,
+        "startChar": 16,
+        "endLine": 153,
+        "endChar": 79
+      },
+      "revId": "8d0d8120668b633fdd3ee16d9b182e027a4f4c18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

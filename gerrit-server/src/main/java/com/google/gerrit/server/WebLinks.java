@@ -50,7 +50,7 @@ public class WebLinks {
   public List<WebLinkInfo> getPatchSetLinks(String project, String commit) {
     List<WebLinkInfo> links = new ArrayList<>(4);
     for (PatchSetWebLink webLink : patchSetLinks) {
-      links.add(webLink.getPathSetWebLink(project, commit));
+      addLinkIfValid(links, webLink.getPathSetWebLink(project, commit));
     }
     return links;
   }
@@ -59,10 +59,7 @@ public class WebLinks {
       String file) {
     List<WebLinkInfo> links = new ArrayList<>(4);
     for (FileWebLink webLink : fileLinks) {
-      WebLinkInfo info = webLink.getFileWebLink(project, revision, file);
-      if (!Strings.isNullOrEmpty(info.name) && !Strings.isNullOrEmpty(info.url)) {
-        links.add(info);
-      }
+      addLinkIfValid(links,webLink.getFileWebLink(project, revision, file));
     }
     return links;
   }
@@ -70,7 +67,7 @@ public class WebLinks {
   public Iterable<WebLinkInfo> getProjectLinks(String project) {
     List<WebLinkInfo> links = Lists.newArrayList();
     for (ProjectWebLink webLink : projectLinks) {
-      links.add(webLink.getProjectWeblink(project));
+      addLinkIfValid(links,webLink.getProjectWeblink(project));
     }
     return links;
   }
@@ -78,8 +75,14 @@ public class WebLinks {
   public Iterable<WebLinkInfo> getBranchLinks(String project, String branch) {
     List<WebLinkInfo> links = Lists.newArrayList();
     for (BranchWebLink webLink : branchLinks) {
-      links.add(webLink.getBranchWebLink(project, branch));
+      addLinkIfValid(links, webLink.getBranchWebLink(project, branch));
     }
     return links;
+  }
+
+  private void addLinkIfValid(List<WebLinkInfo> links, WebLinkInfo webLink) {
+    if (!Strings.isNullOrEmpty(webLink.name) && !Strings.isNullOrEmpty(webLink.url)) {
+      links.add(webLink);
+    }
   }
 }

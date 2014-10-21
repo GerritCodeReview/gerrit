@@ -15,7 +15,7 @@
 package com.google.gerrit.server.project;
 
 import com.google.common.base.Predicate;
-import com.google.common.base.Strings;
+import com.google.common.collect.FluentIterable;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
@@ -240,13 +240,10 @@ public class ListBranches implements RestReadView<ProjectResource> {
       }
       info.actions.put(d.getId(), new ActionInfo(d));
     }
-    info.webLinks = Lists.newArrayList();
-    for (WebLinkInfo link : webLinks.getBranchLinks(
-        refControl.getProjectControl().getProject().getName(), ref.getName())) {
-      if (!Strings.isNullOrEmpty(link.name) && !Strings.isNullOrEmpty(link.url)) {
-        info.webLinks.add(link);
-      }
-    }
+    FluentIterable<WebLinkInfo> links =
+        webLinks.getBranchLinks(
+            refControl.getProjectControl().getProject().getName(), ref.getName());
+    info.webLinks = links.isEmpty() ? null : links.toList();
     return info;
   }
 

@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "50c758d5_c5409ad1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-10-21T12:40:45Z",
+      "side": 1,
+      "message": "Maybe better: \"Do not return web links without name or URL\"?",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 36
+      },
+      "revId": "a49ec1cde1e4cc391b350f9843fe15043a3e4027",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "503af8a9_8d0c21e0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/WebLinks.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-10-21T12:40:45Z",
+      "side": 1,
+      "message": "I think we need to do more to make the web links consistent.\n\n* for all web links we should return List\u003cWebLinkInfo\u003e instead of Iterable\u003cWebLinkInfo\u003e\n* Callers of the web links now don\u0027t need to check anymore if name or url are null, like it is e.g. done in ListProjects\n* callers should avoid an empty web links array in the json as it was done for file web links in [1]\n\n[1] https://gerrit-review.googlesource.com/60852",
+      "revId": "a49ec1cde1e4cc391b350f9843fe15043a3e4027",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

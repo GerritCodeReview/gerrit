@@ -84,6 +84,30 @@
     },
     {
       "key": {
+        "uuid": "f07bec5d_022d4a83",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-10-21T22:36:12Z",
+      "side": 1,
+      "message": "I was having a hard time understanding it, and nowhere did you say that this was the old approach.\n\nI\u0027m going to take a stab at rewriting the commit message.\n\nI also think my previous hypothesis, that there is a mutable Change involved, is not right. There\u0027s a race in looking up the change.",
+      "parentUuid": "b53fa6b4_f0e1602f",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 58
+      },
+      "revId": "33dff39793a62586a0e760bc0feab80925d26a37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "701c5c1f_b633289c",
         "filename": "/COMMIT_MSG",
         "patchSetId": 9

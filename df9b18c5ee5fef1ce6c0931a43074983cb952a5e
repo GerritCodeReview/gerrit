@@ -46,6 +46,30 @@
       "revId": "df9b18c5ee5fef1ce6c0931a43074983cb952a5e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "503af8a9_0dfaf155",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 589,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-21T12:24:11Z",
+      "side": 1,
+      "message": "Is this because of refactoring in SRE?",
+      "parentUuid": "d037c8c1_09e3c937",
+      "range": {
+        "startLine": 589,
+        "startChar": 14,
+        "endLine": 589,
+        "endChar": 74
+      },
+      "revId": "df9b18c5ee5fef1ce6c0931a43074983cb952a5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

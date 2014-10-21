@@ -52,6 +52,65 @@
       "revId": "b11ce9d3189823f611015f87355b158a7377535e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "503af8a9_0d6591b9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/MergeabilityChecker.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-21T08:21:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "50c758d5_0562b2b1",
+      "revId": "b11ce9d3189823f611015f87355b158a7377535e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "503af8a9_2d624db2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/MergeabilityChecker.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-21T08:21:56Z",
+      "side": 1,
+      "message": "Indeed, in mergeability cache series you unconditionally skipped reindexing in Mergeable and always reindex here. I updated this change correspondingly. I cannot test your entire series, because all tests are broken there. But i did test the series until this specific change that s skipping the reindexing in Mergeable: Query tests remain stable also under heavy load. The question is still not answered, why the reindexing in Mergeable make the tests flaky. One obvious difference between reindexing in Mergeable and here is how Change is obtained. In Mergeable the change instance is passed whereas reindexing from MergeabiliyChecker only uses change id and a new change instance is read from the database. So the broken workflow (under heavy load) is:\n\n* Change is created\n* ChangeInserter is called\n* mergeabilityChecker.reindexAsnyc is called with the change instance passed in\n* Mergeable.index with passed change instance is called\n* indexer.index(change) is involked: synchron and with the change instance\n\nThe working workflow under heavy load is:\n\n* Change is created\n* ChangeInserter is called\n* mergeabilityChecker.reindexAsnyc is called with the change instance passed in\n* indexer.index(change.getId()) is invoked: asynchron and with change id, so that the changed is re-read from the database.",
+      "parentUuid": "701c5c1f_36c9d863",
+      "revId": "b11ce9d3189823f611015f87355b158a7377535e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "503af8a9_4d6f9999",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/MergeabilityChecker.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-21T08:21:56Z",
+      "side": 1,
+      "message": "We are losing information here. We have already change instance, but don\u0027t use it in ChangeIndexer, forcing to re-read it from the database. It seems also that the majority of callers, like ChangeInserter has ReviewDb instance and could pass it here as well. When ChangeIndexer would provide similar asynchronous  interface (what Mergeable was calling), we could call it here optimized:\n\n  indexer.indexAsync(db, change);\n\nor even\n\n  indexer.indexAsync(changeDataFactory.create(db, change));\n\nwhen MergeabilityChecker would inject ChangeData.Factory instance. This would be an interesting exercise to see the real root cause for query tests flakiness.",
+      "range": {
+        "startLine": 166,
+        "startChar": 32,
+        "endLine": 166,
+        "endChar": 61
+      },
+      "revId": "b11ce9d3189823f611015f87355b158a7377535e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

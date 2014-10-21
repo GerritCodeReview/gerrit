@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "50c758d5_45a4aa42",
+        "filename": "ReleaseNotes/ReleaseNotes-2.10.txt",
+        "patchSetId": 17
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-10-21T13:30:48Z",
+      "side": 1,
+      "message": "*not escaped",
+      "parentUuid": "50c758d5_259d2ef9",
+      "range": {
+        "startLine": 40,
+        "startChar": 44,
+        "endLine": 40,
+        "endChar": 46
+      },
+      "revId": "2e147e47391d61e224eb53b20eada7c87f387da4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "503af8a9_ad38fd78",
         "filename": "ReleaseNotes/ReleaseNotes-2.10.txt",
         "patchSetId": 17

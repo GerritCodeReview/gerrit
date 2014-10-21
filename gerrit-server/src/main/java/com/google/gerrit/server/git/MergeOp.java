@@ -460,13 +460,11 @@ public class MergeOp {
     }
 
     try {
-      for (Ref r : repo.getRefDatabase().getRefs(ALL).values()) {
-        if (r.getName().startsWith(Constants.R_HEADS)) {
-          try {
-            alreadyAccepted.add(rw.parseCommit(r.getObjectId()));
-          } catch (IncorrectObjectTypeException iote) {
-            // Not a commit? Skip over it.
-          }
+      for (Ref r : repo.getRefDatabase().getRefs(Constants.R_HEADS).values()) {
+        try {
+          alreadyAccepted.add(rw.parseCommit(r.getObjectId()));
+        } catch (IncorrectObjectTypeException iote) {
+          // Not a commit? Skip over it.
         }
       }
     } catch (IOException e) {

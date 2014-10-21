@@ -240,13 +240,10 @@ public class ListBranches implements RestReadView<ProjectResource> {
       }
       info.actions.put(d.getId(), new ActionInfo(d));
     }
-    info.webLinks = Lists.newArrayList();
-    for (WebLinkInfo link : webLinks.getBranchLinks(
-        refControl.getProjectControl().getProject().getName(), ref.getName())) {
-      if (!Strings.isNullOrEmpty(link.name) && !Strings.isNullOrEmpty(link.url)) {
-        info.webLinks.add(link);
-      }
-    }
+
+    List<WebLinkInfo> links = webLinks.getBranchLinks(
+        refControl.getProjectControl().getProject().getName(), ref.getName());
+    info.webLinks = !links.isEmpty() ? links : null;
     return info;
   }
 

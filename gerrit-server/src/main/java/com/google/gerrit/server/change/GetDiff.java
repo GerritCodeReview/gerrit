@@ -202,9 +202,7 @@ public class GetDiff implements RestReadView<FileResource> {
 
   private List<WebLinkInfo> getFileWebLinks(Project project, String rev,
       String file) {
-    List<WebLinkInfo> links =
-        webLinks.getFileLinks(project.getName(), rev, file);
-    return !links.isEmpty() ? links : null;
+    return webLinks.getFileLinks(project.getName(), rev, file);
   }
 
   static class Result {

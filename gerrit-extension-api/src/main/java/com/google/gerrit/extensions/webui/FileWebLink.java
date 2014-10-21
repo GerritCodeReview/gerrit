@@ -21,7 +21,8 @@ import com.google.gerrit.extensions.common.WebLinkInfo;
 public interface FileWebLink {
 
   /**
-   * URL to file in external service.
+   * {@link com.google.gerrit.extensions.common.WebLinkInfo} describing a link from a file
+   * to an external service.
    *
    * @param projectName Name of the project
    * @param revision Name of the revision (e.g. branch or commit ID)

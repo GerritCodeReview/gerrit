@@ -21,7 +21,8 @@ import com.google.gerrit.extensions.common.WebLinkInfo;
 public interface BranchWebLink {
 
   /**
-   * URL to branch in external service.
+   * {@link com.google.gerrit.extensions.common.WebLinkInfo} describing a link from a branch
+   * to an external service.
    *
    * @param projectName Name of the project
    * @param branchName Name of the branch

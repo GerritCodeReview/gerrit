@@ -109,15 +109,18 @@ Under Jetty, restarting the web application (e.g. after modifying
 `system_config`) is as simple as touching the context config file:
 `'$JETTY_HOME'/contexts/gerrit.xml`
 
+[[tomcat]]
 == Tomcat 7.x
 
-[TIP]
-If reverse proxy is used in front of Tomcat then see the configuration
-instructions for encoding slashes link:config-reverseproxy.html. Otherwise
-Tomcat must be configured to encode slashes, by adding
--Dorg.apache.tomcat.util.buf.UDecoder.ALLOW_ENCODED_SLASH=true to
-CATALINA_OPTS environment variable. Excerpt from the documentation
-https://tomcat.apache.org/tomcat-7.0-doc/config/systemprops.html:
+If a reverse proxy is used in front of Tomcat then see the
+link:config-reverseproxy.html[configuration instructions for encoding
+slashes]. Otherwise Tomcat must be configured to encode slashes, by adding
+`-Dorg.apache.tomcat.util.buf.UDecoder.ALLOW_ENCODED_SLASH=true` to the
+`CATALINA_OPTS` environment variable.
+
+Excerpt from the
+link:https://tomcat.apache.org/tomcat-7.0-doc/config/systemprops.html[
+documentation]:
 
 ----
 Property org.apache.tomcat.util.buf.UDecoder.ALLOW_ENCODED_SLASH:

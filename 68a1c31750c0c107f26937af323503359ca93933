@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "1044003a_0b11fd73",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/RunAsFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-10-21T00:32:01Z",
+      "side": 1,
+      "message": "Fair point.  It\u0027s probably better like this then.",
+      "parentUuid": "701c5c1f_16c65c51",
+      "range": {
+        "startLine": 82,
+        "startChar": 62,
+        "endLine": 82,
+        "endChar": 66
+      },
+      "revId": "68a1c31750c0c107f26937af323503359ca93933",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1044003a_ab21c9ca",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
         "patchSetId": 1

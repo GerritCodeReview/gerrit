@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b50a4612_78f781f2",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/RequestUtil.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-10-21T21:28:50Z",
+      "side": 1,
+      "message": "private; clients should use the static methods.",
+      "revId": "92ef607e01049eaba056b4c09e730d30fd868226",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

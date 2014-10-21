@@ -244,7 +244,8 @@ public class MergeOp {
     }
   }
 
-  public void merge() throws MergeException, NoSuchChangeException, IOException {
+  public void merge()
+      throws MergeException, NoSuchChangeException, IOException {
     logDebug("Beginning merge attempt on {}", destBranch);
     setDestProject();
     try {
@@ -289,8 +290,8 @@ public class MergeOp {
               // change has missing dependencies, but all commits which are
               // missing are still attempted to be merged with another submit
               // strategy, retry to merge this commit in the next turn
-              logDebug("Revision {} of patch set {} has missing dependencies with"
-                  + " different submit types, reconsidering on next run",
+              logDebug("Revision {} of patch set {} has missing dependencies"
+                  + " with different submit types, reconsidering on next run",
                   commit.name(), commit.getPatchsetId());
               it.remove();
               commit.setStatusCode(null);
@@ -300,7 +301,8 @@ public class MergeOp {
           }
           logDebug("Adding {} changes potentially submittable on next run",
               potentiallyStillSubmittable.size());
-          potentiallyStillSubmittableOnNextRun.addAll(potentiallyStillSubmittable);
+          potentiallyStillSubmittableOnNextRun.addAll(
+              potentiallyStillSubmittable);
           potentiallyStillSubmittable.clear();
         }
         toMerge.clear();
@@ -353,7 +355,8 @@ public class MergeOp {
     return true;
   }
 
-  private boolean isSubmitForMissingCommitsStillPossible(CodeReviewCommit commit) {
+  private boolean isSubmitForMissingCommitsStillPossible(
+      CodeReviewCommit commit) {
     PatchSet.Id psId = commit.getPatchsetId();
     if (commit.missing == null || commit.missing.isEmpty()) {
       logDebug("Patch set {} is not submittable: no list of missing commits",
@@ -430,7 +433,8 @@ public class MergeOp {
     inserter = repo.newObjectInserter();
   }
 
-  private RefUpdate openBranch() throws MergeException, OrmException, NoSuchChangeException {
+  private RefUpdate openBranch()
+      throws MergeException, OrmException, NoSuchChangeException {
     try {
       RefUpdate branchUpdate = repo.updateRef(destBranch.get());
       if (branchUpdate.getOldObjectId() != null) {
@@ -468,7 +472,8 @@ public class MergeOp {
         }
       }
     } catch (IOException e) {
-      throw new MergeException("Failed to determine already accepted commits.", e);
+      throw new MergeException(
+          "Failed to determine already accepted commits.", e);
     }
 
     logDebug("Found {} existing heads", alreadyAccepted.size());
@@ -568,7 +573,8 @@ public class MergeOp {
 
       MergeValidators mergeValidators = mergeValidatorsFactory.create();
       try {
-        mergeValidators.validatePreMerge(repo, commit, destProject, destBranch, ps.getId());
+        mergeValidators.validatePreMerge(
+            repo, commit, destProject, destBranch, ps.getId());
       } catch (MergeValidationException mve) {
         logDebug("Revision {} of patch set {} failed validation: {}",
             idstr, ps.getId(), mve.getStatus());
@@ -681,11 +687,11 @@ public class MergeOp {
           }
 
           if (RefNames.REFS_CONFIG.equals(branchUpdate.getName())) {
-            projectCache.evict(destProject.getProject());
-            destProject = projectCache.get(destProject.getProject().getNameKey());
+            Project p = destProject.getProject();
+            projectCache.evict(p);
+            destProject = projectCache.get(p.getNameKey());
             repoManager.setProjectDescription(
-                destProject.getProject().getNameKey(),
-                destProject.getProject().getDescription());
+                p.getNameKey(), p.getDescription());
           }
 
           return branchUpdate;
@@ -732,7 +738,8 @@ public class MergeOp {
     return "";
   }
 
-  private void updateChangeStatus(List<Change> submitted) throws NoSuchChangeException {
+  private void updateChangeStatus(List<Change> submitted)
+      throws NoSuchChangeException {
     logDebug("Updating change status for {} changes", submitted);
     for (Change c : submitted) {
       CodeReviewCommit commit = commits.get(c.getId());
@@ -784,7 +791,8 @@ public class MergeOp {
             break;
 
           default:
-            setNew(commit, message(c, "Unspecified merge failure: " + s.name()));
+            setNew(commit,
+                message(c, "Unspecified merge failure: " + s.name()));
             break;
         }
       } catch (OrmException err) {
@@ -815,7 +823,8 @@ public class MergeOp {
   private Capable isSubmitStillPossible(CodeReviewCommit commit) {
     Capable capable;
     Change c = commit.change();
-    boolean submitStillPossible = isSubmitForMissingCommitsStillPossible(commit);
+    boolean submitStillPossible =
+        isSubmitForMissingCommitsStillPossible(commit);
     long now = TimeUtil.nowMs();
     long waitUntil = c.getLastUpdatedOn().getTime() + DEPENDENCY_DELAY;
     if (submitStillPossible && now < waitUntil) {
@@ -860,14 +869,16 @@ public class MergeOp {
       m.append("The following dependency errors were found:\n");
       m.append("\n");
       for (CodeReviewCommit missingCommit : commit.missing) {
-        if (missingCommit.getPatchsetId() != null) {
+        PatchSet.Id missingPsId = missingCommit.getPatchsetId();
+        if (missingPsId != null) {
           m.append("* Depends on patch set ");
-          m.append(missingCommit.getPatchsetId().get());
+          m.append(missingPsId.get());
           m.append(" of ");
           m.append(missingCommit.change().getKey().abbreviate());
-          if (missingCommit.getPatchsetId().get() != missingCommit.change().currentPatchSetId().get()) {
+          PatchSet.Id currPsId = missingCommit.change().currentPatchSetId();
+          if (!missingPsId.equals(currPsId)) {
             m.append(", however the current patch set is ");
-            m.append(missingCommit.change().currentPatchSetId().get());
+            m.append(currPsId.get());
           }
           m.append(".\n");
 
@@ -891,9 +902,9 @@ public class MergeOp {
       List<PatchSet> matches =
           db.patchSets().byRevision(new RevId(commit.name())).toList();
       if (matches.size() == 1) {
-        PatchSet ps = matches.get(0);
-        commit.setPatchsetId(ps.getId());
-        commit.setControl(changeControl(db.changes().get(ps.getId().getParentKey())));
+        PatchSet.Id psId = matches.get(0).getId();
+        commit.setPatchsetId(psId);
+        commit.setControl(changeControl(db.changes().get(psId.getParentKey())));
       }
     }
   }
@@ -1022,11 +1033,13 @@ public class MergeOp {
         c, identifiedUserFactory.create(c.getOwner()));
   }
 
-  private void setNew(CodeReviewCommit c, ChangeMessage msg) throws NoSuchChangeException, IOException {
+  private void setNew(CodeReviewCommit c, ChangeMessage msg)
+      throws NoSuchChangeException, IOException {
     sendMergeFail(c.notes(), msg, true);
   }
 
-  private void setNew(Change c, ChangeMessage msg) throws OrmException, NoSuchChangeException, IOException {
+  private void setNew(Change c, ChangeMessage msg)
+      throws OrmException, NoSuchChangeException, IOException {
     sendMergeFail(notesFactory.create(c), msg, true);
   }
 
@@ -1205,7 +1218,8 @@ public class MergeOp {
     Exception err = null;
     try {
       openSchema();
-      for (Change c : db.changes().byProjectOpenAll(destBranch.getParentKey())) {
+      for (Change c
+          : db.changes().byProjectOpenAll(destBranch.getParentKey())) {
         abandonOneChange(c);
       }
       db.close();

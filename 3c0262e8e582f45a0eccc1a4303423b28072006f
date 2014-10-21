@@ -22,6 +22,30 @@
       "revId": "3c0262e8e582f45a0eccc1a4303423b28072006f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f07bec5d_6260d6f0",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/PatchListCacheIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1016722
+      },
+      "writtenOn": "2014-10-21T13:26:24Z",
+      "side": 1,
+      "message": "This will happen only if it is done earlier then the sleep time ends. This will cause the test to fail. That does not happen during the test runs that I conducted. If you prefer not to have the print stack trace in there, please, explain what is your preference. Would you rather have a log statement in there?",
+      "parentUuid": "1044003a_2b6319ff",
+      "range": {
+        "startLine": 149,
+        "startChar": 6,
+        "endLine": 149,
+        "endChar": 26
+      },
+      "revId": "3c0262e8e582f45a0eccc1a4303423b28072006f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

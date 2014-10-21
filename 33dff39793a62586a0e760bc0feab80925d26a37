@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "503af8a9_4df4f965",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/MergeabilityChecker.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2014-10-21T12:33:59Z",
+      "side": 1,
+      "message": "If it always returns null it should be Callable\u003cVoid\u003e, I think.",
+      "range": {
+        "startLine": 289,
+        "startChar": 32,
+        "endLine": 289,
+        "endChar": 48
+      },
+      "revId": "33dff39793a62586a0e760bc0feab80925d26a37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

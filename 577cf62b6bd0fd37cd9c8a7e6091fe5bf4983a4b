@@ -16,6 +16,24 @@
       "revId": "577cf62b6bd0fd37cd9c8a7e6091fe5bf4983a4b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f07bec5d_c2bd22e1",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 947,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-10-21T16:49:26Z",
+      "side": 1,
+      "message": "Please fix. The style Dave proposes really helps readability on the code by reducing the risk of typing errors.",
+      "parentUuid": "1044003a_4b25c59e",
+      "revId": "577cf62b6bd0fd37cd9c8a7e6091fe5bf4983a4b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

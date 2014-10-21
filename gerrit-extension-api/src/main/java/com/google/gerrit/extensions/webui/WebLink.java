@@ -11,26 +11,35 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+
 package com.google.gerrit.extensions.webui;
 
+
 /**
- * Class that holds target defaults for WebLink anchors.
+ * Marks that the implementor has a method that provides
+ * a weblinkInfo
+ *
  */
-public class WebLinkTarget {
+public interface WebLink {
   /**
-   * Opens the link in a new window or tab
+   * Class that holds target defaults for WebLink anchors.
    */
-  public final static String BLANK = "_blank";
-  /**
-   * Opens the link in the frame it was clicked.
-   */
-  public final static String SELF = "_self";
-  /**
-   * Opens link in parent frame.
-   */
-  public final static String PARENT = "_parent";
-  /**
-   * Opens link in the full body of the window.
-   */
-  public final static String TOP = "_top";
+  public static class Target {
+    /**
+     * Opens the link in a new window or tab
+     */
+    public final static String BLANK = "_blank";
+    /**
+     * Opens the link in the frame it was clicked.
+     */
+    public final static String SELF = "_self";
+    /**
+     * Opens link in parent frame.
+     */
+    public final static String PARENT = "_parent";
+    /**
+     * Opens link in the full body of the window.
+     */
+    public final static String TOP = "_top";
+  }
 }

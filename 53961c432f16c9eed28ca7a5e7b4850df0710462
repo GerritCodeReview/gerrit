@@ -70,6 +70,30 @@
       "revId": "53961c432f16c9eed28ca7a5e7b4850df0710462",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50c758d5_457b0a17",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-10-21T15:05:15Z",
+      "side": 1,
+      "message": "\u003e Links are just entered into a DynamicSet, right? Why \n \u003e add a null link instead of just not adding the link?\n\nNot the web link itself is added to a DynamicSet, but a class that provides a web link depending on some input parameters (e.g. the project name). Depending on the parameters the provider may return a link or not.\n\n \u003e Even in this case, would it make sense to allow only \n \u003e _both_ name and URL either null or not null, disallowing \n \u003e one null/other not null?\n\nYou are right, after the web links have been refactored by [1] it doesn\u0027t make any sense to return null as name or URL, but the plugin can simply return null for the WebLinkInfo (instead of a WebLinkInfo that has null as URL). This should be fixed. Returning null as URL was needed as workaround for expressing \"no link\" before this refactoring was done.\n\n\n[1] https://gerrit-review.googlesource.com/60753",
+      "parentUuid": "701c5c1f_56da94f7",
+      "range": {
+        "startLine": 10,
+        "startChar": 35,
+        "endLine": 11,
+        "endChar": 31
+      },
+      "revId": "53961c432f16c9eed28ca7a5e7b4850df0710462",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

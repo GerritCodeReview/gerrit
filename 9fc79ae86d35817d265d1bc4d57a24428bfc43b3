@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d515fa2f_f90a7745",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2014-10-21T22:10:09Z",
+      "side": 1,
+      "message": "Does this mean merging a change that is based on commits not in refs/heads/ will no longer work?",
+      "range": {
+        "startLine": 7,
+        "startChar": 33,
+        "endLine": 7,
+        "endChar": 50
+      },
+      "revId": "9fc79ae86d35817d265d1bc4d57a24428bfc43b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

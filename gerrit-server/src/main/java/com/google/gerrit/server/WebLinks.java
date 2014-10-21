@@ -25,11 +25,18 @@ import com.google.gerrit.extensions.webui.ProjectWebLink;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import jnr.ffi.Struct.WBOOL;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.ArrayList;
 import java.util.List;
 
 @Singleton
 public class WebLinks {
+
+  private static final Logger log = LoggerFactory.getLogger(WebLinks.class);
 
   private final DynamicSet<PatchSetWebLink> patchSetLinks;
   private final DynamicSet<FileWebLink> fileLinks;
@@ -50,7 +57,8 @@ public class WebLinks {
   public List<WebLinkInfo> getPatchSetLinks(String project, String commit) {
     List<WebLinkInfo> links = new ArrayList<>(4);
     for (PatchSetWebLink webLink : patchSetLinks) {
-      links.add(webLink.getPathSetWebLink(project, commit));
+      WebLinkInfo link = webLink.getPathSetWebLink(project, commit);
+      addIfValid(links, link, webLink.getClass().getName());
     }
     return links;
   }
@@ -59,27 +67,39 @@ public class WebLinks {
       String file) {
     List<WebLinkInfo> links = new ArrayList<>(4);
     for (FileWebLink webLink : fileLinks) {
-      WebLinkInfo info = webLink.getFileWebLink(project, revision, file);
-      if (!Strings.isNullOrEmpty(info.name) && !Strings.isNullOrEmpty(info.url)) {
-        links.add(info);
-      }
+      WebLinkInfo link = webLink.getFileWebLink(project, revision, file);
+      addIfValid(links, link, webLink.getClass().getName());
     }
     return links;
   }
 
-  public Iterable<WebLinkInfo> getProjectLinks(String project) {
+  public List<WebLinkInfo> getProjectLinks(String project) {
     List<WebLinkInfo> links = Lists.newArrayList();
     for (ProjectWebLink webLink : projectLinks) {
-      links.add(webLink.getProjectWeblink(project));
+      WebLinkInfo link = webLink.getProjectWeblink(project);
+      addIfValid(links, link, webLink.getClass().getName());
     }
     return links;
   }
 
-  public Iterable<WebLinkInfo> getBranchLinks(String project, String branch) {
+  public List<WebLinkInfo> getBranchLinks(String project, String branch) {
     List<WebLinkInfo> links = Lists.newArrayList();
     for (BranchWebLink webLink : branchLinks) {
-      links.add(webLink.getBranchWebLink(project, branch));
+      WebLinkInfo link = webLink.getBranchWebLink(project, branch);
+      addIfValid(links, link, webLink.getClass().getName());
     }
     return links;
+  }
+
+  private void addIfValid(List<WebLinkInfo> links, WebLinkInfo webLink, String className) {
+    if (webLink != null) {
+      if (Strings.isNullOrEmpty(webLink.name)
+          || Strings.isNullOrEmpty(webLink.url)) {
+        log.warn(String.format("Weblink %s is missing name and/or url",
+            className));
+      } else {
+        links.add(webLink);
+      }
+    }
   }
 }

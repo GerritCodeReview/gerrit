@@ -22,6 +22,30 @@
       "revId": "73b5ba1bcbeee1c812e1ea90ce9659014cbbe8b5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "503af8a9_ed1be514",
+        "filename": "ReleaseNotes/ReleaseNotes-2.10.txt",
+        "patchSetId": 16
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-10-21T12:57:00Z",
+      "side": 1,
+      "message": "Do escape the first \u0027#\u0027 in the line like \u0027\\#\u0027. Then it should work (do not escape the second \u0027#\u0027 in the line).",
+      "parentUuid": "1044003a_aba469c1",
+      "range": {
+        "startLine": 37,
+        "startChar": 0,
+        "endLine": 41,
+        "endChar": 24
+      },
+      "revId": "73b5ba1bcbeee1c812e1ea90ce9659014cbbe8b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

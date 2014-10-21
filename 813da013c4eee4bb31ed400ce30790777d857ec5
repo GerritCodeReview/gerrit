@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "503af8a9_ad755d70",
+        "filename": "ReleaseNotes/ReleaseNotes-2.10.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 419,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-10-21T07:28:56Z",
+      "side": 1,
+      "message": "[optional] I think this is rather a feature than a bug-fix.",
+      "range": {
+        "startLine": 418,
+        "startChar": 0,
+        "endLine": 419,
+        "endChar": 40
+      },
+      "revId": "813da013c4eee4bb31ed400ce30790777d857ec5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

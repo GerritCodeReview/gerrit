@@ -91,6 +91,24 @@
     },
     {
       "key": {
+        "uuid": "1044003a_0b42dd36",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/MergeabilityChecker.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-10-21T15:43:47Z",
+      "side": 1,
+      "message": "This sounds like a plausible explanation.\n\n\u003e indexer.index(change) is involked: synchron and with the change instance\n\nUgh. So the issue is that change is mutated racily from a different thread? Ugh ugh ugh.\n\nMutable record objects can\u0027t die fast enough.",
+      "parentUuid": "503af8a9_2d624db2",
+      "revId": "b11ce9d3189823f611015f87355b158a7377535e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "503af8a9_4d6f9999",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/MergeabilityChecker.java",
         "patchSetId": 7

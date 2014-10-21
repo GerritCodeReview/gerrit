@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "701c5c1f_56957413",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-10-21T08:58:00Z",
+      "side": 1,
+      "message": "conflicts with",
+      "range": {
+        "startLine": 11,
+        "startChar": 7,
+        "endLine": 11,
+        "endChar": 21
+      },
+      "revId": "a08fe1604645f530c8d17e4d18bce8ba136aeb83",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "701c5c1f_7698704f",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1933,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-10-21T08:58:00Z",
+      "side": 1,
+      "message": "Mention that this is only used when the type is LUCENE.",
+      "revId": "a08fe1604645f530c8d17e4d18bce8ba136aeb83",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

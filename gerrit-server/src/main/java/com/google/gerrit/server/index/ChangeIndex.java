@@ -73,6 +73,15 @@ public interface ChangeIndex {
   public void delete(ChangeData cd) throws IOException;
 
   /**
+   * Delete a change document from the index by id.
+   *
+   * @param cdId change document id
+   *
+   * @throws IOException
+   */
+  void delete(int cdId) throws IOException;
+
+  /**
    * Delete all change documents from the index.
    *
    * @throws IOException

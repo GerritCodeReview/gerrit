@@ -23,6 +23,7 @@ import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
@@ -32,6 +33,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 
 import java.util.Collections;
+import java.io.IOException;
 import java.util.List;
 
 public class ChangesCollection implements
@@ -41,6 +43,7 @@ public class ChangesCollection implements
   private final ChangeControl.GenericFactory changeControlFactory;
   private final Provider<QueryChanges> queryFactory;
   private final DynamicMap<RestView<ChangeResource>> views;
+  private final ChangeUtil changeUtil;
 
   @Inject
   ChangesCollection(
@@ -48,12 +51,14 @@ public class ChangesCollection implements
       Provider<CurrentUser> user,
       ChangeControl.GenericFactory changeControlFactory,
       Provider<QueryChanges> queryFactory,
-      DynamicMap<RestView<ChangeResource>> views) {
+      DynamicMap<RestView<ChangeResource>> views,
+      ChangeUtil changeUtil) {
     this.db = dbProvider;
     this.user = user;
     this.changeControlFactory = changeControlFactory;
     this.queryFactory = queryFactory;
     this.views = views;
+    this.changeUtil = changeUtil;
   }
 
   @Override
@@ -71,6 +76,11 @@ public class ChangesCollection implements
       throws ResourceNotFoundException, OrmException {
     List<Change> changes = findChanges(id.encoded());
     if (changes.size() != 1) {
+      try {
+        changeUtil.deleteChange(Integer.parseInt(id.get()));
+      } catch (NumberFormatException | IOException e) {
+        throw new ResourceNotFoundException(id.get(), e);
+      }
       throw new ResourceNotFoundException(id);
     }
 

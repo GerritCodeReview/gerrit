@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d515fa2f_79b8a7ef",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-10-22T14:56:22Z",
+      "side": 1,
+      "message": "\"also\" is redundant with \"in addition\"",
+      "range": {
+        "startLine": 92,
+        "startChar": 59,
+        "endLine": 92,
+        "endChar": 63
+      },
+      "revId": "fc2cbe6a9f097b632986fe119286976040be8614",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -84,32 +84,9 @@ public class ChangeControl {
       }
     }
 
-    public ChangeControl controlFor(Change.Id id, CurrentUser user)
-        throws NoSuchChangeException {
-      final Change change;
-      try {
-        change = db.get().changes().get(id);
-        if (change == null) {
-          throw new NoSuchChangeException(id);
-        }
-      } catch (OrmException e) {
-        throw new NoSuchChangeException(id, e);
-      }
-      return controlFor(change, user);
-    }
-
     public ChangeControl validateFor(Change change, CurrentUser user)
         throws NoSuchChangeException, OrmException {
       ChangeControl c = controlFor(change, user);
-      if (!c.isVisible(db.get())) {
-        throw new NoSuchChangeException(c.getChange().getId());
-      }
-      return c;
-    }
-
-    public ChangeControl validateFor(Change.Id id, CurrentUser user)
-        throws NoSuchChangeException, OrmException {
-      ChangeControl c = controlFor(id, user);
       if (!c.isVisible(db.get())) {
         throw new NoSuchChangeException(c.getChange().getId());
       }

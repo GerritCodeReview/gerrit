@@ -95,6 +95,7 @@ public class RebaseChange {
    * E-mail notification and triggering of hooks happens for the creation of the
    * new patch set.
    *
+   * @param change the change to perform the rebase for
    * @param patchSetId the id of the patch set
    * @param uploader the user that creates the rebased patch set
    * @throws NoSuchChangeException thrown if the change to which the patch set
@@ -105,18 +106,17 @@ public class RebaseChange {
    * @throws IOException thrown if rebase is not possible or not needed
    * @throws InvalidChangeOperationException thrown if rebase is not allowed
    */
-  public void rebase(final PatchSet.Id patchSetId, final IdentifiedUser uploader)
+  public void rebase(Change change, PatchSet.Id patchSetId, final IdentifiedUser uploader)
       throws NoSuchChangeException, EmailException, OrmException, IOException,
       InvalidChangeOperationException {
     final Change.Id changeId = patchSetId.getParentKey();
     final ChangeControl changeControl =
-        changeControlFactory.validateFor(changeId, uploader);
+        changeControlFactory.validateFor(change, uploader);
     if (!changeControl.canRebase()) {
       throw new InvalidChangeOperationException(
           "Cannot rebase: New patch sets are not allowed to be added to change: "
               + changeId.toString());
     }
-    final Change change = changeControl.getChange();
     Repository git = null;
     RevWalk rw = null;
     ObjectInserter inserter = null;

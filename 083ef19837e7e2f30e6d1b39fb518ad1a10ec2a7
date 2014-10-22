@@ -22,6 +22,30 @@
       "revId": "083ef19837e7e2f30e6d1b39fb518ad1a10ec2a7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "95446258_cf07dd3d",
+        "filename": "gerrit-plugin-gwtui/BUCK",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-22T05:41:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "95446258_0ff605f3",
+      "range": {
+        "startLine": 31,
+        "startChar": 4,
+        "endLine": 35,
+        "endChar": 34
+      },
+      "revId": "083ef19837e7e2f30e6d1b39fb518ad1a10ec2a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

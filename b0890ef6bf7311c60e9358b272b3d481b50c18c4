@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b53fa6b4_b023d89c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetDiff.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-22T14:08:35Z",
+      "side": 1,
+      "message": "Given how web links are constructed now, OK. I still think that constructing web links with Resource passed in is a better approach.",
+      "range": {
+        "startLine": 171,
+        "startChar": 8,
+        "endLine": 173,
+        "endChar": 64
+      },
+      "revId": "b0890ef6bf7311c60e9358b272b3d481b50c18c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

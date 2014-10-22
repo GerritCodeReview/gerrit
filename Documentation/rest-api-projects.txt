@@ -930,6 +930,112 @@ returned.
   ]
 ----
 
+[[branch-options]]
+==== Branch Options
+
+Limit(n)::
+Limit the number of branches to be included in the results.
++
+.Request
+----
+  GET /projects/testproject/branches?n=1 HTTP/1.0
+----
++
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  [
+    {
+      "ref": "HEAD",
+      "revision": "master",
+      "can_delete": false
+    }
+  ]
+----
+
+Skip(s)::
+Skip the given number of branches from the beginning of the list.
++
+.Request
+----
+  GET /projects/testproject/branches?n=1&s=0 HTTP/1.0
+----
++
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  [
+    {
+      "ref": "HEAD",
+      "revision": "master",
+      "can_delete": false
+    }
+  ]
+----
+
+Substring(m)::
+Limit the results to those projects that match the specified substring.
++
+List all projects that match substring `test`:
++
+.Request
+----
+  GET /projects/testproject/branches?m=test HTTP/1.0
+----
++
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  [
+    {
+      "ref": "refs/heads/test1",
+      "revision": "9c9d08a438e55e52f33b608415e6dddd9b18550d",
+      "can_delete": true
+    }
+  ]
+----
+
+Regex(r)::
+Limit the results to those branches that match the specified regex.
+Boundary matchers '^' and '$' are implicit. For example: the regex 't*' will
+match any branches that start with 'test' and regex '*t' will match any
+branches that end with 'test'.
++
+List all branches that match regex `t.*1`:
++
+.Request
+----
+  GET /projects/testproject/branches?r=t.*1 HTTP/1.0
+----
++
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  [
+    {
+      "ref": "refs/heads/test1",
+      "revision": "9c9d08a438e55e52f33b608415e6dddd9b18550d",
+      "can_delete": true
+    }
+  ]
+----
+
 [[get-branch]]
 === Get Branch
 --

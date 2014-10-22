@@ -14,12 +14,15 @@
 
 package com.google.gerrit.server.project;
 
+import com.google.common.base.Predicate;
 import com.google.common.base.Strings;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.gerrit.extensions.common.ActionInfo;
 import com.google.gerrit.extensions.common.WebLinkInfo;
 import com.google.gerrit.extensions.registration.DynamicMap;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.RestView;
@@ -29,28 +32,43 @@ import com.google.gerrit.server.WebLinks;
 import com.google.gerrit.server.extensions.webui.UiActions;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.inject.Inject;
-import com.google.inject.Singleton;
 import com.google.inject.util.Providers;
+
+import dk.brics.automaton.RegExp;
+import dk.brics.automaton.RunAutomaton;
 
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.Repository;
+import org.kohsuke.args4j.Option;
 
 import java.io.IOException;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
-@Singleton
 public class ListBranches implements RestReadView<ProjectResource> {
   private final GitRepositoryManager repoManager;
   private final DynamicMap<RestView<BranchResource>> branchViews;
   private final WebLinks webLinks;
+
+  @Option(name = "--limit", aliases = {"-n"}, metaVar = "CNT", usage = "maximum number of branches to list")
+  private int limit;
+
+  @Option(name = "--start", aliases = {"-s"}, metaVar = "CNT", usage = "number of branches to skip")
+  private int start;
+
+  @Option(name = "--match", aliases = {"-m"}, metaVar = "MATCH", usage = "match branches substring")
+  private String matchSubstring;
+
+  @Option(name = "--regex", aliases = {"-r"}, metaVar = "REGEX", usage = "match branches regex")
+  private String matchRegex;
 
   @Inject
   public ListBranches(GitRepositoryManager repoManager,
@@ -63,7 +81,7 @@ public class ListBranches implements RestReadView<ProjectResource> {
 
   @Override
   public List<BranchInfo> apply(ProjectResource rsrc)
-      throws ResourceNotFoundException, IOException {
+      throws ResourceNotFoundException, IOException, BadRequestException {
     List<BranchInfo> branches = Lists.newArrayList();
 
     BranchInfo headBranch = null;
@@ -149,6 +167,61 @@ public class ListBranches implements RestReadView<ProjectResource> {
     }
     if (headBranch != null) {
       branches.add(0, headBranch);
+    }
+
+    List<BranchInfo> filteredBranches;
+    if ((matchSubstring != null && !matchSubstring.isEmpty())
+        || (matchRegex != null && !matchRegex.isEmpty())) {
+      filteredBranches = filterBranches(branches);
+    } else {
+      filteredBranches = branches;
+    }
+    if (!filteredBranches.isEmpty()) {
+      int end = filteredBranches.size();
+      if (limit > 0 && start + limit < end) {
+        end = start + limit;
+      }
+      if (start <= end) {
+        filteredBranches = filteredBranches.subList(start, end);
+      } else {
+        filteredBranches = Collections.emptyList();
+      }
+    }
+    return filteredBranches;
+  }
+
+  private List<BranchInfo> filterBranches(List<BranchInfo> branches)
+      throws BadRequestException {
+    if (matchSubstring != null) {
+      return ((List<BranchInfo>) Lists.newArrayList(Iterables.filter(branches,
+          new Predicate<BranchInfo>() {
+            public boolean apply(BranchInfo in) {
+              return in.ref.toLowerCase(Locale.US).contains(
+                  matchSubstring.toLowerCase(Locale.US));
+            }
+          })));
+    } else if (matchRegex != null) {
+      if (matchRegex.startsWith("^")) {
+        matchRegex = matchRegex.substring(1);
+        if (matchRegex.endsWith("$") && !matchRegex.endsWith("\\$")) {
+          matchRegex = matchRegex.substring(0, matchRegex.length() - 1);
+        }
+      }
+      if (matchRegex.equals(".*")) {
+        return branches;
+      }
+      try {
+        final RunAutomaton a =
+            new RunAutomaton(new RegExp(matchRegex).toAutomaton());
+        return ((List<BranchInfo>) Lists.newArrayList(Iterables.filter(
+            branches, new Predicate<BranchInfo>() {
+              public boolean apply(BranchInfo in) {
+                return a.run(in.ref);
+              }
+            })));
+      } catch (IllegalArgumentException e) {
+        throw new BadRequestException(e.getMessage());
+      }
     }
     return branches;
   }

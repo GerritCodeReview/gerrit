@@ -114,6 +114,86 @@ public class ListBranchesIT extends AbstractDaemonTest {
         devCommit, false)), toBranchInfoList(r));
   }
 
+  @Test
+  public void listBranchesUsingPagination() throws Exception {
+    pushTo("refs/heads/master");
+    pushTo("refs/heads/someBranch1");
+    pushTo("refs/heads/someBranch2");
+    pushTo("refs/heads/someBranch3");
+
+    // using only limit
+    RestResponse r =
+        adminSession.get("/projects/" + project.get() + "/branches?n=4");
+    List<BranchInfo> result = toBranchInfoList(r);
+    assertEquals(4, result.size());
+    assertEquals("HEAD", result.get(0).ref);
+    assertEquals("refs/meta/config", result.get(1).ref);
+    assertEquals("refs/heads/master", result.get(2).ref);
+    assertEquals("refs/heads/someBranch1", result.get(3).ref);
+
+    // limit higher than total number of branches
+    r = adminSession.get("/projects/" + project.get() + "/branches?n=25");
+    result = toBranchInfoList(r);
+    assertEquals(6, result.size());
+    assertEquals("HEAD", result.get(0).ref);
+    assertEquals("refs/meta/config", result.get(1).ref);
+    assertEquals("refs/heads/master", result.get(2).ref);
+    assertEquals("refs/heads/someBranch1", result.get(3).ref);
+    assertEquals("refs/heads/someBranch2", result.get(4).ref);
+    assertEquals("refs/heads/someBranch3", result.get(5).ref);
+
+    // using skip only
+    r = adminSession.get("/projects/" + project.get() + "/branches?s=2");
+    result = toBranchInfoList(r);
+    assertEquals(4, result.size());
+    assertEquals("refs/heads/master", result.get(0).ref);
+    assertEquals("refs/heads/someBranch1", result.get(1).ref);
+    assertEquals("refs/heads/someBranch2", result.get(2).ref);
+    assertEquals("refs/heads/someBranch3", result.get(3).ref);
+
+    // skip more branches than the number of available branches
+    r = adminSession.get("/projects/" + project.get() + "/branches?s=7");
+    result = toBranchInfoList(r);
+    assertEquals(0, result.size());
+
+    // using skip and limit
+    r = adminSession.get("/projects/" + project.get() + "/branches?s=2&n=2");
+    result = toBranchInfoList(r);
+    assertEquals(2, result.size());
+    assertEquals("refs/heads/master", result.get(0).ref);
+    assertEquals("refs/heads/someBranch1", result.get(1).ref);
+  }
+
+  @Test
+  public void listBranchesUsingFilter() throws Exception {
+    pushTo("refs/heads/master");
+    pushTo("refs/heads/someBranch1");
+    pushTo("refs/heads/someBranch2");
+    pushTo("refs/heads/someBranch3");
+
+    //using substring
+    RestResponse r =
+        adminSession.get("/projects/" + project.get() + "/branches?m=some");
+    List<BranchInfo> result = toBranchInfoList(r);
+    assertEquals(3, result.size());
+    assertEquals("refs/heads/someBranch1", result.get(0).ref);
+    assertEquals("refs/heads/someBranch2", result.get(1).ref);
+    assertEquals("refs/heads/someBranch3", result.get(2).ref);
+
+    r = adminSession.get("/projects/" + project.get() + "/branches?m=Branch");
+    result = toBranchInfoList(r);
+    assertEquals(3, result.size());
+    assertEquals("refs/heads/someBranch1", result.get(0).ref);
+    assertEquals("refs/heads/someBranch2", result.get(1).ref);
+    assertEquals("refs/heads/someBranch3", result.get(2).ref);
+
+    //using regex
+    r = adminSession.get("/projects/" + project.get() + "/branches?r=.*ast.*r");
+    result = toBranchInfoList(r);
+    assertEquals(1, result.size());
+    assertEquals("refs/heads/master", result.get(0).ref);
+  }
+
   private RestResponse GET(String endpoint) throws IOException {
     return adminSession.get(endpoint);
   }

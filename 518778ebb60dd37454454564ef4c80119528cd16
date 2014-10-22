@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "95446258_8f8b1527",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/SystemGroupBackend.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2014-10-22T13:56:11Z",
+      "side": 1,
+      "message": "Don\u0027t see why. It\u0027s pretty and readable.",
+      "parentUuid": "503af8a9_cd8389e3",
+      "revId": "518778ebb60dd37454454564ef4c80119528cd16",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "503af8a9_ad8e3d0c",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/group/ProjectOwnerGroupBackendTest.java",
         "patchSetId": 6
@@ -30,6 +48,30 @@
       "writtenOn": "2014-10-20T16:41:26Z",
       "side": 1,
       "message": "since when we put the license header between the imports and the class declaration :-)",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 39,
+        "endChar": 32
+      },
+      "revId": "518778ebb60dd37454454564ef4c80119528cd16",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "95446258_6f06b111",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/group/ProjectOwnerGroupBackendTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2014-10-22T13:56:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "503af8a9_ad8e3d0c",
       "range": {
         "startLine": 27,
         "startChar": 0,

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "95446258_0fa045aa",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 1930,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-10-22T10:48:07Z",
+      "side": 1,
+      "message": "Why is it named \"defaultMaxClauseCount\" and not just \"maxClauseCount\"? Is there another way to override this default?",
+      "range": {
+        "startLine": 1930,
+        "startChar": 37,
+        "endLine": 1930,
+        "endChar": 58
+      },
+      "revId": "74ccc23d0235c246b16e159627b180bc8b42ae70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

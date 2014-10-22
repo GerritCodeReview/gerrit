@@ -14,6 +14,9 @@
 
 package com.google.gerrit.server.index;
 
+import static com.google.gerrit.server.git.QueueProvider.QueueType.BATCH;
+import static com.google.gerrit.server.git.QueueProvider.QueueType.INTERACTIVE;
+
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.common.util.concurrent.MoreExecutors;
 import com.google.gerrit.lifecycle.LifecycleModule;
@@ -21,7 +24,6 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.query.change.BasicChangeRewrites;
 import com.google.gerrit.server.query.change.ChangeQueryRewriter;
-import com.google.inject.AbstractModule;
 import com.google.inject.Injector;
 import com.google.inject.Key;
 import com.google.inject.Provides;
@@ -48,16 +50,20 @@ public class IndexModule extends LifecycleModule {
   }
 
   private final int threads;
-  private final ListeningExecutorService indexExecutor;
+  private final ListeningExecutorService interactiveExecutor;
+  private final ListeningExecutorService batchExecutor;
 
   public IndexModule(int threads) {
     this.threads = threads;
-    this.indexExecutor = null;
+    this.interactiveExecutor = null;
+    this.batchExecutor = null;
   }
 
-  public IndexModule(ListeningExecutorService indexExecutor) {
+  public IndexModule(ListeningExecutorService interactiveExecutor,
+      ListeningExecutorService batchExecutor) {
     this.threads = -1;
-    this.indexExecutor = indexExecutor;
+    this.interactiveExecutor = interactiveExecutor;
+    this.batchExecutor = batchExecutor;
   }
 
   @Override
@@ -67,49 +73,54 @@ public class IndexModule extends LifecycleModule {
     bind(IndexCollection.class);
     listener().to(IndexCollection.class);
     factory(ChangeIndexer.Factory.class);
-
-    if (indexExecutor != null) {
-      bind(ListeningExecutorService.class)
-          .annotatedWith(IndexExecutor.class)
-          .toInstance(indexExecutor);
-    } else {
-      install(new IndexExecutorModule(threads));
-    }
   }
 
   @Provides
+  @Singleton
   ChangeIndexer getChangeIndexer(
+      @IndexExecutor(INTERACTIVE) ListeningExecutorService executor,
       ChangeIndexer.Factory factory,
       IndexCollection indexes) {
-    return factory.create(indexes);
+    // Bind default indexer to interactive executor; callers who need a
+    // different executor can use the factory directly.
+    return factory.create(executor, indexes);
   }
 
-  private static class IndexExecutorModule extends AbstractModule {
-    private final int threads;
-
-    private IndexExecutorModule(int threads) {
-      this.threads = threads;
+  @Provides
+  @Singleton
+  @IndexExecutor(INTERACTIVE)
+  ListeningExecutorService getInteractiveIndexExecutor(
+      @GerritServerConfig Config config,
+      WorkQueue workQueue) {
+    if (interactiveExecutor != null) {
+      return interactiveExecutor;
     }
-
-    @Override
-    public void configure() {
+    int threads = this.threads;
+    if (threads <= 0) {
+      threads = config.getInt("index", null, "threads", 0);
     }
-
-    @Provides
-    @Singleton
-    @IndexExecutor
-    ListeningExecutorService getIndexExecutor(
-        @GerritServerConfig Config config,
-        WorkQueue workQueue) {
-      int threads = this.threads;
-      if (threads <= 0) {
-        threads = config.getInt("index", null, "threads", 0);
-      }
-      if (threads <= 0) {
-        return MoreExecutors.newDirectExecutorService();
-      }
-      return MoreExecutors.listeningDecorator(
-          workQueue.createQueue(threads, "index"));
+    if (threads <= 0) {
+      return MoreExecutors.newDirectExecutorService();
     }
+    return MoreExecutors.listeningDecorator(
+        workQueue.createQueue(threads, "Index-Interactive"));
+  }
+
+  @Provides
+  @Singleton
+  @IndexExecutor(BATCH)
+  ListeningExecutorService getBatchIndexExecutor(
+      @IndexExecutor(INTERACTIVE) ListeningExecutorService interactive,
+      @GerritServerConfig Config config,
+      WorkQueue workQueue) {
+    if (batchExecutor != null) {
+      return batchExecutor;
+    }
+    int threads = config.getInt("index", null, "batchThreads", 0);
+    if (threads <= 0) {
+      return interactive;
+    }
+    return MoreExecutors.listeningDecorator(
+        workQueue.createQueue(threads, "Index-Batch"));
   }
 }

@@ -15,6 +15,8 @@
 package com.google.gerrit.client;
 
 import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.user.client.ui.Anchor;
+import com.google.gwt.user.client.ui.Image;
 
 public class WebLinkInfo extends JavaScriptObject {
 
@@ -24,5 +26,23 @@ public class WebLinkInfo extends JavaScriptObject {
   public final native String target() /*-{ return this.target; }-*/;
 
   protected WebLinkInfo() {
+  }
+
+  public final Anchor toAnchor() {
+    Anchor a = new Anchor();
+    a.setHref(url());
+    if (target() != null && !target().isEmpty()) {
+      a.setTarget(target());
+    }
+    if (imageUrl() != null && !imageUrl().isEmpty()) {
+      Image img = new Image();
+      img.setAltText(name());
+      img.setUrl(imageUrl());
+      img.setTitle(name());
+      a.getElement().appendChild(img.getElement());
+    } else {
+      a.setText("(" + name() + ")");
+    }
+    return a;
   }
 }

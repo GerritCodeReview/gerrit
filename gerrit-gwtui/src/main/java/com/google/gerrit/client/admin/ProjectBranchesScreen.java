@@ -396,22 +396,8 @@ public class ProjectBranchesScreen extends ProjectScreen {
             c.toBranch(new Branch.NameKey(getProjectKey(), k.ref()))));
       }
       if (k.web_links() != null) {
-        for (WebLinkInfo weblink : Natives.asList(k.web_links())) {
-          Anchor a = new Anchor();
-          a.setHref(weblink.url());
-          if (weblink.target() != null && !weblink.target().isEmpty()) {
-            a.setTarget(weblink.target());
-          }
-          if (weblink.imageUrl() != null && !weblink.imageUrl().isEmpty()) {
-            Image img = new Image();
-            img.setAltText(weblink.name());
-            img.setUrl(weblink.imageUrl());
-            img.setTitle(weblink.name());
-            a.getElement().appendChild(img.getElement());
-          } else {
-            a.setText("(" + weblink.name() + ")");
-          }
-          actionsPanel.add(a);
+        for (WebLinkInfo webLink : Natives.asList(k.web_links())) {
+          actionsPanel.add(webLink.toAnchor());
         }
       }
       if (k.actions() != null) {

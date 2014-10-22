@@ -48,33 +48,55 @@ import com.google.gwtexpui.clippy.client.CopyableLabel;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 
 class CommitBox extends Composite {
-  interface Binder extends UiBinder<HTMLPanel, CommitBox> {}
+  interface Binder extends UiBinder<HTMLPanel, CommitBox> {
+  }
+
   private static final Binder uiBinder = GWT.create(Binder.class);
 
   interface Style extends CssResource {
     String collapsed();
+
     String expanded();
+
     String clippy();
+
     String parentWebLink();
   }
 
-  @UiField Style style;
-  @UiField FlowPanel authorPanel;
-  @UiField FlowPanel committerPanel;
-  @UiField Image mergeCommit;
-  @UiField CopyableLabel commitName;
-  @UiField FlowPanel webLinkPanel;
-  @UiField Element parents;
-  @UiField FlowPanel parentCommits;
-  @UiField FlowPanel parentWebLinks;
-  @UiField InlineHyperlink authorNameEmail;
-  @UiField Element authorDate;
-  @UiField InlineHyperlink committerNameEmail;
-  @UiField Element committerDate;
-  @UiField CopyableLabel idText;
-  @UiField HTML text;
-  @UiField ScrollPanel scroll;
-  @UiField Button more;
+  @UiField
+  Style style;
+  @UiField
+  FlowPanel authorPanel;
+  @UiField
+  FlowPanel committerPanel;
+  @UiField
+  Image mergeCommit;
+  @UiField
+  CopyableLabel commitName;
+  @UiField
+  FlowPanel webLinkPanel;
+  @UiField
+  Element parents;
+  @UiField
+  FlowPanel parentCommits;
+  @UiField
+  FlowPanel parentWebLinks;
+  @UiField
+  InlineHyperlink authorNameEmail;
+  @UiField
+  Element authorDate;
+  @UiField
+  InlineHyperlink committerNameEmail;
+  @UiField
+  Element committerDate;
+  @UiField
+  CopyableLabel idText;
+  @UiField
+  HTML text;
+  @UiField
+  ScrollPanel scroll;
+  @UiField
+  Button more;
   private boolean expanded;
 
   CommitBox() {
@@ -98,8 +120,7 @@ class CommitBox extends Composite {
     expanded = !expanded;
   }
 
-  void set(CommentLinkProcessor commentLinkProcessor,
-      ChangeInfo change,
+  void set(CommentLinkProcessor commentLinkProcessor, ChangeInfo change,
       String revision) {
     RevisionInfo revInfo = change.revision(revision);
     CommitInfo commit = revInfo.commit();
@@ -112,8 +133,8 @@ class CommitBox extends Composite {
         change);
     formatLink(commit.committer(), committerPanel, committerNameEmail,
         committerDate, change);
-    text.setHTML(commentLinkProcessor.apply(
-        new SafeHtmlBuilder().append(commit.message()).linkify()));
+    text.setHTML(commentLinkProcessor.apply(new SafeHtmlBuilder().append(
+        commit.message()).linkify()));
     setWebLinks(change, revision, revInfo);
 
     if (revInfo.commit().parents().length() > 1) {
@@ -126,36 +147,23 @@ class CommitBox extends Composite {
       RevisionInfo revInfo) {
     GitwebLink gw = Gerrit.getGitwebLink();
     if (gw != null && gw.canLink(revInfo)) {
-      addWebLink(gw.toRevision(change.project(), revision),
-          gw.getLinkName(), null, null);
+      webLinkPanel.add(toAnchor(gw.toRevision(change.project(), revision),
+          gw.getLinkName()));
     }
 
     JsArray<WebLinkInfo> links = revInfo.web_links();
     if (links != null) {
       for (WebLinkInfo link : Natives.asList(links)) {
-        addWebLink(link.url(), parenthesize(link.name()), link.imageUrl(),
-            link.target());
+        webLinkPanel.add(link.toAnchor());
       }
     }
   }
 
-  private void addWebLink(String href, String name, String imageUrl,
-      String target) {
+  private Anchor toAnchor(String href, String name) {
     Anchor a = new Anchor();
     a.setHref(href);
-    if (target != null && !target.isEmpty()) {
-      a.setTarget(target);
-    }
-    if (imageUrl != null && !imageUrl.isEmpty()) {
-      Image img = new Image();
-      img.setAltText(name);
-      img.setUrl(imageUrl);
-      img.setTitle(name);
-      a.getElement().appendChild(img.getElement());
-    } else {
-      a.setText(name);
-    }
-    webLinkPanel.add(a);
+    a.setText(name);
+    return a;
   }
 
   private void setParents(String project, JsArray<CommitInfo> commits) {
@@ -186,24 +194,17 @@ class CommitBox extends Composite {
       if (change.owner().email().equals(person.email())) {
         avatar = new AvatarImage(change.owner());
       } else {
-        avatar = new AvatarImage(
-            AccountInfo.create(0, person.name(), person.email(), null));
+        avatar =
+            new AvatarImage(AccountInfo.create(0, person.name(),
+                person.email(), null));
       }
       p.insert(avatar, 0);
     }
 
     name.setText(renderName(person));
-    name.setTargetHistoryToken(PageLinks
-        .toAccountQuery(owner(person), change.status()));
+    name.setTargetHistoryToken(PageLinks.toAccountQuery(owner(person),
+        change.status()));
     date.setInnerText(FormatUtil.mediumFormat(person.date()));
-  }
-
-  private static String parenthesize(String str) {
-    return new StringBuilder()
-        .append("(")
-        .append(str)
-        .append(")")
-        .toString();
   }
 
   private static String renderName(GitPerson person) {

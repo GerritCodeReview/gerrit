@@ -322,6 +322,19 @@ public class LuceneChangeIndex implements ChangeIndex {
     }
   }
 
+  @SuppressWarnings("unchecked")
+  @Override
+  public void delete(int cdId) throws IOException {
+    Term id = QueryBuilder.idTerm(cdId);
+    try {
+      Futures.allAsList(
+          openIndex.delete(id),
+          closedIndex.delete(id)).get();
+    } catch (ExecutionException | InterruptedException e) {
+      throw new IOException(e);
+    }
+  }
+
   @Override
   public void deleteAll() throws IOException {
     openIndex.deleteAll();

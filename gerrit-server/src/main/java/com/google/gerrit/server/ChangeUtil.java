@@ -433,6 +433,10 @@ public class ChangeUtil {
     }
   }
 
+  public void deleteChange(int id) throws IOException {
+    indexer.delete(id);
+  }
+
   public void deleteDraftChange(PatchSet.Id patchSetId)
       throws NoSuchChangeException, OrmException, IOException {
     deleteDraftChange(patchSetId.getParentKey());

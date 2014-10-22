@@ -384,4 +384,8 @@ class SolrChangeIndex implements ChangeIndex, LifecycleListener {
     }
     cfg.save();
   }
+
+  @Override
+  public void delete(int cdId) throws IOException {
+  }
 }

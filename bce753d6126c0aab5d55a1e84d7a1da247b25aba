@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "b50a4612_786ae1df",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-10-22T09:12:10Z",
+      "side": 1,
+      "message": "While you\u0027re in here: \"barring\"",
+      "range": {
+        "startLine": 182,
+        "startChar": 23,
+        "endLine": 182,
+        "endChar": 29
+      },
+      "revId": "bce753d6126c0aab5d55a1e84d7a1da247b25aba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "95446258_0f52852a",
         "filename": "Documentation/dev-contributing.txt",
         "patchSetId": 1

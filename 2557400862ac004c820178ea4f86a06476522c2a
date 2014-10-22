@@ -22,6 +22,30 @@
       "revId": "2557400862ac004c820178ea4f86a06476522c2a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b53fa6b4_d0c41c4c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-22T21:25:38Z",
+      "side": 1,
+      "message": "I\u0027m not quite sure how that may happen so may be my eplanation attempt is not the best one. But as I understand it, when you open a new connection after the last write to the database was commited it works. When the change is looked up in the connection that was opened before last write it\u0027s broken.",
+      "parentUuid": "b50a4612_58a6fdcb",
+      "range": {
+        "startLine": 13,
+        "startChar": 15,
+        "endLine": 13,
+        "endChar": 45
+      },
+      "revId": "2557400862ac004c820178ea4f86a06476522c2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

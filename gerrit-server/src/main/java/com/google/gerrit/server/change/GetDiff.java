@@ -168,9 +168,11 @@ public class GetDiff implements RestReadView<FileResource> {
         result.metaB.name = ps.getNewName();
         setContentType(result.metaB, state, ps.getFileModeB(), ps.getMimeTypeB());
         result.metaB.lines = ps.getB().size();
-        result.metaB.webLinks = getFileWebLinks(state.getProject(),
-            resource.getRevision().getPatchSet().getRefName(),
-            result.metaB.name);
+        String rev = resource.getRevision().getEdit().isPresent()
+            ? resource.getRevision().getEdit().get().getRefName()
+            : resource.getRevision().getPatchSet().getRefName();
+        result.metaB.webLinks =
+            getFileWebLinks(state.getProject(), rev, result.metaB.name);
       }
 
       if (intraline) {

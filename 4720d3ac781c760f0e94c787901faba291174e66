@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "50c758d5_65a72649",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-10-22T09:34:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "50c758d5_e5b2f68d",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 47
+      },
+      "revId": "4720d3ac781c760f0e94c787901faba291174e66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "503af8a9_6d08d5c4",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/WebLinks.java",
         "patchSetId": 5
@@ -36,6 +60,30 @@
       "writtenOn": "2014-10-21T13:22:58Z",
       "side": 1,
       "message": "[optional]: Do the filtering in all these methods in functional style:\n\n  return List.newArrayList(\n      Iterables.filter(webLink.getPathSetWebLink(project, commit),\n          EMPTY_WEB_LINK));\n\nWhere EMPTY_WB_LINK is denied something like that (untested):\n\n  private static final Predicate\u003cWebLinkInfo\u003e EMPTY_WEB_LINK \u003d\n    new Predicate\u003cWebLinkInfo\u003e() {\n      @Override\n      public boolean apply(WebLinkInfo l) {\n        return !Strings.isNullOrEmpty(webLink.name)\n          \u0026\u0026 !Strings.isNullOrEmpty(webLink.url);\n      }\n    };",
+      "range": {
+        "startLine": 50,
+        "startChar": 2,
+        "endLine": 56,
+        "endChar": 3
+      },
+      "revId": "4720d3ac781c760f0e94c787901faba291174e66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b53fa6b4_d063fcfc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/WebLinks.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-10-22T09:34:43Z",
+      "side": 1,
+      "message": "What are the benefits?\nYou create two ArrayLists with this approach.",
+      "parentUuid": "503af8a9_6d08d5c4",
       "range": {
         "startLine": 50,
         "startChar": 2,

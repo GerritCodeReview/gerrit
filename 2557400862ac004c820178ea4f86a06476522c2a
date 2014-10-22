@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b50a4612_58a6fdcb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-10-22T21:14:10Z",
+      "side": 1,
+      "message": "Huh? What\u0027s a stale database instance?\n\nEach SchemaFactory.open() call opens a new connection to the database (or uses pooling if enabled). They don\u0027t have state associated with them other than the actual connection to the underlying database. Which is still one database.\n\nThe thing that happens with multiple background threads under load is that you might get unexpected orderings between writes happening in one background thread and reads happening in another.",
+      "range": {
+        "startLine": 13,
+        "startChar": 15,
+        "endLine": 13,
+        "endChar": 45
+      },
+      "revId": "2557400862ac004c820178ea4f86a06476522c2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

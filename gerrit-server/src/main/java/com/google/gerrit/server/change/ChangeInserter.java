@@ -38,6 +38,7 @@ import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.RefControl;
+import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.validators.ValidationException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -64,6 +65,7 @@ public class ChangeInserter {
 
   private final Provider<ReviewDb> dbProvider;
   private final ChangeUpdate.Factory updateFactory;
+  private final ChangeData.Factory changeDataFactory;
   private final GitReferenceUpdated gitRefUpdated;
   private final ChangeHooks hooks;
   private final ApprovalsUtil approvalsUtil;
@@ -89,6 +91,7 @@ public class ChangeInserter {
 
   @Inject
   ChangeInserter(Provider<ReviewDb> dbProvider,
+      ChangeData.Factory changeDataFactory,
       ChangeUpdate.Factory updateFactory,
       PatchSetInfoFactory patchSetInfoFactory,
       GitReferenceUpdated gitRefUpdated,
@@ -104,6 +107,7 @@ public class ChangeInserter {
       @Assisted RevCommit commit) {
     this.dbProvider = dbProvider;
     this.updateFactory = updateFactory;
+    this.changeDataFactory = changeDataFactory;
     this.gitRefUpdated = gitRefUpdated;
     this.hooks = hooks;
     this.approvalsUtil = approvalsUtil;
@@ -222,9 +226,8 @@ public class ChangeInserter {
     }
 
     CheckedFuture<?, IOException> f = mergeabilityChecker.newCheck()
-        .addChange(change)
         .reindex()
-        .runAsync();
+        .reindexAsync(changeDataFactory.create(db, ctl));
 
     if(!messageIsForChange()) {
       commitMessageNotForChange();

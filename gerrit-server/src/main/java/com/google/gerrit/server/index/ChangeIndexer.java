@@ -122,6 +122,18 @@ public class ChangeIndexer {
   }
 
   /**
+   * Start indexing a change.
+   *
+   * @param cd change data to index.
+   * @return future for the indexing task.
+   */
+  public CheckedFuture<?, IOException> indexAsync(ChangeData cd) {
+    return executor != null
+        ? submit(new Task2(cd))
+        : Futures.<Object, IOException> immediateCheckedFuture(null);
+  }
+
+  /**
    * Synchronously index a change.
    *
    * @param cd change to index.
@@ -252,6 +264,39 @@ public class ChangeIndexer {
     @Override
     public String toString() {
       return "index-change-" + id.get();
+    }
+  }
+
+  private class Task2 implements Callable<Void> {
+    private final ChangeData cd;
+
+    private Task2(ChangeData cd) {
+      this.cd = cd;
+    }
+
+    @Override
+    public Void call() throws Exception {
+      try {
+        for (ChangeIndex i : getWriteIndexes()) {
+          i.replace(cd);
+        }
+        return null;
+      } catch (Exception e) {
+        log.error(String.format("Failed to index change %d",
+            cd.change().getId()), e);
+        throw e;
+      }
+    }
+
+    @Override
+    public String toString() {
+      try {
+        return "index-change-" + cd.change().getId();
+      } catch (OrmException e) {
+        String msg = "Failed to retrieve change";
+        log.error(msg, e);
+        return msg;
+      }
     }
   }
 }

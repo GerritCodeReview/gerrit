@@ -34,6 +34,7 @@ import com.google.gerrit.server.mail.ReplyToChangeSender;
 import com.google.gerrit.server.mail.RestoredSender;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.AtomicUpdate;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -51,6 +52,7 @@ public class Restore implements RestModifyView<ChangeResource, RestoreInput>,
   private static final Logger log = LoggerFactory.getLogger(Restore.class);
 
   private final ChangeHooks hooks;
+  private final ChangeData.Factory changeDataFactory;
   private final RestoredSender.Factory restoredSenderFactory;
   private final Provider<ReviewDb> dbProvider;
   private final ChangeJson json;
@@ -60,6 +62,7 @@ public class Restore implements RestModifyView<ChangeResource, RestoreInput>,
 
   @Inject
   Restore(ChangeHooks hooks,
+      ChangeData.Factory changeDataFactory,
       RestoredSender.Factory restoredSenderFactory,
       Provider<ReviewDb> dbProvider,
       ChangeJson json,
@@ -67,6 +70,7 @@ public class Restore implements RestModifyView<ChangeResource, RestoreInput>,
       ChangeMessagesUtil cmUtil,
       ChangeUpdate.Factory updateFactory) {
     this.hooks = hooks;
+    this.changeDataFactory = changeDataFactory;
     this.restoredSenderFactory = restoredSenderFactory;
     this.dbProvider = dbProvider;
     this.json = json;
@@ -122,9 +126,8 @@ public class Restore implements RestModifyView<ChangeResource, RestoreInput>,
     update.commit();
 
     CheckedFuture<?, IOException> f = mergeabilityChecker.newCheck()
-        .addChange(change)
         .reindex()
-        .runAsync();
+        .reindexAsync(changeDataFactory.create(db, req.getControl()));
 
     try {
       ReplyToChangeSender cm = restoredSenderFactory.create(change);

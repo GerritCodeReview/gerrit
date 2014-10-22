@@ -15,6 +15,7 @@
 package com.google.gerrit.server.change;
 
 import com.google.common.base.Function;
+import static com.google.common.base.Preconditions.checkState;
 import com.google.common.base.Throwables;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
@@ -40,6 +41,7 @@ import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.git.WorkQueue.Executor;
 import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.util.RequestContext;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;
 import com.google.gwtorm.server.OrmException;
@@ -125,6 +127,30 @@ public class MergeabilityChecker implements GitReferenceUpdatedListener {
 
     private ListeningExecutorService getExecutor() {
       return interactive ? interactiveExecutor : backgroundExecutor;
+    }
+
+    public CheckedFuture<?, IOException> reindexAsync(final ChangeData cd)
+        throws OrmException {
+      checkState(changes.isEmpty(), "changes are ignored");
+      checkState(reindex, "reindex mode is required");
+
+      ListeningExecutorService executor = getExecutor();
+      ListenableFuture<Void> b =
+          executor.submit(new Task(cd.change(), force, !reindex));
+      List<ListenableFuture<?>> result =
+          Lists.newArrayListWithCapacity(changes.size());
+
+      result.add(Futures.transform(
+          b, new AsyncFunction<Void, Void>() {
+            @SuppressWarnings("unchecked")
+            @Override
+            public ListenableFuture<Void> apply(Void o) {
+              return (ListenableFuture<Void>)
+                  indexer.indexAsync(cd);
+            }
+          }));
+
+      return Futures.makeChecked(Futures.allAsList(result), MAPPER);
     }
 
     public CheckedFuture<?, IOException> runAsync() {

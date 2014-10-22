@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b50a4612_387469c2",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-10-22T09:22:04Z",
+      "side": 1,
+      "message": "Not related to this change, but perhaps here we should just say to use \"Organize Imports\" in Eclipse?",
+      "range": {
+        "startLine": 187,
+        "startChar": 4,
+        "endLine": 189,
+        "endChar": 16
+      },
+      "revId": "e401b5cd7d089b758b751859dfac1b1fea363b45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

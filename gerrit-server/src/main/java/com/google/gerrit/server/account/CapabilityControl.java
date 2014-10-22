@@ -169,12 +169,6 @@ public class CapabilityControl {
         || canAdministrateServer();
   }
 
-  /** @return true if the user can generate HTTP passwords for users other than self. */
-  public boolean canGenerateHttpPassword() {
-    return canPerform(GlobalCapability.GENERATE_HTTP_PASSWORD)
-        || canAdministrateServer();
-  }
-
   /** @return true if the user can impersonate another user. */
   public boolean canRunAs() {
     return canPerform(GlobalCapability.RUN_AS);

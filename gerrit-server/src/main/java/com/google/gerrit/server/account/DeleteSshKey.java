@@ -14,9 +14,11 @@
 
 package com.google.gerrit.server.account;
 
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.DeleteSshKey.Input;
 import com.google.gerrit.server.ssh.SshKeyCache;
 import com.google.gwtorm.server.OrmException;
@@ -32,18 +34,26 @@ public class DeleteSshKey implements
   public static class Input {
   }
 
+  private final Provider<CurrentUser> self;
   private final Provider<ReviewDb> dbProvider;
   private final SshKeyCache sshKeyCache;
 
   @Inject
-  DeleteSshKey(Provider<ReviewDb> dbProvider, SshKeyCache sshKeyCache) {
+  DeleteSshKey(Provider<ReviewDb> dbProvider,
+      Provider<CurrentUser> self,
+      SshKeyCache sshKeyCache) {
+    this.self = self;
     this.dbProvider = dbProvider;
     this.sshKeyCache = sshKeyCache;
   }
 
   @Override
   public Response<?> apply(AccountResource.SshKey rsrc, Input input)
-      throws OrmException {
+      throws AuthException, OrmException {
+    if (self.get() != rsrc.getUser()
+        && !self.get().getCapabilities().canAdministrateServer()) {
+      throw new AuthException("not allowed to delete SSH keys");
+    }
     dbProvider.get().accountSshKeys()
         .deleteKeys(Collections.singleton(rsrc.getSshKey().getKey()));
     sshKeyCache.evict(rsrc.getUser().getUserName());

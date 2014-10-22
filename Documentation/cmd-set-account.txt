@@ -26,12 +26,12 @@ verification step we force within the UI.
 Caller must be a member of the privileged 'Administrators' group,
 or have been granted
 link:access-control.html#capability_modifyAccount[the 'Modify Account' global capability].
+For security reasons only the members of the privileged 'Administrators'
+group can add or delete SSH keys for a user.
 
 To set the HTTP password for the user account (option --http-password) or
 to clear the HTTP password (option --clear-http-password) caller must be
-a member of the privileged 'Administrators' group, or have been granted
-link:access-control.html#capability_generateHttpPassword[the 'Generate HTTP Password' global capability]
-in addition to 'Modify Account' global capability.
+a member of the privileged 'Administrators' group.
 
 == SCRIPTING
 This command is intended to be used in scripts.

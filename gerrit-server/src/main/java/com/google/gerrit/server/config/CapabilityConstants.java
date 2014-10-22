@@ -29,7 +29,6 @@ public class CapabilityConstants extends TranslationBundle {
   public String createProject;
   public String emailReviewers;
   public String flushCaches;
-  public String generateHttpPassword;
   public String killTask;
   public String modifyAccount;
   public String priority;

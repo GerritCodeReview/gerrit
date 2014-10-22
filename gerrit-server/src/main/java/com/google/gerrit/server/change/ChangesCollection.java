@@ -15,6 +15,7 @@
 package com.google.gerrit.server.change;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.primitives.Ints;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
@@ -23,7 +24,9 @@ import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.query.change.QueryChanges;
@@ -31,6 +34,7 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
+import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
@@ -41,6 +45,7 @@ public class ChangesCollection implements
   private final ChangeControl.GenericFactory changeControlFactory;
   private final Provider<QueryChanges> queryFactory;
   private final DynamicMap<RestView<ChangeResource>> views;
+  private final ChangeIndexer changeIndexer;
 
   @Inject
   ChangesCollection(
@@ -48,12 +53,15 @@ public class ChangesCollection implements
       Provider<CurrentUser> user,
       ChangeControl.GenericFactory changeControlFactory,
       Provider<QueryChanges> queryFactory,
-      DynamicMap<RestView<ChangeResource>> views) {
+      DynamicMap<RestView<ChangeResource>> views,
+      ChangeUtil changeUtil,
+      ChangeIndexer changeIndexer) {
     this.db = dbProvider;
     this.user = user;
     this.changeControlFactory = changeControlFactory;
     this.queryFactory = queryFactory;
     this.views = views;
+    this.changeIndexer = changeIndexer;
   }
 
   @Override
@@ -70,6 +78,16 @@ public class ChangesCollection implements
   public ChangeResource parse(TopLevelResource root, IdString id)
       throws ResourceNotFoundException, OrmException {
     List<Change> changes = findChanges(id.encoded());
+    if (changes.isEmpty()) {
+      Integer changeId = Ints.tryParse(id.get());
+      if (changeId != null) {
+        try {
+          changeIndexer.delete(changeId);
+        } catch (IOException e) {
+          throw new ResourceNotFoundException(id.get(), e);
+        }
+      }
+    }
     if (changes.size() != 1) {
       throw new ResourceNotFoundException(id);
     }

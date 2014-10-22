@@ -465,6 +465,24 @@
       "revId": "64e03bc96fbe5183dfb9bc4cf041b5f1b8bc6470",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "75528e24_a604c639",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectCacheWarmer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2014-10-22T12:53:55Z",
+      "side": 1,
+      "message": "If you look at the latest ps, shutdown is now in a runnable.",
+      "parentUuid": "b53fa6b4_10f624f3",
+      "revId": "64e03bc96fbe5183dfb9bc4cf041b5f1b8bc6470",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

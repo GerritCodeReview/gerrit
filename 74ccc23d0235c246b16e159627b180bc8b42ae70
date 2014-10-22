@@ -22,6 +22,30 @@
       "revId": "74ccc23d0235c246b16e159627b180bc8b42ae70",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "955d4234_a7ebaa0b",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 1930,
+      "author": {
+        "id": 1016722
+      },
+      "writtenOn": "2014-10-22T12:20:28Z",
+      "side": 1,
+      "message": "It is called a\"defaultMaxClauseCount\" because it is set for the whole application. Potentially it is possible to set it in the QueryBuilder.java per query in a thread safe maner.",
+      "parentUuid": "95446258_0fa045aa",
+      "range": {
+        "startLine": 1930,
+        "startChar": 37,
+        "endLine": 1930,
+        "endChar": 58
+      },
+      "revId": "74ccc23d0235c246b16e159627b180bc8b42ae70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

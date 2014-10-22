@@ -342,7 +342,7 @@ public class MergeabilityChecker implements GitReferenceUpdatedListener {
         m.setForce(force);
 
         ChangeControl control =
-            changeControlFactory.controlFor(change.getId(), context.getCurrentUser());
+            changeControlFactory.controlFor(change, context.getCurrentUser());
         MergeableInfo info = m.apply(
             new RevisionResource(new ChangeResource(control), ps));
         return change.isMergeable() != info.mergeable;

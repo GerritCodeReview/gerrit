@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d515fa2f_992ffba7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Mergeable.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-10-22T02:27:48Z",
+      "side": 0,
+      "message": "Removing this write will break the browser caching for ChangeJson.\n\nCurrently this tickles the row version on the change row, which causes the ETag to change, allowing browsers polling the change to pick up the new ChangeInfo object via ChangeJson.\n\nBy deleting it we lose that tickle, which means the row version will be stale. If a change is not mergeable due to a merge conflict, and then a different change is merged that fixes that conflict, we can\u0027t display the change is now mergeable. The counter example also exists; if a conflict is introduced we can\u0027t show that.",
+      "revId": "310308847c630a7b29a4d491c0b6d6485b0ef2c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

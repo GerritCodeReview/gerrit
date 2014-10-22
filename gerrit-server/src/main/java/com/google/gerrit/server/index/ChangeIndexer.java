@@ -54,9 +54,10 @@ public class ChangeIndexer {
   private static final Logger log =
       LoggerFactory.getLogger(ChangeIndexer.class);
 
-  public interface Factory {
-    ChangeIndexer create(ChangeIndex index);
-    ChangeIndexer create(IndexCollection indexes);
+  interface Factory {
+    ChangeIndexer create(ListeningExecutorService executor, ChangeIndex index);
+    ChangeIndexer create(ListeningExecutorService executor,
+        IndexCollection indexes);
   }
 
   private static final Function<Exception, IOException> MAPPER =
@@ -82,10 +83,10 @@ public class ChangeIndexer {
   private final ListeningExecutorService executor;
 
   @AssistedInject
-  ChangeIndexer(@IndexExecutor ListeningExecutorService executor,
-      SchemaFactory<ReviewDb> schemaFactory,
+  ChangeIndexer(SchemaFactory<ReviewDb> schemaFactory,
       ChangeData.Factory changeDataFactory,
       ThreadLocalRequestContext context,
+      @Assisted ListeningExecutorService executor,
       @Assisted ChangeIndex index) {
     this.executor = executor;
     this.schemaFactory = schemaFactory;
@@ -96,10 +97,10 @@ public class ChangeIndexer {
   }
 
   @AssistedInject
-  ChangeIndexer(@IndexExecutor ListeningExecutorService executor,
-      SchemaFactory<ReviewDb> schemaFactory,
+  ChangeIndexer(SchemaFactory<ReviewDb> schemaFactory,
       ChangeData.Factory changeDataFactory,
       ThreadLocalRequestContext context,
+      @Assisted ListeningExecutorService executor,
       @Assisted IndexCollection indexes) {
     this.executor = executor;
     this.schemaFactory = schemaFactory;

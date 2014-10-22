@@ -81,7 +81,7 @@ public abstract class AbstractDaemonTest {
   protected AccountCreator accounts;
 
   @Inject
-  private SchemaFactory<ReviewDb> reviewDbProvider;
+  protected SchemaFactory<ReviewDb> reviewDbProvider;
 
   @Inject
   protected GerritApi gApi;

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "95446258_6fa111b2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-10-22T10:43:30Z",
+      "side": 1,
+      "message": "Relying on the commit timestamps is bad, these are local timestamps that are set by the clients and there is no guarantee that the timestamp of patch set 9 is greater than the timestamp of patch set 8.\n\nActually it was intended that the file list always shows the files from the Base..NewId comparison, see [1]. As you can see from this discussion I\u0027m not sure if this is the best decision. See also comment #22 on this issue [2]. If we want to change this, we should probably rather take the union of the modified paths when comparing patch sets as I did in [3].\n\n [1] https://gerrit-review.googlesource.com/#/c/57086/4//COMMIT_MSG@10\n [2] https://code.google.com/p/gerrit/issues/detail?id\u003d217#c22\n [3] https://gerrit-review.googlesource.com/#/c/57086/4/gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
+      "range": {
+        "startLine": 144,
+        "startChar": 18,
+        "endLine": 144,
+        "endChar": 74
+      },
+      "revId": "d787aa7f286f330c3df8d9232f0eb273900d95e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

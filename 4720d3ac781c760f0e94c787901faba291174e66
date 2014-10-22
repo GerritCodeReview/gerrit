@@ -93,6 +93,30 @@
       "revId": "4720d3ac781c760f0e94c787901faba291174e66",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b53fa6b4_d03f7caa",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/WebLinks.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-22T14:48:09Z",
+      "side": 1,
+      "message": "You can use FluentIterator instead and create zero lists instances because it exposes isEmpty() method. See Luis\u0027s answer for more details [1].\n\n  if (FluentIterable.from(foo).filter(predicate).isEmpty()) {...\n\n\n* [1] http://stackoverflow.com/questions/12649445/guava-iterables-filter-how-do-you-test-for-an-empty-return",
+      "parentUuid": "b53fa6b4_d063fcfc",
+      "range": {
+        "startLine": 50,
+        "startChar": 2,
+        "endLine": 56,
+        "endChar": 3
+      },
+      "revId": "4720d3ac781c760f0e94c787901faba291174e66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

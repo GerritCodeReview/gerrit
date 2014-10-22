@@ -369,6 +369,24 @@
     },
     {
       "key": {
+        "uuid": "1044003a_eb2bd1a6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListTags.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-10-22T19:04:20Z",
+      "side": 1,
+      "message": "Sure, but I was talking about the comparator. It doesn\u0027t really matter.\n\nThe tangent about name field vs. refname was by way of explanation of how they are different things even if the values are the same.",
+      "parentUuid": "30166401_b4d4c000",
+      "revId": "4fd07558c6c9cb8fab8f2a546c28391ff05e49d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "302ae414_34865038",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/TagsCollection.java",
         "patchSetId": 8

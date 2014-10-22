@@ -2036,9 +2036,17 @@ By default, `LUCENE`.
 
 [[index.threads]]index.threads::
 +
-Determines the number of threads to use for indexing.
+Number of threads to use for indexing in normal interactive operations.
 +
 Defaults to 1 if not set, or set to a negative value.
+
+[[index.batchThreads]]index.batchThreads:;
++
+Number of threads to use for indexing in background operations, such as
+online schema upgrades.
++
+If not set or set to a negative value, defaults to using the same
+thread pool as interactive operations.
 
 ==== Lucene configuration
 

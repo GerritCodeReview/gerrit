@@ -15,6 +15,7 @@
 package com.google.gerrit.server.index;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.gerrit.server.git.QueueProvider.QueueType.BATCH;
 import static org.eclipse.jgit.lib.RefDatabase.ALL;
 
 import com.google.common.base.Stopwatch;
@@ -127,7 +128,7 @@ public class ChangeBatchIndexer {
   ChangeBatchIndexer(SchemaFactory<ReviewDb> schemaFactory,
       ChangeData.Factory changeDataFactory,
       GitRepositoryManager repoManager,
-      @IndexExecutor ListeningExecutorService executor,
+      @IndexExecutor(BATCH) ListeningExecutorService executor,
       ChangeIndexer.Factory indexerFactory,
       @GerritServerConfig Config config) {
     this.schemaFactory = schemaFactory;
@@ -180,7 +181,7 @@ public class ChangeBatchIndexer {
         ok.set(false);
       }
       final ListenableFuture<?> future = executor.submit(reindexProject(
-          indexerFactory.create(index), project, doneTask, failedTask,
+          indexerFactory.create(executor, index), project, doneTask, failedTask,
           verboseWriter));
       futures.add(future);
       future.addListener(new Runnable() {

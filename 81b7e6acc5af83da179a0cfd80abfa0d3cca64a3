@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "95446258_0f15e531",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/webui/FileWebLink.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-10-22T13:43:45Z",
+      "side": 1,
+      "message": "we should document here that \"null\" can be returned if no web link should be shown for the given project, revision and fileName.\n\nSame for the other web links.",
+      "range": {
+        "startLine": 30,
+        "startChar": 13,
+        "endLine": 30,
+        "endChar": 67
+      },
+      "revId": "81b7e6acc5af83da179a0cfd80abfa0d3cca64a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "95446258_2f10a941",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/WebLinks.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-10-22T13:43:45Z",
+      "side": 1,
+      "message": "We still need a way for webLink.getFileWebLink to say that there is no file web link for the given project, revision and file (that doesn\u0027t result in a log warning). I thought that this would be done by returning \u0027null\u0027 from webLink.getFileWebLink, but with your code this would fail with a NullPointerException in the log method. \n\nI think\n\n* if \u0027null\u0027 is returned from webLink.getFileWebLink this should be silently ignored\n* if URL or name is null, then the link is ignored, but we log a warning\n\nThe same for the other web links.",
+      "range": {
+        "startLine": 69,
+        "startChar": 6,
+        "endLine": 70,
+        "endChar": 46
+      },
+      "revId": "81b7e6acc5af83da179a0cfd80abfa0d3cca64a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

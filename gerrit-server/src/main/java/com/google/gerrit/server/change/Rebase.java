@@ -68,7 +68,8 @@ public class Rebase implements RestModifyView<RevisionResource, Input>,
     }
 
     try {
-      rebaseChange.get().rebase(rsrc.getPatchSet().getId(), rsrc.getUser());
+      rebaseChange.get().rebase(rsrc.getChange(), rsrc.getPatchSet().getId(),
+          rsrc.getUser());
     } catch (InvalidChangeOperationException e) {
       throw new ResourceConflictException(e.getMessage());
     } catch (IOException e) {

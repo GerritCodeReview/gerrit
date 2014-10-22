@@ -18,4 +18,9 @@ import com.google.gerrit.server.project.ProjectControl;
 
 public abstract class AbstractGroupBackend implements GroupBackend {
 
+  @Override
+  public GroupMembership membershipsOf(ProjectControl project) {
+    return GroupMembership.EMPTY;
+  }
+
 }

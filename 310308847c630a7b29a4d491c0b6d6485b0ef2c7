@@ -16,6 +16,24 @@
       "revId": "310308847c630a7b29a4d491c0b6d6485b0ef2c7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b50a4612_b8b519f5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Mergeable.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-10-22T19:51:55Z",
+      "side": 0,
+      "message": "Ew. Changed to bump the row version here for now. We will need to come up with a better solution when notedb rolls around. Possibly extracting a timestamp from the index document?",
+      "parentUuid": "d515fa2f_992ffba7",
+      "revId": "310308847c630a7b29a4d491c0b6d6485b0ef2c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -187,6 +187,9 @@ Here are some guidelines that Gerrit uses:
   * Imports should be mostly alphabetical (uppercase sorts before
     all lowercase, which means classes come before packages at the
     same level).
+  * Prefer to open multiple AutoCloseable resource in the same
+    try-with-resources block instead of nesting the try-with-resources
+    blocks and increasing the indentation level more than necessary.
 
 Wow that's a lot!  But don't worry, you'll get the habit and most
 of the code is organized this way already; so if you pay attention

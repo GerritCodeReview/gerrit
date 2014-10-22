@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d515fa2f_19a08baa",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-10-22T21:58:17Z",
+      "side": 0,
+      "message": "This prevents one avenue by which reads in one thread can race with writes in another thread, yes.\n\nBut if we pass in a Change object to both thread A and thread B, and thread B updates the database, thread A is not going to see that. It\u0027s still going to be stale.",
+      "revId": "b922a7137b74bebb02f858e5d5daf1c4fb5f0cf5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

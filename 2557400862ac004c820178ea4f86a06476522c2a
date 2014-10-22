@@ -46,6 +46,53 @@
       "revId": "2557400862ac004c820178ea4f86a06476522c2a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b50a4612_18a085aa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-10-22T21:58:17Z",
+      "side": 1,
+      "message": "Well, what you\u0027re describing indeed sounds like a \"stale\" instance. I am just skeptical that that\u0027s possible. If it is, it should be possible to reproduce in an isolated 100% of the time, but I couldn\u0027t do it:\n\nhttps://gerrit-review.googlesource.com/61050",
+      "parentUuid": "b53fa6b4_d0c41c4c",
+      "range": {
+        "startLine": 13,
+        "startChar": 15,
+        "endLine": 13,
+        "endChar": 45
+      },
+      "revId": "2557400862ac004c820178ea4f86a06476522c2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b50a4612_389b4980",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/RebaseChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-10-22T21:58:17Z",
+      "side": 1,
+      "message": "change",
+      "range": {
+        "startLine": 98,
+        "startChar": 12,
+        "endLine": 98,
+        "endChar": 17
+      },
+      "revId": "2557400862ac004c820178ea4f86a06476522c2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

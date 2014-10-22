@@ -26,7 +26,6 @@ import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.data.LabelValue;
-import com.google.gerrit.reviewdb.client.Change;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NativeEvent;
@@ -92,18 +91,15 @@ class Labels extends Grid {
   }
 
   private ChangeScreen2.Style style;
-  private Element statusText;
 
-  void init(ChangeScreen2.Style style, Element statusText) {
+  void init(ChangeScreen2.Style style) {
     this.style = style;
-    this.statusText = statusText;
   }
 
-  boolean set(ChangeInfo info, boolean current) {
+  void set(ChangeInfo info) {
     List<String> names = new ArrayList<>(info.labels());
     Collections.sort(names);
 
-    boolean canSubmit = info.status().isOpen();
     resize(names.size(), 2);
 
     for (int row = 0; row < names.size(); row++) {
@@ -115,30 +111,7 @@ class Labels extends Grid {
       }
       getCellFormatter().setStyleName(row, 0, style.labelName());
       getCellFormatter().addStyleName(row, 0, getStyleForLabel(label));
-
-      if (canSubmit && info.status() == Change.Status.NEW) {
-        switch (label.status()) {
-          case NEED:
-            if (current) {
-              statusText.setInnerText("Needs " + name);
-            }
-            canSubmit = false;
-            break;
-          case REJECT:
-          case IMPOSSIBLE:
-            if (label.blocking()) {
-              if (current) {
-                statusText.setInnerText("Not " + name);
-              }
-              canSubmit = false;
-            }
-            break;
-          default:
-            break;
-          }
-      }
     }
-    return canSubmit;
   }
 
   private Widget renderUsers(LabelInfo label) {

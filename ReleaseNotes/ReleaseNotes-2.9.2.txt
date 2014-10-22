@@ -1,0 +1,119 @@
+Release notes for Gerrit 2.9.2
+==============================
+
+Download:
+link:https://gerrit-releases.storage.googleapis.com/gerrit-2.9.2.war[
+https://gerrit-releases.storage.googleapis.com/gerrit-2.9.2.war]
+
+*WARNING:* There are no schema changes from
+link:ReleaseNotes-2.9.1.html[2.9.1], but when upgrading from an existing site
+that was initialised with Gerrit version 2.6 or later the primary key column
+order will be updated for some tables. It is therefore important to upgrade the
+site with the init program, rather than only copying the .war file over the
+existing one.
+
+Bug Fixes
+---------
+
+ssh
+~~~
+
+* Update SSHD to 0.13.0.
++
+This fixes link:https://issues.apache.org/jira/browse/SSHD-348[SSHD-348] which
+was causing ssh threads allocated to stream-events clients to get stuck.
++
+Also update SSHD Mina to 2.0.8 and Bouncycastle to 1.51.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=543[Issue 543]
+Replication plugin: Prevent creating repos on extra servers.
++
+If using a group to replicate only certain repositories, it was possible
+to be in a state where the authGroup is used on some servers but not
+others.  If this happened, Gerrit would create the repository on all
+servers, even if the authGroup would prevent replicating code to it.
+By ensuring the authGroup can see the project first, the repository is
+not created if it's not needed.
+
+Database
+~~~~~~~~
+
+* Update gwtorm to 1.14.
++
+The primary key column order for compound keys was wrong for some Gerrit
+database tables. This caused poor performance for those SQL queries which rely
+on using a prefix of the primary key column sequence in their WHERE conditions.
++
+This version of gwtorm fixes the issue for new sites. For existing sites that
+were initialised with Gerrit version 2.6 or later, the primary key column
+order will be fixed during initialisation when upgrading to 2.9.2.
+
+Secondary Index
+~~~~~~~~~~~~~~~
+
+* Fix "400 cannot create query for index" error in "Conflicts With" list.
++
+The new
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.9.2/config-gerrit.html#index.defaultMaxClauseCount[
+index.defaultMaxClauseCount] setting allows to increase the BooleanQuery limit
+for the Lucene index.
++
+Raising the limit avoids failing a query with `BooleanQuery.TooManyClauses`,
+preventing users from seeing a "400 cannot create query for index" error
+in the "Conflicts With" section of the change screen.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=2996[Issue 2996]:
+Delete a change from the index if it is not in the database.
++
+If for some reason the secondary index is out of date, i.e. a change was deleted
+from the database but wasn't deleted from the secondary index, it was impossible
+to re-index (remove) that change.
++
+Automatically remove the change from the secondary index if it doesn't exist in
+the database. If a user clicks on search result from a stale change, they will
+get a 404 page and the change will be removed from the index.
+
+Change Screen
+~~~~~~~~~~~~~
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=2964[Issue 2964]:
+Fix comment box font colors of dark CodeMirror themes.
++
+When using a dark-colored theme, for example "Twilight", the comments were
+shown in a light color on a light background making them unreadable.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=2918[Issue 2918]:
+Fix placement of margin column in side-by-side diff.
++
+The margin was placed approximately 10% too far to the right.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=2970[Issue 2970]:
+Fix display of accented characters in side-by-side diff.
++
+On some browsers, accented characters were not displayed correctly
+because the line was not high enough.
+
+* Fix incorrect diff between patchsets.
++
+In some cases the list of files between patchsets was not shown correctly.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=2960[Issue 2960]:
+Show filename in side-by-side diff screen.
++
+In the old side-by-side diff screen, the name of the file being diffed was shown
+in the window title. This feature was missed in the new side-by-side diff screen.
+
+Miscellaneous Fixes
+~~~~~~~~~~~~~~~~~~~
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=2911[Issue 2911]:
+Fix Null Pointer Exception after a MergeValidationListener throws
+MergeValidationException.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=2989[Issue 2989]:
+Fix incorrect submodule subscriptions.
++
+The gitlinks update failed after deleting a branch in a super project which had
+other branches subscribed to the same submodule branch.
+
+* Fix infinite loop when checking group membership.

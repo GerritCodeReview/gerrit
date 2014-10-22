@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "b53fa6b4_f0aba094",
+        "filename": "ReleaseNotes/ReleaseNotes-2.9.2.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-22T10:28:28Z",
+      "side": 1,
+      "message": "All released Gerrit version released after 2.8.5 included broken SSHD library. Unfortunately all Gerrit version released before 2.8.6.1 are broken: intermittent data lost and corruption. So atm there is no Gerrit version released where both SSHD and Transaction management works.\n\nCan we consider to fix 2.8.6.1? Say 2.8.7 with fixed SSHD version. Many sites still using 2.8.x versions.",
+      "parentUuid": "95446258_2fc2e961",
+      "range": {
+        "startLine": 45,
+        "startChar": 0,
+        "endLine": 47,
+        "endChar": 73
+      },
+      "revId": "e87bc55f62091bb8845987e08a3b436a3b2dd85e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b53fa6b4_905d7437",
         "filename": "ReleaseNotes/index.txt",
         "patchSetId": 1

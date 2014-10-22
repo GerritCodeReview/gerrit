@@ -81,6 +81,41 @@ public class ChangeInfo extends JavaScriptObject {
     return all_labels().keySet();
   }
 
+  public static class SubmittableInfo {
+    public boolean canSubmit;
+    public String statusText;
+  }
+
+  public final SubmittableInfo getSubmittableInfo(boolean current) {
+    SubmittableInfo info = new SubmittableInfo();
+    info.canSubmit = status().isOpen();
+    if (info.canSubmit && status() == Change.Status.NEW) {
+      for (String name : labels()) {
+        LabelInfo label = label(name);
+        switch (label.status()) {
+          case NEED:
+            if (current) {
+              info.statusText = "Needs " + name;
+            }
+            info.canSubmit = false;
+            break;
+          case REJECT:
+          case IMPOSSIBLE:
+            if (label.blocking()) {
+              if (current) {
+                info.statusText = "Not " + name;
+              }
+              info.canSubmit = false;
+            }
+            break;
+          default:
+            break;
+          }
+      }
+    }
+    return info;
+  }
+
   public final native String id() /*-{ return this.id; }-*/;
   public final native String project() /*-{ return this.project; }-*/;
   public final native String branch() /*-{ return this.branch; }-*/;

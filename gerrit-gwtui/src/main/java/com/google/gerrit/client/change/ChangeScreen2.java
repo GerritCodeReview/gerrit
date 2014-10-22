@@ -262,7 +262,7 @@ public class ChangeScreen2 extends Screen {
     setHeaderVisible(false);
     Resources.I.style().ensureInjected();
     star.setVisible(Gerrit.isSignedIn());
-    labels.init(style, statusText);
+    labels.init(style);
     reviewers.init(style, ccText);
     hashtags.init(style);
 
@@ -928,7 +928,13 @@ public class ChangeScreen2 extends Screen {
     } else {
       statusText.setInnerText(Util.toLongString(info.status()));
     }
-    boolean canSubmit = labels.set(info, current);
+    labels.set(info);
+
+    ChangeInfo.SubmittableInfo submittable = info.getSubmittableInfo(current);
+    if (submittable.statusText != null) {
+      statusText.setInnerText(submittable.statusText);
+    }
+
 
     renderOwner(info);
     renderActionTextDate(info);
@@ -971,7 +977,7 @@ public class ChangeScreen2 extends Screen {
 
     if (current) {
       quickApprove.set(info, revision, replyAction);
-      loadSubmitType(info.status(), canSubmit);
+      loadSubmitType(info.status(), submittable.canSubmit);
     } else {
       quickApprove.setVisible(false);
       setVisible(strategy, false);

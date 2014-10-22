@@ -17,6 +17,7 @@ package com.google.gerrit.server.index;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 import com.google.common.util.concurrent.ListeningExecutorService;
+import com.google.gerrit.server.git.QueueProvider.QueueType;
 import com.google.inject.BindingAnnotation;
 
 import java.lang.annotation.Retention;
@@ -28,4 +29,5 @@ import java.lang.annotation.Retention;
 @Retention(RUNTIME)
 @BindingAnnotation
 public @interface IndexExecutor {
+  QueueType value();
 }

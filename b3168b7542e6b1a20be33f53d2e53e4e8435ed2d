@@ -22,6 +22,30 @@
       "revId": "b3168b7542e6b1a20be33f53d2e53e4e8435ed2d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b53fa6b4_30dec81f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-22T19:06:13Z",
+      "side": 1,
+      "message": "Well i think after we\u0027ve moved to Notedb this shouldn\u0027t be an issue any more and we could prevent re-reading changes in the background. But let\u0027s ignore potential racy conditions, the question remains: With this change, why query tests are flaky when indexing in Mergeable and are stable when indexing in MergeabilityChecker? In both cases now the change is not (completely) re-read from the database but passed from ChangeInserter. I think this question has to be answered because not only reindexing but also the actual mergeability check can still be racy in Mergeable case.",
+      "parentUuid": "b50a4612_d8632dfd",
+      "range": {
+        "startLine": 16,
+        "startChar": 13,
+        "endLine": 16,
+        "endChar": 59
+      },
+      "revId": "b3168b7542e6b1a20be33f53d2e53e4e8435ed2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

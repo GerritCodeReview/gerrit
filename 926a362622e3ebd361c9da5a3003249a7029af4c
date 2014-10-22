@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b53fa6b4_b08e3837",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2014-10-22T13:44:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "503af8a9_6dbe15a8",
+      "range": {
+        "startLine": 10,
+        "startChar": 57,
+        "endLine": 10,
+        "endChar": 62
+      },
+      "revId": "926a362622e3ebd361c9da5a3003249a7029af4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "50c758d5_a5e59eb7",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GroupBackend.java",
         "patchSetId": 6
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "95446258_af8ed936",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GroupBackend.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2014-10-22T13:44:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "50c758d5_a5e59eb7",
+      "range": {
+        "startLine": 66,
+        "startChar": 49,
+        "endLine": 66,
+        "endChar": 52
+      },
+      "revId": "926a362622e3ebd361c9da5a3003249a7029af4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "50c758d5_85ea2285",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/UniversalGroupBackend.java",
         "patchSetId": 6
@@ -59,6 +107,24 @@
       "writtenOn": "2014-10-20T16:35:42Z",
       "side": 1,
       "message": "is ImmutableMap really necessary?",
+      "revId": "926a362622e3ebd361c9da5a3003249a7029af4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b53fa6b4_10a064aa",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/UniversalGroupBackend.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2014-10-22T13:44:15Z",
+      "side": 1,
+      "message": "Will propose a functional version in the next PS.",
+      "parentUuid": "50c758d5_85ea2285",
       "revId": "926a362622e3ebd361c9da5a3003249a7029af4c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

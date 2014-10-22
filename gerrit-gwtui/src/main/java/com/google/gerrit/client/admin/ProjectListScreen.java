@@ -238,21 +238,7 @@ public class ProjectListScreen extends Screen implements FilteredUserInterface {
           }
 
           for (WebLinkInfo weblink : webLinks) {
-            Anchor a = new Anchor();
-            a.setHref(weblink.url());
-            if (weblink.target() != null && !weblink.target().isEmpty()) {
-              a.setTarget(weblink.target());
-            }
-            if (weblink.imageUrl() != null && !weblink.imageUrl().isEmpty()) {
-              Image img = new Image();
-              img.setAltText(weblink.name());
-              img.setUrl(weblink.imageUrl());
-              img.setTitle(weblink.name());
-              a.getElement().appendChild(img.getElement());
-            } else {
-              a.setText("(" + weblink.name() + ")");
-            }
-            p.add(a);
+            p.add(weblink.toAnchor());
           }
         }
       }

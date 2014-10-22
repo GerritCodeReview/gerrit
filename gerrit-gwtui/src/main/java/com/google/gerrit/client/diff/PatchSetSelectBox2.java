@@ -123,22 +123,8 @@ class PatchSetSelectBox2 extends Composite {
     }
     List<WebLinkInfo> webLinks = Natives.asList(meta.web_links());
     if (webLinks != null) {
-      for (WebLinkInfo weblink : webLinks) {
-        Anchor a = new Anchor();
-        a.setHref(weblink.url());
-        if (weblink.target() != null && !weblink.target().isEmpty()) {
-          a.setTarget(weblink.target());
-        }
-        if (weblink.imageUrl() != null && !weblink.imageUrl().isEmpty()) {
-          Image img = new Image();
-          img.setAltText(weblink.name());
-          img.setUrl(weblink.imageUrl());
-          img.setTitle(weblink.name());
-          a.getElement().appendChild(img.getElement());
-        } else {
-          a.setText("(" + weblink.name() + ")");
-        }
-        linkPanel.add(a);
+      for (WebLinkInfo webLink : webLinks) {
+        linkPanel.add(webLink.toAnchor());
       }
     }
   }

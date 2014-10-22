@@ -126,35 +126,22 @@ class CommitBox extends Composite {
       RevisionInfo revInfo) {
     GitwebLink gw = Gerrit.getGitwebLink();
     if (gw != null && gw.canLink(revInfo)) {
-      addWebLink(gw.toRevision(change.project(), revision),
-          gw.getLinkName(), null, null);
+      toAnchor(gw.toRevision(change.project(), revision),
+          gw.getLinkName());
     }
 
     JsArray<WebLinkInfo> links = revInfo.web_links();
     if (links != null) {
       for (WebLinkInfo link : Natives.asList(links)) {
-        addWebLink(link.url(), parenthesize(link.name()), link.imageUrl(),
-            link.target());
+        webLinkPanel.add(link.toAnchor());
       }
     }
   }
 
-  private void addWebLink(String href, String name, String imageUrl,
-      String target) {
+  private void toAnchor(String href, String name) {
     Anchor a = new Anchor();
     a.setHref(href);
-    if (target != null && !target.isEmpty()) {
-      a.setTarget(target);
-    }
-    if (imageUrl != null && !imageUrl.isEmpty()) {
-      Image img = new Image();
-      img.setAltText(name);
-      img.setUrl(imageUrl);
-      img.setTitle(name);
-      a.getElement().appendChild(img.getElement());
-    } else {
-      a.setText(name);
-    }
+    a.setText(name);
     webLinkPanel.add(a);
   }
 
@@ -196,14 +183,6 @@ class CommitBox extends Composite {
     name.setTargetHistoryToken(PageLinks
         .toAccountQuery(owner(person), change.status()));
     date.setInnerText(FormatUtil.mediumFormat(person.date()));
-  }
-
-  private static String parenthesize(String str) {
-    return new StringBuilder()
-        .append("(")
-        .append(str)
-        .append(")")
-        .toString();
   }
 
   private static String renderName(GitPerson person) {

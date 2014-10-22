@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b53fa6b4_70069011",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/CommitBox.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-10-22T13:49:47Z",
+      "side": 1,
+      "message": "Avoid reformatting of lines that have nothing to do with this change.",
+      "revId": "fc4e9f188c1c6ae12628d9ff5ebfe80f6f5a45b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

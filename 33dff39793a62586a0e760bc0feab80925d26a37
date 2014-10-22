@@ -108,6 +108,30 @@
     },
     {
       "key": {
+        "uuid": "95446258_6f1c7190",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-22T06:54:19Z",
+      "side": 1,
+      "message": "| There\u0027s a race in looking up the change.\n\nCan you elaborate? In any events, reusing the same change instance (as it is the case in Mergeable) and not re-reading it from the database (what MergeabilityChecker is doing) wasn\u0027t the reason for flaky tests, as this change shows: [1]. Where i reused the same change instance in MergeabilityChecker passed from ChangeInserter *without* re-reading it for the database. Tests are still stable.\n\n [1] https://gerrit-review.googlesource.com/61011",
+      "parentUuid": "f07bec5d_022d4a83",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 58
+      },
+      "revId": "33dff39793a62586a0e760bc0feab80925d26a37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "701c5c1f_b633289c",
         "filename": "/COMMIT_MSG",
         "patchSetId": 9

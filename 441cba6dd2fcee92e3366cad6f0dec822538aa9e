@@ -88,6 +88,24 @@
       "revId": "441cba6dd2fcee92e3366cad6f0dec822538aa9e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b53fa6b4_f019606c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-22T14:00:46Z",
+      "side": 1,
+      "message": "Add this hint to Documentation/dev-contributing.txt ?",
+      "parentUuid": "95446258_af23799c",
+      "revId": "441cba6dd2fcee92e3366cad6f0dec822538aa9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

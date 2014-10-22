@@ -70,6 +70,24 @@
       "revId": "441cba6dd2fcee92e3366cad6f0dec822538aa9e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "95446258_af23799c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-10-22T13:55:45Z",
+      "side": 1,
+      "message": "Put this into your $HOME/.vimrc:\n\n  autocmd FileType gitcommit setlocal spell textwidth\u003d72\n\nThis will set the textwidth to 72 only for the git commit messages. The global default textwidth is not affected.\n\nIn addition this also activates Vim\u0027s spell checker which is useful when writing commit message.",
+      "parentUuid": "307ae4aa_d400bc9f",
+      "revId": "441cba6dd2fcee92e3366cad6f0dec822538aa9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

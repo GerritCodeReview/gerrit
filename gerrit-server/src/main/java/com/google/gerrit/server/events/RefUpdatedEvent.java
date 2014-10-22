@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.events;
 
+import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.data.AccountAttribute;
 import com.google.gerrit.server.data.RefUpdateAttribute;
 
@@ -21,4 +23,24 @@ public class RefUpdatedEvent extends ChangeEvent {
   public final String type = "ref-updated";
   public AccountAttribute submitter;
   public RefUpdateAttribute refUpdate;
+
+  @Override
+  public String getType() {
+    return type;
+  }
+
+  @Override
+  public Project.NameKey getProjectNameKey() {
+    return new Project.NameKey(refUpdate.project);
+  }
+
+  @Override
+  public Change.Key getChangeKey() {
+    return null;
+  }
+
+  @Override
+  public String getRefName() {
+    return refUpdate.refName;
+  }
 }

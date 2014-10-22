@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.events;
 
+import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.IdentifiedUser;
 
@@ -21,6 +22,7 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.transport.ReceiveCommand;
 
 public class CommitReceivedEvent extends ChangeEvent {
+  public final String type = "commit-received";
   public final ReceiveCommand command;
   public final Project project;
   public final String refName;
@@ -34,5 +36,25 @@ public class CommitReceivedEvent extends ChangeEvent {
     this.refName = refName;
     this.commit = commit;
     this.user = user;
+  }
+
+  @Override
+  public String getType() {
+    return type;
+  }
+
+  @Override
+  public Project.NameKey getProjectNameKey() {
+    return project.getNameKey();
+  }
+
+  @Override
+  public Change.Key getChangeKey() {
+    return null;
+  }
+
+  @Override
+  public String getRefName() {
+    return refName;
   }
 }

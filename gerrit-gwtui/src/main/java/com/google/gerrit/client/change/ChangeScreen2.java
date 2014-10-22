@@ -25,6 +25,7 @@ import com.google.gerrit.client.changes.ChangeApi;
 import com.google.gerrit.client.changes.ChangeInfo;
 import com.google.gerrit.client.changes.ChangeInfo.CommitInfo;
 import com.google.gerrit.client.changes.ChangeInfo.EditInfo;
+import com.google.gerrit.client.changes.ChangeInfo.LabelInfo;
 import com.google.gerrit.client.changes.ChangeInfo.MessageInfo;
 import com.google.gerrit.client.changes.ChangeInfo.RevisionInfo;
 import com.google.gerrit.client.changes.ChangeList;
@@ -262,7 +263,7 @@ public class ChangeScreen2 extends Screen {
     setHeaderVisible(false);
     Resources.I.style().ensureInjected();
     star.setVisible(Gerrit.isSignedIn());
-    labels.init(style, statusText);
+    labels.init(style);
     reviewers.init(style, ccText);
     hashtags.init(style);
 
@@ -912,6 +913,31 @@ public class ChangeScreen2 extends Screen {
     return revOrId != null ? info.revision(revOrId) : null;
   }
 
+  private boolean isSubmittable(ChangeInfo info) {
+    boolean canSubmit = info.status().isOpen();
+    if (canSubmit && info.status() == Change.Status.NEW) {
+      for (String name : info.labels()) {
+        LabelInfo label = info.label(name);
+        switch (label.status()) {
+          case NEED:
+            statusText.setInnerText("Needs " + name);
+            canSubmit = false;
+            break;
+          case REJECT:
+          case IMPOSSIBLE:
+            if (label.blocking()) {
+              statusText.setInnerText("Not " + name);
+              canSubmit = false;
+            }
+            break;
+          default:
+            break;
+          }
+      }
+    }
+    return canSubmit;
+  }
+
   private void renderChangeInfo(ChangeInfo info) {
     changeInfo = info;
     lastDisplayedUpdate = info.updated();
@@ -928,7 +954,7 @@ public class ChangeScreen2 extends Screen {
     } else {
       statusText.setInnerText(Util.toLongString(info.status()));
     }
-    boolean canSubmit = labels.set(info, current);
+    labels.set(info);
 
     renderOwner(info);
     renderActionTextDate(info);
@@ -971,7 +997,7 @@ public class ChangeScreen2 extends Screen {
 
     if (current) {
       quickApprove.set(info, revision, replyAction);
-      loadSubmitType(info.status(), canSubmit);
+      loadSubmitType(info.status(), isSubmittable(info));
     } else {
       quickApprove.setVisible(false);
       setVisible(strategy, false);

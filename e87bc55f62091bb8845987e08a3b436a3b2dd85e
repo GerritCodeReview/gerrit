@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "95446258_2fc2e961",
+        "filename": "ReleaseNotes/ReleaseNotes-2.9.2.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-10-22T10:13:20Z",
+      "side": 1,
+      "message": "This is the most important bug-fix in this release and it should be on the top. Also we should give some more details about the effects of this bug in Gerrit (broken stream events).",
+      "range": {
+        "startLine": 45,
+        "startChar": 0,
+        "endLine": 47,
+        "endChar": 73
+      },
+      "revId": "e87bc55f62091bb8845987e08a3b436a3b2dd85e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b53fa6b4_905d7437",
+        "filename": "ReleaseNotes/index.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-10-22T10:13:20Z",
+      "side": 1,
+      "message": "Actually the ordering in this section is incorrect, the newest release should be always on top.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 37
+      },
+      "revId": "e87bc55f62091bb8845987e08a3b436a3b2dd85e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

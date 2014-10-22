@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "d515fa2f_f966f70e",
+        "filename": "ReleaseNotes/ReleaseNotes-2.9.2.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-10-22T10:18:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "95446258_2fc2e961",
+      "range": {
+        "startLine": 45,
+        "startChar": 0,
+        "endLine": 47,
+        "endChar": 73
+      },
+      "revId": "e87bc55f62091bb8845987e08a3b436a3b2dd85e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b53fa6b4_905d7437",
         "filename": "ReleaseNotes/index.txt",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2014-10-22T10:13:20Z",
       "side": 1,
       "message": "Actually the ordering in this section is incorrect, the newest release should be always on top.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 37
+      },
+      "revId": "e87bc55f62091bb8845987e08a3b436a3b2dd85e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b50a4612_d87a0dab",
+        "filename": "ReleaseNotes/index.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-10-22T10:18:33Z",
+      "side": 1,
+      "message": "It was already wrong.\n\nFixed in https://gerrit-review.googlesource.com/61025\n\nI guess it will need to be fixed for the 2.10 release notes too.",
+      "parentUuid": "b53fa6b4_905d7437",
       "range": {
         "startLine": 7,
         "startChar": 0,

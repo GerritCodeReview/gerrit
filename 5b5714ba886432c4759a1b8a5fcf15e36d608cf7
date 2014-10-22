@@ -73,6 +73,24 @@
     },
     {
       "key": {
+        "uuid": "50c758d5_25940e4b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeInserter.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-10-22T08:02:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "900f1024_57beccdd",
+      "revId": "5b5714ba886432c4759a1b8a5fcf15e36d608cf7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b03fb4b4_50702cce",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/HashtagsUtil.java",
         "patchSetId": 31
@@ -144,6 +162,24 @@
     },
     {
       "key": {
+        "uuid": "503af8a9_8d1c2192",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/HashtagsUtil.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-10-22T08:02:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f035acd2_92b33c0d",
+      "revId": "5b5714ba886432c4759a1b8a5fcf15e36d608cf7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f035acd2_72b9f8f3",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/HashtagsUtil.java",
         "patchSetId": 31
@@ -209,6 +245,24 @@
       "side": 1,
       "message": "\u003e but how to \"skip only the invalid ones and keep valid ones\" now?\n\nI see... the HashtagValidationListener is not really helpful here as, when it throws the ValidationException, the caller doesn\u0027t know which tags were (in)valid. Maybe the set of (in)valid tags should be contained in the throws exception and the exception should have a method:\n\n  Set\u003cString\u003e getInvalidHashtags()",
       "parentUuid": "900f1024_f77e00a1",
+      "revId": "5b5714ba886432c4759a1b8a5fcf15e36d608cf7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "503af8a9_ed2be5a6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/HashtagsUtil.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-10-22T08:02:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b03fb4b4_70a0d0ad",
       "revId": "5b5714ba886432c4759a1b8a5fcf15e36d608cf7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -369,6 +423,24 @@
     },
     {
       "key": {
+        "uuid": "50c758d5_e52796a2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-10-22T08:02:57Z",
+      "side": 1,
+      "message": "\u003e...Gerrit shouldn\u0027t silently fail to add hashtags...\n \u003e...to reject the new ...\n\nI agree, letting the new patch-set get in with dirt hashtags in commit message is bad. \n to do so in the transactionless wasteland of ReceiveCommits.java  \n the validation work should be done in advance of  repo update and  \n DB update, I am planning to add a validator for hashtags.\n\n one thing here is when Gerrit is validate the hashtags in commit - \n message, the commit may be in some status\n --will belong  a Change (new Change)\n --belongs a Change (updates  including push by pass a existing Change)\n --does not belong to a Change and will never belongs one Change (push by pass directly)\n\nso the parameter \u0027change\u0027 does not always have a value in\nHashtagValidationListener.validateHashtags(Change change, Set\u003cString\u003e toAdd, Set\u003cString\u003e toRemove). \n \nwelcome comments if you disagree on this.",
+      "parentUuid": "f035acd2_329a507c",
+      "revId": "5b5714ba886432c4759a1b8a5fcf15e36d608cf7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "70245ca4_962eacab",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 31
@@ -397,6 +469,24 @@
       "writtenOn": "2014-09-30T14:41:50Z",
       "side": 1,
       "message": "It is, anyway, hard to follow these two changed decoupled from each other",
+      "parentUuid": "70245ca4_962eacab",
+      "revId": "5b5714ba886432c4759a1b8a5fcf15e36d608cf7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50c758d5_658e063b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-10-22T08:02:57Z",
+      "side": 1,
+      "message": "Done",
       "parentUuid": "70245ca4_962eacab",
       "revId": "5b5714ba886432c4759a1b8a5fcf15e36d608cf7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
@@ -457,6 +547,24 @@
       "side": 1,
       "message": "I saw them but still these variable will be visible at 2191/2 if they are moved where I proposed.",
       "parentUuid": "70245ca4_b631a80f",
+      "revId": "5b5714ba886432c4759a1b8a5fcf15e36d608cf7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50c758d5_458b0a29",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 2054,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-10-22T08:02:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f035acd2_722e9885",
       "revId": "5b5714ba886432c4759a1b8a5fcf15e36d608cf7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -545,6 +653,24 @@
       "writtenOn": "2014-09-30T14:58:02Z",
       "side": 1,
       "message": "or I may get comments like the name is not precise :)\n\nOk I will use the toAdd only here.",
+      "parentUuid": "f035acd2_523394eb",
+      "revId": "5b5714ba886432c4759a1b8a5fcf15e36d608cf7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "503af8a9_0d111174",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 2133,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-10-22T08:02:57Z",
+      "side": 1,
+      "message": "Done",
       "parentUuid": "f035acd2_523394eb",
       "revId": "5b5714ba886432c4759a1b8a5fcf15e36d608cf7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

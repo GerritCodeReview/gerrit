@@ -1,4 +1,5 @@
 COMMON = ['gerrit-gwtui-common/src/main/java/']
+GWTEXPUI = ['gerrit-gwtexpui/src/main/java/']
 SRC = 'src/main/java/com/google/gerrit/'
 SRCS = glob([SRC + '**/*.java'])
 
@@ -26,7 +27,13 @@ java_library(
   name = 'gwtui-api-lib2',
   srcs = SRCS,
   resources = glob(['src/main/**/*']),
-  exported_deps = ['//gerrit-gwtui-common:client-lib2'],
+  exported_deps = [
+    '//gerrit-gwtexpui:Clippy',
+    '//gerrit-gwtexpui:GlobalKey',
+    '//gerrit-gwtexpui:SafeHtml',
+    '//gerrit-gwtexpui:UserAgent',
+    '//gerrit-gwtui-common:client-lib2',
+  ],
   provided_deps = DEPS,
   visibility = ['PUBLIC'],
 )
@@ -35,6 +42,7 @@ java_binary(
   name = 'gwtui-api-src',
   deps = [
     ':gwtui-api-src-lib',
+    '//gerrit-gwtexpui:client-src-lib',
     '//gerrit-gwtui-common:client-src-lib',
   ],
   visibility = ['PUBLIC'],
@@ -50,9 +58,16 @@ java_library(
 java_doc(
   name = 'gwtui-api-javadoc',
   title = 'Gerrit Review GWT Extension API Documentation',
-  pkg = 'com.google.gerrit',
-  paths = ['src/main/java'] + COMMON,
+  pkgs = [
+    'com.google.gerrit',
+    'com.google.gwtexpui.clippy',
+    'com.google.gwtexpui.globalkey',
+    'com.google.gwtexpui.safehtml',
+    'com.google.gwtexpui.user',
+  ],
+  paths = COMMON + GWTEXPUI,
   srcs = SRCS,
   deps = DEPS + ['//gerrit-gwtui-common:client-lib2'],
   visibility = ['PUBLIC'],
+  do_it_wrong = True,
 )

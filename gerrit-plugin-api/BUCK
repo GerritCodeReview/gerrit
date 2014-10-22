@@ -56,7 +56,7 @@ java_binary(
 java_doc(
   name = 'plugin-api-javadoc',
   title = 'Gerrit Review Plugin API Documentation',
-  pkg = 'com.google.gerrit',
+  pkgs = ['com.google.gerrit'],
   paths = [n for n in SRCS],
   srcs = glob([n + '**/*.java' for n in SRCS]),
   deps = [

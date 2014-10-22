@@ -47,7 +47,7 @@ java_sources(
 java_doc(
   name = 'extension-api-javadoc',
   title = 'Gerrit Review Extension API Documentation',
-  pkg = 'com.google.gerrit.extensions',
+  pkgs = ['com.google.gerrit.extensions'],
   paths = ['src/main/java'],
   srcs = SRCS,
   deps = [

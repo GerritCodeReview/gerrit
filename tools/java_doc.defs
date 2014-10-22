@@ -1,7 +1,7 @@
 def java_doc(
     name,
     title,
-    pkg,
+    pkgs,
     paths,
     srcs = [],
     deps = [],
@@ -24,7 +24,8 @@ def java_doc(
       '-notimestamp',
       '-windowtitle "' + title + '"',
       '-link http://docs.oracle.com/javase/7/docs/api',
-      '-subpackages ' + pkg,
+      '-subpackages ',
+      ':'.join(pkgs),
       '-sourcepath ',
       ':'.join(sourcepath),
       ' -classpath ',

@@ -15,6 +15,7 @@
 package com.google.gerrit.lucene;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.gerrit.server.git.QueueProvider.QueueType.INTERACTIVE;
 import static com.google.gerrit.server.index.IndexRewriteImpl.CLOSED_STATUSES;
 import static com.google.gerrit.server.index.IndexRewriteImpl.OPEN_STATUSES;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
@@ -229,7 +230,7 @@ public class LuceneChangeIndex implements ChangeIndex {
   LuceneChangeIndex(
       @GerritServerConfig Config cfg,
       SitePaths sitePaths,
-      @IndexExecutor ListeningExecutorService executor,
+      @IndexExecutor(INTERACTIVE)  ListeningExecutorService executor,
       Provider<ReviewDb> db,
       ChangeData.Factory changeDataFactory,
       FillArgs fillArgs,

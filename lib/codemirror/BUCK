@@ -14,6 +14,12 @@ CLOSURE_COMPILER_ARGS = [
   '--warning_level QUIET'
 ]
 
+# https://code.google.com/p/closure-compiler/wiki/BinaryDownloads?tm=2
+CLOSURE_VERSION = '20140407'
+CLOSURE_COMPILER_URL = 'http://dl.google.com/closure-compiler/compiler-%s.zip' % CLOSURE_VERSION
+COMPILER = 'compiler.jar'
+CLOSURE_COMPILER_SHA1 = 'eeb02bfd45eb4a080b66dd423eaee4bdd1d674e9'
+
 genrule(
   name = 'css',
   cmd = ';'.join([
@@ -86,4 +92,30 @@ genrule(
     ' -u ' + URL +
     ' -v ' + SHA1,
   out = ZIP,
+)
+
+java_binary(
+  name = 'js_minifier',
+  main_class = 'com.google.javascript.jscomp.CommandLineRunner',
+  deps = [':compiler-jar']
+)
+
+prebuilt_jar(
+  name = 'compiler-jar',
+  binary_jar = ':compiler',
+)
+
+genrule(
+  name = 'compiler',
+  cmd = 'unzip -p $(location :closure-compiler-zip) %s >$OUT' % COMPILER,
+  out = COMPILER,
+)
+
+genrule(
+  name = 'closure-compiler-zip',
+  cmd = '$(exe //tools:download_file)' +
+    ' -o $OUT' +
+    ' -u ' + CLOSURE_COMPILER_URL +
+    ' -v ' + CLOSURE_COMPILER_SHA1,
+  out = 'closure-compiler.zip',
 )

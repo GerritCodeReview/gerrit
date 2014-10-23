@@ -56,7 +56,7 @@ def gwt_user_agent_permutations(
     genrule(
       name = '%s_gwtxml_gen' % gwt_name,
       cmd = 'cd $TMP;' +
-        ('mkdir -p $(dirname %s);' % gwt) +
+        ('mkdir -p `dirname %s`;' % gwt) +
         ('echo "%s">%s;' % (xml, gwt)) +
         'zip -qr $OUT .',
       out = jar,

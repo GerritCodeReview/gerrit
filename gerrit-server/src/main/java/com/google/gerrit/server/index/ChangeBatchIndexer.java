@@ -32,7 +32,6 @@ import com.google.common.util.concurrent.MoreExecutors;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.change.MergeabilityChecker;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeUtil;
@@ -118,7 +117,6 @@ public class ChangeBatchIndexer {
   private final ChangeIndexer.Factory indexerFactory;
   private final ThreeWayMergeStrategy mergeStrategy;
 
-  private MergeabilityChecker mergeabilityChecker;
   private int numChanges = -1;
   private OutputStream progressOut = NullOutputStream.INSTANCE;
   private PrintWriter verboseWriter =
@@ -137,12 +135,6 @@ public class ChangeBatchIndexer {
     this.executor = executor;
     this.indexerFactory = indexerFactory;
     this.mergeStrategy = MergeUtil.getMergeStrategy(config);
-  }
-
-  public ChangeBatchIndexer setMergeabilityChecker(
-      MergeabilityChecker checker) {
-    mergeabilityChecker = checkNotNull(checker);
-    return this;
   }
 
   public ChangeBatchIndexer setNumChanges(int num) {
@@ -177,9 +169,6 @@ public class ChangeBatchIndexer {
     final AtomicBoolean ok = new AtomicBoolean(true);
 
     for (final Project.NameKey project : projects) {
-      if (!updateMergeable(project)) {
-        ok.set(false);
-      }
       final ListenableFuture<?> future = executor.submit(reindexProject(
           indexerFactory.create(executor, index), project, doneTask, failedTask,
           verboseWriter));
@@ -233,18 +222,6 @@ public class ChangeBatchIndexer {
       ok.set(false);
     }
     return new Result(sw, ok.get(), doneTask.getCount(), failedTask.getCount());
-  }
-
-  private boolean updateMergeable(Project.NameKey project) {
-    if (mergeabilityChecker != null) {
-      try {
-        mergeabilityChecker.newCheck().addProject(project).run();
-      } catch (IOException e) {
-        log.error("Error in mergeability checker", e);
-        return false;
-      }
-    }
-    return true;
   }
 
   private Callable<Void> reindexProject(final ChangeIndexer indexer,

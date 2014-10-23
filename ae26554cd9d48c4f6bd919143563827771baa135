@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b50a4612_182e4580",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/MergeabilityCache.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-10-23T15:20:38Z",
+      "side": 1,
+      "message": "SubmitStrategyFactory uses the destination branch to look up the content merge and recursive merge bits. We need to include the merge strategy name in the cache key like ChangeKindCache does.",
+      "revId": "ae26554cd9d48c4f6bd919143563827771baa135",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

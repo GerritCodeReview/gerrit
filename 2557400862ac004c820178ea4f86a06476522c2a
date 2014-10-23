@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "b53fa6b4_b098784e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-23T11:18:57Z",
+      "side": 1,
+      "message": "Thanks. I think you are right. I wasn\u0027t able to reproduce it with database connection only as well.",
+      "parentUuid": "b50a4612_18a085aa",
+      "range": {
+        "startLine": 13,
+        "startChar": 15,
+        "endLine": 13,
+        "endChar": 45
+      },
+      "revId": "2557400862ac004c820178ea4f86a06476522c2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b50a4612_389b4980",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/RebaseChange.java",
         "patchSetId": 1
@@ -84,6 +108,30 @@
       "writtenOn": "2014-10-22T21:58:17Z",
       "side": 1,
       "message": "change",
+      "range": {
+        "startLine": 98,
+        "startChar": 12,
+        "endLine": 98,
+        "endChar": 17
+      },
+      "revId": "2557400862ac004c820178ea4f86a06476522c2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "95446258_ef9e213c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/RebaseChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-23T11:18:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b50a4612_389b4980",
       "range": {
         "startLine": 98,
         "startChar": 12,

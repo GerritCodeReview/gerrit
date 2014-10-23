@@ -16,6 +16,47 @@
       "revId": "b922a7137b74bebb02f858e5d5daf1c4fb5f0cf5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "95446258_cf9b5d4a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-23T11:18:57Z",
+      "side": 0,
+      "message": "Sure, but we shouldn\u0027t do that.",
+      "parentUuid": "d515fa2f_19a08baa",
+      "revId": "b922a7137b74bebb02f858e5d5daf1c4fb5f0cf5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b53fa6b4_90957418",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-23T11:18:57Z",
+      "side": 0,
+      "message": "I\u0027ve overlooked the fact that this factory operates on Provider\u003cReviewDb\u003e. So the actually ReviewDb instance is retrieved from RequestContext that was previously bound. It turns out it was the same instance that was used in MergeabilityChecker. In fact by providing a new method here\n\n  controlFor(ReviewDb db, Change.Id id, CurrentUser user) { ...\n\nans passing in the same database instance as it was used in MergeabilityChecker the tests are still failing. So what fixed the tests is skipping re-read the changes in this code path. I started to look into ConfigSuite, as all these tests are run twice for Notesdb and default configurations.  In both test runs modes the whole universe (GerritServer, Guice graph, database and friends) are completely isolated. Can they still interfere with each other?\n\nNevertheless can we agree on merging this change as optimization measure?",
+      "range": {
+        "startLine": 73,
+        "startChar": 17,
+        "endLine": 73,
+        "endChar": 43
+      },
+      "revId": "b922a7137b74bebb02f858e5d5daf1c4fb5f0cf5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

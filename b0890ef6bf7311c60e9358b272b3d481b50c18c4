@@ -22,6 +22,30 @@
       "revId": "b0890ef6bf7311c60e9358b272b3d481b50c18c4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b53fa6b4_90e7b4e8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetDiff.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-10-23T07:00:08Z",
+      "side": 1,
+      "message": "I\u0027m sure the Resource-based web links have some advantages, but in my opinion this example shows that the current solution is better ;-) With it the special case of inline edit only needs to be handled in this one place in Gerrit core, with the Resource-based web links every plugin that implements file web links would need to do this check and very likely half of them would forget about it. Knowing excatly how inline edits are represented in Git is likely something that an average plugin implementor doesn\u0027t know.",
+      "parentUuid": "b53fa6b4_b023d89c",
+      "range": {
+        "startLine": 171,
+        "startChar": 8,
+        "endLine": 173,
+        "endChar": 64
+      },
+      "revId": "b0890ef6bf7311c60e9358b272b3d481b50c18c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

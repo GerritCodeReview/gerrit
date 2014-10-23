@@ -456,19 +456,14 @@ public class ChangeUtil {
     }
   }
 
-  public void deleteDraftChange(PatchSet.Id patchSetId)
+  public void deleteDraftChange(Change change)
       throws NoSuchChangeException, OrmException, IOException {
-    deleteDraftChange(patchSetId.getParentKey());
-  }
-
-  public void deleteDraftChange(Change.Id changeId)
-      throws NoSuchChangeException, OrmException, IOException {
-    ReviewDb db = this.db.get();
-    Change change = db.changes().get(changeId);
-    if (change == null || change.getStatus() != Change.Status.DRAFT) {
+    Change.Id changeId = change.getId();
+    if (change.getStatus() != Change.Status.DRAFT) {
       throw new NoSuchChangeException(changeId);
     }
 
+    ReviewDb db = this.db.get();
     for (PatchSet ps : db.patchSets().byChange(changeId)) {
       // These should all be draft patch sets.
       deleteOnlyDraftPatchSet(ps, change);

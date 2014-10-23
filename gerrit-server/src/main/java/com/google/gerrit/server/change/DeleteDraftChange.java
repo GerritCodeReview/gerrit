@@ -73,7 +73,7 @@ public class DeleteDraftChange implements
     }
 
     try {
-      changeUtil.deleteDraftChange(rsrc.getChange().getId());
+      changeUtil.deleteDraftChange(rsrc.getChange());
     } catch (NoSuchChangeException e) {
       throw new ResourceNotFoundException(e.getMessage());
     }

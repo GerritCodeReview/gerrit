@@ -46,6 +46,30 @@
       "revId": "676878ca74575778d5097d17aa07c7bde7b2a1a9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "75528e24_666a4ee0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/MergeabilityCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-10-23T19:20:22Z",
+      "side": 1,
+      "message": "Ah. When the cache is populated via the background mergeability checker (Mergeable) it uses load(), not get().\n\nAs the comment in load() mentions, that put is racy. Changing to LoadingCache will avoid this.",
+      "parentUuid": "955d4234_676a52e0",
+      "range": {
+        "startLine": 275,
+        "startChar": 6,
+        "endLine": 275,
+        "endChar": 53
+      },
+      "revId": "676878ca74575778d5097d17aa07c7bde7b2a1a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

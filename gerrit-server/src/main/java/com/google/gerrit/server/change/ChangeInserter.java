@@ -33,6 +33,7 @@ import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.auth.AuthException;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
+import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.mail.CreateChangeSender;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
@@ -68,7 +69,7 @@ public class ChangeInserter {
   private final ChangeHooks hooks;
   private final ApprovalsUtil approvalsUtil;
   private final ChangeMessagesUtil cmUtil;
-  private final MergeabilityChecker mergeabilityChecker;
+  private final ChangeIndexer indexer;
   private final CreateChangeSender.Factory createChangeSenderFactory;
   private final HashtagsUtil hashtagsUtil;
   private final AccountCache accountCache;
@@ -95,7 +96,7 @@ public class ChangeInserter {
       ChangeHooks hooks,
       ApprovalsUtil approvalsUtil,
       ChangeMessagesUtil cmUtil,
-      MergeabilityChecker mergeabilityChecker,
+      ChangeIndexer indexer,
       CreateChangeSender.Factory createChangeSenderFactory,
       HashtagsUtil hashtagsUtil,
       AccountCache accountCache,
@@ -108,7 +109,7 @@ public class ChangeInserter {
     this.hooks = hooks;
     this.approvalsUtil = approvalsUtil;
     this.cmUtil = cmUtil;
-    this.mergeabilityChecker = mergeabilityChecker;
+    this.indexer = indexer;
     this.createChangeSenderFactory = createChangeSenderFactory;
     this.hashtagsUtil = hashtagsUtil;
     this.accountCache = accountCache;
@@ -221,10 +222,7 @@ public class ChangeInserter {
       }
     }
 
-    CheckedFuture<?, IOException> f = mergeabilityChecker.newCheck()
-        .addChange(change)
-        .reindex()
-        .runAsync();
+    CheckedFuture<?, IOException> f = indexer.indexAsync(change.getId());
 
     if(!messageIsForChange()) {
       commitMessageNotForChange();

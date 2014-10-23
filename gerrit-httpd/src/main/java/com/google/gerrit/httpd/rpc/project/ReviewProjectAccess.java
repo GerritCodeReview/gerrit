@@ -36,12 +36,12 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.ChangesCollection;
-import com.google.gerrit.server.change.MergeabilityChecker;
 import com.google.gerrit.server.change.PostReviewers;
 import com.google.gerrit.server.config.AllProjectsNameProvider;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.group.SystemGroupBackend;
+import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.mail.CreateChangeSender;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.ProjectCache;
@@ -79,7 +79,7 @@ public class ReviewProjectAccess extends ProjectAccessHandler<Change.Id> {
   private final IdentifiedUser user;
   private final PatchSetInfoFactory patchSetInfoFactory;
   private final Provider<PostReviewers> reviewersProvider;
-  private final MergeabilityChecker mergeabilityChecker;
+  private final ChangeIndexer indexer;
   private final ChangeHooks hooks;
   private final CreateChangeSender.Factory createChangeSenderFactory;
   private final ProjectCache projectCache;
@@ -91,7 +91,8 @@ public class ReviewProjectAccess extends ProjectAccessHandler<Change.Id> {
       MetaDataUpdate.User metaDataUpdateFactory, ReviewDb db,
       IdentifiedUser user, PatchSetInfoFactory patchSetInfoFactory,
       Provider<PostReviewers> reviewersProvider,
-      MergeabilityChecker mergeabilityChecker, ChangeHooks hooks,
+      ChangeIndexer indexer,
+      ChangeHooks hooks,
       CreateChangeSender.Factory createChangeSenderFactory,
       ProjectCache projectCache,
       AllProjectsNameProvider allProjects,
@@ -110,7 +111,7 @@ public class ReviewProjectAccess extends ProjectAccessHandler<Change.Id> {
     this.user = user;
     this.patchSetInfoFactory = patchSetInfoFactory;
     this.reviewersProvider = reviewersProvider;
-    this.mergeabilityChecker = mergeabilityChecker;
+    this.indexer = indexer;
     this.hooks = hooks;
     this.createChangeSenderFactory = createChangeSenderFactory;
     this.projectCache = projectCache;
@@ -155,7 +156,7 @@ public class ReviewProjectAccess extends ProjectAccessHandler<Change.Id> {
     } finally {
       db.rollback();
     }
-    mergeabilityChecker.newCheck().addChange(change).reindex().run();
+    indexer.index(db, change);
     hooks.doPatchsetCreatedHook(change, ps, db);
     try {
       CreateChangeSender cm =

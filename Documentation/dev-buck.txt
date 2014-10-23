@@ -448,6 +448,26 @@ The trivial case using a local directory is:
   EOF
 ----
 
+=== Clean Buck Cache
+
+Cache for Gerrit Code Review project is located in
+`$HOME/.gerritcodereview/buck-cache/cache´ directory. If all other options
+fail and you think you do need to clean the cache manually, then:
+
+----
+  rm -rf $HOME/.gerritcodereview/buck-cache/cache
+----
+
+Note 1: We never delete Buck cache. If you find yourself often deleting Buck
+cache then chances are good something is wrong on your side or with your
+workflow.
+
+Note 2: Note also the difference to `$HOME/.gerritcodereview/buck-cache`. This
+is where all downloaded artiacts are located. This is why you should never
+delete this directory.
+
+===
+
 [[buck-daemon]]
 === Using Buck daemon
 

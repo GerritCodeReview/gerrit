@@ -70,10 +70,6 @@ public class Mergeable implements RestReadView<RevisionResource> {
     this.force = force;
   }
 
-  public void setReindex(boolean reindex) {
-    this.reindex = reindex;
-  }
-
   private final GitRepositoryManager gitManager;
   private final ProjectCache projectCache;
   private final MergeUtil.Factory mergeUtilFactory;
@@ -83,7 +79,6 @@ public class Mergeable implements RestReadView<RevisionResource> {
   private final MergeabilityCache cache;
 
   private boolean force;
-  private boolean reindex;
 
   @Inject
   Mergeable(GitRepositoryManager gitManager,
@@ -100,7 +95,6 @@ public class Mergeable implements RestReadView<RevisionResource> {
     this.db = db;
     this.indexer = indexer;
     this.cache = cache;
-    reindex = true;
   }
 
   @Override
@@ -196,7 +190,7 @@ public class Mergeable implements RestReadView<RevisionResource> {
             }
           }
         });
-    if (reindex && c != null) {
+    if (c != null) {
       indexer.index(db.get(), c);
     }
     return mergeable;

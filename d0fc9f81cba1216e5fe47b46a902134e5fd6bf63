@@ -68,6 +68,115 @@
       "revId": "d0fc9f81cba1216e5fe47b46a902134e5fd6bf63",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b53fa6b4_3085a8e9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/WebLinks.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-23T10:13:36Z",
+      "side": 1,
+      "message": "private",
+      "range": {
+        "startLine": 41,
+        "startChar": 2,
+        "endLine": 41,
+        "endChar": 8
+      },
+      "revId": "d0fc9f81cba1216e5fe47b46a902134e5fd6bf63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "95446258_afbff9a1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/WebLinks.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-23T10:13:36Z",
+      "side": 1,
+      "message": "Nit: missing blank",
+      "range": {
+        "startLine": 46,
+        "startChar": 12,
+        "endLine": 46,
+        "endChar": 13
+      },
+      "revId": "d0fc9f81cba1216e5fe47b46a902134e5fd6bf63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "95446258_8fbc35ae",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/WebLinks.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-23T10:13:36Z",
+      "side": 1,
+      "message": "Nit: unneeded new line.",
+      "revId": "d0fc9f81cba1216e5fe47b46a902134e5fd6bf63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "95446258_6f8b51ff",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/WebLinks.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-23T10:13:36Z",
+      "side": 1,
+      "message": "FluentIterable\u003cWebLinkInfo\u003e here and in all public methods.",
+      "range": {
+        "startLine": 116,
+        "startChar": 10,
+        "endLine": 116,
+        "endChar": 27
+      },
+      "revId": "d0fc9f81cba1216e5fe47b46a902134e5fd6bf63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b53fa6b4_50902c2b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/WebLinks.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-23T10:13:36Z",
+      "side": 1,
+      "message": "This jeopardizes the whole advantage of using FluentIterable when the list is empty (and in 99.99% it will be empty). Why not return it as FluentIterable back as was shown in my example? And check on the client side: \n\n  json.web_links \u003d fluentIterable.isEmpty() ? null : fluentIterable.toList();\n\nNote, that originally all methods were returning Iterable\u003cWebLinkInfo\u003e and it was changed, because there is no way to ask Iterable.isEmpty().",
+      "range": {
+        "startLine": 119,
+        "startChar": 84,
+        "endLine": 119,
+        "endChar": 93
+      },
+      "revId": "d0fc9f81cba1216e5fe47b46a902134e5fd6bf63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

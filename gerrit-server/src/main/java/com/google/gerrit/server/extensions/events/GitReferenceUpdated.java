@@ -96,5 +96,11 @@ public class GitReferenceUpdated {
     public String getNewObjectId() {
       return newObjectId;
     }
+
+    @Override
+    public String toString() {
+      return String.format("%s[%s,%s: %s -> %s]", getClass().getSimpleName(),
+          projectName, ref, oldObjectId, newObjectId);
+    }
   }
 }

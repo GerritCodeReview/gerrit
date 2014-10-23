@@ -141,6 +141,53 @@
       "revId": "4720d3ac781c760f0e94c787901faba291174e66",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b53fa6b4_d0ed3cca",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/WebLinks.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-23T06:50:08Z",
+      "side": 1,
+      "message": "Well, i thought this is clear. You use transform before. Here is complete working solution for my suggestion: [1]. Note: that your approach is non effective: Links is something that only plugins can provide. 99% all sites are running without any plugins, or with plugins that don\u0027t provide any web links. Still with your apporach you are *always* creating new ListArray\u003c4\u003e for *all* kinds (!) of web links. You are doing this for each and every request. Uncached. The way to go is to use Fluent iterator and not to create anything:\n\n   public FluentIterable\u003cWebLinkInfo\u003e getPatchSetLinks(final String project, final String commit) {\n    return FluentIterable.from(patchSetLinks)\n        .transform(\n            new Function\u003cPatchSetWebLink, WebLinkInfo\u003e() {\n              @Override\n              public WebLinkInfo apply(PatchSetWebLink l) {\n                return l.getPathSetWebLink(project, commit);\n              }\n            })\n        .filter(\n            new Predicate\u003cWebLinkInfo\u003e() {\n              @Override\n              public boolean apply(WebLinkInfo l) {\n                if (Strings.isNullOrEmpty(l.name)\n                    || Strings.isNullOrEmpty(l.url)) {\n                  log.warn(String.format(\"Weblink %s is missing name and/or url\",\n                      l.getClass().getName()));\n                  return false;\n                }\n                return true;\n              }\n            });\n  }\n\nFilter part should be externalized to be used in other web links retrieval methods, see my previous comment.\n\n [1] http://paste.openstack.org/show/123417",
+      "parentUuid": "b53fa6b4_9039f4c6",
+      "range": {
+        "startLine": 50,
+        "startChar": 2,
+        "endLine": 56,
+        "endChar": 3
+      },
+      "revId": "4720d3ac781c760f0e94c787901faba291174e66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "95446258_cfc47d4c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/WebLinks.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-23T06:50:08Z",
+      "side": 1,
+      "message": "Not 4 but 0. here and in all places: because Gerrit core doens\u0027t have any web Links.",
+      "range": {
+        "startLine": 60,
+        "startChar": 46,
+        "endLine": 60,
+        "endChar": 47
+      },
+      "revId": "4720d3ac781c760f0e94c787901faba291174e66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

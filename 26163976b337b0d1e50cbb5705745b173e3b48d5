@@ -140,6 +140,30 @@
       "revId": "26163976b337b0d1e50cbb5705745b173e3b48d5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "95446258_cf491d2a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/WebLinks.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-23T13:53:31Z",
+      "side": 1,
+      "message": "Yes, sure i see your point but this violates unwritten rule: Don\u0027t mess around with null values when a collection is involved. Why, see for example this: [1]. This is exact the reason why Lists and friends in guava library don\u0027t have null-safe isEmpty() helper method. See Kevin\u0027s answer why this is the case [2]. However Apache-commons library does have this method: CollectionUtils.html.isEmpty() [3].\n\n* [1] https://code.google.com/p/guava-libraries/wiki/IdeaGraveyard#Iterables.isNullOrEmpty\n* [2] http://stackoverflow.com/questions/6910002/google-guava-isnullorempty-for-collections/6921270#6921270\n* [3] http://docs.spring.io/autorepo/docs/spring/4.0.1.RELEASE/javadoc-api/org/springframework/util/CollectionUtils.html#isEmpty-java.util.Collection-",
+      "parentUuid": "b53fa6b4_505eece8",
+      "range": {
+        "startLine": 146,
+        "startChar": 33,
+        "endLine": 146,
+        "endChar": 37
+      },
+      "revId": "26163976b337b0d1e50cbb5705745b173e3b48d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

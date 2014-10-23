@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "955d4234_c7357efd",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/SubmitType.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-10-23T18:34:23Z",
+      "side": 1,
+      "message": "Ok, I forgot that this actually got abandoned, I thought it eventually merged, hence my comment that my objections hadn\u0027t worked in keeping this leaky abstraction out of client code. So sorry about that.\n\nBut do not point the finger at me saying I destroyed your work. I gave specific suggestions for how to work around this problem, and instead of following them, you threw up your hands and abandoned the change. That\u0027s on you.",
+      "parentUuid": "95446258_effaa153",
+      "range": {
+        "startLine": 19,
+        "startChar": 23,
+        "endLine": 24,
+        "endChar": 19
+      },
+      "revId": "ae26554cd9d48c4f6bd919143563827771baa135",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b50a4612_182e4580",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/MergeabilityCache.java",
         "patchSetId": 8

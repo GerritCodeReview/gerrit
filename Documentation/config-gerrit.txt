@@ -1927,6 +1927,14 @@ Only used when the type is `SOLR`.
 +
 URL of the index server.
 
+[[index.defaultMaxClauseCount]]index.defaultMaxClauseCount::
++
+Only used when the type is `LUCENE`.
++
+Sets the maximum number of clauses permitted per BooleanQuery.
++
+Defaults to 1024.
+
 [[index.name.ramBufferSize]]index.name.ramBufferSize::
 +
 Only used when the type is `LUCENE`.
@@ -1976,6 +1984,7 @@ Sample index configuration:
 ----
 [index]
   type = LUCENE
+  defaultMaxClauseCount = 2048
 
 [index "changes_open"]
   ramBufferSize = 60 m

@@ -73,6 +73,7 @@ import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.index.IndexWriterConfig.OpenMode;
 import org.apache.lucene.index.Term;
+import org.apache.lucene.search.BooleanQuery;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
@@ -227,6 +228,9 @@ public class LuceneChangeIndex implements ChangeIndex {
     Analyzer analyzer =
         new StandardAnalyzer(luceneVersion, CharArraySet.EMPTY_SET);
     queryBuilder = new QueryBuilder(schema, analyzer);
+
+    BooleanQuery.setMaxClauseCount(cfg.getInt("index", "defaultMaxClauseCount",
+        BooleanQuery.getMaxClauseCount()));
 
     GerritIndexWriterConfig openConfig =
         new GerritIndexWriterConfig(luceneVersion, cfg, "changes_open");

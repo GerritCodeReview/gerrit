@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "95446258_cff7dd6b",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/SubmitType.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-23T18:25:06Z",
+      "side": 1,
+      "message": "This doesn\u0027t compile, obviously. What you need is what i did in this change: [1], that you have rejected. Just borrow the code from there and may be approve it?\n\n [1] https://gerrit-review.googlesource.com/57933",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 50
+      },
+      "revId": "ae26554cd9d48c4f6bd919143563827771baa135",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "95446258_effaa153",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/SubmitType.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-23T18:25:06Z",
+      "side": 1,
+      "message": "You have rejected the whole REST API series in this change [1] with this comment [2] -- my work of many weeks was in vain -- and even after i have asked you again during last Hackathon to reconsider your decision you have rejected it again, just to upload this change by yourself?\n\nSome folks asked to restore this series because they depend on it and asked for the reasons to rejection and my answer was: \"The reason for abandoning this series is disagreement with Dave Borowitz on this change [1]\": [3].\n\nI\u0027m convinced, that there is no problem with moving CodeEnum in extension. Can we agree on this and move forward with my REST API series and your mergeability series?\n\n* [1] https://gerrit-review.googlesource.com/#/c/57909/7/gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/ChangeType.java\n* [2] \"I seem to recall this coming up before, but IMHO CodedEnum is an implementation detail of the storage layer, and shouldn\u0027t need to leak into the common extension API.\"\n* [3] https://gerrit-review.googlesource.com/57933",
+      "range": {
+        "startLine": 19,
+        "startChar": 23,
+        "endLine": 24,
+        "endChar": 19
+      },
+      "revId": "ae26554cd9d48c4f6bd919143563827771baa135",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b50a4612_182e4580",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/MergeabilityCache.java",
         "patchSetId": 8

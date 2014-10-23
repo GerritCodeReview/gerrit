@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b50a4612_f8427136",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/MergeabilityCache.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-10-23T19:05:55Z",
+      "side": 1,
+      "message": "gerrit-server has access to Guava, which has BiMap. A static BiMap would be cleaner here.",
+      "range": {
+        "startLine": 137,
+        "startChar": 6,
+        "endLine": 139,
+        "endChar": 29
+      },
+      "revId": "af2e8a974130df81740aea8b1a480f404ecfebce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d515fa2f_b93cffb6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/MergeabilityCache.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-10-23T19:05:55Z",
+      "side": 1,
+      "message": "Aren\u0027t these static strings held and reused? We shouldn\u0027t have to charge for the weight of the merge strategy string. Actual memory used per entry is pointer sized not string length.",
+      "range": {
+        "startLine": 191,
+        "startChar": 42,
+        "endLine": 191,
+        "endChar": 70
+      },
+      "revId": "af2e8a974130df81740aea8b1a480f404ecfebce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d515fa2f_99393bc7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeUtil.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 640,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-10-23T19:05:55Z",
+      "side": 1,
+      "message": "This returns only static strings that are reused across invocations.",
+      "revId": "af2e8a974130df81740aea8b1a480f404ecfebce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

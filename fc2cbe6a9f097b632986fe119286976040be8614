@@ -22,6 +22,30 @@
       "revId": "fc2cbe6a9f097b632986fe119286976040be8614",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "95446258_8f955518",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-10-23T11:41:01Z",
+      "side": 1,
+      "message": "Removed the whole paragraph as now we have comments for the Vim settings",
+      "parentUuid": "d515fa2f_79b8a7ef",
+      "range": {
+        "startLine": 92,
+        "startChar": 59,
+        "endLine": 92,
+        "endChar": 63
+      },
+      "revId": "fc2cbe6a9f097b632986fe119286976040be8614",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

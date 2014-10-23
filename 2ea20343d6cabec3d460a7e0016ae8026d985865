@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "955d4234_87842631",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ReindexAfterUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-10-23T19:41:26Z",
+      "side": 1,
+      "message": "Not now.",
+      "parentUuid": "95446258_6f0c71de",
+      "range": {
+        "startLine": 90,
+        "startChar": 2,
+        "endLine": 90,
+        "endChar": 32
+      },
+      "revId": "2ea20343d6cabec3d460a7e0016ae8026d985865",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b53fa6b4_f0fa8053",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ReindexAfterUpdate.java",
         "patchSetId": 3
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "955d4234_a7872a35",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ReindexAfterUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-10-23T19:41:26Z",
+      "side": 1,
+      "message": "No? In order to reindex changes after a ref update we need to:\n\n1. Get the list of affected changes.\n2. Reindex each one.\n\nIf (1) fails, then the whole operation of reindexing changes after a ref update fails.\n\nI suppose I\u0027m open to other alternatives as long as they fit on one line.",
+      "parentUuid": "b53fa6b4_f0fa8053",
+      "range": {
+        "startLine": 99,
+        "startChar": 18,
+        "endLine": 99,
+        "endChar": 62
+      },
+      "revId": "2ea20343d6cabec3d460a7e0016ae8026d985865",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "95446258_4f11adf6",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ReindexAfterUpdate.java",
         "patchSetId": 3
@@ -59,6 +107,30 @@
       "writtenOn": "2014-10-23T19:37:06Z",
       "side": 1,
       "message": "Another specific abstract base class candidate e. g. CtxTask, that exposes also ctx in call() and rebind old ctx in finaly(), so that the impl() implementation would just be:\n\n  protected Void impl() throws IOException {\n    indexerFactory.create(executor, indexes).index(db, change);\n    return null;\n  }",
+      "range": {
+        "startLine": 140,
+        "startChar": 6,
+        "endLine": 150,
+        "endChar": 8
+      },
+      "revId": "2ea20343d6cabec3d460a7e0016ae8026d985865",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "75528e24_267456c2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ReindexAfterUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-10-23T19:41:26Z",
+      "side": 1,
+      "message": "Except there\u0027s only one implementation, no point in another abstract base class.\n\nI agree if we factor out this task-with-db-scope logic that this would be another natural candidate, but that\u0027s beyond the scope of this change.",
+      "parentUuid": "95446258_4f11adf6",
       "range": {
         "startLine": 140,
         "startChar": 6,

@@ -43,16 +43,8 @@ public class ReindexIT {
   @Test
   public void reindexEmptySite() throws Exception {
     initSite();
-    runGerrit("reindex", "-d", sitePath.getPath(),
+    runGerrit("reindex", "-d", sitePath.toString(),
         "--show-stack-trace");
-  }
-
-  @Test
-  public void reindexEmptySiteWithRecheckMergeable() throws Exception {
-    initSite();
-    runGerrit("reindex", "-d", sitePath.getPath(),
-        "--show-stack-trace",
-        "--recheck-mergeable");
   }
 
   private void initSite() throws Exception {

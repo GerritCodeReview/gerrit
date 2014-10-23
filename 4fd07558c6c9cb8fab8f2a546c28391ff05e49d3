@@ -387,6 +387,24 @@
     },
     {
       "key": {
+        "uuid": "b50a4612_d891ed5c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListTags.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-10-23T00:33:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1044003a_eb2bd1a6",
+      "revId": "4fd07558c6c9cb8fab8f2a546c28391ff05e49d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "302ae414_34865038",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/TagsCollection.java",
         "patchSetId": 8

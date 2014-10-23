@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "b53fa6b4_700c50de",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ReindexAfterUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-23T19:48:40Z",
+      "side": 1,
+      "message": "Sure, but we always should provide as specific error message as possible. And here we are losing information: Error happened during changes retrieval and not during actual reindexing. True, as the consequence the whole reindexing operation is failed.",
+      "parentUuid": "955d4234_a7872a35",
+      "range": {
+        "startLine": 99,
+        "startChar": 18,
+        "endLine": 99,
+        "endChar": 62
+      },
+      "revId": "2ea20343d6cabec3d460a7e0016ae8026d985865",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "95446258_4f11adf6",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ReindexAfterUpdate.java",
         "patchSetId": 3
@@ -131,6 +155,30 @@
       "side": 1,
       "message": "Except there\u0027s only one implementation, no point in another abstract base class.\n\nI agree if we factor out this task-with-db-scope logic that this would be another natural candidate, but that\u0027s beyond the scope of this change.",
       "parentUuid": "95446258_4f11adf6",
+      "range": {
+        "startLine": 140,
+        "startChar": 6,
+        "endLine": 150,
+        "endChar": 8
+      },
+      "revId": "2ea20343d6cabec3d460a7e0016ae8026d985865",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b53fa6b4_90f1f477",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ReindexAfterUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-23T19:48:40Z",
+      "side": 1,
+      "message": "certainly.",
+      "parentUuid": "75528e24_267456c2",
       "range": {
         "startLine": 140,
         "startChar": 6,

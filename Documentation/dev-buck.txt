@@ -389,6 +389,19 @@ another project's Maven target directory:
   /home/<user>/projects/jgit/org.eclipse.jgit/target/org.eclipse.jgit-3.3.0-SNAPSHOT.jar
 ----
 
+After buck clean and `buck build lib/jgit:jgit` the symbolic link that was
+created first time is lost. That's due to Buck caching mechanism. The problem
+now: when new version of the local artifact is deployed (`mvn package` in
+JGit) project in example above, Buck is not aware of it anymore, because it
+still has stale version of ir in its cache.  To solve this problem and
+re-create the symbolic link you don't need to wipe out the entire Buck cache,
+just rebuilding the target with `--no-cache` option does the job as well:
+
+----
+  buck clean
+  buck build --no-cache lib/jgit:jgit
+----
+ 
 == Building against artifacts from custom Maven repositories
 
 To build against custom Maven repositories, two modes of operations are

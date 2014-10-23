@@ -27,8 +27,6 @@ import com.google.gerrit.pgm.util.ThreadLimiter;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.change.MergeabilityCache;
-import com.google.gerrit.server.change.MergeabilityChecker;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.index.ChangeBatchIndexer;
 import com.google.gerrit.server.index.ChangeIndex;
@@ -46,16 +44,12 @@ import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.TextProgressMonitor;
 import org.eclipse.jgit.util.io.NullOutputStream;
 import org.kohsuke.args4j.Option;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 public class Reindex extends SiteProgram {
-  private static final Logger log = LoggerFactory.getLogger(Reindex.class);
-
   @Option(name = "--threads", usage = "Number of threads to use for indexing")
   private int threads = Runtime.getRuntime().availableProcessors();
 
@@ -65,9 +59,6 @@ public class Reindex extends SiteProgram {
 
   @Option(name = "--output", usage = "Prefix for output; path for local disk index, or prefix for remote index")
   private String outputBase;
-
-  @Option(name = "--recheck-mergeable", usage = "Recheck mergeable flag on all changes")
-  private boolean recheckMergeable;
 
   @Option(name = "--verbose", usage = "Output debug information for each change")
   private boolean verbose;
@@ -97,7 +88,6 @@ public class Reindex extends SiteProgram {
     dbManager.start();
 
     sysInjector = createSysInjector();
-    autoRecheckMergeable();
     LifecycleManager sysManager = new LifecycleManager();
     sysManager.add(sysInjector);
     sysManager.start();
@@ -150,19 +140,6 @@ public class Reindex extends SiteProgram {
     }
   }
 
-  private void autoRecheckMergeable() {
-    if (recheckMergeable || cfg.getBoolean(
-        "gerrit-test", null, "bypassAutoRecheckMergeable", false)) {
-      return;
-    }
-
-    if (sysInjector.getInstance(MergeabilityCache.class)
-        .isPersistentCacheEmpty()) {
-      log.info("Forcing --recheck-mergeable to populate cache");
-      recheckMergeable = true;
-    }
-  }
-
   private int indexAll() throws Exception {
     ReviewDb db = sysInjector.getInstance(ReviewDb.class);
     ProgressMonitor pm = new TextProgressMonitor();
@@ -184,10 +161,6 @@ public class Reindex extends SiteProgram {
 
     ChangeBatchIndexer batchIndexer =
         sysInjector.getInstance(ChangeBatchIndexer.class);
-    if (recheckMergeable) {
-      batchIndexer.setMergeabilityChecker(
-          sysInjector.getInstance(MergeabilityChecker.class));
-    }
     ChangeBatchIndexer.Result result = batchIndexer.setNumChanges(changeCount)
         .setProgressOut(System.err)
         .setVerboseOut(verbose ? System.out : NullOutputStream.INSTANCE)

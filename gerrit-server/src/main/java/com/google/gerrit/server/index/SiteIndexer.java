@@ -76,9 +76,9 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class ChangeBatchIndexer {
+public class SiteIndexer {
   private static final Logger log =
-      LoggerFactory.getLogger(ChangeBatchIndexer.class);
+      LoggerFactory.getLogger(SiteIndexer.class);
 
   public static class Result {
     private final long elapsedNanos;
@@ -123,7 +123,7 @@ public class ChangeBatchIndexer {
       new PrintWriter(NullOutputStream.INSTANCE);
 
   @Inject
-  ChangeBatchIndexer(SchemaFactory<ReviewDb> schemaFactory,
+  SiteIndexer(SchemaFactory<ReviewDb> schemaFactory,
       ChangeData.Factory changeDataFactory,
       GitRepositoryManager repoManager,
       @IndexExecutor(BATCH) ListeningExecutorService executor,
@@ -137,17 +137,17 @@ public class ChangeBatchIndexer {
     this.mergeStrategy = MergeUtil.getMergeStrategy(config);
   }
 
-  public ChangeBatchIndexer setNumChanges(int num) {
+  public SiteIndexer setNumChanges(int num) {
     numChanges = num;
     return this;
   }
 
-  public ChangeBatchIndexer setProgressOut(OutputStream out) {
+  public SiteIndexer setProgressOut(OutputStream out) {
     progressOut = checkNotNull(out);
     return this;
   }
 
-  public ChangeBatchIndexer setVerboseOut(OutputStream out) {
+  public SiteIndexer setVerboseOut(OutputStream out) {
     verboseWriter = new PrintWriter(checkNotNull(out));
     return this;
   }

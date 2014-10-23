@@ -37,6 +37,7 @@ import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.BanCommit;
 import com.google.gerrit.server.git.validators.CommitValidationException;
 import com.google.gerrit.server.git.validators.CommitValidators;
+import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.mail.ReplacePatchSetSender;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.notedb.ReviewerState;
@@ -89,7 +90,7 @@ public class PatchSetInserter {
   private final ChangeControl.GenericFactory ctlFactory;
   private final GitReferenceUpdated gitRefUpdated;
   private final CommitValidators.Factory commitValidatorsFactory;
-  private final MergeabilityChecker mergeabilityChecker;
+  private final ChangeIndexer indexer;
   private final ReplacePatchSetSender.Factory replacePatchSetFactory;
   private final ApprovalsUtil approvalsUtil;
   private final ApprovalCopier approvalCopier;
@@ -122,7 +123,7 @@ public class PatchSetInserter {
       PatchSetInfoFactory patchSetInfoFactory,
       GitReferenceUpdated gitRefUpdated,
       CommitValidators.Factory commitValidatorsFactory,
-      MergeabilityChecker mergeabilityChecker,
+      ChangeIndexer indexer,
       ReplacePatchSetSender.Factory replacePatchSetFactory,
       @Assisted Repository git,
       @Assisted RevWalk revWalk,
@@ -141,7 +142,7 @@ public class PatchSetInserter {
     this.patchSetInfoFactory = patchSetInfoFactory;
     this.gitRefUpdated = gitRefUpdated;
     this.commitValidatorsFactory = commitValidatorsFactory;
-    this.mergeabilityChecker = mergeabilityChecker;
+    this.indexer = indexer;
     this.replacePatchSetFactory = replacePatchSetFactory;
 
     this.git = git;
@@ -316,10 +317,7 @@ public class PatchSetInserter {
     } finally {
       db.rollback();
     }
-    mergeabilityChecker.newCheck()
-        .addChange(updatedChange)
-        .reindex()
-        .run();
+    indexer.index(db, c);
     if (runHooks) {
       hooks.doPatchsetCreatedHook(updatedChange, patchSet, db);
     }

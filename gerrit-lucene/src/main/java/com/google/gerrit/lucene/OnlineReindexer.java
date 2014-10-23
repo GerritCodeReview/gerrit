@@ -17,8 +17,6 @@ package com.google.gerrit.lucene;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.collect.Lists;
-import com.google.gerrit.server.change.MergeabilityCache;
-import com.google.gerrit.server.change.MergeabilityChecker;
 import com.google.gerrit.server.index.ChangeBatchIndexer;
 import com.google.gerrit.server.index.ChangeIndex;
 import com.google.gerrit.server.index.IndexCollection;
@@ -43,8 +41,6 @@ public class OnlineReindexer {
   private final IndexCollection indexes;
   private final ChangeBatchIndexer batchIndexer;
   private final ProjectCache projectCache;
-  private final MergeabilityCache mergeabilityCache;
-  private final MergeabilityChecker mergeabilityChecker;
   private final int version;
 
   @Inject
@@ -52,14 +48,10 @@ public class OnlineReindexer {
       IndexCollection indexes,
       ChangeBatchIndexer batchIndexer,
       ProjectCache projectCache,
-      MergeabilityCache mergeabilityCache,
-      MergeabilityChecker mergeabilityChecker,
       @Assisted int version) {
     this.indexes = indexes;
     this.batchIndexer = batchIndexer;
     this.projectCache = projectCache;
-    this.mergeabilityCache = mergeabilityCache;
-    this.mergeabilityChecker = mergeabilityChecker;
     this.version = version;
   }
 
@@ -85,10 +77,6 @@ public class OnlineReindexer {
     log.info("Starting online reindex from schema version {} to {}",
         version(indexes.getSearchIndex()), version(index));
 
-    if (mergeabilityCache.isPersistentCacheEmpty()) {
-      log.info("Rechecking mergeability to populate cache");
-      batchIndexer.setMergeabilityChecker(mergeabilityChecker);
-    }
     ChangeBatchIndexer.Result result =
         batchIndexer.indexAll(index, projectCache.all());
     if (!result.success()) {

@@ -168,6 +168,30 @@
     },
     {
       "key": {
+        "uuid": "b53fa6b4_90bc54ae",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/WebLinks.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-10-23T08:39:55Z",
+      "side": 1,
+      "message": "Done\nThanks for explaining.",
+      "parentUuid": "b53fa6b4_d0ed3cca",
+      "range": {
+        "startLine": 50,
+        "startChar": 2,
+        "endLine": 56,
+        "endChar": 3
+      },
+      "revId": "4720d3ac781c760f0e94c787901faba291174e66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "95446258_cfc47d4c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/WebLinks.java",
         "patchSetId": 5

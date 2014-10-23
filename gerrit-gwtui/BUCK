@@ -15,7 +15,7 @@ genrule(
     ' gerrit_ui/gerrit_ui.nocache.js' +
     ' gerrit_ui/dbg_gerrit_ui.nocache.js;' +
     'unzip -qo $(location :ui_opt);' +
-    'mkdir -p $(dirname $OUT);' +
+    'mkdir -p `dirname $OUT`;' +
     'zip -qr $OUT .',
   deps = [
     ':ui_dbg',

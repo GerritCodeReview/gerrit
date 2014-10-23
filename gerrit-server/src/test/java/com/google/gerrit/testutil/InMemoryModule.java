@@ -26,7 +26,6 @@ import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.GerritPersonIdentProvider;
 import com.google.gerrit.server.RemotePeer;
 import com.google.gerrit.server.cache.h2.DefaultCacheFactory;
-import com.google.gerrit.server.change.MergeabilityChecksExecutorModule;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllProjectsNameProvider;
 import com.google.gerrit.server.config.AllUsersName;
@@ -168,7 +167,6 @@ public class InMemoryModule extends FactoryModule {
     install(new DefaultCacheFactory.Module());
     install(new SmtpEmailSender.Module());
     install(new SignedTokenEmailTokenVerifier.Module());
-    install(new MergeabilityChecksExecutorModule());
 
     IndexType indexType = null;
     try {

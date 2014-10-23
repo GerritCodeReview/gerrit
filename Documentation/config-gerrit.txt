@@ -820,19 +820,15 @@ Default is 300 seconds (5 minutes).
 
 [[changeMerge.threadPoolSize]]changeMerge.threadPoolSize::
 +
-Maximum size of the thread pool in which the mergeability flag of open
-changes is updated.
+_Deprecated:_ Formerly used to control thread pool size for background mergeability checks. These checks were moved to the indexing threadpool, so this value is now used for link:#index.batchThreads[index.batchThreads], only if that value is not provided.
 +
-Default is 1.
+This option may be removed in a future version.
 
 [[changeMerge.interactiveThreadPoolSize]]changeMerge.interactiveThreadPoolSize::
 +
-Maximum size of the thread pool in which the mergeability flag of open
-changes is updated, when processing interactive user requests (e.g.
-pushes to refs/for/*). Set to 0 or negative to share the pool for
-background mergeability checks.
+_Deprecated:_ Formerly used to control thread pool size for interactive mergeability checks. These checks were moved to the indexing threadpool, so this value is now used for link:#index.threads[index.threads], only if that value is not provided.
 +
-Default is 1.
+This option may be removed in a future version.
 
 [[commentlink]]
 === Section commentlink
@@ -2038,15 +2034,18 @@ By default, `LUCENE`.
 +
 Number of threads to use for indexing in normal interactive operations.
 +
-Defaults to 1 if not set, or set to a negative value.
+Defaults to 1 if not set, or set to a negative value (unless
+link:#changeMerge.interactiveThreadPoolSize[changeMerge.interactiveThreadPoolSize]
+is iset).
 
-[[index.batchThreads]]index.batchThreads:;
+[[index.batchThreads]]index.batchThreads::
 +
 Number of threads to use for indexing in background operations, such as
 online schema upgrades.
 +
 If not set or set to a negative value, defaults to using the same
-thread pool as interactive operations.
+thread pool as interactive operations (unless
+link:#changeMerge.threadPoolSize[changeMerge.threadPoolSize] is set).
 
 ==== Lucene configuration
 

@@ -100,6 +100,10 @@ public class IndexModule extends LifecycleModule {
       threads = config.getInt("index", null, "threads", 0);
     }
     if (threads <= 0) {
+      threads =
+          config.getInt("changeMerge", null, "interactiveThreadPoolSize", 0);
+    }
+    if (threads <= 0) {
       return MoreExecutors.newDirectExecutorService();
     }
     return MoreExecutors.listeningDecorator(
@@ -117,6 +121,9 @@ public class IndexModule extends LifecycleModule {
       return batchExecutor;
     }
     int threads = config.getInt("index", null, "batchThreads", 0);
+    if (threads <= 0) {
+      threads = config.getInt("changeMerge", null, "threadPoolSize", 0);
+    }
     if (threads <= 0) {
       return interactive;
     }

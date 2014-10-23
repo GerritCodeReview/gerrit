@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b50a4612_b83cf9b6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 462,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-10-23T23:08:47Z",
+      "side": 1,
+      "message": "Trying to think how to make this work with a zero downtime upgrade for googlesource.com. I think this change needs to be reordered before the change to read from the cache, and in the process change this line to read the new mergeable field from the cache (even though it won\u0027t be calling input.isMergeable()).\n\nThis means we can turn on writing to the cache in the same binary that contains this index upgrade. The online batch reindex we run will simultaneously populate the cache as a side effect, then as soon as the index upgrade is done and the read version of the index increments, the cache will be full.\n\nIt will be slightly inconsistent because the main binary will still be reading from the old change field, but it will be updating both the old change field and the cache, so it\u0027ll be close enough.\n\nAnother alternative is to add an intermediate commit where we read from the cache only if the live read index version contains this new mergeable field. Which is pretty ugly admittedly, but it will immediately get erased. (And we could even run a patched version if it\u0027s unacceptable to merge ot master.)",
+      "revId": "99a5acda4db56076cbedc26af168cf6d5d6735bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

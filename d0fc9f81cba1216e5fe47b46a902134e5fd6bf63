@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "95446258_6fa23191",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 18
+      },
+      "lineNbr": 3369,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-10-23T09:02:40Z",
+      "side": 1,
+      "message": "optional",
+      "range": {
+        "startLine": 3369,
+        "startChar": 16,
+        "endLine": 3369,
+        "endChar": 23
+      },
+      "revId": "d0fc9f81cba1216e5fe47b46a902134e5fd6bf63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "95446258_4fa76d9f",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/webui/WebLink.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-10-23T09:02:40Z",
+      "side": 1,
+      "message": "This should be the full licence header.",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 1,
+        "endChar": 53
+      },
+      "revId": "d0fc9f81cba1216e5fe47b46a902134e5fd6bf63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b53fa6b4_708b30ff",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/webui/WebLink.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-10-23T09:02:40Z",
+      "side": 1,
+      "message": "[optional] If we now have this interface again, we may inline the WebLinkTarget class back here.",
+      "range": {
+        "startLine": 11,
+        "startChar": 17,
+        "endLine": 11,
+        "endChar": 24
+      },
+      "revId": "d0fc9f81cba1216e5fe47b46a902134e5fd6bf63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

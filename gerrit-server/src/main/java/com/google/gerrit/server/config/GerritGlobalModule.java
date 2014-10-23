@@ -72,7 +72,6 @@ import com.google.gerrit.server.avatar.AvatarProvider;
 import com.google.gerrit.server.cache.CacheRemovalListener;
 import com.google.gerrit.server.change.ChangeKindCacheImpl;
 import com.google.gerrit.server.change.MergeabilityCache;
-import com.google.gerrit.server.change.MergeabilityChecker;
 import com.google.gerrit.server.events.EventFactory;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.ChangeCache;
@@ -95,6 +94,7 @@ import com.google.gerrit.server.git.validators.RefOperationValidators;
 import com.google.gerrit.server.git.validators.UploadValidationListener;
 import com.google.gerrit.server.git.validators.UploadValidators;
 import com.google.gerrit.server.group.GroupModule;
+import com.google.gerrit.server.index.ReindexAfterUpdate;
 import com.google.gerrit.server.mail.AddReviewerSender;
 import com.google.gerrit.server.mail.CreateChangeSender;
 import com.google.gerrit.server.mail.EmailModule;
@@ -268,7 +268,7 @@ public class GerritGlobalModule extends FactoryModule {
     DynamicSet.setOf(binder(), HeadUpdatedListener.class);
     DynamicSet.setOf(binder(), UsageDataPublishedListener.class);
     DynamicSet.bind(binder(), GitReferenceUpdatedListener.class).to(ChangeCache.class);
-    DynamicSet.bind(binder(), GitReferenceUpdatedListener.class).to(MergeabilityChecker.class);
+    DynamicSet.bind(binder(), GitReferenceUpdatedListener.class).to(ReindexAfterUpdate.class);
     DynamicSet.bind(binder(), GitReferenceUpdatedListener.class)
         .to(ProjectConfigEntry.UpdateChecker.class);
     DynamicSet.setOf(binder(), ChangeListener.class);

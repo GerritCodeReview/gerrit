@@ -22,6 +22,30 @@
       "revId": "5eea7eda2508fdeca1adc463be31384e57da0c36",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "75528e24_466f52ee",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/IndexModule.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-10-23T19:38:34Z",
+      "side": 1,
+      "message": "Same behavior as current mergeability executor behavior: if you just specify \"threads\" then you get one pool for both priorities.\n\nThat reminds me, I should document these new config options...",
+      "parentUuid": "95446258_8ff1d577",
+      "range": {
+        "startLine": 126,
+        "startChar": 23,
+        "endLine": 126,
+        "endChar": 34
+      },
+      "revId": "5eea7eda2508fdeca1adc463be31384e57da0c36",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

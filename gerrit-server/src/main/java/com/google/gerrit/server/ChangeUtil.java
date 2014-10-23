@@ -374,16 +374,13 @@ public class ChangeUtil {
     }
   }
 
-  public Change.Id editCommitMessage(ChangeControl ctl, PatchSet.Id patchSetId,
+  public Change.Id editCommitMessage(ChangeControl ctl, PatchSet ps,
       String message, PersonIdent myIdent)
       throws NoSuchChangeException, EmailException, OrmException,
       MissingObjectException, IncorrectObjectTypeException, IOException,
       InvalidChangeOperationException, PatchSetInfoNotAvailableException {
-    Change.Id changeId = patchSetId.getParentKey();
-    PatchSet originalPS = db.get().patchSets().get(patchSetId);
-    if (originalPS == null) {
-      throw new NoSuchChangeException(changeId);
-    }
+    Change change = ctl.getChange();
+    Change.Id changeId = change.getId();
 
     if (message == null || message.length() == 0) {
       throw new InvalidChangeOperationException(
@@ -400,7 +397,7 @@ public class ChangeUtil {
       RevWalk revWalk = new RevWalk(git);
       try {
         RevCommit commit =
-            revWalk.parseCommit(ObjectId.fromString(originalPS.getRevision()
+            revWalk.parseCommit(ObjectId.fromString(ps.getRevision()
                 .get()));
         if (commit.getFullMessage().equals(message)) {
           throw new InvalidChangeOperationException(
@@ -408,7 +405,6 @@ public class ChangeUtil {
         }
 
         Date now = myIdent.getWhen();
-        Change change = db.get().changes().get(changeId);
         PersonIdent authorIdent =
             user().newCommitterIdent(now, myIdent.getTimeZone());
 
@@ -444,7 +440,7 @@ public class ChangeUtil {
             .setMessage(msg)
             .setCopyLabels(true)
             .setValidatePolicy(RECEIVE_COMMITS)
-            .setDraft(originalPS.isDraft())
+            .setDraft(ps.isDraft())
             .insert();
 
         return change.getId();

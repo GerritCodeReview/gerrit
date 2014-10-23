@@ -77,7 +77,7 @@ class EditMessage implements RestModifyView<RevisionResource, Input>,
     try {
       return json.format(changeUtil.editCommitMessage(
           rsrc.getControl(),
-          rsrc.getPatchSet().getId(),
+          rsrc.getPatchSet(),
           input.message,
           new PersonIdent(myIdent, TimeUtil.nowTs())));
     } catch (InvalidChangeOperationException e) {

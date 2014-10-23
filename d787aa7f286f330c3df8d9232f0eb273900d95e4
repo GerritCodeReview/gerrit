@@ -70,6 +70,30 @@
       "revId": "d787aa7f286f330c3df8d9232f0eb273900d95e4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "75528e24_464ab282",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1016722
+      },
+      "writtenOn": "2014-10-23T13:29:13Z",
+      "side": 1,
+      "message": "I tested/debugged it. I think it is like the forward union will include the files and the backward will exclude them in certain cases.",
+      "parentUuid": "95446258_8f6af585",
+      "range": {
+        "startLine": 144,
+        "startChar": 18,
+        "endLine": 144,
+        "endChar": 74
+      },
+      "revId": "d787aa7f286f330c3df8d9232f0eb273900d95e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

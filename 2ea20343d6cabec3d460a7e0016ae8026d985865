@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "95446258_6f0c71de",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ReindexAfterUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-23T19:37:06Z",
+      "side": 1,
+      "message": "Nice idea. We have a lot of this kind of classes in code. May be put it in another more central place and reuse? schemaFactory should be passed in constructor for this to work.",
+      "range": {
+        "startLine": 90,
+        "startChar": 2,
+        "endLine": 90,
+        "endChar": 32
+      },
+      "revId": "2ea20343d6cabec3d460a7e0016ae8026d985865",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b53fa6b4_f0fa8053",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ReindexAfterUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-23T19:37:06Z",
+      "side": 1,
+      "message": "This may be falsified messsage, when GetChanges fails. Conduct a more neutral message that would work for both classes?",
+      "range": {
+        "startLine": 99,
+        "startChar": 18,
+        "endLine": 99,
+        "endChar": 62
+      },
+      "revId": "2ea20343d6cabec3d460a7e0016ae8026d985865",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "95446258_4f11adf6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ReindexAfterUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-23T19:37:06Z",
+      "side": 1,
+      "message": "Another specific abstract base class candidate e. g. CtxTask, that exposes also ctx in call() and rebind old ctx in finaly(), so that the impl() implementation would just be:\n\n  protected Void impl() throws IOException {\n    indexerFactory.create(executor, indexes).index(db, change);\n    return null;\n  }",
+      "range": {
+        "startLine": 140,
+        "startChar": 6,
+        "endLine": 150,
+        "endChar": 8
+      },
+      "revId": "2ea20343d6cabec3d460a7e0016ae8026d985865",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

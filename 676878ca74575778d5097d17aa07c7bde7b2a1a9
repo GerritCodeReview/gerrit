@@ -22,6 +22,30 @@
       "revId": "676878ca74575778d5097d17aa07c7bde7b2a1a9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "955d4234_676a52e0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/MergeabilityCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-10-23T19:14:35Z",
+      "side": 1,
+      "message": "Huh, I think this is a bug in the H2 cache implementation, it doesn\u0027t seem to support a persisted non-loading cache. Though I would have thought this would be caught by ChangeIT#get() which checks the mergeable bit of the result.\n\nThe right solution is probably just to switch to LoadingCache. I moved away from that due to the way the repository is passed in, but looking at the code again I see a way around it.\n\nI will also look to see why the test passes.",
+      "parentUuid": "b53fa6b4_30e128a9",
+      "range": {
+        "startLine": 275,
+        "startChar": 6,
+        "endLine": 275,
+        "endChar": 53
+      },
+      "revId": "676878ca74575778d5097d17aa07c7bde7b2a1a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

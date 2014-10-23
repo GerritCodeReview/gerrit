@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "95446258_cf60fdab",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/WebLinks.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-23T13:04:56Z",
+      "side": 1,
+      "message": "Nit: CamelCaseOnlyOnWords so just transformer, or function or just f?",
+      "range": {
+        "startLine": 140,
+        "startChar": 37,
+        "endLine": 140,
+        "endChar": 48
+      },
+      "revId": "26163976b337b0d1e50cbb5705745b173e3b48d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b53fa6b4_b06d18a2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/WebLinks.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-23T13:04:56Z",
+      "side": 1,
+      "message": "Nit: we usually let this on the previous line, like in:\n\n  FluentIterable\u003cWebLinkInfo\u003e linkInfos \u003d FluentIterable\n      .from()\n      .transform()\n      .filter()",
+      "range": {
+        "startLine": 142,
+        "startChar": 8,
+        "endLine": 142,
+        "endChar": 22
+      },
+      "revId": "26163976b337b0d1e50cbb5705745b173e3b48d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "95446258_af6db9a1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/WebLinks.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-23T13:04:56Z",
+      "side": 1,
+      "message": "It considered to be a bad practice to return null where collection is expected to be returned. But i will let this one for other reviewers.",
+      "range": {
+        "startLine": 146,
+        "startChar": 33,
+        "endLine": 146,
+        "endChar": 37
+      },
+      "revId": "26163976b337b0d1e50cbb5705745b173e3b48d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

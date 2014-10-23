@@ -82,7 +82,6 @@ import com.google.gerrit.server.change.ChangeInserter;
 import com.google.gerrit.server.change.ChangeKind;
 import com.google.gerrit.server.change.ChangeKindCache;
 import com.google.gerrit.server.change.ChangesCollection;
-import com.google.gerrit.server.change.MergeabilityChecker;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.change.Submit;
 import com.google.gerrit.server.config.AllProjectsName;
@@ -300,7 +299,6 @@ public class ReceiveCommits {
   private final ListeningExecutorService changeUpdateExector;
   private final RequestScopePropagator requestScopePropagator;
   private final ChangeIndexer indexer;
-  private final MergeabilityChecker mergeabilityChecker;
   private final SshInfo sshInfo;
   private final AllProjectsName allProjectsName;
   private final ReceiveConfig receiveConfig;
@@ -370,7 +368,6 @@ public class ReceiveCommits {
       @ChangeUpdateExecutor ListeningExecutorService changeUpdateExector,
       final RequestScopePropagator requestScopePropagator,
       final ChangeIndexer indexer,
-      final MergeabilityChecker mergeabilityChecker,
       final SshInfo sshInfo,
       final AllProjectsName allProjectsName,
       ReceiveConfig config,
@@ -410,7 +407,6 @@ public class ReceiveCommits {
     this.changeUpdateExector = changeUpdateExector;
     this.requestScopePropagator = requestScopePropagator;
     this.indexer = indexer;
-    this.mergeabilityChecker = mergeabilityChecker;
     this.sshInfo = sshInfo;
     this.allProjectsName = allProjectsName;
     this.receiveConfig = config;
@@ -2159,10 +2155,7 @@ public class ReceiveCommits {
       if (cmd.getResult() == NOT_ATTEMPTED) {
         cmd.execute(rp);
       }
-      CheckedFuture<?, IOException> f = mergeabilityChecker.newCheck()
-          .addChange(change)
-          .reindex()
-          .runAsync();
+      CheckedFuture<?, IOException> f = indexer.indexAsync(change.getId());
       workQueue.getDefaultQueue()
           .submit(requestScopePropagator.wrap(new Runnable() {
         @Override

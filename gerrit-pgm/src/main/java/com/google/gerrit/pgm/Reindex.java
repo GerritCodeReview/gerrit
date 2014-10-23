@@ -27,7 +27,6 @@ import com.google.gerrit.pgm.util.ThreadLimiter;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.change.MergeabilityChecker;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.index.ChangeBatchIndexer;
 import com.google.gerrit.server.index.ChangeIndex;
@@ -60,9 +59,6 @@ public class Reindex extends SiteProgram {
 
   @Option(name = "--output", usage = "Prefix for output; path for local disk index, or prefix for remote index")
   private String outputBase;
-
-  @Option(name = "--recheck-mergeable", usage = "Recheck mergeable flag on all changes")
-  private boolean recheckMergeable;
 
   @Option(name = "--verbose", usage = "Output debug information for each change")
   private boolean verbose;
@@ -164,10 +160,6 @@ public class Reindex extends SiteProgram {
 
     ChangeBatchIndexer batchIndexer =
         sysInjector.getInstance(ChangeBatchIndexer.class);
-    if (recheckMergeable) {
-      batchIndexer.setMergeabilityChecker(
-          sysInjector.getInstance(MergeabilityChecker.class));
-    }
     ChangeBatchIndexer.Result result = batchIndexer.setNumChanges(changeCount)
         .setProgressOut(System.err)
         .setVerboseOut(verbose ? System.out : NullOutputStream.INSTANCE)

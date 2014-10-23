@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "b53fa6b4_d049bc29",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/WebLinks.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-23T13:37:52Z",
+      "side": 1,
+      "message": "May be also mention that in some rare cases this method might return a list of links? :) Here and below.",
+      "range": {
+        "startLine": 77,
+        "startChar": 13,
+        "endLine": 77,
+        "endChar": 66
+      },
+      "revId": "822aeb0a7dae318834b6f035582d3881eed3e01f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b53fa6b4_f04cc03b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/WebLinks.java",
         "patchSetId": 20

@@ -28,7 +28,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gerrit.server.index.ChangeBatchIndexer;
+import com.google.gerrit.server.index.SiteIndexer;
 import com.google.gerrit.server.index.ChangeIndex;
 import com.google.gerrit.server.index.ChangeSchemas;
 import com.google.gerrit.server.index.IndexCollection;
@@ -159,9 +159,9 @@ public class Reindex extends SiteProgram {
     }
     pm.endTask();
 
-    ChangeBatchIndexer batchIndexer =
-        sysInjector.getInstance(ChangeBatchIndexer.class);
-    ChangeBatchIndexer.Result result = batchIndexer.setNumChanges(changeCount)
+    SiteIndexer batchIndexer =
+        sysInjector.getInstance(SiteIndexer.class);
+    SiteIndexer.Result result = batchIndexer.setNumChanges(changeCount)
         .setProgressOut(System.err)
         .setVerboseOut(verbose ? System.out : NullOutputStream.INSTANCE)
         .indexAll(index, projects);

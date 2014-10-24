@@ -434,4 +434,45 @@ public class ChangeEdits implements
       }
     }
   }
+
+  @Singleton
+  public static class EditMessage implements
+      RestModifyView<ChangeResource, EditMessage.Input> {
+    public static class Input {
+      @DefaultInput
+      public String message;
+    }
+
+    private final Provider<ReviewDb> db;
+    private final ChangeEditModifier editModifier;
+    private final ChangeEditUtil editUtil;
+
+    @Inject
+    EditMessage(Provider<ReviewDb> db,
+        ChangeEditModifier editModifier,
+        ChangeEditUtil editUtil) {
+      this.db = db;
+      this.editModifier = editModifier;
+      this.editUtil = editUtil;
+    }
+
+    @Override
+    public Object apply(ChangeResource rsrc, Input input) throws AuthException,
+        IOException, InvalidChangeOperationException, BadRequestException,
+        ResourceConflictException, OrmException {
+      Optional<ChangeEdit> edit = editUtil.byChange(rsrc.getChange());
+      if (!edit.isPresent()) {
+        editModifier.createEdit(rsrc.getChange(),
+            db.get().patchSets().get(rsrc.getChange().currentPatchSetId()));
+        edit = editUtil.byChange(rsrc.getChange());
+      }
+
+      if (input == null || Strings.isNullOrEmpty(input.message)) {
+        throw new BadRequestException("commit message must be provided");
+      }
+
+      editModifier.modifyMessage(edit.get(), input.message);
+      return Response.none();
+    }
+  }
 }

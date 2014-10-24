@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "95446258_ef32a164",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/api/AllProjectsConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2014-10-24T15:02:01Z",
+      "side": 1,
+      "message": "Done. Actually I think load should return this to allow for chaining.",
+      "parentUuid": "b53fa6b4_d0065c8a",
+      "range": {
+        "startLine": 78,
+        "startChar": 2,
+        "endLine": 78,
+        "endChar": 20
+      },
+      "revId": "8755431fcb4bc9fb189327271c1f55c650d77bf3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b53fa6b4_d081bc8a",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/api/AllProjectsConfig.java",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2014-10-24T14:35:38Z",
       "side": 1,
       "message": "Remove this?",
+      "range": {
+        "startLine": 93,
+        "startChar": 4,
+        "endLine": 95,
+        "endChar": 5
+      },
+      "revId": "8755431fcb4bc9fb189327271c1f55c650d77bf3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b53fa6b4_f0328064",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/api/AllProjectsConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2014-10-24T15:02:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b53fa6b4_d081bc8a",
       "range": {
         "startLine": 93,
         "startChar": 4,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "b53fa6b4_101e24ce",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/api/AllProjectsConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2014-10-24T15:02:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b53fa6b4_b07e3805",
+      "range": {
+        "startLine": 100,
+        "startChar": 4,
+        "endLine": 102,
+        "endChar": 5
+      },
+      "revId": "8755431fcb4bc9fb189327271c1f55c650d77bf3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "95446258_ef09819a",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/api/AllProjectsConfig.java",
         "patchSetId": 2
@@ -82,6 +154,30 @@
       "writtenOn": "2014-10-24T14:35:38Z",
       "side": 1,
       "message": "parsing",
+      "range": {
+        "startLine": 117,
+        "startChar": 25,
+        "endLine": 117,
+        "endChar": 32
+      },
+      "revId": "8755431fcb4bc9fb189327271c1f55c650d77bf3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "95446258_2f19c9e5",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/api/AllProjectsConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2014-10-24T15:02:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "95446258_ef09819a",
       "range": {
         "startLine": 117,
         "startChar": 25,

@@ -39,6 +39,7 @@ import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.change.ChangeEdits.EditMessage;
 import com.google.gerrit.server.change.ChangeEdits.Post;
 import com.google.gerrit.server.change.ChangeEdits.Put;
 import com.google.gerrit.server.change.FileContentUtil;
@@ -304,6 +305,30 @@ public class ChangeEditIT extends AbstractDaemonTest {
             msg));
     edit = editUtil.byChange(change);
     assertEquals(msg, edit.get().getEditCommit().getFullMessage());
+  }
+
+  @Test
+  public void updateMessageRest() throws Exception {
+    EditMessage.Input in = new EditMessage.Input();
+    in.message = String.format("New commit message\n\nChange-Id: %s",
+        change.getKey());
+    assertEquals(SC_NO_CONTENT,
+        adminSession.put(
+            urlEditMessage(),
+            in).getStatusCode());
+    Optional<ChangeEdit> edit = editUtil.byChange(change);
+    assertEquals(in.message, edit.get().getEditCommit().getFullMessage());
+    in.message = String.format("New commit message2\n\nChange-Id: %s",
+        change.getKey());
+    assertEquals(SC_NO_CONTENT,
+        adminSession.put(
+            urlEditMessage(),
+            in).getStatusCode());
+    edit = editUtil.byChange(change);
+    assertEquals(in.message, edit.get().getEditCommit().getFullMessage());
+    editUtil.delete(edit.get());
+    edit = editUtil.byChange(change);
+    assertFalse(edit.isPresent());
   }
 
   @Test
@@ -670,6 +695,12 @@ public class ChangeEditIT extends AbstractDaemonTest {
     return "/changes/"
         + change2.getChangeId()
         + "/edit/";
+  }
+
+  private String urlEditMessage() {
+    return "/changes/"
+        + change.getChangeId()
+        + "/edit_message";
   }
 
   private String urlEditFile() {

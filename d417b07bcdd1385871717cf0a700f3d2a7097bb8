@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b53fa6b4_5024ac21",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/GroupList.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-10-24T14:53:50Z",
+      "side": 1,
+      "message": "This is now not used anymore and can be removed.",
+      "range": {
+        "startLine": 42,
+        "startChar": 4,
+        "endLine": 42,
+        "endChar": 63
+      },
+      "revId": "d417b07bcdd1385871717cf0a700f3d2a7097bb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b53fa6b4_301928e6",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/git/GarbageColletionTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-10-24T14:53:50Z",
+      "side": 1,
+      "message": "Unintended file addition?",
+      "revId": "d417b07bcdd1385871717cf0a700f3d2a7097bb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

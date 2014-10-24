@@ -1293,6 +1293,34 @@ response "`204 No Content`" is returned.
   HTTP/1.1 204 No Content
 ----
 
+[[put-change-edit-message]]
+=== Change commit message in Change Edit
+--
+'PUT /changes/link:#change-id[\{change-id\}]/edit:message
+--
+
+Modify commit message. The request body needs to include a
+link:#change-edit-message-input[ChangeEditMessageInput]
+entity.
+
+.Request
+----
+  PUT /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/edit:message HTTP/1.0
+  Content-Type: application/json;charset=UTF-8
+
+  {
+    "message": "New commit message\n\nChange-Id: I10394472cbd17dd12454f229e4f6de00b143a444"
+  }
+----
+
+If a change edit doesn't exist for this change yet, it is created. As
+response "`204 No Content`" is returned.
+
+.Response
+----
+  HTTP/1.1 204 No Content
+----
+
 [[delete-edit-file]]
 === Delete file in Change Edit
 --
@@ -3910,6 +3938,17 @@ path within change edit.
 |===========================
 |Field Name    ||Description
 |`restore_path`|optional|Path to file to restore.
+|===========================
+
+[[change-edit-message-input]]
+=== ChangeEditMessageInput
+The `ChangeEditMessageInput` entity contains information for changing
+the commit message within a change edit.
+
+[options="header",cols="1,^1,5"]
+|===========================
+|Field Name    ||Description
+|`message`     ||New commit message.
 |===========================
 
 [[check-result]]

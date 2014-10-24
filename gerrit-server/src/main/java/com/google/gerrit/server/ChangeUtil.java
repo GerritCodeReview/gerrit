@@ -50,6 +50,7 @@ import com.google.gerrit.server.project.RefControl;
 import com.google.gerrit.server.ssh.SshInfo;
 import com.google.gerrit.server.util.IdGenerator;
 import com.google.gerrit.server.util.MagicBranch;
+import com.google.gwt.thirdparty.guava.common.base.Strings;
 import com.google.gwtorm.server.OrmConcurrencyException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -375,14 +376,13 @@ public class ChangeUtil {
   }
 
   public Change.Id editCommitMessage(ChangeControl ctl, PatchSet ps,
-      String message, PersonIdent myIdent)
-      throws NoSuchChangeException, EmailException, OrmException,
-      MissingObjectException, IncorrectObjectTypeException, IOException,
-      InvalidChangeOperationException, PatchSetInfoNotAvailableException {
+      String message, PersonIdent myIdent) throws NoSuchChangeException,
+      OrmException, MissingObjectException, IncorrectObjectTypeException,
+      IOException, InvalidChangeOperationException {
     Change change = ctl.getChange();
     Change.Id changeId = change.getId();
 
-    if (message == null || message.length() == 0) {
+    if (Strings.isNullOrEmpty(message)) {
       throw new InvalidChangeOperationException(
           "The commit message cannot be empty");
     }

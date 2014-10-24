@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b50a4612_38f7c9a1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-10-24T07:08:39Z",
+      "side": 1,
+      "message": "The rest of the code base uses the one from com.google.common.base, either by:\n\n  import static com.google.common.base.Strings.isNullOrEmpty;\n\nor\n\n import static com.google.common.base.Strings;\n  \n ...\n ...\n \n Strings.isNullOrEmpty(...) { ... }",
+      "range": {
+        "startLine": 53,
+        "startChar": 0,
+        "endLine": 53,
+        "endChar": 59
+      },
+      "revId": "c006aaa27954817430f9faaa1d80d4789becf245",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

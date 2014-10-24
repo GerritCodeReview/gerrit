@@ -279,6 +279,34 @@ public class ChangeEditIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void updateMessage() throws Exception {
+    assertEquals(RefUpdate.Result.NEW,
+        modifier.createEdit(
+            change,
+            ps));
+    Optional<ChangeEdit> edit = editUtil.byChange(change);
+
+    try {
+      modifier.modifyMessage(
+          edit.get(),
+          edit.get().getEditCommit().getFullMessage());
+      fail("InvalidChangeOperationException expected");
+    } catch (InvalidChangeOperationException ex) {
+      assertEquals(ex.getMessage(),
+          "New commit message cannot be same as existing commit message");
+    }
+
+    String msg = String.format("New commit message\n\nChange-Id: %s",
+        change.getKey());
+    assertEquals(RefUpdate.Result.FORCED,
+        modifier.modifyMessage(
+            edit.get(),
+            msg));
+    edit = editUtil.byChange(change);
+    assertEquals(msg, edit.get().getEditCommit().getFullMessage());
+  }
+
+  @Test
   public void retrieveEdit() throws Exception {
     RestResponse r = adminSession.get(urlEdit());
     assertEquals(SC_NO_CONTENT, r.getStatusCode());

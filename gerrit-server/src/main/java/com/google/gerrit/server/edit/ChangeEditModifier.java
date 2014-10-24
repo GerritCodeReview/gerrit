@@ -14,9 +14,11 @@
 
 package com.google.gerrit.server.edit;
 
+import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.server.edit.ChangeEditUtil.editRefName;
 import static com.google.gerrit.server.edit.ChangeEditUtil.editRefPrefix;
 
+import com.google.common.base.Strings;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -214,6 +216,55 @@ public class ChangeEditModifier {
   }
 
   /**
+   * Modify commit message in existing change edit.
+   *
+   * @param edit change edit
+   * @param msg new commit message
+   * @return result
+   * @throws AuthException
+   * @throws InvalidChangeOperationException
+   * @throws IOException
+   */
+  public RefUpdate.Result modifyMessage(ChangeEdit edit, String msg)
+      throws AuthException, InvalidChangeOperationException, IOException {
+    checkState(!Strings.isNullOrEmpty(msg), "message cannot be null");
+    if (!currentUser.get().isIdentifiedUser()) {
+      throw new AuthException("Authentication required");
+    }
+    IdentifiedUser me = (IdentifiedUser) currentUser.get();
+    Repository repo = gitManager.openRepository(edit.getChange().getProject());
+    try {
+      RevWalk rw = new RevWalk(repo);
+      ObjectInserter inserter = repo.newObjectInserter();
+      try {
+        String refName = edit.getRefName();
+        RevCommit prevEdit = edit.getEditCommit();
+        if (prevEdit.getParentCount() == 0) {
+          throw new InvalidChangeOperationException(
+              "Modify edit against root commit not implemented");
+        }
+
+        if (prevEdit.getFullMessage().equals(msg)) {
+          throw new InvalidChangeOperationException(
+              "New commit message cannot be same as existing commit message");
+        }
+
+        ObjectId commit = createCommit(me, inserter, prevEdit,
+            rw.parseCommit(prevEdit.getParent(0)),
+            prevEdit.getTree(),
+            msg);
+        inserter.flush();
+        return update(repo, me, refName, rw, prevEdit, commit);
+      } finally {
+        rw.release();
+        inserter.release();
+      }
+    } finally {
+      repo.close();
+    }
+  }
+
+  /**
    * Modify file in existing change edit from its base commit.
    *
    * @param edit change edit
@@ -305,12 +356,19 @@ public class ChangeEditModifier {
 
   private ObjectId createCommit(IdentifiedUser me, ObjectInserter inserter,
       RevCommit prevEdit, RevCommit base, ObjectId tree) throws IOException {
+    return createCommit(me, inserter, prevEdit, base, tree,
+        prevEdit.getFullMessage());
+  }
+
+  private ObjectId createCommit(IdentifiedUser me, ObjectInserter inserter,
+      RevCommit prevEdit, RevCommit base, ObjectId tree, String msg)
+      throws IOException {
     CommitBuilder builder = new CommitBuilder();
     builder.setTreeId(tree);
     builder.setParentIds(base);
     builder.setAuthor(prevEdit.getAuthorIdent());
     builder.setCommitter(getCommitterIdent(me));
-    builder.setMessage(prevEdit.getFullMessage());
+    builder.setMessage(msg);
     return inserter.insert(builder);
   }
 

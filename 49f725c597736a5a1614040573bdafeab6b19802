@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d515fa2f_39deaf1f",
+        "filename": "Documentation/dev-buck.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 392,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-10-24T00:21:53Z",
+      "side": 1,
+      "message": "Add backticks around this.",
+      "range": {
+        "startLine": 392,
+        "startChar": 6,
+        "endLine": 392,
+        "endChar": 16
+      },
+      "revId": "49f725c597736a5a1614040573bdafeab6b19802",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d515fa2f_19e3ebe9",
+        "filename": "Documentation/dev-buck.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 392,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-10-24T00:21:53Z",
+      "side": 1,
+      "message": "symbolic link to what?",
+      "range": {
+        "startLine": 392,
+        "startChar": 48,
+        "endLine": 392,
+        "endChar": 65
+      },
+      "revId": "49f725c597736a5a1614040573bdafeab6b19802",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

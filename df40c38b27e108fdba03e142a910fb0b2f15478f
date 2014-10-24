@@ -16,6 +16,24 @@
       "revId": "df40c38b27e108fdba03e142a910fb0b2f15478f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b50a4612_f8b5d1c5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 568,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-10-24T08:21:43Z",
+      "side": 1,
+      "message": "Hmm.  We had a similar issue before with the commit message editing.",
+      "parentUuid": "95446258_6fa8f11d",
+      "revId": "df40c38b27e108fdba03e142a910fb0b2f15478f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

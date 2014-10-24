@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b53fa6b4_308b68ae",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/events/GarbageCollectorListener.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-24T13:28:56Z",
+      "side": 1,
+      "message": "Havn\u0027t we agreed to expose the keys for the attributes in this class (or in another place) in Gerrit?",
+      "range": {
+        "startLine": 39,
+        "startChar": 4,
+        "endLine": 39,
+        "endChar": 14
+      },
+      "revId": "b69a0d7428640918672ca06d58ae95c95c358728",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

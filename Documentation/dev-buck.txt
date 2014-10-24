@@ -492,7 +492,7 @@ then assumed Buck was working as it should when it should be using buckd.
 Prepend the variable to Buck invocation instead:
 
 ----
-  $ NO_BUCKD=1 buck build gerrit
+  NO_BUCKD=1 buck build gerrit
 ----
 
 [[watchman]]
@@ -556,13 +556,13 @@ Test execution results are cached by Buck. If a test that was already run
 needs to be repeated, the unit test cache for that test must be removed first:
 
 ----
-  $ rm -rf buck-out/bin/gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/group/.AddRemoveGroupMembersIT/
+  rm -rf buck-out/bin/gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/group/.AddRemoveGroupMembersIT/
 ----
 
 After clearing the cache, the test can be run again:
 
 ----
-  $ buck test //gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/group:AddRemoveGroupMembersIT
+  buck test //gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/group:AddRemoveGroupMembersIT
   TESTING //gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/group:AddRemoveGroupMembersIT
   PASS  14,9s  8 Passed   0 Failed   com.google.gerrit.acceptance.rest.group.AddRemoveGroupMembersIT
   TESTS PASSED

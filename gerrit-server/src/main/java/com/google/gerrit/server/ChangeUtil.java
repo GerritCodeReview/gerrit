@@ -20,6 +20,7 @@ import static java.util.concurrent.TimeUnit.MINUTES;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.common.TimeUtil;
@@ -375,14 +376,13 @@ public class ChangeUtil {
   }
 
   public Change.Id editCommitMessage(ChangeControl ctl, PatchSet ps,
-      String message, PersonIdent myIdent)
-      throws NoSuchChangeException, EmailException, OrmException,
-      MissingObjectException, IncorrectObjectTypeException, IOException,
-      InvalidChangeOperationException, PatchSetInfoNotAvailableException {
+      String message, PersonIdent myIdent) throws NoSuchChangeException,
+      OrmException, MissingObjectException, IncorrectObjectTypeException,
+      IOException, InvalidChangeOperationException {
     Change change = ctl.getChange();
     Change.Id changeId = change.getId();
 
-    if (message == null || message.length() == 0) {
+    if (Strings.isNullOrEmpty(message)) {
       throw new InvalidChangeOperationException(
           "The commit message cannot be empty");
     }

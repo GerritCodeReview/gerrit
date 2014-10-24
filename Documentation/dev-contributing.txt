@@ -78,6 +78,20 @@ change to be reviewed.
   * Include a Bug: Issue <#> line if fixing a Gerrit issue
   * Include a Change-Id line
 
+=== Setting up Vim for Git commit message
+
+Git uses Vim as the default commit message editor. Put this into your
+$HOME/.vimrc file to configure Vim for Git commit message formatting
+and writing:
+
+====
+  " Enable spell checking, which is not on by default for commit messages.
+  au FileType gitcommit setlocal spell
+
+  " Reset textwidth if you've previously overridden it.
+  au FileType gitcommit setlocal textwidth=72
+====
+
 
 === A sample good Gerrit commit message:
 ====

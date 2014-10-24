@@ -22,6 +22,30 @@
       "revId": "b69a0d7428640918672ca06d58ae95c95c358728",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b53fa6b4_f084c09c",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/events/GarbageCollectorListener.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2014-10-24T14:24:02Z",
+      "side": 1,
+      "message": "The JGit guys made an attempt to expose the constants in JGit. However it turned out, as far as I understood it correctly, that JGit can operate on different stores and not all store would expose the same constants.\n\nOn this change concerns were raised to expose an API in Gerrit as it would have to change whenever JGit changes.\n\nSo maybe we really should go for the smallest common denominator.",
+      "parentUuid": "b53fa6b4_308b68ae",
+      "range": {
+        "startLine": 39,
+        "startChar": 4,
+        "endLine": 39,
+        "endChar": 14
+      },
+      "revId": "b69a0d7428640918672ca06d58ae95c95c358728",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

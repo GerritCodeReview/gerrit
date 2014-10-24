@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b50a4612_58d95d35",
+        "filename": "Documentation/dev-buck.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 454,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-10-24T00:30:02Z",
+      "side": 1,
+      "message": "cache",
+      "range": {
+        "startLine": 454,
+        "startChar": 36,
+        "endLine": 454,
+        "endChar": 42
+      },
+      "revId": "df6be5cf60a1b1d1e2000098ee554f1fae44f547",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d515fa2f_f9c7174e",
+        "filename": "Documentation/dev-buck.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 454,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-10-24T00:30:02Z",
+      "side": 1,
+      "message": "Just use `~`?",
+      "range": {
+        "startLine": 454,
+        "startChar": 1,
+        "endLine": 454,
+        "endChar": 6
+      },
+      "revId": "df6be5cf60a1b1d1e2000098ee554f1fae44f547",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b50a4612_38dea91f",
+        "filename": "Documentation/dev-buck.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 467,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-10-24T00:30:02Z",
+      "side": 1,
+      "message": "I would reorder this whole section.\n\n The cache for the Gerrit Code Review project is located in\n `~/.gerritcodereview/buck-cache/cache.\n \n The Buck cache should never need to be manually deleted.  If\n you find yourself deleting the Buck cache regularly, then it\n is likely that there is something wrong with your environment\n or your workflow.\n \n If you really do need to clean the cache manually, then:\n \n ----\n  rm -rf $~/.gerritcodereview/buck-cache/cache\n ----\n \n Note that the root `buck-cache` folder should not be deleted\n as this is where downloaded artifacts are stored.",
+      "range": {
+        "startLine": 453,
+        "startChar": 0,
+        "endLine": 467,
+        "endChar": 22
+      },
+      "revId": "df6be5cf60a1b1d1e2000098ee554f1fae44f547",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

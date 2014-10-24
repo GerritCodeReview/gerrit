@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "95446258_6fa8f11d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 568,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-24T08:19:47Z",
+      "side": 1,
+      "message": "Is this because of change edit? Is this feature or bug? We seem to trim the file during change edit modification.",
+      "revId": "df40c38b27e108fdba03e142a910fb0b2f15478f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b53fa6b4_302fe82e",
+        "filename": "Documentation/dev-buck.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 455,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-24T05:57:09Z",
+      "side": 1,
+      "message": "I think we should somewhere mention why it is located where it is located, i. e. why it was moved from \u003cgerrit-dir\u003e/buck-ou/back-cache. Th reason for it is to support wokflow with multiple gerrit trees. Switching between the whole buck cache is reused (of course when the buck versions used between trees are the same).",
+      "range": {
+        "startLine": 454,
+        "startChar": 0,
+        "endLine": 455,
+        "endChar": 39
+      },
+      "revId": "6c3fd802f5b1458f7694b3ba95af50768b46c2b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

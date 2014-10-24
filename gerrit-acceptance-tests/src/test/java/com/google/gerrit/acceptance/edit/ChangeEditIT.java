@@ -24,6 +24,7 @@ import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import com.google.common.base.Optional;
@@ -39,6 +40,7 @@ import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.change.ChangeEdits.EditMessage;
 import com.google.gerrit.server.change.ChangeEdits.Post;
 import com.google.gerrit.server.change.ChangeEdits.Put;
 import com.google.gerrit.server.change.FileContentUtil;
@@ -290,9 +292,10 @@ public class ChangeEditIT extends AbstractDaemonTest {
       modifier.modifyMessage(
           edit.get(),
           edit.get().getEditCommit().getFullMessage());
-      fail("Exception expected");
-    } catch (InvalidChangeOperationException ex) {
-      assertEquals(ex.getMessage(),
+      fail("InvalidChangeOperationException expected");
+    } catch (Exception e) {
+      assertTrue(e instanceof InvalidChangeOperationException);
+      assertEquals(e.getMessage(),
           "New commit message cannot be same as existing commit message");
     }
 
@@ -304,6 +307,30 @@ public class ChangeEditIT extends AbstractDaemonTest {
             msg));
     edit = editUtil.byChange(change);
     assertEquals(msg, edit.get().getEditCommit().getFullMessage());
+    editUtil.delete(edit.get());
+    edit = editUtil.byChange(change);
+    assertFalse(edit.isPresent());
+  }
+
+  @Test
+  public void updateMessageRest() throws Exception {
+    EditMessage.Input in = new EditMessage.Input();
+    in.message = String.format("New commit message\n\nChange-Id: %s",
+        change.getKey());
+    assertEquals(SC_NO_CONTENT,
+        adminSession.post(
+            urlEditMessage(),
+            in).getStatusCode());
+    Optional<ChangeEdit> edit = editUtil.byChange(change);
+    assertEquals(in.message, edit.get().getEditCommit().getFullMessage());
+    in.message = String.format("New commit message2\n\nChange-Id: %s",
+        change.getKey());
+    assertEquals(SC_NO_CONTENT,
+        adminSession.post(
+            urlEditMessage(),
+            in).getStatusCode());
+    edit = editUtil.byChange(change);
+    assertEquals(in.message, edit.get().getEditCommit().getFullMessage());
     editUtil.delete(edit.get());
     edit = editUtil.byChange(change);
     assertFalse(edit.isPresent());
@@ -673,6 +700,12 @@ public class ChangeEditIT extends AbstractDaemonTest {
     return "/changes/"
         + change2.getChangeId()
         + "/edit/";
+  }
+
+  private String urlEditMessage() {
+    return "/changes/"
+        + change.getChangeId()
+        + "/edit_message";
   }
 
   private String urlEditFile() {

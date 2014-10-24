@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "95446258_0f9045d8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/GarbageCollection.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-24T12:52:15Z",
+      "side": 1,
+      "message": "I guess it\u0027s still WIP, because this ps would compile as is?",
+      "range": {
+        "startLine": 114,
+        "startChar": 4,
+        "endLine": 119,
+        "endChar": 6
+      },
+      "revId": "8757e2ed430b72b6d20e17c57aa676e3167e24b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

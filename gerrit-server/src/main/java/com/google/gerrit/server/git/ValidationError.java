@@ -38,4 +38,8 @@ public class ValidationError {
   public String toString() {
     return "ValidationError[" + message + "]";
   }
+
+  public interface Sink {
+    void error(ValidationError error);
+  }
 }

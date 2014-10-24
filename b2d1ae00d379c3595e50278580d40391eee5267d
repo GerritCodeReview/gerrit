@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "95446258_6ff6b13f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/GroupList.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-10-24T14:32:25Z",
+      "side": 1,
+      "message": "not used?",
+      "range": {
+        "startLine": 37,
+        "startChar": 6,
+        "endLine": 37,
+        "endChar": 40
+      },
+      "revId": "b2d1ae00d379c3595e50278580d40391eee5267d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b53fa6b4_70f6903f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/GroupList.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-10-24T14:32:25Z",
+      "side": 1,
+      "message": "[optional] Since this method is used only in one place, you may inline it.",
+      "range": {
+        "startLine": 109,
+        "startChar": 2,
+        "endLine": 113,
+        "endChar": 3
+      },
+      "revId": "b2d1ae00d379c3595e50278580d40391eee5267d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "95446258_4ffbed23",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 770,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-10-24T14:32:25Z",
+      "side": 1,
+      "message": "Inline this method or at least make it private.",
+      "range": {
+        "startLine": 768,
+        "startChar": 2,
+        "endLine": 770,
+        "endChar": 3
+      },
+      "revId": "b2d1ae00d379c3595e50278580d40391eee5267d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b53fa6b4_907b3415",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 780,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-10-24T14:32:25Z",
+      "side": 1,
+      "message": "In case you decide to store the byName map in GroupList, this method can probably be removed.",
+      "range": {
+        "startLine": 772,
+        "startChar": 2,
+        "endLine": 780,
+        "endChar": 3
+      },
+      "revId": "b2d1ae00d379c3595e50278580d40391eee5267d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b53fa6b4_30000870",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/git/GroupListTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-10-24T14:32:25Z",
+      "side": 1,
+      "message": "[optional] rename this to \u0027groupList\u0027? At least it makes the code better readable for me.",
+      "range": {
+        "startLine": 46,
+        "startChar": 20,
+        "endLine": 46,
+        "endChar": 34
+      },
+      "revId": "b2d1ae00d379c3595e50278580d40391eee5267d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

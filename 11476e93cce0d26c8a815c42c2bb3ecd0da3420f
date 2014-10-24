@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "95446258_af77f942",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 22
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-10-24T07:09:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "95446258_2f642990",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 54
+      },
+      "revId": "11476e93cce0d26c8a815c42c2bb3ecd0da3420f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b53fa6b4_705a10ce",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/WebLinks.java",
         "patchSetId": 22
@@ -36,6 +60,30 @@
       "writtenOn": "2014-10-24T07:02:40Z",
       "side": 1,
       "message": "Documentation invalid\nAll public mehods",
+      "range": {
+        "startLine": 74,
+        "startChar": 12,
+        "endLine": 74,
+        "endChar": 66
+      },
+      "revId": "11476e93cce0d26c8a815c42c2bb3ecd0da3420f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b53fa6b4_30648890",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/WebLinks.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-10-24T07:09:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b53fa6b4_705a10ce",
       "range": {
         "startLine": 74,
         "startChar": 12,

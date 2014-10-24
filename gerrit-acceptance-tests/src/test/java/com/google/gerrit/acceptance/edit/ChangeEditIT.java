@@ -30,7 +30,9 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.RestSession;
+import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.EditInfo;
+import com.google.gerrit.extensions.common.ListChangesOption;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.reviewdb.client.Change;
@@ -232,6 +234,38 @@ public class ChangeEditIT extends AbstractDaemonTest {
     editUtil.delete(edit.get());
     edit = editUtil.byChange(change);
     assertThat(edit.isPresent()).isFalse();
+  }
+
+  @Test
+  public void updateMessage() throws Exception {
+    assertThat(modifier.createEdit(change, getCurrentPatchSet(changeId)))
+        .isEqualTo(RefUpdate.Result.NEW);
+    Optional<ChangeEdit> edit = editUtil.byChange(change);
+
+    try {
+      modifier.modifyMessage(
+          edit.get(),
+          edit.get().getEditCommit().getFullMessage());
+      fail("InvalidChangeOperationException expected");
+    } catch (InvalidChangeOperationException ex) {
+      assertThat(ex.getMessage()).isEqualTo(
+          "New commit message cannot be same as existing commit message");
+    }
+
+    String msg = String.format("New commit message\n\nChange-Id: %s",
+        change.getKey());
+    assertThat(modifier.modifyMessage(edit.get(), msg)).isEqualTo(
+        RefUpdate.Result.FORCED);
+    edit = editUtil.byChange(change);
+    assertThat(edit.get().getEditCommit().getFullMessage()).isEqualTo(msg);
+
+    editUtil.publish(edit.get());
+    assertThat(editUtil.byChange(change).isPresent()).isFalse();
+
+    ChangeInfo info = get(changeId, ListChangesOption.CURRENT_COMMIT,
+        ListChangesOption.CURRENT_REVISION);
+    assertThat(info.revisions.get(info.currentRevision).commit.message)
+        .isEqualTo(msg);
   }
 
   @Test

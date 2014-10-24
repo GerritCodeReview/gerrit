@@ -120,6 +120,30 @@
     },
     {
       "key": {
+        "uuid": "b50a4612_388589e9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ReindexAfterUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-10-24T20:35:20Z",
+      "side": 1,
+      "message": "\u003e Sure, but we always should provide as specific error message as possible.\n\nI disagree. There is a stack trace for that.\n\nHowever, one job of the log message is to include information not in the stack trace. I will change this one log message to include information about the event itself.\n\n\u003e And here we are losing information:\n\nNo we\u0027re not. It\u0027s in the stack trace.",
+      "parentUuid": "b53fa6b4_700c50de",
+      "range": {
+        "startLine": 99,
+        "startChar": 18,
+        "endLine": 99,
+        "endChar": 62
+      },
+      "revId": "2ea20343d6cabec3d460a7e0016ae8026d985865",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "95446258_4f11adf6",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ReindexAfterUpdate.java",
         "patchSetId": 3

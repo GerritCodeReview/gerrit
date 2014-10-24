@@ -190,6 +190,30 @@
       "revId": "ea94e800b4aea5db5cf8dd4720f0dd45ccc1c301",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "95446258_8fa2f536",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/events/GarbageCollectorListener.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2014-10-24T12:32:53Z",
+      "side": 1,
+      "message": "No such API seem to get exposed by JGit any time soon. Going for David\u0027s proposal.",
+      "parentUuid": "1077a0c2_93a6dc4b",
+      "range": {
+        "startLine": 24,
+        "startChar": 19,
+        "endLine": 24,
+        "endChar": 24
+      },
+      "revId": "ea94e800b4aea5db5cf8dd4720f0dd45ccc1c301",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

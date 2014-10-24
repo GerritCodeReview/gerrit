@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b53fa6b4_9010d4be",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/GroupList.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2014-10-24T14:50:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "95446258_6ff6b13f",
+      "range": {
+        "startLine": 37,
+        "startChar": 6,
+        "endLine": 37,
+        "endChar": 40
+      },
+      "revId": "b2d1ae00d379c3595e50278580d40391eee5267d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b53fa6b4_70f6903f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/GroupList.java",
         "patchSetId": 1
@@ -71,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "95446258_af1379ca",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 770,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2014-10-24T14:50:51Z",
+      "side": 1,
+      "message": "made it private but did not inline it (readConfig is not inlined either),",
+      "parentUuid": "95446258_4ffbed23",
+      "range": {
+        "startLine": 768,
+        "startChar": 2,
+        "endLine": 770,
+        "endChar": 3
+      },
+      "revId": "b2d1ae00d379c3595e50278580d40391eee5267d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b53fa6b4_907b3415",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java",
         "patchSetId": 1
@@ -94,6 +142,30 @@
     },
     {
       "key": {
+        "uuid": "95446258_6f1fd1cd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 780,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2014-10-24T14:50:51Z",
+      "side": 1,
+      "message": "Stefan had the same idea. \n\nHowever, I\u0027d prefer not to store this additional map in the group list as it is rather an addtional view on the same thing. It would not be obvious whether you\u0027d be allowed to manipulate through this view or whether changes on the GroupList would be reflected automatically and so on. It\u0027s clearer here, I think.",
+      "parentUuid": "b53fa6b4_907b3415",
+      "range": {
+        "startLine": 772,
+        "startChar": 2,
+        "endLine": 780,
+        "endChar": 3
+      },
+      "revId": "b2d1ae00d379c3595e50278580d40391eee5267d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b53fa6b4_30000870",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/git/GroupListTest.java",
         "patchSetId": 1
@@ -105,6 +177,30 @@
       "writtenOn": "2014-10-24T14:32:25Z",
       "side": 1,
       "message": "[optional] rename this to \u0027groupList\u0027? At least it makes the code better readable for me.",
+      "range": {
+        "startLine": 46,
+        "startChar": 20,
+        "endLine": 46,
+        "endChar": 34
+      },
+      "revId": "b2d1ae00d379c3595e50278580d40391eee5267d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "95446258_4f240d22",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/git/GroupListTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2014-10-24T14:50:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b53fa6b4_30000870",
       "range": {
         "startLine": 46,
         "startChar": 20,

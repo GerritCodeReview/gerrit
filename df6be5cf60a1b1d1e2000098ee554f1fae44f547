@@ -68,6 +68,30 @@
       "revId": "df6be5cf60a1b1d1e2000098ee554f1fae44f547",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "95446258_af0939c9",
+        "filename": "Documentation/dev-buck.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 467,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-24T04:46:22Z",
+      "side": 1,
+      "message": "I agree with your suggestion. Can you amend it and change the author name to you then?",
+      "parentUuid": "b50a4612_38dea91f",
+      "range": {
+        "startLine": 453,
+        "startChar": 0,
+        "endLine": 467,
+        "endChar": 22
+      },
+      "revId": "df6be5cf60a1b1d1e2000098ee554f1fae44f547",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

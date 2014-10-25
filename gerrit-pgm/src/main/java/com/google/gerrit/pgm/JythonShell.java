@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.pgm.shell;
+package com.google.gerrit.pgm;
 
 import com.google.gerrit.launcher.GerritLauncher;
 

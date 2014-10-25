@@ -3,22 +3,28 @@ RSRCS = 'src/main/resources/com/google/gerrit/pgm/'
 
 INIT_API_SRCS = glob([SRCS + 'init/api/*.java'])
 
-java_library(
-  name = 'init-api',
-  srcs = INIT_API_SRCS,
-  deps = [
-    '//gerrit-common:annotations',
+DEPS = [
     '//gerrit-common:server',
-    '//gerrit-reviewdb:server',
+    '//gerrit-extension-api:api',
+    '//gerrit-gwtexpui:linker_server',
+    '//gerrit-gwtexpui:server',
+    '//gerrit-httpd:httpd',
     '//gerrit-server:server',
+    '//gerrit-sshd:sshd',
+    '//gerrit-reviewdb:server',
     '//lib:guava',
     '//lib/guice:guice',
     '//lib/guice:guice-assistedinject',
+    '//lib/guice:guice-servlet',
     '//lib/jgit:jgit',
-  ],
-  provided_deps = [
     '//lib/log:api',
-  ],
+    '//lib/log:log4j',
+]
+
+java_library(
+  name = 'init-api',
+  srcs = INIT_API_SRCS,
+  deps = DEPS + ['//gerrit-common:annotations'],
   visibility = ['PUBLIC'],
 )
 
@@ -32,22 +38,15 @@ java_library(
   name = 'init',
   srcs = glob([SRCS + 'init/*.java']),
   resources = glob([RSRCS + 'init/*']),
-  deps = [
+  deps = DEPS + [
     ':init-api',
     ':util',
-    '//gerrit-common:server',
-    '//gerrit-extension-api:api',
     '//gerrit-lucene:lucene',
-    '//gerrit-reviewdb:server',
-    '//gerrit-server:server',
-    '//lib:guava',
+    '//lib:args4j',
     '//lib:gwtjsonrpc',
     '//lib:gwtorm',
     '//lib:h2',
-    '//lib/guice:guice',
-    '//lib/jgit:jgit',
     '//lib/mina:sshd',
-    '//lib/log:api',
   ],
   provided_deps = ['//gerrit-launcher:launcher'],
   visibility = [
@@ -59,21 +58,12 @@ java_library(
 java_library(
   name = 'util',
   srcs = glob([SRCS + 'util/*.java']),
-  deps = [
+  deps = DEPS + [
     '//gerrit-cache-h2:cache-h2',
-    '//gerrit-common:server',
-    '//gerrit-extension-api:api',
-    '//gerrit-reviewdb:server',
-    '//gerrit-server:server',
     '//gerrit-util-cli:cli',
     '//lib:args4j',
-    '//lib:guava',
     '//lib:gwtorm',
     '//lib/commons:dbcp',
-    '//lib/guice:guice',
-    '//lib/jgit:jgit',
-    '//lib/log:api',
-    '//lib/log:log4j',
   ],
   visibility = [
     '//gerrit-acceptance-tests/...',
@@ -83,45 +73,36 @@ java_library(
 )
 
 java_library(
+  name = 'http',
+  srcs = glob([SRCS + 'http/**/*.java']),
+  deps = DEPS + [
+    '//lib/jetty:jmx',
+    '//lib/jetty:server',
+    '//lib/jetty:servlet',
+  ],
+  provided_deps = [
+    '//gerrit-launcher:launcher',
+    '//lib:servlet-api-3_1',
+  ],
+  visibility = ['//gerrit-war:'],
+)
+
+java_library(
   name = 'pgm',
-  srcs = glob(
-    [SRCS + n for n in [
-      '*.java',
-      # TODO(dborowitz): Split these into separate rules.
-      'http/**/*.java',
-      'shell/**/*.java',
-    ]],
-  ),
+  srcs = glob([SRCS + '*.java']),
   resources = glob([RSRCS + '*']),
-  deps = [
+  deps = DEPS + [
+    ':http',
     ':init',
     ':init-api',
     ':util',
     '//gerrit-cache-h2:cache-h2',
-    '//gerrit-common:server',
-    '//gerrit-extension-api:api',
-    '//gerrit-gwtexpui:linker_server',
-    '//gerrit-gwtexpui:server',
-    '//gerrit-httpd:httpd',
     '//gerrit-lucene:lucene',
     '//gerrit-openid:openid',
-    '//gerrit-reviewdb:server',
-    '//gerrit-server:server',
     '//gerrit-solr:solr',
-    '//gerrit-sshd:sshd',
     '//lib:args4j',
-    '//lib:guava',
     '//lib:gwtorm',
     '//lib:servlet-api-3_1',
-    '//lib/guice:guice',
-    '//lib/guice:guice-assistedinject',
-    '//lib/guice:guice-servlet',
-    '//lib/jetty:server',
-    '//lib/jetty:servlet',
-    '//lib/jetty:jmx',
-    '//lib/jgit:jgit',
-    '//lib/log:api',
-    '//lib/log:log4j',
     '//lib/prolog:prolog-cafe',
   ],
   provided_deps = ['//gerrit-launcher:launcher'],

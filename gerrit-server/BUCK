@@ -47,7 +47,6 @@ java_library(
     '//lib:parboiled-core',
     '//lib:pegdown',
     '//lib:protobuf',
-    '//lib:servlet-api-3_1',
     '//lib:velocity',
     '//lib/antlr:java_runtime',
     '//lib/commons:codec',
@@ -69,6 +68,7 @@ java_library(
     '//lib/lucene:query-parser',
   ],
   provided_deps = [
+    '//lib:servlet-api-3_1',
     '//lib/bouncycastle:bcprov',
     '//lib/bouncycastle:bcpg',
     '//lib/bouncycastle:bcpkix',

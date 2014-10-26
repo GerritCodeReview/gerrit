@@ -18,8 +18,8 @@ maven_jar(
 
 maven_jar(
   name = 'core',
-  id = 'org.apache.mina:mina-core:2.0.7',
-  sha1 = 'c878e2aa82de748474a624ec3933e4604e446dec',
+  id = 'org.apache.mina:mina-core:2.0.8',
+  sha1 = 'd6ff69fa049aeaecdf0c04cafbb1ab53b7487883',
   license = 'Apache2.0',
   exclude = EXCLUDE,
 )

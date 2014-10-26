@@ -13,6 +13,7 @@ java_library(
     '//gerrit-pgm:util',
     '//gerrit-reviewdb:server',
     '//gerrit-server:server',
+    '//gerrit-server/src/main/prolog:common',
     '//gerrit-server:testutil',
     '//gerrit-sshd:sshd',
 

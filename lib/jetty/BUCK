@@ -8,10 +8,7 @@ maven_jar(
   id = 'org.eclipse.jetty:jetty-servlet:' + VERSION,
   sha1 = '98d3dde183295cf3356c7ac2c968e5b684fcaba1',
   license = 'Apache2.0',
-  deps = [
-    ':security',
-    '//lib:servlet-api-3_1',
-  ],
+  deps = [':security'],
   exclude = EXCLUDE,
 )
 

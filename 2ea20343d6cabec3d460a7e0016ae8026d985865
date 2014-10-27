@@ -144,6 +144,30 @@
     },
     {
       "key": {
+        "uuid": "b50a4612_78be618e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ReindexAfterUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-10-27T18:00:36Z",
+      "side": 1,
+      "message": "\u003e I will change this one log message to include information about the event itself.\n\nDone",
+      "parentUuid": "b50a4612_388589e9",
+      "range": {
+        "startLine": 99,
+        "startChar": 18,
+        "endLine": 99,
+        "endChar": 62
+      },
+      "revId": "2ea20343d6cabec3d460a7e0016ae8026d985865",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "95446258_4f11adf6",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ReindexAfterUpdate.java",
         "patchSetId": 3

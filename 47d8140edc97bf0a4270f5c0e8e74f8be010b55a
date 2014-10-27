@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d515fa2f_99437b08",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-10-27T18:39:46Z",
+      "side": 1,
+      "message": "This argument also applies to general Gerrit servers that will do their schema upgrade online, so I guess this could get submitted upstream. I just think having this code in ChangeData is awfully ugly, and submitting this upstream means we may have to keep this hack around forever.",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 53
+      },
+      "revId": "47d8140edc97bf0a4270f5c0e8e74f8be010b55a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

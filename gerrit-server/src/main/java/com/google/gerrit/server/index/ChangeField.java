@@ -448,7 +448,7 @@ public class ChangeField {
         @Override
         public String get(ChangeData input, FillArgs args)
             throws OrmException {
-          return input.isMergeable() ? "1" : null;
+          return input.change().isMergeable() ? "1" : null;
         }
       };
 

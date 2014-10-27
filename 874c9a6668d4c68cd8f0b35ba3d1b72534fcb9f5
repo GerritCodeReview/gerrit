@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f5bafe9a_aa2fcfa6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-27T19:55:45Z",
+      "side": 1,
+      "message": "Actually i could argue that removing prefix Change make this name even much more generic. David P. made some efforts to add AccountIndexer. So this rename would imply that AccountIndexer is also covered by SiteIndexer...",
+      "revId": "874c9a6668d4c68cd8f0b35ba3d1b72534fcb9f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

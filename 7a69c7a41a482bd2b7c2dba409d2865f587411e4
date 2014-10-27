@@ -71,6 +71,30 @@
     },
     {
       "key": {
+        "uuid": "55c2ea1e_ad84bd30",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-27T17:05:48Z",
+      "side": 1,
+      "message": "It is not supported any more to include \n\n  java_library(foo)\n  prebuilt_jar(bar)\n  [...]\n\nin root level of files that was included with include_file() rule. You would get an error. That why all this stuff was moved away from [1]. leaving only js_minify()  definition there.\n\nhttps://gerrit-review.googlesource.com/#/c/61074/5/lib/codemirror/closure.defs",
+      "parentUuid": "d515fa2f_996a5b86",
+      "range": {
+        "startLine": 10,
+        "startChar": 35,
+        "endLine": 12,
+        "endChar": 28
+      },
+      "revId": "7a69c7a41a482bd2b7c2dba409d2865f587411e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d515fa2f_7959c7fe",
         "filename": "/COMMIT_MSG",
         "patchSetId": 5
@@ -82,6 +106,30 @@
       "writtenOn": "2014-10-27T16:11:21Z",
       "side": 1,
       "message": "Don\u0027t worry about the long line if it\u0027s just a URL",
+      "range": {
+        "startLine": 21,
+        "startChar": 43,
+        "endLine": 21,
+        "endChar": 45
+      },
+      "revId": "7a69c7a41a482bd2b7c2dba409d2865f587411e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f5bafe9a_0a3ffbdf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-27T17:05:48Z",
+      "side": 1,
+      "message": "Actually this is a missing feature in gerrit. Github handles this wrapping automagically.",
+      "parentUuid": "d515fa2f_7959c7fe",
       "range": {
         "startLine": 21,
         "startChar": 43,

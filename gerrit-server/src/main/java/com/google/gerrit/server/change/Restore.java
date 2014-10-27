@@ -35,6 +35,7 @@ import com.google.gerrit.server.mail.ReplyToChangeSender;
 import com.google.gerrit.server.mail.RestoredSender;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.AtomicUpdate;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -57,6 +58,7 @@ public class Restore implements RestModifyView<ChangeResource, RestoreInput>,
   private final ChangeJson json;
   private final ChangeIndexer indexer;
   private final ChangeMessagesUtil cmUtil;
+  private final ChangeData.Factory changeDataFactory;
   private final ChangeUpdate.Factory updateFactory;
 
   @Inject
@@ -66,6 +68,7 @@ public class Restore implements RestModifyView<ChangeResource, RestoreInput>,
       ChangeJson json,
       ChangeIndexer indexer,
       ChangeMessagesUtil cmUtil,
+      ChangeData.Factory changeDataFactory,
       ChangeUpdate.Factory updateFactory) {
     this.hooks = hooks;
     this.restoredSenderFactory = restoredSenderFactory;
@@ -73,6 +76,7 @@ public class Restore implements RestModifyView<ChangeResource, RestoreInput>,
     this.json = json;
     this.indexer = indexer;
     this.cmUtil = cmUtil;
+    this.changeDataFactory = changeDataFactory;
     this.updateFactory = updateFactory;
   }
 
@@ -92,6 +96,9 @@ public class Restore implements RestModifyView<ChangeResource, RestoreInput>,
     ChangeMessage message;
     ChangeUpdate update;
     ReviewDb db = dbProvider.get();
+    // Racy with ref update, but the best we can do.
+    final boolean mergeable = changeDataFactory.create(db, control)
+        .isMergeableFromCache();
     db.changes().beginTransaction(change.getId());
     try {
       change = db.changes().atomicUpdate(
@@ -101,6 +108,7 @@ public class Restore implements RestModifyView<ChangeResource, RestoreInput>,
           public Change update(Change change) {
             if (change.getStatus() == Status.ABANDONED) {
               change.setStatus(Status.NEW);
+              change.setMergeable(mergeable);
               ChangeUtil.updated(change);
               return change;
             }

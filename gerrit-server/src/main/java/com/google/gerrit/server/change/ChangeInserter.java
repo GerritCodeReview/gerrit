@@ -39,6 +39,7 @@ import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.RefControl;
+import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.validators.ValidationException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -64,6 +65,7 @@ public class ChangeInserter {
       LoggerFactory.getLogger(ChangeInserter.class);
 
   private final Provider<ReviewDb> dbProvider;
+  private final ChangeData.Factory changeDataFactory;
   private final ChangeUpdate.Factory updateFactory;
   private final GitReferenceUpdated gitRefUpdated;
   private final ChangeHooks hooks;
@@ -90,6 +92,7 @@ public class ChangeInserter {
 
   @Inject
   ChangeInserter(Provider<ReviewDb> dbProvider,
+      ChangeData.Factory changeDataFactory,
       ChangeUpdate.Factory updateFactory,
       PatchSetInfoFactory patchSetInfoFactory,
       GitReferenceUpdated gitRefUpdated,
@@ -104,6 +107,7 @@ public class ChangeInserter {
       @Assisted Change change,
       @Assisted RevCommit commit) {
     this.dbProvider = dbProvider;
+    this.changeDataFactory = changeDataFactory;
     this.updateFactory = updateFactory;
     this.gitRefUpdated = gitRefUpdated;
     this.hooks = hooks;
@@ -222,6 +226,10 @@ public class ChangeInserter {
       }
     }
 
+    // Racy with ref update, but the best we can do.
+    change.setMergeable(
+        changeDataFactory.create(db, change).isMergeableFromCache());
+    db.changes().update(Collections.singletonList(change));
     CheckedFuture<?, IOException> f = indexer.indexAsync(change.getId());
 
     if(!messageIsForChange()) {

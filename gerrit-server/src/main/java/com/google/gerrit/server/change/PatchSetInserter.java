@@ -45,6 +45,7 @@ import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
+import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.ssh.NoSshInfo;
 import com.google.gerrit.server.ssh.SshInfo;
 import com.google.gwtorm.server.AtomicUpdate;
@@ -86,6 +87,7 @@ public class PatchSetInserter {
   private final ChangeHooks hooks;
   private final PatchSetInfoFactory patchSetInfoFactory;
   private final ReviewDb db;
+  private final ChangeData.Factory changeDataFactory;
   private final ChangeUpdate.Factory updateFactory;
   private final ChangeControl.GenericFactory ctlFactory;
   private final GitReferenceUpdated gitRefUpdated;
@@ -115,6 +117,7 @@ public class PatchSetInserter {
   @Inject
   public PatchSetInserter(ChangeHooks hooks,
       ReviewDb db,
+      ChangeData.Factory changeDataFactory,
       ChangeUpdate.Factory updateFactory,
       ChangeControl.GenericFactory ctlFactory,
       ApprovalsUtil approvalsUtil,
@@ -134,6 +137,7 @@ public class PatchSetInserter {
         ctl.getChange().getId());
     this.hooks = hooks;
     this.db = db;
+    this.changeDataFactory = changeDataFactory;
     this.updateFactory = updateFactory;
     this.ctlFactory = ctlFactory;
     this.approvalsUtil = approvalsUtil;
@@ -317,6 +321,10 @@ public class PatchSetInserter {
     } finally {
       db.rollback();
     }
+    // Racy with ref update, but the best we can do.
+    updatedChange.setMergeable(
+        changeDataFactory.create(db, updatedChange).isMergeableFromCache());
+    db.changes().update(Collections.singletonList(updatedChange));
     indexer.index(db, c);
     if (runHooks) {
       hooks.doPatchsetCreatedHook(updatedChange, patchSet, db);

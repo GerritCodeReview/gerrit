@@ -40,6 +40,8 @@ import com.google.gerrit.server.PatchLineCommentsUtil;
 import com.google.gerrit.server.change.MergeabilityCache;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeUtil;
+import com.google.gerrit.server.index.ChangeField;
+import com.google.gerrit.server.index.IndexCollection;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.notedb.ReviewerState;
@@ -161,7 +163,7 @@ public class ChangeData {
    */
   public static ChangeData createForTest(Change.Id id, int currentPatchSetId) {
     ChangeData cd = new ChangeData(null, null, null, null, null, null, null,
-        null, null, null, null, null, null, id);
+        null, null, null, null, null, null, null, id);
     cd.currentPatchSet = new PatchSet(new PatchSet.Id(id, currentPatchSetId));
     return cd;
   }
@@ -179,6 +181,7 @@ public class ChangeData {
   private final PatchListCache patchListCache;
   private final NotesMigration notesMigration;
   private final MergeabilityCache mergeabilityCache;
+  private final IndexCollection indexes;
   private final Change.Id legacyId;
   private ChangeDataSource returnedBySource;
   private Change change;
@@ -212,6 +215,7 @@ public class ChangeData {
       PatchListCache patchListCache,
       NotesMigration notesMigration,
       MergeabilityCache mergeabilityCache,
+      IndexCollection indexes,
       @Assisted ReviewDb db,
       @Assisted Change.Id id) {
     this.db = db;
@@ -227,6 +231,7 @@ public class ChangeData {
     this.patchListCache = patchListCache;
     this.notesMigration = notesMigration;
     this.mergeabilityCache = mergeabilityCache;
+    this.indexes = indexes;
     legacyId = id;
   }
 
@@ -244,6 +249,7 @@ public class ChangeData {
       PatchListCache patchListCache,
       NotesMigration notesMigration,
       MergeabilityCache mergeabilityCache,
+      IndexCollection indexes,
       @Assisted ReviewDb db,
       @Assisted Change c) {
     this.db = db;
@@ -259,6 +265,7 @@ public class ChangeData {
     this.patchListCache = patchListCache;
     this.notesMigration = notesMigration;
     this.mergeabilityCache = mergeabilityCache;
+    this.indexes = indexes;
     legacyId = c.getId();
     change = c;
   }
@@ -277,6 +284,7 @@ public class ChangeData {
       PatchListCache patchListCache,
       NotesMigration notesMigration,
       MergeabilityCache mergeabilityCache,
+      IndexCollection indexes,
       @Assisted ReviewDb db,
       @Assisted ChangeControl c) {
     this.db = db;
@@ -292,6 +300,7 @@ public class ChangeData {
     this.patchListCache = patchListCache;
     this.notesMigration = notesMigration;
     this.mergeabilityCache = mergeabilityCache;
+    this.indexes = indexes;
     legacyId = c.getChange().getId();
     change = c.getChange();
     changeControl = c;
@@ -592,37 +601,46 @@ public class ChangeData {
       Change c = change();
       if (c.getStatus() == Change.Status.MERGED) {
         mergeable = true;
+      } else if (indexes.getSearchIndex().getSchema()
+          .hasField(ChangeField.MERGEABLE)) {
+        // Read from the cache only if the current read schema contains the new
+        // mergeable field, indicating the cache backfill is completed.
+        mergeable = isMergeableFromCache(c);
       } else {
-        PatchSet ps = currentPatchSet();
-        Ref ref;
-        Repository repo = null;
-        try {
-          repo = repoManager.openRepository(c.getProject());
-          ref = repo.getRef(c.getDest().get());
-        } catch (IOException e) {
-          throw new OrmException(e);
-        } finally {
-          if (repo != null) {
-            repo.close();
-          }
-        }
-
-        SubmitTypeRecord rec = new SubmitRuleEvaluator(this)
-            .getSubmitType();
-        if (rec.status != SubmitTypeRecord.Status.OK) {
-          throw new OrmException(
-              "Error in mergeability check: " + rec.errorMessage);
-        }
-        String mergeStrategy = mergeUtilFactory
-            .create(projectCache.get(c.getProject()))
-            .mergeStrategyName();
-        mergeable = mergeabilityCache.get(
-            ObjectId.fromString(ps.getRevision().get()),
-            ref != null ? ref.getObjectId() : ObjectId.zeroId(),
-            rec.type, mergeStrategy, c.getDest());
+        mergeable = c.isMergeable();
       }
     }
     return mergeable;
+  }
+
+  private boolean isMergeableFromCache(Change c) throws OrmException {
+    PatchSet ps = currentPatchSet();
+    Ref ref;
+    Repository repo = null;
+    try {
+      repo = repoManager.openRepository(c.getProject());
+      ref = repo.getRef(c.getDest().get());
+    } catch (IOException e) {
+      throw new OrmException(e);
+    } finally {
+      if (repo != null) {
+        repo.close();
+      }
+    }
+
+    SubmitTypeRecord rec = new SubmitRuleEvaluator(this)
+        .getSubmitType();
+    if (rec.status != SubmitTypeRecord.Status.OK) {
+      throw new OrmException(
+          "Error in mergeability check: " + rec.errorMessage);
+    }
+    String mergeStrategy = mergeUtilFactory
+        .create(projectCache.get(c.getProject()))
+        .mergeStrategyName();
+    return mergeabilityCache.get(
+        ObjectId.fromString(ps.getRevision().get()),
+        ref != null ? ref.getObjectId() : ObjectId.zeroId(),
+        rec.type, mergeStrategy, c.getDest());
   }
 
   @Override

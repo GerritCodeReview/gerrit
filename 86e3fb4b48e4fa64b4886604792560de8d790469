@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b50a4612_f84cb13b",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/edit/ChangeEditIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 295,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-10-27T16:22:06Z",
+      "side": 1,
+      "message": "Unnecessary change (and/or bad rebase?)",
+      "revId": "86e3fb4b48e4fa64b4886604792560de8d790469",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d515fa2f_39534fe1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeEdits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-10-27T16:22:06Z",
+      "side": 1,
+      "message": "Unnecessary change",
+      "revId": "86e3fb4b48e4fa64b4886604792560de8d790469",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b50a4612_385349e1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeEdits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 471,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-10-27T16:22:06Z",
+      "side": 1,
+      "message": "I don\u0027t think a silent no-op if the message is null or empty is the right behavior. Probably you should throw InvalidChangeOperationException or BadRequestException. (Possibly changing EditModifier to just do this for you.0",
+      "revId": "86e3fb4b48e4fa64b4886604792560de8d790469",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b50a4612_185885f7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Module.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-10-27T16:22:06Z",
+      "side": 1,
+      "message": "Hm, I could see the argument for PUT here, since it\u0027s really just a single value and the request body replaces the value.",
+      "revId": "86e3fb4b48e4fa64b4886604792560de8d790469",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

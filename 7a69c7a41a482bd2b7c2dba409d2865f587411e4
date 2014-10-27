@@ -48,6 +48,54 @@
     },
     {
       "key": {
+        "uuid": "55c2ea1e_4d53d931",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-27T19:47:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b50a4612_b86d19a2",
+      "range": {
+        "startLine": 9,
+        "startChar": 19,
+        "endLine": 9,
+        "endChar": 35
+      },
+      "revId": "7a69c7a41a482bd2b7c2dba409d2865f587411e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "55c2ea1e_6d58154b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-27T19:47:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b50a4612_d860cdab",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 18
+      },
+      "revId": "7a69c7a41a482bd2b7c2dba409d2865f587411e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d515fa2f_996a5b86",
         "filename": "/COMMIT_MSG",
         "patchSetId": 5
@@ -119,6 +167,30 @@
     },
     {
       "key": {
+        "uuid": "f5bafe9a_ca3803f6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-27T19:47:06Z",
+      "side": 1,
+      "message": "Thanks for the suggestion. Done.",
+      "parentUuid": "d515fa2f_d949f329",
+      "range": {
+        "startLine": 10,
+        "startChar": 35,
+        "endLine": 12,
+        "endChar": 28
+      },
+      "revId": "7a69c7a41a482bd2b7c2dba409d2865f587411e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d515fa2f_7959c7fe",
         "filename": "/COMMIT_MSG",
         "patchSetId": 5
@@ -178,6 +250,30 @@
       "side": 1,
       "message": "Ok, but since the feature is missing, write your commit message for Gerrit today, not Gerrit next week.",
       "parentUuid": "f5bafe9a_0a3ffbdf",
+      "range": {
+        "startLine": 21,
+        "startChar": 43,
+        "endLine": 21,
+        "endChar": 45
+      },
+      "revId": "7a69c7a41a482bd2b7c2dba409d2865f587411e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "55c2ea1e_0d4dd187",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-27T19:47:06Z",
+      "side": 1,
+      "message": "Done.\n\n;)",
+      "parentUuid": "b50a4612_98437508",
       "range": {
         "startLine": 21,
         "startChar": 43,

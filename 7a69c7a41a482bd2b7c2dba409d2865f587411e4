@@ -95,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "d515fa2f_d949f329",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-10-27T18:05:33Z",
+      "side": 1,
+      "message": "Thanks. How about:\n\n\"In this version, Buck only allows defining new rule functions in files included with include_defs, not actually instantiating rules, so we need to reshuffle some rules.",
+      "parentUuid": "55c2ea1e_ad84bd30",
+      "range": {
+        "startLine": 10,
+        "startChar": 35,
+        "endLine": 12,
+        "endChar": 28
+      },
+      "revId": "7a69c7a41a482bd2b7c2dba409d2865f587411e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d515fa2f_7959c7fe",
         "filename": "/COMMIT_MSG",
         "patchSetId": 5
@@ -130,6 +154,30 @@
       "side": 1,
       "message": "Actually this is a missing feature in gerrit. Github handles this wrapping automagically.",
       "parentUuid": "d515fa2f_7959c7fe",
+      "range": {
+        "startLine": 21,
+        "startChar": 43,
+        "endLine": 21,
+        "endChar": 45
+      },
+      "revId": "7a69c7a41a482bd2b7c2dba409d2865f587411e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b50a4612_98437508",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-10-27T18:05:33Z",
+      "side": 1,
+      "message": "Ok, but since the feature is missing, write your commit message for Gerrit today, not Gerrit next week.",
+      "parentUuid": "f5bafe9a_0a3ffbdf",
       "range": {
         "startLine": 21,
         "startChar": 43,

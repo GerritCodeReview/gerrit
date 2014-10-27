@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d515fa2f_5975e36e",
+        "filename": "gerrit-pgm/src/main/resources/com/google/gerrit/pgm/init/libraries.config",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-10-27T04:33:59Z",
+      "side": 1,
+      "message": "This needs to be updated too.",
+      "range": {
+        "startLine": 18,
+        "startChar": 39,
+        "endLine": 18,
+        "endChar": 43
+      },
+      "revId": "20eb608289e15ce5a22e4de5fefa908f9592e49a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b50a4612_7870a180",
+        "filename": "gerrit-pgm/src/main/resources/com/google/gerrit/pgm/init/libraries.config",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-10-27T04:33:59Z",
+      "side": 1,
+      "message": "and here",
+      "range": {
+        "startLine": 25,
+        "startChar": 34,
+        "endLine": 25,
+        "endChar": 38
+      },
+      "revId": "20eb608289e15ce5a22e4de5fefa908f9592e49a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

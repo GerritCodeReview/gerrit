@@ -2154,6 +2154,11 @@ public class ReceiveCommits {
       if (cmd.getResult() == NOT_ATTEMPTED) {
         cmd.execute(rp);
       }
+
+      // Racy with ref update, but the best we can do.
+      change.setMergeable(
+          changeDataFactory.create(db, change).isMergeableFromCache());
+      db.changes().update(Collections.singletonList(change));
       CheckedFuture<?, IOException> f = indexer.indexAsync(change.getId());
       workQueue.getDefaultQueue()
           .submit(requestScopePropagator.wrap(new Runnable() {

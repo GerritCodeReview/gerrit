@@ -28,6 +28,7 @@ import com.google.gerrit.reviewdb.client.Patch.ChangeType;
 import com.google.gerrit.reviewdb.client.Patch.PatchType;
 import com.google.gerrit.reviewdb.client.PatchSet;
 
+import org.eclipse.jgit.diff.DiffEntry;
 import org.eclipse.jgit.diff.Edit;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
@@ -108,6 +109,53 @@ public class PatchListEntry {
     deletions = del;
   }
 
+  PatchListEntry(final DiffEntry.ChangeType changeType,
+      final String oldName, final String newName) {
+    switch (changeType) {
+      case DELETE :
+        this.changeType = ChangeType.DELETED;
+        break;
+
+      case MODIFY :
+        this.changeType = ChangeType.MODIFIED;
+        break;
+
+      case RENAME :
+        this.changeType = ChangeType.RENAMED;
+        break;
+
+      default:
+        throw new IllegalArgumentException("Unsupported type " + changeType);
+    }
+
+    this.patchType = null;
+    this.header = null;
+    this.edits = null;
+    this.insertions = 0;
+    this.deletions = 0;
+    switch (this.changeType) {
+      case DELETED:
+        this.oldName = null;
+        this.newName = newName;
+        break;
+
+      case ADDED:
+      case MODIFIED:
+        this.oldName = null;
+        this.newName = newName;
+        break;
+
+      case COPIED:
+      case RENAMED:
+        this.oldName = oldName;
+        this.newName = newName;
+        break;
+
+      default:
+        throw new IllegalArgumentException("Unsupported type " + changeType);
+    }
+  }
+
   private PatchListEntry(final ChangeType changeType,
       final PatchType patchType, final String oldName, final String newName,
       final byte[] header, final List<Edit> edits, final int insertions,
@@ -126,7 +174,9 @@ public class PatchListEntry {
     int size = 16 + 6*8 + 2*4 + 20 + 16+8+4+20;
     size += stringSize(oldName);
     size += stringSize(newName);
-    size += header.length;
+    if (header != null) {
+      size += header.length;
+    }
     size += (8 + 16 + 4*4) * edits.size();
     return size;
   }

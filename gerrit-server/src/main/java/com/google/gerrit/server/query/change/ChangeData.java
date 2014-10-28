@@ -306,7 +306,7 @@ public class ChangeData {
 
       PatchList p;
       try {
-        p = patchListCache.get(c, ps);
+        p = patchListCache.getNoDiff(c, ps);
       } catch (PatchListNotAvailableException e) {
         List<String> emptyFileList = Collections.emptyList();
         files.put(ps.getPatchSetId(), emptyFileList);

@@ -73,8 +73,8 @@ import java.util.Set;
 public class PatchListLoader extends CacheLoader<PatchListKey, PatchList> {
   static final Logger log = LoggerFactory.getLogger(PatchListLoader.class);
 
-  private final GitRepositoryManager repoManager;
-  private final PatchListCache patchListCache;
+  protected final GitRepositoryManager repoManager;
+  protected final PatchListCache patchListCache;
   private final ThreeWayMergeStrategy mergeStrategy;
 
   @Inject
@@ -96,7 +96,7 @@ public class PatchListLoader extends CacheLoader<PatchListKey, PatchList> {
     }
   }
 
-  private static RawTextComparator comparatorFor(Whitespace ws) {
+  protected static RawTextComparator comparatorFor(Whitespace ws) {
     switch (ws) {
       case IGNORE_ALL_SPACE:
         return RawTextComparator.WS_IGNORE_ALL;
@@ -175,7 +175,7 @@ public class PatchListLoader extends CacheLoader<PatchListKey, PatchList> {
     }
   }
 
-  private PatchListEntry newCommitMessage(final RawTextComparator cmp,
+  protected PatchListEntry newCommitMessage(final RawTextComparator cmp,
       final ObjectReader reader,
       final RevCommit aCommit, final RevCommit bCommit) throws IOException {
     StringBuilder hdr = new StringBuilder();
@@ -208,7 +208,7 @@ public class PatchListLoader extends CacheLoader<PatchListKey, PatchList> {
     return new PatchListEntry(fh, edits);
   }
 
-  private PatchListEntry newEntry(RevTree aTree, FileHeader fileHeader) {
+  protected PatchListEntry newEntry(RevTree aTree, FileHeader fileHeader) {
     final FileMode oldMode = fileHeader.getOldMode();
     final FileMode newMode = fileHeader.getNewMode();
 
@@ -230,7 +230,7 @@ public class PatchListLoader extends CacheLoader<PatchListKey, PatchList> {
     }
   }
 
-  private RevObject aFor(final PatchListKey key,
+  protected RevObject aFor(final PatchListKey key,
       final Repository repo, final RevWalk rw, final RevCommit b)
       throws IOException {
     if (key.getOldId() != null) {

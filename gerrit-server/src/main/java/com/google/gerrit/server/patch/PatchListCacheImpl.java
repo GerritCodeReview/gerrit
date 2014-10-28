@@ -36,6 +36,7 @@ import java.util.concurrent.ExecutionException;
 @Singleton
 public class PatchListCacheImpl implements PatchListCache {
   private static final String FILE_NAME = "diff";
+  private static final String FILE_NAME1 = "no_diff";
   static final String INTRA_NAME = "diff_intraline";
 
   public static Module module() {
@@ -46,6 +47,11 @@ public class PatchListCacheImpl implements PatchListCache {
             .maximumWeight(10 << 20)
             .loader(PatchListLoader.class)
             .weigher(PatchListWeigher.class);
+
+        persist(FILE_NAME1, PatchListKey.class, PatchList.class)
+        .maximumWeight(10 << 20)
+        .loader(NoDiffPatchListLoader.class)
+        .weigher(PatchListWeigher.class);
 
         persist(INTRA_NAME, IntraLineDiffKey.class, IntraLineDiff.class)
             .maximumWeight(10 << 20)
@@ -59,15 +65,18 @@ public class PatchListCacheImpl implements PatchListCache {
   }
 
   private final LoadingCache<PatchListKey, PatchList> fileCache;
+  private final LoadingCache<PatchListKey, PatchList> fileCache1;
   private final LoadingCache<IntraLineDiffKey, IntraLineDiff> intraCache;
   private final boolean computeIntraline;
 
   @Inject
   PatchListCacheImpl(
       @Named(FILE_NAME) LoadingCache<PatchListKey, PatchList> fileCache,
+      @Named(FILE_NAME1) LoadingCache<PatchListKey, PatchList> fileCache1,
       @Named(INTRA_NAME) LoadingCache<IntraLineDiffKey, IntraLineDiff> intraCache,
       @GerritServerConfig Config cfg) {
     this.fileCache = fileCache;
+    this.fileCache1 = fileCache1;
     this.intraCache = intraCache;
 
     this.computeIntraline =
@@ -110,6 +119,26 @@ public class PatchListCacheImpl implements PatchListCache {
       }
     } else {
       return new IntraLineDiff(IntraLineDiff.Status.DISABLED);
+    }
+  }
+
+  @Override
+  public PatchList getNoDiff(Change change, PatchSet patchSet)
+      throws PatchListNotAvailableException {
+    final Project.NameKey projectKey = change.getProject();
+    final ObjectId a = null;
+    if (patchSet.getRevision() == null) {
+      throw new PatchListNotAvailableException(
+          "revision is null for " + patchSet.getId());
+    }
+    final ObjectId b = ObjectId.fromString(patchSet.getRevision().get());
+    final Whitespace ws = Whitespace.IGNORE_NONE;
+    PatchListKey key = new PatchListKey(projectKey, a, b, ws);
+    try {
+      return fileCache1.get(key);
+    } catch (ExecutionException e) {
+      NoDiffPatchListLoader.log.warn("Error computing " + key, e);
+      throw new PatchListNotAvailableException(e.getCause());
     }
   }
 }

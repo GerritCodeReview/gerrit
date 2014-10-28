@@ -2991,7 +2991,10 @@ describes the resulting cherry picked change.
 'POST /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/message'
 --
 
-Edit commit message.
+Edit commit message. *Warning*: as of Gerrit 2.11 this REST endpoint is
+deprecated and will be removed in a future version.
+Use link:#put-change-edit-message[put commit message] and
+link:#publish-edit[publish edit] instead.
 
 The commit message must be provided in the request body inside a
 link:#cherrypick-input[CherryPickInput] entity.

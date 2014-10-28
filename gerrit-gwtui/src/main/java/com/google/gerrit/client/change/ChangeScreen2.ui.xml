@@ -341,15 +341,6 @@ limitations under the License.
             </g:Anchor> - <span ui:field='statusText' class='{style.statusText}'/></ui:msg>
           </span>
         </div>
-        <div class='{style.subjectButtons} {style.headerButtons}'>
-          <g:Button ui:field='editMessage'
-              styleName=''
-              visible='false'
-              title='Edit commit message (Shortcut: e)'>
-            <ui:attribute name='title'/>
-            <div><ui:msg>Edit Message</ui:msg></div>
-          </g:Button>
-        </div>
       </div>
 
       <div class='{style.infoLine}'>

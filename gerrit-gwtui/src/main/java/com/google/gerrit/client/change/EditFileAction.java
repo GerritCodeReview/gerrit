@@ -27,7 +27,6 @@ class EditFileAction {
  private final String content;
  private final String file;
  private final ChangeScreen2.Style style;
- private final Widget editMessageButton;
  private final Widget relativeTo;
 
  private EditFileBox editBox;
@@ -38,13 +37,11 @@ class EditFileAction {
      String content,
      String file,
      ChangeScreen2.Style style,
-     Widget editButton,
      Widget relativeTo) {
    this.id = id;
    this.content = content;
    this.file = file;
    this.style = style;
-   this.editMessageButton = editButton;
    this.relativeTo = relativeTo;
  }
 
@@ -63,7 +60,6 @@ class EditFileAction {
 
    final PluginSafePopupPanel p = new PluginSafePopupPanel(true);
    p.setStyleName(style.replyBox());
-   p.addAutoHidePartner(editMessageButton.getElement());
    p.addCloseHandler(new CloseHandler<PopupPanel>() {
      @Override
      public void onClose(CloseEvent<PopupPanel> event) {

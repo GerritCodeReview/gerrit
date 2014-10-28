@@ -19,7 +19,6 @@ import com.google.gerrit.client.ErrorDialog;
 import com.google.gerrit.client.FormatUtil;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.account.AccountInfo.AvatarInfo;
-import com.google.gerrit.client.actions.ActionInfo;
 import com.google.gerrit.client.api.ChangeGlue;
 import com.google.gerrit.client.changes.ChangeApi;
 import com.google.gerrit.client.changes.ChangeInfo;
@@ -181,11 +180,9 @@ public class ChangeScreen2 extends Screen {
   @UiField Button addFile;
   @UiField Button expandAll;
   @UiField Button collapseAll;
-  @UiField Button editMessage;
   @UiField QuickApprove quickApprove;
 
   private ReplyAction replyAction;
-  private EditMessageAction editMessageAction;
   private IncludedInAction includedInAction;
   private PatchSetsAction patchSetsAction;
   private DownloadAction downloadAction;
@@ -433,7 +430,7 @@ public class ChangeScreen2 extends Screen {
         reviewMode.setVisible(!editMode.isVisible());
         editFileAction = new EditFileAction(
             new PatchSet.Id(changeId, edit == null ? rev._number() : 0),
-            "", "", style, editMessage, reply);
+            "", "", style, reply);
       } else {
         editMode.setVisible(false);
         addFile.setVisible(false);
@@ -451,26 +448,6 @@ public class ChangeScreen2 extends Screen {
     }
     return rev._number() == RevisionInfo.findEditParent(
         info.revisions().values());
-  }
-
-  private void initEditMessageAction(ChangeInfo info, String revision) {
-    NativeMap<ActionInfo> actions = info.revision(revision).actions();
-    if (actions != null && actions.containsKey("message")) {
-      editMessage.setVisible(true);
-      editMessageAction = new EditMessageAction(
-          info.legacy_id(),
-          revision,
-          info.revision(revision).commit().message(),
-          style,
-          editMessage,
-          reply);
-      keysAction.add(new KeyCommand(0, 'e', Util.C.keyEditMessage()) {
-        @Override
-        public void onKeyPress(KeyPressEvent event) {
-          editMessageAction.onEdit();
-        }
-      });
-    }
   }
 
   @Override
@@ -569,11 +546,6 @@ public class ChangeScreen2 extends Screen {
     } else {
       Gerrit.doSignIn(getToken());
     }
-  }
-
-  @UiHandler("editMessage")
-  void onEditMessage(ClickEvent e) {
-    editMessageAction.onEdit();
   }
 
   @UiHandler("openAll")
@@ -686,7 +658,7 @@ public class ChangeScreen2 extends Screen {
       files.set(
           b != null ? new PatchSet.Id(changeId, b._number()) : null,
           new PatchSet.Id(changeId, rev._number()),
-          style, editMessage, reply, edit != null);
+          style, reply, edit != null);
       files.setValue(info.edit().files(), myLastReply(info),
           emptyComment,
           emptyComment,
@@ -741,7 +713,7 @@ public class ChangeScreen2 extends Screen {
           files.set(
               base != null ? new PatchSet.Id(changeId, base._number()) : null,
               new PatchSet.Id(changeId, rev._number()),
-              style, editMessage, reply, edit != null);
+              style, reply, edit != null);
           files.setValue(m, myLastReply, comments.get(0),
               drafts.get(0), fileTableMode);
         }
@@ -954,19 +926,6 @@ public class ChangeScreen2 extends Screen {
       setVisible(hashtagTableRow, false);
     }
 
-    if (Gerrit.isSignedIn()) {
-      initEditMessageAction(info, revision);
-      replyAction = new ReplyAction(info, revision,
-          style, commentLinkProcessor, reply, quickApprove);
-      if (topic.canEdit()) {
-        keysAction.add(new KeyCommand(0, 't', Util.C.keyEditTopic()) {
-          @Override
-          public void onKeyPress(KeyPressEvent event) {
-            topic.onEdit();
-          }
-        });
-      }
-    }
     history.set(commentLinkProcessor, replyAction, changeId, info);
 
     if (current) {

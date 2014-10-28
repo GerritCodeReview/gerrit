@@ -212,12 +212,11 @@ public class FileTable extends FlowPanel {
     R.css().ensureInjected();
   }
 
-  public void set(PatchSet.Id base, PatchSet.Id curr, ChangeScreen2.Style style,
-      Widget editButton, Widget replyButton, boolean editExists) {
+  public void set(PatchSet.Id base, PatchSet.Id curr,
+      ChangeScreen2.Style style, Widget replyButton, boolean editExists) {
     this.base = base;
     this.curr = curr;
     this.style = style;
-    this.editButton = editButton;
     this.replyButton = replyButton;
     this.editExists = editExists;
   }
@@ -344,7 +343,7 @@ public class FileTable extends FlowPanel {
             @Override
             public void onSuccess(String result) {
               EditFileAction edit = new EditFileAction(
-                  id, result, path, style, editButton, replyButton);
+                  id, result, path, style, replyButton);
               edit.onEdit();
             }
           });
@@ -356,7 +355,7 @@ public class FileTable extends FlowPanel {
             @Override
             public void onSuccess(String r) {
               EditFileAction edit = new EditFileAction(
-                  curr, r, Patch.COMMIT_MSG, style, editButton, replyButton);
+                  curr, r, Patch.COMMIT_MSG, style, replyButton);
               edit.onEdit();
             }
           });

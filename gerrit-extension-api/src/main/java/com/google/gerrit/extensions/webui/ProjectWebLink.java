@@ -18,13 +18,20 @@ import com.google.gerrit.extensions.annotations.ExtensionPoint;
 import com.google.gerrit.extensions.common.WebLinkInfo;
 
 @ExtensionPoint
-public interface ProjectWebLink {
+public interface ProjectWebLink extends WebLink {
 
   /**
-   * URL to project in external service.
+   * {@link com.google.gerrit.extensions.common.WebLinkInfo}
+   * describing a link from a project to an external service.
+   *
+   * <p>In order for the web link to be visible
+   * {@link com.google.gerrit.extensions.common.WebLinkInfo#url}
+   * and {@link com.google.gerrit.extensions.common.WebLinkInfo#name}
+   * must be set.<p>
    *
    * @param projectName Name of the project
-   * @return WebLinkInfo that links to project in external service.
+   * @return WebLinkInfo that links to project in external service,
+   * null if there should be no link.
    */
   WebLinkInfo getProjectWeblink(String projectName);
 }

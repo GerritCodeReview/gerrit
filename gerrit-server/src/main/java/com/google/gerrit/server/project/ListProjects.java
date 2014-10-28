@@ -16,6 +16,7 @@ package com.google.gerrit.server.project;
 
 import com.google.common.base.Predicate;
 import com.google.common.base.Strings;
+import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
@@ -382,13 +383,9 @@ public class ListProjects implements RestReadView<TopLevelResource> {
             log.warn("Unexpected error reading " + projectName, err);
             continue;
           }
-
-          info.webLinks = Lists.newArrayList();
-          for (WebLinkInfo link : webLinks.getProjectLinks(projectName.get())) {
-            if (!Strings.isNullOrEmpty(link.name) && !Strings.isNullOrEmpty(link.url)) {
-              info.webLinks.add(link);
-            }
-          }
+          FluentIterable<WebLinkInfo> links =
+              webLinks.getProjectLinks(projectName.get());
+          info.webLinks = links.isEmpty() ? null : links.toList();
         }
 
         if (foundIndex++ < start) {

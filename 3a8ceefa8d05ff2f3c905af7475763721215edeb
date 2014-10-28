@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "b50a4612_1842c5d8",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/OnlineReindexer.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-10-28T22:37:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "55c2ea1e_ed3f25aa",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 50
+      },
+      "revId": "3a8ceefa8d05ff2f3c905af7475763721215edeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "55c2ea1e_8d3c61b7",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Reindex.java",
         "patchSetId": 10
@@ -59,6 +83,30 @@
       "writtenOn": "2014-10-28T18:35:48Z",
       "side": 1,
       "message": "Move this into previous change.",
+      "range": {
+        "startLine": 36,
+        "startChar": 0,
+        "endLine": 36,
+        "endChar": 50
+      },
+      "revId": "3a8ceefa8d05ff2f3c905af7475763721215edeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d515fa2f_f9283723",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Reindex.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-10-28T22:37:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "55c2ea1e_8d3c61b7",
       "range": {
         "startLine": 36,
         "startChar": 0,
@@ -88,6 +136,24 @@
     },
     {
       "key": {
+        "uuid": "b50a4612_784301e0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-10-28T22:37:09Z",
+      "side": 1,
+      "message": "Yes, clarified.",
+      "parentUuid": "f5bafe9a_4a2f337f",
+      "revId": "3a8ceefa8d05ff2f3c905af7475763721215edeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "55c2ea1e_ad391dc6",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Mergeable.java",
         "patchSetId": 10
@@ -99,6 +165,30 @@
       "writtenOn": "2014-10-28T18:35:48Z",
       "side": 1,
       "message": "other\n\nI wonder if we could extract the whole other branches mergeability check logic; but it seems that passing so many parameter isn\u0027t fan either:\n\n if (otherBranches) {\n    checkOtherBranches(change, result, git, commit, ref.getName(),\n      projectState, strategy);\n  }\n\nWith the method:\n\n   private void checkOtherBranches(Change change, MergeableInfo result,\n      Repository git, ObjectId commit, String moreStable, ProjectState projectState,\n      String strategy) throws IOException {\n    result.mergeableInto \u003d new ArrayList\u003c\u003e();\n    BranchOrderSection branchOrder \u003d projectState.getBranchOrderSection();\n    if (branchOrder !\u003d null) {\n      int prefixLen \u003d Constants.R_HEADS.length();\n      for (String n : branchOrder.getMoreStable(moreStable)) {\n        Ref other \u003d git.getRef(n);\n        if (other \u003d\u003d null) {\n          continue;\n        }\n        if (cache.get(commit, toId(other), SubmitType.CHERRY_PICK, strategy,\n            change.getDest(), git)) {\n          result.mergeableInto.add(other.getName().substring(prefixLen));\n        }\n      }\n    }\n  }",
+      "range": {
+        "startLine": 154,
+        "startChar": 39,
+        "endLine": 154,
+        "endChar": 42
+      },
+      "revId": "3a8ceefa8d05ff2f3c905af7475763721215edeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d515fa2f_d925734b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Mergeable.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-10-28T22:37:09Z",
+      "side": 1,
+      "message": "Fixed the parameter, punting on further refactoring of this class.",
+      "parentUuid": "55c2ea1e_ad391dc6",
       "range": {
         "startLine": 154,
         "startChar": 39,
@@ -134,6 +224,30 @@
     },
     {
       "key": {
+        "uuid": "d515fa2f_b922bf3f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/RevisionResource.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-10-28T22:37:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "55c2ea1e_4dd43901",
+      "range": {
+        "startLine": 39,
+        "startChar": 2,
+        "endLine": 41,
+        "endChar": 3
+      },
+      "revId": "3a8ceefa8d05ff2f3c905af7475763721215edeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "55c2ea1e_0dde311f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SubmitRuleEvaluator.java",
         "patchSetId": 10
@@ -157,6 +271,30 @@
     },
     {
       "key": {
+        "uuid": "b50a4612_f856f19c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SubmitRuleEvaluator.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-10-28T22:37:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "55c2ea1e_0dde311f",
+      "range": {
+        "startLine": 118,
+        "startChar": 2,
+        "endLine": 125,
+        "endChar": 3
+      },
+      "revId": "3a8ceefa8d05ff2f3c905af7475763721215edeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "55c2ea1e_2de3ede9",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
         "patchSetId": 10
@@ -168,6 +306,30 @@
       "writtenOn": "2014-10-28T18:35:48Z",
       "side": 1,
       "message": "Unneeded change. This only used in RegexPathPredicateTest, that is in the same package.",
+      "range": {
+        "startLine": 162,
+        "startChar": 2,
+        "endLine": 162,
+        "endChar": 8
+      },
+      "revId": "3a8ceefa8d05ff2f3c905af7475763721215edeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d515fa2f_991ffbf5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-10-28T22:37:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "55c2ea1e_2de3ede9",
       "range": {
         "startLine": 162,
         "startChar": 2,

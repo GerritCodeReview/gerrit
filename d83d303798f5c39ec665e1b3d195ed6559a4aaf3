@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "55c2ea1e_edede5c9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-28T23:19:21Z",
+      "side": 1,
+      "message": "This comment wasn\u0027t addressed yet. Test is still failing.",
+      "parentUuid": "55c2ea1e_adcefd65",
+      "range": {
+        "startLine": 31,
+        "startChar": 3,
+        "endLine": 32,
+        "endChar": 50
+      },
+      "revId": "d83d303798f5c39ec665e1b3d195ed6559a4aaf3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f5bafe9a_2a2e7f80",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 7
@@ -130,6 +154,30 @@
       "side": 1,
       "message": "Huh? It\u0027s used in ReindexAfterUpdate in this change.",
       "parentUuid": "55c2ea1e_6d0255e4",
+      "range": {
+        "startLine": 101,
+        "startChar": 4,
+        "endLine": 101,
+        "endChar": 28
+      },
+      "revId": "d83d303798f5c39ec665e1b3d195ed6559a4aaf3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f5bafe9a_ea3f07aa",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/extensions/events/GitReferenceUpdated.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-28T23:19:21Z",
+      "side": 1,
+      "message": "OK, missed it.",
+      "parentUuid": "b50a4612_383d8956",
       "range": {
         "startLine": 101,
         "startChar": 4,

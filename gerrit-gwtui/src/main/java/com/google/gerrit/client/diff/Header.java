@@ -242,7 +242,7 @@ class Header extends Composite {
   }
 
   @UiHandler("preferences")
-  void onPreferences(ClickEvent e) {
+  void onPreferences(@SuppressWarnings("unused") ClickEvent e) {
     prefsAction.show();
   }
 

@@ -61,12 +61,12 @@ abstract class UpdateAvailableBar extends Composite {
   }
 
   @UiHandler("show")
-  void onShow(ClickEvent e) {
+  void onShow(@SuppressWarnings("unused") ClickEvent e) {
     onShow();
   }
 
   @UiHandler("ignore")
-  void onIgnore(ClickEvent e) {
+  void onIgnore(@SuppressWarnings("unused") ClickEvent e) {
     onIgnore(updated);
     removeFromParent();
   }

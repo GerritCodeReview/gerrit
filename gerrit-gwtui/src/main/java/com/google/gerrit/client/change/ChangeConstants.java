@@ -21,6 +21,7 @@ interface ChangeConstants extends Constants {
   String nextChange();
   String openChange();
   String reviewedFileTitle();
+  String editMessage();
   String editFileInline();
   String removeFileInline();
   String restoreFileInline();

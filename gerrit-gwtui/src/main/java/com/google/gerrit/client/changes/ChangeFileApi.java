@@ -57,10 +57,26 @@ public class ChangeFileApi {
           });
   }
 
+  /** Get commit message in a PatchSet or cange edit. */
+  public static void getMessage(PatchSet.Id id,
+      AsyncCallback<String> cb) {
+    ChangeApi.change(id.getParentKey().get()).view("message").get(
+        NativeString.unwrap(cb));
+  }
+
   /** Put contents into a File in a change edit. */
   public static void putContent(PatchSet.Id id, String filename,
       String content, AsyncCallback<VoidResult> result) {
     contentEdit(id.getParentKey(), filename).put(content, result);
+  }
+
+  /** Put message into a change edit. */
+  public static void putMessage(PatchSet.Id id, String message,
+      AsyncCallback<VoidResult> result) {
+    EditMessageInput in = EditMessageInput.create();
+    in.message(message);
+    ChangeApi.change(id.getParentKey().get()).view("edit_message").put(in,
+        result);
   }
 
   /** Restore contents of a File in a change edit. */
@@ -99,6 +115,17 @@ public class ChangeFileApi {
     }
 
     protected Input() {
+    }
+  }
+
+  private static class EditMessageInput extends JavaScriptObject {
+    final native void message(String m) /*-{ if(m)this.message=m; }-*/;
+
+    static EditMessageInput create() {
+      return (EditMessageInput) createObject();
+    }
+
+    protected EditMessageInput() {
     }
   }
 }

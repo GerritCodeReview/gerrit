@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f5bafe9a_6a0b1716",
+        "filename": "gerrit-plugin-gwt-archetype/src/main/resources/archetype-resources/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-28T17:26:49Z",
+      "side": 1,
+      "message": "Have you checked this change: [1]? We can now simplify bucklets integration (after new Buck version was merged yesterday). So the idea is to include all bucklets in one file that is included through .buckconfig file.\n\n [1] https://gerrit-review.googlesource.com/61103",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 1,
+        "endChar": 48
+      },
+      "revId": "5b178b5d294a1f2b9e65dac9e286ca68f0b7c4d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

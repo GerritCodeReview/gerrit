@@ -200,7 +200,7 @@ public class ChangeInserter {
       approvalsUtil.addReviewers(db, update, labelTypes, change,
           patchSet, patchSetInfo, reviewers, Collections.<Account.Id> emptySet());
       approvalsUtil.addApprovals(db, update, labelTypes, patchSet, patchSetInfo,
-          change, ctl, approvals);
+          ctl, approvals);
       if (messageIsForChange()) {
         cmUtil.addChangeMessage(db, update, changeMessage);
       }

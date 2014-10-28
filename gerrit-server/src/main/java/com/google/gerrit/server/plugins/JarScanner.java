@@ -274,6 +274,7 @@ public class JarScanner implements PluginContentScanner {
     return Collections.enumeration(Lists.transform(
         Collections.list(jarFile.entries()),
         new Function<JarEntry, PluginEntry>() {
+          @Override
           public PluginEntry apply(JarEntry jarEntry) {
             try {
               return resourceOf(jarEntry);

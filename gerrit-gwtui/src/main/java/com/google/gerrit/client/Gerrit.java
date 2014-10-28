@@ -657,6 +657,7 @@ public class Gerrit implements EntryPoint {
     final LinkMenuItem dashboardsMenuItem =
         new ProjectLinkMenuItem(C.menuProjectsDashboards(),
             ProjectScreen.DASHBOARDS) {
+      @Override
       protected boolean match(String token) {
         return super.match(token) ||
             (!getTargetHistoryToken().isEmpty() && ("/admin" + token).startsWith(getTargetHistoryToken()));
@@ -718,6 +719,7 @@ public class Gerrit implements EntryPoint {
 
         case OPENID:
           menuRight.addItem(C.menuRegister(), new Command() {
+            @Override
             public void execute() {
               String t = History.getToken();
               if (t == null) {
@@ -727,6 +729,7 @@ public class Gerrit implements EntryPoint {
             }
           });
           menuRight.addItem(C.menuSignIn(), new Command() {
+            @Override
             public void execute() {
               doSignIn(History.getToken());
             }
@@ -735,6 +738,7 @@ public class Gerrit implements EntryPoint {
 
         case OPENID_SSO:
           menuRight.addItem(C.menuSignIn(), new Command() {
+            @Override
             public void execute() {
               doSignIn(History.getToken());
             }
@@ -757,6 +761,7 @@ public class Gerrit implements EntryPoint {
             menuRight.add(anchor(registerText, cfg.getRegisterUrl()));
           }
           menuRight.addItem(C.menuSignIn(), new Command() {
+            @Override
             public void execute() {
               doSignIn(History.getToken());
             }
@@ -769,6 +774,7 @@ public class Gerrit implements EntryPoint {
       }
     }
     ConfigServerApi.topMenus(new GerritCallback<TopMenuList>() {
+      @Override
       public void onSuccess(TopMenuList result) {
         List<TopMenu> topMenuExtensions = Natives.asList(result);
         for (TopMenu menu : topMenuExtensions) {

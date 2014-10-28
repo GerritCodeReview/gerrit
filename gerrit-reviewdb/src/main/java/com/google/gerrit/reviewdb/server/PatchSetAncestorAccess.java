@@ -26,6 +26,7 @@ import com.google.gwtorm.server.ResultSet;
 
 public interface PatchSetAncestorAccess extends
     Access<PatchSetAncestor, PatchSetAncestor.Id> {
+  @Override
   @PrimaryKey("key")
   PatchSetAncestor get(PatchSetAncestor.Id key) throws OrmException;
 

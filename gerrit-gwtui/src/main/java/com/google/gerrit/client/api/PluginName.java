@@ -81,6 +81,7 @@ class PluginName {
 
   /** Extracts URL from the stack frame. */
   static class PluginNameMoz extends PluginName {
+    @Override
     String findCallerUrl() {
       return getUrl(makeException());
     }

@@ -33,6 +33,7 @@ import com.google.gwtjsonrpc.common.JsonConstants;
 public abstract class GerritCallback<T> implements
     com.google.gwtjsonrpc.common.AsyncCallback<T>,
     com.google.gwt.user.client.rpc.AsyncCallback<T> {
+  @Override
   public void onFailure(final Throwable caught) {
     if (isNotSignedIn(caught) || isInvalidXSRF(caught)) {
       new NotSignedInDialog().center();

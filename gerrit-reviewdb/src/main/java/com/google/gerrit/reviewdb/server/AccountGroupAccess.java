@@ -23,6 +23,7 @@ import com.google.gwtorm.server.ResultSet;
 
 public interface AccountGroupAccess extends
     Access<AccountGroup, AccountGroup.Id> {
+  @Override
   @PrimaryKey("groupId")
   AccountGroup get(AccountGroup.Id id) throws OrmException;
 

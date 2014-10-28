@@ -65,6 +65,7 @@ public class AccountByEmailCacheImpl implements AccountByEmailCache {
     this.cache = cache;
   }
 
+  @Override
   public Set<Account.Id> get(final String email) {
     try {
       return cache.get(email);
@@ -74,6 +75,7 @@ public class AccountByEmailCacheImpl implements AccountByEmailCache {
     }
   }
 
+  @Override
   public void evict(final String email) {
     if (email != null) {
       cache.invalidate(email);

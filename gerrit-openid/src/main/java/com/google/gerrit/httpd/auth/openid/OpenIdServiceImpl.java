@@ -60,7 +60,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -109,8 +108,7 @@ class OpenIdServiceImpl {
       CanonicalWebUrl up,
       @GerritServerConfig final Config config, final AuthConfig ac,
       final AccountManager am,
-      ProxyProperties proxyProperties)
-          throws ConsumerException, MalformedURLException {
+      ProxyProperties proxyProperties) {
 
     if (proxyProperties.getProxyUrl() != null) {
       final org.openid4java.util.ProxyProperties proxy =

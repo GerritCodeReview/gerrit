@@ -110,18 +110,22 @@ public abstract class BaseCommand implements Command {
     task = Atomics.newReference();
   }
 
+  @Override
   public void setInputStream(final InputStream in) {
     this.in = in;
   }
 
+  @Override
   public void setOutputStream(final OutputStream out) {
     this.out = out;
   }
 
+  @Override
   public void setErrorStream(final OutputStream err) {
     this.err = err;
   }
 
+  @Override
   public void setExitCallback(final ExitCallback callback) {
     this.exit = callback;
   }

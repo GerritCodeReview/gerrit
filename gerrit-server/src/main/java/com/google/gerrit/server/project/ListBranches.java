@@ -193,13 +193,14 @@ public class ListBranches implements RestReadView<ProjectResource> {
   private List<BranchInfo> filterBranches(List<BranchInfo> branches)
       throws BadRequestException {
     if (matchSubstring != null) {
-      return ((List<BranchInfo>) Lists.newArrayList(Iterables.filter(branches,
+      return Lists.newArrayList(Iterables.filter(branches,
           new Predicate<BranchInfo>() {
+            @Override
             public boolean apply(BranchInfo in) {
               return in.ref.toLowerCase(Locale.US).contains(
                   matchSubstring.toLowerCase(Locale.US));
             }
-          })));
+          }));
     } else if (matchRegex != null) {
       if (matchRegex.startsWith("^")) {
         matchRegex = matchRegex.substring(1);
@@ -213,12 +214,13 @@ public class ListBranches implements RestReadView<ProjectResource> {
       try {
         final RunAutomaton a =
             new RunAutomaton(new RegExp(matchRegex).toAutomaton());
-        return ((List<BranchInfo>) Lists.newArrayList(Iterables.filter(
+        return Lists.newArrayList(Iterables.filter(
             branches, new Predicate<BranchInfo>() {
+              @Override
               public boolean apply(BranchInfo in) {
                 return a.run(in.ref);
               }
-            })));
+            }));
       } catch (IllegalArgumentException e) {
         throw new BadRequestException(e.getMessage());
       }

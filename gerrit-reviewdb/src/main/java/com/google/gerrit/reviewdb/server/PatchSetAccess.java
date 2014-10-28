@@ -24,6 +24,7 @@ import com.google.gwtorm.server.Query;
 import com.google.gwtorm.server.ResultSet;
 
 public interface PatchSetAccess extends Access<PatchSet, PatchSet.Id> {
+  @Override
   @PrimaryKey("id")
   PatchSet get(PatchSet.Id id) throws OrmException;
 

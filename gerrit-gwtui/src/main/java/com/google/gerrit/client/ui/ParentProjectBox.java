@@ -82,6 +82,7 @@ public class ParentProjectBox extends Composite {
     @Override
     public void _onRequestSuggestions(Request req, final Callback callback) {
       super._onRequestSuggestions(req, new Callback() {
+        @Override
         public void onSuggestionsReady(Request request, Response response) {
           if (exclude.size() > 0) {
             Set<Suggestion> filteredSuggestions =

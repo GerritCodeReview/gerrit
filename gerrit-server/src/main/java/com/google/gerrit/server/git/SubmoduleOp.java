@@ -318,6 +318,7 @@ public class SubmoduleOp {
       DirCacheEditor ed = dc.editor();
       for (final Map.Entry<Branch.NameKey, ObjectId> me : modules.entrySet()) {
         ed.add(new PathEdit(paths.get(me.getKey())) {
+          @Override
           public void apply(DirCacheEntry ent) {
             ent.setFileMode(FileMode.GITLINK);
             ent.setObjectId(me.getValue().copy());

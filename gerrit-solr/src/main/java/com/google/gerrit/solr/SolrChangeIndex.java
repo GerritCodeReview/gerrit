@@ -227,12 +227,12 @@ class SolrChangeIndex implements ChangeIndex, LifecycleListener {
   }
 
   private class QuerySource implements ChangeDataSource {
-    private final List<SolrServer> indexes;
+    private final List<SolrServer> servers;
     private final SolrQuery query;
 
     public QuerySource(List<SolrServer> indexes, Query q, int start, int limit,
         List<SortClause> sorts) {
-      this.indexes = indexes;
+      this.servers = indexes;
 
       query = new SolrQuery(q.toString());
       query.setParam("shards.tolerant", true);
@@ -264,7 +264,7 @@ class SolrChangeIndex implements ChangeIndex, LifecycleListener {
       try {
         // TODO Sort documents during merge to select only top N.
         SolrDocumentList docs = new SolrDocumentList();
-        for (SolrServer index : indexes) {
+        for (SolrServer index : servers) {
           docs.addAll(index.query(query).getResults());
         }
 
@@ -298,30 +298,25 @@ class SolrChangeIndex implements ChangeIndex, LifecycleListener {
     }
   }
 
-  private SolrInputDocument toDocument(ChangeData cd) throws IOException {
-    try {
-      SolrInputDocument result = new SolrInputDocument();
-      for (Values<ChangeData> values : schema.buildFields(cd, fillArgs)) {
-        add(result, values);
-      }
-      return result;
-    } catch (OrmException e) {
-      throw new IOException(e);
+  private SolrInputDocument toDocument(ChangeData cd) {
+    SolrInputDocument result = new SolrInputDocument();
+    for (Values<ChangeData> values : schema.buildFields(cd, fillArgs)) {
+      add(result, values);
     }
+    return result;
   }
 
-  private void add(SolrInputDocument doc, Values<ChangeData> values)
-      throws OrmException {
+  private void add(SolrInputDocument doc, Values<ChangeData> values) {
     String name = values.getField().getName();
     FieldType<?> type = values.getField().getType();
 
     if (type == FieldType.INTEGER) {
       for (Object value : values.getValues()) {
-        doc.addField(name, (Integer) value);
+        doc.addField(name, value);
       }
     } else if (type == FieldType.LONG) {
       for (Object value : values.getValues()) {
-        doc.addField(name, (Long) value);
+        doc.addField(name, value);
       }
     } else if (type == FieldType.TIMESTAMP) {
       @SuppressWarnings("deprecation")
@@ -340,7 +335,7 @@ class SolrChangeIndex implements ChangeIndex, LifecycleListener {
         || type == FieldType.PREFIX
         || type == FieldType.FULL_TEXT) {
       for (Object value : values.getValues()) {
-        doc.addField(name, (String) value);
+        doc.addField(name, value);
       }
     } else {
       throw QueryBuilder.badFieldType(type);

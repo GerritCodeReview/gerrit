@@ -16,7 +16,6 @@ package com.google.gerrit.server.mail;
 
 import static com.google.gerrit.server.mail.MailUtil.getRecipientsFromFooters;
 
-import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
@@ -29,12 +28,10 @@ import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.mail.MailUtil.MailRecipients;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
-import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -65,14 +62,12 @@ public class PatchSetNotificationSender {
 
   @Inject
   public PatchSetNotificationSender(Provider<ReviewDb> db,
-      ChangeHooks hooks,
       GitRepositoryManager repoManager,
       PatchSetInfoFactory patchSetInfoFactory,
       ApprovalsUtil approvalsUtil,
       AccountResolver accountResolver,
       CreateChangeSender.Factory createChangeSenderFactory,
-      ReplacePatchSetSender.Factory replacePatchSetFactory,
-      ChangeIndexer indexer) {
+      ReplacePatchSetSender.Factory replacePatchSetFactory) {
     this.db = db;
     this.repoManager = repoManager;
     this.patchSetInfoFactory = patchSetInfoFactory;
@@ -86,7 +81,7 @@ public class PatchSetNotificationSender {
       final boolean newChange, final IdentifiedUser currentUser,
       final Change updatedChange, final PatchSet updatedPatchSet,
       final LabelTypes labelTypes)
-      throws OrmException, IOException, PatchSetInfoNotAvailableException {
+      throws OrmException, IOException {
     final Repository git = repoManager.openRepository(updatedChange.getProject());
     try {
       final RevWalk revWalk = new RevWalk(git);

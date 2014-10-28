@@ -31,9 +31,7 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroupById;
 import com.google.gerrit.reviewdb.client.AccountGroupMember;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.account.AccountInfo;
-import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.group.AddIncludedGroups;
 import com.google.gerrit.server.group.AddMembers;
 import com.google.gerrit.server.group.CreateGroup;
@@ -41,12 +39,8 @@ import com.google.gerrit.server.group.GroupJson.GroupInfo;
 import com.google.gson.reflect.TypeToken;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
-import com.google.gwtorm.server.SchemaFactory;
-import com.google.inject.Inject;
 
 import org.apache.http.HttpStatus;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -56,25 +50,6 @@ import java.util.Map;
 import java.util.Set;
 
 public class AddRemoveGroupMembersIT extends AbstractDaemonTest {
-
-  @Inject
-  private SchemaFactory<ReviewDb> reviewDbProvider;
-
-  @Inject
-  private GroupCache groupCache;
-
-  private ReviewDb db;
-
-  @Before
-  public void setUp() throws Exception {
-    db = reviewDbProvider.open();
-  }
-
-  @After
-  public void tearDown() {
-    db.close();
-  }
-
   @Test
   public void addToNonExistingGroup_NotFound() throws Exception {
     assertEquals(HttpStatus.SC_NOT_FOUND,

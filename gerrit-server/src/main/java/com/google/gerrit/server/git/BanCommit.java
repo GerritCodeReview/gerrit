@@ -90,8 +90,8 @@ public class BanCommit {
 
   public BanCommitResult ban(final ProjectControl projectControl,
       final List<ObjectId> commitsToBan, final String reason)
-      throws PermissionDeniedException, IOException, InterruptedException,
-      MergeException, ConcurrentRefUpdateException {
+      throws PermissionDeniedException, IOException,
+      ConcurrentRefUpdateException {
     if (!projectControl.isOwner()) {
       throw new PermissionDeniedException(
           "Not project owner: not permitted to ban commits");
@@ -113,7 +113,7 @@ public class BanCommit {
           } catch (MissingObjectException e) {
             // Ignore exception, non-existing commits can be banned.
           } catch (IncorrectObjectTypeException e) {
-            result.notACommit(commitToBan, e.getMessage());
+            result.notACommit(commitToBan);
             continue;
           }
           if (noteId == null) {

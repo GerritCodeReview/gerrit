@@ -40,6 +40,7 @@ import com.google.gerrit.server.OutputFormat;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.change.ChangeJson;
 import com.google.gerrit.server.config.AllProjectsName;
+import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.project.ProjectCache;
@@ -103,6 +104,9 @@ public abstract class AbstractDaemonTest {
 
   @Inject
   protected GroupCache groupCache;
+
+  @Inject
+  protected GitRepositoryManager repoManager;
 
   protected Git git;
   protected GerritServer server;

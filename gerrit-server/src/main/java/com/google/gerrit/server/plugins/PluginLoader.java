@@ -71,7 +71,7 @@ public class PluginLoader implements LifecycleListener {
   static final String PLUGIN_TMP_PREFIX = "plugin_";
   static final Logger log = LoggerFactory.getLogger(PluginLoader.class);
 
-  public String getPluginName(File srcFile) throws IOException {
+  public String getPluginName(File srcFile) {
     return MoreObjects.firstNonNull(getGerritPluginName(srcFile),
         nameOf(srcFile));
   }
@@ -546,7 +546,7 @@ public class PluginLoader implements LifecycleListener {
   }
 
   private Plugin loadPlugin(String name, File srcPlugin, FileSnapshot snapshot)
-      throws IOException, ClassNotFoundException, InvalidPluginException {
+      throws InvalidPluginException {
     String pluginName = srcPlugin.getName();
     if (isJsPlugin(pluginName)) {
       return loadJsPlugin(name, srcPlugin, snapshot);
@@ -624,43 +624,37 @@ public class PluginLoader implements LifecycleListener {
   public Multimap<String, File> prunePlugins(File pluginsDir) {
     List<File> pluginFiles = scanFilesInPluginsDirectory(pluginsDir);
     Multimap<String, File> map;
-    try {
-      map = asMultimap(pluginFiles);
-      for (String plugin : map.keySet()) {
-        Collection<File> files = map.asMap().get(plugin);
-        if (files.size() == 1) {
-          continue;
-        }
-        // retrieve enabled plugins
-        Iterable<File> enabled = filterDisabledPlugins(
-            files);
-        // If we have only one (the winner) plugin, nothing to do
-        if (!Iterables.skip(enabled, 1).iterator().hasNext()) {
-          continue;
-        }
-        File winner = Iterables.getFirst(enabled, null);
-        assert(winner != null);
-        // Disable all loser plugins by renaming their file names to
-        // "file.disabled" and replace the disabled files in the multimap.
-        Collection<File> elementsToRemove = Lists.newArrayList();
-        Collection<File> elementsToAdd = Lists.newArrayList();
-        for (File loser : Iterables.skip(enabled, 1)) {
-          log.warn(String.format("Plugin <%s> was disabled, because"
-               + " another plugin <%s>"
-               + " with the same name <%s> already exists",
-               loser, winner, plugin));
-          File disabledPlugin = new File(loser + ".disabled");
-          elementsToAdd.add(disabledPlugin);
-          elementsToRemove.add(loser);
-          loser.renameTo(disabledPlugin);
-        }
-        Iterables.removeAll(files, elementsToRemove);
-        Iterables.addAll(files, elementsToAdd);
+    map = asMultimap(pluginFiles);
+    for (String plugin : map.keySet()) {
+      Collection<File> files = map.asMap().get(plugin);
+      if (files.size() == 1) {
+        continue;
       }
-    } catch (IOException e) {
-      log.warn("Cannot prune plugin list",
-          e.getCause());
-      return LinkedHashMultimap.create();
+      // retrieve enabled plugins
+      Iterable<File> enabled = filterDisabledPlugins(
+          files);
+      // If we have only one (the winner) plugin, nothing to do
+      if (!Iterables.skip(enabled, 1).iterator().hasNext()) {
+        continue;
+      }
+      File winner = Iterables.getFirst(enabled, null);
+      assert(winner != null);
+      // Disable all loser plugins by renaming their file names to
+      // "file.disabled" and replace the disabled files in the multimap.
+      Collection<File> elementsToRemove = Lists.newArrayList();
+      Collection<File> elementsToAdd = Lists.newArrayList();
+      for (File loser : Iterables.skip(enabled, 1)) {
+        log.warn(String.format("Plugin <%s> was disabled, because"
+             + " another plugin <%s>"
+             + " with the same name <%s> already exists",
+             loser, winner, plugin));
+        File disabledPlugin = new File(loser + ".disabled");
+        elementsToAdd.add(disabledPlugin);
+        elementsToRemove.add(loser);
+        loser.renameTo(disabledPlugin);
+      }
+      Iterables.removeAll(files, elementsToRemove);
+      Iterables.addAll(files, elementsToAdd);
     }
     return map;
   }
@@ -694,7 +688,7 @@ public class PluginLoader implements LifecycleListener {
     });
   }
 
-  public String getGerritPluginName(File srcFile) throws IOException {
+  public String getGerritPluginName(File srcFile) {
     String fileName = srcFile.getName();
     if (isJsPlugin(fileName)) {
       return fileName.substring(0, fileName.length() - 3);
@@ -705,8 +699,7 @@ public class PluginLoader implements LifecycleListener {
     return null;
   }
 
-  private Multimap<String, File> asMultimap(List<File> plugins)
-      throws IOException {
+  private Multimap<String, File> asMultimap(List<File> plugins) {
     Multimap<String, File> map = LinkedHashMultimap.create();
     for (File srcFile : plugins) {
       map.put(getPluginName(srcFile), srcFile);

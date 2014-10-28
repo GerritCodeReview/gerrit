@@ -22,19 +22,13 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.RestSession;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.group.CreateGroup;
 import com.google.gerrit.server.group.GroupJson.GroupInfo;
-import com.google.inject.Inject;
 
 import org.apache.http.HttpStatus;
 import org.junit.Test;
 
 public class CreateGroupIT extends AbstractDaemonTest {
-
-  @Inject
-  private GroupCache groupCache;
-
   @Test
   public void testCreateGroup() throws Exception {
     final String newGroupName = "newGroup";

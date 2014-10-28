@@ -28,10 +28,12 @@ public class AccountSuggestOracle extends SuggestAfterTypingNCharsOracle {
   @Override
   public void _onRequestSuggestions(final Request req, final Callback callback) {
     RpcStatus.hide(new Runnable() {
+      @Override
       public void run() {
         SuggestUtil.SVC.suggestAccount(req.getQuery(), Boolean.TRUE,
             req.getLimit(),
             new GerritCallback<List<AccountInfo>>() {
+              @Override
               public void onSuccess(final List<AccountInfo> result) {
                 final ArrayList<AccountSuggestion> r =
                     new ArrayList<>(result.size());
@@ -52,10 +54,12 @@ public class AccountSuggestOracle extends SuggestAfterTypingNCharsOracle {
       info = k;
     }
 
+    @Override
     public String getDisplayString() {
       return FormatUtil.nameEmail(FormatUtil.asInfo(info));
     }
 
+    @Override
     public String getReplacementString() {
       return FormatUtil.nameEmail(FormatUtil.asInfo(info));
     }

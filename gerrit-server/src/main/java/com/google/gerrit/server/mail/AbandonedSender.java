@@ -24,6 +24,7 @@ import com.google.inject.assistedinject.Assisted;
 public class AbandonedSender extends ReplyToChangeSender {
   public static interface Factory extends
       ReplyToChangeSender.Factory<AbandonedSender> {
+    @Override
     AbandonedSender create(Change change);
   }
 

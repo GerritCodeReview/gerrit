@@ -32,6 +32,7 @@ public class ApprovalDetail {
       final int owner) {
     List<ApprovalDetail> sorted = new ArrayList<>(ads);
     Collections.sort(sorted, new Comparator<ApprovalDetail>() {
+      @Override
       public int compare(ApprovalDetail o1, ApprovalDetail o2) {
         int byOwner = (o2.account.get() == owner ? 1 : 0)
             - (o1.account.get() == owner ? 1 : 0);

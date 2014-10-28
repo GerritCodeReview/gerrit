@@ -22,6 +22,7 @@ public class ListenableOldValue<T> extends ListenableValue<T> {
     return oldValue;
   }
 
+  @Override
   public void set(final T value) {
     try {
       oldValue = get();

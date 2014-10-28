@@ -101,7 +101,7 @@ public class Schema_65 extends SchemaVersion {
       ui.message("Moved contributor agreements to project.config");
 
       // Create the auto verify groups.
-      List<AccountGroup.UUID> adminGroupUUIDs = getAdministrateServerGroups(db, config);
+      List<AccountGroup.UUID> adminGroupUUIDs = getAdministrateServerGroups(config);
       for (ContributorAgreement agreement : agreements.values()) {
         if (agreement.getAutoVerify() != null) {
           getOrCreateGroupForIndividuals(db, config, adminGroupUUIDs, agreement);
@@ -273,7 +273,7 @@ public class Schema_65 extends SchemaVersion {
   }
 
   private List<AccountGroup.UUID> getAdministrateServerGroups(
-      ReviewDb db, ProjectConfig cfg) {
+      ProjectConfig cfg) {
     List<PermissionRule> rules = cfg.getAccessSection(AccessSection.GLOBAL_CAPABILITIES)
        .getPermission(GlobalCapability.ADMINISTRATE_SERVER)
        .getRules();

@@ -46,6 +46,7 @@ public class SignedTokenEmailTokenVerifier implements EmailTokenVerifier {
     emailRegistrationToken = config.getEmailRegistrationToken();
   }
 
+  @Override
   public String encode(Account.Id accountId, String emailAddress) {
     try {
       String payload = String.format("%s:%s", accountId, emailAddress);
@@ -59,6 +60,7 @@ public class SignedTokenEmailTokenVerifier implements EmailTokenVerifier {
     }
   }
 
+  @Override
   public ParsedToken decode(String tokenString) throws InvalidTokenException {
     ValidToken token;
     try {

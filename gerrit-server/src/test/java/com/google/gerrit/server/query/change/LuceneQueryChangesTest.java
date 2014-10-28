@@ -28,6 +28,7 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Test;
 
 public class LuceneQueryChangesTest extends AbstractQueryChangesTest {
+  @Override
   protected Injector createInjector() {
     Config luceneConfig = new Config(config);
     InMemoryModule.setDefaults(luceneConfig);

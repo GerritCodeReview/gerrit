@@ -24,7 +24,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStream;
 
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -45,7 +44,7 @@ public class LegacyGerritServlet extends HttpServlet {
   private final byte[] compressed;
 
   @Inject
-  LegacyGerritServlet(final ServletContext servletContext) throws IOException {
+  LegacyGerritServlet() throws IOException {
     final String pageName = "LegacyGerrit.html";
     final String doc = HtmlDomUtil.readFile(getClass(), pageName);
     if (doc == null) {

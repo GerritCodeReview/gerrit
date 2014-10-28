@@ -235,7 +235,7 @@ import javax.security.auth.login.LoginException;
 
   Set<AccountGroup.UUID> queryForGroups(final DirContext ctx,
       final String username, LdapQuery.Result account)
-      throws NamingException, AccountException {
+      throws NamingException {
     final LdapSchema schema = getSchema(ctx);
     final Set<String> groupDNs = new HashSet<>();
 

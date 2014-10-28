@@ -141,7 +141,7 @@ public class GitUtil {
   }
 
   public static void rm(Git gApi, String path)
-      throws GitAPIException, IOException {
+      throws GitAPIException {
     gApi.rm()
         .addFilepattern(path)
         .call();

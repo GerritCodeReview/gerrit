@@ -23,7 +23,6 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableList;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.common.TimeUtil;
-import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
@@ -42,7 +41,6 @@ import com.google.gerrit.server.git.validators.CommitValidationException;
 import com.google.gerrit.server.git.validators.CommitValidators;
 import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.mail.RevertedSender;
-import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
@@ -250,7 +248,7 @@ public class ChangeUtil {
 
   public Change.Id revert(ChangeControl ctl, PatchSet.Id patchSetId,
       String message, PersonIdent myIdent, SshInfo sshInfo)
-      throws NoSuchChangeException, EmailException, OrmException,
+      throws NoSuchChangeException, OrmException,
       MissingObjectException, IncorrectObjectTypeException, IOException,
       InvalidChangeOperationException {
     Change.Id changeId = patchSetId.getParentKey();
@@ -376,9 +374,9 @@ public class ChangeUtil {
 
   public Change.Id editCommitMessage(ChangeControl ctl, PatchSet.Id patchSetId,
       String message, PersonIdent myIdent)
-      throws NoSuchChangeException, EmailException, OrmException,
+      throws NoSuchChangeException, OrmException,
       MissingObjectException, IncorrectObjectTypeException, IOException,
-      InvalidChangeOperationException, PatchSetInfoNotAvailableException {
+      InvalidChangeOperationException {
     Change.Id changeId = patchSetId.getParentKey();
     PatchSet originalPS = db.get().patchSets().get(patchSetId);
     if (originalPS == null) {

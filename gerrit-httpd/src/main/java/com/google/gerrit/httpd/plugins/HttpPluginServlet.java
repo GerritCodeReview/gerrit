@@ -33,7 +33,6 @@ import com.google.gerrit.httpd.resources.SmallResource;
 import com.google.gerrit.httpd.restapi.RestApiServlet;
 import com.google.gerrit.server.MimeUtilFileTypeRegistry;
 import com.google.gerrit.server.config.CanonicalWebUrl;
-import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.documentation.MarkdownFormatter;
 import com.google.gerrit.server.plugins.Plugin;
 import com.google.gerrit.server.plugins.Plugin.ApiType;
@@ -50,7 +49,6 @@ import com.google.inject.Singleton;
 import com.google.inject.name.Named;
 import com.google.inject.servlet.GuiceFilter;
 
-import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.RawParseUtils;
 import org.slf4j.Logger;
@@ -109,7 +107,6 @@ class HttpPluginServlet extends HttpServlet
       MimeUtilFileTypeRegistry mimeUtil,
       @CanonicalWebUrl Provider<String> webUrl,
       @Named(HttpPluginModule.PLUGIN_RESOURCES) Cache<ResourceKey, Resource> cache,
-      @GerritServerConfig Config cfg,
       SshInfo sshInfo,
       RestApiServlet.Globals globals,
       PluginsCollection plugins) {

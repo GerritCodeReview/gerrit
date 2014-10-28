@@ -34,7 +34,6 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.PatchLineCommentsUtil;
 import com.google.gerrit.server.git.VersionedMetaData.BatchMetaDataUpdate;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.project.ChangeControl;
@@ -72,7 +71,6 @@ public class ChangeRebuilder {
       ChangeControl.GenericFactory controlFactory,
       IdentifiedUser.GenericFactory userFactory,
       PatchListCache patchListCache,
-      PatchLineCommentsUtil plcUtil,
       ChangeUpdate.Factory updateFactory,
       ChangeDraftUpdate.Factory draftUpdateFactory) {
     this.dbProvider = dbProvider;

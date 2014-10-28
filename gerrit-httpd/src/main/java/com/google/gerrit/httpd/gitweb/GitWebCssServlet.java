@@ -36,8 +36,8 @@ abstract class GitWebCssServlet extends HttpServlet {
   @Singleton
   static class Site extends GitWebCssServlet {
     @Inject
-    Site(SitePaths paths, GitWebConfig gwc) throws IOException {
-      super(paths.site_css, gwc);
+    Site(SitePaths paths) throws IOException {
+      super(paths.site_css);
     }
   }
 
@@ -45,7 +45,7 @@ abstract class GitWebCssServlet extends HttpServlet {
   static class Default extends GitWebCssServlet {
     @Inject
     Default(GitWebConfig gwc) throws IOException {
-      super(gwc.getGitwebCSS(), gwc);
+      super(gwc.getGitwebCSS());
     }
   }
 
@@ -55,7 +55,7 @@ abstract class GitWebCssServlet extends HttpServlet {
   private final byte[] raw_css;
   private final byte[] gz_css;
 
-  GitWebCssServlet(final File src, final GitWebConfig gitWebConfig)
+  GitWebCssServlet(final File src)
       throws IOException {
     if (src != null) {
       final File dir = src.getParentFile();

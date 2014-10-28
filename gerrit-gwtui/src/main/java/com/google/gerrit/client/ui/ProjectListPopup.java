@@ -88,9 +88,19 @@ public class ProjectListPopup implements FilteredUserInterface {
     };
   }
 
+  /**
+   * Invoked after moving pointer to a project.
+   *
+   * @param projectName project name.
+   */
   protected void onMovePointerTo(String projectName) {
   }
 
+  /**
+   * Invoked after opening a project row.
+   *
+   * @param projectName project name.
+   */
   protected void openRow(String projectName) {
   }
 

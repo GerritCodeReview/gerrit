@@ -171,6 +171,7 @@ public class PublishCommentScreen extends AccountScreen implements
           submitTypeRecord = SubmitTypeRecord.OK(
               SubmitType.valueOf(result.asString()));
         }
+        @Override
         public void onFailure(Throwable caught) {}
       }));
     ChangeApi.revision(patchSetId.getParentKey().get(), "" + patchSetId.get())
@@ -180,6 +181,7 @@ public class PublishCommentScreen extends AccountScreen implements
         public void onSuccess(NativeMap<JsArray<CommentInfo>> result) {
           drafts = result;
         }
+        @Override
         public void onFailure(Throwable caught) {}
       }));
     ChangeApi.revision(patchSetId).view("review")
@@ -445,6 +447,7 @@ public class PublishCommentScreen extends AccountScreen implements
       patchSetId.getParentKey().get(),
       "" + patchSetId.get(),
       new GerritCallback<SubmitInfo>() {
+          @Override
           public void onSuccess(SubmitInfo result) {
             saveStateOnUnload = false;
             goChange();

@@ -36,6 +36,7 @@ class DynamicItemProvider<T> implements Provider<DynamicItem<T>> {
     this.key = key;
   }
 
+  @Override
   public DynamicItem<T> get() {
     return new DynamicItem<>(key, find(injector, type), "gerrit");
   }

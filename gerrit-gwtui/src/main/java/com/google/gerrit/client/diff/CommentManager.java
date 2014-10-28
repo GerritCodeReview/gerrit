@@ -295,6 +295,7 @@ class CommentManager {
 
   Runnable toggleOpenBox(final CodeMirror cm) {
     return new Runnable() {
+      @Override
       public void run() {
         if (cm.hasActiveLine()) {
           CommentGroup w = map(cm.side()).get(
@@ -339,6 +340,7 @@ class CommentManager {
     }
 
     return new Runnable() {
+      @Override
       public void run() {
         if (cm.hasActiveLine()) {
           newDraft(cm);

@@ -139,6 +139,7 @@ public abstract class DynamicMap<T> implements Iterable<DynamicMap.Entry<T>> {
   }
 
   /** Iterate through all entries in an undefined order. */
+  @Override
   public Iterator<Entry<T>> iterator() {
     final Iterator<Map.Entry<NamePair, Provider<T>>> i =
         items.entrySet().iterator();

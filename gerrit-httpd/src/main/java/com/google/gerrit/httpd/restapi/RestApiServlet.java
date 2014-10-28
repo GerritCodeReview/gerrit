@@ -224,7 +224,7 @@ public class RestApiServlet extends HttpServlet {
         try {
           rsrc = rc.parse(rsrc, id);
           if (path.isEmpty()) {
-            checkPreconditions(req, rsrc);
+            checkPreconditions(req);
           }
         } catch (ResourceNotFoundException e) {
           if (rc instanceof AcceptsCreate
@@ -269,7 +269,7 @@ public class RestApiServlet extends HttpServlet {
           IdString id = path.remove(0);
           try {
             rsrc = c.parse(rsrc, id);
-            checkPreconditions(req, rsrc);
+            checkPreconditions(req);
             viewData = new ViewData(null, null);
           } catch (ResourceNotFoundException e) {
             if (c instanceof AcceptsCreate
@@ -439,7 +439,7 @@ public class RestApiServlet extends HttpServlet {
     }
   }
 
-  private void checkPreconditions(HttpServletRequest req, RestResource rsrc)
+  private void checkPreconditions(HttpServletRequest req)
       throws PreconditionFailedException {
     if ("*".equals(req.getHeader("If-None-Match"))) {
       throw new PreconditionFailedException("Resource already exists");

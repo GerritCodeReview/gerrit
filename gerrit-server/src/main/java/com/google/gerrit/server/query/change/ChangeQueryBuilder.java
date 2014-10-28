@@ -122,8 +122,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
 
   @SuppressWarnings("unchecked")
   public static Integer getLimit(Predicate<ChangeData> p) {
-    IntPredicate<?> ip =
-        (IntPredicate<?>) find(p, IntPredicate.class, FIELD_LIMIT);
+    IntPredicate<?> ip = find(p, IntPredicate.class, FIELD_LIMIT);
     return ip != null ? ip.intValue() : null;
   }
 
@@ -270,7 +269,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   }
 
   @Operator
-  public Predicate<ChangeData> comment(String value) throws QueryParseException {
+  public Predicate<ChangeData> comment(String value) {
     ChangeIndex index = args.indexes.getSearchIndex();
     return new CommentPredicate(args, index, value);
   }
@@ -302,7 +301,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   }
 
   @Operator
-  public Predicate<ChangeData> is(String value) throws QueryParseException {
+  public Predicate<ChangeData> is(String value) {
     if ("starred".equalsIgnoreCase(value)) {
       return new IsStarredByPredicate(args, currentUser);
     }
@@ -373,8 +372,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
 
   @Operator
   public Predicate<ChangeData> parentproject(String name) {
-    return new ParentProjectPredicate(args.db, args.projectCache,
-        args.listChildProjects, args.self, name);
+    return new ParentProjectPredicate(args.projectCache, args.listChildProjects,
+        args.self, name);
   }
 
   @Operator
@@ -410,23 +409,23 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   }
 
   @Operator
-  public Predicate<ChangeData> f(String file) throws QueryParseException {
+  public Predicate<ChangeData> f(String file) {
     return file(file);
   }
 
   @Operator
-  public Predicate<ChangeData> file(String file) throws QueryParseException {
+  public Predicate<ChangeData> file(String file) {
     if (file.startsWith("^")) {
-      return new RegexPathPredicate(FIELD_FILE, file);
+      return new RegexPathPredicate(file);
     } else {
       return EqualsFilePredicate.create(args, file);
     }
   }
 
   @Operator
-  public Predicate<ChangeData> path(String path) throws QueryParseException {
+  public Predicate<ChangeData> path(String path) {
     if (path.startsWith("^")) {
-      return new RegexPathPredicate(FIELD_PATH, path);
+      return new RegexPathPredicate(path);
     } else {
       return new EqualsPathPredicate(FIELD_PATH, path);
     }
@@ -487,7 +486,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   }
 
   @Operator
-  public Predicate<ChangeData> message(String text) throws QueryParseException {
+  public Predicate<ChangeData> message(String text) {
     ChangeIndex index = args.indexes.getSearchIndex();
     return new MessagePredicate(args, index, text);
   }
@@ -730,26 +729,14 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     } catch (OrmException | QueryParseException e) {
       // Skip.
     }
-    try {
-      predicates.add(file(query));
-    } catch (QueryParseException e) {
-      // Skip.
-    }
+    predicates.add(file(query));
     try {
       predicates.add(label(query));
     } catch (OrmException | QueryParseException e) {
       // Skip.
     }
-    try {
-      predicates.add(message(query));
-    } catch (QueryParseException e) {
-      // Skip.
-    }
-    try {
-      predicates.add(comment(query));
-    } catch (QueryParseException e) {
-      // Skip.
-    }
+    predicates.add(message(query));
+    predicates.add(comment(query));
     try {
       predicates.add(projects(query));
     } catch (QueryParseException e) {

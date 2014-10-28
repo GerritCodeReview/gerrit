@@ -250,7 +250,7 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
 
   private void updateNoteMap(boolean changed, NoteMap noteMap,
       List<PatchLineComment> comments, RevId commitId)
-      throws IOException, OrmException {
+      throws IOException {
     if (changed) {
       if (comments.isEmpty()) {
         commentsUtil.removeNote(noteMap, commitId);

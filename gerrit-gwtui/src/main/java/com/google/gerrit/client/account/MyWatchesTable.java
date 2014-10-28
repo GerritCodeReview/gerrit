@@ -67,6 +67,7 @@ public class MyWatchesTable extends FancyFlexTable<AccountProjectWatchInfo> {
     if (!ids.isEmpty()) {
       Util.ACCOUNT_SVC.deleteProjectWatches(ids,
           new GerritCallback<VoidResult>() {
+            @Override
             public void onSuccess(final VoidResult result) {
               remove(ids);
             }
@@ -165,6 +166,7 @@ public class MyWatchesTable extends FancyFlexTable<AccountProjectWatchInfo> {
         cbox.setEnabled(false);
         Util.ACCOUNT_SVC.updateProjectWatch(info.getWatch(),
             new GerritCallback<VoidResult>() {
+              @Override
               public void onSuccess(final VoidResult result) {
                 cbox.setEnabled(true);
               }

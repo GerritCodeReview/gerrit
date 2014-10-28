@@ -19,6 +19,7 @@ import java.util.concurrent.TimeUnit;
 public class CacheControl {
 
   public enum Type {
+    @SuppressWarnings("hiding")
     NONE, PUBLIC, PRIVATE
   }
 

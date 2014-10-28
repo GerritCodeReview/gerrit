@@ -137,6 +137,7 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener {
         return output;
       }
 
+      @Override
       public String toString() {
         StringBuilder sb = new StringBuilder();
 
@@ -243,7 +244,6 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener {
       final ProjectCache projectCache,
       final AccountCache accountCache,
       final EventFactory eventFactory,
-      final SitePaths sitePaths,
       final DynamicSet<ChangeListener> unrestrictedListeners) {
         this.anonymousCowardName = anonymousCowardName;
         this.repoManager = repoManager;
@@ -276,10 +276,12 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener {
               .build());
     }
 
+    @Override
     public void addChangeListener(ChangeListener listener, IdentifiedUser user) {
         listeners.put(listener, new ChangeListenerHolder(listener, user));
     }
 
+    @Override
     public void removeChangeListener(ChangeListener listener) {
         listeners.remove(listener);
     }
@@ -324,6 +326,7 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener {
      * Fire the update hook
      *
      */
+    @Override
     public HookResult doRefUpdateHook(final Project project, final String refname,
         final Account uploader, final ObjectId oldId, final ObjectId newId) {
 
@@ -334,15 +337,7 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener {
       addArg(args, "--oldrev", oldId.getName());
       addArg(args, "--newrev", newId.getName());
 
-      HookResult hookResult;
-
-      try {
-        hookResult = runSyncHook(project.getNameKey(), refUpdateHook, args);
-      } catch (TimeoutException e) {
-        hookResult = new HookResult(-1, "Synchronous hook timed out");
-      }
-
-      return hookResult;
+      return runSyncHook(project.getNameKey(), refUpdateHook, args);
     }
 
     /**
@@ -352,6 +347,7 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener {
      * @param patchSet The Patchset that was created.
      * @throws OrmException
      */
+    @Override
     public void doPatchsetCreatedHook(final Change change, final PatchSet patchSet,
           final ReviewDb db) throws OrmException {
         final PatchSetCreatedEvent event = new PatchSetCreatedEvent();
@@ -379,6 +375,7 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener {
         runHook(change.getProject(), patchsetCreatedHook, args);
     }
 
+    @Override
     public void doDraftPublishedHook(final Change change, final PatchSet patchSet,
           final ReviewDb db) throws OrmException {
         final DraftPublishedEvent event = new DraftPublishedEvent();
@@ -404,6 +401,7 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener {
         runHook(change.getProject(), draftPublishedHook, args);
     }
 
+    @Override
     public void doCommentAddedHook(final Change change, final Account account,
           final PatchSet patchSet, final String comment, final Map<String, Short> approvals,
           final ReviewDb db) throws OrmException {
@@ -447,6 +445,7 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener {
         runHook(change.getProject(), commentAddedHook, args);
     }
 
+    @Override
     public void doChangeMergedHook(final Change change, final Account account,
           final PatchSet patchSet, final ReviewDb db) throws OrmException {
         final ChangeMergedEvent event = new ChangeMergedEvent();
@@ -470,6 +469,7 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener {
         runHook(change.getProject(), changeMergedHook, args);
     }
 
+    @Override
     public void doMergeFailedHook(final Change change, final Account account,
           final PatchSet patchSet, final String reason,
           final ReviewDb db) throws OrmException {
@@ -496,6 +496,7 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener {
         runHook(change.getProject(), mergeFailedHook, args);
     }
 
+    @Override
     public void doChangeAbandonedHook(final Change change, final Account account,
           final PatchSet patchSet, final String reason, final ReviewDb db)
           throws OrmException {
@@ -522,6 +523,7 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener {
         runHook(change.getProject(), changeAbandonedHook, args);
     }
 
+    @Override
     public void doChangeRestoredHook(final Change change, final Account account,
           final PatchSet patchSet, final String reason, final ReviewDb db)
           throws OrmException {
@@ -548,10 +550,12 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener {
         runHook(change.getProject(), changeRestoredHook, args);
     }
 
+    @Override
     public void doRefUpdatedHook(final Branch.NameKey refName, final RefUpdate refUpdate, final Account account) {
       doRefUpdatedHook(refName, refUpdate.getOldObjectId(), refUpdate.getNewObjectId(), account);
     }
 
+    @Override
     public void doRefUpdatedHook(final Branch.NameKey refName, final ObjectId oldId, final ObjectId newId, final Account account) {
       final RefUpdatedEvent event = new RefUpdatedEvent();
 
@@ -573,6 +577,7 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener {
       runHook(refName.getParentKey(), refUpdatedHook, args);
     }
 
+    @Override
     public void doReviewerAddedHook(final Change change, final Account account,
         final PatchSet patchSet, final ReviewDb db) throws OrmException {
       final ReviewerAddedEvent event = new ReviewerAddedEvent();
@@ -594,6 +599,7 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener {
       runHook(change.getProject(), reviewerAddedHook, args);
     }
 
+    @Override
     public void doTopicChangedHook(final Change change, final Account account,
         final String oldTopic, final ReviewDb db)
             throws OrmException {
@@ -625,6 +631,7 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener {
       return null;
     }
 
+    @Override
     public void doHashtagsChangedHook(Change change, Account account,
         Set<String> added, Set<String> removed, Set<String> hashtags, ReviewDb db)
             throws OrmException {
@@ -663,6 +670,7 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener {
       runHook(change.getProject(), hashtagsChangedHook, args);
     }
 
+    @Override
     public void doClaSignupHook(Account account, ContributorAgreement cla) {
       if (account != null) {
         final List<String> args = new ArrayList<>();
@@ -786,7 +794,7 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener {
   }
 
   private HookResult runSyncHook(Project.NameKey project,
-      File hook, List<String> args) throws TimeoutException {
+      File hook, List<String> args) {
 
     if (!hook.exists()) {
       return null;

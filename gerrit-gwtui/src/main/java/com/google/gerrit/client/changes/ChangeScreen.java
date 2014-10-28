@@ -313,6 +313,7 @@ public class ChangeScreen extends Screen
               event.getValue().setSubmitTypeRecord(SubmitTypeRecord.OK(
                   SubmitType.valueOf(result.asString())));
             }
+            @Override
             public void onFailure(Throwable caught) {}
           }));
       }
@@ -388,7 +389,9 @@ public class ChangeScreen extends Screen
                   ListChangesOption.CURRENT_REVISION));
                 call.get(cbs2.add(new AsyncCallback<
                     com.google.gerrit.client.changes.ChangeInfo>() {
+                  @Override
                   public void onFailure(Throwable caught) {}
+                  @Override
                   public void onSuccess(
                       com.google.gerrit.client.changes.ChangeInfo result) {
                     i.set(ChangeDetailCache.toChange(result),
@@ -398,6 +401,7 @@ public class ChangeScreen extends Screen
                         .merge(ChangeDetailCache.users(result));
                   }}));
               }
+              @Override
               public void onFailure(Throwable caught) {}
             }));
         ChangeApi.revision(changeId.get(), revId)
@@ -416,6 +420,7 @@ public class ChangeScreen extends Screen
                   p.setReviewedByCurrentUser(true);
                 }
               }
+              @Override
               public void onFailure(Throwable caught) {}
             }));
         final Set<PatchSet.Id> withDrafts = new HashSet<>();
@@ -432,6 +437,7 @@ public class ChangeScreen extends Screen
                     withDrafts.add(id);
                   }
                 }
+                @Override
                 public void onFailure(Throwable caught) {}
               }));
           }
@@ -453,6 +459,7 @@ public class ChangeScreen extends Screen
                 withDrafts.add(psId);
               }
             }
+            @Override
             public void onFailure(Throwable caught) {}
           }));
       }
@@ -470,6 +477,7 @@ public class ChangeScreen extends Screen
               p.setCommentCount(result.get(path).length());
             }
           }
+          @Override
           public void onFailure(Throwable caught) {}
         }));
       DiffApi.list(changeId.get(), null, revId,
@@ -497,6 +505,7 @@ public class ChangeScreen extends Screen
               }
               event.getValue().getCurrentPatchSetDetail().setPatches(list);
             }
+            @Override
             public void onFailure(Throwable caught) {}
       });
       ConfigInfoCache.get(
@@ -524,6 +533,7 @@ public class ChangeScreen extends Screen
                 public void onSuccess(Void result) {
                   display(event.getValue());
                 }
+                @Override
                 public void onFailure(Throwable caught) {}
               }).onSuccess(null);
             }

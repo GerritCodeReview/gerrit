@@ -28,6 +28,7 @@ public final class HostPlatform {
   private static final boolean computeWin32() {
     final String osDotName =
         AccessController.doPrivileged(new PrivilegedAction<String>() {
+          @Override
           public String run() {
             return System.getProperty("os.name");
           }

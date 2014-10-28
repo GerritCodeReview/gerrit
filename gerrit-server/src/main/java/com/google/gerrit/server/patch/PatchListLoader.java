@@ -127,7 +127,7 @@ public class PatchListLoader extends CacheLoader<PatchListKey, PatchList> {
         // This is a merge commit, compared to its ancestor.
         //
         final PatchListEntry[] entries = new PatchListEntry[1];
-        entries[0] = newCommitMessage(cmp, repo, reader, null, b);
+        entries[0] = newCommitMessage(cmp, reader, null, b);
         return new PatchList(a, b, true, entries);
       }
 
@@ -158,7 +158,7 @@ public class PatchListLoader extends CacheLoader<PatchListKey, PatchList> {
           : null;
       int cnt = diffEntries.size();
       List<PatchListEntry> entries = new ArrayList<>();
-      entries.add(newCommitMessage(cmp, repo, reader, //
+      entries.add(newCommitMessage(cmp, reader,
           againstParent ? null : aCommit, b));
       for (int i = 0; i < cnt; i++) {
         DiffEntry diffEntry = diffEntries.get(i);
@@ -176,7 +176,7 @@ public class PatchListLoader extends CacheLoader<PatchListKey, PatchList> {
   }
 
   private PatchListEntry newCommitMessage(final RawTextComparator cmp,
-      final Repository db, final ObjectReader reader,
+      final ObjectReader reader,
       final RevCommit aCommit, final RevCommit bCommit) throws IOException {
     StringBuilder hdr = new StringBuilder();
 
@@ -197,8 +197,8 @@ public class PatchListLoader extends CacheLoader<PatchListKey, PatchList> {
     hdr.append("+++ b/").append(Patch.COMMIT_MSG).append("\n");
 
     Text aText =
-        aCommit != null ? Text.forCommit(db, reader, aCommit) : Text.EMPTY;
-    Text bText = Text.forCommit(db, reader, bCommit);
+        aCommit != null ? Text.forCommit(reader, aCommit) : Text.EMPTY;
+    Text bText = Text.forCommit(reader, bCommit);
 
     byte[] rawHdr = hdr.toString().getBytes("UTF-8");
     RawText aRawText = new RawText(aText.getContent());

@@ -35,10 +35,12 @@ public class AccountGroupSuggestOracle extends SuggestAfterTypingNCharsOracle {
   @Override
   public void _onRequestSuggestions(final Request req, final Callback callback) {
     RpcStatus.hide(new Runnable() {
+      @Override
       public void run() {
         SuggestUtil.SVC.suggestAccountGroupForProject(
             projectName, req.getQuery(), req.getLimit(),
             new GerritCallback<List<GroupReference>>() {
+              @Override
               public void onSuccess(final List<GroupReference> result) {
                 priorResults.clear();
                 final ArrayList<AccountGroupSuggestion> r =
@@ -66,10 +68,12 @@ public class AccountGroupSuggestOracle extends SuggestAfterTypingNCharsOracle {
       info = k;
     }
 
+    @Override
     public String getDisplayString() {
       return info.getName();
     }
 
+    @Override
     public String getReplacementString() {
       return info.getName();
     }

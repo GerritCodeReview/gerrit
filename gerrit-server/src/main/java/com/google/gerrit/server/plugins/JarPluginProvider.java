@@ -85,7 +85,7 @@ public class JarPluginProvider implements ServerPluginProvider {
         File tmp = asTemp(in, tempNameFor(name), extension, tmpDir);
         return loadJarPlugin(name, srcFile, snapshot, tmp, description);
       }
-    } catch (IOException | ClassNotFoundException e) {
+    } catch (IOException e) {
       throw new InvalidPluginException("Cannot load Jar plugin " + srcFile, e);
     }
   }
@@ -119,8 +119,7 @@ public class JarPluginProvider implements ServerPluginProvider {
 
   private ServerPlugin loadJarPlugin(String name, File srcJar,
       FileSnapshot snapshot, File tmp, PluginDescription description)
-      throws IOException, InvalidPluginException, MalformedURLException,
-      ClassNotFoundException {
+      throws IOException, InvalidPluginException, MalformedURLException {
     JarFile jarFile = new JarFile(tmp);
     boolean keep = false;
     try {

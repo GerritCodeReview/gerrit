@@ -62,7 +62,7 @@ public class AccountManager {
       final IdentifiedUser.GenericFactory userFactory,
       final ChangeUserName.Factory changeUserNameFactory,
       final ProjectCache projectCache,
-      final AuditService auditService) throws OrmException {
+      final AuditService auditService) {
     this.schema = schema;
     this.byIdCache = byIdCache;
     this.byEmailCache = byEmailCache;

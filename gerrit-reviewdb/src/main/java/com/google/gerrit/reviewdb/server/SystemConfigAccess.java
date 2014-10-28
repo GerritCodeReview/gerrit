@@ -24,6 +24,7 @@ import com.google.gwtorm.server.ResultSet;
 /** Access interface for {@link SystemConfig}. */
 public interface SystemConfigAccess extends
     Access<SystemConfig, SystemConfig.Key> {
+  @Override
   @PrimaryKey("singleton")
   SystemConfig get(SystemConfig.Key key) throws OrmException;
 

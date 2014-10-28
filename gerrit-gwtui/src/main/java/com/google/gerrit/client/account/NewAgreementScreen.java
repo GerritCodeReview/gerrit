@@ -79,6 +79,7 @@ public class NewAgreementScreen extends AccountScreen {
   protected void onLoad() {
     super.onLoad();
     Util.ACCOUNT_SVC.myAgreements(new GerritCallback<AgreementInfo>() {
+      @Override
       public void onSuccess(AgreementInfo result) {
         if (isAttached()) {
           mySigned = new HashSet<>(result.accepted);
@@ -88,6 +89,7 @@ public class NewAgreementScreen extends AccountScreen {
     });
     Gerrit.SYSTEM_SVC
         .contributorAgreements(new GerritCallback<List<ContributorAgreement>>() {
+          @Override
           public void onSuccess(final List<ContributorAgreement> result) {
             if (isAttached()) {
               available = result;
@@ -224,6 +226,7 @@ public class NewAgreementScreen extends AccountScreen {
   private void doEnterAgreement() {
     Util.ACCOUNT_SEC.enterAgreement(current.getName(),
         new GerritCallback<VoidResult>() {
+          @Override
           public void onSuccess(final VoidResult result) {
             Gerrit.display(nextToken);
           }
@@ -247,10 +250,12 @@ public class NewAgreementScreen extends AccountScreen {
       }
       final RequestBuilder rb = new RequestBuilder(RequestBuilder.GET, url);
       rb.setCallback(new RequestCallback() {
+        @Override
         public void onError(Request request, Throwable exception) {
           new ErrorDialog(exception).center();
         }
 
+        @Override
         public void onResponseReceived(Request request, Response response) {
           final String ct = response.getHeader("Content-Type");
           if (response.getStatusCode() == 200 && ct != null

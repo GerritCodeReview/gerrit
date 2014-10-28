@@ -24,6 +24,7 @@ import com.google.gwtorm.server.ResultSet;
 /** Access interface for {@link Account}. */
 public interface AccountAccess extends Access<Account, Account.Id> {
   /** Locate an account by our locally generated identity. */
+  @Override
   @PrimaryKey("accountId")
   Account get(Account.Id key) throws OrmException;
 

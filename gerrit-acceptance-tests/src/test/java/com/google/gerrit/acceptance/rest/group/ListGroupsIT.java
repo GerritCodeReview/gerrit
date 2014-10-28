@@ -26,11 +26,9 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.group.CreateGroup;
 import com.google.gerrit.server.group.GroupJson.GroupInfo;
 import com.google.gson.reflect.TypeToken;
-import com.google.inject.Inject;
 
 import org.apache.http.HttpStatus;
 import org.junit.Test;
@@ -39,10 +37,6 @@ import java.util.Map;
 import java.util.Set;
 
 public class ListGroupsIT extends AbstractDaemonTest {
-
-  @Inject
-  private GroupCache groupCache;
-
   @Test
   public void testListAllGroups() throws Exception {
     Iterable<String> expectedGroups = Iterables.transform(groupCache.all(),

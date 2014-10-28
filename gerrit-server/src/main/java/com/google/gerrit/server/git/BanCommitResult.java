@@ -32,7 +32,7 @@ public class BanCommitResult {
     alreadyBannedCommits.add(commitId);
   }
 
-  public void notACommit(final ObjectId id, final String message) {
+  public void notACommit(final ObjectId id) {
     ignoredObjectIds.add(id);
   }
 

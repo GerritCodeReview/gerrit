@@ -159,6 +159,7 @@ class SshPanel extends Composite {
     if (txt != null && txt.length() > 0) {
       addNew.setEnabled(false);
       AccountApi.addSshKey("self", txt, new GerritCallback<SshKeyInfo>() {
+        @Override
         public void onSuccess(final SshKeyInfo k) {
           addNew.setEnabled(true);
           addTxt.setText("");
@@ -198,6 +199,7 @@ class SshPanel extends Composite {
     super.onLoad();
     refreshSshKeys();
     Gerrit.SYSTEM_SVC.daemonHostKeys(new GerritCallback<List<SshHostKey>>() {
+      @Override
       public void onSuccess(final List<SshHostKey> result) {
         serverKeys.clear();
         for (final SshHostKey keyInfo : result) {
@@ -272,6 +274,7 @@ class SshPanel extends Composite {
         deleteKey.setEnabled(false);
         AccountApi.deleteSshKeys("self", sequenceNumbers,
             new GerritCallback<VoidResult>() {
+              @Override
               public void onSuccess(VoidResult result) {
                 for (int row = 1; row < table.getRowCount();) {
                   final SshKeyInfo k = getRowItem(row);

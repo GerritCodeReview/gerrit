@@ -34,9 +34,11 @@ public class ReviewerSuggestOracle extends SuggestAfterTypingNCharsOracle {
   @Override
   protected void _onRequestSuggestions(final Request req, final Callback callback) {
     RpcStatus.hide(new Runnable() {
+      @Override
       public void run() {
         SuggestUtil.SVC.suggestChangeReviewer(changeId, req.getQuery(),
             req.getLimit(), new GerritCallback<List<ReviewerInfo>>() {
+              @Override
               public void onSuccess(final List<ReviewerInfo> result) {
                 final List<ReviewerSuggestion> r =
                     new ArrayList<>(result.size());
@@ -61,6 +63,7 @@ public class ReviewerSuggestOracle extends SuggestAfterTypingNCharsOracle {
       this.reviewerInfo = reviewerInfo;
     }
 
+    @Override
     public String getDisplayString() {
       final AccountInfo accountInfo = reviewerInfo.getAccountInfo();
       if (accountInfo != null) {
@@ -70,6 +73,7 @@ public class ReviewerSuggestOracle extends SuggestAfterTypingNCharsOracle {
           + Util.C.suggestedGroupLabel() + ")";
     }
 
+    @Override
     public String getReplacementString() {
       final AccountInfo accountInfo = reviewerInfo.getAccountInfo();
       if (accountInfo != null) {

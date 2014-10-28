@@ -35,6 +35,7 @@ class DynamicSetProvider<T> implements Provider<DynamicSet<T>> {
     this.type = type;
   }
 
+  @Override
   public DynamicSet<T> get() {
     return new DynamicSet<>(find(injector, type));
   }

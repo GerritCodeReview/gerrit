@@ -92,6 +92,7 @@ public abstract class SchemaVersion {
     try {
       final List<String> pruneList = Lists.newArrayList();
       s.pruneSchema(new StatementExecutor() {
+        @Override
         public void execute(String sql) {
           pruneList.add(sql);
         }
@@ -130,7 +131,13 @@ public abstract class SchemaVersion {
     }
   }
 
-  /** Invoke before updateSchema adds new columns/tables. */
+  /**
+   * Invoked before updateSchema adds new columns/tables.
+   *
+   * @param db open database handle.
+   * @throws OrmException if a Gerrit-specific exception occurred.
+   * @throws SQLException if an underlying SQL exception occurred.
+   */
   protected void preUpdateSchema(ReviewDb db) throws OrmException, SQLException {
   }
 
@@ -148,6 +155,11 @@ public abstract class SchemaVersion {
   /**
    * Invoked between updateSchema (adds new columns/tables) and pruneSchema
    * (removes deleted columns/tables).
+   *
+   * @param db open database handle.
+   * @param ui interface for interacting with the user.
+   * @throws OrmException if a Gerrit-specific exception occurred.
+   * @throws SQLException if an underlying SQL exception occurred.
    */
   protected void migrateData(ReviewDb db, UpdateUI ui) throws OrmException, SQLException {
   }

@@ -24,7 +24,6 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.group.GroupJson.GroupInfo;
 import com.google.gerrit.server.group.GroupOptionsInfo;
 import com.google.gerrit.server.group.PutDescription;
@@ -32,16 +31,11 @@ import com.google.gerrit.server.group.PutName;
 import com.google.gerrit.server.group.PutOptions;
 import com.google.gerrit.server.group.PutOwner;
 import com.google.gerrit.server.group.SystemGroupBackend;
-import com.google.inject.Inject;
 
 import org.apache.http.HttpStatus;
 import org.junit.Test;
 
 public class GroupPropertiesIT extends AbstractDaemonTest {
-
-  @Inject
-  private GroupCache groupCache;
-
   @Test
   public void testGroupName() throws Exception {
     AccountGroup.NameKey adminGroupName = new AccountGroup.NameKey("Administrators");

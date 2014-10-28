@@ -29,7 +29,6 @@ import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.account.AccountInfo;
-import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.SubmitRuleEvaluator;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -68,8 +67,7 @@ public class ReviewerJson {
     for (ReviewerResource rsrc : rsrcs) {
       ReviewerInfo info = format(new ReviewerInfo(
           rsrc.getUser().getAccountId()),
-          rsrc.getUserControl(),
-          rsrc.getNotes());
+          rsrc.getUserControl());
       loader.put(info);
       infos.add(info);
     }
@@ -81,8 +79,7 @@ public class ReviewerJson {
     return format(ImmutableList.<ReviewerResource> of(rsrc));
   }
 
-  public ReviewerInfo format(ReviewerInfo out, ChangeControl ctl,
-      ChangeNotes changeNotes) throws OrmException {
+  public ReviewerInfo format(ReviewerInfo out, ChangeControl ctl) throws OrmException {
     PatchSet.Id psId = ctl.getChange().currentPatchSetId();
     return format(out, ctl,
         approvalsUtil.byPatchSetUser(db.get(), ctl, psId, out._id));

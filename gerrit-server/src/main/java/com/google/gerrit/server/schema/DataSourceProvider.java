@@ -23,7 +23,6 @@ import com.google.gerrit.extensions.persistence.DataSourceInterceptor;
 import com.google.gerrit.server.config.ConfigSection;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gerrit.server.config.SitePaths;
 import com.google.gwtorm.jdbc.SimpleDataSource;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -46,18 +45,15 @@ public class DataSourceProvider implements Provider<DataSource>,
     LifecycleListener {
   public static final int DEFAULT_POOL_LIMIT = 8;
 
-  private final SitePaths site;
   private final Config cfg;
   private final Context ctx;
   private final DataSourceType dst;
   private DataSource ds;
 
   @Inject
-  protected DataSourceProvider(SitePaths site,
-      @GerritServerConfig Config cfg,
+  protected DataSourceProvider(@GerritServerConfig Config cfg,
       Context ctx,
       DataSourceType dst) {
-    this.site = site;
     this.cfg = cfg;
     this.ctx = ctx;
     this.dst = dst;
@@ -66,7 +62,7 @@ public class DataSourceProvider implements Provider<DataSource>,
   @Override
   public synchronized DataSource get() {
     if (ds == null) {
-      ds = open(site, cfg, ctx, dst);
+      ds = open(cfg, ctx, dst);
     }
     return ds;
   }
@@ -90,8 +86,8 @@ public class DataSourceProvider implements Provider<DataSource>,
     SINGLE_USER, MULTI_USER
   }
 
-  private DataSource open(final SitePaths site, final Config cfg,
-      final Context context, final DataSourceType dst) {
+  private DataSource open(final Config cfg, final Context context,
+      final DataSourceType dst) {
     ConfigSection dbs = new ConfigSection(cfg, "database");
     String driver = dbs.optional("driver");
     if (Strings.isNullOrEmpty(driver)) {

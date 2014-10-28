@@ -30,6 +30,7 @@ class RestoreAction extends ActionMessageBox {
     this.id = id;
   }
 
+  @Override
   void send(String message) {
     ChangeApi.restore(id.get(), message, new GerritCallback<ChangeInfo>() {
       @Override

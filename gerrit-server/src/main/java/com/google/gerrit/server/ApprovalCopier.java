@@ -150,8 +150,7 @@ public class ApprovalCopier {
   }
 
   private static boolean canCopy(ProjectState project, PatchSetApproval psa,
-      PatchSet.Id psId, NavigableSet<Integer> allPsIds, ChangeKind kind)
-      throws OrmException {
+      PatchSet.Id psId, NavigableSet<Integer> allPsIds, ChangeKind kind) {
     int n = psa.getKey().getParentKey().get();
     checkArgument(n != psId.get());
     LabelType type = project.getLabelTypes().byLabel(psa.getLabelId());

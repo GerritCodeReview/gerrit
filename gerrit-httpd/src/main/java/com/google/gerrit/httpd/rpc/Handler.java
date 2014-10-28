@@ -103,5 +103,6 @@ public abstract class Handler<T> implements Callable<T> {
    * @throws Exception the operation failed. The caller will log the exception
    *         and the stack trace, if it is worth logging on the server side.
    */
+  @Override
   public abstract T call() throws Exception;
 }

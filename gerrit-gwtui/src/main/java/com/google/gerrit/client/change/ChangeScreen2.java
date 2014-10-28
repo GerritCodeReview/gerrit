@@ -1077,6 +1077,7 @@ public class ChangeScreen2 extends Screen {
           Gerrit.display(PageLinks.toChange(changeId));
         }
 
+        @Override
         void onIgnore(Timestamp newTime) {
           lastDisplayedUpdate = newTime;
         }

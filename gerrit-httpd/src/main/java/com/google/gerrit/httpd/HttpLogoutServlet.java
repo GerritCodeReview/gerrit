@@ -21,7 +21,6 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.inject.Inject;
@@ -47,7 +46,6 @@ class HttpLogoutServlet extends HttpServlet {
   HttpLogoutServlet(final AuthConfig authConfig,
       final DynamicItem<WebSession> webSession,
       @CanonicalWebUrl @Nullable final Provider<String> urlProvider,
-      final AccountManager accountManager,
       final AuditService audit) {
     this.webSession = webSession;
     this.urlProvider = urlProvider;

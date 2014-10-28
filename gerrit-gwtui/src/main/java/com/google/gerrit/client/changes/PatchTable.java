@@ -455,6 +455,7 @@ public class PatchTable extends Composite {
       int C_UNIFIED = C_SIDEBYSIDE - 2 + 1;
       Anchor unified = new Anchor(Util.C.diffAllUnified());
       unified.addClickHandler(new ClickHandler() {
+        @Override
         public void onClick(ClickEvent event) {
           for (Patch p : detail.getPatches()) {
             openWindow(Dispatcher.toPatchUnified(base, p.getKey()));
@@ -742,6 +743,7 @@ public class PatchTable extends Composite {
     /**
      * Add the files contained in the list of patches to the table, one per row.
      */
+    @Override
     @SuppressWarnings("fallthrough")
     public boolean execute() {
       final boolean attachedNow = isAttached();

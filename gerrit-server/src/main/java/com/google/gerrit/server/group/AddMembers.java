@@ -125,7 +125,7 @@ public class AddMembers implements RestModifyView<GroupResource, Input> {
             "Account Inactive: %s", nameOrEmail));
       }
 
-      if (!control.canAddMember(a.getId())) {
+      if (!control.canAddMember()) {
         throw new AuthException("Cannot add member: " + a.getFullName());
       }
 

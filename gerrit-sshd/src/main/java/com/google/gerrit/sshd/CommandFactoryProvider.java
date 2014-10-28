@@ -95,6 +95,7 @@ class CommandFactoryProvider implements Provider<CommandFactory>,
   @Override
   public CommandFactory get() {
     return new CommandFactory() {
+      @Override
       public Command createCommand(final String requestCommand) {
         return new Trampoline(requestCommand);
       }
@@ -121,31 +122,38 @@ class CommandFactoryProvider implements Provider<CommandFactory>,
       task = Atomics.newReference();
     }
 
+    @Override
     public void setInputStream(final InputStream in) {
       this.in = in;
     }
 
+    @Override
     public void setOutputStream(final OutputStream out) {
       this.out = out;
     }
 
+    @Override
     public void setErrorStream(final OutputStream err) {
       this.err = err;
     }
 
+    @Override
     public void setExitCallback(final ExitCallback callback) {
       this.exit = callback;
     }
 
+    @Override
     public void setSession(final ServerSession session) {
       final SshSession s = session.getAttribute(SshSession.KEY);
       this.ctx = sshScope.newContext(schemaFactory, s, commandLine);
     }
 
+    @Override
     public void start(final Environment env) throws IOException {
       this.env = env;
       final Context ctx = this.ctx;
       task.set(startExecutor.submit(new Runnable() {
+        @Override
         public void run() {
           try {
             onStart();

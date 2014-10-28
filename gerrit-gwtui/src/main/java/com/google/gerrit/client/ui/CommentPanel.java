@@ -257,6 +257,7 @@ public class CommentPanel extends Composite implements HasDoubleClickHandlers,
 
   private static class DoubleClickHTML extends HTML implements
       HasDoubleClickHandlers {
+    @Override
     public HandlerRegistration addDoubleClickHandler(DoubleClickHandler handler) {
       return addDomHandler(handler, DoubleClickEvent.getType());
     }

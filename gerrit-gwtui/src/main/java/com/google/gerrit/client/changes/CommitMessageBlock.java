@@ -87,6 +87,7 @@ public class CommitMessageBlock extends Composite {
       sendButton.setEnabled(false);
 
       new TextBoxChangeListener(message) {
+        @Override
         public void onTextChanged(String newText) {
           // Trim the new text so we don't consider trailing
           // newlines as changes
@@ -95,6 +96,7 @@ public class CommitMessageBlock extends Composite {
       };
     }
 
+    @Override
     public String getMessageText() {
       // As we rely on commit message lines ending in LF, we convert CRLF to
       // LF. Additionally, the commit message should be trimmed to remove any

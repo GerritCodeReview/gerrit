@@ -30,6 +30,7 @@ class IncludedInAction extends RightSidePopdownAction {
     this.includedInBox = new IncludedInBox(changeId);
   }
 
+  @Override
   Widget getWidget() {
     return includedInBox;
   }

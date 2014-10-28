@@ -69,7 +69,7 @@ public class ServerPlugin extends Plugin {
   private Injector sysInjector;
   private Injector sshInjector;
   private Injector httpInjector;
-  private LifecycleManager manager;
+  private LifecycleManager serverManager;
   private List<ReloadableRegistrationHandle<?>> reloadableHandles;
 
   public ServerPlugin(String name,
@@ -140,12 +140,14 @@ public class ServerPlugin extends Plugin {
     }
   }
 
+  @Override
   @Nullable
   public String getVersion() {
     Attributes main = manifest.getMainAttributes();
     return main.getValue(Attributes.Name.IMPLEMENTATION_VERSION);
   }
 
+  @Override
   boolean canReload() {
     Attributes main = manifest.getMainAttributes();
     String v = main.getValue("Gerrit-ReloadMode");
@@ -161,6 +163,7 @@ public class ServerPlugin extends Plugin {
     }
   }
 
+  @Override
   void start(PluginGuiceEnvironment env) throws Exception {
     RequestContext oldContext = env.enter(this);
     try {
@@ -172,7 +175,7 @@ public class ServerPlugin extends Plugin {
 
   private void startPlugin(PluginGuiceEnvironment env) throws Exception {
     Injector root = newRootInjector(env);
-    manager = new LifecycleManager();
+    serverManager = new LifecycleManager();
 
     AutoRegisterModules auto = null;
     if (sysModule == null && sshModule == null && httpModule == null) {
@@ -182,10 +185,10 @@ public class ServerPlugin extends Plugin {
 
     if (sysModule != null) {
       sysInjector = root.createChildInjector(root.getInstance(sysModule));
-      manager.add(sysInjector);
+      serverManager.add(sysInjector);
     } else if (auto != null && auto.sysModule != null) {
       sysInjector = root.createChildInjector(auto.sysModule);
-      manager.add(sysInjector);
+      serverManager.add(sysInjector);
     } else {
       sysInjector = root;
     }
@@ -198,11 +201,11 @@ public class ServerPlugin extends Plugin {
       if (sshModule != null) {
         modules.add(sysInjector.getInstance(sshModule));
         sshInjector = sysInjector.createChildInjector(modules);
-        manager.add(sshInjector);
+        serverManager.add(sshInjector);
       } else if (auto != null && auto.sshModule != null) {
         modules.add(auto.sshModule);
         sshInjector = sysInjector.createChildInjector(modules);
-        manager.add(sshInjector);
+        serverManager.add(sshInjector);
       }
     }
 
@@ -214,15 +217,15 @@ public class ServerPlugin extends Plugin {
       if (httpModule != null) {
         modules.add(sysInjector.getInstance(httpModule));
         httpInjector = sysInjector.createChildInjector(modules);
-        manager.add(httpInjector);
+        serverManager.add(httpInjector);
       } else if (auto != null && auto.httpModule != null) {
         modules.add(auto.httpModule);
         httpInjector = sysInjector.createChildInjector(modules);
-        manager.add(httpInjector);
+        serverManager.add(httpInjector);
       }
     }
 
-    manager.start();
+    serverManager.start();
   }
 
   private Injector newRootInjector(final PluginGuiceEnvironment env) {
@@ -266,44 +269,49 @@ public class ServerPlugin extends Plugin {
     return Guice.createInjector(modules);
   }
 
+  @Override
   void stop(PluginGuiceEnvironment env) {
-    if (manager != null) {
+    if (serverManager != null) {
       RequestContext oldContext = env.enter(this);
       try {
-        manager.stop();
+        serverManager.stop();
       } finally {
         env.exit(oldContext);
       }
-      manager = null;
+      serverManager = null;
       sysInjector = null;
       sshInjector = null;
       httpInjector = null;
     }
   }
 
+  @Override
   public Injector getSysInjector() {
     return sysInjector;
   }
 
+  @Override
   @Nullable
   public Injector getSshInjector() {
     return sshInjector;
   }
 
+  @Override
   @Nullable
   public Injector getHttpInjector() {
     return httpInjector;
   }
 
+  @Override
   public void add(RegistrationHandle handle) {
-    if (manager != null) {
+    if (serverManager != null) {
       if (handle instanceof ReloadableRegistrationHandle) {
         if (reloadableHandles == null) {
           reloadableHandles = Lists.newArrayList();
         }
         reloadableHandles.add((ReloadableRegistrationHandle<?>) handle);
       }
-      manager.add(handle);
+      serverManager.add(handle);
     }
   }
 

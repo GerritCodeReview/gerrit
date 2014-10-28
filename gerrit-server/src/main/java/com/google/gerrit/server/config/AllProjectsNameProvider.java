@@ -33,6 +33,7 @@ public class AllProjectsNameProvider implements Provider<AllProjectsName> {
     name = new AllProjectsName(n);
   }
 
+  @Override
   public AllProjectsName get() {
     return name;
   }

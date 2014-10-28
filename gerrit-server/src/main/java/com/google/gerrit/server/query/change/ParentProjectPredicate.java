@@ -17,7 +17,6 @@ package com.google.gerrit.server.query.change;
 import com.google.common.collect.Lists;
 import com.google.gerrit.extensions.common.ProjectInfo;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.project.ListChildProjects;
 import com.google.gerrit.server.project.ProjectCache;
@@ -33,15 +32,15 @@ import java.util.List;
 class ParentProjectPredicate extends OrPredicate<ChangeData> {
   private final String value;
 
-  ParentProjectPredicate(Provider<ReviewDb> dbProvider,
-      ProjectCache projectCache, Provider<ListChildProjects> listChildProjects,
-      Provider<CurrentUser> self, String value) {
-    super(predicates(dbProvider, projectCache, listChildProjects, self, value));
+  ParentProjectPredicate(ProjectCache projectCache,
+      Provider<ListChildProjects> listChildProjects, Provider<CurrentUser> self,
+      String value) {
+    super(predicates(projectCache, listChildProjects, self, value));
     this.value = value;
   }
 
   private static List<Predicate<ChangeData>> predicates(
-      Provider<ReviewDb> dbProvider, ProjectCache projectCache,
+      ProjectCache projectCache,
       Provider<ListChildProjects> listChildProjects,
       Provider<CurrentUser> self, String value) {
     ProjectState projectState = projectCache.get(new Project.NameKey(value));

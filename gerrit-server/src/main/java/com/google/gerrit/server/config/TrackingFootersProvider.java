@@ -81,6 +81,7 @@ public class TrackingFootersProvider implements Provider<TrackingFooters> {
     }
   }
 
+  @Override
   public TrackingFooters get() {
     return new TrackingFooters(trackingFooters);
   }

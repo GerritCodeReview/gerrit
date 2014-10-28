@@ -281,6 +281,7 @@ class Header extends Composite {
 
   Runnable toggleReviewed() {
     return new Runnable() {
+      @Override
       public void run() {
         reviewed.setValue(!reviewed.getValue(), true);
       }

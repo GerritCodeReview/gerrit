@@ -33,7 +33,6 @@ import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.patch.PatchListEntry;
 import com.google.gerrit.server.patch.PatchListKey;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
 import org.eclipse.jgit.api.ResetCommand.ResetType;
@@ -205,16 +204,16 @@ public class PatchListCacheIT extends AbstractDaemonTest {
   }
 
   private List<PatchListEntry> getCurrentPatches(String changeId)
-      throws PatchListNotAvailableException, OrmException, RestApiException {
+      throws PatchListNotAvailableException, RestApiException {
     return patchListCache.get(getKey(null, getCurrentRevisionId(changeId))).getPatches();
   }
 
   private List<PatchListEntry> getPatches(ObjectId revisionIdA, ObjectId revisionIdB)
-      throws PatchListNotAvailableException, OrmException {
+      throws PatchListNotAvailableException {
     return patchListCache.get(getKey(revisionIdA, revisionIdB)).getPatches();
   }
 
-  private PatchListKey getKey(ObjectId revisionIdA, ObjectId revisionIdB) throws OrmException {
+  private PatchListKey getKey(ObjectId revisionIdA, ObjectId revisionIdB) {
     return new PatchListKey(project, revisionIdA, revisionIdB, Whitespace.IGNORE_NONE);
   }
 

@@ -32,10 +32,12 @@ class SubmitAction {
       ChangeApi.submit(
         changeId.get(), revisionInfo.name(),
         new GerritCallback<SubmitInfo>() {
+          @Override
           public void onSuccess(SubmitInfo result) {
             redisplay();
           }
 
+          @Override
           public void onFailure(Throwable err) {
             if (SubmitFailureDialog.isConflict(err)) {
               new SubmitFailureDialog(err.getMessage()).center();

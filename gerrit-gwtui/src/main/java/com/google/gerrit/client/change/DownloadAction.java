@@ -34,6 +34,7 @@ class DownloadAction extends RightSidePopdownAction {
             info.revision(revision)._number()));
   }
 
+  @Override
   Widget getWidget() {
     return downloadBox;
   }

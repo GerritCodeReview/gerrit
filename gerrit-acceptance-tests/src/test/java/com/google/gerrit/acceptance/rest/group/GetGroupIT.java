@@ -19,19 +19,13 @@ import static com.google.gerrit.acceptance.rest.group.GroupAssert.assertGroupInf
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.group.GroupJson.GroupInfo;
-import com.google.inject.Inject;
 
 import org.junit.Test;
 
 import java.io.IOException;
 
 public class GetGroupIT extends AbstractDaemonTest {
-
-  @Inject
-  private GroupCache groupCache;
-
   @Test
   public void testGetGroup() throws Exception {
     AccountGroup adminGroup = groupCache.get(new AccountGroup.NameKey("Administrators"));

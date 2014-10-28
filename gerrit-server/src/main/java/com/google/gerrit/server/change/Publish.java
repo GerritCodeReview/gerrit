@@ -31,7 +31,6 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.mail.PatchSetNotificationSender;
 import com.google.gerrit.server.notedb.ChangeUpdate;
-import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gwtorm.server.AtomicUpdate;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -91,21 +90,17 @@ public class Publish implements RestModifyView<RevisionResource, Input>,
     ChangeUpdate update = updateFactory.create(rsrc.getControl(),
         updatedChange.getLastUpdatedOn());
 
-    try {
-      if (!updatedPatchSet.isDraft()
-          || updatedChange.getStatus() == Change.Status.NEW) {
-        CheckedFuture<?, IOException> indexFuture =
-            indexer.indexAsync(updatedChange.getId());
-        sender.send(rsrc.getNotes(), update,
-            rsrc.getChange().getStatus() == Change.Status.DRAFT,
-            rsrc.getUser(), updatedChange, updatedPatchSet,
-            rsrc.getControl().getLabelTypes());
-        indexFuture.checkedGet();
-        hooks.doDraftPublishedHook(updatedChange, updatedPatchSet,
-            dbProvider.get());
-      }
-    } catch (PatchSetInfoNotAvailableException e) {
-      throw new ResourceNotFoundException(e.getMessage());
+    if (!updatedPatchSet.isDraft()
+        || updatedChange.getStatus() == Change.Status.NEW) {
+      CheckedFuture<?, IOException> indexFuture =
+          indexer.indexAsync(updatedChange.getId());
+      sender.send(rsrc.getNotes(), update,
+          rsrc.getChange().getStatus() == Change.Status.DRAFT,
+          rsrc.getUser(), updatedChange, updatedPatchSet,
+          rsrc.getControl().getLabelTypes());
+      indexFuture.checkedGet();
+      hooks.doDraftPublishedHook(updatedChange, updatedPatchSet,
+          dbProvider.get());
     }
 
     return Response.none();

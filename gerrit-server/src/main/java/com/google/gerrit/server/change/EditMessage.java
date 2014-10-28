@@ -28,7 +28,6 @@ import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.change.ChangeJson.ChangeInfo;
 import com.google.gerrit.server.change.EditMessage.Input;
-import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.server.OrmException;
@@ -84,8 +83,7 @@ class EditMessage implements RestModifyView<RevisionResource, Input>,
       throw new BadRequestException(e.getMessage());
     } catch (NoSuchChangeException e) {
       throw new ResourceNotFoundException();
-    } catch (MissingObjectException | IncorrectObjectTypeException
-        | PatchSetInfoNotAvailableException e) {
+    } catch (MissingObjectException | IncorrectObjectTypeException e) {
       throw new ResourceConflictException(e.getMessage());
     }
   }

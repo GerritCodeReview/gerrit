@@ -31,6 +31,7 @@ public class AllUsersNameOnInitProvider implements Provider<String> {
         Strings.emptyToNull(n), AllUsersNameProvider.DEFAULT);
   }
 
+  @Override
   public String get() {
     return name;
   }

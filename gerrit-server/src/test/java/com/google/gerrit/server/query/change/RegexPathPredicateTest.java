@@ -79,7 +79,7 @@ public class RegexPathPredicateTest {
   }
 
   private static RegexPathPredicate predicate(String pattern) {
-    return new RegexPathPredicate(ChangeQueryBuilder.FIELD_PATH, pattern);
+    return new RegexPathPredicate(pattern);
   }
 
   private static ChangeData change(String... files) throws OrmException {

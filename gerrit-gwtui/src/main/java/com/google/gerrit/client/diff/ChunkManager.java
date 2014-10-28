@@ -65,7 +65,7 @@ class ChunkManager {
         event.stopPropagation();
       }
     }
-  };
+  }
 
   static void focusOnClick(Element e, DisplaySide side) {
     onClick(e, side == A ? focusA : focusB);
@@ -165,10 +165,10 @@ class ChunkManager {
     int endA = mapper.getLineA() - 1;
     int endB = mapper.getLineB() - 1;
     if (aLen > 0) {
-      addDiffChunk(cmB, endB, endA, aLen, bLen > 0);
+      addDiffChunk(cmB, endA, aLen, bLen > 0);
     }
     if (bLen > 0) {
-      addDiffChunk(cmA, endA, endB, bLen, aLen > 0);
+      addDiffChunk(cmA, endB, bLen, aLen > 0);
     }
   }
 
@@ -264,8 +264,8 @@ class ChunkManager {
     }
   }
 
-  private void addDiffChunk(CodeMirror cmToPad, int lineToPad,
-      int lineOnOther, int chunkSize, boolean edit) {
+  private void addDiffChunk(CodeMirror cmToPad, int lineOnOther,
+      int chunkSize, boolean edit) {
     chunks.add(new DiffChunkInfo(host.otherCm(cmToPad).side(),
         lineOnOther - chunkSize + 1, lineOnOther, edit));
   }

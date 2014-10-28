@@ -33,7 +33,9 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.RestSession;
+import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.EditInfo;
+import com.google.gerrit.extensions.common.ListChangesOption;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.reviewdb.client.Change;
@@ -284,7 +286,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
     assertEquals(RefUpdate.Result.NEW,
         modifier.createEdit(
             change,
-            ps));
+            getCurrentPatchSet(changeId)));
     Optional<ChangeEdit> edit = editUtil.byChange(change);
 
     try {
@@ -305,6 +307,13 @@ public class ChangeEditIT extends AbstractDaemonTest {
             msg));
     edit = editUtil.byChange(change);
     assertEquals(msg, edit.get().getEditCommit().getFullMessage());
+
+    editUtil.publish(edit.get());
+    assertFalse(editUtil.byChange(change).isPresent());
+
+    ChangeInfo info = get(changeId, ListChangesOption.CURRENT_COMMIT,
+        ListChangesOption.CURRENT_REVISION);
+    assertEquals(msg, info.revisions.get(info.currentRevision).commit.message);
   }
 
   @Test

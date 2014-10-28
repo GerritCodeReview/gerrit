@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "d515fa2f_f96dd772",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-10-28T23:46:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "55c2ea1e_edede5c9",
+      "range": {
+        "startLine": 31,
+        "startChar": 3,
+        "endLine": 32,
+        "endChar": 50
+      },
+      "revId": "d83d303798f5c39ec665e1b3d195ed6559a4aaf3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f5bafe9a_2a2e7f80",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 7

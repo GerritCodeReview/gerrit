@@ -37,7 +37,7 @@ import java.io.IOException;
 public class FlushCacheIT extends AbstractDaemonTest {
 
   @Test
-  public void flushCache() throws IOException {
+  public void flushCache() throws Exception {
     RestResponse r = adminSession.get("/config/server/caches/groups");
     CacheInfo result = newGson().fromJson(r.getReader(), CacheInfo.class);
     assertTrue(result.entries.mem.longValue() > 0);
@@ -52,31 +52,31 @@ public class FlushCacheIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void flushCache_Forbidden() throws IOException {
+  public void flushCache_Forbidden() throws Exception {
     RestResponse r = userSession.post("/config/server/caches/accounts/flush");
     assertEquals(HttpStatus.SC_FORBIDDEN, r.getStatusCode());
   }
 
   @Test
-  public void flushCache_NotFound() throws IOException {
+  public void flushCache_NotFound() throws Exception {
     RestResponse r = adminSession.post("/config/server/caches/nonExisting/flush");
     assertEquals(HttpStatus.SC_NOT_FOUND, r.getStatusCode());
   }
 
   @Test
-  public void flushCacheWithGerritPrefix() throws IOException {
+  public void flushCacheWithGerritPrefix() throws Exception {
     RestResponse r = adminSession.post("/config/server/caches/gerrit-accounts/flush");
     assertEquals(HttpStatus.SC_OK, r.getStatusCode());
   }
 
   @Test
-  public void flushWebSessionsCache() throws IOException {
+  public void flushWebSessionsCache() throws Exception {
     RestResponse r = adminSession.post("/config/server/caches/web_sessions/flush");
     assertEquals(HttpStatus.SC_OK, r.getStatusCode());
   }
 
   @Test
-  public void flushWebSessionsCache_Forbidden() throws IOException {
+  public void flushWebSessionsCache_Forbidden() throws Exception {
     ProjectConfig cfg = projectCache.checkedGet(allProjects).getConfig();
     AccountGroup.UUID registeredUsers =
         SystemGroupBackend.getGroup(REGISTERED_USERS).getUUID();

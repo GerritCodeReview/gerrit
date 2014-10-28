@@ -28,15 +28,11 @@ import com.google.gerrit.common.data.GarbageCollectionResult;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.git.GarbageCollection;
 import com.google.gerrit.server.git.GarbageCollectionQueue;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-
-import com.jcraft.jsch.JSchException;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.Locale;
 
@@ -66,7 +62,7 @@ public class GarbageCollectionIT extends AbstractDaemonTest {
 
   @Test
   @UseLocalDisk
-  public void testGc() throws JSchException, IOException {
+  public void testGc() throws Exception {
     String response =
         sshSession.exec("gerrit gc \"" + project.get() + "\" \""
             + project2.get() + "\"");
@@ -78,7 +74,7 @@ public class GarbageCollectionIT extends AbstractDaemonTest {
 
   @Test
   @UseLocalDisk
-  public void testGcAll() throws JSchException, IOException {
+  public void testGcAll() throws Exception {
     String response = sshSession.exec("gerrit gc --all");
     assertFalse(sshSession.getError(), sshSession.hasError());
     assertNoError(response);
@@ -86,8 +82,7 @@ public class GarbageCollectionIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void testGcWithoutCapability_Error() throws IOException, OrmException,
-      JSchException {
+  public void testGcWithoutCapability_Error() throws Exception {
     SshSession s = new SshSession(server, user);
     s.exec("gerrit gc --all");
     assertError("Capability runGC is required to access this resource", s.getError());
@@ -96,7 +91,7 @@ public class GarbageCollectionIT extends AbstractDaemonTest {
 
   @Test
   @UseLocalDisk
-  public void testGcAlreadyScheduled() {
+  public void testGcAlreadyScheduled() throws Exception {
     gcQueue.addAll(Arrays.asList(project));
     GarbageCollectionResult result = garbageCollectionFactory.create().run(
         Arrays.asList(allProjects, project, project2, project3));

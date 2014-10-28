@@ -25,13 +25,9 @@ import com.google.gerrit.acceptance.SshSession;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.group.GroupJson.GroupInfo;
 import com.google.gson.reflect.TypeToken;
-import com.google.gwtorm.server.OrmException;
-
-import com.jcraft.jsch.JSchException;
 
 import org.junit.Test;
 
-import java.io.IOException;
 import java.util.Map;
 import java.util.Set;
 
@@ -45,7 +41,7 @@ import java.util.Set;
 public class DefaultGroupsIT extends AbstractDaemonTest {
 
   @Test
-  public void defaultGroupsCreated_ssh() throws JSchException, IOException {
+  public void defaultGroupsCreated_ssh() throws Exception {
     SshSession session = new SshSession(server, admin);
     String result = session.exec("gerrit ls-groups");
     assertFalse(session.getError(), session.hasError());
@@ -55,7 +51,7 @@ public class DefaultGroupsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void defaultGroupsCreated_rest() throws IOException {
+  public void defaultGroupsCreated_rest() throws Exception {
     RestSession session = new RestSession(server, admin);
     RestResponse r = session.get("/groups/");
     Map<String, GroupInfo> result =
@@ -67,7 +63,7 @@ public class DefaultGroupsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void defaultGroupsCreated_internals() throws OrmException {
+  public void defaultGroupsCreated_internals() throws Exception {
     Set<String> names = Sets.newHashSet();
     for (AccountGroup g : db.accountGroups().all()) {
       names.add(g.getName());

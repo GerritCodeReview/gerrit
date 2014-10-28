@@ -37,15 +37,13 @@ import com.google.inject.Inject;
 import org.apache.http.HttpStatus;
 import org.junit.Test;
 
-import java.io.IOException;
-
 public class GroupPropertiesIT extends AbstractDaemonTest {
 
   @Inject
   private GroupCache groupCache;
 
   @Test
-  public void testGroupName() throws IOException {
+  public void testGroupName() throws Exception {
     AccountGroup.NameKey adminGroupName = new AccountGroup.NameKey("Administrators");
     String url = "/groups/" + groupCache.get(adminGroupName).getGroupUUID().get() + "/name";
 
@@ -87,7 +85,7 @@ public class GroupPropertiesIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void testGroupDescription() throws IOException {
+  public void testGroupDescription() throws Exception {
     AccountGroup.NameKey adminGroupName = new AccountGroup.NameKey("Administrators");
     AccountGroup adminGroup = groupCache.get(adminGroupName);
     String url = "/groups/" + adminGroup.getGroupUUID().get() + "/description";
@@ -126,7 +124,7 @@ public class GroupPropertiesIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void testGroupOptions() throws IOException {
+  public void testGroupOptions() throws Exception {
     AccountGroup.NameKey adminGroupName = new AccountGroup.NameKey("Administrators");
     AccountGroup adminGroup = groupCache.get(adminGroupName);
     String url = "/groups/" + adminGroup.getGroupUUID().get() + "/options";
@@ -151,7 +149,7 @@ public class GroupPropertiesIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void testGroupOwner() throws IOException {
+  public void testGroupOwner() throws Exception {
     AccountGroup.NameKey adminGroupName = new AccountGroup.NameKey("Administrators");
     AccountGroup adminGroup = groupCache.get(adminGroupName);
     String url = "/groups/" + adminGroup.getGroupUUID().get() + "/owner";

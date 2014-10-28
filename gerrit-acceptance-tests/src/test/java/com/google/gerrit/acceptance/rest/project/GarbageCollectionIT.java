@@ -22,10 +22,7 @@ import com.google.gerrit.acceptance.GcAssert;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.UseLocalDisk;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-
-import com.jcraft.jsch.JSchException;
 
 import org.apache.http.HttpStatus;
 import org.junit.Before;
@@ -47,13 +44,12 @@ public class GarbageCollectionIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void testGcNonExistingProject_NotFound() throws IOException {
+  public void testGcNonExistingProject_NotFound() throws Exception {
     assertEquals(HttpStatus.SC_NOT_FOUND, POST("/projects/non-existing/gc"));
   }
 
   @Test
-  public void testGcNotAllowed_Forbidden() throws IOException, OrmException,
-      JSchException {
+  public void testGcNotAllowed_Forbidden() throws Exception {
     assertEquals(HttpStatus.SC_FORBIDDEN,
         userSession.post("/projects/" + allProjects.get() + "/gc")
             .getStatusCode());
@@ -61,7 +57,7 @@ public class GarbageCollectionIT extends AbstractDaemonTest {
 
   @Test
   @UseLocalDisk
-  public void testGcOneProject() throws JSchException, IOException {
+  public void testGcOneProject() throws Exception {
     assertEquals(HttpStatus.SC_OK, POST("/projects/" + allProjects.get() + "/gc"));
     gcAssert.assertHasPackFile(allProjects);
     gcAssert.assertHasNoPackFile(project, project2);

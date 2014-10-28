@@ -20,23 +20,20 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference;
 import com.google.gerrit.server.account.GetDiffPreferences.DiffPreferencesInfo;
-import com.google.gwtorm.server.OrmException;
 
 import org.apache.http.HttpStatus;
 import org.junit.Test;
 
-import java.io.IOException;
-
 public class GetDiffPreferencesIT extends AbstractDaemonTest {
   @Test
   public void getDiffPreferencesOfNonExistingAccount_NotFound()
-      throws IOException {
+      throws Exception {
     assertEquals(HttpStatus.SC_NOT_FOUND,
         adminSession.get("/accounts/non-existing/preferences.diff").getStatusCode());
   }
 
   @Test
-  public void getDiffPreferences() throws IOException, OrmException {
+  public void getDiffPreferences() throws Exception {
     RestResponse r = adminSession.get("/accounts/" + admin.email + "/preferences.diff");
     assertEquals(HttpStatus.SC_OK, r.getStatusCode());
     DiffPreferencesInfo diffPreferences =

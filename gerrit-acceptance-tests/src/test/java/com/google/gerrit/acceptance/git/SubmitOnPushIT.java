@@ -36,7 +36,6 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
 import org.eclipse.jgit.api.errors.GitAPIException;
-import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
@@ -68,8 +67,7 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
   private PushOneCommit.Factory pushFactory;
 
   @Test
-  public void submitOnPush() throws GitAPIException, OrmException,
-      IOException, ConfigInvalidException {
+  public void submitOnPush() throws Exception {
     grant(Permission.SUBMIT, project, "refs/for/refs/heads/master");
     PushOneCommit.Result r = pushTo("refs/for/master%submit");
     r.assertOkStatus();
@@ -79,8 +77,7 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void submitOnPushWithTag() throws GitAPIException, OrmException,
-      IOException, ConfigInvalidException {
+  public void submitOnPushWithTag() throws Exception {
     grant(Permission.SUBMIT, project, "refs/for/refs/heads/master");
     grant(Permission.CREATE, project, "refs/tags/*");
     grant(Permission.PUSH, project, "refs/tags/*");
@@ -96,8 +93,7 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void submitOnPushWithAnnotatedTag() throws GitAPIException,
-      OrmException, IOException, ConfigInvalidException {
+  public void submitOnPushWithAnnotatedTag() throws Exception {
     grant(Permission.SUBMIT, project, "refs/for/refs/heads/master");
     grant(Permission.CREATE, project, "refs/tags/*");
     grant(Permission.PUSH, project, "refs/tags/*");
@@ -114,8 +110,7 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void submitOnPushToRefsMetaConfig() throws GitAPIException,
-      OrmException, IOException, ConfigInvalidException {
+  public void submitOnPushToRefsMetaConfig() throws Exception {
     grant(Permission.SUBMIT, project, "refs/for/refs/meta/config");
 
     git.fetch().setRefSpecs(new RefSpec("refs/meta/config:refs/meta/config")).call();
@@ -130,8 +125,7 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void submitOnPushMergeConflict() throws GitAPIException, OrmException,
-      IOException, ConfigInvalidException {
+  public void submitOnPushMergeConflict() throws Exception {
     String master = "refs/heads/master";
     ObjectId objectId = git.getRepository().getRef(master).getObjectId();
     push(master, "one change", "a.txt", "some content");
@@ -146,8 +140,7 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void submitOnPushSuccessfulMerge() throws GitAPIException, OrmException,
-      IOException, ConfigInvalidException {
+  public void submitOnPushSuccessfulMerge() throws Exception {
     String master = "refs/heads/master";
     ObjectId objectId = git.getRepository().getRef(master).getObjectId();
     push(master, "one change", "a.txt", "some content");
@@ -162,8 +155,7 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void submitOnPushNewPatchSet() throws GitAPIException,
-      OrmException, IOException, ConfigInvalidException {
+  public void submitOnPushNewPatchSet() throws Exception {
     PushOneCommit.Result r =
         push("refs/for/master", PushOneCommit.SUBJECT, "a.txt", "some content");
 
@@ -180,15 +172,13 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void submitOnPushNotAllowed_Error() throws GitAPIException,
-      OrmException, IOException {
+  public void submitOnPushNotAllowed_Error() throws Exception {
     PushOneCommit.Result r = pushTo("refs/for/master%submit");
     r.assertErrorStatus("submit not allowed");
   }
 
   @Test
-  public void submitOnPushNewPatchSetNotAllowed_Error() throws GitAPIException,
-      OrmException, IOException, ConfigInvalidException {
+  public void submitOnPushNewPatchSetNotAllowed_Error() throws Exception {
     PushOneCommit.Result r =
         push("refs/for/master", PushOneCommit.SUBJECT, "a.txt", "some content");
 
@@ -198,15 +188,13 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void submitOnPushingDraft_Error() throws GitAPIException,
-      OrmException, IOException {
+  public void submitOnPushingDraft_Error() throws Exception {
     PushOneCommit.Result r = pushTo("refs/for/master%draft,submit");
     r.assertErrorStatus("cannot submit draft");
   }
 
   @Test
-  public void submitOnPushToNonExistingBranch_Error() throws GitAPIException,
-      OrmException, IOException {
+  public void submitOnPushToNonExistingBranch_Error() throws Exception {
     String branchName = "non-existing";
     PushOneCommit.Result r = pushTo("refs/for/" + branchName + "%submit");
     r.assertErrorStatus("branch " + branchName + " not found");

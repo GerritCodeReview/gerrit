@@ -22,9 +22,7 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit.Result;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gwtorm.server.OrmException;
 
-import org.eclipse.jgit.api.errors.GitAPIException;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -32,8 +30,7 @@ import java.io.IOException;
 public class StarredChangesIT extends AbstractDaemonTest {
 
   @Test
-  public void starredChangeState() throws GitAPIException, IOException,
-      OrmException {
+  public void starredChangeState() throws Exception {
     Result c1 = createChange();
     Result c2 = createChange();
     assertNull(getChange(c1.getChangeId()).starred);

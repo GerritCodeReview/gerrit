@@ -25,10 +25,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.project.ListBranches.BranchInfo;
 import com.google.gson.reflect.TypeToken;
 
-import com.jcraft.jsch.JSchException;
-
 import org.apache.http.HttpStatus;
-import org.eclipse.jgit.api.errors.GitAPIException;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -37,7 +34,7 @@ import java.util.List;
 
 public class ListBranchesIT extends AbstractDaemonTest {
   @Test
-  public void listBranchesOfNonExistingProject_NotFound() throws IOException {
+  public void listBranchesOfNonExistingProject_NotFound() throws Exception {
     assertEquals(HttpStatus.SC_NOT_FOUND,
         GET("/projects/non-existing/branches").getStatusCode());
   }
@@ -50,7 +47,7 @@ public class ListBranchesIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void listBranchesOfEmptyProject() throws IOException, JSchException {
+  public void listBranchesOfEmptyProject() throws Exception {
     Project.NameKey emptyProject = new Project.NameKey("empty");
     createProject(sshSession, emptyProject.get(), null, false);
     RestResponse r = adminSession.get("/projects/" + emptyProject.get() + "/branches");
@@ -63,7 +60,7 @@ public class ListBranchesIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void listBranches() throws IOException, GitAPIException {
+  public void listBranches() throws Exception {
     pushTo("refs/heads/master");
     String masterCommit = git.getRepository().getRef("master").getTarget().getObjectId().getName();
     pushTo("refs/heads/dev");

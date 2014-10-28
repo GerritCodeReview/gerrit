@@ -27,8 +27,6 @@ import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.server.change.ChangeJson.ChangeInfo;
 import com.google.gson.reflect.TypeToken;
 
-import com.jcraft.jsch.JSchException;
-
 import org.apache.http.HttpStatus;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
@@ -42,8 +40,7 @@ public class ConflictsOperatorIT extends AbstractDaemonTest {
   private int count;
 
   @Test
-  public void noConflictingChanges() throws JSchException, IOException,
-      GitAPIException {
+  public void noConflictingChanges() throws Exception {
     PushOneCommit.Result change = createChange(git, true);
     createChange(git, false);
 
@@ -52,8 +49,7 @@ public class ConflictsOperatorIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void conflictingChanges() throws JSchException, IOException,
-      GitAPIException {
+  public void conflictingChanges() throws Exception {
     PushOneCommit.Result change = createChange(git, true);
     PushOneCommit.Result conflictingChange1 = createChange(git, true);
     PushOneCommit.Result conflictingChange2 = createChange(git, true);

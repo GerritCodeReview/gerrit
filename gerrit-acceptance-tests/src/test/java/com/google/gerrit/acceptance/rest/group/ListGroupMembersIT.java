@@ -57,7 +57,7 @@ public class ListGroupMembersIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void listOneGroupMember() throws IOException {
+  public void listOneGroupMember() throws Exception {
     assertEquals(GET_ONE("/groups/Administrators/members/admin").name,
         admin.fullName);
   }

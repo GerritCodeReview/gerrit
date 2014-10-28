@@ -25,8 +25,6 @@ import com.google.gerrit.extensions.common.ProjectInfo;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gson.reflect.TypeToken;
 
-import com.jcraft.jsch.JSchException;
-
 import org.apache.http.HttpStatus;
 import org.junit.Test;
 
@@ -37,13 +35,13 @@ import java.util.List;
 public class ListChildProjectsIT extends AbstractDaemonTest {
 
   @Test
-  public void listChildrenOfNonExistingProject_NotFound() throws IOException {
+  public void listChildrenOfNonExistingProject_NotFound() throws Exception {
     assertEquals(HttpStatus.SC_NOT_FOUND,
         GET("/projects/non-existing/children/").getStatusCode());
   }
 
   @Test
-  public void listNoChildren() throws IOException {
+  public void listNoChildren() throws Exception {
     RestResponse r = GET("/projects/" + allProjects.get() + "/children/");
     assertEquals(HttpStatus.SC_OK, r.getStatusCode());
     List<ProjectInfo> projectInfoList = toProjectInfoList(r);
@@ -52,7 +50,7 @@ public class ListChildProjectsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void listChildren() throws IOException, JSchException {
+  public void listChildren() throws Exception {
     Project.NameKey existingProject = new Project.NameKey("p");
     Project.NameKey child1 = new Project.NameKey("p1");
     createProject(sshSession, child1.get());
@@ -70,7 +68,7 @@ public class ListChildProjectsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void listChildrenRecursively() throws IOException, JSchException {
+  public void listChildrenRecursively() throws Exception {
     Project.NameKey child1 = new Project.NameKey("p1");
     createProject(sshSession, child1.get());
     createProject(sshSession, "p2");

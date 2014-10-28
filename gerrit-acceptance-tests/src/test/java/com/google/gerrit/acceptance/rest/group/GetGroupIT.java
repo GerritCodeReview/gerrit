@@ -33,7 +33,7 @@ public class GetGroupIT extends AbstractDaemonTest {
   private GroupCache groupCache;
 
   @Test
-  public void testGetGroup() throws IOException {
+  public void testGetGroup() throws Exception {
     AccountGroup adminGroup = groupCache.get(new AccountGroup.NameKey("Administrators"));
 
     // by UUID

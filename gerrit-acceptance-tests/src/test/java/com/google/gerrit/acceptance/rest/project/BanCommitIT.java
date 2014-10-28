@@ -29,16 +29,13 @@ import com.google.gerrit.server.project.BanCommit;
 import com.google.gerrit.server.project.BanCommit.BanResultInfo;
 
 import org.apache.http.HttpStatus;
-import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.transport.PushResult;
 import org.junit.Test;
-
-import java.io.IOException;
 
 public class BanCommitIT extends AbstractDaemonTest {
 
   @Test
-  public void banCommit() throws IOException, GitAPIException {
+  public void banCommit() throws Exception {
     add(git, "a.txt", "some content");
     Commit c = createCommit(git, admin.getIdent(), "subject");
 
@@ -57,7 +54,7 @@ public class BanCommitIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void banAlreadyBannedCommit() throws IOException, GitAPIException {
+  public void banAlreadyBannedCommit() throws Exception {
     RestResponse r =
         adminSession.put("/projects/" + project.get() + "/ban/",
             BanCommit.Input.fromCommits("a8a477efffbbf3b44169bb9a1d3a334cbbd9aa96"));
@@ -73,7 +70,7 @@ public class BanCommitIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void banCommit_Forbidden() throws IOException {
+  public void banCommit_Forbidden() throws Exception {
     RestResponse r =
         userSession.put("/projects/" + project.get() + "/ban/",
             BanCommit.Input.fromCommits("a8a477efffbbf3b44169bb9a1d3a334cbbd9aa96"));

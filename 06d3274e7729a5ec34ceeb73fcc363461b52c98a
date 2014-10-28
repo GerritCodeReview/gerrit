@@ -73,6 +73,24 @@
     },
     {
       "key": {
+        "uuid": "f5bafe9a_0a74dbc1",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/edit/ChangeEditIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-28T07:21:47Z",
+      "side": 1,
+      "message": "Letting it as is then.",
+      "parentUuid": "d515fa2f_595e03e9",
+      "revId": "06d3274e7729a5ec34ceeb73fcc363461b52c98a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b50a4612_7859c1fe",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/edit/ChangeEditIT.java",
         "patchSetId": 1
@@ -84,6 +102,30 @@
       "writtenOn": "2014-10-27T16:15:09Z",
       "side": 1,
       "message": "Optional: drop these lines, they are unrelated to the commit message functionality.",
+      "range": {
+        "startLine": 307,
+        "startChar": 4,
+        "endLine": 309,
+        "endChar": 34
+      },
+      "revId": "06d3274e7729a5ec34ceeb73fcc363461b52c98a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f5bafe9a_2a799fb8",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/edit/ChangeEditIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 309,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-28T07:21:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b50a4612_7859c1fe",
       "range": {
         "startLine": 307,
         "startChar": 4,

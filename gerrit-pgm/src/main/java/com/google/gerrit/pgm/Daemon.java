@@ -107,7 +107,7 @@ public class Daemon extends SiteProgram {
   private Boolean httpd;
 
   @Option(name = "--disable-httpd", usage = "Disable the internal HTTP daemon")
-  void setDisableHttpd(final boolean arg) {
+  void setDisableHttpd(@SuppressWarnings("unused") boolean arg) {
     httpd = false;
   }
 
@@ -115,7 +115,7 @@ public class Daemon extends SiteProgram {
   private boolean sshd = true;
 
   @Option(name = "--disable-sshd", usage = "Disable the internal SSH daemon")
-  void setDisableSshd(final boolean arg) {
+  void setDisableSshd(@SuppressWarnings("unused")  boolean arg) {
     sshd = false;
   }
 

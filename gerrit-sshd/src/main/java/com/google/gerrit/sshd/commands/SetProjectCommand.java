@@ -66,42 +66,42 @@ final class SetProjectCommand extends SshCommand {
   private InheritableBoolean requireChangeID;
 
   @Option(name = "--use-contributor-agreements", aliases = {"--ca"}, usage = "if contributor agreement is required")
-  void setUseContributorArgreements(boolean on) {
+  void setUseContributorArgreements(@SuppressWarnings("unused") boolean on) {
     contributorAgreements = InheritableBoolean.TRUE;
   }
 
   @Option(name = "--no-contributor-agreements", aliases = {"--nca"}, usage = "if contributor agreement is not required")
-  void setNoContributorArgreements(boolean on) {
+  void setNoContributorArgreements(@SuppressWarnings("unused") boolean on) {
     contributorAgreements = InheritableBoolean.FALSE;
   }
 
   @Option(name = "--use-signed-off-by", aliases = {"--so"}, usage = "if signed-off-by is required")
-  void setUseSignedOffBy(boolean on) {
+  void setUseSignedOffBy(@SuppressWarnings("unused") boolean on) {
     signedOffBy = InheritableBoolean.TRUE;
   }
 
   @Option(name = "--no-signed-off-by", aliases = {"--nso"}, usage = "if signed-off-by is not required")
-  void setNoSignedOffBy(boolean on) {
+  void setNoSignedOffBy(@SuppressWarnings("unused") boolean on) {
     signedOffBy = InheritableBoolean.FALSE;
   }
 
   @Option(name = "--use-content-merge", usage = "allow automatic conflict resolving within files")
-  void setUseContentMerge(boolean on) {
+  void setUseContentMerge(@SuppressWarnings("unused") boolean on) {
     contentMerge = InheritableBoolean.TRUE;
   }
 
   @Option(name = "--no-content-merge", usage = "don't allow automatic conflict resolving within files")
-  void setNoContentMerge(boolean on) {
+  void setNoContentMerge(@SuppressWarnings("unused") boolean on) {
     contentMerge = InheritableBoolean.FALSE;
   }
 
   @Option(name = "--require-change-id", aliases = {"--id"}, usage = "if change-id is required")
-  void setRequireChangeId(boolean on) {
+  void setRequireChangeId(@SuppressWarnings("unused") boolean on) {
     requireChangeID = InheritableBoolean.TRUE;
   }
 
   @Option(name = "--no-change-id", aliases = {"--nid"}, usage = "if change-id is not required")
-  void setNoChangeId(boolean on) {
+  void setNoChangeId(@SuppressWarnings("unused") boolean on) {
     requireChangeID = InheritableBoolean.FALSE;
   }
 

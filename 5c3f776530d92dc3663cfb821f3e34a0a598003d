@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d515fa2f_79e787c0",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1253,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-10-28T07:55:41Z",
+      "side": 1,
+      "message": "Wrong title?",
+      "range": {
+        "startLine": 1253,
+        "startChar": 3,
+        "endLine": 1253,
+        "endChar": 39
+      },
+      "revId": "5c3f776530d92dc3663cfb821f3e34a0a598003d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b50a4612_f8ff113b",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1272,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-10-28T07:55:41Z",
+      "side": 1,
+      "message": "\"If a change edit\"",
+      "range": {
+        "startLine": 1272,
+        "startChar": 0,
+        "endLine": 1272,
+        "endChar": 16
+      },
+      "revId": "5c3f776530d92dc3663cfb821f3e34a0a598003d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b50a4612_d8fc4d49",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1272,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-10-28T07:55:41Z",
+      "side": 1,
+      "message": "Add a comma after.",
+      "range": {
+        "startLine": 1272,
+        "startChar": 47,
+        "endLine": 1272,
+        "endChar": 50
+      },
+      "revId": "5c3f776530d92dc3663cfb821f3e34a0a598003d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b50a4612_b80999c9",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 3901,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-10-28T07:55:41Z",
+      "side": 1,
+      "message": "\"the commit message\"",
+      "range": {
+        "startLine": 3901,
+        "startChar": 0,
+        "endLine": 3901,
+        "endChar": 14
+      },
+      "revId": "5c3f776530d92dc3663cfb821f3e34a0a598003d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d515fa2f_59ecc3a0",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 3901,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-10-28T07:55:41Z",
+      "side": 1,
+      "message": "\"within a\"",
+      "range": {
+        "startLine": 3901,
+        "startChar": 15,
+        "endLine": 3901,
+        "endChar": 21
+      },
+      "revId": "5c3f776530d92dc3663cfb821f3e34a0a598003d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

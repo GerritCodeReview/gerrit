@@ -52,6 +52,24 @@
       "revId": "874c9a6668d4c68cd8f0b35ba3d1b72534fcb9f5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b50a4612_9874953f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-10-28T18:06:57Z",
+      "side": 1,
+      "message": "\u003e Or should we rename SiteIndexer to ChangeSiteIndexer when we restore David\u0027s change?\n\nThis.",
+      "parentUuid": "55c2ea1e_2d2e8d80",
+      "revId": "874c9a6668d4c68cd8f0b35ba3d1b72534fcb9f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

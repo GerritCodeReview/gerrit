@@ -450,6 +450,36 @@ public class ChangeUtil {
     }
   }
 
+  public String getMessage(Change change)
+      throws NoSuchChangeException, OrmException,
+      MissingObjectException, IncorrectObjectTypeException, IOException {
+    Change.Id changeId = change.getId();
+    PatchSet ps = db.get().patchSets().get(change.currentPatchSetId());
+    if (ps == null) {
+      throw new NoSuchChangeException(changeId);
+    }
+
+    Repository git;
+    try {
+      git = gitManager.openRepository(change.getProject());
+    } catch (RepositoryNotFoundException e) {
+      throw new NoSuchChangeException(changeId, e);
+    }
+    try {
+      RevWalk revWalk = new RevWalk(git);
+      try {
+        RevCommit commit =
+            revWalk.parseCommit(ObjectId.fromString(ps.getRevision()
+                .get()));
+        return commit.getFullMessage();
+      } finally {
+        revWalk.release();
+      }
+    } finally {
+      git.close();
+    }
+  }
+
   public void deleteDraftChange(Change change)
       throws NoSuchChangeException, OrmException, IOException {
     Change.Id changeId = change.getId();

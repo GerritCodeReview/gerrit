@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.change;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 import com.google.common.base.Optional;
 import com.google.common.base.Strings;
 import com.google.common.io.ByteStreams;
@@ -39,18 +41,21 @@ import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.edit.ChangeEdit;
 import com.google.gerrit.server.edit.ChangeEditJson;
 import com.google.gerrit.server.edit.ChangeEditModifier;
 import com.google.gerrit.server.edit.ChangeEditUtil;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
+import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.google.inject.assistedinject.Assisted;
 
+import org.eclipse.jgit.util.Base64;
 import org.kohsuke.args4j.Option;
 
 import java.io.IOException;
@@ -472,6 +477,29 @@ public class ChangeEdits implements
 
       editModifier.modifyMessage(edit.get(), input.message);
       return Response.none();
+    }
+  }
+
+  @Singleton
+  public static class GetMessage implements RestReadView<ChangeResource> {
+    private final ChangeUtil changeUtil;
+    private final ChangeEditUtil editUtil;
+
+    @Inject
+    GetMessage(ChangeUtil changeUtil,
+        ChangeEditUtil editUtil) {
+      this.changeUtil = changeUtil;
+      this.editUtil = editUtil;
+    }
+
+    @Override
+    public String apply(ChangeResource rsrc) throws AuthException, IOException,
+        InvalidChangeOperationException, OrmException, NoSuchChangeException {
+      Optional<ChangeEdit> edit = editUtil.byChange(rsrc.getChange());
+      String m = edit.isPresent()
+        ? edit.get().getEditCommit().getFullMessage()
+        : changeUtil.getMessage(rsrc.getChange());
+      return Base64.encodeBytes(m.getBytes(UTF_8));
     }
   }
 }

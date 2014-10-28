@@ -40,6 +40,7 @@ public class MyAgreementsScreen extends SettingsScreen {
   protected void onLoad() {
     super.onLoad();
     Util.ACCOUNT_SVC.myAgreements(new ScreenLoadCallback<AgreementInfo>(this) {
+      @Override
       public void preDisplay(final AgreementInfo result) {
         agreements.display(result);
       }

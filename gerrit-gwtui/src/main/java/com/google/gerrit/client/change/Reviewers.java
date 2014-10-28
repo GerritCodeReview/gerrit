@@ -163,6 +163,7 @@ public class Reviewers extends Composite {
     ChangeApi.reviewers(changeId.get()).post(
         PostInput.create(reviewer, confirmed),
         new GerritCallback<PostResult>() {
+          @Override
           public void onSuccess(PostResult result) {
             nameTxtBox.setEnabled(true);
 

@@ -32,9 +32,7 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.edit.ChangeEditModifier;
-import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.project.Util;
@@ -64,12 +62,6 @@ public class VisibleRefFilterIT extends AbstractDaemonTest {
 
   @Inject
   private NotesMigration notesMigration;
-
-  @Inject
-  private GitRepositoryManager repoManager;
-
-  @Inject
-  private GroupCache groupCache;
 
   @Inject
   private ChangeEditModifier editModifier;

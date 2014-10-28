@@ -66,6 +66,7 @@ public class LabelType {
       return Collections.unmodifiableList(values);
     }
     Collections.sort(values, new Comparator<LabelValue>() {
+      @Override
       public int compare(LabelValue o1, LabelValue o2) {
         return o1.getValue() - o2.getValue();
       }

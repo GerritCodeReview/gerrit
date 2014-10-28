@@ -150,11 +150,11 @@ public class GroupControl {
     return isOwner;
   }
 
-  public boolean canAddMember(Account.Id id) {
+  public boolean canAddMember() {
     return isOwner();
   }
 
-  public boolean canRemoveMember(Account.Id id) {
+  public boolean canRemoveMember() {
     return isOwner();
   }
 
@@ -166,15 +166,15 @@ public class GroupControl {
     return canSeeMembers();
   }
 
-  public boolean canAddGroup(AccountGroup.UUID uuid) {
+  public boolean canAddGroup() {
     return isOwner();
   }
 
-  public boolean canRemoveGroup(AccountGroup.UUID uuid) {
+  public boolean canRemoveGroup() {
     return isOwner();
   }
 
-  public boolean canSeeGroup(AccountGroup.UUID uuid) {
+  public boolean canSeeGroup() {
     return canSeeMembers();
   }
 

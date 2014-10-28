@@ -245,6 +245,7 @@ public class CommentEditorPanel extends CommentPanel implements ClickHandler,
     final PatchSet.Id psId = comment.getKey().getParentKey().getParentKey();
     final boolean wasNew = isNew();
     GerritCallback<CommentInfo> cb = new GerritCallback<CommentInfo>() {
+      @Override
       public void onSuccess(CommentInfo result) {
         notifyDraftDelta(wasNew ? 1 : 0);
         comment = toComment(psId, comment.getKey().getParentKey().get(), result);
@@ -300,6 +301,7 @@ public class CommentEditorPanel extends CommentPanel implements ClickHandler,
         comment.getKey().getParentKey().getParentKey(),
         comment.getKey().get(),
         new GerritCallback<JavaScriptObject>() {
+          @Override
           public void onSuccess(JavaScriptObject result) {
             notifyDraftDelta(-1);
             removeUI();

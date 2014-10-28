@@ -450,6 +450,7 @@ public class ListProjects implements RestReadView<TopLevelResource> {
       checkMatchOptions(matchPrefix == null && matchRegex == null);
       return Iterables.filter(projectCache.all(),
           new Predicate<Project.NameKey>() {
+            @Override
             public boolean apply(Project.NameKey in) {
               return in.get().toLowerCase(Locale.US)
                   .contains(matchSubstring.toLowerCase(Locale.US));

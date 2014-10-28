@@ -28,6 +28,7 @@ public abstract class ScreenLoadCallback<T> extends GerritCallback<T> {
     screen = s;
   }
 
+  @Override
   public final void onSuccess(final T result) {
     if (screen.isAttached()) {
       preDisplay(result);

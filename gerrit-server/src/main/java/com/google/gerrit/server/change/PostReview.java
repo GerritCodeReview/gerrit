@@ -331,7 +331,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
 
   private boolean insertComments(RevisionResource rsrc,
       ChangeUpdate update, Map<String, List<CommentInput>> in, DraftHandling draftsHandling)
-      throws OrmException, IOException {
+      throws OrmException {
     if (in == null) {
       in = Collections.emptyMap();
     }

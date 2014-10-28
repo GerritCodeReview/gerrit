@@ -200,6 +200,7 @@ public class Hashtags extends Composite {
     ChangeApi.hashtags(changeId.get()).post(
         PostInput.create(hashtags, null),
         new GerritCallback<JsArrayString>() {
+          @Override
           public void onSuccess(JsArrayString result) {
             hashtagTextBox.setEnabled(true);
             UIObject.setVisible(error, false);

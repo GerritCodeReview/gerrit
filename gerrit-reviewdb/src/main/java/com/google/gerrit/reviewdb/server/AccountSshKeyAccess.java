@@ -24,6 +24,7 @@ import com.google.gwtorm.server.ResultSet;
 
 public interface AccountSshKeyAccess extends
     Access<AccountSshKey, AccountSshKey.Id> {
+  @Override
   @PrimaryKey("id")
   AccountSshKey get(AccountSshKey.Id id) throws OrmException;
 

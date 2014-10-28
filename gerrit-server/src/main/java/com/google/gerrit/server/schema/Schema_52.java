@@ -22,6 +22,7 @@ public class Schema_52 extends SchemaVersion {
   @Inject
   Schema_52() {
     super(new Provider<SchemaVersion>() {
+      @Override
       public SchemaVersion get() {
         throw new ProvisionException("Cannot upgrade from 51");
       }

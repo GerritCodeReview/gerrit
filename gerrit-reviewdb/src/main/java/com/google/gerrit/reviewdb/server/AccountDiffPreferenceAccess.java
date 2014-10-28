@@ -22,6 +22,7 @@ import com.google.gwtorm.server.PrimaryKey;
 
 public interface AccountDiffPreferenceAccess extends Access<AccountDiffPreference, Account.Id> {
 
+  @Override
   @PrimaryKey("accountId")
   AccountDiffPreference get(Account.Id key) throws OrmException;
 

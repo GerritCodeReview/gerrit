@@ -194,19 +194,20 @@ public class DynamicItem<T> {
   }
 
   private class ReloadableHandle implements ReloadableRegistrationHandle<T> {
-    private final Key<T> key;
+    private final Key<T> handleKey;
     private final NamedProvider<T> item;
     private final NamedProvider<T> defaultItem;
 
-    ReloadableHandle(Key<T> key, NamedProvider<T> item, NamedProvider<T> defaultItem) {
-      this.key = key;
+    ReloadableHandle(Key<T> handleKey, NamedProvider<T> item,
+        NamedProvider<T> defaultItem) {
+      this.handleKey = handleKey;
       this.item = item;
       this.defaultItem = defaultItem;
     }
 
     @Override
     public Key<T> getKey() {
-      return key;
+      return handleKey;
     }
 
     @Override

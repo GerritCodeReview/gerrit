@@ -30,6 +30,7 @@ class AbandonAction extends ActionMessageBox {
     this.id = id;
   }
 
+  @Override
   void send(String message) {
     ChangeApi.abandon(id.get(), message, new GerritCallback<ChangeInfo>() {
       @Override

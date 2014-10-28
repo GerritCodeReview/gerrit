@@ -256,7 +256,7 @@ class Actions extends Composite {
 
   @UiHandler("revert")
   void onRevert(ClickEvent e) {
-    RevertAction.call(revert, changeId, revision, project, subject);
+    RevertAction.call(revert, changeId, revision, subject);
   }
 
   private static void a2b(NativeMap<ActionInfo> actions, String a, Button b) {

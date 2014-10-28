@@ -68,6 +68,7 @@ class AccountServiceImpl extends BaseServiceImplementation implements
     this.queryBuilder = queryBuilder;
   }
 
+  @Override
   public void myAccount(final AsyncCallback<Account> callback) {
     run(callback, new Action<Account>() {
       @Override
@@ -77,9 +78,11 @@ class AccountServiceImpl extends BaseServiceImplementation implements
     });
   }
 
+  @Override
   public void changePreferences(final AccountGeneralPreferences pref,
       final AsyncCallback<VoidResult> callback) {
     run(callback, new Action<VoidResult>() {
+      @Override
       public VoidResult run(final ReviewDb db) throws OrmException, Failure {
         final Account a = db.accounts().get(getAccountId());
         if (a == null) {
@@ -97,6 +100,7 @@ class AccountServiceImpl extends BaseServiceImplementation implements
   public void changeDiffPreferences(final AccountDiffPreference diffPref,
       AsyncCallback<VoidResult> callback) {
     run(callback, new Action<VoidResult>(){
+      @Override
       public VoidResult run(ReviewDb db) throws OrmException {
         if (!diffPref.getAccountId().equals(getAccountId())) {
           throw new IllegalArgumentException("diffPref.getAccountId() "
@@ -109,9 +113,11 @@ class AccountServiceImpl extends BaseServiceImplementation implements
     });
   }
 
+  @Override
   public void myProjectWatch(
       final AsyncCallback<List<AccountProjectWatchInfo>> callback) {
     run(callback, new Action<List<AccountProjectWatchInfo>>() {
+      @Override
       public List<AccountProjectWatchInfo> run(ReviewDb db) throws OrmException {
         List<AccountProjectWatchInfo> r = new ArrayList<>();
 
@@ -127,6 +133,7 @@ class AccountServiceImpl extends BaseServiceImplementation implements
           r.add(new AccountProjectWatchInfo(w, ctl.getProject()));
         }
         Collections.sort(r, new Comparator<AccountProjectWatchInfo>() {
+          @Override
           public int compare(final AccountProjectWatchInfo a,
               final AccountProjectWatchInfo b) {
             return a.getProject().getName().compareTo(b.getProject().getName());
@@ -137,9 +144,11 @@ class AccountServiceImpl extends BaseServiceImplementation implements
     });
   }
 
+  @Override
   public void addProjectWatch(final String projectName, final String filter,
       final AsyncCallback<AccountProjectWatchInfo> callback) {
     run(callback, new Action<AccountProjectWatchInfo>() {
+      @Override
       public AccountProjectWatchInfo run(ReviewDb db) throws OrmException,
           NoSuchProjectException, InvalidQueryException {
         final Project.NameKey nameKey = new Project.NameKey(projectName);
@@ -167,6 +176,7 @@ class AccountServiceImpl extends BaseServiceImplementation implements
     });
   }
 
+  @Override
   public void updateProjectWatch(final AccountProjectWatch watch,
       final AsyncCallback<VoidResult> callback) {
     if (!getAccountId().equals(watch.getAccountId())) {
@@ -175,6 +185,7 @@ class AccountServiceImpl extends BaseServiceImplementation implements
     }
 
     run(callback, new Action<VoidResult>() {
+      @Override
       public VoidResult run(ReviewDb db) throws OrmException {
         db.accountProjectWatches().update(Collections.singleton(watch));
         return VoidResult.INSTANCE;
@@ -182,9 +193,11 @@ class AccountServiceImpl extends BaseServiceImplementation implements
     });
   }
 
+  @Override
   public void deleteProjectWatches(final Set<AccountProjectWatch.Key> keys,
       final AsyncCallback<VoidResult> callback) {
     run(callback, new Action<VoidResult>() {
+      @Override
       public VoidResult run(final ReviewDb db) throws OrmException, Failure {
         final Account.Id me = getAccountId();
         for (final AccountProjectWatch.Key keyId : keys) {
@@ -198,6 +211,7 @@ class AccountServiceImpl extends BaseServiceImplementation implements
     });
   }
 
+  @Override
   public void myAgreements(final AsyncCallback<AgreementInfo> callback) {
     agreementInfoFactory.create().to(callback);
   }

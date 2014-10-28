@@ -72,6 +72,7 @@ public abstract class ChangeEmail extends NotificationEmail {
     emailOnlyAuthors = false;
   }
 
+  @Override
   public void setFrom(final Account.Id id) {
     super.setFrom(id);
 
@@ -94,6 +95,7 @@ public abstract class ChangeEmail extends NotificationEmail {
   }
 
   /** Format the message body by calling {@link #appendText(String)}. */
+  @Override
   protected void format() throws EmailException {
     formatChange();
     appendText(velocifyFile("ChangeFooter.vm"));
@@ -114,11 +116,16 @@ public abstract class ChangeEmail extends NotificationEmail {
   /** Format the message body by calling {@link #appendText(String)}. */
   protected abstract void formatChange() throws EmailException;
 
-  /** Format the message footer by calling {@link #appendText(String)}. */
+  /**
+   * Format the message footer by calling {@link #appendText(String)}.
+   *
+   * @throws EmailException if an error occurred.
+   */
   protected void formatFooter() throws EmailException {
   }
 
   /** Setup the message headers and envelope (TO, CC, BCC). */
+  @Override
   protected void init() throws EmailException {
     if (args.projectCache != null) {
       projectState = args.projectCache.get(change.getProject());
@@ -324,12 +331,14 @@ public abstract class ChangeEmail extends NotificationEmail {
     }
   }
 
+  @Override
   protected void add(final RecipientType rt, final Account.Id to) {
     if (! emailOnlyAuthors || authors.contains(to)) {
       super.add(rt, to);
     }
   }
 
+  @Override
   protected boolean isVisibleTo(final Account.Id to) throws OrmException {
     return projectState == null
         || projectState.controlFor(args.identifiedUserFactory.create(to))

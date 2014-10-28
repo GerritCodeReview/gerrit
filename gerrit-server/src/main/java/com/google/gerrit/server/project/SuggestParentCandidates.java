@@ -16,7 +16,6 @@ package com.google.gerrit.server.project;
 
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.AllProjectsName;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -40,8 +39,7 @@ public class SuggestParentCandidates {
     this.allProject = allProject;
   }
 
-  public List<Project.NameKey> getNameKeys() throws OrmException,
-      NoSuchProjectException {
+  public List<Project.NameKey> getNameKeys() throws NoSuchProjectException {
     List<Project> pList = getProjects();
     final List<Project.NameKey> nameKeys = new ArrayList<>(pList.size());
     for (Project p : pList) {
@@ -50,8 +48,7 @@ public class SuggestParentCandidates {
     return nameKeys;
   }
 
-  public List<Project> getProjects() throws OrmException,
-      NoSuchProjectException {
+  public List<Project> getProjects() throws NoSuchProjectException {
     Set<Project> projects = new TreeSet<>(new Comparator<Project>() {
       @Override
       public int compare(Project o1, Project o2) {

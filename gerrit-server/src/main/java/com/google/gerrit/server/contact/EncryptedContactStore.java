@@ -132,6 +132,7 @@ class EncryptedContactStore implements ContactStore {
     return null;
   }
 
+  @Override
   public void store(final Account account, final ContactInformation info)
       throws ContactInformationStoreException {
     try {

@@ -35,7 +35,6 @@ import com.google.inject.Singleton;
 
 import org.eclipse.jgit.revwalk.RevCommit;
 
-import java.io.IOException;
 import java.util.Map;
 
 @Singleton
@@ -53,8 +52,7 @@ public class ChangeEditJson {
     this.userProvider = userProvider;
   }
 
-  public EditInfo toEditInfo(ChangeEdit edit, boolean downloadCommands)
-      throws IOException {
+  public EditInfo toEditInfo(ChangeEdit edit, boolean downloadCommands) {
     EditInfo out = new EditInfo();
     out.commit = fillCommit(edit.getEditCommit());
     out.baseRevision = edit.getBasePatchSet().getRevision().get();
@@ -65,7 +63,7 @@ public class ChangeEditJson {
     return out;
   }
 
-  private static CommitInfo fillCommit(RevCommit editCommit) throws IOException {
+  private static CommitInfo fillCommit(RevCommit editCommit) {
     CommitInfo commit = new CommitInfo();
     commit.commit = editCommit.toObjectId().getName();
     commit.parents = Lists.newArrayListWithCapacity(1);

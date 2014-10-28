@@ -25,6 +25,7 @@ class RebaseAction {
   static void call(final Change.Id id, String revision) {
     ChangeApi.rebase(id.get(), revision,
       new GerritCallback<ChangeInfo>() {
+        @Override
         public void onSuccess(ChangeInfo result) {
           Gerrit.display(PageLinks.toChange(id));
         }

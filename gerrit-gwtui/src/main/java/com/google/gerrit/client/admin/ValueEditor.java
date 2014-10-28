@@ -86,6 +86,7 @@ public class ValueEditor<T> extends Composite implements HasEditorErrors<T>,
     editPanel.setVisible(true);
   }
 
+  @Override
   public ValueBoxEditor<T> asEditor() {
     if (editProxy == null) {
       editProxy = new EditorProxy();
@@ -133,6 +134,7 @@ public class ValueEditor<T> extends Composite implements HasEditorErrors<T>,
     startHandlers.enabled = enabled;
   }
 
+  @Override
   public void showErrors(List<EditorError> errors) {
     StringBuilder buf = new StringBuilder();
     for (EditorError error : errors) {

@@ -102,7 +102,7 @@ public class CommitValidators {
         refControl, gerritIdent));
     validators.add(new AuthorUploaderValidator(refControl, canonicalWebUrl));
     validators.add(new CommitterUploaderValidator(refControl, canonicalWebUrl));
-    validators.add(new SignedOffByValidator(refControl, canonicalWebUrl));
+    validators.add(new SignedOffByValidator(refControl));
     if (MagicBranch.isMagicBranch(receiveEvent.command.getRefName())
         || ReceiveCommits.NEW_PATCHSET.matcher(
             receiveEvent.command.getRefName()).matches()) {
@@ -136,7 +136,7 @@ public class CommitValidators {
     validators.add(new AmendedGerritMergeCommitValidationListener(
         refControl, gerritIdent));
     validators.add(new AuthorUploaderValidator(refControl, canonicalWebUrl));
-    validators.add(new SignedOffByValidator(refControl, canonicalWebUrl));
+    validators.add(new SignedOffByValidator(refControl));
     if (MagicBranch.isMagicBranch(receiveEvent.command.getRefName())
         || ReceiveCommits.NEW_PATCHSET.matcher(
             receiveEvent.command.getRefName()).matches()) {
@@ -396,7 +396,7 @@ public class CommitValidators {
   public static class SignedOffByValidator implements CommitValidationListener {
     private final RefControl refControl;
 
-    public SignedOffByValidator(RefControl refControl, String canonicalWebUrl) {
+    public SignedOffByValidator(RefControl refControl) {
       this.refControl = refControl;
     }
 

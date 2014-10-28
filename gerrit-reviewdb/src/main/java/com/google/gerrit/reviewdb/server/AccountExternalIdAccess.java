@@ -24,6 +24,7 @@ import com.google.gwtorm.server.ResultSet;
 
 public interface AccountExternalIdAccess extends
     Access<AccountExternalId, AccountExternalId.Key> {
+  @Override
   @PrimaryKey("key")
   AccountExternalId get(AccountExternalId.Key key) throws OrmException;
 

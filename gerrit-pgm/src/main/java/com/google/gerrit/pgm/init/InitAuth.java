@@ -38,6 +38,7 @@ class InitAuth implements InitStep {
     this.ldap = sections.get("ldap", null);
   }
 
+  @Override
   public void run() {
     ui.header("User Authentication");
 

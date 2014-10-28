@@ -61,7 +61,6 @@ import org.eclipse.jgit.util.RawParseUtils;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.sql.Timestamp;
-import java.text.ParseException;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
@@ -109,7 +108,7 @@ class ChangeNotesParser implements AutoCloseable {
     repo.close();
   }
 
-  void parseAll() throws ConfigInvalidException, IOException, ParseException {
+  void parseAll() throws ConfigInvalidException, IOException {
     walk.markStart(walk.parseCommit(tip));
     for (RevCommit commit : walk) {
       parse(commit);
@@ -142,7 +141,7 @@ class ChangeNotesParser implements AutoCloseable {
     return ImmutableListMultimap.copyOf(changeMessages);
   }
 
-  private void parse(RevCommit commit) throws ConfigInvalidException, IOException {
+  private void parse(RevCommit commit) throws ConfigInvalidException {
     if (status == null) {
       status = parseStatus(commit);
     }
@@ -273,7 +272,7 @@ class ChangeNotesParser implements AutoCloseable {
   }
 
   private void parseComments()
-      throws IOException, ConfigInvalidException, ParseException {
+      throws IOException, ConfigInvalidException {
     commentNoteMap = CommentsInNotesUtil.parseCommentsFromNotes(repo,
         ChangeNoteUtil.changeRefName(changeId), walk, changeId,
         commentsForBase, commentsForPs, PatchLineComment.Status.PUBLISHED);

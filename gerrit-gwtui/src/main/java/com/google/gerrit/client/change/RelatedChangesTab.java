@@ -200,6 +200,7 @@ class RelatedChangesTab implements IsWidget {
       return false;
     }
 
+    @Override
     public boolean execute() {
       if (navList != view || !panel.isAttached()) {
         // If the user navigated away, we aren't in the DOM anymore.

@@ -240,7 +240,7 @@ public class Dispatcher {
       if (defaultScreenToken != null && !MINE.equals(defaultScreenToken)) {
         select(defaultScreenToken);
       } else {
-        Gerrit.display(token, mine(token));
+        Gerrit.display(token, mine());
       }
 
     } else if (matchPrefix("/dashboard/", token)) {
@@ -433,7 +433,7 @@ public class Dispatcher {
     Gerrit.display(token, screen);
   }
 
-  private static Screen mine(final String token) {
+  private static Screen mine() {
     if (Gerrit.isSignedIn()) {
       return new AccountDashboardScreen(Gerrit.getUserAccount().getId());
 
@@ -644,6 +644,7 @@ public class Dispatcher {
   private static void publish(final PatchSet.Id ps) {
     String token = toPublish(ps);
     new AsyncSplit(token) {
+      @Override
       public void onSuccess() {
         Gerrit.display(token, select());
       }
@@ -670,6 +671,7 @@ public class Dispatcher {
         Gerrit.getPatchScreenTopView() : topView;
 
     GWT.runAsync(new AsyncSplit(token) {
+      @Override
       public void onSuccess() {
         Gerrit.display(token, select());
       }
@@ -743,6 +745,7 @@ public class Dispatcher {
 
   private static void settings(String token) {
     GWT.runAsync(new AsyncSplit(token) {
+      @Override
       public void onSuccess() {
         Gerrit.display(token, select());
       }
@@ -810,6 +813,7 @@ public class Dispatcher {
 
   private static void admin(String token) {
     GWT.runAsync(new AsyncSplit(token) {
+      @Override
       public void onSuccess() {
         if (matchExact(ADMIN_GROUPS, token)
             || matchExact("/admin/groups", token)) {
@@ -983,6 +987,7 @@ public class Dispatcher {
       this.token = token;
     }
 
+    @Override
     public final void onFailure(Throwable reason) {
       if (!isReloadUi
           && "HTTP download failed with status 404".equals(reason.getMessage())) {
@@ -999,6 +1004,7 @@ public class Dispatcher {
 
   private static void docSearch(final String token) {
     GWT.runAsync(new AsyncSplit(token) {
+      @Override
       public void onSuccess() {
         Gerrit.display(token, new DocScreen(skip(token)));
       }

@@ -139,12 +139,23 @@ public abstract class NavigationTable<RowItem> extends FancyFlexTable<RowItem> {
     }
   }
 
-  /** Invoked when the user double clicks on a table cell. */
+  /**
+   * Invoked when the user double clicks on a table cell.
+   *
+   * @param row row number.
+   * @param column column number.
+   */
   protected void onCellDoubleClick(int row, int column) {
     onOpenRow(row);
   }
 
-  /** Invoked when the user clicks on a table cell. */
+  /**
+   * Invoked when the user clicks on a table cell.
+   *
+   * @param event click event.
+   * @param row row number.
+   * @param column column number.
+   */
   protected void onCellSingleClick(Event event, int row, int column) {
     movePointerTo(row);
   }

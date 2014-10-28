@@ -25,6 +25,7 @@ import com.google.gwtorm.server.ResultSet;
 
 public interface StarredChangeAccess extends
     Access<StarredChange, StarredChange.Key> {
+  @Override
   @PrimaryKey("key")
   StarredChange get(StarredChange.Key key) throws OrmException;
 

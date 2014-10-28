@@ -40,6 +40,7 @@ class InitSendEmail implements InitStep {
     this.site = site;
   }
 
+  @Override
   public void run() {
     ui.header("Email Delivery");
 

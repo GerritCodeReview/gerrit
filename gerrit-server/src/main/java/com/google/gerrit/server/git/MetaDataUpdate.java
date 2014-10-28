@@ -96,8 +96,7 @@ public class MetaDataUpdate {
      *     the update.
      */
     public MetaDataUpdate create(Project.NameKey name, Repository repository,
-        IdentifiedUser user, BatchRefUpdate batch)
-        throws RepositoryNotFoundException, IOException {
+        IdentifiedUser user, BatchRefUpdate batch) {
       MetaDataUpdate md = factory.create(name, repository, batch);
       md.getCommitBuilder().setAuthor(createPersonIdent(user));
       md.getCommitBuilder().setCommitter(serverIdent);

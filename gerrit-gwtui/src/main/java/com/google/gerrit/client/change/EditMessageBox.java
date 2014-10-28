@@ -58,6 +58,7 @@ class EditMessageBox extends Composite {
     message.getElement().setAttribute("wrap", "off");
     message.setText("");
     new TextBoxChangeListener(message) {
+      @Override
       public void onTextChanged(String newText) {
         save.setEnabled(!newText.trim()
             .equals(originalMessage));

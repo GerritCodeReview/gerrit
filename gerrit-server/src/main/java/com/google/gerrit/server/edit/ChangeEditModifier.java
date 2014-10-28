@@ -22,7 +22,6 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
@@ -84,7 +83,6 @@ public class ChangeEditModifier {
   @Inject
   ChangeEditModifier(@GerritPersonIdent PersonIdent gerritIdent,
       GitRepositoryManager gitManager,
-      Provider<ReviewDb> dbProvider,
       Provider<CurrentUser> currentUser) {
     this.gitManager = gitManager;
     this.currentUser = currentUser;
@@ -284,7 +282,7 @@ public class ChangeEditModifier {
 
         RevCommit base = prevEdit.getParent(0);
         base = rw.parseCommit(base);
-        ObjectId newTree = writeNewTree(op, repo, rw, inserter,
+        ObjectId newTree = writeNewTree(op, rw, inserter,
             prevEdit, reader, file, content, base);
         if (ObjectId.equals(newTree, prevEdit.getTree())) {
           throw new InvalidChangeOperationException("no changes were made");
@@ -330,14 +328,13 @@ public class ChangeEditModifier {
     return res;
   }
 
-  private static ObjectId writeNewTree(TreeOperation op, Repository repo, RevWalk rw,
+  private static ObjectId writeNewTree(TreeOperation op, RevWalk rw,
       ObjectInserter ins, RevCommit prevEdit, ObjectReader reader,
       String fileName, byte[] content, RevCommit base)
       throws IOException, InvalidChangeOperationException {
     DirCache newTree = createTree(reader, prevEdit);
     editTree(
         op,
-        repo,
         rw,
         base,
         newTree.editor(),
@@ -347,27 +344,27 @@ public class ChangeEditModifier {
     return newTree.writeTree(ins);
   }
 
-  private static void editTree(TreeOperation op, Repository repo, RevWalk rw,
-      RevCommit base, DirCacheEditor dce, ObjectInserter ins, String path,
-      byte[] content) throws IOException, InvalidChangeOperationException {
+  private static void editTree(TreeOperation op, RevWalk rw, RevCommit base,
+      DirCacheEditor dce, ObjectInserter ins, String path, byte[] content)
+      throws IOException, InvalidChangeOperationException {
     switch (op) {
       case DELETE_ENTRY:
         dce.add(new DeletePath(path));
         break;
       case CHANGE_ENTRY:
       case RESTORE_ENTRY:
-        dce.add(getPathEdit(op, repo, rw, base, path, ins, content));
+        dce.add(getPathEdit(op, rw, base, path, ins, content));
         break;
     }
     dce.finish();
   }
 
-  private static PathEdit getPathEdit(TreeOperation op, Repository repo, RevWalk rw,
+  private static PathEdit getPathEdit(TreeOperation op, RevWalk rw,
       RevCommit base, String path, ObjectInserter ins, byte[] content)
       throws IOException, InvalidChangeOperationException {
     final ObjectId oid = op == TreeOperation.CHANGE_ENTRY
         ? ins.insert(Constants.OBJ_BLOB, content)
-        : getObjectIdForRestoreOperation(repo, rw, base, path);
+        : getObjectIdForRestoreOperation(rw, base, path);
     return new PathEdit(path) {
       @Override
       public void apply(DirCacheEntry ent) {
@@ -377,8 +374,8 @@ public class ChangeEditModifier {
     };
   }
 
-  private static ObjectId getObjectIdForRestoreOperation(Repository repo,
-      RevWalk rw, RevCommit base, String path)
+  private static ObjectId getObjectIdForRestoreOperation(RevWalk rw,
+      RevCommit base, String path)
       throws IOException, InvalidChangeOperationException {
     TreeWalk tw = TreeWalk.forPath(rw.getObjectReader(), path,
         base.getTree().getId());

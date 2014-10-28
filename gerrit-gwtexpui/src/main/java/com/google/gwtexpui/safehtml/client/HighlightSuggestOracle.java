@@ -41,6 +41,7 @@ public abstract class HighlightSuggestOracle extends SuggestOracle {
   @Override
   public final void requestSuggestions(final Request request, final Callback cb) {
     onRequestSuggestions(request, new Callback() {
+      @Override
       public void onSuggestionsReady(final Request request,
           final Response response) {
         final String qpat = getQueryPattern(request.getQuery());
@@ -99,10 +100,12 @@ public abstract class HighlightSuggestOracle extends SuggestOracle {
     private static native String sgi(String inString, String pat, String newHtml)
     /*-{ return inString.replace(RegExp(pat, 'gi'), newHtml); }-*/;
 
+    @Override
     public String getDisplayString() {
       return displayString;
     }
 
+    @Override
     public String getReplacementString() {
       return suggestion.getReplacementString();
     }

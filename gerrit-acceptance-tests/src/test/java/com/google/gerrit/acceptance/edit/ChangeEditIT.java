@@ -79,9 +79,6 @@ public class ChangeEditIT extends AbstractDaemonTest {
   private SchemaFactory<ReviewDb> reviewDbProvider;
 
   @Inject
-  private PushOneCommit.Factory pushFactory;
-
-  @Inject
   ChangeEditUtil editUtil;
 
   @Inject
@@ -90,7 +87,6 @@ public class ChangeEditIT extends AbstractDaemonTest {
   @Inject
   private FileContentUtil fileUtil;
 
-  private ReviewDb db;
   private Change change;
   private String changeId;
   private Change change2;

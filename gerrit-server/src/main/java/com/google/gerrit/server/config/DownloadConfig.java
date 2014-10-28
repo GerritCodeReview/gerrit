@@ -16,7 +16,6 @@ package com.google.gerrit.server.config;
 
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DownloadCommand;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DownloadScheme;
-import com.google.gerrit.reviewdb.client.SystemConfig;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -34,8 +33,7 @@ public class DownloadConfig {
   private final Set<DownloadCommand> downloadCommands;
 
   @Inject
-  DownloadConfig(@GerritServerConfig final Config cfg,
-      final SystemConfig s) {
+  DownloadConfig(@GerritServerConfig final Config cfg) {
     List<DownloadScheme> allSchemes =
         ConfigUtil.getEnumList(cfg, "download", null, "scheme",
             DownloadScheme.DEFAULT_DOWNLOADS);

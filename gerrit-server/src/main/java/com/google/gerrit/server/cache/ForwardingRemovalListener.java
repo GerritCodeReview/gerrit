@@ -52,6 +52,7 @@ public class ForwardingRemovalListener<K, V> implements RemovalListener<K, V> {
     }
   }
 
+  @Override
   @SuppressWarnings("unchecked")
   public void onRemoval(RemovalNotification<K, V> notification) {
     for (CacheRemovalListener<K, V> l : listeners) {

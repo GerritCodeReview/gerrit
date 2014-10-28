@@ -28,6 +28,7 @@ public class RPCSuggestOracle extends SuggestOracle {
   private SuggestOracle.Request request;
   private SuggestOracle.Callback callback;
   private SuggestOracle.Callback myCallback = new SuggestOracle.Callback() {
+      @Override
       public void onSuggestionsReady(SuggestOracle.Request req,
             SuggestOracle.Response response) {
           if (request == req) {
@@ -43,6 +44,7 @@ public class RPCSuggestOracle extends SuggestOracle {
     oracle = ora;
   }
 
+  @Override
   public void requestSuggestions(SuggestOracle.Request req,
       SuggestOracle.Callback cb) {
     request = req;
@@ -50,6 +52,7 @@ public class RPCSuggestOracle extends SuggestOracle {
     oracle.requestSuggestions(req, myCallback);
   }
 
+  @Override
   public boolean isDisplayStringHTML() {
     return oracle.isDisplayStringHTML();
   }

@@ -79,6 +79,7 @@ public class AccountCacheImpl implements AccountCache {
     this.byName = byUsername;
   }
 
+  @Override
   public AccountState get(Account.Id accountId) {
     try {
       return byId.get(accountId);
@@ -88,6 +89,7 @@ public class AccountCacheImpl implements AccountCache {
     }
   }
 
+  @Override
   public AccountState getIfPresent(Account.Id accountId) {
     return byId.getIfPresent(accountId);
   }
@@ -103,12 +105,14 @@ public class AccountCacheImpl implements AccountCache {
     }
   }
 
+  @Override
   public void evict(Account.Id accountId) {
     if (accountId != null) {
       byId.invalidate(accountId);
     }
   }
 
+  @Override
   public void evictByUsername(String username) {
     if (username != null) {
       byName.invalidate(username);

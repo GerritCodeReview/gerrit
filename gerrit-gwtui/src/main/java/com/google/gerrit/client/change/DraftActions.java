@@ -40,10 +40,12 @@ public class DraftActions {
   public static GerritCallback<JavaScriptObject> cs(
       final Change.Id id) {
     return new GerritCallback<JavaScriptObject>() {
+      @Override
       public void onSuccess(JavaScriptObject result) {
         Gerrit.display(PageLinks.toChange(id));
       }
 
+      @Override
       public void onFailure(Throwable err) {
         if (SubmitFailureDialog.isConflict(err)) {
           new SubmitFailureDialog(err.getMessage()).center();
@@ -57,10 +59,12 @@ public class DraftActions {
 
   private static AsyncCallback<JavaScriptObject> mine() {
     return new GerritCallback<JavaScriptObject>() {
+      @Override
       public void onSuccess(JavaScriptObject result) {
         Gerrit.display(PageLinks.MINE);
       }
 
+      @Override
       public void onFailure(Throwable err) {
         if (SubmitFailureDialog.isConflict(err)) {
           new SubmitFailureDialog(err.getMessage()).center();

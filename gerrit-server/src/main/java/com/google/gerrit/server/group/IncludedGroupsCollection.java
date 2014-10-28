@@ -73,7 +73,7 @@ public class IncludedGroupsCollection implements
     GroupDescription.Basic member =
         groupsCollection.parse(TopLevelResource.INSTANCE, id).getGroup();
     if (isMember(parent, member)
-        && resource.getControl().canSeeGroup(member.getGroupUUID())) {
+        && resource.getControl().canSeeGroup()) {
       return new IncludedGroupResource(resource, member);
     }
     throw new ResourceNotFoundException(id);

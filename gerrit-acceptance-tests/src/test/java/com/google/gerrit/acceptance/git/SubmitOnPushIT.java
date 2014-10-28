@@ -30,7 +30,6 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.git.CommitMergeStatus;
-import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -52,9 +51,6 @@ import java.io.IOException;
 @NoHttpd
 public class SubmitOnPushIT extends AbstractDaemonTest {
   @Inject
-  private GitRepositoryManager repoManager;
-
-  @Inject
   private ApprovalsUtil approvalsUtil;
 
   @Inject
@@ -62,9 +58,6 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
 
   @Inject
   private @GerritPersonIdent PersonIdent serverIdent;
-
-  @Inject
-  private PushOneCommit.Factory pushFactory;
 
   @Test
   public void submitOnPush() throws Exception {

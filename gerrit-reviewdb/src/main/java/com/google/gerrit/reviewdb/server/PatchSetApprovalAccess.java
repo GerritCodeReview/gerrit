@@ -26,6 +26,7 @@ import com.google.gwtorm.server.ResultSet;
 
 public interface PatchSetApprovalAccess extends
     Access<PatchSetApproval, PatchSetApproval.Key> {
+  @Override
   @PrimaryKey("key")
   PatchSetApproval get(PatchSetApproval.Key key) throws OrmException;
 

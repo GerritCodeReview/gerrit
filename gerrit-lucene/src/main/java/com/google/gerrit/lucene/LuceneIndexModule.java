@@ -16,7 +16,6 @@ package com.google.gerrit.lucene;
 
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.lifecycle.LifecycleModule;
-import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.index.ChangeSchemas;
 import com.google.gerrit.server.index.IndexCollection;
 import com.google.gerrit.server.index.IndexModule;
@@ -69,8 +68,7 @@ public class LuceneIndexModule extends LifecycleModule {
 
     @Provides
     @Singleton
-    LuceneChangeIndex getIndex(LuceneChangeIndex.Factory factory,
-        SitePaths sitePaths) {
+    LuceneChangeIndex getIndex(LuceneChangeIndex.Factory factory) {
       Schema<ChangeData> schema = singleVersion != null
           ? ChangeSchemas.get(singleVersion)
           : ChangeSchemas.getLatest();

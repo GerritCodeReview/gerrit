@@ -481,7 +481,7 @@ public class MergeOp {
   }
 
   private ListMultimap<SubmitType, Change> validateChangeList(
-      List<Change> submitted) throws MergeException, NoSuchChangeException {
+      List<Change> submitted) throws MergeException {
     ListMultimap<SubmitType, Change> toSubmit = ArrayListMultimap.create();
 
     Map<String, Ref> allRefs;
@@ -606,11 +606,7 @@ public class MergeOp {
       }
 
       SubmitType submitType;
-      try {
-        submitType = getSubmitType(commit.getControl(), ps);
-      } catch (OrmException err) {
-        throw new MergeException("Cannot check submit type", err);
-      }
+      submitType = getSubmitType(commit.getControl(), ps);
       if (submitType == null) {
         logError("No submit type for revision " + idstr + " of patch set "
             + ps.getId());
@@ -626,8 +622,7 @@ public class MergeOp {
     return toSubmit;
   }
 
-  private SubmitType getSubmitType(ChangeControl ctl, PatchSet ps)
-      throws OrmException {
+  private SubmitType getSubmitType(ChangeControl ctl, PatchSet ps) {
     try {
       ChangeData cd = changeDataFactory.create(db, ctl);
       SubmitTypeRecord r = new SubmitRuleEvaluator(cd).setPatchSet(ps)
@@ -923,7 +918,7 @@ public class MergeOp {
   }
 
   private void setMerged(Change c, ChangeMessage msg)
-      throws OrmException, IOException, NoSuchChangeException {
+      throws OrmException, IOException {
     logDebug("Setting change {} merged", c.getId());
     ChangeUpdate update = null;
     try {
@@ -1039,7 +1034,7 @@ public class MergeOp {
   }
 
   private void setNew(Change c, ChangeMessage msg)
-      throws OrmException, NoSuchChangeException, IOException {
+      throws NoSuchChangeException, IOException {
     sendMergeFail(notesFactory.create(c), msg, true);
   }
 

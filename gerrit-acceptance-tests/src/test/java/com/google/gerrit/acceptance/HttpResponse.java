@@ -43,7 +43,7 @@ public class HttpResponse {
   public void consume() throws IllegalStateException, IOException {
     Reader reader = getReader();
     if (reader != null) {
-      while (reader.read() != -1);
+      while (reader.read() != -1) {}
     }
   }
 

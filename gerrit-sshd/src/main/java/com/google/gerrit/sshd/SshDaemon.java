@@ -142,6 +142,7 @@ import java.util.List;
  */
 @Singleton
 public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
+  @SuppressWarnings("hiding") // Don't use AbstractCloseable's logger.
   private static final Logger log = LoggerFactory.getLogger(SshDaemon.class);
 
   public static enum SshSessionBackend {
@@ -153,7 +154,7 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
   private final List<String> advertised;
   private final boolean keepAlive;
   private final List<HostKey> hostKeys;
-  private volatile IoAcceptor acceptor;
+  private volatile IoAcceptor daemonAcceptor;
   private final Config cfg;
 
   @Inject
@@ -289,26 +290,26 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
   }
 
   public IoAcceptor getIoAcceptor() {
-    return acceptor;
+    return daemonAcceptor;
   }
 
   @Override
   public synchronized void start() {
-    if (acceptor == null && !listen.isEmpty()) {
+    if (daemonAcceptor == null && !listen.isEmpty()) {
       checkConfig();
       if (sessionFactory == null) {
         sessionFactory = createSessionFactory();
       }
       sessionFactory.setServer(this);
-      acceptor = createAcceptor();
+      daemonAcceptor = createAcceptor();
 
       try {
         String listenAddress = cfg.getString("sshd", null, "listenAddress");
         boolean rewrite = !Strings.isNullOrEmpty(listenAddress)
             && listenAddress.endsWith(":0");
-        acceptor.bind(listen);
+        daemonAcceptor.bind(listen);
         if (rewrite) {
-          SocketAddress bound = Iterables.getOnlyElement(acceptor.getBoundAddresses());
+          SocketAddress bound = Iterables.getOnlyElement(daemonAcceptor.getBoundAddresses());
           cfg.setString("sshd", null, "listenAddress", format((InetSocketAddress)bound));
         }
       } catch (IOException e) {
@@ -326,14 +327,14 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
 
   @Override
   public synchronized void stop() {
-    if (acceptor != null) {
+    if (daemonAcceptor != null) {
       try {
-        acceptor.close(true).await();
+        daemonAcceptor.close(true).await();
         log.info("Stopped Gerrit SSHD");
       } catch (InterruptedException e) {
         log.warn("Exception caught while closing", e);
       } finally {
-        acceptor = null;
+        daemonAcceptor = null;
       }
     }
   }

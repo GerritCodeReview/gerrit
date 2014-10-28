@@ -25,6 +25,7 @@ import com.google.gwtorm.server.ResultSet;
 
 public interface SubmoduleSubscriptionAccess extends
     Access<SubmoduleSubscription, SubmoduleSubscription.Key> {
+  @Override
   @PrimaryKey("key")
   SubmoduleSubscription get(SubmoduleSubscription.Key key) throws OrmException;
 

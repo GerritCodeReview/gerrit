@@ -30,11 +30,13 @@ class ChangeDetailServiceImpl implements ChangeDetailService {
     this.patchSetDetail = patchSetDetail;
   }
 
+  @Override
   public void patchSetDetail(PatchSet.Id id,
       AsyncCallback<PatchSetDetail> callback) {
     patchSetDetail2(null, id, null, callback);
   }
 
+  @Override
   public void patchSetDetail2(PatchSet.Id baseId, PatchSet.Id id,
       AccountDiffPreference diffPrefs, AsyncCallback<PatchSetDetail> callback) {
     patchSetDetail.create(baseId, id, diffPrefs).to(callback);

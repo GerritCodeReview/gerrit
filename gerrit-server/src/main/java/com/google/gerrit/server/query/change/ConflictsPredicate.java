@@ -94,7 +94,7 @@ class ConflictsPredicate extends OrPredicate<ChangeData> {
           if (!otherChange.getDest().equals(c.getDest())) {
             return false;
           }
-          SubmitType submitType = getSubmitType(otherChange, object);
+          SubmitType submitType = getSubmitType(object);
           if (submitType == null) {
             return false;
           }
@@ -147,7 +147,7 @@ class ConflictsPredicate extends OrPredicate<ChangeData> {
           return 5;
         }
 
-        private SubmitType getSubmitType(Change change, ChangeData cd) throws OrmException {
+        private SubmitType getSubmitType(ChangeData cd) throws OrmException {
           SubmitTypeRecord r = new SubmitRuleEvaluator(cd).getSubmitType();
           if (r.status != SubmitTypeRecord.Status.OK) {
             return null;

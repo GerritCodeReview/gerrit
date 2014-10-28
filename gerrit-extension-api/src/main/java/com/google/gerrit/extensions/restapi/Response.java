@@ -52,6 +52,7 @@ public abstract class Response<T> {
   public abstract T value();
   public abstract CacheControl caching();
   public abstract Response<T> caching(CacheControl c);
+  @Override
   public abstract String toString();
 
   private static final class Impl<T> extends Response<T> {
@@ -100,6 +101,7 @@ public abstract class Response<T> {
       return 204;
     }
 
+    @Override
     public Object value() {
       throw new UnsupportedOperationException();
     }

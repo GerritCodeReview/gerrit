@@ -27,18 +27,15 @@ import com.google.inject.Injector;
 import com.google.inject.Key;
 import com.google.inject.Module;
 
-import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.RepositoryCache;
 import org.eclipse.jgit.util.FS;
 
 import java.io.File;
-import java.io.IOException;
 import java.lang.reflect.Field;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.URI;
-import java.net.UnknownHostException;
 import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CyclicBarrier;
@@ -53,6 +50,7 @@ public class GerritServer {
       throws Exception {
     final CyclicBarrier serverStarted = new CyclicBarrier(2);
     final Daemon daemon = new Daemon(new Runnable() {
+      @Override
       public void run() {
         try {
           serverStarted.await();
@@ -84,6 +82,7 @@ public class GerritServer {
       site = initSite(cfg);
       daemonService = Executors.newSingleThreadExecutor();
       daemonService.submit(new Callable<Void>() {
+        @Override
         public Void call() throws Exception {
           int rc = daemon.main(new String[] {"-d", site.getPath(), "--headless" });
           if (rc != 0) {
@@ -122,8 +121,7 @@ public class GerritServer {
     return tmp;
   }
 
-  private static void mergeTestConfig(Config cfg)
-      throws IOException {
+  private static void mergeTestConfig(Config cfg) {
     String forceEphemeralPort = String.format("%s:0",
         getLocalHost().getHostName());
     String url = "http://" + forceEphemeralPort + "/";
@@ -157,7 +155,7 @@ public class GerritServer {
     return (T) f.get(obj);
   }
 
-  private static InetAddress getLocalHost() throws UnknownHostException {
+  private static InetAddress getLocalHost() {
     return InetAddress.getLoopbackAddress();
   }
 
@@ -169,7 +167,7 @@ public class GerritServer {
   private InetSocketAddress httpAddress;
 
   private GerritServer(Injector testInjector, Daemon daemon,
-      ExecutorService daemonService) throws IOException, ConfigInvalidException {
+      ExecutorService daemonService) {
     this.testInjector = testInjector;
     this.daemon = daemon;
     this.daemonService = daemonService;

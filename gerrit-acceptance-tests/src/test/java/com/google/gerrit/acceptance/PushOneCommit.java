@@ -194,14 +194,14 @@ public class PushOneCommit {
     private final String ref;
     private final PushResult result;
     private final Commit commit;
-    private final String subject;
+    private final String resSubj;
 
-    private Result(String ref, PushResult result, Commit commit,
+    private Result(String ref, PushResult resSubj, Commit commit,
         String subject) {
       this.ref = ref;
-      this.result = result;
+      this.result = resSubj;
       this.commit = commit;
-      this.subject = subject;
+      this.resSubj = subject;
     }
 
     public PatchSet.Id getPatchSetId() throws OrmException {
@@ -226,7 +226,7 @@ public class PushOneCommit {
         throws OrmException {
       Change c =
           Iterables.getOnlyElement(db.changes().byKey(new Change.Key(commit.getChangeId())).toList());
-      assertEquals(subject, c.getSubject());
+      assertEquals(resSubj, c.getSubject());
       assertEquals(expectedStatus, c.getStatus());
       assertEquals(expectedTopic, Strings.emptyToNull(c.getTopic()));
       assertReviewers(c, expectedReviewers);

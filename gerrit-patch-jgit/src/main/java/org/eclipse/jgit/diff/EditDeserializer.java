@@ -30,6 +30,7 @@ import java.util.List;
 
 public class EditDeserializer implements JsonDeserializer<Edit>,
     JsonSerializer<Edit> {
+  @Override
   public Edit deserialize(final JsonElement json, final Type typeOfT,
       final JsonDeserializationContext context) throws JsonParseException {
     if (json.isJsonNull()) {
@@ -73,6 +74,7 @@ public class EditDeserializer implements JsonDeserializer<Edit>,
     return p.getAsInt();
   }
 
+  @Override
   public JsonElement serialize(final Edit src, final Type typeOfSrc,
       final JsonSerializationContext context) {
     if (src == null) {

@@ -32,6 +32,7 @@ public abstract class PluginEntryPoint implements EntryPoint {
    */
   public abstract void onPluginLoad();
 
+  @Override
   public final void onModuleLoad() {
     Plugin self = Plugin.get();
     try {

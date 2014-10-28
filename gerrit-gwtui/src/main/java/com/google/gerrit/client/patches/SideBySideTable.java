@@ -57,10 +57,12 @@ public class SideBySideTable extends AbstractPatchContentTable {
   private boolean isHugeFile;
   protected boolean isFileCommentBorderRowExist;
 
+  @Override
   protected void createFileCommentEditorOnSideA() {
     createCommentEditor(R_HEAD + 1, A, R_HEAD, FILE_SIDE_A);
   }
 
+  @Override
   protected void createFileCommentEditorOnSideB() {
     createCommentEditor(R_HEAD + 1, B, R_HEAD, FILE_SIDE_B);
   }
@@ -96,7 +98,7 @@ public class SideBySideTable extends AbstractPatchContentTable {
     final ArrayList<Object> lines = new ArrayList<>();
     final SafeHtmlBuilder nc = new SafeHtmlBuilder();
     isHugeFile = script.isHugeFile();
-    allocateTableHeader(script, nc);
+    allocateTableHeader(nc);
     lines.add(null);
     if (!isDisplayBinary) {
       if (script.getFileModeA() != FileMode.FILE
@@ -119,7 +121,7 @@ public class SideBySideTable extends AbstractPatchContentTable {
                 && script.hasIntralineDifference();
         for (final EditList.Hunk hunk : script.getHunks()) {
           if (!hunk.isStartOfFile()) {
-            appendSkipLine(nc, hunk.getCurB() - lastB);
+            appendSkipLine(nc);
             lines.add(new SkippedLine(lastA, lastB, hunk.getCurB() - lastB));
           }
 
@@ -185,7 +187,7 @@ public class SideBySideTable extends AbstractPatchContentTable {
           lastB = hunk.getCurB();
         }
         if (lastB != b.size()) {
-          appendSkipLine(nc, b.size() - lastB);
+          appendSkipLine(nc);
           lines.add(new SkippedLine(lastA, lastB, b.size() - lastB));
         }
       }
@@ -329,13 +331,13 @@ public class SideBySideTable extends AbstractPatchContentTable {
         } else {
           insertRow(row);
         }
-        bindComment(row, A, ac, !ai.hasNext(), expandComments);
-        bindComment(row, B, bc, !bi.hasNext(), expandComments);
+        bindComment(row, A, ac, !ai.hasNext());
+        bindComment(row, B, bc, !bi.hasNext());
         row++;
       }
 
-      row = finish(ai, row, A, expandComments);
-      row = finish(bi, row, B, expandComments);
+      row = finish(ai, row, A);
+      row = finish(bi, row, B);
     }
   }
 
@@ -390,7 +392,7 @@ public class SideBySideTable extends AbstractPatchContentTable {
     }
   }
 
-  private int finish(final Iterator<PatchLineComment> i, int row, final int col, boolean expandComment) {
+  private int finish(final Iterator<PatchLineComment> i, int row, final int col) {
     while (i.hasNext()) {
       final PatchLineComment c = i.next();
       if (c.getLine() == R_HEAD) {
@@ -398,13 +400,13 @@ public class SideBySideTable extends AbstractPatchContentTable {
       } else {
         insertRow(row);
       }
-      bindComment(row, col, c, !i.hasNext(), expandComment);
+      bindComment(row, col, c, !i.hasNext());
       row++;
     }
     return row;
   }
 
-  private void allocateTableHeader(PatchScript script, final SafeHtmlBuilder m) {
+  private void allocateTableHeader(final SafeHtmlBuilder m) {
     m.openTr();
 
     m.openTd();
@@ -457,7 +459,7 @@ public class SideBySideTable extends AbstractPatchContentTable {
     m.closeTr();
   }
 
-  private void appendSkipLine(final SafeHtmlBuilder m, final int skipCnt) {
+  private void appendSkipLine(final SafeHtmlBuilder m) {
     m.openTr();
 
     m.openTd();

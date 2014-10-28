@@ -145,6 +145,7 @@ public abstract class BinaryResult implements Closeable {
   public abstract void writeTo(OutputStream os) throws IOException;
 
   /** Close the result and release any resources it holds. */
+  @Override
   public void close() throws IOException {
   }
 

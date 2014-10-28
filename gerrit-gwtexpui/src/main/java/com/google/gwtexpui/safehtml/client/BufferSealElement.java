@@ -21,30 +21,37 @@ final class BufferSealElement implements Buffer {
     shb = safeHtmlBuilder;
   }
 
+  @Override
   public void append(final boolean v) {
     shb.sealElement().append(v);
   }
 
+  @Override
   public void append(final char v) {
     shb.sealElement().append(v);
   }
 
+  @Override
   public void append(final double v) {
     shb.sealElement().append(v);
   }
 
+  @Override
   public void append(final float v) {
     shb.sealElement().append(v);
   }
 
+  @Override
   public void append(final int v) {
     shb.sealElement().append(v);
   }
 
+  @Override
   public void append(final long v) {
     shb.sealElement().append(v);
   }
 
+  @Override
   public void append(final String v) {
     shb.sealElement().append(v);
   }

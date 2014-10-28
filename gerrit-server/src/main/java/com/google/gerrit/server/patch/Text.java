@@ -21,7 +21,6 @@ import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.PersonIdent;
-import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.storage.pack.PackConfig;
@@ -44,8 +43,7 @@ public class Text extends RawText {
   public static final byte[] NO_BYTES = {};
   public static final Text EMPTY = new Text(NO_BYTES);
 
-  public static Text forCommit(Repository db, ObjectReader reader,
-      AnyObjectId commitId) throws IOException {
+  public static Text forCommit(ObjectReader reader, AnyObjectId commitId) throws IOException {
     RevWalk rw = new RevWalk(reader);
     RevCommit c;
     if (commitId instanceof RevCommit) {

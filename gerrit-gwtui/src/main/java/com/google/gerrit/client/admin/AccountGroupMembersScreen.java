@@ -172,6 +172,7 @@ public class AccountGroupMembersScreen extends AccountGroupScreen {
     addMemberBox.setEnabled(false);
     GroupApi.addMember(getGroupUUID(), nameEmail,
         new GerritCallback<AccountInfo>() {
+          @Override
           public void onSuccess(final AccountInfo memberInfo) {
             addMemberBox.setEnabled(true);
             addMemberBox.setText("");
@@ -200,6 +201,7 @@ public class AccountGroupMembersScreen extends AccountGroupScreen {
     addIncludeBox.setEnabled(false);
     GroupApi.addIncludedGroup(getGroupUUID(), uuid.get(),
         new GerritCallback<GroupInfo>() {
+          @Override
           public void onSuccess(final GroupInfo result) {
             addIncludeBox.setEnabled(true);
             addIncludeBox.setText("");
@@ -248,6 +250,7 @@ public class AccountGroupMembersScreen extends AccountGroupScreen {
       if (!ids.isEmpty()) {
         GroupApi.removeMembers(getGroupUUID(), ids,
             new GerritCallback<VoidResult>() {
+              @Override
               public void onSuccess(final VoidResult result) {
                 for (int row = 1; row < table.getRowCount();) {
                   final AccountInfo i = getRowItem(row);
@@ -353,6 +356,7 @@ public class AccountGroupMembersScreen extends AccountGroupScreen {
       if (!ids.isEmpty()) {
         GroupApi.removeIncludedGroups(getGroupUUID(), ids,
             new GerritCallback<VoidResult>() {
+              @Override
               public void onSuccess(final VoidResult result) {
                 for (int row = 1; row < table.getRowCount();) {
                   final GroupInfo i = getRowItem(row);

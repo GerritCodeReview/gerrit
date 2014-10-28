@@ -24,6 +24,7 @@ import com.google.gwtorm.server.ResultSet;
 
 public interface AccountGroupByIdAudAccess extends
     Access<AccountGroupByIdAud, AccountGroupByIdAud.Key> {
+  @Override
   @PrimaryKey("key")
   AccountGroupByIdAud get(AccountGroupByIdAud.Key key)
       throws OrmException;

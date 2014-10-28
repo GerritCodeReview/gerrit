@@ -58,6 +58,7 @@ class SshAutoRegisterModuleGenerator
     }
   }
 
+  @Override
   public void setPluginName(String name) {
     command = Commands.named(name);
   }

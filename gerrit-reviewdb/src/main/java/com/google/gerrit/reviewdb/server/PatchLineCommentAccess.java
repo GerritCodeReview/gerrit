@@ -26,6 +26,7 @@ import com.google.gwtorm.server.ResultSet;
 
 public interface PatchLineCommentAccess extends
     Access<PatchLineComment, PatchLineComment.Key> {
+  @Override
   @PrimaryKey("key")
   PatchLineComment get(PatchLineComment.Key id) throws OrmException;
 

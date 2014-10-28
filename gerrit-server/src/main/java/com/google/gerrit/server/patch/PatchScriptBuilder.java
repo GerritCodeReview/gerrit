@@ -436,7 +436,7 @@ class PatchScriptBuilder {
             displayMethod = DisplayMethod.NONE;
           } else {
             id = within;
-            src = Text.forCommit(db, reader, within);
+            src = Text.forCommit(reader, within);
             srcContent = src.getContent();
             if (src == Text.EMPTY) {
               mode = FileMode.MISSING;

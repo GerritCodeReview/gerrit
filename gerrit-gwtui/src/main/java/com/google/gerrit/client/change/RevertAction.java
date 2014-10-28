@@ -26,7 +26,7 @@ import com.google.gwt.user.client.ui.Button;
 
 class RevertAction {
   static void call(Button b, final Change.Id id, final String revision,
-      String project, final String commitSubject) {
+      final String commitSubject) {
     // TODO Replace ActionDialog with a nicer looking display.
     b.setEnabled(false);
     new ActionDialog(b, false,

@@ -76,6 +76,7 @@ public class MyIdentitiesScreen extends SettingsScreen {
     super.onLoad();
     Util.ACCOUNT_SEC
         .myExternalIds(new ScreenLoadCallback<List<AccountExternalId>>(this) {
+          @Override
           public void preDisplay(final List<AccountExternalId> result) {
             identites.display(result);
           }
@@ -126,6 +127,7 @@ public class MyIdentitiesScreen extends SettingsScreen {
         deleteIdentity.setEnabled(false);
         Util.ACCOUNT_SEC.deleteExternalIds(keys,
             new GerritCallback<Set<AccountExternalId.Key>>() {
+              @Override
               public void onSuccess(final Set<AccountExternalId.Key> removed) {
                 for (int row = 1; row < table.getRowCount();) {
                   final AccountExternalId k = getRowItem(row);

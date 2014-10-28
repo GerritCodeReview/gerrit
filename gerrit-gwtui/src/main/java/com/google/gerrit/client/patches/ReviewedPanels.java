@@ -135,6 +135,7 @@ public class ReviewedPanels {
   private InlineHyperlink createReviewedLink(final int patchIndex,
       final PatchScreen.Type patchScreenType) {
     final PatchValidator unreviewedValidator = new PatchValidator() {
+      @Override
       public boolean isValid(Patch patch) {
         return !patch.isReviewedByCurrentUser();
       }

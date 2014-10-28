@@ -49,12 +49,15 @@ import javax.servlet.http.HttpServletResponse;
  * </pre>
  */
 public class CacheControlFilter implements Filter {
+  @Override
   public void init(final FilterConfig config) {
   }
 
+  @Override
   public void destroy() {
   }
 
+  @Override
   public void doFilter(final ServletRequest sreq, final ServletResponse srsp,
       final FilterChain chain) throws IOException, ServletException {
     final HttpServletRequest req = (HttpServletRequest) sreq;

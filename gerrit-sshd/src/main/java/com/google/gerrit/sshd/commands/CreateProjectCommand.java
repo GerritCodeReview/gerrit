@@ -33,7 +33,6 @@ import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.SuggestParentCandidates;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
 import org.kohsuke.args4j.Argument;
@@ -191,7 +190,7 @@ final class CreateProjectCommand extends SshCommand {
           stdout.print(parent + "\n");
         }
       }
-    } catch (RestApiException | OrmException | NoSuchProjectException err) {
+    } catch (RestApiException | NoSuchProjectException err) {
       throw new UnloggedFailure(1, "fatal: " + err.getMessage(), err);
     }
   }

@@ -182,8 +182,7 @@ public class ChangeEdits implements
     }
 
     private Optional<ChangeEdit> createEdit() throws AuthException,
-        IOException, ResourceConflictException, OrmException,
-        InvalidChangeOperationException {
+        IOException, ResourceConflictException, OrmException {
       editModifier.createEdit(change,
           db.get().patchSets().get(change.currentPatchSetId()));
       return editUtil.byChange(change);
@@ -342,7 +341,7 @@ public class ChangeEdits implements
 
     private Optional<ChangeEdit> createEdit(Change change)
         throws AuthException, IOException, ResourceConflictException,
-        OrmException, InvalidChangeOperationException {
+        OrmException {
       editModifier.createEdit(change,
           db.get().patchSets().get(change.currentPatchSetId()));
       return editUtil.byChange(change);

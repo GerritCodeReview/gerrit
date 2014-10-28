@@ -213,6 +213,7 @@ public class MyWatchedProjectsScreen extends SettingsScreen {
 
     Util.ACCOUNT_SVC.addProjectWatch(projectName, filter,
         new GerritCallback<AccountProjectWatchInfo>() {
+          @Override
           public void onSuccess(final AccountProjectWatchInfo result) {
             addNew.setEnabled(true);
             nameBox.setEnabled(true);

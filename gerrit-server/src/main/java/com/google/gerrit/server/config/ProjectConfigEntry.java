@@ -185,23 +185,59 @@ public class ProjectConfigEntry {
     return permittedValues;
   }
 
+  /**
+   * @param project project state.
+   * @return whether the project is editable.
+   */
   public boolean isEditable(ProjectState project) {
     return true;
   }
 
+  /**
+   * @param project project state.
+   * @return any warning associated with the project.
+   */
   public String getWarning(ProjectState project) {
     return null;
   }
 
+  /**
+   * Called after a project config is updated.
+   *
+   * @param project project name.
+   * @param oldValue old entry value.
+   * @param newValue new entry value.
+   */
   public void onUpdate(Project.NameKey project, String oldValue, String newValue) {
   }
 
+  /**
+   * Called after a project config is updated.
+   *
+   * @param project project name.
+   * @param oldValue old entry value.
+   * @param newValue new entry value.
+   */
   public void onUpdate(Project.NameKey project, Boolean oldValue, Boolean newValue) {
   }
 
+  /**
+   * Called after a project config is updated.
+   *
+   * @param project project name.
+   * @param oldValue old entry value.
+   * @param newValue new entry value.
+   */
   public void onUpdate(Project.NameKey project, Integer oldValue, Integer newValue) {
   }
 
+  /**
+   * Called after a project config is updated.
+   *
+   * @param project project name.
+   * @param oldValue old entry value.
+   * @param newValue new entry value.
+   */
   public void onUpdate(Project.NameKey project, Long oldValue, Long newValue) {
   }
 

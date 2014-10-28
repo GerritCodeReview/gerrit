@@ -84,6 +84,7 @@ final class ScpCommand extends BaseCommand {
   @Override
   public void start(final Environment env) {
     startThread(new Runnable() {
+      @Override
       public void run() {
         runImp();
       }

@@ -72,12 +72,12 @@ public class ListMembers implements RestReadView<GroupResource> {
   }
 
   public List<AccountInfo> apply(AccountGroup group)
-      throws MethodNotAllowedException, OrmException {
+      throws OrmException {
     return apply(group.getGroupUUID());
   }
 
   public List<AccountInfo> apply(AccountGroup.UUID groupId)
-      throws MethodNotAllowedException, OrmException {
+      throws OrmException {
     final Map<Account.Id, AccountInfo> members =
         getMembers(groupId, new HashSet<AccountGroup.UUID>());
     final List<AccountInfo> memberInfos = Lists.newArrayList(members.values());

@@ -89,6 +89,7 @@ class UpgradeFrom2_0_x implements InitStep {
     return false;
   }
 
+  @Override
   public void run() throws IOException, ConfigInvalidException {
     if (!isNeedUpgrade()) {
       return;

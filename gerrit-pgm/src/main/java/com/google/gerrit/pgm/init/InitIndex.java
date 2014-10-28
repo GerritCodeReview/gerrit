@@ -46,6 +46,7 @@ class InitIndex implements InitStep {
     this.initFlags = initFlags;
   }
 
+  @Override
   public void run() throws IOException {
     ui.header("Index");
 

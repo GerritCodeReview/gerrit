@@ -96,6 +96,7 @@ public class DashboardTable extends ChangeTable2 {
     return unlimitedQuery.toString().trim();
   }
 
+  @Override
   public String getTitle() {
     return title;
   }

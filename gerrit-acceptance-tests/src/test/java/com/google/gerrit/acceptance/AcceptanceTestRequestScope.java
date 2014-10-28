@@ -164,8 +164,10 @@ public class AcceptanceTestRequestScope {
 
   /** Returns exactly one instance per command executed. */
   static final Scope REQUEST = new Scope() {
+    @Override
     public <T> Provider<T> scope(final Key<T> key, final Provider<T> creator) {
       return new Provider<T>() {
+        @Override
         public T get() {
           return requireContext().get(key, creator);
         }

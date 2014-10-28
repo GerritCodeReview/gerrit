@@ -160,10 +160,12 @@ public class CopyableLabel extends Composite implements HasText {
     }
   }
 
+  @Override
   public String getText() {
     return text;
   }
 
+  @Override
   public void setText(final String newText) {
     text = newText;
     visibleLen = newText.length();
@@ -195,6 +197,7 @@ public class CopyableLabel extends Composite implements HasText {
                   @Override
                   public void onKeyUp(final KeyUpEvent event) {
                     Scheduler.get().scheduleDeferred(new Command() {
+                      @Override
                       public void execute() {
                         hideTextBox();
                       }

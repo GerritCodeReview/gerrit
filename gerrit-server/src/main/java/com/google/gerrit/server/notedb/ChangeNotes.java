@@ -52,7 +52,6 @@ import org.eclipse.jgit.revwalk.RevWalk;
 
 import java.io.IOException;
 import java.sql.Timestamp;
-import java.text.ParseException;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
@@ -79,6 +78,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
 
   public static Comparator<PatchLineComment> PatchLineCommentComparator =
       new Comparator<PatchLineComment>() {
+    @Override
     public int compare(PatchLineComment c1, PatchLineComment c2) {
       String filename1 = c1.getKey().getParentKey().get();
       String filename2 = c2.getKey().getParentKey().get();
@@ -301,9 +301,6 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       this.allPastReviewers = ImmutableList.copyOf(parser.allPastReviewers);
 
       submitRecords = ImmutableList.copyOf(parser.submitRecords);
-    } catch (ParseException e1) {
-      // TODO(yyonas): figure out how to handle this exception
-      throw new IOException(e1);
     } finally {
       walk.release();
     }

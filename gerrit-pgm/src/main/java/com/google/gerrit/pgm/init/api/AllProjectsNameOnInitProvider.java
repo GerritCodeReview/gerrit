@@ -30,6 +30,7 @@ public class AllProjectsNameOnInitProvider implements Provider<String> {
         Strings.emptyToNull(n), AllProjectsNameProvider.DEFAULT);
   }
 
+  @Override
   public String get() {
     return name;
   }

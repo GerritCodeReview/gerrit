@@ -27,16 +27,19 @@ import java.text.ParseException;
 
 public class RefPatternBox extends ValueBox<String> {
   private static final Renderer<String> RENDERER = new Renderer<String>() {
+    @Override
     public String render(String ref) {
       return ref;
     }
 
+    @Override
     public void render(String ref, Appendable dst) throws IOException {
       dst.append(render(ref));
     }
   };
 
   private static final Parser<String> PARSER = new Parser<String>() {
+    @Override
     public String parse(CharSequence text) throws ParseException {
       String ref = text.toString();
 

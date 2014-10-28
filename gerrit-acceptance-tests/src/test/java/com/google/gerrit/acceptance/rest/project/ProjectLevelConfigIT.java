@@ -22,9 +22,7 @@ import static org.junit.Assert.assertEquals;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.server.config.AllProjectsNameProvider;
 import com.google.gerrit.server.project.ProjectState;
-import com.google.inject.Inject;
 
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.lib.Config;
@@ -32,13 +30,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class ProjectLevelConfigIT extends AbstractDaemonTest {
-
-  @Inject
-  private AllProjectsNameProvider allProjects;
-
-  @Inject
-  private PushOneCommit.Factory pushFactory;
-
   @Before
   public void setUp() throws Exception {
     fetch(git, RefNames.REFS_CONFIG + ":refs/heads/config");
@@ -77,7 +68,7 @@ public class ProjectLevelConfigIT extends AbstractDaemonTest {
     parentCfg.setString("s2", "ss", "k4", "parentValue4");
 
     Git parentGit =
-        cloneProject(sshSession.getUrl() + "/" + allProjects.get().get(), false);
+        cloneProject(sshSession.getUrl() + "/" + allProjects.get(), false);
     fetch(parentGit, RefNames.REFS_CONFIG + ":refs/heads/config");
     checkout(parentGit, "refs/heads/config");
     PushOneCommit push =

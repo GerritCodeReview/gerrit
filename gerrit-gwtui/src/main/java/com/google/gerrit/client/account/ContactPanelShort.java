@@ -194,6 +194,7 @@ class ContactPanelShort extends Composite {
     haveEmails = false;
 
     Util.ACCOUNT_SVC.myAccount(new GerritCallback<Account>() {
+      @Override
       public void onSuccess(final Account result) {
         if (!isAttached()) {
           return;
@@ -359,6 +360,7 @@ class ContactPanelShort extends Composite {
 
     Util.ACCOUNT_SEC.updateContact(newName, newEmail, info,
         new GerritCallback<Account>() {
+          @Override
           public void onSuccess(final Account result) {
             registerNewEmail.setEnabled(true);
             onSaveSuccess(result);

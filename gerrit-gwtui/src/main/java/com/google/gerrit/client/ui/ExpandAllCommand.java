@@ -28,6 +28,7 @@ public class ExpandAllCommand implements Command {
     open = isOpen;
   }
 
+  @Override
   public void execute() {
     for (final Widget w : panel) {
       if (w instanceof CommentPanel) {

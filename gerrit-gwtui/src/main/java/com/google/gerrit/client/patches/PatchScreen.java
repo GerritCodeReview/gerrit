@@ -564,6 +564,7 @@ public abstract class PatchScreen extends Screen implements
         fileList.setSavePointerId("PatchTable " + psid);
         Util.DETAIL_SVC.patchSetDetail(psid,
             new GerritCallback<PatchSetDetail>() {
+              @Override
               public void onSuccess(final PatchSetDetail result) {
                 fileList.display(idSideA, result);
               }

@@ -35,7 +35,6 @@ import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.config.AnonymousCowardName;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -173,7 +172,7 @@ public class CommentsInNotesUtil {
       throw parseException(changeId, "could not parse %s", FILE);
     }
 
-    CommentRange range = parseCommentRange(note, curr, changeId);
+    CommentRange range = parseCommentRange(note, curr);
     if (range == null) {
       throw parseException(changeId, "could not parse %s", COMMENT_RANGE);
     }
@@ -228,8 +227,7 @@ public class CommentsInNotesUtil {
    *    contains a whole comment range, then we return a CommentRange with all
    *    fields set. If the line is not correctly formatted, return null.
    */
-  private static CommentRange parseCommentRange(byte[] note, MutableInteger ptr,
-      Change.Id changeId) throws ConfigInvalidException {
+  private static CommentRange parseCommentRange(byte[] note, MutableInteger ptr) {
     CommentRange range = new CommentRange(-1, -1, -1, -1);
 
     int startLine = RawParseUtils.parseBase10(note, ptr.value, ptr);
@@ -397,7 +395,7 @@ public class CommentsInNotesUtil {
   }
 
   private void appendHeaderField(PrintWriter writer,
-      String field, String value) throws IOException {
+      String field, String value) {
     writer.print(field);
     writer.print(": ");
     writer.print(value);
@@ -442,8 +440,7 @@ public class CommentsInNotesUtil {
    *            for no comments.
    * @return the note. Null if there are no comments in the list.
    */
-  public byte[] buildNote(List<PatchLineComment> comments)
-      throws OrmException, IOException {
+  public byte[] buildNote(List<PatchLineComment> comments) {
     ByteArrayOutputStream buf = new ByteArrayOutputStream();
     OutputStreamWriter streamWriter = new OutputStreamWriter(buf, UTF_8);
     PrintWriter writer = new PrintWriter(streamWriter);
@@ -527,7 +524,7 @@ public class CommentsInNotesUtil {
 
   public void writeCommentsToNoteMap(NoteMap noteMap,
       List<PatchLineComment> allComments, ObjectInserter inserter)
-        throws OrmException, IOException {
+        throws IOException {
     checkArgument(!allComments.isEmpty(),
         "No comments to write; to delete, use removeNoteFromNoteMap().");
     ObjectId commit =

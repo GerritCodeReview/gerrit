@@ -541,6 +541,11 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
     }
   }
 
+  /**
+   * Update cursor after selecting a comment.
+   *
+   * @param newComment comment that was selected.
+   */
   protected void updateCursor(final PatchLineComment newComment) {
   }
 
@@ -724,7 +729,7 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
   }
 
   protected void bindComment(final int row, final int col,
-      final PatchLineComment line, final boolean isLast, boolean expandComment) {
+      final PatchLineComment line, boolean expandComment) {
     if (line.getStatus() == PatchLineComment.Status.DRAFT) {
       final CommentEditorPanel plc =
           new CommentEditorPanel(line, commentLinkProcessor);

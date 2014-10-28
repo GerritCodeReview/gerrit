@@ -639,7 +639,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
         valueText);
   }
 
-  private void loadLabelSections(Config rc) throws IOException {
+  private void loadLabelSections(Config rc) {
     Map<String, String> lowerNames = Maps.newHashMapWithExpectedSize(2);
     labelSections = Maps.newLinkedHashMap();
     for (String name : rc.getSubsections(LABEL)) {
@@ -1101,6 +1101,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     }
   }
 
+  @Override
   public void error(ValidationError error) {
     if (validationErrors == null) {
       validationErrors = new ArrayList<>(4);

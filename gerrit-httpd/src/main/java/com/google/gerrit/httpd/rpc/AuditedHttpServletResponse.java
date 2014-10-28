@@ -28,6 +28,7 @@ class AuditedHttpServletResponse
     super(response);
   }
 
+  @Override
   public int getStatus() {
     return status;
   }

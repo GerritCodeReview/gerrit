@@ -24,6 +24,7 @@ import com.google.gwtorm.server.Query;
 import com.google.gwtorm.server.ResultSet;
 
 public interface ChangeAccess extends Access<Change, Change.Id> {
+  @Override
   @PrimaryKey("changeId")
   Change get(Change.Id id) throws OrmException;
 

@@ -85,7 +85,7 @@ public class ProjectWatch {
       for (NotifyConfig nc : state.getConfig().getNotifyConfigs()) {
         if (nc.isNotify(type)) {
           try {
-            add(matching, nc, state.getProject().getNameKey());
+            add(matching, nc);
           } catch (QueryParseException e) {
             log.warn(String.format(
                 "Project %s has invalid notify %s filter \"%s\"",
@@ -121,7 +121,7 @@ public class ProjectWatch {
     }
   }
 
-  private void add(Watchers matching, NotifyConfig nc, Project.NameKey project)
+  private void add(Watchers matching, NotifyConfig nc)
       throws OrmException, QueryParseException {
     for (GroupReference ref : nc.getGroups()) {
       CurrentUser user = new SingleGroupUser(args.capabilityControlFactory,

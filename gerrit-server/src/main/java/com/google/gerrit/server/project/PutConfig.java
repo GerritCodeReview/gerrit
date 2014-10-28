@@ -183,7 +183,7 @@ public class PutConfig implements RestModifyView<ProjectResource, Input> {
           hooks.doRefUpdatedHook(
             new Branch.NameKey(projectName, RefNames.REFS_CONFIG),
             baseRev, commitRev, user.getAccount());
-        };
+        }
         projectCache.evict(projectConfig.getProject());
         gitMgr.setProjectDescription(projectName, p.getDescription());
       } catch (IOException e) {

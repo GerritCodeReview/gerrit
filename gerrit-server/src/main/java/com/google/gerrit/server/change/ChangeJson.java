@@ -89,7 +89,6 @@ import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gerrit.server.project.ChangeControl;
-import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.SubmitRuleEvaluator;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeData.ChangedLines;
@@ -142,7 +141,6 @@ public class ChangeJson {
       Provider<CurrentUser> user,
       AnonymousUser au,
       IdentifiedUser.GenericFactory uf,
-      ProjectControl.GenericFactory pcf,
       ChangeData.Factory cdf,
       PatchSetInfoFactory psi,
       FileInfoJson fileInfoJson,
@@ -246,7 +244,7 @@ public class ChangeJson {
   }
 
   private List<ChangeInfo> toChangeInfo(Map<Change.Id, ChangeInfo> out,
-      List<ChangeData> changes, Set<Change.Id> reviewed) throws OrmException {
+      List<ChangeData> changes, Set<Change.Id> reviewed) {
     List<ChangeInfo> info = Lists.newArrayListWithCapacity(changes.size());
     for (ChangeData cd : changes) {
       ChangeInfo i = out.get(cd.getId());
@@ -303,7 +301,7 @@ public class ChangeJson {
           || limitToPsId.get().equals(in.currentPatchSetId())) {
         out.permittedLabels = permittedLabels(ctl, cd);
       }
-      out.removableReviewers = removableReviewers(ctl, cd, out.labels.values());
+      out.removableReviewers = removableReviewers(ctl, out.labels.values());
     }
 
     Map<PatchSet.Id, PatchSet> src = loadPatchSets(cd, limitToPsId);
@@ -315,7 +313,7 @@ public class ChangeJson {
     if (has(ALL_REVISIONS)
         || has(CURRENT_REVISION)
         || limitToPsId.isPresent()) {
-      out.revisions = revisions(ctl, cd, limitToPsId, out.project, src);
+      out.revisions = revisions(ctl, cd, out.project, src);
       if (out.revisions != null) {
         for (Map.Entry<String, RevisionInfo> entry : out.revisions.entrySet()) {
           if (entry.getValue().isCurrent) {
@@ -390,7 +388,7 @@ public class ChangeJson {
   private Map<String, LabelInfo> labelsForOpenChange(ChangeControl ctl,
       ChangeData cd, LabelTypes labelTypes, boolean standard, boolean detailed)
       throws OrmException {
-    Map<String, LabelInfo> labels = initLabels(ctl, cd, labelTypes, standard);
+    Map<String, LabelInfo> labels = initLabels(cd, labelTypes, standard);
     if (detailed) {
       setAllApprovals(ctl, cd, labels);
     }
@@ -415,7 +413,7 @@ public class ChangeJson {
     return labels;
   }
 
-  private Map<String, LabelInfo> initLabels(ChangeControl ctl, ChangeData cd,
+  private Map<String, LabelInfo> initLabels(ChangeData cd,
       LabelTypes labelTypes, boolean standard) throws OrmException {
     // Don't use Maps.newTreeMap(Comparator) due to OpenJDK bug 100167.
     Map<String, LabelInfo> labels = new TreeMap<>(labelTypes.nameComparator());
@@ -451,8 +449,7 @@ public class ChangeJson {
   }
 
   private void setLabelScores(LabelType type,
-      LabelInfo label, short score, Account.Id accountId)
-      throws OrmException {
+      LabelInfo label, short score, Account.Id accountId) {
     if (label.approved != null || label.rejected != null) {
       return;
     }
@@ -685,8 +682,8 @@ public class ChangeJson {
     return result;
   }
 
-  private Collection<AccountInfo> removableReviewers(ChangeControl ctl, ChangeData cd,
-      Collection<LabelInfo> labels) throws OrmException {
+  private Collection<AccountInfo> removableReviewers(ChangeControl ctl,
+      Collection<LabelInfo> labels) {
     Set<Account.Id> fixed = Sets.newHashSetWithExpectedSize(labels.size());
     Set<Account.Id> removable = Sets.newHashSetWithExpectedSize(labels.size());
     for (LabelInfo label : labels) {
@@ -755,8 +752,7 @@ public class ChangeJson {
   }
 
   private Map<String, RevisionInfo> revisions(ChangeControl ctl, ChangeData cd,
-      Optional<PatchSet.Id> limitToPsId, String project,
-      Map<PatchSet.Id, PatchSet> map) throws OrmException {
+      String project, Map<PatchSet.Id, PatchSet> map) throws OrmException {
     Map<String, RevisionInfo> res = Maps.newLinkedHashMap();
     for (PatchSet in : map.values()) {
       if ((has(ALL_REVISIONS)
@@ -802,7 +798,7 @@ public class ChangeJson {
     out.isCurrent = in.getId().equals(cd.change().currentPatchSetId());
     out._number = in.getId().get();
     out.draft = in.isDraft() ? true : null;
-    out.fetch = makeFetchMap(ctl, cd, in);
+    out.fetch = makeFetchMap(ctl, in);
 
     if (has(ALL_COMMITS) || (out.isCurrent && has(CURRENT_COMMIT))) {
       try {
@@ -869,7 +865,7 @@ public class ChangeJson {
     return commit;
   }
 
-  private Map<String, FetchInfo> makeFetchMap(ChangeControl ctl, ChangeData cd, PatchSet in)
+  private Map<String, FetchInfo> makeFetchMap(ChangeControl ctl, PatchSet in)
       throws OrmException {
     Map<String, FetchInfo> r = Maps.newLinkedHashMap();
 

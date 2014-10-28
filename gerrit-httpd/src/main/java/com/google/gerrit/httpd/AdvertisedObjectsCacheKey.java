@@ -31,6 +31,7 @@ class AdvertisedObjectsCacheKey {
     return account.hashCode();
   }
 
+  @Override
   public boolean equals(Object other) {
     if (other instanceof AdvertisedObjectsCacheKey) {
       AdvertisedObjectsCacheKey o = (AdvertisedObjectsCacheKey) other;

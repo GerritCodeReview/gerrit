@@ -109,6 +109,7 @@ class PublishedBox extends CommentBox {
     return UIObject.isVisible(message);
   }
 
+  @Override
   void setOpen(boolean open) {
     UIObject.setVisible(summary, !open);
     UIObject.setVisible(message, open);

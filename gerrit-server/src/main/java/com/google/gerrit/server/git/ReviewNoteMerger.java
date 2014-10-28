@@ -51,6 +51,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 
 class ReviewNoteMerger implements NoteMerger {
+  @Override
   public Note merge(Note base, Note ours, Note theirs, ObjectReader reader,
       ObjectInserter inserter) throws IOException {
     if (ours == null) {

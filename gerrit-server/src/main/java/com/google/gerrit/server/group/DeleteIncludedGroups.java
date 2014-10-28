@@ -76,7 +76,7 @@ public class DeleteIncludedGroups implements RestModifyView<GroupResource, Input
 
     for (final String includedGroup : input.groups) {
       GroupDescription.Basic d = groupsCollection.parse(includedGroup);
-      if (!control.canRemoveGroup(d.getGroupUUID())) {
+      if (!control.canRemoveGroup()) {
         throw new AuthException(String.format("Cannot delete group: %s",
             d.getName()));
       }
@@ -109,8 +109,7 @@ public class DeleteIncludedGroups implements RestModifyView<GroupResource, Input
     return groups;
   }
 
-  private void writeAudits(final List<AccountGroupById> toRemoved)
-      throws OrmException {
+  private void writeAudits(final List<AccountGroupById> toRemoved) {
     final Account.Id me = ((IdentifiedUser) self.get()).getAccountId();
     auditService.dispatchDeleteGroupsFromGroup(me, toRemoved);
   }

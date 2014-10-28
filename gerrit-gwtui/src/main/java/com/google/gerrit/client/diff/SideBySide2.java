@@ -363,6 +363,7 @@ public class SideBySide2 extends Screen {
         .on("Shift-Left", moveCursorToSide(cm, DisplaySide.A))
         .on("Shift-Right", moveCursorToSide(cm, DisplaySide.B))
         .on("I", new Runnable() {
+          @Override
           public void run() {
             switch (getIntraLineStatus()) {
               case OFF:
@@ -594,6 +595,7 @@ public class SideBySide2 extends Screen {
     }
 
     operation(new Runnable() {
+      @Override
       public void run() {
         // Estimate initial CM3 height, fixed up in onShowView.
         int height = Window.getClientHeight()
@@ -783,6 +785,7 @@ public class SideBySide2 extends Screen {
   private Runnable updateActiveLine(final CodeMirror cm) {
     final CodeMirror other = otherCm(cm);
     return new Runnable() {
+      @Override
       public void run() {
         // The rendering of active lines has to be deferred. Reflow
         // caused by adding and removing styles chokes Firefox when arrow
@@ -793,6 +796,7 @@ public class SideBySide2 extends Screen {
           @Override
           public void execute() {
             operation(new Runnable() {
+              @Override
               public void run() {
                 LineHandle handle = cm.getLineHandleVisualStart(
                     cm.getCursor("end").getLine());
@@ -848,6 +852,7 @@ public class SideBySide2 extends Screen {
 
   private Runnable upToChange(final boolean openReplyBox) {
     return new Runnable() {
+      @Override
       public void run() {
         CallbackGroup group = new CallbackGroup();
         commentManager.saveAllDrafts(group);
@@ -879,6 +884,7 @@ public class SideBySide2 extends Screen {
 
     final DisplaySide sideSrc = cmSrc.side();
     return new Runnable() {
+      @Override
       public void run() {
         if (cmSrc.hasActiveLine()) {
           cmDst.setCursor(LineCharacter.create(lineOnOther(

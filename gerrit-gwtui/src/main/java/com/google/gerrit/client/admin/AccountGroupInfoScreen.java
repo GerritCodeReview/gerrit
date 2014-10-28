@@ -96,6 +96,7 @@ public class AccountGroupInfoScreen extends AccountGroupScreen {
         final String newName = groupNameTxt.getText().trim();
         GroupApi.renameGroup(getGroupUUID(), newName,
             new GerritCallback<com.google.gerrit.client.VoidResult>() {
+              @Override
               public void onSuccess(final com.google.gerrit.client.VoidResult result) {
                 saveName.setEnabled(false);
                 setPageTitle(Util.M.group(newName));
@@ -135,6 +136,7 @@ public class AccountGroupInfoScreen extends AccountGroupScreen {
           String ownerId = ownerUuid != null ? ownerUuid.get() : newOwner;
           GroupApi.setGroupOwner(getGroupUUID(), ownerId,
               new GerritCallback<GroupInfo>() {
+                @Override
                 public void onSuccess(final GroupInfo result) {
                   updateOwnerGroup(result);
                   saveOwner.setEnabled(false);
@@ -165,6 +167,7 @@ public class AccountGroupInfoScreen extends AccountGroupScreen {
         final String txt = descTxt.getText().trim();
         GroupApi.setGroupDescription(getGroupUUID(), txt,
             new GerritCallback<VoidResult>() {
+              @Override
               public void onSuccess(final VoidResult result) {
                 saveDesc.setEnabled(false);
               }
@@ -193,6 +196,7 @@ public class AccountGroupInfoScreen extends AccountGroupScreen {
       public void onClick(final ClickEvent event) {
         GroupApi.setGroupOptions(getGroupUUID(),
             visibleToAllCheckBox.getValue(), new GerritCallback<VoidResult>() {
+              @Override
               public void onSuccess(final VoidResult result) {
                 saveGroupOptions.setEnabled(false);
               }

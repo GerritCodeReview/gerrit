@@ -48,7 +48,6 @@ import java.io.Writer;
 import java.util.List;
 import java.util.UUID;
 
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -68,7 +67,6 @@ class BecomeAnyAccountLoginServlet extends HttpServlet {
   BecomeAnyAccountLoginServlet(final DynamicItem<WebSession> ws,
       final SchemaFactory<ReviewDb> sf,
       final AccountManager am,
-      final ServletContext servletContext,
       SiteHeaderFooter shf) {
     webSession = ws;
     schema = sf;
@@ -92,13 +90,13 @@ class BecomeAnyAccountLoginServlet extends HttpServlet {
       res = create();
 
     } else if (req.getParameter("user_name") != null) {
-      res = byUserName(rsp, req.getParameter("user_name"));
+      res = byUserName(req.getParameter("user_name"));
 
     } else if (req.getParameter("preferred_email") != null) {
-      res = byPreferredEmail(rsp, req.getParameter("preferred_email"));
+      res = byPreferredEmail(req.getParameter("preferred_email"));
 
     } else if (req.getParameter("account_id") != null) {
-      res = byAccountId(rsp, req.getParameter("account_id"));
+      res = byAccountId(req.getParameter("account_id"));
 
     } else {
       byte[] raw;
@@ -210,8 +208,7 @@ class BecomeAnyAccountLoginServlet extends HttpServlet {
     return null;
   }
 
-  private AuthResult byUserName(final HttpServletResponse rsp,
-      final String userName) {
+  private AuthResult byUserName(final String userName) {
     try {
       final ReviewDb db = schema.open();
       try {
@@ -227,8 +224,7 @@ class BecomeAnyAccountLoginServlet extends HttpServlet {
     }
   }
 
-  private AuthResult byPreferredEmail(final HttpServletResponse rsp,
-      final String email) {
+  private AuthResult byPreferredEmail(final String email) {
     try {
       final ReviewDb db = schema.open();
       try {
@@ -243,8 +239,7 @@ class BecomeAnyAccountLoginServlet extends HttpServlet {
     }
   }
 
-  private AuthResult byAccountId(final HttpServletResponse rsp,
-      final String idStr) {
+  private AuthResult byAccountId(final String idStr) {
     final Account.Id id;
     try {
       id = Account.Id.parse(idStr);

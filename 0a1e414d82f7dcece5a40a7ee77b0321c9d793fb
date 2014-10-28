@@ -45,6 +45,30 @@
       "revId": "0a1e414d82f7dcece5a40a7ee77b0321c9d793fb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d515fa2f_19340b81",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-10-28T22:36:45Z",
+      "side": 0,
+      "message": "Good catch, I didn\u0027t change this when I rebased.\n\nThis ends up being equivalent once the next commit gets merged, so I\u0027m not too worried from the perspective of released Gerrit. I will need to fix this for our online upgrade of googlesource.com though.",
+      "parentUuid": "55c2ea1e_4dfd197f",
+      "range": {
+        "startLine": 320,
+        "startChar": 4,
+        "endLine": 323,
+        "endChar": 15
+      },
+      "revId": "0a1e414d82f7dcece5a40a7ee77b0321c9d793fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -22,6 +22,29 @@
       "revId": "0a1e414d82f7dcece5a40a7ee77b0321c9d793fb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "55c2ea1e_4dfd197f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-28T19:20:26Z",
+      "side": 0,
+      "message": "This is not equivalent replacement, as we don\u0027t record the outcome in the database any more. Mention this in the commit message?",
+      "range": {
+        "startLine": 320,
+        "startChar": 4,
+        "endLine": 323,
+        "endChar": 15
+      },
+      "revId": "0a1e414d82f7dcece5a40a7ee77b0321c9d793fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

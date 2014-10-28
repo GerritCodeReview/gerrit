@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "55c2ea1e_adcefd65",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-28T19:20:26Z",
+      "side": 1,
+      "message": "The old code was calling Mergeable and there the result was recorded in the database. In this change you switched to not using Mergeable, but ChangeJson logic is still remained old, reading from the database:\n\n  out.mergeable \u003d isMergeable(in);\n  [...]\n  out.mergeable \u003d c.isMergeable();\n\nThis cannot work, obviously. You have adjusted ChangeJson later in this series to reflect the fact that we don\u0027t write in the database:\n\n  out.mergeable \u003d in.getStatus() \u003d\u003d Change.Status.MERGED\n        ? null : cd.isMergeable();\n\nBut i think this code should be moved into this change. Otherwise the tests are failing:\n\n  FAIL     72,9s 18 Passed   0 Skipped   1 Failed   com.google.gerrit.acceptance.api.change.ChangeIT\nFAILURE get: expected:\u003ctrue\u003e but was:\u003cnull\u003e\njava.lang.AssertionError: expected:\u003ctrue\u003e but was:\u003cnull\u003e\n\tat org.junit.Assert.fail(Assert.java:93)\n\tat org.junit.Assert.failNotEquals(Assert.java:647)\n\tat org.junit.Assert.assertEquals(Assert.java:128)\n\tat org.junit.Assert.assertEquals(Assert.java:147)\n\tat com.google.gerrit.acceptance.api.change.ChangeIT.get(ChangeIT.java:63)\n\tat sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\n\tat sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)\n\tat sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\n\tat java.lang.reflect.Method.invoke(Method.java:606)\n\tat org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:45)\n\tat org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:15)\n\tat org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:42)\n\tat org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:20)\n\tat com.google.gerrit.acceptance.AbstractDaemonTest$1$1.evaluate(AbstractDaemonTest.java:128)\n\tat org.junit.rules.RunRules.evaluate(RunRules.java:18)\n\tat org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:263)\n\tat org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:68)\n\tat org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:47)\n\tat org.junit.runners.ParentRunner$3.run(ParentRunner.java:231)\n\tat org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:60)\n\tat org.junit.runners.ParentRunner.runChildren(ParentRunner.java:229)\n\tat org.junit.runners.ParentRunner.access$000(ParentRunner.java:50)\n\tat org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:222)\n\tat org.junit.runners.ParentRunner.run(ParentRunner.java:300)\n\tat org.junit.runners.Suite.runChild(Suite.java:128)\n\tat org.junit.runners.Suite.runChild(Suite.java:24)\n\tat org.junit.runners.ParentRunner$3.run(ParentRunner.java:231)\n\tat org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:60)\n\tat org.junit.runners.ParentRunner.runChildren(ParentRunner.java:229)\n\tat org.junit.runners.ParentRunner.access$000(ParentRunner.java:50)\n\tat org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:222)\n\tat org.junit.runners.ParentRunner.run(ParentRunner.java:300)\n\tat org.junit.runners.Suite.runChild(Suite.java:128)\n\tat org.junit.runners.Suite.runChild(Suite.java:24)\n\tat org.junit.runners.ParentRunner$3.run(ParentRunner.java:231)\n\tat org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:60)\n\tat org.junit.runners.ParentRunner.runChildren(ParentRunner.java:229)\n\tat org.junit.runners.ParentRunner.access$000(ParentRunner.java:50)\n\tat org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:222)\n\tat org.junit.runners.ParentRunner.run(ParentRunner.java:300)\n\tat org.junit.runner.JUnitCore.run(JUnitCore.java:157)\n\tat org.junit.runner.JUnitCore.run(JUnitCore.java:136)\n\tat com.facebook.buck.junit.JUnitRunner.run(JUnitRunner.java:139)\n\tat com.facebook.buck.junit.Main.main(Main.java:102)",
+      "range": {
+        "startLine": 31,
+        "startChar": 3,
+        "endLine": 32,
+        "endChar": 50
+      },
+      "revId": "d83d303798f5c39ec665e1b3d195ed6559a4aaf3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f5bafe9a_2a2e7f80",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 823,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-28T19:20:26Z",
+      "side": 1,
+      "message": "We normally wrap text line around 80 chars.",
+      "revId": "d83d303798f5c39ec665e1b3d195ed6559a4aaf3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "55c2ea1e_0df711a1",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 829,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-28T19:20:26Z",
+      "side": 1,
+      "message": "Wrap these lines.",
+      "revId": "d83d303798f5c39ec665e1b3d195ed6559a4aaf3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "55c2ea1e_6d0255e4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/extensions/events/GitReferenceUpdated.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-28T19:20:26Z",
+      "side": 1,
+      "message": "Nice, you have added this in this change only to use i in Exception handler 2 changes later? If yes, why not to add t in the change where this is really needed/used?",
+      "range": {
+        "startLine": 101,
+        "startChar": 4,
+        "endLine": 101,
+        "endChar": 28
+      },
+      "revId": "d83d303798f5c39ec665e1b3d195ed6559a4aaf3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -19,6 +19,7 @@ import com.google.gerrit.client.VoidResult;
 import com.google.gerrit.client.changes.ChangeFileApi;
 import com.google.gerrit.client.ui.TextBoxChangeListener;
 import com.google.gerrit.common.PageLinks;
+import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler;
@@ -48,6 +49,18 @@ class EditFileBox extends Composite {
   @UiField NpTextArea content;
   @UiField Button save;
   @UiField Button cancel;
+
+  private AsyncCallback<VoidResult> cb = new AsyncCallback<VoidResult>() {
+    @Override
+    public void onSuccess(VoidResult result) {
+      Gerrit.display(PageLinks.toChangeInEditMode(id.getParentKey()));
+      hide();
+    }
+
+    @Override
+    public void onFailure(Throwable caught) {
+    }
+  };
 
   EditFileBox(
       PatchSet.Id id,
@@ -81,18 +94,11 @@ class EditFileBox extends Composite {
 
   @UiHandler("save")
   void onSave(@SuppressWarnings("unused") ClickEvent e) {
-    ChangeFileApi.putContent(id, file.getText(), content.getText(),
-        new AsyncCallback<VoidResult>() {
-          @Override
-          public void onSuccess(VoidResult result) {
-            Gerrit.display(PageLinks.toChangeInEditMode(id.getParentKey()));
-            hide();
-          }
-
-          @Override
-          public void onFailure(Throwable caught) {
-          }
-        });
+    if (Patch.COMMIT_MSG.equals(file.getText())) {
+      ChangeFileApi.putMessage(id, content.getText(), cb);
+    } else {
+      ChangeFileApi.putContent(id, file.getText(), content.getText(), cb);
+    }
   }
 
   @UiHandler("cancel")

@@ -43,24 +43,40 @@ public class ChangeFileApi {
     }
   }
 
+  private static CallbackWrapper<NativeString, String> wrapper(
+      AsyncCallback<String> cb) {
+    return new CallbackWrapper<NativeString, String>(cb) {
+      @Override
+      public void onSuccess(NativeString b64) {
+        if (b64 != null) {
+          wrapped.onSuccess(b64decode(b64.asString()));
+        }
+      }
+    };
+  }
+
   /** Get the contents of a File in a PatchSet or cange edit. */
   public static void getContent(PatchSet.Id id, String filename,
       AsyncCallback<String> cb) {
-    contentEditOrPs(id, filename).get(
-        new CallbackWrapper<NativeString, String>(cb) {
-            @Override
-            public void onSuccess(NativeString b64) {
-              if (b64 != null) {
-                wrapped.onSuccess(b64decode(b64.asString()));
-              }
-            }
-          });
+    contentEditOrPs(id, filename).get(wrapper(cb));
+  }
+
+  /** Get commit message in a PatchSet or cange edit. */
+  public static void getMessage(PatchSet.Id id, AsyncCallback<String> cb) {
+    ChangeApi.change(id.getParentKey().get()).view("edit_message").get(
+        wrapper(cb));
   }
 
   /** Put contents into a File in a change edit. */
   public static void putContent(PatchSet.Id id, String filename,
       String content, AsyncCallback<VoidResult> result) {
     contentEdit(id.getParentKey(), filename).put(content, result);
+  }
+
+  /** Put message into a change edit. */
+  public static void putMessage(PatchSet.Id id, String m,
+      AsyncCallback<VoidResult> r) {
+    ChangeApi.change(id.getParentKey().get()).view("edit_message").put(m, r);
   }
 
   /** Restore contents of a File in a change edit. */

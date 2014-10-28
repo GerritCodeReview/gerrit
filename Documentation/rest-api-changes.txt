@@ -1367,6 +1367,30 @@ specified file was deleted in the change edit "`204 No Content`" is returned.
   RnJvbSA3ZGFkY2MxNTNmZGVhMTdhYTg0ZmYzMmE2ZTI0NWRiYjY...
 ----
 
+[[get-edit-message]]
+=== Retrieve commit message from Change Edit or current patch set of the change
+--
+'GET /changes/link:#change-id[\{change-id\}]/edit:message
+--
+
+Retrieves commit message from change edit or from current patch set when
+change edit doesn't exist.
+
+.Request
+----
+  GET /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/edit:message HTTP/1.0
+----
+
+The commit message is returned as text encoded inside base64 string.
+
+.Response
+----
+  HTTP/1.1 200 OK
+
+  VGhpcyBpcyBhIGNvbW1pdCBtZXNzYWdlCgpDaGFuZ2UtSWQ6IElhYzhmZGM1MGRlZjFiYWUzYjAz
+M2JhNjcxZTk0OTBmNzUxNDU5ZGUzCg==
+----
+
 [[publish-edit]]
 === Publish Change Edit
 --

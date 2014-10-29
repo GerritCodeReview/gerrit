@@ -22,6 +22,30 @@
       "revId": "6dfe7aa30c3bcd6d241fef2fac704eb8f9a36d3a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "955d4234_4702aee3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2014-10-29T19:00:13Z",
+      "side": 1,
+      "message": "Yes, this inconsistency is because we have a active/hot-stand-by topology and since those 2 gerrit instances do not share the lucene index, the index on the hot-stand-by is always out-of-date.\n\nWe use the REST api to keep the lucene index of the hot-stand-by up to date but when a draft change is deleted, there is no way to index(remove) that change because the change no longer exist in the DB.",
+      "parentUuid": "55c2ea1e_cd4ca93c",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 16
+      },
+      "revId": "6dfe7aa30c3bcd6d241fef2fac704eb8f9a36d3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

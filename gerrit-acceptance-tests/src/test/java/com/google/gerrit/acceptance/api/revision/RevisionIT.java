@@ -14,9 +14,7 @@
 
 package com.google.gerrit.acceptance.api.revision;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static com.google.common.truth.Truth.assertThat;
 import static org.junit.Assert.fail;
 
 import com.google.common.collect.Iterables;
@@ -132,13 +130,13 @@ public class RevisionIT extends AbstractDaemonTest {
     ChangeApi orig = gApi.changes()
         .id("p~master~" + r.getChangeId());
 
-    assertEquals(1, orig.get().messages.size());
+    assertThat(orig.get().messages.size()).is(1);
     ChangeApi cherry = orig.revision(r.getCommit().name())
         .cherryPick(in);
-    assertEquals(2, orig.get().messages.size());
+    assertThat(orig.get().messages.size()).is(2);
 
-    assertTrue(cherry.get().subject.contains(in.message));
-    assertEquals("someTopic", cherry.get().topic);
+    assertThat(cherry.get().subject).contains(in.message);
+    assertThat(cherry.get().topic).isEqualTo("someTopic");
     cherry.current().review(ReviewInput.approve());
     cherry.current().submit();
   }
@@ -156,12 +154,12 @@ public class RevisionIT extends AbstractDaemonTest {
     ChangeApi orig = gApi.changes()
         .id("p~master~" + r.getChangeId());
 
-    assertEquals(1, orig.get().messages.size());
+    assertThat(orig.get().messages.size()).is(1);
     ChangeApi cherry = orig.revision(r.getCommit().name())
         .cherryPick(in);
-    assertEquals(2, orig.get().messages.size());
+    assertThat(orig.get().messages.size()).is(2);
 
-    assertTrue(cherry.get().subject.contains(in.message));
+    assertThat(cherry.get().subject).contains(in.message);
     cherry.current().review(ReviewInput.approve());
     cherry.current().submit();
 
@@ -169,7 +167,7 @@ public class RevisionIT extends AbstractDaemonTest {
       orig.revision(r.getCommit().name()).cherryPick(in);
       fail("Cherry-pick identical tree error expected");
     } catch (RestApiException e) {
-      assertEquals("Cherry pick failed: identical tree", e.getMessage());
+      assertThat(e.getMessage()).isEqualTo("Cherry pick failed: identical tree");
     }
   }
 
@@ -190,13 +188,13 @@ public class RevisionIT extends AbstractDaemonTest {
     push.to(git, "refs/heads/foo");
 
     ChangeApi orig = gApi.changes().id("p~master~" + r.getChangeId());
-    assertEquals(1, orig.get().messages.size());
+    assertThat(orig.get().messages.size()).is(1);
 
     try {
       orig.revision(r.getCommit().name()).cherryPick(in);
       fail("Cherry-pick merge conflict error expected");
     } catch (RestApiException e) {
-      assertEquals("Cherry pick failed: merge conflict", e.getMessage());
+      assertThat(e.getMessage()).isEqualTo("Cherry pick failed: merge conflict");
     }
   }
 
@@ -208,20 +206,22 @@ public class RevisionIT extends AbstractDaemonTest {
 
     push = pushFactory.create(db, admin.getIdent());
     PushOneCommit.Result r2 = push.to(git, "refs/for/master");
-    assertFalse(gApi.changes()
+    boolean canRebase = gApi.changes()
         .id(r2.getChangeId())
         .revision(r2.getCommit().name())
-        .canRebase());
+        .canRebase();
+    assertThat(canRebase).isFalse();
     merge(r2);
 
     git.checkout().setName(r1.getCommit().name()).call();
     push = pushFactory.create(db, admin.getIdent());
     PushOneCommit.Result r3 = push.to(git, "refs/for/master");
 
-    assertTrue(gApi.changes()
+    canRebase = gApi.changes()
         .id(r3.getChangeId())
         .revision(r3.getCommit().name())
-        .canRebase());
+        .canRebase();
+    assertThat(canRebase).isTrue();
   }
 
   @Test
@@ -234,24 +234,23 @@ public class RevisionIT extends AbstractDaemonTest {
         .current()
         .setReviewed(PushOneCommit.FILE_NAME, true);
 
-    assertEquals(PushOneCommit.FILE_NAME,
-        Iterables.getOnlyElement(
+    assertThat(Iterables.getOnlyElement(
             gApi.changes()
                 .id(r.getChangeId())
                 .current()
-                .reviewed()));
+                .reviewed())).isEqualTo(PushOneCommit.FILE_NAME);
 
     gApi.changes()
         .id(r.getChangeId())
         .current()
         .setReviewed(PushOneCommit.FILE_NAME, false);
 
-    assertTrue(
-        gApi.changes()
-            .id(r.getChangeId())
-            .current()
-            .reviewed()
-            .isEmpty());
+    boolean isEmpty = gApi.changes()
+        .id(r.getChangeId())
+        .current()
+        .reviewed()
+        .isEmpty() ;
+    assertThat(isEmpty).isTrue();
   }
 
   private void merge(PushOneCommit.Result r) throws Exception {

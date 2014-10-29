@@ -26,6 +26,7 @@ java_library(
     '//lib:jsch',
     '//lib:junit',
     '//lib:servlet-api-3_1',
+    '//lib:truth',
 
     '//lib/hamcrest:hamcrest-core',
     '//lib/hamcrest:hamcrest-library',

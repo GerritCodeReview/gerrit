@@ -14,7 +14,7 @@
 
 package com.google.gerrit.acceptance.rest.change;
 
-import static org.junit.Assert.assertEquals;
+import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Splitter;
@@ -45,9 +45,9 @@ public class HashtagsIT extends AbstractDaemonTest {
 
   private void assertResult(RestResponse r, List<String> expected)
       throws IOException {
-    assertEquals(HttpStatus.SC_OK, r.getStatusCode());
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
     List<String> result = toHashtagList(r);
-    assertEquals(expected, result);
+    assertThat(result).containsSequence(expected);
   }
 
   @Test

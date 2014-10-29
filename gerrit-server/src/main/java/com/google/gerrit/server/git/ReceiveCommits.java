@@ -2393,6 +2393,9 @@ public class ReceiveCommits {
               closeChange(cmd, PatchSet.Id.fromRef(ref.getName()), c);
           closeProgress.update(1);
           if (closedChange != null) {
+            if (byKey == null) {
+              byKey = openChangesByKey(branch);
+            }
             byKey.remove(closedChange);
           }
         }

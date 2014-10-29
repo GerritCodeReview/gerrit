@@ -2391,7 +2391,7 @@ public class ReceiveCommits {
       }
 
       final SetMultimap<ObjectId, Ref> byCommit = changeRefsById();
-      Map<Change.Key, Change.Id> byKey = null;
+      Map<Change.Key, Change> byKey = null;
       final List<ReplaceRequest> toClose = new ArrayList<>();
       for (RevCommit c; (c = rw.next()) != null;) {
         rw.parseBody(c);
@@ -2410,10 +2410,11 @@ public class ReceiveCommits {
             byKey = openChangesByKey(branch);
           }
 
-          final Change.Id onto = byKey.get(new Change.Key(changeId.trim()));
+          final Change onto = byKey.get(new Change.Key(changeId.trim()));
           if (onto != null) {
-            final ReplaceRequest req = new ReplaceRequest(onto, c, cmd, false);
-            req.change = db.changes().get(onto);
+            final ReplaceRequest req =
+                new ReplaceRequest(onto.getId(), c, cmd, false);
+            req.change = onto;
             toClose.add(req);
             break;
           }
@@ -2491,11 +2492,11 @@ public class ReceiveCommits {
     return refsById;
   }
 
-  private Map<Change.Key, Change.Id> openChangesByKey(Branch.NameKey branch)
+  private Map<Change.Key, Change> openChangesByKey(Branch.NameKey branch)
       throws OrmException {
-    final Map<Change.Key, Change.Id> r = new HashMap<>();
+    final Map<Change.Key, Change> r = new HashMap<>();
     for (Change c : db.changes().byBranchOpenAll(branch)) {
-      r.put(c.getKey(), c.getId());
+      r.put(c.getKey(), c);
     }
     return r;
   }

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d515fa2f_1942cbd8",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/EditFileBox.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-10-29T00:52:10Z",
+      "side": 1,
+      "message": "Callback can be factored out.",
+      "revId": "b50d6d56b2e58abe3f8d4b286835be730d8551a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b50a4612_38b22990",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeFileApi.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-10-29T00:52:10Z",
+      "side": 1,
+      "message": "Do you actually have to create a new JavaScriptObject type for this? message is the @DefaultInput on the server, so just putting the string in the request body should be sufficient.",
+      "revId": "b50d6d56b2e58abe3f8d4b286835be730d8551a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

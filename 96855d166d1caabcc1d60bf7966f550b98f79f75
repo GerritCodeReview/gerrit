@@ -70,6 +70,23 @@
       "revId": "96855d166d1caabcc1d60bf7966f550b98f79f75",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d515fa2f_599603da",
+        "filename": "lib/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-10-29T08:35:52Z",
+      "side": 1,
+      "message": "This has no deps defined, but it still seems to work even though from the maven central page [1] it looks like it does have dependency on guava, junit and some others.\n\n[1] http://search.maven.org/#artifactdetails%7Ccom.google.truth%7Ctruth%7C0.24%7Cjar",
+      "revId": "96855d166d1caabcc1d60bf7966f550b98f79f75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

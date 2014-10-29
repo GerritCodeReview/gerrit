@@ -1,4 +1,4 @@
-// Copyright (C) 2013 The Android Open Source Project
+// Copyright (C) 2014 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,17 +12,20 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.notedb;
+package com.google.gerrit.server.validators;
 
-import com.google.gerrit.extensions.registration.DynamicSet;
-import com.google.gerrit.server.config.FactoryModule;
-import com.google.gerrit.server.validators.HashtagValidationListener;
+import java.util.Set;
 
-public class NoteDbModule extends FactoryModule {
-  @Override
-  public void configure() {
-    factory(ChangeUpdate.Factory.class);
-    factory(ChangeDraftUpdate.Factory.class);
-    DynamicSet.setOf(binder(), HashtagValidationListener.class);
+public abstract class HashtagsValidationException extends ValidationException {
+  private static final long serialVersionUID = 1L;
+
+  public HashtagsValidationException(String reason) {
+    super(reason);
   }
+
+  public HashtagsValidationException(String reason, Throwable why) {
+    super(reason, why);
+  }
+
+  public abstract Set<String> getInvalidHashtags();
 }

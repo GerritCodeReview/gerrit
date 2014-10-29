@@ -39,6 +39,7 @@ import com.google.gerrit.server.git.validators.CommitValidationException;
 import com.google.gerrit.server.git.validators.CommitValidators;
 import com.google.gerrit.server.mail.ReplacePatchSetSender;
 import com.google.gerrit.server.notedb.ChangeUpdate;
+import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.notedb.ReviewerState;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.ChangeControl;
@@ -63,6 +64,8 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 public class PatchSetInserter {
   private static final Logger log =
@@ -87,6 +90,7 @@ public class PatchSetInserter {
   private final ReviewDb db;
   private final ChangeUpdate.Factory updateFactory;
   private final ChangeControl.GenericFactory ctlFactory;
+  private final NotesMigration notesMigration;
   private final GitReferenceUpdated gitRefUpdated;
   private final CommitValidators.Factory commitValidatorsFactory;
   private final MergeabilityChecker mergeabilityChecker;
@@ -116,6 +120,7 @@ public class PatchSetInserter {
       ReviewDb db,
       ChangeUpdate.Factory updateFactory,
       ChangeControl.GenericFactory ctlFactory,
+      NotesMigration notesMigration,
       ApprovalsUtil approvalsUtil,
       ApprovalCopier approvalCopier,
       ChangeMessagesUtil cmUtil,
@@ -135,6 +140,7 @@ public class PatchSetInserter {
     this.db = db;
     this.updateFactory = updateFactory;
     this.ctlFactory = ctlFactory;
+    this.notesMigration = notesMigration;
     this.approvalsUtil = approvalsUtil;
     this.approvalCopier = approvalCopier;
     this.cmUtil = cmUtil;
@@ -241,7 +247,8 @@ public class PatchSetInserter {
     final PatchSet.Id currentPatchSetId = c.currentPatchSetId();
 
     ChangeUpdate update = updateFactory.create(ctl, patchSet.getCreatedOn());
-
+    Set<String> updatedHashtags = new HashSet<>(0);
+    Set<String> toAdd = Collections.emptySet();
     db.changes().beginTransaction(c.getId());
     try {
       if (!db.changes().get(c.getId()).getStatus().isOpen()) {
@@ -290,6 +297,17 @@ public class PatchSetInserter {
       }
       db.commit();
       if (messageIsForChange()) {
+        toAdd = HashtagsUtil.parseCommitMessageHashtags(commit);
+        if (!toAdd.isEmpty()) {
+          Set<String> existingHashtags = ctl.getNotes().load().getHashtags();
+          toAdd.removeAll(existingHashtags);
+
+          if (!toAdd.isEmpty()) {
+            updatedHashtags.addAll(existingHashtags);
+            updatedHashtags.addAll(toAdd);
+            update.setHashtags(updatedHashtags);
+          }
+        }
         update.commit();
       }
 
@@ -323,6 +341,10 @@ public class PatchSetInserter {
         .run();
     if (runHooks) {
       hooks.doPatchsetCreatedHook(updatedChange, patchSet, db);
+      if (!toAdd.isEmpty()) {
+        hooks.doHashtagsChangedHook(updatedChange, user.getAccount(),
+            toAdd, null, updatedHashtags, db);
+      }
     }
     return updatedChange;
   }
@@ -359,6 +381,17 @@ public class PatchSetInserter {
   }
 
   private void validate() throws InvalidChangeOperationException, IOException {
+    if (!HashtagsUtil.parseCommitMessageHashtags(commit).isEmpty()) {
+      if (!notesMigration.enabled()) {
+        throw new InvalidChangeOperationException(
+            "cannot add hashtags; noteDb is disabled");
+      }
+      if (!ctl.canEditHashtags()) {
+        throw new InvalidChangeOperationException(
+            "Editing hashtags not permitted");
+      }
+    };
+
     CommitValidators cv =
         commitValidatorsFactory.create(ctl.getRefControl(), sshInfo, git);
 
@@ -369,7 +402,7 @@ public class PatchSetInserter {
             commit.getId(),
             refName.substring(0, refName.lastIndexOf('/') + 1) + "new"),
         ctl.getProjectControl().getProject(), ctl.getRefControl().getRefName(),
-        commit, user);
+        commit, user, ctl.getChange());
 
     try {
       switch (validatePolicy) {

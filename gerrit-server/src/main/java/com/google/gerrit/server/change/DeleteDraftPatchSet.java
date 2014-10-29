@@ -121,7 +121,7 @@ public class DeleteDraftPatchSet implements RestModifyView<RevisionResource, Inp
             .patchSets()
             .byChange(change.getId())
             .toList().size() == 0) {
-      deleteDraftChange(patchSetId);
+      deleteDraftChange(change);
     } else {
       if (change.currentPatchSetId().equals(patchSetId)) {
         updateChange(dbProvider.get(), change,
@@ -133,10 +133,10 @@ public class DeleteDraftPatchSet implements RestModifyView<RevisionResource, Inp
     }
   }
 
-  private void deleteDraftChange(PatchSet.Id patchSetId)
+  private void deleteDraftChange(Change change)
       throws OrmException, IOException, ResourceNotFoundException {
     try {
-      changeUtil.deleteDraftChange(patchSetId);
+      changeUtil.deleteDraftChange(change);
     } catch (NoSuchChangeException e) {
       throw new ResourceNotFoundException(e.getMessage());
     }

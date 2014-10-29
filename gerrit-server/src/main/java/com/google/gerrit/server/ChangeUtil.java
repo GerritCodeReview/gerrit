@@ -20,6 +20,7 @@ import static java.util.concurrent.TimeUnit.MINUTES;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.common.TimeUtil;
@@ -374,18 +375,14 @@ public class ChangeUtil {
     }
   }
 
-  public Change.Id editCommitMessage(ChangeControl ctl, PatchSet.Id patchSetId,
-      String message, PersonIdent myIdent)
-      throws NoSuchChangeException, EmailException, OrmException,
-      MissingObjectException, IncorrectObjectTypeException, IOException,
-      InvalidChangeOperationException, PatchSetInfoNotAvailableException {
-    Change.Id changeId = patchSetId.getParentKey();
-    PatchSet originalPS = db.get().patchSets().get(patchSetId);
-    if (originalPS == null) {
-      throw new NoSuchChangeException(changeId);
-    }
+  public Change.Id editCommitMessage(ChangeControl ctl, PatchSet ps,
+      String message, PersonIdent myIdent) throws NoSuchChangeException,
+      OrmException, MissingObjectException, IncorrectObjectTypeException,
+      IOException, InvalidChangeOperationException {
+    Change change = ctl.getChange();
+    Change.Id changeId = change.getId();
 
-    if (message == null || message.length() == 0) {
+    if (Strings.isNullOrEmpty(message)) {
       throw new InvalidChangeOperationException(
           "The commit message cannot be empty");
     }
@@ -400,7 +397,7 @@ public class ChangeUtil {
       RevWalk revWalk = new RevWalk(git);
       try {
         RevCommit commit =
-            revWalk.parseCommit(ObjectId.fromString(originalPS.getRevision()
+            revWalk.parseCommit(ObjectId.fromString(ps.getRevision()
                 .get()));
         if (commit.getFullMessage().equals(message)) {
           throw new InvalidChangeOperationException(
@@ -408,7 +405,6 @@ public class ChangeUtil {
         }
 
         Date now = myIdent.getWhen();
-        Change change = db.get().changes().get(changeId);
         PersonIdent authorIdent =
             user().newCommitterIdent(now, myIdent.getTimeZone());
 
@@ -444,7 +440,7 @@ public class ChangeUtil {
             .setMessage(msg)
             .setCopyLabels(true)
             .setValidatePolicy(RECEIVE_COMMITS)
-            .setDraft(originalPS.isDraft())
+            .setDraft(ps.isDraft())
             .insert();
 
         return change.getId();
@@ -456,19 +452,14 @@ public class ChangeUtil {
     }
   }
 
-  public void deleteDraftChange(PatchSet.Id patchSetId)
+  public void deleteDraftChange(Change change)
       throws NoSuchChangeException, OrmException, IOException {
-    deleteDraftChange(patchSetId.getParentKey());
-  }
-
-  public void deleteDraftChange(Change.Id changeId)
-      throws NoSuchChangeException, OrmException, IOException {
-    ReviewDb db = this.db.get();
-    Change change = db.changes().get(changeId);
-    if (change == null || change.getStatus() != Change.Status.DRAFT) {
+    Change.Id changeId = change.getId();
+    if (change.getStatus() != Change.Status.DRAFT) {
       throw new NoSuchChangeException(changeId);
     }
 
+    ReviewDb db = this.db.get();
     for (PatchSet ps : db.patchSets().byChange(changeId)) {
       // These should all be draft patch sets.
       deleteOnlyDraftPatchSet(ps, change);

@@ -76,13 +76,13 @@ public class AddRemoveGroupMembersIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void addToNonExistingGroup_NotFound() throws IOException {
+  public void addToNonExistingGroup_NotFound() throws Exception {
     assertEquals(HttpStatus.SC_NOT_FOUND,
         PUT("/groups/non-existing/members/admin").getStatusCode());
   }
 
   @Test
-  public void removeFromNonExistingGroup_NotFound() throws IOException {
+  public void removeFromNonExistingGroup_NotFound() throws Exception {
     assertEquals(HttpStatus.SC_NOT_FOUND,
         DELETE("/groups/non-existing/members/admin"));
   }
@@ -102,7 +102,7 @@ public class AddRemoveGroupMembersIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void addExistingMember_OK() throws IOException {
+  public void addExistingMember_OK() throws Exception {
     assertEquals(HttpStatus.SC_OK,
         PUT("/groups/Administrators/members/admin").getStatusCode());
   }

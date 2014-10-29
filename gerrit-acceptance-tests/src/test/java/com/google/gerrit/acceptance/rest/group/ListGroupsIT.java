@@ -30,15 +30,11 @@ import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.group.CreateGroup;
 import com.google.gerrit.server.group.GroupJson.GroupInfo;
 import com.google.gson.reflect.TypeToken;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-
-import com.jcraft.jsch.JSchException;
 
 import org.apache.http.HttpStatus;
 import org.junit.Test;
 
-import java.io.IOException;
 import java.util.Map;
 import java.util.Set;
 
@@ -48,7 +44,7 @@ public class ListGroupsIT extends AbstractDaemonTest {
   private GroupCache groupCache;
 
   @Test
-  public void testListAllGroups() throws IOException, OrmException {
+  public void testListAllGroups() throws Exception {
     Iterable<String> expectedGroups = Iterables.transform(groupCache.all(),
         new Function<AccountGroup, String>() {
           @Override
@@ -65,8 +61,7 @@ public class ListGroupsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void testOnlyVisibleGroupsReturned() throws OrmException,
-      JSchException, IOException {
+  public void testOnlyVisibleGroupsReturned() throws Exception {
     String newGroupName = "newGroup";
     CreateGroup.Input in = new CreateGroup.Input();
     in.description = "a hidden group";
@@ -93,8 +88,7 @@ public class ListGroupsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void testAllGroupInfoFieldsSetCorrectly() throws IOException,
-      OrmException {
+  public void testAllGroupInfoFieldsSetCorrectly() throws Exception {
     AccountGroup adminGroup = groupCache.get(new AccountGroup.NameKey("Administrators"));
     RestResponse r = adminSession.get("/groups/?q=" + adminGroup.getName());
     Map<String, GroupInfo> result =

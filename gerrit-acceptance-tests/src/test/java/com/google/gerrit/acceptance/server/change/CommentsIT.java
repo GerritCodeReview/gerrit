@@ -25,13 +25,11 @@ import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.common.Comment;
 import com.google.gerrit.extensions.common.CommentInfo;
-import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.testutil.ConfigSuite;
 import com.google.gson.reflect.TypeToken;
 
 import org.apache.http.HttpStatus;
-import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.lib.Config;
 import org.junit.Test;
 
@@ -48,7 +46,7 @@ public class CommentsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void createDraft() throws GitAPIException, IOException {
+  public void createDraft() throws Exception {
     PushOneCommit.Result r = createChange();
     String changeId = r.getChangeId();
     String revId = r.getCommit().getName();
@@ -62,7 +60,7 @@ public class CommentsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void postComment() throws RestApiException, Exception {
+  public void postComment() throws Exception {
     String file = "file";
     String contents = "contents";
     PushOneCommit push = pushFactory.create(db, admin.getIdent(),
@@ -83,7 +81,7 @@ public class CommentsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void putDraft() throws GitAPIException, IOException {
+  public void putDraft() throws Exception {
     PushOneCommit.Result r = createChange();
     String changeId = r.getChangeId();
     String revId = r.getCommit().getName();
@@ -102,7 +100,7 @@ public class CommentsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void getDraft() throws GitAPIException, IOException {
+  public void getDraft() throws Exception {
     PushOneCommit.Result r = createChange();
     String changeId = r.getChangeId();
     String revId = r.getCommit().getName();
@@ -114,7 +112,7 @@ public class CommentsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void deleteDraft() throws IOException, GitAPIException {
+  public void deleteDraft() throws Exception {
     PushOneCommit.Result r = createChange();
     String changeId = r.getChangeId();
     String revId = r.getCommit().getName();

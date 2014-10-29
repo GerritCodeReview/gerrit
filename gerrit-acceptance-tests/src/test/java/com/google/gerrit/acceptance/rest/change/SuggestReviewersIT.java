@@ -36,7 +36,6 @@ import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gson.reflect.TypeToken;
 import com.google.inject.Inject;
 
-import org.eclipse.jgit.api.errors.GitAPIException;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -67,8 +66,7 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
 
   @Test
   @GerritConfig(name = "suggest.accounts", value = "false")
-  public void suggestReviewersNoResult1() throws GitAPIException, IOException,
-      Exception {
+  public void suggestReviewersNoResult1() throws Exception {
     String changeId = createChange().getChangeId();
     List<SuggestedReviewerInfo> reviewers = suggestReviewers(changeId, "u", 6);
     assertEquals(reviewers.size(), 0);
@@ -80,8 +78,7 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
        @GerritConfig(name = "suggest.from", value = "1"),
        @GerritConfig(name = "accounts.visibility", value = "NONE")
       })
-  public void suggestReviewersNoResult2() throws GitAPIException, IOException,
-      Exception {
+  public void suggestReviewersNoResult2() throws Exception {
     String changeId = createChange().getChangeId();
     List<SuggestedReviewerInfo> reviewers = suggestReviewers(changeId, "u", 6);
     assertEquals(reviewers.size(), 0);
@@ -89,16 +86,14 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
 
   @Test
   @GerritConfig(name = "suggest.from", value = "2")
-  public void suggestReviewersNoResult3() throws GitAPIException, IOException,
-      Exception {
+  public void suggestReviewersNoResult3() throws Exception {
     String changeId = createChange().getChangeId();
     List<SuggestedReviewerInfo> reviewers = suggestReviewers(changeId, "u", 6);
     assertEquals(reviewers.size(), 0);
   }
 
   @Test
-  public void suggestReviewersChange() throws GitAPIException,
-      IOException, Exception {
+  public void suggestReviewersChange() throws Exception {
     String changeId = createChange().getChangeId();
     List<SuggestedReviewerInfo> reviewers = suggestReviewers(changeId, "u", 6);
     assertEquals(reviewers.size(), 6);

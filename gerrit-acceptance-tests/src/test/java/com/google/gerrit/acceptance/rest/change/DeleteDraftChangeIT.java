@@ -23,12 +23,10 @@ import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.RestSession;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeStatus;
-import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwtorm.server.OrmException;
 
-import org.eclipse.jgit.api.errors.GitAPIException;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -36,8 +34,7 @@ import java.io.IOException;
 public class DeleteDraftChangeIT extends AbstractDaemonTest {
 
   @Test
-  public void deleteChange() throws GitAPIException,
-      IOException, RestApiException {
+  public void deleteChange() throws Exception {
     String changeId = createChange().getChangeId();
     String triplet = "p~master~" + changeId;
     ChangeInfo c = get(triplet);
@@ -49,8 +46,7 @@ public class DeleteDraftChangeIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void deleteDraftChange() throws GitAPIException,
-      IOException, RestApiException, OrmException {
+  public void deleteDraftChange() throws Exception {
     String changeId = createDraftChange();
     String triplet = "p~master~" + changeId;
     ChangeInfo c = get(triplet);
@@ -61,8 +57,7 @@ public class DeleteDraftChangeIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void publishDraftChange() throws GitAPIException,
-      IOException, RestApiException {
+  public void publishDraftChange() throws Exception {
     String changeId = createDraftChange();
     String triplet = "p~master~" + changeId;
     ChangeInfo c = get(triplet);
@@ -75,8 +70,7 @@ public class DeleteDraftChangeIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void publishDraftPatchSet() throws GitAPIException,
-      IOException, OrmException, RestApiException {
+  public void publishDraftPatchSet() throws Exception {
     String changeId = createDraftChange();
     String triplet = "p~master~" + changeId;
     ChangeInfo c = get(triplet);
@@ -87,7 +81,7 @@ public class DeleteDraftChangeIT extends AbstractDaemonTest {
     assertEquals(ChangeStatus.NEW, get(triplet).status);
   }
 
-  private String createDraftChange() throws GitAPIException, IOException {
+  private String createDraftChange() throws Exception {
     PushOneCommit push = pushFactory.create(db, admin.getIdent());
     return push.to(git, "refs/drafts/master").getChangeId();
   }

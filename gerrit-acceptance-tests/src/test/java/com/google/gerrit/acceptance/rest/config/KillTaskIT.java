@@ -25,13 +25,12 @@ import com.google.gson.reflect.TypeToken;
 import org.apache.http.HttpStatus;
 import org.junit.Test;
 
-import java.io.IOException;
 import java.util.List;
 
 public class KillTaskIT extends AbstractDaemonTest {
 
   @Test
-  public void killTask() throws IOException {
+  public void killTask() throws Exception {
     RestResponse r = adminSession.get("/config/server/tasks/");
     List<TaskInfo> result = newGson().fromJson(r.getReader(),
         new TypeToken<List<TaskInfo>>() {}.getType());
@@ -51,7 +50,7 @@ public class KillTaskIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void killTask_NotFound() throws IOException {
+  public void killTask_NotFound() throws Exception {
     RestResponse r = adminSession.get("/config/server/tasks/");
     List<TaskInfo> result = newGson().fromJson(r.getReader(),
         new TypeToken<List<TaskInfo>>() {}.getType());

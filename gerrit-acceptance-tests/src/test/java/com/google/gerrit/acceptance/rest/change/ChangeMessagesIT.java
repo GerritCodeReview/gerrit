@@ -24,11 +24,9 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
-import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.testutil.ConfigSuite;
 
-import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.lib.Config;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeUtils;
@@ -38,7 +36,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import java.io.IOException;
 import java.util.Iterator;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -82,8 +79,7 @@ public class ChangeMessagesIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void defaultMessage() throws GitAPIException, IOException,
-      RestApiException {
+  public void defaultMessage() throws Exception {
     String changeId = createChange().getChangeId();
     ChangeInfo c = get(changeId);
     assertNotNull(c.messages);

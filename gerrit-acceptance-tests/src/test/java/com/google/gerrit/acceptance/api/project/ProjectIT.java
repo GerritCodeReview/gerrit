@@ -36,7 +36,7 @@ import java.util.List;
 public class ProjectIT extends AbstractDaemonTest  {
 
   @Test
-  public void createProjectFoo() throws RestApiException {
+  public void createProjectFoo() throws Exception {
     String name = "foo";
     assertEquals(name,
         gApi.projects()
@@ -47,7 +47,7 @@ public class ProjectIT extends AbstractDaemonTest  {
   }
 
   @Test(expected = RestApiException.class)
-  public void createProjectFooBar() throws RestApiException {
+  public void createProjectFooBar() throws Exception {
     ProjectInput in = new ProjectInput();
     in.name = "foo";
     gApi.projects()
@@ -56,7 +56,7 @@ public class ProjectIT extends AbstractDaemonTest  {
   }
 
   @Test(expected = ResourceConflictException.class)
-  public void createProjectDuplicate() throws RestApiException {
+  public void createProjectDuplicate() throws Exception {
     ProjectInput in = new ProjectInput();
     in.name = "baz";
     gApi.projects()

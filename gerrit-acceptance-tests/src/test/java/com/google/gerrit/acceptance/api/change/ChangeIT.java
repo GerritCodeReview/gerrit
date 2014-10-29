@@ -37,11 +37,9 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Account;
 
-import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.lib.Constants;
 import org.junit.Test;
 
-import java.io.IOException;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Set;
@@ -50,8 +48,7 @@ import java.util.Set;
 public class ChangeIT extends AbstractDaemonTest {
 
   @Test
-  public void get() throws GitAPIException,
-      IOException, RestApiException {
+  public void get() throws Exception {
     PushOneCommit.Result r = createChange();
     String triplet = "p~master~" + r.getChangeId();
     ChangeInfo c = info(triplet);
@@ -67,8 +64,7 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void abandon() throws GitAPIException,
-      IOException, RestApiException {
+  public void abandon() throws Exception {
     PushOneCommit.Result r = createChange();
     gApi.changes()
         .id(r.getChangeId())
@@ -76,8 +72,7 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void restore() throws GitAPIException,
-      IOException, RestApiException {
+  public void restore() throws Exception {
     PushOneCommit.Result r = createChange();
     gApi.changes()
         .id(r.getChangeId())
@@ -88,8 +83,7 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void revert() throws GitAPIException,
-      IOException, RestApiException {
+  public void revert() throws Exception {
     PushOneCommit.Result r = createChange();
     gApi.changes()
         .id(r.getChangeId())
@@ -106,8 +100,7 @@ public class ChangeIT extends AbstractDaemonTest {
 
   // Change is already up to date
   @Test(expected = ResourceConflictException.class)
-  public void rebase() throws GitAPIException,
-      IOException, RestApiException {
+  public void rebase() throws Exception {
     PushOneCommit.Result r = createChange();
     gApi.changes()
         .id(r.getChangeId())
@@ -128,8 +121,7 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void addReviewer() throws GitAPIException,
-      IOException, RestApiException {
+  public void addReviewer() throws Exception {
     PushOneCommit.Result r = createChange();
     AddReviewerInput in = new AddReviewerInput();
     in.reviewer = user.email;
@@ -140,8 +132,7 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void addReviewerToClosedChange() throws GitAPIException,
-      IOException, RestApiException {
+  public void addReviewerToClosedChange() throws Exception {
     PushOneCommit.Result r = createChange();
     gApi.changes()
         .id(r.getChangeId())
@@ -164,7 +155,7 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void createEmptyChange() throws RestApiException {
+  public void createEmptyChange() throws Exception {
     ChangeInfo in = new ChangeInfo();
     in.branch = Constants.MASTER;
     in.subject = "Create a change from the API";

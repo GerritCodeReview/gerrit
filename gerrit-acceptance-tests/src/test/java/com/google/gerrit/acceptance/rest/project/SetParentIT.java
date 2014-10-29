@@ -24,12 +24,8 @@ import com.google.gerrit.server.config.AllProjectsNameProvider;
 import com.google.gerrit.server.project.SetParent;
 import com.google.inject.Inject;
 
-import com.jcraft.jsch.JSchException;
-
 import org.apache.http.HttpStatus;
 import org.junit.Test;
-
-import java.io.IOException;
 
 public class SetParentIT extends AbstractDaemonTest {
 
@@ -37,7 +33,7 @@ public class SetParentIT extends AbstractDaemonTest {
   private AllProjectsNameProvider allProjects;
 
   @Test
-  public void setParent_Forbidden() throws IOException, JSchException {
+  public void setParent_Forbidden() throws Exception {
     String parent = "parent";
     createProject(sshSession, parent, null, true);
     RestResponse r =
@@ -48,7 +44,7 @@ public class SetParentIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void setParent() throws IOException, JSchException {
+  public void setParent() throws Exception {
     String parent = "parent";
     createProject(sshSession, parent, null, true);
     RestResponse r =
@@ -66,7 +62,7 @@ public class SetParentIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void setParentForAllProjects_Conflict() throws IOException {
+  public void setParentForAllProjects_Conflict() throws Exception {
     RestResponse r =
         adminSession.put("/projects/" + allProjects.get() + "/parent",
             newParentInput(project.get()));
@@ -75,7 +71,7 @@ public class SetParentIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void setInvalidParent_Conflict() throws IOException, JSchException {
+  public void setInvalidParent_Conflict() throws Exception {
     RestResponse r =
         adminSession.put("/projects/" + project.get() + "/parent",
             newParentInput(project.get()));
@@ -98,7 +94,7 @@ public class SetParentIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void setNonExistingParent_UnprocessibleEntity() throws IOException {
+  public void setNonExistingParent_UnprocessibleEntity() throws Exception {
     RestResponse r =
         adminSession.put("/projects/" + project.get() + "/parent",
             newParentInput("non-existing"));

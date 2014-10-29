@@ -41,7 +41,7 @@ import java.util.Arrays;
 public class CacheOperationsIT extends AbstractDaemonTest {
 
   @Test
-  public void flushAll() throws IOException {
+  public void flushAll() throws Exception {
     RestResponse r = adminSession.get("/config/server/caches/project_list");
     CacheInfo cacheInfo = newGson().fromJson(r.getReader(), CacheInfo.class);
     assertTrue(cacheInfo.entries.mem.longValue() > 0);
@@ -56,21 +56,21 @@ public class CacheOperationsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void flushAll_Forbidden() throws IOException {
+  public void flushAll_Forbidden() throws Exception {
     RestResponse r = userSession.post("/config/server/caches/",
         new PostCaches.Input(FLUSH_ALL));
     assertEquals(HttpStatus.SC_FORBIDDEN, r.getStatusCode());
   }
 
   @Test
-  public void flushAll_BadRequest() throws IOException {
+  public void flushAll_BadRequest() throws Exception {
     RestResponse r = adminSession.post("/config/server/caches/",
         new PostCaches.Input(FLUSH_ALL, Arrays.asList("projects")));
     assertEquals(HttpStatus.SC_BAD_REQUEST, r.getStatusCode());
   }
 
   @Test
-  public void flush() throws IOException {
+  public void flush() throws Exception {
     RestResponse r = adminSession.get("/config/server/caches/project_list");
     CacheInfo cacheInfo = newGson().fromJson(r.getReader(), CacheInfo.class);
     assertTrue(cacheInfo.entries.mem.longValue() > 0);
@@ -94,21 +94,21 @@ public class CacheOperationsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void flush_Forbidden() throws IOException {
+  public void flush_Forbidden() throws Exception {
     RestResponse r = userSession.post("/config/server/caches/",
         new PostCaches.Input(FLUSH, Arrays.asList("projects")));
     assertEquals(HttpStatus.SC_FORBIDDEN, r.getStatusCode());
   }
 
   @Test
-  public void flush_BadRequest() throws IOException {
+  public void flush_BadRequest() throws Exception {
     RestResponse r = adminSession.post("/config/server/caches/",
         new PostCaches.Input(FLUSH));
     assertEquals(HttpStatus.SC_BAD_REQUEST, r.getStatusCode());
   }
 
   @Test
-  public void flush_UnprocessableEntity() throws IOException {
+  public void flush_UnprocessableEntity() throws Exception {
     RestResponse r = adminSession.get("/config/server/caches/projects");
     CacheInfo cacheInfo = newGson().fromJson(r.getReader(), CacheInfo.class);
     assertTrue(cacheInfo.entries.mem.longValue() > 0);
@@ -124,7 +124,7 @@ public class CacheOperationsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void flushWebSessions_Forbidden() throws IOException {
+  public void flushWebSessions_Forbidden() throws Exception {
     ProjectConfig cfg = projectCache.checkedGet(allProjects).getConfig();
     AccountGroup.UUID registeredUsers =
         SystemGroupBackend.getGroup(REGISTERED_USERS).getUUID();

@@ -32,7 +32,6 @@ import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.group.SystemGroupBackend;
-import com.google.gwtorm.server.OrmException;
 
 import org.apache.http.HttpStatus;
 import org.eclipse.jgit.api.errors.GitAPIException;
@@ -62,21 +61,18 @@ public class ChangeOwnerIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void testChangeOwner_OwnerACLNotGranted() throws GitAPIException,
-      IOException, OrmException, ConfigInvalidException {
+  public void testChangeOwner_OwnerACLNotGranted() throws Exception {
     approve(sessionOwner, createMyChange(), HttpStatus.SC_FORBIDDEN);
   }
 
   @Test
-  public void testChangeOwner_OwnerACLGranted() throws GitAPIException,
-      IOException, OrmException, ConfigInvalidException {
+  public void testChangeOwner_OwnerACLGranted() throws Exception {
     grantApproveToChangeOwner();
     approve(sessionOwner, createMyChange(), HttpStatus.SC_OK);
   }
 
   @Test
-  public void testChangeOwner_NotOwnerACLGranted() throws GitAPIException,
-      IOException, OrmException, ConfigInvalidException {
+  public void testChangeOwner_NotOwnerACLGranted() throws Exception {
     grantApproveToChangeOwner();
     approve(sessionDev, createMyChange(), HttpStatus.SC_FORBIDDEN);
   }

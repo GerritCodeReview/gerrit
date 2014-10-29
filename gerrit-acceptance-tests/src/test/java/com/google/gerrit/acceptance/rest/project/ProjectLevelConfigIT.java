@@ -27,12 +27,9 @@ import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
 
 import org.eclipse.jgit.api.Git;
-import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.lib.Config;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.io.IOException;
 
 public class ProjectLevelConfigIT extends AbstractDaemonTest {
 
@@ -49,7 +46,7 @@ public class ProjectLevelConfigIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void accessProjectSpecificConfig() throws GitAPIException, IOException {
+  public void accessProjectSpecificConfig() throws Exception {
     String configName = "test.config";
     Config cfg = new Config();
     cfg.setString("s1", null, "k1", "v1");
@@ -70,7 +67,7 @@ public class ProjectLevelConfigIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void withInheritance() throws GitAPIException, IOException {
+  public void withInheritance() throws Exception {
     String configName = "test.config";
 
     Config parentCfg = new Config();

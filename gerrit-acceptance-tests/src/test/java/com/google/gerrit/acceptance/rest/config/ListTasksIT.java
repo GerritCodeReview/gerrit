@@ -26,13 +26,12 @@ import com.google.gson.reflect.TypeToken;
 import org.apache.http.HttpStatus;
 import org.junit.Test;
 
-import java.io.IOException;
 import java.util.List;
 
 public class ListTasksIT extends AbstractDaemonTest {
 
   @Test
-  public void listTasks() throws IOException {
+  public void listTasks() throws Exception {
     RestResponse r = adminSession.get("/config/server/tasks/");
     assertEquals(HttpStatus.SC_OK, r.getStatusCode());
     List<TaskInfo> result =
@@ -53,7 +52,7 @@ public class ListTasksIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void listTasksWithoutViewQueueCapability() throws IOException {
+  public void listTasksWithoutViewQueueCapability() throws Exception {
     RestResponse r = userSession.get("/config/server/tasks/");
     assertEquals(HttpStatus.SC_OK, r.getStatusCode());
     List<TaskInfo> result =

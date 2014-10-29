@@ -49,8 +49,7 @@ public class RevisionIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void reviewTriplet() throws GitAPIException,
-      IOException, RestApiException {
+  public void reviewTriplet() throws Exception {
     PushOneCommit.Result r = createChange();
     gApi.changes()
         .id("p~master~" + r.getChangeId())
@@ -59,8 +58,7 @@ public class RevisionIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void reviewCurrent() throws GitAPIException,
-      IOException, RestApiException {
+  public void reviewCurrent() throws Exception {
     PushOneCommit.Result r = createChange();
     gApi.changes()
         .id(r.getChangeId())
@@ -69,8 +67,7 @@ public class RevisionIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void reviewNumber() throws GitAPIException,
-      IOException, RestApiException {
+  public void reviewNumber() throws Exception {
     PushOneCommit.Result r = createChange();
     gApi.changes()
         .id(r.getChangeId())
@@ -85,8 +82,7 @@ public class RevisionIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void submit() throws GitAPIException,
-      IOException, RestApiException {
+  public void submit() throws Exception {
     PushOneCommit.Result r = createChange();
     gApi.changes()
         .id("p~master~" + r.getChangeId())
@@ -99,8 +95,7 @@ public class RevisionIT extends AbstractDaemonTest {
   }
 
   @Test(expected = AuthException.class)
-  public void submitOnBehalfOf() throws GitAPIException,
-      IOException, RestApiException {
+  public void submitOnBehalfOf() throws Exception {
     PushOneCommit.Result r = createChange();
     gApi.changes()
         .id("p~master~" + r.getChangeId())
@@ -116,8 +111,7 @@ public class RevisionIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void deleteDraft() throws GitAPIException,
-      IOException, RestApiException {
+  public void deleteDraft() throws Exception {
     PushOneCommit.Result r = createDraft();
     gApi.changes()
         .id(r.getChangeId())
@@ -126,8 +120,7 @@ public class RevisionIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void cherryPick() throws GitAPIException,
-      IOException, RestApiException {
+  public void cherryPick() throws Exception {
     PushOneCommit.Result r = createChange();
     CherryPickInput in = new CherryPickInput();
     in.destination = "foo";
@@ -150,8 +143,7 @@ public class RevisionIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void cherryPickIdenticalTree() throws GitAPIException,
-      IOException, RestApiException {
+  public void cherryPickIdenticalTree() throws Exception {
     PushOneCommit.Result r = createChange();
     CherryPickInput in = new CherryPickInput();
     in.destination = "foo";
@@ -181,8 +173,7 @@ public class RevisionIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void cherryPickConflict() throws GitAPIException,
-      IOException, RestApiException {
+  public void cherryPickConflict() throws Exception {
     PushOneCommit.Result r = createChange();
     CherryPickInput in = new CherryPickInput();
     in.destination = "foo";

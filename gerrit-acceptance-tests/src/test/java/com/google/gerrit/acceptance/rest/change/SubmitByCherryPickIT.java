@@ -20,16 +20,11 @@ import static org.junit.Assert.assertSame;
 
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.extensions.common.SubmitType;
-import com.google.gwtorm.server.OrmException;
-
-import com.jcraft.jsch.JSchException;
 
 import org.eclipse.jgit.api.Git;
-import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Test;
 
-import java.io.IOException;
 import java.util.List;
 
 public class SubmitByCherryPickIT extends AbstractSubmit {
@@ -40,8 +35,7 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
   }
 
   @Test
-  public void submitWithCherryPickIfFastForwardPossible() throws JSchException,
-      IOException, GitAPIException {
+  public void submitWithCherryPickIfFastForwardPossible() throws Exception {
     Git git = createProject();
     PushOneCommit.Result change = createChange(git);
     submit(change.getChangeId());
@@ -159,8 +153,7 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
   }
 
   @Test
-  public void submitMultipleChanges()
-      throws JSchException, IOException, GitAPIException, OrmException {
+  public void submitMultipleChanges() throws Exception {
     Git git = createProject();
     RevCommit initialHead = getRemoteHead();
 

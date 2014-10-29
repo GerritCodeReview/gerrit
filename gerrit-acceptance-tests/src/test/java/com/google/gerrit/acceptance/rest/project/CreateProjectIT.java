@@ -28,7 +28,6 @@ import com.google.gerrit.extensions.api.projects.ProjectInput;
 import com.google.gerrit.extensions.common.InheritableBoolean;
 import com.google.gerrit.extensions.common.ProjectInfo;
 import com.google.gerrit.extensions.common.SubmitType;
-import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
@@ -36,10 +35,7 @@ import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.project.ProjectState;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-
-import com.jcraft.jsch.JSchException;
 
 import org.apache.http.HttpStatus;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
@@ -63,7 +59,7 @@ public class CreateProjectIT extends AbstractDaemonTest {
   private GitRepositoryManager git;
 
   @Test
-  public void testCreateProjectApi() throws RestApiException, IOException {
+  public void testCreateProjectApi() throws Exception {
     final String newProjectName = "newProject";
     ProjectInfo p = gApi.projects().name(newProjectName).create().get();
     assertEquals(newProjectName, p.name);
@@ -74,7 +70,7 @@ public class CreateProjectIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void testCreateProject() throws IOException {
+  public void testCreateProject() throws Exception {
     final String newProjectName = "newProject";
     RestResponse r = adminSession.put("/projects/" + newProjectName);
     assertEquals(HttpStatus.SC_CREATED, r.getStatusCode());
@@ -87,7 +83,7 @@ public class CreateProjectIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void testCreateProjectWithNameMismatch_BadRequest() throws IOException {
+  public void testCreateProjectWithNameMismatch_BadRequest() throws Exception {
     ProjectInput in = new ProjectInput();
     in.name = "otherName";
     RestResponse r = adminSession.put("/projects/someName", in);
@@ -95,7 +91,7 @@ public class CreateProjectIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void testCreateProjectWithProperties() throws IOException {
+  public void testCreateProjectWithProperties() throws Exception {
     final String newProjectName = "newProject";
     ProjectInput in = new ProjectInput();
     in.description = "Test description";
@@ -118,7 +114,7 @@ public class CreateProjectIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void testCreateChildProject() throws IOException {
+  public void testCreateChildProject() throws Exception {
     final String parentName = "parent";
     RestResponse r = adminSession.put("/projects/" + parentName);
     r.consume();
@@ -132,7 +128,7 @@ public class CreateProjectIT extends AbstractDaemonTest {
 
   @Test
   public void testCreateChildProjectUnderNonExistingParent_UnprocessableEntity()
-      throws IOException {
+      throws Exception {
     ProjectInput in = new ProjectInput();
     in.parent = "non-existing-project";
     RestResponse r = adminSession.put("/projects/child", in);
@@ -140,7 +136,7 @@ public class CreateProjectIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void testCreateProjectWithOwner() throws IOException {
+  public void testCreateProjectWithOwner() throws Exception {
     final String newProjectName = "newProject";
     ProjectInput in = new ProjectInput();
     in.owners = Lists.newArrayListWithCapacity(3);
@@ -159,7 +155,7 @@ public class CreateProjectIT extends AbstractDaemonTest {
 
   @Test
   public void testCreateProjectWithNonExistingOwner_UnprocessableEntity()
-      throws IOException {
+      throws Exception {
     ProjectInput in = new ProjectInput();
     in.owners = Collections.singletonList("non-existing-group");
     RestResponse r = adminSession.put("/projects/newProject", in);
@@ -167,7 +163,7 @@ public class CreateProjectIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void testCreatePermissionOnlyProject() throws IOException {
+  public void testCreatePermissionOnlyProject() throws Exception {
     final String newProjectName = "newProject";
     ProjectInput in = new ProjectInput();
     in.permissionsOnly = true;
@@ -176,7 +172,7 @@ public class CreateProjectIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void testCreateProjectWithEmptyCommit() throws IOException {
+  public void testCreateProjectWithEmptyCommit() throws Exception {
     final String newProjectName = "newProject";
     ProjectInput in = new ProjectInput();
     in.createEmptyCommit = true;
@@ -185,7 +181,7 @@ public class CreateProjectIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void testCreateProjectWithBranches() throws IOException {
+  public void testCreateProjectWithBranches() throws Exception {
     final String newProjectName = "newProject";
     ProjectInput in = new ProjectInput();
     in.createEmptyCommit = true;
@@ -200,15 +196,14 @@ public class CreateProjectIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void testCreateProjectWithoutCapability_Forbidden() throws OrmException,
-      JSchException, IOException {
+  public void testCreateProjectWithoutCapability_Forbidden() throws Exception {
     RestResponse r = userSession.put("/projects/newProject");
     assertEquals(HttpStatus.SC_FORBIDDEN, r.getStatusCode());
   }
 
   @Test
   public void testCreateProjectWhenProjectAlreadyExists_Conflict()
-      throws OrmException, JSchException, IOException {
+      throws Exception {
     RestResponse r = adminSession.put("/projects/All-Projects");
     assertEquals(HttpStatus.SC_CONFLICT, r.getStatusCode());
   }

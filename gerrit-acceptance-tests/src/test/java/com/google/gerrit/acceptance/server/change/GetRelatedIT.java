@@ -34,7 +34,6 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
 import org.eclipse.jgit.api.ResetCommand.ResetType;
-import org.eclipse.jgit.api.errors.GitAPIException;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -48,8 +47,7 @@ public class GetRelatedIT extends AbstractDaemonTest {
   private ChangeEditModifier editModifier;
 
   @Test
-  public void getRelatedNoResult() throws GitAPIException,
-      IOException, Exception {
+  public void getRelatedNoResult() throws Exception {
     PushOneCommit push = pushFactory.create(db, admin.getIdent());
     PatchSet.Id ps = push.to(git, "refs/for/master").getPatchSetId();
     List<ChangeAndCommit> related = getRelated(ps);
@@ -57,8 +55,7 @@ public class GetRelatedIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void getRelatedLinear() throws GitAPIException,
-      IOException, Exception {
+  public void getRelatedLinear() throws Exception {
     add(git, "a.txt", "1");
     Commit c1 = createCommit(git, admin.getIdent(), "subject: 1");
     add(git, "b.txt", "2");
@@ -74,8 +71,7 @@ public class GetRelatedIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void getRelatedReorder() throws GitAPIException,
-      IOException, Exception {
+  public void getRelatedReorder() throws Exception {
     // Create two commits and push.
     add(git, "a.txt", "1");
     Commit c1 = createCommit(git, admin.getIdent(), "subject: 1");
@@ -108,8 +104,7 @@ public class GetRelatedIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void getRelatedReorderAndExtend() throws GitAPIException,
-      IOException, Exception {
+  public void getRelatedReorderAndExtend() throws Exception {
     // Create two commits and push.
     add(git, "a.txt", "1");
     Commit c1 = createCommit(git, admin.getIdent(), "subject: 1");

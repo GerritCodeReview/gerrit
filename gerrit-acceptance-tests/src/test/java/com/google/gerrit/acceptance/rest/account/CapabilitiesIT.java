@@ -39,10 +39,7 @@ import java.io.IOException;
 public class CapabilitiesIT extends AbstractDaemonTest {
 
   @Test
-  public void testCapabilitiesUser() throws IOException,
-      ConfigInvalidException, IllegalArgumentException,
-      IllegalAccessException, NoSuchFieldException,
-      SecurityException {
+  public void testCapabilitiesUser() throws Exception {
     grantAllCapabilities();
     RestResponse r =
         userSession.get("/accounts/self/capabilities");
@@ -66,10 +63,7 @@ public class CapabilitiesIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void testCapabilitiesAdmin() throws IOException,
-      ConfigInvalidException, IllegalArgumentException,
-      IllegalAccessException, NoSuchFieldException,
-      SecurityException {
+  public void testCapabilitiesAdmin() throws Exception {
     RestResponse r =
         adminSession.get("/accounts/self/capabilities");
     int code = r.getStatusCode();

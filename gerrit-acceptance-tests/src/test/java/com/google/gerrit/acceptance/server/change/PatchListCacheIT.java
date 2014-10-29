@@ -37,11 +37,9 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
 import org.eclipse.jgit.api.ResetCommand.ResetType;
-import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.junit.Test;
 
-import java.io.IOException;
 import java.util.List;
 
 @NoHttpd
@@ -58,8 +56,7 @@ public class PatchListCacheIT extends AbstractDaemonTest {
   private PatchListCache patchListCache;
 
   @Test
-  public void listPatchesAgainstBase() throws GitAPIException, IOException,
-      PatchListNotAvailableException, OrmException, RestApiException {
+  public void listPatchesAgainstBase() throws Exception {
     add(git, FILE_D, "4");
     createCommit(git, admin.getIdent(), SUBJECT_1);
     pushHead(git, "refs/heads/master", false);
@@ -92,9 +89,7 @@ public class PatchListCacheIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void listPatchesAgainstBaseWithRebase() throws GitAPIException,
-      IOException, PatchListNotAvailableException, OrmException,
-      RestApiException {
+  public void listPatchesAgainstBaseWithRebase() throws Exception {
     add(git, FILE_D, "4");
     createCommit(git, admin.getIdent(), SUBJECT_1);
     pushHead(git, "refs/heads/master", false);
@@ -129,9 +124,7 @@ public class PatchListCacheIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void listPatchesAgainstOtherPatchSet() throws GitAPIException,
-      IOException, PatchListNotAvailableException, OrmException,
-      RestApiException {
+  public void listPatchesAgainstOtherPatchSet() throws Exception {
     add(git, FILE_D, "4");
     createCommit(git, admin.getIdent(), SUBJECT_1);
     pushHead(git, "refs/heads/master", false);
@@ -159,9 +152,7 @@ public class PatchListCacheIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void listPatchesAgainstOtherPatchSetWithRebase()
-      throws GitAPIException, IOException, PatchListNotAvailableException,
-      OrmException, RestApiException {
+  public void listPatchesAgainstOtherPatchSetWithRebase() throws Exception {
     add(git, FILE_D, "4");
     createCommit(git, admin.getIdent(), SUBJECT_1);
     pushHead(git, "refs/heads/master", false);

@@ -27,12 +27,10 @@ import com.google.gerrit.server.config.ListCaches.CacheType;
 import org.apache.http.HttpStatus;
 import org.junit.Test;
 
-import java.io.IOException;
-
 public class GetCacheIT extends AbstractDaemonTest {
 
   @Test
-  public void getCache() throws IOException {
+  public void getCache() throws Exception {
     RestResponse r = adminSession.get("/config/server/caches/accounts");
     assertEquals(HttpStatus.SC_OK, r.getStatusCode());
     CacheInfo result = newGson().fromJson(r.getReader(), CacheInfo.class);
@@ -56,19 +54,19 @@ public class GetCacheIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void getCache_Forbidden() throws IOException {
+  public void getCache_Forbidden() throws Exception {
     RestResponse r = userSession.get("/config/server/caches/accounts");
     assertEquals(HttpStatus.SC_FORBIDDEN, r.getStatusCode());
   }
 
   @Test
-  public void getCache_NotFound() throws IOException {
+  public void getCache_NotFound() throws Exception {
     RestResponse r = adminSession.get("/config/server/caches/nonExisting");
     assertEquals(HttpStatus.SC_NOT_FOUND, r.getStatusCode());
   }
 
   @Test
-  public void getCacheWithGerritPrefix() throws IOException {
+  public void getCacheWithGerritPrefix() throws Exception {
     RestResponse r = adminSession.get("/config/server/caches/gerrit-accounts");
     assertEquals(HttpStatus.SC_OK, r.getStatusCode());
   }

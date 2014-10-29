@@ -24,13 +24,10 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.extensions.api.projects.ProjectInput;
 import com.google.gerrit.extensions.common.ProjectInfo;
-import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gson.reflect.TypeToken;
 import com.google.inject.Inject;
-
-import com.jcraft.jsch.JSchException;
 
 import org.apache.http.HttpStatus;
 import org.junit.Test;
@@ -45,7 +42,7 @@ public class ListProjectsIT extends AbstractDaemonTest {
   private AllUsersName allUsers;
 
   @Test
-  public void listProjects() throws IOException, JSchException {
+  public void listProjects() throws Exception {
     Project.NameKey someProject = new Project.NameKey("some-project");
     createProject(sshSession, someProject.get());
 
@@ -57,7 +54,7 @@ public class ListProjectsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void listProjectsWithBranch() throws IOException, JSchException {
+  public void listProjectsWithBranch() throws Exception {
     RestResponse r = GET("/projects/?b=master");
     assertEquals(HttpStatus.SC_OK, r.getStatusCode());
     Map<String, ProjectInfo> result = toProjectInfoMap(r);
@@ -68,7 +65,7 @@ public class ListProjectsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void listProjectWithDescription() throws RestApiException, IOException {
+  public void listProjectWithDescription() throws Exception {
     ProjectInput projectInput = new ProjectInput();
     projectInput.name = "some-project";
     projectInput.description = "Description of some-project";
@@ -90,7 +87,7 @@ public class ListProjectsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void listProjectsWithLimit() throws IOException, JSchException {
+  public void listProjectsWithLimit() throws Exception {
     for (int i = 0; i < 5; i++) {
       createProject(sshSession, new Project.NameKey("someProject" + i).get());
     }
@@ -108,7 +105,7 @@ public class ListProjectsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void listProjectsWithPrefix() throws IOException, JSchException {
+  public void listProjectsWithPrefix() throws Exception {
     Project.NameKey someProject = new Project.NameKey("some-project");
     createProject(sshSession, someProject.get());
     Project.NameKey someOtherProject =
@@ -130,7 +127,7 @@ public class ListProjectsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void listProjectsWithRegex() throws IOException, JSchException {
+  public void listProjectsWithRegex() throws Exception {
     Project.NameKey someProject = new Project.NameKey("some-project");
     createProject(sshSession, someProject.get());
     Project.NameKey someOtherProject =
@@ -164,7 +161,7 @@ public class ListProjectsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void listProjectsWithSkip() throws IOException, JSchException {
+  public void listProjectsWithSkip() throws Exception {
     for (int i = 0; i < 5; i++) {
       createProject(sshSession, new Project.NameKey("someProject" + i).get());
     }
@@ -182,7 +179,7 @@ public class ListProjectsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void listProjectsWithSubstring() throws IOException, JSchException {
+  public void listProjectsWithSubstring() throws Exception {
     Project.NameKey someProject = new Project.NameKey("some-project");
     createProject(sshSession, someProject.get());
     Project.NameKey someOtherProject =
@@ -205,7 +202,7 @@ public class ListProjectsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void listProjectsWithTree() throws IOException, JSchException {
+  public void listProjectsWithTree() throws Exception {
     Project.NameKey someParentProject =
         new Project.NameKey("some-parent-project");
     createProject(sshSession, someParentProject.get());
@@ -222,7 +219,7 @@ public class ListProjectsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void listProjectWithType() throws RestApiException, IOException {
+  public void listProjectWithType() throws Exception {
     RestResponse r = GET("/projects/?type=PERMISSIONS");
     assertEquals(HttpStatus.SC_OK, r.getStatusCode());
     Map<String, ProjectInfo> result = toProjectInfoMap(r);

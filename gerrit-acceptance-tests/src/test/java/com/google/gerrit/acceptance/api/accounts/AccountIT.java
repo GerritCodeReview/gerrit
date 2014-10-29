@@ -21,17 +21,13 @@ import static org.junit.Assert.assertTrue;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.extensions.common.AccountInfo;
-import com.google.gerrit.extensions.restapi.RestApiException;
 
-import org.eclipse.jgit.api.errors.GitAPIException;
 import org.junit.Test;
-
-import java.io.IOException;
 
 public class AccountIT extends AbstractDaemonTest {
 
   @Test
-  public void get() throws RestApiException {
+  public void get() throws Exception {
     AccountInfo info = gApi
         .accounts()
         .id("admin")
@@ -42,7 +38,7 @@ public class AccountIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void self() throws RestApiException {
+  public void self() throws Exception {
     AccountInfo info = gApi
         .accounts()
         .self()
@@ -53,8 +49,7 @@ public class AccountIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void starUnstarChange() throws GitAPIException,
-      IOException, RestApiException {
+  public void starUnstarChange() throws Exception {
     PushOneCommit.Result r = createChange();
     String triplet = "p~master~" + r.getChangeId();
     gApi.accounts()

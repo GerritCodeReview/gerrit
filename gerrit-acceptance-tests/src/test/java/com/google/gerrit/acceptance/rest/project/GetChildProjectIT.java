@@ -24,8 +24,6 @@ import com.google.gerrit.acceptance.SshSession;
 import com.google.gerrit.extensions.common.ProjectInfo;
 import com.google.gerrit.reviewdb.client.Project;
 
-import com.jcraft.jsch.JSchException;
-
 import org.apache.http.HttpStatus;
 import org.junit.Test;
 
@@ -34,13 +32,13 @@ import java.io.IOException;
 public class GetChildProjectIT extends AbstractDaemonTest {
 
   @Test
-  public void getNonExistingChildProject_NotFound() throws IOException {
+  public void getNonExistingChildProject_NotFound() throws Exception {
     assertEquals(HttpStatus.SC_NOT_FOUND,
         GET("/projects/" + allProjects.get() + "/children/non-existing").getStatusCode());
   }
 
   @Test
-  public void getNonChildProject_NotFound() throws IOException, JSchException {
+  public void getNonChildProject_NotFound() throws Exception {
     SshSession sshSession = new SshSession(server, admin);
     Project.NameKey p1 = new Project.NameKey("p1");
     createProject(sshSession, p1.get());
@@ -52,7 +50,7 @@ public class GetChildProjectIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void getChildProject() throws IOException, JSchException {
+  public void getChildProject() throws Exception {
     SshSession sshSession = new SshSession(server, admin);
     Project.NameKey child = new Project.NameKey("p1");
     createProject(sshSession, child.get());
@@ -65,7 +63,7 @@ public class GetChildProjectIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void getGrandChildProject_NotFound() throws IOException, JSchException {
+  public void getGrandChildProject_NotFound() throws Exception {
     SshSession sshSession = new SshSession(server, admin);
     Project.NameKey child = new Project.NameKey("p1");
     createProject(sshSession, child.get());
@@ -78,8 +76,7 @@ public class GetChildProjectIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void getGrandChildProjectWithRecursiveFlag() throws IOException,
-      JSchException {
+  public void getGrandChildProjectWithRecursiveFlag() throws Exception {
     SshSession sshSession = new SshSession(server, admin);
     Project.NameKey child = new Project.NameKey("p1");
     createProject(sshSession, child.get());

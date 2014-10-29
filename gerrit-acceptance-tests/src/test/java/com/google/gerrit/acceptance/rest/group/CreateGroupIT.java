@@ -25,15 +25,10 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.group.CreateGroup;
 import com.google.gerrit.server.group.GroupJson.GroupInfo;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-
-import com.jcraft.jsch.JSchException;
 
 import org.apache.http.HttpStatus;
 import org.junit.Test;
-
-import java.io.IOException;
 
 public class CreateGroupIT extends AbstractDaemonTest {
 
@@ -41,7 +36,7 @@ public class CreateGroupIT extends AbstractDaemonTest {
   private GroupCache groupCache;
 
   @Test
-  public void testCreateGroup() throws IOException {
+  public void testCreateGroup() throws Exception {
     final String newGroupName = "newGroup";
     RestResponse r = adminSession.put("/groups/" + newGroupName);
     GroupInfo g = newGson().fromJson(r.getReader(), GroupInfo.class);
@@ -52,7 +47,7 @@ public class CreateGroupIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void testCreateGroupWithProperties() throws IOException {
+  public void testCreateGroupWithProperties() throws Exception {
     final String newGroupName = "newGroup";
     CreateGroup.Input in = new CreateGroup.Input();
     in.description = "Test description";
@@ -68,15 +63,14 @@ public class CreateGroupIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void testCreateGroupWithoutCapability_Forbidden() throws OrmException,
-      JSchException, IOException {
+  public void testCreateGroupWithoutCapability_Forbidden() throws Exception {
     RestResponse r = (new RestSession(server, user)).put("/groups/newGroup");
     assertEquals(HttpStatus.SC_FORBIDDEN, r.getStatusCode());
   }
 
   @Test
   public void testCreateGroupWhenGroupAlreadyExists_Conflict()
-      throws OrmException, JSchException, IOException {
+      throws Exception {
     RestResponse r = adminSession.put("/groups/Administrators");
     assertEquals(HttpStatus.SC_CONFLICT, r.getStatusCode());
   }

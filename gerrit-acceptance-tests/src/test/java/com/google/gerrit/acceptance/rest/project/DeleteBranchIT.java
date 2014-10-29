@@ -29,8 +29,6 @@ import org.apache.http.HttpStatus;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.IOException;
-
 public class DeleteBranchIT extends AbstractDaemonTest {
 
   private Branch.NameKey branch;
@@ -43,7 +41,7 @@ public class DeleteBranchIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void deleteBranch_Forbidden() throws IOException {
+  public void deleteBranch_Forbidden() throws Exception {
     RestResponse r =
         userSession.delete("/projects/" + project.get()
             + "/branches/" + branch.getShortName());
@@ -52,7 +50,7 @@ public class DeleteBranchIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void deleteBranchByAdmin() throws IOException {
+  public void deleteBranchByAdmin() throws Exception {
     RestResponse r =
         adminSession.delete("/projects/" + project.get()
             + "/branches/" + branch.getShortName());

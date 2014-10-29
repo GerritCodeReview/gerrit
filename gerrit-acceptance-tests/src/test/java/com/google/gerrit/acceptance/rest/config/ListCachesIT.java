@@ -31,7 +31,6 @@ import org.apache.http.HttpStatus;
 import org.eclipse.jgit.util.Base64;
 import org.junit.Test;
 
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -39,7 +38,7 @@ import java.util.Map;
 public class ListCachesIT extends AbstractDaemonTest {
 
   @Test
-  public void listCaches() throws IOException {
+  public void listCaches() throws Exception {
     RestResponse r = adminSession.get("/config/server/caches/");
     assertEquals(HttpStatus.SC_OK, r.getStatusCode());
     Map<String, CacheInfo> result =
@@ -67,13 +66,13 @@ public class ListCachesIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void listCaches_Forbidden() throws IOException {
+  public void listCaches_Forbidden() throws Exception {
     RestResponse r = userSession.get("/config/server/caches/");
     assertEquals(HttpStatus.SC_FORBIDDEN, r.getStatusCode());
   }
 
   @Test
-  public void listCacheNames() throws IOException {
+  public void listCacheNames() throws Exception {
     RestResponse r = adminSession.get("/config/server/caches/?format=LIST");
     assertEquals(HttpStatus.SC_OK, r.getStatusCode());
     List<String> result =
@@ -85,7 +84,7 @@ public class ListCachesIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void listCacheNamesTextList() throws IOException {
+  public void listCacheNamesTextList() throws Exception {
     RestResponse r = adminSession.get("/config/server/caches/?format=TEXT_LIST");
     assertEquals(HttpStatus.SC_OK, r.getStatusCode());
     String result = new String(Base64.decode(r.getEntityContent()), UTF_8.name());
@@ -96,7 +95,7 @@ public class ListCachesIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void listCaches_BadRequest() throws IOException {
+  public void listCaches_BadRequest() throws Exception {
     RestResponse r = adminSession.get("/config/server/caches/?format=NONSENSE");
     assertEquals(HttpStatus.SC_BAD_REQUEST, r.getStatusCode());
   }

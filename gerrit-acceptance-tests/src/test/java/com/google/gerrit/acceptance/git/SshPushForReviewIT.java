@@ -16,15 +16,12 @@ package com.google.gerrit.acceptance.git;
 
 import com.google.gerrit.acceptance.NoHttpd;
 
-import org.eclipse.jgit.api.errors.GitAPIException;
 import org.junit.Before;
-
-import java.io.IOException;
 
 @NoHttpd
 public class SshPushForReviewIT extends AbstractPushForReview {
   @Before
-  public void selectSshUrl() throws GitAPIException, IOException {
+  public void selectSshUrl() throws Exception {
     selectProtocol(Protocol.SSH);
   }
 }

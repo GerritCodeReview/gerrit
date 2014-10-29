@@ -30,13 +30,13 @@ import java.io.IOException;
 
 public class GetAccountIT extends AbstractDaemonTest {
   @Test
-  public void getNonExistingAccount_NotFound() throws IOException {
+  public void getNonExistingAccount_NotFound() throws Exception {
     assertEquals(HttpStatus.SC_NOT_FOUND,
         adminSession.get("/accounts/non-existing").getStatusCode());
   }
 
   @Test
-  public void getAccount() throws IOException {
+  public void getAccount() throws Exception {
     // by formatted string
     testGetAccount("/accounts/"
         + Url.encode(admin.fullName + " <" + admin.email + ">"), admin);

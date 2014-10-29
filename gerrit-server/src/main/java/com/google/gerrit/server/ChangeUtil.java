@@ -35,6 +35,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.change.ChangeInserter;
 import com.google.gerrit.server.change.ChangeMessages;
 import com.google.gerrit.server.change.ChangeTriplet;
+import com.google.gerrit.server.change.HashtagsUtil;
 import com.google.gerrit.server.change.PatchSetInserter;
 import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
@@ -43,6 +44,7 @@ import com.google.gerrit.server.git.validators.CommitValidationException;
 import com.google.gerrit.server.git.validators.CommitValidators;
 import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.mail.RevertedSender;
+import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
@@ -226,6 +228,7 @@ public class ChangeUtil {
   private final GitRepositoryManager gitManager;
   private final GitReferenceUpdated gitRefUpdated;
   private final ChangeIndexer indexer;
+  private final NotesMigration notesMigration;
 
   @Inject
   ChangeUtil(Provider<CurrentUser> userProvider,
@@ -236,6 +239,7 @@ public class ChangeUtil {
       PatchSetInserter.Factory patchSetInserterFactory,
       GitRepositoryManager gitManager,
       GitReferenceUpdated gitRefUpdated,
+      NotesMigration notesMigration,
       ChangeIndexer indexer) {
     this.userProvider = userProvider;
     this.commitValidatorsFactory = commitValidatorsFactory;
@@ -246,6 +250,7 @@ public class ChangeUtil {
     this.gitManager = gitManager;
     this.gitRefUpdated = gitRefUpdated;
     this.indexer = indexer;
+    this.notesMigration = notesMigration;
   }
 
   public Change.Id revert(ChangeControl ctl, PatchSet.Id patchSetId,
@@ -305,7 +310,11 @@ public class ChangeUtil {
         } finally {
           oi.release();
         }
-
+        if (!HashtagsUtil.parseCommitMessageHashtags(revertCommit).isEmpty()
+            && !notesMigration.enabled()) {
+          throw new InvalidChangeOperationException(
+              "cannot add hashtags; noteDb is disabled");
+        }
         RefControl refControl = ctl.getRefControl();
         Change change = new Change(
             new Change.Key("I" + computedChangeId.name()),

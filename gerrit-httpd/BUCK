@@ -18,6 +18,7 @@ java_library(
     '//gerrit-reviewdb:server',
     '//gerrit-server:server',
     '//gerrit-util-cli:cli',
+    '//gerrit-util-request:request',
     '//lib:args4j',
     '//lib:gson',
     '//lib:guava',

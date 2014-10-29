@@ -1538,7 +1538,8 @@ public class ReceiveCommits {
 
         changeKey = new Change.Key(idStr);
         pending.add(new ChangeLookup(c, changeKey));
-        if (maxBatchChanges != 0 && pending.size() > maxBatchChanges) {
+        if (maxBatchChanges != 0
+            && pending.size() + newChanges.size() > maxBatchChanges) {
           reject(magicBranch.cmd,
               "the number of pushed changes in a batch exceeds the max limit "
                   + maxBatchChanges);

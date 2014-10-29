@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b50a4612_78a8a11d",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1342,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-10-29T00:47:56Z",
+      "side": 1,
+      "message": "Needs to be base64 for the same reason other file contents do.",
+      "revId": "222a4de01da0a21c582a9cfd799a1448f140428a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d515fa2f_794307e0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Module.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-10-29T00:47:56Z",
+      "side": 1,
+      "message": "Maybe this should just be \"message\" so we have GET/PUT on the same resource?",
+      "range": {
+        "startLine": 110,
+        "startChar": 22,
+        "endLine": 110,
+        "endChar": 34
+      },
+      "revId": "222a4de01da0a21c582a9cfd799a1448f140428a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

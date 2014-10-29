@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d52b3ac1_29ce2dbf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2417,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-10-29T22:08:52Z",
+      "side": 1,
+      "message": "I was concerned that there might be some mutation happening of change that would mean that rereading it here is important. But in ReplaceRequest#insertPatchSet(ReviewDb), the first thing that happens once the transaction is started is the change is re-read. So this is fine.",
+      "revId": "7a672c3a4097ba58b9dc7dad094bcae4ac8c168a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

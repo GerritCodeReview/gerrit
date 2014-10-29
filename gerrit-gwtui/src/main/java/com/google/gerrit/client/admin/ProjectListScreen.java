@@ -236,9 +236,10 @@ public class ProjectListScreen extends Screen implements FilteredUserInterface {
             a.setHref(gitWebLink.toProject(k.name_key()));
             p.add(a);
           }
-
-          for (WebLinkInfo weblink : webLinks) {
-            p.add(weblink.toAnchor());
+          if (webLinks!=null) {
+            for (WebLinkInfo weblink : webLinks) {
+              p.add(weblink.toAnchor());
+            }
           }
         }
       }

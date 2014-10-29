@@ -441,6 +441,24 @@
     },
     {
       "key": {
+        "uuid": "55c2ea1e_edb2c5db",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-10-29T09:12:23Z",
+      "side": 1,
+      "message": "\u003e...Gerrit shouldn\u0027t silently fail to add hashtags...  （Sven）\n   \u003e...to reject the new ...  (Sasa)\n\n\nDone",
+      "parentUuid": "50c758d5_e52796a2",
+      "revId": "5b5714ba886432c4759a1b8a5fcf15e36d608cf7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "70245ca4_962eacab",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 31

@@ -17,7 +17,6 @@ package com.google.gerrit.server.project;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.base.Function;
-import com.google.common.base.Predicate;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
@@ -37,7 +36,6 @@ import com.google.gerrit.rules.PrologEnvironment;
 import com.google.gerrit.rules.RulesCache;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.CapabilityCollection;
-import com.google.gerrit.server.account.GroupMembership;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.git.BranchOrderSection;
@@ -313,16 +311,20 @@ public class ProjectState {
   }
 
   /**
-   * @return true if any of the groups listed in {@code groups} was declared to
-   *         be an owner of this project, or one of its parent projects..
+   * @return all {@link AccountGroup}'s that are allowed to administrate the
+   *         complete project. This includes all groups to which the owner
+   *         privilege for 'refs/*' is assigned for this project (the local
+   *         owners) and all groups to which the owner privilege for 'refs/*' is
+   *         assigned for one of the parent projects (the inherited owners).
    */
-  boolean isOwner(final GroupMembership groups) {
-    return Iterables.any(tree(), new Predicate<ProjectState>() {
-      @Override
-      public boolean apply(ProjectState in) {
-        return groups.containsAnyOf(in.localOwners);
-      }
-    });
+  public Set<AccountGroup.UUID> getAllOwners() {
+    Set<AccountGroup.UUID> result = new HashSet<>();
+
+    for (ProjectState p : tree()) {
+      result.addAll(p.localOwners);
+    }
+
+    return result;
   }
 
   public ProjectControl controlFor(final CurrentUser user) {

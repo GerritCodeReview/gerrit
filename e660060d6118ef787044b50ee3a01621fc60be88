@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d515fa2f_f909579a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/validators/HashtagsValidationException.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-10-29T13:12:08Z",
+      "side": 1,
+      "message": "Why make this abstract?\n\nWouldn\u0027t it be better to have the invalid hashtags passed into the constructor?",
+      "range": {
+        "startLine": 30,
+        "startChar": 9,
+        "endLine": 30,
+        "endChar": 17
+      },
+      "revId": "e660060d6118ef787044b50ee3a01621fc60be88",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

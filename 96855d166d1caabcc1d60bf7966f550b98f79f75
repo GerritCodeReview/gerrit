@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "b50a4612_381909e6",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/PushOneCommit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-10-29T13:13:45Z",
+      "side": 1,
+      "message": "Should be before imports of com.google.gerrit.",
+      "revId": "96855d166d1caabcc1d60bf7966f550b98f79f75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f5bafe9a_0ade1b1f",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/HashtagsIT.java",
         "patchSetId": 1

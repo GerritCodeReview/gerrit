@@ -14,10 +14,8 @@
 
 package com.google.gerrit.acceptance.api.project;
 
+import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
@@ -38,7 +36,7 @@ public class ProjectIT extends AbstractDaemonTest  {
   @Test
   public void createProjectFoo() throws Exception {
     String name = "foo";
-    assertEquals(name,
+    assertThat(name).isEqualTo(
         gApi.projects()
             .name(name)
             .create()
@@ -84,36 +82,36 @@ public class ProjectIT extends AbstractDaemonTest  {
     gApi.projects().name("bar").create();
 
     List<ProjectInfo> allProjects = gApi.projects().list().get();
-    assertEquals(initialProjects.size() + 2, allProjects.size());
+    assertThat(allProjects.size()).is(initialProjects.size() + 2);
 
     List<ProjectInfo> projectsWithDescription = gApi.projects().list()
         .withDescription(true)
         .get();
-    assertNotNull(projectsWithDescription.get(0).description);
+    assertThat(projectsWithDescription.get(0).description).isNotNull();
 
     List<ProjectInfo> projectsWithoutDescription = gApi.projects().list()
         .withDescription(false)
         .get();
-    assertNull(projectsWithoutDescription.get(0).description);
+    assertThat(projectsWithoutDescription.get(0).description).isNull();
 
     List<ProjectInfo> noMatchingProjects = gApi.projects().list()
         .withPrefix("fox")
         .get();
-    assertEquals(0, noMatchingProjects.size());
+    assertThat(noMatchingProjects.size()).is(0);
 
     List<ProjectInfo> matchingProject = gApi.projects().list()
         .withPrefix("fo")
         .get();
-    assertEquals(1, matchingProject.size());
+    assertThat(matchingProject.size()).is(1);
 
     List<ProjectInfo> limitOneProject = gApi.projects().list()
         .withLimit(1)
         .get();
-    assertEquals(1, limitOneProject.size());
+    assertThat(limitOneProject.size()).is(1);
 
     List<ProjectInfo> startAtOneProjects = gApi.projects().list()
         .withStart(1)
         .get();
-    assertEquals(allProjects.size() - 1, startAtOneProjects.size());
+    assertThat(startAtOneProjects.size()).is(allProjects.size() - 1);
   }
 }

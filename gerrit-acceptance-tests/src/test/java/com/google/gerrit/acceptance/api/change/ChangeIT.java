@@ -14,10 +14,7 @@
 
 package com.google.gerrit.acceptance.api.change;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
@@ -51,15 +48,15 @@ public class ChangeIT extends AbstractDaemonTest {
     PushOneCommit.Result r = createChange();
     String triplet = "p~master~" + r.getChangeId();
     ChangeInfo c = info(triplet);
-    assertEquals(triplet, c.id);
-    assertEquals("p", c.project);
-    assertEquals("master", c.branch);
-    assertEquals(ChangeStatus.NEW, c.status);
-    assertEquals("test commit", c.subject);
-    assertEquals(true, c.mergeable);
-    assertEquals(r.getChangeId(), c.changeId);
-    assertEquals(c.created, c.updated);
-    assertEquals(1, c._number);
+    assertThat(c.id).isEqualTo(triplet);
+    assertThat(c.project).isEqualTo("p");
+    assertThat(c.branch).isEqualTo("master");
+    assertThat(c.status).isEqualTo(ChangeStatus.NEW);
+    assertThat(c.subject).isEqualTo("test commit");
+    assertThat(c.mergeable).isTrue();
+    assertThat(c.changeId).isEqualTo(r.getChangeId());
+    assertThat(c.created).isEqualTo(c.updated);
+    assertThat(c._number).is(1);
   }
 
   @Test
@@ -126,7 +123,8 @@ public class ChangeIT extends AbstractDaemonTest {
     gApi.changes()
         .id(r.getChangeId())
         .addReviewer(in);
-    assertEquals(ImmutableSet.of(user.id), getReviewers(r.getChangeId()));
+    assertThat(getReviewers(r.getChangeId()))
+        .containsExactlyElementsIn(ImmutableSet.of(user.id));
   }
 
   @Test
@@ -141,15 +139,16 @@ public class ChangeIT extends AbstractDaemonTest {
         .revision(r.getCommit().name())
         .submit();
 
-    assertEquals(ImmutableSet.of(admin.getId()), getReviewers(r.getChangeId()));
+    assertThat(getReviewers(r.getChangeId()))
+      .containsExactlyElementsIn(ImmutableSet.of(admin.getId()));
 
     AddReviewerInput in = new AddReviewerInput();
     in.reviewer = user.email;
     gApi.changes()
         .id(r.getChangeId())
         .addReviewer(in);
-    assertEquals(ImmutableSet.of(admin.getId(), user.id),
-        getReviewers(r.getChangeId()));
+    assertThat(getReviewers(r.getChangeId()))
+        .containsExactlyElementsIn(ImmutableSet.of(admin.getId(), user.id));
   }
 
   @Test
@@ -162,9 +161,9 @@ public class ChangeIT extends AbstractDaemonTest {
         .changes()
         .create(in)
         .get();
-    assertEquals(in.project, info.project);
-    assertEquals(in.branch, info.branch);
-    assertEquals(in.subject, info.subject);
+    assertThat(info.project).isEqualTo(in.project);
+    assertThat(info.branch).isEqualTo(in.branch);
+    assertThat(info.subject).isEqualTo(in.subject);
   }
 
   @Test
@@ -172,18 +171,18 @@ public class ChangeIT extends AbstractDaemonTest {
     PushOneCommit.Result r1 = createChange();
     PushOneCommit.Result r2 = createChange();
     List<ChangeInfo> results = gApi.changes().query().get();
-    assertEquals(2, results.size());
-    assertEquals(r2.getChangeId(), results.get(0).changeId);
-    assertEquals(r1.getChangeId(), results.get(1).changeId);
+    assertThat(results.size()).is(2);
+    assertThat(results.get(0).changeId).isEqualTo(r2.getChangeId());
+    assertThat(results.get(1).changeId).isEqualTo(r1.getChangeId());
   }
 
   @Test
   public void queryChangesNoResults() throws Exception {
     createChange();
     List<ChangeInfo> results = query("status:open");
-    assertEquals(1, results.size());
+    assertThat(results.size()).is(1);
     results = query("status:closed");
-    assertTrue(results.isEmpty());
+    assertThat(results.isEmpty()).isTrue();
   }
 
   @Test
@@ -191,9 +190,9 @@ public class ChangeIT extends AbstractDaemonTest {
     PushOneCommit.Result r1 = createChange();
     PushOneCommit.Result r2 = createChange();
     List<ChangeInfo> results = query("status:open");
-    assertEquals(2, results.size());
-    assertEquals(r2.getChangeId(), results.get(0).changeId);
-    assertEquals(r1.getChangeId(), results.get(1).changeId);
+    assertThat(results.size()).is(2);
+    assertThat(results.get(0).changeId).isEqualTo(r2.getChangeId());
+    assertThat(results.get(1).changeId).isEqualTo(r1.getChangeId());
   }
 
   @Test
@@ -201,7 +200,8 @@ public class ChangeIT extends AbstractDaemonTest {
     PushOneCommit.Result r1 = createChange();
     createChange();
     List<ChangeInfo> results = query("status:open " + r1.getChangeId());
-    assertEquals(r1.getChangeId(), Iterables.getOnlyElement(results).changeId);
+    assertThat(Iterables.getOnlyElement(results).changeId)
+        .isEqualTo(r1.getChangeId());
   }
 
   @Test
@@ -209,8 +209,9 @@ public class ChangeIT extends AbstractDaemonTest {
     createChange();
     PushOneCommit.Result r2 = createChange();
     List<ChangeInfo> results = gApi.changes().query().withLimit(1).get();
-    assertEquals(1, results.size());
-    assertEquals(r2.getChangeId(), Iterables.getOnlyElement(results).changeId);
+    assertThat(results.size()).is(1);
+    assertThat(Iterables.getOnlyElement(results).changeId)
+        .isEqualTo(r2.getChangeId());
   }
 
   @Test
@@ -218,17 +219,18 @@ public class ChangeIT extends AbstractDaemonTest {
     PushOneCommit.Result r1 = createChange();
     createChange();
     List<ChangeInfo> results = gApi.changes().query().withStart(1).get();
-    assertEquals(r1.getChangeId(), Iterables.getOnlyElement(results).changeId);
+    assertThat(Iterables.getOnlyElement(results).changeId)
+        .isEqualTo(r1.getChangeId());
   }
 
   @Test
   public void queryChangesNoOptions() throws Exception {
     PushOneCommit.Result r = createChange();
     ChangeInfo result = Iterables.getOnlyElement(query(r.getChangeId()));
-    assertNull(result.labels);
-    assertNull(result.messages);
-    assertNull(result.revisions);
-    assertNull(result.actions);
+    assertThat(result.labels).isNull();
+    assertThat(result.messages).isNull();
+    assertThat(result.revisions).isNull();
+    assertThat(result.actions).isNull();
   }
 
   @Test
@@ -238,23 +240,23 @@ public class ChangeIT extends AbstractDaemonTest {
         .query(r.getChangeId())
         .withOptions(EnumSet.allOf(ListChangesOption.class))
         .get());
-    assertEquals("Code-Review",
-        Iterables.getOnlyElement(result.labels.keySet()));
-    assertEquals(1, result.messages.size());
-    assertFalse(result.actions.isEmpty());
+    assertThat(Iterables.getOnlyElement(result.labels.keySet()))
+        .isEqualTo("Code-Review");
+    assertThat(result.messages.size()).is(1);
+    assertThat(result.actions.isEmpty()).isFalse();
 
     RevisionInfo rev = Iterables.getOnlyElement(result.revisions.values());
-    assertEquals(r.getPatchSetId().get(), rev._number);
-    assertFalse(rev.actions.isEmpty());
+    assertThat(rev._number).isEqualTo(r.getPatchSetId().get());
+    assertThat(rev.actions.isEmpty()).isFalse();
   }
 
   @Test
   public void queryChangesOwnerWithDifferentUsers() throws Exception {
     PushOneCommit.Result r = createChange();
-    assertEquals(r.getChangeId(),
-        Iterables.getOnlyElement(query("owner:self")).changeId);
+    assertThat(Iterables.getOnlyElement(query("owner:self")).changeId)
+        .isEqualTo(r.getChangeId());
     setApiUser(user);
-    assertTrue(query("owner:self").isEmpty());
+    assertThat(query("owner:self").isEmpty()).isTrue();
   }
 
   @Test
@@ -267,29 +269,29 @@ public class ChangeIT extends AbstractDaemonTest {
         .addReviewer(in);
 
     setApiUser(user);
-    assertNull(get(r.getChangeId()).reviewed);
+    assertThat(get(r.getChangeId()).reviewed).isNull();
 
     revision(r).review(ReviewInput.recommend());
-    assertTrue(get(r.getChangeId()).reviewed);
+    assertThat(get(r.getChangeId()).reviewed).isTrue();
   }
 
   @Test
   public void topic() throws Exception {
     PushOneCommit.Result r = createChange();
-    assertEquals("", gApi.changes()
+    assertThat(gApi.changes()
         .id(r.getChangeId())
-        .topic());
+        .topic()).isEqualTo("");
     gApi.changes()
         .id(r.getChangeId())
         .topic("mytopic");
-    assertEquals("mytopic", gApi.changes()
+    assertThat(gApi.changes()
         .id(r.getChangeId())
-        .topic());
+        .topic()).isEqualTo("mytopic");
     gApi.changes()
         .id(r.getChangeId())
         .topic("");
-    assertEquals("", gApi.changes()
+    assertThat(gApi.changes()
         .id(r.getChangeId())
-        .topic());
+        .topic()).isEqualTo("");
   }
 }

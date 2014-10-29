@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f5bafe9a_6aa7979f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListTags.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-10-29T14:15:56Z",
+      "side": 1,
+      "message": "[optional] Move this down to line 107? In case there is an exception in the block below (line 103 - 106), e.g. an NPE, the repository is not closed.",
+      "revId": "8cc6890c0ae2011cd5392140136060315a7c8aa0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

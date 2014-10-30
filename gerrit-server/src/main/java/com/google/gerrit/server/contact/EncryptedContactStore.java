@@ -51,7 +51,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
 import java.security.NoSuchAlgorithmException;
-import java.security.NoSuchProviderException;
 import java.security.SecureRandom;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
@@ -96,11 +95,7 @@ class EncryptedContactStore implements ContactStore {
     //
     try {
       encrypt("test", new Date(0), "test".getBytes("UTF-8"));
-    } catch (NoSuchProviderException e) {
-      throw new ProvisionException("PGP encryption not available", e);
-    } catch (PGPException e) {
-      throw new ProvisionException("PGP encryption not available", e);
-    } catch (IOException e) {
+    } catch (PGPException | IOException e) {
       throw new ProvisionException("PGP encryption not available", e);
     }
   }
@@ -158,20 +153,13 @@ class EncryptedContactStore implements ContactStore {
       u.put("account_id", String.valueOf(account.getId().get()));
       u.put("data", encStr);
       connFactory.open(storeUrl).store(u.toString().getBytes("UTF-8"));
-    } catch (IOException e) {
-      log.error("Cannot store encrypted contact information", e);
-      throw new ContactInformationStoreException(e);
-    } catch (PGPException e) {
-      log.error("Cannot store encrypted contact information", e);
-      throw new ContactInformationStoreException(e);
-    } catch (NoSuchProviderException e) {
+    } catch (IOException | PGPException e) {
       log.error("Cannot store encrypted contact information", e);
       throw new ContactInformationStoreException(e);
     }
   }
 
-  private final PGPEncryptedDataGenerator cpk()
-      throws NoSuchProviderException, PGPException {
+  private final PGPEncryptedDataGenerator cpk() {
     final BcPGPDataEncryptorBuilder builder =
         new BcPGPDataEncryptorBuilder(PGPEncryptedData.CAST5)
             .setSecureRandom(prng);
@@ -184,7 +172,7 @@ class EncryptedContactStore implements ContactStore {
   }
 
   private byte[] encrypt(final String name, final Date date,
-      final byte[] rawText) throws NoSuchProviderException, PGPException,
+      final byte[] rawText) throws PGPException,
       IOException {
     final byte[] zText = compress(name, date, rawText);
 

@@ -1,74 +1,130 @@
 package com.google.gerrit.server.notedb;
 
 import com.google.common.base.Optional;
-import com.google.common.primitives.Ints;
-import com.google.gerrit.common.data.AccountInfo;
+import com.google.common.collect.Iterables;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.account.AccountByEmailCache;
 import com.google.gerrit.server.account.AccountCache;
-import com.google.gerrit.server.config.AnonymousCowardName;
+import com.google.gerrit.server.account.AccountState;
+import com.google.gerrit.server.config.CanonicalWebUrl;
 
 import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.util.SystemReader;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.Set;
 import java.util.TimeZone;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
 public interface NotedbIdent {
-  static final String GERRIT_PLACEHOLDER_HOST = "gerrit";
-
   PersonIdent create(IdentifiedUser user, Date when);
   PersonIdent create(Account.Id user, Date when);
   Optional<Account.Id> parse(PersonIdent ident);
 
   @Singleton
   static class Impl implements NotedbIdent {
+    private static final Logger log = LoggerFactory.getLogger(NotedbIdent.class);
     private final AccountCache accountCache;
-    private final String anonymousCowardName;
+    private final AccountByEmailCache emailCache;
+    private final IdentifiedUser.GenericFactory userFactory;
     private final TimeZone serverTimeZone;
+    private final String serverHost;
 
     @Inject
     Impl(AccountCache accountCache,
-        @AnonymousCowardName String anonymousCowardName,
-        @GerritPersonIdent PersonIdent serverIdent) {
+        AccountByEmailCache emailCache,
+        IdentifiedUser.GenericFactory userFactory,
+        @GerritPersonIdent PersonIdent serverIdent,
+        @Nullable @CanonicalWebUrl String canonicalUrl) {
       this.accountCache = accountCache;
-      this.anonymousCowardName = anonymousCowardName;
+      this.emailCache = emailCache;
+      this.userFactory = userFactory;
       this.serverTimeZone = serverIdent.getTimeZone();
+
+      String host;
+      if (canonicalUrl != null) {
+        try {
+          host = new URL(canonicalUrl).getHost();
+        } catch (MalformedURLException e) {
+          host = SystemReader.getInstance().getHostname();
+        }
+      } else {
+        host = SystemReader.getInstance().getHostname();
+      }
+      serverHost = host;
     }
 
     @Override
     public PersonIdent create(Account.Id user, Date when) {
-      return create(accountCache.get(user).getAccount(), when);
+      return create(userFactory.create(user), when);
     }
 
     @Override
     public PersonIdent create(IdentifiedUser user, Date when) {
-      return create(user.getAccount(), when);
-    }
-
-    private PersonIdent create(Account user, Date when) {
-      AccountInfo a = new AccountInfo(user);
-      String name = a.getName(anonymousCowardName);
-      String email = user.getId().get() + "@" + GERRIT_PLACEHOLDER_HOST;
-      return new PersonIdent(name, email, when, serverTimeZone);
+      return user.newCommitterIdent(when, serverTimeZone);
     }
 
     @Override
     public Optional<Account.Id> parse(PersonIdent ident) {
-      String email = ident.getEmailAddress();
-      int at = email.indexOf('@');
-      if (at >= 0) {
-        String host = email.substring(at + 1, email.length());
-        Integer id = Ints.tryParse(email.substring(0, at));
-        if (id != null && host.equals(GERRIT_PLACEHOLDER_HOST)) {
-          return Optional.of(new Account.Id(id));
-        }
+      String e = ident.getEmailAddress();
+      Set<Account.Id> ids = emailCache.get(e);
+      if (ids.size() == 1) {
+        return Optional.of(Iterables.getOnlyElement(ids));
+      }
+      if (ids.size() > 1) {
+        return pickOnlyActive(e, ids);
+      }
+      if (ids.isEmpty()) {
+        return byUsernameOrId(e);
       }
       return Optional.absent();
     }
 
+    private Optional<Account.Id> pickOnlyActive(String e, Set<Account.Id> ids) {
+      log.warn("email {} has {} matching accounts", e, ids.size());
+      List<AccountState> matches = new ArrayList<>(ids.size());
+      for (Account.Id id : ids) {
+        AccountState s = accountCache.get(id);
+        if (s.getAccount().isActive()) {
+          matches.add(s);
+        }
+      }
+      if (matches.size() == 1) {
+        return Optional.of(matches.get(0).getAccount().getId());
+      }
+      return Optional.absent();
+    }
+
+    private Optional<Account.Id> byUsernameOrId(String email) {
+      int a = email.indexOf('@');
+      if (a > 0 && serverHost.equals(email.substring(a + 1, email.length()))) {
+        String user = email.substring(0, a);
+        AccountState s = accountCache.getByUsername(user);
+        if (s != null) {
+          return Optional.of(s.getAccount().getId());
+        }
+
+        Pattern p = Pattern.compile("account-([1-9]\\d*)");
+        Matcher m = p.matcher(user);
+        if (m.matches()) {
+          int i = Integer.parseInt(m.group(1), 10);
+          return Optional.of(new Account.Id(i));
+        }
+      }
+      return Optional.absent();
+    }
   }
 }

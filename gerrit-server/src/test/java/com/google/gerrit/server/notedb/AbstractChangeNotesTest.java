@@ -31,6 +31,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.account.AccountByEmailCache;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.CapabilityControl;
 import com.google.gerrit.server.account.GroupBackend;
@@ -139,6 +140,7 @@ public class AbstractChangeNotesTest {
         bind(Realm.class).to(FakeRealm.class);
         bind(GroupBackend.class).to(SystemGroupBackend.class).in(SINGLETON);
         bind(AccountCache.class).toInstance(accountCache);
+        bind(AccountByEmailCache.class).toInstance(accountCache);
         bind(PersonIdent.class).annotatedWith(GerritPersonIdent.class)
             .toInstance(serverIdent);
         bind(GitReferenceUpdated.class)

@@ -37,6 +37,7 @@ import com.google.gerrit.rules.RulesCache;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.account.AccountByEmailCache;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.CapabilityControl;
 import com.google.gerrit.server.account.GroupBackend;
@@ -68,6 +69,7 @@ import com.google.gerrit.testutil.InMemoryRepositoryManager;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Provider;
+import com.google.inject.Scopes;
 import com.google.inject.util.Providers;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -285,7 +287,9 @@ public class Util {
         factory(ChangeData.Factory.class);
         factory(MergeUtil.Factory.class);
         bind(ProjectCache.class).toInstance(projectCache);
-        bind(AccountCache.class).toInstance(new FakeAccountCache());
+        bind(FakeAccountCache.class).in(Scopes.SINGLETON);
+        bind(AccountCache.class).to(FakeAccountCache.class);
+        bind(AccountByEmailCache.class).to(FakeAccountCache.class);
         bind(GroupBackend.class).to(SystemGroupBackend.class);
         bind(AllUsersName.class).toInstance(new AllUsersName("All-Users"));
         bind(String.class).annotatedWith(CanonicalWebUrl.class)

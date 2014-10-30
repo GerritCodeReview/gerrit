@@ -49,7 +49,7 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
     assertBodyEquals("Update patch set 1\n"
         + "\n"
         + "Patch-set: 1\n"
-        + "Reviewer: Change Owner <1@gerrit>\n"
+        + "Reviewer: Change Owner <change@owner.com>\n"
         + "CC: Other Account <2@gerrit>\n"
         + "Label: Code-Review=-1\n"
         + "Label: Verified=+1\n",
@@ -57,7 +57,7 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
 
     PersonIdent author = commit.getAuthorIdent();
     assertEquals("Change Owner", author.getName());
-    assertEquals("1@gerrit", author.getEmailAddress());
+    assertEquals("change@owner.com", author.getEmailAddress());
     assertEquals(new Date(c.getCreatedOn().getTime() + 1000),
         author.getWhen());
     assertEquals(TimeZone.getTimeZone("GMT-7:00"), author.getTimeZone());
@@ -122,16 +122,16 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
         + "Patch-set: 1\n"
         + "Status: submitted\n"
         + "Submitted-with: NOT_READY\n"
-        + "Submitted-with: OK: Verified: Change Owner <1@gerrit>\n"
+        + "Submitted-with: OK: Verified: Change Owner <change@owner.com>\n"
         + "Submitted-with: NEED: Code-Review\n"
         + "Submitted-with: NOT_READY\n"
-        + "Submitted-with: OK: Verified: Change Owner <1@gerrit>\n"
+        + "Submitted-with: OK: Verified: Change Owner <change@owner.com>\n"
         + "Submitted-with: NEED: Alternative-Code-Review\n",
         commit);
 
     PersonIdent author = commit.getAuthorIdent();
     assertEquals("Change Owner", author.getName());
-    assertEquals("1@gerrit", author.getEmailAddress());
+    assertEquals("change@owner.com", author.getEmailAddress());
     assertEquals(new Date(c.getCreatedOn().getTime() + 1000),
         author.getWhen());
     assertEquals(TimeZone.getTimeZone("GMT-7:00"), author.getTimeZone());
@@ -193,7 +193,7 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
     assertBodyEquals("Update patch set 1\n"
         + "\n"
         + "Patch-set: 1\n"
-        + "Reviewer: Change Owner <1@gerrit>\n",
+        + "Reviewer: Change Owner <change@owner.com>\n",
         update.getRevision());
   }
 

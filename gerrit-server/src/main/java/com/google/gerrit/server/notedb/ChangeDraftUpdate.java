@@ -79,13 +79,14 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
       @AnonymousCowardName String anonymousCowardName,
       GitRepositoryManager repoManager,
       NotesMigration migration,
+      NotedbIdent notedbIdent,
       MetaDataUpdate.User updateFactory,
       DraftCommentNotes.Factory draftNotesFactory,
       AllUsersName allUsers,
       CommentsInNotesUtil commentsUtil,
       @Assisted ChangeControl ctl,
       @Assisted Date when) throws OrmException {
-    super(migration, repoManager, updateFactory, ctl, serverIdent,
+    super(migration, notedbIdent, repoManager, updateFactory, ctl, serverIdent,
         anonymousCowardName, when);
     this.draftsProject = allUsers;
     this.commentsUtil = commentsUtil;
@@ -306,7 +307,7 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
     if (isEmpty()) {
       return false;
     }
-    commit.setAuthor(newIdent(getUser().getAccount(), when));
+    commit.setAuthor(notedbIdent.create(getUser(), when));
     commit.setCommitter(new PersonIdent(serverIdent, when));
     commit.setMessage(String.format("Comment on patch set %d", psId.get()));
     return true;

@@ -19,7 +19,6 @@ import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_LABEL;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_PATCH_SET;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_STATUS;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_SUBMITTED_WITH;
-import static com.google.gerrit.server.notedb.ChangeNoteUtil.GERRIT_PLACEHOLDER_HOST;
 
 import com.google.common.base.Enums;
 import com.google.common.base.Optional;
@@ -78,6 +77,8 @@ class ChangeNotesParser implements AutoCloseable {
   Change.Status status;
   Set<String> hashtags;
 
+  private final NotedbIdent notedbIdent;
+  private final CommentsInNotesUtil commentsInNotesUtil;
   private final Change.Id changeId;
   private final ObjectId tip;
   private final RevWalk walk;
@@ -87,8 +88,11 @@ class ChangeNotesParser implements AutoCloseable {
   private final Multimap<PatchSet.Id, ChangeMessage> changeMessages;
 
   ChangeNotesParser(Change change, ObjectId tip, RevWalk walk,
-      GitRepositoryManager repoManager) throws RepositoryNotFoundException,
-      IOException {
+      GitRepositoryManager repoManager, NotedbIdent noteDbIdent,
+      CommentsInNotesUtil commentsInNotesUtil)
+      throws RepositoryNotFoundException, IOException {
+    this.notedbIdent = noteDbIdent;
+    this.commentsInNotesUtil = commentsInNotesUtil;
     this.changeId = change.getId();
     this.tip = tip;
     this.walk = walk;
@@ -146,8 +150,13 @@ class ChangeNotesParser implements AutoCloseable {
       status = parseStatus(commit);
     }
     PatchSet.Id psId = parsePatchSetId(commit);
-    Account.Id accountId = parseIdent(commit);
-    parseChangeMessage(psId, accountId, commit);
+    Optional<Account.Id> accountId = notedbIdent.parse(commit.getAuthorIdent());
+    if (!accountId.isPresent()) {
+      throw new ConfigInvalidException(String.format(
+          "invalid committer on change %d meta commit %s: %s",
+          changeId.get(), commit.name(), commit.getAuthorIdent().toExternalString()));
+    }
+    parseChangeMessage(psId, accountId.get(), commit);
     parseHashtags(commit);
 
 
@@ -158,7 +167,7 @@ class ChangeNotesParser implements AutoCloseable {
     }
 
     for (String line : commit.getFooterLines(FOOTER_LABEL)) {
-      parseApproval(psId, accountId, commit, line);
+      parseApproval(psId, accountId.get(), commit, line);
     }
 
     for (ReviewerState state : ReviewerState.values()) {
@@ -273,7 +282,7 @@ class ChangeNotesParser implements AutoCloseable {
 
   private void parseComments()
       throws IOException, ConfigInvalidException {
-    commentNoteMap = CommentsInNotesUtil.parseCommentsFromNotes(repo,
+    commentNoteMap = commentsInNotesUtil.parseCommentsFromNotes(repo,
         ChangeNoteUtil.changeRefName(changeId), walk, changeId,
         commentsForBase, commentsForPs, PatchLineComment.Status.PUBLISHED);
   }
@@ -358,32 +367,12 @@ class ChangeNotesParser implements AutoCloseable {
           PersonIdent ident =
               RawParseUtils.parsePersonIdent(line.substring(c2 + 2));
           checkFooter(ident != null, FOOTER_SUBMITTED_WITH, line);
-          label.appliedBy = parseIdent(ident);
+          label.appliedBy = notedbIdent.parse(ident).orNull();
         } else {
           label.label = line.substring(c + 2);
         }
       }
     }
-  }
-
-  private Account.Id parseIdent(RevCommit commit)
-      throws ConfigInvalidException {
-    return parseIdent(commit.getAuthorIdent());
-  }
-
-  private Account.Id parseIdent(PersonIdent ident)
-      throws ConfigInvalidException {
-    String email = ident.getEmailAddress();
-    int at = email.indexOf('@');
-    if (at >= 0) {
-      String host = email.substring(at + 1, email.length());
-      Integer id = Ints.tryParse(email.substring(0, at));
-      if (id != null && host.equals(GERRIT_PLACEHOLDER_HOST)) {
-        return new Account.Id(id);
-      }
-    }
-    throw parseException("invalid identity, expected <id>@%s: %s",
-      GERRIT_PLACEHOLDER_HOST, email);
   }
 
   private void parseReviewer(ReviewerState state, String line)
@@ -392,9 +381,9 @@ class ChangeNotesParser implements AutoCloseable {
     if (ident == null) {
       throw invalidFooter(state.getFooterKey(), line);
     }
-    Account.Id accountId = parseIdent(ident);
-    if (!reviewers.containsKey(accountId)) {
-      reviewers.put(accountId, state);
+    Optional<Account.Id> accountId = notedbIdent.parse(ident);
+    if (accountId.isPresent() && !reviewers.containsKey(accountId.get())) {
+      reviewers.put(accountId.get(), state);
     }
   }
 

@@ -88,6 +88,8 @@ public class AbstractChangeNotesTest {
   protected Project.NameKey project;
 
   @Inject protected IdentifiedUser.GenericFactory userFactory;
+  @Inject protected NotedbIdent notedbIdent;
+  @Inject protected CommentsInNotesUtil commentsInNotesUtil;
 
   private Injector injector;
   private String systemTimeZone;
@@ -120,6 +122,8 @@ public class AbstractChangeNotesTest {
       public void configure() {
         install(new GitModule());
         bind(NotesMigration.class).toInstance(MIGRATION);
+        bind(NotedbIdent.class).to(NotedbIdent.Impl.class);
+        bind(CommentsInNotesUtil.class);
         bind(GitRepositoryManager.class).toInstance(repoManager);
         bind(ProjectCache.class).toProvider(Providers.<ProjectCache> of(null));
         bind(CapabilityControl.Factory.class)
@@ -175,12 +179,13 @@ public class AbstractChangeNotesTest {
 
   protected ChangeUpdate newUpdate(Change c, IdentifiedUser user)
       throws OrmException {
-    return TestChanges.newUpdate(
-        injector, repoManager, MIGRATION, c, allUsers, user);
+    return TestChanges.newUpdate(injector, repoManager, MIGRATION, notedbIdent,
+        commentsInNotesUtil, c, allUsers, user);
   }
 
   protected ChangeNotes newNotes(Change c) throws OrmException {
-    return new ChangeNotes(repoManager, MIGRATION, allUsers, c).load();
+    return new ChangeNotes(repoManager, MIGRATION, notedbIdent,
+        commentsInNotesUtil, allUsers, c).load();
   }
 
   protected static SubmitRecord submitRecord(String status,

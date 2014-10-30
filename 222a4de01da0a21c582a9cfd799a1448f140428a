@@ -86,6 +86,30 @@
       "revId": "222a4de01da0a21c582a9cfd799a1448f140428a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "95b382f9_77f650f4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Module.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-10-30T19:08:17Z",
+      "side": 1,
+      "message": "Ok, that\u0027s an argument for the line below not being \"message\" as well. I\u0027d still prefer they be consistent.",
+      "parentUuid": "55c2ea1e_2db1add9",
+      "range": {
+        "startLine": 110,
+        "startChar": 22,
+        "endLine": 110,
+        "endChar": 34
+      },
+      "revId": "222a4de01da0a21c582a9cfd799a1448f140428a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

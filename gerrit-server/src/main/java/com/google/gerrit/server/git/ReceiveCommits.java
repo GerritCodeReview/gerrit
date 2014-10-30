@@ -82,6 +82,7 @@ import com.google.gerrit.server.change.ChangeInserter;
 import com.google.gerrit.server.change.ChangeKind;
 import com.google.gerrit.server.change.ChangeKindCache;
 import com.google.gerrit.server.change.ChangesCollection;
+import com.google.gerrit.server.change.HashtagsUtil;
 import com.google.gerrit.server.change.MergeabilityChecker;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.change.Submit;
@@ -1418,6 +1419,11 @@ public class ReceiveCommits {
       reject(cmd, "invalid commit");
       return;
     }
+    if (!HashtagsUtil.parseCommitMessageHashtags(newCommit).isEmpty()
+        && !notesMigration.enabled()) {
+      reject(cmd, "cannot add hashtags; noteDb is disabled");
+      return;
+    }
 
     final Change changeEnt;
     try {
@@ -1495,16 +1501,19 @@ public class ReceiveCommits {
         if (c == null) {
           break;
         }
+
+        if (!HashtagsUtil.parseCommitMessageHashtags(c).isEmpty()
+            && !notesMigration.enabled()) {
+          reject(magicBranch.cmd,
+              String.format("cannot add hashtags for %s; noteDb is disabled",
+                  c.getName()));
+          return Collections.emptyList();
+        }
+
         if (existing.contains(c) || replaceByCommit.containsKey(c)) {
           // This commit was already scheduled to replace an existing PatchSet.
           //
           continue;
-        }
-
-        if (!validCommit(magicBranch.ctl, magicBranch.cmd, c)) {
-          // Not a change the user can propose? Abort as early as possible.
-          //
-          return Collections.emptyList();
         }
 
         // Don't allow merges to be uploaded in commit chain via all-not-in-target
@@ -1517,6 +1526,9 @@ public class ReceiveCommits {
         Change.Key changeKey = new Change.Key("I" + c.name());
         final List<String> idList = c.getFooterLines(CHANGE_ID);
         if (idList.isEmpty()) {
+          if (!validCommit(magicBranch.ctl, magicBranch.cmd, c)) {
+            return Collections.emptyList();
+          }
           newChanges.add(new CreateRequest(magicBranch.ctl, c, changeKey));
           continue;
         }
@@ -1572,6 +1584,9 @@ public class ReceiveCommits {
             return Collections.emptyList();
           }
 
+          if (!validCommit(magicBranch.ctl, magicBranch.cmd, p.commit)) {
+            return Collections.emptyList();
+          }
           newChangeIds.add(p.changeKey);
         }
         newChanges.add(new CreateRequest(magicBranch.ctl, p.commit, p.changeKey));
@@ -1917,6 +1932,11 @@ public class ReceiveCommits {
         reject(inputCommand, "commit already exists (in the change)");
         return false;
       }
+      if (!HashtagsUtil.parseCommitMessageHashtags(newCommit).isEmpty()
+          && !changeCtl.canEditHashtags()) {
+        reject(inputCommand, "Editing hashtags not permitted");
+        return false;
+      }
 
       for (final Ref r : rp.getRepository().getRefDatabase()
           .getRefs("refs/changes").values()) {
@@ -1937,7 +1957,7 @@ public class ReceiveCommits {
       }
 
       rp.getRevWalk().parseBody(newCommit);
-      if (!validCommit(changeCtl.getRefControl(), inputCommand, newCommit)) {
+      if (!validCommit(changeCtl.getRefControl(), inputCommand, newCommit, change)) {
         return false;
       }
       rp.getRevWalk().parseBody(priorCommit);
@@ -2148,6 +2168,22 @@ public class ReceiveCommits {
       } finally {
         db.rollback();
       }
+
+      Set<String> updatedHashtags = new HashSet<>(0);
+      Set<String> toAdd = Collections.emptySet();
+      if (changeCtl.canEditHashtags()) {
+        toAdd = HashtagsUtil.parseCommitMessageHashtags(newCommit);
+        if (!toAdd.isEmpty()) {
+            Set<String> existingHashtags =
+                changeCtl.getNotes().load().getHashtags();
+            toAdd.removeAll(existingHashtags);
+            if (!toAdd.isEmpty()) {
+              updatedHashtags.addAll(existingHashtags);
+              updatedHashtags.addAll(toAdd);
+              update.setHashtags(updatedHashtags);
+            }
+        }
+      }
       update.commit();
 
       if (mergedIntoRef != null) {
@@ -2194,6 +2230,10 @@ public class ReceiveCommits {
       gitRefUpdated.fire(project.getNameKey(), newPatchSet.getRefName(),
           ObjectId.zeroId(), newCommit);
       hooks.doPatchsetCreatedHook(change, newPatchSet, db);
+      if (!toAdd.isEmpty()) {
+        hooks.doHashtagsChangedHook(change, currentUser.getAccount(), toAdd,
+            null, updatedHashtags, db);
+      }
       if (mergedIntoRef != null) {
         hooks.doChangeMergedHook(
             change, currentUser.getAccount(), newPatchSet, db);
@@ -2315,10 +2355,53 @@ public class ReceiveCommits {
       markHeadsAsUninteresting(walk, existing, cmd.getRefName());
 
       RevCommit c;
-      while ((c = walk.next()) != null) {
+      Map<Change.Key, Change> byKey = null;
+      SetMultimap<ObjectId, Ref> byCommit = changeRefsById();
+      loopCommits: while ((c = walk.next()) != null) {
         if (existing.contains(c)) {
           continue;
-        } else if (!validCommit(ctl, cmd, c)) {
+        }
+
+        // validate commits before repo updates, thus abort as early as possible
+        // without leaving dirty data (invalid hashtags in commit message) when
+        // git-push bypassing code review need close existing open changes with new patch-set
+        walk.parseBody(c);
+        boolean validated = false;
+        if ((isHead(cmd) || isConfig(cmd)) && byCommit.get(c.copy()).isEmpty()) {
+          for (final String changeId : c.getFooterLines(CHANGE_ID)) {
+            if (byKey == null) {
+              try {
+                byKey = openChangesByKey(new Branch.NameKey(project.getNameKey(),
+                        cmd.getRefName()));
+              } catch (OrmException e1) {
+                String message = "Can't scan for changes to close";
+                log.error(message, e1);
+                reject(cmd, message);
+              }
+            }
+
+            final Change change = byKey.get(new Change.Key(changeId.trim()));
+            if (change != null
+                && !HashtagsUtil.parseCommitMessageHashtags(c).isEmpty()) {
+              if (!notesMigration.enabled()) {
+                reject(cmd, String.format("cannot close change %s:"
+                    + " noteDb is disabled," + " cannot add hashtags for %s",
+                    change.getId().get(), c.getName()));
+                break loopCommits;
+              }
+
+              final ReplaceRequest req =
+                  new ReplaceRequest(change.getId(), c, cmd, false);
+              req.change = change;
+              validated = true;
+              if (!req.validate(true)) {
+                break loopCommits;
+              }
+            }
+          }
+        }
+
+        if (!validated && !validCommit(ctl, cmd, c)) {
           break;
         }
 
@@ -2346,14 +2429,19 @@ public class ReceiveCommits {
   }
 
   private boolean validCommit(final RefControl ctl, final ReceiveCommand cmd,
-      final RevCommit c) {
+      final RevCommit c) throws MissingObjectException, IOException {
+    return validCommit(ctl, cmd, c, null);
+  }
 
+  private boolean validCommit(final RefControl ctl, final ReceiveCommand cmd,
+      final RevCommit c, Change change) throws MissingObjectException,
+      IOException {
     if (validCommits.contains(c)) {
       return true;
     }
 
     CommitReceivedEvent receiveEvent =
-        new CommitReceivedEvent(cmd, project, ctl.getRefName(), c, currentUser);
+        new CommitReceivedEvent(cmd, project, ctl.getRefName(),c, currentUser, change);
     CommitValidators commitValidators =
         commitValidatorsFactory.create(ctl, sshInfo, repo);
 
@@ -2401,7 +2489,6 @@ public class ReceiveCommits {
           if (byKey == null) {
             byKey = openChangesByKey(branch);
           }
-
           final Change onto = byKey.get(new Change.Key(changeId.trim()));
           if (onto != null) {
             final ReplaceRequest req =
@@ -2414,9 +2501,14 @@ public class ReceiveCommits {
       }
 
       for (final ReplaceRequest req : toClose) {
-        final PatchSet.Id psi = req.validate(true)
-            ? req.insertPatchSet().checkedGet()
-            : null;
+        PatchSet.Id psi = null;
+        if (HashtagsUtil.parseCommitMessageHashtags(req.newCommit).isEmpty()) {
+          psi = req.validate(true)
+              ? req.insertPatchSet().checkedGet()
+              : null;
+        } else {
+          psi = req.insertPatchSet().checkedGet();
+        }
         if (psi != null) {
           closeChange(req.inputCommand, psi, req.newCommit);
           closeProgress.update(1);

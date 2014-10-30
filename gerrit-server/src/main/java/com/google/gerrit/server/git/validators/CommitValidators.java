@@ -21,16 +21,20 @@ import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.change.HashtagsUtil;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.git.ReceiveCommits;
 import com.google.gerrit.server.git.ValidationError;
+import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.RefControl;
 import com.google.gerrit.server.ssh.SshInfo;
 import com.google.gerrit.server.util.MagicBranch;
+import com.google.gerrit.server.validators.HashtagValidationListener;
+import com.google.gerrit.server.validators.HashtagsValidationException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
@@ -51,9 +55,11 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 public class CommitValidators {
   private static final Logger log = LoggerFactory
@@ -73,12 +79,16 @@ public class CommitValidators {
   private final SshInfo sshInfo;
   private final Repository repo;
   private final DynamicSet<CommitValidationListener> commitValidationListeners;
+  private final DynamicSet<HashtagValidationListener> hashtagValidationListeners;
+  private final NotesMigration notesMigration;
 
   @Inject
   CommitValidators(@GerritPersonIdent final PersonIdent gerritIdent,
       @CanonicalWebUrl @Nullable final String canonicalWebUrl,
       @GerritServerConfig final Config config,
       final DynamicSet<CommitValidationListener> commitValidationListeners,
+      DynamicSet<HashtagValidationListener> hashtagValidationListeners,
+      NotesMigration notesMigration,
       @Assisted final SshInfo sshInfo,
       @Assisted final Repository repo, @Assisted final RefControl refControl) {
     this.gerritIdent = gerritIdent;
@@ -89,6 +99,8 @@ public class CommitValidators {
     this.sshInfo = sshInfo;
     this.repo = repo;
     this.commitValidationListeners = commitValidationListeners;
+    this.hashtagValidationListeners = hashtagValidationListeners;
+    this.notesMigration = notesMigration;
   }
 
   public List<CommitValidationMessage> validateForReceiveCommits(
@@ -109,6 +121,15 @@ public class CommitValidators {
       validators.add(new ChangeIdValidator(refControl, canonicalWebUrl,
           installCommitMsgHookCommand, sshInfo));
     }
+    if (notesMigration.enabled()
+        && (MagicBranch.isMagicBranch(receiveEvent.command.getRefName())
+            || ReceiveCommits.NEW_PATCHSET.matcher(
+                receiveEvent.command.getRefName()).matches()
+            || receiveEvent.change != null)) {
+      validators.add(new CommitMessageHashtagsValidator(
+          hashtagValidationListeners));
+    }
+
     validators.add(new ConfigValidator(refControl, repo));
     validators.add(new BannedCommitsValidator(rejectCommits));
     validators.add(new PluginCommitValidationListener(commitValidationListeners));
@@ -142,6 +163,14 @@ public class CommitValidators {
             receiveEvent.command.getRefName()).matches()) {
       validators.add(new ChangeIdValidator(refControl, canonicalWebUrl,
           installCommitMsgHookCommand, sshInfo));
+    }
+    if (notesMigration.enabled()
+        && (MagicBranch.isMagicBranch(receiveEvent.command.getRefName())
+            || ReceiveCommits.NEW_PATCHSET.matcher(
+                receiveEvent.command.getRefName()).matches()
+            || receiveEvent.change != null)) {
+      validators.add(new CommitMessageHashtagsValidator(
+          hashtagValidationListeners));
     }
     validators.add(new ConfigValidator(refControl, repo));
     validators.add(new PluginCommitValidationListener(commitValidationListeners));
@@ -520,6 +549,41 @@ public class CommitValidators {
         log.warn(m, e);
         throw new CommitValidationException(m, e);
       }
+    }
+  }
+
+  private static class CommitMessageHashtagsValidator implements
+      CommitValidationListener {
+    private final DynamicSet<HashtagValidationListener> hashtagValidationListeners;
+
+    CommitMessageHashtagsValidator(
+        DynamicSet<HashtagValidationListener> hashtagValidationListeners) {
+      this.hashtagValidationListeners = hashtagValidationListeners;
+    }
+    @Override
+    public List<CommitValidationMessage> onCommitReceived(
+        CommitReceivedEvent receiveEvent) throws CommitValidationException {
+      Set<String> cmhashtags =
+          HashtagsUtil.parseCommitMessageHashtags(receiveEvent.commit);
+      if (!cmhashtags.isEmpty()) {
+        try {
+          for (HashtagValidationListener validator : hashtagValidationListeners) {
+            validator.validateHashtags(receiveEvent.change, cmhashtags, null);
+          }
+        } catch (HashtagsValidationException e) {
+          Set<String> invalidHashtags = e.getInvalidHashtags();
+          StringBuilder message = new StringBuilder();
+          message.append(e.getMessage());
+          if (!invalidHashtags.isEmpty()) {
+            message.append(", invalid hashtags: ");
+            message.append(Arrays.toString(invalidHashtags
+                .toArray(new String[invalidHashtags.size()])));
+          }
+          log.error(message.toString(), e);
+          throw new CommitValidationException(message.toString());
+        }
+      }
+      return Collections.emptyList();
     }
   }
 

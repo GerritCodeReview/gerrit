@@ -15,9 +15,14 @@
 package com.google.gerrit.server.change;
 
 import static com.google.common.base.CharMatcher.WHITESPACE;
+import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_HASHTAGS;
 
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Strings;
+import com.google.common.base.Function;
+import com.google.common.base.Splitter;
+import com.google.common.collect.FluentIterable;
+import com.google.common.collect.Sets;
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.extensions.api.changes.HashtagsInput;
 import com.google.gerrit.extensions.registration.DynamicSet;
@@ -35,9 +40,12 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
+import org.eclipse.jgit.revwalk.RevCommit;
+
 import java.io.IOException;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.regex.Matcher;
@@ -47,6 +55,26 @@ import java.util.regex.Pattern;
 public class HashtagsUtil {
   private static final CharMatcher LEADER = WHITESPACE.or(CharMatcher.is('#'));
   private static final String PATTERN = "(?:\\s|\\A)#[A-Za-z0-9-]+";
+
+  public static Set<String> parseCommitMessageHashtags(RevCommit commit) {
+    List<String> hashtagsLines = commit.getFooterLines(FOOTER_HASHTAGS);
+    if (hashtagsLines.isEmpty()) {
+      return Collections.emptySet();
+    }
+    Set<String> inFooters = Sets.newHashSet();
+    for (String hashtagsLine : hashtagsLines) {
+      inFooters.addAll(FluentIterable
+          .from(Splitter.on(',').omitEmptyStrings().split(hashtagsLine))
+          .transform(new Function<String, String>() {
+            @Override
+            public String apply(String input) {
+              return cleanupHashtag(input);
+            }
+          }).toSet());
+    }
+    inFooters.addAll(extractTags(commit.getFullMessage()));
+    return inFooters;
+  }
 
   private final ChangeUpdate.Factory updateFactory;
   private final Provider<ReviewDb> dbProvider;

@@ -16,6 +16,24 @@
       "revId": "8cc6890c0ae2011cd5392140136060315a7c8aa0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d52b3ac1_69f145fa",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListTags.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-10-30T01:20:30Z",
+      "side": 1,
+      "message": "How likely is it that any exception happens in the block 103-105?  The only one I can see is UnsupportedEncodingException thrown in URL.decode, which is called within id.get().",
+      "parentUuid": "f5bafe9a_6aa7979f",
+      "revId": "8cc6890c0ae2011cd5392140136060315a7c8aa0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

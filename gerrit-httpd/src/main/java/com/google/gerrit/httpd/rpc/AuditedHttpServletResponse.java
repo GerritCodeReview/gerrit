@@ -28,7 +28,7 @@ class AuditedHttpServletResponse
     super(response);
   }
 
-  @Override
+  @SuppressWarnings("all") // @Override for servlet API 3.0+ only.
   public int getStatus() {
     return status;
   }

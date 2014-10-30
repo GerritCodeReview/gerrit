@@ -80,7 +80,7 @@ def gerrit_plugin(
     type = 'plugin',
     visibility = ['PUBLIC']):
   from multiprocessing import cpu_count
-  mf_cmd = 'v=`git describe HEAD`;'
+  mf_cmd = 'v=\$(git describe HEAD);'
   if manifest_file:
     mf_src = [manifest_file]
     mf_cmd += 'sed "s:@VERSION@:$v:g" $SRCS >$OUT'

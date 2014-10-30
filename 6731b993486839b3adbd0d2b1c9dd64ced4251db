@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "95daa231_7fc70f71",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2957,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-30T20:39:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d515fa2f_b9507f9f",
+      "range": {
+        "startLine": 2957,
+        "startChar": 15,
+        "endLine": 2957,
+        "endChar": 73
+      },
+      "revId": "6731b993486839b3adbd0d2b1c9dd64ced4251db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b50a4612_18b76580",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2014-10-29T00:56:16Z",
       "side": 1,
       "message": "\"Use link:\u003csomewhere\u003e[put commit message] and link:\u003csomewhere\u003e[publish edit] instead.\"",
+      "range": {
+        "startLine": 2958,
+        "startChar": 0,
+        "endLine": 2958,
+        "endChar": 62
+      },
+      "revId": "6731b993486839b3adbd0d2b1c9dd64ced4251db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "55dcaa2f_5d3fbbde",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2958,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-30T20:39:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b50a4612_18b76580",
       "range": {
         "startLine": 2958,
         "startChar": 0,

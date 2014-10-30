@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "d52b3ac1_8907593e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-10-30T01:25:44Z",
+      "side": 1,
+      "message": "Or maybe better to add the detail in an issue on the tracker, so we can link to it here and from the release notes.",
+      "parentUuid": "d52b3ac1_a90a1d44",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 16
+      },
+      "revId": "6dfe7aa30c3bcd6d241fef2fac704eb8f9a36d3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d52b3ac1_49f601f4",
         "filename": "gerrit-solr/src/main/java/com/google/gerrit/solr/SolrChangeIndex.java",
         "patchSetId": 1

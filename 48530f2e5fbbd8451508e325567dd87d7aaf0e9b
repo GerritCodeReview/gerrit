@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "95daa231_3fa667cb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 606,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-30T22:16:06Z",
+      "side": 1,
+      "message": "We can do better. On line 619 below you are calling cache.get() method and not passing repo instance that was opened on line 600 above, so that another instance is going to be opened. Just preserve the opened repo instance and close it after cache.get() below was called.",
+      "range": {
+        "startLine": 606,
+        "startChar": 12,
+        "endLine": 606,
+        "endChar": 25
+      },
+      "revId": "48530f2e5fbbd8451508e325567dd87d7aaf0e9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "55dcaa2f_5d741bc3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 621,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-30T22:16:06Z",
+      "side": 1,
+      "message": "This ref logic is repeating in this method invocation. Can\u0027t it be done in the method itself and not in all callers?",
+      "range": {
+        "startLine": 621,
+        "startChar": 12,
+        "endLine": 621,
+        "endChar": 63
+      },
+      "revId": "48530f2e5fbbd8451508e325567dd87d7aaf0e9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -613,6 +613,36 @@ public class ChangeData {
     return mergeable;
   }
 
+  public MergeabilityCache.EntryKey getMergeabilityCacheKey()
+      throws OrmException {
+    Change c = change();
+    PatchSet ps = currentPatchSet();
+    Repository repo = null;
+    try {
+      repo = repoManager.openRepository(c.getProject());
+      Ref ref = repo.getRef(c.getDest().get());
+      SubmitTypeRecord rec = new SubmitRuleEvaluator(this)
+          .getSubmitType();
+      if (rec.status != SubmitTypeRecord.Status.OK) {
+        throw new OrmException(
+            "Error in mergeability check: " + rec.errorMessage);
+      }
+      String mergeStrategy = mergeUtilFactory
+          .create(projectCache.get(c.getProject()))
+          .mergeStrategyName();
+      return new MergeabilityCache.EntryKey(
+          ObjectId.fromString(ps.getRevision().get()),
+          MergeabilityCache.toId(ref), rec.type, mergeStrategy,
+          c.getDest(), repo);
+    } catch (IOException e) {
+      throw new OrmException(e);
+    } finally {
+      if (repo != null) {
+        repo.close();
+      }
+    }
+  }
+
   public boolean isMergeableFromCache() throws OrmException {
     return isMergeableFromCache(change());
   }

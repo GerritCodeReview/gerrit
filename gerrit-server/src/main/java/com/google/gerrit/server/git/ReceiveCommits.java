@@ -26,7 +26,6 @@ import static org.eclipse.jgit.transport.ReceiveCommand.Result.OK;
 import static org.eclipse.jgit.transport.ReceiveCommand.Result.REJECTED_MISSING_OBJECT;
 import static org.eclipse.jgit.transport.ReceiveCommand.Result.REJECTED_NONFASTFORWARD;
 import static org.eclipse.jgit.transport.ReceiveCommand.Result.REJECTED_OTHER_REASON;
-import static org.eclipse.jgit.transport.ReceiveCommand.Type.UPDATE;
 
 import com.google.common.base.Function;
 import com.google.common.base.Joiner;
@@ -76,7 +75,6 @@ import com.google.gerrit.server.ApprovalCopier;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
-import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountResolver;
@@ -368,7 +366,6 @@ public class ReceiveCommits {
       final ChangeInserter.Factory changeInserterFactory,
       final CommitValidators.Factory commitValidatorsFactory,
       @CanonicalWebUrl final String canonicalWebUrl,
-      @GerritPersonIdent final PersonIdent gerritIdent,
       final WorkQueue workQueue,
       @ChangeUpdateExecutor ListeningExecutorService changeUpdateExector,
       final RequestScopePropagator requestScopePropagator,
@@ -598,49 +595,44 @@ public class ReceiveCommits {
 
     for (final ReceiveCommand c : commands) {
         if (c.getResult() == OK) {
-          try {
-            if (c.getType() == UPDATE) { // otherwise known as a fast-forward
-                tagCache.updateFastForward(project.getNameKey(),
-                    c.getRefName(),
-                    c.getOldId(),
-                    c.getNewId());
-            }
-
-            if (isHead(c) || isConfig(c)) {
-              switch (c.getType()) {
-                case CREATE:
-                case UPDATE:
-                case UPDATE_NONFASTFORWARD:
-                  autoCloseChanges(c);
-                  break;
-
-                case DELETE:
-                  break;
-              }
-            }
-
-            if (isConfig(c)) {
-              projectCache.evict(project);
-              ProjectState ps = projectCache.get(project.getNameKey());
-              repoManager.setProjectDescription(project.getNameKey(), //
-                  ps.getProject().getDescription());
-            }
-
-            if (!MagicBranch.isMagicBranch(c.getRefName())) {
-              // We only fire gitRefUpdated for direct refs updates.
-              // Events for change refs are fired when they are created.
-              //
-              gitRefUpdated.fire(project.getNameKey(), c.getRefName(),
-                  c.getOldId(), c.getNewId());
-              hooks.doRefUpdatedHook(
-                  new Branch.NameKey(project.getNameKey(), c.getRefName()),
+          if (c.getType() == ReceiveCommand.Type.UPDATE) { // aka fast-forward
+              tagCache.updateFastForward(project.getNameKey(),
+                  c.getRefName(),
                   c.getOldId(),
-                  c.getNewId(),
-                  currentUser.getAccount());
+                  c.getNewId());
+          }
+
+          if (isHead(c) || isConfig(c)) {
+            switch (c.getType()) {
+              case CREATE:
+              case UPDATE:
+              case UPDATE_NONFASTFORWARD:
+                autoCloseChanges(c);
+                break;
+
+              case DELETE:
+                break;
             }
-          } catch (NoSuchChangeException e) {
-            c.setResult(REJECTED_OTHER_REASON,
-                "No such change: " + e.getMessage());
+          }
+
+          if (isConfig(c)) {
+            projectCache.evict(project);
+            ProjectState ps = projectCache.get(project.getNameKey());
+            repoManager.setProjectDescription(project.getNameKey(), //
+                ps.getProject().getDescription());
+          }
+
+          if (!MagicBranch.isMagicBranch(c.getRefName())) {
+            // We only fire gitRefUpdated for direct refs updates.
+            // Events for change refs are fired when they are created.
+            //
+            gitRefUpdated.fire(project.getNameKey(), c.getRefName(),
+                c.getOldId(), c.getNewId());
+            hooks.doRefUpdatedHook(
+                new Branch.NameKey(project.getNameKey(), c.getRefName()),
+                c.getOldId(),
+                c.getNewId(),
+                currentUser.getAccount());
           }
         }
     }
@@ -1553,7 +1545,7 @@ public class ReceiveCommits {
           return Collections.emptyList();
         }
 
-        List<Change> changes = p.changes.toList();
+        List<Change> changes = p.destChanges.toList();
         if (changes.size() > 1) {
           // WTF, multiple changes in this project have the same key?
           // Since the commit is new, the user should recreate it with
@@ -1636,12 +1628,12 @@ public class ReceiveCommits {
   private class ChangeLookup {
     final RevCommit commit;
     final Change.Key changeKey;
-    final ResultSet<Change> changes;
+    final ResultSet<Change> destChanges;
 
     ChangeLookup(RevCommit c, Change.Key key) throws OrmException {
       commit = c;
       changeKey = key;
-      changes = db.changes().byBranchKey(magicBranch.dest, key);
+      destChanges = db.changes().byBranchKey(magicBranch.dest, key);
     }
   }
 
@@ -2102,7 +2094,7 @@ public class ReceiveCommits {
         approvalsUtil.addReviewers(db, update, labelTypes, change, newPatchSet,
             info, recipients.getReviewers(), oldRecipients.getAll());
         approvalsUtil.addApprovals(db, update, labelTypes, newPatchSet, info,
-            change, changeCtl, approvals);
+            changeCtl, approvals);
         recipients.add(oldRecipients);
 
         cmUtil.addChangeMessage(db, update, newChangeMessage(db));
@@ -2354,7 +2346,7 @@ public class ReceiveCommits {
   }
 
   private boolean validCommit(final RefControl ctl, final ReceiveCommand cmd,
-      final RevCommit c) throws MissingObjectException, IOException {
+      final RevCommit c) {
 
     if (validCommits.contains(c)) {
       return true;
@@ -2377,7 +2369,7 @@ public class ReceiveCommits {
     return true;
   }
 
-  private void autoCloseChanges(final ReceiveCommand cmd) throws NoSuchChangeException {
+  private void autoCloseChanges(final ReceiveCommand cmd) {
     final RevWalk rw = rp.getRevWalk();
     try {
       RevCommit newTip = rw.parseCommit(cmd.getNewId());
@@ -2482,7 +2474,7 @@ public class ReceiveCommits {
     return change.getKey();
   }
 
-  private SetMultimap<ObjectId, Ref> changeRefsById() throws IOException {
+  private SetMultimap<ObjectId, Ref> changeRefsById() {
     if (refsById == null) {
       refsById =  HashMultimap.create();
       for (Ref r : refsByChange().values()) {

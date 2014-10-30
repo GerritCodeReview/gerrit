@@ -24,7 +24,6 @@ import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.common.TimeUtil;
-import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
@@ -250,7 +249,7 @@ public class ChangeUtil {
 
   public Change.Id revert(ChangeControl ctl, PatchSet.Id patchSetId,
       String message, PersonIdent myIdent, SshInfo sshInfo)
-      throws NoSuchChangeException, EmailException, OrmException,
+      throws NoSuchChangeException, OrmException,
       MissingObjectException, IncorrectObjectTypeException, IOException,
       InvalidChangeOperationException {
     Change.Id changeId = patchSetId.getParentKey();

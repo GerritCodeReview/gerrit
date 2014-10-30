@@ -20,18 +20,12 @@ import static org.junit.Assert.assertEquals;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.server.config.AllProjectsNameProvider;
 import com.google.gerrit.server.project.SetParent;
-import com.google.inject.Inject;
 
 import org.apache.http.HttpStatus;
 import org.junit.Test;
 
 public class SetParentIT extends AbstractDaemonTest {
-
-  @Inject
-  private AllProjectsNameProvider allProjects;
-
   @Test
   public void setParent_Forbidden() throws Exception {
     String parent = "parent";

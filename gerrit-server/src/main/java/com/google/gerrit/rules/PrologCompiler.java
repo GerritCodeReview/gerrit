@@ -78,6 +78,7 @@ public class PrologCompiler implements Callable<PrologCompiler.Status> {
     git = gitRepository;
   }
 
+  @Override
   public Status call() throws IOException, CompileException {
     ObjectId metaConfig = git.resolve(RefNames.REFS_CONFIG);
     if (metaConfig == null) {

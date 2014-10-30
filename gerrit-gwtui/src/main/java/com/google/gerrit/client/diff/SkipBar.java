@@ -174,7 +174,7 @@ class SkipBar extends Composite {
   }
 
   @UiHandler("skipNum")
-  void onExpandAll(ClickEvent e) {
+  void onExpandAll(@SuppressWarnings("unused") ClickEvent e) {
     expandAll();
     updateSelection();
     otherBar.updateSelection();
@@ -189,13 +189,13 @@ class SkipBar extends Composite {
   }
 
   @UiHandler("upArrow")
-  void onExpandBefore(ClickEvent e) {
+  void onExpandBefore(@SuppressWarnings("unused") ClickEvent e) {
     expandBefore(NUM_ROWS_TO_EXPAND);
     cm.focus();
   }
 
   @UiHandler("downArrow")
-  void onExpandAfter(ClickEvent e) {
+  void onExpandAfter(@SuppressWarnings("unused") ClickEvent e) {
     expandAfter();
     otherBar.expandAfter();
     manager.getOverviewBar().refresh();

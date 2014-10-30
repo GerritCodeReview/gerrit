@@ -33,6 +33,7 @@ public class AllUsersNameProvider implements Provider<AllUsersName> {
     name = new AllUsersName(n);
   }
 
+  @Override
   public AllUsersName get() {
     return name;
   }

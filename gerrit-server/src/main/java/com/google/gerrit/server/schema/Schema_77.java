@@ -80,7 +80,7 @@ public class Schema_77 extends SchemaVersion {
         alterTable(db, "ALTER TABLE %s MODIFY %s varchar(255)");
       }
       migratePatchSetApprovals(db, labelTypes);
-      migrateLabelsToAllProjects(db, labelTypes);
+      migrateLabelsToAllProjects(labelTypes);
     } catch (RepositoryNotFoundException e) {
       throw new OrmException(e);
     } catch (SQLException e) {
@@ -104,9 +104,8 @@ public class Schema_77 extends SchemaVersion {
     }
   }
 
-  private void migrateLabelsToAllProjects(ReviewDb db,
-      LegacyLabelTypes labelTypes) throws SQLException,
-      RepositoryNotFoundException, IOException, ConfigInvalidException {
+  private void migrateLabelsToAllProjects(LegacyLabelTypes labelTypes)
+      throws RepositoryNotFoundException, IOException, ConfigInvalidException {
     Repository git = mgr.openRepository(allProjects);
 
     try {

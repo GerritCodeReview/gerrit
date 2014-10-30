@@ -26,6 +26,7 @@ final class PluginResourceKey implements ResourceKey {
     this.resource = r;
   }
 
+  @Override
   public int weigh() {
     return resource.length() * 2;
   }

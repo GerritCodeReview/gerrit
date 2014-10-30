@@ -37,10 +37,12 @@ public class ListenableValue<T> implements HasValueChangeHandlers<T> {
     fireEvent(new ValueChangeEvent<T>(value) {});
   }
 
+  @Override
   public void fireEvent(GwtEvent<?> event) {
     manager.fireEvent(event);
   }
 
+  @Override
   public HandlerRegistration addValueChangeHandler(
       ValueChangeHandler<T> handler) {
     return manager.addHandler(ValueChangeEvent.getType(), handler);

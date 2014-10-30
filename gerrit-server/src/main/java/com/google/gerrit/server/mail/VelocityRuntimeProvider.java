@@ -37,6 +37,7 @@ public class VelocityRuntimeProvider implements Provider<RuntimeInstance> {
     this.site = site;
   }
 
+  @Override
   public RuntimeInstance get() {
     String rl = "resource.loader";
     String pkg = "org.apache.velocity.runtime.resource.loader";

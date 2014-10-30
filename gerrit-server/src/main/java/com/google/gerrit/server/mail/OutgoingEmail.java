@@ -128,7 +128,11 @@ public abstract class OutgoingEmail {
   /** Format the message body by calling {@link #appendText(String)}. */
   protected abstract void format() throws EmailException;
 
-  /** Setup the message headers and envelope (TO, CC, BCC). */
+  /**
+   * Setup the message headers and envelope (TO, CC, BCC).
+   *
+   * @throws EmailException if an error occurred.
+   */
   protected void init() throws EmailException {
     setupVelocityContext();
 
@@ -315,6 +319,11 @@ public abstract class OutgoingEmail {
     }
   }
 
+  /**
+   * @param to account.
+   * @throws OrmException
+   * @return whether this email is visible to the given account.
+   */
   protected boolean isVisibleTo(final Account.Id to) throws OrmException {
     return true;
   }

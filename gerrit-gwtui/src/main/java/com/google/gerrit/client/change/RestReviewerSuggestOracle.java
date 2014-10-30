@@ -62,6 +62,7 @@ public class RestReviewerSuggestOracle extends SuggestAfterTypingNCharsOracle {
       this.reviewer = reviewer;
     }
 
+    @Override
     public String getDisplayString() {
       if (reviewer.account() != null) {
         return FormatUtil.nameEmail(reviewer.account());
@@ -72,6 +73,7 @@ public class RestReviewerSuggestOracle extends SuggestAfterTypingNCharsOracle {
           + ")";
     }
 
+    @Override
     public String getReplacementString() {
       if (reviewer.account() != null) {
         return FormatUtil.nameEmail(reviewer.account());

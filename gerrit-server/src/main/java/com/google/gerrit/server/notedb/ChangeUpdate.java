@@ -38,7 +38,6 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.account.AccountCache;
-import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MetaDataUpdate;
@@ -46,7 +45,6 @@ import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.util.LabelVote;
 import com.google.gwtorm.server.OrmException;
-import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 
@@ -110,14 +108,12 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       NotesMigration migration,
       AccountCache accountCache,
       MetaDataUpdate.User updateFactory,
-      DraftCommentNotes.Factory draftNotesFactory,
-      Provider<AllUsersName> allUsers,
       ChangeDraftUpdate.Factory draftUpdateFactory,
       ProjectCache projectCache,
       @Assisted ChangeControl ctl,
       CommentsInNotesUtil commentsUtil) {
     this(serverIdent, anonymousCowardName, repoManager, migration, accountCache,
-        updateFactory, draftNotesFactory, allUsers, draftUpdateFactory,
+        updateFactory, draftUpdateFactory,
         projectCache, ctl, serverIdent.getWhen(), commentsUtil);
   }
 
@@ -129,15 +125,13 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       NotesMigration migration,
       AccountCache accountCache,
       MetaDataUpdate.User updateFactory,
-      DraftCommentNotes.Factory draftNotesFactory,
-      Provider<AllUsersName> allUsers,
       ChangeDraftUpdate.Factory draftUpdateFactory,
       ProjectCache projectCache,
       @Assisted ChangeControl ctl,
       @Assisted Date when,
       CommentsInNotesUtil commentsUtil) {
     this(serverIdent, anonymousCowardName, repoManager, migration, accountCache,
-        updateFactory, draftNotesFactory, allUsers, draftUpdateFactory, ctl,
+        updateFactory, draftUpdateFactory, ctl,
         when,
         projectCache.get(getProjectName(ctl)).getLabelTypes().nameComparator(),
         commentsUtil);
@@ -155,8 +149,6 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       NotesMigration migration,
       AccountCache accountCache,
       MetaDataUpdate.User updateFactory,
-      DraftCommentNotes.Factory draftNotesFactory,
-      Provider<AllUsersName> allUsers,
       ChangeDraftUpdate.Factory draftUpdateFactory,
       @Assisted ChangeControl ctl,
       @Assisted Date when,
@@ -278,7 +270,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     }
   }
 
-  private void upsertDraftComment(PatchLineComment c) throws OrmException {
+  private void upsertDraftComment(PatchLineComment c) {
     createDraftUpdateIfNull(c);
     draftUpdate.upsertComment(c);
   }
@@ -317,7 +309,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     draftUpdate.deleteCommentIfPresent(c);
   }
 
-  private void createDraftUpdateIfNull(PatchLineComment c) throws OrmException {
+  private void createDraftUpdateIfNull(PatchLineComment c) {
     if (draftUpdate == null) {
       draftUpdate = draftUpdateFactory.create(ctl, when);
       if (psId != null) {

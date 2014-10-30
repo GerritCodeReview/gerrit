@@ -36,6 +36,7 @@ class ScriptRunner {
   private final List<String> commands;
 
   static final ScriptRunner NOOP = new ScriptRunner(null, null) {
+    @Override
     void run(final ReviewDb db) {
     }
   };

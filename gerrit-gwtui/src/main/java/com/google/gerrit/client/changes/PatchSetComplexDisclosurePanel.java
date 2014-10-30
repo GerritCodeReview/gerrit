@@ -319,10 +319,12 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel
               patchSet.getId().getParentKey().get(),
               patchSet.getRevision().get(),
               new GerritCallback<SubmitInfo>() {
+                  @Override
                   public void onSuccess(SubmitInfo result) {
                     redisplay();
                   }
 
+                  @Override
                   public void onFailure(Throwable err) {
                     if (SubmitFailureDialog.isConflict(err)) {
                       new SubmitFailureDialog(err.getMessage()).center();
@@ -480,10 +482,12 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel
           b.setEnabled(false);
           ChangeApi.deleteChange(patchSet.getId().getParentKey().get(),
               new GerritCallback<JavaScriptObject>() {
+            @Override
             public void onSuccess(JavaScriptObject result) {
               Gerrit.display(PageLinks.MINE);
             }
 
+            @Override
             public void onFailure(Throwable err) {
               if (SubmitFailureDialog.isConflict(err)) {
                 new SubmitFailureDialog(err.getMessage()).center();
@@ -545,6 +549,7 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel
           final Change.Id id = patchSet.getId().getParentKey();
           ChangeApi.rebase(id.get(), patchSet.getRevision().get(),
               new GerritCallback<ChangeInfo>() {
+                @Override
                 public void onSuccess(ChangeInfo result) {
                   Gerrit.display(PageLinks.toChange(id));
                 }
@@ -691,6 +696,7 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel
 
       Util.DETAIL_SVC.patchSetDetail2(diffBaseId, patchSet.getId(), diffPrefs,
           new GerritCallback<PatchSetDetail>() {
+            @Override
             public void onSuccess(final PatchSetDetail result) {
               loadInfoTable(result);
               loadActionPanel(result);

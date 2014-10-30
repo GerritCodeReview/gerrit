@@ -109,17 +109,17 @@ public class AccessSectionEditor extends Composite implements
   }
 
   @UiHandler("deleteSection")
-  void onDeleteHover(MouseOverEvent event) {
+  void onDeleteHover(@SuppressWarnings("unused") MouseOverEvent event) {
     normal.addClassName(AdminResources.I.css().deleteSectionHover());
   }
 
   @UiHandler("deleteSection")
-  void onDeleteNonHover(MouseOutEvent event) {
+  void onDeleteNonHover(@SuppressWarnings("unused") MouseOutEvent event) {
     normal.removeClassName(AdminResources.I.css().deleteSectionHover());
   }
 
   @UiHandler("deleteSection")
-  void onDeleteSection(ClickEvent event) {
+  void onDeleteSection(@SuppressWarnings("unused") ClickEvent event) {
     isDeleted = true;
 
     if (name.isVisible()
@@ -139,7 +139,7 @@ public class AccessSectionEditor extends Composite implements
   }
 
   @UiHandler("undoDelete")
-  void onUndoDelete(ClickEvent event) {
+  void onUndoDelete(@SuppressWarnings("unused") ClickEvent event) {
     isDeleted = false;
     deleted.getStyle().setDisplay(Display.NONE);
     normal.getStyle().setDisplay(Display.BLOCK);

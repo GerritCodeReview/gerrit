@@ -31,11 +31,8 @@ import com.google.gerrit.extensions.common.SubmitType;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.server.account.GroupCache;
-import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.project.ProjectState;
-import com.google.inject.Inject;
 
 import org.apache.http.HttpStatus;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
@@ -51,13 +48,6 @@ import java.util.Collections;
 import java.util.Set;
 
 public class CreateProjectIT extends AbstractDaemonTest {
-
-  @Inject
-  private GroupCache groupCache;
-
-  @Inject
-  private GitRepositoryManager git;
-
   @Test
   public void testCreateProjectApi() throws Exception {
     final String newProjectName = "newProject";
@@ -214,7 +204,8 @@ public class CreateProjectIT extends AbstractDaemonTest {
 
   private void assertHead(String projectName, String expectedRef)
       throws RepositoryNotFoundException, IOException {
-    Repository repo = git.openRepository(new Project.NameKey(projectName));
+    Repository repo =
+        repoManager.openRepository(new Project.NameKey(projectName));
     try {
       assertEquals(expectedRef, repo.getRef(Constants.HEAD).getTarget()
           .getName());
@@ -225,7 +216,8 @@ public class CreateProjectIT extends AbstractDaemonTest {
 
   private void assertEmptyCommit(String projectName, String... refs)
       throws RepositoryNotFoundException, IOException {
-    Repository repo = git.openRepository(new Project.NameKey(projectName));
+    Repository repo =
+        repoManager.openRepository(new Project.NameKey(projectName));
     RevWalk rw = new RevWalk(repo);
     TreeWalk tw = new TreeWalk(repo);
     try {

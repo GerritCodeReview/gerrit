@@ -60,14 +60,8 @@ public class Schema_81 extends SchemaVersion {
   protected void migrateData(ReviewDb db, UpdateUI ui) throws OrmException,
       SQLException {
     try {
-      migrateStartReplicationCapability(db, scanForReplicationPlugin());
-    } catch (RepositoryNotFoundException e) {
-      throw new OrmException(e);
-    } catch (SQLException e) {
-      throw new OrmException(e);
-    } catch (IOException e) {
-      throw new OrmException(e);
-    } catch (ConfigInvalidException e) {
+      migrateStartReplicationCapability(scanForReplicationPlugin());
+    } catch (IOException | ConfigInvalidException e) {
       throw new OrmException(e);
     }
   }
@@ -87,9 +81,8 @@ public class Schema_81 extends SchemaVersion {
     return matches;
   }
 
-  private void migrateStartReplicationCapability(ReviewDb db, File[] matches)
-      throws SQLException, RepositoryNotFoundException, IOException,
-      ConfigInvalidException {
+  private void migrateStartReplicationCapability(File[] matches)
+      throws RepositoryNotFoundException, IOException, ConfigInvalidException {
     Description d = new Description();
     if (matches == null || matches.length == 0) {
       d.what = Description.Action.REMOVE;
@@ -97,11 +90,11 @@ public class Schema_81 extends SchemaVersion {
       d.what = Description.Action.RENAME;
       d.prefix = nameOf(matches[0]);
     }
-    migrateStartReplicationCapability(db, d);
+    migrateStartReplicationCapability(d);
   }
 
-  private void migrateStartReplicationCapability(ReviewDb db, Description d)
-      throws SQLException, RepositoryNotFoundException, IOException,
+  private void migrateStartReplicationCapability(Description d)
+      throws RepositoryNotFoundException, IOException,
       ConfigInvalidException {
     Repository git = mgr.openRepository(allProjects);
     try {

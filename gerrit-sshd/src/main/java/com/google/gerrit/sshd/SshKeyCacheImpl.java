@@ -90,6 +90,7 @@ public class SshKeyCacheImpl implements SshKeyCache {
     }
   }
 
+  @Override
   public void evict(String username) {
     if (username != null) {
       cache.invalidate(username);

@@ -87,6 +87,7 @@ public class ChangeUserName implements Callable<VoidResult> {
     this.newUsername = newUsername;
   }
 
+  @Override
   public VoidResult call() throws OrmException, NameAlreadyUsedException,
       InvalidUserNameException {
     final Collection<AccountExternalId> old = old();

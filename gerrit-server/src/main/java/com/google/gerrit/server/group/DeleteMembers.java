@@ -77,7 +77,7 @@ public class DeleteMembers implements RestModifyView<GroupResource, Input> {
     for (final String nameOrEmail : input.members) {
       Account a = accounts.parse(nameOrEmail).getAccount();
 
-      if (!control.canRemoveMember(a.getId())) {
+      if (!control.canRemoveMember()) {
         throw new AuthException("Cannot delete member: " + a.getFullName());
       }
 

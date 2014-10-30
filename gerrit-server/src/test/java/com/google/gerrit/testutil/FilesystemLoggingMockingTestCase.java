@@ -170,6 +170,7 @@ public abstract class FilesystemLoggingMockingTestCase extends LoggingMockingTes
     }
   }
 
+  @Override
   public void tearDown() throws Exception {
     cleanupCreatedFiles();
     super.tearDown();

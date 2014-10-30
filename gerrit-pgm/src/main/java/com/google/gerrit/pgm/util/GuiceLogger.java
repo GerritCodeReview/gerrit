@@ -25,6 +25,7 @@ public class GuiceLogger {
   private static final Handler HANDLER;
   static {
     HANDLER = new StreamHandler(System.out, new Formatter() {
+      @Override
       public String format(LogRecord record) {
         return String.format("[Guice %s] %s%n", record.getLevel().getName(),
             record.getMessage());

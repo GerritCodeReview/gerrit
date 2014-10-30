@@ -39,10 +39,11 @@ public class SiteLibraryBasedDataSourceProvider extends DataSourceProvider {
       @GerritServerConfig Config cfg,
       DataSourceProvider.Context ctx,
       DataSourceType dst) {
-    super(site, cfg, ctx, dst);
+    super(cfg, ctx, dst);
     libdir = site.lib_dir;
   }
 
+  @Override
   public synchronized DataSource get() {
     if (!init) {
       SiteLibraryLoaderUtil.loadSiteLib(libdir);

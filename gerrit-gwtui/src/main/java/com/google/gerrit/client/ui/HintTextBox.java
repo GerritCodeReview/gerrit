@@ -43,6 +43,7 @@ public class HintTextBox extends NpTextBox {
   private boolean isFocused;
 
 
+  @Override
   public String getText() {
     if (hintOn) {
       return "";
@@ -50,6 +51,7 @@ public class HintTextBox extends NpTextBox {
     return super.getText();
   }
 
+  @Override
   public void setText(String text) {
     focusHint();
 
@@ -196,6 +198,7 @@ public class HintTextBox extends NpTextBox {
     }
   }
 
+  @Override
   public void setFocus(boolean focus) {
     super.setFocus(focus);
 

@@ -483,22 +483,17 @@ public class LuceneChangeIndex implements ChangeIndex {
     return cd;
   }
 
-  private Document toDocument(ChangeData cd) throws IOException {
-    try {
-      Document result = new Document();
-      for (Values<ChangeData> vs : schema.buildFields(cd, fillArgs)) {
-        if (vs.getValues() != null) {
-          add(result, vs);
-        }
+  private Document toDocument(ChangeData cd) {
+    Document result = new Document();
+    for (Values<ChangeData> vs : schema.buildFields(cd, fillArgs)) {
+      if (vs.getValues() != null) {
+        add(result, vs);
       }
-      return result;
-    } catch (OrmException e) {
-      throw new IOException(e);
     }
+    return result;
   }
 
-  private void add(Document doc, Values<ChangeData> values)
-      throws OrmException {
+  private void add(Document doc, Values<ChangeData> values) {
     String name = values.getField().getName();
     FieldType<?> type = values.getField().getType();
     Store store = store(values.getField());
@@ -517,7 +512,7 @@ public class LuceneChangeIndex implements ChangeIndex {
       if (legacy) {
         for (Object value : values.getValues()) {
           int t = queryBuilder.toIndexTimeInMinutes((Timestamp) value);
-          doc.add(new IntField(name, (int) t, store));
+          doc.add(new IntField(name, t, store));
         }
       } else {
         for (Object value : values.getValues()) {

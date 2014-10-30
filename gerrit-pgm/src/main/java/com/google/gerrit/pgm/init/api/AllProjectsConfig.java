@@ -88,11 +88,11 @@ public class AllProjectsConfig extends VersionedMetaData {
     return this;
   }
 
-  public Config getConfig() throws ConfigInvalidException {
+  public Config getConfig() {
     return cfg;
   }
 
-  public GroupList getGroups() throws ConfigInvalidException {
+  public GroupList getGroups() {
     return groupList;
   }
 

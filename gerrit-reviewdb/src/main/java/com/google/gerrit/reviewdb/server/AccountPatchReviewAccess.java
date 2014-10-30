@@ -25,6 +25,7 @@ import com.google.gwtorm.server.ResultSet;
 
 public interface AccountPatchReviewAccess
     extends Access<AccountPatchReview, AccountPatchReview.Key> {
+  @Override
   @PrimaryKey("key")
   AccountPatchReview get(AccountPatchReview.Key id) throws OrmException;
 

@@ -110,9 +110,11 @@ class SuggestServiceImpl extends BaseServiceImplementation implements
     boolean isVisible(Account account) throws OrmException;
   }
 
+  @Override
   public void suggestAccount(final String query, final Boolean active,
       final int limit, final AsyncCallback<List<AccountInfo>> callback) {
     run(callback, new Action<List<AccountInfo>>() {
+      @Override
       public List<AccountInfo> run(final ReviewDb db) throws OrmException {
         return suggestAccount(db, query, active, limit, new VisibilityControl() {
           @Override
@@ -175,15 +177,18 @@ class SuggestServiceImpl extends BaseServiceImplementation implements
     }
   }
 
+  @Override
   public void suggestAccountGroup(final String query, final int limit,
       final AsyncCallback<List<GroupReference>> callback) {
     suggestAccountGroupForProject(null, query, limit, callback);
   }
 
+  @Override
   public void suggestAccountGroupForProject(final Project.NameKey project,
       final String query, final int limit,
       final AsyncCallback<List<GroupReference>> callback) {
     run(callback, new Action<List<GroupReference>>() {
+      @Override
       public List<GroupReference> run(final ReviewDb db) {
         ProjectControl projectControl = null;
         if (project != null) {
@@ -217,6 +222,7 @@ class SuggestServiceImpl extends BaseServiceImplementation implements
       final String query, final int limit,
       final AsyncCallback<List<ReviewerInfo>> callback) {
     run(callback, new Action<List<ReviewerInfo>>() {
+      @Override
       public List<ReviewerInfo> run(final ReviewDb db)
           throws OrmException, Failure {
         final ChangeControl changeControl;

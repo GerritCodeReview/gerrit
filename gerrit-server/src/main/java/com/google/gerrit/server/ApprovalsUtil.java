@@ -221,11 +221,12 @@ public class ApprovalsUtil {
     return Collections.unmodifiableList(cells);
   }
 
-  public void addApprovals(ReviewDb db, ChangeUpdate update, LabelTypes labelTypes,
-      PatchSet ps, PatchSetInfo info, Change change, ChangeControl changeCtl,
-      Map<String, Short> approvals) throws OrmException {
+  public void addApprovals(ReviewDb db, ChangeUpdate update,
+      LabelTypes labelTypes, PatchSet ps, PatchSetInfo info,
+      ChangeControl changeCtl, Map<String, Short> approvals)
+      throws OrmException {
     if (!approvals.isEmpty()) {
-      checkApprovals(approvals, labelTypes, change, changeCtl);
+      checkApprovals(approvals, changeCtl);
       List<PatchSetApproval> cells = new ArrayList<>(approvals.size());
       Timestamp ts = TimeUtil.nowTs();
       for (Map.Entry<String, Short> vote : approvals.entrySet()) {
@@ -254,8 +255,8 @@ public class ApprovalsUtil {
     }
   }
 
-  private static void checkApprovals(Map<String, Short> approvals, LabelTypes labelTypes,
-      Change change, ChangeControl changeCtl) {
+  private static void checkApprovals(Map<String, Short> approvals,
+      ChangeControl changeCtl) {
     for (Map.Entry<String, Short> vote : approvals.entrySet()) {
       String name = vote.getKey();
       Short value = vote.getValue();

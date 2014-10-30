@@ -80,7 +80,7 @@ class EditFileBox extends Composite {
   }
 
   @UiHandler("save")
-  void onSave(ClickEvent e) {
+  void onSave(@SuppressWarnings("unused") ClickEvent e) {
     ChangeFileApi.putContent(id, file.getText(), content.getText(),
         new AsyncCallback<VoidResult>() {
           @Override
@@ -96,7 +96,7 @@ class EditFileBox extends Composite {
   }
 
   @UiHandler("cancel")
-  void onCancel(ClickEvent e) {
+  void onCancel(@SuppressWarnings("unused") ClickEvent e) {
     hide();
   }
 

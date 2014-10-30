@@ -214,7 +214,7 @@ public class Mergeable implements RestReadView<RevisionResource> {
       SubmitType type,
       Repository git,
       Map<String, Ref> refs,
-      final Ref ref) throws IOException, OrmException {
+      final Ref ref) {
     RevWalk rw = new RevWalk(git) {
       @Override
       protected CodeReviewCommit createCommit(AnyObjectId id) {

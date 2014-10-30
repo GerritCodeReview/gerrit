@@ -104,7 +104,7 @@ public class AddIncludedGroups implements RestModifyView<GroupResource, Input> {
 
     for (String includedGroup : input.groups) {
       GroupDescription.Basic d = groupsCollection.parse(includedGroup);
-      if (!control.canAddGroup(d.getGroupUUID())) {
+      if (!control.canAddGroup()) {
         throw new AuthException(String.format("Cannot add group: %s",
             d.getName()));
       }

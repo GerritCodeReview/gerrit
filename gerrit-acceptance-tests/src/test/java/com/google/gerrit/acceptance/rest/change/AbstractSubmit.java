@@ -39,7 +39,6 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.change.ChangeJson.ChangeInfo;
 import com.google.gerrit.server.change.ChangeJson.LabelInfo;
-import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.PutConfig;
 import com.google.gson.reflect.TypeToken;
@@ -67,10 +66,6 @@ import java.util.Collections;
 import java.util.List;
 
 public abstract class AbstractSubmit extends AbstractDaemonTest {
-
-  @Inject
-  private GitRepositoryManager repoManager;
-
   @Inject
   private ChangeNotes.Factory notesFactory;
 
@@ -212,7 +207,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   }
 
   protected void assertSubmitter(String changeId, int psId)
-      throws OrmException, IOException {
+      throws OrmException {
     ChangeNotes cn = notesFactory.create(
         Iterables.getOnlyElement(db.changes().byKey(new Change.Key(changeId))));
     PatchSetApproval submitter = approvalsUtil.getSubmitter(

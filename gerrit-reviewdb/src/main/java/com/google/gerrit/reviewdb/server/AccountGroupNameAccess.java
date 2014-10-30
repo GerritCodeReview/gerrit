@@ -25,6 +25,7 @@ import com.google.gwtorm.server.ResultSet;
 
 public interface AccountGroupNameAccess extends
     Access<AccountGroupName, AccountGroup.NameKey> {
+  @Override
   @PrimaryKey("name")
   AccountGroupName get(AccountGroup.NameKey name) throws OrmException;
 

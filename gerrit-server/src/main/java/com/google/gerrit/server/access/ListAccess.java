@@ -37,7 +37,6 @@ import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
-import com.google.gerrit.server.group.GroupJson;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectControl;
@@ -78,7 +77,7 @@ public class ListAccess implements RestReadView<TopLevelResource> {
       ProjectCache projectCache, ProjectJson projectJson,
       MetaDataUpdate.Server metaDataUpdateFactory,
       GroupControl.Factory groupControlFactory, GroupBackend groupBackend,
-      GroupJson groupJson, AllProjectsName allProjectsName) {
+      AllProjectsName allProjectsName) {
     this.self = self;
     this.projectControlFactory = projectControlFactory;
     this.projectCache = projectCache;

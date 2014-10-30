@@ -39,14 +39,17 @@ public class EditList {
 
   public Iterable<Hunk> getHunks() {
     return new Iterable<Hunk>() {
+      @Override
       public Iterator<Hunk> iterator() {
         return new Iterator<Hunk>() {
           private int curIdx;
 
+          @Override
           public boolean hasNext() {
             return curIdx < edits.size();
           }
 
+          @Override
           public Hunk next() {
             final int c = curIdx;
             final int e = findCombinedEnd(c);
@@ -54,6 +57,7 @@ public class EditList {
             return new Hunk(c, e);
           }
 
+          @Override
           public void remove() {
             throw new UnsupportedOperationException();
           }

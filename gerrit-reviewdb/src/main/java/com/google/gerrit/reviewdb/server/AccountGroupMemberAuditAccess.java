@@ -25,6 +25,7 @@ import com.google.gwtorm.server.ResultSet;
 
 public interface AccountGroupMemberAuditAccess extends
     Access<AccountGroupMemberAudit, AccountGroupMemberAudit.Key> {
+  @Override
   @PrimaryKey("key")
   AccountGroupMemberAudit get(AccountGroupMemberAudit.Key key)
       throws OrmException;

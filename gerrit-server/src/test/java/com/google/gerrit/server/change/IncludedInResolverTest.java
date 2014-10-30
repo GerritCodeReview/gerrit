@@ -63,6 +63,7 @@ public class IncludedInResolverTest extends RepositoryTestCase {
 
   private RevWalk revWalk;
 
+  @Override
   @Before
   public void setUp() throws Exception {
     super.setUp();
@@ -125,6 +126,7 @@ public class IncludedInResolverTest extends RepositoryTestCase {
         .setAnnotated(true).call();
   }
 
+  @Override
   @After
   public void tearDown() throws Exception {
     revWalk.release();

@@ -242,7 +242,7 @@ class Header extends Composite {
   }
 
   @UiHandler("preferences")
-  void onPreferences(ClickEvent e) {
+  void onPreferences(@SuppressWarnings("unused") ClickEvent e) {
     prefsAction.show();
   }
 
@@ -281,6 +281,7 @@ class Header extends Composite {
 
   Runnable toggleReviewed() {
     return new Runnable() {
+      @Override
       public void run() {
         reviewed.setValue(!reviewed.getValue(), true);
       }

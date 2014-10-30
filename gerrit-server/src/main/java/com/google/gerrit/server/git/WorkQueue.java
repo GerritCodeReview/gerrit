@@ -312,6 +312,7 @@ public class WorkQueue {
       return startTime;
     }
 
+    @Override
     public boolean cancel(boolean mayInterruptIfRunning) {
       if (task.cancel(mayInterruptIfRunning)) {
         // Tiny abuse of running: if the task needs to know it was
@@ -333,35 +334,43 @@ public class WorkQueue {
       }
     }
 
+    @Override
     public int compareTo(Delayed o) {
       return task.compareTo(o);
     }
 
+    @Override
     public V get() throws InterruptedException, ExecutionException {
       return task.get();
     }
 
+    @Override
     public V get(long timeout, TimeUnit unit) throws InterruptedException,
         ExecutionException, TimeoutException {
       return task.get(timeout, unit);
     }
 
+    @Override
     public long getDelay(TimeUnit unit) {
       return task.getDelay(unit);
     }
 
+    @Override
     public boolean isCancelled() {
       return task.isCancelled();
     }
 
+    @Override
     public boolean isDone() {
       return task.isDone();
     }
 
+    @Override
     public boolean isPeriodic() {
       return task.isPeriodic();
     }
 
+    @Override
     public void run() {
       if (running.compareAndSet(false, true)) {
         try {

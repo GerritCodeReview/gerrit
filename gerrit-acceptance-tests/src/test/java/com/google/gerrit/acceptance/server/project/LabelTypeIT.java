@@ -25,12 +25,10 @@ import com.google.gerrit.extensions.api.changes.CherryPickInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.LabelInfo;
-import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.testutil.ConfigSuite;
-import com.google.inject.Inject;
 
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Repository;
@@ -43,9 +41,6 @@ public class LabelTypeIT extends AbstractDaemonTest {
   public static Config noteDbEnabled() {
     return NotesMigration.allEnabledConfig();
   }
-
-  @Inject
-  private GitRepositoryManager repoManager;
 
   private LabelType codeReview;
 

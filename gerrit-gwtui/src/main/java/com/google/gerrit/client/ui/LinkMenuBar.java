@@ -86,6 +86,7 @@ public class LinkMenuBar extends Composite implements ScreenLoadHandler {
     return body.getWidgetIndex(i);
   }
 
+  @Override
   public void onScreenLoad(ScreenLoadEvent event) {
   }
 }

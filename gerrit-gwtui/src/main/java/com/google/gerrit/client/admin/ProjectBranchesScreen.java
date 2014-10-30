@@ -316,6 +316,7 @@ public class ProjectBranchesScreen extends ProjectScreen {
     private void deleteBranches(final Set<String> branches) {
       ProjectApi.deleteBranches(getProjectKey(), branches,
           new GerritCallback<VoidResult>() {
+            @Override
             public void onSuccess(VoidResult result) {
               for (int row = 1; row < table.getRowCount();) {
                 BranchInfo k = getRowItem(row);

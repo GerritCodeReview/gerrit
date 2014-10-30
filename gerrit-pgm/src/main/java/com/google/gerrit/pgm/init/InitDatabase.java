@@ -53,6 +53,7 @@ class InitDatabase implements InitStep {
     this.database = sections.get("database", null);
   }
 
+  @Override
   public void run() {
     ui.header("SQL Database");
 

@@ -67,7 +67,7 @@ class MessageOfTheDayBar extends Composite {
   }
 
   @UiHandler("dismiss")
-  void onDismiss(ClickEvent e) {
+  void onDismiss(@SuppressWarnings("unused") ClickEvent e) {
     removeFromParent();
 
     for (HostPageData.Message m : motd) {

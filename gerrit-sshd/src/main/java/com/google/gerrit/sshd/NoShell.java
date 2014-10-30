@@ -54,6 +54,7 @@ class NoShell implements Factory<Command> {
     this.shell = shell;
   }
 
+  @Override
   public Command create() {
     return shell.get();
   }
@@ -77,27 +78,33 @@ class NoShell implements Factory<Command> {
       this.sshScope = sshScope;
     }
 
+    @Override
     public void setInputStream(final InputStream in) {
       this.in = in;
     }
 
+    @Override
     public void setOutputStream(final OutputStream out) {
       this.out = out;
     }
 
+    @Override
     public void setErrorStream(final OutputStream err) {
       this.err = err;
     }
 
+    @Override
     public void setExitCallback(final ExitCallback callback) {
       this.exit = callback;
     }
 
+    @Override
     public void setSession(final ServerSession session) {
       SshSession s = session.getAttribute(SshSession.KEY);
       this.context = sshScope.newContext(schemaFactory, s, "");
     }
 
+    @Override
     public void start(final Environment env) throws IOException {
       Context old = sshScope.set(context);
       String message;
@@ -115,6 +122,7 @@ class NoShell implements Factory<Command> {
       exit.onExit(127);
     }
 
+    @Override
     public void destroy() {
     }
   }

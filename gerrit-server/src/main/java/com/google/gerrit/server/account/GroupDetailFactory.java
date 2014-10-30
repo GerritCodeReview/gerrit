@@ -92,6 +92,7 @@ public class GroupDetailFactory implements Callable<GroupDetail> {
     }
 
     Collections.sort(members, new Comparator<AccountGroupMember>() {
+      @Override
       public int compare(final AccountGroupMember o1,
           final AccountGroupMember o2) {
         final Account a = aic.get(o1.getAccountId());
@@ -120,13 +121,14 @@ public class GroupDetailFactory implements Callable<GroupDetail> {
     List<AccountGroupById> groups = new ArrayList<>();
 
     for (final AccountGroupById m : db.accountGroupById().byGroup(groupId)) {
-      if (control.canSeeGroup(m.getIncludeUUID())) {
+      if (control.canSeeGroup()) {
         gic.want(m.getIncludeUUID());
         groups.add(m);
       }
     }
 
     Collections.sort(groups, new Comparator<AccountGroupById>() {
+      @Override
       public int compare(final AccountGroupById o1,
           final AccountGroupById o2) {
         GroupDescription.Basic a = gic.get(o1.getIncludeUUID());

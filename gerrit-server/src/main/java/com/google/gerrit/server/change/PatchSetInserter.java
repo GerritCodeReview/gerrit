@@ -179,8 +179,7 @@ public class PatchSetInserter {
     return this;
   }
 
-  public PatchSetInserter setMessage(ChangeMessage changeMessage)
-      throws OrmException {
+  public PatchSetInserter setMessage(ChangeMessage changeMessage) {
     this.changeMessage = changeMessage;
     return this;
   }

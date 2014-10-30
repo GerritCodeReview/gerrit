@@ -52,6 +52,7 @@ public class FastForwardOnly extends SubmitStrategy {
     return false;
   }
 
+  @Override
   public boolean dryRun(final CodeReviewCommit mergeTip,
       final CodeReviewCommit toMerge) throws MergeException {
     return args.mergeUtil.canFastForward(args.mergeSorter, mergeTip, args.rw,

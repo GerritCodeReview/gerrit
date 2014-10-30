@@ -402,7 +402,7 @@ class GitWebServlet extends HttpServlet {
     }
     try {
       CacheHeaders.setNotCacheable(rsp);
-      exec(req, rsp, project, repo);
+      exec(req, rsp, project);
     } finally {
       repo.close();
     }
@@ -435,8 +435,7 @@ class GitWebServlet extends HttpServlet {
   }
 
   private void exec(final HttpServletRequest req,
-      final HttpServletResponse rsp, final ProjectControl project,
-      final Repository repo) throws IOException {
+      final HttpServletResponse rsp, final ProjectControl project) throws IOException {
     final Process proc =
         Runtime.getRuntime().exec(new String[] {gitwebCgi.getAbsolutePath()},
             makeEnv(req, project),
@@ -595,6 +594,7 @@ class GitWebServlet extends HttpServlet {
     final int contentLength = req.getContentLength();
     final InputStream src = req.getInputStream();
     new Thread(new Runnable() {
+      @Override
       public void run() {
         try {
           try {
@@ -621,6 +621,7 @@ class GitWebServlet extends HttpServlet {
 
   private void copyStderrToLog(final InputStream in) {
     new Thread(new Runnable() {
+      @Override
       public void run() {
         try {
           final BufferedReader br =

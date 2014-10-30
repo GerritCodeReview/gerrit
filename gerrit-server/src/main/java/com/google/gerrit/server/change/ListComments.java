@@ -37,6 +37,7 @@ class ListComments extends ListDrafts {
     return true;
   }
 
+  @Override
   protected Iterable<PatchLineComment> listComments(RevisionResource rsrc)
       throws OrmException {
     ChangeNotes notes = rsrc.getNotes();

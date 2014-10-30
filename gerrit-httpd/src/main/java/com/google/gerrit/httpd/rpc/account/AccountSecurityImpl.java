@@ -120,18 +120,22 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
     }
   }
 
+  @Override
   public void myExternalIds(AsyncCallback<List<AccountExternalId>> callback) {
     externalIdDetailFactory.create().to(callback);
   }
 
+  @Override
   public void deleteExternalIds(final Set<AccountExternalId.Key> keys,
       final AsyncCallback<Set<AccountExternalId.Key>> callback) {
     deleteExternalIdsFactory.create(keys).to(callback);
   }
 
+  @Override
   public void updateContact(final String name, final String emailAddr,
       final ContactInformation info, final AsyncCallback<Account> callback) {
     run(callback, new Action<Account>() {
+      @Override
       public Account run(ReviewDb db) throws OrmException, Failure {
         IdentifiedUser self = user.get();
         final Account me = db.accounts().get(self.getAccountId());
@@ -175,9 +179,11 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
     return a != null && a.equals(b);
   }
 
+  @Override
   public void enterAgreement(final String agreementName,
       final AsyncCallback<VoidResult> callback) {
     run(callback, new Action<VoidResult>() {
+      @Override
       public VoidResult run(final ReviewDb db) throws OrmException, Failure {
         ContributorAgreement ca = projectCache.getAllProjects().getConfig()
             .getContributorAgreement(agreementName);
@@ -216,6 +222,7 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
     });
   }
 
+  @Override
   public void validateEmail(final String tokenString,
       final AsyncCallback<VoidResult> callback) {
     try {

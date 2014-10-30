@@ -156,6 +156,7 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
     return basePath;
   }
 
+  @Override
   public Repository openRepository(Project.NameKey name)
       throws RepositoryNotFoundException {
     return openRepository(basePath, name);
@@ -202,6 +203,7 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
     }
   }
 
+  @Override
   public Repository createRepository(Project.NameKey name)
       throws RepositoryNotFoundException, RepositoryCaseMismatchException {
     Repository repo = createRepository(basePath, name);
@@ -277,6 +279,7 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
     }
   }
 
+  @Override
   public String getProjectDescription(final Project.NameKey name)
       throws RepositoryNotFoundException, IOException {
     final Repository e = openRepository(name);
@@ -309,6 +312,7 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
     return description;
   }
 
+  @Override
   public void setProjectDescription(final Project.NameKey name,
       final String description) {
     // Update git's description file, in case gitweb is being used

@@ -131,7 +131,7 @@ final class GerritJsonServlet extends JsonServlet<GerritJsonServlet.GerritCall> 
       if (method == null) {
         return;
       }
-      Audit note = (Audit) method.getAnnotation(Audit.class);
+      Audit note = method.getAnnotation(Audit.class);
       if (note != null) {
         final String sid = call.getWebSession().getSessionId();
         final CurrentUser username = call.getWebSession().getCurrentUser();

@@ -25,7 +25,6 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.change.DeleteDraftChange.Input;
 import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -48,7 +47,6 @@ public class DeleteDraftChange implements
 
   @Inject
   public DeleteDraftChange(Provider<ReviewDb> dbProvider,
-      PatchSetInfoFactory patchSetInfoFactory,
       ChangeUtil changeUtil,
       @GerritServerConfig Config cfg) {
     this.dbProvider = dbProvider;

@@ -116,6 +116,7 @@ class UsernameField extends Composite {
 
     Util.ACCOUNT_SEC.changeUserName(newUserName,
         new GerritCallback<VoidResult>() {
+          @Override
           public void onSuccess(final VoidResult result) {
             Gerrit.getUserAccount().setUserName(newUserName);
             userNameLbl.setText(newUserName);

@@ -29,5 +29,6 @@ interface Buffer {
 
   void append(String v);
 
+  @Override
   String toString();
 }

@@ -35,6 +35,7 @@ import javax.servlet.http.HttpServletResponse;
 class HiddenErrorHandler extends ErrorHandler {
   private static final Logger log = LoggerFactory.getLogger(HiddenErrorHandler.class);
 
+  @Override
   public void handle(String target, Request baseRequest,
       HttpServletRequest req, HttpServletResponse res) throws IOException {
     HttpConnection conn = HttpConnection.getCurrentConnection();

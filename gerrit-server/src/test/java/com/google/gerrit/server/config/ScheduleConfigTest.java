@@ -20,7 +20,6 @@ import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.MINUTES;
 import static org.junit.Assert.assertEquals;
 
-import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
 import org.joda.time.DateTime;
 import org.junit.Test;
@@ -57,7 +56,7 @@ public class ScheduleConfigTest {
   }
 
   @Test
-  public void testCustomKeys() throws ConfigInvalidException {
+  public void testCustomKeys() {
     Config rc = new Config();
     rc.setString("a", "b", "i", "1h");
     rc.setString("a", "b", "s", "01:00");
@@ -71,15 +70,13 @@ public class ScheduleConfigTest {
     assertEquals(s.getInitialDelay(), ScheduleConfig.MISSING_CONFIG);
   }
 
-  private static long initialDelay(String startTime, String interval)
-      throws ConfigInvalidException {
+  private static long initialDelay(String startTime, String interval) {
     return new ScheduleConfig(
         config(startTime, interval),
         "section", "subsection", NOW).getInitialDelay();
   }
 
-  private static Config config(String startTime, String interval)
-      throws ConfigInvalidException {
+  private static Config config(String startTime, String interval) {
     Config rc = new Config();
     rc.setString("section", "subsection", "startTime", startTime);
     rc.setString("section", "subsection", "interval", interval);

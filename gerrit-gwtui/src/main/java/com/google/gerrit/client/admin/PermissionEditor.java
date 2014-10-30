@@ -145,31 +145,31 @@ public class PermissionEditor extends Composite implements Editor<Permission>,
   }
 
   @UiHandler("deletePermission")
-  void onDeleteHover(MouseOverEvent event) {
+  void onDeleteHover(@SuppressWarnings("unused") MouseOverEvent event) {
     addStyleName(AdminResources.I.css().deleteSectionHover());
   }
 
   @UiHandler("deletePermission")
-  void onDeleteNonHover(MouseOutEvent event) {
+  void onDeleteNonHover(@SuppressWarnings("unused") MouseOutEvent event) {
     removeStyleName(AdminResources.I.css().deleteSectionHover());
   }
 
   @UiHandler("deletePermission")
-  void onDeletePermission(ClickEvent event) {
+  void onDeletePermission(@SuppressWarnings("unused") ClickEvent event) {
     isDeleted = true;
     normal.getStyle().setDisplay(Display.NONE);
     deleted.getStyle().setDisplay(Display.BLOCK);
   }
 
   @UiHandler("undoDelete")
-  void onUndoDelete(ClickEvent event) {
+  void onUndoDelete(@SuppressWarnings("unused") ClickEvent event) {
     isDeleted = false;
     deleted.getStyle().setDisplay(Display.NONE);
     normal.getStyle().setDisplay(Display.BLOCK);
   }
 
   @UiHandler("beginAddRule")
-  void onBeginAddRule(ClickEvent event) {
+  void onBeginAddRule(@SuppressWarnings("unused") ClickEvent event) {
     beginAddRule();
   }
 
@@ -186,7 +186,7 @@ public class PermissionEditor extends Composite implements Editor<Permission>,
   }
 
   @UiHandler("addRule")
-  void onAddGroupByClick(ClickEvent event) {
+  void onAddGroupByClick(@SuppressWarnings("unused") ClickEvent event) {
     GroupReference ref = groupToAdd.getValue();
     if (ref != null) {
       addGroup(ref);
@@ -204,12 +204,13 @@ public class PermissionEditor extends Composite implements Editor<Permission>,
   }
 
   @UiHandler("groupToAdd")
-  void onAbortAddGroup(CloseEvent<GroupReferenceBox> event) {
+  void onAbortAddGroup(
+      @SuppressWarnings("unused") CloseEvent<GroupReferenceBox> event) {
     hideAddGroup();
   }
 
   @UiHandler("hideAddGroup")
-  void hideAddGroup(ClickEvent event) {
+  void hideAddGroup(@SuppressWarnings("unused") ClickEvent event) {
     hideAddGroup();
   }
 

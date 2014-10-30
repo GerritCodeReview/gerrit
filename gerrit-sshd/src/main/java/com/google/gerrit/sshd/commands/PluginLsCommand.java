@@ -35,6 +35,7 @@ final class PluginLsCommand extends SshCommand {
     impl.display(stdout);
   }
 
+  @Override
   protected void parseCommandLine() throws UnloggedFailure {
     parseCommandLine(impl);
   }

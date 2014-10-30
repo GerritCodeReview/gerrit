@@ -49,7 +49,6 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 @Singleton
@@ -157,8 +156,7 @@ class DashboardsCollection implements
   }
 
   static DashboardInfo parse(Project definingProject, String refName,
-      String path, Config config, String project, boolean setDefault)
-      throws UnsupportedEncodingException {
+      String path, Config config, String project, boolean setDefault) {
     DashboardInfo info = new DashboardInfo(refName, path);
     info.project = project;
     info.definingProject = definingProject.getName();
@@ -220,8 +218,7 @@ class DashboardsCollection implements
     String title;
     List<Section> sections = Lists.newArrayList();
 
-    DashboardInfo(String ref, String name)
-        throws UnsupportedEncodingException {
+    DashboardInfo(String ref, String name) {
       this.ref = ref;
       this.path = name;
       this.id = Joiner.on(':').join(Url.encode(ref), Url.encode(path));

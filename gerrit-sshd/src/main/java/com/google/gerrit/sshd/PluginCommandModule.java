@@ -38,6 +38,7 @@ public abstract class PluginCommandModule extends CommandModule {
 
   protected abstract void configureCommands();
 
+  @Override
   protected LinkedBindingBuilder<Command> command(String subCmd) {
     return bind(Commands.key(command, subCmd));
   }

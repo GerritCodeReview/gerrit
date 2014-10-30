@@ -22,7 +22,7 @@ import com.google.gwtorm.server.OrmException;
 import java.util.List;
 
 class RegexPathPredicate extends RegexPredicate<ChangeData> {
-  RegexPathPredicate(String fieldName, String re) {
+  RegexPathPredicate(String re) {
     super(ChangeField.PATH, re);
   }
 

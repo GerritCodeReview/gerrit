@@ -34,13 +34,16 @@ public class BlindSSLSocketFactory extends SSLSocketFactory {
 
   static {
     final X509TrustManager dummyTrustManager = new X509TrustManager() {
+      @Override
       public X509Certificate[] getAcceptedIssuers() {
         return null;
       }
 
+      @Override
       public void checkClientTrusted(X509Certificate[] chain, String authType) {
       }
 
+      @Override
       public void checkServerTrusted(X509Certificate[] chain, String authType) {
       }
     };

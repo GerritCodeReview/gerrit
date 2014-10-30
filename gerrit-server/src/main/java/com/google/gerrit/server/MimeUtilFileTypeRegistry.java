@@ -92,6 +92,7 @@ public class MimeUtilFileTypeRegistry implements FileTypeRegistry {
     return mimeType.getSpecificity();
   }
 
+  @Override
   @SuppressWarnings("unchecked")
   public MimeType getMimeType(final String path, final byte[] content) {
     Set<MimeType> mimeTypes = new HashSet<>();
@@ -122,6 +123,7 @@ public class MimeUtilFileTypeRegistry implements FileTypeRegistry {
     return types.get(0);
   }
 
+  @Override
   public boolean isSafeInline(final MimeType type) {
     if (MimeUtil2.UNKNOWN_MIME_TYPE.equals(type)) {
       // Most browsers perform content type sniffing when they get told

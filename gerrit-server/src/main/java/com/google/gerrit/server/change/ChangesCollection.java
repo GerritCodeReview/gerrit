@@ -95,7 +95,7 @@ public class ChangesCollection implements
         IdString.fromUrl(Integer.toString(id.get())));
   }
 
-  public ChangeResource parse(ChangeControl control) throws OrmException {
+  public ChangeResource parse(ChangeControl control) {
     return new ChangeResource(control);
   }
 

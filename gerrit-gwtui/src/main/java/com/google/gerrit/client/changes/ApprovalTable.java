@@ -254,6 +254,7 @@ public class ApprovalTable extends Composite {
     ChangeApi.reviewers(lastChange.legacy_id().get()).post(
         PostInput.create(reviewer, confirmed),
         new GerritCallback<PostResult>() {
+          @Override
           public void onSuccess(PostResult result) {
             addMemberBox.setEnabled(true);
             addMemberBox.setText("");

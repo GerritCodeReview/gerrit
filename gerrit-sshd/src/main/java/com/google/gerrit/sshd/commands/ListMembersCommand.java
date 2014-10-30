@@ -18,9 +18,7 @@ import static com.google.gerrit.sshd.CommandMetaData.Mode.MASTER_OR_SLAVE;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
-import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountInfo;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.account.GroupDetailFactory.Factory;
@@ -64,13 +62,12 @@ public class ListMembersCommand extends SshCommand {
     @Inject
     protected ListMembersCommandImpl(GroupCache groupCache,
         Factory groupDetailFactory,
-        AccountInfo.Loader.Factory accountLoaderFactory,
-        AccountCache accountCache) {
+        AccountInfo.Loader.Factory accountLoaderFactory) {
       super(groupCache, groupDetailFactory, accountLoaderFactory);
       this.groupCache = groupCache;
     }
 
-    void display(PrintWriter writer) throws UnloggedFailure, OrmException {
+    void display(PrintWriter writer) throws OrmException {
       AccountGroup group = groupCache.get(new AccountGroup.NameKey(name));
       String errorText = "Group not found or not visible\n";
 
@@ -80,33 +77,28 @@ public class ListMembersCommand extends SshCommand {
         return;
       }
 
-      try {
-        List<AccountInfo> members = apply(group.getGroupUUID());
-        ColumnFormatter formatter = new ColumnFormatter(writer, '\t');
-        formatter.addColumn("id");
-        formatter.addColumn("username");
-        formatter.addColumn("full name");
-        formatter.addColumn("email");
-        formatter.nextLine();
-        for (AccountInfo member : members) {
-          if (member == null) {
-            continue;
-          }
-
-          formatter.addColumn(member._id.toString());
-          formatter.addColumn(MoreObjects.firstNonNull(
-              member.username, "n/a"));
-          formatter.addColumn(MoreObjects.firstNonNull(
-              Strings.emptyToNull(member.name), "n/a"));
-          formatter.addColumn(MoreObjects.firstNonNull(member.email, "n/a"));
-          formatter.nextLine();
+      List<AccountInfo> members = apply(group.getGroupUUID());
+      ColumnFormatter formatter = new ColumnFormatter(writer, '\t');
+      formatter.addColumn("id");
+      formatter.addColumn("username");
+      formatter.addColumn("full name");
+      formatter.addColumn("email");
+      formatter.nextLine();
+      for (AccountInfo member : members) {
+        if (member == null) {
+          continue;
         }
 
-        formatter.finish();
-      } catch (MethodNotAllowedException e) {
-        writer.write(errorText);
-        writer.flush();
+        formatter.addColumn(member._id.toString());
+        formatter.addColumn(MoreObjects.firstNonNull(
+            member.username, "n/a"));
+        formatter.addColumn(MoreObjects.firstNonNull(
+            Strings.emptyToNull(member.name), "n/a"));
+        formatter.addColumn(MoreObjects.firstNonNull(member.email, "n/a"));
+        formatter.nextLine();
       }
+
+      formatter.finish();
     }
   }
 }

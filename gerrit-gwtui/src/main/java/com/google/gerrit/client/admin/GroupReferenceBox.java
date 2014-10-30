@@ -133,6 +133,7 @@ public class GroupReferenceBox extends Composite implements
     suggestBox.setTabIndex(index);
   }
 
+  @Override
   public void setFocus(boolean focused) {
     suggestBox.setFocus(focused);
   }

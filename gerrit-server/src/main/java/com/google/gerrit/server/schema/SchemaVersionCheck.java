@@ -52,6 +52,7 @@ public class SchemaVersionCheck implements LifecycleListener {
     this.version = version;
   }
 
+  @Override
   public void start() {
     try {
       final ReviewDb db = schema.open();
@@ -84,6 +85,7 @@ public class SchemaVersionCheck implements LifecycleListener {
     }
   }
 
+  @Override
   public void stop() {
   }
 

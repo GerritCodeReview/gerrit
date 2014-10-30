@@ -107,11 +107,13 @@ class AttMap {
   }
 
   private static class AnyTag implements Tag {
+    @Override
     public void assertSafe(String name, String value) {
     }
   }
 
   private static class AnchorTag implements Tag {
+    @Override
     public void assertSafe(String name, String value) {
       if ("href".equals(name)) {
         assertNotJavascriptUrl(value);
@@ -120,6 +122,7 @@ class AttMap {
   }
 
   private static class FormTag implements Tag {
+    @Override
     public void assertSafe(String name, String value) {
       if ("action".equals(name)) {
         assertNotJavascriptUrl(value);
@@ -128,6 +131,7 @@ class AttMap {
   }
 
   private static class SrcTag implements Tag {
+    @Override
     public void assertSafe(String name, String value) {
       if ("src".equals(name)) {
         assertNotJavascriptUrl(value);

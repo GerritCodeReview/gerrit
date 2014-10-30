@@ -89,7 +89,7 @@ public class ChangeEditUtil {
    * @throws IOException
    */
   public Optional<ChangeEdit> byChange(Change change)
-      throws AuthException, IOException, InvalidChangeOperationException {
+      throws AuthException, IOException {
     if (!user.get().isIdentifiedUser()) {
       throw new AuthException("Authentication required");
     }
@@ -148,8 +148,7 @@ public class ChangeEditUtil {
         }
 
         insertPatchSet(edit, change, repo, rw, basePatchSet,
-            squashEdit(repo, rw, inserter, edit.getEditCommit(),
-                basePatchSet));
+            squashEdit(rw, inserter, edit.getEditCommit(), basePatchSet));
       } finally {
         inserter.release();
         rw.release();
@@ -180,7 +179,7 @@ public class ChangeEditUtil {
   }
 
   private PatchSet getBasePatchSet(Change change, Ref ref)
-      throws IOException, InvalidChangeOperationException {
+      throws IOException {
     try {
       int pos = ref.getName().lastIndexOf("/");
       checkArgument(pos > 0, "invalid edit ref: %s", ref.getName());
@@ -220,8 +219,8 @@ public class ChangeEditUtil {
         changeId.get());
   }
 
-  private RevCommit squashEdit(Repository repo, RevWalk rw,
-      ObjectInserter inserter, RevCommit edit, PatchSet basePatchSet)
+  private RevCommit squashEdit(RevWalk rw, ObjectInserter inserter,
+      RevCommit edit, PatchSet basePatchSet)
       throws IOException, ResourceConflictException {
     RevCommit parent = rw.parseCommit(ObjectId.fromString(
         basePatchSet.getRevision().get()));

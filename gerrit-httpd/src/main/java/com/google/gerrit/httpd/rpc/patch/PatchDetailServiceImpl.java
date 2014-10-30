@@ -47,6 +47,7 @@ class PatchDetailServiceImpl extends BaseServiceImplementation implements
     this.changeControlFactory = changeControlFactory;
   }
 
+  @Override
   public void patchScript(final Patch.Key patchKey, final PatchSet.Id psa,
       final PatchSet.Id psb, final AccountDiffPreference dp,
       final AsyncCallback<PatchScript> callback) {

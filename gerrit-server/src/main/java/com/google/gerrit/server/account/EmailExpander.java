@@ -65,6 +65,7 @@ public interface EmailExpander {
       return !user.contains(" ");
     }
 
+    @Override
     public String expand(final String user) {
       return lhs + user + rhs;
     }

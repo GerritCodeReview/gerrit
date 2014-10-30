@@ -31,7 +31,6 @@ import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.edit.ChangeEdit;
 import com.google.gerrit.server.edit.ChangeEditUtil;
-import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -163,7 +162,7 @@ public class Revisions implements ChildCollection<ChangeResource, RevisionResour
               new RevisionResource(change, ps, edit));
         }
       }
-    } catch (AuthException | IOException | InvalidChangeOperationException e) {
+    } catch (AuthException | IOException e) {
       throw new OrmException(e);
     }
     return Collections.emptyList();

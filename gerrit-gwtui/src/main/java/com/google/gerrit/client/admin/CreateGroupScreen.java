@@ -128,6 +128,7 @@ public class CreateGroupScreen extends Screen {
 
     addNew.setEnabled(false);
     GroupApi.createGroup(newName, new GerritCallback<GroupInfo>() {
+      @Override
       public void onSuccess(final GroupInfo result) {
         History.newItem(Dispatcher.toGroup(result.getGroupId(),
             AccountGroupScreen.MEMBERS));

@@ -36,6 +36,7 @@ class InitGitManager implements InitStep {
     this.gerrit = sections.get("gerrit", null);
   }
 
+  @Override
   public void run() {
     ui.header("Git Repositories");
 

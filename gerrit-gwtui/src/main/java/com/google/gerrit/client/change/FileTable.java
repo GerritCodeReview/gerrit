@@ -93,6 +93,7 @@ public class FileTable extends FlowPanel {
 
   public static enum Mode {
     REVIEW,
+    @SuppressWarnings("hiding")
     EDIT
   }
 
@@ -460,7 +461,7 @@ public class FileTable extends FlowPanel {
 
   private final class DisplayCommand implements RepeatingCommand {
     private final SafeHtmlBuilder sb = new SafeHtmlBuilder();
-    private final MyTable table;
+    private final MyTable myTable;
     private final JsArray<FileInfo> list;
     private final Timestamp myLastReply;
     private final NativeMap<JsArray<CommentInfo>> comments;
@@ -482,16 +483,17 @@ public class FileTable extends FlowPanel {
         NativeMap<JsArray<CommentInfo>> comments,
         NativeMap<JsArray<CommentInfo>> drafts,
         Mode mode) {
-      this.table = new MyTable(map, list);
+      this.myTable = new MyTable(map, list);
       this.list = list;
       this.myLastReply = myLastReply;
       this.comments = comments;
       this.drafts = drafts;
       this.hasUser = Gerrit.isSignedIn();
       this.mode = mode;
-      table.addStyleName(R.css().table());
+      myTable.addStyleName(R.css().table());
     }
 
+    @Override
     public boolean execute() {
       boolean attachedNow = isAttached();
       if (!attached && attachedNow) {
@@ -519,9 +521,9 @@ public class FileTable extends FlowPanel {
         }
       }
       footer(sb);
-      table.resetHtml(sb);
-      table.finishDisplay();
-      setTable(table);
+      myTable.resetHtml(sb);
+      myTable.finishDisplay();
+      setTable(myTable);
       return false;
     }
 

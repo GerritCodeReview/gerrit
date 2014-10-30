@@ -44,26 +44,32 @@ public abstract class SafeHtml
         @Override
         public SafeHtmlCss css() {
           return new SafeHtmlCss() {
+            @Override
             public String wikiList() {
               return "wikiList";
             }
 
+            @Override
             public String wikiPreFormat() {
               return "wikiPreFormat";
             }
 
+            @Override
             public String wikiQuote() {
               return "wikiQuote";
             }
 
+            @Override
             public boolean ensureInjected() {
               return false;
             }
 
+            @Override
             public String getName() {
               return null;
             }
 
+            @Override
             public String getText() {
               return null;
             }
@@ -335,5 +341,6 @@ public abstract class SafeHtml
   }
 
   /** @return a clean HTML string safe for inclusion in any context. */
+  @Override
   public abstract String asString();
 }

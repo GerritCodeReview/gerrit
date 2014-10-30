@@ -31,6 +31,7 @@ class PatchSetsAction extends RightSidePopdownAction {
     this.revisionBox = new PatchSetsBox(changeId, revision);
   }
 
+  @Override
   Widget getWidget() {
     return revisionBox;
   }

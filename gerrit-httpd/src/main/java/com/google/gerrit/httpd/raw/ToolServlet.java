@@ -61,7 +61,7 @@ public class ToolServlet extends HttpServlet {
 
     switch (ent.getType()) {
       case FILE:
-        doGetFile(ent, req, rsp);
+        doGetFile(ent, rsp);
         break;
 
       case DIR:
@@ -74,8 +74,7 @@ public class ToolServlet extends HttpServlet {
     }
   }
 
-  private void doGetFile(Entry ent, HttpServletRequest req,
-      HttpServletResponse rsp) throws IOException {
+  private void doGetFile(Entry ent, HttpServletResponse rsp) throws IOException {
     byte[] tosend = ent.getBytes();
 
     rsp.setDateHeader(HDR_EXPIRES, 0L);

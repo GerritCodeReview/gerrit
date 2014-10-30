@@ -157,6 +157,7 @@ public class ProjectCacheImpl implements ProjectCache {
   }
 
   /** Invalidate the cached information about the given project. */
+  @Override
   public void evict(final Project.NameKey p) {
     if (p != null) {
       byName.invalidate(p.get());

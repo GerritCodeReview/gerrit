@@ -38,6 +38,7 @@ public class LinkMenuItem extends InlineHyperlink implements ScreenLoadHandler {
     this.bar = bar;
   }
 
+  @Override
   public void onScreenLoad(ScreenLoadEvent event) {
     if (match(event.getScreen().getToken())) {
       Gerrit.selectMenu(bar);

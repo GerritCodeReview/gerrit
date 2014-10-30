@@ -53,6 +53,7 @@ class InitHttpd implements InitStep {
     this.gerrit = sections.get("gerrit", null);
   }
 
+  @Override
   public void run() throws IOException, InterruptedException {
     ui.header("HTTP Daemon");
 

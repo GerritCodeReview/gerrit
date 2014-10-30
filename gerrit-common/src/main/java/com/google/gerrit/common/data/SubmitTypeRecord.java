@@ -42,6 +42,7 @@ public class SubmitTypeRecord {
   public SubmitType type;
   public String errorMessage;
 
+  @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append(status);

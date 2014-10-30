@@ -41,6 +41,7 @@ public class AccountDiffPreference {
       code = c;
     }
 
+    @Override
     public char getCode() {
       return code;
     }

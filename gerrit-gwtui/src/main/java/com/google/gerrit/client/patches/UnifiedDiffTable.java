@@ -46,6 +46,7 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
   private static final int PC = 3;
   private static final Comparator<PatchLineComment> BY_DATE =
       new Comparator<PatchLineComment>() {
+        @Override
         public int compare(final PatchLineComment o1, final PatchLineComment o2) {
           return o1.getWrittenOn().compareTo(o2.getWrittenOn());
         }
@@ -164,10 +165,12 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
     nc.closeElement("img");
   }
 
+  @Override
   protected void createFileCommentEditorOnSideA() {
     createCommentEditor(R_HEAD + 1, PC, R_HEAD, FILE_SIDE_A);
   }
 
+  @Override
   protected void createFileCommentEditorOnSideB() {
     createCommentEditor(rowOfTableHeaderB + 1, PC, R_HEAD, FILE_SIDE_B);
     createFileCommentBorderRow();
@@ -367,13 +370,13 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
         row++;
 
         if (!fora.isEmpty()) {
-          row = insert(fora, row, expandComments);
+          row = insert(fora, row);
         }
         rowOfTableHeaderB = row;
         borderRowOfFileComment = row + 1;
         if (!forb.isEmpty()) {
           row++;// Skip the Header of sideB.
-          row = insert(forb, row, expandComments);
+          row = insert(forb, row);
           borderRowOfFileComment = row;
           createFileCommentBorderRow();
         }
@@ -388,13 +391,13 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
           all.addAll(fora);
           all.addAll(forb);
           Collections.sort(all, BY_DATE);
-          row = insert(all, row, expandComments);
+          row = insert(all, row);
 
         } else if (!fora.isEmpty()) {
-          row = insert(fora, row, expandComments);
+          row = insert(fora, row);
 
         } else if (!forb.isEmpty()) {
-          row = insert(forb, row, expandComments);
+          row = insert(forb, row);
         }
       } else {
         row++;
@@ -422,7 +425,7 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
     return PatchScreen.Type.UNIFIED;
   }
 
-  private int insert(final List<PatchLineComment> in, int row, boolean expandComment) {
+  private int insert(final List<PatchLineComment> in, int row) {
     for (Iterator<PatchLineComment> ci = in.iterator(); ci.hasNext();) {
       final PatchLineComment c = ci.next();
       if (c.getLine() == R_HEAD) {
@@ -430,7 +433,7 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
       } else {
         insertRow(row);
       }
-      bindComment(row, PC, c, !ci.hasNext(), expandComment);
+      bindComment(row, PC, c, !ci.hasNext());
       row++;
     }
     return row;

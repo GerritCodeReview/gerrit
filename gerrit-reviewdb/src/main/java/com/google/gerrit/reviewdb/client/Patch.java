@@ -93,6 +93,7 @@ public final class Patch {
       code = c;
     }
 
+    @Override
     public char getCode() {
       return code;
     }
@@ -151,6 +152,7 @@ public final class Patch {
       code = c;
     }
 
+    @Override
     public char getCode() {
       return code;
     }

@@ -22,7 +22,6 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.server.git.BanCommitResult;
-import com.google.gerrit.server.git.MergeException;
 import com.google.gerrit.server.project.BanCommit.Input;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -81,7 +80,7 @@ public class BanCommit implements RestModifyView<ProjectResource, Input> {
         r.ignored = transformCommits(result.getIgnoredObjectIds());
       } catch (PermissionDeniedException e) {
         throw new AuthException(e.getMessage());
-      } catch (MergeException | ConcurrentRefUpdateException e) {
+      } catch (ConcurrentRefUpdateException e) {
         throw new ResourceConflictException(e.getMessage(), e);
       }
     }

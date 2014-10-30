@@ -57,6 +57,7 @@ abstract class BaseTestPrologCommand extends SshCommand {
 
   protected abstract RestModifyView<RevisionResource, Input> createView();
 
+  @Override
   protected final void run() throws UnloggedFailure {
     try {
       RevisionResource revision = revisions.parse(

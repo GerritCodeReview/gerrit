@@ -36,6 +36,7 @@ class InitCache implements InitStep {
     this.cache = sections.get("cache", null);
   }
 
+  @Override
   public void run() {
     String path = cache.get("directory");
 

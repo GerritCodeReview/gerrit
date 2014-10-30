@@ -82,10 +82,12 @@ public abstract class PrettyFormatter implements SparseHtmlFile {
   private Tag lastTag;
   private StringBuilder buf;
 
+  @Override
   public SafeHtml getSafeHtmlLine(int lineNo) {
     return SafeHtml.asis(content.get(lineNo));
   }
 
+  @Override
   public int size() {
     return content.size();
   }

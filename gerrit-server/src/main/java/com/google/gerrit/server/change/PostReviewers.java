@@ -150,7 +150,7 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
   }
 
   private PostResult putAccount(ReviewerResource rsrc) throws OrmException,
-      EmailException, IOException {
+      IOException {
     Account.Id id = rsrc.getUser().getAccountId();
     ChangeControl control = rsrc.getControl().forUser(
         identifiedUserFactory.create(id));
@@ -161,7 +161,7 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
 
   private PostResult putGroup(ChangeResource rsrc, AddReviewerInput input)
       throws BadRequestException,
-      UnprocessableEntityException, OrmException, EmailException, IOException {
+      UnprocessableEntityException, OrmException, IOException {
     GroupDescription.Basic group = groupsCollection.parseInternal(input.reviewer);
     PostResult result = new PostResult();
     if (!isLegalReviewerGroup(group.getGroupUUID())) {
@@ -222,7 +222,7 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
 
   private void addReviewers(ChangeResource rsrc, PostResult result,
       Map<Account.Id, ChangeControl> reviewers)
-      throws OrmException, EmailException, IOException {
+      throws OrmException, IOException {
     ReviewDb db = dbProvider.get();
     ChangeUpdate update = updateFactory.create(rsrc.getControl());
     List<PatchSetApproval> added;
@@ -260,8 +260,7 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
     }
   }
 
-  private void emailReviewers(Change change, List<PatchSetApproval> added)
-      throws OrmException, EmailException {
+  private void emailReviewers(Change change, List<PatchSetApproval> added) {
     if (added.isEmpty()) {
       return;
     }

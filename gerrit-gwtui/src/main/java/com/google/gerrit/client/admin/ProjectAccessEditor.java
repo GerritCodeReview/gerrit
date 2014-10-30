@@ -84,7 +84,7 @@ public class ProjectAccessEditor extends Composite implements
   }
 
   @UiHandler("addSection")
-  void onAddSection(ClickEvent event) {
+  void onAddSection(@SuppressWarnings("unused") ClickEvent event) {
     int index = local.getList().size();
     local.getList().add(new AccessSection("refs/heads/*"));
 

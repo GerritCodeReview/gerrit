@@ -131,7 +131,7 @@ public class CmdLineParser {
 
     char next = '?';
     List<NamedOptionDef> booleans = new ArrayList<>();
-    for (@SuppressWarnings("rawtypes") OptionHandler handler : parser.options) {
+    for (@SuppressWarnings("rawtypes") OptionHandler handler : parser.optionsList) {
       if (handler.option instanceof NamedOptionDef) {
         NamedOptionDef n = (NamedOptionDef) handler.option;
 
@@ -274,7 +274,7 @@ public class CmdLineParser {
   @SuppressWarnings("rawtypes")
   private OptionHandler findHandler(String name) {
     if (options == null) {
-      options = index(parser.options);
+      options = index(parser.optionsList);
     }
     return options.get(name);
   }
@@ -318,7 +318,7 @@ public class CmdLineParser {
 
   private class MyParser extends org.kohsuke.args4j.CmdLineParser {
     @SuppressWarnings("rawtypes")
-    private List<OptionHandler> options;
+    private List<OptionHandler> optionsList;
     private HelpOption help;
 
     MyParser(final Object bean) {
@@ -344,14 +344,14 @@ public class CmdLineParser {
     @SuppressWarnings("rawtypes")
     private OptionHandler add(OptionHandler handler) {
       ensureOptionsInitialized();
-      options.add(handler);
+      optionsList.add(handler);
       return handler;
     }
 
     private void ensureOptionsInitialized() {
-      if (options == null) {
+      if (optionsList == null) {
         help = new HelpOption();
-        options = Lists.newArrayList();
+        optionsList = Lists.newArrayList();
         addOption(help, help);
       }
     }

@@ -15,7 +15,6 @@
 package com.google.gerrit.server.change;
 
 import com.google.gerrit.common.TimeUtil;
-import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
@@ -100,7 +99,7 @@ public class CherryPickChange {
   public Change.Id cherryPick(final PatchSet.Id patchSetId,
       final String message, final String destinationBranch,
       final RefControl refControl) throws NoSuchChangeException,
-      EmailException, OrmException, MissingObjectException,
+      OrmException, MissingObjectException,
       IncorrectObjectTypeException, IOException,
       InvalidChangeOperationException, MergeException {
 
@@ -183,8 +182,8 @@ public class CherryPickChange {
         } else if (destChanges.size() == 1) {
           // The change key exists on the destination branch. The cherry pick
           // will be added as a new patch set.
-          return insertPatchSet(git, revWalk, destChanges.get(0), patchSetId,
-              cherryPickCommit, refControl, identifiedUser);
+          return insertPatchSet(git, revWalk, destChanges.get(0), cherryPickCommit,
+              refControl, identifiedUser);
         } else {
           // Change key not found on destination branch. We can create a new
           // change.
@@ -200,8 +199,8 @@ public class CherryPickChange {
   }
 
   private Change.Id insertPatchSet(Repository git, RevWalk revWalk, Change change,
-      PatchSet.Id patchSetId, RevCommit cherryPickCommit,
-      RefControl refControl, IdentifiedUser identifiedUser)
+      RevCommit cherryPickCommit, RefControl refControl,
+      IdentifiedUser identifiedUser)
       throws InvalidChangeOperationException, IOException, OrmException,
       NoSuchChangeException {
     final ChangeControl changeControl =

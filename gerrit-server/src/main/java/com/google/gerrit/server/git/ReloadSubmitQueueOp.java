@@ -43,6 +43,7 @@ public class ReloadSubmitQueueOp extends DefaultQueueOp {
     mergeQueue = mq;
   }
 
+  @Override
   public void run() {
     final HashSet<Branch.NameKey> pending = new HashSet<>();
     try {

@@ -59,6 +59,7 @@ class SystemInfoServiceImpl implements SystemInfoService {
     projectCache = pc;
   }
 
+  @Override
   public void contributorAgreements(
       final AsyncCallback<List<ContributorAgreement>> callback) {
     Collection<ContributorAgreement> agreements =
@@ -71,6 +72,7 @@ class SystemInfoServiceImpl implements SystemInfoService {
     callback.onSuccess(cas);
   }
 
+  @Override
   public void daemonHostKeys(final AsyncCallback<List<SshHostKey>> callback) {
     final ArrayList<SshHostKey> r = new ArrayList<>(hostKeys.size());
     for (final HostKey hk : hostKeys) {

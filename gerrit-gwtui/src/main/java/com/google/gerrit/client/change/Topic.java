@@ -105,7 +105,7 @@ class Topic extends Composite {
   }
 
   @UiHandler("cancel")
-  void onCancel(ClickEvent e) {
+  void onCancel(@SuppressWarnings("unused") ClickEvent e) {
     input.setFocus(false);
     UIObject.setVisible(form, false);
   }
@@ -121,7 +121,7 @@ class Topic extends Composite {
   }
 
   @UiHandler("save")
-  void onSave(ClickEvent e) {
+  void onSave(@SuppressWarnings("unused") ClickEvent e) {
     ChangeApi.topic(
         psId.getParentKey().get(),
         input.getValue().trim(),

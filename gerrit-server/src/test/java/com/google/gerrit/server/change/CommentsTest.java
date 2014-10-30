@@ -346,16 +346,10 @@ public class CommentsTest  {
   public void testPatchLineCommentsUtilByCommentStatus() throws OrmException {
     List<PatchLineComment> publishedActual =
         plcUtil.publishedByChange(db, revRes2.getNotes());
-    List<PatchLineComment> draftActual =
-        plcUtil.draftByChange(db, revRes2.getNotes());
     List<PatchLineComment> publishedExpected =
         Lists.newArrayList(plc1, plc2, plc3);
-    List<PatchLineComment> draftExpected =
-        Lists.newArrayList(plc4, plc5);
     assertEquals(publishedExpected.size(), publishedActual.size());
-    assertEquals(draftExpected.size(), draftActual.size());
     assertEquals(publishedExpected, publishedActual);
-    assertEquals(draftExpected, draftActual);
   }
 
   private static IAnswer<ResultSet<PatchLineComment>> results(

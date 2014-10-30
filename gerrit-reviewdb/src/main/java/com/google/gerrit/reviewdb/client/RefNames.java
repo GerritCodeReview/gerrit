@@ -62,6 +62,18 @@ public class RefNames {
     return r.toString();
   }
 
+  public static String refsDraftCommentsScanPrefix(Account.Id accountId) {
+    StringBuilder r = new StringBuilder();
+    r.append(REFS_DRAFT_COMMENTS);
+    int n = accountId.get() % 100;
+    if (n < 10) {
+      r.append('0');
+    }
+    r.append(n);
+    r.append('/');
+    return r.toString();
+  }
+
   public static String refsDraftComments(Account.Id accountId,
       Change.Id changeId) {
     StringBuilder r = new StringBuilder();
@@ -76,6 +88,11 @@ public class RefNames {
     r.append('-');
     r.append(changeId.get());
     return r.toString();
+  }
+
+  public static Change.Id changeIdFromDraftComments(String refName) {
+    int d = refName.lastIndexOf('-');
+    return new Change.Id(Integer.parseInt(refName.substring(d + 1), 10));
   }
 
   private RefNames() {

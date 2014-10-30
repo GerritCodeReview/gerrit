@@ -16,7 +16,7 @@ package com.google.gerrit.server.query.change;
 
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.PatchLineComment;
+import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.query.OperatorPredicate;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder.Arguments;
 import com.google.gwtorm.server.ListResultSet;
@@ -24,7 +24,6 @@ import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -32,34 +31,35 @@ class HasDraftByPredicate extends OperatorPredicate<ChangeData> implements
     ChangeDataSource {
   private final Arguments args;
   private final Account.Id accountId;
+  private Set<Change.Id> changes;
 
-  HasDraftByPredicate(Arguments args,
-      Account.Id accountId) {
+  HasDraftByPredicate(Arguments args, Account.Id accountId) {
     super(ChangeQueryBuilder.FIELD_DRAFTBY, accountId.toString());
     this.args = args;
     this.accountId = accountId;
   }
 
   @Override
-  public boolean match(final ChangeData object) throws OrmException {
-    return !args.plcUtil
-        .draftByChangeAuthor(args.db.get(), object.notes(), accountId)
-        .isEmpty();
+  public boolean match(ChangeData object) throws OrmException {
+    return changes().contains(object.getId());
   }
 
   @Override
   public ResultSet<ChangeData> read() throws OrmException {
-    Set<Change.Id> ids = new HashSet<>();
-    for (PatchLineComment sc :
-        args.plcUtil.draftByAuthor(args.db.get(), accountId)) {
-      ids.add(sc.getKey().getParentKey().getParentKey().getParentKey());
-    }
-
+    Set<Change.Id> ids = changes();
+    ReviewDb db = args.db.get();
     List<ChangeData> r = new ArrayList<>(ids.size());
-    for (Change.Id id : ids) {
-      r.add(args.changeDataFactory.create(args.db.get(), id));
+    for (Change c : db.changes().get(ids)) {
+      r.add(args.changeDataFactory.create(db, c));
     }
     return new ListResultSet<>(r);
+  }
+
+  private Set<Change.Id> changes() throws OrmException {
+    if (changes == null) {
+      changes = args.plcUtil.changesWithDrafts(args.db.get(), accountId);
+    }
+    return changes;
   }
 
   @Override

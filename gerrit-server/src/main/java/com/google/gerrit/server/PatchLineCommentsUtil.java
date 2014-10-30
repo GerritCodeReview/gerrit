@@ -32,7 +32,6 @@ import com.google.gerrit.server.config.AllUsersNameProvider;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
-import com.google.gerrit.server.notedb.DraftCommentNotes;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.patch.PatchList;
 import com.google.gerrit.server.patch.PatchListCache;
@@ -43,6 +42,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.Repository;
 
@@ -50,6 +50,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -63,18 +64,15 @@ import java.util.Set;
 public class PatchLineCommentsUtil {
   private final GitRepositoryManager repoManager;
   private final AllUsersName allUsers;
-  private final DraftCommentNotes.Factory draftFactory;
   private final NotesMigration migration;
 
   @VisibleForTesting
   @Inject
   public PatchLineCommentsUtil(GitRepositoryManager repoManager,
       AllUsersNameProvider allUsersProvider,
-      DraftCommentNotes.Factory draftFactory,
       NotesMigration migration) {
     this.repoManager = repoManager;
     this.allUsers = allUsersProvider.get();
-    this.draftFactory = draftFactory;
     this.migration = migration;
   }
 
@@ -84,11 +82,6 @@ public class PatchLineCommentsUtil {
       return Optional.fromNullable(db.patchComments().get(key));
     }
     for (PatchLineComment c : publishedByChange(db, notes)) {
-      if (key.equals(c.getKey())) {
-        return Optional.of(c);
-      }
-    }
-    for (PatchLineComment c : draftByChange(db, notes)) {
       if (key.equals(c.getKey())) {
         return Optional.of(c);
       }
@@ -107,24 +100,6 @@ public class PatchLineCommentsUtil {
     List<PatchLineComment> comments = Lists.newArrayList();
     comments.addAll(notes.getBaseComments().values());
     comments.addAll(notes.getPatchSetComments().values());
-    return sort(comments);
-  }
-
-  public List<PatchLineComment> draftByChange(ReviewDb db,
-      ChangeNotes notes) throws OrmException {
-    if (!migration.readChanges()) {
-      return sort(byCommentStatus(
-          db.patchComments().byChange(notes.getChangeId()), Status.DRAFT));
-    }
-
-    List<PatchLineComment> comments = Lists.newArrayList();
-    Iterable<String> filtered = getDraftRefs(notes.getChangeId());
-    for (String refName : filtered) {
-      Account.Id account = Account.Id.fromRefPart(refName);
-      if (account != null) {
-        comments.addAll(draftByChangeAuthor(db, notes, account));
-      }
-    }
     return sort(comments);
   }
 
@@ -218,40 +193,41 @@ public class PatchLineCommentsUtil {
     return sort(comments);
   }
 
-  public List<PatchLineComment> draftByChangeAuthor(ReviewDb db,
-      ChangeNotes notes, Account.Id author)
+  public Set<Change.Id> changesWithDrafts(ReviewDb db, Account.Id author)
       throws OrmException {
     if (!migration.readChanges()) {
-      return sort(db.patchComments().byChange(notes.getChangeId()).toList());
+      Set<Change.Id> ids = new HashSet<>();
+      for (PatchLineComment c : db.patchComments().draftByAuthor(author)) {
+        ids.add(c.getKey().getParentKey().getParentKey().getParentKey());
+      }
+      return ids;
     }
-    List<PatchLineComment> comments = Lists.newArrayList();
-    comments.addAll(notes.getDraftBaseComments(author).values());
-    comments.addAll(notes.getDraftPsComments(author).values());
-    return sort(comments);
+
+    Repository git;
+    try {
+      git = repoManager.openRepository(allUsers);
+    } catch (IOException e) {
+      throw new OrmException(e);
+    }
+    try {
+      Set<Change.Id> ids = new HashSet<>();
+      for (Ref r : scanDraftComments(git, author)) {
+        if (author.equals(Account.Id.fromRef(r.getName()))) {
+          ids.add(RefNames.changeIdFromDraftComments(r.getName()));
+        }
+      }
+      return ids;
+    } catch (IOException e) {
+      throw new OrmException(e);
+    } finally {
+      git.close();
+    }
   }
 
-  public List<PatchLineComment> draftByAuthor(ReviewDb db,
-      Account.Id author) throws OrmException {
-    if (!migration.readChanges()) {
-      return sort(db.patchComments().draftByAuthor(author).toList());
-    }
-
-    Set<String> refNames =
-        getRefNamesAllUsers(RefNames.REFS_DRAFT_COMMENTS);
-
-    List<PatchLineComment> comments = Lists.newArrayList();
-    for (String refName : refNames) {
-      Account.Id id = Account.Id.fromRefPart(refName);
-      if (!author.equals(id)) {
-        continue;
-      }
-      Change.Id changeId = Change.Id.parse(refName);
-      DraftCommentNotes draftNotes =
-          draftFactory.create(changeId, author).load();
-      comments.addAll(draftNotes.getDraftBaseComments().values());
-      comments.addAll(draftNotes.getDraftPsComments().values());
-    }
-    return sort(comments);
+  private Iterable<Ref> scanDraftComments(Repository git, Account.Id author)
+      throws IOException {
+    String prefix = RefNames.refsDraftCommentsScanPrefix(author);
+    return git.getRefDatabase().getRefs(prefix).values();
   }
 
   public void insertComments(ReviewDb db, ChangeUpdate update,

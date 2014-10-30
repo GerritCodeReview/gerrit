@@ -26,6 +26,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.client.RevId;
+import com.google.gerrit.reviewdb.client.Change.Status;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CurrentUser;
@@ -246,6 +247,8 @@ public class ChangeEditUtil {
             changeControlFactory.controlFor(change, edit.getUser()),
             squashed);
     insr.setPatchSet(ps)
+        .setDraft(change.getStatus() == Status.DRAFT ||
+            basePatchSet.isDraft())
         .setMessage(
             String.format("Patch Set %d: Published edit on patch set %d",
                 ps.getPatchSetId(),

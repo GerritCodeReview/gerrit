@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "75c8ce75_762bb0a7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/MergeabilityCache.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-10-30T22:23:16Z",
+      "side": 1,
+      "message": "We use our own key marshalling scheme for googlesource.com, which uses Bigtable-backed rather than H2-backed caches, and this is needed for that.",
+      "parentUuid": "95daa231_ffb23f09",
+      "range": {
+        "startLine": 115,
+        "startChar": 4,
+        "endLine": 121,
+        "endChar": 5
+      },
+      "revId": "cd6de8f68c1080d8cff77d91cdf47f5a4d6453a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "95daa231_dfb57bf4",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/MergeabilityCache.java",
         "patchSetId": 12
@@ -59,6 +83,30 @@
       "writtenOn": "2014-10-30T22:19:37Z",
       "side": 1,
       "message": "Why reset it?",
+      "range": {
+        "startLine": 226,
+        "startChar": 8,
+        "endLine": 227,
+        "endChar": 24
+      },
+      "revId": "cd6de8f68c1080d8cff77d91cdf47f5a4d6453a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "95b382f9_374a1882",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/MergeabilityCache.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-10-30T22:23:16Z",
+      "side": 1,
+      "message": "Cache key instances are stored in the cache and thus potentially very long-lived. dest and repo are not used in equals/hashCode so these are wasteful hard references.",
+      "parentUuid": "95daa231_dfb57bf4",
       "range": {
         "startLine": 226,
         "startChar": 8,

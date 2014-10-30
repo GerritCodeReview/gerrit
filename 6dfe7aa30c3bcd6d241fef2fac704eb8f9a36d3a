@@ -219,6 +219,24 @@
       "revId": "6dfe7aa30c3bcd6d241fef2fac704eb8f9a36d3a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "95b382f9_77dd7070",
+        "filename": "gerrit-solr/src/main/java/com/google/gerrit/solr/SolrChangeIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 390,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2014-10-30T14:23:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d52b3ac1_094a4981",
+      "revId": "6dfe7aa30c3bcd6d241fef2fac704eb8f9a36d3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

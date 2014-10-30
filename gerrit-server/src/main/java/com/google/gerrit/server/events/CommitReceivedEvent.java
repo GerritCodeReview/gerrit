@@ -28,6 +28,17 @@ public class CommitReceivedEvent extends ChangeEvent {
   public final String refName;
   public final RevCommit commit;
   public final IdentifiedUser user;
+  public final Change change; // Change to update
+
+  public CommitReceivedEvent(ReceiveCommand command, Project project,
+      String refName, RevCommit commit, IdentifiedUser user, Change change) {
+    this.command = command;
+    this.project = project;
+    this.refName = refName;
+    this.commit = commit;
+    this.user = user;
+    this.change = change;
+  }
 
   public CommitReceivedEvent(ReceiveCommand command, Project project,
       String refName, RevCommit commit, IdentifiedUser user) {
@@ -36,6 +47,7 @@ public class CommitReceivedEvent extends ChangeEvent {
     this.refName = refName;
     this.commit = commit;
     this.user = user;
+    this.change = null;
   }
 
   @Override

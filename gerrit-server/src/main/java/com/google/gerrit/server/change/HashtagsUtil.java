@@ -15,8 +15,13 @@
 package com.google.gerrit.server.change;
 
 import static com.google.common.base.CharMatcher.WHITESPACE;
+import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_HASHTAGS;
 
 import com.google.common.base.CharMatcher;
+import com.google.common.base.Function;
+import com.google.common.base.Splitter;
+import com.google.common.collect.FluentIterable;
+import com.google.common.collect.Sets;
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.extensions.api.changes.HashtagsInput;
 import com.google.gerrit.extensions.registration.DynamicSet;
@@ -28,21 +33,43 @@ import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.validators.HashtagValidationListener;
-import com.google.gerrit.server.validators.ValidationException;
+import com.google.gerrit.server.validators.HashtagsValidationException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
+import org.eclipse.jgit.revwalk.RevCommit;
+
 import java.io.IOException;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
 @Singleton
 public class HashtagsUtil {
   private static final CharMatcher LEADER = WHITESPACE.or(CharMatcher.is('#'));
+
+  public static Set<String> parseCommitMessageHashtags(RevCommit commit) {
+    List<String> hashtagsLines = commit.getFooterLines(FOOTER_HASHTAGS);
+    if (hashtagsLines.isEmpty()) {
+      return Collections.emptySet();
+    }
+    Set<String> result = Sets.newHashSet();
+    for (String hashtagsLine : hashtagsLines) {
+      result.addAll(FluentIterable
+          .from(Splitter.on(',').omitEmptyStrings().split(hashtagsLine))
+          .transform(new Function<String, String>() {
+            @Override
+            public String apply(String input) {
+              return cleanupHashtag(input);
+            }
+          }).toSet());
+    }
+    return result;
+  }
 
   private final ChangeUpdate.Factory updateFactory;
   private final Provider<ReviewDb> dbProvider;
@@ -90,7 +117,7 @@ public class HashtagsUtil {
   public TreeSet<String> setHashtags(ChangeControl control,
       HashtagsInput input, boolean runHooks, boolean index)
           throws IllegalArgumentException, IOException,
-          ValidationException, AuthException, OrmException {
+          HashtagsValidationException, AuthException, OrmException {
     if (input == null
         || (input.add == null && input.remove == null)) {
       throw new IllegalArgumentException("Hashtags are required");

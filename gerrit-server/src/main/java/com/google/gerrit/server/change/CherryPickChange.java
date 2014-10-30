@@ -33,6 +33,7 @@ import com.google.gerrit.server.git.MergeIdenticalTreeException;
 import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.git.validators.CommitValidationException;
 import com.google.gerrit.server.git.validators.CommitValidators;
+import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
@@ -69,6 +70,7 @@ public class CherryPickChange {
   private static final FooterKey CHANGE_ID = new FooterKey("Change-Id");
 
   private final Provider<ReviewDb> db;
+  private final NotesMigration notesMigration;
   private final GitRepositoryManager gitManager;
   private final TimeZone serverTimeZone;
   private final Provider<CurrentUser> currentUser;
@@ -79,6 +81,7 @@ public class CherryPickChange {
 
   @Inject
   CherryPickChange(final Provider<ReviewDb> db,
+      final NotesMigration notesMigration,
       @GerritPersonIdent final PersonIdent myIdent,
       final GitRepositoryManager gitManager,
       final Provider<CurrentUser> currentUser,
@@ -87,6 +90,7 @@ public class CherryPickChange {
       final PatchSetInserter.Factory patchSetInserterFactory,
       final MergeUtil.Factory mergeUtilFactory) {
     this.db = db;
+    this.notesMigration = notesMigration;
     this.gitManager = gitManager;
     this.serverTimeZone = myIdent.getTimeZone();
     this.currentUser = currentUser;
@@ -224,6 +228,11 @@ public class CherryPickChange {
       Ref destRef, RevCommit cherryPickCommit, RefControl refControl,
       IdentifiedUser identifiedUser, String topic)
       throws OrmException, InvalidChangeOperationException, IOException {
+    if (!HashtagsUtil.parseCommitMessageHashtags(cherryPickCommit).isEmpty()
+        && !notesMigration.enabled()) {
+      throw new InvalidChangeOperationException(
+          "cannot add hashtags; noteDb is disabled");
+    }
     Change change =
         new Change(changeKey, new Change.Id(db.get().nextChangeId()),
             identifiedUser.getAccountId(), new Branch.NameKey(project,

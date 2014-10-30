@@ -27,11 +27,12 @@ public interface HashtagValidationListener {
   /**
    * Invoked by Gerrit before hashtags are changed.
    *
-   * @param change the change on which the hashtags are changed
+   * @param change the change on which the hashtags are changed, note it is
+   *        null when it is commit message hashtags of new change.
    * @param toAdd the hashtags to be added
    * @param toRemove the hashtags to be removed
    * @throws ValidationException if validation fails
    */
   public void validateHashtags(Change change, Set<String> toAdd,
-      Set<String> toRemove) throws ValidationException;
+      Set<String> toRemove) throws HashtagsValidationException;
 }

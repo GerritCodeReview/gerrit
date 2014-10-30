@@ -224,11 +224,8 @@ public class SideBySide2 extends Screen {
         int currentPatchSet = info.revision(info.current_revision())._number();
         JsArray<RevisionInfo> list = info.revisions().values();
         RevisionInfo.sortRevisionInfoByNumber(list);
-        // TODO(davido): Change edit feature doesn't support drafts atm,
-        // so we cannot use info.status().isOpen()
-        boolean renderChangeEditIcon = info.status() == Change.Status.NEW;
         diffTable.set(prefs, list, diff, edit != null, currentPatchSet,
-            renderChangeEditIcon);
+            info.status().isOpen());
         header.setChangeInfo(info);
       }}));
 

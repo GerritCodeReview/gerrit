@@ -24,7 +24,6 @@ import com.google.gwtexpui.user.client.PluginSafePopupPanel;
 
 class EditMessageAction {
   private final Change.Id changeId;
-  private final String revision;
   private final String originalMessage;
   private final ChangeScreen2.Style style;
   private final Widget editMessageButton;
@@ -35,13 +34,11 @@ class EditMessageAction {
 
   EditMessageAction(
       Change.Id changeId,
-      String revision,
       String originalMessage,
       ChangeScreen2.Style style,
       Widget editButton,
       Widget replyButton) {
     this.changeId = changeId;
-    this.revision = revision;
     this.originalMessage = originalMessage;
     this.style = style;
     this.editMessageButton = editButton;
@@ -57,7 +54,6 @@ class EditMessageAction {
     if (editBox == null) {
       editBox = new EditMessageBox(
           changeId,
-          revision,
           originalMessage);
     }
 

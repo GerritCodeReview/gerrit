@@ -459,7 +459,6 @@ public class ChangeScreen2 extends Screen {
       editMessage.setVisible(true);
       editMessageAction = new EditMessageAction(
           info.legacy_id(),
-          revision,
           info.revision(revision).commit().message(),
           style,
           editMessage,

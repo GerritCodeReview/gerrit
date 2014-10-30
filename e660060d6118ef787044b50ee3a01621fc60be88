@@ -22,6 +22,24 @@
       "revId": "e660060d6118ef787044b50ee3a01621fc60be88",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "95daa231_1fce03bf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/validators/HashtagsValidationException.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-10-30T02:30:50Z",
+      "side": 1,
+      "message": "when it throws the exception, the caller want to know which tags were invalid except the error message. (Sasa idea).\n\nmake method abstract is to emphasize this expectation via telling the compiler that any sub-classes, the concrete exception, must provide an implementation to make sure the set of invalid tags is returned.",
+      "parentUuid": "d515fa2f_f909579a",
+      "revId": "e660060d6118ef787044b50ee3a01621fc60be88",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

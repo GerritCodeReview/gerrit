@@ -97,6 +97,30 @@
     },
     {
       "key": {
+        "uuid": "55dcaa2f_fd016728",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-30T12:40:01Z",
+      "side": 1,
+      "message": "Have you considered to disable DRAFT workflow and enable WIP workflow instead?",
+      "parentUuid": "955d4234_4702aee3",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 16
+      },
+      "revId": "6dfe7aa30c3bcd6d241fef2fac704eb8f9a36d3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d52b3ac1_49f601f4",
         "filename": "gerrit-solr/src/main/java/com/google/gerrit/solr/SolrChangeIndex.java",
         "patchSetId": 1

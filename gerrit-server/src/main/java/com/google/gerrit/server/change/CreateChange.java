@@ -42,6 +42,7 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.git.validators.CommitValidationException;
 import com.google.gerrit.server.git.validators.CommitValidators;
+import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.gerrit.server.project.ProjectsCollection;
@@ -84,6 +85,7 @@ public class CreateChange implements
   private final ChangeInserter.Factory changeInserterFactory;
   private final ChangeJson json;
   private final ChangeUtil changeUtil;
+  private final NotesMigration notesMigration;
 
   @Inject
   CreateChange(Provider<ReviewDb> db,
@@ -94,6 +96,7 @@ public class CreateChange implements
       CommitValidators.Factory commitValidatorsFactory,
       ChangeInserter.Factory changeInserterFactory,
       ChangeJson json,
+      NotesMigration notesMigration,
       ChangeUtil changeUtil) {
     this.db = db;
     this.gitManager = gitManager;
@@ -104,6 +107,7 @@ public class CreateChange implements
     this.changeInserterFactory = changeInserterFactory;
     this.json = json;
     this.changeUtil = changeUtil;
+    this.notesMigration = notesMigration;
   }
 
   @Override
@@ -215,6 +219,11 @@ public class CreateChange implements
   private void validateCommit(Repository git, RefControl refControl,
       RevCommit c, IdentifiedUser me, ChangeInserter ins)
       throws InvalidChangeOperationException {
+    if (!HashtagsUtil.parseCommitMessageHashtags(c).isEmpty()
+        && !notesMigration.enabled()) {
+      throw new InvalidChangeOperationException(
+          "cannot add hashtags; noteDb is disabled");
+    }
     PatchSet newPatchSet = ins.getPatchSet();
     CommitValidators commitValidators =
         commitValidatorsFactory.create(refControl, new NoSshInfo(), git);

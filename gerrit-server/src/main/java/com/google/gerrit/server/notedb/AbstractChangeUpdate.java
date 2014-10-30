@@ -16,7 +16,6 @@ package com.google.gerrit.server.notedb;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
-import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
@@ -42,6 +41,7 @@ import java.util.Date;
 /** A single delta related to a specific patch-set of a change. */
 public abstract class AbstractChangeUpdate extends VersionedMetaData {
   protected final NotesMigration migration;
+  protected final NotedbIdent notedbIdent;
   protected final GitRepositoryManager repoManager;
   protected final MetaDataUpdate.User updateFactory;
   protected final ChangeControl ctl;
@@ -50,13 +50,14 @@ public abstract class AbstractChangeUpdate extends VersionedMetaData {
   protected final Date when;
   protected PatchSet.Id psId;
 
-  AbstractChangeUpdate(NotesMigration migration,
+  AbstractChangeUpdate(NotesMigration migration, NotedbIdent notedbIdent,
       GitRepositoryManager repoManager,
       MetaDataUpdate.User updateFactory, ChangeControl ctl,
       PersonIdent serverIdent,
       String anonymousCowardName,
       Date when) {
     this.migration = migration;
+    this.notedbIdent = notedbIdent;
     this.repoManager = repoManager;
     this.updateFactory = updateFactory;
     this.ctl = ctl;
@@ -125,6 +126,8 @@ public abstract class AbstractChangeUpdate extends VersionedMetaData {
           updateFactory.create(getProjectName(),
               repoManager.openMetadataRepository(getProjectName()), getUser(),
               bru);
+      md.getCommitBuilder().setAuthor(notedbIdent.create(
+          getUser(), md.getCommitBuilder().getAuthor().getWhen()));
       md.setAllowEmpty(true);
       return super.openUpdate(md);
     }
@@ -174,11 +177,6 @@ public abstract class AbstractChangeUpdate extends VersionedMetaData {
   @Override
   protected void onLoad() throws IOException, ConfigInvalidException {
     //Do nothing; just reads the current revision.
-  }
-
-  protected PersonIdent newIdent(Account author, Date when) {
-    return ChangeNoteUtil.newIdent(author, when, serverIdent,
-        anonymousCowardName);
   }
 
   /** Writes commit to a BatchMetaDataUpdate without committing the batch. */

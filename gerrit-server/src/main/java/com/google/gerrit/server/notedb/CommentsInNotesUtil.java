@@ -15,15 +15,13 @@
 package com.google.gerrit.server.notedb;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.gerrit.server.notedb.ChangeNoteUtil.GERRIT_PLACEHOLDER_HOST;
 import static com.google.gerrit.server.notedb.ChangeNotes.parseException;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
+import com.google.common.base.Optional;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
-import com.google.common.primitives.Ints;
-import com.google.gerrit.common.data.AccountInfo;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.CommentRange;
@@ -33,8 +31,6 @@ import com.google.gerrit.reviewdb.client.PatchLineComment.Status;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.server.GerritPersonIdent;
-import com.google.gerrit.server.account.AccountCache;
-import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -64,7 +60,6 @@ import java.nio.charset.Charset;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -84,7 +79,7 @@ public class CommentsInNotesUtil {
   private static final String UUID = "UUID";
   private static final int MAX_NOTE_SZ = 25 << 20;
 
-  public static NoteMap parseCommentsFromNotes(Repository repo, String refName,
+  public NoteMap parseCommentsFromNotes(Repository repo, String refName,
       RevWalk walk, Change.Id changeId,
       Multimap<PatchSet.Id, PatchLineComment> commentsForBase,
       Multimap<PatchSet.Id, PatchLineComment> commentsForPs,
@@ -117,7 +112,7 @@ public class CommentsInNotesUtil {
     return noteMap;
   }
 
-  public static List<PatchLineComment> parseNote(byte[] note,
+  public List<PatchLineComment> parseNote(byte[] note,
       Change.Id changeId, Status status) throws ConfigInvalidException {
     List<PatchLineComment> result = Lists.newArrayList();
     int sizeOfNote = note.length;
@@ -156,7 +151,7 @@ public class CommentsInNotesUtil {
     return plc.getKey().getParentKey().getParentKey();
   }
 
-  private static PatchLineComment parseComment(byte[] note, MutableInteger curr,
+  private PatchLineComment parseComment(byte[] note, MutableInteger curr,
       String currentFileName, PatchSet.Id psId, RevId revId, boolean isForBase,
       Charset enc, Status status)
           throws ConfigInvalidException {
@@ -328,16 +323,16 @@ public class CommentsInNotesUtil {
     return checkResult(commentTime, "comment timestamp", changeId);
   }
 
-  private static Account.Id parseAuthor(byte[] note, MutableInteger curr,
+  private Account.Id parseAuthor(byte[] note, MutableInteger curr,
       Change.Id changeId, Charset enc) throws ConfigInvalidException {
     checkHeaderLineFormat(note, curr, AUTHOR, enc, changeId);
     int startOfAccountId =
         RawParseUtils.endOfFooterLineKey(note, curr.value) + 2;
     PersonIdent ident =
         RawParseUtils.parsePersonIdent(note, startOfAccountId);
-    Account.Id aId = parseIdent(ident, changeId);
+    Optional<Account.Id> aId = notedbIdent.parse(ident);
     curr.value = RawParseUtils.nextLF(note, curr.value);
-    return checkResult(aId, "comment author", changeId);
+    return checkResult(aId.orNull(), "comment author", changeId);
   }
 
   private static int parseCommentLength(byte[] note, MutableInteger curr,
@@ -372,28 +367,6 @@ public class CommentsInNotesUtil {
     return i;
   }
 
-  private PersonIdent newIdent(Account author, Date when) {
-    return new PersonIdent(
-        new AccountInfo(author).getName(anonymousCowardName),
-        author.getId().get() + "@" + GERRIT_PLACEHOLDER_HOST,
-        when, serverIdent.getTimeZone());
-  }
-
-  private static Account.Id parseIdent(PersonIdent ident, Change.Id changeId)
-      throws ConfigInvalidException {
-    String email = ident.getEmailAddress();
-    int at = email.indexOf('@');
-    if (at >= 0) {
-      String host = email.substring(at + 1, email.length());
-      Integer id = Ints.tryParse(email.substring(0, at));
-      if (id != null && host.equals(GERRIT_PLACEHOLDER_HOST)) {
-        return new Account.Id(id);
-      }
-    }
-    throw parseException(changeId, "invalid identity, expected <id>@%s: %s",
-      GERRIT_PLACEHOLDER_HOST, email);
-  }
-
   private void appendHeaderField(PrintWriter writer,
       String field, String value) {
     writer.print(field);
@@ -414,17 +387,15 @@ public class CommentsInNotesUtil {
     }
   }
 
-  private final AccountCache accountCache;
+  private final NotedbIdent notedbIdent;
   private final PersonIdent serverIdent;
-  private final String anonymousCowardName;
 
   @Inject
-  public CommentsInNotesUtil(AccountCache accountCache,
-      @GerritPersonIdent PersonIdent serverIdent,
-      @AnonymousCowardName String anonymousCowardName) {
-    this.accountCache = accountCache;
+  public CommentsInNotesUtil(
+      NotedbIdent notedbIdent,
+      @GerritPersonIdent PersonIdent serverIdent) {
+    this.notedbIdent = notedbIdent;
     this.serverIdent = serverIdent;
-    this.anonymousCowardName = anonymousCowardName;
   }
 
   /**
@@ -497,9 +468,7 @@ public class CommentsInNotesUtil {
       writer.print(formatTime(serverIdent, c.getWrittenOn()));
       writer.print("\n");
 
-      PersonIdent ident =
-          newIdent(accountCache.get(c.getAuthor()).getAccount(),
-              c.getWrittenOn());
+      PersonIdent ident = notedbIdent.create(c.getAuthor(), c.getWrittenOn());
       String nameString = ident.getName() + " <" + ident.getEmailAddress()
           + ">";
       appendHeaderField(writer, AUTHOR, nameString);

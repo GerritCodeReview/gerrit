@@ -31,14 +31,16 @@ import java.io.IOException;
 public abstract class AbstractChangeNotes<T> extends VersionedMetaData {
   protected final GitRepositoryManager repoManager;
   protected final NotesMigration migration;
+  protected final NotedbIdent notedbIdent;
   private final Change.Id changeId;
 
   private boolean loaded;
 
   AbstractChangeNotes(GitRepositoryManager repoManager,
-      NotesMigration migration, Change.Id changeId) {
+      NotesMigration migration, NotedbIdent notedbIdent, Change.Id changeId) {
     this.repoManager = repoManager;
     this.migration = migration;
+    this.notedbIdent = notedbIdent;
     this.changeId = changeId;
   }
 

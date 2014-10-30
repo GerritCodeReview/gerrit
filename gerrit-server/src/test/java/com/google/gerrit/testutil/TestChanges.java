@@ -31,6 +31,8 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.notedb.ChangeDraftUpdate;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
+import com.google.gerrit.server.notedb.CommentsInNotesUtil;
+import com.google.gerrit.server.notedb.NotedbIdent;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gwtorm.server.OrmException;
@@ -65,7 +67,8 @@ public class TestChanges {
   }
 
   public static ChangeUpdate newUpdate(Injector injector,
-      GitRepositoryManager repoManager, NotesMigration migration, Change c,
+      GitRepositoryManager repoManager, NotesMigration migration,
+      NotedbIdent notedbIdent, CommentsInNotesUtil commentsInNotesUtil, Change c,
       final AllUsersNameProvider allUsers, final IdentifiedUser user)
       throws OrmException {
     return injector.createChildInjector(new FactoryModule() {
@@ -77,19 +80,20 @@ public class TestChanges {
         bind(AllUsersName.class).toProvider(allUsers);
       }
     }).getInstance(ChangeUpdate.Factory.class).create(
-        stubChangeControl(repoManager, migration, c, allUsers, user),
+        stubChangeControl(repoManager, migration, notedbIdent, commentsInNotesUtil, c, allUsers, user),
         TimeUtil.nowTs(), Ordering.<String> natural());
   }
 
   public static ChangeControl stubChangeControl(
       GitRepositoryManager repoManager, NotesMigration migration,
-      Change c, AllUsersNameProvider allUsers,
-      IdentifiedUser user) throws OrmException {
+      NotedbIdent notedbIdent, CommentsInNotesUtil commentsInNotesUtil, Change c,
+      AllUsersNameProvider allUsers, IdentifiedUser user) throws OrmException {
     ChangeControl ctl = EasyMock.createNiceMock(ChangeControl.class);
     expect(ctl.getChange()).andStubReturn(c);
     expect(ctl.getCurrentUser()).andStubReturn(user);
-    ChangeNotes notes = new ChangeNotes(repoManager, migration, allUsers, c)
-        .load();
+    ChangeNotes notes =
+        new ChangeNotes(repoManager, migration, notedbIdent,
+            commentsInNotesUtil, allUsers, c).load();
     expect(ctl.getNotes()).andStubReturn(notes);
     EasyMock.replay(ctl);
     return ctl;

@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.notedb;
 
-import static com.google.gerrit.server.notedb.ChangeNoteUtil.GERRIT_PLACEHOLDER_HOST;
 import static com.google.gerrit.server.notedb.CommentsInNotesUtil.getCommentPsId;
 
 import com.google.common.annotations.VisibleForTesting;
@@ -27,7 +26,6 @@ import com.google.common.collect.ImmutableSetMultimap;
 import com.google.common.collect.ImmutableSortedSet;
 import com.google.common.collect.Ordering;
 import com.google.common.collect.Table;
-import com.google.common.primitives.Ints;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
@@ -46,7 +44,6 @@ import com.google.inject.Singleton;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.notes.NoteMap;
 import org.eclipse.jgit.revwalk.RevWalk;
 
@@ -96,39 +93,31 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
         + String.format(fmt, args));
   }
 
-  public static Account.Id parseIdent(PersonIdent ident, Change.Id changeId)
-      throws ConfigInvalidException {
-    String email = ident.getEmailAddress();
-    int at = email.indexOf('@');
-    if (at >= 0) {
-      String host = email.substring(at + 1, email.length());
-      Integer id = Ints.tryParse(email.substring(0, at));
-      if (id != null && host.equals(GERRIT_PLACEHOLDER_HOST)) {
-        return new Account.Id(id);
-      }
-    }
-    throw parseException(changeId, "invalid identity, expected <id>@%s: %s",
-      GERRIT_PLACEHOLDER_HOST, email);
-  }
-
   @Singleton
   public static class Factory {
     private final GitRepositoryManager repoManager;
     private final NotesMigration migration;
+    private final NotedbIdent notedbIdent;
+    private final CommentsInNotesUtil commentsInNotesUtil;
     private final AllUsersNameProvider allUsersProvider;
 
     @VisibleForTesting
     @Inject
     public Factory(GitRepositoryManager repoManager,
         NotesMigration migration,
+        NotedbIdent notedbIdent,
+        CommentsInNotesUtil commentsInNotesUtil,
         AllUsersNameProvider allUsersProvider) {
       this.repoManager = repoManager;
       this.migration = migration;
+      this.notedbIdent = notedbIdent;
+      this.commentsInNotesUtil = commentsInNotesUtil;
       this.allUsersProvider = allUsersProvider;
     }
 
     public ChangeNotes create(Change change) {
-      return new ChangeNotes(repoManager, migration, allUsersProvider, change);
+      return new ChangeNotes(repoManager, migration, notedbIdent,
+          commentsInNotesUtil, allUsersProvider, change);
     }
   }
 
@@ -143,13 +132,17 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
   private ImmutableSet<String> hashtags;
   NoteMap noteMap;
 
+  private final CommentsInNotesUtil commentsInNotesUtil;
   private final AllUsersName allUsers;
   private DraftCommentNotes draftCommentNotes;
 
   @VisibleForTesting
-  public ChangeNotes(GitRepositoryManager repoManager, NotesMigration migration,
+  public ChangeNotes(GitRepositoryManager repoManager,
+      NotesMigration migration, NotedbIdent notedbIdent,
+      CommentsInNotesUtil commentsInNotesUtil,
       AllUsersNameProvider allUsersProvider, Change change) {
-    super(repoManager, migration, change.getId());
+    super(repoManager, migration, notedbIdent, change.getId());
+    this.commentsInNotesUtil = commentsInNotesUtil;
     this.allUsers = allUsersProvider.get();
     this.change = new Change(change);
   }
@@ -229,7 +222,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     if (draftCommentNotes == null ||
         !author.equals(draftCommentNotes.getAuthor())) {
       draftCommentNotes = new DraftCommentNotes(repoManager, migration,
-          allUsers, getChangeId(), author);
+          notedbIdent, commentsInNotesUtil, allUsers, getChangeId(), author);
       draftCommentNotes.load();
     }
   }
@@ -274,7 +267,8 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     }
     RevWalk walk = new RevWalk(reader);
     try (ChangeNotesParser parser =
-        new ChangeNotesParser(change, rev, walk, repoManager)) {
+        new ChangeNotesParser(change, rev, walk, repoManager, notedbIdent,
+            commentsInNotesUtil)) {
       parser.parseAll();
 
       if (parser.status != null) {

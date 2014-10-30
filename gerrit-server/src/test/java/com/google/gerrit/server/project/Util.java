@@ -25,6 +25,8 @@ import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelValue;
 import com.google.gerrit.common.data.PermissionRule;
+import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
+import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountProjectWatch;
 import com.google.gerrit.reviewdb.client.Change;
@@ -33,6 +35,8 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.rules.PrologEnvironment;
 import com.google.gerrit.rules.RulesCache;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.GerritPersonIdent;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.CapabilityControl;
 import com.google.gerrit.server.account.GroupBackend;
@@ -42,6 +46,7 @@ import com.google.gerrit.server.change.ChangeKindCache;
 import com.google.gerrit.server.change.ChangeKindCacheImpl;
 import com.google.gerrit.server.change.MergeabilityCache;
 import com.google.gerrit.server.config.AllProjectsName;
+import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.config.AnonymousCowardNameProvider;
 import com.google.gerrit.server.config.CanonicalWebUrl;
@@ -50,10 +55,12 @@ import com.google.gerrit.server.config.DisableReverseDnsLookup;
 import com.google.gerrit.server.config.FactoryModule;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.server.git.GitModule;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.group.SystemGroupBackend;
+import com.google.gerrit.server.notedb.NoteDbModule;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.testutil.FakeAccountCache;
@@ -66,6 +73,7 @@ import com.google.inject.util.Providers;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 
 import java.io.IOException;
@@ -263,6 +271,12 @@ public class Util {
         bind(Config.class).annotatedWith(GerritServerConfig.class).toInstance(
             new Config());
         bind(ReviewDb.class).toProvider(nullProvider);
+        install(new NoteDbModule());
+        install(new GitModule());
+        DynamicSet.setOf(binder(), GitReferenceUpdatedListener.class);
+        bind(ReviewDb.class).toProvider(Providers.<ReviewDb> of(null));
+        bind(IdentifiedUser.class)
+          .toProvider(Providers.<IdentifiedUser> of(null));
         bind(GitRepositoryManager.class).toInstance(repoManager);
         bind(PatchListCache.class).toProvider(nullProvider);
 
@@ -273,12 +287,15 @@ public class Util {
         bind(ProjectCache.class).toInstance(projectCache);
         bind(AccountCache.class).toInstance(new FakeAccountCache());
         bind(GroupBackend.class).to(SystemGroupBackend.class);
+        bind(AllUsersName.class).toInstance(new AllUsersName("All-Users"));
         bind(String.class).annotatedWith(CanonicalWebUrl.class)
             .toProvider(CanonicalWebUrlProvider.class);
         bind(Boolean.class).annotatedWith(DisableReverseDnsLookup.class)
             .toInstance(Boolean.FALSE);
         bind(String.class).annotatedWith(AnonymousCowardName.class)
             .toProvider(AnonymousCowardNameProvider.class);
+        bind(PersonIdent.class).annotatedWith(GerritPersonIdent.class)
+          .toInstance(new PersonIdent("gerrit", "gerrit@localhost", 42L, 0));
         bind(ChangeKindCache.class).to(ChangeKindCacheImpl.NoCache.class);
         bind(MergeabilityCache.class)
           .to(MergeabilityCache.NotImplemented.class);

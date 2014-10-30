@@ -37,7 +37,6 @@ import com.google.gerrit.reviewdb.client.PatchLineComment.Status;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.GerritPersonIdent;
-import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MetaDataUpdate;
@@ -84,7 +83,6 @@ public class ChangeUpdate extends AbstractChangeUpdate {
         Comparator<String> labelNameComparator);
   }
 
-  private final AccountCache accountCache;
   private final Map<String, Optional<Short>> approvals;
   private final Map<Account.Id, ReviewerState> reviewers;
   private Change.Status status;
@@ -106,15 +104,16 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       @AnonymousCowardName String anonymousCowardName,
       GitRepositoryManager repoManager,
       NotesMigration migration,
-      AccountCache accountCache,
+      NotedbIdent notedbIdent,
       MetaDataUpdate.User updateFactory,
       ChangeDraftUpdate.Factory draftUpdateFactory,
       ProjectCache projectCache,
       @Assisted ChangeControl ctl,
       CommentsInNotesUtil commentsUtil) {
-    this(serverIdent, anonymousCowardName, repoManager, migration, accountCache,
-        updateFactory, draftUpdateFactory,
-        projectCache, ctl, serverIdent.getWhen(), commentsUtil);
+    this(serverIdent, anonymousCowardName, repoManager, migration, notedbIdent,
+        updateFactory,
+        draftUpdateFactory, projectCache, ctl, serverIdent.getWhen(),
+        commentsUtil);
   }
 
   @AssistedInject
@@ -123,14 +122,14 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       @AnonymousCowardName String anonymousCowardName,
       GitRepositoryManager repoManager,
       NotesMigration migration,
-      AccountCache accountCache,
+      NotedbIdent notedbIdent,
       MetaDataUpdate.User updateFactory,
       ChangeDraftUpdate.Factory draftUpdateFactory,
       ProjectCache projectCache,
       @Assisted ChangeControl ctl,
       @Assisted Date when,
       CommentsInNotesUtil commentsUtil) {
-    this(serverIdent, anonymousCowardName, repoManager, migration, accountCache,
+    this(serverIdent, anonymousCowardName, repoManager, migration, notedbIdent,
         updateFactory, draftUpdateFactory, ctl,
         when,
         projectCache.get(getProjectName(ctl)).getLabelTypes().nameComparator(),
@@ -147,17 +146,16 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       @AnonymousCowardName String anonymousCowardName,
       GitRepositoryManager repoManager,
       NotesMigration migration,
-      AccountCache accountCache,
+      NotedbIdent notedbIdent,
       MetaDataUpdate.User updateFactory,
       ChangeDraftUpdate.Factory draftUpdateFactory,
       @Assisted ChangeControl ctl,
       @Assisted Date when,
       @Assisted Comparator<String> labelNameComparator,
       CommentsInNotesUtil commentsUtil) {
-    super(migration, repoManager, updateFactory, ctl, serverIdent,
+    super(migration, notedbIdent, repoManager, updateFactory, ctl, serverIdent,
         anonymousCowardName, when);
     this.draftUpdateFactory = draftUpdateFactory;
-    this.accountCache = accountCache;
     this.commentsUtil = commentsUtil;
     this.approvals = Maps.newTreeMap(labelNameComparator);
     this.reviewers = Maps.newLinkedHashMap();
@@ -423,7 +421,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     if (isEmpty()) {
       return false;
     }
-    commit.setAuthor(newIdent(getUser().getAccount(), when));
+    commit.setAuthor(notedbIdent.create(getUser(), when));
     commit.setCommitter(new PersonIdent(serverIdent, when));
 
     int ps = psId != null ? psId.get() : getChange().currentPatchSetId().get();
@@ -451,8 +449,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     }
 
     for (Map.Entry<Account.Id, ReviewerState> e : reviewers.entrySet()) {
-      Account account = accountCache.get(e.getKey()).getAccount();
-      PersonIdent ident = newIdent(account, when);
+      PersonIdent ident = notedbIdent.create(e.getKey(), when);
       addFooter(msg, e.getValue().getFooterKey())
           .append(ident.getName())
           .append(" <").append(ident.getEmailAddress()).append(">\n");
@@ -481,8 +478,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
             addFooter(msg, FOOTER_SUBMITTED_WITH)
                 .append(label.status).append(": ").append(label.label);
             if (label.appliedBy != null) {
-              PersonIdent ident =
-                  newIdent(accountCache.get(label.appliedBy).getAccount(), when);
+              PersonIdent ident = notedbIdent.create(label.appliedBy, when);
               msg.append(": ").append(ident.getName())
                   .append(" <").append(ident.getEmailAddress()).append('>');
             }

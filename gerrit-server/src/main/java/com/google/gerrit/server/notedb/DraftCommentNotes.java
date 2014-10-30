@@ -49,24 +49,31 @@ public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
   public static class Factory {
     private final GitRepositoryManager repoManager;
     private final NotesMigration migration;
+    private final NotedbIdent notedbIdent;
+    private final CommentsInNotesUtil commentsInNotesUtil;
     private final AllUsersName draftsProject;
 
     @VisibleForTesting
     @Inject
     public Factory(GitRepositoryManager repoManager,
         NotesMigration migration,
+        NotedbIdent notedbIdent,
+        CommentsInNotesUtil commentsInNotesUtil,
         AllUsersNameProvider allUsers) {
       this.repoManager = repoManager;
       this.migration = migration;
+      this.notedbIdent = notedbIdent;
+      this.commentsInNotesUtil = commentsInNotesUtil;
       this.draftsProject = allUsers.get();
     }
 
     public DraftCommentNotes create(Change.Id changeId, Account.Id accountId) {
-      return new DraftCommentNotes(repoManager, migration, draftsProject,
-          changeId, accountId);
+      return new DraftCommentNotes(repoManager, migration, notedbIdent,
+          commentsInNotesUtil, draftsProject, changeId, accountId);
     }
   }
 
+  private final CommentsInNotesUtil commentsInNotesUtil;
   private final AllUsersName draftsProject;
   private final Account.Id author;
 
@@ -75,8 +82,10 @@ public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
   private NoteMap noteMap;
 
   DraftCommentNotes(GitRepositoryManager repoManager, NotesMigration migration,
+      NotedbIdent notedbIdent, CommentsInNotesUtil commentsInNotesUtil,
       AllUsersName draftsProject, Change.Id changeId, Account.Id author) {
-    super(repoManager, migration, changeId);
+    super(repoManager, migration, notedbIdent, changeId);
+    this.commentsInNotesUtil = commentsInNotesUtil;
     this.draftsProject = draftsProject;
     this.author = author;
 
@@ -133,8 +142,9 @@ public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
     }
 
     RevWalk walk = new RevWalk(reader);
-    try (DraftCommentNotesParser parser = new DraftCommentNotesParser(
-        getChangeId(), walk, rev, repoManager, draftsProject, author)) {
+    try (DraftCommentNotesParser parser =
+        new DraftCommentNotesParser(getChangeId(), walk, rev, repoManager,
+            commentsInNotesUtil, draftsProject, author)) {
       parser.parseDraftComments();
 
       buildCommentTable(draftBaseComments, parser.draftBaseComments);

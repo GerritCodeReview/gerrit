@@ -14,19 +14,12 @@
 
 package com.google.gerrit.server.notedb;
 
-import com.google.gerrit.common.data.AccountInfo;
-import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.RefNames;
 
-import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.revwalk.FooterKey;
 
-import java.util.Date;
-
 public class ChangeNoteUtil {
-  static final String GERRIT_PLACEHOLDER_HOST = "gerrit";
-
   static final FooterKey FOOTER_HASHTAGS = new FooterKey("Hashtags");
   static final FooterKey FOOTER_LABEL = new FooterKey("Label");
   static final FooterKey FOOTER_PATCH_SET = new FooterKey("Patch-set");
@@ -47,14 +40,6 @@ public class ChangeNoteUtil {
     r.append(n);
     r.append(RefNames.META_SUFFIX);
     return r.toString();
-  }
-
-  static PersonIdent newIdent(Account author, Date when,
-      PersonIdent serverIdent, String anonymousCowardName) {
-    return new PersonIdent(
-        new AccountInfo(author).getName(anonymousCowardName),
-        author.getId().get() + "@" + GERRIT_PLACEHOLDER_HOST,
-        when, serverIdent.getTimeZone());
   }
 
   private ChangeNoteUtil() {

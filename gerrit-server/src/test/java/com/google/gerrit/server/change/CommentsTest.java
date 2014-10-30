@@ -67,6 +67,8 @@ import com.google.gerrit.server.git.GitModule;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.notedb.ChangeUpdate;
+import com.google.gerrit.server.notedb.CommentsInNotesUtil;
+import com.google.gerrit.server.notedb.NoteDbIdent;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.ProjectCache;
@@ -132,6 +134,8 @@ public class CommentsTest  {
   @Inject private IdentifiedUser.GenericFactory userFactory;
   @Inject private InMemoryRepositoryManager repoManager;
   @Inject private NotesMigration migration;
+  @Inject private NoteDbIdent notedbIdent;
+  @Inject private CommentsInNotesUtil commentsInNotesUtil;
   @Inject private PatchLineCommentsUtil plcUtil;
 
   @Before
@@ -189,6 +193,8 @@ public class CommentsTest  {
             .toInstance("http://localhost:8080/");
         bind(Boolean.class).annotatedWith(DisableReverseDnsLookup.class)
             .toInstance(Boolean.FALSE);
+        bind(NoteDbIdent.class).to(NoteDbIdent.Impl.class);
+        bind(CommentsInNotesUtil.class);
         bind(GroupBackend.class).to(SystemGroupBackend.class).in(SINGLETON);
         bind(AccountCache.class).toInstance(accountCache);
         bind(GitReferenceUpdated.class)
@@ -303,8 +309,8 @@ public class CommentsTest  {
   }
 
   private ChangeControl stubChangeControl(Change c) throws OrmException {
-    return TestChanges.stubChangeControl(
-        repoManager, migration, c, allUsers, changeOwner);
+    return TestChanges.stubChangeControl(repoManager, migration, notedbIdent,
+        commentsInNotesUtil, c, allUsers, changeOwner);
   }
 
   private Change newChange() {
@@ -312,8 +318,8 @@ public class CommentsTest  {
   }
 
   private ChangeUpdate newUpdate(Change c, final IdentifiedUser user) throws Exception {
-    return TestChanges.newUpdate(
-        injector, repoManager, migration, c, allUsers, user);
+    return TestChanges.newUpdate(injector, repoManager, migration, notedbIdent,
+        commentsInNotesUtil, c, allUsers, user);
   }
 
   @Test

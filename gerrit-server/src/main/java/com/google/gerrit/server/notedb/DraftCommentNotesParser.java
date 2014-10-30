@@ -42,15 +42,18 @@ class DraftCommentNotesParser implements AutoCloseable {
   private final ObjectId tip;
   private final RevWalk walk;
   private final Repository repo;
+  private final CommentsInNotesUtil commentsInNotesUtil;
   private final Account.Id author;
 
   DraftCommentNotesParser(Change.Id changeId, RevWalk walk, ObjectId tip,
-      GitRepositoryManager repoManager, AllUsersName draftsProject,
-      Account.Id author) throws RepositoryNotFoundException, IOException {
+      GitRepositoryManager repoManager, CommentsInNotesUtil commentsInNotesUtil,
+      AllUsersName draftsProject, Account.Id author)
+      throws RepositoryNotFoundException, IOException {
     this.changeId = changeId;
     this.walk = walk;
     this.tip = tip;
     this.repo = repoManager.openMetadataRepository(draftsProject);
+    this.commentsInNotesUtil = commentsInNotesUtil;
     this.author = author;
 
     draftBaseComments = ArrayListMultimap.create();
@@ -64,7 +67,7 @@ class DraftCommentNotesParser implements AutoCloseable {
 
   void parseDraftComments() throws IOException, ConfigInvalidException {
     walk.markStart(walk.parseCommit(tip));
-    noteMap = CommentsInNotesUtil.parseCommentsFromNotes(repo,
+    noteMap = commentsInNotesUtil.parseCommentsFromNotes(repo,
         RefNames.refsDraftComments(author, changeId),
         walk, changeId, draftBaseComments,
         draftPsComments, PatchLineComment.Status.DRAFT);

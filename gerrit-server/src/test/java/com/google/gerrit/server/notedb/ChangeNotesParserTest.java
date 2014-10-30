@@ -169,9 +169,7 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
   }
 
   private RevCommit writeCommit(String body) throws Exception {
-    return writeCommit(body, ChangeNoteUtil.newIdent(
-        changeOwner.getAccount(), TimeUtil.nowTs(), serverIdent,
-        "Anonymous Coward"));
+    return writeCommit(body, notedbIdent.create(changeOwner, TimeUtil.nowTs()));
   }
 
   private RevCommit writeCommit(String body, PersonIdent author)
@@ -213,6 +211,7 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
   }
 
   private ChangeNotesParser newParser(ObjectId tip) throws Exception {
-    return new ChangeNotesParser(newChange(), tip, walk, repoManager);
+    return new ChangeNotesParser(newChange(), tip, walk, repoManager,
+        notedbIdent, commentsInNotesUtil);
   }
 }

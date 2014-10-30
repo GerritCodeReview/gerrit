@@ -152,7 +152,7 @@ class H2CacheFactory implements PersistentCacheFactory, LifecycleListener {
     }
   }
 
-  @SuppressWarnings({"unchecked", "cast"})
+  @SuppressWarnings({"unchecked"})
   @Override
   public <K, V> Cache<K, V> build(CacheBinding<K, V> def) {
     long limit = config.getLong("cache", def.name(), "diskLimit", 128 << 20);

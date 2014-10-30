@@ -76,7 +76,13 @@ public class ChangeFileApi {
   /** Put message into a change edit. */
   public static void putMessage(PatchSet.Id id, String m,
       AsyncCallback<VoidResult> r) {
-    ChangeApi.change(id.getParentKey().get()).view("edit_message").put(m, r);
+    putMessage(id.getParentKey(), m, r);
+  }
+
+  /** Put message into a change edit. */
+  public static void putMessage(Change.Id id, String m,
+      AsyncCallback<VoidResult> r) {
+    ChangeApi.change(id.get()).view("edit_message").put(m, r);
   }
 
   /** Restore contents of a File in a change edit. */

@@ -121,6 +121,54 @@
     },
     {
       "key": {
+        "uuid": "75c8ce75_36d3f869",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2014-10-30T13:26:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d52b3ac1_8907593e",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 16
+      },
+      "revId": "6dfe7aa30c3bcd6d241fef2fac704eb8f9a36d3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "75c8ce75_56d87481",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2014-10-30T13:26:43Z",
+      "side": 1,
+      "message": "We have quite a lot of users that already uses the DRAFT workflow so it would be hard to disable it and tell them that they need to use something else, especially that the only problem we have(the one solved by this change) is caused by the way we deploy Gerrit.\n\nI guess I could enable the WIP workflow to see if the users prefer that but in the meantime, I still need to be able remove a deleted change from the index.\n\nIt is also possible(even if it is unlikely) to get into that situation of having a change in the index that is not in the DB without having this active/hot-stand-by topology. If a draft change is deleted and Gerrit crashes before the index was flushed to the disk.",
+      "parentUuid": "55dcaa2f_fd016728",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 16
+      },
+      "revId": "6dfe7aa30c3bcd6d241fef2fac704eb8f9a36d3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d52b3ac1_49f601f4",
         "filename": "gerrit-solr/src/main/java/com/google/gerrit/solr/SolrChangeIndex.java",
         "patchSetId": 1

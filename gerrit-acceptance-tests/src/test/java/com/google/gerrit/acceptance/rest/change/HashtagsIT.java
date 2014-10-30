@@ -21,6 +21,7 @@ import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.extensions.api.changes.HashtagsInput;
 import com.google.gerrit.server.notedb.NotesMigration;
@@ -28,6 +29,7 @@ import com.google.gerrit.testutil.ConfigSuite;
 import com.google.gson.reflect.TypeToken;
 
 import org.apache.http.HttpStatus;
+import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.lib.Config;
 import org.junit.Test;
 
@@ -43,6 +45,8 @@ public class HashtagsIT extends AbstractDaemonTest {
     return NotesMigration.allEnabledConfig();
   }
 
+  private static String FOOTER_KEY_HASHTAGS = "Hashtags";
+
   private void assertResult(RestResponse r, List<String> expected)
       throws IOException {
     assertEquals(HttpStatus.SC_OK, r.getStatusCode());
@@ -55,6 +59,28 @@ public class HashtagsIT extends AbstractDaemonTest {
     // GET hashtags on a change with no hashtags returns an empty list
     String changeId = createChange().getChangeId();
     assertResult(GET(changeId), ImmutableList.<String>of());
+  }
+
+  @Test
+  public void testHashtagsCreatedFromCommitMessage() throws Exception {
+    String footer1 = "tag1";
+    String footer2 = "tag2,tag3";
+    List<String> created = Arrays.asList(footer1, "tag2", "tag3");
+    List<String> updated = Arrays.asList("tag2", "tag3");
+
+    // Create hashtags from commit message.
+    String changeId = newChange(footer1, footer2).getChangeId();
+    assertResult(GET(changeId), created);
+
+    // If there are hastags specified in current patch-set's commit message,
+    // before remove them from hashtags pool, need to delete them firstly from
+    // commit message.
+    assertEquals(HttpStatus.SC_CONFLICT, POST(changeId, null, "tag1")
+        .getStatusCode());
+    assertResult(GET(changeId), created);
+    amendChange(changeId, footer2);
+    assertResult(GET(changeId), created);
+    assertResult(POST(changeId, null, "tag1"), updated);
   }
 
   @Test
@@ -229,5 +255,32 @@ public class HashtagsIT extends AbstractDaemonTest {
         newGson().fromJson(r.getReader(),
             new TypeToken<List<String>>() {}.getType());
     return result;
+  }
+
+  private String getCommitMessageWithHashtagsFooters(String... hashtagsFooters) {
+    StringBuilder msg = new StringBuilder("Add hashtags from commit message. ");
+    msg.append("\n\n");
+    for (String f : hashtagsFooters) {
+      msg.append(FOOTER_KEY_HASHTAGS).append(":").append(f).append("\n");
+    }
+    return msg.toString();
+  }
+
+  private PushOneCommit.Result newChange(String... hashtagsFooters)
+      throws GitAPIException, IOException {
+    PushOneCommit push =
+        pushFactory.create(db, admin.getIdent(),
+            getCommitMessageWithHashtagsFooters(hashtagsFooters),
+            PushOneCommit.FILE_NAME, PushOneCommit.FILE_CONTENT);
+    return push.to(git, "refs/for/master");
+  }
+
+  private PushOneCommit.Result amendChange(String changeId,
+      String... hashtagsFooters) throws GitAPIException, IOException {
+    PushOneCommit push =
+        pushFactory.create(db, admin.getIdent(),
+            getCommitMessageWithHashtagsFooters(hashtagsFooters),
+            PushOneCommit.FILE_NAME, PushOneCommit.FILE_CONTENT, changeId);
+    return push.to(git, "refs/for/master");
   }
 }

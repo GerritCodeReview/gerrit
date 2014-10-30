@@ -15,13 +15,13 @@
 package com.google.gerrit.client.change;
 
 import com.google.gerrit.client.Gerrit;
-import com.google.gerrit.client.changes.ChangeApi;
+import com.google.gerrit.client.VoidResult;
+import com.google.gerrit.client.changes.ChangeFileApi;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.TextBoxChangeListener;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -40,7 +40,6 @@ class EditMessageBox extends Composite {
   private static final Binder uiBinder = GWT.create(Binder.class);
 
   private final Change.Id changeId;
-  private final String revision;
   private String originalMessage;
 
   @UiField NpTextArea message;
@@ -49,10 +48,8 @@ class EditMessageBox extends Composite {
 
   EditMessageBox(
       Change.Id changeId,
-      String revision,
       String msg) {
     this.changeId = changeId;
-    this.revision = revision;
     this.originalMessage = msg.trim();
     initWidget(uiBinder.createAndBindUi(this));
     message.getElement().setAttribute("wrap", "off");
@@ -82,11 +79,11 @@ class EditMessageBox extends Composite {
   @UiHandler("save")
   void onSave(@SuppressWarnings("unused") ClickEvent e) {
     save.setEnabled(false);
-    ChangeApi.message(changeId.get(), revision, message.getText().trim(),
-        new GerritCallback<JavaScriptObject>() {
+    ChangeFileApi.putMessage(changeId, message.getText().trim(),
+        new GerritCallback<VoidResult>() {
           @Override
-          public void onSuccess(JavaScriptObject msg) {
-            Gerrit.display(PageLinks.toChange(changeId));
+          public void onSuccess(VoidResult result) {
+            Gerrit.display(PageLinks.toChangeInEditMode(changeId));
             hide();
           }
         });

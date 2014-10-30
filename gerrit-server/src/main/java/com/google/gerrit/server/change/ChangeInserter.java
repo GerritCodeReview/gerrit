@@ -16,10 +16,10 @@ package com.google.gerrit.server.change;
 
 import static com.google.gerrit.reviewdb.client.Change.INITIAL_PATCH_SET_ID;
 
+import com.google.common.collect.Sets;
 import com.google.common.util.concurrent.CheckedFuture;
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.data.LabelTypes;
-import com.google.gerrit.extensions.api.changes.HashtagsInput;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
@@ -31,7 +31,6 @@ import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.account.AccountCache;
-import com.google.gerrit.server.auth.AuthException;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.mail.CreateChangeSender;
@@ -39,7 +38,6 @@ import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.RefControl;
-import com.google.gerrit.server.validators.ValidationException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -71,7 +69,6 @@ public class ChangeInserter {
   private final ChangeMessagesUtil cmUtil;
   private final ChangeIndexer indexer;
   private final CreateChangeSender.Factory createChangeSenderFactory;
-  private final HashtagsUtil hashtagsUtil;
   private final AccountCache accountCache;
 
   private final RefControl refControl;
@@ -98,7 +95,6 @@ public class ChangeInserter {
       ChangeMessagesUtil cmUtil,
       ChangeIndexer indexer,
       CreateChangeSender.Factory createChangeSenderFactory,
-      HashtagsUtil hashtagsUtil,
       AccountCache accountCache,
       @Assisted RefControl refControl,
       @Assisted Change change,
@@ -111,7 +107,6 @@ public class ChangeInserter {
     this.cmUtil = cmUtil;
     this.indexer = indexer;
     this.createChangeSenderFactory = createChangeSenderFactory;
-    this.hashtagsUtil = hashtagsUtil;
     this.accountCache = accountCache;
     this.refControl = refControl;
     this.change = change;
@@ -119,7 +114,7 @@ public class ChangeInserter {
     this.reviewers = Collections.emptySet();
     this.extraCC = Collections.emptySet();
     this.approvals = Collections.emptyMap();
-    this.hashtags = Collections.emptySet();
+    this.hashtags = Sets.<String> newHashSet();
     this.runHooks = true;
     this.sendMail = true;
 
@@ -210,17 +205,14 @@ public class ChangeInserter {
       db.rollback();
     }
 
-    update.commit();
-
-    if (hashtags != null && hashtags.size() > 0) {
-      try {
-        HashtagsInput input = new HashtagsInput();
-        input.add = hashtags;
-        hashtagsUtil.setHashtags(ctl, input, false, false);
-      } catch (ValidationException | AuthException e) {
-        log.error("Cannot add hashtags to change " + change.getId(), e);
-      }
+    Set<String> cmHashtags = HashtagsUtil.parseCommitMessageHashtags(commit);
+    if (!cmHashtags.isEmpty()) {
+      hashtags.addAll(cmHashtags);
     }
+    if (!hashtags.isEmpty()) {
+      update.setHashtags(hashtags);
+    }
+    update.commit();
 
     CheckedFuture<?, IOException> f = indexer.indexAsync(change.getId());
 

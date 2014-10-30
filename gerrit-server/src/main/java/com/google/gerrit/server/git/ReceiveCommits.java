@@ -2355,9 +2355,10 @@ public class ReceiveCommits {
           continue;
         }
 
-        // validate commits before repo updates, thus abort as early as possible
+        // Validate commits before repo updates, thus abort as early as possible
         // without leaving dirty data (invalid hashtags in commit message) when
-        // git-push bypassing code review need close existing open changes with new patch-set
+        // git-push bypassing code review need close existing open changes with
+        // new patch-set.
         walk.parseBody(c);
         boolean validated = false;
         if ((isHead(cmd) || isConfig(cmd)) && byCommit.get(c.copy()).isEmpty()) {

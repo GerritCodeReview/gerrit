@@ -232,6 +232,7 @@ a:hover {
   margin-bottom: 0px;
   padding-top: 0.5em;
   padding-bottom: 0.5em;
+  max-height: 100000px;
 }
 .commentPanelButtons {
   margin-left: 0.5em;

@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "55dcaa2f_fd2fa7a5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/MergeabilityCache.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-30T22:19:37Z",
+      "side": 1,
+      "message": "With 5 elements in the BiMap you can skip buidler:\n\n  ImmutableBiMap.\u003cSubmitType, Character\u003eof(\n      SubmitType.FAST_FORWARD_ONLY, \u0027F\u0027,\n      SubmitType.MERGE_IF_NECESSARY, \u0027M\u0027,\n      SubmitType.REBASE_IF_NECESSARY, \u0027R\u0027,\n      SubmitType.MERGE_ALWAYS, \u0027A\u0027,\n      SubmitType.CHERRY_PICK, \u0027C\u0027);",
+      "range": {
+        "startLine": 77,
+        "startChar": 6,
+        "endLine": 83,
+        "endChar": 17
+      },
+      "revId": "cd6de8f68c1080d8cff77d91cdf47f5a4d6453a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "95daa231_ffb23f09",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/MergeabilityCache.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-30T22:19:37Z",
+      "side": 1,
+      "message": "This ctor exists and is public, even though, it is used only  from ctor with branch below. Given that the class cannot operate without branch, no justification for this ctor to exist. It should be merged with ctor below, or at least turned to be private. On line 221 below dest is unconditionally accessed.",
+      "range": {
+        "startLine": 115,
+        "startChar": 4,
+        "endLine": 121,
+        "endChar": 5
+      },
+      "revId": "cd6de8f68c1080d8cff77d91cdf47f5a4d6453a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "95daa231_dfb57bf4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/MergeabilityCache.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-30T22:19:37Z",
+      "side": 1,
+      "message": "Why reset it?",
+      "range": {
+        "startLine": 226,
+        "startChar": 8,
+        "endLine": 227,
+        "endChar": 24
+      },
+      "revId": "cd6de8f68c1080d8cff77d91cdf47f5a4d6453a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "95daa231_1fa1a3b2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/MergeabilityCache.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-30T22:19:37Z",
+      "side": 1,
+      "message": "This method is unused in this change. I see that it is used later in this series, but as i mention in this comment this caller can be easily eliminated, so that this method can be removed.\n\n https://gerrit-review.googlesource.com/#/c/60937/8/gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java@621",
+      "range": {
+        "startLine": 302,
+        "startChar": 2,
+        "endLine": 303,
+        "endChar": 48
+      },
+      "revId": "cd6de8f68c1080d8cff77d91cdf47f5a4d6453a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "55dcaa2f_1d6a93de",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/MergeabilityCache.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-30T22:19:37Z",
+      "side": 1,
+      "message": "Call method below, to have the logic only once?\n\n  return get(commit, into, submitType, mergeStrategy, dest, null);",
+      "range": {
+        "startLine": 304,
+        "startChar": 11,
+        "endLine": 304,
+        "endChar": 76
+      },
+      "revId": "cd6de8f68c1080d8cff77d91cdf47f5a4d6453a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "55dcaa2f_3dfcafd2",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/HashtagsIT.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-10-30T07:28:58Z",
+      "side": 1,
+      "message": "Done in https://gerrit-review.googlesource.com/60320",
+      "parentUuid": "f035acd2_52bef4dd",
+      "revId": "4b0bd91dc009808880bd97418672792649144e02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f035acd2_12c86c7e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/HashtagsUtil.java",
         "patchSetId": 12

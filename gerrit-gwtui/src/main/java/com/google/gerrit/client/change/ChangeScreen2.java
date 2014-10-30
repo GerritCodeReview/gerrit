@@ -425,7 +425,7 @@ public class ChangeScreen2 extends Screen {
   }
 
   private void initEditMode(ChangeInfo info) {
-    if (Gerrit.isSignedIn() && info.status() == Status.NEW) {
+    if (Gerrit.isSignedIn() && info.status().isOpen()) {
       RevisionInfo rev = info.revision(revision);
       if (isEditModeEnabled(info, rev)) {
         editMode.setVisible(fileTableMode == FileTable.Mode.REVIEW);

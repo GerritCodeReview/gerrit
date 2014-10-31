@@ -73,6 +73,24 @@
     },
     {
       "key": {
+        "uuid": "95daa231_7f2e2f81",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 37
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-10-31T08:33:16Z",
+      "side": 1,
+      "message": "No, I think you are correct.",
+      "parentUuid": "55dcaa2f_dd602bf3",
+      "revId": "882e072018ee3d09f0296399ce2f2715f8cf3313",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "95daa231_5f4deb86",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CherryPickChange.java",
         "patchSetId": 37

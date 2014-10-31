@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "95daa231_df23bb9b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GroupDetailFactory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-10-31T07:32:53Z",
+      "side": 1,
+      "message": "the \u0027if\u0027 does not make sense in \u0027for\u0027 loop now.",
+      "revId": "8b42ec5bd5cd9aa7a6d7b8159ff4a9911ba89175",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

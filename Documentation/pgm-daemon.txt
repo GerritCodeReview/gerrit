@@ -37,7 +37,7 @@ to different values.
 --enable-httpd::
 --disable-httpd::
 	Enable (or disable) the internal HTTP daemon, answering
-	web requests.  Enabled by default.
+	web requests. Enabled by default when --slave is not used.
 
 --enable-sshd::
 --disable-sshd::
@@ -51,7 +51,7 @@ to different values.
     or updates existing ones) or link:cmd-review.html[review]
     (sets approve marks) are disabled.
 +
-This option automatically implies '--disable-httpd --enable-sshd'.
+This option automatically implies '--enable-sshd'.
 
 --console-log::
 	Send log messages to the console, instead of to the standard

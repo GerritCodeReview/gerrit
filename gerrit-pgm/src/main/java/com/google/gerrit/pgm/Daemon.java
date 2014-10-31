@@ -119,7 +119,7 @@ public class Daemon extends SiteProgram {
     sshd = false;
   }
 
-  @Option(name = "--slave", usage = "Support fetch only; implies --disable-httpd")
+  @Option(name = "--slave", usage = "Support fetch only")
   private boolean slave;
 
   @Option(name = "--console-log", usage = "Log to console (not $site_path/logs)")
@@ -190,9 +190,6 @@ public class Daemon extends SiteProgram {
 
     if (!httpd && !sshd) {
       throw die("No services enabled, nothing to do");
-    }
-    if (slave && httpd) {
-      throw die("Cannot combine --slave and --enable-httpd");
     }
 
     manager.add(GarbageCollectionLogFile.start(getSitePath()));

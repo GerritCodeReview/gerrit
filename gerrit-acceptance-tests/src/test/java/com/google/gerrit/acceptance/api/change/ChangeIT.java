@@ -34,7 +34,6 @@ import com.google.gerrit.extensions.common.LabelInfo;
 import com.google.gerrit.extensions.common.ListChangesOption;
 import com.google.gerrit.extensions.common.RevisionInfo;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
-import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Account;
 
 import org.eclipse.jgit.lib.Constants;
@@ -108,8 +107,7 @@ public class ChangeIT extends AbstractDaemonTest {
         .rebase();
   }
 
-  private Set<Account.Id> getReviewers(String changeId)
-      throws RestApiException {
+  private Set<Account.Id> getReviewers(String changeId) throws Exception {
     ChangeInfo ci = gApi.changes().id(changeId).get();
     Set<Account.Id> result = Sets.newHashSet();
     for (LabelInfo li : ci.labels.values()) {

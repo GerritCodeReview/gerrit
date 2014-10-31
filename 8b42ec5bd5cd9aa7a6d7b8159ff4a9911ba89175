@@ -16,6 +16,24 @@
       "revId": "8b42ec5bd5cd9aa7a6d7b8159ff4a9911ba89175",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d52b3ac1_296aadde",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GroupDetailFactory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-10-31T07:42:39Z",
+      "side": 1,
+      "message": "The actual behaviour is the same as before because the parameter was not being used.\n\nSee:\n\nhttps://gerrit-review.googlesource.com/#/c/61151/2/gerrit-server/src/main/java/com/google/gerrit/server/account/GroupControl.java@a177\n\n\nIncidentally, and unrelated to the change here, we need an easy way to get links to lines in files.  To get that link I had to make a draft comment, click the reply button, and then copy the link from the preview pane.",
+      "parentUuid": "95daa231_df23bb9b",
+      "revId": "8b42ec5bd5cd9aa7a6d7b8159ff4a9911ba89175",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

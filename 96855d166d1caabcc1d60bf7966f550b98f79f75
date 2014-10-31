@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "95daa231_9f19336e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-31T07:17:48Z",
+      "side": 1,
+      "message": "Remove this?",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 5
+      },
+      "revId": "96855d166d1caabcc1d60bf7966f550b98f79f75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b50a4612_381909e6",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/PushOneCommit.java",
         "patchSetId": 1
@@ -119,6 +142,24 @@
       "side": 1,
       "message": "Yes, please fix this. It happens to work because the buck build flattens all transitive deps.",
       "parentUuid": "d515fa2f_599603da",
+      "revId": "96855d166d1caabcc1d60bf7966f550b98f79f75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "55dcaa2f_9d66a30e",
+        "filename": "lib/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-31T07:17:48Z",
+      "side": 1,
+      "message": "I would say it\u0027s not necessary. All rules that might potentially depend on lib:truth have already included guava and junit deps over other dependencies. All acceptance tests depend on //gerrit-acceptance-tests:lib::\n\n  buck targets --json //gerrit-acceptance-tests:lib\nUsing buckd.\n[\n{\n  \"annotationProcessorDeps\" : [ ],\n  \"annotationProcessorOnly\" : null,\n  \"annotationProcessorParams\" : [ ],\n  \"annotationProcessors\" : [ ],\n  \"buck.base_path\" : \"gerrit-acceptance-tests\",\n  \"buck.output_file\" : \"buck-out/gen/gerrit-acceptance-tests/lib__lib__output/lib.jar\",\n  \"deps\" : [ ],\n  \"exportedDeps\" : [\n    \"//gerrit-common:annotations\", \n    \"//gerrit-common:server\",\n    \"//gerrit-extension-api:api\",\n    \"//gerrit-launcher:launcher\",\n    \"//gerrit-lucene:lucene\",   \n    \"//gerrit-httpd:httpd\",\n    \"//gerrit-pgm:init\",\n    \"//gerrit-pgm:pgm\",\n    \"//gerrit-pgm:util\",\n    \"//gerrit-reviewdb:server\",\n    \"//gerrit-server:server\",\n    \"//gerrit-server/src/main/prolog:common\",\n    \"//gerrit-server:testutil\",\n    \"//gerrit-sshd:sshd\",\n    \"//lib:args4j\",\n    \"//lib:gson\",\n    \"//lib:guava\",\n    \"//lib:gwtjsonrpc\",\n    \"//lib:gwtorm\",\n    \"//lib:h2\"\n    \"//lib:jsch\", \n    \"//lib:junit\",\n    \"//lib:servlet-api-3_1\", \n    \"//lib:truth\", \n    \"//lib/hamcrest:hamcrest-core\", \n    \"//lib/hamcrest:hamcrest-library\",\n    \"//lib/httpcomponents:httpclient\",   \n    \"//lib/httpcomponents:httpcore\", \n    \"//lib/log:impl_log4j\", \n    \"//lib/log:log4j\", \n    \"//lib/guice:guice\", \n    \"//lib/guice:guice-assistedinject\", \n    \"//lib/jgit:jgit\", \n    \"//lib/jgit:junit\", \n    \"//lib/mina:sshd\" \n  ],\n  \"name\" : \"lib\",\n\n\nAnd gerrit-server:server_tests has them too:\n\n  $ buck targets --json //gerrit-server:server_tests\nUsing buckd.\n[\n{\n  \"annotationProcessorDeps\" : [ ],\n  \"annotationProcessorOnly\" : null,\n  \"annotationProcessorParams\" : [ ],\n  \"annotationProcessors\" : [ ],\n  \"buck.base_path\" : \"gerrit-server\",\n  \"buck.output_file\" : \"buck-out/gen/gerrit-server/lib__server_tests__output/server_tests.jar\",\n  \"contacts\" : [ ],\n  \"deps\" : [\n    \":server\",\n    \":testutil\",\n    \"//gerrit-antlr:query_exception\",\n    \"//gerrit-common:annotations\",\n    \"//gerrit-common:server\",\n    \"//gerrit-extension-api:api\",\n    \"//gerrit-reviewdb:server\",\n    \"//gerrit-server/src/main/prolog:common\",  \n    \"//lib:args4j\",\n    \"//lib:guava\",\n    \"//lib:gwtorm\",\n    \"//lib:junit\",\n    \"//lib/guice:guice\",\n    \"//lib/guice:guice-assistedinject\",\n    \"//lib/jgit:jgit\",\n    \"//lib/jgit:junit\",\n    \"//lib/joda:joda-time\",\n    \"//lib/prolog:prolog-cafe\"\n  ],",
+      "parentUuid": "b566c610_b8b2d908",
       "revId": "96855d166d1caabcc1d60bf7966f550b98f79f75",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

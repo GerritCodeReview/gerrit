@@ -19,20 +19,21 @@ import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.data.GroupInfoCache;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.inject.Inject;
+import com.google.inject.assistedinject.Assisted;
 
 import java.util.Map;
 
 /** Efficiently builds a {@link GroupInfoCache}. */
 public class GroupInfoCacheFactory {
   public interface Factory {
-    GroupInfoCacheFactory create();
+    GroupInfoCacheFactory create(GroupBackend groupBackend);
   }
 
   private final GroupBackend groupBackend;
   private final Map<AccountGroup.UUID, GroupDescription.Basic> out;
 
   @Inject
-  GroupInfoCacheFactory(GroupBackend groupBackend) {
+  GroupInfoCacheFactory(@Assisted GroupBackend groupBackend) {
     this.groupBackend = groupBackend;
     this.out = Maps.newHashMap();
   }

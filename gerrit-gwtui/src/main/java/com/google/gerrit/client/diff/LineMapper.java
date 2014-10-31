@@ -193,6 +193,14 @@ class LineMapper {
     }
 
     @Override
+    public int hashCode() {
+      int hash = 1;
+      hash = hash * 17 + line;
+      hash = hash * 31 + (aligned ? 1 : 0);
+      return hash;
+    }
+
+    @Override
     public String toString() {
       return line + " " + aligned;
     }

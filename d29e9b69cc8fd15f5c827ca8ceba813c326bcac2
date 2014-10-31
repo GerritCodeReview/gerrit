@@ -16,6 +16,24 @@
       "revId": "d29e9b69cc8fd15f5c827ca8ceba813c326bcac2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d52b3ac1_096fe9ee",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-10-31T08:26:31Z",
+      "side": 1,
+      "message": "See the change from Dave here.\n\nhttps://gerrit-review.googlesource.com/#/c/61150/",
+      "parentUuid": "55dcaa2f_bda8bf99",
+      "revId": "d29e9b69cc8fd15f5c827ca8ceba813c326bcac2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

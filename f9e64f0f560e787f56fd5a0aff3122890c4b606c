@@ -69,6 +69,24 @@
       "revId": "f9e64f0f560e787f56fd5a0aff3122890c4b606c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "95daa231_ff8b1f25",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 636,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-10-31T05:31:26Z",
+      "side": 1,
+      "message": "Yes updated related methods and variables . \nDone",
+      "parentUuid": "307ae4aa_f4ecd8cf",
+      "revId": "f9e64f0f560e787f56fd5a0aff3122890c4b606c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

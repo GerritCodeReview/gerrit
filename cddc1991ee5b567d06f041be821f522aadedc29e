@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "55dcaa2f_5d109b42",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-31T13:05:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b52086df_c82f8fa6",
+      "range": {
+        "startLine": 11,
+        "startChar": 4,
+        "endLine": 11,
+        "endChar": 10
+      },
+      "revId": "cddc1991ee5b567d06f041be821f522aadedc29e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b52086df_286aabde",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "55dcaa2f_7d155731",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-31T13:05:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b52086df_286aabde",
+      "range": {
+        "startLine": 13,
+        "startChar": 4,
+        "endLine": 13,
+        "endChar": 12
+      },
+      "revId": "cddc1991ee5b567d06f041be821f522aadedc29e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b52086df_086fe7ee",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -59,6 +107,30 @@
       "writtenOn": "2014-10-31T12:45:23Z",
       "side": 1,
       "message": "click",
+      "range": {
+        "startLine": 19,
+        "startChar": 18,
+        "endLine": 19,
+        "endChar": 24
+      },
+      "revId": "cddc1991ee5b567d06f041be821f522aadedc29e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "55dcaa2f_9d19436e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-31T13:05:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b52086df_086fe7ee",
       "range": {
         "startLine": 19,
         "startChar": 18,

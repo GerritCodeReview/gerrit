@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "55dcaa2f_dd602bf3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 37
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-10-31T07:56:26Z",
+      "side": 1,
+      "message": "do you have the same question as Gustaf?",
+      "parentUuid": "95daa231_1f2fe37f",
+      "revId": "882e072018ee3d09f0296399ce2f2715f8cf3313",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "95daa231_5f4deb86",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CherryPickChange.java",
         "patchSetId": 37

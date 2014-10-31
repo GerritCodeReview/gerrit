@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "b52086df_482b9fa7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 458,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-10-31T00:37:10Z",
+      "side": 1,
+      "message": "This needs a new name, \"mergeable2\"",
+      "range": {
+        "startLine": 458,
+        "startChar": 10,
+        "endLine": 458,
+        "endChar": 44
+      },
+      "revId": "48530f2e5fbbd8451508e325567dd87d7aaf0e9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "95daa231_3fa667cb",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
         "patchSetId": 8

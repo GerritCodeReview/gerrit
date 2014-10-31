@@ -72,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "55dcaa2f_1d061310",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/MergeabilityCache.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-31T12:41:36Z",
+      "side": 1,
+      "message": "OK, good to know. But still one ctor with persistent attributes and dest only is superfluous as every caller has to open repository to obtain ref that is needed anyway, so the repository can be passed in mergeabilityCache.get(..., dest, repo) method and thus in EntryKey ctor, before being closed. That way you can eliminated injection of GitRepositoryManager and optional open/release of repo instance below.",
+      "parentUuid": "75c8ce75_762bb0a7",
+      "range": {
+        "startLine": 115,
+        "startChar": 4,
+        "endLine": 121,
+        "endChar": 5
+      },
+      "revId": "cd6de8f68c1080d8cff77d91cdf47f5a4d6453a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "95daa231_dfb57bf4",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/MergeabilityCache.java",
         "patchSetId": 12
@@ -107,6 +131,30 @@
       "side": 1,
       "message": "Cache key instances are stored in the cache and thus potentially very long-lived. dest and repo are not used in equals/hashCode so these are wasteful hard references.",
       "parentUuid": "95daa231_dfb57bf4",
+      "range": {
+        "startLine": 226,
+        "startChar": 8,
+        "endLine": 227,
+        "endChar": 24
+      },
+      "revId": "cd6de8f68c1080d8cff77d91cdf47f5a4d6453a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "55dcaa2f_fd8b2725",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/MergeabilityCache.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-31T12:41:36Z",
+      "side": 1,
+      "message": "Sure, but you marked the instances with transient keyword to prevent persisting these values and you ignore them in hashCode/equals, so why bother?",
+      "parentUuid": "95b382f9_374a1882",
       "range": {
         "startLine": 226,
         "startChar": 8,

@@ -91,6 +91,24 @@
     },
     {
       "key": {
+        "uuid": "95daa231_7fe38fe8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 37
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2014-10-31T09:32:13Z",
+      "side": 1,
+      "message": "Sorry. I read the if-statement to quickly and got it wrong.",
+      "parentUuid": "95daa231_7f2e2f81",
+      "revId": "882e072018ee3d09f0296399ce2f2715f8cf3313",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "95daa231_5f4deb86",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CherryPickChange.java",
         "patchSetId": 37
@@ -120,6 +138,24 @@
       "side": 1,
       "message": "you may ignore the \u0027!\u0027 before HashtagsUtil.parseCommitMessageHashtags(cherryPickCommit).isEmpty()  :)",
       "parentUuid": "95daa231_5f4deb86",
+      "revId": "882e072018ee3d09f0296399ce2f2715f8cf3313",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "95daa231_9fc7734f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CherryPickChange.java",
+        "patchSetId": 37
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2014-10-31T09:32:13Z",
+      "side": 1,
+      "message": "I read the if-statement to quickly and got it wrong.",
+      "parentUuid": "95daa231_7fa0efab",
       "revId": "882e072018ee3d09f0296399ce2f2715f8cf3313",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

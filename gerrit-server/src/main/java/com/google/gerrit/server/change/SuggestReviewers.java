@@ -20,7 +20,6 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.gerrit.common.data.GroupReference;
-import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.Url;
@@ -28,17 +27,15 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountControl;
 import com.google.gerrit.server.account.AccountInfo;
 import com.google.gerrit.server.account.AccountVisibility;
 import com.google.gerrit.server.account.GroupBackend;
-import com.google.gerrit.server.account.GroupMembers;
+import com.google.gerrit.server.account.GroupDetail;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.group.GroupJson.GroupBaseInfo;
-import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -62,10 +59,9 @@ public class SuggestReviewers implements RestReadView<ChangeResource> {
 
   private final AccountInfo.Loader.Factory accountLoaderFactory;
   private final AccountControl.Factory accountControlFactory;
-  private final GroupMembers.Factory groupMembersFactory;
+  private final GroupDetail.Factory groupDetailFactory;
   private final AccountCache accountCache;
   private final Provider<ReviewDb> dbProvider;
-  private final Provider<CurrentUser> currentUser;
   private final IdentifiedUser.GenericFactory identifiedUserFactory;
   private final GroupBackend groupBackend;
   private final boolean suggestAccounts;
@@ -97,9 +93,8 @@ public class SuggestReviewers implements RestReadView<ChangeResource> {
       AccountInfo.Loader.Factory accountLoaderFactory,
       AccountControl.Factory accountControlFactory,
       AccountCache accountCache,
-      GroupMembers.Factory groupMembersFactory,
+      GroupDetail.Factory groupDetailFactory,
       IdentifiedUser.GenericFactory identifiedUserFactory,
-      Provider<CurrentUser> currentUser,
       Provider<ReviewDb> dbProvider,
       @GerritServerConfig Config cfg,
       GroupBackend groupBackend,
@@ -107,10 +102,9 @@ public class SuggestReviewers implements RestReadView<ChangeResource> {
     this.accountLoaderFactory = accountLoaderFactory;
     this.accountControlFactory = accountControlFactory;
     this.accountCache = accountCache;
-    this.groupMembersFactory = groupMembersFactory;
+    this.groupDetailFactory = groupDetailFactory;
     this.dbProvider = dbProvider;
     this.identifiedUserFactory = identifiedUserFactory;
-    this.currentUser = currentUser;
     this.groupBackend = groupBackend;
     this.reviewerSuggestionCache = reviewerSuggestionCache;
     this.maxSuggestedReviewers =
@@ -296,29 +290,23 @@ public class SuggestReviewers implements RestReadView<ChangeResource> {
       return false;
     }
 
-    try {
-      Set<Account> members = groupMembersFactory
-          .create(currentUser.get())
-          .listAccounts(group.getUUID(), project.getNameKey());
+    Set<Account> members =
+        groupDetailFactory.create(group.getUUID(), project.getNameKey())
+            .listAccounts();
 
-      if (members.isEmpty()) {
-        return false;
-      }
-
-      if (maxAllowed > 0 && members.size() > maxAllowed) {
-        return false;
-      }
-
-      // require that at least one member in the group can see the change
-      for (Account account : members) {
-        if (visibilityControl.isVisibleTo(account)) {
-          return true;
-        }
-      }
-    } catch (NoSuchGroupException e) {
+    if (members == null || members.isEmpty()) {
       return false;
-    } catch (NoSuchProjectException e) {
+    }
+
+    if (maxAllowed > 0 && members.size() > maxAllowed) {
       return false;
+    }
+
+    // require that at least one member in the group can see the change
+    for (Account account : members) {
+      if (visibilityControl.isVisibleTo(account)) {
+        return true;
+      }
     }
 
     return false;

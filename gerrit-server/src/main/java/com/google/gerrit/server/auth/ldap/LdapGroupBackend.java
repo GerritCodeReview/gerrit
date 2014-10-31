@@ -25,8 +25,10 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.ParameterizedString;
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.reviewdb.client.Project.NameKey;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.GroupBackend;
@@ -45,6 +47,7 @@ import org.slf4j.LoggerFactory;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
@@ -249,5 +252,18 @@ public class LdapGroupBackend implements GroupBackend {
       log.warn("Cannot query LDAP for groups matching requested name", e);
     }
     return out;
+  }
+
+  @Override
+  public List<Account.Id> loadMembers(AccountGroup.UUID uuid, boolean sort) {
+    // TODO (Bruce) in next changes of this topic.
+    return null;
+  }
+
+  @Override
+  public List<AccountGroup.UUID> loadIncludes(AccountGroup.UUID uuid,
+      NameKey project, boolean sort) {
+    // TODO (Bruce) in next changes of this topic.
+    return null;
   }
 }

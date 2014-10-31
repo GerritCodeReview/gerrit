@@ -20,6 +20,8 @@ import com.google.common.cache.LoadingCache;
 import com.google.common.collect.Sets;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.AccountGroup.UUID;
+import com.google.gerrit.reviewdb.client.Project.NameKey;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllUsersName;
@@ -73,6 +75,59 @@ public class ProjectCacheImpl implements ProjectCache {
       }
     };
   }
+
+  public static ProjectCache NO_OP = new ProjectCache() {
+    @Override
+    public ProjectState getAllProjects() {
+      return null;
+    }
+
+    @Override
+    public ProjectState getAllUsers() {
+      return null;
+    }
+
+    @Override
+    public ProjectState get(NameKey projectName) {
+      return null;
+    }
+
+    @Override
+    public ProjectState checkedGet(NameKey projectName) throws IOException {
+      return null;
+    }
+
+    @Override
+    public void evict(Project p) {
+    }
+
+    @Override
+    public void evict(NameKey p) {
+    }
+
+    @Override
+    public void remove(Project p) {
+    }
+
+    @Override
+    public Iterable<NameKey> all() {
+      return null;
+    }
+
+    @Override
+    public Set<UUID> guessRelevantGroupUUIDs() {
+      return null;
+    }
+
+    @Override
+    public Iterable<NameKey> byName(String prefix) {
+      return null;
+    }
+
+    @Override
+    public void onCreateProject(NameKey newProjectName) {
+    }
+  };
 
   private final AllProjectsName allProjectsName;
   private final AllUsersName allUsersName;

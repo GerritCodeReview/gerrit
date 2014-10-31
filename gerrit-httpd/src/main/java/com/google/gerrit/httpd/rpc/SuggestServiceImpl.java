@@ -21,7 +21,6 @@ import com.google.gerrit.common.data.AccountInfo;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.ReviewerInfo;
 import com.google.gerrit.common.data.SuggestService;
-import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.reviewdb.client.Change;
@@ -33,7 +32,7 @@ import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountControl;
 import com.google.gerrit.server.account.AccountVisibility;
 import com.google.gerrit.server.account.GroupBackend;
-import com.google.gerrit.server.account.GroupMembers;
+import com.google.gerrit.server.account.GroupDetail;
 import com.google.gerrit.server.change.PostReviewers;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.project.ChangeControl;
@@ -61,9 +60,9 @@ class SuggestServiceImpl extends BaseServiceImplementation implements
 
   private final Provider<ReviewDb> reviewDbProvider;
   private final AccountCache accountCache;
-  private final GroupMembers.Factory groupMembersFactory;
   private final IdentifiedUser.GenericFactory identifiedUserFactory;
   private final AccountControl.Factory accountControlFactory;
+  private final GroupDetail.Factory groupDetailFactory;
   private final ChangeControl.Factory changeControlFactory;
   private final ProjectControl.Factory projectControlFactory;
   private final Config cfg;
@@ -73,7 +72,7 @@ class SuggestServiceImpl extends BaseServiceImplementation implements
   @Inject
   SuggestServiceImpl(final Provider<ReviewDb> schema,
       final AccountCache accountCache,
-      final GroupMembers.Factory groupMembersFactory,
+      final GroupDetail.Factory groupDetailFactory,
       final Provider<CurrentUser> currentUser,
       final IdentifiedUser.GenericFactory identifiedUserFactory,
       final AccountControl.Factory accountControlFactory,
@@ -83,7 +82,7 @@ class SuggestServiceImpl extends BaseServiceImplementation implements
     super(schema, currentUser);
     this.reviewDbProvider = schema;
     this.accountCache = accountCache;
-    this.groupMembersFactory = groupMembersFactory;
+    this.groupDetailFactory = groupDetailFactory;
     this.identifiedUserFactory = identifiedUserFactory;
     this.accountControlFactory = accountControlFactory;
     this.changeControlFactory = changeControlFactory;
@@ -285,10 +284,10 @@ class SuggestServiceImpl extends BaseServiceImplementation implements
     }
 
     try {
-      final Set<Account> members = groupMembersFactory.create(getCurrentUser())
-          .listAccounts(group.getUUID(), project);
+      final Set<Account> members =
+          groupDetailFactory.create(group.getUUID(), project).listAccounts();
 
-      if (members.isEmpty()) {
+      if (members == null || members.isEmpty()) {
         return false;
       }
 
@@ -298,10 +297,6 @@ class SuggestServiceImpl extends BaseServiceImplementation implements
       if (maxAllowed > 0 && members.size() > maxAllowed) {
         return false;
       }
-    } catch (NoSuchGroupException e) {
-      return false;
-    } catch (NoSuchProjectException e) {
-      return false;
     } catch (IOException e) {
       throw new Failure(e);
     }

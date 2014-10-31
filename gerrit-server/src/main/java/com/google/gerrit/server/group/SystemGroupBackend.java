@@ -18,15 +18,27 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Lists;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.data.GroupReference;
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.AccountGroup.UUID;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupMembership;
+import com.google.gerrit.server.account.InternalGroupBackend;
 import com.google.gerrit.server.account.ListGroupMembership;
+import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectControl;
+import com.google.inject.Inject;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -37,6 +49,7 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 
 public class SystemGroupBackend implements GroupBackend {
+  private static final Logger log = LoggerFactory.getLogger(InternalGroupBackend.class);
   /** Common UUID assigned to the "Anonymous Users" group. */
   public static final AccountGroup.UUID ANONYMOUS_USERS =
       new AccountGroup.UUID("global:Anonymous-Users");
@@ -91,6 +104,16 @@ public class SystemGroupBackend implements GroupBackend {
 
   public static GroupReference getGroup(AccountGroup.UUID uuid) {
     return checkNotNull(uuids.get(uuid), "group %s not found", uuid.get());
+  }
+
+  private ProjectCache projectCache;
+
+  @Inject
+  SystemGroupBackend(final ProjectCache projectCache) {
+    this.projectCache = projectCache;
+  }
+
+  public SystemGroupBackend() {
   }
 
   @Override
@@ -151,5 +174,28 @@ public class SystemGroupBackend implements GroupBackend {
     return new ListGroupMembership(ImmutableSet.of(
         ANONYMOUS_USERS,
         REGISTERED_USERS));
+  }
+
+  @Override
+  public List<Account.Id> loadMembers(AccountGroup.UUID uuid, boolean sort) {
+    return null;
+  }
+
+  @Override
+  public List<UUID> loadIncludes(AccountGroup.UUID uuid,
+      @Nullable Project.NameKey project, boolean sort) {
+    if (SystemGroupBackend.PROJECT_OWNERS.equals(uuid) && projectCache != null) {
+      if (project == null) {
+        return null;
+      }
+      try {
+        return Lists.newArrayList(projectCache.checkedGet(project).getOwners());
+      } catch (IOException e) {
+        log.warn(String.format("Cannot lookup members of %s on project %s.",
+            SystemGroupBackend.PROJECT_OWNERS.get(), project.get()), e);
+        return null;
+      }
+    }
+    return null;
   }
 }

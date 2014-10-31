@@ -24,9 +24,11 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountByEmailCacheImpl;
 import com.google.gerrit.server.account.AccountCacheImpl;
+import com.google.gerrit.server.account.AccountInfoCacheFactory;
 import com.google.gerrit.server.account.CapabilityControl;
 import com.google.gerrit.server.account.GroupCacheImpl;
 import com.google.gerrit.server.account.GroupIncludeCacheImpl;
+import com.google.gerrit.server.account.GroupInfoCacheFactory;
 import com.google.gerrit.server.cache.CacheRemovalListener;
 import com.google.gerrit.server.cache.h2.DefaultCacheFactory;
 import com.google.gerrit.server.change.ChangeKindCacheImpl;
@@ -104,5 +106,7 @@ public class BatchProgramModule extends FactoryModule {
     factory(CapabilityControl.Factory.class);
     factory(ChangeData.Factory.class);
     factory(ProjectState.Factory.class);
+    factory(AccountInfoCacheFactory.Factory.class);
+    factory(GroupInfoCacheFactory.Factory.class);
   }
 }

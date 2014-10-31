@@ -25,7 +25,9 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.extensions.registration.DynamicSet;
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.inject.Inject;
@@ -35,6 +37,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -184,5 +187,26 @@ public class UniversalGroupBackend implements GroupBackend {
       }
       return groups;
     }
+  }
+
+  @Override
+  public List<Account.Id> loadMembers(AccountGroup.UUID uuid, boolean sort) {
+    GroupBackend b = backend(uuid);
+    if (b == null) {
+      log.warn("Unknown GroupBackend for UUID: " + uuid);
+      return null;
+    }
+    return b.loadMembers(uuid, sort);
+  }
+
+  @Override
+  public List<AccountGroup.UUID> loadIncludes(AccountGroup.UUID uuid,
+      @Nullable Project.NameKey project, boolean sort) {
+    GroupBackend b = backend(uuid);
+    if (b == null) {
+      log.warn("Unknown GroupBackend for UUID: " + uuid);
+      return null;
+    }
+    return b.loadIncludes(uuid, project, sort);
   }
 }

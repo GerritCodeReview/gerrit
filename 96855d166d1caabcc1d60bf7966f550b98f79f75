@@ -181,6 +181,24 @@
       "revId": "96855d166d1caabcc1d60bf7966f550b98f79f75",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "55dcaa2f_bd16ff3a",
+        "filename": "lib/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-10-31T13:28:52Z",
+      "side": 1,
+      "message": "I don\u0027t see your concerns not to depend on transitive dependencies. We could start without adding it and wait for the first time we need it. And your example only confirms my point of view. Add lib:truth to the new package and you will find out that it just works:\n\njava_test(\n  name \u003d \u0027http_tests\u0027,\n  srcs \u003d glob([\u0027src/test/java/**/*.java\u0027]),\n  deps \u003d [\n    \u0027:http\u0027,\n    \u0027//lib:junit\u0027,\n    \u0027//lib:servlet-api-3_1\u0027,\n    \u0027//lib:truth\u0027,\n    \u0027//lib/easymock:easymock\u0027,\n  ],\n  [..]\n\nThat\u0027s because the moved tests already depends on :httpd library. And of course httpd library depends on guava:\n\n  java_library(\n    name \u003d \u0027httpd\u0027,\n    srcs \u003d SRCS,\n    resources \u003d RESOURCES,\n    deps \u003d [\n      \u0027//gerrit-antlr:query_exception\u0027,\n      \u0027//gerrit-common:annotations\u0027,\n      \u0027//gerrit-common:server\u0027,\n      \u0027//gerrit-extension-api:api\u0027,\n      \u0027//gerrit-gwtexpui:server\u0027,\n      \u0027//gerrit-patch-jgit:server\u0027,\n      \u0027//gerrit-prettify:server\u0027,\n      \u0027//gerrit-reviewdb:server\u0027,\n      \u0027//gerrit-server:server\u0027,\n      \u0027//gerrit-util-cli:cli\u0027,\n      \u0027//gerrit-util-http:http\u0027,\n      \u0027//lib:args4j\u0027,\n      \u0027//lib:gson\u0027,\n      \u0027//lib:guava\u0027,\n      [...]",
+      "parentUuid": "75c8ce75_364a1882",
+      "revId": "96855d166d1caabcc1d60bf7966f550b98f79f75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

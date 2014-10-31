@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "75c8ce75_7652d02b",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Gerrit.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 340,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2014-10-31T14:38:20Z",
+      "side": 1,
+      "message": "I just tested with LDAP and it is working.\nI tested with Gerrit deployed at root(/) and at non root (/review)",
+      "parentUuid": "75c8ce75_3658584a",
+      "range": {
+        "startLine": 340,
+        "startChar": 30,
+        "endLine": 340,
+        "endChar": 64
+      },
+      "revId": "2c846e524fbbc703d267d6bf8c0f21416d3e1125",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "95daa231_5ff7ab9f",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Gerrit.java",
         "patchSetId": 2

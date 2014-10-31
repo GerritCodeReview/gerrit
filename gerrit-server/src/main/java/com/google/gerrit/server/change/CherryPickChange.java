@@ -113,7 +113,8 @@ public class CherryPickChange {
           "Cherry Pick: Destination branch cannot be null or empty");
     }
 
-    Project.NameKey project = db.get().changes().get(changeId).getProject();
+    Change change = db.get().changes().get(changeId);
+    Project.NameKey project = change.getProject();
     IdentifiedUser identifiedUser = (IdentifiedUser) currentUser.get();
     final Repository git;
     try {
@@ -188,7 +189,7 @@ public class CherryPickChange {
           // Change key not found on destination branch. We can create a new
           // change.
           return createNewChange(git, revWalk, changeKey, project, patchSetId, destRef,
-              cherryPickCommit, refControl, identifiedUser);
+              cherryPickCommit, refControl, identifiedUser, change.getTopic());
         }
       } finally {
         revWalk.release();
@@ -221,12 +222,13 @@ public class CherryPickChange {
   private Change.Id createNewChange(Repository git, RevWalk revWalk,
       Change.Key changeKey, Project.NameKey project, PatchSet.Id patchSetId,
       Ref destRef, RevCommit cherryPickCommit, RefControl refControl,
-      IdentifiedUser identifiedUser)
+      IdentifiedUser identifiedUser, String topic)
       throws OrmException, InvalidChangeOperationException, IOException {
     Change change =
         new Change(changeKey, new Change.Id(db.get().nextChangeId()),
             identifiedUser.getAccountId(), new Branch.NameKey(project,
                 destRef.getName()), TimeUtil.nowTs());
+    change.setTopic(topic);
     ChangeInserter ins =
         changeInserterFactory.create(refControl, change, cherryPickCommit);
     PatchSet newPatchSet = ins.getPatchSet();

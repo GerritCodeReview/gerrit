@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "95daa231_1f2fe37f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 37
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-10-31T07:53:07Z",
+      "side": 1,
+      "message": "(true \u0026\u0026 true) \u003d\u003e true\n(true \u0026\u0026 false) \u003d\u003e false\n\nI can\u0027t see how?",
+      "parentUuid": "95daa231_df873b34",
+      "revId": "882e072018ee3d09f0296399ce2f2715f8cf3313",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "95daa231_5f4deb86",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CherryPickChange.java",
         "patchSetId": 37

@@ -356,7 +356,7 @@ public class Daemon extends SiteProgram {
     modules.add(new AbstractModule() {
       @Override
       protected void configure() {
-        bind(GerritOptions.class).toInstance(new GerritOptions(headless));
+        bind(GerritOptions.class).toInstance(new GerritOptions(headless, slave));
         if (test) {
           bind(SecureStore.class).toProvider(SecureStoreProvider.class);
         }

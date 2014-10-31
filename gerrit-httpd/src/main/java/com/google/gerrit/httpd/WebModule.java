@@ -82,6 +82,36 @@ public class WebModule extends LifecycleModule {
     }
     install(new RunAsFilter.Module());
 
+    if (options.enableMasterFeatures()) {
+      installAuthModule();
+      install(new UrlModule(urlConfig, options));
+      install(new UiRpcModule());
+    }
+    install(new GerritRequestModule());
+    install(new GitOverHttpServlet.Module(options.enableMasterFeatures()));
+
+    bind(GitWebConfig.class).toInstance(gitWebConfig);
+    if (gitWebConfig.getGitwebCGI() != null) {
+      install(new GitWebModule());
+    }
+
+    bind(ContactStore.class).toProvider(ContactStoreProvider.class).in(
+        SINGLETON);
+    bind(GerritConfigProvider.class);
+    bind(GerritConfig.class).toProvider(GerritConfigProvider.class);
+    DynamicSet.setOf(binder(), WebUiPlugin.class);
+
+    install(new AsyncReceiveCommits.Module());
+
+    bind(SocketAddress.class).annotatedWith(RemotePeer.class).toProvider(
+        HttpRemotePeerProvider.class).in(RequestScoped.class);
+
+    bind(ProxyProperties.class).toProvider(ProxyPropertiesProvider.class);
+
+    listener().toInstance(registerInParentInjectors());
+  }
+
+  private void installAuthModule() {
     switch (authConfig.getAuthType()) {
       case HTTP:
       case HTTP_LDAP:
@@ -109,30 +139,5 @@ public class WebModule extends LifecycleModule {
       default:
         throw new ProvisionException("Unsupported loginType: " + authConfig.getAuthType());
     }
-
-    install(new UrlModule(urlConfig, options));
-    install(new UiRpcModule());
-    install(new GerritRequestModule());
-    install(new GitOverHttpServlet.Module());
-
-    bind(GitWebConfig.class).toInstance(gitWebConfig);
-    if (gitWebConfig.getGitwebCGI() != null) {
-      install(new GitWebModule());
-    }
-
-    bind(ContactStore.class).toProvider(ContactStoreProvider.class).in(
-        SINGLETON);
-    bind(GerritConfigProvider.class);
-    bind(GerritConfig.class).toProvider(GerritConfigProvider.class);
-    DynamicSet.setOf(binder(), WebUiPlugin.class);
-
-    install(new AsyncReceiveCommits.Module());
-
-    bind(SocketAddress.class).annotatedWith(RemotePeer.class).toProvider(
-        HttpRemotePeerProvider.class).in(RequestScoped.class);
-
-    bind(ProxyProperties.class).toProvider(ProxyPropertiesProvider.class);
-
-    listener().toInstance(registerInParentInjectors());
   }
 }

@@ -200,8 +200,7 @@ public class RevisionIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void canRebase()
-      throws GitAPIException, IOException, RestApiException, Exception {
+  public void canRebase() throws Exception {
     PushOneCommit push = pushFactory.create(db, admin.getIdent());
     PushOneCommit.Result r1 = push.to(git, "refs/for/master");
     merge(r1);

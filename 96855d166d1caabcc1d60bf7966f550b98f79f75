@@ -163,6 +163,24 @@
       "revId": "96855d166d1caabcc1d60bf7966f550b98f79f75",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "75c8ce75_364a1882",
+        "filename": "lib/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-10-31T13:13:32Z",
+      "side": 1,
+      "message": "Don\u0027t depend on transitive dependencies; they can move out from under you.\n\nFor example, say we split out a common package from server that has no Guava dependencies, but the tests depend on Truth. Then the tests break because it\u0027s no longer pulling in a Guava dependency from the lib deps.\n\nThis literally happened earlier this week:\n\nhttps://gerrit-review.googlesource.com/61141\n\n(Except that the tests don\u0027t depend on Truth.)",
+      "parentUuid": "55dcaa2f_9d66a30e",
+      "revId": "96855d166d1caabcc1d60bf7966f550b98f79f75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

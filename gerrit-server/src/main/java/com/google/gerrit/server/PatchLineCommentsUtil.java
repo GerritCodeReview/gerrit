@@ -181,7 +181,7 @@ public class PatchLineCommentsUtil {
           db.patchComments().publishedByPatchSet(psId).toList());
     }
     notes.load();
-    List<PatchLineComment> comments = new ArrayList<PatchLineComment>();
+    List<PatchLineComment> comments = new ArrayList<>();
     comments.addAll(notes.getPatchSetComments().get(psId));
     comments.addAll(notes.getBaseComments().get(psId));
     return sort(comments);

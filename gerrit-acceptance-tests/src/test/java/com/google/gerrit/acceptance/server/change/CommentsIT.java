@@ -71,7 +71,7 @@ public class CommentsIT extends AbstractDaemonTest {
     ReviewInput input = new ReviewInput();
     ReviewInput.CommentInput comment = newCommentInfo(
         file, Comment.Side.REVISION, 1, "comment 1");
-    input.comments = new HashMap<String, List<ReviewInput.CommentInput>>();
+    input.comments = new HashMap<>();
     input.comments.put(comment.path, Lists.newArrayList(comment));
     revision(r).review(input);
     Map<String, List<CommentInfo>> result = getPublishedComments(changeId, revId);

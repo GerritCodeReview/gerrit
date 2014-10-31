@@ -79,7 +79,7 @@ public class ProjectControlTest {
     InMemoryRepository inMemoryRepo = repoManager.createRepository(name);
     project = new ProjectConfig(name);
     project.load(inMemoryRepo);
-    repo = new TestRepository<InMemoryRepository>(inMemoryRepo);
+    repo = new TestRepository<>(inMemoryRepo);
   }
 
   @After

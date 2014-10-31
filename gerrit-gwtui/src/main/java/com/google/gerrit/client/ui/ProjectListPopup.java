@@ -185,7 +185,7 @@ public class ProjectListPopup implements FilteredUserInterface {
 
   protected void populateProjects() {
     ProjectMap.match(subname,
-        new IgnoreOutdatedFilterResultsCallbackWrapper<ProjectMap>(this,
+        new IgnoreOutdatedFilterResultsCallbackWrapper<>(this,
             new GerritCallback<ProjectMap>() {
               @Override
               public void onSuccess(final ProjectMap result) {

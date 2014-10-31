@@ -405,7 +405,7 @@ public class PluginLoader implements LifecycleListener {
     Iterator<Entry<String, File>> it = from.entrySet().iterator();
     while (it.hasNext()) {
       Entry<String,File> entry = it.next();
-      to.add(new AbstractMap.SimpleImmutableEntry<String, File>(
+      to.add(new AbstractMap.SimpleImmutableEntry<>(
           entry.getKey(), entry.getValue()));
     }
   }

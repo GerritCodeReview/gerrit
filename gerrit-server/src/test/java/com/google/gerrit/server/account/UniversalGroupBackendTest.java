@@ -61,7 +61,7 @@ public class UniversalGroupBackendTest {
   public void setup() {
     user = createNiceMock(IdentifiedUser.class);
     replay(user);
-    backends = new DynamicSet<GroupBackend>();
+    backends = new DynamicSet<>();
     backends.add(new SystemGroupBackend());
     backend = new UniversalGroupBackend(backends);
   }
@@ -130,7 +130,7 @@ public class UniversalGroupBackendTest {
         });
     replay(member, notMember, backend);
 
-    backends = new DynamicSet<GroupBackend>();
+    backends = new DynamicSet<>();
     backends.add(backend);
     backend = new UniversalGroupBackend(backends);
 

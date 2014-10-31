@@ -1060,7 +1060,7 @@ public abstract class AbstractQueryChangesTest {
       throws Exception {
     CreateProject create = projectFactory.create(name);
     create.apply(TLR, new ProjectInput());
-    return new TestRepository<InMemoryRepository>(
+    return new TestRepository<>(
         repoManager.openRepository(new Project.NameKey(name)));
   }
 

@@ -104,7 +104,7 @@ public class ProjectListScreen extends Screen implements FilteredUserInterface {
     // Retrieve one more project than page size to determine if there are more
     // projects to display
     ProjectMap.match(subname, pageSize + 1, startPosition,
-        new IgnoreOutdatedFilterResultsCallbackWrapper<ProjectMap>(this,
+        new IgnoreOutdatedFilterResultsCallbackWrapper<>(this,
             new GerritCallback<ProjectMap>() {
               @Override
               public void onSuccess(ProjectMap result) {

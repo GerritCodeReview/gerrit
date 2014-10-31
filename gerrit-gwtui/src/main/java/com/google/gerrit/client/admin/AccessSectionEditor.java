@@ -93,7 +93,7 @@ public class AccessSectionEditor extends Composite implements
 
   public AccessSectionEditor(ProjectAccess access) {
     projectAccess = access;
-    permissionSelector = new ValueListBox<String>(
+    permissionSelector = new ValueListBox<>(
         new PermissionNameRenderer(access.getCapabilities()));
     permissionSelector.addValueChangeHandler(new ValueChangeHandler<String>() {
       @Override

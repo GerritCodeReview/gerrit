@@ -90,7 +90,7 @@ public class GroupListScreen extends AccountScreen implements FilteredUserInterf
     // Retrieve one more group than page size to determine if there are more
     // groups to display
     GroupMap.match(subname, pageSize + 1, startPosition,
-        new IgnoreOutdatedFilterResultsCallbackWrapper<GroupMap>(this,
+        new IgnoreOutdatedFilterResultsCallbackWrapper<>(this,
             new GerritCallback<GroupMap>() {
               @Override
               public void onSuccess(GroupMap result) {

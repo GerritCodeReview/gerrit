@@ -163,7 +163,7 @@ class H2CacheFactory implements PersistentCacheFactory, LifecycleListener {
 
     SqlStore<K, V> store = newSqlStore(def.name(), def.keyType(), limit,
         def.expireAfterWrite(TimeUnit.SECONDS));
-    H2CacheImpl<K, V> cache = new H2CacheImpl<K, V>(
+    H2CacheImpl<K, V> cache = new H2CacheImpl<>(
         executor, store, def.keyType(),
         (Cache<K, ValueHolder<V>>) defaultFactory.create(def, true).build());
     synchronized (caches) {
@@ -187,9 +187,9 @@ class H2CacheFactory implements PersistentCacheFactory, LifecycleListener {
         def.expireAfterWrite(TimeUnit.SECONDS));
     Cache<K, ValueHolder<V>> mem = (Cache<K, ValueHolder<V>>)
         defaultFactory.create(def, true)
-        .build((CacheLoader<K, V>) new H2CacheImpl.Loader<K, V>(
+        .build((CacheLoader<K, V>) new H2CacheImpl.Loader<>(
               executor, store, loader));
-    H2CacheImpl<K, V> cache = new H2CacheImpl<K, V>(
+    H2CacheImpl<K, V> cache = new H2CacheImpl<>(
         executor, store, def.keyType(), mem);
     caches.add(cache);
     return cache;

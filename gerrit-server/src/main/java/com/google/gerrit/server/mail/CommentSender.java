@@ -121,7 +121,6 @@ public class CommentSender extends ReplyToChangeSender {
         try {
           patchList = getPatchList();
         } catch (PatchListNotAvailableException e) {
-          patchList = null;
         }
       }
 

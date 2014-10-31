@@ -17,6 +17,7 @@ package com.google.gerrit.client.diff;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 /** Helper class to handle calculations involving line gaps. */
 class LineMapper {
@@ -190,6 +191,11 @@ class LineMapper {
         return aligned == other.aligned && line == other.line;
       }
       return false;
+    }
+
+    @Override
+    public int hashCode() {
+      return Objects.hash(this);
     }
 
     @Override

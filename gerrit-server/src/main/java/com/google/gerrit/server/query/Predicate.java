@@ -92,7 +92,7 @@ public abstract class Predicate<T> {
       //
       return that.getChild(0);
     }
-    return new NotPredicate<T>(that);
+    return new NotPredicate<>(that);
   }
 
   /** Get the children of this predicate, if any. */

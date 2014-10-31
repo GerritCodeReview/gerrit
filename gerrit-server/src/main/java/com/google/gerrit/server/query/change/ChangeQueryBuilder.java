@@ -117,8 +117,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
 
 
   private static final QueryBuilder.Definition<ChangeData, ChangeQueryBuilder> mydef =
-      new QueryBuilder.Definition<ChangeData, ChangeQueryBuilder>(
-          ChangeQueryBuilder.class);
+      new QueryBuilder.Definition<>(ChangeQueryBuilder.class);
 
   @SuppressWarnings("unchecked")
   public static Integer getLimit(Predicate<ChangeData> p) {

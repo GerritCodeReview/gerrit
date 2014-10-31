@@ -34,8 +34,7 @@ public class BasicChangeRewrites extends QueryRewriter<ChangeData> {
           null);
 
   private static final QueryRewriter.Definition<ChangeData, BasicChangeRewrites> mydef =
-      new QueryRewriter.Definition<ChangeData, BasicChangeRewrites>(
-          BasicChangeRewrites.class, BUILDER);
+      new QueryRewriter.Definition<>(BasicChangeRewrites.class, BUILDER);
 
   @Inject
   public BasicChangeRewrites() {

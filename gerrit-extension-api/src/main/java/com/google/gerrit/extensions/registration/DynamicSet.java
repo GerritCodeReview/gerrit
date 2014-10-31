@@ -129,7 +129,7 @@ public class DynamicSet<T> implements Iterable<T> {
   }
 
   public static <T> DynamicSet<T> emptySet() {
-    return new DynamicSet<T>(
+    return new DynamicSet<>(
         Collections.<AtomicReference<Provider<T>>> emptySet());
   }
 

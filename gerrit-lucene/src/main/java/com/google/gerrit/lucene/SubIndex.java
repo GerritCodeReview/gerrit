@@ -108,7 +108,7 @@ class SubIndex {
 
     notDoneNrtFutures = Sets.newConcurrentHashSet();
 
-    reopenThread = new ControlledRealTimeReopenThread<IndexSearcher>(
+    reopenThread = new ControlledRealTimeReopenThread<>(
         writer, searcherManager,
         0.500 /* maximum stale age (seconds) */,
         0.010 /* minimum stale age (seconds) */);

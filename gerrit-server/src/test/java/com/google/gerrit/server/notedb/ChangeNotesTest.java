@@ -343,7 +343,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
   public void hashtagCommit() throws Exception {
     Change c = newChange();
     ChangeUpdate update = newUpdate(c, changeOwner);
-    LinkedHashSet<String> hashtags = new LinkedHashSet<String>();
+    LinkedHashSet<String> hashtags = new LinkedHashSet<>();
     hashtags.add("tag1");
     hashtags.add("tag2");
     update.setHashtags(hashtags);
@@ -362,7 +362,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
   public void hashtagChangeNotes() throws Exception {
     Change c = newChange();
     ChangeUpdate update = newUpdate(c, changeOwner);
-    LinkedHashSet<String> hashtags = new LinkedHashSet<String>();
+    LinkedHashSet<String> hashtags = new LinkedHashSet<>();
     hashtags.add("tag1");
     hashtags.add("tag2");
     update.setHashtags(hashtags);

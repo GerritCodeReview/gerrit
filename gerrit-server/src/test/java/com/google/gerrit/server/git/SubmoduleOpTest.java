@@ -746,7 +746,7 @@ public class SubmoduleOpTest extends LocalDiskRepositoryTestCase {
 
     expect(schema.submoduleSubscriptions()).andReturn(subscriptions);
     final ResultSet<SubmoduleSubscription> incorrectSubscriptions =
-        new ListResultSet<SubmoduleSubscription>(Collections
+        new ListResultSet<>(Collections
             .singletonList(new SubmoduleSubscription(sourceBranchNameKey,
                 targetBranchNameKey, "target-project")));
     expect(subscriptions.bySubmodule(targetBranchNameKey)).andReturn(

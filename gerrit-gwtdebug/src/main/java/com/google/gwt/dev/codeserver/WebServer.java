@@ -491,7 +491,7 @@ public class WebServer {
    * by dev_mode_on.js in a JSONP request to "/recompile".)
    */
   private Map<String, String> getBindingProperties(HttpServletRequest request) {
-    Map<String, String> result = new HashMap<String, String>();
+    Map<String, String> result = new HashMap<>();
     for (Object key : request.getParameterMap().keySet()) {
       String propName = (String) key;
       if (!propName.equals("_callback")) {

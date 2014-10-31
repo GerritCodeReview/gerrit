@@ -265,8 +265,7 @@ public class Permission implements Comparable<Permission> {
     if (!name.equals(other.name) || exclusiveGroup != other.exclusiveGroup) {
       return false;
     }
-    return new HashSet<PermissionRule>(getRules())
-        .equals(new HashSet<PermissionRule>(other.getRules()));
+    return new HashSet<>(getRules()).equals(new HashSet<>(other.getRules()));
   }
 
   @Override

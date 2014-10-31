@@ -213,11 +213,11 @@ public class HashtagsIT extends AbstractDaemonTest {
       throws IOException {
     HashtagsInput input = new HashtagsInput();
     if (toAdd != null) {
-      input.add = new HashSet<String>(
+      input.add = new HashSet<>(
           Lists.newArrayList(Splitter.on(CharMatcher.anyOf(",")).split(toAdd)));
     }
     if (toRemove != null) {
-      input.remove = new HashSet<String>(
+      input.remove = new HashSet<>(
           Lists.newArrayList(Splitter.on(CharMatcher.anyOf(",")).split(toRemove)));
     }
     return adminSession.post("/changes/" + changeId + "/hashtags/", input);

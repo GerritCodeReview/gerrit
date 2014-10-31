@@ -109,7 +109,7 @@ public class PermissionCollection {
       List<AccessSection> sections = Lists.newArrayList(sectionToProject.keySet());
       sorter.sort(ref, sections);
 
-      Set<SeenRule> seen = new HashSet<SeenRule>();
+      Set<SeenRule> seen = new HashSet<>();
       Set<String> exclusiveGroupPermissions = new HashSet<>();
 
       HashMap<String, List<PermissionRule>> permissions = new HashMap<>();

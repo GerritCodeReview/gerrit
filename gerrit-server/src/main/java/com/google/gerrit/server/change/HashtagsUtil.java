@@ -135,6 +135,6 @@ public class HashtagsUtil {
             dbProvider.get());
       }
     }
-    return new TreeSet<String>(updatedHashtags);
+    return new TreeSet<>(updatedHashtags);
   }
 }

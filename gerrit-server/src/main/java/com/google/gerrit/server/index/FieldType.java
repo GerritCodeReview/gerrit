@@ -21,35 +21,35 @@ import java.sql.Timestamp;
 public class FieldType<T> {
   /** A single integer-valued field. */
   public static final FieldType<Integer> INTEGER =
-      new FieldType<Integer>("INTEGER");
+      new FieldType<>("INTEGER");
 
   /** A single-integer-valued field matched using range queries. */
   public static final FieldType<Integer> INTEGER_RANGE =
-      new FieldType<Integer>("INTEGER_RANGE");
+      new FieldType<>("INTEGER_RANGE");
 
   /** A single integer-valued field. */
   public static final FieldType<Long> LONG =
-      new FieldType<Long>("LONG");
+      new FieldType<>("LONG");
 
   /** A single date/time-valued field. */
   public static final FieldType<Timestamp> TIMESTAMP =
-      new FieldType<Timestamp>("TIMESTAMP");
+      new FieldType<>("TIMESTAMP");
 
   /** A string field searched using exact-match semantics. */
   public static final FieldType<String> EXACT =
-      new FieldType<String>("EXACT");
+      new FieldType<>("EXACT");
 
   /** A string field searched using prefix. */
   public static final FieldType<String> PREFIX =
-      new FieldType<String>("PREFIX");
+      new FieldType<>("PREFIX");
 
   /** A string field searched using fuzzy-match semantics. */
   public static final FieldType<String> FULL_TEXT =
-      new FieldType<String>("FULL_TEXT");
+      new FieldType<>("FULL_TEXT");
 
   /** A field that is only stored as raw bytes and cannot be queried. */
   public static final FieldType<byte[]> STORED_ONLY =
-      new FieldType<byte[]>("STORED_ONLY");
+      new FieldType<>("STORED_ONLY");
 
   private final String name;
 

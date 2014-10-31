@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "55dcaa2f_9d7dc3a6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 37
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-10-31T02:52:25Z",
+      "side": 1,
+      "message": "you may ignore the \u0027!\u0027 before HashtagsUtil.parseCommitMessageHashtags(cherryPickCommit).isEmpty() :)",
+      "parentUuid": "95daa231_df873b34",
+      "revId": "882e072018ee3d09f0296399ce2f2715f8cf3313",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "95daa231_5f4deb86",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CherryPickChange.java",
         "patchSetId": 37
@@ -30,6 +48,24 @@
       "writtenOn": "2014-10-30T15:03:27Z",
       "side": 1,
       "message": "Same here. The exception will say notedb is disabled just because the parseCommitMessageHashtags() does not return hashtags.",
+      "revId": "882e072018ee3d09f0296399ce2f2715f8cf3313",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "95daa231_7fa0efab",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CherryPickChange.java",
+        "patchSetId": 37
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-10-31T02:52:25Z",
+      "side": 1,
+      "message": "you may ignore the \u0027!\u0027 before HashtagsUtil.parseCommitMessageHashtags(cherryPickCommit).isEmpty()  :)",
+      "parentUuid": "95daa231_5f4deb86",
       "revId": "882e072018ee3d09f0296399ce2f2715f8cf3313",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "95b382f9_b76388fd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 356,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-10-31T15:05:37Z",
+      "side": 1,
+      "message": "Here, called via ChangeField.{ADDED,DELETED,DELTA}.get()",
+      "revId": "9f0bee854dfa835c36debb6f47915124c4fd0838",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

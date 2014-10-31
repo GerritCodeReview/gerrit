@@ -47,6 +47,7 @@ import com.google.gerrit.server.git.GitModule;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.ProjectCacheImpl;
 import com.google.gerrit.testutil.FakeAccountCache;
 import com.google.gerrit.testutil.FakeRealm;
 import com.google.gerrit.testutil.InMemoryRepositoryManager;
@@ -121,7 +122,8 @@ public class AbstractChangeNotesTest {
         install(new GitModule());
         bind(NotesMigration.class).toInstance(MIGRATION);
         bind(GitRepositoryManager.class).toInstance(repoManager);
-        bind(ProjectCache.class).toProvider(Providers.<ProjectCache> of(null));
+        bind(ProjectCache.class).toProvider(
+            Providers.<ProjectCache> of(ProjectCacheImpl.NO_OP));
         bind(CapabilityControl.Factory.class)
             .toProvider(Providers.<CapabilityControl.Factory> of(null));
         bind(Config.class).annotatedWith(GerritServerConfig.class)

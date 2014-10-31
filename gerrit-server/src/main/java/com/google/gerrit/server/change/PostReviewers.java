@@ -22,7 +22,6 @@ import com.google.common.util.concurrent.CheckedFuture;
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.errors.EmailException;
-import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -40,8 +39,8 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountsCollection;
-import com.google.gerrit.server.account.GroupMembers;
 import com.google.gerrit.server.account.AccountLoader;
+import com.google.gerrit.server.account.GroupDetail;
 import com.google.gerrit.server.change.ReviewerJson.PostResult;
 import com.google.gerrit.server.change.ReviewerJson.ReviewerInfo;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -51,7 +50,6 @@ import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.mail.AddReviewerSender;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.project.ChangeControl;
-import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -80,8 +78,8 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
   private final ApprovalsUtil approvalsUtil;
   private final AddReviewerSender.Factory addReviewerSenderFactory;
   private final GroupsCollection groupsCollection;
-  private final GroupMembers.Factory groupMembersFactory;
   private final AccountLoader.Factory accountLoaderFactory;
+  private final GroupDetail.Factory groupDetailFactory;
   private final Provider<ReviewDb> dbProvider;
   private final ChangeUpdate.Factory updateFactory;
   private final Provider<CurrentUser> currentUser;
@@ -98,8 +96,8 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
       ApprovalsUtil approvalsUtil,
       AddReviewerSender.Factory addReviewerSenderFactory,
       GroupsCollection groupsCollection,
-      GroupMembers.Factory groupMembersFactory,
       AccountLoader.Factory accountLoaderFactory,
+      GroupDetail.Factory groupDetailFactory,
       Provider<ReviewDb> db,
       ChangeUpdate.Factory updateFactory,
       Provider<CurrentUser> currentUser,
@@ -114,7 +112,7 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
     this.approvalsUtil = approvalsUtil;
     this.addReviewerSenderFactory = addReviewerSenderFactory;
     this.groupsCollection = groupsCollection;
-    this.groupMembersFactory = groupMembersFactory;
+    this.groupDetailFactory = groupDetailFactory;
     this.accountLoaderFactory = accountLoaderFactory;
     this.dbProvider = db;
     this.updateFactory = updateFactory;
@@ -174,13 +172,16 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
     Map<Account.Id, ChangeControl> reviewers = Maps.newHashMap();
     ChangeControl control = rsrc.getControl();
     Set<Account> members;
-    try {
-      members = groupMembersFactory.create(control.getCurrentUser()).listAccounts(
-              group.getGroupUUID(), control.getProject().getNameKey());
-    } catch (NoSuchGroupException e) {
-      throw new UnprocessableEntityException(e.getMessage());
-    } catch (NoSuchProjectException e) {
-      throw new BadRequestException(e.getMessage());
+
+    members =
+        groupDetailFactory.create(group.getGroupUUID(),
+            control.getProject().getNameKey()).listAccounts();
+
+    if (members == null || members.isEmpty()) {
+      result.error =
+          MessageFormat.format(ChangeMessages.get().groupIsNotAllowed,
+              group.getName());
+      return result;
     }
 
     // if maxAllowed is set to 0, it is allowed to add any number of

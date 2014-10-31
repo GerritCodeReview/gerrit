@@ -199,6 +199,24 @@
       "revId": "96855d166d1caabcc1d60bf7966f550b98f79f75",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "95b382f9_973844f5",
+        "filename": "lib/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-10-31T13:36:20Z",
+      "side": 1,
+      "message": "\u003e That\u0027s because the moved tests already depends on :httpd library.\n\nThat\u0027s a mistake, it shouldn\u0027t depend on httpd.\n\nDepending on getting lucky with transitive dependencies just happening to be there makes it harder to refactor, because you when extracting a library you can\u0027t just look at that library\u0027s direct dependencies to know what you need. Similarly, it also makes it harder to eliminate (automatically or manually) unused dependencies. It just doesn\u0027t scale. Google literally dedicated a team of people to change Blaze (along with millions of lines worth of Java libraries\u0027 BUILD files) to enforce at the build level that packages list their direct dependencies for these reasons.",
+      "parentUuid": "55dcaa2f_bd16ff3a",
+      "revId": "96855d166d1caabcc1d60bf7966f550b98f79f75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

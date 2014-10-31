@@ -167,6 +167,30 @@
     },
     {
       "key": {
+        "uuid": "95b382f9_77449074",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/MergeabilityCache.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-10-31T13:17:03Z",
+      "side": 1,
+      "message": "So the objects can be garbage collected. Repositories in particular can have significant cached state that may or may not get cleaned up on close().",
+      "parentUuid": "55dcaa2f_fd8b2725",
+      "range": {
+        "startLine": 226,
+        "startChar": 8,
+        "endLine": 227,
+        "endChar": 24
+      },
+      "revId": "cd6de8f68c1080d8cff77d91cdf47f5a4d6453a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "95daa231_1fa1a3b2",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/MergeabilityCache.java",
         "patchSetId": 12

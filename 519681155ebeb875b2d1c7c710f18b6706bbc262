@@ -118,6 +118,29 @@
     },
     {
       "key": {
+        "uuid": "95daa231_dfbf3ba1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/MergeabilityCache.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-11-01T08:24:41Z",
+      "side": 1,
+      "message": "This implies that ReviewDb is bound in request context in all potential callers now, what is apparently not the case, as this comment shows: [1].\n\n* [1] https://gerrit-review.googlesource.com/#/c/60937/9//COMMIT_MSG",
+      "range": {
+        "startLine": 243,
+        "startChar": 12,
+        "endLine": 243,
+        "endChar": 21
+      },
+      "revId": "519681155ebeb875b2d1c7c710f18b6706bbc262",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "55dcaa2f_3dd90f37",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/MergeabilityCache.java",
         "patchSetId": 13

@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "55dcaa2f_5ddedb1f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-11-01T08:22:21Z",
+      "side": 1,
+      "message": "This breaks online reindexing now. ReviewDb isn\u0027t set now in Request scope: [1]. To reporoduce, have an existing gerrit site with index version 13. Pick up this change and start gerrit, online reindexing is failing.\n\nI\u0027ve a working fix: [2]. If i put the breakpoint in the Provider\u003cReviewDb\u003e getReviewDbProvider() method then the stack is [3].\n\n* [1] http://paste.openstack.org/show/127961\n* [2] http://paste.openstack.org/show/127967\n* [3] http://paste.openstack.org/show/127966",
+      "revId": "6673e687cbae5a4f8bd0335ac0dd6e60476befcb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "95daa231_bfed17cb",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/MergeabilityCache.java",
         "patchSetId": 9

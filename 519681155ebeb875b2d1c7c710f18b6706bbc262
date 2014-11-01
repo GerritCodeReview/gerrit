@@ -22,6 +22,122 @@
       "revId": "519681155ebeb875b2d1c7c710f18b6706bbc262",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "55dcaa2f_fd3967c5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/MergeabilityCache.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-11-01T07:10:54Z",
+      "side": 1,
+      "message": "Yes, but you need the checkNotNull checks in load() or get() functions. Otherwise you would get NPE when the calles does:\n\n  mergeabilityCache.get(commit, intoRef, submitType, mergeStrategy, null, null):",
+      "parentUuid": "75c8ce75_16a19cb2",
+      "range": {
+        "startLine": 123,
+        "startChar": 0,
+        "endLine": 124,
+        "endChar": 45
+      },
+      "revId": "519681155ebeb875b2d1c7c710f18b6706bbc262",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "55dcaa2f_1dd45300",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/MergeabilityCache.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-11-01T07:10:54Z",
+      "side": 1,
+      "message": "Not needed, see comment below.",
+      "range": {
+        "startLine": 196,
+        "startChar": 4,
+        "endLine": 196,
+        "endChar": 51
+      },
+      "revId": "519681155ebeb875b2d1c7c710f18b6706bbc262",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "95daa231_7fb1cfd8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/MergeabilityCache.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-11-01T07:10:54Z",
+      "side": 1,
+      "message": "Havn\u0027t we agreed, that this is not needed? This class cannot operate without dest, at least, so the caller must provide it, so it can also provide the opened repo.",
+      "range": {
+        "startLine": 211,
+        "startChar": 6,
+        "endLine": 214,
+        "endChar": 21
+      },
+      "revId": "519681155ebeb875b2d1c7c710f18b6706bbc262",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "95daa231_9fb5b3c7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/MergeabilityCache.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-11-01T07:10:54Z",
+      "side": 1,
+      "message": "That\u0027s on caller.",
+      "range": {
+        "startLine": 220,
+        "startChar": 8,
+        "endLine": 222,
+        "endChar": 9
+      },
+      "revId": "519681155ebeb875b2d1c7c710f18b6706bbc262",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "55dcaa2f_3dd90f37",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/MergeabilityCache.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-11-01T07:10:54Z",
+      "side": 1,
+      "message": "Mention merge strategy too.",
+      "range": {
+        "startLine": 301,
+        "startChar": 30,
+        "endLine": 301,
+        "endChar": 78
+      },
+      "revId": "519681155ebeb875b2d1c7c710f18b6706bbc262",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -583,16 +583,16 @@ image::images/user-review-ui-change-screen-cherry-picks.png[width=800, link="ima
 
 If there are no related changes for a tab, the tab is not displayed.
 
-[[reply]]
-=== Reply
+[[review]]
+=== Review
 
-The `Reply...` button in the change header allows to reply to the
-currently viewed patch set; one can add a summary comment, publish
+The `Review...` button in the change header allows to add a review to
+the currently viewed patch set; one can add a summary comment, publish
 inline draft comments, and vote on the labels.
 
 image::images/user-review-ui-change-screen-reply.png[width=800, link="images/user-review-ui-change-screen-reply.png"]
 
-Clicking on the `Reply...` button opens a popup panel.
+Clicking on the `Review...` button opens a popup panel.
 
 A text box allows to type a summary comment for the currently viewed
 patch set.
@@ -842,7 +842,7 @@ between a quoted block and the reply to it.
 
 Clicking on the `Save` button saves the comment as a draft. To make it
 visible to other users it must be published from the change screen by
-link:#reply[replying] to the change.
+adding a link:#review[review] to the change.
 
 The `Cancel` button cancels the editing and discards any changes to the
 draft comment.
@@ -898,7 +898,7 @@ that is commented.
 
 Clicking on the `Save` button saves the new comment as a draft. To make
 it visible to other users it must be published from the change screen
-by link:#reply[replying] to the change.
+by adding a link:#review[review] to the change.
 
 Clicking on the `Discard` button deletes the new comment.
 

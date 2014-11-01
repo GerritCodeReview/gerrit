@@ -174,7 +174,7 @@ public class ChangeScreen2 extends Screen {
   @UiField Button patchSets;
   @UiField Element patchSetsText;
   @UiField Button download;
-  @UiField Button reply;
+  @UiField Button review;
   @UiField Button openAll;
   @UiField Button editMode;
   @UiField Button reviewMode;
@@ -296,7 +296,7 @@ public class ChangeScreen2 extends Screen {
       @Override
       public void onKeyPress(KeyPressEvent event) {
         if (Gerrit.isSignedIn()) {
-          onReply(null);
+          onReview(null);
         } else {
           Gerrit.doSignIn(getToken());
         }
@@ -433,7 +433,7 @@ public class ChangeScreen2 extends Screen {
         reviewMode.setVisible(!editMode.isVisible());
         editFileAction = new EditFileAction(
             new PatchSet.Id(changeId, edit == null ? rev._number() : 0),
-            "", "", style, editMessage, reply);
+            "", "", style, editMessage, review);
       } else {
         editMode.setVisible(false);
         addFile.setVisible(false);
@@ -463,7 +463,7 @@ public class ChangeScreen2 extends Screen {
           info.revision(revision).commit().message(),
           style,
           editMessage,
-          reply);
+          review);
       keysAction.add(new KeyCommand(0, 'e', Util.C.keyEditMessage()) {
         @Override
         public void onKeyPress(KeyPressEvent event) {
@@ -552,8 +552,8 @@ public class ChangeScreen2 extends Screen {
     patchSetsAction.show();
   }
 
-  @UiHandler("reply")
-  void onReply(@SuppressWarnings("unused") ClickEvent e) {
+  @UiHandler("review")
+  void onReview(@SuppressWarnings("unused") ClickEvent e) {
     onReply();
   }
 
@@ -686,7 +686,7 @@ public class ChangeScreen2 extends Screen {
       files.set(
           b != null ? new PatchSet.Id(changeId, b._number()) : null,
           new PatchSet.Id(changeId, rev._number()),
-          style, editMessage, reply, edit != null);
+          style, editMessage, review, edit != null);
       files.setValue(info.edit().files(), myLastReply(info),
           emptyComment,
           emptyComment,
@@ -741,7 +741,7 @@ public class ChangeScreen2 extends Screen {
           files.set(
               base != null ? new PatchSet.Id(changeId, base._number()) : null,
               new PatchSet.Id(changeId, rev._number()),
-              style, editMessage, reply, edit != null);
+              style, editMessage, review, edit != null);
           files.setValue(m, myLastReply, comments.get(0),
               drafts.get(0), fileTableMode);
         }
@@ -957,7 +957,7 @@ public class ChangeScreen2 extends Screen {
     if (Gerrit.isSignedIn()) {
       initEditMessageAction(info, revision);
       replyAction = new ReplyAction(info, revision,
-          style, commentLinkProcessor, reply, quickApprove);
+          style, commentLinkProcessor, review, quickApprove);
       if (topic.canEdit()) {
         keysAction.add(new KeyCommand(0, 't', Util.C.keyEditTopic()) {
           @Override

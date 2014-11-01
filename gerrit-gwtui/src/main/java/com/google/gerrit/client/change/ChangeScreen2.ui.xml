@@ -354,11 +354,11 @@ limitations under the License.
 
       <div class='{style.infoLine}'>
         <div class='{style.headerButtons} {style.infoLineHeaderButtons}'>
-          <g:Button ui:field='reply'
+          <g:Button ui:field='review'
               styleName=''
-              title='Reply and score (Shortcut: a)'>
+              title='Review and score (Shortcut: a)'>
             <ui:attribute name='title'/>
-            <div><ui:msg>Reply&#8230;</ui:msg></div>
+            <div><ui:msg>Review&#8230;</ui:msg></div>
           </g:Button>
           <c:QuickApprove ui:field='quickApprove'
               styleName='{style.quickApprove}'

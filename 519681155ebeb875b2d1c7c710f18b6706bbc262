@@ -161,6 +161,29 @@
       "revId": "519681155ebeb875b2d1c7c710f18b6706bbc262",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "95daa231_1f8b63ff",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Mergeable.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-11-01T09:22:16Z",
+      "side": 1,
+      "message": "I think it isn\u0027t enough to just call cache.get() in case of force on line 219 below. Because if the mergeability value is preloaded for a change it wouldn\u0027t recompute it. But that\u0027s what the caller expects when passing --force option: to discard cached value and enforce recomputing of the mergeability flag.",
+      "range": {
+        "startLine": 133,
+        "startChar": 24,
+        "endLine": 133,
+        "endChar": 29
+      },
+      "revId": "519681155ebeb875b2d1c7c710f18b6706bbc262",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

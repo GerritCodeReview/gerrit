@@ -41,6 +41,11 @@ public interface AccountConstants extends Constants {
   String messageShowInReviewCategoryEmail();
   String messageShowInReviewCategoryUsername();
   String messageShowInReviewCategoryAbbrev();
+  String fontSizeLabel();
+  String fontSizeSmall();
+  String fontSizeMedium();
+  String fontSizeLarge();
+  String wrapLines();
   String buttonSaveChanges();
   String showRelativeDateInChangeTable();
   String showSizeBarInChangeTable();

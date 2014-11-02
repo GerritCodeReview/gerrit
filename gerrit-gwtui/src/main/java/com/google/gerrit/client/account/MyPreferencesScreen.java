@@ -60,6 +60,8 @@ public class MyPreferencesScreen extends SettingsScreen {
   private ListBox commentVisibilityStrategy;
   private ListBox changeScreen;
   private ListBox diffView;
+  private ListBox fontSize;
+  private CheckBox wrapLines;
   private StringListPanel myMenus;
   private Button save;
 
@@ -127,6 +129,19 @@ public class MyPreferencesScreen extends SettingsScreen {
         com.google.gerrit.client.changes.Util.C.unifiedDiff(),
         AccountGeneralPreferences.DiffView.UNIFIED_DIFF.name());
 
+    fontSize = new ListBox();
+    fontSize.addItem(
+        Util.C.fontSizeSmall(),
+        AccountGeneralPreferences.FontSize.SMALL.name());
+    fontSize.addItem(
+        Util.C.fontSizeMedium(),
+        AccountGeneralPreferences.FontSize.MEDIUM.name());
+    fontSize.addItem(
+        Util.C.fontSizeLarge(),
+        AccountGeneralPreferences.FontSize.LARGE.name());
+
+    wrapLines = new CheckBox(Util.C.wrapLines());
+
     Date now = new Date();
     dateFormat = new ListBox();
     for (AccountGeneralPreferences.DateFormat fmt : AccountGeneralPreferences.DateFormat
@@ -165,7 +180,7 @@ public class MyPreferencesScreen extends SettingsScreen {
     sizeBarInChangeTable = new CheckBox(Util.C.showSizeBarInChangeTable());
     legacycidInChangeTable = new CheckBox(Util.C.showLegacycidInChangeTable());
 
-    final Grid formGrid = new Grid(13, 2);
+    final Grid formGrid = new Grid(15, 2);
 
     int row = 0;
     formGrid.setText(row, labelIdx, "");
@@ -221,7 +236,17 @@ public class MyPreferencesScreen extends SettingsScreen {
 
       formGrid.setText(row, labelIdx, Util.C.diffViewLabel());
       formGrid.setWidget(row, fieldIdx, diffView);
+      row++;
     }
+
+    formGrid.setText(row, labelIdx, Util.C.fontSizeLabel());
+    formGrid.setWidget(row, fieldIdx, fontSize);
+    row++;
+
+    formGrid.setText(row, labelIdx, "");
+    formGrid.setWidget(row, fieldIdx, wrapLines);
+    row++;
+
     add(formGrid);
 
     save = new Button(Util.C.buttonSaveChanges());
@@ -253,6 +278,8 @@ public class MyPreferencesScreen extends SettingsScreen {
     e.listenTo(commentVisibilityStrategy);
     e.listenTo(changeScreen);
     e.listenTo(diffView);
+    e.listenTo(fontSize);
+    e.listenTo(wrapLines);
   }
 
   @Override
@@ -282,6 +309,8 @@ public class MyPreferencesScreen extends SettingsScreen {
     commentVisibilityStrategy.setEnabled(on);
     changeScreen.setEnabled(on);
     diffView.setEnabled(on);
+    fontSize.setEnabled(on);
+    wrapLines.setEnabled(on);
   }
 
   private void display(Preferences p) {
@@ -309,6 +338,10 @@ public class MyPreferencesScreen extends SettingsScreen {
     setListBox(diffView,
         AccountGeneralPreferences.DiffView.SIDE_BY_SIDE,
         p.diffView());
+    setListBox(fontSize,
+        AccountGeneralPreferences.FontSize.SMALL,
+        p.fontSize());
+    wrapLines.setValue(p.wrapLines());
     display(p.my());
   }
 
@@ -399,6 +432,10 @@ public class MyPreferencesScreen extends SettingsScreen {
     p.setChangeScreen(getListBox(changeScreen,
         null,
         AccountGeneralPreferences.ChangeScreen.values()));
+    p.setFontSize(getListBox(fontSize,
+        AccountGeneralPreferences.FontSize.SMALL,
+        AccountGeneralPreferences.FontSize.values()));
+    p.setWrapLines(wrapLines.getValue());
 
     enable(false);
     save.setEnabled(false);

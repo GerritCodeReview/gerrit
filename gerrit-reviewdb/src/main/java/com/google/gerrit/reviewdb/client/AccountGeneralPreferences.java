@@ -93,6 +93,12 @@ public final class AccountGeneralPreferences {
     CHANGE_SCREEN2
   }
 
+  public static enum FontSize {
+    SMALL,
+    MEDIUM,
+    LARGE
+  }
+
   public static enum TimeFormat {
     /** 12-hour clock: 1:15 am, 2:13 pm */
     HHMM_12("h:mm a"),
@@ -176,6 +182,12 @@ public final class AccountGeneralPreferences {
 
   @Column(id = 18, length = 20, notNull = false)
   protected String reviewCategoryStrategy;
+
+  @Column(id = 19, length = 20, notNull = false)
+  protected String fontSize;
+
+  @Column(id = 20)
+  protected boolean wrapLines;
 
   public AccountGeneralPreferences() {
   }
@@ -327,6 +339,25 @@ public final class AccountGeneralPreferences {
     changeScreen = ui != null ? ui.name() : null;
   }
 
+  public FontSize getFontSize() {
+    if (fontSize == null) {
+      return FontSize.SMALL;
+    }
+    return FontSize.valueOf(fontSize);
+  }
+
+  public void setFontSize(FontSize fs) {
+    this.fontSize = fs != null ? fs.name() : null;
+  }
+
+  public boolean isWrapLines() {
+    return wrapLines;
+  }
+
+  public void setWrapLines(boolean bl) {
+    this.wrapLines = bl;
+  }
+
   public boolean isSizeBarInChangeTable() {
     return sizeBarInChangeTable;
   }
@@ -358,6 +389,8 @@ public final class AccountGeneralPreferences {
     commentVisibilityStrategy = null;
     diffView = null;
     changeScreen = null;
+    fontSize = FontSize.SMALL.name();
+    wrapLines = false;
     sizeBarInChangeTable = true;
     legacycidInChangeTable = false;
   }

@@ -27,6 +27,7 @@ import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DateFormat;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DiffView;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DownloadCommand;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DownloadScheme;
+import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.FontSize;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.ReviewCategoryStrategy;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.TimeFormat;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -116,6 +117,8 @@ public class GetPreferences implements RestReadView<AccountResource> {
     CommentVisibilityStrategy commentVisibilityStrategy;
     DiffView diffView;
     ChangeScreen changeScreen;
+    FontSize fontSize;
+    Boolean wrapLines;
     List<TopMenu.MenuItem> my;
 
     public PreferenceInfo(AccountGeneralPreferences p,
@@ -137,6 +140,8 @@ public class GetPreferences implements RestReadView<AccountResource> {
         commentVisibilityStrategy = p.getCommentVisibilityStrategy();
         diffView = p.getDiffView();
         changeScreen = p.getChangeScreen();
+        fontSize = p.getFontSize();
+        wrapLines = p.isWrapLines();
       }
       my = my(v, allUsers);
     }

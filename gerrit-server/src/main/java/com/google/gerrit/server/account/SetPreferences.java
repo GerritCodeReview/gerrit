@@ -32,6 +32,7 @@ import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DateFormat;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DiffView;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DownloadCommand;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DownloadScheme;
+import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.FontSize;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.ReviewCategoryStrategy;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.TimeFormat;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -70,6 +71,8 @@ public class SetPreferences implements RestModifyView<AccountResource, Input> {
     public ReviewCategoryStrategy reviewCategoryStrategy;
     public DiffView diffView;
     public ChangeScreen changeScreen;
+    public FontSize fontSize;
+    public Boolean wrapLines;
     public List<TopMenu.MenuItem> my;
   }
 
@@ -169,6 +172,12 @@ public class SetPreferences implements RestModifyView<AccountResource, Input> {
       }
       if (i.changeScreen != null) {
         p.setChangeScreen(i.changeScreen);
+      }
+      if (i.fontSize != null) {
+        p.setFontSize(i.fontSize);
+      }
+      if (i.wrapLines != null) {
+        p.setWrapLines(i.wrapLines);
       }
 
       db.get().accounts().update(Collections.singleton(a));

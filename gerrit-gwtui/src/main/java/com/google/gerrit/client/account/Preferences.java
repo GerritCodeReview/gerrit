@@ -22,6 +22,7 @@ import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DateFormat;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DiffView;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DownloadCommand;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DownloadScheme;
+import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.FontSize;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.ReviewCategoryStrategy;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.TimeFormat;
 import com.google.gwt.core.client.JavaScriptObject;
@@ -51,6 +52,8 @@ public class Preferences extends JavaScriptObject {
     p.reviewCategoryStrategy(in.getReviewCategoryStrategy());
     p.diffView(in.getDiffView());
     p.changeScreen(in.getChangeScreen());
+    p.fontSize(in.getFontSize());
+    p.wrapLines(in.isWrapLines());
     p.setMyMenus(myMenus);
     return p;
   }
@@ -138,6 +141,16 @@ public class Preferences extends JavaScriptObject {
   private final native String changeScreenRaw()
   /*-{ return this.change_screen }-*/;
 
+  public final FontSize fontSize() {
+    String s = fontSizeRaw();
+    return s != null ? FontSize.valueOf(s) : null;
+  }
+  private final native String fontSizeRaw()
+  /*-{ return this.font_size }-*/;
+
+  public final native boolean wrapLines()
+  /*-{ return this.wrap_lines || false }-*/;
+
   public final native JsArray<TopMenuItem> my()
   /*-{ return this.my; }-*/;
 
@@ -212,6 +225,15 @@ public class Preferences extends JavaScriptObject {
   }
   private final native void changeScreenRaw(String s)
   /*-{ this.change_screen = s }-*/;
+
+  public final void fontSize(FontSize f) {
+    fontSizeRaw(f != null ? f.toString() : null);
+  }
+  private final native void fontSizeRaw(String f)
+  /*-{ this.font_size = f }-*/;
+
+  public final native void wrapLines(boolean b)
+  /*-{ this.wrap_lines = b }-*/;
 
   final void setMyMenus(List<TopMenuItem> myMenus) {
     initMy();

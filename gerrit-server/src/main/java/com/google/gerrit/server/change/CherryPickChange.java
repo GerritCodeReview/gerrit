@@ -96,31 +96,25 @@ public class CherryPickChange {
     this.mergeUtilFactory = mergeUtilFactory;
   }
 
-  public Change.Id cherryPick(final PatchSet.Id patchSetId,
+  public Change.Id cherryPick(Change change, PatchSet patch,
       final String message, final String destinationBranch,
       final RefControl refControl) throws NoSuchChangeException,
       OrmException, MissingObjectException,
       IncorrectObjectTypeException, IOException,
       InvalidChangeOperationException, MergeException {
 
-    final Change.Id changeId = patchSetId.getParentKey();
-    final PatchSet patch = db.get().patchSets().get(patchSetId);
-    if (patch == null) {
-      throw new NoSuchChangeException(changeId);
-    }
     if (destinationBranch == null || destinationBranch.length() == 0) {
       throw new InvalidChangeOperationException(
           "Cherry Pick: Destination branch cannot be null or empty");
     }
 
-    Change change = db.get().changes().get(changeId);
     Project.NameKey project = change.getProject();
     IdentifiedUser identifiedUser = (IdentifiedUser) currentUser.get();
     final Repository git;
     try {
       git = gitManager.openRepository(project);
     } catch (RepositoryNotFoundException e) {
-      throw new NoSuchChangeException(changeId, e);
+      throw new NoSuchChangeException(change.getId(), e);
     }
 
     try {
@@ -172,9 +166,8 @@ public class CherryPickChange {
 
         List<Change> destChanges =
             db.get().changes()
-                .byBranchKey(
-                    new Branch.NameKey(db.get().changes().get(changeId).getProject(),
-                        destRef.getName()), changeKey).toList();
+                .byBranchKey(new Branch.NameKey(project, destRef.getName()),
+                    changeKey).toList();
 
         if (destChanges.size() > 1) {
           throw new InvalidChangeOperationException("Several changes with key "
@@ -183,13 +176,14 @@ public class CherryPickChange {
         } else if (destChanges.size() == 1) {
           // The change key exists on the destination branch. The cherry pick
           // will be added as a new patch set.
-          return insertPatchSet(git, revWalk, destChanges.get(0), cherryPickCommit,
-              refControl, identifiedUser);
+          return insertPatchSet(git, revWalk, destChanges.get(0),
+              cherryPickCommit, refControl, identifiedUser);
         } else {
           // Change key not found on destination branch. We can create a new
           // change.
-          return createNewChange(git, revWalk, changeKey, project, patchSetId, destRef,
-              cherryPickCommit, refControl, identifiedUser, change.getTopic());
+          return createNewChange(git, revWalk, changeKey, project,
+              patch.getId(), destRef, cherryPickCommit, refControl,
+              identifiedUser, change.getTopic());
         }
       } finally {
         revWalk.release();

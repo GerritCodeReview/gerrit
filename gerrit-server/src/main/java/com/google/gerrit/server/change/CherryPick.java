@@ -23,7 +23,6 @@ import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.change.ChangeJson.ChangeInfo;
 import com.google.gerrit.server.git.MergeException;
@@ -83,11 +82,11 @@ public class CherryPick implements RestModifyView<RevisionResource, CherryPickIn
           + input.destination);
     }
 
-    final PatchSet.Id patchSetId = revision.getPatchSet().getId();
     try {
-      Change.Id cherryPickedChangeId = cherryPickChange.cherryPick(
-          patchSetId, input.message,
-          input.destination, refControl);
+      Change.Id cherryPickedChangeId =
+          cherryPickChange.cherryPick(revision.getChange(),
+              revision.getPatchSet(), input.message, input.destination,
+              refControl);
       return json.format(cherryPickedChangeId);
     } catch (InvalidChangeOperationException e) {
       throw new BadRequestException(e.getMessage());

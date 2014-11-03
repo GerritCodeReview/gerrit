@@ -79,6 +79,7 @@ import com.google.gerrit.client.dashboards.DashboardList;
 import com.google.gerrit.client.diff.DisplaySide;
 import com.google.gerrit.client.diff.SideBySide2;
 import com.google.gerrit.client.documentation.DocScreen;
+import com.google.gerrit.client.editor.EditScreen;
 import com.google.gerrit.client.groups.GroupApi;
 import com.google.gerrit.client.groups.GroupInfo;
 import com.google.gerrit.client.patches.PatchScreen;
@@ -735,6 +736,8 @@ public class Dispatcher {
                 patchTable,//
                 top,//
                 baseId);//
+          } else if ("edit".equals(panel)) {
+            return new EditScreen(baseId, id.getParentKey(), id.get());
           }
         }
 

@@ -79,6 +79,7 @@ import com.google.gerrit.client.dashboards.DashboardList;
 import com.google.gerrit.client.diff.DisplaySide;
 import com.google.gerrit.client.diff.SideBySide2;
 import com.google.gerrit.client.documentation.DocScreen;
+import com.google.gerrit.client.editor.EditScreen;
 import com.google.gerrit.client.groups.GroupApi;
 import com.google.gerrit.client.groups.GroupInfo;
 import com.google.gerrit.client.patches.PatchScreen;
@@ -167,6 +168,15 @@ public class Dispatcher {
     } else {
       return toPatchUnified(id);
     }
+  }
+
+  public static String toEditScreen(PatchSet.Id revision, String fileName) {
+    Change.Id c = revision.getParentKey();
+    StringBuilder p = new StringBuilder();
+    p.append("/c/").append(c).append("/");
+    p.append(revision.getId()).append("/").append(KeyUtil.encode(fileName));
+    p.append(",edit");
+    return p.toString();
   }
 
   public static String toPublish(PatchSet.Id ps) {
@@ -735,6 +745,8 @@ public class Dispatcher {
                 patchTable,//
                 top,//
                 baseId);//
+          } else if (panel.equals("edit")) {
+            return new EditScreen(id);
           }
         }
 

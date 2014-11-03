@@ -206,6 +206,7 @@ public class FileTable extends FlowPanel {
   private Widget editButton;
   private Widget replyButton;
   private boolean editExists;
+  private Mode mode;
 
   @Override
   protected void onLoad() {
@@ -214,25 +215,25 @@ public class FileTable extends FlowPanel {
   }
 
   public void set(PatchSet.Id base, PatchSet.Id curr, ChangeScreen2.Style style,
-      Widget editButton, Widget replyButton, boolean editExists) {
+      Widget editButton, Widget replyButton, Mode mode, boolean editExists) {
     this.base = base;
     this.curr = curr;
     this.style = style;
     this.editButton = editButton;
     this.replyButton = replyButton;
+    this.mode = mode;
     this.editExists = editExists;
   }
 
   void setValue(NativeMap<FileInfo> fileMap,
       Timestamp myLastReply,
       NativeMap<JsArray<CommentInfo>> comments,
-      NativeMap<JsArray<CommentInfo>> drafts,
-      Mode mode) {
+      NativeMap<JsArray<CommentInfo>> drafts) {
     JsArray<FileInfo> list = fileMap.values();
     FileInfo.sortFileInfoByPath(list);
 
     DisplayCommand cmd = new DisplayCommand(fileMap, list,
-        myLastReply, comments, drafts, mode);
+        myLastReply, comments, drafts);
     if (cmd.execute()) {
       cmd.showProgressBar();
       Scheduler.get().scheduleIncremental(cmd);
@@ -293,7 +294,9 @@ public class FileTable extends FlowPanel {
   private String url(FileInfo info) {
     return info.binary()
       ? Dispatcher.toUnified(base, curr, info.path())
-      : Dispatcher.toSideBySide(base, curr, info.path());
+      : mode == Mode.REVIEW
+            ? Dispatcher.toSideBySide(base, curr, info.path())
+            : Dispatcher.toEditScreen(curr, info.path());
   }
 
   private final class MyTable extends NavigationTable<FileInfo> {
@@ -351,7 +354,7 @@ public class FileTable extends FlowPanel {
           });
     }
 
-    void onEditMessage(int idx) {
+    void onEditMessage(@SuppressWarnings("unused") int idx) {
       ChangeFileApi.getMessage(curr,
           new GerritCallback<String>() {
             @Override
@@ -491,7 +494,6 @@ public class FileTable extends FlowPanel {
     private final NativeMap<JsArray<CommentInfo>> comments;
     private final NativeMap<JsArray<CommentInfo>> drafts;
     private final boolean hasUser;
-    private final Mode mode;
     private boolean attached;
     private int row;
     private double start;
@@ -505,15 +507,13 @@ public class FileTable extends FlowPanel {
         JsArray<FileInfo> list,
         Timestamp myLastReply,
         NativeMap<JsArray<CommentInfo>> comments,
-        NativeMap<JsArray<CommentInfo>> drafts,
-        Mode mode) {
+        NativeMap<JsArray<CommentInfo>> drafts) {
       this.myTable = new MyTable(map, list);
       this.list = list;
       this.myLastReply = myLastReply;
       this.comments = comments;
       this.drafts = drafts;
       this.hasUser = Gerrit.isSignedIn();
-      this.mode = mode;
       myTable.addStyleName(R.css().table());
     }
 
@@ -657,9 +657,15 @@ public class FileTable extends FlowPanel {
       sb.openTd().setStyleName(R.css().pathColumn());
       String path = info.path();
       if (!Patch.COMMIT_MSG.equals(path)) {
-        sb.openAnchor()
-          .setAttribute("onclick", (isEditable(info) ? EDIT : RESTORE)
-              + "(event," + info._row() + ")");
+        sb.openAnchor();
+
+        if (!isEditable(info)) {
+          sb.setAttribute("onclick", RESTORE + "(event," + info._row() + ")");
+        } else {
+          sb.setAttribute("href", "#" + url(info))
+            .setAttribute("onclick", OPEN + "(event," + info._row()
+                + ")");
+        }
         int commonPrefixLen = commonPrefix(path);
         if (commonPrefixLen > 0) {
           sb.openSpan().setStyleName(R.css().commonPrefix())

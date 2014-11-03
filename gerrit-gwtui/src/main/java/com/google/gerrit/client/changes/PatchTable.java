@@ -267,8 +267,9 @@ public class PatchTable extends Composite {
       final PatchScreen.Type screenType) {
     if (Dispatcher.isChangeScreen2()) {
       return (patch.getPatchType().equals(PatchType.BINARY)
-          || Gerrit.getUserAccount().getGeneralPreferences().getDiffView()
-          .equals(DiffView.UNIFIED_DIFF));
+          || (Gerrit.isSignedIn()
+              && Gerrit.getUserAccount().getGeneralPreferences().getDiffView()
+                 .equals(DiffView.UNIFIED_DIFF)));
     }
     return screenType == PatchScreen.Type.UNIFIED;
   }

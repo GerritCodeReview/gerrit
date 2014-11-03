@@ -103,6 +103,7 @@ public class FileTable extends FlowPanel {
   private static final String RESTORE;
   private static final String REVIEWED;
   private static final String OPEN;
+  private static final String OPEN_EDIT;
   private static final int C_PATH = 3;
   private static final HyperlinkImpl link = GWT.create(HyperlinkImpl.class);
 
@@ -113,10 +114,11 @@ public class FileTable extends FlowPanel {
     RESTORE = DOM.createUniqueId().replace('-', '_');
     REVIEWED = DOM.createUniqueId().replace('-', '_');
     OPEN = DOM.createUniqueId().replace('-', '_');
-    init(DELETE, EDIT, EDIT_MESSAGE, RESTORE, REVIEWED, OPEN);
+    OPEN_EDIT = DOM.createUniqueId().replace('-', '_');
+    init(DELETE, EDIT, EDIT_MESSAGE, RESTORE, REVIEWED, OPEN, OPEN_EDIT);
   }
 
-  private static final native void init(String d, String e, String m, String t, String r, String o) /*-{
+  private static final native void init(String d, String e, String m, String t, String r, String o, String oe) /*-{
     $wnd[d] = $entry(function(e,i) {
       @com.google.gerrit.client.change.FileTable::onDelete(Lcom/google/gwt/dom/client/NativeEvent;I)(e,i)
     });
@@ -134,6 +136,9 @@ public class FileTable extends FlowPanel {
     });
     $wnd[o] = $entry(function(e,i) {
       return @com.google.gerrit.client.change.FileTable::onOpen(Lcom/google/gwt/dom/client/NativeEvent;I)(e,i);
+    });
+    $wnd[oe] = $entry(function(e,i) {
+      return @com.google.gerrit.client.change.FileTable::onOpenEdit(Lcom/google/gwt/dom/client/NativeEvent;I)(e,i);
     });
   }-*/;
 
@@ -177,6 +182,19 @@ public class FileTable extends FlowPanel {
       MyTable t = getMyTable(e);
       if (t != null) {
         t.onOpenRow(1 + idx);
+        e.preventDefault();
+        e.stopPropagation();
+        return false;
+      }
+    }
+    return true;
+  }
+
+  private static boolean onOpenEdit(NativeEvent e, int idx) {
+    if (link.handleAsClick(e.<Event> cast())) {
+      MyTable t = getMyTable(e);
+      if (t != null) {
+        t.onOpenEditRow(1 + idx);
         e.preventDefault();
         e.stopPropagation();
         return false;
@@ -294,6 +312,11 @@ public class FileTable extends FlowPanel {
     return info.binary()
       ? Dispatcher.toUnified(base, curr, info.path())
       : Dispatcher.toSideBySide(base, curr, info.path());
+  }
+
+  private String urlEdit(FileInfo info) {
+    // TODO(davido): take care of binary
+    return Dispatcher.toEditScreen(curr, info.path());
   }
 
   private final class MyTable extends NavigationTable<FileInfo> {
@@ -456,6 +479,12 @@ public class FileTable extends FlowPanel {
     protected void onOpenRow(int row) {
       if (1 <= row && row <= list.length()) {
         Gerrit.display(url(list.get(row - 1)));
+      }
+    }
+
+    protected void onOpenEditRow(int row) {
+      if (1 <= row && row <= list.length()) {
+        Gerrit.display(urlEdit(list.get(row - 1)));
       }
     }
 
@@ -657,9 +686,15 @@ public class FileTable extends FlowPanel {
       sb.openTd().setStyleName(R.css().pathColumn());
       String path = info.path();
       if (!Patch.COMMIT_MSG.equals(path)) {
-        sb.openAnchor()
-          .setAttribute("onclick", (isEditable(info) ? EDIT : RESTORE)
-              + "(event," + info._row() + ")");
+        sb.openAnchor();
+
+        if (!isEditable(info)) {
+          sb.setAttribute("onclick", RESTORE + "(event," + info._row() + ")");
+        } else {
+          sb.setAttribute("href", "#" + urlEdit(info))
+            .setAttribute("onclick", OPEN_EDIT + "(event," + info._row()
+                + ")");
+        }
         int commonPrefixLen = commonPrefix(path);
         if (commonPrefixLen > 0) {
           sb.openSpan().setStyleName(R.css().commonPrefix())

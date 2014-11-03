@@ -41,6 +41,12 @@ public class CodeMirror extends JavaScriptObject {
     return m;
   }-*/;
 
+  public static CodeMirror create(
+      Element parent,
+      Configuration cfg) {
+    return create(null, parent, cfg);
+  }
+
   public final native void setOption(String option, boolean value) /*-{
     this.setOption(option, value);
   }-*/;

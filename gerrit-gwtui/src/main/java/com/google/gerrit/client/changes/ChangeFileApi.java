@@ -15,9 +15,11 @@
 package com.google.gerrit.client.changes;
 
 import com.google.gerrit.client.VoidResult;
+import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.NativeString;
 import com.google.gerrit.client.rpc.RestApi;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -67,21 +69,41 @@ public class ChangeFileApi {
         wrapper(cb));
   }
 
+  /** Get the contents of a File in a PatchSet or cange edit. */
+  public static void getContentOrMessage(PatchSet.Id id, String path,
+      AsyncCallback<String> cb) {
+    if (Patch.COMMIT_MSG.equals(path)) {
+      getMessage(id, cb);
+    } else {
+      contentEditOrPs(id, path).get(wrapper(cb));
+    }
+  }
+
   /** Put contents into a File in a change edit. */
   public static void putContent(PatchSet.Id id, String filename,
-      String content, AsyncCallback<VoidResult> result) {
+      String content, GerritCallback<VoidResult> result) {
     contentEdit(id.getParentKey(), filename).put(content, result);
   }
 
+  /** Put contents into a File or commit message in a change edit. */
+  public static void putContentOrMessage(PatchSet.Id id, String path,
+      String content, GerritCallback<VoidResult> result) {
+    if (Patch.COMMIT_MSG.equals(path)) {
+      putMessage(id, content, result);
+    } else {
+      contentEdit(id.getParentKey(), path).put(content, result);
+    }
+  }
+
   /** Put message into a change edit. */
-  public static void putMessage(PatchSet.Id id, String m,
-      AsyncCallback<VoidResult> r) {
+  private static void putMessage(PatchSet.Id id, String m,
+      GerritCallback<VoidResult> r) {
     putMessage(id.getParentKey(), m, r);
   }
 
   /** Put message into a change edit. */
   public static void putMessage(Change.Id id, String m,
-      AsyncCallback<VoidResult> r) {
+      GerritCallback<VoidResult> r) {
     ChangeApi.change(id.get()).view("edit:message").put(m, r);
   }
 

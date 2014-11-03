@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "95b382f9_f720a091",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-11-03T19:39:47Z",
+      "side": 1,
+      "message": "I would just combine this into the existing method unless anyone else has strong objections.",
+      "range": {
+        "startLine": 147,
+        "startChar": 29,
+        "endLine": 147,
+        "endChar": 35
+      },
+      "revId": "239de61d4c3d5e2bb3975a78dc3de5abcf3b3e1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

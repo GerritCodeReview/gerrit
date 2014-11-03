@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "95b382f9_b716283b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-11-03T19:34:41Z",
+      "side": 1,
+      "message": "Done in change where the problem was introduced.",
+      "parentUuid": "55dcaa2f_5ddedb1f",
+      "revId": "6673e687cbae5a4f8bd0335ac0dd6e60476befcb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "95daa231_bfed17cb",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/MergeabilityCache.java",
         "patchSetId": 9

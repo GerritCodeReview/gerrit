@@ -133,8 +133,6 @@ public class SideBySide2 extends Screen {
   private List<HandlerRegistration> handlers;
   private PreferencesAction prefsAction;
   private int reloadVersionId;
-  private KeyMap sbsKeyMap;
-  private boolean isEdited = false;
 
   public SideBySide2(
       PatchSet.Id base,
@@ -343,7 +341,7 @@ public class SideBySide2 extends Screen {
     cm.on("cursorActivity", updateActiveLine(cm));
     cm.on("gutterClick", onGutterClick(cm));
     cm.on("focus", updateActiveLine(cm));
-    sbsKeyMap = KeyMap.create()
+    cm.addKeyMap(KeyMap.create()
         .on("A", upToChange(true))
         .on("U", upToChange(false))
         .on("[", header.navigate(Direction.PREV))
@@ -409,8 +407,7 @@ public class SideBySide2 extends Screen {
           public void run() {
             cm.execCommand("selectAll");
           }
-        });
-    cm.addKeyMap(sbsKeyMap);
+        }));
     if (prefs.renderEntireFile()) {
       cm.addKeyMap(RENDER_ENTIRE_FILE_KEYMAP);
     }
@@ -422,9 +419,6 @@ public class SideBySide2 extends Screen {
 
       @Override
       public void handle(CodeMirror cm, LineCharacter anchor, LineCharacter head) {
-        if (isEdited) {
-          return;
-        }
         if (anchor == head
             || (anchor.getLine() == head.getLine()
              && anchor.getCh() == head.getCh())) {
@@ -541,30 +535,6 @@ public class SideBySide2 extends Screen {
         cmB.focus();
       }
     }));
-  }
-
-  public void editSideB(boolean state) {
-    isEdited = state;
-    cmB.setOption("readOnly", !state);
-    JumpKeys.enable(!state);
-    if (state) {
-      removeKeyHandlerRegistrations();
-      cmB.removeKeyMap(sbsKeyMap);
-      cmB.setOption("keyMap", "default");
-      cmB.focus();
-    } else {
-      cmB.setOption("keyMap", "vim_ro");
-      cmB.addKeyMap(sbsKeyMap);
-      registerKeys();
-    }
-  }
-
-  public String getSideBContent() {
-    return cmB.getValue();
-  }
-
-  public void setSideBContent(String content) {
-    cmB.setValue(content);
   }
 
   private void display(final CommentsCollections comments) {

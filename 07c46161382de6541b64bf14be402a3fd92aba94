@@ -1,0 +1,95 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "75c8ce75_56deb41f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/MergeabilityCache.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-11-03T20:00:33Z",
+      "side": 1,
+      "message": "I think you can save memory in the cache by putting these into a helper class and holding only a reference to the helper.\n\nThat way when you clear them the cache has only 1 dead pointer per cache key instead of 3 dead pointers per cache key.",
+      "range": {
+        "startLine": 108,
+        "startChar": 0,
+        "endLine": 111,
+        "endChar": 34
+      },
+      "revId": "07c46161382de6541b64bf14be402a3fd92aba94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "75c8ce75_36d93837",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/MergeabilityCache.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-11-03T20:00:33Z",
+      "side": 1,
+      "message": "key.db \u003d null",
+      "revId": "07c46161382de6541b64bf14be402a3fd92aba94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "75c8ce75_f63980c5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/MergeabilityCache.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-11-03T20:00:33Z",
+      "side": 1,
+      "message": "You may need to expose this as public for our custom cache glue.",
+      "revId": "07c46161382de6541b64bf14be402a3fd92aba94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "75c8ce75_76e3b0e8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/MergeabilityCache.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-11-03T20:00:33Z",
+      "side": 1,
+      "message": "If you use a helper type to curry the 3 load-only parts of the key, you can shrink the size of the key slightly.",
+      "revId": "07c46161382de6541b64bf14be402a3fd92aba94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "75c8ce75_16d43c00",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/MergeabilityCache.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-11-03T20:00:33Z",
+      "side": 1,
+      "message": "boolean is 1 byte ignoring rounding to next word size. Boolean is pointer sized, 8 bytes unless compressed pointers were enabled on the 64 bit JVM to cram into 4 bytes.",
+      "revId": "07c46161382de6541b64bf14be402a3fd92aba94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

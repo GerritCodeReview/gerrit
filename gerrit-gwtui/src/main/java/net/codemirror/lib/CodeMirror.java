@@ -41,6 +41,12 @@ public class CodeMirror extends JavaScriptObject {
     return m;
   }-*/;
 
+  public static CodeMirror create(
+      Element parent,
+      Configuration cfg) {
+    return create(null, parent, cfg);
+  }
+
   public final native void setOption(String option, boolean value) /*-{
     this.setOption(option, value);
   }-*/;
@@ -96,15 +102,7 @@ public class CodeMirror extends JavaScriptObject {
 
   private final native void addLineClassNative(LineHandle line, String where,
       String lineClass) /*-{
-    try {
-      this.addLineClass(line, where, lineClass);
-    } catch (err) {
-      if ("TypeError: Cannot read property 'parrent' of undefinded" == err.toString()) {
-        // ignore CodeMirror bug after going to new line
-        return;
-      }
-      throw err;
-    }
+    this.addLineClass(line, where, lineClass);
   }-*/;
 
   public final void removeLineClass(int line, LineClassWhere where,

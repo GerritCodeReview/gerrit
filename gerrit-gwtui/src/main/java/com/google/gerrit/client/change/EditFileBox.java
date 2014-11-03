@@ -17,9 +17,9 @@ package com.google.gerrit.client.change;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.VoidResult;
 import com.google.gerrit.client.changes.ChangeFileApi;
+import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.TextBoxChangeListener;
 import com.google.gerrit.common.PageLinks;
-import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler;
@@ -28,7 +28,6 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
@@ -49,18 +48,6 @@ class EditFileBox extends Composite {
   @UiField NpTextArea content;
   @UiField Button save;
   @UiField Button cancel;
-
-  private AsyncCallback<VoidResult> cb = new AsyncCallback<VoidResult>() {
-    @Override
-    public void onSuccess(VoidResult result) {
-      Gerrit.display(PageLinks.toChangeInEditMode(id.getParentKey()));
-      hide();
-    }
-
-    @Override
-    public void onFailure(Throwable caught) {
-    }
-  };
 
   EditFileBox(
       PatchSet.Id id,
@@ -94,11 +81,14 @@ class EditFileBox extends Composite {
 
   @UiHandler("save")
   void onSave(@SuppressWarnings("unused") ClickEvent e) {
-    if (Patch.COMMIT_MSG.equals(file.getText())) {
-      ChangeFileApi.putMessage(id, content.getText(), cb);
-    } else {
-      ChangeFileApi.putContent(id, file.getText(), content.getText(), cb);
-    }
+    ChangeFileApi.putContent(id, file.getText(), content.getText(),
+        new GerritCallback<VoidResult>() {
+          @Override
+          public void onSuccess(VoidResult result) {
+            Gerrit.display(PageLinks.toChangeInEditMode(id.getParentKey()));
+            hide();
+          }
+        });
   }
 
   @UiHandler("cancel")

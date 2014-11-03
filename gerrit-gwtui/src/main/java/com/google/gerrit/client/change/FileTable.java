@@ -87,19 +87,15 @@ public class FileTable extends FlowPanel {
     String deltaColumn2();
     String inserted();
     String deleted();
-    String editButton();
     String removeButton();
   }
 
   public static enum Mode {
     REVIEW,
-    @SuppressWarnings("hiding")
     EDIT
   }
 
   private static final String DELETE;
-  private static final String EDIT;
-  private static final String EDIT_MESSAGE;
   private static final String RESTORE;
   private static final String REVIEWED;
   private static final String OPEN;
@@ -108,23 +104,15 @@ public class FileTable extends FlowPanel {
 
   static {
     DELETE = DOM.createUniqueId().replace('-', '_');
-    EDIT = DOM.createUniqueId().replace('-', '_');
-    EDIT_MESSAGE = DOM.createUniqueId().replace('-', '_');
     RESTORE = DOM.createUniqueId().replace('-', '_');
     REVIEWED = DOM.createUniqueId().replace('-', '_');
     OPEN = DOM.createUniqueId().replace('-', '_');
-    init(DELETE, EDIT, EDIT_MESSAGE, RESTORE, REVIEWED, OPEN);
+    init(DELETE, RESTORE, REVIEWED, OPEN);
   }
 
-  private static final native void init(String d, String e, String m, String t, String r, String o) /*-{
+  private static final native void init(String d, String t, String r, String o) /*-{
     $wnd[d] = $entry(function(e,i) {
       @com.google.gerrit.client.change.FileTable::onDelete(Lcom/google/gwt/dom/client/NativeEvent;I)(e,i)
-    });
-    $wnd[e] = $entry(function(e,i) {
-      @com.google.gerrit.client.change.FileTable::onEdit(Lcom/google/gwt/dom/client/NativeEvent;I)(e,i)
-    });
-    $wnd[m] = $entry(function(e,i) {
-      @com.google.gerrit.client.change.FileTable::onEditMessage(Lcom/google/gwt/dom/client/NativeEvent;I)(e,i)
     });
     $wnd[t] = $entry(function(e,i) {
       @com.google.gerrit.client.change.FileTable::onRestore(Lcom/google/gwt/dom/client/NativeEvent;I)(e,i)
@@ -206,6 +194,7 @@ public class FileTable extends FlowPanel {
   private Widget editButton;
   private Widget replyButton;
   private boolean editExists;
+  private Mode mode;
 
   @Override
   protected void onLoad() {
@@ -214,25 +203,25 @@ public class FileTable extends FlowPanel {
   }
 
   public void set(PatchSet.Id base, PatchSet.Id curr, ChangeScreen2.Style style,
-      Widget editButton, Widget replyButton, boolean editExists) {
+      Widget editButton, Widget replyButton, Mode mode, boolean editExists) {
     this.base = base;
     this.curr = curr;
     this.style = style;
     this.editButton = editButton;
     this.replyButton = replyButton;
+    this.mode = mode;
     this.editExists = editExists;
   }
 
   void setValue(NativeMap<FileInfo> fileMap,
       Timestamp myLastReply,
       NativeMap<JsArray<CommentInfo>> comments,
-      NativeMap<JsArray<CommentInfo>> drafts,
-      Mode mode) {
+      NativeMap<JsArray<CommentInfo>> drafts) {
     JsArray<FileInfo> list = fileMap.values();
     FileInfo.sortFileInfoByPath(list);
 
     DisplayCommand cmd = new DisplayCommand(fileMap, list,
-        myLastReply, comments, drafts, mode);
+        myLastReply, comments, drafts);
     if (cmd.execute()) {
       cmd.showProgressBar();
       Scheduler.get().scheduleIncremental(cmd);
@@ -293,7 +282,9 @@ public class FileTable extends FlowPanel {
   private String url(FileInfo info) {
     return info.binary()
       ? Dispatcher.toUnified(base, curr, info.path())
-      : Dispatcher.toSideBySide(base, curr, info.path());
+      : mode == Mode.REVIEW
+            ? Dispatcher.toSideBySide(base, curr, info.path())
+            : Dispatcher.toEditScreen(curr, info.path());
   }
 
   private final class MyTable extends NavigationTable<FileInfo> {
@@ -351,7 +342,7 @@ public class FileTable extends FlowPanel {
           });
     }
 
-    void onEditMessage(int idx) {
+    void onEditMessage(@SuppressWarnings("unused") int idx) {
       ChangeFileApi.getMessage(curr,
           new GerritCallback<String>() {
             @Override
@@ -491,7 +482,6 @@ public class FileTable extends FlowPanel {
     private final NativeMap<JsArray<CommentInfo>> comments;
     private final NativeMap<JsArray<CommentInfo>> drafts;
     private final boolean hasUser;
-    private final Mode mode;
     private boolean attached;
     private int row;
     private double start;
@@ -505,15 +495,13 @@ public class FileTable extends FlowPanel {
         JsArray<FileInfo> list,
         Timestamp myLastReply,
         NativeMap<JsArray<CommentInfo>> comments,
-        NativeMap<JsArray<CommentInfo>> drafts,
-        Mode mode) {
+        NativeMap<JsArray<CommentInfo>> drafts) {
       this.myTable = new MyTable(map, list);
       this.list = list;
       this.myLastReply = myLastReply;
       this.comments = comments;
       this.drafts = drafts;
       this.hasUser = Gerrit.isSignedIn();
-      this.mode = mode;
       myTable.addStyleName(R.css().table());
     }
 
@@ -589,7 +577,6 @@ public class FileTable extends FlowPanel {
       if (mode == Mode.REVIEW) {
         sb.openTh().setStyleName(R.css().reviewed()).closeTh();
       } else {
-        sb.openTh().setStyleName(R.css().editButton()).closeTh();
         sb.openTh().setStyleName(R.css().removeButton()).closeTh();
       }
       sb.openTh().setStyleName(R.css().status()).closeTh();
@@ -611,7 +598,6 @@ public class FileTable extends FlowPanel {
       if (mode == Mode.REVIEW) {
         columnReviewed(sb, info);
       } else {
-        columnEdit(sb, info);
         columnDeleteRestore(sb, info);
       }
       columnStatus(sb, info);
@@ -638,28 +624,19 @@ public class FileTable extends FlowPanel {
       sb.closeTd();
     }
 
-    private void columnEdit(SafeHtmlBuilder sb, FileInfo info) {
-      sb.openTd().setStyleName(R.css().editButton());
-      if (hasUser && isEditable(info)) {
-        boolean m = Patch.COMMIT_MSG.equals(info.path());
-        sb.openElement("button")
-          .setAttribute("title",
-              m ? Resources.C.editMessage() : Resources.C.editFileInline())
-          .setAttribute("onclick",
-              (m ? EDIT_MESSAGE : EDIT) + "(event," + info._row() + ")")
-          .append(new ImageResourceRenderer().render(Gerrit.RESOURCES.edit()))
-          .closeElement("button");
-      }
-      sb.closeTd();
-    }
-
     private void columnPathEdit(SafeHtmlBuilder sb, FileInfo info) {
       sb.openTd().setStyleName(R.css().pathColumn());
       String path = info.path();
+      sb.openAnchor();
+
+      if (!isEditable(info)) {
+        sb.setAttribute("onclick", RESTORE + "(event," + info._row() + ")");
+      } else {
+        sb.setAttribute("href", "#" + url(info))
+        .setAttribute("onclick", OPEN + "(event," + info._row()
+            + ")");
+      }
       if (!Patch.COMMIT_MSG.equals(path)) {
-        sb.openAnchor()
-          .setAttribute("onclick", (isEditable(info) ? EDIT : RESTORE)
-              + "(event," + info._row() + ")");
         int commonPrefixLen = commonPrefix(path);
         if (commonPrefixLen > 0) {
           sb.openSpan().setStyleName(R.css().commonPrefix())
@@ -667,10 +644,10 @@ public class FileTable extends FlowPanel {
             .closeSpan();
         }
         sb.append(path.substring(commonPrefixLen));
-        sb.closeAnchor();
       } else {
         sb.append(Util.C.commitMessage());
       }
+      sb.closeAnchor();
       sb.closeTd();
     }
 
@@ -845,8 +822,7 @@ public class FileTable extends FlowPanel {
       if (mode == Mode.REVIEW) {
         sb.openTh().setStyleName(R.css().reviewed()).closeTh();
       } else {
-        sb.openTh().setStyleName(R.css().editButton()).closeTh();
-        sb.openTh().setStyleName(R.css().editButton()).closeTh();
+        sb.openTh().setStyleName(R.css().removeButton()).closeTh();
       }
       sb.openTh().setStyleName(R.css().status()).closeTh();
       sb.openTd().closeTd(); // path

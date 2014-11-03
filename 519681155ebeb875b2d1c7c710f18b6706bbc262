@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "95b382f9_370bf816",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/MergeabilityCache.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-11-03T19:34:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "55dcaa2f_fd3967c5",
+      "range": {
+        "startLine": 123,
+        "startChar": 0,
+        "endLine": 124,
+        "endChar": 45
+      },
+      "revId": "519681155ebeb875b2d1c7c710f18b6706bbc262",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "55dcaa2f_1dd45300",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/MergeabilityCache.java",
         "patchSetId": 13
@@ -60,6 +84,30 @@
       "writtenOn": "2014-11-01T07:10:54Z",
       "side": 1,
       "message": "Not needed, see comment below.",
+      "range": {
+        "startLine": 196,
+        "startChar": 4,
+        "endLine": 196,
+        "endChar": 51
+      },
+      "revId": "519681155ebeb875b2d1c7c710f18b6706bbc262",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "75c8ce75_96420c36",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/MergeabilityCache.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-11-03T19:34:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "55dcaa2f_1dd45300",
       "range": {
         "startLine": 196,
         "startChar": 4,
@@ -95,6 +143,30 @@
     },
     {
       "key": {
+        "uuid": "95b382f9_57106c42",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/MergeabilityCache.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-11-03T19:34:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "95daa231_7fb1cfd8",
+      "range": {
+        "startLine": 211,
+        "startChar": 6,
+        "endLine": 214,
+        "endChar": 21
+      },
+      "revId": "519681155ebeb875b2d1c7c710f18b6706bbc262",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "95daa231_9fb5b3c7",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/MergeabilityCache.java",
         "patchSetId": 13
@@ -118,6 +190,30 @@
     },
     {
       "key": {
+        "uuid": "95b382f9_77157031",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/MergeabilityCache.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-11-03T19:34:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "95daa231_9fb5b3c7",
+      "range": {
+        "startLine": 220,
+        "startChar": 8,
+        "endLine": 222,
+        "endChar": 9
+      },
+      "revId": "519681155ebeb875b2d1c7c710f18b6706bbc262",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "95daa231_dfbf3ba1",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/MergeabilityCache.java",
         "patchSetId": 13
@@ -129,6 +225,30 @@
       "writtenOn": "2014-11-01T08:24:41Z",
       "side": 1,
       "message": "This implies that ReviewDb is bound in request context in all potential callers now, what is apparently not the case, as this comment shows: [1].\n\n* [1] https://gerrit-review.googlesource.com/#/c/60937/9//COMMIT_MSG",
+      "range": {
+        "startLine": 243,
+        "startChar": 12,
+        "endLine": 243,
+        "endChar": 21
+      },
+      "revId": "519681155ebeb875b2d1c7c710f18b6706bbc262",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "75c8ce75_b63f08ab",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/MergeabilityCache.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-11-03T19:34:25Z",
+      "side": 1,
+      "message": "Done\n\nIt feels a little ugly that we have to pass so many things into the public methods of this class. But between repo, dest, and db, only db is theoretically possible to actually inject. And the ugliness of changing 3 or so call sites (all of which already had a db instance readily available) is less than the ugliness of binding a new RequestContext in SiteIndexer.",
+      "parentUuid": "95daa231_dfbf3ba1",
       "range": {
         "startLine": 243,
         "startChar": 12,

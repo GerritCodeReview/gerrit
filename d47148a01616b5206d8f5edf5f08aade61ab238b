@@ -22,6 +22,30 @@
       "revId": "d47148a01616b5206d8f5edf5f08aade61ab238b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "95daa231_ff95df16",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-11-03T10:27:40Z",
+      "side": 1,
+      "message": "Hmm, I see this error only when I click on a zip file in a change when I\u0027m not signed in...",
+      "parentUuid": "95daa231_bf9b574a",
+      "range": {
+        "startLine": 7,
+        "startChar": 28,
+        "endLine": 7,
+        "endChar": 42
+      },
+      "revId": "d47148a01616b5206d8f5edf5f08aade61ab238b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

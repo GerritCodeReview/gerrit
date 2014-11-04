@@ -304,6 +304,30 @@
       "revId": "519681155ebeb875b2d1c7c710f18b6706bbc262",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "95daa231_7f7f0f4e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Mergeable.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-11-04T06:10:36Z",
+      "side": 1,
+      "message": "Why this comment wasn\u0027t addressed?",
+      "parentUuid": "95daa231_1f8b63ff",
+      "range": {
+        "startLine": 133,
+        "startChar": 24,
+        "endLine": 133,
+        "endChar": 29
+      },
+      "revId": "519681155ebeb875b2d1c7c710f18b6706bbc262",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

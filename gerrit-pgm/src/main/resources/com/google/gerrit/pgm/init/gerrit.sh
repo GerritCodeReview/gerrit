@@ -326,6 +326,11 @@ RUN_ARGS="-jar $GERRIT_WAR daemon -d $GERRIT_SITE"
 if test "`get_config --bool container.slave`" = "true" ; then
   RUN_ARGS="$RUN_ARGS --slave"
 fi
+RUN_OPTIONS=`get_config --get-all container.runOptions`
+if test -n "$RUN_OPTIONS" ; then
+  RUN_ARGS="$RUN_ARGS $RUN_OPTIONS"
+fi
+
 if test -n "$JAVA_OPTIONS" ; then
   RUN_ARGS="$JAVA_OPTIONS $RUN_ARGS"
 fi

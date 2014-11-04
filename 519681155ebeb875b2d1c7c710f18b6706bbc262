@@ -328,6 +328,30 @@
       "revId": "519681155ebeb875b2d1c7c710f18b6706bbc262",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b52086df_08bd27df",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Mergeable.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-11-04T16:01:04Z",
+      "side": 1,
+      "message": "cache.get() is keyed on two SHA-1s and the submit type. The cached value is correct for these two SHA-1s no matter what else happens in the server, barring a major change in the diff/merge software itself inside of JGit.\n\nThere is no need to purge the cache entry when force \u003d true. The cache entry will either be a hit and accurate, or a miss and recomputed.",
+      "parentUuid": "95daa231_1f8b63ff",
+      "range": {
+        "startLine": 133,
+        "startChar": 24,
+        "endLine": 133,
+        "endChar": 29
+      },
+      "revId": "519681155ebeb875b2d1c7c710f18b6706bbc262",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

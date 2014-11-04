@@ -130,6 +130,9 @@ public final class PatchSetApproval {
   @Column(id = 3)
   protected Timestamp granted;
 
+  // DELETED: id = 4 (changeOpen)
+  // DELETED: id = 5 (changeSortKey)
+
   protected PatchSetApproval() {
   }
 

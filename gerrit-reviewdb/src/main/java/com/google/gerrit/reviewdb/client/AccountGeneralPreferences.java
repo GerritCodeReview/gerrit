@@ -154,6 +154,8 @@ public final class AccountGeneralPreferences {
   @Column(id = 10)
   protected boolean reversePatchSetOrder;
 
+  // DELETED: id = 11 (showUserInReview)
+
   @Column(id = 12)
   protected boolean relativeDateInChangeTable;
 

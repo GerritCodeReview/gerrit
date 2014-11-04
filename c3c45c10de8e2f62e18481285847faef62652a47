@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "75c8ce75_56c8742f",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2157,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-11-04T21:04:55Z",
+      "side": 0,
+      "message": "The force flag was first shipped in 2.9. If we drop the flag in 2.11/3.0 clients that send \u0026force in the query will fail hard.\n\nDo we want to remove the flag, mark it deprecated in the docs, but silently accept and ignore the flag for a few releases?\n\nOr is it safe to assume this flag is probably not widely used and its OK to fail hard when a server upgrades to from 2.9 or 2.10 to 2.11 and the flag is removed?",
+      "revId": "c3c45c10de8e2f62e18481285847faef62652a47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -134,10 +134,12 @@ for n in used:
       p = d[d.index(':')+1:].lower()
     print('* ' + p)
   print()
-  print('----')
+  print('[[license]]')
+  print('[verse]')
+  print('--')
   with open(n[2:].replace(':', '/')) as fd:
     copyfileobj(fd, stdout)
-  print('----')
+  print('--')
 
 print("""
 GERRIT

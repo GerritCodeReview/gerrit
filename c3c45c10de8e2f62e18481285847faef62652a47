@@ -34,6 +34,24 @@
       "revId": "c3c45c10de8e2f62e18481285847faef62652a47",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "55d66a40_cd2089c8",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2157,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-11-04T21:15:37Z",
+      "side": 0,
+      "message": "My personal feeling is that even though this is a part of our documented API, it\u0027s always sort of been a use-at-your-own-risk kinda thing.",
+      "parentUuid": "75c8ce75_56c8742f",
+      "revId": "c3c45c10de8e2f62e18481285847faef62652a47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

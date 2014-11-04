@@ -2154,9 +2154,6 @@ As response a link:#mergeable-info[MergeableInfo] entity is returned.
 If the `other-branches` parameter is specified, the mergeability will also be
 checked for all other branches.
 
-If the `force` parameter is specified, the mergeability against the destination
-will be rechecked, in case of prior transient failures or bugs.
-
 .Request
 ----
   GET /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/revisions/current/mergeable?other-branches HTTP/1.0

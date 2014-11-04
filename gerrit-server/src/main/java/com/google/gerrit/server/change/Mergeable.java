@@ -62,12 +62,6 @@ public class Mergeable implements RestReadView<RevisionResource> {
       usage = "test mergeability for other branches too")
   private boolean otherBranches;
 
-  @Option(name = "--force", aliases = {"-f"},
-      usage = "force recheck of mergeable field")
-  public void setForce(boolean force) {
-    this.force = force;
-  }
-
   private final GitRepositoryManager gitManager;
   private final ProjectCache projectCache;
   private final MergeUtil.Factory mergeUtilFactory;
@@ -75,8 +69,6 @@ public class Mergeable implements RestReadView<RevisionResource> {
   private final Provider<ReviewDb> db;
   private final ChangeIndexer indexer;
   private final MergeabilityCache cache;
-
-  private boolean force;
 
   @Inject
   Mergeable(GitRepositoryManager gitManager,
@@ -133,7 +125,7 @@ public class Mergeable implements RestReadView<RevisionResource> {
       Boolean old =
           cache.getIfPresent(commit, ref, result.submitType, strategy);
 
-      if (force || old == null) {
+      if (old == null) {
         result.mergeable = refresh(change, commit, ref, result.submitType,
             strategy, git, old);
       }

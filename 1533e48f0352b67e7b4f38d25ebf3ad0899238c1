@@ -87,6 +87,24 @@
       "revId": "1533e48f0352b67e7b4f38d25ebf3ad0899238c1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "75c8ce75_3675b870",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/CommentSender.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-11-04T01:02:01Z",
+      "side": 1,
+      "message": "Let the exception propagate.\n\nAt the very very least log something at error.\n\nDon\u0027t appeal to Shawn here, I have already yelled at him many times about the number of silently ignored exceptions in Gerrit :)",
+      "parentUuid": "b52086df_08588749",
+      "revId": "1533e48f0352b67e7b4f38d25ebf3ad0899238c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

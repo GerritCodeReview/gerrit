@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "55dcaa2f_3d758f70",
+        "filename": "gerrit-gwtui/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-11-04T19:07:48Z",
+      "side": 1,
+      "message": "Buck fails to resolve this dependency:\n\n  BUILD FAILED: Couldn\u0027t get dependency //lib:LICENSE-freebie_application_icon_set of target //gerrit-gwtui:freebie_application_icon_set.\n\nAny idea why this is not working? It follow the example of //lib:LICENSE-diffy above which is just working fine.",
+      "revId": "fbc480c2a2f6a322cd8ac353f645799ecd802d4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -68,6 +68,7 @@ gwt_module(
   resources = glob(['src/main/java/**/*'], excludes = DIFFY),
   deps = [
     ':diffy_logo',
+    ':freebie_application_icon_set',
     '//gerrit-gwtexpui:Clippy',
     '//gerrit-gwtexpui:GlobalKey',
     '//gerrit-gwtexpui:Progress',
@@ -98,6 +99,14 @@ prebuilt_jar(
   binary_jar = ':diffy_image_files_ln',
   deps = [
     '//lib:LICENSE-diffy',
+    '//lib:LICENSE-CC-BY3.0',
+  ],
+)
+
+java_library(
+  name = 'freebie_application_icon_set',
+  deps = [
+    '//lib:LICENSE-freebie_application_icon_set',
     '//lib:LICENSE-CC-BY3.0',
   ],
 )

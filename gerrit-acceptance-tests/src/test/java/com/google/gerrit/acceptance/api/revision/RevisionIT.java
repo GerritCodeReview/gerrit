@@ -121,7 +121,7 @@ public class RevisionIT extends AbstractDaemonTest {
 
   @Test
   public void cherryPick() throws Exception {
-    PushOneCommit.Result r = createChange();
+    PushOneCommit.Result r = pushTo("refs/for/master%topic=someTopic");
     CherryPickInput in = new CherryPickInput();
     in.destination = "foo";
     in.message = "it goes to stable branch";
@@ -138,6 +138,7 @@ public class RevisionIT extends AbstractDaemonTest {
     assertEquals(2, orig.get().messages.size());
 
     assertTrue(cherry.get().subject.contains(in.message));
+    assertEquals("someTopic", cherry.get().topic);
     cherry.current().review(ReviewInput.approve());
     cherry.current().submit();
   }

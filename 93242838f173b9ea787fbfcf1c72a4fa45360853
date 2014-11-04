@@ -45,6 +45,30 @@
       "revId": "93242838f173b9ea787fbfcf1c72a4fa45360853",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b52086df_e86093f2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-11-04T13:15:30Z",
+      "side": 1,
+      "message": "It\u0027s done in the following commit.",
+      "parentUuid": "55dcaa2f_bdb27fda",
+      "range": {
+        "startLine": 238,
+        "startChar": 16,
+        "endLine": 238,
+        "endChar": 54
+      },
+      "revId": "93242838f173b9ea787fbfcf1c72a4fa45360853",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

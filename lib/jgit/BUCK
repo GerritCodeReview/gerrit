@@ -1,12 +1,12 @@
 include_defs('//lib/maven.defs')
 
-VERS = '3.4.0.201406110918-r'
+VERS = '3.5.1.201410131835-r'
 
 maven_jar(
   name = 'jgit',
   id = 'org.eclipse.jgit:org.eclipse.jgit:' + VERS,
-  bin_sha1 = '60e74a29895be82ec7bd1fbb6304975e92b955a5',
-  src_sha1 = '69adaa263e2b5c21a84a25105c0c93761bdd8a80',
+  bin_sha1 = '23b8793639407fcbe2fee8557fb8238d18b2e409',
+  src_sha1 = '48ae55f9fed45e188177bcf3bf4638eed6bf3aae',
   license = 'jgit',
   unsign = True,
   deps = [':ewah'],
@@ -20,7 +20,7 @@ maven_jar(
 maven_jar(
   name = 'jgit-servlet',
   id = 'org.eclipse.jgit:org.eclipse.jgit.http.server:' + VERS,
-  sha1 = '5c778052a90520a970041f2f51e89cac9cf2cb3f',
+  sha1 = 'ee4f9852eb62d9b0785705e4eb40e40035119da7',
   license = 'jgit',
   deps = [':jgit'],
   unsign = True,
@@ -33,7 +33,7 @@ maven_jar(
 maven_jar(
   name = 'jgit-archive',
   id = 'org.eclipse.jgit:org.eclipse.jgit.archive:' + VERS,
-  sha1 = '8644e0dde6127c2d1b5a4fa902bf9b534764e969',
+  sha1 = '48ddea0e3f6e78f9696e30dfc257118a446b453c',
   license = 'jgit',
   deps = [':jgit',
     '//lib/commons:compress',
@@ -49,7 +49,7 @@ maven_jar(
 maven_jar(
   name = 'junit',
   id = 'org.eclipse.jgit:org.eclipse.jgit.junit:' + VERS,
-  sha1 = '4d1232e8b2412521d707d741ca14db9fc6806db2',
+  sha1 = '1e8a9e7fa493e96ec6c07b9f6f51ed2d2db60b9f',
   license = 'DO_NOT_DISTRIBUTE',
   unsign = True,
   deps = [':jgit'],

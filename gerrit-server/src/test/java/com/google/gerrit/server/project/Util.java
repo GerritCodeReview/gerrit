@@ -280,7 +280,8 @@ public class Util {
         bind(String.class).annotatedWith(AnonymousCowardName.class)
             .toProvider(AnonymousCowardNameProvider.class);
         bind(ChangeKindCache.class).to(ChangeKindCacheImpl.NoCache.class);
-        bind(MergeabilityCache.bindingKey()).toProvider(nullProvider);
+        bind(MergeabilityCache.class)
+          .to(MergeabilityCache.NotImplemented.class);
       }
     });
 

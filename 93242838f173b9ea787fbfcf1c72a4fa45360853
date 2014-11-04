@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "95daa231_ff6a3f86",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-11-04T11:51:26Z",
+      "side": 1,
+      "message": "IMO you should keep the suggested Change-Id And only discard the rest of the suggested commit message.",
+      "range": {
+        "startLine": 211,
+        "startChar": 14,
+        "endLine": 211,
+        "endChar": 40
+      },
+      "revId": "93242838f173b9ea787fbfcf1c72a4fa45360853",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "55dcaa2f_bdb27fda",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-11-04T11:51:26Z",
+      "side": 1,
+      "message": "As suggested in [1] this hint should contain information about that the user needs to $ git commit --amend for the hook to run for the commit that the user tried to push when the error message was thrown.\n\n[1] https://code.google.com/p/gerrit/issues/detail?id\u003d2940",
+      "range": {
+        "startLine": 238,
+        "startChar": 16,
+        "endLine": 238,
+        "endChar": 54
+      },
+      "revId": "93242838f173b9ea787fbfcf1c72a4fa45360853",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

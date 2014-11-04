@@ -22,6 +22,30 @@
       "revId": "5b178b5d294a1f2b9e65dac9e286ca68f0b7c4d3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "55dcaa2f_5dac1b80",
+        "filename": "gerrit-plugin-gwt-archetype/src/main/resources/archetype-resources/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-11-04T11:12:21Z",
+      "side": 1,
+      "message": "I believe we can do the simplification later in an own change. If we simplify things we anyway want to do it for all archetypes.",
+      "parentUuid": "f5bafe9a_6a0b1716",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 1,
+        "endChar": 48
+      },
+      "revId": "5b178b5d294a1f2b9e65dac9e286ca68f0b7c4d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

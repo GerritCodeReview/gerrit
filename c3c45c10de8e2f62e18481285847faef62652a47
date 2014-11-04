@@ -16,6 +16,24 @@
       "revId": "c3c45c10de8e2f62e18481285847faef62652a47",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "55dcaa2f_bd60bfaa",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2157,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-11-04T21:07:29Z",
+      "side": 0,
+      "message": "| Or is it safe to assume this flag is probably not widely used and its OK to fail hard when a server upgrades to from 2.9 or 2.10 to 2.11 and the flag is removed?\n\nThis.",
+      "parentUuid": "75c8ce75_56c8742f",
+      "revId": "c3c45c10de8e2f62e18481285847faef62652a47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

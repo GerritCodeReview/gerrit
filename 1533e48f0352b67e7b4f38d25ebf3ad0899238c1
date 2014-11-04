@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "b5efa6fe_f0cd60c2",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/LineMapper.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-11-04T00:59:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "55dcaa2f_dd23cb9b",
+      "revId": "1533e48f0352b67e7b4f38d25ebf3ad0899238c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "95b382f9_176a74de",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/CommentSender.java",
         "patchSetId": 1
@@ -48,6 +66,24 @@
       "writtenOn": "2014-10-31T13:49:30Z",
       "side": 1,
       "message": "Might be beyond the scope of this change but how about not just silently ignoring the exception?",
+      "revId": "1533e48f0352b67e7b4f38d25ebf3ad0899238c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b52086df_08588749",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/CommentSender.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-11-04T00:59:00Z",
+      "side": 1,
+      "message": "What do you suggest we do here instead of ignoring it?\n\nThe original code was added by Shawn here:\n\nhttps://gerrit-review.googlesource.com/#/c/35262/10/gerrit-server/src/main/java/com/google/gerrit/server/mail/CommentSender.java",
+      "parentUuid": "95b382f9_176a74de",
       "revId": "1533e48f0352b67e7b4f38d25ebf3ad0899238c1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

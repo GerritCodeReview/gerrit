@@ -124,12 +124,19 @@ public final class AccountGroup {
   @Column(id = 2)
   protected Id groupId;
 
+  // DELETED: id = 3 (ownerGroupId)
+
   /** A textual description of the group's purpose. */
   @Column(id = 4, length = Integer.MAX_VALUE, notNull = false)
   protected String description;
 
+  // DELETED: id = 5 (groupType)
+  // DELETED: id = 6 (externalName)
+
   @Column(id = 7)
   protected boolean visibleToAll;
+
+  // DELETED: id = 8 (emailOnlyAuthors)
 
   /** Globally unique identifier name for this group. */
   @Column(id = 9)

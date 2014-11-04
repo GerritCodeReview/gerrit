@@ -420,6 +420,8 @@ public final class Change {
   @Column(id = 10)
   protected char status;
 
+  // DELETED: id = 11 (nbrPatchSets)
+
   /** The current patch set. */
   @Column(id = 12)
   protected int currentPatchSetId;
@@ -431,6 +433,9 @@ public final class Change {
   /** Topic name assigned by the user, if any. */
   @Column(id = 14, notNull = false)
   protected String topic;
+
+  // DELETED: id = 15 (lastSha1MergeTested)
+  // DELETED: id = 16 (mergeable)
 
   protected Change() {
   }

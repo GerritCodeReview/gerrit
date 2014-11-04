@@ -51,6 +51,18 @@ limitations under the License.
       </includes>
     </fileSet>
 
+    <fileSet filtered="true">
+      <directory></directory>
+      <include>.buckconfig</include>
+      <include>BUCK</include>
+      <include>VERSION</include>
+      <include>lib/gerrit/BUCK</include>
+      <include>lib/gwt/BUCK</include>
+      <excludes>
+        <exclude>**/*.java</exclude>
+      </excludes>
+    </fileSet>
+
     <fileSet>
       <directory></directory>
       <includes>

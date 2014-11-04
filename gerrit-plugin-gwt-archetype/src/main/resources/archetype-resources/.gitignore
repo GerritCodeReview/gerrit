@@ -1,3 +1,7 @@
+/.buckversion
+/.buckd
+/buck-out
+/bucklets
 /target
 /.classpath
 /.project

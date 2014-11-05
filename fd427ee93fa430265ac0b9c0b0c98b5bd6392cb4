@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d5389a5e_e11b4697",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/HttpPushForReviewIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-11-05T13:04:49Z",
+      "side": 1,
+      "message": "missing blank line between import statement and class declaration and actually an unused import",
+      "revId": "fd427ee93fa430265ac0b9c0b0c98b5bd6392cb4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

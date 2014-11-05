@@ -409,8 +409,13 @@ class GitWebServlet extends HttpServlet {
   }
 
   private static String getLoginRedirectUrl(HttpServletRequest req) {
-    String loginUrl = req.getContextPath() + "/login/";
-    String token = req.getRequestURI().substring(1);
+    String contextPath = req.getContextPath();
+    String loginUrl = contextPath + "/login/";
+    String token = req.getRequestURI();
+    if (!contextPath.isEmpty()) {
+      token = token.substring(contextPath.length());
+    }
+
     String queryString = req.getQueryString();
     if (queryString != null && !queryString.isEmpty()) {
       token = token.concat("?" + queryString);

@@ -16,6 +16,24 @@
       "revId": "95e1134fecef069ff01653cf3a24c05af6e9e6a9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "15f952d6_03178e67",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 808,
+      "author": {
+        "id": 1016722
+      },
+      "writtenOn": "2014-11-05T18:40:52Z",
+      "side": 1,
+      "message": "We will add an ssh command to fine-tune that parameter without the need to re-start the server.",
+      "parentUuid": "15f952d6_231a8a8f",
+      "revId": "95e1134fecef069ff01653cf3a24c05af6e9e6a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

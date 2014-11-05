@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b53de64e_a0f0daf7",
+        "filename": ".mailmap",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-11-05T15:48:33Z",
+      "side": 1,
+      "message": "Several contributors work with different email addresses when pushing to Gerrit (intentionally or due to employer changes). Would it be okay to squash them into one identity or must they stay seperate for legal reasons? E.g. Martin has 3 identities: Martin Fick \u003cmfick@codeaurora.org\u003e, Martin Fick \u003cmogulguy10@gmail.com\u003e, Martin Fick \u003cmogulguy@yahoo.com\u003e\n\nIf to squash them together which email address should win?",
+      "revId": "5663d5e7d9f45239b0f8bb580f1eb3ae880d655f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

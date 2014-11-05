@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d5389a5e_61e2d635",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 636,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-11-05T06:33:53Z",
+      "side": 1,
+      "message": "Must be rebased, as database is missing and MergeabilityCache ws turned to interface. I wonder if this approach still works against final version of mergeability cache?",
+      "range": {
+        "startLine": 633,
+        "startChar": 17,
+        "endLine": 636,
+        "endChar": 28
+      },
+      "revId": "4a14e5e26ef6abf016403704f939f7913e2e51a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

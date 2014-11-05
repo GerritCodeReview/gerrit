@@ -2061,6 +2061,14 @@ Open and closed changes are indexed in separate indexes named
 
 The following settings are only used when the index type is `LUCENE`.
 
+[[index.defaultMaxClauseCount]]index.defaultMaxClauseCount::
++
+Only used when the type is `LUCENE`.
++
+Sets the maximum number of clauses permitted per BooleanQuery.
++
+Defaults to 1024.
+
 [[index.name.ramBufferSize]]index.name.ramBufferSize::
 +
 Determines the amount of RAM that may be used for buffering added documents
@@ -2104,6 +2112,7 @@ Sample Lucene index configuration:
 ----
 [index]
   type = LUCENE
+  defaultMaxClauseCount = 2048
 
 [index "changes_open"]
   ramBufferSize = 60 m

@@ -805,6 +805,14 @@ abbreviated commit SHA-1 (`c9c0edb`).
 +
 Default is "Submit patch set ${patchSet} into ${branch}".
 
+[[change.binaryFileThreshold]]change.binaryFileThreshold::
++
+Set maximum file size for text files in megabytes.
+Files larger than this size will be treated as though they
+are binary and not text.
++
+Default is 50.
+
 [[changeMerge]]
 === Section changeMerge
 

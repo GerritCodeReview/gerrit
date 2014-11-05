@@ -56,6 +56,7 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.storage.pack.PackConfig;
 import org.eclipse.jgit.util.TemporaryBuffer;
 import org.eclipse.jgit.util.io.DisabledOutputStream;
 import org.slf4j.Logger;
@@ -76,6 +77,7 @@ public class PatchListLoader extends CacheLoader<PatchListKey, PatchList> {
   private final GitRepositoryManager repoManager;
   private final PatchListCache patchListCache;
   private final ThreeWayMergeStrategy mergeStrategy;
+  private final int binaryFileThreshold;
 
   @Inject
   PatchListLoader(GitRepositoryManager mgr, PatchListCache plc,
@@ -83,6 +85,7 @@ public class PatchListLoader extends CacheLoader<PatchListKey, PatchList> {
     repoManager = mgr;
     patchListCache = plc;
     mergeStrategy = MergeUtil.getMergeStrategy(cfg);
+    binaryFileThreshold = cfg.getInt("change", "binaryFileThreshold",  50) * 1024 * 1024;
   }
 
   @Override
@@ -142,6 +145,7 @@ public class PatchListLoader extends CacheLoader<PatchListKey, PatchList> {
       df.setRepository(repo);
       df.setDiffComparator(cmp);
       df.setDetectRenames(true);
+      df.setBinaryFileThreshold(binaryFileThreshold);
       List<DiffEntry> diffEntries = df.scan(aTree, bTree);
 
       Set<String> paths = key.getOldId() != null

@@ -34,6 +34,24 @@
       "revId": "95e1134fecef069ff01653cf3a24c05af6e9e6a9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "15f952d6_83437e6c",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 808,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2014-11-05T19:25:02Z",
+      "side": 1,
+      "message": "How can we reuse the jgit option? I know that we can configure jgit option in gerrit.config for pack for example but will the DiffFormatter be configured with jgit options from gerrit.config?",
+      "parentUuid": "15f952d6_231a8a8f",
+      "revId": "95e1134fecef069ff01653cf3a24c05af6e9e6a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

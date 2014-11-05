@@ -39,6 +39,7 @@ limitations under the License.
   }
 
   .header {
+    position: relative;
     padding-left: 5px;
     padding-right: 5px;
     padding-bottom: 1px;

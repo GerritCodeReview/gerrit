@@ -19,6 +19,29 @@
     },
     {
       "key": {
+        "uuid": "75a1ae0b_ae445777",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/UpdatePrimaryKeys.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-11-06T19:10:14Z",
+      "side": 1,
+      "message": "The column order is correct, when Gerrit site was created before 2.6. We could always perform dry-run mode of PrimaryKeyFix step, detect if the site suffers from wrong PK column order problem, list the tables for which the PKs must be fixed and run in non dry-run mode or just silently exit otherwise, e. g.:\n\n  Collection\u003cString\u003e wrongPKColumnOrderTables \u003d fix.dryRun();\n  if (!wrongPKColumnOrderTables.isEmpty()) {\n    if (ui.yesno(true,\n        \"Fix primary keys column order for tables: \" +\n           wrongPKColumnOrderTables)) {\n      fix.run();\n    }\n  }\n\nThis way we would avoid unnecessary noice.",
+      "range": {
+        "startLine": 40,
+        "startChar": 18,
+        "endLine": 40,
+        "endChar": 40
+      },
+      "revId": "0a10adca89c82aae6a82ce6cbf560a987a779575",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "75a1ae0b_ce2a83a3",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/UpdatePrimaryKeys.java",
         "patchSetId": 1

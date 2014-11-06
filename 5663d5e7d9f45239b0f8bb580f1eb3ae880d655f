@@ -16,6 +16,93 @@
       "revId": "5663d5e7d9f45239b0f8bb580f1eb3ae880d655f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "15fa32f3_9bd28b63",
+        "filename": ".mailmap",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-11-06T01:02:33Z",
+      "side": 1,
+      "message": "Maybe better to do the obvious ones in this commit (i.e. the ones with with spelling variations rather than email variations) and let the individuals add entries themselves for cases where there are multiple email addresses.",
+      "parentUuid": "b53de64e_a0f0daf7",
+      "revId": "5663d5e7d9f45239b0f8bb580f1eb3ae880d655f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "15fa32f3_bbcdc7c3",
+        "filename": ".mailmap",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-11-06T01:02:33Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this be `Ž`?",
+      "range": {
+        "startLine": 5,
+        "startChar": 5,
+        "endLine": 5,
+        "endChar": 6
+      },
+      "revId": "5663d5e7d9f45239b0f8bb580f1eb3ae880d655f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b53de64e_8008364e",
+        "filename": ".mailmap",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-11-06T01:02:33Z",
+      "side": 1,
+      "message": "Put this the other way around?  Shawn\u0027s most recent commits don\u0027t have the \"O. \".",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 75
+      },
+      "revId": "5663d5e7d9f45239b0f8bb580f1eb3ae880d655f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "15fa32f3_fbd74f51",
+        "filename": ".mailmap",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-11-06T01:02:33Z",
+      "side": 1,
+      "message": "Remove the dot and capitalise?",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 15
+      },
+      "revId": "5663d5e7d9f45239b0f8bb580f1eb3ae880d655f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

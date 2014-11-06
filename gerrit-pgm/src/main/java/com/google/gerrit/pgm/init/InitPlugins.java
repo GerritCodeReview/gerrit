@@ -19,6 +19,7 @@ import com.google.gerrit.pgm.util.ConsoleUI;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.plugins.PluginLoader;
 import com.google.inject.Inject;
+import com.google.inject.Injector;
 import com.google.inject.Singleton;
 
 import java.io.File;
@@ -80,6 +81,8 @@ public class InitPlugins implements InitStep {
   private final InitPluginStepsLoader pluginLoader;
   private final PluginsDistribution pluginsDistribution;
 
+  private Injector postRunInjector;
+
   @Inject
   InitPlugins(final ConsoleUI ui, final SitePaths site,
       InitFlags initFlags, InitPluginStepsLoader pluginLoader,
@@ -102,6 +105,11 @@ public class InitPlugins implements InitStep {
   @Override
   public void postRun() throws Exception {
     postInitPlugins();
+  }
+
+  @Inject(optional = true)
+  void setPostRunInjector(Injector injector) {
+    postRunInjector = injector;
   }
 
   private void installPlugins() throws IOException {
@@ -155,6 +163,7 @@ public class InitPlugins implements InitStep {
 
   private void postInitPlugins() throws Exception {
     for (InitStep initStep : pluginLoader.getInitSteps()) {
+      postRunInjector.injectMembers(initStep);
       initStep.postRun();
     }
   }

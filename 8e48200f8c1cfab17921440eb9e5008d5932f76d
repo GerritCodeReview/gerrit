@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d5db3aab_29e22d34",
+        "filename": ".mailmap",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-11-06T08:12:28Z",
+      "side": 1,
+      "message": "Oliveira Campos Do Nascimento",
+      "range": {
+        "startLine": 9,
+        "startChar": 8,
+        "endLine": 9,
+        "endChar": 40
+      },
+      "revId": "8e48200f8c1cfab17921440eb9e5008d5932f76d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d5db3aab_e9d77551",
+        "filename": ".mailmap",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-11-06T08:12:28Z",
+      "side": 1,
+      "message": "Mônica Dionísio",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 15
+      },
+      "revId": "8e48200f8c1cfab17921440eb9e5008d5932f76d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d5db3aab_c9dc3177",
+        "filename": ".mailmap",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-11-06T08:12:28Z",
+      "side": 1,
+      "message": "Rabelo Silva",
+      "range": {
+        "startLine": 11,
+        "startChar": 7,
+        "endLine": 11,
+        "endChar": 18
+      },
+      "revId": "8e48200f8c1cfab17921440eb9e5008d5932f76d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d5db3aab_89d23963",
+        "filename": ".mailmap",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-11-06T08:12:28Z",
+      "side": 1,
+      "message": "It\u0027s actually \"Tomas\".  For some reason he got a misspelled email address.",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 6
+      },
+      "revId": "8e48200f8c1cfab17921440eb9e5008d5932f76d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

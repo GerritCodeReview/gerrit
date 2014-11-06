@@ -22,6 +22,30 @@
       "revId": "80ad102bdb58a967358c8d4a2294879884a4c16f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "35abb6f1_4ce97f12",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-11-06T11:26:38Z",
+      "side": 1,
+      "message": "Yes. I think gwtorm must be extended to support rebuilding of primary keys. That\u0027s because currently PKs are built combined with CREATE TABLE DDL:\n\n  -- creates PRIMARY_KEY_1 with wrong column order: d, c, b, a.\n  create table if not exists foo (\n  a int not null,\n  b int not null,\n  c int not null,\n  d int not null,\n  primary key(d, c, b, a));\n\nSo to rectify the wrong column order, PK must be dropped:\n\n  -- drop primary key\n  alter table foo drop primary key;\n\nand rebuilt:\n\n  -- create index with correct column order\n  alter table foo add constraint foo_pk primary key (a, b, c, d);",
+      "parentUuid": "d50dfaea_390b8f4c",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 61
+      },
+      "revId": "80ad102bdb58a967358c8d4a2294879884a4c16f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1138,6 +1138,52 @@ Administrate Server] capability.
   HTTP/1.1 204 No Content
 ----
 
+[[check-change]]
+=== Check change
+--
+'GET /changes/link:#change-id[\{change-id\}]/check'
+--
+
+Performs consistency checks on the change, and returns a
+link:#check-result[CheckResult] entity.
+
+.Request
+----
+  GET /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/check HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  {
+    "change": {
+      "id": "myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940",
+      "project": "myProject",
+      "branch": "master",
+      "change_id": "I8473b95934b5732ac55d26311a706c9c2bde9940",
+      "subject": "Implementing Feature X",
+      "status": "NEW",
+      "created": "2013-02-01 09:59:32.126000000",
+      "updated": "2013-02-21 11:16:36.775000000",
+      "mergeable": true,
+      "insertions": 34,
+      "deletions": 101,
+      "_sortkey": "0023412400000f7d",
+      "_number": 3965,
+      "owner": {
+        "name": "John Doe"
+      }
+    },
+    "messages": [
+      "Current patch set 1 not found"
+    ]
+  }
+----
+
 [[edit-endpoints]]
 == Change Edit Endpoints
 
@@ -3863,6 +3909,24 @@ path within change edit.
 |===========================
 |Field Name    ||Description
 |`restore_path`|optional|Path to file to restore.
+|===========================
+
+[[check-result]]
+=== CheckResult
+The `CheckResult` entity contains the results of a consistency check on
+a change.
+
+[options="header",width="50%",cols="1,6"]
+|===========================
+|Field Name|Description
+|`change`|
+link:#change-info[ChangeInfo] entity containing information about the change,
+as in link:#get-change[Get Change] with no options. Some fields not marked
+optional may be missing if a consistency check failed, but at least
+`id`, `project`, `branch`, and `_number` will be present.
+|`messages`|
+List of messages describing potential problems with the change. May be
+empty if no problems were found.
 |===========================
 
 GERRIT

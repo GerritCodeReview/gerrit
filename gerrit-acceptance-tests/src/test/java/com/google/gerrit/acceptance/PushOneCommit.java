@@ -14,12 +14,11 @@
 
 package com.google.gerrit.acceptance;
 
+import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.GitUtil.add;
 import static com.google.gerrit.acceptance.GitUtil.amendCommit;
 import static com.google.gerrit.acceptance.GitUtil.createCommit;
 import static com.google.gerrit.acceptance.GitUtil.pushHead;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 import com.google.common.base.Function;
 import com.google.common.base.Strings;
@@ -226,9 +225,9 @@ public class PushOneCommit {
         throws OrmException {
       Change c =
           Iterables.getOnlyElement(db.changes().byKey(new Change.Key(commit.getChangeId())).toList());
-      assertEquals(resSubj, c.getSubject());
-      assertEquals(expectedStatus, c.getStatus());
-      assertEquals(expectedTopic, Strings.emptyToNull(c.getTopic()));
+      assertThat(resSubj).isEqualTo(c.getSubject());
+      assertThat(expectedStatus).isEqualTo(c.getStatus());
+      assertThat(expectedTopic).isEqualTo(Strings.emptyToNull(c.getTopic()));
       assertReviewers(c, expectedReviewers);
     }
 
@@ -245,11 +244,13 @@ public class PushOneCommit {
 
       for (Account.Id accountId
           : approvalsUtil.getReviewers(db, notesFactory.create(c)).values()) {
-        assertTrue("unexpected reviewer " + accountId,
-            expectedReviewerIds.remove(accountId));
+        assertThat(expectedReviewerIds.remove(accountId))
+          .named("unexpected reviewer " + accountId)
+          .isTrue();
       }
-      assertTrue("missing reviewers: " + expectedReviewerIds,
-          expectedReviewerIds.isEmpty());
+      assertThat(expectedReviewerIds.isEmpty())
+        .named("missing reviewers: " + expectedReviewerIds)
+        .isTrue();
     }
 
     public void assertOkStatus() {
@@ -262,15 +263,17 @@ public class PushOneCommit {
 
     private void assertStatus(Status expectedStatus, String expectedMessage) {
       RemoteRefUpdate refUpdate = result.getRemoteUpdate(ref);
-      assertEquals(message(refUpdate),
-          expectedStatus, refUpdate.getStatus());
-      assertEquals(expectedMessage, refUpdate.getMessage());
+      assertThat(expectedStatus)
+        .named(message(refUpdate))
+        .isEqualTo(refUpdate.getStatus());
+      assertThat(expectedMessage).isEqualTo(refUpdate.getMessage());
     }
 
     public void assertMessage(String expectedMessage) {
       RemoteRefUpdate refUpdate = result.getRemoteUpdate(ref);
-      assertTrue(message(refUpdate), message(refUpdate).toLowerCase().contains(
-          expectedMessage.toLowerCase()));
+      assertThat(message(refUpdate).toLowerCase())
+        .named(message(refUpdate))
+        .contains(expectedMessage.toLowerCase());
     }
 
     private String message(RemoteRefUpdate refUpdate) {

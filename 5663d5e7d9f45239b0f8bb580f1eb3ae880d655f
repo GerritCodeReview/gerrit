@@ -60,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "d50dfaea_d9dc1377",
+        "filename": ".mailmap",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-11-06T02:22:48Z",
+      "side": 1,
+      "message": "I downloaded this change to test it. The character is actually correct, but is not being displayed properly here.\n\nSeems to be as described in issue 2970.",
+      "parentUuid": "15fa32f3_bbcdc7c3",
+      "range": {
+        "startLine": 5,
+        "startChar": 5,
+        "endLine": 5,
+        "endChar": 6
+      },
+      "revId": "5663d5e7d9f45239b0f8bb580f1eb3ae880d655f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b53de64e_8008364e",
         "filename": ".mailmap",
         "patchSetId": 1

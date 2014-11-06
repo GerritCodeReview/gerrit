@@ -1,0 +1,20 @@
+# Requires listing transitive dependencies.
+# TODO(dborowitz): Clean this up when buck issue is closed and there is a
+# better supported interface:
+# https://github.com/facebook/buck/issues/85
+AUTO_VALUE_DEPS = [
+  '//lib:guava',
+  '//lib:velocity',
+  '//lib/auto:auto-common',
+  '//lib/auto:auto-service',
+  '//lib/auto:auto-value',
+  '//lib/commons:collections',
+  '//lib/commons:lang',
+  '//lib/commons:oro',
+  '//lib/ow2:ow2-asm',
+]
+
+AUTO_VALUE = [
+  'com.google.auto.value.processor.AutoAnnotationProcessor',
+  'com.google.auto.value.processor.AutoValueProcessor',
+]

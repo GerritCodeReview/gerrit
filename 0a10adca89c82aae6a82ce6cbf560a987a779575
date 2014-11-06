@@ -16,6 +16,23 @@
       "revId": "0a10adca89c82aae6a82ce6cbf560a987a779575",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b5d08689_e8f013f9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/PrimaryKeyFix.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-11-06T14:43:32Z",
+      "side": 1,
+      "message": "nit: wrap this line",
+      "revId": "0a10adca89c82aae6a82ce6cbf560a987a779575",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -42,6 +42,30 @@
     },
     {
       "key": {
+        "uuid": "35abb6f1_8c49a78f",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/UpdatePrimaryKeys.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-11-06T23:32:58Z",
+      "side": 1,
+      "message": "I like your proposal. Will do it this way.",
+      "parentUuid": "75a1ae0b_ae445777",
+      "range": {
+        "startLine": 40,
+        "startChar": 18,
+        "endLine": 40,
+        "endChar": 40
+      },
+      "revId": "0a10adca89c82aae6a82ce6cbf560a987a779575",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "75a1ae0b_ce2a83a3",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/UpdatePrimaryKeys.java",
         "patchSetId": 1
@@ -100,6 +124,30 @@
       "writtenOn": "2014-11-06T15:03:52Z",
       "side": 1,
       "message": "List here and below.",
+      "range": {
+        "startLine": 66,
+        "startChar": 4,
+        "endLine": 66,
+        "endChar": 13
+      },
+      "revId": "0a10adca89c82aae6a82ce6cbf560a987a779575",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "35abb6f1_ac446377",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/PrimaryKeyFix.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-11-06T23:32:58Z",
+      "side": 1,
+      "message": "In general I agree, but for a local variable I think that it is OK to use the concrete type. For this concrete case it doesn\u0027t make any difference but, in general, one could make use of specific methods of the more concrete type before returning the instance (as an interface type).",
+      "parentUuid": "35abb6f1_ecf02bf9",
       "range": {
         "startLine": 66,
         "startChar": 4,

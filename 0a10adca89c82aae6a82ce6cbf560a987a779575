@@ -19,6 +19,52 @@
     },
     {
       "key": {
+        "uuid": "75a1ae0b_ce2a83a3",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/UpdatePrimaryKeys.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-11-06T15:03:52Z",
+      "side": 1,
+      "message": "Why is this optional? It\u0027s always bound.",
+      "range": {
+        "startLine": 46,
+        "startChar": 2,
+        "endLine": 46,
+        "endChar": 26
+      },
+      "revId": "0a10adca89c82aae6a82ce6cbf560a987a779575",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "35abb6f1_ecf02bf9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/PrimaryKeyFix.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-11-06T15:03:52Z",
+      "side": 1,
+      "message": "List here and below.",
+      "range": {
+        "startLine": 66,
+        "startChar": 4,
+        "endLine": 66,
+        "endChar": 13
+      },
+      "revId": "0a10adca89c82aae6a82ce6cbf560a987a779575",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b5d08689_e8f013f9",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/PrimaryKeyFix.java",
         "patchSetId": 1
@@ -30,6 +76,52 @@
       "writtenOn": "2014-11-06T14:43:32Z",
       "side": 1,
       "message": "nit: wrap this line",
+      "revId": "0a10adca89c82aae6a82ce6cbf560a987a779575",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "35abb6f1_ccf56fe7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/PrimaryKeyFix.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-11-06T15:03:52Z",
+      "side": 1,
+      "message": "Map",
+      "range": {
+        "startLine": 75,
+        "startChar": 4,
+        "endLine": 75,
+        "endChar": 11
+      },
+      "revId": "0a10adca89c82aae6a82ce6cbf560a987a779575",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "75a1ae0b_ee25bfd5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/PrimaryKeyFix.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-11-06T15:03:52Z",
+      "side": 1,
+      "message": "We normally use uppercase for SQL.",
+      "range": {
+        "startLine": 90,
+        "startChar": 24,
+        "endLine": 90,
+        "endChar": 35
+      },
       "revId": "0a10adca89c82aae6a82ce6cbf560a987a779575",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

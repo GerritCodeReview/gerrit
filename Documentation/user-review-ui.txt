@@ -22,6 +22,7 @@ and the change status are displayed right above the commit message.
 
 image::images/user-review-ui-change-screen-commit-message.png[width=800, link="images/user-review-ui-change-screen-commit-message.png"]
 
+[[edit-commit-message]]
 The commit message can be edited directly in the Web UI by clicking on
 the `Edit Message` button in the change header. This opens a drop-down
 editor box in which the commit message can be edited. Saving
@@ -31,37 +32,38 @@ current patch set.
 
 image::images/user-review-ui-change-screen-edit-commit-message.png[width=800, link="images/user-review-ui-change-screen-edit-commit-message.png"]
 
+[[permalink]]
 The numeric change ID is a link to the change and clicking on it
 refreshes the change screen. By copying the link location you can get
 the permalink of the change.
 
 image::images/user-review-ui-change-screen-permalink.png[width=800, link="images/user-review-ui-change-screen-permalink.png"]
 
+[[change-status]]
 The change status shows the state of the change:
 
-- `Needs <label>`:
+- [[needs]]`Needs <label>`:
 +
 The change is in review and an approval on the shown label is still
 required to make the change submittable.
 
-- `Not <label>`:
+- [[not]]`Not <label>`:
 +
 The change is in review and a veto vote on the shown label is
 preventing the submit.
 
-[[not-current]]
-- `Not Current`:
+- [[not-current]]`Not Current`:
 +
 The currently viewed patch set is outdated.
 +
 Please note that some operations, like voting, are not available on
 outdated patch sets, but only on the current patch set.
 
-- `Ready to Submit`:
+- [[ready-to-submit]]`Ready to Submit`:
 +
 The change has all necessary approvals and may be submitted.
 
-- `Submitted, Merge Pending`:
+- [[submitted-merge-pending]]`Submitted, Merge Pending`:
 +
 The change was submitted and was added to the merge queue.
 +
@@ -73,15 +75,15 @@ This status can also mean that the change depends on an abandoned
 change or on an outdated patch set of another change. In this case you
 may want to rebase the change.
 
-- `Merged`:
+- [[merged]]`Merged`:
 +
 The change was successfully merged into the destination branch.
 
-- `Abandoned`:
+- [[abandoned]]`Abandoned`:
 +
 The change was abandoned.
 
-- `Draft`:
+- [[draft]]`Draft`:
 +
 The change is a draft that is only visible to the change owner, the
 reviewers that were explicitly added to the change, and users who have
@@ -119,14 +121,14 @@ and offers actions on the change.
 
 image::images/user-review-ui-change-screen-change-info.png[width=800, link="images/user-review-ui-change-screen-change-info.png"]
 
-- Change Owner:
+- [[change-owner]]Change Owner:
 +
 The owner of the change is displayed as a link to a list of the owner's
 changes that have the same status as the currently viewed change.
 +
 image::images/user-review-ui-change-screen-change-info-owner.png[width=800, link="images/user-review-ui-change-screen-change-info-owner.png"]
 
-- Reviewers:
+- [[reviewers]]Reviewers:
 +
 The reviewers of the change are displayed as chip tokens.
 +
@@ -137,6 +139,7 @@ New reviewers can be added by clicking on the `Add...` button. Typing
 into the pop-up text field activates auto completion of user and group
 names.
 +
+[[remove-reviewer]]
 Reviewers can be removed from the change by clicking on the `x` icon
 in the reviewer's chip token. Removing a reviewer also removes the
 current votes of the reviewer. The removal of votes is recorded as a
@@ -153,7 +156,7 @@ Removing reviewers is protected by permissions:
 +
 image::images/user-review-ui-change-screen-change-info-reviewers.png[width=800, link="images/user-review-ui-change-screen-change-info-reviewers.png"]
 
-- Project / Branch / Topic:
+- [[project-branch-topic]]Project / Branch / Topic:
 +
 The name of the project for which the change was done is displayed as a
 link to the link:user-dashboards.html#project-default-dashboard[default
@@ -175,7 +178,7 @@ access right. To be able to set a topic on a closed change, the
 +
 image::images/user-review-ui-change-screen-change-info-project-branch-topic.png[width=800, link="images/user-review-ui-change-screen-change-info-project-branch-topic.png"]
 
-- Submit Strategy:
+- [[submit-strategy]]Submit Strategy:
 +
 The link:project-setup.html#submit_type[submit strategy] that will be
 used to submit the change. The submit strategy is only displayed for
@@ -188,16 +191,16 @@ by a bold red `Cannot Merge` label.
 +
 image::images/user-review-ui-change-screen-change-info-cannot-merge.png[width=800, link="images/user-review-ui-change-screen-change-info-cannot-merge.png"]
 
-- Time of Last Update:
+- [[update-time]]Time of Last Update:
 +
 image::images/user-review-ui-change-screen-change-info-last-update.png[width=800, link="images/user-review-ui-change-screen-change-info-last-update.png"]
 
-- Actions:
+- [[actions]]Actions:
 +
 Depending on the change state and the permissions of the user, different
 actions are available on the change:
 
-** `Submit`:
+** [[submit]]`Submit`:
 +
 Submits the change and adds it to the merge queue. If possible the
 change is merged into the destination branch.
@@ -210,7 +213,7 @@ It is also possible to submit changes that have merge conflicts. This
 allows to do the conflict resolution for a change series in a single
 merge commit and submit the changes in reverse order.
 
-** `Abandon`:
+** [[abandon]]`Abandon`:
 +
 Abandons the change.
 +
@@ -221,7 +224,7 @@ assigned.
 When a change is abandoned, a panel appears that allows one to type a
 comment message to explain why the change is being abandoned.
 
-** `Restore`:
+** [[restore]]`Restore`:
 +
 Restores the change.
 +
@@ -233,7 +236,7 @@ assigned.
 When a change is restored, a panel appears that allows one to type a
 comment message to explain why the change is being restored.
 
-** `Rebase`:
+** [[rebase]]`Rebase`:
 +
 Rebases the change. The rebase is always done with content merge
 enabled. If the rebase is successful a new patch set with the rebased
@@ -250,7 +253,7 @@ The `Rebase` button is only available if the change can be rebased and
 the link:access-control.html#category_rebase[Rebase] access right is
 assigned. Rebasing merge commits is not supported.
 
-** `Cherry-Pick`:
+** [[cherry-pick]]`Cherry-Pick`:
 +
 Allows to cherry-pick the change to another branch. The destination
 branch can be selected from a dialog. Cherry-picking a change creates a
@@ -264,7 +267,7 @@ open changes.
 Users can only cherry-pick changes to branches for which they are
 allowed to upload changes for review.
 
-** `Publish`:
+** [[publish]]`Publish`:
 +
 Publishes the currently viewed draft patch set. If this is the first
 patch set of a change that is published, the change will be published
@@ -275,7 +278,7 @@ and the user is the change owner or has the
 link:access-control.html#category_publish_drafts[Publish Drafts] access
 right assigned.
 
-** `Delete Change` / `Delete Revision`:
+** [[delete]]`Delete Change` / `Delete Revision`:
 +
 Deletes the draft change / the currently viewed draft patch set.
 +
@@ -284,12 +287,12 @@ draft patch set is viewed and the user is the change owner or has the
 link:access-control.html#category_delete_drafts[Delete Drafts] access
 right assigned.
 
-** Further actions may be available if plugins are installed.
+** [[plugin-actions]]Further actions may be available if plugins are installed.
 
 +
 image::images/user-review-ui-change-screen-change-info-actions.png[width=800, link="images/user-review-ui-change-screen-change-info-actions.png"]
 
-- Labels & Votes:
+- [[labels]]Labels & Votes:
 +
 Approving votes are colored green; veto votes are colored red.
 +
@@ -303,10 +306,12 @@ patch set.
 
 image::images/user-review-ui-change-screen-file-list.png[width=800, link="images/user-review-ui-change-screen-file-list.png"]
 
+[[change-screen-mark-reviewed]]
 The checkboxes in front of the file names allow files to be marked as reviewed.
 
 image::images/user-review-ui-change-screen-file-list-mark-as-reviewed.png[width=800, link="images/user-review-ui-change-screen-file-list-mark-as-reviewed.png"]
 
+[[modification-type]]
 The type of a file modification is indicated by the character in front
 of the file name:
 
@@ -332,15 +337,18 @@ The file is new and is copied from an existing file.
 
 image::images/user-review-ui-change-screen-file-list-modification-type.png[width=800, link="images/user-review-ui-change-screen-file-list-modification-type.png"]
 
+[[rename-or-copy]]
 If a file is renamed or copied, the name of the original file is
 displayed in gray below the file name.
 
 image::images/user-review-ui-change-screen-file-list-rename.png[width=800, link="images/user-review-ui-change-screen-file-list-rename.png"]
 
+[[repeating-path-segments]]
 Repeating path segments are grayed out.
 
 image::images/user-review-ui-change-screen-file-list-repeating-paths.png[width=800, link="images/user-review-ui-change-screen-file-list-repeating-paths.png"]
 
+[[inline-comments-column]]
 Inline comments on a file are shown in the `Comments` column.
 
 Draft comments, i.e. comments that have been written by the current
@@ -351,6 +359,7 @@ user last reviewed this change, are highlighted in bold.
 
 image::images/user-review-ui-change-screen-file-list-comments.png[width=800, link="images/user-review-ui-change-screen-file-list-comments.png"]
 
+[[size]]
 The size of the modifications in the files can be seen in the `Size`
 column. The footer row shows the total size of the change.
 
@@ -368,11 +377,13 @@ long a review of this change may take.
 
 image::images/user-review-ui-change-screen-file-list-size.png[width=800, link="images/user-review-ui-change-screen-file-list-size.png"]
 
+[[diff-against]]
 In the header of the file list, the `Diff Against` selection can be
 changed. This selection allows one to choose if the currently viewed
 patch set should be compared against its base or against another patch
 set of this change. The file list is updated accordingly.
 
+[[open-all]]
 The file list header also provides an `Open All` button that opens the
 diff views for all files in the file list.
 
@@ -393,6 +404,7 @@ operations are only available on the current patch set.
 
 image::images/user-review-ui-change-screen-patch-sets.png[width=800, link="images/user-review-ui-change-screen-patch-sets.png"]
 
+[[patch-set-drop-down]]
 The patch set drop-down list shows the list of patch sets and allows to
 switch between them. The patch sets are sorted in descending order so
 that the current patch set is always on top.
@@ -479,8 +491,7 @@ display each list of related changes in its own tab.
 
 The following tabs may be displayed:
 
-[[related-changes-tab]]
-- `Related Changes`:
+- [[related-changes-tab]]`Related Changes`:
 +
 This tab page shows changes on which the current change depends
 (ancestors) and open changes that depend on the current change
@@ -502,7 +513,7 @@ Related changes may be decorated with an icon to signify dependencies
 on outdated patch sets, or commits that are not associated to changes
 under review:
 +
-** Orange Dot:
+** [[outdated]]Orange Dot:
 +
 The selected patch set of the change is outdated; it is not the current
 patch set of the change.
@@ -518,7 +529,7 @@ old patch set of the descendant change depends on the currently viewed
 patch set. It may be that the descendant was rebased in the meantime
 and with the new patch set this dependency was removed.
 
-** Green Tilde:
+** [[indirect-descendant]]Green Tilde:
 +
 The selected patch set of the change is an indirect descendant of the
 currently viewed patch set; it has a dependency to another patch set of
@@ -527,7 +538,7 @@ this change and the descendant change now needs to be rebased. Please
 note that following the link to an indirect descendant change may
 result in a completely different related changes listing.
 
-** Black Dot:
+** [[closed-ancestor]]Black Dot:
 +
 Indicates a merged ancestor, e.g. the commit was directly pushed into
 the repository bypassing code review, or the ancestor change was
@@ -539,7 +550,7 @@ the commit was done on `branch-a`, but was then pushed to
 +
 image::images/user-review-ui-change-screen-related-changes-indicators.png[width=800, link="images/user-review-ui-change-screen-related-changes-indicators.png"]
 
-- `Conflicts With`:
+- [[conflicts-with]]`Conflicts With`:
 +
 This tab page shows changes that conflict with the current change.
 Non-mergeable changes are filtered out; only conflicting changes that
@@ -551,14 +562,14 @@ conflict resolution must then be done manually.
 +
 image::images/user-review-ui-change-screen-conflicts-with.png[width=800, link="images/user-review-ui-change-screen-conflicts-with.png"]
 
-- `Same Topic`:
+- [[same-topic]]`Same Topic`:
 +
 This tab page shows changes that have the same topic as the current
 change. Only open changes are included in the list.
 +
 image::images/user-review-ui-change-screen-same-topic.png[width=800, link="images/user-review-ui-change-screen-same-topic.png"]
 
-- `Cherry-Picks`:
+- [[cherry-picks]]`Cherry-Picks`:
 +
 This tab page shows changes with the same link:user-changeid.html[
 Change-Id] for the current project.
@@ -586,6 +597,7 @@ Clicking on the `Reply...` button opens a popup panel.
 A text box allows to type a summary comment for the currently viewed
 patch set.
 
+[[vote]]
 If the current patch set is viewed, radio buttons are displayed for
 each label on which the user is allowed to vote. Voting on non-current
 patch sets is not possible.
@@ -603,6 +615,7 @@ The `Post` button publishes the comments and the votes.
 
 image::images/user-review-ui-change-screen-replying.png[width=800, link="images/user-review-ui-change-screen-replying.png"]
 
+[[quick-approve]]
 If a user can approve a label that is still required, a quick approve
 button appears in the change header that allows to add this missing
 approval by a single click. The quick approve button only appears if
@@ -635,6 +648,7 @@ the current user last reviewed this change, are automatically expanded.
 
 image::images/user-review-ui-change-screen-history.png[width=800, link="images/user-review-ui-change-screen-history.png"]
 
+[[reply-to-message]]
 It is possible to directly reply to a change message by clicking on the
 reply icon in the right upper corner of a change message. This opens
 the reply popup panel and prefills the text box with the quoted comment.
@@ -645,11 +659,13 @@ line between a quoted block and the reply to it.
 
 image::images/user-review-ui-change-screen-reply-to-comment.png[width=800, link="images/user-review-ui-change-screen-reply-to-comment.png"]
 
+[[inline-comments-in-history]]
 Inline comments are directly displayed in the change history and there
 are links to navigate to the inline comments.
 
 image::images/user-review-ui-change-screen-inline-comments.png[width=800, link="images/user-review-ui-change-screen-inline-comments.png"]
 
+[[expand-all]]
 The `Expand All` button expands all messages; the `Collapse All` button
 collapses all messages.
 
@@ -700,6 +716,7 @@ This screen allows to review a patch and to comment on it.
 
 image::images/user-review-ui-side-by-side-diff-screen.png[width=800, link="images/user-review-ui-side-by-side-diff-screen.png"]
 
+[[side-by-side-header]]
 In the screen header the project name and the name of the viewed patch
 file are shown.
 
@@ -709,6 +726,7 @@ the Git web browser.
 
 image::images/user-review-ui-side-by-side-diff-screen-project-and-file.png[width=800, link="images/user-review-ui-side-by-side-diff-screen-project-and-file.png"]
 
+[[side-by-side-mark-reviewed]]
 The checkbox in front of the project name and the file name allows the
 patch to be marked as reviewed. The link:#mark-reviewed[Mark Reviewed]
 diff preference allows to control whether the files should be
@@ -716,6 +734,7 @@ automatically marked as reviewed when they are viewed.
 
 image::images/user-review-ui-side-by-side-diff-screen-reviewed.png[width=800, link="images/user-review-ui-side-by-side-diff-screen-reviewed.png"]
 
+[[scrollbar]]
 The scrollbar shows patch diffs and inline comments as annotations.
 This provides a good overview of the lines in the patch that are
 relevant for reviewing. By clicking on an annotation one can quickly
@@ -723,6 +742,7 @@ navigate to the corresponding line in the patch.
 
 image::images/user-review-ui-side-by-side-diff-screen-scrollbar.png[width=800, link="images/user-review-ui-side-by-side-diff-screen-scrollbar.png"]
 
+[[gaps]]
 A gap between lines in the file content that is caused by aligning the
 left and right side or by displaying inline comments is shown as a
 vertical red bar in the line number column. This prevents a gap from
@@ -750,21 +770,25 @@ comparing the old patch against the current patch.
 
 image::images/user-review-ui-side-by-side-diff-screen-patch-sets.png[width=800, link="images/user-review-ui-side-by-side-diff-screen-patch-sets.png"]
 
+[[download-file]]
 The download icon next to the patch set list allows to download the
 patch. Unless the mime type of the file is configured as safe, the
 download file is a zip archive that contains the patch file.
 
+[[no-differences]]
 If the compared patches are identical, this is highlighted by a red
 `No Differences` label in the screen header.
 
 image::images/user-review-ui-side-by-side-diff-screen-no-differences.png[width=800, link="images/user-review-ui-side-by-side-diff-screen-no-differences.png"]
 
+[[side-by-side-rename]]
 If a file was renamed, the old and new file paths are shown in the
 header together with a similarity index that shows how much of the file
 content is unmodified.
 
 image::images/user-review-ui-side-by-side-diff-screen-rename.png[width=800, link="images/user-review-ui-side-by-side-diff-screen-rename.png"]
 
+[[navigation]]
 For navigating between the patches in a patch set there are navigation
 buttons on the right side of the screen header. The left arrow button
 navigates to the previous patch; the right arrow button navigates to
@@ -786,6 +810,7 @@ highlighted by a yellow background.
 Code blocks with comments may overlap. This means it is possible to
 attach several comments to the same code.
 
+[[line-links]]
 The lines of the patch file are linkable. To link to a certain line in
 the patch file, '@<line-number>' must be appended to the patch link,
 e.g. `http://host:8080/#/c/56857/2/Documentation/user-review-ui.txt@665`.
@@ -798,6 +823,7 @@ is set to `Expand`, all inline comments will be automatically expanded.
 
 image::images/user-review-ui-side-by-side-diff-screen-inline-comments.png[width=800, link="images/user-review-ui-side-by-side-diff-screen-inline-comments.png"]
 
+[[comment]]
 In the header of the comment box, the name of the comment author and
 the timestamp of the comment are shown. If avatars are configured on
 the server, the avatar image of the comment author is displayed in the
@@ -806,6 +832,7 @@ the comment.
 
 image::images/user-review-ui-side-by-side-diff-screen-comment-box.png[width=800, link="images/user-review-ui-side-by-side-diff-screen-comment-box.png"]
 
+[[reply-inline-comment]]
 Clicking on the `Reply` button opens an editor to type the reply.
 
 Quoting is supported, but only by manually copying & pasting the old
@@ -824,6 +851,7 @@ Clicking on the `Discard` button deletes the inline draft comment.
 
 image::images/user-review-ui-side-by-side-diff-screen-comment-reply.png[width=800, link="images/user-review-ui-side-by-side-diff-screen-comment-reply.png"]
 
+[[draft-inline-comment]]
 Draft comments are marked by the text "Draft" in the header in the
 place of the comment author.
 
@@ -832,6 +860,7 @@ deleted by clicking on the `Discard` button.
 
 image::images/user-review-ui-side-by-side-diff-screen-comment-edit.png[width=800, link="images/user-review-ui-side-by-side-diff-screen-comment-edit.png"]
 
+[[done]]
 Clicking on the `Done` button is a quick way to reply with "Done" to a
 comment. This is used to mark a comment as addressed by a follow-up
 patch set.
@@ -946,7 +975,7 @@ image::images/user-review-ui-side-by-side-diff-screen-preferences-popup.png[widt
 
 The following diff preferences can be configured:
 
-- `Theme`:
+- [[theme]]`Theme`:
 +
 Controls the theme that is used to render the file content.
 +
@@ -954,7 +983,7 @@ E.g. users could choose to work with a dark theme.
 +
 image::images/user-review-ui-side-by-side-diff-screen-dark-theme.png[width=800, link="images/user-review-ui-side-by-side-diff-screen-dark-theme.png"]
 
-- `Ignore Whitespace`:
+- [[ignore-whitespace]]`Ignore Whitespace`:
 +
 Controls whether differences in whitespace should be ignored or not.
 +
@@ -974,11 +1003,11 @@ Whitespace differences at the beginning and end of lines are ignored.
 +
 All differences in whitespace are ignored.
 
-- `Tab Width`:
+- [[tab-width]]`Tab Width`:
 +
 Controls how many spaces should be displayed for a tab.
 
-- `Columns`:
+- [[columns]]`Columns`:
 +
 Sets the preferred line length. At this position a vertical dashed line
 is displayed so that one can easily detect lines the exceed the
@@ -986,7 +1015,7 @@ preferred line length.
 +
 image::images/user-review-ui-side-by-side-diff-screen-column.png[width=800, link="images/user-review-ui-side-by-side-diff-screen-column.png"]
 
-- `Lines Of Context`:
+- [[lines-of-context]]`Lines Of Context`:
 +
 The number of context lines that should be displayed before and after
 any diff. If the `entire file` checkbox is selected, the full file is
@@ -1003,13 +1032,13 @@ context by ten lines before and after the skipped block.
 +
 image::images/user-review-ui-side-by-side-diff-screen-expand-skipped-lines.png[width=800, link="images/user-review-ui-side-by-side-diff-screen-expand-skipped-lines.png"]
 
-- `Intraline Difference`:
+- [[intraline-difference]]`Intraline Difference`:
 +
 Controls whether intraline differences should be highlighted.
 +
 image::images/user-review-ui-side-by-side-diff-screen-intraline-difference.png[width=800, link="images/user-review-ui-side-by-side-diff-screen-intraline-difference.png"]
 
-- `Syntax Highlighting`:
+- [[syntax-highlighting]]`Syntax Highlighting`:
 +
 Controls whether syntax highlighting should be enabled.
 +
@@ -1019,50 +1048,48 @@ it from the `Language` drop-down list.
 +
 image::images/user-review-ui-side-by-side-diff-screen-syntax-coloring.png[width=800, link="images/user-review-ui-side-by-side-diff-screen-syntax-coloring.png"]
 
-- `Whitespace Errors`:
+- [[whitespace-errors]]`Whitespace Errors`:
 +
 Controls whether whitespace errors are highlighted.
 
-- `Show Tabs`:
+- [[show-tabs]]`Show Tabs`:
 +
 Controls whether tabs are highlighted.
 
-- `Line Numbers`:
+- [[line-numbers]]`Line Numbers`:
 +
 Controls whether line numbers are shown.
 
-- `Empty Pane`:
+- [[empty-pane]]`Empty Pane`:
 +
 Controls whether empty panes are shown or not. The Left pane is empty when a
 file was added; the right pane is empty when a file was deleted.
 
-- `Left Side`:
+- [[left-side]]`Left Side`:
 +
 Controls whether the left side is shown. This preference is not
 persistent and is ignored by the `Save` button. Every time a
 patch diff is opened, this preference is reset to `Show`.
 
-- `Top Menu`:
+- [[top-menu]]`Top Menu`:
 +
 Controls whether the top menu is shown.
 
-- `Auto Hide Diff Table Header`:
+- [[auto-hide-diff-table-header]]`Auto Hide Diff Table Header`:
 +
 Controls whether the diff table header should be automatically hidden
 when scrolling down more than half of a page.
 
-[[mark-reviewed]]
-- `Mark Reviewed`:
+- [[mark-reviewed]]`Mark Reviewed`:
 +
 Controls whether the files of the patch set should be automatically
 marked as reviewed when they are viewed.
 
-[[expand-all-comments]]
-- `Expand All Comments`:
+- [[expand-all-comments]]`Expand All Comments`:
 +
 Controls whether all comments should be automatically expanded.
 
-- `Render`:
+- [[render]]`Render`:
 +
 Controls how patch files that exceed the screen size are rendered.
 +
@@ -1114,6 +1141,7 @@ new review UIs:
   e.g. by selecting a code block and clicking on the popup comment
   icon.
 
+[[limitations]]
 Limitations of the new review UI:
 
 - The new side-by-side diff screen cannot render images.

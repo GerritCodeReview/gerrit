@@ -14,10 +14,38 @@
 
 # Rule definitions loaded by default into every BUCK file.
 
+include_defs('//lib/auto/auto_value.defs')
 include_defs('//tools/gwt-constants.defs')
 include_defs('//tools/java_doc.defs')
 include_defs('//tools/java_sources.defs')
 import copy
+
+# Add AutoValue support to java_library.
+_buck_java_library = java_library
+def java_library(*args, **kwargs):
+  _set_auto_value(kwargs)
+  _buck_java_library(*args, **kwargs)
+
+# Add AutoValue support to java_test.
+_buck_java_test = java_test
+def java_test(*args, **kwargs):
+  _set_auto_value(kwargs)
+  _buck_java_test(*args, **kwargs)
+
+def _set_auto_value(kwargs):
+  apk = 'annotation_processors'
+  if apk not in kwargs:
+    kwargs[apk] = []
+  aps = kwargs.get(apk, [])
+
+  apdk = 'annotation_processor_deps'
+  if apdk not in kwargs:
+    kwargs[apdk] = []
+  apds = kwargs.get(apdk, [])
+
+  if AUTO_VALUE_DEP in kwargs.get('deps', []):
+    aps.extend(AUTO_VALUE_PROCESSORS)
+    apds.extend(AUTO_VALUE_PROCESSOR_DEPS)
 
 def genantlr(
     name,

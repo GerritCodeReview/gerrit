@@ -22,6 +22,30 @@
       "revId": "92db9fbe5e7fa1289c7f88c0a1d08b796dd503f2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "35abb6f1_0c0db754",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-11-06T21:03:57Z",
+      "side": 1,
+      "message": "Found the answer, I called cm3.refersh() in the wrong place. It must be called deferred, e. g. onShowView(), ax explained in this answer [1].\n\n [1] http://stackoverflow.com/questions/8349571/codemirror-editor-is-not-loading-content-until-clicked",
+      "parentUuid": "d5389a5e_e1cd86c2",
+      "range": {
+        "startLine": 29,
+        "startChar": 0,
+        "endLine": 29,
+        "endChar": 68
+      },
+      "revId": "92db9fbe5e7fa1289c7f88c0a1d08b796dd503f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

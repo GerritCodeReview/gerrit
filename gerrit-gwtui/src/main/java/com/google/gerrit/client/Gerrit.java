@@ -344,14 +344,7 @@ public class Gerrit implements EntryPoint {
       token = token.substring(1);
     }
 
-    UrlBuilder builder = new UrlBuilder();
-    builder.setProtocol(Location.getProtocol());
-    builder.setHost(Location.getHost());
-    String port = Location.getPort();
-    if (port != null && !port.isEmpty()) {
-      builder.setPort(Integer.parseInt(port));
-    }
-    return builder.buildString() + ("/login/" + URL.encodePathSegment("#/" + token));
+    return selfRedirect("login/") + URL.encodePathSegment("#/" + token);
   }
 
   public static String selfRedirect(String suffix) {

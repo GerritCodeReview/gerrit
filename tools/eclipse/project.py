@@ -41,6 +41,17 @@ opts.add_option('--plugins', help='create eclipse projects for plugins',
                 action='store_true')
 args, _ = opts.parse_args()
 
+def _query_classpath(targets):
+  deps = []
+  p = Popen(['buck', 'audit', 'classpath'] + targets, stdout=PIPE)
+  for line in p.stdout:
+    deps.append(line.strip())
+  s = p.wait()
+  if s != 0:
+    exit(s)
+  return deps
+
+
 def gen_project(name='gerrit', dir=ROOT):
   p = path.join(dir, '.project')
   with open(p, 'w') as fd:
@@ -76,17 +87,8 @@ def gen_plugin_classpath(dir):
   <classpathentry combineaccessrules="false" kind="src" path="/gerrit"/>
   <classpathentry kind="output" path="buck-out/eclipse/classes"/>
 </classpath>""" % {"testpath": testpath}, file=fd)
-def gen_classpath():
-  def query_classpath(targets):
-    deps = []
-    p = Popen(['buck', 'audit', 'classpath'] + targets, stdout=PIPE)
-    for line in p.stdout:
-      deps.append(line.strip())
-    s = p.wait()
-    if s != 0:
-      exit(s)
-    return deps
 
+def gen_classpath():
   def make_classpath():
     impl = minidom.getDOMImplementation()
     return impl.createDocument(None, 'classpath', None)
@@ -111,7 +113,7 @@ def gen_classpath():
   plugins = set()
 
   java_library = re.compile(r'[^/]+/gen/(.*)/lib__[^/]+__output/[^/]+[.]jar$')
-  for p in query_classpath(MAIN):
+  for p in _query_classpath(MAIN):
     if p.endswith('-src.jar'):
       # gwt_module() depends on -src.jar for Java to JavaScript compiles.
       gwt_lib.add(p)
@@ -130,7 +132,7 @@ def gen_classpath():
     else:
       lib.add(p)
 
-  for p in query_classpath(GWT):
+  for p in _query_classpath(GWT):
     m = java_library.match(p)
     if m:
       gwt_src.add(m.group(1))
@@ -195,6 +197,20 @@ def gen_classpath():
         print('error generating project for %s: %s' % (plugin, err),
               file=sys.stderr)
 
+def gen_factorypath():
+  doc = minidom.getDOMImplementation().createDocument(None, 'factorypath', None)
+  for jar in _query_classpath(['//lib/auto:auto-value']):
+    e = doc.createElement('factorypathentry')
+    e.setAttribute('kind', 'EXTJAR')
+    e.setAttribute('id', path.join(ROOT, jar))
+    e.setAttribute('enabled', 'true')
+    e.setAttribute('runInBatchMode', 'false')
+    doc.documentElement.appendChild(e)
+
+  p = path.join(ROOT, '.factorypath')
+  with open(p, 'w') as fd:
+    doc.writexml(fd, addindent='\t', newl='\n', encoding='UTF-8')
+
 try:
   if args.src:
     try:
@@ -204,6 +220,7 @@ try:
 
   gen_project()
   gen_classpath()
+  gen_factorypath()
 
   try:
     targets = ['//tools:buck.properties'] + MAIN + GWT

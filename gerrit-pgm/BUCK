@@ -57,6 +57,7 @@ java_library2(
   resources = INIT_BASE_RSRCS,
   deps = [
     ':init-api',
+    '//gerrit-common:annotations',
     '//gerrit-common:server',
     '//gerrit-extension-api:api',
     '//gerrit-lucene:lucene',

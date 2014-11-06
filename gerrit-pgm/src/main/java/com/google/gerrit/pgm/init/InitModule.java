@@ -48,6 +48,7 @@ public class InitModule extends FactoryModule {
     if (initDb) {
       step().to(InitDatabase.class);
     }
+    step().to(UpdatePrimaryKeys.class);
     step().to(InitIndex.class);
     step().to(InitAuth.class);
     step().to(InitLabels.class);

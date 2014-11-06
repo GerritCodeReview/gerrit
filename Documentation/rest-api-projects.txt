@@ -1747,6 +1747,191 @@ requests.
   HTTP/1.1 204 No Content
 ----
 
+[[plugin-configuration-endpoints]]
+== Plugin Configuration Endpoints
+
+[[list-plugin-configurations]]
+=== List Plugin Configurations
+--
+'GET /projects/link:#project-name[\{project-name\}]/pluginconfigs/'
+--
+
+List the contents of the configuration files of active plugins.
+
+As a result the contents of the configuration files are returned as a list of
+link:#config-entries[ConfigEntries].
+
+.Request
+----
+  GET /projects/myproject/pluginconfigs/ HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  {
+    "name": "<plugin 1>.config",
+    "sections": [
+      {
+        "name": "<section>",
+        "sub_sections": [
+          {
+            "name": "<subsection>",
+            "keys": [
+              {
+                "name": "<key>",
+                "values": [
+                  "<value>"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "<plugin 2>.config",
+    "sections": [
+      {
+        "name": "<section>",
+        "sub_sections": [
+          {
+            "name": "<subsection>",
+            "keys": [
+              {
+                "name": "<key>",
+                "values": [
+                  "<value>"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+----
+
+[[get-plugin-configuration]]
+=== Get Plugin Configuration
+--
+'GET /projects/link:#project-name[\{project-name\}]/pluginconfigs/link:#plugin-id[\{plugin-id\}]'
+--
+
+Retrieves the configurations of the specified plugin.
+
+.Request
+----
+  GET /projects/myproject/pluginconfigs/myplugin HTTP/1.0
+----
+
+As a response the contents of the configuration file are returned as a
+link:#config-entries[ConfigEntries].
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  {
+    "name": "myplugin.config",
+    "sections": [
+      {
+        "name": "<section>",
+        "sub_sections": [
+          {
+            "name": "<subsection>",
+            "keys": [
+              {
+                "name": "<key>",
+                "values": [
+                  "<value>"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+----
+
+[[set-plugin-configuration]]
+=== Set Plugin Configuration
+--
+'PUT /projects/link:#project-name[\{project-name\}]/pluginconfigs/link:#plugin-id[\{plugin-id\}]'
+--
+
+Updates/Creates the configuration file for the specified plugin.
+
+The creation/update information for the configuration file must be provided in
+the request body as a link:#plugin-configuration-input{PluginConfigurationInput]
+entity.
+
+.Request
+----
+  PUT /projects/work%2Fmy-project/pluginconfigs/myplugin HTTP/1.0
+  Content-Type: application/json;charset=UTF-8
+
+  {
+    "add_entries":[
+      {
+        "section":"<section>",
+        "sub_section":"<subsection>",
+        "key":"<key>",
+        "value":"<value>"
+      }
+    ],
+    "remove_entries":[
+      {
+        "section":"<section>",
+        "sub_section":"<subsection>",
+        "key":"<key>",
+        "value":"<value>"
+      }
+    ]
+  }
+----
+
+As response the new/updated configuration is returned as a
+link:#config-entries[ConfigEntries].
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  {
+    "name": "myplugin.config",
+    "sections": [
+      {
+        "name": "<section>",
+        "sub_sections": [
+          {
+            "name": "<subsection>",
+            "keys": [
+              {
+                "name": "<key>",
+                "values": [
+                  "<value>"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+----
 
 [[ids]]
 == IDs
@@ -1770,6 +1955,10 @@ The ID of a dashboard in the format '<ref>:<path>'.
 
 A special dashboard ID is `default` which represents the default
 dashboard of a project.
+
+[[plugin-id]]
+=== \{plugin-id\}
+The name of the plugin.
 
 [[project-name]]
 === \{project-name\}
@@ -1834,6 +2023,30 @@ If set, must match the branch ID in the URL.
 |`revision`|optional|
 The base revision of the new branch. +
 If not set, `HEAD` will be used as base revision.
+|=======================
+
+[[config-entries]]
+=== ConfigEntries
+The `ConfigEntries` entity encompasis all the entries in a configuration file.
+
+[options="header",width="50%",cols="1,^2,4"]
+|=======================
+|Field Name   ||Description
+|`name`       ||The filename
+|`sections`   ||A list of link:#config-section[ConfigSection]
+|=======================
+
+[[config-entry]]
+=== ConfigEntry
+The `ConfigEntry` entity encompasis one entry in a configuration file.
+
+[options="header",width="50%",cols="1,^2,4"]
+|=======================
+|Field Name   ||Description
+|`section`    ||The section.
+|`subsection` ||The subsection.
+|`key`        ||The key.
+|`value`      ||The value.
 |=======================
 
 [[config-info]]
@@ -1956,6 +2169,19 @@ Plugin configuration values as map which maps the plugin name to a map
 of parameter names to values.
 |=========================================
 
+[[config-key]]
+=== ConfigKey
+The `ConfigKey` entity contains information about a key of a
+configuration file.
+
+[options="header",width="50%",cols="1,^2,4"]
+|=======================
+|Field Name    ||Description
+|`name`        ||The name of the key
+|`values`      ||A list of String values
+|=======================
+
+
 [[config-parameter-info]]
 ConfigParameterInfo
 ~~~~~~~~~~~~~~~~~~~
@@ -1995,6 +2221,30 @@ The inherited value of the configuration parameter, only set if
 |`permitted_values` |optional|
 The list of permitted values, only set if the `type` is `LIST`.
 |===============================
+
+[[config-section]]
+=== ConfigSection
+The `ConfigSection` entity contains information about a section of a
+configuration file.
+
+[options="header",width="50%",cols="1,^2,4"]
+|=======================
+|Field Name     ||Description
+|`name`         ||The name of the section
+|`sub_sections` ||A list of link:#config-sub-section[ConfigSubSection]
+|=======================
+
+[[config-sub-section]]
+=== ConfigSubSection
+The `ConfigSubSection` entity contains information about a subsection of a
+configuration file.
+
+[options="header",width="50%",cols="1,^2,4"]
+|=======================
+|Field Name    ||Description
+|`name`        ||The name of the sub section
+|`keys`        ||A list of link:#config-key[ConfigKey]
+|=======================
 
 [[dashboard-info]]
 === DashboardInfo
@@ -2122,6 +2372,20 @@ level.
 The max object size limit that is inherited as a formatted string. +
 Not set if there is no global limit for the object size.
 |===============================
+
+[[plugin-configuration-input]]
+=== PluginConfigurationInput
+The `PluginConfigurationInput` entity contains information for setting a plugin
+configuration.
+
+[options="header",width="50%",cols="1,^2,4"]
+|=============================
+|Field Name       ||Description
+|`add_entries`    ||A list of link:#config-entry[ConfigEntry] to add to the
+configuration file.
+|`remove_entries` ||A list of link:#config-entry[ConfigEntry] to remove from the
+configuration file.
+|=============================
 
 [[project-description-input]]
 === ProjectDescriptionInput

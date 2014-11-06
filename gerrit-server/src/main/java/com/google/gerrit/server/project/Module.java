@@ -19,6 +19,7 @@ import static com.google.gerrit.server.project.ChildProjectResource.CHILD_PROJEC
 import static com.google.gerrit.server.project.CommitResource.COMMIT_KIND;
 import static com.google.gerrit.server.project.DashboardResource.DASHBOARD_KIND;
 import static com.google.gerrit.server.project.FileResource.FILE_KIND;
+import static com.google.gerrit.server.project.PluginConfigResource.PLUGIN_CONFIG_KIND;
 import static com.google.gerrit.server.project.ProjectResource.PROJECT_KIND;
 import static com.google.gerrit.server.project.TagResource.TAG_KIND;
 
@@ -39,6 +40,7 @@ public class Module extends RestApiModule {
     DynamicMap.mapOf(binder(), FILE_KIND);
     DynamicMap.mapOf(binder(), COMMIT_KIND);
     DynamicMap.mapOf(binder(), TAG_KIND);
+    DynamicMap.mapOf(binder(), PLUGIN_CONFIG_KIND);
 
     put(PROJECT_KIND).to(PutProject.class);
     get(PROJECT_KIND).to(GetProject.class);
@@ -84,5 +86,9 @@ public class Module extends RestApiModule {
 
     get(PROJECT_KIND, "config").to(GetConfig.class);
     put(PROJECT_KIND, "config").to(PutConfig.class);
+
+    child(PROJECT_KIND, "pluginconfigs").to(PluginConfigCollection.class);
+    get(PLUGIN_CONFIG_KIND).to(GetPluginConfig.class);
+    put(PLUGIN_CONFIG_KIND).to(PutPluginConfig.class);
   }
 }

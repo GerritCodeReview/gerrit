@@ -1,3 +1,5 @@
+include_defs('//lib/auto/auto_value.defs')
+
 SRC = 'src/main/java/com/google/gerrit/'
 
 ANNOTATIONS = [
@@ -55,13 +57,27 @@ java_library(
   visibility = ['PUBLIC'],
 )
 
+TEST = 'src/test/java/com/google/gerrit/common/'
+AUTO_VALUE_TEST_SRCS = [TEST + 'AutoValueTest.java']
+
 java_test(
   name = 'client_tests',
-  srcs = glob(['src/test/java/**/*.java']),
+  srcs = glob(['src/test/java/**/*.java'], excludes = AUTO_VALUE_TEST_SRCS),
   deps = [
     ':client',
     '//lib:guava',
     '//lib:junit',
   ],
   source_under_test = [':client'],
+)
+
+java_test(
+  name = 'auto_value_tests',
+  srcs = AUTO_VALUE_TEST_SRCS,
+  annotation_processor_deps = AUTO_VALUE_DEPS,
+  annotation_processors = AUTO_VALUE,
+  deps = [
+    '//lib:junit',
+    '//lib/auto:auto-value',
+  ],
 )

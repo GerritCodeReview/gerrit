@@ -1,0 +1,39 @@
+include_defs('//lib/maven.defs')
+
+# TODO(dborowitz): All rules but auto-value are public only because of the hacky
+# way we have to include them via auto_value.defs.
+maven_jar(
+  name = 'auto-common',
+  id = 'com.google.auto:auto-common:0.3',
+  sha1 = '4073ab16ab4aceb9a217273da6442166bf51ae16',
+  license = 'Apache2.0',
+  deps = ['//lib:guava'],
+  visibility = ['PUBLIC'],
+)
+
+maven_jar(
+  name = 'auto-service',
+  id = 'com.google.auto.service:auto-service:1.0-rc2',
+  sha1 = '51033a5b8fcf7039159e35b6878f106ccd5fb35f',
+  license = 'Apache2.0',
+  deps = [
+    ':auto-common',
+    '//lib:guava',
+  ],
+  visibility = ['PUBLIC'],
+)
+
+maven_jar(
+  name = 'auto-value',
+  id = 'com.google.auto.value:auto-value:1.0-rc2',
+  sha1 = '73141b5aa77021f058d1a5391595d04ef17e8602',
+  license = 'Apache2.0',
+  deps = [
+    ':auto-common',
+    ':auto-service',
+    '//lib:guava',
+    '//lib:velocity',
+    '//lib/ow2:ow2-asm',
+  ],
+  visibility = ['PUBLIC'],
+)

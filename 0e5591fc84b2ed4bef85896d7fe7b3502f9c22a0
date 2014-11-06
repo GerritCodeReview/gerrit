@@ -1,0 +1,314 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "15fa32f3_3be25734",
+        "filename": "Documentation/cmd-index.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-11-06T01:24:28Z",
+      "side": 1,
+      "message": "Was it intentional to remove the tabs?",
+      "range": {
+        "startLine": 49,
+        "startChar": 0,
+        "endLine": 49,
+        "endChar": 2
+      },
+      "revId": "0e5591fc84b2ed4bef85896d7fe7b3502f9c22a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b53de64e_e01b4297",
+        "filename": "Documentation/cmd-verify.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-11-06T01:24:28Z",
+      "side": 1,
+      "message": "nit: one too many \"\u003d\"",
+      "range": {
+        "startLine": 2,
+        "startChar": 13,
+        "endLine": 2,
+        "endChar": 14
+      },
+      "revId": "0e5591fc84b2ed4bef85896d7fe7b3502f9c22a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d5389a5e_41179266",
+        "filename": "Documentation/cmd-verify.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-11-06T01:24:28Z",
+      "side": 1,
+      "message": "I\u0027m a little unclear on how this is intended to work.  In the example below, it\u0027s giving the value `gate-horizon-pep8` for this verification.\n\nBut if we look on a change on the horizon project on openstack [1], this test job being done as part of the gate pipeline managed by Zuul, which aggregates the results of multiple jobs and reports a single Verified score.\n\nIs the intention to replace that mechanism with a separate verification score for each of the jobs in the pipeline?\n\n[1] https://review.openstack.org/#/c/129652/",
+      "range": {
+        "startLine": 53,
+        "startChar": 0,
+        "endLine": 53,
+        "endChar": 62
+      },
+      "revId": "0e5591fc84b2ed4bef85896d7fe7b3502f9c22a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "15fa32f3_1bdf9b68",
+        "filename": "Documentation/cmd-verify.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-11-06T01:24:28Z",
+      "side": 1,
+      "message": "The example is setting `gate-horizon-pep8`",
+      "range": {
+        "startLine": 71,
+        "startChar": 9,
+        "endLine": 71,
+        "endChar": 18
+      },
+      "revId": "0e5591fc84b2ed4bef85896d7fe7b3502f9c22a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "15fa32f3_5be92312",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 1929,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-11-06T01:24:28Z",
+      "side": 1,
+      "message": "This anchor does not exist.",
+      "range": {
+        "startLine": 1929,
+        "startChar": 6,
+        "endLine": 1929,
+        "endChar": 18
+      },
+      "revId": "0e5591fc84b2ed4bef85896d7fe7b3502f9c22a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "15fa32f3_7becdf23",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 3659,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-11-06T01:24:28Z",
+      "side": 1,
+      "message": "Need to add `[[verify-input]]` here otherwise the link on line 1929 does not work.",
+      "revId": "0e5591fc84b2ed4bef85896d7fe7b3502f9c22a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d5389a5e_e144a678",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 3895,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-11-06T01:24:28Z",
+      "side": 1,
+      "message": "Add `[[verification-info]]`",
+      "revId": "0e5591fc84b2ed4bef85896d7fe7b3502f9c22a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "15fa32f3_bbf667f3",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 3905,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-11-06T01:24:28Z",
+      "side": 1,
+      "message": "Is this referred to from anywhere?",
+      "range": {
+        "startLine": 3895,
+        "startChar": 0,
+        "endLine": 3905,
+        "endChar": 23
+      },
+      "revId": "0e5591fc84b2ed4bef85896d7fe7b3502f9c22a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "15fa32f3_fbf0eff8",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-11-06T01:24:28Z",
+      "side": 1,
+      "message": "Sorry, this conflicts with the \"Google Truth\" change that was just merged :(",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 36
+      },
+      "revId": "0e5591fc84b2ed4bef85896d7fe7b3502f9c22a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b53de64e_002186c9",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-11-06T01:24:28Z",
+      "side": 1,
+      "message": "Exception",
+      "range": {
+        "startLine": 75,
+        "startChar": 37,
+        "endLine": 76,
+        "endChar": 35
+      },
+      "revId": "0e5591fc84b2ed4bef85896d7fe7b3502f9c22a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d5389a5e_014aea81",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/VerificationInfo.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-11-06T01:24:28Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this be a user identity?",
+      "range": {
+        "startLine": 20,
+        "startChar": 9,
+        "endLine": 20,
+        "endChar": 15
+      },
+      "revId": "0e5591fc84b2ed4bef85896d7fe7b3502f9c22a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "15fa32f3_dbf533e7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostVerification.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-11-06T01:24:28Z",
+      "side": 1,
+      "message": "nit: add spaces around the operators",
+      "range": {
+        "startLine": 112,
+        "startChar": 32,
+        "endLine": 112,
+        "endChar": 61
+      },
+      "revId": "0e5591fc84b2ed4bef85896d7fe7b3502f9c22a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "15fa32f3_3b0b774c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostVerification.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-11-06T01:24:28Z",
+      "side": 1,
+      "message": "and here",
+      "range": {
+        "startLine": 123,
+        "startChar": 30,
+        "endLine": 123,
+        "endChar": 59
+      },
+      "revId": "0e5591fc84b2ed4bef85896d7fe7b3502f9c22a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "15fa32f3_1b083b4c",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/VerifyCommand.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-11-06T01:24:28Z",
+      "side": 1,
+      "message": "Can all this, and perhaps the methods below, be reused from the review command implementation?",
+      "range": {
+        "startLine": 148,
+        "startChar": 2,
+        "endLine": 207,
+        "endChar": 3
+      },
+      "revId": "0e5591fc84b2ed4bef85896d7fe7b3502f9c22a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

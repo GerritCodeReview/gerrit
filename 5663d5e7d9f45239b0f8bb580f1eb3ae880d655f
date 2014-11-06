@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "75a1ae0b_eed77f51",
+        "filename": ".mailmap",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-11-06T07:59:03Z",
+      "side": 1,
+      "message": "Agreed.",
+      "parentUuid": "15fa32f3_9bd28b63",
+      "revId": "5663d5e7d9f45239b0f8bb580f1eb3ae880d655f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "15fa32f3_bbcdc7c3",
         "filename": ".mailmap",
         "patchSetId": 1
@@ -107,6 +125,30 @@
     },
     {
       "key": {
+        "uuid": "75a1ae0b_cedc4377",
+        "filename": ".mailmap",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-11-06T07:59:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b53de64e_8008364e",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 75
+      },
+      "revId": "5663d5e7d9f45239b0f8bb580f1eb3ae880d655f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "15fa32f3_fbd74f51",
         "filename": ".mailmap",
         "patchSetId": 1
@@ -118,6 +160,30 @@
       "writtenOn": "2014-11-06T01:02:33Z",
       "side": 1,
       "message": "Remove the dot and capitalise?",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 15
+      },
+      "revId": "5663d5e7d9f45239b0f8bb580f1eb3ae880d655f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "75a1ae0b_2ee22734",
+        "filename": ".mailmap",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-11-06T07:59:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "15fa32f3_fbd74f51",
       "range": {
         "startLine": 10,
         "startChar": 0,

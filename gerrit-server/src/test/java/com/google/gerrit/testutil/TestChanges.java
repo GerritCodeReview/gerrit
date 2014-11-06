@@ -24,6 +24,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetInfo;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.AllUsersName;
@@ -39,6 +40,7 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Injector;
 
 import org.easymock.EasyMock;
+import org.eclipse.jgit.lib.ObjectId;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -64,6 +66,15 @@ public class TestChanges {
         TimeUtil.nowTs());
     incrementPatchSet(c);
     return c;
+  }
+
+  public static PatchSet newPatchSet(PatchSet.Id id, ObjectId revision,
+      Account.Id userId) {
+    PatchSet ps = new PatchSet(id);
+    ps.setRevision(new RevId(revision.name()));
+    ps.setUploader(userId);
+    ps.setCreatedOn(TimeUtil.nowTs());
+    return ps;
   }
 
   public static ChangeUpdate newUpdate(Injector injector,

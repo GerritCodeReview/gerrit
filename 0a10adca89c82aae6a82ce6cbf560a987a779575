@@ -42,6 +42,30 @@
     },
     {
       "key": {
+        "uuid": "35abb6f1_0c08174c",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/UpdatePrimaryKeys.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-11-06T15:07:35Z",
+      "side": 1,
+      "message": "Never mind, missed your previous change.",
+      "parentUuid": "75a1ae0b_ce2a83a3",
+      "range": {
+        "startLine": 46,
+        "startChar": 2,
+        "endLine": 46,
+        "endChar": 26
+      },
+      "revId": "0a10adca89c82aae6a82ce6cbf560a987a779575",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "35abb6f1_ecf02bf9",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/PrimaryKeyFix.java",
         "patchSetId": 1

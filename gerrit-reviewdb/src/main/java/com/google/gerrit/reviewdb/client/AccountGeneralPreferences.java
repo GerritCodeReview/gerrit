@@ -96,7 +96,11 @@ public final class AccountGeneralPreferences {
   public static enum FontSize {
     SMALL,
     MEDIUM,
-    LARGE
+    LARGE;
+
+    public String getCssValue() {
+      return this.toString().toLowerCase();
+    }
   }
 
   public static enum TimeFormat {

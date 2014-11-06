@@ -18,6 +18,7 @@ import com.google.gerrit.client.diff.DisplaySide;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NativeEvent;
+import com.google.gwt.dom.client.StyleInjector;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import net.codemirror.lib.TextMarker.FromTo;
@@ -69,6 +70,10 @@ public class CodeMirror extends JavaScriptObject {
 
   public final native void refresh() /*-{ this.refresh(); }-*/;
   public final native Element getWrapperElement() /*-{ return this.getWrapperElement(); }-*/;
+
+  public final void setFontSize(String fontSize) {
+    StyleInjector.injectAtEnd(".CodeMirror {font-size: " + fontSize + "}", true);
+  }
 
   public final native TextMarker markText(LineCharacter from, LineCharacter to,
       Configuration options) /*-{

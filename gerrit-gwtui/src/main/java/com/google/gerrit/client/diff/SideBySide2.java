@@ -38,6 +38,7 @@ import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.Screen;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.extensions.common.ListChangesOption;
+import com.google.gerrit.reviewdb.client.AccountGeneralPreferences;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.GWT;
@@ -639,7 +640,7 @@ public class SideBySide2 extends Screen {
     String mode = fileSize == FileSize.SMALL
         ? getContentType(meta)
         : null;
-    return CodeMirror.create(side, parent, Configuration.create()
+    CodeMirror cm = CodeMirror.create(side, parent, Configuration.create()
       .set("readOnly", true)
       .set("cursorBlinkRate", 0)
       .set("cursorHeight", 0.85)
@@ -653,6 +654,14 @@ public class SideBySide2 extends Screen {
       .set("theme", prefs.theme().name().toLowerCase())
       .set("value", meta != null ? contents : "")
       .set("viewportMargin", prefs.renderEntireFile() ? POSITIVE_INFINITY : 10));
+
+    if (Gerrit.isSignedIn()) {
+      AccountGeneralPreferences accountPrefs =
+          Gerrit.getUserAccount().getGeneralPreferences();
+      cm.setFontSize(accountPrefs.getFontSize().getCssValue());
+    }
+
+    return cm;
   }
 
   DiffInfo.IntraLineStatus getIntraLineStatus() {

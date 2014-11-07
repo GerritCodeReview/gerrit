@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "55c74ad5_a5b75e00",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/git/SubmoduleOpTest.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 642,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2014-11-07T17:46:07Z",
+      "side": 1,
+      "message": "Why do we add .times(3) here?",
+      "revId": "249d0c66ebc176efce73f230279b930d13736ac5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

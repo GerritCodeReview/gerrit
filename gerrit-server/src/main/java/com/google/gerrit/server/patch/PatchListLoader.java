@@ -172,14 +172,29 @@ public class PatchListLoader extends CacheLoader<PatchListKey, PatchList> {
               })
           .toSet()
           : null;
+      Set<String> previous_patchset_paths = key.getOldId() != null
+          ? FluentIterable.from(patchListCache.get(
+                  new PatchListKey(key.projectKey, null, key.getOldId(),
+                  key.getWhitespace())).getPatches())
+              .transform(new Function<PatchListEntry, String>() {
+                @Override
+                public String apply(PatchListEntry entry) {
+                  return entry.getNewName();
+                }
+              })
+          .toSet()
+          : null;
       int cnt = diffEntries.size();
       List<PatchListEntry> entries = new ArrayList<>();
       entries.add(newCommitMessage(cmp, reader,
           againstParent ? null : aCommit, b));
       for (int i = 0; i < cnt; i++) {
         DiffEntry diffEntry = diffEntries.get(i);
-        if (paths == null || paths.contains(diffEntry.getNewPath())
-            || paths.contains(diffEntry.getOldPath())) {
+        if (paths == null // previous_patchset_paths is null iff paths is
+            || paths.contains(diffEntry.getNewPath())
+            || paths.contains(diffEntry.getOldPath())
+            || previous_patchset_paths.contains(diffEntry.getNewPath())
+            || previous_patchset_paths.contains(diffEntry.getOldPath())) {
           FileHeader fh = toFileHeader(key, df, diffEntry);
           entries.add(newEntry(aTree, fh));
         }

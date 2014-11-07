@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "75ca8edf_a6448677",
+        "filename": "gerrit-common/BUCK",
+        "patchSetId": 2
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-11-07T01:08:46Z",
+      "side": 1,
+      "message": "This is obviously pretty ugly.\n\nThe alternative is to reintroduce a java_library2 rule in default.defs that automatically adds these arguments if it detects //lib/auto:auto-value in the deps list.",
+      "range": {
+        "startLine": 77,
+        "startChar": 2,
+        "endLine": 78,
+        "endChar": 37
+      },
+      "revId": "50f8c9f0ea394eea50b8faf79e6b1c19a9dc2770",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

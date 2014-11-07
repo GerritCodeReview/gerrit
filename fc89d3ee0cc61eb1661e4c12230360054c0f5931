@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "35abb6f1_6c339b18",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-11-07T14:11:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "35abb6f1_8cfb67db",
+      "range": {
+        "startLine": 15,
+        "startChar": 14,
+        "endLine": 15,
+        "endChar": 16
+      },
+      "revId": "fc89d3ee0cc61eb1661e4c12230360054c0f5931",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "75a1ae0b_2e106770",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/SitePathInitializer.java",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2014-11-06T15:06:03Z",
       "side": 1,
       "message": "I think the same should be done in InitPlugins for the init steps that are defined by plugins so that they can also benefit from injections.",
+      "range": {
+        "startLine": 117,
+        "startChar": 6,
+        "endLine": 117,
+        "endChar": 35
+      },
+      "revId": "fc89d3ee0cc61eb1661e4c12230360054c0f5931",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "75a1ae0b_2e3987f8",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/SitePathInitializer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-11-07T14:11:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "75a1ae0b_2e106770",
       "range": {
         "startLine": 117,
         "startChar": 6,

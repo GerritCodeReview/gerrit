@@ -22,6 +22,29 @@
       "revId": "50f8c9f0ea394eea50b8faf79e6b1c19a9dc2770",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "55c74ad5_c52a5aa3",
+        "filename": "tools/eclipse/project.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-11-07T01:29:53Z",
+      "side": 1,
+      "message": "This is the eclipse project name, which is workspace-specific so we can\u0027t hard-code. I think maybe we need a different kind? Or variable interpolation? I\u0027m having trouble finding documentation of this format.",
+      "range": {
+        "startLine": 205,
+        "startChar": 26,
+        "endLine": 205,
+        "endChar": 34
+      },
+      "revId": "50f8c9f0ea394eea50b8faf79e6b1c19a9dc2770",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

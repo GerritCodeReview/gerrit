@@ -142,11 +142,12 @@ public class PatchListCacheIT extends AbstractDaemonTest {
     pushHead(git, "refs/for/master", false);
     ObjectId b = getCurrentRevisionId(c.getChangeId());
 
-    // Compare Change 1,1 with Change 1,2 (+FILE_B)
+    // Compare Change 1,1 with Change 1,2 (-FILE_C, +FILE_B)
     List<PatchListEntry>  entries = getPatches(a, b);
-    assertThat(entries).hasSize(2);
+    assertThat(entries).hasSize(3);
     assertModified(Patch.COMMIT_MSG, entries.get(0));
     assertAdded(FILE_B, entries.get(1));
+    assertDeleted(FILE_C, entries.get(2));
   }
 
   @Test

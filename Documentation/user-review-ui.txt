@@ -1146,6 +1146,9 @@ Limitations of the new review UI:
 
 - The new side-by-side diff screen cannot render images.
 
+- The new side-by-side diff screen isn't able to highlight line
+  endings.
+
 - Unified diff view is missing:
 +
 By setting `Diff View (New Change Screen)` in the user preferences to

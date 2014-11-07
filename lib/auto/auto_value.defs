@@ -1,8 +1,12 @@
-# Requires listing transitive dependencies.
+# Do not use this file in your build rules; only for support by java_library2.
+
+AUTO_VALUE_DEP = '//lib/auto:auto-value'
+
+# Annotation processor classpath requires transitive dependencies.
 # TODO(dborowitz): Clean this up when buck issue is closed and there is a
 # better supported interface:
 # https://github.com/facebook/buck/issues/85
-AUTO_VALUE_DEPS = [
+AUTO_VALUE_PROCESSOR_DEPS = [
   '//lib:guava',
   '//lib:velocity',
   '//lib/auto:auto-common',
@@ -14,7 +18,7 @@ AUTO_VALUE_DEPS = [
   '//lib/ow2:ow2-asm',
 ]
 
-AUTO_VALUE = [
+AUTO_VALUE_PROCESSORS = [
   'com.google.auto.value.processor.AutoAnnotationProcessor',
   'com.google.auto.value.processor.AutoValueProcessor',
 ]

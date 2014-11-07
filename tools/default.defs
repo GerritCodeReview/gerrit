@@ -14,10 +14,73 @@
 
 # Rule definitions loaded by default into every BUCK file.
 
+include_defs('//lib/auto/auto_value.defs')
 include_defs('//tools/gwt-constants.defs')
 include_defs('//tools/java_doc.defs')
 include_defs('//tools/java_sources.defs')
 import copy
+
+# Same as java_library, with auto-AutoValue support.
+def java_library2(
+    name,
+    srcs = [],
+    resources = [],
+    resources_root = None,
+    deps = [],
+    source = '7',
+    target = '7',
+    exported_deps = [],
+    provided_deps = [],
+    visibility = []):
+  java_library(
+    name = name,
+    srcs = srcs,
+    resources = resources,
+    resources_root = resources_root,
+    deps = deps,
+    source = source,
+    target = target,
+    exported_deps = exported_deps,
+    provided_deps = provided_deps,
+    visibility = visibility,
+    annotation_processors = _auto_value_processors(deps),
+    annotation_processor_deps = _auto_value_processor_deps(deps),
+  )
+
+# Same as java_test, with auto-AutoValue support.
+def java_test2(
+    name,
+    srcs = [],
+    resources = [],
+    labels = [],
+    source_under_test = [],
+    source = '7',
+    target = '7',
+    deps = [],
+    test_type = 'JUNIT',
+    visibility = []):
+  java_test(
+    name,
+    srcs = srcs,
+    resources = resources,
+    labels = labels,
+    source_under_test = source_under_test,
+    source = source,
+    target = target,
+    deps = deps,
+    test_type = test_type,
+    visibility = visibility,
+    annotation_processors = _auto_value_processors(deps),
+    annotation_processor_deps = _auto_value_processor_deps(deps),
+  )
+
+
+def _auto_value_processors(deps):
+  return AUTO_VALUE_PROCESSORS if AUTO_VALUE_DEP in deps else None
+
+def _auto_value_processor_deps(deps):
+  return AUTO_VALUE_PROCESSOR_DEPS if AUTO_VALUE_DEP in deps else None
+
 
 def genantlr(
     name,

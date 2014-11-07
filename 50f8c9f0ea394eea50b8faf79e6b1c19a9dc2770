@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "b5d08689_e825b3d5",
+        "filename": "gerrit-common/src/test/java/com/google/gerrit/common/AutoValueTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-11-07T04:47:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b5d08689_a81bbb97",
+      "range": {
+        "startLine": 17,
+        "startChar": 14,
+        "endLine": 17,
+        "endChar": 44
+      },
+      "revId": "50f8c9f0ea394eea50b8faf79e6b1c19a9dc2770",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b5d08689_882077c7",
         "filename": "gerrit-common/src/test/java/com/google/gerrit/common/AutoValueTest.java",
         "patchSetId": 2
@@ -71,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "d5db3aab_69054534",
+        "filename": "gerrit-common/src/test/java/com/google/gerrit/common/AutoValueTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-11-07T04:47:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b5d08689_882077c7",
+      "range": {
+        "startLine": 36,
+        "startChar": 4,
+        "endLine": 36,
+        "endChar": 33
+      },
+      "revId": "50f8c9f0ea394eea50b8faf79e6b1c19a9dc2770",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "55c74ad5_c52a5aa3",
         "filename": "tools/eclipse/project.py",
         "patchSetId": 2
@@ -82,6 +130,30 @@
       "writtenOn": "2014-11-07T01:29:53Z",
       "side": 1,
       "message": "This is the eclipse project name, which is workspace-specific so we can\u0027t hard-code. I think maybe we need a different kind? Or variable interpolation? I\u0027m having trouble finding documentation of this format.",
+      "range": {
+        "startLine": 205,
+        "startChar": 26,
+        "endLine": 205,
+        "endChar": 34
+      },
+      "revId": "50f8c9f0ea394eea50b8faf79e6b1c19a9dc2770",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b5d08689_c82a6fa3",
+        "filename": "tools/eclipse/project.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-11-07T04:47:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "55c74ad5_c52a5aa3",
       "range": {
         "startLine": 205,
         "startChar": 26,

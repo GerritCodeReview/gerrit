@@ -46,6 +46,7 @@ java_library(
     '//lib:gwtjsonrpc',
     '//lib:gwtorm',
     '//lib:h2',
+    '//lib/commons:validator',
     '//lib/mina:sshd',
   ],
   provided_deps = ['//gerrit-launcher:launcher'],

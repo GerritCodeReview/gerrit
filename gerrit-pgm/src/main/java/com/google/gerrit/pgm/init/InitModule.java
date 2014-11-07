@@ -61,6 +61,7 @@ public class InitModule extends FactoryModule {
     step().to(InitSshd.class);
     step().to(InitHttpd.class);
     step().to(InitCache.class);
+    step().to(InitAdminUser.class);
     step().to(InitPlugins.class);
   }
 

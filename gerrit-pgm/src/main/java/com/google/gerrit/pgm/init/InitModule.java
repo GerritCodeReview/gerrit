@@ -53,6 +53,7 @@ public class InitModule extends FactoryModule {
     }
     step().to(InitIndex.class);
     step().to(InitAuth.class);
+    step().to(InitAdminUser.class);
     step().to(InitLabels.class);
     step().to(InitSendEmail.class);
     if (standalone) {

@@ -25,6 +25,52 @@
     },
     {
       "key": {
+        "uuid": "b5d08689_a81bbb97",
+        "filename": "gerrit-common/src/test/java/com/google/gerrit/common/AutoValueTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-11-07T02:10:50Z",
+      "side": 1,
+      "message": "com.google.common.truth.Truth.assertThat;",
+      "range": {
+        "startLine": 17,
+        "startChar": 14,
+        "endLine": 17,
+        "endChar": 44
+      },
+      "revId": "50f8c9f0ea394eea50b8faf79e6b1c19a9dc2770",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b5d08689_882077c7",
+        "filename": "gerrit-common/src/test/java/com/google/gerrit/common/AutoValueTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-11-07T02:10:50Z",
+      "side": 1,
+      "message": "assertThat(a.val()).isEqualTo(\"foo\");",
+      "range": {
+        "startLine": 36,
+        "startChar": 4,
+        "endLine": 36,
+        "endChar": 33
+      },
+      "revId": "50f8c9f0ea394eea50b8faf79e6b1c19a9dc2770",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "55c74ad5_c52a5aa3",
         "filename": "tools/eclipse/project.py",
         "patchSetId": 2

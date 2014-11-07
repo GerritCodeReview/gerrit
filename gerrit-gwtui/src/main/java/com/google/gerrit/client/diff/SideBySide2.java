@@ -47,7 +47,7 @@ import com.google.gwt.core.client.Scheduler.RepeatingCommand;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NativeEvent;
-import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
@@ -117,6 +117,7 @@ public class SideBySide2 extends Screen {
   private CodeMirror cmB;
   private Element columnMarginA;
   private Element columnMarginB;
+  private double charWidthPx;
   private HandlerRegistration resizeHandler;
   private ScrollSynchronizer scrollSynchronizer;
   private DiffInfo diff;
@@ -684,13 +685,32 @@ public class SideBySide2 extends Screen {
   }
 
   void setLineLength(int columns) {
-    columnMarginA.getStyle().setMarginLeft(
-        columns * cmA.defaultCharWidth(),
-        Unit.PX);
+    double w = columns * getCharWidthPx();
+    columnMarginA.getStyle().setMarginLeft(w, Style.Unit.PX);
+    columnMarginB.getStyle().setMarginLeft(w, Style.Unit.PX);
+  }
 
-    columnMarginB.getStyle().setMarginLeft(
-        columns * cmB.defaultCharWidth(),
-        Unit.PX);
+  private double getCharWidthPx() {
+    if (charWidthPx <= 1) {
+      int len = 100;
+      StringBuilder s = new StringBuilder();
+      for (int i = 0; i < len; i++) {
+        s.append('m');
+      }
+      Element e = DOM.createSpan();
+      e.getStyle().setDisplay(Style.Display.INLINE_BLOCK);
+      e.setInnerText(s.toString());
+
+      cmA.getMoverElement().appendChild(e);
+      double a = ((double) e.getOffsetWidth()) / len;
+      e.removeFromParent();
+
+      cmB.getMoverElement().appendChild(e);
+      double b = ((double) e.getOffsetWidth()) / len;
+      e.removeFromParent();
+      charWidthPx = Math.max(a, b);
+    }
+    return charWidthPx;
   }
 
   void setShowLineNumbers(boolean b) {

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "75a1ae0b_0e364b08",
+        "filename": "gerrit-pgm/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-11-07T14:11:57Z",
+      "side": 1,
+      "message": "Actually, this is not even needed. Initially, I thought that I will need the @Nullable annotation from this artifact but it turned out that @Inject(optional \u003d true) is enough... and I forgot to remove this line.\n\nDone",
+      "parentUuid": "75a1ae0b_ae1bb797",
+      "revId": "0a10adca89c82aae6a82ce6cbf560a987a779575",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "75a1ae0b_ae445777",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/UpdatePrimaryKeys.java",
         "patchSetId": 1
@@ -130,6 +148,24 @@
     },
     {
       "key": {
+        "uuid": "75a1ae0b_ee73ffd9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/PrimaryKeyFix.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-11-07T14:11:57Z",
+      "side": 1,
+      "message": "Good observation :-)\n\nI will move this code into the init step.",
+      "parentUuid": "35abb6f1_ac6903ec",
+      "revId": "0a10adca89c82aae6a82ce6cbf560a987a779575",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "35abb6f1_ecf02bf9",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/PrimaryKeyFix.java",
         "patchSetId": 1
@@ -194,6 +230,24 @@
     },
     {
       "key": {
+        "uuid": "75a1ae0b_8e6ebbef",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/PrimaryKeyFix.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-11-07T14:11:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b5d08689_e8f013f9",
+      "revId": "0a10adca89c82aae6a82ce6cbf560a987a779575",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "35abb6f1_ccf56fe7",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/PrimaryKeyFix.java",
         "patchSetId": 1
@@ -228,6 +282,30 @@
       "writtenOn": "2014-11-06T15:03:52Z",
       "side": 1,
       "message": "We normally use uppercase for SQL.",
+      "range": {
+        "startLine": 90,
+        "startChar": 24,
+        "endLine": 90,
+        "endChar": 35
+      },
+      "revId": "0a10adca89c82aae6a82ce6cbf560a987a779575",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "35abb6f1_4c305f0a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/PrimaryKeyFix.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-11-07T14:11:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "75a1ae0b_ee25bfd5",
       "range": {
         "startLine": 90,
         "startChar": 24,

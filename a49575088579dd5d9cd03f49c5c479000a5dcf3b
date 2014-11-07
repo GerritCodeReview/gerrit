@@ -1,0 +1,204 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "55c74ad5_85a502c0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-11-07T18:20:01Z",
+      "side": 1,
+      "message": "\"change from the index\"",
+      "range": {
+        "startLine": 7,
+        "startChar": 9,
+        "endLine": 7,
+        "endChar": 21
+      },
+      "revId": "a49575088579dd5d9cd03f49c5c479000a5dcf3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "55c74ad5_a5a0feaf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-11-07T18:20:01Z",
+      "side": 1,
+      "message": "Nit: we usually don\u0027t end the first line of commit messages with a period.\n\nI don\u0027t mean to pick on you. I was actually curious what the data are that back up this claim that I make from time to time, so I ran the numbers, and it turns out that 96.4% of our commit messages do not end in a period:\n\n $ echo $(($(git log --oneline | grep \u0027[.]$\u0027 | wc -l) * 1.0 / $(git log --oneline | wc -l)))                \n0.035973468591494341",
+      "range": {
+        "startLine": 7,
+        "startChar": 46,
+        "endLine": 7,
+        "endChar": 47
+      },
+      "revId": "a49575088579dd5d9cd03f49c5c479000a5dcf3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "55c74ad5_e59af679",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-11-07T18:20:01Z",
+      "side": 1,
+      "message": "I support your change as a way to fix up these instances in the index when users click on a stale search result.\n\nHowever, I also think we really need to address the root cause: how did they get in this state in the first place.",
+      "range": {
+        "startLine": 9,
+        "startChar": 46,
+        "endLine": 10,
+        "endChar": 19
+      },
+      "revId": "a49575088579dd5d9cd03f49c5c479000a5dcf3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "55c74ad5_25952e49",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-11-07T18:20:01Z",
+      "side": 1,
+      "message": "This is one possible way of fixing up individual changes. However, I don\u0027t think people are going to actually do this. A much more likely scenario is the one I described above: someone clicks on a search result for a stale change, gets a 404, and then the change disappears from the index. That is what I would rather emphasize in the commit message.",
+      "revId": "a49575088579dd5d9cd03f49c5c479000a5dcf3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "55c74ad5_c59ffa67",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-11-07T18:20:01Z",
+      "side": 1,
+      "message": "This is word for word repeating what you already said in the first line, just drop this paragraph.",
+      "revId": "a49575088579dd5d9cd03f49c5c479000a5dcf3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "55c74ad5_c5c6da73",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 436,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-11-07T18:20:01Z",
+      "side": 1,
+      "message": "Misleading name. This doesn\u0027t delete a change.\n\nThis method doesn\u0027t even need to exist; callers should just inject ChangeIndexer directly.",
+      "range": {
+        "startLine": 436,
+        "startChar": 14,
+        "endLine": 436,
+        "endChar": 26
+      },
+      "revId": "a49575088579dd5d9cd03f49c5c479000a5dcf3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "55c74ad5_25ac0ead",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangesCollection.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-11-07T18:20:01Z",
+      "side": 1,
+      "message": "What about when changes.size() \u003e 1? That implies that the ID is a Change-Id string, so this is never going to parse. I would just put this special logic in an if (changes.isEmpty()) block preceding this one.",
+      "revId": "a49575088579dd5d9cd03f49c5c479000a5dcf3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "55c74ad5_65b60601",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangesCollection.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-11-07T18:20:01Z",
+      "side": 1,
+      "message": "Don\u0027t use exceptions for control flow. Use Ints.tryParse instead.",
+      "revId": "a49575088579dd5d9cd03f49c5c479000a5dcf3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "55c74ad5_45b30a0f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeIndex.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-11-07T18:20:01Z",
+      "side": 1,
+      "message": "I think just \"id\" would be fine. \"cd\" in this context is short for \"ChangeData.\" We don\u0027t say \"the ChangeData\u0027s ID\"; we might say \"the Change\u0027s ID\" so changeId might be fine. But in the ChangeIndex class I think the \"change\" part is implied.",
+      "range": {
+        "startLine": 78,
+        "startChar": 12,
+        "endLine": 78,
+        "endChar": 16
+      },
+      "revId": "a49575088579dd5d9cd03f49c5c479000a5dcf3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "75ca8edf_26ac16ad",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeIndex.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-11-07T18:20:01Z",
+      "side": 1,
+      "message": "Missing public.\n\nThanks for adding this. In a followup change I think we should actually remove the delete(ChangeData) method, which is never useful since it should only be called when the change has already been deleted.",
+      "revId": "a49575088579dd5d9cd03f49c5c479000a5dcf3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

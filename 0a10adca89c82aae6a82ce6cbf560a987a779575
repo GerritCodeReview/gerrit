@@ -113,6 +113,23 @@
     },
     {
       "key": {
+        "uuid": "35abb6f1_ac6903ec",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/PrimaryKeyFix.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-11-07T13:05:26Z",
+      "side": 1,
+      "message": "I think we don\u0027t need an own class for this. This can simply be part of the init step. Once the init step is replaced by a migration step it can be part of the migration step. We will not have both, init step and migration step, at the same time, but only then we would need this code in an own class to make it reuseable from both places.",
+      "revId": "0a10adca89c82aae6a82ce6cbf560a987a779575",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "35abb6f1_ecf02bf9",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/PrimaryKeyFix.java",
         "patchSetId": 1

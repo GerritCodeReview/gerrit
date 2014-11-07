@@ -194,7 +194,7 @@ public class CommitValidators {
                 "missing subject; Change-Id must be in commit message footer");
           } else {
             String errMsg = "missing Change-Id in commit message footer";
-            messages.add(getFixedCommitMsgWithChangeId(
+            messages.add(getMissingChangeIdErrorMsg(
                 errMsg, receiveEvent.commit));
             throw new CommitValidationException(errMsg, messages);
           }
@@ -208,49 +208,25 @@ public class CommitValidators {
           final String errMsg =
               "missing or invalid Change-Id line format in commit message footer";
           messages.add(
-              getFixedCommitMsgWithChangeId(errMsg, receiveEvent.commit));
+              getMissingChangeIdErrorMsg(errMsg, receiveEvent.commit));
           throw new CommitValidationException(errMsg, messages);
         }
       }
       return Collections.emptyList();
     }
 
-    /**
-     * We handle 3 cases:
-     * 1. No change id in the commit message at all.
-     * 2. Change id last in the commit message but missing empty line to create the footer.
-     * 3. There is a change-id somewhere in the commit message, but we ignore it.
-     *
-     * @return The fixed up commit message
-     */
-    private CommitValidationMessage getFixedCommitMsgWithChangeId(
+    private CommitValidationMessage getMissingChangeIdErrorMsg(
         final String errMsg, final RevCommit c) {
       final String changeId = "Change-Id:";
       StringBuilder sb = new StringBuilder();
       sb.append("ERROR: ").append(errMsg);
-      sb.append('\n');
-      sb.append("Suggestion for commit message:\n");
 
-      if (c.getFullMessage().indexOf(changeId) == -1) {
-        sb.append(c.getFullMessage());
-        sb.append('\n');
-        sb.append(changeId).append(" I").append(c.name());
-      } else {
+      if (c.getFullMessage().indexOf(changeId) >= 0) {
         String lines[] = c.getFullMessage().trim().split("\n");
         String lastLine = lines.length > 0 ? lines[lines.length - 1] : "";
 
-        if (lastLine.indexOf(changeId) == 0) {
-          for (int i = 0; i < lines.length - 1; i++) {
-            sb.append(lines[i]);
-            sb.append('\n');
-          }
-
+        if (lastLine.indexOf(changeId) == -1) {
           sb.append('\n');
-          sb.append(lastLine);
-        } else {
-          sb.append(c.getFullMessage());
-          sb.append('\n');
-          sb.append(changeId).append(" I").append(c.name());
           sb.append('\n');
           sb.append("Hint: A potential Change-Id was found, but it was not in the ");
           sb.append("footer (last paragraph) of the commit message.");
@@ -259,8 +235,10 @@ public class CommitValidators {
       sb.append('\n');
       sb.append('\n');
       sb.append("Hint: To automatically insert Change-Id, install the hook:\n");
-      sb.append(getCommitMessageHookInstallationHint()).append('\n');
+      sb.append(getCommitMessageHookInstallationHint());
       sb.append('\n');
+      sb.append("And then amend the commit:\n");
+      sb.append("  git commit --amend\n");
 
       return new CommitValidationMessage(sb.toString(), false);
     }

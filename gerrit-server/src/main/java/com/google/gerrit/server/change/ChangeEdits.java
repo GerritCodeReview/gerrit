@@ -44,6 +44,7 @@ import com.google.gerrit.server.edit.ChangeEdit;
 import com.google.gerrit.server.edit.ChangeEditJson;
 import com.google.gerrit.server.edit.ChangeEditModifier;
 import com.google.gerrit.server.edit.ChangeEditUtil;
+import com.google.gerrit.server.edit.UnchangedCommitMessage;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
@@ -372,6 +373,11 @@ public class ChangeEdits implements
     @Override
     public Response<?> apply(ChangeEditResource rsrc, Input input)
         throws AuthException, ResourceConflictException, IOException {
+      String path = rsrc.getPath();
+      if (Strings.isNullOrEmpty(path) || path.charAt(0) == '/') {
+        throw new ResourceConflictException("Invalid path: " + path);
+      }
+
       try {
         editModifier.modifyFile(
             rsrc.getChangeEdit(),
@@ -474,7 +480,12 @@ public class ChangeEdits implements
         throw new BadRequestException("commit message must be provided");
       }
 
-      editModifier.modifyMessage(edit.get(), input.message);
+      try {
+        editModifier.modifyMessage(edit.get(), input.message);
+      } catch (UnchangedCommitMessage ucm) {
+        throw new ResourceConflictException(ucm.getMessage());
+      }
+
       return Response.none();
     }
   }

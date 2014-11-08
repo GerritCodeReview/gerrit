@@ -48,6 +48,7 @@ import com.google.gerrit.server.change.FileContentUtil;
 import com.google.gerrit.server.edit.ChangeEdit;
 import com.google.gerrit.server.edit.ChangeEditModifier;
 import com.google.gerrit.server.edit.ChangeEditUtil;
+import com.google.gerrit.server.edit.UnchangedCommitMessage;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
@@ -290,7 +291,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
           edit.get(),
           edit.get().getEditCommit().getFullMessage());
       fail("InvalidChangeOperationException expected");
-    } catch (InvalidChangeOperationException ex) {
+    } catch (UnchangedCommitMessage ex) {
       assertEquals(ex.getMessage(),
           "New commit message cannot be same as existing commit message");
     }

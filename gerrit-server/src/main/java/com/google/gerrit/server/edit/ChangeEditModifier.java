@@ -227,9 +227,11 @@ public class ChangeEditModifier {
    * @throws AuthException
    * @throws InvalidChangeOperationException
    * @throws IOException
+   * @throws UnchangedCommitMessageException
    */
   public RefUpdate.Result modifyMessage(ChangeEdit edit, String msg)
-      throws AuthException, InvalidChangeOperationException, IOException {
+      throws AuthException, InvalidChangeOperationException, IOException,
+      UnchangedCommitMessageException {
     checkState(!Strings.isNullOrEmpty(msg), "message cannot be null");
     if (!currentUser.get().isIdentifiedUser()) {
       throw new AuthException("Authentication required");
@@ -241,8 +243,7 @@ public class ChangeEditModifier {
     }
 
     if (prevEdit.getFullMessage().equals(msg)) {
-      throw new InvalidChangeOperationException(
-          "New commit message cannot be same as existing commit message");
+      throw new UnchangedCommitMessageException();
     }
 
     IdentifiedUser me = (IdentifiedUser) currentUser.get();

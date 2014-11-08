@@ -16,6 +16,24 @@
       "revId": "249d0c66ebc176efce73f230279b930d13736ac5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a299b84_6ecd8fc4",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/git/SubmoduleOpTest.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 642,
+      "author": {
+        "id": 1015662
+      },
+      "writtenOn": "2014-11-08T11:43:08Z",
+      "side": 1,
+      "message": "Since we are calling a parameterless method the strict mock does not add any extra verification to this test as the method calls will be identical. I saw that this test tried to verify the order between the mock method calls unfortunately strict mocks cannot do that when using different mock objects. This method should use EasyMock\u0027s strict controls to verify method call order between mocks.\n\nI have updated the test to use strict controls. Please review the updated change.",
+      "parentUuid": "55c74ad5_a5b75e00",
+      "revId": "249d0c66ebc176efce73f230279b930d13736ac5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

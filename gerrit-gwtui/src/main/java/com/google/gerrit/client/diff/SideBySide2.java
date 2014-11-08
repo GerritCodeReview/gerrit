@@ -640,6 +640,14 @@ public class SideBySide2 extends Screen {
     String mode = fileSize == FileSize.SMALL
         ? getContentType(meta)
         : null;
+
+    AccountGeneralPreferences generalPrefs;
+    if (Gerrit.isSignedIn()) {
+      generalPrefs = Gerrit.getUserAccount().getGeneralPreferences();
+    } else {
+      generalPrefs = AccountGeneralPreferences.createDefault();
+    }
+
     CodeMirror cm = CodeMirror.create(side, parent, Configuration.create()
       .set("readOnly", true)
       .set("cursorBlinkRate", 0)
@@ -647,7 +655,7 @@ public class SideBySide2 extends Screen {
       .set("lineNumbers", prefs.showLineNumbers())
       .set("tabSize", prefs.tabSize())
       .set("mode", mode)
-      .set("lineWrapping", false)
+      .set("lineWrapping", generalPrefs.isWrapLines())
       .set("styleSelectedText", true)
       .set("showTrailingSpace", prefs.showWhitespaceErrors())
       .set("keyMap", "vim_ro")
@@ -655,11 +663,7 @@ public class SideBySide2 extends Screen {
       .set("value", meta != null ? contents : "")
       .set("viewportMargin", prefs.renderEntireFile() ? POSITIVE_INFINITY : 10));
 
-    if (Gerrit.isSignedIn()) {
-      AccountGeneralPreferences accountPrefs =
-          Gerrit.getUserAccount().getGeneralPreferences();
-      cm.setFontSize(accountPrefs.getFontSize().getCssValue());
-    }
+    cm.setFontSize(generalPrefs.getFontSize().getCssValue());
 
     return cm;
   }

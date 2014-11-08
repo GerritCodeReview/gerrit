@@ -22,6 +22,30 @@
       "revId": "6ce902c05b2c310916bdbb7f728250d13df9932f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "75260e9e_26dfd668",
+        "filename": "tools/default.defs",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-11-08T00:48:33Z",
+      "side": 1,
+      "message": "Done, I forgot that was possible.",
+      "parentUuid": "daec477c_41d73251",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 18
+      },
+      "revId": "6ce902c05b2c310916bdbb7f728250d13df9932f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

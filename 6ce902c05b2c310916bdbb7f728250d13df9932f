@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "daec477c_41d73251",
+        "filename": "tools/default.defs",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-11-08T00:09:46Z",
+      "side": 1,
+      "message": "Maybe we just monkeypatch to replace java_library?\n\n  _buck_java_library \u003d java_library\n  def java_library(...):\n    _buck_java_library(...)\n\nThat is what we did for Java 7 support before we could set it elsewhere.",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 18
+      },
+      "revId": "6ce902c05b2c310916bdbb7f728250d13df9932f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

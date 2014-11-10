@@ -2,6 +2,92 @@
   "comments": [
     {
       "key": {
+        "uuid": "9a448f58_6ff471ea",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2014-11-10T17:40:30Z",
+      "side": 1,
+      "message": "Please link to the respective commit/change.",
+      "range": {
+        "startLine": 9,
+        "startChar": 35,
+        "endLine": 9,
+        "endChar": 54
+      },
+      "revId": "ce5d80c116ed972697fd9f9254765942d842c05b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a299b84_6ef46fea",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2014-11-10T17:40:30Z",
+      "side": 1,
+      "message": "nit: two spaces",
+      "range": {
+        "startLine": 11,
+        "startChar": 48,
+        "endLine": 11,
+        "endChar": 50
+      },
+      "revId": "ce5d80c116ed972697fd9f9254765942d842c05b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a448f58_af01392b",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/UpdatePrimaryKeys.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2014-11-10T17:40:30Z",
+      "side": 1,
+      "message": "Please make sure exceptions are logged if this init step is execute in headless mode.",
+      "revId": "ce5d80c116ed972697fd9f9254765942d842c05b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a299b84_4ef9b3e0",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/UpdatePrimaryKeys.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2014-11-10T17:40:30Z",
+      "side": 1,
+      "message": "Maybe explicitly state that some primary keys are out of order. You also could list which just incase someone would like to do a manual correction.",
+      "range": {
+        "startLine": 67,
+        "startChar": 17,
+        "endLine": 67,
+        "endChar": 38
+      },
+      "revId": "ce5d80c116ed972697fd9f9254765942d842c05b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "75260e9e_e6785eb7",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/UpdatePrimaryKeys.java",
         "patchSetId": 2
@@ -42,6 +128,52 @@
     },
     {
       "key": {
+        "uuid": "9a448f58_4ff9ade0",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/UpdatePrimaryKeys.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2014-11-10T17:40:30Z",
+      "side": 1,
+      "message": "maybe name this expectedPK",
+      "range": {
+        "startLine": 97,
+        "startChar": 21,
+        "endLine": 97,
+        "endChar": 31
+      },
+      "revId": "ce5d80c116ed972697fd9f9254765942d842c05b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a299b84_0ef3ab00",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/UpdatePrimaryKeys.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2014-11-10T17:40:30Z",
+      "side": 1,
+      "message": "maybe name this actualPK",
+      "range": {
+        "startLine": 98,
+        "startChar": 21,
+        "endLine": 98,
+        "endChar": 28
+      },
+      "revId": "ce5d80c116ed972697fd9f9254765942d842c05b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "75260e9e_c67362da",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/UpdatePrimaryKeys.java",
         "patchSetId": 2
@@ -59,6 +191,69 @@
     },
     {
       "key": {
+        "uuid": "9a448f58_cf047d3d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/UpdatePrimaryKeys.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2014-11-10T17:40:30Z",
+      "side": 1,
+      "message": "nit superflous empty line",
+      "revId": "ce5d80c116ed972697fd9f9254765942d842c05b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a299b84_2eee671c",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/UpdatePrimaryKeys.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2014-11-10T17:40:30Z",
+      "side": 1,
+      "message": "Why not you use rm.getPrimaryKeyColumns.size()?",
+      "range": {
+        "startLine": 112,
+        "startChar": 37,
+        "endLine": 112,
+        "endChar": 39
+      },
+      "revId": "ce5d80c116ed972697fd9f9254765942d842c05b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a448f58_ef07413f",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/UpdatePrimaryKeys.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2014-11-10T17:40:30Z",
+      "side": 1,
+      "message": "Please specify the locale (US).",
+      "range": {
+        "startLine": 114,
+        "startChar": 32,
+        "endLine": 114,
+        "endChar": 45
+      },
+      "revId": "ce5d80c116ed972697fd9f9254765942d842c05b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "75260e9e_067e5aa0",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/UpdatePrimaryKeys.java",
         "patchSetId": 2
@@ -70,6 +265,29 @@
       "writtenOn": "2014-11-10T17:23:21Z",
       "side": 1,
       "message": "I think we need to close this ResultSet. We don\u0027t have access to the Statement that created it, so we can\u0027t rely on closing the Statement to auto-close the ResultSet.\n\nBut my JDBC is rusty. I could be wrong. Too many years of using gwtorm to hide the database. :)",
+      "revId": "ce5d80c116ed972697fd9f9254765942d842c05b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a448f58_2fee691c",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/UpdatePrimaryKeys.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2014-11-10T17:40:30Z",
+      "side": 1,
+      "message": "This can be dangerous as you might be able to see info from a different schema, if there are multiple. Any way to know the schema name?",
+      "range": {
+        "startLine": 121,
+        "startChar": 41,
+        "endLine": 121,
+        "endChar": 51
+      },
       "revId": "ce5d80c116ed972697fd9f9254765942d842c05b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -99,6 +317,29 @@
     },
     {
       "key": {
+        "uuid": "7a299b84_ee073f3f",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/UpdatePrimaryKeys.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2014-11-10T17:40:30Z",
+      "side": 1,
+      "message": "seqToName.size()",
+      "range": {
+        "startLine": 127,
+        "startChar": 37,
+        "endLine": 127,
+        "endChar": 39
+      },
+      "revId": "ce5d80c116ed972697fd9f9254765942d842c05b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "daec477c_41405261",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/UpdatePrimaryKeys.java",
         "patchSetId": 2
@@ -110,6 +351,98 @@
       "writtenOn": "2014-11-10T17:23:21Z",
       "side": 1,
       "message": "If you used a TreeMap, this is:\n\n  for (String name : seqToName.values())",
+      "revId": "ce5d80c116ed972697fd9f9254765942d842c05b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a448f58_0ff3a500",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/UpdatePrimaryKeys.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2014-11-10T17:40:30Z",
+      "side": 1,
+      "message": "Please specify the locale (US).",
+      "range": {
+        "startLine": 129,
+        "startChar": 30,
+        "endLine": 129,
+        "endChar": 43
+      },
+      "revId": "ce5d80c116ed972697fd9f9254765942d842c05b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a299b84_ae01372b",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/UpdatePrimaryKeys.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2014-11-10T17:40:30Z",
+      "side": 1,
+      "message": "You might want to consider to use delimited identifiers.",
+      "range": {
+        "startLine": 137,
+        "startChar": 40,
+        "endLine": 137,
+        "endChar": 49
+      },
+      "revId": "ce5d80c116ed972697fd9f9254765942d842c05b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a299b84_8efe7bc3",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/UpdatePrimaryKeys.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2014-11-10T17:40:30Z",
+      "side": 1,
+      "message": "You might want to consider to use delimited identifiers.",
+      "range": {
+        "startLine": 141,
+        "startChar": 38,
+        "endLine": 141,
+        "endChar": 47
+      },
+      "revId": "ce5d80c116ed972697fd9f9254765942d842c05b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a299b84_ce04833d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/UpdatePrimaryKeys.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2014-11-10T17:40:30Z",
+      "side": 1,
+      "message": "You might want to consider to use delimited identifiers.",
+      "range": {
+        "startLine": 142,
+        "startChar": 52,
+        "endLine": 142,
+        "endChar": 56
+      },
       "revId": "ce5d80c116ed972697fd9f9254765942d842c05b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

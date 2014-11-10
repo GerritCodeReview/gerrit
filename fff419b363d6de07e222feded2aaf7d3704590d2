@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "75260e9e_e6f5bee6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PermissionCollection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-11-10T02:35:52Z",
+      "side": 1,
+      "message": "This should probably also be @Nullable.",
+      "revId": "fff419b363d6de07e222feded2aaf7d3704590d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "daec477c_61f916e1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SectionSortCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-11-10T02:35:52Z",
+      "side": 1,
+      "message": "This is a little ugly. The alternative (other than not using AutoValue) is to use a private but non-final field, and have the factory method populate it.\n\n(I tried explicitly declaring an abstract hashCode method so that hashCode is a \"field\". Doesn\u0027t work.)",
+      "revId": "fff419b363d6de07e222feded2aaf7d3704590d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,118 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "75260e9e_e6785eb7",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/UpdatePrimaryKeys.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-11-10T17:23:21Z",
+      "side": 1,
+      "message": "Wrap with try/finally and close the executor.\n\nIt retains a Statement internally created during the constructor that should be closed by calling close() on the JdbcExecutor.",
+      "revId": "ce5d80c116ed972697fd9f9254765942d842c05b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "daec477c_21454e71",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/UpdatePrimaryKeys.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-11-10T17:23:21Z",
+      "side": 1,
+      "message": "Eh, use TreeMap here. There are only a few tables with broken primary keys. It will make more sense to process them in name order than in a random order implied by the hashing function and the hashtable\u0027s internal structure.",
+      "range": {
+        "startLine": 90,
+        "startChar": 48,
+        "endLine": 90,
+        "endChar": 55
+      },
+      "revId": "ce5d80c116ed972697fd9f9254765942d842c05b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "75260e9e_c67362da",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/UpdatePrimaryKeys.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-11-10T17:23:21Z",
+      "side": 1,
+      "message": "nit: extra blank line",
+      "revId": "ce5d80c116ed972697fd9f9254765942d842c05b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "75260e9e_067e5aa0",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/UpdatePrimaryKeys.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-11-10T17:23:21Z",
+      "side": 1,
+      "message": "I think we need to close this ResultSet. We don\u0027t have access to the Statement that created it, so we can\u0027t rely on closing the Statement to auto-close the ResultSet.\n\nBut my JDBC is rusty. I could be wrong. Too many years of using gwtorm to hide the database. :)",
+      "revId": "ce5d80c116ed972697fd9f9254765942d842c05b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "daec477c_614b5689",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/UpdatePrimaryKeys.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-11-10T17:23:21Z",
+      "side": 1,
+      "message": "TreeMap might be better. The Short objects would sort in order, and then you can just iterate the values collection.",
+      "range": {
+        "startLine": 122,
+        "startChar": 39,
+        "endLine": 122,
+        "endChar": 46
+      },
+      "revId": "ce5d80c116ed972697fd9f9254765942d842c05b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "daec477c_41405261",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/UpdatePrimaryKeys.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-11-10T17:23:21Z",
+      "side": 1,
+      "message": "If you used a TreeMap, this is:\n\n  for (String name : seqToName.values())",
+      "revId": "ce5d80c116ed972697fd9f9254765942d842c05b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

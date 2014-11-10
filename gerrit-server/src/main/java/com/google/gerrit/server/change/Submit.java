@@ -326,7 +326,7 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
     update.putApproval(submit.getLabel(), submit.getValue());
 
     dbProvider.get().patchSetApprovals().upsert(normalized.getNormalized());
-    dbProvider.get().patchSetApprovals().delete(normalized.getDeleted());
+    dbProvider.get().patchSetApprovals().delete(normalized.deleted());
 
     try {
       return saveToBatch(rsrc, update, normalized, timestamp);
@@ -339,11 +339,11 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
       ChangeUpdate callerUpdate, LabelNormalizer.Result normalized,
       Timestamp timestamp) throws IOException {
     Table<Account.Id, String, Optional<Short>> byUser = HashBasedTable.create();
-    for (PatchSetApproval psa : normalized.getUpdated()) {
+    for (PatchSetApproval psa : normalized.updated()) {
       byUser.put(psa.getAccountId(), psa.getLabel(),
           Optional.of(psa.getValue()));
     }
-    for (PatchSetApproval psa : normalized.getDeleted()) {
+    for (PatchSetApproval psa : normalized.deleted()) {
       byUser.put(psa.getAccountId(), psa.getLabel(), Optional.<Short> absent());
     }
 

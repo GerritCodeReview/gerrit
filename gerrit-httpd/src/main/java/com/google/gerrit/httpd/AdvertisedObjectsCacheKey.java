@@ -14,29 +14,16 @@
 
 package com.google.gerrit.httpd;
 
+import com.google.auto.value.AutoValue;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Project;
 
-class AdvertisedObjectsCacheKey {
-  private final Account.Id account;
-  private final Project.NameKey project;
-
-  AdvertisedObjectsCacheKey(Account.Id account, Project.NameKey project) {
-    this.account = account;
-    this.project = project;
+@AutoValue
+abstract class AdvertisedObjectsCacheKey {
+  static AdvertisedObjectsCacheKey create(Account.Id account, Project.NameKey project) {
+    return new AutoValue_AdvertisedObjectsCacheKey(account, project);
   }
 
-  @Override
-  public int hashCode() {
-    return account.hashCode();
-  }
-
-  @Override
-  public boolean equals(Object other) {
-    if (other instanceof AdvertisedObjectsCacheKey) {
-      AdvertisedObjectsCacheKey o = (AdvertisedObjectsCacheKey) other;
-      return account.equals(o.account) && project.equals(o.project);
-    }
-    return false;
-  }
+  public abstract Account.Id account();
+  public abstract Project.NameKey project();
 }

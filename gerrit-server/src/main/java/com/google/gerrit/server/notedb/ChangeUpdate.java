@@ -462,8 +462,8 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       if (!e.getValue().isPresent()) {
         addFooter(msg, FOOTER_LABEL, '-', e.getKey());
       } else {
-        addFooter(msg, FOOTER_LABEL,
-            new LabelVote(e.getKey(), e.getValue().get()).formatWithEquals());
+        addFooter(msg, FOOTER_LABEL, LabelVote.create(
+            e.getKey(), e.getValue().get()).formatWithEquals());
       }
     }
 

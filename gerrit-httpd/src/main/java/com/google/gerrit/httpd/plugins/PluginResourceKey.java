@@ -14,34 +14,21 @@
 
 package com.google.gerrit.httpd.plugins;
 
+import com.google.auto.value.AutoValue;
 import com.google.gerrit.httpd.resources.ResourceKey;
 import com.google.gerrit.server.plugins.Plugin;
 
-final class PluginResourceKey implements ResourceKey {
-  private final Plugin.CacheKey plugin;
-  private final String resource;
-
-  PluginResourceKey(Plugin p, String r) {
-    this.plugin = p.getCacheKey();
-    this.resource = r;
+@AutoValue
+abstract class PluginResourceKey implements ResourceKey {
+  static PluginResourceKey create(Plugin p, String r) {
+    return new AutoValue_PluginResourceKey(p.getCacheKey(), r);
   }
+
+  public abstract Plugin.CacheKey plugin();
+  public abstract String resource();
 
   @Override
   public int weigh() {
-    return resource.length() * 2;
-  }
-
-  @Override
-  public int hashCode() {
-    return plugin.hashCode() * 31 + resource.hashCode();
-  }
-
-  @Override
-  public boolean equals(Object other) {
-    if (other instanceof PluginResourceKey) {
-      PluginResourceKey rk = (PluginResourceKey) other;
-      return plugin == rk.plugin && resource.equals(rk.resource);
-    }
-    return false;
+    return resource().length() * 2;
   }
 }

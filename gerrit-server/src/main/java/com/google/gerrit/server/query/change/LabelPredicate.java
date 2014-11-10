@@ -90,14 +90,14 @@ public class LabelPredicate extends OrPredicate<ChangeData> {
 
     try {
       LabelVote lv = LabelVote.parse(v);
-      parsed = new Parsed(lv.getLabel(), "=", lv.getValue());
+      parsed = new Parsed(lv.label(), "=", lv.value());
     } catch (IllegalArgumentException e) {
       // Try next format.
     }
 
     try {
       LabelVote lv = LabelVote.parseWithEquals(v);
-      parsed = new Parsed(lv.getLabel(), "=", lv.getValue());
+      parsed = new Parsed(lv.label(), "=", lv.value());
     } catch (IllegalArgumentException e) {
       // Try next format.
     }

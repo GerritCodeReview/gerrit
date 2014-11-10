@@ -940,12 +940,12 @@ public class RestApiServlet extends HttpServlet {
   public static void replyError(HttpServletRequest req,
       HttpServletResponse res, int statusCode, String msg,
       CacheControl c, @Nullable Throwable err) throws IOException {
-    res.setStatus(statusCode);
-    configureCaching(req, res, null, c);
-    replyText(req, res, msg);
     if (err != null) {
       RequestUtil.setErrorTraceAttribute(req, err);
     }
+    configureCaching(req, res, null, c);
+    res.setStatus(statusCode);
+    replyText(req, res, msg);
   }
 
   static void replyText(@Nullable HttpServletRequest req,

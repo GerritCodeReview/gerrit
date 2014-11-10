@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "7a299b84_8ee79b41",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-11-10T16:14:17Z",
+      "side": 1,
+      "message": "You mean just:\n\n  Edit Message button for change edit workflow\n\nBut then the verb is missing?, may be s/Abuse/Use/?",
+      "parentUuid": "75260e9e_06101a70",
+      "range": {
+        "startLine": 7,
+        "startChar": 12,
+        "endLine": 7,
+        "endChar": 18
+      },
+      "revId": "3237d766cd9e1a2269b7b02bf510162bc97a15a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "75260e9e_e62a1ea3",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3

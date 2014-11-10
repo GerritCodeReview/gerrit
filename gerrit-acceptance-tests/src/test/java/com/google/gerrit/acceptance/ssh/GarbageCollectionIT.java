@@ -14,10 +14,8 @@
 
 package com.google.gerrit.acceptance.ssh;
 
+import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.GitUtil.createProject;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GcAssert;
@@ -66,7 +64,7 @@ public class GarbageCollectionIT extends AbstractDaemonTest {
     String response =
         sshSession.exec("gerrit gc \"" + project.get() + "\" \""
             + project2.get() + "\"");
-    assertFalse(sshSession.getError(), sshSession.hasError());
+    assertThat(sshSession.hasError()).isFalse();
     assertNoError(response);
     gcAssert.assertHasPackFile(project, project2);
     gcAssert.assertHasNoPackFile(allProjects, project3);
@@ -76,7 +74,7 @@ public class GarbageCollectionIT extends AbstractDaemonTest {
   @UseLocalDisk
   public void testGcAll() throws Exception {
     String response = sshSession.exec("gerrit gc --all");
-    assertFalse(sshSession.getError(), sshSession.hasError());
+    assertThat(sshSession.hasError()).isFalse();
     assertNoError(response);
     gcAssert.assertHasPackFile(allProjects, project, project2, project3);
   }
@@ -95,18 +93,19 @@ public class GarbageCollectionIT extends AbstractDaemonTest {
     gcQueue.addAll(Arrays.asList(project));
     GarbageCollectionResult result = garbageCollectionFactory.create().run(
         Arrays.asList(allProjects, project, project2, project3));
-    assertTrue(result.hasErrors());
-    assertEquals(1, result.getErrors().size());
+    assertThat(result.hasErrors()).isTrue();
+    assertThat(result.getErrors().size()).isEqualTo(1);
     GarbageCollectionResult.Error error = result.getErrors().get(0);
-    assertEquals(GarbageCollectionResult.Error.Type.GC_ALREADY_SCHEDULED, error.getType());
-    assertEquals(project, error.getProjectName());
+    assertThat(error.getType()).isEqualTo(
+        GarbageCollectionResult.Error.Type.GC_ALREADY_SCHEDULED);
+    assertThat(error.getProjectName()).isEqualTo(project);
   }
 
   private void assertError(String expectedError, String response) {
-    assertTrue(response, response.contains(expectedError));
+    assertThat(response).contains(expectedError);
   }
 
   private void assertNoError(String response) {
-    assertFalse(response, response.toLowerCase(Locale.US).contains("error"));
+    assertThat(response.toLowerCase(Locale.US)).doesNotContain("error");
   }
 }

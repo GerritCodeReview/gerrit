@@ -14,13 +14,13 @@
 
 package com.google.gerrit.acceptance.ssh;
 
+import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.GitUtil.cloneProject;
 import static com.google.gerrit.acceptance.GitUtil.createProject;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 
-import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -62,6 +62,6 @@ public class JschVerifyFalseBugIT extends AbstractDaemonTest {
     for (Future<Void> future : futures) {
       future.get();
     }
-    Assert.assertEquals(threads, futures.size());
+    assertThat(futures.size()).isEqualTo(threads);
   }
 }

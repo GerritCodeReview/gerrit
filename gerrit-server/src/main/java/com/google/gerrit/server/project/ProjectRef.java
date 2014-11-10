@@ -14,32 +14,15 @@
 
 package com.google.gerrit.server.project;
 
+import com.google.auto.value.AutoValue;
 import com.google.gerrit.reviewdb.client.Project;
 
-class ProjectRef {
+@AutoValue
+abstract class ProjectRef {
+  public abstract Project.NameKey project();
+  public abstract String ref();
 
-  final Project.NameKey project;
-  final String ref;
-
-  ProjectRef(Project.NameKey project, String ref) {
-    this.project = project;
-    this.ref = ref;
-  }
-
-  @Override
-  public boolean equals(Object other) {
-    return other instanceof ProjectRef
-        && project.equals(((ProjectRef) other).project)
-        && ref.equals(((ProjectRef) other).ref);
-  }
-
-  @Override
-  public int hashCode() {
-    return project.hashCode() * 31 + ref.hashCode();
-  }
-
-  @Override
-  public String toString() {
-    return project + ", " + ref;
+  static ProjectRef create(Project.NameKey project, String ref) {
+    return new AutoValue_ProjectRef(project, ref);
   }
 }

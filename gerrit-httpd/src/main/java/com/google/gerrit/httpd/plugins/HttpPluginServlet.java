@@ -260,7 +260,7 @@ class HttpPluginServlet extends HttpServlet
     }
 
     String file = pathInfo.substring(1);
-    PluginResourceKey key = new PluginResourceKey(holder.plugin, file);
+    PluginResourceKey key = PluginResourceKey.create(holder.plugin, file);
     Resource rsc = resourceCache.getIfPresent(key);
     if (rsc != null && req.getHeader(HttpHeaders.IF_MODIFIED_SINCE) == null) {
       rsc.send(req, res);

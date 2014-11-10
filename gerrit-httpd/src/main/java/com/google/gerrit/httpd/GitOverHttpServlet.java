@@ -372,7 +372,7 @@ public class GitOverHttpServlet extends GitServlet {
         return;
       }
 
-      AdvertisedObjectsCacheKey cacheKey = new AdvertisedObjectsCacheKey(
+      AdvertisedObjectsCacheKey cacheKey = AdvertisedObjectsCacheKey.create(
           ((IdentifiedUser) pc.getCurrentUser()).getAccountId(),
           projectName);
 

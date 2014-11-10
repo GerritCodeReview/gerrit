@@ -23,23 +23,23 @@ public class LabelVoteTest {
   public void parse() {
     LabelVote l;
     l = LabelVote.parse("Code-Review-2");
-    assertEquals("Code-Review", l.getLabel());
-    assertEquals((short) -2, l.getValue());
+    assertEquals("Code-Review", l.label());
+    assertEquals((short) -2, l.value());
     l = LabelVote.parse("Code-Review-1");
-    assertEquals("Code-Review", l.getLabel());
-    assertEquals((short) -1, l.getValue());
+    assertEquals("Code-Review", l.label());
+    assertEquals((short) -1, l.value());
     l = LabelVote.parse("-Code-Review");
-    assertEquals("Code-Review", l.getLabel());
-    assertEquals((short) 0, l.getValue());
+    assertEquals("Code-Review", l.label());
+    assertEquals((short) 0, l.value());
     l = LabelVote.parse("Code-Review");
-    assertEquals("Code-Review", l.getLabel());
-    assertEquals((short) 1, l.getValue());
+    assertEquals("Code-Review", l.label());
+    assertEquals((short) 1, l.value());
     l = LabelVote.parse("Code-Review+1");
-    assertEquals("Code-Review", l.getLabel());
-    assertEquals((short) 1, l.getValue());
+    assertEquals("Code-Review", l.label());
+    assertEquals((short) 1, l.value());
     l = LabelVote.parse("Code-Review+2");
-    assertEquals("Code-Review", l.getLabel());
-    assertEquals((short) 2, l.getValue());
+    assertEquals("Code-Review", l.label());
+    assertEquals((short) 2, l.value());
   }
 
   @Test
@@ -55,26 +55,26 @@ public class LabelVoteTest {
   public void parseWithEquals() {
     LabelVote l;
     l = LabelVote.parseWithEquals("Code-Review=-2");
-    assertEquals("Code-Review", l.getLabel());
-    assertEquals((short) -2, l.getValue());
+    assertEquals("Code-Review", l.label());
+    assertEquals((short) -2, l.value());
     l = LabelVote.parseWithEquals("Code-Review=-1");
-    assertEquals("Code-Review", l.getLabel());
-    assertEquals((short) -1, l.getValue());
+    assertEquals("Code-Review", l.label());
+    assertEquals((short) -1, l.value());
     l = LabelVote.parseWithEquals("Code-Review=0");
-    assertEquals("Code-Review", l.getLabel());
-    assertEquals((short) 0, l.getValue());
+    assertEquals("Code-Review", l.label());
+    assertEquals((short) 0, l.value());
     l = LabelVote.parseWithEquals("Code-Review=1");
-    assertEquals("Code-Review", l.getLabel());
-    assertEquals((short) 1, l.getValue());
+    assertEquals("Code-Review", l.label());
+    assertEquals((short) 1, l.value());
     l = LabelVote.parseWithEquals("Code-Review=+1");
-    assertEquals("Code-Review", l.getLabel());
-    assertEquals((short) 1, l.getValue());
+    assertEquals("Code-Review", l.label());
+    assertEquals((short) 1, l.value());
     l = LabelVote.parseWithEquals("Code-Review=2");
-    assertEquals("Code-Review", l.getLabel());
-    assertEquals((short) 2, l.getValue());
+    assertEquals("Code-Review", l.label());
+    assertEquals((short) 2, l.value());
     l = LabelVote.parseWithEquals("Code-Review=+2");
-    assertEquals("Code-Review", l.getLabel());
-    assertEquals((short) 2, l.getValue());
+    assertEquals("Code-Review", l.label());
+    assertEquals((short) 2, l.value());
   }
 
   @Test

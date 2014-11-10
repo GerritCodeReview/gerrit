@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "daec477c_01136a7b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/UnchangedCommitMessage.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-11-10T16:02:11Z",
+      "side": 1,
+      "message": "Move this blank line below the serialVersionUID",
+      "revId": "3b12ca2cdd9a1cc82dc6e57d8b8422bcfb41daad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

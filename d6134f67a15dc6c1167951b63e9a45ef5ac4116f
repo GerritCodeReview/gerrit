@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a448f58_cfdd9d6f",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/cache/CacheTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-11-10T15:23:33Z",
+      "side": 1,
+      "message": "A purpose of the AdjustableTicker should be to avoid a need for Thread.sleep?\n\nSame for line 148",
+      "revId": "d6134f67a15dc6c1167951b63e9a45ef5ac4116f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

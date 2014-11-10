@@ -14,11 +14,10 @@
 
 package com.google.gerrit.acceptance.ssh;
 
+import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.GitUtil.add;
 import static com.google.gerrit.acceptance.GitUtil.createCommit;
 import static com.google.gerrit.acceptance.GitUtil.pushHead;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GitUtil.Commit;
@@ -40,11 +39,11 @@ public class BanCommitIT extends AbstractDaemonTest {
     String response =
         sshSession.exec("gerrit ban-commit " + project.get() + " "
             + c.getCommit().getName());
-    assertFalse(sshSession.getError(), sshSession.hasError());
-    assertFalse(response, response.toLowerCase(Locale.US).contains("error"));
+    assertThat(sshSession.hasError()).isFalse();
+    assertThat(response.toLowerCase(Locale.US)).doesNotContain("error");
 
     PushResult pushResult = pushHead(git, "refs/heads/master", false);
-    assertTrue(pushResult.getRemoteUpdate("refs/heads/master").getMessage()
-        .startsWith("contains banned commit"));
+    assertThat(pushResult.getRemoteUpdate("refs/heads/master").getMessage())
+        .startsWith("contains banned commit");
   }
 }

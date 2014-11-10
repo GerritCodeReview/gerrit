@@ -14,6 +14,7 @@
 
 package com.google.gerrit.audit;
 
+import com.google.auto.value.AutoValue;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.HashMultimap;
@@ -36,41 +37,14 @@ public class AuditEvent {
   public final long elapsed;
   public final UUID uuid;
 
-  public static class UUID {
-
-    protected final String uuid;
-
-    protected UUID() {
-      uuid = String.format("audit:%s", java.util.UUID.randomUUID().toString());
+  @AutoValue
+  public abstract static class UUID {
+    private static UUID create() {
+      return new AutoValue_AuditEvent_UUID(
+          String.format("audit:%s", java.util.UUID.randomUUID().toString()));
     }
 
-    public UUID(final String n) {
-      uuid = n;
-    }
-
-    public String get() {
-      return uuid;
-    }
-
-    @Override
-    public int hashCode() {
-      return uuid.hashCode();
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-      if (this == obj) {
-        return true;
-      }
-      if (obj == null) {
-        return false;
-      }
-      if (!(obj instanceof UUID)) {
-        return false;
-      }
-
-      return uuid.equals(((UUID) obj).uuid);
-    }
+    public abstract String uuid();
   }
 
   /**
@@ -93,7 +67,7 @@ public class AuditEvent {
     this.when = when;
     this.timeAtStart = this.when;
     this.params = MoreObjects.firstNonNull(params, EMPTY_PARAMS);
-    this.uuid = new UUID();
+    this.uuid = UUID.create();
     this.result = result;
     this.elapsed = TimeUtil.nowMs() - timeAtStart;
   }
@@ -116,6 +90,6 @@ public class AuditEvent {
   @Override
   public String toString() {
     return String.format("AuditEvent UUID:%s, SID:%s, TS:%d, who:%s, what:%s",
-        uuid.get(), sessionId, when, who, what);
+        uuid.uuid(), sessionId, when, who, what);
   }
 }

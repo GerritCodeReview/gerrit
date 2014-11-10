@@ -17,6 +17,7 @@ java_library(
     '//lib:guava',
     '//lib:gwtorm',
     '//lib:jsch',
+    '//lib/auto:auto-value',
     '//lib/commons:codec',
     '//lib/commons:collections',
     '//lib/guice:guice',

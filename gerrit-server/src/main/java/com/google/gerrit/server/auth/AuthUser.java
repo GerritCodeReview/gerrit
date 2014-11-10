@@ -16,6 +16,7 @@ package com.google.gerrit.server.auth;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import com.google.auto.value.AutoValue;
 import com.google.gerrit.common.Nullable;
 
 /**
@@ -26,40 +27,19 @@ public class AuthUser {
   /**
    * Globally unique identifier for the user.
    */
-  public static final class UUID {
-    private final String uuid;
-
+  @AutoValue
+  public abstract static class UUID {
     /**
      * A new unique identifier.
      *
      * @param uuid the unique identifier.
+     * @return identifier instance.
      */
-    public UUID(String uuid) {
-      this.uuid = checkNotNull(uuid);
+    public static UUID create(String uuid) {
+      return new AutoValue_AuthUser_UUID(uuid);
     }
 
-    /** @return the globally unique identifier. */
-    public String get() {
-      return uuid;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-      if (obj instanceof UUID) {
-        return get().equals(((UUID) obj).get());
-      }
-      return false;
-    }
-
-    @Override
-    public int hashCode() {
-      return get().hashCode();
-    }
-
-    @Override
-    public String toString() {
-      return String.format("AuthUser.UUID[%s]", get());
-    }
+    public abstract String uuid();
   }
 
   private final UUID uuid;

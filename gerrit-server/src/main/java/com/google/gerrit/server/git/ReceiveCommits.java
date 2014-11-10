@@ -1134,12 +1134,12 @@ public class ReceiveCommits {
     void addLabel(final String token) throws CmdLineException {
       LabelVote v = LabelVote.parse(token);
       try {
-        LabelType.checkName(v.getLabel());
-        ApprovalsUtil.checkLabel(labelTypes, v.getLabel(), v.getValue());
+        LabelType.checkName(v.label());
+        ApprovalsUtil.checkLabel(labelTypes, v.label(), v.value());
       } catch (IllegalArgumentException e) {
         throw clp.reject(e.getMessage());
       }
-      labels.put(v.getLabel(), v.getValue());
+      labels.put(v.label(), v.value());
     }
 
     @Option(name = "--hashtag", aliases = {"-t"}, metaVar = "HASHTAG",

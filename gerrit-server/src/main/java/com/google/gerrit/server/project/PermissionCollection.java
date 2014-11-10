@@ -16,8 +16,10 @@ package com.google.gerrit.server.project;
 
 import static com.google.gerrit.server.project.RefControl.isRE;
 
+import com.google.auto.value.AutoValue;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
@@ -121,7 +123,7 @@ public class PermissionCollection {
               exclusiveGroupPermissions.contains(permission.getName());
 
           for (PermissionRule rule : permission.getRules()) {
-            SeenRule s = new SeenRule(section, permission, rule);
+            SeenRule s = SeenRule.create(section, permission, rule);
             boolean addRule;
             if (rule.isBlock()) {
               addRule = true;
@@ -135,7 +137,7 @@ public class PermissionCollection {
                 permissions.put(permission.getName(), r);
               }
               r.add(rule);
-              ruleProps.put(rule, new ProjectRef(project, section.getName()));
+              ruleProps.put(rule, ProjectRef.create(project, section.getName()));
             }
           }
 
@@ -201,41 +203,19 @@ public class PermissionCollection {
   }
 
   /** Tracks whether or not a permission has been overridden. */
-  private static class SeenRule {
-    final String refPattern;
-    final String permissionName;
-    final AccountGroup.UUID group;
+  @AutoValue
+  abstract static class SeenRule {
+    public abstract String refPattern();
+    public abstract String permissionName();
+    @Nullable public abstract AccountGroup.UUID group();
 
-    SeenRule(AccessSection section, Permission permission, PermissionRule rule) {
-      refPattern = section.getName();
-      permissionName = permission.getName();
-      group = rule.getGroup().getUUID();
-    }
-
-    @Override
-    public int hashCode() {
-      int hc = refPattern.hashCode();
-      hc = hc * 31 + permissionName.hashCode();
-      if (group != null) {
-        hc = hc * 31 + group.hashCode();
-      }
-      return hc;
-    }
-
-    @Override
-    public boolean equals(Object other) {
-      if (other instanceof SeenRule) {
-        SeenRule a = this;
-        SeenRule b = (SeenRule) other;
-        return a.refPattern.equals(b.refPattern) //
-            && a.permissionName.equals(b.permissionName) //
-            && eq(a.group, b.group);
-      }
-      return false;
-    }
-
-    private boolean eq(AccountGroup.UUID a, AccountGroup.UUID b) {
-      return a != null && b != null && a.equals(b);
+    static SeenRule create(AccessSection section, Permission permission,
+        @Nullable PermissionRule rule) {
+      AccountGroup.UUID group = rule != null && rule.getGroup() != null
+          ? rule.getGroup().getUUID()
+          : null;
+      return new AutoValue_PermissionCollection_SeenRule(
+          section.getName(), permission.getName(), group);
     }
   }
 }

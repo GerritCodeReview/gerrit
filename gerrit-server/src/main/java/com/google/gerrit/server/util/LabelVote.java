@@ -16,17 +16,18 @@ package com.google.gerrit.server.util;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
-import com.google.common.base.Objects;
+import com.google.auto.value.AutoValue;
 import com.google.common.base.Strings;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 
-/** A single vote on a label, consisting of a label name and a value. */
-public class LabelVote {
+/** A single vote on a label, consisting of a label label and a value. */
+@AutoValue
+public abstract class LabelVote {
   public static LabelVote parse(String text) {
     checkArgument(!Strings.isNullOrEmpty(text), "Empty label vote");
     if (text.charAt(0) == '-') {
-      return new LabelVote(text.substring(1), (short) 0);
+      return create(text.substring(1), (short) 0);
     }
     short sign = 0;
     int i;
@@ -43,9 +44,9 @@ public class LabelVote {
       }
     }
     if (sign == 0) {
-      return new LabelVote(text, (short) 1);
+      return create(text, (short) 1);
     }
-    return new LabelVote(text.substring(0, i),
+    return create(text.substring(0, i),
         (short)(sign * Short.parseShort(text.substring(i + 1))));
   }
 
@@ -53,61 +54,37 @@ public class LabelVote {
     checkArgument(!Strings.isNullOrEmpty(text), "Empty label vote");
     int e = text.lastIndexOf('=');
     checkArgument(e >= 0, "Label vote missing '=': %s", text);
-    return new LabelVote(text.substring(0, e),
+    return create(text.substring(0, e),
         Short.parseShort(text.substring(e + 1), text.length()));
   }
 
-  private final String name;
-  private final short value;
-
-  public LabelVote(String name, short value) {
-    this.name = LabelType.checkNameInternal(name);
-    this.value = value;
+  public static LabelVote create(String label, short value) {
+    return new AutoValue_LabelVote(LabelType.checkNameInternal(label), value);
   }
 
-  public LabelVote(PatchSetApproval psa) {
-    this(psa.getLabel(), psa.getValue());
+  public static LabelVote create(PatchSetApproval psa) {
+    return create(psa.getLabel(), psa.getValue());
   }
 
-  public String getLabel() {
-    return name;
-  }
-
-  public short getValue() {
-    return value;
-  }
+  public abstract String label();
+  public abstract short value();
 
   public String format() {
-    if (value == (short) 0) {
-      return '-' + name;
-    } else if (value < 0) {
-      return name + value;
+    if (value() == (short) 0) {
+      return '-' + label();
+    } else if (value() < 0) {
+      return label() + value();
     } else {
-      return name + '+' + value;
+      return label() + '+' + value();
     }
   }
 
   public String formatWithEquals() {
-    if (value <= (short) 0) {
-      return name + '=' + value;
+    if (value() <= (short) 0) {
+      return label() + '=' + value();
     } else {
-      return name + "=+" + value;
+      return label() + "=+" + value();
     }
-  }
-
-  @Override
-  public boolean equals(Object o) {
-    if (o instanceof LabelVote) {
-      LabelVote l = (LabelVote) o;
-      return Objects.equal(name, l.name)
-          && value == l.value;
-    }
-    return false;
-  }
-
-  @Override
-  public int hashCode() {
-    return 17 * value  + name.hashCode();
   }
 
   @Override

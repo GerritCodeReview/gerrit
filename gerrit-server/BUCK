@@ -41,6 +41,7 @@ java_library(
     '//lib:jsch',
     '//lib:juniversalchardet',
     '//lib:mime-util',
+    '//lib/auto:auto-value',
     '//lib/ow2:ow2-asm',
     '//lib/ow2:ow2-asm-tree',
     '//lib/ow2:ow2-asm-util',

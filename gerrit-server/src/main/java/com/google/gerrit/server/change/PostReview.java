@@ -521,7 +521,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
   }
 
   private void addLabelDelta(String name, short value) {
-    labelDelta.add(new LabelVote(name, value).format());
+    labelDelta.add(LabelVote.create(name, value).format());
   }
 
   private boolean insertMessage(RevisionResource rsrc, String msg,

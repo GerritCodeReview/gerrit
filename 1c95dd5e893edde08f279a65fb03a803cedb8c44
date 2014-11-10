@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da71a7c8_99ea7b0a",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/ssh/GarbageCollectionIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-11-10T21:13:00Z",
+      "side": 1,
+      "message": "This seems to be done twice? Why not just:\n\n  assertThat(response).contains(expectedError);",
+      "range": {
+        "startLine": 104,
+        "startChar": 4,
+        "endLine": 104,
+        "endChar": 40
+      },
+      "revId": "1c95dd5e893edde08f279a65fb03a803cedb8c44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

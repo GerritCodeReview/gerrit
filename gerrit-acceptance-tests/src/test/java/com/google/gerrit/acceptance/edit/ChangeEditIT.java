@@ -553,13 +553,13 @@ public class ChangeEditIT extends AbstractDaemonTest {
   private String urlPublish() {
     return "/changes/"
         + change.getChangeId()
-        + "/publish_edit";
+        + "/edit:publish";
   }
 
   private String urlRebase() {
     return "/changes/"
         + change.getChangeId()
-        + "/rebase_edit";
+        + "/edit:rebase";
   }
 
   private EditInfo toEditInfo(boolean files) throws IOException {

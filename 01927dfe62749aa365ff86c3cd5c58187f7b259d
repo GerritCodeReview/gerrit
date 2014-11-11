@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "da71a7c8_1940ab60",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-11-11T07:58:42Z",
+      "side": 1,
+      "message": "rc1",
+      "range": {
+        "startLine": 7,
+        "startChar": 20,
+        "endLine": 7,
+        "endChar": 25
+      },
+      "revId": "01927dfe62749aa365ff86c3cd5c58187f7b259d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a9edf22_9b010b2c",
         "filename": "lib/BUCK",
         "patchSetId": 6

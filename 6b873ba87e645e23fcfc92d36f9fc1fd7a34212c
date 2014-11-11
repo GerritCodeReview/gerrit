@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "da71a7c8_f915b72d",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 1255,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-11-11T22:26:03Z",
+      "side": 1,
+      "message": "Changed to edit:message.",
+      "parentUuid": "1a77bfc2_53bb64eb",
+      "range": {
+        "startLine": 1255,
+        "startChar": 44,
+        "endLine": 1255,
+        "endChar": 57
+      },
+      "revId": "6b873ba87e645e23fcfc92d36f9fc1fd7a34212c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3aa1e35e_1c4ad573",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Module.java",
         "patchSetId": 9
@@ -36,6 +60,30 @@
       "writtenOn": "2014-11-11T19:44:24Z",
       "side": 1,
       "message": "message?",
+      "range": {
+        "startLine": 110,
+        "startChar": 22,
+        "endLine": 110,
+        "endChar": 34
+      },
+      "revId": "6b873ba87e645e23fcfc92d36f9fc1fd7a34212c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a9edf22_3bca377b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Module.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-11-11T22:26:03Z",
+      "side": 1,
+      "message": "Changed to edit:message.",
+      "parentUuid": "3aa1e35e_1c4ad573",
       "range": {
         "startLine": 110,
         "startChar": 22,

@@ -30,6 +30,7 @@ import com.google.gerrit.common.data.PermissionRule.Action;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
@@ -45,6 +46,9 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.TagCache;
 import com.google.gerrit.server.git.VisibleRefFilter;
 import com.google.gerrit.server.group.SystemGroupBackend;
+import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gwtorm.server.OrmException;
+import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
@@ -160,6 +164,11 @@ public class ProjectControl {
   private LabelTypes labelTypes;
   private Map<String, RefControl> refControls;
   private Boolean declaredOwner;
+  @Inject
+  private SchemaFactory<ReviewDb> schema;
+  @Inject
+  private ChangeData.Factory changeDataFactory;
+  private Map<PatchSet.Id, RefControl> extendRefControls;
 
   @Inject
   ProjectControl(@GitUploadPackGroups Set<AccountGroup.UUID> uploadGroups,
@@ -194,7 +203,50 @@ public class ProjectControl {
   }
 
   public ChangeControl controlFor(final Change change) {
-    return changeControlFactory.create(controlForRef(change.getDest()), change);
+    if ( schema != null) {
+      return changeControlFactory.create(ExtendControlForRef(change.getDest().get(), change), change);
+    } else {
+      return changeControlFactory.create(controlForRef(change.getDest()), change);
+    }
+  }
+
+  public RefControl ExtendControlForRef(String refName, Change change) {
+    if (extendRefControls == null) {
+      extendRefControls = new HashMap<PatchSet.Id, RefControl>();
+    }
+    PatchSet.Id id = change.currentPatchSetId();
+    RefControl ctl = extendRefControls.get(id);
+
+    if (ctl == null) {
+      ImmutableList.Builder<String> usernames = ImmutableList.<String> builder();
+      if (user.getUserName() != null) {
+        usernames.add(user.getUserName());
+      }
+      if (user instanceof IdentifiedUser) {
+        usernames.addAll(((IdentifiedUser) user).getEmailAddresses());
+      }
+
+      List<String> filePaths = null;
+
+      try {
+        final ReviewDb db = schema.open();
+        try {
+          filePaths = changeDataFactory.create(db, change).currentFilePaths();
+          } finally {
+            db.close();
+        }
+      } catch (OrmException e){
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+      }
+
+      PermissionCollection relevant =
+          permissionFilter.filter(access(), refName, usernames.build(), filePaths);
+      ctl = new RefControl(this, refName, relevant);
+      extendRefControls.put (id, ctl);
+    }
+
+    return ctl;
   }
 
   public RefControl controlForRef(Branch.NameKey ref) {
@@ -215,7 +267,7 @@ public class ProjectControl {
         usernames.addAll(((IdentifiedUser) user).getEmailAddresses());
       }
       PermissionCollection relevant =
-          permissionFilter.filter(access(), refName, usernames.build());
+          permissionFilter.filter(access(), refName, usernames.build(), null);
       ctl = new RefControl(this, refName, relevant);
       refControls.put(refName, ctl);
     }

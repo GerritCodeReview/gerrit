@@ -22,6 +22,30 @@
       "revId": "1c4bf9e830159111de8edf6dacbd84d0aca7cffb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ae00fb1_afe7d940",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/GetRelatedIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-11-11T06:06:31Z",
+      "side": 1,
+      "message": "It\u0027s possible, but then we lose the \"named\" bit.  If we keep that in the extracted method signature, it\u0027s no less repetitive than it is now.",
+      "parentUuid": "1a9edf22_3bf31701",
+      "range": {
+        "startLine": 98,
+        "startChar": 6,
+        "endLine": 100,
+        "endChar": 37
+      },
+      "revId": "1c4bf9e830159111de8edf6dacbd84d0aca7cffb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

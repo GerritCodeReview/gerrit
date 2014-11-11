@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da71a7c8_39780fb3",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/ssh/BanCommitIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-11-11T09:18:59Z",
+      "side": 1,
+      "message": "Shouldn\u0027t we include the actual error as error message as it was done before?\n\n  assert_().withFailureMessage(sshSession.getError())\n      .that(sshSession.hasError()).isFalse();\n\n?",
+      "revId": "e9f6c467ab694f78fb756755252e7a9a2d064011",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -70,6 +70,30 @@
       "revId": "c3c45c10de8e2f62e18481285847faef62652a47",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3aa1e35e_bc1f214c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/MergeabilityCacheImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-11-11T23:58:02Z",
+      "side": 1,
+      "message": "\u003e This is the only instance of the warning in the Gerrit code base.\n\nHow is that possible? What about ChangeData.createForTest?\n\nThis is just making me just not trust this check...",
+      "parentUuid": "9ae00fb1_4fcd0dc4",
+      "range": {
+        "startLine": 313,
+        "startChar": 58,
+        "endLine": 313,
+        "endChar": 74
+      },
+      "revId": "c3c45c10de8e2f62e18481285847faef62652a47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

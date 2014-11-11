@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a77bfc2_134acc73",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-11-11T19:01:00Z",
+      "side": 1,
+      "message": "Branches can also be deleted by ReceiveCommits as part of the Git wire protocol. We should also delete subscriptions there.",
+      "revId": "8eda90c306d71b56bfc5ab7b9af3d3a1d136197c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a77bfc2_334fc884",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-11-11T19:01:00Z",
+      "side": 1,
+      "message": "I would prefer to keep that \"cannot update gitlinks\" text.",
+      "range": {
+        "startLine": 375,
+        "startChar": 37,
+        "endLine": 375,
+        "endChar": 59
+      },
+      "revId": "8eda90c306d71b56bfc5ab7b9af3d3a1d136197c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3aa1e35e_9c86e539",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/DeleteBranch.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-11-11T19:01:00Z",
+      "side": 1,
+      "message": "Unnecessary, use dbProvider.get().",
+      "revId": "8eda90c306d71b56bfc5ab7b9af3d3a1d136197c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a77bfc2_73554010",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/DeleteBranch.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-11-11T19:01:00Z",
+      "side": 1,
+      "message": "Drop this arg.",
+      "range": {
+        "startLine": 56,
+        "startChar": 61,
+        "endLine": 56,
+        "endChar": 78
+      },
+      "revId": "8eda90c306d71b56bfc5ab7b9af3d3a1d136197c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3aa1e35e_bc83a128",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/DeleteBranch.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-11-11T19:01:00Z",
+      "side": 1,
+      "message": "dbProvider.get()",
+      "range": {
+        "startLine": 98,
+        "startChar": 12,
+        "endLine": 98,
+        "endChar": 18
+      },
+      "revId": "8eda90c306d71b56bfc5ab7b9af3d3a1d136197c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

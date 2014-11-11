@@ -48,6 +48,54 @@
     },
     {
       "key": {
+        "uuid": "3aa1e35e_3cdc7173",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2014-11-11T20:55:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "55c74ad5_85a502c0",
+      "range": {
+        "startLine": 7,
+        "startChar": 9,
+        "endLine": 7,
+        "endChar": 21
+      },
+      "revId": "a49575088579dd5d9cd03f49c5c479000a5dcf3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3aa1e35e_dce0ed2d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2014-11-11T20:55:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "55c74ad5_a5a0feaf",
+      "range": {
+        "startLine": 7,
+        "startChar": 46,
+        "endLine": 7,
+        "endChar": 47
+      },
+      "revId": "a49575088579dd5d9cd03f49c5c479000a5dcf3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "55c74ad5_e59af679",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
@@ -59,6 +107,30 @@
       "writtenOn": "2014-11-07T18:20:01Z",
       "side": 1,
       "message": "I support your change as a way to fix up these instances in the index when users click on a stale search result.\n\nHowever, I also think we really need to address the root cause: how did they get in this state in the first place.",
+      "range": {
+        "startLine": 9,
+        "startChar": 46,
+        "endLine": 10,
+        "endChar": 19
+      },
+      "revId": "a49575088579dd5d9cd03f49c5c479000a5dcf3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3aa1e35e_fcdda96e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2014-11-11T20:55:59Z",
+      "side": 1,
+      "message": "I agree that we should fix the root cause. See the linked issue to understand what is the root cause in our case (active/hot-stand-by topology). Long term, we want to share the secondary index between the gerrit masters but short term, we need this change to be able to keep the index of the hot-stand-by up to date when a change is deleted.",
+      "parentUuid": "55c74ad5_e59af679",
       "range": {
         "startLine": 9,
         "startChar": 46,
@@ -88,6 +160,24 @@
     },
     {
       "key": {
+        "uuid": "3aa1e35e_7c551910",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2014-11-11T20:55:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "55c74ad5_25952e49",
+      "revId": "a49575088579dd5d9cd03f49c5c479000a5dcf3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "55c74ad5_c59ffa67",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
@@ -99,6 +189,24 @@
       "writtenOn": "2014-11-07T18:20:01Z",
       "side": 1,
       "message": "This is word for word repeating what you already said in the first line, just drop this paragraph.",
+      "revId": "a49575088579dd5d9cd03f49c5c479000a5dcf3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3aa1e35e_9cea650a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2014-11-11T20:55:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "55c74ad5_c59ffa67",
       "revId": "a49575088579dd5d9cd03f49c5c479000a5dcf3b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -128,6 +236,30 @@
     },
     {
       "key": {
+        "uuid": "3aa1e35e_bce72141",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 436,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2014-11-11T20:55:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "55c74ad5_c5c6da73",
+      "range": {
+        "startLine": 436,
+        "startChar": 14,
+        "endLine": 436,
+        "endChar": 26
+      },
+      "revId": "a49575088579dd5d9cd03f49c5c479000a5dcf3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "55c74ad5_25ac0ead",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangesCollection.java",
         "patchSetId": 3
@@ -145,6 +277,24 @@
     },
     {
       "key": {
+        "uuid": "1a77bfc2_53504421",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangesCollection.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2014-11-11T20:55:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "55c74ad5_25ac0ead",
+      "revId": "a49575088579dd5d9cd03f49c5c479000a5dcf3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "55c74ad5_65b60601",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangesCollection.java",
         "patchSetId": 3
@@ -156,6 +306,24 @@
       "writtenOn": "2014-11-07T18:20:01Z",
       "side": 1,
       "message": "Don\u0027t use exceptions for control flow. Use Ints.tryParse instead.",
+      "revId": "a49575088579dd5d9cd03f49c5c479000a5dcf3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a77bfc2_d363f4fe",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangesCollection.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2014-11-11T20:55:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "55c74ad5_65b60601",
       "revId": "a49575088579dd5d9cd03f49c5c479000a5dcf3b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -185,6 +353,30 @@
     },
     {
       "key": {
+        "uuid": "1a77bfc2_f36070f4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeIndex.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2014-11-11T20:55:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "55c74ad5_45b30a0f",
+      "range": {
+        "startLine": 78,
+        "startChar": 12,
+        "endLine": 78,
+        "endChar": 16
+      },
+      "revId": "a49575088579dd5d9cd03f49c5c479000a5dcf3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "75ca8edf_26ac16ad",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeIndex.java",
         "patchSetId": 3
@@ -196,6 +388,24 @@
       "writtenOn": "2014-11-07T18:20:01Z",
       "side": 1,
       "message": "Missing public.\n\nThanks for adding this. In a followup change I think we should actually remove the delete(ChangeData) method, which is never useful since it should only be called when the change has already been deleted.",
+      "revId": "a49575088579dd5d9cd03f49c5c479000a5dcf3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a77bfc2_935d7c37",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeIndex.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2014-11-11T20:55:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "75ca8edf_26ac16ad",
       "revId": "a49575088579dd5d9cd03f49c5c479000a5dcf3b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

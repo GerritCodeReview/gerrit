@@ -14,13 +14,12 @@
 
 package com.google.gerrit.acceptance.server.change;
 
+import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.GitUtil.add;
 import static com.google.gerrit.acceptance.GitUtil.amendCommit;
 import static com.google.gerrit.acceptance.GitUtil.createCommit;
 import static com.google.gerrit.acceptance.GitUtil.pushHead;
 import static com.google.gerrit.acceptance.GitUtil.rm;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GitUtil.Commit;
@@ -68,7 +67,7 @@ public class PatchListCacheIT extends AbstractDaemonTest {
 
     // Compare Change 1,1 with Base (+FILE_A, -FILE_D)
     List<PatchListEntry> entries = getCurrentPatches(c.getChangeId());
-    assertEquals(3, entries.size());
+    assertThat(entries).hasSize(3);
     assertAdded(Patch.COMMIT_MSG, entries.get(0));
     assertAdded(FILE_A, entries.get(1));
     assertDeleted(FILE_D, entries.get(2));
@@ -80,7 +79,7 @@ public class PatchListCacheIT extends AbstractDaemonTest {
     entries = getCurrentPatches(c.getChangeId());
 
     // Compare Change 1,2 with Base (+FILE_A, +FILE_B, -FILE_D)
-    assertEquals(4, entries.size());
+    assertThat(entries).hasSize(4);
     assertAdded(Patch.COMMIT_MSG, entries.get(0));
     assertAdded(FILE_A, entries.get(1));
     assertAdded(FILE_B, entries.get(2));
@@ -99,7 +98,7 @@ public class PatchListCacheIT extends AbstractDaemonTest {
     Commit c = createCommit(git, admin.getIdent(), SUBJECT_2);
     pushHead(git, "refs/for/master", false);
     List<PatchListEntry> entries = getCurrentPatches(c.getChangeId());
-    assertEquals(3, entries.size());
+    assertThat(entries).hasSize(3);
     assertAdded(Patch.COMMIT_MSG, entries.get(0));
     assertAdded(FILE_A, entries.get(1));
     assertDeleted(FILE_D, entries.get(2));
@@ -116,7 +115,7 @@ public class PatchListCacheIT extends AbstractDaemonTest {
 
     // Compare Change 1,2 with Base (+FILE_A, -FILE_D))
     entries = getCurrentPatches(c.getChangeId());
-    assertEquals(3, entries.size());
+    assertThat(entries).hasSize(3);
     assertAdded(Patch.COMMIT_MSG, entries.get(0));
     assertAdded(FILE_A, entries.get(1));
     assertDeleted(FILE_D, entries.get(2));
@@ -145,7 +144,7 @@ public class PatchListCacheIT extends AbstractDaemonTest {
 
     // Compare Change 1,1 with Change 1,2 (+FILE_B)
     List<PatchListEntry>  entries = getPatches(a, b);
-    assertEquals(2, entries.size());
+    assertThat(entries).hasSize(2);
     assertModified(Patch.COMMIT_MSG, entries.get(0));
     assertAdded(FILE_B, entries.get(1));
   }
@@ -178,29 +177,29 @@ public class PatchListCacheIT extends AbstractDaemonTest {
 
     // Compare Change 1,1 with Change 1,2 (+FILE_C)
     List<PatchListEntry>  entries = getPatches(a, b);
-    assertEquals(2, entries.size());
+    assertThat(entries).hasSize(2);
     assertModified(Patch.COMMIT_MSG, entries.get(0));
     assertAdded(FILE_C, entries.get(1));
   }
 
   private static void assertAdded(String expectedNewName, PatchListEntry e) {
     assertName(expectedNewName, e);
-    assertEquals(ChangeType.ADDED, e.getChangeType());
+    assertThat(e.getChangeType()).isEqualTo(ChangeType.ADDED);
   }
 
   private static void assertModified(String expectedNewName, PatchListEntry e) {
     assertName(expectedNewName, e);
-    assertEquals(ChangeType.MODIFIED, e.getChangeType());
+    assertThat(e.getChangeType()).isEqualTo(ChangeType.MODIFIED);
   }
 
   private static void assertDeleted(String expectedNewName, PatchListEntry e) {
     assertName(expectedNewName, e);
-    assertEquals(ChangeType.DELETED, e.getChangeType());
+    assertThat(e.getChangeType()).isEqualTo(ChangeType.DELETED);
   }
 
   private static void assertName(String expectedNewName, PatchListEntry e) {
-    assertEquals(expectedNewName, e.getNewName());
-    assertNull(e.getOldName());
+    assertThat(e.getNewName()).isEqualTo(expectedNewName);
+    assertThat(e.getOldName()).isNull();
   }
 
   private List<PatchListEntry> getCurrentPatches(String changeId)

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "1a9edf22_5bbb83eb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeEdits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 496,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-11-11T22:26:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a77bfc2_33ca687b",
+      "range": {
+        "startLine": 496,
+        "startChar": 11,
+        "endLine": 496,
+        "endChar": 17
+      },
+      "revId": "85b17a3725180102fe7d64497c0a03bb5fa16241",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3aa1e35e_3c4f9184",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeEdits.java",
         "patchSetId": 3
@@ -132,6 +156,24 @@
     },
     {
       "key": {
+        "uuid": "1a9edf22_7bc0bf5a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeEdits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 501,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-11-11T22:26:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a9edf22_db6313ff",
+      "revId": "85b17a3725180102fe7d64497c0a03bb5fa16241",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a77bfc2_d3ae94a9",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeEdits.java",
         "patchSetId": 3
@@ -143,6 +185,24 @@
       "writtenOn": "2014-11-11T19:52:24Z",
       "side": 1,
       "message": "return BinaryResult.create(m).base64();",
+      "revId": "85b17a3725180102fe7d64497c0a03bb5fa16241",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a9edf22_1bc5fb69",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeEdits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 502,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-11-11T22:26:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a77bfc2_d3ae94a9",
       "revId": "85b17a3725180102fe7d64497c0a03bb5fa16241",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -232,6 +292,30 @@
       "side": 1,
       "message": "OK.\n\nFor \"reasons\" I don\u0027t entirely want to share right now I am inclined to go with \"edit:foo\" as the view name when \"edit\" is a child collection and \"foo\" is a verb we want to apply to the child collection itself.\n\nSo for the edit stuff this means \"/edit:message\", \"/edit:publish\", \"/edit:rebase\", because \"/edit\" is a collection, and \"/edit/{file}\" is a collection member.",
       "parentUuid": "da71a7c8_b98c1f43",
+      "range": {
+        "startLine": 110,
+        "startChar": 0,
+        "endLine": 111,
+        "endChar": 70
+      },
+      "revId": "85b17a3725180102fe7d64497c0a03bb5fa16241",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da71a7c8_d918f368",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Module.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-11-11T22:26:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a77bfc2_73a780c8",
       "range": {
         "startLine": 110,
         "startChar": 0,

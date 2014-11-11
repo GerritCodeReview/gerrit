@@ -67,6 +67,8 @@ public class BaseInit extends SiteProgram {
   protected final PluginsDistribution pluginsDistribution;
   private final List<String> pluginsToInstall;
 
+  private Injector sysInjector;
+
   protected BaseInit(PluginsDistribution pluginsDistribution,
       List<String> pluginsToInstall) {
     this.standalone = true;
@@ -108,7 +110,7 @@ public class BaseInit extends SiteProgram {
       run = createSiteRun(init);
       run.upgradeSchema();
 
-      init.initializer.postRun();
+      init.initializer.postRun(createSysInjector(init));
     } catch (Exception failure) {
       if (init.flags.deleteOnFailure) {
         recursiveDelete(getSitePath());
@@ -326,15 +328,18 @@ public class BaseInit extends SiteProgram {
   }
 
   private Injector createSysInjector(final SiteInit init) {
-    final List<Module> modules = new ArrayList<>();
-    modules.add(new AbstractModule() {
-      @Override
-      protected void configure() {
-        bind(ConsoleUI.class).toInstance(init.ui);
-        bind(InitFlags.class).toInstance(init.flags);
-      }
-    });
-    return createDbInjector(SINGLE_USER).createChildInjector(modules);
+    if (sysInjector == null) {
+      final List<Module> modules = new ArrayList<Module>();
+      modules.add(new AbstractModule() {
+        @Override
+        protected void configure() {
+          bind(ConsoleUI.class).toInstance(init.ui);
+          bind(InitFlags.class).toInstance(init.flags);
+        }
+      });
+      sysInjector = createDbInjector(SINGLE_USER).createChildInjector(modules);
+    }
+    return sysInjector;
   }
 
   private static void recursiveDelete(File path) {

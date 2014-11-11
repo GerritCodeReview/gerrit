@@ -109,12 +109,13 @@ public class SitePathInitializer {
     }
   }
 
-  public void postRun() throws Exception {
+  public void postRun(Injector injector) throws Exception {
     for (InitStep step : steps) {
       if (step instanceof InitPlugins
           && flags.skipPlugins) {
         continue;
       }
+      injector.injectMembers(step);
       step.postRun();
     }
   }

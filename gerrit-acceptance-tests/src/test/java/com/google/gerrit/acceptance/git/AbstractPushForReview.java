@@ -14,10 +14,9 @@
 
 package com.google.gerrit.acceptance.git;
 
+import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.acceptance.GitUtil.cloneProject;
-import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assume.assumeThat;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
@@ -170,9 +169,9 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     r.assertOkStatus();
     ChangeInfo ci = get(r.getChangeId());
     LabelInfo cr = ci.labels.get("Code-Review");
-    assertEquals(1, cr.all.size());
-    assertEquals("Administrator", cr.all.get(0).name);
-    assertEquals(1, cr.all.get(0).value.intValue());
+    assertThat(cr.all).hasSize(1);
+    assertThat(cr.all.get(0).name).isEqualTo("Administrator");
+    assertThat(cr.all.get(0).value.intValue()).is(1);
 
     PushOneCommit push =
         pushFactory.create(db, admin.getIdent(), PushOneCommit.SUBJECT,
@@ -181,9 +180,9 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
 
     ci = get(r.getChangeId());
     cr = ci.labels.get("Code-Review");
-    assertEquals(1, cr.all.size());
-    assertEquals("Administrator", cr.all.get(0).name);
-    assertEquals(2, cr.all.get(0).value.intValue());
+    assertThat(cr.all).hasSize(1);
+    assertThat(cr.all.get(0).name).isEqualTo("Administrator");
+    assertThat(cr.all.get(0).value.intValue()).is(2);
   }
 
   @Test
@@ -213,7 +212,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
       OrmException, IOException, RestApiException {
 
     // Hashtags currently only work when noteDB is enabled
-    assumeThat(notesMigration.enabled(), is(true));
+    assume().that(notesMigration.enabled()).isTrue();
 
     // specify a single hashtag as option
     String hashtag1 = "tag1";
@@ -223,7 +222,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     r.assertChange(Change.Status.NEW, null);
 
     Set<String> hashtags = gApi.changes().id(r.getChangeId()).getHashtags();
-    assertEquals(expected, hashtags);
+    assertThat(hashtags).containsExactlyElementsIn(expected);
 
     // specify a single hashtag as option in new patch set
     String hashtag2 = "tag2";
@@ -234,7 +233,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     r.assertOkStatus();
     expected = ImmutableSet.of(hashtag1, hashtag2);
     hashtags = gApi.changes().id(r.getChangeId()).getHashtags();
-    assertEquals(expected, hashtags);
+    assertThat(hashtags).containsExactlyElementsIn(expected);
   }
 
   @Test
@@ -242,7 +241,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
       OrmException, IOException, RestApiException {
 
     // Hashtags currently only work when noteDB is enabled
-    assumeThat(notesMigration.enabled(), is(true));
+    assume().that(notesMigration.enabled()).isTrue();
 
     // specify multiple hashtags as options
     String hashtag1 = "tag1";
@@ -254,7 +253,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     r.assertChange(Change.Status.NEW, null);
 
     Set<String> hashtags = gApi.changes().id(r.getChangeId()).getHashtags();
-    assertEquals(expected, hashtags);
+    assertThat(hashtags).containsExactlyElementsIn(expected);
 
     // specify multiple hashtags as options in new patch set
     String hashtag3 = "tag3";
@@ -267,14 +266,14 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     r.assertOkStatus();
     expected = ImmutableSet.of(hashtag1, hashtag2, hashtag3, hashtag4);
     hashtags = gApi.changes().id(r.getChangeId()).getHashtags();
-    assertEquals(expected, hashtags);
+    assertThat(hashtags).containsExactlyElementsIn(expected);
   }
 
   @Test
   public void testPushForMasterWithHashtagsNoteDbDisabled() throws GitAPIException,
       IOException {
     // push with hashtags should fail when noteDb is disabled
-    assumeThat(notesMigration.enabled(), is(false));
+    assume().that(notesMigration.enabled()).isFalse();
     PushOneCommit.Result r = pushTo("refs/for/master%hashtag=tag1");
     r.assertErrorStatus("cannot add hashtags; noteDb is disabled");
   }

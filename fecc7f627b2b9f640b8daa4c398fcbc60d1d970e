@@ -16,6 +16,64 @@
       "revId": "fecc7f627b2b9f640b8daa4c398fcbc60d1d970e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3aa1e35e_dc078d3f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NotedbIdent.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-11-11T01:13:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5ac2171f_4dcd19c4",
+      "revId": "fecc7f627b2b9f640b8daa4c398fcbc60d1d970e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3aa1e35e_fc04c93c",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/project/Util.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-11-11T01:13:23Z",
+      "side": 1,
+      "message": "Duplicated binding.",
+      "revId": "fecc7f627b2b9f640b8daa4c398fcbc60d1d970e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a77bfc2_9301fc2b",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/project/Util.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-11-11T01:13:23Z",
+      "side": 1,
+      "message": "Use nullProvider from above.",
+      "range": {
+        "startLine": 279,
+        "startChar": 22,
+        "endLine": 279,
+        "endChar": 57
+      },
+      "revId": "fecc7f627b2b9f640b8daa4c398fcbc60d1d970e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

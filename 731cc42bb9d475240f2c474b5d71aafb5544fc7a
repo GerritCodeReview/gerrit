@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "5ac2171f_0dee311c",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2674,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-11-11T11:51:00Z",
+      "side": 1,
+      "message": "yes.",
+      "parentUuid": "5ac2171f_8dea210a",
+      "revId": "731cc42bb9d475240f2c474b5d71aafb5544fc7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "da71a7c8_9986fb39",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GitReceiveMaxBatchChangesAllowGroupsProvider.java",
         "patchSetId": 1
@@ -36,6 +54,24 @@
       "writtenOn": "2014-11-11T10:00:07Z",
       "side": 1,
       "message": "The code looks great to me. But since project owners are now exempted per default, perhaps you need to add this information to the maxBatchChanges, or just remove this part to keep the default behavior.",
+      "revId": "731cc42bb9d475240f2c474b5d71aafb5544fc7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac2171f_2df3ed00",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GitReceiveMaxBatchChangesAllowGroupsProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-11-11T11:51:00Z",
+      "side": 1,
+      "message": "Done by add this information to the maxBatchChanges.",
+      "parentUuid": "da71a7c8_9986fb39",
       "revId": "731cc42bb9d475240f2c474b5d71aafb5544fc7a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

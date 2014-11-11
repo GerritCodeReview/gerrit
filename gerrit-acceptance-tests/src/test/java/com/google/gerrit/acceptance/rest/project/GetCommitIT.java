@@ -14,9 +14,8 @@
 
 package com.google.gerrit.acceptance.rest.project;
 
+import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
 
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
@@ -72,20 +71,20 @@ public class GetCommitIT extends AbstractDaemonTest {
         .create());
 
     CommitInfo info = getCommit(commit);
-    assertEquals(commit.name(), info.commit);
-    assertEquals("Create", info.subject);
-    assertEquals("Create\n\nNew commit\n", info.message);
-    assertEquals("J. Author", info.author.name);
-    assertEquals("jauthor@example.com", info.author.email);
-    assertEquals("J. Committer", info.committer.name);
-    assertEquals("jcommitter@example.com", info.committer.email);
+    assertThat(info.commit).isEqualTo(commit.name());
+    assertThat(info.subject).isEqualTo("Create");
+    assertThat(info.message).isEqualTo("Create\n\nNew commit\n");
+    assertThat(info.author.name).isEqualTo("J. Author");
+    assertThat(info.author.email).isEqualTo("jauthor@example.com");
+    assertThat(info.committer.name).isEqualTo("J. Committer");
+    assertThat(info.committer.email).isEqualTo("jcommitter@example.com");
 
     CommitInfo parent = Iterables.getOnlyElement(info.parents);
-    assertEquals(commit.getParent(0).name(), parent.commit);
-    assertEquals("Initial empty repository", parent.subject);
-    assertNull(parent.message);
-    assertNull(parent.author);
-    assertNull(parent.committer);
+    assertThat(parent.commit).isEqualTo(commit.getParent(0).name());
+    assertThat(parent.subject).isEqualTo("Initial empty repository");
+    assertThat(parent.message).isNull();
+    assertThat(parent.author).isNull();
+    assertThat(parent.committer).isNull();
   }
 
   @Test
@@ -105,21 +104,21 @@ public class GetCommitIT extends AbstractDaemonTest {
     r.assertOkStatus();
 
     CommitInfo info = getCommit(r.getCommitId());
-    assertEquals(r.getCommitId().name(), info.commit);
-    assertEquals("test commit", info.subject);
-    assertEquals("test commit\n\nChange-Id: " + r.getChangeId() + "\n",
-        info.message);
-    assertEquals("admin", info.author.name);
-    assertEquals("admin@example.com", info.author.email);
-    assertEquals("admin", info.committer.name);
-    assertEquals("admin@example.com", info.committer.email);
+    assertThat(info.commit).isEqualTo(r.getCommitId().name());
+    assertThat(info.subject).isEqualTo("test commit");
+    assertThat(info.message).isEqualTo(
+        "test commit\n\nChange-Id: " + r.getChangeId() + "\n");
+    assertThat(info.author.name).isEqualTo("admin");
+    assertThat(info.author.email).isEqualTo("admin@example.com");
+    assertThat(info.committer.name).isEqualTo("admin");
+    assertThat(info.committer.email).isEqualTo("admin@example.com");
 
     CommitInfo parent = Iterables.getOnlyElement(info.parents);
-    assertEquals(r.getCommit().getParent(0).name(), parent.commit);
-    assertEquals("Initial empty repository", parent.subject);
-    assertNull(parent.message);
-    assertNull(parent.author);
-    assertNull(parent.committer);
+    assertThat(parent.commit).isEqualTo(r.getCommit().getParent(0).name());
+    assertThat(parent.subject).isEqualTo("Initial empty repository");
+    assertThat(parent.message).isNull();
+    assertThat(parent.author).isNull();
+    assertThat(parent.committer).isNull();
   }
 
   @Test
@@ -133,13 +132,13 @@ public class GetCommitIT extends AbstractDaemonTest {
   private void assertNotFound(ObjectId id) throws Exception {
     RestResponse r = userSession.get(
         "/projects/" + project.get() + "/commits/" + id.name());
-    assertEquals(HttpStatus.SC_NOT_FOUND, r.getStatusCode());
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_NOT_FOUND);
   }
 
   private CommitInfo getCommit(ObjectId id) throws Exception {
     RestResponse r = userSession.get(
         "/projects/" + project.get() + "/commits/" + id.name());
-    assertEquals(HttpStatus.SC_OK, r.getStatusCode());
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
     CommitInfo result = newGson().fromJson(r.getReader(), CommitInfo.class);
     r.consume();
     return result;

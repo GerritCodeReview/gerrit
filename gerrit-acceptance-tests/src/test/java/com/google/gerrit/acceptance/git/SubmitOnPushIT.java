@@ -14,9 +14,7 @@
 
 package com.google.gerrit.acceptance.git;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
@@ -159,7 +157,7 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
     r.assertChange(Change.Status.MERGED, null, admin);
     Change c = Iterables.getOnlyElement(db.changes().byKey(
         new Change.Key(r.getChangeId())).toList());
-    assertEquals(2, db.patchSets().byChange(c.getId()).toList().size());
+    assertThat(db.patchSets().byChange(c.getId()).toList().size()).isEqualTo(2);
     assertSubmitApproval(r.getPatchSetId());
     assertCommit(project, "refs/heads/master");
   }
@@ -204,9 +202,9 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
         .setRefSpecs(new RefSpec(r.getCommitId().name() + ":refs/heads/master"))
         .call();
     assertCommit(project, "refs/heads/master");
-    assertNull(getSubmitter(r.getPatchSetId()));
+    assertThat(getSubmitter(r.getPatchSetId())).isNull();
     Change c = db.changes().get(r.getPatchSetId().getParentKey());
-    assertEquals(Change.Status.MERGED, c.getStatus());
+    assertThat(c.getStatus()).isEqualTo(Change.Status.MERGED);
   }
 
   private PatchSetApproval getSubmitter(PatchSet.Id patchSetId)
@@ -218,9 +216,9 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
 
   private void assertSubmitApproval(PatchSet.Id patchSetId) throws OrmException {
     PatchSetApproval a = getSubmitter(patchSetId);
-    assertTrue(a.isSubmit());
-    assertEquals(1, a.getValue());
-    assertEquals(admin.id, a.getAccountId());
+    assertThat(a.isSubmit()).isTrue();
+    assertThat(a.getValue()).isEqualTo((short) 1);
+    assertThat(a.getAccountId()).isEqualTo(admin.id);
   }
 
   private void assertCommit(Project.NameKey project, String branch) throws IOException {
@@ -229,9 +227,10 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
       RevWalk rw = new RevWalk(r);
       try {
         RevCommit c = rw.parseCommit(r.getRef(branch).getObjectId());
-        assertEquals(PushOneCommit.SUBJECT, c.getShortMessage());
-        assertEquals(admin.email, c.getAuthorIdent().getEmailAddress());
-        assertEquals(admin.email, c.getCommitterIdent().getEmailAddress());
+        assertThat(c.getShortMessage()).isEqualTo(PushOneCommit.SUBJECT);
+        assertThat(c.getAuthorIdent().getEmailAddress()).isEqualTo(admin.email);
+        assertThat(c.getCommitterIdent().getEmailAddress()).isEqualTo(
+            admin.email);
       } finally {
         rw.release();
       }
@@ -246,10 +245,11 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
       RevWalk rw = new RevWalk(r);
       try {
         RevCommit c = rw.parseCommit(r.getRef(branch).getObjectId());
-        assertEquals(2, c.getParentCount());
-        assertEquals("Merge \"" + subject + "\"", c.getShortMessage());
-        assertEquals(admin.email, c.getAuthorIdent().getEmailAddress());
-        assertEquals(serverIdent.getEmailAddress(), c.getCommitterIdent().getEmailAddress());
+        assertThat(c.getParentCount()).isEqualTo(2);
+        assertThat(c.getShortMessage()).isEqualTo("Merge \"" + subject + "\"");
+        assertThat(c.getAuthorIdent().getEmailAddress()).isEqualTo(admin.email);
+        assertThat(c.getCommitterIdent().getEmailAddress()).isEqualTo(
+            serverIdent.getEmailAddress());
       } finally {
         rw.release();
       }
@@ -263,17 +263,18 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
     Repository repo = repoManager.openRepository(project);
     try {
       Ref tagRef = repo.getRef(tag.name);
-      assertTrue(tagRef != null);
+      assertThat(tagRef).isNotNull();
       ObjectId taggedCommit = null;
       if (tag instanceof PushOneCommit.AnnotatedTag) {
         PushOneCommit.AnnotatedTag annotatedTag = (PushOneCommit.AnnotatedTag)tag;
         RevWalk rw = new RevWalk(repo);
         try {
           RevObject object = rw.parseAny(tagRef.getObjectId());
-          assertTrue(object instanceof RevTag);
-          RevTag tagObject = (RevTag)object;
-          assertEquals(annotatedTag.message, tagObject.getFullMessage());
-          assertEquals(annotatedTag.tagger, tagObject.getTaggerIdent());
+          assertThat(object).isInstanceOf(RevTag.class);
+          RevTag tagObject = (RevTag) object;
+          assertThat(tagObject.getFullMessage())
+              .isEqualTo(annotatedTag.message);
+          assertThat(tagObject.getTaggerIdent()).isEqualTo(annotatedTag.tagger);
           taggedCommit = tagObject.getObject();
         } finally {
           rw.dispose();
@@ -282,8 +283,8 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
         taggedCommit = tagRef.getObjectId();
       }
       ObjectId headCommit = repo.getRef(branch).getObjectId();
-      assertTrue(taggedCommit != null);
-      assertEquals(headCommit, taggedCommit);
+      assertThat(taggedCommit).isNotNull();
+      assertThat(taggedCommit).isEqualTo(headCommit);
     } finally {
       repo.close();
     }

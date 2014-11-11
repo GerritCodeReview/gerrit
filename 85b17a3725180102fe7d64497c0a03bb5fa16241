@@ -103,6 +103,30 @@
       "revId": "85b17a3725180102fe7d64497c0a03bb5fa16241",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da71a7c8_b98c1f43",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Module.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-11-11T20:08:24Z",
+      "side": 1,
+      "message": "Yes, it was colliding with existing /message endpoint, that we deprecate in follow-up change, but still going to support for future releases.  That why we decided to use edit_foo. The same applies for publish and rebase. But if we can agree on consistent and unique naming convention, we can just rename the endpoints, as we explicitly mentioned that change edit REST endpoints API is considered to be experimental and subject to be changed without notice.",
+      "parentUuid": "1a77bfc2_f3ab9096",
+      "range": {
+        "startLine": 110,
+        "startChar": 0,
+        "endLine": 111,
+        "endChar": 70
+      },
+      "revId": "85b17a3725180102fe7d64497c0a03bb5fa16241",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

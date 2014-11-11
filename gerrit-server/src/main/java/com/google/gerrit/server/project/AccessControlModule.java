@@ -18,6 +18,8 @@ import static com.google.inject.Scopes.SINGLETON;
 
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.config.FactoryModule;
+import com.google.gerrit.server.config.GitReceiveMaxBatchChangesAllowGroups;
+import com.google.gerrit.server.config.GitReceiveMaxBatchChangesAllowGroupsProvider;
 import com.google.gerrit.server.config.GitReceivePackGroups;
 import com.google.gerrit.server.config.GitReceivePackGroupsProvider;
 import com.google.gerrit.server.config.GitUploadPackGroups;
@@ -36,6 +38,11 @@ public class AccessControlModule extends FactoryModule {
     bind(new TypeLiteral<Set<AccountGroup.UUID>>() {}) //
         .annotatedWith(GitReceivePackGroups.class) //
         .toProvider(GitReceivePackGroupsProvider.class).in(SINGLETON);
+
+    bind(new TypeLiteral<Set<AccountGroup.UUID>>() {})
+        .annotatedWith(GitReceiveMaxBatchChangesAllowGroups.class)
+        .toProvider(GitReceiveMaxBatchChangesAllowGroupsProvider.class)
+        .in(SINGLETON);
 
     factory(ChangeControl.AssistedFactory.class);
     factory(ProjectControl.AssistedFactory.class);

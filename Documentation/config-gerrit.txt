@@ -2658,12 +2658,29 @@ Common unit suffixes of 'k', 'm', or 'g' are supported.
 +
 The maximum number of changes that Gerrit allows to be pushed
 in a batch for review. When this number is exceeded Gerrit rejects
-the push with an error message.
+the push with an error message, except for users specified by
+`receive.maxBatchChangesAllowGroup`.
 
 This setting can be used to prevent users from uploading large
 number of changes for review by mistake.
 
 Default is zero, no limit.
+
+[[receive.maxBatchChangesAllowGroup]]receive.maxBatchChangesAllowGroup::
++
+Name of the groups of users that are free from the limitation of
+'MaxBatchChanges' to receive batch changes on the server. One or
+more groups can be set.
++
+If no groups are added, 'Project Owners' will be the default user.
+
+----
+[receive]
+  maxBatchChangesAllowGroup = GROUP_NAME
+  maxBatchChangesAllowGroup = ldap/LDAP_GROUP_NAME
+  maxBatchChangesAllowGroup = ldap:LDAP-GROUP_DN
+  maxBatchChanges = 10
+----
 
 [[receive.threadPoolSize]]receive.threadPoolSize::
 +

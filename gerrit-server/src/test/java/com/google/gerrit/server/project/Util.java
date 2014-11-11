@@ -325,6 +325,7 @@ public class Util {
     String canonicalWebUrl = "http://localhost";
 
     return new ProjectControl(Collections.<AccountGroup.UUID> emptySet(),
+        Collections.<AccountGroup.UUID> emptySet(),
         Collections.<AccountGroup.UUID> emptySet(), projectCache,
         sectionSorter, repoManager, changeControlFactory, null, null,
         canonicalWebUrl, new MockUser(name, memberOf), newProjectState(local));

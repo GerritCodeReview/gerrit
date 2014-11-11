@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a77bfc2_33ca687b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeEdits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 496,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-11-11T19:52:24Z",
+      "side": 1,
+      "message": "BinaryResult",
+      "range": {
+        "startLine": 496,
+        "startChar": 11,
+        "endLine": 496,
+        "endChar": 17
+      },
+      "revId": "85b17a3725180102fe7d64497c0a03bb5fa16241",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3aa1e35e_3c4f9184",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeEdits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 501,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-11-11T19:52:24Z",
+      "side": 1,
+      "message": "Oooh. That is... confusing.\n\nWith no edit present, we return the current revision\u0027s message, matching /change/{id}/revisions/current/message. But if an edit exists, we return your private edit message.\n\nI don\u0027t like that magical approach. I would prefer to have the REST API return your private edit message, or 404 if you don\u0027t have an edit.\n\nI guess cramming some of the edit endpoints under /changes/{id}/blah is proving to be a confusing context.",
+      "revId": "85b17a3725180102fe7d64497c0a03bb5fa16241",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a77bfc2_d3ae94a9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeEdits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 502,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-11-11T19:52:24Z",
+      "side": 1,
+      "message": "return BinaryResult.create(m).base64();",
+      "revId": "85b17a3725180102fe7d64497c0a03bb5fa16241",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a77bfc2_13c5ec69",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Module.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-11-11T19:52:24Z",
+      "side": 1,
+      "message": "I disagree with calling these edit_message. I think it should be /message.",
+      "range": {
+        "startLine": 110,
+        "startChar": 0,
+        "endLine": 111,
+        "endChar": 70
+      },
+      "revId": "85b17a3725180102fe7d64497c0a03bb5fa16241",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

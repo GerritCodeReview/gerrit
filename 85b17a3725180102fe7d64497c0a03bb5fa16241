@@ -79,6 +79,30 @@
       "revId": "85b17a3725180102fe7d64497c0a03bb5fa16241",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a77bfc2_f3ab9096",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Module.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-11-11T20:03:44Z",
+      "side": 1,
+      "message": "Ugh, I forgot how RestApiServlet makes this a challenge.\n\nWhat about\n\n  {GET,PUT} /changes/{id}/edit:message\n\n? I think that would just work as a binding of \"edit:message\" in the module.\n\nOf course then I\u0027m inclined to think about renaming /publish_edit and /rebase_edit as /edit:publish and /edit:rebase.",
+      "parentUuid": "1a77bfc2_13c5ec69",
+      "range": {
+        "startLine": 110,
+        "startChar": 0,
+        "endLine": 111,
+        "endChar": 70
+      },
+      "revId": "85b17a3725180102fe7d64497c0a03bb5fa16241",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

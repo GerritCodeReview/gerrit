@@ -14,12 +14,10 @@
 
 package com.google.gerrit.acceptance.rest.project;
 
+import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.GitUtil.add;
 import static com.google.gerrit.acceptance.GitUtil.createCommit;
 import static com.google.gerrit.acceptance.GitUtil.pushHead;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
 
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
@@ -42,14 +40,15 @@ public class BanCommitIT extends AbstractDaemonTest {
     RestResponse r =
         adminSession.put("/projects/" + project.get() + "/ban/",
             BanCommit.Input.fromCommits(c.getCommit().getName()));
-    assertEquals(HttpStatus.SC_OK, r.getStatusCode());
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
     BanResultInfo info = newGson().fromJson(r.getReader(), BanResultInfo.class);
-    assertEquals(c.getCommit().getName(), Iterables.getOnlyElement(info.newlyBanned));
-    assertNull(info.alreadyBanned);
-    assertNull(info.ignored);
+    assertThat(Iterables.getOnlyElement(info.newlyBanned))
+      .isEqualTo(c.getCommit().getName());
+    assertThat(info.alreadyBanned).isNull();
+    assertThat(info.ignored).isNull();
 
     PushResult pushResult = pushHead(git, "refs/heads/master", false);
-    assertTrue(pushResult.getRemoteUpdate("refs/heads/master").getMessage()
+    assertThat(pushResult.getRemoteUpdate("refs/heads/master").getMessage()
         .startsWith("contains banned commit"));
   }
 
@@ -62,11 +61,12 @@ public class BanCommitIT extends AbstractDaemonTest {
 
     r = adminSession.put("/projects/" + project.get() + "/ban/",
         BanCommit.Input.fromCommits("a8a477efffbbf3b44169bb9a1d3a334cbbd9aa96"));
-    assertEquals(HttpStatus.SC_OK, r.getStatusCode());
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
     BanResultInfo info = newGson().fromJson(r.getReader(), BanResultInfo.class);
-    assertEquals("a8a477efffbbf3b44169bb9a1d3a334cbbd9aa96", Iterables.getOnlyElement(info.alreadyBanned));
-    assertNull(info.newlyBanned);
-    assertNull(info.ignored);
+    assertThat(Iterables.getOnlyElement(info.alreadyBanned))
+      .isEqualTo("a8a477efffbbf3b44169bb9a1d3a334cbbd9aa96");
+    assertThat(info.newlyBanned).isNull();
+    assertThat(info.ignored).isNull();
   }
 
   @Test
@@ -74,6 +74,6 @@ public class BanCommitIT extends AbstractDaemonTest {
     RestResponse r =
         userSession.put("/projects/" + project.get() + "/ban/",
             BanCommit.Input.fromCommits("a8a477efffbbf3b44169bb9a1d3a334cbbd9aa96"));
-    assertEquals(HttpStatus.SC_FORBIDDEN, r.getStatusCode());
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_FORBIDDEN);
   }
 }

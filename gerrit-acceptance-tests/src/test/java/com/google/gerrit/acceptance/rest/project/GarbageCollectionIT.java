@@ -14,8 +14,8 @@
 
 package com.google.gerrit.acceptance.rest.project;
 
+import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.GitUtil.createProject;
-import static org.junit.Assert.assertEquals;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GcAssert;
@@ -45,20 +45,22 @@ public class GarbageCollectionIT extends AbstractDaemonTest {
 
   @Test
   public void testGcNonExistingProject_NotFound() throws Exception {
-    assertEquals(HttpStatus.SC_NOT_FOUND, POST("/projects/non-existing/gc"));
+    assertThat(POST("/projects/non-existing/gc")).isEqualTo(
+        HttpStatus.SC_NOT_FOUND);
   }
 
   @Test
   public void testGcNotAllowed_Forbidden() throws Exception {
-    assertEquals(HttpStatus.SC_FORBIDDEN,
+    assertThat(
         userSession.post("/projects/" + allProjects.get() + "/gc")
-            .getStatusCode());
+            .getStatusCode()).isEqualTo(HttpStatus.SC_FORBIDDEN);
   }
 
   @Test
   @UseLocalDisk
   public void testGcOneProject() throws Exception {
-    assertEquals(HttpStatus.SC_OK, POST("/projects/" + allProjects.get() + "/gc"));
+    assertThat(POST("/projects/" + allProjects.get() + "/gc")).isEqualTo(
+        HttpStatus.SC_OK);
     gcAssert.assertHasPackFile(allProjects);
     gcAssert.assertHasNoPackFile(project, project2);
   }

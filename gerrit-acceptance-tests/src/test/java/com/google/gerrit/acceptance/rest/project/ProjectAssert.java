@@ -14,9 +14,7 @@
 
 package com.google.gerrit.acceptance.rest.project;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.base.Predicate;
 import com.google.common.base.Strings;
@@ -42,29 +40,33 @@ public class ProjectAssert {
           return new Project.NameKey(info.name != null ? info.name : Url
               .decode(info.id)).equals(p);
         }}, null);
-      assertNotNull("missing project: " + p, info);
+      assertThat(info).isNotNull();
       actual.remove(info);
     }
-    assertTrue("unexpected projects: " + actual, actual.isEmpty());
+    assertThat(actual.isEmpty()).isTrue();
   }
 
   public static void assertProjectInfo(Project project, ProjectInfo info) {
     if (info.name != null) {
       // 'name' is not set if returned in a map
-      assertEquals(project.getName(), info.name);
+      assertThat(info.name).isEqualTo(project.getName());
     }
-    assertEquals(project.getName(), Url.decode(info.id));
+    assertThat(Url.decode(info.id)).isEqualTo(project.getName());
     Project.NameKey parentName = project.getParent(new Project.NameKey("All-Projects"));
-    assertEquals(parentName != null ? parentName.get() : null, info.parent);
-    assertEquals(project.getDescription(), Strings.nullToEmpty(info.description));
+    if (parentName != null) {
+      assertThat(info.parent).isEqualTo(parentName.get());
+    } else {
+      assertThat(info.parent).isNull();
+    }
+    assertThat(Strings.nullToEmpty(info.description)).isEqualTo(
+        project.getDescription());
   }
 
   public static void assertProjectOwners(Set<AccountGroup.UUID> expectedOwners,
       ProjectState state) {
     for (AccountGroup.UUID g : state.getOwners()) {
-      assertTrue("unexpected owner group " + g, expectedOwners.remove(g));
+      assertThat(expectedOwners.remove(g)).isTrue();
     }
-    assertTrue("missing owner groups: " + expectedOwners,
-        expectedOwners.isEmpty());
+    assertThat(expectedOwners.isEmpty()).isTrue();
   }
 }

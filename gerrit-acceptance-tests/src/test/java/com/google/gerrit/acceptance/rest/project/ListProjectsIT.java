@@ -14,11 +14,9 @@
 
 package com.google.gerrit.acceptance.rest.project;
 
+import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.GitUtil.createProject;
 import static com.google.gerrit.acceptance.rest.project.ProjectAssert.assertProjects;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
@@ -47,7 +45,7 @@ public class ListProjectsIT extends AbstractDaemonTest {
     createProject(sshSession, someProject.get());
 
     RestResponse r = GET("/projects/");
-    assertEquals(HttpStatus.SC_OK, r.getStatusCode());
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
     Map<String, ProjectInfo> result = toProjectInfoMap(r);
     assertProjects(Arrays.asList(allUsers, someProject, project),
         result.values());
@@ -56,12 +54,12 @@ public class ListProjectsIT extends AbstractDaemonTest {
   @Test
   public void listProjectsWithBranch() throws Exception {
     RestResponse r = GET("/projects/?b=master");
-    assertEquals(HttpStatus.SC_OK, r.getStatusCode());
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
     Map<String, ProjectInfo> result = toProjectInfoMap(r);
-    assertNotNull(result.get(project.get()));
-    assertNotNull(result.get(project.get()).branches);
-    assertEquals(1, result.get(project.get()).branches.size());
-    assertNotNull(result.get(project.get()).branches.get("master"));
+    assertThat(result.get(project.get())).isNotNull();
+    assertThat(result.get(project.get()).branches).isNotNull();
+    assertThat(result.get(project.get()).branches.size()).isEqualTo(1);
+    assertThat(result.get(project.get()).branches.get("master")).isNotNull();
   }
 
   @Test
@@ -73,17 +71,17 @@ public class ListProjectsIT extends AbstractDaemonTest {
 
     // description not be included in the results by default.
     RestResponse r = GET("/projects/");
-    assertEquals(HttpStatus.SC_OK, r.getStatusCode());
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
     Map<String, ProjectInfo> result = toProjectInfoMap(r);
-    assertNotNull(result.get(projectInput.name));
-    assertNull(result.get(projectInput.name).description);
+    assertThat(result.get(projectInput.name)).isNotNull();
+    assertThat(result.get(projectInput.name).description).isNull();
 
     r = GET("/projects/?d");
-    assertEquals(HttpStatus.SC_OK, r.getStatusCode());
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
     result = toProjectInfoMap(r);
-    assertNotNull(result.get(projectInput.name));
-    assertEquals(projectInput.description,
-        result.get(projectInput.name).description);
+    assertThat(result.get(projectInput.name)).isNotNull();
+    assertThat(result.get(projectInput.name).description).isEqualTo(
+        projectInput.description);
   }
 
   @Test
@@ -93,15 +91,15 @@ public class ListProjectsIT extends AbstractDaemonTest {
     }
 
     RestResponse r = GET("/projects/");
-    assertEquals(HttpStatus.SC_OK, r.getStatusCode());
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
     Map<String, ProjectInfo> result = toProjectInfoMap(r);
-    assertEquals(7, result.size()); // 5 plus 2 existing projects: p and
-                                    // All-Users
+    assertThat(result.size()).isEqualTo(7); // 5 plus 2 existing projects: p and
+                                            // All-Users
 
     r = GET("/projects/?n=2");
-    assertEquals(HttpStatus.SC_OK, r.getStatusCode());
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
     result = toProjectInfoMap(r);
-    assertEquals(2, result.size());
+    assertThat(result.size()).isEqualTo(2);
   }
 
   @Test
@@ -114,13 +112,13 @@ public class ListProjectsIT extends AbstractDaemonTest {
     Project.NameKey projectAwesome = new Project.NameKey("project-awesome");
     createProject(sshSession, projectAwesome.get());
 
-    assertEquals(HttpStatus.SC_BAD_REQUEST,
-        GET("/projects/?p=some&r=.*").getStatusCode());
-    assertEquals(HttpStatus.SC_BAD_REQUEST,
-        GET("/projects/?p=some&m=some").getStatusCode());
+    assertThat(GET("/projects/?p=some&r=.*").getStatusCode()).isEqualTo(
+        HttpStatus.SC_BAD_REQUEST);
+    assertThat(GET("/projects/?p=some&m=some").getStatusCode()).isEqualTo(
+        HttpStatus.SC_BAD_REQUEST);
 
     RestResponse r = GET("/projects/?p=some");
-    assertEquals(HttpStatus.SC_OK, r.getStatusCode());
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
     Map<String, ProjectInfo> result = toProjectInfoMap(r);
     assertProjects(Arrays.asList(someProject, someOtherProject),
         result.values());
@@ -136,25 +134,25 @@ public class ListProjectsIT extends AbstractDaemonTest {
     Project.NameKey projectAwesome = new Project.NameKey("project-awesome");
     createProject(sshSession, projectAwesome.get());
 
-    assertEquals(HttpStatus.SC_BAD_REQUEST,
-        GET("/projects/?r=[.*some").getStatusCode());
-    assertEquals(HttpStatus.SC_BAD_REQUEST,
-        GET("/projects/?r=.*&p=s").getStatusCode());
-    assertEquals(HttpStatus.SC_BAD_REQUEST,
-        GET("/projects/?r=.*&m=s").getStatusCode());
+    assertThat(GET("/projects/?r=[.*some").getStatusCode()).isEqualTo(
+        HttpStatus.SC_BAD_REQUEST);
+    assertThat(GET("/projects/?r=.*&p=s").getStatusCode()).isEqualTo(
+        HttpStatus.SC_BAD_REQUEST);
+    assertThat(GET("/projects/?r=.*&m=s").getStatusCode()).isEqualTo(
+        HttpStatus.SC_BAD_REQUEST);
 
     RestResponse r = GET("/projects/?r=.*some");
-    assertEquals(HttpStatus.SC_OK, r.getStatusCode());
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
     Map<String, ProjectInfo> result = toProjectInfoMap(r);
     assertProjects(Arrays.asList(projectAwesome), result.values());
 
     r = GET("/projects/?r=some-project$");
-    assertEquals(HttpStatus.SC_OK, r.getStatusCode());
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
     result = toProjectInfoMap(r);
     assertProjects(Arrays.asList(someProject), result.values());
 
     r = GET("/projects/?r=.*");
-    assertEquals(HttpStatus.SC_OK, r.getStatusCode());
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
     result = toProjectInfoMap(r);
     assertProjects(Arrays.asList(someProject, someOtherProject, projectAwesome,
         project, allUsers), result.values());
@@ -167,15 +165,15 @@ public class ListProjectsIT extends AbstractDaemonTest {
     }
 
     RestResponse r = GET("/projects/");
-    assertEquals(HttpStatus.SC_OK, r.getStatusCode());
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
     Map<String, ProjectInfo> result = toProjectInfoMap(r);
-    assertEquals(7, result.size()); // 5 plus 2 existing projects: p and
-                                    // All-Users
+    assertThat(result.size()).isEqualTo(7); // 5 plus 2 existing projects: p and
+                                            // All-Users
 
     r = GET("/projects/?S=6");
-    assertEquals(HttpStatus.SC_OK, r.getStatusCode());
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
     result = toProjectInfoMap(r);
-    assertEquals(1, result.size());
+    assertThat(result.size()).isEqualTo(1);
   }
 
   @Test
@@ -188,13 +186,13 @@ public class ListProjectsIT extends AbstractDaemonTest {
     Project.NameKey projectAwesome = new Project.NameKey("project-awesome");
     createProject(sshSession, projectAwesome.get());
 
-    assertEquals(HttpStatus.SC_BAD_REQUEST,
-        GET("/projects/?m=some&r=.*").getStatusCode());
-    assertEquals(HttpStatus.SC_BAD_REQUEST,
-        GET("/projects/?m=some&p=some").getStatusCode());
+    assertThat(GET("/projects/?m=some&r=.*").getStatusCode()).isEqualTo(
+        HttpStatus.SC_BAD_REQUEST);
+    assertThat(GET("/projects/?m=some&p=some").getStatusCode()).isEqualTo(
+        HttpStatus.SC_BAD_REQUEST);
 
     RestResponse r = GET("/projects/?m=some");
-    assertEquals(HttpStatus.SC_OK, r.getStatusCode());
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
     Map<String, ProjectInfo> result = toProjectInfoMap(r);
     assertProjects(
         Arrays.asList(someProject, someOtherProject, projectAwesome),
@@ -211,25 +209,25 @@ public class ListProjectsIT extends AbstractDaemonTest {
     createProject(sshSession, someChildProject.get(), someParentProject);
 
     RestResponse r = GET("/projects/?tree");
-    assertEquals(HttpStatus.SC_OK, r.getStatusCode());
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
     Map<String, ProjectInfo> result = toProjectInfoMap(r);
-    assertNotNull(result.get(someChildProject.get()));
-    assertEquals(someParentProject.get(),
-        result.get(someChildProject.get()).parent);
+    assertThat(result.get(someChildProject.get())).isNotNull();
+    assertThat(result.get(someChildProject.get()).parent).isEqualTo(
+        someParentProject.get());
   }
 
   @Test
   public void listProjectWithType() throws Exception {
     RestResponse r = GET("/projects/?type=PERMISSIONS");
-    assertEquals(HttpStatus.SC_OK, r.getStatusCode());
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
     Map<String, ProjectInfo> result = toProjectInfoMap(r);
-    assertEquals(1, result.size());
-    assertNotNull(result.get(allProjects.get()));
+    assertThat(result.size()).isEqualTo(1);
+    assertThat(result.get(allProjects.get())).isNotNull();
 
     r = GET("/projects/?type=ALL");
-    assertEquals(HttpStatus.SC_OK, r.getStatusCode());
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
     result = toProjectInfoMap(r);
-    assertEquals(3, result.size());
+    assertThat(result.size()).isEqualTo(3);
     assertProjects(Arrays.asList(allProjects, allUsers, project),
         result.values());
   }

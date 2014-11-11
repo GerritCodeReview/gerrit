@@ -14,9 +14,9 @@
 
 package com.google.gerrit.acceptance.rest.project;
 
+import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.GitUtil.createProject;
 import static com.google.gerrit.acceptance.rest.project.ProjectAssert.assertProjectInfo;
-import static org.junit.Assert.assertEquals;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
@@ -33,8 +33,9 @@ public class GetChildProjectIT extends AbstractDaemonTest {
 
   @Test
   public void getNonExistingChildProject_NotFound() throws Exception {
-    assertEquals(HttpStatus.SC_NOT_FOUND,
-        GET("/projects/" + allProjects.get() + "/children/non-existing").getStatusCode());
+    assertThat(
+        GET("/projects/" + allProjects.get() + "/children/non-existing")
+            .getStatusCode()).isEqualTo(HttpStatus.SC_NOT_FOUND);
   }
 
   @Test
@@ -45,8 +46,9 @@ public class GetChildProjectIT extends AbstractDaemonTest {
     Project.NameKey p2 = new Project.NameKey("p2");
     createProject(sshSession, p2.get());
     sshSession.close();
-    assertEquals(HttpStatus.SC_NOT_FOUND,
-        GET("/projects/" + p1.get() + "/children/" + p2.get()).getStatusCode());
+    assertThat(
+        GET("/projects/" + p1.get() + "/children/" + p2.get()).getStatusCode())
+        .isEqualTo(HttpStatus.SC_NOT_FOUND);
   }
 
   @Test
@@ -55,8 +57,9 @@ public class GetChildProjectIT extends AbstractDaemonTest {
     Project.NameKey child = new Project.NameKey("p1");
     createProject(sshSession, child.get());
     sshSession.close();
-    RestResponse r = GET("/projects/" + allProjects.get() + "/children/" + child.get());
-    assertEquals(HttpStatus.SC_OK, r.getStatusCode());
+    RestResponse r =
+        GET("/projects/" + allProjects.get() + "/children/" + child.get());
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
     ProjectInfo childInfo =
         newGson().fromJson(r.getReader(), ProjectInfo.class);
     assertProjectInfo(projectCache.get(child).getProject(), childInfo);
@@ -70,9 +73,9 @@ public class GetChildProjectIT extends AbstractDaemonTest {
     Project.NameKey grandChild = new Project.NameKey("p1.1");
     createProject(sshSession, grandChild.get(), child);
     sshSession.close();
-    assertEquals(HttpStatus.SC_NOT_FOUND,
+    assertThat(
         GET("/projects/" + allProjects.get() + "/children/" + grandChild.get())
-            .getStatusCode());
+            .getStatusCode()).isEqualTo(HttpStatus.SC_NOT_FOUND);
   }
 
   @Test
@@ -86,7 +89,7 @@ public class GetChildProjectIT extends AbstractDaemonTest {
     RestResponse r =
         GET("/projects/" + allProjects.get() + "/children/" + grandChild.get()
             + "?recursive");
-    assertEquals(HttpStatus.SC_OK, r.getStatusCode());
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
     ProjectInfo grandChildInfo =
         newGson().fromJson(r.getReader(), ProjectInfo.class);
     assertProjectInfo(projectCache.get(grandChild).getProject(), grandChildInfo);

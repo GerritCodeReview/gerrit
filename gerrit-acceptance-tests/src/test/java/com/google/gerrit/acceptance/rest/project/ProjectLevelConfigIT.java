@@ -14,10 +14,10 @@
 
 package com.google.gerrit.acceptance.rest.project;
 
+import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.GitUtil.checkout;
 import static com.google.gerrit.acceptance.GitUtil.cloneProject;
 import static com.google.gerrit.acceptance.GitUtil.fetch;
-import static org.junit.Assert.assertEquals;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
@@ -48,13 +48,14 @@ public class ProjectLevelConfigIT extends AbstractDaemonTest {
     push.to(git, RefNames.REFS_CONFIG);
 
     ProjectState state = projectCache.get(project);
-    assertEquals(cfg.toText(), state.getConfig(configName).get().toText());
+    assertThat(state.getConfig(configName).get().toText()).isEqualTo(
+        cfg.toText());
   }
 
   @Test
   public void nonExistingConfig() {
     ProjectState state = projectCache.get(project);
-    assertEquals("", state.getConfig("test.config").get().toText());
+    assertThat(state.getConfig("test.config").get().toText()).isEqualTo("");
   }
 
   @Test
@@ -91,9 +92,10 @@ public class ProjectLevelConfigIT extends AbstractDaemonTest {
     expectedCfg.setString("s2", "ss", "k3", "childValue2");
     expectedCfg.setString("s2", "ss", "k4", "parentValue4");
 
-    assertEquals(expectedCfg.toText(), state.getConfig(configName)
-        .getWithInheritance().toText());
+    assertThat(state.getConfig(configName).getWithInheritance().toText())
+        .isEqualTo(expectedCfg.toText());
 
-    assertEquals(cfg.toText(), state.getConfig(configName).get().toText());
+    assertThat(state.getConfig(configName).get().toText()).isEqualTo(
+        cfg.toText());
   }
 }

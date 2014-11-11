@@ -14,11 +14,9 @@
 
 package com.google.gerrit.acceptance.rest.project;
 
+import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.rest.project.ProjectAssert.assertProjectInfo;
 import static com.google.gerrit.acceptance.rest.project.ProjectAssert.assertProjectOwners;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
@@ -52,9 +50,9 @@ public class CreateProjectIT extends AbstractDaemonTest {
   public void testCreateProjectApi() throws Exception {
     final String newProjectName = "newProject";
     ProjectInfo p = gApi.projects().name(newProjectName).create().get();
-    assertEquals(newProjectName, p.name);
+    assertThat(p.name).isEqualTo(newProjectName);
     ProjectState projectState = projectCache.get(new Project.NameKey(newProjectName));
-    assertNotNull(projectState);
+    assertThat(projectState).isNotNull();
     assertProjectInfo(projectState.getProject(), p);
     assertHead(newProjectName, "refs/heads/master");
   }
@@ -63,11 +61,11 @@ public class CreateProjectIT extends AbstractDaemonTest {
   public void testCreateProject() throws Exception {
     final String newProjectName = "newProject";
     RestResponse r = adminSession.put("/projects/" + newProjectName);
-    assertEquals(HttpStatus.SC_CREATED, r.getStatusCode());
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_CREATED);
     ProjectInfo p = newGson().fromJson(r.getReader(), ProjectInfo.class);
-    assertEquals(newProjectName, p.name);
+    assertThat(p.name).isEqualTo(newProjectName);
     ProjectState projectState = projectCache.get(new Project.NameKey(newProjectName));
-    assertNotNull(projectState);
+    assertThat(projectState).isNotNull();
     assertProjectInfo(projectState.getProject(), p);
     assertHead(newProjectName, "refs/heads/master");
   }
@@ -77,7 +75,7 @@ public class CreateProjectIT extends AbstractDaemonTest {
     ProjectInput in = new ProjectInput();
     in.name = "otherName";
     RestResponse r = adminSession.put("/projects/someName", in);
-    assertEquals(HttpStatus.SC_BAD_REQUEST, r.getStatusCode());
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_BAD_REQUEST);
   }
 
   @Test
@@ -92,15 +90,15 @@ public class CreateProjectIT extends AbstractDaemonTest {
     in.requireChangeId = InheritableBoolean.TRUE;
     RestResponse r = adminSession.put("/projects/" + newProjectName, in);
     ProjectInfo p = newGson().fromJson(r.getReader(), ProjectInfo.class);
-    assertEquals(newProjectName, p.name);
+    assertThat(p.name).isEqualTo(newProjectName);
     Project project = projectCache.get(new Project.NameKey(newProjectName)).getProject();
     assertProjectInfo(project, p);
-    assertEquals(in.description, project.getDescription());
-    assertEquals(in.submitType, project.getSubmitType());
-    assertEquals(in.useContributorAgreements, project.getUseContributorAgreements());
-    assertEquals(in.useSignedOffBy, project.getUseSignedOffBy());
-    assertEquals(in.useContentMerge, project.getUseContentMerge());
-    assertEquals(in.requireChangeId, project.getRequireChangeID());
+    assertThat(project.getDescription()).isEqualTo(in.description);
+    assertThat(project.getSubmitType()).isEqualTo(in.submitType);
+    assertThat(project.getUseContributorAgreements()).isEqualTo(in.useContributorAgreements);
+    assertThat(project.getUseSignedOffBy()).isEqualTo(in.useSignedOffBy);
+    assertThat(project.getUseContentMerge()).isEqualTo(in.useContentMerge);
+    assertThat(project.getRequireChangeID()).isEqualTo(in.requireChangeId);
   }
 
   @Test
@@ -113,7 +111,7 @@ public class CreateProjectIT extends AbstractDaemonTest {
     in.parent = parentName;
     r = adminSession.put("/projects/" + childName, in);
     Project project = projectCache.get(new Project.NameKey(childName)).getProject();
-    assertEquals(in.parent, project.getParentName());
+    assertThat(project.getParentName()).isEqualTo(in.parent);
   }
 
   @Test
@@ -122,7 +120,7 @@ public class CreateProjectIT extends AbstractDaemonTest {
     ProjectInput in = new ProjectInput();
     in.parent = "non-existing-project";
     RestResponse r = adminSession.put("/projects/child", in);
-    assertEquals(HttpStatus.SC_UNPROCESSABLE_ENTITY, r.getStatusCode());
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_UNPROCESSABLE_ENTITY);
   }
 
   @Test
@@ -149,7 +147,7 @@ public class CreateProjectIT extends AbstractDaemonTest {
     ProjectInput in = new ProjectInput();
     in.owners = Collections.singletonList("non-existing-group");
     RestResponse r = adminSession.put("/projects/newProject", in);
-    assertEquals(HttpStatus.SC_UNPROCESSABLE_ENTITY, r.getStatusCode());
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_UNPROCESSABLE_ENTITY);
   }
 
   @Test
@@ -188,14 +186,14 @@ public class CreateProjectIT extends AbstractDaemonTest {
   @Test
   public void testCreateProjectWithoutCapability_Forbidden() throws Exception {
     RestResponse r = userSession.put("/projects/newProject");
-    assertEquals(HttpStatus.SC_FORBIDDEN, r.getStatusCode());
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_FORBIDDEN);
   }
 
   @Test
   public void testCreateProjectWhenProjectAlreadyExists_Conflict()
       throws Exception {
     RestResponse r = adminSession.put("/projects/All-Projects");
-    assertEquals(HttpStatus.SC_CONFLICT, r.getStatusCode());
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_CONFLICT);
   }
 
   private AccountGroup.UUID groupUuid(String groupName) {
@@ -207,8 +205,8 @@ public class CreateProjectIT extends AbstractDaemonTest {
     Repository repo =
         repoManager.openRepository(new Project.NameKey(projectName));
     try {
-      assertEquals(expectedRef, repo.getRef(Constants.HEAD).getTarget()
-          .getName());
+      assertThat(repo.getRef(Constants.HEAD).getTarget().getName())
+        .isEqualTo(expectedRef);
     } finally {
       repo.close();
     }
@@ -225,7 +223,7 @@ public class CreateProjectIT extends AbstractDaemonTest {
         RevCommit commit = rw.lookupCommit(repo.getRef(ref).getObjectId());
         rw.parseBody(commit);
         tw.addTree(commit.getTree());
-        assertFalse("ref " + ref + " has non empty commit", tw.next());
+        assertThat(tw.next()).isFalse();
         tw.reset();
       }
     } finally {

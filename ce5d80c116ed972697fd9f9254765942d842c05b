@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "1a9edf22_fb360f05",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-11-11T17:20:07Z",
+      "side": 1,
+      "message": "It is *this* change which is meant by the \"primary key fix\". I will reword this to make it clear.",
+      "parentUuid": "9a448f58_6ff471ea",
+      "range": {
+        "startLine": 9,
+        "startChar": 35,
+        "endLine": 9,
+        "endChar": 54
+      },
+      "revId": "ce5d80c116ed972697fd9f9254765942d842c05b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7a299b84_6ef46fea",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -65,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "da71a7c8_d9955347",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/UpdatePrimaryKeys.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-11-11T17:20:07Z",
+      "side": 1,
+      "message": "Any exception which escapes run/postRun will be eventually logged. Check the catch block in the SiteInitializer.init() method.",
+      "parentUuid": "9a448f58_af01392b",
+      "revId": "ce5d80c116ed972697fd9f9254765942d842c05b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7a299b84_4ef9b3e0",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/UpdatePrimaryKeys.java",
         "patchSetId": 2
@@ -88,6 +130,30 @@
     },
     {
       "key": {
+        "uuid": "1a9edf22_bb308707",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/UpdatePrimaryKeys.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-11-11T17:20:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7a299b84_4ef9b3e0",
+      "range": {
+        "startLine": 67,
+        "startChar": 17,
+        "endLine": 67,
+        "endChar": 38
+      },
+      "revId": "ce5d80c116ed972697fd9f9254765942d842c05b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "75260e9e_e6785eb7",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/UpdatePrimaryKeys.java",
         "patchSetId": 2
@@ -99,6 +165,24 @@
       "writtenOn": "2014-11-10T17:23:21Z",
       "side": 1,
       "message": "Wrap with try/finally and close the executor.\n\nIt retains a Statement internally created during the constructor that should be closed by calling close() on the JdbcExecutor.",
+      "revId": "ce5d80c116ed972697fd9f9254765942d842c05b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da71a7c8_d9aeb3a9",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/UpdatePrimaryKeys.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-11-11T17:20:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "75260e9e_e6785eb7",
       "revId": "ce5d80c116ed972697fd9f9254765942d842c05b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -151,6 +235,30 @@
     },
     {
       "key": {
+        "uuid": "1a9edf22_5b6943eb",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/UpdatePrimaryKeys.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-11-11T17:20:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a448f58_4ff9ade0",
+      "range": {
+        "startLine": 97,
+        "startChar": 21,
+        "endLine": 97,
+        "endChar": 31
+      },
+      "revId": "ce5d80c116ed972697fd9f9254765942d842c05b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7a299b84_0ef3ab00",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/UpdatePrimaryKeys.java",
         "patchSetId": 2
@@ -162,6 +270,30 @@
       "writtenOn": "2014-11-10T17:40:30Z",
       "side": 1,
       "message": "maybe name this actualPK",
+      "range": {
+        "startLine": 98,
+        "startChar": 21,
+        "endLine": 98,
+        "endChar": 28
+      },
+      "revId": "ce5d80c116ed972697fd9f9254765942d842c05b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da71a7c8_f9ab7796",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/UpdatePrimaryKeys.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-11-11T17:20:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7a299b84_0ef3ab00",
       "range": {
         "startLine": 98,
         "startChar": 21,
@@ -191,6 +323,24 @@
     },
     {
       "key": {
+        "uuid": "1a9edf22_7b6e7ff6",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/UpdatePrimaryKeys.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-11-11T17:20:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "75260e9e_c67362da",
+      "revId": "ce5d80c116ed972697fd9f9254765942d842c05b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a448f58_cf047d3d",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/UpdatePrimaryKeys.java",
         "patchSetId": 2
@@ -202,6 +352,24 @@
       "writtenOn": "2014-11-10T17:40:30Z",
       "side": 1,
       "message": "nit superflous empty line",
+      "revId": "ce5d80c116ed972697fd9f9254765942d842c05b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da71a7c8_99b83bea",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/UpdatePrimaryKeys.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-11-11T17:20:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a448f58_cf047d3d",
       "revId": "ce5d80c116ed972697fd9f9254765942d842c05b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -231,6 +399,30 @@
     },
     {
       "key": {
+        "uuid": "1a9edf22_1b73bbd9",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/UpdatePrimaryKeys.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-11-11T17:20:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7a299b84_2eee671c",
+      "range": {
+        "startLine": 112,
+        "startChar": 37,
+        "endLine": 112,
+        "endChar": 39
+      },
+      "revId": "ce5d80c116ed972697fd9f9254765942d842c05b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a448f58_ef07413f",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/UpdatePrimaryKeys.java",
         "patchSetId": 2
@@ -242,6 +434,30 @@
       "writtenOn": "2014-11-10T17:40:30Z",
       "side": 1,
       "message": "Please specify the locale (US).",
+      "range": {
+        "startLine": 114,
+        "startChar": 32,
+        "endLine": 114,
+        "endChar": 45
+      },
+      "revId": "ce5d80c116ed972697fd9f9254765942d842c05b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a9edf22_3b78f7b2",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/UpdatePrimaryKeys.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-11-11T17:20:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a448f58_ef07413f",
       "range": {
         "startLine": 114,
         "startChar": 32,
@@ -294,6 +510,48 @@
     },
     {
       "key": {
+        "uuid": "da71a7c8_59a2a3b9",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/UpdatePrimaryKeys.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-11-11T17:20:07Z",
+      "side": 1,
+      "message": "I couldn\u0027t find any better way of doing this. Here we are connected to the same database and using the same connection parameters (from the gerrit.config, database section) as Gerrit server.\n\nFurther, we will only consider those tables whose names are derived starting from the ReviewDb class and traversing its (accessor) methods. Therefore, we will skip any unknown table.",
+      "parentUuid": "9a448f58_2fee691c",
+      "range": {
+        "startLine": 121,
+        "startChar": 41,
+        "endLine": 121,
+        "endChar": 51
+      },
+      "revId": "ce5d80c116ed972697fd9f9254765942d842c05b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da71a7c8_b9b5fff0",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/UpdatePrimaryKeys.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-11-11T17:20:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "75260e9e_067e5aa0",
+      "revId": "ce5d80c116ed972697fd9f9254765942d842c05b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "daec477c_614b5689",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/UpdatePrimaryKeys.java",
         "patchSetId": 2
@@ -305,6 +563,30 @@
       "writtenOn": "2014-11-10T17:23:21Z",
       "side": 1,
       "message": "TreeMap might be better. The Short objects would sort in order, and then you can just iterate the values collection.",
+      "range": {
+        "startLine": 122,
+        "startChar": 39,
+        "endLine": 122,
+        "endChar": 46
+      },
+      "revId": "ce5d80c116ed972697fd9f9254765942d842c05b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da71a7c8_79a767c8",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/UpdatePrimaryKeys.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-11-11T17:20:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "daec477c_614b5689",
       "range": {
         "startLine": 122,
         "startChar": 39,
@@ -340,6 +622,30 @@
     },
     {
       "key": {
+        "uuid": "da71a7c8_199c2b74",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/UpdatePrimaryKeys.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-11-11T17:20:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7a299b84_ee073f3f",
+      "range": {
+        "startLine": 127,
+        "startChar": 37,
+        "endLine": 127,
+        "endChar": 39
+      },
+      "revId": "ce5d80c116ed972697fd9f9254765942d842c05b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "daec477c_41405261",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/UpdatePrimaryKeys.java",
         "patchSetId": 2
@@ -351,6 +657,24 @@
       "writtenOn": "2014-11-10T17:23:21Z",
       "side": 1,
       "message": "If you used a TreeMap, this is:\n\n  for (String name : seqToName.values())",
+      "revId": "ce5d80c116ed972697fd9f9254765942d842c05b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da71a7c8_39a1efb0",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/UpdatePrimaryKeys.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-11-11T17:20:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "daec477c_41405261",
       "revId": "ce5d80c116ed972697fd9f9254765942d842c05b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -380,6 +704,30 @@
     },
     {
       "key": {
+        "uuid": "1a9edf22_db7c73a9",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/UpdatePrimaryKeys.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-11-11T17:20:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a448f58_0ff3a500",
+      "range": {
+        "startLine": 129,
+        "startChar": 30,
+        "endLine": 129,
+        "endChar": 43
+      },
+      "revId": "ce5d80c116ed972697fd9f9254765942d842c05b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7a299b84_ae01372b",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/UpdatePrimaryKeys.java",
         "patchSetId": 2
@@ -391,6 +739,30 @@
       "writtenOn": "2014-11-10T17:40:30Z",
       "side": 1,
       "message": "You might want to consider to use delimited identifiers.",
+      "range": {
+        "startLine": 137,
+        "startChar": 40,
+        "endLine": 137,
+        "endChar": 49
+      },
+      "revId": "ce5d80c116ed972697fd9f9254765942d842c05b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a9edf22_fb792fb6",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/UpdatePrimaryKeys.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-11-11T17:20:07Z",
+      "side": 1,
+      "message": "Quoted \"tableName\"?\n\nThis would make the table names case sensitive, right? Because of that, this code might become more likely to fail on some databases. I would prefer to keep it as it is now.\n\nThe same for the other two comments below.",
+      "parentUuid": "7a299b84_ae01372b",
       "range": {
         "startLine": 137,
         "startChar": 40,

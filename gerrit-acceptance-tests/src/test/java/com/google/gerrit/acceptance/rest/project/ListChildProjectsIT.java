@@ -14,10 +14,9 @@
 
 package com.google.gerrit.acceptance.rest.project;
 
+import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.GitUtil.createProject;
 import static com.google.gerrit.acceptance.rest.project.ProjectAssert.assertProjects;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
@@ -36,17 +35,17 @@ public class ListChildProjectsIT extends AbstractDaemonTest {
 
   @Test
   public void listChildrenOfNonExistingProject_NotFound() throws Exception {
-    assertEquals(HttpStatus.SC_NOT_FOUND,
-        GET("/projects/non-existing/children/").getStatusCode());
+    assertThat(GET("/projects/non-existing/children/").getStatusCode())
+        .isEqualTo(HttpStatus.SC_NOT_FOUND);
   }
 
   @Test
   public void listNoChildren() throws Exception {
     RestResponse r = GET("/projects/" + allProjects.get() + "/children/");
-    assertEquals(HttpStatus.SC_OK, r.getStatusCode());
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
     List<ProjectInfo> projectInfoList = toProjectInfoList(r);
     // Project 'p' was already created in the base class
-    assertTrue(projectInfoList.size() == 2);
+    assertThat(projectInfoList).hasSize(2);
   }
 
   @Test
@@ -59,7 +58,7 @@ public class ListChildProjectsIT extends AbstractDaemonTest {
     createProject(sshSession, "p1.1", child1);
 
     RestResponse r = GET("/projects/" + allProjects.get() + "/children/");
-    assertEquals(HttpStatus.SC_OK, r.getStatusCode());
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
     assertProjects(
         Arrays.asList(
             new Project.NameKey("All-Users"),
@@ -82,7 +81,7 @@ public class ListChildProjectsIT extends AbstractDaemonTest {
     createProject(sshSession, child1_1_1_1.get(), child1_1_1);
 
     RestResponse r = GET("/projects/" + child1.get() + "/children/?recursive");
-    assertEquals(HttpStatus.SC_OK, r.getStatusCode());
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
     assertProjects(Arrays.asList(child1_1, child1_2,
         child1_1_1, child1_1_1_1), toProjectInfoList(r));
   }

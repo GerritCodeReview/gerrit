@@ -46,6 +46,30 @@
       "revId": "c3c45c10de8e2f62e18481285847faef62652a47",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ae00fb1_4fcd0dc4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/MergeabilityCacheImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-11-11T00:22:52Z",
+      "side": 1,
+      "message": "Yes it\u0027s complaining that the parameters are null but are annotated as not-null or are dereferenced.  I\u0027ve pasted the entire log below.\n\nThis is the only instance of the warning in the Gerrit code base.\n\n\u003d\u003d\u003d\u003d\n\n\nNon-virtual method call in com.google.gerrit.server.change.MergeabilityCacheImpl.getIfPresent(ObjectId, Ref, SubmitType, String) passes null for nonnull parameter of new MergeabilityCacheImpl$EntryKey(ObjectId, ObjectId, SubmitType, String, Branch$NameKey, Repository, ReviewDb, MergeabilityCacheImpl$EntryKey)\n\nA possibly-null value is passed to a nonnull method parameter. Either the parameter is annotated as a parameter that should always be nonnull, or analysis has shown that it will always be dereferenced.\n\nBug: Non-virtual method call in com.google.gerrit.server.change.MergeabilityCacheImpl.getIfPresent(ObjectId, Ref, SubmitType, String) passes null for nonnull parameter of new MergeabilityCacheImpl$EntryKey(ObjectId, ObjectId, SubmitType, String, Branch$NameKey, Repository, ReviewDb, MergeabilityCacheImpl$EntryKey)\n \n A possibly-null value is passed to a nonnull method parameter. Either the parameter is annotated as a parameter that should always be nonnull, or analysis has shown that it will always be dereferenced.  \n \nRank: Scary (6), \nconfidence: High\n\nPattern: NP_NULL_PARAM_DEREF_NONVIRTUAL \n\nType: NP, \nCategory: CORRECTNESS (Correctness)\n\nAt MergeabilityCacheImpl.java:[line 313]\nIn method com.google.gerrit.server.change.MergeabilityCacheImpl.getIfPresent(ObjectId, Ref, SubmitType, String)\nCalled method new com.google.gerrit.server.change.MergeabilityCacheImpl$EntryKey(ObjectId, ObjectId, SubmitType, String, Branch$NameKey, Repository, ReviewDb, MergeabilityCacheImpl$EntryKey)\nArgument 5 is definitely null but must not be null\nArgument 6 is definitely null but must not be null\nArgument 7 is definitely null but must not be null\n\nFile: gerrit/gerrit-server/src/main/java/com/google/gerrit/server/change/MergeabilityCacheImpl.java",
+      "parentUuid": "daec477c_21f30e01",
+      "range": {
+        "startLine": 313,
+        "startChar": 58,
+        "endLine": 313,
+        "endChar": 74
+      },
+      "revId": "c3c45c10de8e2f62e18481285847faef62652a47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

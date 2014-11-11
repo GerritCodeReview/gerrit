@@ -2665,6 +2665,22 @@ number of changes for review by mistake.
 
 Default is zero, no limit.
 
+[[receive.maxBatchChangesAllowGroup]]receive.maxBatchChangesAllowGroup::
++
+Name of the groups of users that are free from the limitation of
+'MaxBatchChanges' to receive batch changes on the server. One or
+more groups can be set.
++
+If no groups are added, 'Project Owners' will be the default user.
+
+----
+[receive]
+  maxBatchChangesAllowGroup = GROUP_NAME
+  maxBatchChangesAllowGroup = ldap/LDAP_GROUP_NAME
+  maxBatchChangesAllowGroup = ldap:LDAP-GROUP_DN
+  maxBatchChanges = 10
+----
+
 [[receive.threadPoolSize]]receive.threadPoolSize::
 +
 Maximum size of the thread pool in which the change data in received packs is

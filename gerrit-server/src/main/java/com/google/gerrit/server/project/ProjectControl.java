@@ -38,6 +38,7 @@ import com.google.gerrit.server.InternalUser;
 import com.google.gerrit.server.account.GroupMembership;
 import com.google.gerrit.server.change.IncludedInResolver;
 import com.google.gerrit.server.config.CanonicalWebUrl;
+import com.google.gerrit.server.config.GitReceiveMaxBatchChangesAllowGroups;
 import com.google.gerrit.server.config.GitReceivePackGroups;
 import com.google.gerrit.server.config.GitUploadPackGroups;
 import com.google.gerrit.server.git.ChangeCache;
@@ -144,6 +145,7 @@ public class ProjectControl {
 
   private final Set<AccountGroup.UUID> uploadGroups;
   private final Set<AccountGroup.UUID> receiveGroups;
+  private final Set<AccountGroup.UUID> maxBatchChangesAllowGroups;
 
   private final String canonicalWebUrl;
   private final CurrentUser user;
@@ -164,6 +166,7 @@ public class ProjectControl {
   @Inject
   ProjectControl(@GitUploadPackGroups Set<AccountGroup.UUID> uploadGroups,
       @GitReceivePackGroups Set<AccountGroup.UUID> receiveGroups,
+      @GitReceiveMaxBatchChangesAllowGroups Set<AccountGroup.UUID> maxBatchChangesAllowGroups,
       ProjectCache pc,
       PermissionCollection.Factory permissionFilter,
       GitRepositoryManager repoManager,
@@ -179,6 +182,7 @@ public class ProjectControl {
     this.changeCache = changeCache;
     this.uploadGroups = uploadGroups;
     this.receiveGroups = receiveGroups;
+    this.maxBatchChangesAllowGroups = maxBatchChangesAllowGroups;
     this.permissionFilter = permissionFilter;
     this.contributorAgreements = pc.getAllProjects().getConfig().getContributorAgreements();
     this.canonicalWebUrl = canonicalWebUrl;
@@ -517,6 +521,15 @@ public class ProjectControl {
 
   public boolean canRunReceivePack() {
     for (AccountGroup.UUID group : receiveGroups) {
+      if (match(group)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  public boolean canPushBatchChangesWithoutLimitation() {
+    for (AccountGroup.UUID group : maxBatchChangesAllowGroups) {
       if (match(group)) {
         return true;
       }

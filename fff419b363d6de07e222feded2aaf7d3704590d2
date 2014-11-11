@@ -19,6 +19,47 @@
     },
     {
       "key": {
+        "uuid": "3aa1e35e_5c693deb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PermissionCollection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-11-11T18:37:07Z",
+      "side": 1,
+      "message": "Yes. The UUID can come in null if there is a broken groups file.",
+      "parentUuid": "75260e9e_e6f5bee6",
+      "revId": "fff419b363d6de07e222feded2aaf7d3704590d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a77bfc2_9386dc39",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PermissionCollection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-11-11T18:37:07Z",
+      "side": 1,
+      "message": "I don\u0027t think that matters. I think I wrote the old behavior to avoid an NPE from crashing the equals() method. If AutoValue compares two nulls as equal, that is fine.",
+      "range": {
+        "startLine": 217,
+        "startChar": 0,
+        "endLine": 218,
+        "endChar": 80
+      },
+      "revId": "fff419b363d6de07e222feded2aaf7d3704590d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "daec477c_61f916e1",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SectionSortCache.java",
         "patchSetId": 1
@@ -30,6 +71,47 @@
       "writtenOn": "2014-11-10T02:35:52Z",
       "side": 1,
       "message": "This is a little ugly. The alternative (other than not using AutoValue) is to use a private but non-final field, and have the factory method populate it.\n\n(I tried explicitly declaring an abstract hashCode method so that hashCode is a \"field\". Doesn\u0027t work.)",
+      "revId": "fff419b363d6de07e222feded2aaf7d3704590d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3aa1e35e_7c6e79f6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SectionSortCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-11-11T18:37:07Z",
+      "side": 1,
+      "message": "The autovalue version is sorter, so its probably worth switching. But for me, cachedHashCode() is a better name than computedHashCode().\n\nAt first I thought computedHashCode() was some @AutoValue magic method. Then I read further and saw its just the cached hashCode we build before, because the hashCode performance is critical in this code and recomputing for each section item in the list was too slow to do on the fly.",
+      "parentUuid": "daec477c_61f916e1",
+      "revId": "fff419b363d6de07e222feded2aaf7d3704590d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3aa1e35e_1c73b5d9",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/Commands.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-11-11T18:37:07Z",
+      "side": 1,
+      "message": "This is great.",
+      "range": {
+        "startLine": 51,
+        "startChar": 2,
+        "endLine": 53,
+        "endChar": 52
+      },
       "revId": "fff419b363d6de07e222feded2aaf7d3704590d2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a9edf22_9b010b2c",
+        "filename": "lib/BUCK",
+        "patchSetId": 6
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-11-11T07:57:21Z",
+      "side": 1,
+      "message": "Can someone publish gwtjsonrpc 1.6?",
+      "range": {
+        "startLine": 35,
+        "startChar": 0,
+        "endLine": 48,
+        "endChar": 1
+      },
+      "revId": "01927dfe62749aa365ff86c3cd5c58187f7b259d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da71a7c8_59462382",
+        "filename": "tools/eclipse/gerrit_gwt_debug.launch",
+        "patchSetId": 6
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-11-11T07:57:21Z",
+      "side": 1,
+      "message": "rc1",
+      "range": {
+        "startLine": 16,
+        "startChar": 222,
+        "endLine": 16,
+        "endChar": 227
+      },
+      "revId": "01927dfe62749aa365ff86c3cd5c58187f7b259d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

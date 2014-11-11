@@ -16,7 +16,6 @@ package com.google.gerrit.server.change;
 
 import com.google.common.base.Optional;
 import com.google.common.base.Strings;
-import com.google.common.io.ByteStreams;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.common.EditInfo;
 import com.google.gerrit.extensions.registration.DynamicMap;
@@ -371,8 +370,10 @@ public class ChangeEdits implements
     public Response<?> apply(ChangeEditResource rsrc, Input input)
         throws AuthException, ResourceConflictException, IOException {
       try {
-          editModifier.modifyFile(rsrc.getChangeEdit(), rsrc.getPath(),
-              ByteStreams.toByteArray(input.content.getInputStream()));
+        editModifier.modifyFile(
+            rsrc.getChangeEdit(),
+            rsrc.getPath(),
+            input.content);
       } catch(InvalidChangeOperationException | IOException e) {
         throw new ResourceConflictException(e.getMessage());
       }

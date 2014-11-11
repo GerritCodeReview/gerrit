@@ -186,13 +186,13 @@ public class ChangeApi {
   /** Publish change edit. */
   public static void publishEdit(int id, AsyncCallback<JavaScriptObject> cb) {
     JavaScriptObject in = JavaScriptObject.createObject();
-    change(id).view("publish_edit").post(in, cb);
+    change(id).view("edit:publish").post(in, cb);
   }
 
   /** Rebase change edit on latest patch set. */
   public static void rebaseEdit(int id, AsyncCallback<JavaScriptObject> cb) {
     JavaScriptObject in = JavaScriptObject.createObject();
-    change(id).view("rebase_edit").post(in, cb);
+    change(id).view("edit:rebase").post(in, cb);
   }
 
   /** Rebase a revision onto the branch tip. */

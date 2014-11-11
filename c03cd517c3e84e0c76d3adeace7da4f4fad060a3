@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3aa1e35e_fc92895c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/PatchLineCommentsUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-11-11T22:37:33Z",
+      "side": 0,
+      "message": "You\u0027re right that this doesn\u0027t work today, but I think it might be worth it to make it work. Eventually we would like to expose All-Users and apply the VisibleRefFilter when listing results. At which point it would make sense to use this method VisibleRefFilter is already calling to extract the Change.Id.\n\nThat would boil down to folding RefNames.changeIdFromDraftComments into Change.Id.Parse.",
+      "range": {
+        "startLine": 248,
+        "startChar": 27,
+        "endLine": 248,
+        "endChar": 52
+      },
+      "revId": "c03cd517c3e84e0c76d3adeace7da4f4fad060a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

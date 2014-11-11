@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a77bfc2_9339fcc6",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/RefNames.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-11-11T22:37:33Z",
+      "side": 1,
+      "message": "s/Scan//",
+      "range": {
+        "startLine": 65,
+        "startChar": 40,
+        "endLine": 65,
+        "endChar": 44
+      },
+      "revId": "39522b91e59ac40a632d47128de750a72f0feacb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3aa1e35e_3ca1d1b0",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/RefNames.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-11-11T22:37:33Z",
+      "side": 1,
+      "message": "This is optional, it\u0027s the default, and Java doesn\u0027t do anything dumb like treat leading 0s as octal.",
+      "range": {
+        "startLine": 95,
+        "startChar": 66,
+        "endLine": 95,
+        "endChar": 70
+      },
+      "revId": "39522b91e59ac40a632d47128de750a72f0feacb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3aa1e35e_dc954d47",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/PatchLineCommentsUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-11-11T22:37:33Z",
+      "side": 1,
+      "message": "Do we care about iteration order? Callers may have expected primary key ordering.",
+      "range": {
+        "startLine": 199,
+        "startChar": 31,
+        "endLine": 199,
+        "endChar": 38
+      },
+      "revId": "39522b91e59ac40a632d47128de750a72f0feacb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

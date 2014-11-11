@@ -14,11 +14,16 @@
 
 package com.google.gerrit.server.edit;
 
+import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.gerrit.server.edit.ChangeEditUtil.editRefName;
 import static com.google.gerrit.server.edit.ChangeEditUtil.editRefPrefix;
+import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
+import com.google.common.io.ByteStreams;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.RawInput;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -39,7 +44,6 @@ import org.eclipse.jgit.dircache.DirCacheEditor.PathEdit;
 import org.eclipse.jgit.dircache.DirCacheEntry;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.CommitBuilder;
-import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
@@ -57,6 +61,7 @@ import org.eclipse.jgit.transport.ReceiveCommand;
 import org.eclipse.jgit.treewalk.TreeWalk;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Map;
 import java.util.TimeZone;
 
@@ -223,7 +228,7 @@ public class ChangeEditModifier {
    * @throws IOException
    */
   public RefUpdate.Result modifyFile(ChangeEdit edit,
-      String file, byte[] content) throws AuthException,
+      String file, RawInput content) throws AuthException,
       InvalidChangeOperationException, IOException {
     return modify(TreeOperation.CHANGE_ENTRY, edit, file, content);
   }
@@ -261,7 +266,7 @@ public class ChangeEditModifier {
   }
 
   private RefUpdate.Result modify(TreeOperation op,
-      ChangeEdit edit, String file, byte[] content)
+      ChangeEdit edit, String file, @Nullable RawInput content)
       throws AuthException, IOException, InvalidChangeOperationException {
     if (!currentUser.get().isIdentifiedUser()) {
       throw new AuthException("Authentication required");
@@ -283,7 +288,7 @@ public class ChangeEditModifier {
         RevCommit base = prevEdit.getParent(0);
         base = rw.parseCommit(base);
         ObjectId newTree = writeNewTree(op, rw, inserter,
-            prevEdit, reader, file, content, base);
+            prevEdit, reader, file, toBlob(inserter, content), base);
         if (ObjectId.equals(newTree, prevEdit.getTree())) {
           throw new InvalidChangeOperationException("no changes were made");
         }
@@ -299,6 +304,20 @@ public class ChangeEditModifier {
     } finally {
       repo.close();
     }
+  }
+
+  private static ObjectId toBlob(ObjectInserter ins, @Nullable RawInput content)
+      throws IOException {
+    if (content == null) {
+      return null;
+    }
+
+    long len = content.getContentLength();
+    InputStream in = content.getInputStream();
+    if (len < 0) {
+      return ins.insert(OBJ_BLOB, ByteStreams.toByteArray(in));
+    }
+    return ins.insert(OBJ_BLOB, len, in);
   }
 
   private ObjectId createCommit(IdentifiedUser me, ObjectInserter inserter,
@@ -330,75 +349,66 @@ public class ChangeEditModifier {
 
   private static ObjectId writeNewTree(TreeOperation op, RevWalk rw,
       ObjectInserter ins, RevCommit prevEdit, ObjectReader reader,
-      String fileName, byte[] content, RevCommit base)
+      String fileName, final @Nullable ObjectId content, RevCommit base)
       throws IOException, InvalidChangeOperationException {
-    DirCache newTree = createTree(reader, prevEdit);
-    editTree(
-        op,
-        rw,
-        base,
-        newTree.editor(),
-        ins,
-        fileName,
-        content);
-    return newTree.writeTree(ins);
-  }
-
-  private static void editTree(TreeOperation op, RevWalk rw, RevCommit base,
-      DirCacheEditor dce, ObjectInserter ins, String path, byte[] content)
-      throws IOException, InvalidChangeOperationException {
+    DirCache newTree = readTree(reader, prevEdit);
+    DirCacheEditor dce = newTree.editor();
     switch (op) {
       case DELETE_ENTRY:
-        dce.add(new DeletePath(path));
+        dce.add(new DeletePath(fileName));
         break;
+
       case CHANGE_ENTRY:
+        checkNotNull("new content required", content);
+        dce.add(new PathEdit(fileName) {
+          @Override
+          public void apply(DirCacheEntry ent) {
+            if (ent.getRawMode() == 0) {
+              ent.setFileMode(FileMode.REGULAR_FILE);
+            }
+            ent.setObjectId(content);
+          }
+        });
+        break;
+
       case RESTORE_ENTRY:
-        dce.add(getPathEdit(op, rw, base, path, ins, content));
+        TreeWalk tw = TreeWalk.forPath(
+            rw.getObjectReader(),
+            fileName,
+            base.getTree().getId());
+
+        // If the file does not exist in the base commit, try to restore it
+        // from the base's parent commit.
+        if (tw == null && base.getParentCount() == 1) {
+          tw = TreeWalk.forPath(rw.getObjectReader(), fileName,
+              rw.parseCommit(base.getParent(0)).getTree());
+        }
+        if (tw == null) {
+          throw new InvalidChangeOperationException(String.format(
+              "cannot restore path %s: missing in base revision %s",
+              fileName, base.abbreviate(8).name()));
+        }
+
+        final FileMode mode = tw.getFileMode(0);
+        final ObjectId oid = tw.getObjectId(0);
+        dce.add(new PathEdit(fileName) {
+          @Override
+          public void apply(DirCacheEntry ent) {
+            ent.setFileMode(mode);
+            ent.setObjectId(oid);
+          }
+        });
         break;
     }
     dce.finish();
+    return newTree.writeTree(ins);
   }
 
-  private static PathEdit getPathEdit(TreeOperation op, RevWalk rw,
-      RevCommit base, String path, ObjectInserter ins, byte[] content)
-      throws IOException, InvalidChangeOperationException {
-    final ObjectId oid = op == TreeOperation.CHANGE_ENTRY
-        ? ins.insert(Constants.OBJ_BLOB, content)
-        : getObjectIdForRestoreOperation(rw, base, path);
-    return new PathEdit(path) {
-      @Override
-      public void apply(DirCacheEntry ent) {
-        ent.setFileMode(FileMode.REGULAR_FILE);
-        ent.setObjectId(oid);
-      }
-    };
-  }
-
-  private static ObjectId getObjectIdForRestoreOperation(RevWalk rw,
-      RevCommit base, String path)
-      throws IOException, InvalidChangeOperationException {
-    TreeWalk tw = TreeWalk.forPath(rw.getObjectReader(), path,
-        base.getTree().getId());
-    // If the file does not exist in the base commit, try to restore it
-    // from the base's parent commit.
-    if (tw == null && base.getParentCount() == 1) {
-      tw = TreeWalk.forPath(rw.getObjectReader(), path,
-          rw.parseCommit(base.getParent(0)).getTree().getId());
-    }
-    if (tw == null) {
-      throw new InvalidChangeOperationException(String.format(
-          "cannot restore path %s: missing in base revision %s",
-          path, base.abbreviate(8).name()));
-    }
-    return tw.getObjectId(0);
-  }
-
-  private static DirCache createTree(ObjectReader reader, RevCommit prevEdit)
+  private static DirCache readTree(ObjectReader reader, RevCommit prevEdit)
       throws IOException {
     DirCache dc = DirCache.newInCore();
     DirCacheBuilder b = dc.builder();
-    b.addTree(new byte[0], DirCacheEntry.STAGE_0, reader, prevEdit.getTree()
-        .getId());
+    b.addTree(new byte[0], DirCacheEntry.STAGE_0, reader, prevEdit.getTree());
     b.finish();
     return dc;
   }

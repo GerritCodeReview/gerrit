@@ -133,7 +133,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
         modifier.modifyFile(
             editUtil.byChange(change).get(),
             FILE_NAME,
-            CONTENT_NEW));
+            RestSession.newRawInput(CONTENT_NEW)));
     editUtil.delete(editUtil.byChange(change).get());
     assertFalse(editUtil.byChange(change).isPresent());
   }
@@ -148,7 +148,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
         modifier.modifyFile(
             editUtil.byChange(change).get(),
             FILE_NAME,
-            CONTENT_NEW2));
+            RestSession.newRawInput(CONTENT_NEW2)));
     editUtil.publish(editUtil.byChange(change).get());
     assertFalse(editUtil.byChange(change).isPresent());
   }
@@ -164,7 +164,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
         modifier.modifyFile(
             editUtil.byChange(change).get(),
             FILE_NAME,
-            CONTENT_NEW));
+            RestSession.newRawInput(CONTENT_NEW)));
     Optional<ChangeEdit> edit = editUtil.byChange(change);
     RestResponse r = adminSession.post(urlPublish());
     assertEquals(SC_NO_CONTENT, r.getStatusCode());
@@ -184,7 +184,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
         modifier.modifyFile(
             editUtil.byChange(change).get(),
             FILE_NAME,
-            CONTENT_NEW));
+            RestSession.newRawInput(CONTENT_NEW)));
     Optional<ChangeEdit> edit = editUtil.byChange(change);
     RestResponse r = adminSession.delete(urlEdit());
     assertEquals(SC_NO_CONTENT, r.getStatusCode());
@@ -202,7 +202,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
         modifier.modifyFile(
             editUtil.byChange(change).get(),
             FILE_NAME,
-            CONTENT_NEW));
+            RestSession.newRawInput(CONTENT_NEW)));
     ChangeEdit edit = editUtil.byChange(change).get();
     PatchSet current = getCurrentPatchSet(changeId);
     assertEquals(current.getPatchSetId() - 1,
@@ -232,7 +232,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
         modifier.modifyFile(
             editUtil.byChange(change).get(),
             FILE_NAME,
-            CONTENT_NEW));
+            RestSession.newRawInput(CONTENT_NEW)));
     ChangeEdit edit = editUtil.byChange(change).get();
     PatchSet current = getCurrentPatchSet(changeId);
     assertEquals(current.getPatchSetId() - 1,
@@ -264,7 +264,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
         modifier.modifyFile(
             edit.get(),
             FILE_NAME,
-            CONTENT_NEW));
+            RestSession.newRawInput(CONTENT_NEW)));
     edit = editUtil.byChange(change);
     assertArrayEquals(CONTENT_NEW,
         toBytes(fileUtil.getContent(edit.get().getChange().getProject(),
@@ -287,7 +287,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
         modifier.modifyFile(
             edit.get(),
             FILE_NAME,
-            CONTENT_NEW));
+            RestSession.newRawInput(CONTENT_NEW)));
     edit = editUtil.byChange(change);
     EditInfo info = toEditInfo(false);
     assertEquals(edit.get().getRevision().get(), info.commit.commit);
@@ -311,7 +311,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
         modifier.modifyFile(
             edit.get(),
             FILE_NAME,
-            CONTENT_NEW));
+            RestSession.newRawInput(CONTENT_NEW)));
 
     EditInfo info = toEditInfo(true);
     assertEquals(2, info.files.size());
@@ -416,7 +416,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
         modifier.modifyFile(
             edit.get(),
             FILE_NAME,
-            CONTENT_NEW));
+            RestSession.newRawInput(CONTENT_NEW)));
     edit = editUtil.byChange(change);
     assertArrayEquals(CONTENT_NEW,
         toBytes(fileUtil.getContent(edit.get().getChange().getProject(),
@@ -425,7 +425,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
         modifier.modifyFile(
             edit.get(),
             FILE_NAME,
-            CONTENT_NEW2));
+            RestSession.newRawInput(CONTENT_NEW2)));
     edit = editUtil.byChange(change);
     assertArrayEquals(CONTENT_NEW2,
         toBytes(fileUtil.getContent(edit.get().getChange().getProject(),
@@ -501,7 +501,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
         modifier.modifyFile(
             edit.get(),
             FILE_NAME,
-            CONTENT_NEW2));
+            RestSession.newRawInput(CONTENT_NEW2)));
     edit = editUtil.byChange(change);
     RestResponse r = adminSession.get(urlEditFile());
     assertEquals(SC_OK, r.getStatusCode());
@@ -540,7 +540,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
         modifier.modifyFile(
             edit.get(),
             FILE_NAME2,
-            CONTENT_NEW));
+            RestSession.newRawInput(CONTENT_NEW)));
     edit = editUtil.byChange(change);
     assertArrayEquals(CONTENT_NEW,
         toBytes(fileUtil.getContent(edit.get().getChange().getProject(),
@@ -558,7 +558,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
         modifier.modifyFile(
             edit.get(),
             FILE_NAME2,
-            CONTENT_NEW));
+            RestSession.newRawInput(CONTENT_NEW)));
     edit = editUtil.byChange(change);
     assertArrayEquals(CONTENT_NEW,
         toBytes(fileUtil.getContent(edit.get().getChange().getProject(),
@@ -567,7 +567,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
         modifier.modifyFile(
             edit.get(),
             FILE_NAME2,
-            CONTENT_NEW2));
+            RestSession.newRawInput(CONTENT_NEW2)));
     edit = editUtil.byChange(change);
     assertArrayEquals(CONTENT_NEW2,
         toBytes(fileUtil.getContent(edit.get().getChange().getProject(),
@@ -584,7 +584,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
       modifier.modifyFile(
           editUtil.byChange(change).get(),
           FILE_NAME,
-          CONTENT_OLD);
+          RestSession.newRawInput(CONTENT_OLD));
       fail();
     } catch (InvalidChangeOperationException e) {
       assertEquals("no changes were made", e.getMessage());

@@ -1,0 +1,152 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da71a7c8_79552710",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-11-11T12:35:36Z",
+      "side": 1,
+      "message": "assertThat(result).hasSize(1);",
+      "revId": "ac89b0d5584c04986e08ed64de0d8e214068e3ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da71a7c8_59506321",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-11-11T12:35:36Z",
+      "side": 1,
+      "message": "assertThat(result).isNotEmpty();",
+      "range": {
+        "startLine": 77,
+        "startChar": 4,
+        "endLine": 77,
+        "endChar": 43
+      },
+      "revId": "ac89b0d5584c04986e08ed64de0d8e214068e3ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a9edf22_7b4bdf88",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-11-11T12:35:36Z",
+      "side": 1,
+      "message": "assertThat(drafts).isEmpty();",
+      "range": {
+        "startLine": 123,
+        "startChar": 4,
+        "endLine": 123,
+        "endChar": 42
+      },
+      "revId": "ac89b0d5584c04986e08ed64de0d8e214068e3ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da71a7c8_995d9b37",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/GetRelatedIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-11-11T12:35:36Z",
+      "side": 1,
+      "message": "assertThat(related).isEmpty();",
+      "revId": "ac89b0d5584c04986e08ed64de0d8e214068e3ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da71a7c8_b95adf3a",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/GetRelatedIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-11-11T12:35:36Z",
+      "side": 1,
+      "message": "assertThat(related).hasSize(2);\n\nthe same for several occurances below",
+      "revId": "ac89b0d5584c04986e08ed64de0d8e214068e3ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da71a7c8_59bb83eb",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/PatchListCacheIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-11-11T12:35:36Z",
+      "side": 1,
+      "message": "assertThat(entries).hasSize(3);\n\nthe same for several occurances below",
+      "revId": "ac89b0d5584c04986e08ed64de0d8e214068e3ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da71a7c8_79c0c75a",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/project/CustomLabelIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-11-11T12:35:36Z",
+      "side": 1,
+      "message": "the same here and in the tests below",
+      "revId": "ac89b0d5584c04986e08ed64de0d8e214068e3ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da71a7c8_19c50b6a",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/project/LabelTypeIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-11-11T12:35:36Z",
+      "side": 1,
+      "message": "the same here",
+      "revId": "ac89b0d5584c04986e08ed64de0d8e214068e3ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

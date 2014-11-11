@@ -114,6 +114,24 @@
     },
     {
       "key": {
+        "uuid": "1a9edf22_db6313ff",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeEdits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 501,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-11-11T21:10:13Z",
+      "side": 1,
+      "message": "| But I guess we could keep this slightly confusing behavior.\n\nI will add a TODO to clean this up.\n\n| What happens if I do GET /changes/{id}/edit/foo.c and I don\u0027t yet have an edit open?\n\nWe don\u0027t call this ednpoint when edit doesn\u0027t exist. We are passing in the information when edit exists or not, so that the client differentiate between:\n\n* GET /changes/{id}/revisions/{n}/files/foo.c/content or\n* GET /changes/{id}/edit/foo.c\n\nThe code path you are referencing to is where PUT to is get called, and this is how insert into collection API is working, RestApiServlet calls create() on line 109 and Create.apply() is called in the end.",
+      "parentUuid": "1a77bfc2_532cc48c",
+      "revId": "85b17a3725180102fe7d64497c0a03bb5fa16241",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a77bfc2_d3ae94a9",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeEdits.java",
         "patchSetId": 3

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5ac2171f_4dcd19c4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NotedbIdent.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-11-11T01:07:19Z",
+      "side": 1,
+      "message": "Missing copyright/license header.",
+      "revId": "fecc7f627b2b9f640b8daa4c398fcbc60d1d970e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

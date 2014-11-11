@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3aa1e35e_bc8c0143",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/NotedbIdent.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-11-11T23:04:10Z",
+      "side": 1,
+      "message": "NoteDb",
+      "range": {
+        "startLine": 34,
+        "startChar": 17,
+        "endLine": 34,
+        "endChar": 23
+      },
+      "revId": "2d07b2c7553cc1856e3f10e44b5ac37ebac1b08e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

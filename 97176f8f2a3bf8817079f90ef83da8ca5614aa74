@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3aa1e35e_1cee551c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/PatchLineCommentsUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-11-11T01:01:48Z",
+      "side": 1,
+      "message": "This is wrong. The prefix needs to be trimmed off before passing to fromRefPart.",
+      "range": {
+        "startLine": 215,
+        "startChar": 26,
+        "endLine": 215,
+        "endChar": 62
+      },
+      "revId": "97176f8f2a3bf8817079f90ef83da8ca5614aa74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3aa1e35e_3cf31101",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/HasDraftByPredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-11-11T01:01:48Z",
+      "side": 1,
+      "message": "Bad import of Change.Id.",
+      "range": {
+        "startLine": 59,
+        "startChar": 10,
+        "endLine": 59,
+        "endChar": 17
+      },
+      "revId": "97176f8f2a3bf8817079f90ef83da8ca5614aa74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

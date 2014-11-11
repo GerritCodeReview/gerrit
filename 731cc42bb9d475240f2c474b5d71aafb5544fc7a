@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5ac2171f_8dea210a",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2674,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-11-11T09:45:25Z",
+      "side": 1,
+      "message": "Does this imply that if no groups are added, Project Owners will always be exempted from the limit?",
+      "range": {
+        "startLine": 2674,
+        "startChar": 0,
+        "endLine": 2674,
+        "endChar": 66
+      },
+      "revId": "731cc42bb9d475240f2c474b5d71aafb5544fc7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

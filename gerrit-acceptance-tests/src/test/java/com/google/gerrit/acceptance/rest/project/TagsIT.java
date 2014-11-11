@@ -14,7 +14,7 @@
 
 package com.google.gerrit.acceptance.rest.project;
 
-import static org.junit.Assert.assertEquals;
+import static com.google.common.truth.Truth.assertThat;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
@@ -31,15 +31,16 @@ import java.util.List;
 public class TagsIT extends AbstractDaemonTest {
   @Test
   public void listTagsOfNonExistingProject_NotFound() throws Exception {
-    assertEquals(HttpStatus.SC_NOT_FOUND,
-        adminSession.get("/projects/non-existing/tags").getStatusCode());
+    assertThat(adminSession.get("/projects/non-existing/tags").getStatusCode())
+        .isEqualTo(HttpStatus.SC_NOT_FOUND);
   }
 
   @Test
   public void listTagsOfNonVisibleProject_NotFound() throws Exception {
     blockRead(project, "refs/*");
-    assertEquals(HttpStatus.SC_NOT_FOUND,
-        userSession.get("/projects/" + project.get() + "/tags").getStatusCode());
+    assertThat(
+        userSession.get("/projects/" + project.get() + "/tags").getStatusCode())
+        .isEqualTo(HttpStatus.SC_NOT_FOUND);
   }
 
   @Test
@@ -63,18 +64,18 @@ public class TagsIT extends AbstractDaemonTest {
 
     List<TagInfo> result =
         toTagInfoList(adminSession.get("/projects/" + project.get() + "/tags"));
-    assertEquals(2, result.size());
+    assertThat(result.size()).isEqualTo(2);
 
     TagInfo t = result.get(0);
-    assertEquals("refs/tags/" + tag1.name, t.ref);
-    assertEquals(r1.getCommitId().getName(), t.revision);
+    assertThat(t.ref).isEqualTo("refs/tags/" + tag1.name);
+    assertThat(t.revision).isEqualTo(r1.getCommitId().getName());
 
     t = result.get(1);
-    assertEquals("refs/tags/" + tag2.name, t.ref);
-    assertEquals(r2.getCommitId().getName(), t.object);
-    assertEquals(tag2.message, t.message);
-    assertEquals(tag2.tagger.getName(), t.tagger.name);
-    assertEquals(tag2.tagger.getEmailAddress(), t.tagger.email);
+    assertThat(t.ref).isEqualTo("refs/tags/" + tag2.name);
+    assertThat(t.object).isEqualTo(r2.getCommitId().getName());
+    assertThat(t.message).isEqualTo(tag2.message);
+    assertThat(t.tagger.name).isEqualTo(tag2.tagger.getName());
+    assertThat(t.tagger.email).isEqualTo(tag2.tagger.getEmailAddress());
   }
 
   @Test
@@ -99,18 +100,18 @@ public class TagsIT extends AbstractDaemonTest {
 
     List<TagInfo> result =
         toTagInfoList(adminSession.get("/projects/" + project.get() + "/tags"));
-    assertEquals(2, result.size());
-    assertEquals("refs/tags/" + tag1.name, result.get(0).ref);
-    assertEquals(r1.getCommitId().getName(), result.get(0).revision);
-    assertEquals("refs/tags/" + tag2.name, result.get(1).ref);
-    assertEquals(r2.getCommitId().getName(), result.get(1).revision);
+    assertThat(result.size()).isEqualTo(2);
+    assertThat(result.get(0).ref).isEqualTo("refs/tags/" + tag1.name);
+    assertThat(result.get(0).revision).isEqualTo(r1.getCommitId().getName());
+    assertThat(result.get(1).ref).isEqualTo("refs/tags/" + tag2.name);
+    assertThat(result.get(1).revision).isEqualTo(r2.getCommitId().getName());
 
     blockRead(project, "refs/heads/hidden");
     result =
         toTagInfoList(adminSession.get("/projects/" + project.get() + "/tags"));
-    assertEquals(1, result.size());
-    assertEquals("refs/tags/" + tag1.name, result.get(0).ref);
-    assertEquals(r1.getCommitId().getName(), result.get(0).revision);
+    assertThat(result.size()).isEqualTo(1);
+    assertThat(result.get(0).ref).isEqualTo("refs/tags/" + tag1.name);
+    assertThat(result.get(0).revision).isEqualTo(r1.getCommitId().getName());
   }
 
   @Test
@@ -129,8 +130,8 @@ public class TagsIT extends AbstractDaemonTest {
         adminSession.get("/projects/" + project.get() + "/tags/" + tag1.name);
     TagInfo tagInfo =
         newGson().fromJson(response.getReader(), TagInfo.class);
-    assertEquals("refs/tags/" + tag1.name, tagInfo.ref);
-    assertEquals(r1.getCommitId().getName(), tagInfo.revision);
+    assertThat(tagInfo.ref).isEqualTo("refs/tags/" + tag1.name);
+    assertThat(tagInfo.revision).isEqualTo(r1.getCommitId().getName());
   }
 
   private static List<TagInfo> toTagInfoList(RestResponse r) throws Exception {

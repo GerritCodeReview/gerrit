@@ -14,10 +14,10 @@
 
 package com.google.gerrit.acceptance.rest.project;
 
+import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.server.project.Util.block;
-import static org.junit.Assert.assertEquals;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
@@ -45,7 +45,7 @@ public class DeleteBranchIT extends AbstractDaemonTest {
     RestResponse r =
         userSession.delete("/projects/" + project.get()
             + "/branches/" + branch.getShortName());
-    assertEquals(HttpStatus.SC_FORBIDDEN, r.getStatusCode());
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_FORBIDDEN);
     r.consume();
   }
 
@@ -54,12 +54,12 @@ public class DeleteBranchIT extends AbstractDaemonTest {
     RestResponse r =
         adminSession.delete("/projects/" + project.get()
             + "/branches/" + branch.getShortName());
-    assertEquals(HttpStatus.SC_NO_CONTENT, r.getStatusCode());
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_NO_CONTENT);
     r.consume();
 
     r = adminSession.get("/projects/" + project.get()
         + "/branches/" + branch.getShortName());
-    assertEquals(HttpStatus.SC_NOT_FOUND, r.getStatusCode());
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_NOT_FOUND);
     r.consume();
   }
 
@@ -70,12 +70,12 @@ public class DeleteBranchIT extends AbstractDaemonTest {
     RestResponse r =
         userSession.delete("/projects/" + project.get()
             + "/branches/" + branch.getShortName());
-    assertEquals(HttpStatus.SC_NO_CONTENT, r.getStatusCode());
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_NO_CONTENT);
     r.consume();
 
     r = userSession.get("/projects/" + project.get()
         + "/branches/" + branch.getShortName());
-    assertEquals(HttpStatus.SC_NOT_FOUND, r.getStatusCode());
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_NOT_FOUND);
     r.consume();
   }
 
@@ -85,12 +85,12 @@ public class DeleteBranchIT extends AbstractDaemonTest {
     RestResponse r =
         adminSession.delete("/projects/" + project.get()
             + "/branches/" + branch.getShortName());
-    assertEquals(HttpStatus.SC_NO_CONTENT, r.getStatusCode());
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_NO_CONTENT);
     r.consume();
 
     r = adminSession.get("/projects/" + project.get()
         + "/branches/" + branch.getShortName());
-    assertEquals(HttpStatus.SC_NOT_FOUND, r.getStatusCode());
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_NOT_FOUND);
     r.consume();
   }
 
@@ -102,7 +102,7 @@ public class DeleteBranchIT extends AbstractDaemonTest {
     RestResponse r =
         userSession.delete("/projects/" + project.get()
             + "/branches/" + branch.getShortName());
-    assertEquals(HttpStatus.SC_FORBIDDEN, r.getStatusCode());
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_FORBIDDEN);
     r.consume();
   }
 

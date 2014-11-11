@@ -14,9 +14,7 @@
 
 package com.google.gerrit.acceptance.rest.project;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
@@ -38,20 +36,19 @@ public class BranchAssert {
               return info.ref.equals(b.ref);
             }
           }, null);
-      assertNotNull("missing branch: " + b.ref, info);
+      assertThat(info).named("branch " + b.ref).isNotNull();
       assertBranchInfo(b, info);
       missingBranches.remove(info);
     }
-    assertTrue("unexpected branches: " + missingBranches,
-        missingBranches.isEmpty());
+    assertThat(missingBranches).named("" + missingBranches).isEmpty();
   }
 
   public static void assertBranchInfo(BranchInfo expected, BranchInfo actual) {
-    assertEquals(expected.ref, actual.ref);
+    assertThat(actual.ref).isEqualTo(expected.ref);
     if (expected.revision != null) {
-      assertEquals(expected.revision, actual.revision);
+      assertThat(actual.revision).isEqualTo(expected.revision);
     }
-    assertEquals(expected.canDelete, toBoolean(actual.canDelete));
+    assertThat(toBoolean(actual.canDelete)).isEqualTo(expected.canDelete);
   }
 
   private static boolean toBoolean(Boolean b) {

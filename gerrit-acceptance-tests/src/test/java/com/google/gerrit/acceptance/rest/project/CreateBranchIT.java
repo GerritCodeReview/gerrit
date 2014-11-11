@@ -14,10 +14,10 @@
 
 package com.google.gerrit.acceptance.rest.project;
 
+import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.server.project.Util.block;
-import static org.junit.Assert.assertEquals;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
@@ -42,7 +42,7 @@ public class CreateBranchIT extends AbstractDaemonTest {
     RestResponse r =
         userSession.put("/projects/" + project.get()
             + "/branches/" + branch.getShortName());
-    assertEquals(HttpStatus.SC_FORBIDDEN, r.getStatusCode());
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_FORBIDDEN);
   }
 
   @Test
@@ -50,12 +50,12 @@ public class CreateBranchIT extends AbstractDaemonTest {
     RestResponse r =
         adminSession.put("/projects/" + project.get()
             + "/branches/" + branch.getShortName());
-    assertEquals(HttpStatus.SC_CREATED, r.getStatusCode());
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_CREATED);
     r.consume();
 
     r = adminSession.get("/projects/" + project.get()
         + "/branches/" + branch.getShortName());
-    assertEquals(HttpStatus.SC_OK, r.getStatusCode());
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
   }
 
   @Test
@@ -63,12 +63,12 @@ public class CreateBranchIT extends AbstractDaemonTest {
     RestResponse r =
         adminSession.put("/projects/" + project.get()
             + "/branches/" + branch.getShortName());
-    assertEquals(HttpStatus.SC_CREATED, r.getStatusCode());
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_CREATED);
     r.consume();
 
     r = adminSession.put("/projects/" + project.get()
         + "/branches/" + branch.getShortName());
-    assertEquals(HttpStatus.SC_CONFLICT, r.getStatusCode());
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_CONFLICT);
   }
 
   @Test
@@ -78,12 +78,12 @@ public class CreateBranchIT extends AbstractDaemonTest {
     RestResponse r =
         userSession.put("/projects/" + project.get()
             + "/branches/" + branch.getShortName());
-    assertEquals(HttpStatus.SC_CREATED, r.getStatusCode());
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_CREATED);
     r.consume();
 
     r = adminSession.get("/projects/" + project.get()
         + "/branches/" + branch.getShortName());
-    assertEquals(HttpStatus.SC_OK, r.getStatusCode());
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
   }
 
   @Test
@@ -92,12 +92,12 @@ public class CreateBranchIT extends AbstractDaemonTest {
     RestResponse r =
         adminSession.put("/projects/" + project.get()
             + "/branches/" + branch.getShortName());
-    assertEquals(HttpStatus.SC_CREATED, r.getStatusCode());
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_CREATED);
     r.consume();
 
     r = adminSession.get("/projects/" + project.get()
         + "/branches/" + branch.getShortName());
-    assertEquals(HttpStatus.SC_OK, r.getStatusCode());
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
   }
 
   @Test
@@ -108,7 +108,7 @@ public class CreateBranchIT extends AbstractDaemonTest {
     RestResponse r =
         userSession.put("/projects/" + project.get()
             + "/branches/" + branch.getShortName());
-    assertEquals(HttpStatus.SC_FORBIDDEN, r.getStatusCode());
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_FORBIDDEN);
   }
 
   private void blockCreateReference() throws Exception {

@@ -14,8 +14,8 @@
 
 package com.google.gerrit.acceptance.rest.project;
 
+import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.GitUtil.createProject;
-import static org.junit.Assert.assertEquals;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
@@ -33,7 +33,7 @@ public class SetParentIT extends AbstractDaemonTest {
     RestResponse r =
         userSession.put("/projects/" + project.get() + "/parent",
             newParentInput(parent));
-    assertEquals(HttpStatus.SC_FORBIDDEN, r.getStatusCode());
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_FORBIDDEN);
     r.consume();
   }
 
@@ -44,14 +44,14 @@ public class SetParentIT extends AbstractDaemonTest {
     RestResponse r =
         adminSession.put("/projects/" + project.get() + "/parent",
             newParentInput(parent));
-    assertEquals(HttpStatus.SC_OK, r.getStatusCode());
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
     r.consume();
 
     r = adminSession.get("/projects/" + project.get() + "/parent");
-    assertEquals(HttpStatus.SC_OK, r.getStatusCode());
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
     String newParent =
         newGson().fromJson(r.getReader(), String.class);
-    assertEquals(parent, newParent);
+    assertThat(newParent).isEqualTo(parent);
     r.consume();
   }
 
@@ -60,7 +60,7 @@ public class SetParentIT extends AbstractDaemonTest {
     RestResponse r =
         adminSession.put("/projects/" + allProjects.get() + "/parent",
             newParentInput(project.get()));
-    assertEquals(HttpStatus.SC_CONFLICT, r.getStatusCode());
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_CONFLICT);
     r.consume();
   }
 
@@ -69,21 +69,21 @@ public class SetParentIT extends AbstractDaemonTest {
     RestResponse r =
         adminSession.put("/projects/" + project.get() + "/parent",
             newParentInput(project.get()));
-    assertEquals(HttpStatus.SC_CONFLICT, r.getStatusCode());
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_CONFLICT);
     r.consume();
 
     String child = "child";
     createProject(sshSession, child, project, true);
     r = adminSession.put("/projects/" + project.get() + "/parent",
            newParentInput(child));
-    assertEquals(HttpStatus.SC_CONFLICT, r.getStatusCode());
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_CONFLICT);
     r.consume();
 
     String grandchild = "grandchild";
     createProject(sshSession, grandchild, new Project.NameKey(child), true);
     r = adminSession.put("/projects/" + project.get() + "/parent",
            newParentInput(grandchild));
-    assertEquals(HttpStatus.SC_CONFLICT, r.getStatusCode());
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_CONFLICT);
     r.consume();
   }
 
@@ -92,7 +92,7 @@ public class SetParentIT extends AbstractDaemonTest {
     RestResponse r =
         adminSession.put("/projects/" + project.get() + "/parent",
             newParentInput("non-existing"));
-    assertEquals(HttpStatus.SC_UNPROCESSABLE_ENTITY, r.getStatusCode());
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_UNPROCESSABLE_ENTITY);
     r.consume();
   }
 

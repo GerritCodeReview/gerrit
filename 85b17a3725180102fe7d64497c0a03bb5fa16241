@@ -60,6 +60,24 @@
     },
     {
       "key": {
+        "uuid": "3aa1e35e_9cb825ea",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeEdits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 501,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-11-11T20:39:41Z",
+      "side": 1,
+      "message": "Browser calls GET /edit_message (or /edit:message), gets a 404 Not Found, then retries /revisions/current/message?\n\nMaybe that isn\u0027t any better. It sounds like a race condition that the user could pick a different message version. But if the edit doesn\u0027t exist yet, the current revision will be picked as the base when the first mutation is stored. So I don\u0027t actually think the race condition is relevant, the race exists at edit creation anyway.",
+      "parentUuid": "1a9edf22_5b506321",
+      "revId": "85b17a3725180102fe7d64497c0a03bb5fa16241",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a77bfc2_d3ae94a9",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeEdits.java",
         "patchSetId": 3

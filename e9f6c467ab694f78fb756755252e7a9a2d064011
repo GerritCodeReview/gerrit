@@ -16,6 +16,24 @@
       "revId": "e9f6c467ab694f78fb756755252e7a9a2d064011",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac2171f_eddde56e",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/ssh/BanCommitIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-11-11T09:42:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "da71a7c8_39780fb3",
+      "revId": "e9f6c467ab694f78fb756755252e7a9a2d064011",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a9edf22_bb5ac73a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-11-11T21:58:40Z",
+      "side": 1,
+      "message": "Tested it with Firefox and Chrome: length is always supplied and input can be streamed.",
+      "revId": "cb538629761f2a21737eec8f103ebbd608a14d98",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

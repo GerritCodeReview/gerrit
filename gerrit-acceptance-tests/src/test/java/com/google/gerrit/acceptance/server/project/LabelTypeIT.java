@@ -15,7 +15,7 @@
 package com.google.gerrit.acceptance.server.project;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import static org.junit.Assert.assertEquals;
+import static com.google.common.truth.Truth.assertThat;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
@@ -288,8 +288,8 @@ public class LabelTypeIT extends AbstractDaemonTest {
     revision(r).submit();
     Repository repo = repoManager.openRepository(project);
     try {
-      assertEquals(r.getCommitId(),
-          repo.getRef("refs/heads/master").getObjectId());
+      assertThat(repo.getRef("refs/heads/master").getObjectId()).isEqualTo(
+          r.getCommitId());
     } finally {
       repo.close();
     }
@@ -309,9 +309,9 @@ public class LabelTypeIT extends AbstractDaemonTest {
 
   private void doAssertApproval(int expected, ChangeInfo c) {
     LabelInfo cr = c.labels.get("Code-Review");
-    assertEquals(-1, (int) cr.defaultValue);
-    assertEquals(1, cr.all.size());
-    assertEquals("Administrator", cr.all.get(0).name);
-    assertEquals(expected, cr.all.get(0).value.intValue());
+    assertThat((int) cr.defaultValue).isEqualTo(-1);
+    assertThat(cr.all.size()).isEqualTo(1);
+    assertThat(cr.all.get(0).name).isEqualTo("Administrator");
+    assertThat(cr.all.get(0).value.intValue()).isEqualTo(expected);
   }
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da71a7c8_f9361705",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/cache/CacheTest.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2014-11-11T08:02:57Z",
+      "side": 1,
+      "message": "I was too quick with removing the sleep: the H2 store is executed asynchronously. I think I introduced the sleep to allow the SQL Store some time to actually execute the store. If I reintroduce the bug this test is green without the sleep. With the sleep it spots the bug, which is the purpose of the test. We\u0027ll have to reintroduce the sleep here, I am afraid, as I can\u0027t think of a way to assert that the store has actually executed.",
+      "range": {
+        "startLine": 153,
+        "startChar": 4,
+        "endLine": 153,
+        "endChar": 14
+      },
+      "revId": "cf222e1e82b0b443bb752462264e27dc2aa151b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

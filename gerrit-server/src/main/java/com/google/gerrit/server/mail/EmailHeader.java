@@ -57,9 +57,21 @@ public abstract class EmailHeader {
 
   static boolean needsQuotedPrintable(java.lang.String value) {
     for (int i = 0; i < value.length(); i++) {
-      if (value.charAt(i) < ' ' || '~' < value.charAt(i)) {
-        return true;
+      char c = value.charAt(i);
+      switch (c) {
+        case '!':
+        case '*':
+        case '+':
+        case '-':
+        case '/':
+        case '=':
+        case '_':
+          continue;
+        default:
+          if ( (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') )
+            continue;
       }
+      return true;
     }
     return false;
   }

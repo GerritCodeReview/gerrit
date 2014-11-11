@@ -14,10 +14,10 @@
 
 package com.google.gerrit.acceptance.server.change;
 
+import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.GitUtil.add;
 import static com.google.gerrit.acceptance.GitUtil.createCommit;
 import static com.google.gerrit.acceptance.GitUtil.pushHead;
-import static org.junit.Assert.assertEquals;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
@@ -51,7 +51,7 @@ public class GetRelatedIT extends AbstractDaemonTest {
     PushOneCommit push = pushFactory.create(db, admin.getIdent());
     PatchSet.Id ps = push.to(git, "refs/for/master").getPatchSetId();
     List<ChangeAndCommit> related = getRelated(ps);
-    assertEquals(0, related.size());
+    assertThat(related.size()).isEqualTo(0);
   }
 
   @Test
@@ -64,9 +64,13 @@ public class GetRelatedIT extends AbstractDaemonTest {
 
     for (Commit c : ImmutableList.of(c2, c1)) {
       List<ChangeAndCommit> related = getRelated(getPatchSetId(c));
-      assertEquals(2, related.size());
-      assertEquals("related to " + c.getChangeId(), c2.getChangeId(), related.get(0).changeId);
-      assertEquals("related to " + c.getChangeId(), c1.getChangeId(), related.get(1).changeId);
+      assertThat(related.size()).isEqualTo(2);
+      assertThat(related.get(0).changeId)
+        .named("related to " + c.getChangeId())
+        .isEqualTo(c2.getChangeId());
+      assertThat(related.get(1).changeId)
+        .named("related to " + c.getChangeId())
+        .isEqualTo(c1.getChangeId());
     }
   }
 
@@ -90,16 +94,24 @@ public class GetRelatedIT extends AbstractDaemonTest {
 
     for (PatchSet.Id ps : ImmutableList.of(c2ps2, c1ps2)) {
       List<ChangeAndCommit> related = getRelated(ps);
-      assertEquals(2, related.size());
-      assertEquals("related to " + ps, c1.getChangeId(), related.get(0).changeId);
-      assertEquals("related to " + ps, c2.getChangeId(), related.get(1).changeId);
+      assertThat(related.size()).isEqualTo(2);
+      assertThat(related.get(0).changeId)
+        .named("related to " + ps)
+        .isEqualTo(c1.getChangeId());
+      assertThat(related.get(1).changeId)
+        .named("related to " + ps)
+        .isEqualTo(c2.getChangeId());
     }
 
     for (PatchSet.Id ps : ImmutableList.of(c2ps1, c1ps1)) {
       List<ChangeAndCommit> related = getRelated(ps);
-      assertEquals(2, related.size());
-      assertEquals("related to " + ps, c2.getChangeId(), related.get(0).changeId);
-      assertEquals("related to " + ps, c1.getChangeId(), related.get(1).changeId);
+      assertThat(related.size()).isEqualTo(2);
+      assertThat(related.get(0).changeId)
+        .named("related to " + ps)
+        .isEqualTo(c2.getChangeId());
+      assertThat(related.get(1).changeId)
+        .named("related to " + ps)
+        .isEqualTo(c1.getChangeId());
     }
   }
 
@@ -127,18 +139,30 @@ public class GetRelatedIT extends AbstractDaemonTest {
 
     for (PatchSet.Id ps : ImmutableList.of(c3ps1, c2ps2, c1ps2)) {
       List<ChangeAndCommit> related = getRelated(ps);
-      assertEquals(3, related.size());
-      assertEquals("related to " + ps, c3.getChangeId(), related.get(0).changeId);
-      assertEquals("related to " + ps, c1.getChangeId(), related.get(1).changeId);
-      assertEquals("related to " + ps, c2.getChangeId(), related.get(2).changeId);
+      assertThat(related.size()).isEqualTo(3);
+      assertThat(related.get(0).changeId)
+        .named("related to " + ps)
+        .isEqualTo(c3.getChangeId());
+      assertThat(related.get(1).changeId)
+        .named("related to " + ps)
+        .isEqualTo(c1.getChangeId());
+      assertThat(related.get(2).changeId)
+        .named("related to " + ps)
+        .isEqualTo(c2.getChangeId());
     }
 
     for (PatchSet.Id ps : ImmutableList.of(c2ps1, c1ps1)) {
       List<ChangeAndCommit> related = getRelated(ps);
-      assertEquals(3, related.size());
-      assertEquals("related to " + ps, c3.getChangeId(), related.get(0).changeId);
-      assertEquals("related to " + ps, c2.getChangeId(), related.get(1).changeId);
-      assertEquals("related to " + ps, c1.getChangeId(), related.get(2).changeId);
+      assertThat(related.size()).isEqualTo(3);
+      assertThat(related.get(0).changeId)
+        .named("related to " + ps)
+        .isEqualTo(c3.getChangeId());
+      assertThat(related.get(1).changeId)
+        .named("related to " + ps)
+        .isEqualTo(c2.getChangeId());
+      assertThat(related.get(2).changeId)
+        .named("related to " + ps)
+        .isEqualTo(c1.getChangeId());
     }
   }
 
@@ -157,12 +181,22 @@ public class GetRelatedIT extends AbstractDaemonTest {
     String editRev = editUtil.byChange(ch2).get().getRevision().get();
 
     List<ChangeAndCommit> related = getRelated(ch2.getId(), 0);
-    assertEquals(3, related.size());
-    assertEquals("related to " + c2.getChangeId(), c3.getChangeId(), related.get(0).changeId);
-    assertEquals("related to " + c2.getChangeId(), c2.getChangeId(), related.get(1).changeId);
-    assertEquals("has edit revision number", 0, related.get(1)._revisionNumber.intValue());
-    assertEquals("has edit revision " + editRev, editRev, related.get(1).commit.commit);
-    assertEquals("related to " + c2.getChangeId(), c1.getChangeId(), related.get(2).changeId);
+    assertThat(related.size()).isEqualTo(3);
+    assertThat(related.get(0).changeId)
+      .named("related to " + c2.getChangeId())
+      .isEqualTo(c3.getChangeId());
+    assertThat(related.get(1).changeId)
+      .named("related to " + c2.getChangeId())
+      .isEqualTo(c2.getChangeId());
+    assertThat(related.get(1)._revisionNumber.intValue())
+      .named("has edit revision number")
+      .isEqualTo(0);
+    assertThat(related.get(1).commit.commit)
+      .named("has edit revision " + editRev)
+      .isEqualTo(editRev);
+    assertThat(related.get(2).changeId)
+      .named("related to " + c2.getChangeId())
+      .isEqualTo(c1.getChangeId());
   }
 
   private List<ChangeAndCommit> getRelated(PatchSet.Id ps) throws IOException {

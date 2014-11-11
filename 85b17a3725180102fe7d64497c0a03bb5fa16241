@@ -42,6 +42,24 @@
     },
     {
       "key": {
+        "uuid": "1a9edf22_5b506321",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeEdits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 501,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-11-11T20:35:24Z",
+      "side": 1,
+      "message": "So the current edit workflow is:\n\n* User lick on edit button in file table to switch it in edit mode.\n* From now on, all files an commit message can be edited. Note that there is no edit exist yet.\n* User activates editing commit message.\n* Edit screen is opened and GET /edit_message is called [1]\n* On line 501 the commit message from base commit is returned\n* User changes the commit message\n* Pushes save button, edit is created\n* User pushes edit commit message button again (edit exists now) and code path line 500 above is active\n\nBecause currently the Edit Screen don\u0027t have ChangeInfo and the base commit message, i choosed to retrieve it with this endpoint. Sure, we could change that by providing new endpoint change:message or call existing /changes/\u003cid\u003e/detail endpoint with message option to only retrieve the commit message.\n\n [1] https://gerrit-review.googlesource.com/#/c/61243/11/gerrit-gwtui/src/main/java/com/google/gerrit/client/editor/EditScreen.java@75",
+      "parentUuid": "3aa1e35e_3c4f9184",
+      "revId": "85b17a3725180102fe7d64497c0a03bb5fa16241",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a77bfc2_d3ae94a9",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeEdits.java",
         "patchSetId": 3

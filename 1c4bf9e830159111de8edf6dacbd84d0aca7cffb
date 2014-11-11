@@ -46,6 +46,30 @@
       "revId": "1c4bf9e830159111de8edf6dacbd84d0aca7cffb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da71a7c8_d96313ff",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/GetRelatedIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-11-11T12:11:28Z",
+      "side": 1,
+      "message": "In this example we would reuse the logic in one place:\n\n  private void assertRelatedTo(String id1, PatchSet.Id related, String id2) {\n    assertThat(id1)\n       .named(\"related to \" + related)\n       .isEqualTo(id2);\n  }\n\nand would invoke it like this:\n\n  assertRelatedTo(related.get(0).changeId, ps, c1.getChangeId());",
+      "parentUuid": "9ae00fb1_afe7d940",
+      "range": {
+        "startLine": 98,
+        "startChar": 6,
+        "endLine": 100,
+        "endChar": 37
+      },
+      "revId": "1c4bf9e830159111de8edf6dacbd84d0aca7cffb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

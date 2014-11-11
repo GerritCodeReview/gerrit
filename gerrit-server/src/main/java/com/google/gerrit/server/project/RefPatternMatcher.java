@@ -25,7 +25,10 @@ import java.util.regex.Pattern;
 
 public abstract class RefPatternMatcher {
   public static RefPatternMatcher getMatcher(String pattern) {
-    if (pattern.contains("${")) {
+    if (pattern.contains(ExtRefPatternMatcher.Sp)) {
+      String destPart = pattern.split(ExtRefPatternMatcher.Sp)[1];
+      return getMatcher(destPart);
+    } else if (pattern.contains("${")) {
       return new ExpandParameters(pattern);
     } else if (isRE(pattern)) {
       return new Regexp(pattern);

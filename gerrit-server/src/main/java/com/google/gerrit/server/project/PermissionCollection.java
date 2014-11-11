@@ -65,11 +65,14 @@ public class PermissionCollection {
      *        {@code usernames} inserted into them before seeing if they apply to
      *        the reference named by {@code ref}. If null or empty, per-user
      *        references are ignored.
+     * @param extend matcher such as change's filepaths, it is used to filter out
+     *         permission rules those included in extended reference.
      * @return map of permissions that apply to this reference, keyed by
      *         permission name.
      */
     PermissionCollection filter(Iterable<SectionMatcher> matcherList,
-        String ref, Collection<String> usernames) {
+        String ref, Collection<String> usernames, List<String> extMatcher) {
+
       if (isRE(ref)) {
         ref = RefControl.shortestExample(ref);
       } else if (ref.endsWith("/*")) {
@@ -111,6 +114,33 @@ public class PermissionCollection {
 
       Set<SeenRule> seen = new HashSet<>();
       Set<String> exclusiveGroupPermissions = new HashSet<>();
+      Set<String> extMatchSection = new HashSet<String>();
+
+      if ( extMatcher != null ) {
+        for (String m : extMatcher) {
+          boolean bExpMatch = false;
+          //Get matched ext-section first
+          for (AccessSection section : sections) {
+            String sName = section.getName();
+            ExtRefPatternMatcher extRefMatcher = ExtRefPatternMatcher.getMatcher(sName);
+            if ( extRefMatcher != null ) {
+              if ( extRefMatcher.match(m)){
+                extMatchSection.add(sName);
+                bExpMatch = true;
+                break;
+              }
+            }
+          }
+          //If no matched ext-section,
+          if ( !bExpMatch ) {
+            for (AccessSection section : sections) {
+              if ( ExtRefPatternMatcher.getMatcher(section.getName()) == null ) {
+                extMatchSection.add(section.getName());
+              }
+            }
+          }
+        }
+      }
 
       HashMap<String, List<PermissionRule>> permissions = new HashMap<>();
       Map<PermissionRule, ProjectRef> ruleProps = Maps.newIdentityHashMap();
@@ -119,6 +149,13 @@ public class PermissionCollection {
         for (Permission permission : section.getPermissions()) {
           boolean exclusivePermissionExists =
               exclusiveGroupPermissions.contains(permission.getName());
+
+          if ( ExtRefPatternMatcher.excRules.contains(permission.getName()) ) {
+            if ( extMatchSection.size() > 0
+                && !extMatchSection.contains(section.getName()) ) {
+              continue;
+            }
+          }
 
           for (PermissionRule rule : permission.getRules()) {
             SeenRule s = new SeenRule(section, permission, rule);

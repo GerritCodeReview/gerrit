@@ -14,16 +14,13 @@
 
 package com.google.gerrit.acceptance.edit;
 
+import static com.google.common.truth.Truth.assertThat;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.apache.http.HttpStatus.SC_NOT_FOUND;
 import static org.apache.http.HttpStatus.SC_NO_CONTENT;
 import static org.apache.http.HttpStatus.SC_OK;
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 
 import com.google.common.base.Optional;
@@ -100,12 +97,12 @@ public class ChangeEditIT extends AbstractDaemonTest {
     ps = getCurrentPatchSet(changeId);
     amendChange(git, admin.getIdent(), changeId);
     change = getChange(changeId);
-    assertNotNull(ps);
+    assertThat(ps).isNotNull();
     String changeId2 = newChange2(git, admin.getIdent());
     change2 = getChange(changeId2);
-    assertNotNull(change2);
+    assertThat(change2).isNotNull();
     ps2 = getCurrentPatchSet(changeId2);
-    assertNotNull(ps2);
+    assertThat(ps2).isNotNull();
     final long clockStepMs = MILLISECONDS.convert(1, SECONDS);
     final AtomicLong clockMs = new AtomicLong(
         new DateTime(2009, 9, 30, 17, 0, 0).getMillis());
@@ -125,216 +122,162 @@ public class ChangeEditIT extends AbstractDaemonTest {
 
   @Test
   public void deleteEdit() throws Exception {
-    assertEquals(RefUpdate.Result.NEW,
-        modifier.createEdit(
-            change,
-            ps));
-    assertEquals(RefUpdate.Result.FORCED,
-        modifier.modifyFile(
-            editUtil.byChange(change).get(),
-            FILE_NAME,
-            CONTENT_NEW));
+    assertThat(modifier.createEdit(change, ps)).isEqualTo(RefUpdate.Result.NEW);
+    assertThat(
+        modifier.modifyFile(editUtil.byChange(change).get(), FILE_NAME,
+            CONTENT_NEW)).isEqualTo(RefUpdate.Result.FORCED);
     editUtil.delete(editUtil.byChange(change).get());
-    assertFalse(editUtil.byChange(change).isPresent());
+    assertThat(editUtil.byChange(change).isPresent()).isFalse();
   }
 
   @Test
   public void publishEdit() throws Exception {
-    assertEquals(RefUpdate.Result.NEW,
-        modifier.createEdit(
-            change,
-            getCurrentPatchSet(changeId)));
-    assertEquals(RefUpdate.Result.FORCED,
-        modifier.modifyFile(
-            editUtil.byChange(change).get(),
-            FILE_NAME,
-            CONTENT_NEW2));
+    assertThat(modifier.createEdit(change, getCurrentPatchSet(changeId)))
+        .isEqualTo(RefUpdate.Result.NEW);
+    assertThat(
+        modifier.modifyFile(editUtil.byChange(change).get(), FILE_NAME,
+            CONTENT_NEW2)).isEqualTo(RefUpdate.Result.FORCED);
     editUtil.publish(editUtil.byChange(change).get());
-    assertFalse(editUtil.byChange(change).isPresent());
+    assertThat(editUtil.byChange(change).isPresent()).isFalse();
   }
 
   @Test
   public void publishEditRest() throws Exception {
     PatchSet oldCurrentPatchSet = getCurrentPatchSet(changeId);
-    assertEquals(RefUpdate.Result.NEW,
-        modifier.createEdit(
-            change,
-            oldCurrentPatchSet));
-    assertEquals(RefUpdate.Result.FORCED,
-        modifier.modifyFile(
-            editUtil.byChange(change).get(),
-            FILE_NAME,
-            CONTENT_NEW));
+    assertThat(modifier.createEdit(change, oldCurrentPatchSet)).isEqualTo(
+        RefUpdate.Result.NEW);
+    assertThat(
+        modifier.modifyFile(editUtil.byChange(change).get(), FILE_NAME,
+            CONTENT_NEW)).isEqualTo(RefUpdate.Result.FORCED);
     Optional<ChangeEdit> edit = editUtil.byChange(change);
     RestResponse r = adminSession.post(urlPublish());
-    assertEquals(SC_NO_CONTENT, r.getStatusCode());
+    assertThat(r.getStatusCode()).isEqualTo(SC_NO_CONTENT);
     edit = editUtil.byChange(change);
-    assertFalse(edit.isPresent());
+    assertThat(edit.isPresent()).isFalse();
     PatchSet newCurrentPatchSet = getCurrentPatchSet(changeId);
-    assertFalse(oldCurrentPatchSet.getId().equals(newCurrentPatchSet.getId()));
+    assertThat(oldCurrentPatchSet.getId().equals(newCurrentPatchSet.getId()))
+        .isFalse();
   }
 
   @Test
   public void deleteEditRest() throws Exception {
-    assertEquals(RefUpdate.Result.NEW,
-        modifier.createEdit(
-            change,
-            ps));
-    assertEquals(RefUpdate.Result.FORCED,
-        modifier.modifyFile(
-            editUtil.byChange(change).get(),
-            FILE_NAME,
-            CONTENT_NEW));
+    assertThat(modifier.createEdit(change, ps)).isEqualTo(RefUpdate.Result.NEW);
+    assertThat(
+        modifier.modifyFile(editUtil.byChange(change).get(), FILE_NAME,
+            CONTENT_NEW)).isEqualTo(RefUpdate.Result.FORCED);
     Optional<ChangeEdit> edit = editUtil.byChange(change);
     RestResponse r = adminSession.delete(urlEdit());
-    assertEquals(SC_NO_CONTENT, r.getStatusCode());
+    assertThat(r.getStatusCode()).isEqualTo(SC_NO_CONTENT);
     edit = editUtil.byChange(change);
-    assertFalse(edit.isPresent());
+    assertThat(edit.isPresent()).isFalse();
   }
 
   @Test
   public void rebaseEdit() throws Exception {
-    assertEquals(RefUpdate.Result.NEW,
-        modifier.createEdit(
-            change,
-            ps));
-    assertEquals(RefUpdate.Result.FORCED,
-        modifier.modifyFile(
-            editUtil.byChange(change).get(),
-            FILE_NAME,
-            CONTENT_NEW));
+    assertThat(modifier.createEdit(change, ps)).isEqualTo(RefUpdate.Result.NEW);
+    assertThat(
+        modifier.modifyFile(editUtil.byChange(change).get(), FILE_NAME,
+            CONTENT_NEW)).isEqualTo(RefUpdate.Result.FORCED);
     ChangeEdit edit = editUtil.byChange(change).get();
     PatchSet current = getCurrentPatchSet(changeId);
-    assertEquals(current.getPatchSetId() - 1,
-        edit.getBasePatchSet().getPatchSetId());
+    assertThat(edit.getBasePatchSet().getPatchSetId()).isEqualTo(
+        current.getPatchSetId() - 1);
     Date beforeRebase = edit.getEditCommit().getCommitterIdent().getWhen();
     modifier.rebaseEdit(edit, current);
     edit = editUtil.byChange(change).get();
-    assertArrayEquals(CONTENT_NEW,
-        toBytes(fileUtil.getContent(edit.getChange().getProject(),
-            edit.getRevision().get(), FILE_NAME)));
-    assertArrayEquals(CONTENT_NEW2,
-        toBytes(fileUtil.getContent(edit.getChange().getProject(),
-            edit.getRevision().get(), FILE_NAME2)));
-    assertEquals(current.getPatchSetId(),
-        edit.getBasePatchSet().getPatchSetId());
+    assertByteArray(fileUtil.getContent(edit.getChange().getProject(), edit
+        .getRevision().get(), FILE_NAME), CONTENT_NEW);
+    assertByteArray(fileUtil.getContent(edit.getChange().getProject(), edit
+        .getRevision().get(), FILE_NAME2), CONTENT_NEW2);
+    assertThat(edit.getBasePatchSet().getPatchSetId()).isEqualTo(
+        current.getPatchSetId());
     Date afterRebase = edit.getEditCommit().getCommitterIdent().getWhen();
-    assertFalse(beforeRebase.equals(afterRebase));
+    assertThat(beforeRebase.equals(afterRebase)).isFalse();
   }
 
   @Test
   public void rebaseEditRest() throws Exception {
-    assertEquals(RefUpdate.Result.NEW,
-        modifier.createEdit(
-            change,
-            ps));
-    assertEquals(RefUpdate.Result.FORCED,
-        modifier.modifyFile(
-            editUtil.byChange(change).get(),
-            FILE_NAME,
-            CONTENT_NEW));
+    assertThat(modifier.createEdit(change, ps)).isEqualTo(RefUpdate.Result.NEW);
+    assertThat(
+        modifier.modifyFile(editUtil.byChange(change).get(), FILE_NAME,
+            CONTENT_NEW)).isEqualTo(RefUpdate.Result.FORCED);
     ChangeEdit edit = editUtil.byChange(change).get();
     PatchSet current = getCurrentPatchSet(changeId);
-    assertEquals(current.getPatchSetId() - 1,
-        edit.getBasePatchSet().getPatchSetId());
+    assertThat(edit.getBasePatchSet().getPatchSetId()).isEqualTo(
+        current.getPatchSetId() - 1);
     Date beforeRebase = edit.getEditCommit().getCommitterIdent().getWhen();
     RestResponse r = adminSession.post(urlRebase());
-    assertEquals(SC_NO_CONTENT, r.getStatusCode());
+    assertThat(r.getStatusCode()).isEqualTo(SC_NO_CONTENT);
     edit = editUtil.byChange(change).get();
-    assertArrayEquals(CONTENT_NEW,
-        toBytes(fileUtil.getContent(edit.getChange().getProject(),
-            edit.getRevision().get(), FILE_NAME)));
-    assertArrayEquals(CONTENT_NEW2,
-        toBytes(fileUtil.getContent(edit.getChange().getProject(),
-            edit.getRevision().get(), FILE_NAME2)));
-    assertEquals(current.getPatchSetId(),
-        edit.getBasePatchSet().getPatchSetId());
+    assertByteArray(fileUtil.getContent(edit.getChange().getProject(), edit
+        .getRevision().get(), FILE_NAME), CONTENT_NEW);
+    assertByteArray(fileUtil.getContent(edit.getChange().getProject(), edit
+        .getRevision().get(), FILE_NAME2), CONTENT_NEW2);
+    assertThat(edit.getBasePatchSet().getPatchSetId()).isEqualTo(
+        current.getPatchSetId());
     Date afterRebase = edit.getEditCommit().getCommitterIdent().getWhen();
-    assertFalse(beforeRebase.equals(afterRebase));
+    assertThat(beforeRebase.equals(afterRebase)).isFalse();
   }
 
   @Test
   public void updateExistingFile() throws Exception {
-    assertEquals(RefUpdate.Result.NEW,
-        modifier.createEdit(
-            change,
-            ps));
+    assertThat(modifier.createEdit(change, ps)).isEqualTo(RefUpdate.Result.NEW);
     Optional<ChangeEdit> edit = editUtil.byChange(change);
-    assertEquals(RefUpdate.Result.FORCED,
-        modifier.modifyFile(
-            edit.get(),
-            FILE_NAME,
-            CONTENT_NEW));
+    assertThat(modifier.modifyFile(edit.get(), FILE_NAME, CONTENT_NEW))
+        .isEqualTo(RefUpdate.Result.FORCED);
     edit = editUtil.byChange(change);
-    assertArrayEquals(CONTENT_NEW,
-        toBytes(fileUtil.getContent(edit.get().getChange().getProject(),
-            edit.get().getRevision().get(), FILE_NAME)));
+    assertByteArray(
+        fileUtil.getContent(edit.get().getChange().getProject(), edit.get()
+            .getRevision().get(), FILE_NAME), CONTENT_NEW);
     editUtil.delete(edit.get());
     edit = editUtil.byChange(change);
-    assertFalse(edit.isPresent());
+    assertThat(edit.isPresent()).isFalse();
   }
 
   @Test
   public void retrieveEdit() throws Exception {
     RestResponse r = adminSession.get(urlEdit());
-    assertEquals(SC_NO_CONTENT, r.getStatusCode());
-    assertEquals(RefUpdate.Result.NEW,
-        modifier.createEdit(
-            change,
-            ps));
+    assertThat(r.getStatusCode()).isEqualTo(SC_NO_CONTENT);
+    assertThat(modifier.createEdit(change, ps)).isEqualTo(RefUpdate.Result.NEW);
     Optional<ChangeEdit> edit = editUtil.byChange(change);
-    assertEquals(RefUpdate.Result.FORCED,
-        modifier.modifyFile(
-            edit.get(),
-            FILE_NAME,
-            CONTENT_NEW));
+    assertThat(modifier.modifyFile(edit.get(), FILE_NAME, CONTENT_NEW))
+        .isEqualTo(RefUpdate.Result.FORCED);
     edit = editUtil.byChange(change);
     EditInfo info = toEditInfo(false);
-    assertEquals(edit.get().getRevision().get(), info.commit.commit);
-    assertEquals(1, info.commit.parents.size());
+    assertThat(info.commit.commit).isEqualTo(edit.get().getRevision().get());
+    assertThat(info.commit.parents.size()).isEqualTo(1);
 
     edit = editUtil.byChange(change);
     editUtil.delete(edit.get());
 
     r = adminSession.get(urlEdit());
-    assertEquals(SC_NO_CONTENT, r.getStatusCode());
+    assertThat(r.getStatusCode()).isEqualTo(SC_NO_CONTENT);
   }
 
   @Test
   public void retrieveFilesInEdit() throws Exception {
-    assertEquals(RefUpdate.Result.NEW,
-        modifier.createEdit(
-            change,
-            ps));
+    assertThat(modifier.createEdit(change, ps)).isEqualTo(RefUpdate.Result.NEW);
     Optional<ChangeEdit> edit = editUtil.byChange(change);
-    assertEquals(RefUpdate.Result.FORCED,
-        modifier.modifyFile(
-            edit.get(),
-            FILE_NAME,
-            CONTENT_NEW));
+    assertThat(modifier.modifyFile(edit.get(), FILE_NAME, CONTENT_NEW))
+        .isEqualTo(RefUpdate.Result.FORCED);
 
     EditInfo info = toEditInfo(true);
-    assertEquals(2, info.files.size());
+    assertThat(info.files.size()).isEqualTo(2);
     List<String> l = Lists.newArrayList(info.files.keySet());
-    assertEquals("/COMMIT_MSG", l.get(0));
-    assertEquals("foo", l.get(1));
+    assertThat(l.get(0)).isEqualTo("/COMMIT_MSG");
+    assertThat(l.get(1)).isEqualTo("foo");
   }
 
   @Test
   public void deleteExistingFile() throws Exception {
-    assertEquals(RefUpdate.Result.NEW,
-        modifier.createEdit(
-            change,
-            ps));
+    assertThat(modifier.createEdit(change, ps)).isEqualTo(RefUpdate.Result.NEW);
     Optional<ChangeEdit> edit = editUtil.byChange(change);
-    assertEquals(RefUpdate.Result.FORCED,
-        modifier.deleteFile(
-            edit.get(),
-            FILE_NAME));
+    assertThat(modifier.deleteFile(edit.get(), FILE_NAME)).isEqualTo(
+        RefUpdate.Result.FORCED);
     edit = editUtil.byChange(change);
     try {
-      fileUtil.getContent(edit.get().getChange().getProject(),
-          edit.get().getRevision().get(), FILE_NAME);
+      fileUtil.getContent(edit.get().getChange().getProject(), edit.get()
+          .getRevision().get(), FILE_NAME);
       fail("ResourceNotFoundException expected");
     } catch (ResourceNotFoundException rnfe) {
     }
@@ -343,7 +286,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
   @Test
   public void createEditByDeletingExistingFileRest() throws Exception {
     RestResponse r = adminSession.delete(urlEditFile());
-    assertEquals(SC_NO_CONTENT, r.getStatusCode());
+    assertThat(r.getStatusCode()).isEqualTo(SC_NO_CONTENT);
     Optional<ChangeEdit> edit = editUtil.byChange(change);
     try {
       fileUtil.getContent(edit.get().getChange().getProject(),
@@ -356,17 +299,14 @@ public class ChangeEditIT extends AbstractDaemonTest {
   @Test
   public void deletingNonExistingEditRest() throws Exception {
     RestResponse r = adminSession.delete(urlEdit());
-    assertEquals(SC_NOT_FOUND, r.getStatusCode());
+    assertThat(r.getStatusCode()).isEqualTo(SC_NOT_FOUND);
   }
 
   @Test
   public void deleteExistingFileRest() throws Exception {
-    assertEquals(RefUpdate.Result.NEW,
-        modifier.createEdit(
-            change,
-            ps));
-    assertEquals(SC_NO_CONTENT, adminSession.delete(urlEditFile())
-        .getStatusCode());
+    assertThat(modifier.createEdit(change, ps)).isEqualTo(RefUpdate.Result.NEW);
+    assertThat(adminSession.delete(urlEditFile()).getStatusCode()).isEqualTo(
+        SC_NO_CONTENT);
     Optional<ChangeEdit> edit = editUtil.byChange(change);
     try {
       fileUtil.getContent(edit.get().getChange().getProject(),
@@ -378,146 +318,122 @@ public class ChangeEditIT extends AbstractDaemonTest {
 
   @Test
   public void restoreDeletedFileInPatchSet() throws Exception {
-    assertEquals(RefUpdate.Result.NEW,
-        modifier.createEdit(
-            change2,
-            ps2));
+    assertThat(modifier.createEdit(change2, ps2)).isEqualTo(
+        RefUpdate.Result.NEW);
     Optional<ChangeEdit> edit = editUtil.byChange(change2);
-    assertEquals(RefUpdate.Result.FORCED,
-        modifier.restoreFile(
-            edit.get(),
-            FILE_NAME));
+    assertThat(modifier.restoreFile(edit.get(), FILE_NAME)).isEqualTo(
+        RefUpdate.Result.FORCED);
     edit = editUtil.byChange(change2);
-    assertArrayEquals(CONTENT_OLD,
-        toBytes(fileUtil.getContent(edit.get().getChange().getProject(),
-            edit.get().getRevision().get(), FILE_NAME)));
+    assertByteArray(
+        fileUtil.getContent(edit.get().getChange().getProject(), edit.get()
+            .getRevision().get(), FILE_NAME), CONTENT_OLD);
   }
 
   @Test
   public void restoreDeletedFileInPatchSetRest() throws Exception {
     Post.Input in = new Post.Input();
     in.restorePath = FILE_NAME;
-    assertEquals(SC_NO_CONTENT, adminSession.post(urlEdit2(),
-        in).getStatusCode());
+    assertThat(adminSession.post(urlEdit2(), in).getStatusCode()).isEqualTo(
+        SC_NO_CONTENT);
     Optional<ChangeEdit> edit = editUtil.byChange(change2);
-    assertArrayEquals(CONTENT_OLD,
-        toBytes(fileUtil.getContent(edit.get().getChange().getProject(),
-            edit.get().getRevision().get(), FILE_NAME)));
+    assertByteArray(
+        fileUtil.getContent(edit.get().getChange().getProject(), edit.get()
+            .getRevision().get(), FILE_NAME), CONTENT_OLD);
   }
 
   @Test
   public void amendExistingFile() throws Exception {
-    assertEquals(RefUpdate.Result.NEW,
-        modifier.createEdit(
-            change,
-            ps));
+    assertThat(modifier.createEdit(change, ps)).isEqualTo(RefUpdate.Result.NEW);
     Optional<ChangeEdit> edit = editUtil.byChange(change);
-    assertEquals(RefUpdate.Result.FORCED,
-        modifier.modifyFile(
-            edit.get(),
-            FILE_NAME,
-            CONTENT_NEW));
+    assertThat(modifier.modifyFile(edit.get(), FILE_NAME, CONTENT_NEW))
+        .isEqualTo(RefUpdate.Result.FORCED);
     edit = editUtil.byChange(change);
-    assertArrayEquals(CONTENT_NEW,
-        toBytes(fileUtil.getContent(edit.get().getChange().getProject(),
-            edit.get().getRevision().get(), FILE_NAME)));
-    assertEquals(RefUpdate.Result.FORCED,
-        modifier.modifyFile(
-            edit.get(),
-            FILE_NAME,
-            CONTENT_NEW2));
+    assertByteArray(
+        fileUtil.getContent(edit.get().getChange().getProject(), edit.get()
+            .getRevision().get(), FILE_NAME), CONTENT_NEW);
+    assertThat(modifier.modifyFile(edit.get(), FILE_NAME, CONTENT_NEW2))
+        .isEqualTo(RefUpdate.Result.FORCED);
     edit = editUtil.byChange(change);
-    assertArrayEquals(CONTENT_NEW2,
-        toBytes(fileUtil.getContent(edit.get().getChange().getProject(),
-            edit.get().getRevision().get(), FILE_NAME)));
+    assertByteArray(
+        fileUtil.getContent(edit.get().getChange().getProject(), edit.get()
+            .getRevision().get(), FILE_NAME), CONTENT_NEW2);
   }
 
   @Test
   public void createAndChangeEditInOneRequestRest() throws Exception {
     Put.Input in = new Put.Input();
     in.content = RestSession.newRawInput(CONTENT_NEW);
-    assertEquals(SC_NO_CONTENT, adminSession.putRaw(urlEditFile(),
-        in.content).getStatusCode());
+    assertThat(adminSession.putRaw(urlEditFile(), in.content).getStatusCode())
+        .isEqualTo(SC_NO_CONTENT);
     Optional<ChangeEdit> edit = editUtil.byChange(change);
-    assertArrayEquals(CONTENT_NEW,
-        toBytes(fileUtil.getContent(edit.get().getChange().getProject(),
-            edit.get().getRevision().get(), FILE_NAME)));
+    assertByteArray(
+        fileUtil.getContent(edit.get().getChange().getProject(), edit.get()
+            .getRevision().get(), FILE_NAME), CONTENT_NEW);
     in.content = RestSession.newRawInput(CONTENT_NEW2);
-    assertEquals(SC_NO_CONTENT, adminSession.putRaw(urlEditFile(),
-        in.content).getStatusCode());
+    assertThat(adminSession.putRaw(urlEditFile(), in.content).getStatusCode())
+        .isEqualTo(SC_NO_CONTENT);
     edit = editUtil.byChange(change);
-    assertArrayEquals(CONTENT_NEW2,
-        toBytes(fileUtil.getContent(edit.get().getChange().getProject(),
-            edit.get().getRevision().get(), FILE_NAME)));
+    assertByteArray(
+        fileUtil.getContent(edit.get().getChange().getProject(), edit.get()
+            .getRevision().get(), FILE_NAME), CONTENT_NEW2);
   }
 
   @Test
   public void changeEditRest() throws Exception {
-    assertEquals(RefUpdate.Result.NEW,
-        modifier.createEdit(
-            change,
-            ps));
+    assertThat(modifier.createEdit(change, ps)).isEqualTo(RefUpdate.Result.NEW);
     Put.Input in = new Put.Input();
     in.content = RestSession.newRawInput(CONTENT_NEW);
-    assertEquals(SC_NO_CONTENT, adminSession.putRaw(urlEditFile(),
-        in.content).getStatusCode());
+    assertThat(adminSession.putRaw(urlEditFile(), in.content).getStatusCode())
+        .isEqualTo(SC_NO_CONTENT);
     Optional<ChangeEdit> edit = editUtil.byChange(change);
-    assertArrayEquals(CONTENT_NEW,
-        toBytes(fileUtil.getContent(edit.get().getChange().getProject(),
-            edit.get().getRevision().get(), FILE_NAME)));
+    assertByteArray(
+        fileUtil.getContent(edit.get().getChange().getProject(), edit.get()
+            .getRevision().get(), FILE_NAME), CONTENT_NEW);
   }
 
   @Test
   public void emptyPutRequest() throws Exception {
-    assertEquals(RefUpdate.Result.NEW,
-        modifier.createEdit(
-            change,
-            ps));
-    assertEquals(SC_NO_CONTENT, adminSession.put(urlEditFile())
-        .getStatusCode());
+    assertThat(modifier.createEdit(change, ps)).isEqualTo(RefUpdate.Result.NEW);
+    assertThat(adminSession.put(urlEditFile()).getStatusCode()).isEqualTo(
+        SC_NO_CONTENT);
     Optional<ChangeEdit> edit = editUtil.byChange(change);
-    assertArrayEquals("".getBytes(),
-        toBytes(fileUtil.getContent(edit.get().getChange().getProject(),
-            edit.get().getRevision().get(), FILE_NAME)));
+    assertByteArray(
+        fileUtil.getContent(edit.get().getChange().getProject(), edit.get()
+            .getRevision().get(), FILE_NAME), "".getBytes());
   }
 
   @Test
   public void createEmptyEditRest() throws Exception {
-    assertEquals(SC_NO_CONTENT, adminSession.post(urlEdit()).getStatusCode());
+    assertThat(adminSession.post(urlEdit()).getStatusCode()).isEqualTo(
+        SC_NO_CONTENT);
     Optional<ChangeEdit> edit = editUtil.byChange(change);
-    assertArrayEquals(CONTENT_OLD,
-        toBytes(fileUtil.getContent(edit.get().getChange().getProject(),
-            edit.get().getRevision().get(), FILE_NAME)));
+    assertByteArray(
+        fileUtil.getContent(edit.get().getChange().getProject(), edit.get()
+            .getRevision().get(), FILE_NAME), CONTENT_OLD);
   }
 
   @Test
   public void getFileContentRest() throws Exception {
     Put.Input in = new Put.Input();
     in.content = RestSession.newRawInput(CONTENT_NEW);
-    assertEquals(SC_NO_CONTENT, adminSession.putRaw(urlEditFile(),
-        in.content).getStatusCode());
+    assertThat(adminSession.putRaw(urlEditFile(), in.content).getStatusCode())
+        .isEqualTo(SC_NO_CONTENT);
     Optional<ChangeEdit> edit = editUtil.byChange(change);
-    assertEquals(RefUpdate.Result.FORCED,
-        modifier.modifyFile(
-            edit.get(),
-            FILE_NAME,
-            CONTENT_NEW2));
+    assertThat(modifier.modifyFile(edit.get(), FILE_NAME, CONTENT_NEW2))
+        .isEqualTo(RefUpdate.Result.FORCED);
     edit = editUtil.byChange(change);
     RestResponse r = adminSession.get(urlEditFile());
-    assertEquals(SC_OK, r.getStatusCode());
+    assertThat(r.getStatusCode()).isEqualTo(SC_OK);
     String content = r.getEntityContent();
-    assertEquals(StringUtils.newStringUtf8(CONTENT_NEW2),
-        StringUtils.newStringUtf8(Base64.decodeBase64(content)));
+    assertThat(StringUtils.newStringUtf8(Base64.decodeBase64(content)))
+        .isEqualTo(StringUtils.newStringUtf8(CONTENT_NEW2));
   }
 
   @Test
   public void getFileNotFoundRest() throws Exception {
-    assertEquals(RefUpdate.Result.NEW,
-        modifier.createEdit(
-            change,
-            ps));
-    assertEquals(SC_NO_CONTENT, adminSession.delete(urlEditFile())
-        .getStatusCode());
+    assertThat(modifier.createEdit(change, ps)).isEqualTo(RefUpdate.Result.NEW);
+    assertThat(adminSession.delete(urlEditFile()).getStatusCode()).isEqualTo(
+        SC_NO_CONTENT);
     Optional<ChangeEdit> edit = editUtil.byChange(change);
     try {
       fileUtil.getContent(edit.get().getChange().getProject(),
@@ -526,60 +442,42 @@ public class ChangeEditIT extends AbstractDaemonTest {
     } catch (ResourceNotFoundException rnfe) {
     }
     RestResponse r = adminSession.get(urlEditFile());
-    assertEquals(SC_NO_CONTENT, r.getStatusCode());
+    assertThat(r.getStatusCode()).isEqualTo(SC_NO_CONTENT);
   }
 
   @Test
   public void addNewFile() throws Exception {
-    assertEquals(RefUpdate.Result.NEW,
-        modifier.createEdit(
-            change,
-            ps));
+    assertThat(modifier.createEdit(change, ps)).isEqualTo(RefUpdate.Result.NEW);
     Optional<ChangeEdit> edit = editUtil.byChange(change);
-    assertEquals(RefUpdate.Result.FORCED,
-        modifier.modifyFile(
-            edit.get(),
-            FILE_NAME2,
-            CONTENT_NEW));
+    assertThat(modifier.modifyFile(edit.get(), FILE_NAME2, CONTENT_NEW))
+        .isEqualTo(RefUpdate.Result.FORCED);
     edit = editUtil.byChange(change);
-    assertArrayEquals(CONTENT_NEW,
-        toBytes(fileUtil.getContent(edit.get().getChange().getProject(),
-            edit.get().getRevision().get(), FILE_NAME2)));
+    assertByteArray(
+        fileUtil.getContent(edit.get().getChange().getProject(), edit.get()
+            .getRevision().get(), FILE_NAME2), CONTENT_NEW);
   }
 
   @Test
   public void addNewFileAndAmend() throws Exception {
-    assertEquals(RefUpdate.Result.NEW,
-        modifier.createEdit(
-            change,
-            ps));
+    assertThat(modifier.createEdit(change, ps)).isEqualTo(RefUpdate.Result.NEW);
     Optional<ChangeEdit> edit = editUtil.byChange(change);
-    assertEquals(RefUpdate.Result.FORCED,
-        modifier.modifyFile(
-            edit.get(),
-            FILE_NAME2,
-            CONTENT_NEW));
+    assertThat(modifier.modifyFile(edit.get(), FILE_NAME2, CONTENT_NEW))
+        .isEqualTo(RefUpdate.Result.FORCED);
     edit = editUtil.byChange(change);
-    assertArrayEquals(CONTENT_NEW,
-        toBytes(fileUtil.getContent(edit.get().getChange().getProject(),
-            edit.get().getRevision().get(), FILE_NAME2)));
-    assertEquals(RefUpdate.Result.FORCED,
-        modifier.modifyFile(
-            edit.get(),
-            FILE_NAME2,
-            CONTENT_NEW2));
+    assertByteArray(
+        fileUtil.getContent(edit.get().getChange().getProject(), edit.get()
+            .getRevision().get(), FILE_NAME2), CONTENT_NEW);
+    assertThat(modifier.modifyFile(edit.get(), FILE_NAME2, CONTENT_NEW2))
+        .isEqualTo(RefUpdate.Result.FORCED);
     edit = editUtil.byChange(change);
-    assertArrayEquals(CONTENT_NEW2,
-        toBytes(fileUtil.getContent(edit.get().getChange().getProject(),
-            edit.get().getRevision().get(), FILE_NAME2)));
+    assertByteArray(
+        fileUtil.getContent(edit.get().getChange().getProject(), edit.get()
+            .getRevision().get(), FILE_NAME2), CONTENT_NEW2);
   }
 
   @Test
   public void writeNoChanges() throws Exception {
-    assertEquals(RefUpdate.Result.NEW,
-        modifier.createEdit(
-            change,
-            ps));
+    assertThat(modifier.createEdit(change, ps)).isEqualTo(RefUpdate.Result.NEW);
     try {
       modifier.modifyFile(
           editUtil.byChange(change).get(),
@@ -587,7 +485,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
           CONTENT_OLD);
       fail();
     } catch (InvalidChangeOperationException e) {
-      assertEquals("no changes were made", e.getMessage());
+      assertThat(e.getMessage()).isEqualTo("no changes were made");
     }
   }
 
@@ -622,10 +520,11 @@ public class ChangeEditIT extends AbstractDaemonTest {
         .get(getChange(changeId).currentPatchSetId());
   }
 
-  private static byte[] toBytes(BinaryResult content) throws Exception {
+  private static void assertByteArray(BinaryResult result, byte[] expected)
+        throws Exception {
     ByteArrayOutputStream os = new ByteArrayOutputStream();
-    content.writeTo(os);
-    return os.toByteArray();
+    result.writeTo(os);
+    assertThat(os.toByteArray()).isEqualTo(expected);
   }
 
   private String urlEdit() {
@@ -665,7 +564,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
 
   private EditInfo toEditInfo(boolean files) throws IOException {
     RestResponse r = adminSession.get(files ? urlGetFiles() : urlEdit());
-    assertEquals(SC_OK, r.getStatusCode());
+    assertThat(r.getStatusCode()).isEqualTo(SC_OK);
     return newGson().fromJson(r.getReader(), EditInfo.class);
   }
 }

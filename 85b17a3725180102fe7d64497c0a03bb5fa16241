@@ -96,6 +96,24 @@
     },
     {
       "key": {
+        "uuid": "1a77bfc2_532cc48c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeEdits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 501,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-11-11T20:54:23Z",
+      "side": 1,
+      "message": "Hah!\n\nWell, we do have /changes/{id}/revisions/current/commit which has the message available in the JSON reply object.\n\nThis is cacheable by the browser if \"current\" was actually the SHA-1. And its already been loaded by CS2. So the extra round-trip to load /commit after getting 404 is a local no-op against the browser cache, if you know the base SHA-1 you should begin the edit from.\n\nBut I guess we could keep this slightly confusing behavior.\n\nWhat happens if I do GET /changes/{id}/edit/foo.c and I don\u0027t yet have an edit open? Today that returns 404 Not Found because the ChangeEdits parse() method throws ResourceNotFoundException when no edit is present.",
+      "parentUuid": "1a9edf22_1b4adb73",
+      "revId": "85b17a3725180102fe7d64497c0a03bb5fa16241",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a77bfc2_d3ae94a9",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeEdits.java",
         "patchSetId": 3

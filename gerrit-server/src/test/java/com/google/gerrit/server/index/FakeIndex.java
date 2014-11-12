@@ -22,6 +22,8 @@ import com.google.gerrit.server.query.change.ChangeDataSource;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
 
+import java.io.IOException;
+
 class FakeIndex implements ChangeIndex {
   static Schema<ChangeData> V1 = new Schema<>(1, false,
     ImmutableList.<FieldDef<ChangeData, ?>> of(
@@ -100,5 +102,9 @@ class FakeIndex implements ChangeIndex {
   @Override
   public void markReady(boolean ready) {
     throw new UnsupportedOperationException();
+  }
+
+  @Override
+  public void delete(int id) throws IOException {
   }
 }

@@ -57,4 +57,8 @@ public class DummyIndex implements ChangeIndex {
   @Override
   public void markReady(boolean ready) throws IOException {
   }
+
+  @Override
+  public void delete(int id) throws IOException {
+  }
 }

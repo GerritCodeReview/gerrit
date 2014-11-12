@@ -329,7 +329,7 @@ public class BaseInit extends SiteProgram {
 
   private Injector createSysInjector(final SiteInit init) {
     if (sysInjector == null) {
-      final List<Module> modules = new ArrayList<Module>();
+      final List<Module> modules = new ArrayList<>();
       modules.add(new AbstractModule() {
         @Override
         protected void configure() {

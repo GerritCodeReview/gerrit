@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da71a7c8_b9e89fba",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/edit/ChangeEditIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-11-12T08:48:03Z",
+      "side": 1,
+      "message": "assertThat(info.commit.parents).hasSize(1)",
+      "range": {
+        "startLine": 248,
+        "startChar": 4,
+        "endLine": 248,
+        "endChar": 56
+      },
+      "revId": "3483a310481ede4621b10578a93bfa1dec1c4b71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da71a7c8_59a1438a",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/edit/ChangeEditIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-11-12T08:48:03Z",
+      "side": 1,
+      "message": "assertThat(info.files).hasSize(2);",
+      "revId": "3483a310481ede4621b10578a93bfa1dec1c4b71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a9edf22_9b8fcb37",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/edit/ChangeEditIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-11-12T08:48:03Z",
+      "side": 1,
+      "message": "[optional] undo this unrelated formatting change, the previous version was better readable",
+      "range": {
+        "startLine": 279,
+        "startChar": 6,
+        "endLine": 280,
+        "endChar": 43
+      },
+      "revId": "3483a310481ede4621b10578a93bfa1dec1c4b71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

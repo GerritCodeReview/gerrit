@@ -167,6 +167,17 @@ public class ChangeIndexer {
   }
 
   /**
+   * Synchronously delete a change by id.
+   *
+   * @param id change to delete.
+   */
+  public void delete(int id) throws IOException {
+    for (ChangeIndex i : getWriteIndexes()) {
+      i.delete(id);
+    }
+  }
+
+  /**
    * Synchronously delete a change.
    *
    * @param change change to delete.

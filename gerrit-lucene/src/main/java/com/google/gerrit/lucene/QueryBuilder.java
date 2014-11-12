@@ -56,6 +56,10 @@ public class QueryBuilder {
     return intTerm(ID_FIELD, cd.getId().get());
   }
 
+  public static Term idTerm(int id) {
+    return intTerm(ID_FIELD, id);
+  }
+
   private final Schema<ChangeData> schema;
   private final org.apache.lucene.util.QueryBuilder queryBuilder;
 

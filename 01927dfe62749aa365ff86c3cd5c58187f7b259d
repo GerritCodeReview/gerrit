@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "5ac2171f_2d4f6d84",
+        "filename": "lib/BUCK",
+        "patchSetId": 6
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-11-12T14:00:33Z",
+      "side": 1,
+      "message": "gwtjsonrpc 1.6 is now available on the gerrit-maven repository.",
+      "parentUuid": "1a9edf22_9b010b2c",
+      "range": {
+        "startLine": 35,
+        "startChar": 0,
+        "endLine": 48,
+        "endChar": 1
+      },
+      "revId": "01927dfe62749aa365ff86c3cd5c58187f7b259d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "da71a7c8_59462382",
         "filename": "tools/eclipse/gerrit_gwt_debug.launch",
         "patchSetId": 6

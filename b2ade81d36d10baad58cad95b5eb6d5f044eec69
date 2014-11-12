@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3aa1e35e_5cd7fd02",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangesCollection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2014-11-12T17:53:05Z",
+      "side": 1,
+      "message": "This is not used, we can remove that and the import.\nDone in change https://gerrit-review.googlesource.com/#/c/61532/",
+      "range": {
+        "startLine": 64,
+        "startChar": 6,
+        "endLine": 64,
+        "endChar": 27
+      },
+      "revId": "b2ade81d36d10baad58cad95b5eb6d5f044eec69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

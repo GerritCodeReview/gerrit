@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a9edf22_3ba1d7b0",
+        "filename": "ReleaseNotes/ReleaseNotes-2.9.2.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-11-12T07:18:18Z",
+      "side": 1,
+      "message": "Mention, that it\u0027s important *not* to skip this step:\n\nThe following tables are affected:\n\n*account_group_by_id_aud\n* account_group_members_audit\n* account_patch_reviews\n* account_project_watches\n* patch_comments\n* patch_set_approvals\n* submodule_subscriptions\n\nFix primary keys column order  [Y/n]? Y\n\nMention, that this is done only once? On second run primary keys aren\u0027t broken any more ;)",
+      "revId": "b65e3a9406018df7bade2bece65515860b24f2d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

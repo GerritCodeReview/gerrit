@@ -70,6 +70,9 @@ public class SchemaVersionCheck implements LifecycleListener {
           throw new ProvisionException("Unsupported schema version "
               + currentVer.versionNbr + "; expected schema version " + expectedVer
               + ".  Run init to upgrade:\n"
+              + "$ java -jar <the gerrit.war you just executed> init -d "
+              + site.site_path.getAbsolutePath() + "\n"
+              + "Or if you've already copied the new gerrit.war to your Gerrit site:\n"
               + "$ java -jar " + site.gerrit_war.getAbsolutePath() + " init -d "
               + site.site_path.getAbsolutePath());
         } else if (currentVer.versionNbr > expectedVer) {

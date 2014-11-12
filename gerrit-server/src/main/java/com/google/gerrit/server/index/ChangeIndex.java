@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.index;
 
+import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -53,22 +54,13 @@ public interface ChangeIndex {
   public void replace(ChangeData cd) throws IOException;
 
   /**
-   * Delete a change document from the index.
-   *
-   * @param cd change document
-   *
-   * @throws IOException
-   */
-  public void delete(ChangeData cd) throws IOException;
-
-  /**
    * Delete a change document from the index by id.
    *
-   * @param id change document id
+   * @param id change id
    *
    * @throws IOException
    */
-  public void delete(int id) throws IOException;
+  public void delete(Change.Id id) throws IOException;
 
   /**
    * Delete all change documents from the index.

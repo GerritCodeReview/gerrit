@@ -19,6 +19,7 @@ import static org.apache.lucene.search.BooleanClause.Occur.MUST_NOT;
 import static org.apache.lucene.search.BooleanClause.Occur.SHOULD;
 
 import com.google.common.collect.Lists;
+import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.index.ChangeField;
 import com.google.gerrit.server.index.FieldType;
 import com.google.gerrit.server.index.IndexPredicate;
@@ -56,8 +57,8 @@ public class QueryBuilder {
     return intTerm(ID_FIELD, cd.getId().get());
   }
 
-  public static Term idTerm(int id) {
-    return intTerm(ID_FIELD, id);
+  public static Term idTerm(Change.Id id) {
+    return intTerm(ID_FIELD, id.get());
   }
 
   private final Schema<ChangeData> schema;

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.index;
 
+import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -22,7 +23,6 @@ import com.google.gerrit.server.query.change.ChangeDataSource;
 import java.io.IOException;
 
 public class DummyIndex implements ChangeIndex {
-
   @Override
   public Schema<ChangeData> getSchema() {
     throw new UnsupportedOperationException();
@@ -37,7 +37,7 @@ public class DummyIndex implements ChangeIndex {
   }
 
   @Override
-  public void delete(ChangeData cd) throws IOException {
+  public void delete(Change.Id id) throws IOException {
   }
 
   @Override
@@ -52,9 +52,5 @@ public class DummyIndex implements ChangeIndex {
 
   @Override
   public void markReady(boolean ready) throws IOException {
-  }
-
-  @Override
-  public void delete(int id) throws IOException {
   }
 }

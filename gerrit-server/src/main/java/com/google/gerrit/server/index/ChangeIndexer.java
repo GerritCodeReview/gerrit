@@ -118,7 +118,7 @@ public class ChangeIndexer {
    */
   public CheckedFuture<?, IOException> indexAsync(Change.Id id) {
     return executor != null
-        ? submit(new Task(id, false))
+        ? submit(new IndexTask(id))
         : Futures.<Object, IOException> immediateCheckedFuture(null);
   }
 
@@ -151,40 +151,17 @@ public class ChangeIndexer {
    */
   public CheckedFuture<?, IOException> deleteAsync(Change.Id id) {
     return executor != null
-        ? submit(new Task(id, true))
+        ? submit(new DeleteTask(id))
         : Futures.<Object, IOException> immediateCheckedFuture(null);
   }
 
   /**
    * Synchronously delete a change.
    *
-   * @param cd change to delete.
+   * @param id change ID to delete.
    */
-  public void delete(ChangeData cd) throws IOException {
-    for (ChangeIndex i : getWriteIndexes()) {
-      i.delete(cd);
-    }
-  }
-
-  /**
-   * Synchronously delete a change by id.
-   *
-   * @param id change to delete.
-   */
-  public void delete(int id) throws IOException {
-    for (ChangeIndex i : getWriteIndexes()) {
-      i.delete(id);
-    }
-  }
-
-  /**
-   * Synchronously delete a change.
-   *
-   * @param change change to delete.
-   * @param db review database.
-   */
-  public void delete(ReviewDb db, Change change) throws IOException {
-    delete(changeDataFactory.create(db, change));
+  public void delete(Change.Id id) throws IOException {
+    new DeleteTask(id).call();
   }
 
   private Collection<ChangeIndex> getWriteIndexes() {
@@ -197,13 +174,11 @@ public class ChangeIndexer {
     return Futures.makeChecked(executor.submit(task), MAPPER);
   }
 
-  private class Task implements Callable<Void> {
+  private class IndexTask implements Callable<Void> {
     private final Change.Id id;
-    private final boolean delete;
 
-    private Task(Change.Id id, boolean delete) {
+    private IndexTask(Change.Id id) {
       this.id = id;
-      this.delete = delete;
     }
 
     @Override
@@ -238,14 +213,8 @@ public class ChangeIndexer {
         try {
           ChangeData cd = changeDataFactory.create(
               newCtx.getReviewDbProvider().get(), id);
-          if (delete) {
-            for (ChangeIndex i : getWriteIndexes()) {
-              i.delete(cd);
-            }
-          } else {
-            for (ChangeIndex i : getWriteIndexes()) {
-              i.replace(cd);
-            }
+          for (ChangeIndex i : getWriteIndexes()) {
+            i.replace(cd);
           }
           return null;
         } finally  {
@@ -264,6 +233,25 @@ public class ChangeIndexer {
     @Override
     public String toString() {
       return "index-change-" + id.get();
+    }
+  }
+
+  private class DeleteTask implements Callable<Void> {
+    private final Change.Id id;
+
+    private DeleteTask(Change.Id id) {
+      this.id = id;
+    }
+
+    @Override
+    public Void call() throws IOException {
+      // Don't bother setting a RequestContext to provide the DB.
+      // Implementations should not need to access the DB in order to delete a
+      // change ID.
+      for (ChangeIndex i : getWriteIndexes()) {
+        i.delete(id);
+      }
+      return null;
     }
   }
 }

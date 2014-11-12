@@ -15,14 +15,13 @@
 package com.google.gerrit.server.index;
 
 import com.google.common.collect.ImmutableList;
+import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeDataSource;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
-
-import java.io.IOException;
 
 class FakeIndex implements ChangeIndex {
   static Schema<ChangeData> V1 = new Schema<>(1, false,
@@ -75,7 +74,7 @@ class FakeIndex implements ChangeIndex {
   }
 
   @Override
-  public void delete(ChangeData cd) {
+  public void delete(Change.Id id) {
     throw new UnsupportedOperationException();
   }
 
@@ -102,9 +101,5 @@ class FakeIndex implements ChangeIndex {
   @Override
   public void markReady(boolean ready) {
     throw new UnsupportedOperationException();
-  }
-
-  @Override
-  public void delete(int id) throws IOException {
   }
 }

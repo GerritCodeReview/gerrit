@@ -86,7 +86,7 @@ public class ChangesCollection implements
       Integer changeId = Ints.tryParse(id.get());
       if (changeId != null) {
         try {
-          changeIndexer.delete(changeId);
+          changeIndexer.delete(new Change.Id(changeId));
         } catch (IOException e) {
           throw new ResourceNotFoundException(id.get(), e);
         }

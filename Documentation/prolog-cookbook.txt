@@ -428,7 +428,7 @@ any of the previous `submit_rule(X)` solutions.
     OK = label('Another-Condition', ok(_)).
 ====
 
-The 'Need Some-Condition' will not be show in the UI because of the result of
+The 'Need Some-Condition' will not be shown in the UI because of the result of
 the second rule.
 
 The same is valid if the two rules are swapped:

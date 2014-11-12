@@ -16,6 +16,24 @@
       "revId": "6e48a0edb6075202f59acb57d6bc6d644d3bda19",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a77bfc2_33fd887c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-11-12T17:44:23Z",
+      "side": 1,
+      "message": "Yeah, I will add this to the revision API and write a full acceptance test. Should have done that sooner.",
+      "parentUuid": "1a9edf22_7bdc3f26",
+      "revId": "6e48a0edb6075202f59acb57d6bc6d644d3bda19",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

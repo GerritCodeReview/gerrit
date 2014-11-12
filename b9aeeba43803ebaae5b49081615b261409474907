@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5ac2171f_8d330114",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1068,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-11-12T09:18:22Z",
+      "side": 1,
+      "message": "\"Defaults to\" or \"Default is\"",
+      "range": {
+        "startLine": 1068,
+        "startChar": 0,
+        "endLine": 1068,
+        "endChar": 10
+      },
+      "revId": "b9aeeba43803ebaae5b49081615b261409474907",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ae00fb1_6f6ed1f6",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1068,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-11-12T09:18:22Z",
+      "side": 1,
+      "message": "Does this mean it\u0027s not exactly 2048m?  Might be better to write \"approximately\" in this case?",
+      "range": {
+        "startLine": 1068,
+        "startChar": 51,
+        "endLine": 1068,
+        "endChar": 52
+      },
+      "revId": "b9aeeba43803ebaae5b49081615b261409474907",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

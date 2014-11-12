@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9ae00fb1_af303907",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/edit/ChangeEditIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-11-12T09:09:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "da71a7c8_b9e89fba",
+      "range": {
+        "startLine": 248,
+        "startChar": 4,
+        "endLine": 248,
+        "endChar": 56
+      },
+      "revId": "3483a310481ede4621b10578a93bfa1dec1c4b71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "da71a7c8_59a1438a",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/edit/ChangeEditIT.java",
         "patchSetId": 6
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "9ae00fb1_4f698deb",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/edit/ChangeEditIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-11-12T09:09:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "da71a7c8_59a1438a",
+      "revId": "3483a310481ede4621b10578a93bfa1dec1c4b71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a9edf22_9b8fcb37",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/edit/ChangeEditIT.java",
         "patchSetId": 6
@@ -53,6 +95,30 @@
       "writtenOn": "2014-11-12T08:48:03Z",
       "side": 1,
       "message": "[optional] undo this unrelated formatting change, the previous version was better readable",
+      "range": {
+        "startLine": 279,
+        "startChar": 6,
+        "endLine": 280,
+        "endChar": 43
+      },
+      "revId": "3483a310481ede4621b10578a93bfa1dec1c4b71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac2171f_6d4b3589",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/edit/ChangeEditIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-11-12T09:09:22Z",
+      "side": 1,
+      "message": "This was unintentional.  I used Eclipse\u0027s format tool to format the assertThat lines, and must have missed to revert this one.",
+      "parentUuid": "1a9edf22_9b8fcb37",
       "range": {
         "startLine": 279,
         "startChar": 6,

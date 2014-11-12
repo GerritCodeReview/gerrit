@@ -82,7 +82,7 @@ public class ProjectIT extends AbstractDaemonTest  {
     gApi.projects().name("bar").create();
 
     List<ProjectInfo> allProjects = gApi.projects().list().get();
-    assertThat(allProjects.size()).is(initialProjects.size() + 2);
+    assertThat(allProjects).hasSize(initialProjects.size() + 2);
 
     List<ProjectInfo> projectsWithDescription = gApi.projects().list()
         .withDescription(true)
@@ -97,21 +97,21 @@ public class ProjectIT extends AbstractDaemonTest  {
     List<ProjectInfo> noMatchingProjects = gApi.projects().list()
         .withPrefix("fox")
         .get();
-    assertThat(noMatchingProjects.size()).is(0);
+    assertThat(noMatchingProjects).isEmpty();
 
     List<ProjectInfo> matchingProject = gApi.projects().list()
         .withPrefix("fo")
         .get();
-    assertThat(matchingProject.size()).is(1);
+    assertThat(matchingProject).hasSize(1);
 
     List<ProjectInfo> limitOneProject = gApi.projects().list()
         .withLimit(1)
         .get();
-    assertThat(limitOneProject.size()).is(1);
+    assertThat(limitOneProject).hasSize(1);
 
     List<ProjectInfo> startAtOneProjects = gApi.projects().list()
         .withStart(1)
         .get();
-    assertThat(startAtOneProjects.size()).is(allProjects.size() - 1);
+    assertThat(startAtOneProjects).hasSize(allProjects.size() - 1);
   }
 }

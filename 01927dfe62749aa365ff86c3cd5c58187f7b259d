@@ -72,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "da71a7c8_f96377b5",
+        "filename": "lib/BUCK",
+        "patchSetId": 6
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-11-12T14:13:58Z",
+      "side": 1,
+      "message": "Thanks. Adjusted the rule, but the SHA1 are still old and must be updated.",
+      "parentUuid": "5ac2171f_2d4f6d84",
+      "range": {
+        "startLine": 35,
+        "startChar": 0,
+        "endLine": 48,
+        "endChar": 1
+      },
+      "revId": "01927dfe62749aa365ff86c3cd5c58187f7b259d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "da71a7c8_59462382",
         "filename": "tools/eclipse/gerrit_gwt_debug.launch",
         "patchSetId": 6

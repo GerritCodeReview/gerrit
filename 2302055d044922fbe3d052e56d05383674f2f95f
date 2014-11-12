@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da71a7c8_d94d533a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-11-12T19:09:21Z",
+      "side": 1,
+      "message": "We had similar discussion about naming of Submit/Merge button. The solution was to make it configurable. Check this section:\n\n [[change.submitLabel]]change.submitLabel::",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 56
+      },
+      "revId": "2302055d044922fbe3d052e56d05383674f2f95f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

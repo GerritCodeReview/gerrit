@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "5ac2171f_6d6ed5f6",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/BanCommitIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-11-12T12:06:39Z",
+      "side": 1,
+      "message": "Good catch.  That probably shouldn\u0027t have even compiled.",
+      "parentUuid": "da71a7c8_d99b134a",
+      "range": {
+        "startLine": 51,
+        "startChar": 4,
+        "endLine": 52,
+        "endChar": 47
+      },
+      "revId": "429604439c5052b6346b8cc456c8397f4119f70e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "da71a7c8_f998574f",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/ListChildProjectsIT.java",
         "patchSetId": 5
@@ -36,6 +60,24 @@
       "writtenOn": "2014-11-12T10:58:48Z",
       "side": 1,
       "message": "assertThat(projectInfoList).hasSize(2);",
+      "revId": "429604439c5052b6346b8cc456c8397f4119f70e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ae00fb1_ef7961b6",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/ListChildProjectsIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-11-12T12:06:39Z",
+      "side": 1,
+      "message": "Gah.  I thought I\u0027d caught all of these.",
+      "parentUuid": "da71a7c8_f998574f",
       "revId": "429604439c5052b6346b8cc456c8397f4119f70e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

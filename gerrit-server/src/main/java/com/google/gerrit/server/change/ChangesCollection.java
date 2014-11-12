@@ -24,7 +24,6 @@ import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.project.ChangeControl;
@@ -54,7 +53,6 @@ public class ChangesCollection implements
       ChangeControl.GenericFactory changeControlFactory,
       Provider<QueryChanges> queryFactory,
       DynamicMap<RestView<ChangeResource>> views,
-      ChangeUtil changeUtil,
       ChangeIndexer changeIndexer) {
     this.db = dbProvider;
     this.user = user;

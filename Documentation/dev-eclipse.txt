@@ -58,7 +58,7 @@ link:http://www.gwtproject.org/articles/superdevmode.html[Super Dev Mode].
 * Make sure to activate source maps feature in your browser
 * Load Gerrit page `http://localhost:8080`
 * Open developer tools, source tab
-* Click on `Dev Mode On` bookmark
+* Click on `Dev Mode On` bookmark to incrementally recompile changed files
 * Select `gerrit_ui` module to compile (the `Compile` button can also be used
 as a bookmarklet).
 * Navigate on the left to: sourcemaps/gerrit_ui folder (`Ctrl+O` key shortcut

@@ -578,7 +578,10 @@ public class JettyServer {
     p.deleteOnExit();
 
     app.addFilter(new FilterHolder(new Filter() {
+      private final boolean gwtuiRecompile =
+          System.getProperty("gerrit.disable-gwtui-recompile") == null;
       private final UserAgentRule rule = new UserAgentRule();
+      private final Set<String> uaInitialized = new HashSet<>();
       private String lastTarget;
       private long lastTime;
 
@@ -587,30 +590,32 @@ public class JettyServer {
           FilterChain chain) throws IOException, ServletException {
         String pkg = "gerrit-gwtui";
         String target = "ui_" + rule.select((HttpServletRequest) request);
-        String rule = "//" + pkg + ":" + target;
-        // TODO(davido): instead of assuming specific Buck's internal
-        // target directory for gwt_binary() artifacts, ask Buck for
-        // the location of user agent permutation GWT zip, e. g.:
-        // $ buck targets --show_output //gerrit-gwtui:ui_safari \
-        //    | awk '{print $2}'
-        String child = String.format("%s/__gwt_binary_%s__", pkg, target);
-        File zip = new File(new File(gen, child), target + ".zip");
+        if (gwtuiRecompile || !uaInitialized.contains(target)) {
+          String rule = "//" + pkg + ":" + target;
+          // TODO(davido): instead of assuming specific Buck's internal
+          // target directory for gwt_binary() artifacts, ask Buck for
+          // the location of user agent permutation GWT zip, e. g.:
+          // $ buck targets --show_output //gerrit-gwtui:ui_safari \
+          //    | awk '{print $2}'
+          String child = String.format("%s/__gwt_binary_%s__", pkg, target);
+          File zip = new File(new File(gen, child), target + ".zip");
 
-        synchronized (this) {
-          try {
-            build(root, gen, rule);
-          } catch (BuildFailureException e) {
-            displayFailure(rule, e.why, (HttpServletResponse) res);
-            return;
-          }
+          synchronized (this) {
+            try {
+              build(root, gen, rule);
+            } catch (BuildFailureException e) {
+              displayFailure(rule, e.why, (HttpServletResponse) res);
+              return;
+            }
 
-          if (!target.equals(lastTarget) || lastTime != zip.lastModified()) {
-            lastTarget = target;
-            lastTime = zip.lastModified();
-            unpack(zip, dstwar);
+            if (!target.equals(lastTarget) || lastTime != zip.lastModified()) {
+              lastTarget = target;
+              lastTime = zip.lastModified();
+              unpack(zip, dstwar);
+            }
           }
+          uaInitialized.add(target);
         }
-
         chain.doFilter(request, res);
       }
 

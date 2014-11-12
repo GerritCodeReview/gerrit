@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9ae00fb1_af835928",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-11-12T12:10:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "da71a7c8_b9bbbfb3",
+      "revId": "69e743757fc0cd6a022a548363a565f4895dde2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a9edf22_bb1f274c",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
         "patchSetId": 6
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "5ac2171f_0d7391d9",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-11-12T12:10:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a9edf22_bb1f274c",
+      "revId": "69e743757fc0cd6a022a548363a565f4895dde2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "da71a7c8_798d2713",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmitOnPushIT.java",
         "patchSetId": 6
@@ -47,6 +83,24 @@
       "writtenOn": "2014-11-12T09:40:53Z",
       "side": 1,
       "message": "assertThat(c.getParentCount()).is(2);",
+      "revId": "69e743757fc0cd6a022a548363a565f4895dde2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac2171f_2d78cdb2",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmitOnPushIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-11-12T12:10:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "da71a7c8_798d2713",
       "revId": "69e743757fc0cd6a022a548363a565f4895dde2d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

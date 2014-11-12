@@ -309,7 +309,7 @@ public class MergeabilityCacheImpl implements MergeabilityCache {
   @Override
   public boolean getIfPresent(ObjectId commit, Ref intoRef,
       SubmitType submitType, String mergeStrategy) {
-    return cache.getIfPresent(new EntryKey(
-        commit, toId(intoRef), submitType, mergeStrategy, null, null, null));
+    return cache.getIfPresent(
+        new EntryKey(commit, toId(intoRef), submitType, mergeStrategy));
   }
 }

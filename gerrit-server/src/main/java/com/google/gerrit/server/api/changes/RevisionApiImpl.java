@@ -22,6 +22,7 @@ import com.google.gerrit.extensions.api.changes.CherryPickInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.RevisionApi;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
+import com.google.gerrit.extensions.common.MergeableInfo;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
@@ -29,6 +30,7 @@ import com.google.gerrit.server.change.CherryPick;
 import com.google.gerrit.server.change.DeleteDraftPatchSet;
 import com.google.gerrit.server.change.FileResource;
 import com.google.gerrit.server.change.Files;
+import com.google.gerrit.server.change.Mergeable;
 import com.google.gerrit.server.change.PostReview;
 import com.google.gerrit.server.change.Publish;
 import com.google.gerrit.server.change.Rebase;
@@ -62,6 +64,7 @@ class RevisionApiImpl extends RevisionApi.NotImplemented implements RevisionApi 
   private final Provider<Files> files;
   private final Provider<Files.ListFiles> listFiles;
   private final Provider<PostReview> review;
+  private final Provider<Mergeable> mergeable;
 
   @Inject
   RevisionApiImpl(Changes changes,
@@ -76,6 +79,7 @@ class RevisionApiImpl extends RevisionApi.NotImplemented implements RevisionApi 
       Provider<Files> files,
       Provider<Files.ListFiles> listFiles,
       Provider<PostReview> review,
+      Provider<Mergeable> mergeable,
       @Assisted RevisionResource r) {
     this.changes = changes;
     this.cherryPick = cherryPick;
@@ -89,6 +93,7 @@ class RevisionApiImpl extends RevisionApi.NotImplemented implements RevisionApi 
     this.putReviewed = putReviewed;
     this.deleteReviewed = deleteReviewed;
     this.listFiles = listFiles;
+    this.mergeable = mergeable;
     this.revision = r;
   }
 
@@ -184,6 +189,26 @@ class RevisionApiImpl extends RevisionApi.NotImplemented implements RevisionApi 
           .apply(revision).value());
     } catch (OrmException e) {
       throw new RestApiException("Cannot list reviewed files", e);
+    }
+  }
+
+  @Override
+  public MergeableInfo mergeable() throws RestApiException {
+    try {
+      return mergeable.get().apply(revision);
+    } catch (OrmException | IOException e) {
+      throw new RestApiException("Cannot check mergeability", e);
+    }
+  }
+
+  @Override
+  public MergeableInfo mergeableOtherBranches() throws RestApiException {
+    try {
+      Mergeable m = mergeable.get();
+      m.setOtherBranches(true);
+      return m.apply(revision);
+    } catch (OrmException | IOException e) {
+      throw new RestApiException("Cannot check mergeability", e);
     }
   }
 }

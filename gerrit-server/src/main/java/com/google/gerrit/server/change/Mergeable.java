@@ -15,6 +15,7 @@
 package com.google.gerrit.server.change;
 
 import com.google.gerrit.common.data.SubmitTypeRecord;
+import com.google.gerrit.extensions.common.MergeableInfo;
 import com.google.gerrit.extensions.common.SubmitType;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -46,17 +47,10 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 public class Mergeable implements RestReadView<RevisionResource> {
   private static final Logger log = LoggerFactory.getLogger(Mergeable.class);
-
-  public static class MergeableInfo {
-    public SubmitType submitType;
-    public boolean mergeable;
-    public List<String> mergeableInto;
-  }
 
   @Option(name = "--other-branches", aliases = {"-o"},
       usage = "test mergeability for other branches too")
@@ -85,6 +79,10 @@ public class Mergeable implements RestReadView<RevisionResource> {
     this.db = db;
     this.indexer = indexer;
     this.cache = cache;
+  }
+
+  public void setOtherBranches(boolean otherBranches) {
+    this.otherBranches = otherBranches;
   }
 
   @Override
@@ -128,6 +126,8 @@ public class Mergeable implements RestReadView<RevisionResource> {
       if (old == null) {
         result.mergeable = refresh(change, commit, ref, result.submitType,
             strategy, git, old);
+      } else {
+        result.mergeable = old;
       }
 
       if (otherBranches) {

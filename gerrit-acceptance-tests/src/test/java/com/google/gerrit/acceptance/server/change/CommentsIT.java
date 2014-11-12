@@ -14,8 +14,7 @@
 
 package com.google.gerrit.acceptance.server.change;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
@@ -54,7 +53,7 @@ public class CommentsIT extends AbstractDaemonTest {
         "file1", Comment.Side.REVISION, 1, "comment 1");
     addDraft(changeId, revId, comment);
     Map<String, List<CommentInfo>> result = getDraftComments(changeId, revId);
-    assertEquals(1, result.size());
+    assertThat(result).hasSize(1);
     CommentInfo actual = Iterables.getOnlyElement(result.get(comment.path));
     assertCommentInfo(comment, actual);
   }
@@ -75,7 +74,7 @@ public class CommentsIT extends AbstractDaemonTest {
     input.comments.put(comment.path, Lists.newArrayList(comment));
     revision(r).review(input);
     Map<String, List<CommentInfo>> result = getPublishedComments(changeId, revId);
-    assertTrue(!result.isEmpty());
+    assertThat(result).isNotEmpty();
     CommentInfo actual = Iterables.getOnlyElement(result.get(comment.path));
     assertCommentInfo(comment, actual);
   }
@@ -121,14 +120,14 @@ public class CommentsIT extends AbstractDaemonTest {
     CommentInfo returned = addDraft(changeId, revId, comment);
     deleteDraft(changeId, revId, returned.id);
     Map<String, List<CommentInfo>> drafts = getDraftComments(changeId, revId);
-    assertTrue(drafts.isEmpty());
+    assertThat(drafts).isEmpty();
   }
 
   private CommentInfo addDraft(String changeId, String revId,
       ReviewInput.CommentInput c) throws IOException {
     RestResponse r = userSession.put(
         "/changes/" + changeId + "/revisions/" + revId + "/drafts", c);
-    assertEquals(HttpStatus.SC_CREATED, r.getStatusCode());
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_CREATED);
     return newGson().fromJson(r.getReader(), CommentInfo.class);
   }
 
@@ -136,21 +135,21 @@ public class CommentsIT extends AbstractDaemonTest {
       ReviewInput.CommentInput c, String uuid) throws IOException {
     RestResponse r = userSession.put(
         "/changes/" + changeId + "/revisions/" + revId + "/drafts/" + uuid, c);
-    assertEquals(HttpStatus.SC_OK, r.getStatusCode());
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
   }
 
   private void deleteDraft(String changeId, String revId, String uuid)
       throws IOException {
     RestResponse r = userSession.delete(
         "/changes/" + changeId + "/revisions/" + revId + "/drafts/" + uuid);
-    assertEquals(HttpStatus.SC_NO_CONTENT, r.getStatusCode());
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_NO_CONTENT);
   }
 
   private Map<String, List<CommentInfo>> getPublishedComments(String changeId,
       String revId) throws IOException {
     RestResponse r = userSession.get(
         "/changes/" + changeId + "/revisions/" + revId + "/comments/");
-    assertEquals(HttpStatus.SC_OK, r.getStatusCode());
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
     Type mapType = new TypeToken<Map<String, List<CommentInfo>>>() {}.getType();
     return newGson().fromJson(r.getReader(), mapType);
   }
@@ -159,7 +158,7 @@ public class CommentsIT extends AbstractDaemonTest {
       String revId) throws IOException {
     RestResponse r = userSession.get(
         "/changes/" + changeId + "/revisions/" + revId + "/drafts/");
-    assertEquals(HttpStatus.SC_OK, r.getStatusCode());
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
     Type mapType = new TypeToken<Map<String, List<CommentInfo>>>() {}.getType();
     return newGson().fromJson(r.getReader(), mapType);
   }
@@ -168,17 +167,17 @@ public class CommentsIT extends AbstractDaemonTest {
       String uuid) throws IOException {
     RestResponse r = userSession.get(
         "/changes/" + changeId + "/revisions/" + revId + "/drafts/" + uuid);
-    assertEquals(HttpStatus.SC_OK, r.getStatusCode());
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
     return newGson().fromJson(r.getReader(), CommentInfo.class);
   }
 
   private static void assertCommentInfo(ReviewInput.CommentInput expected,
       CommentInfo actual) {
-    assertEquals(expected.line, actual.line);
-    assertEquals(expected.message, actual.message);
-    assertEquals(expected.inReplyTo, actual.inReplyTo);
+    assertThat(actual.line).isEqualTo(expected.line);
+    assertThat(actual.message).isEqualTo(expected.message);
+    assertThat(actual.inReplyTo).isEqualTo(expected.inReplyTo);
     if (actual.side == null) {
-      assertEquals(expected.side, Comment.Side.REVISION);
+      assertThat(Comment.Side.REVISION).isEqualTo(expected.side);
     }
   }
 

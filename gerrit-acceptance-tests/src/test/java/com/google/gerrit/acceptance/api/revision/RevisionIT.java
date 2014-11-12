@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance.api.revision;
 
 import static com.google.common.truth.Truth.assertThat;
+import static org.eclipse.jgit.lib.Constants.HEAD;
 import static org.junit.Assert.fail;
 
 import com.google.common.collect.Iterables;
@@ -27,10 +28,15 @@ import com.google.gerrit.extensions.api.changes.CherryPickInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.api.projects.BranchInput;
+import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.extensions.common.MergeableInfo;
+import com.google.gerrit.extensions.common.SubmitType;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 
 import org.eclipse.jgit.api.errors.GitAPIException;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.RefUpdate;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -247,6 +253,39 @@ public class RevisionIT extends AbstractDaemonTest {
 
     assertThat(gApi.changes().id(r.getChangeId()).current().reviewed())
         .isEmpty();
+  }
+
+  @Test
+  public void mergeable() throws Exception {
+    ObjectId initial = git.getRepository().getRef(HEAD).getLeaf().getObjectId();
+
+    PushOneCommit push1 =
+        pushFactory.create(db, admin.getIdent(), PushOneCommit.SUBJECT,
+            PushOneCommit.FILE_NAME, "push 1 content");
+
+    PushOneCommit.Result r1 = push1.to(git, "refs/for/master");
+    assertMergeable(r1.getChangeId(), true);
+    merge(r1);
+
+    // Reset HEAD to initial so the new change is a merge conflict.
+    RefUpdate ru = git.getRepository().updateRef(HEAD);
+    ru.setNewObjectId(initial);
+    assertThat(ru.forceUpdate()).isEqualTo(RefUpdate.Result.FORCED);
+
+    PushOneCommit push2 =
+        pushFactory.create(db, admin.getIdent(), PushOneCommit.SUBJECT,
+            PushOneCommit.FILE_NAME, "push 2 content");
+    PushOneCommit.Result r2 = push2.to(git, "refs/for/master");
+    assertMergeable(r2.getChangeId(), false);
+  }
+
+  private void assertMergeable(String id, boolean expected) throws Exception {
+    MergeableInfo m = gApi.changes().id(id).current().mergeable();
+    assertThat(m.mergeable).isEqualTo(expected);
+    assertThat(m.submitType).isEqualTo(SubmitType.MERGE_IF_NECESSARY);
+    assertThat(m.mergeableInto).isNull();
+    ChangeInfo c = gApi.changes().id(id).info();
+    assertThat(c.mergeable).isEqualTo(expected);
   }
 
   private void merge(PushOneCommit.Result r) throws Exception {

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.extensions.api.changes;
 
+import com.google.gerrit.extensions.common.MergeableInfo;
 import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 
@@ -33,6 +34,9 @@ public interface RevisionApi {
 
   void setReviewed(String path, boolean reviewed) throws RestApiException;
   Set<String> reviewed() throws RestApiException;
+
+  MergeableInfo mergeable() throws RestApiException;
+  MergeableInfo mergeableOtherBranches() throws RestApiException;
 
   /**
    * A default implementation which allows source compatibility
@@ -86,6 +90,16 @@ public interface RevisionApi {
 
     @Override
     public Set<String> reviewed() throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public MergeableInfo mergeable() throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public MergeableInfo mergeableOtherBranches() throws RestApiException {
       throw new NotImplementedException();
     }
   }

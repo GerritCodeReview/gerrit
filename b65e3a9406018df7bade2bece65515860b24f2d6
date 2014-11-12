@@ -16,6 +16,24 @@
       "revId": "b65e3a9406018df7bade2bece65515860b24f2d6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ae00fb1_ef364105",
+        "filename": "ReleaseNotes/ReleaseNotes-2.9.2.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-11-12T07:45:36Z",
+      "side": 1,
+      "message": "I can add the warning to not skip this step at the end of the existing warning (lines 8-12).\n\nI don\u0027t think it\u0027s necessary to list all the tables though.",
+      "parentUuid": "1a9edf22_3ba1d7b0",
+      "revId": "b65e3a9406018df7bade2bece65515860b24f2d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

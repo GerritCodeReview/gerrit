@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da71a7c8_b9bbbfb3",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-11-12T09:40:53Z",
+      "side": 1,
+      "message": "better write this as\n  assertThat(cr.all.get(0).value).is(1);\n?",
+      "revId": "69e743757fc0cd6a022a548363a565f4895dde2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a9edf22_bb1f274c",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-11-12T09:40:53Z",
+      "side": 1,
+      "message": "same here",
+      "revId": "69e743757fc0cd6a022a548363a565f4895dde2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da71a7c8_798d2713",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmitOnPushIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-11-12T09:40:53Z",
+      "side": 1,
+      "message": "assertThat(c.getParentCount()).is(2);",
+      "revId": "69e743757fc0cd6a022a548363a565f4895dde2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

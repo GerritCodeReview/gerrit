@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a9edf22_7bdc3f26",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-11-12T17:22:40Z",
+      "side": 1,
+      "message": "IIRC Mergeable REST endpoint makes use of this method:\n\n  MergeabilityCacheImpl.getIfPresent()\n\nIt shouldn\u0027t be hard to conduct a unit test for that, right?",
+      "revId": "6e48a0edb6075202f59acb57d6bc6d644d3bda19",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -85,8 +85,10 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 import java.util.zip.ZipEntry;
@@ -579,7 +581,10 @@ public class JettyServer {
     p.deleteOnExit();
 
     app.addFilter(new FilterHolder(new Filter() {
+      private final boolean gwtuiRecompile =
+          System.getProperty("gerrit.disable-gwtui-recompile") == null;
       private final UserAgentRule rule = new UserAgentRule();
+      private final Map<String, Boolean> uaInitialized = new HashMap<>();
       private String lastTarget;
       private long lastTime;
 
@@ -588,30 +593,34 @@ public class JettyServer {
           FilterChain chain) throws IOException, ServletException {
         String pkg = "gerrit-gwtui";
         String target = "ui_" + rule.select((HttpServletRequest) request);
-        String rule = "//" + pkg + ":" + target;
-        // TODO(davido): instead of assuming specific Buck's internal
-        // target directory for gwt_binary() artifacts, ask Buck for
-        // the location of user agent permutation GWT zip, e. g.:
-        // $ buck targets --show_output //gerrit-gwtui:ui_safari \
-        //    | awk '{print $2}'
-        String child = String.format("%s/__gwt_binary_%s__", pkg, target);
-        File zip = new File(new File(gen, child), target + ".zip");
+        if (gwtuiRecompile || uaInitialized.get(target) == null) {
+          String rule = "//" + pkg + ":" + target;
+          // TODO(davido): instead of assuming specific Buck's internal
+          // target directory for gwt_binary() artifacts, ask Buck for
+          // the location of user agent permutation GWT zip, e. g.:
+          // $ buck targets --show_output //gerrit-gwtui:ui_safari \
+          //    | awk '{print $2}'
+          String child = String.format("%s/__gwt_binary_%s__", pkg, target);
+          File zip = new File(new File(gen, child), target + ".zip");
 
-        synchronized (this) {
-          try {
-            build(root, gen, rule);
-          } catch (BuildFailureException e) {
-            displayFailure(rule, e.why, (HttpServletResponse) res);
-            return;
+          synchronized (this) {
+            try {
+              build(root, gen, rule);
+            } catch (BuildFailureException e) {
+              displayFailure(rule, e.why, (HttpServletResponse) res);
+              return;
+            }
+
+            if (!target.equals(lastTarget) || lastTime != zip.lastModified()) {
+              lastTarget = target;
+              lastTime = zip.lastModified();
+              unpack(zip, dstwar);
+            }
           }
-
-          if (!target.equals(lastTarget) || lastTime != zip.lastModified()) {
-            lastTarget = target;
-            lastTime = zip.lastModified();
-            unpack(zip, dstwar);
+          if (uaInitialized.get(target) == null) {
+            uaInitialized.put(target, Boolean.TRUE);
           }
         }
-
         chain.doFilter(request, res);
       }
 

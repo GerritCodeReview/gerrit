@@ -171,7 +171,7 @@ public class ChangeIT extends AbstractDaemonTest {
     PushOneCommit.Result r1 = createChange();
     PushOneCommit.Result r2 = createChange();
     List<ChangeInfo> results = gApi.changes().query().get();
-    assertThat(results.size()).is(2);
+    assertThat(results).hasSize(2);
     assertThat(results.get(0).changeId).isEqualTo(r2.getChangeId());
     assertThat(results.get(1).changeId).isEqualTo(r1.getChangeId());
   }
@@ -180,9 +180,9 @@ public class ChangeIT extends AbstractDaemonTest {
   public void queryChangesNoResults() throws Exception {
     createChange();
     List<ChangeInfo> results = query("status:open");
-    assertThat(results.size()).is(1);
+    assertThat(results).hasSize(1);
     results = query("status:closed");
-    assertThat(results.isEmpty()).isTrue();
+    assertThat(results).isEmpty();
   }
 
   @Test
@@ -190,7 +190,7 @@ public class ChangeIT extends AbstractDaemonTest {
     PushOneCommit.Result r1 = createChange();
     PushOneCommit.Result r2 = createChange();
     List<ChangeInfo> results = query("status:open");
-    assertThat(results.size()).is(2);
+    assertThat(results).hasSize(2);
     assertThat(results.get(0).changeId).isEqualTo(r2.getChangeId());
     assertThat(results.get(1).changeId).isEqualTo(r1.getChangeId());
   }
@@ -209,7 +209,7 @@ public class ChangeIT extends AbstractDaemonTest {
     createChange();
     PushOneCommit.Result r2 = createChange();
     List<ChangeInfo> results = gApi.changes().query().withLimit(1).get();
-    assertThat(results.size()).is(1);
+    assertThat(results).hasSize(1);
     assertThat(Iterables.getOnlyElement(results).changeId)
         .isEqualTo(r2.getChangeId());
   }
@@ -242,12 +242,12 @@ public class ChangeIT extends AbstractDaemonTest {
         .get());
     assertThat(Iterables.getOnlyElement(result.labels.keySet()))
         .isEqualTo("Code-Review");
-    assertThat(result.messages.size()).is(1);
-    assertThat(result.actions.isEmpty()).isFalse();
+    assertThat(result.messages).hasSize(1);
+    assertThat(result.actions).isNotEmpty();
 
     RevisionInfo rev = Iterables.getOnlyElement(result.revisions.values());
     assertThat(rev._number).isEqualTo(r.getPatchSetId().get());
-    assertThat(rev.actions.isEmpty()).isFalse();
+    assertThat(rev.actions).isNotEmpty();
   }
 
   @Test
@@ -256,7 +256,7 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(Iterables.getOnlyElement(query("owner:self")).changeId)
         .isEqualTo(r.getChangeId());
     setApiUser(user);
-    assertThat(query("owner:self").isEmpty()).isTrue();
+    assertThat(query("owner:self")).isEmpty();
   }
 
   @Test

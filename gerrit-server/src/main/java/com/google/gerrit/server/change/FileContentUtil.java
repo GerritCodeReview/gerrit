@@ -17,7 +17,9 @@ package com.google.gerrit.server.change;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.server.FileTypeRegistry;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.patch.Text;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -33,10 +35,13 @@ import java.io.OutputStream;
 @Singleton
 public class FileContentUtil {
   private final GitRepositoryManager repoManager;
+  private final FileTypeRegistry registry;
 
   @Inject
-  FileContentUtil(GitRepositoryManager repoManager) {
+  FileContentUtil(GitRepositoryManager repoManager,
+      FileTypeRegistry ftr) {
     this.repoManager = repoManager;
+    this.registry = ftr;
   }
 
   public BinaryResult getContent(Project.NameKey project, String revstr,
@@ -61,6 +66,29 @@ public class FileContentUtil {
           }
         };
         return result.setContentLength(object.getSize()).base64();
+      } finally {
+        rw.release();
+      }
+    } finally {
+      repo.close();
+    }
+  }
+
+  public String getContentType(Project.NameKey project, String revstr,
+      String path) throws ResourceNotFoundException, IOException {
+    Repository repo = repoManager.openRepository(project);
+    try {
+      RevWalk rw = new RevWalk(repo);
+      try {
+        RevCommit commit = rw.parseCommit(repo.resolve(revstr));
+        TreeWalk tw =
+            TreeWalk.forPath(rw.getObjectReader(), path,
+                commit.getTree().getId());
+        if (tw == null) {
+          throw new ResourceNotFoundException();
+        }
+        return registry.getMimeType(path, Text.asByteArray(
+            repo.open(tw.getObjectId(0)))).toString();
       } finally {
         rw.release();
       }

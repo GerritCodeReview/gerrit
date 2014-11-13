@@ -516,4 +516,23 @@ public class ChangeEdits implements
       return BinaryResult.create(m).base64();
     }
   }
+
+  @Singleton
+  public static class GetType implements RestReadView<ChangeEditResource> {
+    private final FileContentUtil fileContentUtil;
+
+    @Inject
+    GetType(FileContentUtil fileContentUtil) {
+      this.fileContentUtil = fileContentUtil;
+    }
+
+    @Override
+    public String apply(ChangeEditResource rsrc)
+        throws ResourceNotFoundException, IOException {
+      return fileContentUtil.getContentType(
+          rsrc.getChangeEdit().getChange().getProject(),
+          rsrc.getChangeEdit().getRevision().get(),
+          rsrc.getPath());
+    }
+  }
 }

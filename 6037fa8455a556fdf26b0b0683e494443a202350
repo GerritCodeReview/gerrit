@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3a148387_442eeebb",
+        "filename": "gerrit-gwtdebug/src/main/java/com/google/gwt/dev/codeserver/WebServer.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-11-13T08:40:12Z",
+      "side": 1,
+      "message": "is this still true?",
+      "range": {
+        "startLine": 68,
+        "startChar": 3,
+        "endLine": 70,
+        "endChar": 115
+      },
+      "revId": "6037fa8455a556fdf26b0b0683e494443a202350",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

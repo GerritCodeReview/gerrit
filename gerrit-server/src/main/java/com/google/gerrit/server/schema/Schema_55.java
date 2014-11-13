@@ -47,7 +47,8 @@ public class Schema_55 extends SchemaVersion {
     if ("-- All Projects --".equals(oldName)) {
       ui.message("Renaming \"" + oldName + "\" to \"" + newName + "\"");
 
-      File base = ((LocalDiskRepositoryManager) mgr).getBasePath();
+      File base =
+          ((LocalDiskRepositoryManager) mgr).getBasePath(sc.wildProjectName);
       File oldDir = FileKey.resolve(new File(base, oldName), FS.DETECTED);
       File newDir = new File(base, newName + Constants.DOT_GIT_EXT);
       if (!oldDir.renameTo(newDir)) {

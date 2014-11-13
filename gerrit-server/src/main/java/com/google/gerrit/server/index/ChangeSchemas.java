@@ -303,6 +303,9 @@ public class ChangeSchemas {
       ChangeField.DELTA,
       ChangeField.HASHTAG);
 
+  // For upgrade to Lucene 4.10.2 index format only.
+  static final Schema<ChangeData> V15 = release(V14.getFields().values());
+
   private static Schema<ChangeData> release(Collection<FieldDef<ChangeData, ?>> fields) {
     return new Schema<>(true, fields);
   }

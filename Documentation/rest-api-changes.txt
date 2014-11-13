@@ -1325,6 +1325,31 @@ specified file was deleted in the change edit "`204 No Content`" is returned.
   RnJvbSA3ZGFkY2MxNTNmZGVhMTdhYTg0ZmYzMmE2ZTI0NWRiYjY...
 ----
 
+[[get-edit-file-type]]
+=== Retrieve file content type from Change Edit
+--
+'GET /changes/link:#change-id[\{change-id\}]/edit/path%2fto%2ffile/type
+--
+
+Retrieves content type of a file from a change edit.
+
+.Request
+----
+  GET /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/edit/foo%2fbar%2fbaz%2fqux.txt/type HTTP/1.0
+----
+
+The content type of the file is returned as text.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  "text/plain"
+----
+
 [[get-edit-message]]
 === Retrieve commit message from Change Edit or current patch set of the change
 --

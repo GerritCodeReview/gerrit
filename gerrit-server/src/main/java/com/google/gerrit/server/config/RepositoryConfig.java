@@ -21,12 +21,16 @@ import com.google.inject.Singleton;
 
 import org.eclipse.jgit.lib.Config;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Singleton
 public class RepositoryConfig {
 
   static final String SECTION_NAME = "repository";
   static final String OWNER_GROUP_NAME = "ownerGroup";
   static final String DEFAULT_SUBMIT_TYPE_NAME = "defaultSubmitType";
+  static final String BASE_PATH_NAME = "basePath";
 
   private final Config cfg;
 
@@ -43,6 +47,22 @@ public class RepositoryConfig {
   public String[] getOwnerGroups(Project.NameKey project) {
     return cfg.getStringList(SECTION_NAME, findSubSection(project.get()),
         OWNER_GROUP_NAME);
+  }
+
+  public String getBasePath(Project.NameKey project) {
+    return cfg.getString(SECTION_NAME, findSubSection(project.get()),
+        BASE_PATH_NAME);
+  }
+
+  public String[] getAllBasePaths() {
+    List<String> basePaths = new ArrayList<>();
+    for (String subSection : cfg.getSubsections(SECTION_NAME)) {
+      String basePath = cfg.getString(SECTION_NAME, subSection, BASE_PATH_NAME);
+      if (basePath != null) {
+        basePaths.add(basePath);
+      }
+    }
+    return basePaths.toArray(new String[basePaths.size()]);
   }
 
   /**

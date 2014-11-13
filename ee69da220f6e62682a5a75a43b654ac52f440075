@@ -16,6 +16,24 @@
       "revId": "ee69da220f6e62682a5a75a43b654ac52f440075",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a4a5f99_5bf363ff",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/contact/EncryptedContactStore.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-11-13T06:56:28Z",
+      "side": 1,
+      "message": "1.  JcePGPPublicKeyRingCollection doesn\u0027t actually exist.  I suspect it\u0027s a typo and should be JcaPGPPublicKeyRingCollection.\n\n2.  The implementation of PGPPublicKeyRingCollection was using a \"BcKeyFingerprintCalculator\" so it seemed a reasonable choice to use BcPGPPublicKeyRingCollection.",
+      "parentUuid": "3a148387_84dd8670",
+      "revId": "ee69da220f6e62682a5a75a43b654ac52f440075",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

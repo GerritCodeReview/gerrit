@@ -21,6 +21,7 @@ import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.config.RepositoryConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.inject.Inject;
@@ -68,6 +69,7 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
   public static class Module extends LifecycleModule {
     @Override
     protected void configure() {
+      bind(RepositoryConfig.class);
       bind(GitRepositoryManager.class).to(LocalDiskRepositoryManager.class);
       listener().to(LocalDiskRepositoryManager.Lifecycle.class);
     }
@@ -131,11 +133,13 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
   private final File noteDbPath;
   private final Lock namesUpdateLock;
   private volatile SortedSet<Project.NameKey> names;
+  private final RepositoryConfig repositoryCfg;
 
   @Inject
   LocalDiskRepositoryManager(SitePaths site,
       @GerritServerConfig Config cfg,
-      NotesMigration notesMigration) {
+      NotesMigration notesMigration,
+      RepositoryConfig repositoryCfg) {
     basePath = site.resolve(cfg.getString("gerrit", null, "basePath"));
     if (basePath == null) {
       throw new IllegalStateException("gerrit.basePath must be configured");
@@ -147,19 +151,27 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
     } else {
       noteDbPath = null;
     }
+    this.repositoryCfg = repositoryCfg;
+    for (String alternateBasePath : repositoryCfg.getAllBasePaths()) {
+      if(!new File(alternateBasePath).isAbsolute()){
+        throw new IllegalStateException(
+            "repository.<name>.basePath must be absolute path");
+      }
+    }
     namesUpdateLock = new ReentrantLock(true /* fair */);
     names = list();
   }
 
-  /** @return base directory under which all projects are stored. */
-  public File getBasePath() {
-    return basePath;
+  /** @return base directory under which the specified project is stored. */
+  public File getBasePath(Project.NameKey name) {
+    String alternateBasePath = repositoryCfg.getBasePath(name);
+    return alternateBasePath != null ? new File(alternateBasePath) : basePath;
   }
 
   @Override
   public Repository openRepository(Project.NameKey name)
       throws RepositoryNotFoundException {
-    return openRepository(basePath, name);
+    return openRepository(getBasePath(name), name);
   }
 
   private Repository openRepository(File path, Project.NameKey name)
@@ -206,7 +218,7 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
   @Override
   public Repository createRepository(Project.NameKey name)
       throws RepositoryNotFoundException, RepositoryCaseMismatchException {
-    Repository repo = createRepository(basePath, name);
+    Repository repo = createRepository(getBasePath(name), name);
     if (noteDbPath != null) {
       createRepository(noteDbPath, name);
     }
@@ -386,6 +398,9 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
     try {
       SortedSet<Project.NameKey> n = new TreeSet<>();
       scanProjects(basePath, "", n);
+      for (String altBasePath : repositoryCfg.getAllBasePaths()) {
+        scanProjects(new File(altBasePath), "", n);
+      }
       names = Collections.unmodifiableSortedSet(n);
       return n;
     } finally {

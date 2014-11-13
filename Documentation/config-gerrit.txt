@@ -2749,6 +2749,17 @@ named `project/plugins/a` would be `CHERRY_PICK`.
 the previous example, all properties will be used from `project/plugins/\*`
 section and no properties will be inherited nor overridden from `project/*`.
 
+[[repository.name.basePath]]repository.<name>.basePath::
++
+Alternate to <<gerrit.basePath,gerrit.basePath>>. The repository will created
+and used from this location instead: ${alternateBasePath}/${project_name}.git.
++
+If configuring the basePath for an existing project in gerrit, make sure to stop
+gerrit, move the repository in the alternate basePath, configure basePath for
+this repository and then start Gerrit.
++
+Path must be absolute.
+
 [[repository.name.defaultSubmitType]]repository.<name>.defaultSubmitType::
 +
 The default submit type for newly created projects. Supported values

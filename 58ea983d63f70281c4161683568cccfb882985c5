@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a4a5f99_bb126774",
+        "filename": "gerrit-gwtdebug/src/main/java/com/google/gwt/dev/codeserver/WebServer.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1006818
+      },
+      "writtenOn": "2014-11-13T14:37:45Z",
+      "side": 1,
+      "message": "according to the commit message, this link here should be https://gwt.googlesource.com/gwt/+/2.7.0-rc1/dev/codeserver/java/com/google/gwt/dev/codeserver/WebServer.java. or remove it, not need update anymore.",
+      "range": {
+        "startLine": 70,
+        "startChar": 3,
+        "endLine": 70,
+        "endChar": 115
+      },
+      "revId": "58ea983d63f70281c4161683568cccfb882985c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "fafd8b73_12f9cce1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-11-13T07:20:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fafd8b73_d2e74440",
+      "range": {
+        "startLine": 12,
+        "startChar": 21,
+        "endLine": 12,
+        "endChar": 22
+      },
+      "revId": "0b5c117532e8139ed1f671b694a00442763cc43a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fafd8b73_f2ea480a",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/http/jetty/JettyServer.java",
         "patchSetId": 1
@@ -59,6 +83,30 @@
       "writtenOn": "2014-11-13T07:16:12Z",
       "side": 1,
       "message": "Actually it was intentionally named this way, after: User Agent (ua).",
+      "parentUuid": "fafd8b73_f2ea480a",
+      "range": {
+        "startLine": 587,
+        "startChar": 41,
+        "endLine": 587,
+        "endChar": 54
+      },
+      "revId": "0b5c117532e8139ed1f671b694a00442763cc43a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fafd8b73_72ee581d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/http/jetty/JettyServer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 587,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-11-13T07:20:42Z",
+      "side": 1,
+      "message": "Described the map in the commit message.",
       "parentUuid": "fafd8b73_f2ea480a",
       "range": {
         "startLine": 587,

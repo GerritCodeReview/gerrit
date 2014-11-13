@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3a148387_046eb6f4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-11-13T19:50:44Z",
+      "side": 1,
+      "message": "I disagree. New settings for SBS2 should be there where all other prefs for SBS2 reside: on DiffPreferences screeen. Inline edit series moves already editing of commit message to Edit Screen (similar to SBS2), also Codemirror editor. Also note, that user may want to experiment with the setting to find what match best her expectation. Taht why we seamlessly support application of properties, with or without persisting them in the database (and Git later):\n\n* open SBS2\n* push comma\n* change setting\n* push apply\n\nYou see that your changes were activated even with closing the rpeferences screen. You just can have that comfort, if you would require to leave the screen to my preferences change that and come back to trealize that you aren\u0027t satisfied with made changes.",
+      "range": {
+        "startLine": 25,
+        "startChar": 51,
+        "endLine": 26,
+        "endChar": 44
+      },
+      "revId": "c40ec7607ad04ab6a772dc96a0e53ee94a69b5f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

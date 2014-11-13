@@ -805,6 +805,21 @@ abbreviated commit SHA-1 (`c9c0edb`).
 +
 Default is "Submit patch set ${patchSet} into ${branch}".
 
+[[change.replyLabel]]change.replyLabel::
++
+Label name for the reply button. In the user interface an ellipsis (...)
+is appended.
++
+Default is "Reply". In the user interface it becomes "Reply…".
+
+[[change.replyTooltip]]change.replyTooltip::
++
+Tooltip for the reply button. In the user interface a note about the
+keyboard shortcut is appended.
++
+Default is "Reply and score". In the user interface it becomes "Reply
+and score (Shortcut: a)".
+
 [[changeMerge]]
 === Section changeMerge
 

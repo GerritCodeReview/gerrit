@@ -597,6 +597,9 @@ Clicking on the `Reply...` button opens a popup panel.
 A text box allows to type a summary comment for the currently viewed
 patch set.
 
+Note that you can set the text and tooltip of the button in
+link:config-gerrit.html#change.replyLabel[gerrit.config].
+
 [[vote]]
 If the current patch set is viewed, radio buttons are displayed for
 each label on which the user is allowed to vote. Voting on non-current

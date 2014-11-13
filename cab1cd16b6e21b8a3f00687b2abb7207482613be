@@ -22,6 +22,30 @@
       "revId": "cab1cd16b6e21b8a3f00687b2abb7207482613be",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fafd8b73_b239e0f8",
+        "filename": "gerrit-elasticsearch/src/test/java/com/google/gerrit/elasticsearch/ElasticsearchQueryChangesTest.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-11-13T19:42:44Z",
+      "side": 1,
+      "message": "That\u0027s because the implementation of:\n\n  InMemoryModule.setDefaults(elasticsearchConfig);\n\nthat is called on line 50 overwrites your previously set index.type configuration from ES to lucene:\n\n  public static void setDefaults(Config cfg) {\n    [...]\n    cfg.setString(\"index\", null, \"type\", \"lucene\");",
+      "parentUuid": "bad5d301_80f396fe",
+      "range": {
+        "startLine": 46,
+        "startChar": 0,
+        "endLine": 51,
+        "endChar": 73
+      },
+      "revId": "cab1cd16b6e21b8a3f00687b2abb7207482613be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

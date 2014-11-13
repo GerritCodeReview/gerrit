@@ -87,6 +87,7 @@ import com.google.gwt.user.client.ui.ToggleButton;
 import com.google.gwtexpui.globalkey.client.GlobalKey;
 import com.google.gwtexpui.globalkey.client.KeyCommand;
 import com.google.gwtexpui.globalkey.client.KeyCommandSet;
+import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 import com.google.gwtorm.client.KeyUtil;
 
 import java.sql.Timestamp;
@@ -256,6 +257,7 @@ public class ChangeScreen2 extends Screen {
     super.onUnload();
   }
 
+
   @Override
   protected void onInitUI() {
     super.onInitUI();
@@ -265,6 +267,8 @@ public class ChangeScreen2 extends Screen {
     labels.init(style, statusText);
     reviewers.init(style, ccText);
     hashtags.init(style);
+
+    initReplyButton();
 
     keysNavigation = new KeyCommandSet(Gerrit.C.sectionNavigation());
     keysNavigation.add(new KeyCommand(0, 'u', Util.C.upToChangeList()) {
@@ -328,6 +332,14 @@ public class ChangeScreen2 extends Screen {
         }
       });
     }
+  }
+
+  private void initReplyButton() {
+    reply.setTitle(Gerrit.getConfig().getReplyTitle());
+    reply.setHTML(new SafeHtmlBuilder()
+      .openDiv()
+      .append(Gerrit.getConfig().getReplyLabel())
+      .closeDiv());
   }
 
   private void gotoSibling(final int offset) {

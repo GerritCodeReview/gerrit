@@ -2751,8 +2751,12 @@ to be the default owner of new projects.
 The only matching patterns supported are exact match or wildcard matching which
 can be specified by ending the name by a `*`. If a project matches more than one
 repository configuration, then the configuration from the more precise match
-will be used. In the following example, the default submit type for a project
-named `project/plugins/a` would be `CHERRY_PICK`.
+will be used.
+
+[NOTE] All properties are used from the matching repository configuration. In
+the following example, the default submit type for a project named
+`project/plugins/a` would be `CHERRY_PICK` and no properties will be inherited
+nor overridden from `project/*`.
 
 ----
 [repository "project/*"]
@@ -2761,9 +2765,16 @@ named `project/plugins/a` would be `CHERRY_PICK`.
   defaultSubmitType = CHERRY_PICK
 ----
 
-[NOTE] All properties are used from the matching repository configuration. In
-the previous example, all properties will be used from `project/plugins/\*`
-section and no properties will be inherited nor overridden from `project/*`.
+[[repository.name.basePath]]repository.<name>.basePath::
++
+Alternate to <<gerrit.basePath,gerrit.basePath>>. The repository will be created
+and used from this location instead: ${alternateBasePath}/${projectName}.git.
++
+If configuring the basePath for an existing project in gerrit, make sure to stop
+gerrit, move the repository in the alternate basePath, configure basePath for
+this repository and then start Gerrit.
++
+Path must be absolute.
 
 [[repository.name.defaultSubmitType]]repository.<name>.defaultSubmitType::
 +

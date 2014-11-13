@@ -22,6 +22,30 @@
       "revId": "58ea983d63f70281c4161683568cccfb882985c5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a148387_84362604",
+        "filename": "gerrit-gwtdebug/src/main/java/com/google/gwt/dev/codeserver/WebServer.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-11-13T16:13:02Z",
+      "side": 1,
+      "message": "I think you are missing something here. Let me try to explain. This file was adjusted to work against Jetty 9.2. The adjustment change was rejected upstream (the link to Gerrit change above), because GWT depends on HttpUnit and HttpUnit depends on Jetty 8.\n\nThe review of original change wanted me to paste the link to the original change upstream, so that it is easier to adjust newer version to Jetty 9.2. That, why the link is important und remains constants also for GWT 42.",
+      "parentUuid": "1a4a5f99_bb126774",
+      "range": {
+        "startLine": 70,
+        "startChar": 3,
+        "endLine": 70,
+        "endChar": 115
+      },
+      "revId": "58ea983d63f70281c4161683568cccfb882985c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

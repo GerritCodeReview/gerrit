@@ -2705,6 +2705,31 @@ The content is returned as base64 encoded string.
   Ly8gQ29weXJpZ2h0IChDKSAyMDEwIFRoZSBBbmRyb2lkIE9wZW4gU291cmNlIFByb2plY...
 ----
 
+[[get-content-type]]
+=== Get Content Type
+--
+'GET /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/files/link:#file-id[\{file-id\}]/type'
+--
+
+Gets the content type of a file from a certain revision.
+
+.Request
+----
+  GET /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/revisions/674ac754f91e64a0efb8087e59a176484bd534d1/files/readme.txt/type HTTP/1.0
+----
+
+The content type is returned as string.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  "text/plain"
+----
+
 [[get-diff]]
 === Get Diff
 --

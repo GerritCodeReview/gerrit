@@ -63,6 +63,20 @@ public class ChangeFileApi {
     contentEditOrPs(id, filename).get(wrapper(cb));
   }
 
+  /** Get the content type of a File in a PatchSet or change edit. */
+  public static void getContentType(PatchSet.Id id, String filename,
+      AsyncCallback<String> cb) {
+    contentTypeEditOrPs(id, filename).get(
+        new CallbackWrapper<NativeString, String>(cb) {
+          @Override
+          public void onSuccess(NativeString str) {
+            if (str != null) {
+              wrapped.onSuccess(str.asString());
+            }
+          }
+        });
+  }
+
   /** Get commit message in a PatchSet or change edit. */
   public static void getMessage(PatchSet.Id id, AsyncCallback<String> cb) {
     ChangeApi.change(id.getParentKey().get()).view("edit:message").get(
@@ -129,6 +143,12 @@ public class ChangeFileApi {
     return id.get() == 0
         ? contentEdit(id.getParentKey(), filename)
         : ChangeApi.revision(id).view("files").id(filename).view("content");
+  }
+
+  private static RestApi contentTypeEditOrPs(PatchSet.Id id, String filename) {
+    return id.get() == 0
+        ? contentEdit(id.getParentKey(), filename).view("type")
+        : ChangeApi.revision(id).view("files").id(filename).view("type");
   }
 
   private static RestApi contentEdit(Change.Id id, String filename) {

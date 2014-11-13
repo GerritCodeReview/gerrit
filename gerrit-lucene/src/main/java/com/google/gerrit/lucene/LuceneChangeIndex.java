@@ -159,7 +159,7 @@ public class LuceneChangeIndex implements ChangeIndex {
       } else if (e.getKey() <= 13) {
         versions.put(e.getValue(), lucene410);
       } else {
-        versions.put(e.getValue(), Version.LUCENE_4_10_1);
+        versions.put(e.getValue(), Version.LUCENE_4_10_2);
       }
     }
     LUCENE_VERSIONS = versions.build();

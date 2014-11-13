@@ -32,12 +32,14 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwtexpui.globalkey.client.GlobalKey;
 
 import net.codemirror.lib.CodeMirror;
 import net.codemirror.lib.Configuration;
+import net.codemirror.lib.ModeInjector;
 
 public class EditScreen extends Screen {
 
@@ -47,6 +49,7 @@ public class EditScreen extends Screen {
   private final PatchSet.Id revision;
   private final String path;
   private CodeMirror cm;
+  private String type;
 
   @UiField Element filePath;
   @UiField Button cancel;
@@ -63,6 +66,7 @@ public class EditScreen extends Screen {
   @Override
   protected void onInitUI() {
     super.onInitUI();
+    initPath();
     setHeaderVisible(false);
   }
 
@@ -71,9 +75,19 @@ public class EditScreen extends Screen {
     super.onLoad();
     CallbackGroup cmGroup = new CallbackGroup();
     CodeMirror.initLibrary(cmGroup.add(CallbackGroup.<Void> emptyCallback()));
-    initPath();
+    CallbackGroup group = new CallbackGroup();
+    final AsyncCallback<Void> modeInjectorCb =
+        group.add(CallbackGroup.<Void> emptyCallback());
+    ChangeFileApi.getContentType(revision, path,
+        cmGroup.addFinal(new GerritCallback<String>() {
+          @Override
+          public void onSuccess(String result) {
+            type = result;
+            injectMode(result, modeInjectorCb);
+          }
+        }));
     ChangeFileApi.getContentOrMessage(revision, path,
-        cmGroup.addFinal(new ScreenLoadCallback<String>(this) {
+        group.addFinal(new ScreenLoadCallback<String>(this) {
           @Override
           protected void preDisplay(String content) {
             initEditor(content);
@@ -113,9 +127,12 @@ public class EditScreen extends Screen {
     cm.setValue(content);
   }
 
+  private void injectMode(String type, AsyncCallback<Void> cb) {
+    new ModeInjector().add(type).inject(cb);
+  }
+
   private Configuration getConfig() {
     // TODO(davido): Retrieve user preferences from AllUsers repository
-    // TODO(davido): Retrieve file content type to activate syntax highlighting
     return Configuration.create()
         .set("readOnly", false)
         .set("cursorBlinkRate", 0)
@@ -125,7 +142,8 @@ public class EditScreen extends Screen {
         .set("lineWrapping", false)
         .set("styleSelectedText", true)
         .set("showTrailingSpace", true)
-        .set("keyMap", "default");
+        .set("keyMap", "default")
+        .set("mode", ModeInjector.getContentType(type));
   }
 
   private void initPath() {

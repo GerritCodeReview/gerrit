@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fafd8b73_d2190499",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-11-13T09:53:27Z",
+      "side": 1,
+      "message": "You can\u0027t replace Lucene version in existing index schema version. Schema version V14 stays forever with Lucene Version 4.10.1. To change used Lucene version schema upgrade + reindex is needed. Check this change for schema upgrade example [1]. \n\n  [1] https://gerrit-review.googlesource.com/60816",
+      "revId": "e36443b1e447308e8c6f815e21f362fa8330e9dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

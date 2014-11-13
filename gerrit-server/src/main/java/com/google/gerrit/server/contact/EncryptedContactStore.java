@@ -114,7 +114,7 @@ class EncryptedContactStore implements ContactStore {
   private static PGPPublicKeyRingCollection readPubRing(final File pub) {
     try (InputStream fin = new FileInputStream(pub);
         InputStream in = PGPUtil.getDecoderStream(fin)) {
-        return new PGPPublicKeyRingCollection(in);
+        return new BcPGPPublicKeyRingCollection(in);
     } catch (IOException e) {
       throw new ProvisionException("Cannot read " + pub, e);
     } catch (PGPException e) {

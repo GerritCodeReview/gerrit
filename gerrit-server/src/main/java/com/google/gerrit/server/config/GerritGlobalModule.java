@@ -210,7 +210,6 @@ public class GerritGlobalModule extends FactoryModule {
         .toProvider(AccountVisibilityProvider.class)
         .in(SINGLETON);
     factory(ProjectOwnerGroupsProvider.Factory.class);
-    bind(RepositoryConfig.class);
 
     bind(AuthBackend.class).to(UniversalAuthBackend.class).in(SINGLETON);
     DynamicSet.setOf(binder(), AuthBackend.class);

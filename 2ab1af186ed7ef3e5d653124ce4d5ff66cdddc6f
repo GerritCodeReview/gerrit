@@ -22,6 +22,30 @@
       "revId": "2ab1af186ed7ef3e5d653124ce4d5ff66cdddc6f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a4a5f99_5b2ec3bb",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-11-13T12:27:14Z",
+      "side": 1,
+      "message": "The elasticsearch implementation is not likely to get merged soon.  I think it\u0027s OK to keep the Lucene version update change open and later update it or replace it if necessary.\n\nUnless there is something in the 4.10.2 release that we need independently of the ES implementation?",
+      "parentUuid": "fafd8b73_920f7c50",
+      "range": {
+        "startLine": 160,
+        "startChar": 8,
+        "endLine": 160,
+        "endChar": 58
+      },
+      "revId": "2ab1af186ed7ef3e5d653124ce4d5ff66cdddc6f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

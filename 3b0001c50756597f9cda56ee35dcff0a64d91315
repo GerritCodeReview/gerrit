@@ -22,6 +22,30 @@
       "revId": "3b0001c50756597f9cda56ee35dcff0a64d91315",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a4a5f99_dbfe53c4",
+        "filename": "lib/elasticsearch/BUCK",
+        "patchSetId": 17
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-11-13T08:50:47Z",
+      "side": 1,
+      "message": "Yep, that fixes it.  Thanks.",
+      "parentUuid": "3a148387_a4124274",
+      "range": {
+        "startLine": 6,
+        "startChar": 40,
+        "endLine": 6,
+        "endChar": 45
+      },
+      "revId": "3b0001c50756597f9cda56ee35dcff0a64d91315",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3a148387_84dd8670",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/contact/EncryptedContactStore.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-11-13T06:51:52Z",
+      "side": 1,
+      "message": "Comment in the code says:\n\n  /**\n  * @deprecated use JcePGPPublicKeyRingCollection or  \n    BcPGPPublicKeyRingCollection.\n  */\n\nAny particular reason you picked second one?",
+      "revId": "ee69da220f6e62682a5a75a43b654ac52f440075",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

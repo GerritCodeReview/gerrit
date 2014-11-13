@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3a148387_a4124274",
+        "filename": "lib/elasticsearch/BUCK",
+        "patchSetId": 17
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-11-13T08:44:13Z",
+      "side": 1,
+      "message": "That\u0027s the bug. ES version is outdated and doesn\u0027t match Lucene version we are using (4.10.1), thus NSME. You need 1.4 [1], that uses Lucene 4.10.2. 1.2.2 was built against lucene-core 4.8.1 [2].\n\n* [1] http://mvnrepository.com/artifact/org.elasticsearch/elasticsearch/1.4.0\n* [2] http://mvnrepository.com/artifact/org.elasticsearch/elasticsearch/1.2.2",
+      "range": {
+        "startLine": 6,
+        "startChar": 40,
+        "endLine": 6,
+        "endChar": 45
+      },
+      "revId": "3b0001c50756597f9cda56ee35dcff0a64d91315",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

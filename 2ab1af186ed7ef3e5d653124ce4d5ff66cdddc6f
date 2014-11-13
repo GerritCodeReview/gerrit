@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fafd8b73_920f7c50",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-11-13T08:55:34Z",
+      "side": 1,
+      "message": "We have another bug fix release: 4.10.2 [1] and ES version 1.4 was built against this Lucene version. Should we upgrade index schema version for Lucene upgrade only or should we wait for another schema change to be combined with Lucene version upgrade?\n\n [1] http://lucene.apache.org/core/4_10_2/changes/Changes.html#v4.10.2.bug_fixes",
+      "range": {
+        "startLine": 160,
+        "startChar": 8,
+        "endLine": 160,
+        "endChar": 58
+      },
+      "revId": "2ab1af186ed7ef3e5d653124ce4d5ff66cdddc6f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

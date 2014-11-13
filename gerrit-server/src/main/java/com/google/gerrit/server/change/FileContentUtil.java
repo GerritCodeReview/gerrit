@@ -14,14 +14,18 @@
 
 package com.google.gerrit.server.change;
 
+import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
+
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.server.FileTypeRegistry;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import org.eclipse.jgit.lib.ObjectLoader;
+import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -33,10 +37,13 @@ import java.io.OutputStream;
 @Singleton
 public class FileContentUtil {
   private final GitRepositoryManager repoManager;
+  private final FileTypeRegistry registry;
 
   @Inject
-  FileContentUtil(GitRepositoryManager repoManager) {
+  FileContentUtil(GitRepositoryManager repoManager,
+      FileTypeRegistry ftr) {
     this.repoManager = repoManager;
+    this.registry = ftr;
   }
 
   public BinaryResult getContent(Project.NameKey project, String revstr,
@@ -62,6 +69,34 @@ public class FileContentUtil {
         };
         return result.setContentLength(object.getSize()).base64();
       } finally {
+        rw.release();
+      }
+    } finally {
+      repo.close();
+    }
+  }
+
+  public String getContentType(Project.NameKey project, String revstr,
+      String path) throws ResourceNotFoundException, IOException {
+    Repository repo = repoManager.openRepository(project);
+    try {
+      RevWalk rw = new RevWalk(repo);
+      ObjectReader reader = repo.newObjectReader();
+      try {
+        RevCommit commit = rw.parseCommit(repo.resolve(revstr));
+        TreeWalk tw =
+            TreeWalk.forPath(rw.getObjectReader(), path,
+                commit.getTree().getId());
+        if (tw == null) {
+          throw new ResourceNotFoundException();
+        }
+        ObjectLoader blobLoader = reader.open(tw.getObjectId(0), OBJ_BLOB);
+        byte[] raw = blobLoader.isLarge()
+            ? null
+            : blobLoader.getCachedBytes();
+        return registry.getMimeType(path, raw).toString();
+      } finally {
+        reader.release();
         rw.release();
       }
     } finally {

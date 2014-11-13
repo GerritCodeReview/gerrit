@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bad5d301_e0eaa20a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 362,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-11-13T01:45:04Z",
+      "side": 1,
+      "message": "Arguments are in the wrong order.\n\nFixed with https://gerrit-review.googlesource.com/#/c/61570/",
+      "range": {
+        "startLine": 362,
+        "startChar": 21,
+        "endLine": 362,
+        "endChar": 52
+      },
+      "revId": "28588e70a8f944108f528f6983df0d05f0d2411a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

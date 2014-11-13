@@ -359,7 +359,7 @@ public class ChangeEditModifier {
         break;
 
       case CHANGE_ENTRY:
-        checkNotNull("new content required", content);
+        checkNotNull(content, "new content required");
         dce.add(new PathEdit(fileName) {
           @Override
           public void apply(DirCacheEntry ent) {

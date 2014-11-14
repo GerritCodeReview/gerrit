@@ -16,9 +16,14 @@ package com.google.gerrit.server.config;
 
 import static org.eclipse.jgit.util.StringUtils.equalsIgnoreCase;
 
+import com.google.common.base.MoreObjects;
+
+import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -298,6 +303,96 @@ public class ConfigUtil {
           + " configured");
     }
     return v;
+  }
+
+  /**
+   * Store section by inspecting Java class attributes.
+   *
+   * @param cfg config to store the values from
+   * @param section section
+   * @param sub subsection
+   * @param s instance of class
+   * @throws ConfigInvalidException
+   */
+  public static void storeSection(Config cfg, String section, String sub,
+      Object s) throws ConfigInvalidException {
+    try {
+      for (Field f : s.getClass().getDeclaredFields()) {
+        // Constants must be defined final, to be skipped.
+        if (Modifier.isFinal(f.getModifiers())) {
+          continue;
+        }
+        Class<?> t = f.getType();
+        String n = f.getName();
+        f.setAccessible(true);
+        if (String.class.isAssignableFrom(t)) {
+          cfg.setString(section, sub, n, (String) f.get(s));
+        } else if (Integer.class.isAssignableFrom(t)
+            || int.class.isAssignableFrom(t)) {
+          cfg.setInt(section, sub, n, (Integer) f.get(s));
+        } else if (Long.class.isAssignableFrom(t)
+            || long.class.isAssignableFrom(t)) {
+          cfg.setLong(section, sub, n, (Long) f.get(s));
+        } else if (Boolean.class.isAssignableFrom(t)
+            || boolean.class.isAssignableFrom(t)) {
+          cfg.setBoolean(section, sub, n, (Boolean) f.get(s));
+        } else if (Enum.class.isAssignableFrom(t)) {
+          cfg.setEnum(section, sub, n, (Enum<?>) f.get(s));
+        } else {
+          throw new UnsupportedOperationException("type is unknown: "
+              + t.getName());
+        }
+      }
+    }  catch (SecurityException | IllegalArgumentException
+        | IllegalAccessException e) {
+      throw new ConfigInvalidException("cannot save values", e);
+    }
+  }
+
+  /**
+   * Load section by inspecting Java class attributes.
+   *
+   * @param cfg config to load the values into
+   * @param section section
+   * @param sub subsection
+   * @param s instance of class
+   * @throws ConfigInvalidException
+   */
+  public static void loadSection(Config cfg, String section, String sub,
+      Object s) throws ConfigInvalidException {
+    try {
+      for (Field f : s.getClass().getDeclaredFields()) {
+        // Constants must be defined final, to be skipped.
+        if (Modifier.isFinal(f.getModifiers())) {
+          continue;
+        }
+        Class<?> t = f.getType();
+        String n = f.getName();
+        f.setAccessible(true);
+        Object defaultVal = f.get(s);
+        if (String.class.isAssignableFrom(t)) {
+          String current = cfg.getString(section, sub, n);
+          f.set(s, MoreObjects.firstNonNull(current, defaultVal));
+        } else if (Integer.class.isAssignableFrom(t)
+            || int.class.isAssignableFrom(t)) {
+          f.set(s, cfg.getInt(section, sub, n, (Integer)defaultVal));
+        } else if (Long.class.isAssignableFrom(t)
+            || long.class.isAssignableFrom(t)) {
+          f.set(s, cfg.getLong(section, sub, n, (Long)defaultVal));
+        } else if (Boolean.class.isAssignableFrom(t)
+            || boolean.class.isAssignableFrom(t)) {
+          f.set(s, cfg.getBoolean(section, sub, n, (Boolean)defaultVal));
+        } else if (Enum.class.isAssignableFrom(t)) {
+          f.set(s, cfg.getEnum(section, sub, n, (Enum<?>)defaultVal));
+        } else {
+          throw new UnsupportedOperationException("type is unknown: "
+              + t.getName());
+        }
+      }
+    } catch (SecurityException | IllegalArgumentException
+        | IllegalAccessException e) {
+      throw new ConfigInvalidException("cannot load values", e);
+    }
   }
 
   private static boolean match(final String a, final String... cases) {

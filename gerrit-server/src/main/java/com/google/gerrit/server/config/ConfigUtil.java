@@ -16,8 +16,11 @@ package com.google.gerrit.server.config;
 
 import static org.eclipse.jgit.util.StringUtils.equalsIgnoreCase;
 
+import com.google.common.base.MoreObjects;
+
 import org.eclipse.jgit.lib.Config;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
@@ -298,6 +301,86 @@ public class ConfigUtil {
           + " configured");
     }
     return v;
+  }
+
+  /**
+   * Store section by inspecting Java class attributes.
+   *
+   * @param cfg config to store the values from
+   * @param section section
+   * @param sub subsection
+   * @param s instance of class
+   * @throws SecurityException
+   * @throws IllegalArgumentException
+   * @throws IllegalAccessException
+   */
+  public static void storeSection(Config cfg, String section, String sub,
+      Object s) throws SecurityException, IllegalArgumentException,
+      IllegalAccessException {
+    for (Field f : s.getClass().getDeclaredFields()) {
+      Class<?> t = f.getType();
+      String n = f.getName();
+      if (t.isPrimitive()) {
+        throw new IllegalArgumentException("primitive type: " + n);
+      }
+
+      f.setAccessible(true);
+      if (String.class.isAssignableFrom(t)) {
+        cfg.setString(section, sub, n, (String) f.get(s));
+      } else if (Integer.class.isAssignableFrom(t)) {
+        cfg.setInt(section, sub, n, (Integer) f.get(s));
+      } else if (Long.class.isAssignableFrom(t)) {
+        cfg.setLong(section, sub, n, (Long) f.get(s));
+      } else if (Boolean.class.isAssignableFrom(t)) {
+        cfg.setBoolean(section, sub, n, (Boolean) f.get(s));
+      } else if (Enum.class.isAssignableFrom(t)) {
+        cfg.setEnum(section, sub, n, (Enum<?>) f.get(s));
+      } else {
+        throw new UnsupportedOperationException("type is unknown: "
+            + t.getName());
+      }
+    }
+  }
+
+  /**
+   * Load section by inspecting Java class attributes.
+   *
+   * @param cfg config to load the values into
+   * @param section section
+   * @param sub subsection
+   * @param s instance of class
+   * @throws SecurityException
+   * @throws IllegalArgumentException
+   * @throws IllegalAccessException
+   */
+  public static void loadSection(Config cfg, String section, String sub,
+      Object s) throws SecurityException, IllegalArgumentException,
+      IllegalAccessException {
+    for (Field f : s.getClass().getDeclaredFields()) {
+      Class<?> t = f.getType();
+      String n = f.getName();
+      if (t.isPrimitive()) {
+        throw new IllegalArgumentException("primitive type: " + n);
+      }
+
+      f.setAccessible(true);
+      Object defaultVal = f.get(s);
+      if (String.class.isAssignableFrom(t)) {
+        String current = cfg.getString(section, sub, n);
+        f.set(s, MoreObjects.firstNonNull(current, defaultVal));
+      } else if (Integer.class.isAssignableFrom(t)) {
+        f.set(s, cfg.getInt(section, sub, n, (Integer)defaultVal));
+      } else if (Long.class.isAssignableFrom(t)) {
+        f.set(s, cfg.getLong(section, sub, n, (Long)defaultVal));
+      } else if (Boolean.class.isAssignableFrom(t)) {
+        f.set(s, cfg.getBoolean(section, sub, n, (Boolean)defaultVal));
+      } else if (Enum.class.isAssignableFrom(t)) {
+        f.set(s, cfg.getEnum(section, sub, n, (Enum<?>)defaultVal));
+      } else {
+        throw new UnsupportedOperationException("type is unknown: "
+            + t.getName());
+      }
+    }
   }
 
   private static boolean match(final String a, final String... cases) {

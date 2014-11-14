@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "fafd8b73_f25d2836",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/UpdatePrimaryKeys.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-11-14T13:50:51Z",
+      "side": 1,
+      "message": "The SchemaFactory is only available after the init is done. When init starts DB is not know... use has to chose databse type, database, user, pass etc..\n\nWhen init is done, the DB is created. Only then we can inject the dbFactory here and this is done after InitStep.run() is finished and before InitStep.postRun() is called. This is the reason why this injection has to be optional as the initial injection cannot inject a dbFactory.",
+      "parentUuid": "fafd8b73_72d77851",
+      "revId": "62581231bbe13fe29733c2a9a675206f7b177b41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9ae00fb1_0f406560",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/UpdatePrimaryKeys.java",
         "patchSetId": 3

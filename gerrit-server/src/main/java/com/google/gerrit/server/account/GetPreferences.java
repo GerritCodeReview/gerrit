@@ -31,6 +31,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.git.UserConfigSections;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -50,7 +51,6 @@ import java.util.List;
 public class GetPreferences implements RestReadView<AccountResource> {
   private static final Logger log = LoggerFactory.getLogger(GetPreferences.class);
 
-  public static final String MY = "my";
   public static final String KEY_URL = "url";
   public static final String KEY_TARGET = "target";
   public static final String KEY_ID = "id";
@@ -162,7 +162,7 @@ public class GetPreferences implements RestReadView<AccountResource> {
     private List<TopMenu.MenuItem> my(VersionedAccountPreferences v) {
       List<TopMenu.MenuItem> my = new ArrayList<>();
       Config cfg = v.getConfig();
-      for (String subsection : cfg.getSubsections(MY)) {
+      for (String subsection : cfg.getSubsections(UserConfigSections.MY)) {
         String url = my(cfg, subsection, KEY_URL, "#/");
         String target = my(cfg, subsection, KEY_TARGET,
             url.startsWith("#") ? null : "_blank");
@@ -175,7 +175,7 @@ public class GetPreferences implements RestReadView<AccountResource> {
 
     private static String my(Config cfg, String subsection, String key,
         String defaultValue) {
-      String val = cfg.getString(MY, subsection, key);
+      String val = cfg.getString(UserConfigSections.MY, subsection, key);
       return !Strings.isNullOrEmpty(val) ? val : defaultValue;
     }
   }

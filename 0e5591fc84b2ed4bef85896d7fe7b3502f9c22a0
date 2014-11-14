@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "da87e727_09cd09c5",
+        "filename": "Documentation/cmd-index.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-11-14T22:48:56Z",
+      "side": 1,
+      "message": "sorry, my editor is setup to replace with spaces. reverted.",
+      "parentUuid": "15fa32f3_3be25734",
+      "range": {
+        "startLine": 49,
+        "startChar": 0,
+        "endLine": 49,
+        "endChar": 2
+      },
+      "revId": "0e5591fc84b2ed4bef85896d7fe7b3502f9c22a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b53de64e_e01b4297",
         "filename": "Documentation/cmd-verify.txt",
         "patchSetId": 13
@@ -36,6 +60,30 @@
       "writtenOn": "2014-11-06T01:24:28Z",
       "side": 1,
       "message": "nit: one too many \"\u003d\"",
+      "range": {
+        "startLine": 2,
+        "startChar": 13,
+        "endLine": 2,
+        "endChar": 14
+      },
+      "revId": "0e5591fc84b2ed4bef85896d7fe7b3502f9c22a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da87e727_29d2cd61",
+        "filename": "Documentation/cmd-verify.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-11-14T22:48:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b53de64e_e01b4297",
       "range": {
         "startLine": 2,
         "startChar": 13,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "9a81ef19_27d2fa61",
+        "filename": "Documentation/cmd-verify.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-11-14T22:48:56Z",
+      "side": 1,
+      "message": "Yes, This implementation gives each test result a vote.  The idea is to separate the gerrit combined verification vote into each test result that makes up that combined vote and store them independently.",
+      "parentUuid": "d5389a5e_41179266",
+      "range": {
+        "startLine": 53,
+        "startChar": 0,
+        "endLine": 53,
+        "endChar": 62
+      },
+      "revId": "0e5591fc84b2ed4bef85896d7fe7b3502f9c22a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "15fa32f3_1bdf9b68",
         "filename": "Documentation/cmd-verify.txt",
         "patchSetId": 13
@@ -82,6 +154,30 @@
       "writtenOn": "2014-11-06T01:24:28Z",
       "side": 1,
       "message": "The example is setting `gate-horizon-pep8`",
+      "range": {
+        "startLine": 71,
+        "startChar": 9,
+        "endLine": 71,
+        "endChar": 18
+      },
+      "revId": "0e5591fc84b2ed4bef85896d7fe7b3502f9c22a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a81ef19_47d7ee50",
+        "filename": "Documentation/cmd-verify.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-11-14T22:48:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "15fa32f3_1bdf9b68",
       "range": {
         "startLine": 71,
         "startChar": 9,
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "9a81ef19_07cdf6c4",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 1929,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-11-14T22:48:56Z",
+      "side": 1,
+      "message": "Done by adding [[verify-input]] below.",
+      "parentUuid": "15fa32f3_5be92312",
+      "range": {
+        "startLine": 1929,
+        "startChar": 6,
+        "endLine": 1929,
+        "endChar": 18
+      },
+      "revId": "0e5591fc84b2ed4bef85896d7fe7b3502f9c22a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "15fa32f3_7becdf23",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 13
@@ -128,6 +248,24 @@
       "writtenOn": "2014-11-06T01:24:28Z",
       "side": 1,
       "message": "Need to add `[[verify-input]]` here otherwise the link on line 1929 does not work.",
+      "revId": "0e5591fc84b2ed4bef85896d7fe7b3502f9c22a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da87e727_49d70151",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 3659,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-11-14T22:48:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "15fa32f3_7becdf23",
       "revId": "0e5591fc84b2ed4bef85896d7fe7b3502f9c22a0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -174,6 +312,30 @@
     },
     {
       "key": {
+        "uuid": "da87e727_69dcc574",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 3905,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-11-14T22:48:56Z",
+      "side": 1,
+      "message": "Done. added a reference to this in RevisionInfo",
+      "parentUuid": "15fa32f3_bbf667f3",
+      "range": {
+        "startLine": 3895,
+        "startChar": 0,
+        "endLine": 3905,
+        "endChar": 23
+      },
+      "revId": "0e5591fc84b2ed4bef85896d7fe7b3502f9c22a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "15fa32f3_fbf0eff8",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
         "patchSetId": 13
@@ -185,6 +347,30 @@
       "writtenOn": "2014-11-06T01:24:28Z",
       "side": 1,
       "message": "Sorry, this conflicts with the \"Google Truth\" change that was just merged :(",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 36
+      },
+      "revId": "0e5591fc84b2ed4bef85896d7fe7b3502f9c22a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a81ef19_67dcf274",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-11-14T22:48:56Z",
+      "side": 1,
+      "message": "Done. Changed test to use google truth.",
+      "parentUuid": "15fa32f3_fbf0eff8",
       "range": {
         "startLine": 17,
         "startChar": 0,
@@ -220,6 +406,30 @@
     },
     {
       "key": {
+        "uuid": "9a81ef19_87e0062d",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-11-14T22:48:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b53de64e_002186c9",
+      "range": {
+        "startLine": 75,
+        "startChar": 37,
+        "endLine": 76,
+        "endChar": 35
+      },
+      "revId": "0e5591fc84b2ed4bef85896d7fe7b3502f9c22a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d5389a5e_014aea81",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/VerificationInfo.java",
         "patchSetId": 13
@@ -231,6 +441,30 @@
       "writtenOn": "2014-11-06T01:24:28Z",
       "side": 1,
       "message": "Shouldn\u0027t this be a user identity?",
+      "range": {
+        "startLine": 20,
+        "startChar": 9,
+        "endLine": 20,
+        "endChar": 15
+      },
+      "revId": "0e5591fc84b2ed4bef85896d7fe7b3502f9c22a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da87e727_89e0192d",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/VerificationInfo.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-11-14T22:48:56Z",
+      "side": 1,
+      "message": "My intention for having the \u0027verifier\u0027 was to allow the gerrit user report the user that actually executed the test.  The verifier may or may not be the same as the gerrit user therefore I was think it should be a little more arbitrary.\n\nFor example:\nLets say we setup a zuul user in gerrit (zuul would be the user that reports results to gerrit).  We may also setup a non-gerrit user \u0027hipster\u0027 to execute the test.  Zuul could trigger on a gerrit change, tell hipster to execute the test, hipster executes the test and reports the result to zuul who would forward it to gerrit.  In this scenario zuul is just a middle man and the user that actually executed the test is \u0027hipster\u0027 therefore \u0027hipster\u0027 would be the verifier in this case.",
+      "parentUuid": "d5389a5e_014aea81",
       "range": {
         "startLine": 20,
         "startChar": 9,
@@ -266,6 +500,30 @@
     },
     {
       "key": {
+        "uuid": "da87e727_a9dddd6f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostVerification.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-11-14T22:48:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "15fa32f3_dbf533e7",
+      "range": {
+        "startLine": 112,
+        "startChar": 32,
+        "endLine": 112,
+        "endChar": 61
+      },
+      "revId": "0e5591fc84b2ed4bef85896d7fe7b3502f9c22a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "15fa32f3_3b0b774c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostVerification.java",
         "patchSetId": 13
@@ -277,6 +535,30 @@
       "writtenOn": "2014-11-06T01:24:28Z",
       "side": 1,
       "message": "and here",
+      "range": {
+        "startLine": 123,
+        "startChar": 30,
+        "endLine": 123,
+        "endChar": 59
+      },
+      "revId": "0e5591fc84b2ed4bef85896d7fe7b3502f9c22a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da87e727_c9ea110b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostVerification.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-11-14T22:48:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "15fa32f3_3b0b774c",
       "range": {
         "startLine": 123,
         "startChar": 30,

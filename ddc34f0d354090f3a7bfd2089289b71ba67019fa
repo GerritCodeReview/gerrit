@@ -16,6 +16,24 @@
       "revId": "ddc34f0d354090f3a7bfd2089289b71ba67019fa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a148387_847906b8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeSchemas.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 306,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-11-14T07:04:31Z",
+      "side": 1,
+      "message": "I am failing to parse your statement. Are you speculating that from 4.10.1 to 4.10.2 no index format change took place and we can just replace the lucene version in V14 and hope that we wouldn\u0027t end up with index corruption? That meant restoring ps1 of this change?",
+      "parentUuid": "ba079351_f0ea400a",
+      "revId": "ddc34f0d354090f3a7bfd2089289b71ba67019fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

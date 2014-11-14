@@ -52,6 +52,24 @@
       "revId": "ddc34f0d354090f3a7bfd2089289b71ba67019fa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a148387_04a7d6c8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeSchemas.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 306,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-11-14T18:18:52Z",
+      "side": 1,
+      "message": "That makes sense. We update lucene to 4_10_2, but keep passing deprecated 4_10_1 to index writer config.",
+      "parentUuid": "ba079351_10554411",
+      "revId": "ddc34f0d354090f3a7bfd2089289b71ba67019fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

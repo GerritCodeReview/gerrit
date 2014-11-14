@@ -182,8 +182,10 @@ maven_jar(
   sha1 = '7f70cea641f8812179c60162cb38354e81a459ae',
   license = 'DO_NOT_DISTRIBUTE',
   deps = [
-    ':guava',
     ':junit',
+  ],
+  exported_deps = [
+    ':guava',
   ],
 )
 

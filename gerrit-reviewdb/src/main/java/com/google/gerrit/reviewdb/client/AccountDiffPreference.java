@@ -14,6 +14,7 @@
 
 package com.google.gerrit.reviewdb.client;
 
+import com.google.gerrit.extensions.common.Theme;
 import com.google.gwtorm.client.Column;
 
 /** Diff formatting preferences of an account */
@@ -53,29 +54,6 @@ public class AccountDiffPreference {
         }
       }
       return null;
-    }
-  }
-
-  public static enum Theme {
-    // Light themes
-    DEFAULT,
-    ECLIPSE,
-    ELEGANT,
-    NEAT,
-    // Dark themes
-    MIDNIGHT,
-    NIGHT,
-    TWILIGHT;
-
-    public boolean isDark() {
-      switch (this) {
-        case MIDNIGHT:
-        case NIGHT:
-        case TWILIGHT:
-          return true;
-        default:
-          return false;
-      }
     }
   }
 

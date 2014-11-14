@@ -65,6 +65,8 @@ public class Module extends RestApiModule {
     put(ACCOUNT_KIND, "preferences").to(SetPreferences.class);
     get(ACCOUNT_KIND, "preferences.diff").to(GetDiffPreferences.class);
     put(ACCOUNT_KIND, "preferences.diff").to(SetDiffPreferences.class);
+    get(ACCOUNT_KIND, "preferences.edit").to(GetEditPreferences.class);
+    put(ACCOUNT_KIND, "preferences.edit").to(SetEditPreferences.class);
     get(CAPABILITY_KIND).to(GetCapabilities.CheckOne.class);
 
     child(ACCOUNT_KIND, "starred.changes").to(StarredChanges.class);

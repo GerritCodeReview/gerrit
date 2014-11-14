@@ -19,7 +19,6 @@ import static com.google.gerrit.server.account.GetPreferences.KEY_MATCH;
 import static com.google.gerrit.server.account.GetPreferences.KEY_TARGET;
 import static com.google.gerrit.server.account.GetPreferences.KEY_TOKEN;
 import static com.google.gerrit.server.account.GetPreferences.KEY_URL;
-import static com.google.gerrit.server.account.GetPreferences.MY;
 import static com.google.gerrit.server.account.GetPreferences.URL_ALIAS;
 
 import com.google.common.base.Strings;
@@ -42,6 +41,7 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.SetPreferences.Input;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.MetaDataUpdate;
+import com.google.gerrit.server.git.UserConfigSections;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -192,7 +192,7 @@ public class SetPreferences implements RestModifyView<AccountResource, Input> {
       List<TopMenu.MenuItem> my) {
     Config cfg = prefs.getConfig();
     if (my != null) {
-      unsetSection(cfg, MY);
+      unsetSection(cfg, UserConfigSections.MY);
       for (TopMenu.MenuItem item : my) {
         set(cfg, item.name, KEY_URL, item.url);
         set(cfg, item.name, KEY_TARGET, item.target);
@@ -203,9 +203,9 @@ public class SetPreferences implements RestModifyView<AccountResource, Input> {
 
   private static void set(Config cfg, String section, String key, String val) {
     if (Strings.isNullOrEmpty(val)) {
-      cfg.unset(MY, section, key);
+      cfg.unset(UserConfigSections.MY, section, key);
     } else {
-      cfg.setString(MY, section, key, val);
+      cfg.setString(UserConfigSections.MY, section, key, val);
     }
   }
 

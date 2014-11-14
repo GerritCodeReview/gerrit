@@ -1086,6 +1086,78 @@ link:#diff-preferences-info[DiffPreferencesInfo] entity.
   }
 ----
 
+[[get-edit-preferences]]
+=== Get Edit Preferences
+--
+'GET /accounts/link:#account-id[\{account-id\}]/preferences.edit'
+--
+
+Retrieves the edit preferences of a user. Note, that these preferences
+are stored in Git and not in the database.
+
+.Request
+----
+  GET /a/accounts/self/preferences.edit HTTP/1.0
+----
+
+As result the edit preferences of the user are returned as a
+link:#edit-preferences-info[EditPreferencesInfo] entity.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  {
+    "theme": "ECLIPSE",
+    "tab_size": 8
+    "line_length": 100,
+    "line_wrapping": true,
+    "show_tabs": true,
+    "show_trailing_space": true,
+    "syntax_highlighting": true,
+    "hide_line_numbers": false,
+  }
+----
+
+[[set-edit-preferences]]
+=== Set Edit Preferences
+--
+'PUT /accounts/link:#account-id[\{account-id\}]/preferences.edit'
+--
+
+Sets the edit preferences of a user. Note, that these preferences
+are stored in Git and not in the database.
+
+The new edit preferences must be provided in the request body as a
+link:#edit-preferences-info[EditPreferencesInfo] entity.
+
+.Request
+----
+  GET /a/accounts/self/preferences.edit HTTP/1.0
+  Content-Type: application/json;charset=UTF-8
+
+  {
+    "theme": "ECLIPSE",
+    "tab_size": 8
+    "line_length": 100,
+    "line_wrapping": true,
+    "show_tabs": true,
+    "show_trailing_space": true,
+    "syntax_highlighting": true,
+    "hide_line_numbers": false,
+  }
+----
+
+The response is "`204 No Content`"
+
+.Response
+----
+  HTTP/1.1 204 No Content
+----
+
 [[get-starred-changes]]
 === Get Starred Changes
 --
@@ -1514,6 +1586,33 @@ scrolling down more than half of a page.
 True if the line numbers should be hidden.
 |`tab_size`                    |optional|
 Number of spaces that should be used to display one tab.
+|===========================================
+
+[[edit-preferences-info]]
+=== EditPreferencesInfo
+The `EditPreferencesInfo` entity contains information about the edit
+preferences of a user.
+
+[options="header",width="50%",cols="1,^1,5"]
+|===========================================
+|Field Name                    ||Description
+|`theme`                       ||
+The CodeMirror theme. Currently only a subset of light and dark
+CodeMirror themes are supported.
+|`tab_size`                    ||
+Number of spaces that should be used to display one tab.
+|`line_length`                 ||
+Number of characters that should be displayed in one line.
+|`line_wrapping`               ||
+Whether wrap long lines or not.
+|`show_tabs`                   ||
+Whether tabs should be shown.
+|`show_trailing_space`         ||
+Whether show or not trailing spacn.
+|`syntax_highlighting`         ||
+Whether syntax highlighting should be enabled.
+|`hide_line_numbers`           ||
+If true the line numbers are hidden.
 |===========================================
 
 [[email-info]]

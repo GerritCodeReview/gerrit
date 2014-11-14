@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.config;
 
+import static com.google.common.truth.Truth.assertThat;
 import static java.util.concurrent.TimeUnit.DAYS;
 import static java.util.concurrent.TimeUnit.HOURS;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
@@ -21,11 +22,39 @@ import static java.util.concurrent.TimeUnit.MINUTES;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.junit.Assert.assertEquals;
 
+import com.google.gerrit.extensions.common.Theme;
+
+import org.eclipse.jgit.lib.Config;
 import org.junit.Test;
 
 import java.util.concurrent.TimeUnit;
 
 public class ConfigUtilTest {
+  private final static String SECT = "foo";
+  private final static String SUB = "bar";
+
+  static class SectionInfo {
+    public int i;
+    public Integer ii;
+    public long l;
+    public Long ll;
+    public boolean b;
+    public Boolean bb;
+    public String s;
+    public Theme t;
+
+    public SectionInfo() {
+      i = 1;
+      ii = 2;
+      l = 3L;
+      ll = 4L;
+      b = true;
+      bb = false;
+      s = "";
+      t = Theme.DEFAULT;
+    }
+  }
+
   @Test
   public void testTimeUnit() {
     assertEquals(ms(0, MILLISECONDS), parse("0"));
@@ -71,6 +100,41 @@ public class ConfigUtilTest {
     assertEquals(ms(365, DAYS), parse("1y"));
     assertEquals(ms(365, DAYS), parse("1year"));
     assertEquals(ms(365 * 2, DAYS), parse("2years"));
+  }
+
+  @Test
+  public void testStoreLoadSection() throws Exception {
+    SectionInfo in = new SectionInfo();
+    in.i = 42;
+    in.ii = 43;
+    in.l = -42L;
+    in.ll = -43L;
+    in.b = true;
+    in.bb = false;
+    in.s = "baz";
+    in.t = Theme.MIDNIGHT;
+
+    Config cfg = new Config();
+    ConfigUtil.storeSection(cfg, SECT, SUB, in);
+
+    assertThat(cfg.getBoolean(SECT, SUB, "b", false)).isEqualTo(in.b);
+    assertThat(cfg.getBoolean(SECT, SUB, "bb", false)).isEqualTo(in.bb);
+    assertThat(cfg.getInt(SECT, SUB, "i", 0)).isEqualTo(in.i);
+    assertThat(cfg.getInt(SECT, SUB, "ii", 0)).isEqualTo(in.ii);
+    assertThat(cfg.getLong(SECT, SUB, "l", 0L)).isEqualTo(in.l);
+    assertThat(cfg.getLong(SECT, SUB, "ll", 0L)).isEqualTo(in.ll);
+    assertThat(cfg.getString(SECT, SUB, "s")).isEqualTo(in.s);
+
+    SectionInfo out = new SectionInfo();
+    ConfigUtil.loadSection(cfg, SECT, SUB, out);
+    assertThat(out.i).isEqualTo(in.i);
+    assertThat(out.ii).isEqualTo(in.ii);
+    assertThat(out.l).isEqualTo(in.l);
+    assertThat(out.ll).isEqualTo(in.ll);
+    assertThat(out.b).isEqualTo(in.b);
+    assertThat(out.bb).isEqualTo(in.bb);
+    assertThat(out.s).isEqualTo(in.s);
+    assertThat(out.t).isEqualTo(in.t);
   }
 
   private static long ms(int cnt, TimeUnit unit) {

@@ -8,6 +8,7 @@ gwt_module(
     SRC + 'common/InheritableBoolean.java',
     SRC + 'common/ListChangesOption.java',
     SRC + 'common/SubmitType.java',
+    SRC + 'common/Theme.java',
     SRC + 'webui/GerritTopMenu.java',
   ]),
   gwt_xml = SRC + 'Extensions.gwt.xml',

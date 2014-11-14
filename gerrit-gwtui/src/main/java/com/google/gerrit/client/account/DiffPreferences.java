@@ -14,8 +14,8 @@
 
 package com.google.gerrit.client.account;
 
+import com.google.gerrit.extensions.common.Theme;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference;
-import com.google.gerrit.reviewdb.client.AccountDiffPreference.Theme;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference.Whitespace;
 import com.google.gwt.core.client.JavaScriptObject;
 

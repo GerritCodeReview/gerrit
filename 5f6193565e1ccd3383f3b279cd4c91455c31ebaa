@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9a81ef19_a7dd0a70",
+        "filename": "Documentation/cmd-index.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-11-14T22:01:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "10cb2096_93fabc85",
+      "range": {
+        "startLine": 49,
+        "startChar": 0,
+        "endLine": 49,
+        "endChar": 2
+      },
+      "revId": "5f6193565e1ccd3383f3b279cd4c91455c31ebaa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "10cb2096_73f040a4",
         "filename": "Documentation/cmd-verify.txt",
         "patchSetId": 12
@@ -36,6 +60,30 @@
       "writtenOn": "2014-10-14T21:23:03Z",
       "side": 1,
       "message": "key\u003dvalue\n\n...to match what is shown in the examples later on. This wording left me wonder how to actually pass these options.",
+      "range": {
+        "startLine": 51,
+        "startChar": 6,
+        "endLine": 51,
+        "endChar": 15
+      },
+      "revId": "5f6193565e1ccd3383f3b279cd4c91455c31ebaa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da87e727_e9e7d53f",
+        "filename": "Documentation/cmd-verify.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-11-14T22:01:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "10cb2096_73f040a4",
       "range": {
         "startLine": 51,
         "startChar": 6,

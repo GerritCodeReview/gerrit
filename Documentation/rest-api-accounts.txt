@@ -1124,6 +1124,74 @@ link:#diff-preferences-info[DiffPreferencesInfo] entity.
   }
 ----
 
+[[get-edit-preferences]]
+=== Get Edit Preferences
+--
+'GET /accounts/link:#account-id[\{account-id\}]/preferences.edit'
+--
+
+Retrieves the edit preferences of a user.
+
+.Request
+----
+  GET /a/accounts/self/preferences.edit HTTP/1.0
+----
+
+As result the edit preferences of the user are returned as a
+link:#edit-preferences-info[EditPreferencesInfo] entity.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  {
+    "theme": "ECLIPSE",
+    "tab_size": 4,
+    "line_length": 80,
+    "hide_top_menu": true,
+    "show_whitespace_errors": true,
+    "hide_line_numbers": true,
+  }
+----
+
+[[set-edit-preferences]]
+=== Set Edit Preferences
+--
+'PUT /accounts/link:#account-id[\{account-id\}]/preferences.edit'
+--
+
+Sets the edit preferences of a user.
+
+The new edit preferences must be provided in the request body as a
+link:#edit-preferences-info[EditPreferencesInfo] entity.
+
+.Request
+----
+  PUT /a/accounts/self/preferences.edit HTTP/1.0
+  Content-Type: application/json;charset=UTF-8
+
+  {
+    "theme": "ECLIPSE",
+    "tab_size": 4,
+    "line_length": 80,
+    "hide_top_menu": true,
+    "show_tabs": true,
+    "show_whitespace_errors": true,
+    "syntax_highlighting": true,
+    "hide_line_numbers": true,
+  }
+----
+
+The response is "`204 No Content`"
+
+.Response
+----
+  HTTP/1.1 204 No Content
+----
+
 [[get-starred-changes]]
 === Get Starred Changes
 --
@@ -1460,6 +1528,34 @@ scrolling down more than half of a page.
 True if the line numbers should be hidden.
 |`tab_size`                    |optional|
 Number of spaces that should be used to display one tab.
+|===========================================
+
+[[edit-preferences-info]]
+=== EditPreferencesInfo
+The `EditPreferencesInfo` entity contains information about the edit
+preferences of a user.
+
+[options="header",cols="1,^1,5"]
+|===========================================
+|Field Name                    ||Description
+|`theme`                       ||
+The CodeMirror theme. Currently only a subset of light and dark
+CodeMirror themes are supported. Light themes `DEFAULT`, `ECLIPSE`,
+`ELEGANT`, `NEAT`. Dark themes `MIDNIGHT`, `NIGHT`, `TWILIGHT`.
+|`tab_size`                    ||
+Number of spaces that should be used to display one tab.
+|`line_length`                 ||
+Number of characters that should be displayed per line.
+|`hide_top_menu`               |not set if `false`|
+If true the top menu header and site header is hidden.
+|`show_tabs`                   |not set if `false`|
+Whether tabs should be shown.
+|`show_whitespace_errors`      |not set if `false`|
+Whether whitespace errors should be shown.
+|`syntax_highlighting`         |not set if `false`|
+Whether syntax highlighting should be enabled.
+|`hide_line_numbers`           |not set if `false`|
+Whether line numbers should be hidden.
 |===========================================
 
 [[email-info]]

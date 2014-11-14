@@ -176,6 +176,7 @@ java_test(
     '//lib:guava',
     '//lib:gwtorm',
     '//lib:junit',
+    '//lib:truth',
     '//lib/antlr:java_runtime',
     '//lib/guice:guice',
     '//lib/jgit:jgit',

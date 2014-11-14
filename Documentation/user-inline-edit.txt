@@ -153,6 +153,9 @@ The inline editor uses settings decided from the user's diff preferences, but th
 preferences are only modifiable from the side-by-side diff screen. It should be possible
 to open the preferences also from within the editor.
 
+* Support default configuration options for inline editor that an
+administrator has set in `refs/users/default:edit-preference.config` file.
+
 * Allow to rename files that are already contained in the change (from the file table).
 The same rename file dialog can be used with preselected and disabled original file
 name.

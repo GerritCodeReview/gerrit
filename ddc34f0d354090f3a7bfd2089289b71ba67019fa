@@ -34,6 +34,24 @@
       "revId": "ddc34f0d354090f3a7bfd2089289b71ba67019fa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba079351_10554411",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeSchemas.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 306,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-11-14T18:11:18Z",
+      "side": 1,
+      "message": "Right. The new version is perfectly capable of reading/writing an index using Versions.LUCENE_4_10_1. My claim is that we can get the full benefits of 4.10.2 without passing LUCENE_4_10_2 to the IndexWriterConfig.",
+      "parentUuid": "3a148387_847906b8",
+      "revId": "ddc34f0d354090f3a7bfd2089289b71ba67019fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

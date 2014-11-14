@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.config;
 
+import static com.google.common.truth.Truth.assertThat;
 import static java.util.concurrent.TimeUnit.DAYS;
 import static java.util.concurrent.TimeUnit.HOURS;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
@@ -21,11 +22,33 @@ import static java.util.concurrent.TimeUnit.MINUTES;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.junit.Assert.assertEquals;
 
+import com.google.gerrit.extensions.common.Theme;
+
+import org.eclipse.jgit.lib.Config;
 import org.junit.Test;
 
 import java.util.concurrent.TimeUnit;
 
 public class ConfigUtilTest {
+  private final static String SECT = "foo";
+  private final static String SUB = "bar";
+
+  static class Section {
+    public Integer i;
+    public Long l;
+    public Boolean b;
+    public String s;
+    public Theme t;
+
+    public Section() {
+      i = 0;
+      l = 0L;
+      b = true;
+      s = "";
+      t = Theme.ELEGANT;
+    }
+  }
+
   @Test
   public void testTimeUnit() {
     assertEquals(ms(0, MILLISECONDS), parse("0"));
@@ -71,6 +94,32 @@ public class ConfigUtilTest {
     assertEquals(ms(365, DAYS), parse("1y"));
     assertEquals(ms(365, DAYS), parse("1year"));
     assertEquals(ms(365 * 2, DAYS), parse("2years"));
+  }
+
+  @Test
+  public void testStoreLoadSection() throws Exception {
+    Section in = new Section();
+    in.i = 42;
+    in.l = -42L;
+    in.b = true;
+    in.s = "baz";
+    in.t = Theme.MIDNIGHT;
+
+    Config cfg = new Config();
+    ConfigUtil.storeSection(cfg, SECT, SUB, in);
+
+    assertThat(cfg.getBoolean(SECT, SUB, "b", false)).isEqualTo(in.b);
+    assertThat(cfg.getInt(SECT, SUB, "i", 0)).isEqualTo(in.i);
+    assertThat(cfg.getLong(SECT, SUB, "l", 0L)).isEqualTo(in.l);
+    assertThat(cfg.getString(SECT, SUB, "s")).isEqualTo(in.s);
+
+    Section out = new Section();
+    ConfigUtil.loadSection(cfg, SECT, SUB, out);
+    assertThat(out.i).isEqualTo(in.i);
+    assertThat(out.l).isEqualTo(in.l);
+    assertThat(out.b).isEqualTo(in.b);
+    assertThat(out.s).isEqualTo(in.s);
+    assertThat(out.t).isEqualTo(in.t);
   }
 
   private static long ms(int cnt, TimeUnit unit) {

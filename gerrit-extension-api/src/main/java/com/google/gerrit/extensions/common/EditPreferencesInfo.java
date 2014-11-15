@@ -24,6 +24,7 @@ public class EditPreferencesInfo {
   public boolean showTrailingSpace;
   public boolean syntaxHighlighting;
   public boolean hideLineNumbers;
+  public KeyMap keyMap;
   public Theme theme;
 
   public EditPreferencesInfo() {
@@ -31,8 +32,10 @@ public class EditPreferencesInfo {
     lineLength = 100;
     lineWrapping = false;
     showTabs = true;
+    showTrailingSpace = true;
     syntaxHighlighting = true;
     hideLineNumbers = false;
+    keyMap = KeyMap.DEFAULT;
     theme = Theme.ECLIPSE;
   }
 }

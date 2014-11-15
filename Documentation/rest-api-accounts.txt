@@ -1115,6 +1115,7 @@ link:#edit-preferences-info[EditPreferencesInfo] entity.
   )]}'
   {
     "theme": "ECLIPSE",
+    "key_map": "EMACS",
     "tab_size": 8
     "line_length": 100,
     "line_wrapping": true,
@@ -1144,6 +1145,7 @@ link:#edit-preferences-info[EditPreferencesInfo] entity.
 
   {
     "theme": "ECLIPSE",
+    "key_map": "EMACS",
     "tab_size": 8
     "line_length": 100,
     "line_wrapping": true,
@@ -1608,6 +1610,9 @@ preferences of a user.
 |`theme`                       ||
 The CodeMirror theme. Currently only a subset of light and dark
 CodeMirror themes are supported.
+|`key_map`                     ||
+The keyboard mode for CodeMirror. Currently three different modes
+are supported: "DFAULT", "EMACS" and "VIM".
 |`tab_size`                    ||
 Number of spaces that should be used to display one tab.
 |`line_length`                 ||

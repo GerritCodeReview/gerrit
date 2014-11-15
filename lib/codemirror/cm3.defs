@@ -14,6 +14,7 @@ CM3_THEMES = [
 
 CM3_JS = [
   'lib/codemirror.js',
+  'keymap/emacs.js',
   'keymap/vim.js',
   'addon/dialog/dialog.js',
   'addon/search/searchcursor.js',

@@ -22,7 +22,8 @@ import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.JumpKeys;
 import com.google.gerrit.client.VoidResult;
-import com.google.gerrit.client.account.DiffPreferences;
+import com.google.gerrit.client.account.AccountApi;
+import com.google.gerrit.client.account.EditPreferences;
 import com.google.gerrit.client.changes.ChangeApi;
 import com.google.gerrit.client.changes.ChangeEditApi;
 import com.google.gerrit.client.changes.ChangeInfo;
@@ -42,6 +43,7 @@ import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.InlineHyperlink;
 import com.google.gerrit.client.ui.Screen;
 import com.google.gerrit.common.PageLinks;
+import com.google.gerrit.extensions.client.EditPreferencesInfo;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.GWT;
@@ -87,7 +89,8 @@ public class EditScreen extends Screen {
   private final PatchSet.Id revision;
   private final String path;
   private final int startLine;
-  private DiffPreferences prefs;
+  private EditPreferences prefs;
+  private EditPreferencesAction editPrefsAction;
   private CodeMirror cm;
   private HttpResponse<NativeString> content;
   private EditFileInfo editFileInfo;
@@ -113,7 +116,6 @@ public class EditScreen extends Screen {
     this.revision = patch.getParentKey();
     this.path = patch.get();
     this.startLine = startLine - 1;
-    prefs = DiffPreferences.create(Gerrit.getAccountDiffPreference());
     add(uiBinder.createAndBindUi(this));
     addDomHandler(GlobalKey.STOP_PROPAGATION, KeyPressEvent.getType());
   }
@@ -129,6 +131,26 @@ public class EditScreen extends Screen {
   protected void onLoad() {
     super.onLoad();
 
+    EditPreferencesInfo current = Gerrit.getEditPreferences();
+    if (current == null) {
+      AccountApi.getEditPreferences(
+        new GerritCallback<EditPreferences>() {
+          @Override
+          public void onSuccess(EditPreferences r) {
+            prefs = r;
+            EditPreferencesInfo global = new EditPreferencesInfo();
+            r.copyTo(global);
+            Gerrit.setEditPreferences(global);
+            onLoad2();
+          }
+        });
+    } else {
+      prefs = EditPreferences.create(current);
+      onLoad2();
+    }
+  }
+
+  private void onLoad2() {
     CallbackGroup group1 = new CallbackGroup();
     final CallbackGroup group2 = new CallbackGroup();
     final CallbackGroup group3 = new CallbackGroup();
@@ -162,7 +184,6 @@ public class EditScreen extends Screen {
           public void onFailure(Throwable caught) {
           }
         }));
-
 
     if (revision.get() == 0) {
       ChangeEditApi.getMeta(revision, path,
@@ -224,7 +245,6 @@ public class EditScreen extends Screen {
       @Override
       protected void preDisplay(Void result) {
         initEditor(content);
-        content = null;
 
         renderLinks(editFileInfo, diffLinks);
         editFileInfo = null;
@@ -298,9 +318,8 @@ public class EditScreen extends Screen {
 
     cm.adjustHeight(header.getOffsetHeight());
     cm.on("cursorActivity", updateCursorPosition());
-    cm.extras().showTabs(prefs.showTabs());
-    cm.extras().lineLength(
-        Patch.COMMIT_MSG.equals(path) ? 72 : prefs.lineLength());
+    setShowTabs(prefs.showTabs());
+    setLineLength(prefs.lineLength());
     cm.refresh();
     cm.focus();
 
@@ -308,6 +327,7 @@ public class EditScreen extends Screen {
       cm.scrollToLine(startLine);
     }
     updateActiveLine();
+    editPrefsAction = new EditPreferencesAction(this, prefs);
   }
 
   @Override
@@ -327,6 +347,15 @@ public class EditScreen extends Screen {
     JumpKeys.enable(true);
   }
 
+  CodeMirror getEditor() {
+    return cm;
+  }
+
+  @UiHandler("editSettings")
+  void onEditSetting(@SuppressWarnings("unused") ClickEvent e) {
+    editPrefsAction.show();
+  }
+
   @UiHandler("save")
   void onSave(@SuppressWarnings("unused") ClickEvent e) {
     save().run();
@@ -337,6 +366,52 @@ public class EditScreen extends Screen {
     if (cm.isClean(generation)
         || Window.confirm(EditConstants.I.cancelUnsavedChanges())) {
       upToChange();
+    }
+  }
+
+  void setLineLength(int length) {
+    cm.extras().lineLength(
+        Patch.COMMIT_MSG.equals(path) ? 72 : length);
+  }
+
+  void setShowLineNumbers(boolean show) {
+    cm.setOption("lineNumbers", show);
+  }
+
+  void setShowWhitespaceErrors(final boolean show) {
+    cm.operation(new Runnable() {
+      @Override
+      public void run() {
+        cm.setOption("showTrailingSpace", show);
+      }
+    });
+  }
+
+  void setShowTabs(boolean show) {
+    cm.extras().showTabs(show);
+  }
+
+  void resizeCodeMirror() {
+    cm.adjustHeight(header.getOffsetHeight());
+  }
+
+  void setSyntaxHighlighting(boolean b) {
+    ModeInfo modeInfo = ModeInfo.findMode(content.getContentType(), path);
+    final String mode = modeInfo != null ? modeInfo.mode() : null;
+    if (b && mode != null && !mode.isEmpty()) {
+      injectMode(mode, new AsyncCallback<Void>() {
+        @Override
+        public void onSuccess(Void result) {
+          cm.setOption("mode", mode);
+        }
+
+        @Override
+        public void onFailure(Throwable caught) {
+          prefs.syntaxHighlighting(false);
+        }
+      });
+    } else {
+      cm.setOption("mode", (String) null);
     }
   }
 
@@ -358,12 +433,12 @@ public class EditScreen extends Screen {
         .set("readOnly", false)
         .set("cursorBlinkRate", 0)
         .set("cursorHeight", 0.85)
-        .set("lineNumbers", true)
+        .set("lineNumbers", prefs.hideLineNumbers())
         .set("tabSize", prefs.tabSize())
         .set("lineWrapping", false)
         .set("scrollbarStyle", "overlay")
         .set("styleSelectedText", true)
-        .set("showTrailingSpace", true)
+        .set("showTrailingSpace", prefs.showWhitespaceErrors())
         .set("keyMap", "default")
         .set("theme", prefs.theme().name().toLowerCase())
         .set("mode", mode != null ? mode.mode() : null));

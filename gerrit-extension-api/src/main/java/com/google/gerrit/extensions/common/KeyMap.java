@@ -14,26 +14,8 @@
 
 package com.google.gerrit.extensions.common;
 
-public class EditPreferencesInfo {
-  public Integer tabSize;
-  public Integer lineLength;
-  public Boolean lineWrapping;
-  public Boolean showTabs;
-  public Boolean showTrailingSpace;
-  public Boolean syntaxHighlighting;
-  public Boolean hideLineNumbers;
-  public KeyMap keyMap;
-  public Theme theme;
-
-  public EditPreferencesInfo() {
-    tabSize = 2;
-    lineLength = 120;
-    lineWrapping = false;
-    showTabs = true;
-    showTrailingSpace = true;
-    syntaxHighlighting = true;
-    hideLineNumbers = false;
-    keyMap = KeyMap.DEFAULT;
-    theme = Theme.ECLIPSE;
-  }
+public enum KeyMap {
+  DEFAULT,
+  EMACS,
+  VIM;
 }

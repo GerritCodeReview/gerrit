@@ -22,6 +22,30 @@
       "revId": "c40ec7607ad04ab6a772dc96a0e53ee94a69b5f1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a148387_c483fe27",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1017804
+      },
+      "writtenOn": "2014-11-15T06:59:21Z",
+      "side": 1,
+      "message": "Makes sense for the SBS2. But what about the commit message in ChangeScreen2? How do users know that they have to open some diff in order to change the text size in the ChangeScreen2? Or should it be a separate preference? Or is it not so important?",
+      "parentUuid": "3a148387_046eb6f4",
+      "range": {
+        "startLine": 25,
+        "startChar": 51,
+        "endLine": 26,
+        "endChar": 44
+      },
+      "revId": "c40ec7607ad04ab6a772dc96a0e53ee94a69b5f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

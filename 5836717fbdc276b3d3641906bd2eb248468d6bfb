@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "daea87ee_3102d02f",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 813,
+      "author": {
+        "id": 1017804
+      },
+      "writtenOn": "2014-11-15T09:40:34Z",
+      "side": 1,
+      "message": "I\u0027m not sure what you mean. Should I write:\n\n    Default is \"Reply…\".\n\nOr should I remove the note about the ellipsis?\n\nIf I wrote\n\n    Default is \"Reply…\".\n\nthen the user might do\n\n        replyLabel \u003d Review…\n\nbecause she thinks that the invisible default setting also had an ellipsis appended. That would result in two ellipsises.\n\nIf I removed the note about the ellipsis, the user might wonder where that comes from in the user interface.\n\nOf course I could leave it to the user to append an ellipsis or not, but it is a hint on how the button behaves after all and the user can\u0027t influence that.",
+      "parentUuid": "baef93fe_70e1702f",
+      "range": {
+        "startLine": 813,
+        "startChar": 12,
+        "endLine": 813,
+        "endChar": 17
+      },
+      "revId": "5836717fbdc276b3d3641906bd2eb248468d6bfb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "baef93fe_50de6c6b",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 3
@@ -36,6 +60,24 @@
       "writtenOn": "2014-11-15T09:18:35Z",
       "side": 1,
       "message": "Worth it to mention keyboard shortcut?",
+      "revId": "5836717fbdc276b3d3641906bd2eb248468d6bfb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "daea87ee_11ffccc1",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 820,
+      "author": {
+        "id": 1017804
+      },
+      "writtenOn": "2014-11-15T09:40:34Z",
+      "side": 1,
+      "message": "Same thing. Here I could make the shortcut available as a variable, but I don\u0027t know if it\u0027s worth the effort.",
+      "parentUuid": "baef93fe_50de6c6b",
       "revId": "5836717fbdc276b3d3641906bd2eb248468d6bfb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -47,6 +47,7 @@ import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.data.HostPageData;
 import com.google.gerrit.common.data.SystemInfoService;
 import com.google.gerrit.extensions.client.GerritTopMenu;
+import com.google.gerrit.extensions.client.EditPreferencesInfo;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences;
@@ -117,6 +118,7 @@ public class Gerrit implements EntryPoint {
   private static Account myAccount;
   private static String defaultScreenToken;
   private static AccountDiffPreference myAccountDiffPref;
+  private static EditPreferencesInfo editPrefs;
   private static String xGerritAuth;
   private static boolean isNoteDbEnabled;
 
@@ -322,6 +324,14 @@ public class Gerrit implements EntryPoint {
 
   public static void setAccountDiffPreference(AccountDiffPreference accountDiffPref) {
     myAccountDiffPref = accountDiffPref;
+  }
+
+  public static EditPreferencesInfo getEditPreferences() {
+    return editPrefs;
+  }
+
+  public static void setEditPreferences(EditPreferencesInfo p) {
+    editPrefs = p;
   }
 
   /** @return true if the user is currently authenticated */

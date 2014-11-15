@@ -591,6 +591,30 @@
       "revId": "0e5591fc84b2ed4bef85896d7fe7b3502f9c22a0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a81ef19_c7eafe0a",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/VerifyCommand.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-11-15T00:18:08Z",
+      "side": 1,
+      "message": "Done.  I\u0027ve moved the common methods to CommandUtils class.",
+      "parentUuid": "15fa32f3_1b083b4c",
+      "range": {
+        "startLine": 148,
+        "startChar": 2,
+        "endLine": 207,
+        "endChar": 3
+      },
+      "revId": "0e5591fc84b2ed4bef85896d7fe7b3502f9c22a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "daea87ee_d12384d2",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 813,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-11-15T09:50:47Z",
+      "side": 1,
+      "message": "Then leave it as is. Another option: explain it exactly, e. g.: Default is \"Reply\" with added ellipsis results in \"Reply...\".",
+      "parentUuid": "daea87ee_3102d02f",
+      "range": {
+        "startLine": 813,
+        "startChar": 12,
+        "endLine": 813,
+        "endChar": 17
+      },
+      "revId": "5836717fbdc276b3d3641906bd2eb248468d6bfb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "baef93fe_50de6c6b",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 3

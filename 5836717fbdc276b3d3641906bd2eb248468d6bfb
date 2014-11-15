@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "baef93fe_70e1702f",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 813,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-11-15T09:18:35Z",
+      "side": 1,
+      "message": "Worth it to mention the ellipsis: \"Reply...\"?",
+      "range": {
+        "startLine": 813,
+        "startChar": 12,
+        "endLine": 813,
+        "endChar": 17
+      },
+      "revId": "5836717fbdc276b3d3641906bd2eb248468d6bfb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baef93fe_50de6c6b",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 820,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-11-15T09:18:35Z",
+      "side": 1,
+      "message": "Worth it to mention keyboard shortcut?",
+      "revId": "5836717fbdc276b3d3641906bd2eb248468d6bfb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "daea87ee_b1eda020",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-11-15T09:18:35Z",
+      "side": 1,
+      "message": "Unneeded new line.",
+      "revId": "5836717fbdc276b3d3641906bd2eb248468d6bfb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "daea87ee_91f29cfa",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/GerritConfigProvider.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-11-15T09:18:35Z",
+      "side": 1,
+      "message": "No final in new code.",
+      "range": {
+        "startLine": 177,
+        "startChar": 4,
+        "endLine": 177,
+        "endChar": 9
+      },
+      "revId": "5836717fbdc276b3d3641906bd2eb248468d6bfb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "daea87ee_71085851",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/GerritConfigProvider.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-11-15T09:18:35Z",
+      "side": 1,
+      "message": "same",
+      "range": {
+        "startLine": 181,
+        "startChar": 4,
+        "endLine": 181,
+        "endChar": 9
+      },
+      "revId": "5836717fbdc276b3d3641906bd2eb248468d6bfb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

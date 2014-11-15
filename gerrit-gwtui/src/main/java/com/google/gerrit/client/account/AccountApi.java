@@ -33,6 +33,17 @@ public class AccountApi {
     return new RestApi("/accounts/").view("self");
   }
 
+  /** Retrieve the account edit preferences */
+  public static void getEditPreferences(AsyncCallback<EditPreferences> cb) {
+    self().view("preferences.edit").get(cb);
+  }
+
+  /** Put the account edit preferences */
+  public static void putEditPreferences(EditPreferences in,
+      AsyncCallback<VoidResult> cb) {
+    self().view("preferences.edit").put(in, cb);
+  }
+
   public static void suggest(String query, int limit,
       AsyncCallback<JsArray<AccountInfo>> cb) {
     new RestApi("/accounts/")

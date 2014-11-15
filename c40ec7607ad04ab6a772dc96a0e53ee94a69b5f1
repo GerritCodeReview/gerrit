@@ -70,6 +70,54 @@
       "revId": "c40ec7607ad04ab6a772dc96a0e53ee94a69b5f1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "daea87ee_31ebf011",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-11-15T08:41:27Z",
+      "side": 1,
+      "message": "Commit message popup editor is the old way that was invented before inline edit series. In a perfect word, Edit Message button sholdn\u0027t ven exist:\n\n* create a edit\n* click on commit message link\n* change edit screen is opened\n* edit message\n* click on settings for edit screen\n* change/apply/save them \n* continue editing commit message in CM3\n* save\n* publish change edit\n\nFor backwards compatibility and not to introduce disruptive UI changes we decided to preserve Edit Message button with old popup dialog, but hijacked it to inline edit workflow, see [1] for fiscussion on this topic. But in any event i would just ignore eny styles/fonts in popup dialog and only apply them on editing in CM3. E. g. how would you implement show line number in popup dialog that only uses normal textarea? Note, that de scenario described above isn\u0027t merged yet, but the inline-3 series is still under developments [2].\n\n* [1] https://gerrit-review.googlesource.com/61114\n* [2] https://gerrit-review.googlesource.com/#/q/status:open+topic:inline-3",
+      "parentUuid": "3a148387_c483fe27",
+      "range": {
+        "startLine": 25,
+        "startChar": 51,
+        "endLine": 26,
+        "endChar": 44
+      },
+      "revId": "c40ec7607ad04ab6a772dc96a0e53ee94a69b5f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "daea87ee_11e8ec10",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-11-15T08:41:27Z",
+      "side": 1,
+      "message": "As pointed out by Shawn in this thread [1]. The way to go is: \n\n* 1. intrduce new prferences for edit screen and store them first time in AllUsers repository, done in [2]\n* 2. migrate all existing setting to AlUsers repo\n* 3. introduce new setting and store them direct in Git\n\nLinks:\n\n* [1] https://groups.google.com/d/topic/repo-discuss/bX36w565m7c/discussion\n* [2] https://gerrit-review.googlesource.com/#/c/61601",
+      "parentUuid": "daea87ee_91dbbc7c",
+      "range": {
+        "startLine": 25,
+        "startChar": 51,
+        "endLine": 26,
+        "endChar": 44
+      },
+      "revId": "c40ec7607ad04ab6a772dc96a0e53ee94a69b5f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

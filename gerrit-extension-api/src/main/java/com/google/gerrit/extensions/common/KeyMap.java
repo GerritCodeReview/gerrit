@@ -14,26 +14,8 @@
 
 package com.google.gerrit.extensions.common;
 
-// This class is stored in Git config file. Data migration is needed
-// when attributes are renamed or removed.
-public class EditPreferencesInfo {
-  public int tabSize;
-  public int lineLength;
-  public boolean lineWrapping;
-  public boolean showTabs;
-  public boolean showTrailingSpace;
-  public boolean syntaxHighlighting;
-  public boolean hideLineNumbers;
-  public Theme theme;
-
-  public EditPreferencesInfo() {
-    tabSize = 2;
-    lineLength = 100;
-    lineWrapping = false;
-    showTabs = true;
-    showTrailingSpace = true;
-    syntaxHighlighting = true;
-    hideLineNumbers = false;
-    theme = Theme.ECLIPSE;
-  }
+public enum KeyMap {
+  DEFAULT,
+  EMACS,
+  VIM;
 }

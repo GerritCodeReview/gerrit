@@ -23,6 +23,7 @@ import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.JumpKeys;
 import com.google.gerrit.client.VoidResult;
 import com.google.gerrit.client.account.DiffPreferences;
+import com.google.gerrit.client.account.EditPreferences;
 import com.google.gerrit.client.changes.ChangeApi;
 import com.google.gerrit.client.changes.ChangeEditApi;
 import com.google.gerrit.client.changes.ChangeInfo;
@@ -87,7 +88,9 @@ public class EditScreen extends Screen {
   private final PatchSet.Id revision;
   private final String path;
   private final int startLine;
-  private DiffPreferences prefs;
+  //private DiffPreferences prefs;
+  private EditPreferences prefs;
+  private EditPreferencesAction editPrefsAction;
   private CodeMirror cm;
   private HttpResponse<NativeString> content;
   private EditFileInfo editFileInfo;
@@ -113,7 +116,6 @@ public class EditScreen extends Screen {
     this.revision = patch.getParentKey();
     this.path = patch.get();
     this.startLine = startLine - 1;
-    prefs = DiffPreferences.create(Gerrit.getAccountDiffPreference());
     add(uiBinder.createAndBindUi(this));
     addDomHandler(GlobalKey.STOP_PROPAGATION, KeyPressEvent.getType());
   }
@@ -269,9 +271,9 @@ public class EditScreen extends Screen {
     super.onShowView();
     Window.enableScrolling(false);
     JumpKeys.enable(false);
-    if (prefs.hideTopMenu()) {
-      Gerrit.setHeaderVisible(false);
-    }
+//    if (prefs.hideTopMenu()) {
+//      Gerrit.setHeaderVisible(false);
+//    }
     resizeHandler = Window.addResizeHandler(new ResizeHandler() {
       @Override
       public void onResize(ResizeEvent event) {
@@ -325,6 +327,15 @@ public class EditScreen extends Screen {
     Window.enableScrolling(true);
     Gerrit.setHeaderVisible(true);
     JumpKeys.enable(true);
+  }
+
+  CodeMirror getEditor() {
+    return cm;
+  }
+
+  @UiHandler("editSettings")
+  void onEditSetting(@SuppressWarnings("unused") ClickEvent e) {
+    editPrefsAction.show();
   }
 
   @UiHandler("save")

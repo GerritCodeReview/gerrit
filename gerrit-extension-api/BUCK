@@ -5,9 +5,11 @@ gwt_module(
   name = 'client',
   srcs = glob([
     SRC + 'api/projects/ProjectState.java',
+    SRC + 'common/EditPreferencesInfo.java',
     SRC + 'common/InheritableBoolean.java',
     SRC + 'common/ListChangesOption.java',
     SRC + 'common/SubmitType.java',
+    SRC + 'common/KeyMap.java',
     SRC + 'common/Theme.java',
     SRC + 'webui/GerritTopMenu.java',
   ]),

@@ -16,6 +16,7 @@ limitations under the License.
 -->
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
     xmlns:g='urn:import:com.google.gwt.user.client.ui'>
+  <ui:with field='ico' type='com.google.gerrit.client.GerritResources'/>
   <ui:style gss='false'>
     .header {
       position: relative;
@@ -109,6 +110,13 @@ limitations under the License.
       padding-top: 2px;
       padding-right: 3px;
     }
+
+    .settings {
+      position: relative;
+      top: 5px;
+      cursor: pointer;
+      outline: none;
+    }
   </ui:style>
   <g:HTMLPanel styleName='{style.header}'>
     <div class='{style.headerLine}' ui:field='header'>
@@ -125,6 +133,13 @@ limitations under the License.
            <ui:attribute name='title'/>
            <div><ui:msg>Save</ui:msg></div>
          </g:Button>
+         <g:Image
+             ui:field='editSettings'
+             styleName='{style.settings}'
+             resource='{ico.gear}'
+             title='Edit screen preferences'>
+            <ui:attribute name='title'/>
+          </g:Image>
        </div>
        <span class='{style.path}'><span ui:field='project'/> / <span ui:field='filePath'/></span>
        <div class='{style.navigation}'>

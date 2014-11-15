@@ -46,6 +46,30 @@
       "revId": "c40ec7607ad04ab6a772dc96a0e53ee94a69b5f1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "daea87ee_91dbbc7c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1017804
+      },
+      "writtenOn": "2014-11-15T07:38:35Z",
+      "side": 1,
+      "message": "Anyway, so I\u0027ll add the settings to the PreferencesBox for SBS2. Should I use the old database for persistence or should I use your new mechanism [1]? Or should I leave my hands off it for now, because other people want to dig around in these parts? I just don\u0027t want to do things that have to be abandoned, because they don\u0027t fit.\n\n[1] Icf87fcb6a9c8901d8f5d96a8ae81c78e24441e34",
+      "parentUuid": "3a148387_c483fe27",
+      "range": {
+        "startLine": 25,
+        "startChar": 51,
+        "endLine": 26,
+        "endChar": 44
+      },
+      "revId": "c40ec7607ad04ab6a772dc96a0e53ee94a69b5f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

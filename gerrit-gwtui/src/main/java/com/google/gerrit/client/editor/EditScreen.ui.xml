@@ -17,10 +17,103 @@ limitations under the License.
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
     xmlns:g='urn:import:com.google.gwt.user.client.ui'
     xmlns:e='urn:import:com.google.gerrit.client.editor'>
-  <ui:style>
+  <ui:with field='ico' type='com.google.gerrit.client.GerritResources'/>
+  <ui:style type='com.google.gerrit.client.editor.EditScreen.EditScreenStyle'>
   @eval trimColor com.google.gerrit.client.Gerrit.getTheme().trimColor;
 
+    @external .CodeMirror, .CodeMirror-lines, .CodeMirror-selectedtext;
+    @external .CodeMirror-linenumber, .CodeMirror-vscrollbar .CodeMirror-scroll;
+    @external .CodeMirror-dialog-bottom;
+    @external .cm-keymap-fat-cursor, CodeMirror-cursor;
+    @external .cm-searching, .cm-trailingspace, .cm-tab;
+
     @def HEADER_HEIGHT 29px;
+
+    .editscreen .CodeMirror {
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      -khtml-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+    }
+
+    .editscreen .CodeMirror-lines { padding: 0; }
+    .editscreen .CodeMirror pre {
+      padding: 0;
+      overflow: hidden;
+      border-right: 0;
+      width: auto;
+    }
+
+    /* Hide scrollbars, OverviewBar controls both views. */
+    .editscreen .CodeMirror-scroll { padding-right: 0; }
+    .editscreen .CodeMirror-vscrollbar { display: none !important; }
+
+    /* Preserve space for underscores. If this changes
+     * see ChunkManager.addPadding() and adjust there.
+     */
+    .editscreen .CodeMirror pre,
+    .editscreen .CodeMirror pre span {
+      padding-bottom: 1px;
+    }
+
+    .activeLine .CodeMirror-linenumber {
+      background-color: #bcf !important;
+      color: #000;
+    }
+
+    .range {
+      background-color: #ffd500 !important;
+    }
+    .rangeHighlight {
+      background-color: #ffff00 !important;
+    }
+    .cm-searching {
+      background-color: #ffa !important;
+    }
+    .cm-trailingspace {
+      background-color: red !important;
+    }
+    .editscreen .CodeMirror-selectedtext {
+      background-color: inherit !important;
+    }
+    .editscreen .CodeMirror-linenumber {
+      height: 1.11em;
+      cursor: pointer;
+    }
+    .editscreen .CodeMirror.cm-keymap-fat-cursor div.CodeMirror-cursor {
+      background: transparent;
+      text-decoration: underline;
+      z-index: 2;
+    }
+    .editscreen .CodeMirror-dialog-bottom {
+      border-top: 0;
+      border-left: 1px solid #000;
+      border-bottom: 1px solid #000;
+      background-color: #f7f7f7;
+      top: 0;
+      right: 0;
+      bottom: auto;
+      left: auto;
+    }
+    .showTabs .cm-tab:before {
+      position: absolute;
+      content: "\00bb";
+      color: #f00;
+    }
+    .showLineNumbers .padding {
+      margin-left: 21px;
+      border-left: 2px solid #d64040;
+    }
+    .columnMargin {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 0;
+      border-right: 1px dashed #ffa500;
+      z-index: 2;
+      cursor: text;
+    }
 
     .infoLine {
       position: absolute;
@@ -78,8 +171,22 @@ limitations under the License.
     .path {
       white-space: nowrap;
     }
+
+    .settings {
+      position: relative;
+      top: 5px;
+      cursor: pointer;
+      outline: none;
+    }
+
+    .showLineNumbers .b { border-left: none; }
+
+    .showLineNumbers .padding {
+      margin-left: 21px;
+      border-left: 2px solid #d64040;
+    }
   </ui:style>
-  <g:HTMLPanel>
+  <g:HTMLPanel ui:field='panel' styleName='{style.editscreen}'>
     <g:HTMLPanel styleName='{style.headerLine}'>
       <div class='{style.infoLine}'>
 	    <div class='{style.headerButtons} {style.infoLineHeaderButtons}'>
@@ -95,6 +202,14 @@ limitations under the License.
 	        <ui:attribute name='title'/>
 	        <div><ui:msg>Save</ui:msg></div>
           </g:Button>
+	      |
+          <g:Image
+             ui:field='editSettings'
+             styleName='{style.settings}'
+             resource='{ico.gear}'
+             title='Edit screen preferences'>
+            <ui:attribute name='title'/>
+          </g:Image>
 	      |
 	      <span class='{style.path}' ui:field='filePath'/>
 	    </div>

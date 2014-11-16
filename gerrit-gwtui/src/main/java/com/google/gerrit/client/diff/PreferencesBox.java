@@ -29,9 +29,9 @@ import com.google.gerrit.client.patches.PatchUtil;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.client.ui.NpIntTextBox;
+import com.google.gerrit.extensions.client.DiffPreferencesInfo;
+import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
 import com.google.gerrit.extensions.client.Theme;
-import com.google.gerrit.reviewdb.client.AccountDiffPreference;
-import com.google.gerrit.reviewdb.client.AccountDiffPreference.Whitespace;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.Patch.ChangeType;
 import com.google.gwt.core.client.GWT;
@@ -503,12 +503,9 @@ public class PreferencesBox extends Composite {
     AccountApi.putDiffPreferences(prefs, new GerritCallback<DiffPreferences>() {
       @Override
       public void onSuccess(DiffPreferences result) {
-        AccountDiffPreference p = Gerrit.getAccountDiffPreference();
-        if (p == null) {
-          p = AccountDiffPreference.createDefault(Gerrit.getUserAccount().getId());
-        }
+        DiffPreferencesInfo p = Gerrit.getDiffPreferences();
         result.copyTo(p);
-        Gerrit.setAccountDiffPreference(p);
+        Gerrit.setDiffPreferences(p);
       }
     });
     if (view != null) {

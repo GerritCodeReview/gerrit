@@ -15,6 +15,7 @@ gwt_module(
     '//gerrit-gwtexpui:SafeHtml',
   ],
   exported_deps = [
+    '//gerrit-extension-api:client',
     '//gerrit-patch-jgit:client',
     '//gerrit-reviewdb:client',
     '//lib:gwtjsonrpc',

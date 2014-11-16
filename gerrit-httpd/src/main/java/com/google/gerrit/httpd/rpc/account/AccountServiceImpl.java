@@ -19,13 +19,19 @@ import com.google.gerrit.common.data.AccountService;
 import com.google.gerrit.common.data.AgreementInfo;
 import com.google.gerrit.common.errors.InvalidQueryException;
 import com.google.gerrit.common.errors.NoSuchEntityException;
+import com.google.gerrit.extensions.client.DiffPreferencesInfo;
+import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.httpd.rpc.BaseServiceImplementation;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.AccountDiffPreference;
+import com.google.gerrit.reviewdb.client.AccountGeneralPreferences;
 import com.google.gerrit.reviewdb.client.AccountProjectWatch;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.account.AccountCache;
+import com.google.gerrit.server.account.AccountResource;
+import com.google.gerrit.server.account.SetDiffPreferences;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.query.QueryParseException;
@@ -37,6 +43,9 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
+import org.eclipse.jgit.errors.ConfigInvalidException;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -49,18 +58,21 @@ class AccountServiceImpl extends BaseServiceImplementation implements
   private final ProjectControl.Factory projectControlFactory;
   private final AgreementInfoFactory.Factory agreementInfoFactory;
   private final ChangeQueryBuilder queryBuilder;
+  private final SetDiffPreferences setDiff;
 
   @Inject
   AccountServiceImpl(final Provider<ReviewDb> schema,
       final Provider<IdentifiedUser> identifiedUser,
       final ProjectControl.Factory projectControlFactory,
       final AgreementInfoFactory.Factory agreementInfoFactory,
-      final ChangeQueryBuilder queryBuilder) {
+      final ChangeQueryBuilder queryBuilder,
+      SetDiffPreferences setDiff) {
     super(schema, identifiedUser);
     this.currentUser = identifiedUser;
     this.projectControlFactory = projectControlFactory;
     this.agreementInfoFactory = agreementInfoFactory;
     this.queryBuilder = queryBuilder;
+    this.setDiff = setDiff;
   }
 
   @Override
@@ -73,18 +85,40 @@ class AccountServiceImpl extends BaseServiceImplementation implements
     });
   }
 
+/*  @Override
+  public void changePreferences(final AccountGeneralPreferences pref,
+      final AsyncCallback<VoidResult> callback) {
+    run(callback, new Action<VoidResult>() {
+      @Override
+      public VoidResult run(final ReviewDb db) throws OrmException, Failure {
+        final Account a = db.accounts().get(getAccountId());
+        if (a == null) {
+          throw new Failure(new NoSuchEntityException());
+        }
+        a.setGeneralPreferences(pref);
+        db.accounts().update(Collections.singleton(a));
+        accountCache.evict(a.getId());
+        return VoidResult.INSTANCE;
+      }
+    });
+  }*/
+
   @Override
-  public void changeDiffPreferences(final AccountDiffPreference diffPref,
+  public void changeDiffPreferences(final DiffPreferencesInfo diffPref,
       AsyncCallback<VoidResult> callback) {
     run(callback, new Action<VoidResult>(){
       @Override
       public VoidResult run(ReviewDb db) throws OrmException {
-        if (!diffPref.getAccountId().equals(getAccountId())) {
-          throw new IllegalArgumentException("diffPref.getAccountId() "
-              + diffPref.getAccountId() + " doesn't match"
-              + " the accountId of the signed in user " + getAccountId());
+        if (!getCurrentUser().isIdentifiedUser()) {
+          throw new IllegalArgumentException("Not authenticated");
         }
-        db.accountDiffPreferences().upsert(Collections.singleton(diffPref));
+        IdentifiedUser me = (IdentifiedUser)getCurrentUser();
+        try {
+          setDiff.apply(new AccountResource(me), diffPref);
+        } catch (AuthException | BadRequestException | ConfigInvalidException
+            | IOException e) {
+          throw new OrmException("Cannot save diff preferences", e);
+        }
         return VoidResult.INSTANCE;
       }
     });

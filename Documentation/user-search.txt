@@ -46,7 +46,7 @@ returned results. Search can also be performed by typing only a
 text with no operator, which will match against a variety of fields.
 
 [[age]]
-age:'AGE'::
+age:<age>::
 +
 Amount of time that has expired since the change was last updated
 with a review comment or new patch set.  The age must be specified
@@ -61,54 +61,54 @@ to include a unit suffix, for example `age:2d`:
 * y, year, years (`1 year` is treated as `365 days`)
 
 [[before_until]]
-before:'TIME'/until:'TIME'::
+before:<time>/until:<time>::
 +
-Changes modified before the given 'TIME', inclusive. Must be in the
+Changes modified before the given <time>, inclusive. Must be in the
 format `2006-01-02[ 15:04:05[.890][ -0700]]`; omitting the time defaults
 to 00:00:00 and omitting the timezone defaults to UTC.
 
 [[after_since]]
-after:'TIME'/since:'TIME'::
+after:<time>/since:<time>::
 +
-Changes modified after the given 'TIME', inclusive. Must be in the
+Changes modified after the given <time>, inclusive. Must be in the
 format `2006-01-02[ 15:04:05[.890][ -0700]]`; omitting the time defaults
 to 00:00:00 and omitting the timezone defaults to UTC.
 
 [[change]]
-change:'ID'::
+change:<id>::
 +
-Either a legacy numerical 'ID' such as 15183, or a newer style
+Either a legacy numerical <id> such as 15183, or a newer style
 Change-Id that was scraped out of the commit message.
 
 [[conflicts]]
-conflicts:'ID'::
+conflicts:<id>::
 +
-Changes that conflict with change 'ID'. Change 'ID' can be specified
-as a legacy numerical 'ID' such as 15183, or a newer style Change-Id
+Changes that conflict with change <id>. Change <id> can be specified
+as a legacy numerical <id> such as 15183, or a newer style Change-Id
 that was scraped out of the commit message.
 
 [[owner]]
-owner:'USER', o:'USER'::
+owner:<user>, o:<user>::
 +
-Changes originally submitted by 'USER'. The special case of
+Changes originally submitted by <user>. The special case of
 `owner:self` will find changes owned by the caller.
 
 [[ownerin]]
-ownerin:'GROUP'::
+ownerin:<group>::
 +
-Changes originally submitted by a user in 'GROUP'.
+Changes originally submitted by a user in <group>.
 
 [[reviewer]]
-reviewer:'USER', r:'USER'::
+reviewer:<user>, r:<user>::
 +
-Changes that have been, or need to be, reviewed by 'USER'. The
+Changes that have been, or need to be, reviewed by <user>. The
 special case of `reviewer:self` will find changes where the caller
 has been added as a reviewer.
 
 [[reviewerin]]
-reviewerin:'GROUP'::
+reviewerin:<group>::
 +
-Changes that have been, or need to be, reviewed by a user in 'GROUP'.
+Changes that have been, or need to be, reviewed by a user in <group>.
 
 [[commit]]
 commit:'SHA1'::
@@ -116,64 +116,64 @@ commit:'SHA1'::
 Changes where 'SHA1' is one of the patch sets of the change.
 
 [[project]]
-project:'PROJECT', p:'PROJECT'::
+project:<project>, p:<project>::
 +
-Changes occurring in 'PROJECT'. If 'PROJECT' starts with `^` it
+Changes occurring in <project>. If <project> starts with `^` it
 matches project names by regular expression.  The
 link:http://www.brics.dk/automaton/[dk.brics.automaton
 library] is used for evaluation of such patterns.
 
 [[projects]]
-projects:'PREFIX'::
+projects:<prefix>::
 +
-Changes occurring in projects starting with 'PREFIX'.
+Changes occurring in projects starting with <prefix>.
 
 [[parentproject]]
-parentproject:'PROJECT'::
+parentproject:<project>::
 +
-Changes occurring in 'PROJECT' or in one of the child projects of
-'PROJECT'.
+Changes occurring in <project> or in one of the child projects of
+<project>.
 
 [[branch]]
-branch:'BRANCH'::
+branch:<branch>::
 +
-Changes for 'BRANCH'.  The branch name is either the short name shown
+Changes for <branch>.  The branch name is either the short name shown
 in the web interface or the full name of the destination branch with
 the traditional 'refs/heads/' prefix.
 +
-If 'BRANCH' starts with `^` it matches branch names by regular
+If <branch> starts with `^` it matches branch names by regular
 expression patterns.  The
 link:http://www.brics.dk/automaton/[dk.brics.automaton
 library] is used for evaluation of such patterns.
 
 [[topic]]
-topic:'TOPIC'::
+topic:<topic>::
 +
-Changes whose designated topic at upload was 'TOPIC'.  This is
+Changes whose designated topic at upload was <topic>.  This is
 often combined with 'branch:' and 'project:' operators to select
 all related changes in a series.
 +
-If 'TOPIC' starts with `^` it matches topic names by regular
+If <topic> starts with `^` it matches topic names by regular
 expression patterns.  The
 link:http://www.brics.dk/automaton/[dk.brics.automaton
 library] is used for evaluation of such patterns.
 
 [[ref]]
-ref:'REF'::
+ref:<ref>::
 +
-Changes where the destination branch is exactly the given 'REF'
-name.  Since 'REF' is absolute from the top of the repository it
+Changes where the destination branch is exactly the given <ref>
+name.  Since <ref> is absolute from the top of the repository it
 must start with 'refs/'.
 +
-If 'REF' starts with `^` it matches reference names by regular
+If <ref> starts with `^` it matches reference names by regular
 expression patterns.  The
 link:http://www.brics.dk/automaton/[dk.brics.automaton
 library] is used for evaluation of such patterns.
 
 [[tr,bug]]
-tr:'ID', bug:'ID'::
+tr:<id>, bug:<id>::
 +
-Search for changes whose commit message contains 'ID' and matches
+Search for changes whose commit message contains <id> and matches
 one or more of the
 link:config-gerrit.html#trackingid[trackingid sections]
 in the server's configuration file.  This is typically used to
@@ -181,26 +181,26 @@ search for changes that fix a bug or defect by the issue tracking
 system's issue identifier.
 
 [[label]]
-label:'VALUE'::
+label:<value>::
 +
-Matches changes where the approval score 'VALUE' has been set during
+Matches changes where the approval score <value> has been set during
 a review.  See <<labels,labels>> below for more detail on the format
 of the argument.
 
 [[message]]
-message:'MESSAGE'::
+message:<message>::
 +
-Changes that match 'MESSAGE' arbitrary string in the commit message body.
+Changes that match <message> arbitrary string in the commit message body.
 
 [[comment]]
-comment:'TEXT'::
+comment:<text>::
 +
-Changes that match 'TEXT' string in any comment left by a reviewer.
+Changes that match <text> string in any comment left by a reviewer.
 
 [[path]]
-path:'PATH'::
+path:<path>::
 +
-Matches any change touching file at 'PATH'. By default exact path
+Matches any change touching file at <path>. By default exact path
 matching is used, but regular expressions can be enabled by starting
 with `^`.  For example, to match all XML files use `file:^.*\.xml$`.
 The link:http://www.brics.dk/automaton/[dk.brics.automaton library]
@@ -218,10 +218,10 @@ files named like 'name1.xml', 'name2.xml', and 'name3.xml' use
 `file:"^name[1-3].xml"`.
 
 [[file]]
-file:'NAME', f:'NAME'::
+file:<name>, f:<name>::
 +
 Matches any change touching a file containing the path component
-'NAME'.  For example a `file:src` will match changes that modify
+<name>.  For example a `file:src` will match changes that modify
 files named `gerrit-server/src/main/java/Foo.java`. Name matching
 is exact match, `file:Foo.java` finds any change touching a file
 named exactly `Foo.java` and does not match `AbstractFoo.java`.
@@ -279,7 +279,7 @@ True if the change is either merged or abandoned.
 
 is:submitted, is:merged, is:abandoned::
 +
-Same as <<status,status:'STATE'>>.
+Same as <<status,status:<state>>>.
 
 [[mergeable]]
 is:mergeable::
@@ -315,7 +315,7 @@ status:abandoned::
 Change has been abandoned.
 
 [[size]]
-added:'RELATION''LINES', deleted:'RELATION''LINES', delta/size:'RELATION''LINES'::
+added:<relation><lines>, deleted:<relation><lines>, delta/size:<relation><lines>::
 +
 True if the number of lines added/deleted/changed satisfies the given relation
 for the given number of lines.
@@ -441,8 +441,8 @@ useful in limited contexts to administrators or power-users.
 
 visibleto:'USER-or-GROUP'::
 +
-Matches changes that are visible to 'USER' or to anyone who is a
-member of 'GROUP'.  Here group names may be specified as either
+Matches changes that are visible to <user> or to anyone who is a
+member of <group>.  Here group names may be specified as either
 an internal group name, or if LDAP is being used, an external LDAP
 group name.  The value may be wrapped in double quotes to include
 spaces or other special characters.  For example, to match an LDAP
@@ -458,27 +458,27 @@ is:visible::
 Magical internal flag to prove the current user has access to read
 the change.  This flag is always added to any query.
 
-starredby:'USER'::
+starredby:<user>::
 +
-Matches changes that have been starred by 'USER'.
+Matches changes that have been starred by <user>.
 The special case `starredby:self` applies to the caller.
 
-watchedby:'USER'::
+watchedby:<user>::
 +
-Matches changes that 'USER' has configured watch filters for.
+Matches changes that <user> has configured watch filters for.
 The special case `watchedby:self` applies to the caller.
 
-draftby:'USER'::
+draftby:<user>::
 +
-Matches changes that 'USER' has left unpublished draft comments on.
+Matches changes that <user> has left unpublished draft comments on.
 Since the drafts are unpublished, it is not possible to see the
 draft text, or even how many drafts there are. The special case
 of `draftby:self` will find changes where the caller has created
 a draft comment.
 
-limit:'CNT'::
+limit:<cnt>::
 +
-Limit the returned results to no more than 'CNT' records.  This is
+Limit the returned results to no more than <cnt> records.  This is
 automatically set to the page size configured in the current user's
 preferences.  Including it in a web query may lead to unpredictable
 results with regards to pagination.

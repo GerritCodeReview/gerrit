@@ -14,144 +14,69 @@
 
 package com.google.gerrit.server.account;
 
-import com.google.gerrit.extensions.common.Theme;
+import static com.google.gerrit.server.config.ConfigUtil.loadSection;
+import static com.google.gerrit.server.config.ConfigUtil.storeSection;
+
+import com.google.gerrit.extensions.common.DiffPreferencesInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.AccountDiffPreference;
-import com.google.gerrit.reviewdb.client.AccountDiffPreference.Whitespace;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.account.GetDiffPreferences.DiffPreferencesInfo;
-import com.google.gerrit.server.account.SetDiffPreferences.Input;
-import com.google.gwtorm.server.OrmException;
+import com.google.gerrit.server.config.AllUsersName;
+import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
-import java.util.Collections;
+import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.errors.RepositoryNotFoundException;
+
+import java.io.IOException;
 
 @Singleton
-public class SetDiffPreferences implements RestModifyView<AccountResource, Input> {
-  static class Input {
-    Short context;
-    Boolean expandAllComments;
-    Whitespace ignoreWhitespace;
-    Boolean intralineDifference;
-    Integer lineLength;
-    Boolean manualReview;
-    Boolean retainHeader;
-    Boolean showLineEndings;
-    Boolean showTabs;
-    Boolean showWhitespaceErrors;
-    Boolean skipDeleted;
-    Boolean skipUncommented;
-    Boolean syntaxHighlighting;
-    Boolean hideTopMenu;
-    Boolean autoHideDiffTableHeader;
-    Boolean hideLineNumbers;
-    Boolean renderEntireFile;
-    Integer tabSize;
-    Theme theme;
-    Boolean hideEmptyPane;
-  }
-
+public class SetDiffPreferences implements
+    RestModifyView<AccountResource, DiffPreferencesInfo> {
   private final Provider<CurrentUser> self;
-  private final Provider<ReviewDb> db;
+  private final MetaDataUpdate.User metaDataUpdateFactory;
+  private final AllUsersName allUsersName;
 
   @Inject
-  SetDiffPreferences(Provider<CurrentUser> self, Provider<ReviewDb> db) {
+  SetDiffPreferences(Provider<CurrentUser> self,
+      MetaDataUpdate.User metaDataUpdateFactory,
+      AllUsersName allUsersName) {
     this.self = self;
-    this.db = db;
+    this.metaDataUpdateFactory = metaDataUpdateFactory;
+    this.allUsersName = allUsersName;
   }
 
   @Override
-  public DiffPreferencesInfo apply(AccountResource rsrc, Input input)
-      throws AuthException, OrmException {
+  public DiffPreferencesInfo apply(AccountResource rsrc, DiffPreferencesInfo in)
+      throws AuthException, BadRequestException, ConfigInvalidException,
+      RepositoryNotFoundException, IOException {
     if (self.get() != rsrc.getUser()
         && !self.get().getCapabilities().canModifyAccount()) {
       throw new AuthException("restricted to members of Modify Accounts");
     }
-    if (input == null) {
-      input = new Input();
+
+    if (in == null) {
+      throw new BadRequestException("input must be provided");
     }
 
     Account.Id accountId = rsrc.getUser().getAccountId();
-    AccountDiffPreference p;
+    MetaDataUpdate md = metaDataUpdateFactory.create(allUsersName);
 
-    db.get().accounts().beginTransaction(accountId);
+    VersionedAccountPreferences prefs;
+    DiffPreferencesInfo out = new DiffPreferencesInfo();
     try {
-      p = db.get().accountDiffPreferences().get(accountId);
-      if (p == null) {
-        p = new AccountDiffPreference(accountId);
-      }
-
-      if (input.context != null) {
-        p.setContext(input.context);
-      }
-      if (input.ignoreWhitespace != null) {
-        p.setIgnoreWhitespace(input.ignoreWhitespace);
-      }
-      if (input.expandAllComments != null) {
-        p.setExpandAllComments(input.expandAllComments);
-      }
-      if (input.intralineDifference != null) {
-        p.setIntralineDifference(input.intralineDifference);
-      }
-      if (input.lineLength != null) {
-        p.setLineLength(input.lineLength);
-      }
-      if (input.manualReview != null) {
-        p.setManualReview(input.manualReview);
-      }
-      if (input.retainHeader != null) {
-        p.setRetainHeader(input.retainHeader);
-      }
-      if (input.showLineEndings != null) {
-        p.setShowLineEndings(input.showLineEndings);
-      }
-      if (input.showTabs != null) {
-        p.setShowTabs(input.showTabs);
-      }
-      if (input.showWhitespaceErrors != null) {
-        p.setShowWhitespaceErrors(input.showWhitespaceErrors);
-      }
-      if (input.skipDeleted != null) {
-        p.setSkipDeleted(input.skipDeleted);
-      }
-      if (input.skipUncommented != null) {
-        p.setSkipUncommented(input.skipUncommented);
-      }
-      if (input.syntaxHighlighting != null) {
-        p.setSyntaxHighlighting(input.syntaxHighlighting);
-      }
-      if (input.hideTopMenu != null) {
-        p.setHideTopMenu(input.hideTopMenu);
-      }
-      if (input.autoHideDiffTableHeader != null) {
-        p.setAutoHideDiffTableHeader(input.autoHideDiffTableHeader);
-      }
-      if (input.hideLineNumbers != null) {
-        p.setHideLineNumbers(input.hideLineNumbers);
-      }
-      if (input.renderEntireFile != null) {
-        p.setRenderEntireFile(input.renderEntireFile);
-      }
-      if (input.tabSize != null) {
-        p.setTabSize(input.tabSize);
-      }
-      if (input.theme != null) {
-        p.setTheme(input.theme);
-      }
-      if (input.hideEmptyPane != null) {
-        p.setHideEmptyPane(input.hideEmptyPane);
-      }
-
-      db.get().accountDiffPreferences().upsert(Collections.singleton(p));
-      db.get().commit();
+      prefs = VersionedAccountPreferences.forUser(accountId);
+      prefs.load(md);
+      storeSection(prefs.getConfig(), "diff", null, in);
+      prefs.commit(md);
+      loadSection(prefs.getConfig(), "diff", null, out);
     } finally {
-      db.get().rollback();
+      md.close();
     }
-    return DiffPreferencesInfo.parse(p);
+    return out;
   }
 }

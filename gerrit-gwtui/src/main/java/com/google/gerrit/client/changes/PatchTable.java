@@ -65,9 +65,9 @@ public class PatchTable extends Composite {
       new PatchValidator() {
         @Override
         public boolean isValid(Patch patch) {
-          return !((listenablePrefs.get().isSkipDeleted()
+          return !((listenablePrefs.get().skipDeleted
               && patch.getChangeType().equals(ChangeType.DELETED))
-              || (listenablePrefs.get().isSkipUncommented()
+              || (listenablePrefs.get().skipUncommented
               && patch.getCommentCount() == 0));
         }
 

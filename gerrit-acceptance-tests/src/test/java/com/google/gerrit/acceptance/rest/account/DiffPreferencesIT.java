@@ -18,50 +18,88 @@ import static org.junit.Assert.assertEquals;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
-import com.google.gerrit.reviewdb.client.AccountDiffPreference;
-import com.google.gerrit.server.account.GetDiffPreferences.DiffPreferencesInfo;
+import com.google.gerrit.extensions.common.DiffPreferencesInfo;
+import com.google.gerrit.extensions.common.Theme;
+import com.google.gerrit.extensions.common.DiffPreferencesInfo.Whitespace;
 
 import org.apache.http.HttpStatus;
 import org.junit.Test;
 
-public class GetDiffPreferencesIT extends AbstractDaemonTest {
+public class DiffPreferencesIT extends AbstractDaemonTest {
   @Test
   public void getDiffPreferencesOfNonExistingAccount_NotFound()
       throws Exception {
     assertEquals(HttpStatus.SC_NOT_FOUND,
-        adminSession.get("/accounts/non-existing/preferences.diff").getStatusCode());
+        adminSession.get("/accounts/non-existing/preferences.diff")
+        .getStatusCode());
   }
 
   @Test
   public void getDiffPreferences() throws Exception {
-    RestResponse r = adminSession.get("/accounts/" + admin.email + "/preferences.diff");
+    RestResponse r = adminSession.get("/accounts/" + admin.email
+        + "/preferences.diff");
     assertEquals(HttpStatus.SC_OK, r.getStatusCode());
     DiffPreferencesInfo diffPreferences =
         newGson().fromJson(r.getReader(), DiffPreferencesInfo.class);
-    assertDiffPreferences(new AccountDiffPreference(admin.id), diffPreferences);
+
+    assertDiffPreferences(new DiffPreferencesInfo(), diffPreferences);
   }
 
-  private static void assertDiffPreferences(AccountDiffPreference expected, DiffPreferencesInfo actual) {
-    assertEquals(expected.getContext(), actual.context);
-    assertEquals(expected.isExpandAllComments(), toBoolean(actual.expandAllComments));
-    assertEquals(expected.getIgnoreWhitespace(), actual.ignoreWhitespace);
-    assertEquals(expected.isIntralineDifference(), toBoolean(actual.intralineDifference));
-    assertEquals(expected.getLineLength(), actual.lineLength);
-    assertEquals(expected.isManualReview(), toBoolean(actual.manualReview));
-    assertEquals(expected.isRetainHeader(), toBoolean(actual.retainHeader));
-    assertEquals(expected.isShowLineEndings(), toBoolean(actual.showLineEndings));
-    assertEquals(expected.isShowTabs(), toBoolean(actual.showTabs));
-    assertEquals(expected.isShowWhitespaceErrors(), toBoolean(actual.showWhitespaceErrors));
-    assertEquals(expected.isSkipDeleted(), toBoolean(actual.skipDeleted));
-    assertEquals(expected.isSkipUncommented(), toBoolean(actual.skipUncommented));
-    assertEquals(expected.isSyntaxHighlighting(), toBoolean(actual.syntaxHighlighting));
-    assertEquals(expected.getTabSize(), actual.tabSize);
+  @Test
+  public void setDiffPreferences() throws Exception {
+    DiffPreferencesInfo in = new DiffPreferencesInfo();
+
+    // change all default values
+    in.context *= -1;
+    in.tabSize *= -1;
+    in.lineLength *= -1;
+    in.theme = Theme.MIDNIGHT;
+    in.ignoreWhitespace = Whitespace.IGNORE_ALL_SPACE;
+    in.expandAllComments ^= true;
+    in.intralineDifference ^= true;
+    in.manualReview ^= true;
+    in.retainHeader ^= true;
+    in.showLineEndings ^= true;
+    in.showTabs ^= true;
+    in.showWhitespaceErrors ^= true;
+    in.skipDeleted ^= true;
+    in.skipUncommented ^= true;
+    in.syntaxHighlighting ^= true;
+    in.hideTopMenu ^= true;
+    in.autoHideDiffTableHeader ^= true;
+    in.hideLineNumbers ^= true;
+    in.renderEntireFile ^= true;
+    in.hideEmptyPane ^= true;
+
+    RestResponse r = adminSession.put("/accounts/" + admin.email
+        + "/preferences.diff", in);
+    assertEquals(HttpStatus.SC_OK, r.getStatusCode());
+    assertDiffPreferences(in, newGson().fromJson(r.getReader(),
+        DiffPreferencesInfo.class));
   }
 
-  private static boolean toBoolean(Boolean b) {
-    if (b == null) {
-      return false;
-    }
-    return b.booleanValue();
+  private static void assertDiffPreferences(DiffPreferencesInfo expected,
+      DiffPreferencesInfo actual) {
+    assertEquals(expected.context, actual.context);
+    assertEquals(expected.tabSize, actual.tabSize);
+    assertEquals(expected.lineLength, actual.lineLength);
+    assertEquals(expected.expandAllComments, actual.expandAllComments);
+    assertEquals(expected.intralineDifference, actual.intralineDifference);
+    assertEquals(expected.manualReview, actual.manualReview);
+    assertEquals(expected.retainHeader, actual.retainHeader);
+    assertEquals(expected.showLineEndings, actual.showLineEndings);
+    assertEquals(expected.showTabs, actual.showTabs);
+    assertEquals(expected.showWhitespaceErrors, actual.showWhitespaceErrors);
+    assertEquals(expected.skipDeleted, actual.skipDeleted);
+    assertEquals(expected.skipUncommented, actual.skipUncommented);
+    assertEquals(expected.syntaxHighlighting, actual.syntaxHighlighting);
+    assertEquals(expected.hideTopMenu, actual.hideTopMenu);
+    assertEquals(expected.autoHideDiffTableHeader,
+        actual.autoHideDiffTableHeader);
+    assertEquals(expected.hideLineNumbers, actual.hideLineNumbers);
+    assertEquals(expected.renderEntireFile, actual.renderEntireFile);
+    assertEquals(expected.hideEmptyPane, actual.hideEmptyPane);
+    assertEquals(expected.ignoreWhitespace, actual.ignoreWhitespace);
+    assertEquals(expected.theme, actual.theme);
   }
 }

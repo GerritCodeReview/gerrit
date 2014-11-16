@@ -22,6 +22,9 @@ public class UserConfigSections {
   /** The edit user preferences. */
   public static final String EDIT = "edit";
 
+  /** The diff user preferences. */
+  public static final String DIFF = "diff";
+
   private UserConfigSections() {
   }
 }

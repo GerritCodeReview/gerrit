@@ -28,11 +28,11 @@ import com.google.gerrit.common.data.AccountInfoCache;
 import com.google.gerrit.common.data.CommentDetail;
 import com.google.gerrit.common.data.PatchScript;
 import com.google.gerrit.common.data.PatchSetDetail;
+import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.prettify.client.ClientSideFormatter;
 import com.google.gerrit.prettify.client.PrettyFormatter;
 import com.google.gerrit.prettify.client.SparseHtmlFile;
 import com.google.gerrit.prettify.common.SparseFileContent;
-import com.google.gerrit.reviewdb.client.AccountDiffPreference;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -286,8 +286,9 @@ abstract class AbstractPatchContentTable extends NavigationTable<Object>
   }
 
   protected SparseHtmlFile getSparseHtmlFileA(PatchScript s) {
-    AccountDiffPreference dp = new AccountDiffPreference(s.getDiffPrefs());
-    dp.setShowWhitespaceErrors(false);
+    //AccountDiffPreference dp = new AccountDiffPreference(s.getDiffPrefs());
+    DiffPreferencesInfo dp = s.getDiffPrefs();
+    dp.showWhitespaceErrors = false;
 
     PrettyFormatter f = ClientSideFormatter.FACTORY.get();
     f.setDiffPrefs(dp);
@@ -299,7 +300,7 @@ abstract class AbstractPatchContentTable extends NavigationTable<Object>
   }
 
   protected SparseHtmlFile getSparseHtmlFileB(PatchScript s) {
-    AccountDiffPreference dp = new AccountDiffPreference(s.getDiffPrefs());
+    DiffPreferencesInfo dp = s.getDiffPrefs();
 
     SparseFileContent b = s.getB();
     PrettyFormatter f = ClientSideFormatter.FACTORY.get();

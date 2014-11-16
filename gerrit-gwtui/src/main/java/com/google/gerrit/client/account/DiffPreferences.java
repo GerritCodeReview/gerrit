@@ -14,55 +14,58 @@
 
 package com.google.gerrit.client.account;
 
+import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.extensions.client.Theme;
-import com.google.gerrit.reviewdb.client.AccountDiffPreference;
-import com.google.gerrit.reviewdb.client.AccountDiffPreference.Whitespace;
+import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
 import com.google.gwt.core.client.JavaScriptObject;
 
 public class DiffPreferences extends JavaScriptObject {
-  public static DiffPreferences create(AccountDiffPreference in) {
+  public static DiffPreferences create(DiffPreferencesInfo in) {
     DiffPreferences p = createObject().cast();
-    if (in == null) {
-      in = AccountDiffPreference.createDefault(null);
-    }
-    p.ignoreWhitespace(in.getIgnoreWhitespace());
-    p.tabSize(in.getTabSize());
-    p.lineLength(in.getLineLength());
-    p.context(in.getContext());
-    p.intralineDifference(in.isIntralineDifference());
-    p.showLineEndings(in.isShowLineEndings());
-    p.showTabs(in.isShowTabs());
-    p.showWhitespaceErrors(in.isShowWhitespaceErrors());
-    p.syntaxHighlighting(in.isSyntaxHighlighting());
-    p.hideTopMenu(in.isHideTopMenu());
-    p.autoHideDiffTableHeader(in.isAutoHideDiffTableHeader());
-    p.hideLineNumbers(in.isHideLineNumbers());
-    p.expandAllComments(in.isExpandAllComments());
-    p.manualReview(in.isManualReview());
-    p.renderEntireFile(in.isRenderEntireFile());
-    p.theme(in.getTheme());
-    p.hideEmptyPane(in.isHideEmptyPane());
+    p.ignoreWhitespace(in.ignoreWhitespace);
+    p.tabSize(in.tabSize);
+    p.lineLength(in.lineLength);
+    p.context(in.context);
+    p.intralineDifference(in.intralineDifference);
+    p.showLineEndings(in.showLineEndings);
+    p.showTabs(in.showTabs);
+    p.showWhitespaceErrors(in.showWhitespaceErrors);
+    p.syntaxHighlighting(in.syntaxHighlighting);
+    p.hideTopMenu(in.hideTopMenu);
+    p.autoHideDiffTableHeader(in.autoHideDiffTableHeader);
+    p.hideLineNumbers(in.hideLineNumbers);
+    p.expandAllComments(in.expandAllComments);
+    p.manualReview(in.manualReview);
+    p.renderEntireFile(in.renderEntireFile);
+    p.theme(in.theme);
+    p.hideEmptyPane(in.hideEmptyPane);
+    p.retainHeader(in.retainHeader);
+    p.skipUncommented(in.skipUncommented);
+    p.skipDeleted(in.skipDeleted);
     return p;
   }
 
-  public final void copyTo(AccountDiffPreference p) {
-    p.setIgnoreWhitespace(ignoreWhitespace());
-    p.setTabSize(tabSize());
-    p.setLineLength(lineLength());
-    p.setContext((short)context());
-    p.setIntralineDifference(intralineDifference());
-    p.setShowLineEndings(showLineEndings());
-    p.setShowTabs(showTabs());
-    p.setShowWhitespaceErrors(showWhitespaceErrors());
-    p.setSyntaxHighlighting(syntaxHighlighting());
-    p.setHideTopMenu(hideTopMenu());
-    p.setAutoHideDiffTableHeader(autoHideDiffTableHeader());
-    p.setHideLineNumbers(hideLineNumbers());
-    p.setExpandAllComments(expandAllComments());
-    p.setManualReview(manualReview());
-    p.setRenderEntireFile(renderEntireFile());
-    p.setTheme(theme());
-    p.setHideEmptyPane(hideEmptyPane());
+  public final void copyTo(DiffPreferencesInfo p) {
+    p.context = context();
+    p.tabSize = tabSize();
+    p.lineLength = lineLength();
+    p.expandAllComments = expandAllComments();
+    p.intralineDifference = intralineDifference();
+    p.manualReview = manualReview();
+    p.retainHeader = retainHeader();
+    p.showLineEndings = showLineEndings();
+    p.showTabs = showTabs();
+    p.showWhitespaceErrors = showWhitespaceErrors();
+    p.skipDeleted = skipDeleted();
+    p.skipUncommented = skipUncommented();
+    p.syntaxHighlighting = syntaxHighlighting();
+    p.hideTopMenu = hideTopMenu();
+    p.autoHideDiffTableHeader = autoHideDiffTableHeader();
+    p.hideLineNumbers = hideLineNumbers();
+    p.renderEntireFile = renderEntireFile();
+    p.hideEmptyPane = hideEmptyPane();
+    p.theme = theme();
+    p.ignoreWhitespace = ignoreWhitespace();
   }
 
   public final void ignoreWhitespace(Whitespace i) {
@@ -122,6 +125,9 @@ public class DiffPreferences extends JavaScriptObject {
   public final native void manualReview(boolean r) /*-{ this.manual_review = r }-*/;
   public final native void renderEntireFile(boolean r) /*-{ this.render_entire_file = r }-*/;
   public final native void hideEmptyPane(boolean s) /*-{ this.hide_empty_pane = s }-*/;
+  public final native void retainHeader(boolean r) /*-{ this.retain_header = r }-*/;
+  public final native void skipUncommented(boolean s) /*-{ this.skip_uncommented = s }-*/;
+  public final native void skipDeleted(boolean s) /*-{ this.skip_deleted = s }-*/;
   public final native boolean intralineDifference() /*-{ return this.intraline_difference || false }-*/;
   public final native boolean showLineEndings() /*-{ return this.show_line_endings || false }-*/;
   public final native boolean showTabs() /*-{ return this.show_tabs || false }-*/;
@@ -134,6 +140,9 @@ public class DiffPreferences extends JavaScriptObject {
   public final native boolean manualReview() /*-{ return this.manual_review || false }-*/;
   public final native boolean renderEntireFile() /*-{ return this.render_entire_file || false }-*/;
   public final native boolean hideEmptyPane() /*-{ return this.hide_empty_pane || false }-*/;
+  public final native boolean retainHeader() /*-{ return this.retain_header || false }-*/;
+  public final native boolean skipUncommented() /*-{ return this.skip_uncommented || false }-*/;
+  public final native boolean skipDeleted() /*-{ return this.skip_deleted || false }-*/;
 
   private final native void setThemeRaw(String i) /*-{ this.theme = i }-*/;
   private final native void setIgnoreWhitespaceRaw(String i) /*-{ this.ignore_whitespace = i }-*/;

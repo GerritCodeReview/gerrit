@@ -14,7 +14,8 @@
 
 package com.google.gerrit.client.diff;
 
-import static com.google.gerrit.reviewdb.client.AccountDiffPreference.WHOLE_FILE_CONTEXT;
+import static com.google.gerrit.extensions.client.DiffPreferencesInfo.WHOLE_FILE_CONTEXT;
+
 import static java.lang.Double.POSITIVE_INFINITY;
 
 import com.google.gerrit.client.Dispatcher;
@@ -150,7 +151,7 @@ public class SideBySide extends Screen {
     this.startSide = startSide;
     this.startLine = startLine;
 
-    prefs = DiffPreferences.create(Gerrit.getAccountDiffPreference());
+    prefs = DiffPreferences.create(Gerrit.getDiffPreferences());
     handlers = new ArrayList<>(6);
     keysNavigation = new KeyCommandSet(Gerrit.C.sectionNavigation());
     header = new Header(keysNavigation, base, revision, path);

@@ -18,7 +18,7 @@ package com.google.gerrit.server.patch;
 import com.google.common.base.Function;
 import com.google.common.cache.CacheLoader;
 import com.google.common.collect.FluentIterable;
-import com.google.gerrit.reviewdb.client.AccountDiffPreference.Whitespace;
+import com.google.gerrit.extensions.common.DiffPreferencesInfo.Whitespace;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.config.GerritServerConfig;

@@ -6,6 +6,7 @@ gwt_module(
   srcs = glob([
     SRC + 'api/projects/ProjectState.java',
     SRC + 'common/ChangeStatus.java',
+    SRC + 'common/DiffPreferencesInfo.java',
     SRC + 'common/EditPreferencesInfo.java',
     SRC + 'common/InheritableBoolean.java',
     SRC + 'common/ListChangesOption.java',

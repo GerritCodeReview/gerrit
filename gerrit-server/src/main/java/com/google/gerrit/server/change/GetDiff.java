@@ -23,6 +23,7 @@ import com.google.common.collect.Lists;
 import com.google.gerrit.common.data.PatchScript;
 import com.google.gerrit.common.data.PatchScript.DisplayMethod;
 import com.google.gerrit.common.data.PatchScript.FileMode;
+import com.google.gerrit.extensions.common.DiffPreferencesInfo;
 import com.google.gerrit.extensions.common.WebLinkInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.CacheControl;
@@ -32,8 +33,6 @@ import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.prettify.common.SparseFileContent;
-import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.AccountDiffPreference;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.Patch.ChangeType;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -76,7 +75,7 @@ public class GetDiff implements RestReadView<FileResource> {
   IgnoreWhitespace ignoreWhitespace = IgnoreWhitespace.NONE;
 
   @Option(name = "--context", handler = ContextOptionHandler.class)
-  short context = AccountDiffPreference.DEFAULT_CONTEXT;
+  short context = DiffPreferencesInfo.DEFAULT_CONTEXT;
 
   @Option(name = "--intraline")
   boolean intraline;
@@ -102,10 +101,10 @@ public class GetDiff implements RestReadView<FileResource> {
           resource.getRevision().getChangeResource(), IdString.fromDecoded(base));
       basePatchSet = baseResource.getPatchSet();
     }
-    AccountDiffPreference prefs = new AccountDiffPreference(new Account.Id(0));
-    prefs.setIgnoreWhitespace(ignoreWhitespace.whitespace);
-    prefs.setContext(context);
-    prefs.setIntralineDifference(intraline);
+    DiffPreferencesInfo prefs = new DiffPreferencesInfo();
+    prefs.ignoreWhitespace = ignoreWhitespace.whitespace;
+    prefs.context = context;
+    prefs.intralineDifference = intraline;
 
     try {
       PatchScriptFactory psf = patchScriptFactoryFactory.create(
@@ -115,7 +114,7 @@ public class GetDiff implements RestReadView<FileResource> {
           resource.getPatchKey().getParentKey(),
           prefs);
       psf.setLoadHistory(false);
-      psf.setLoadComments(context != AccountDiffPreference.WHOLE_FILE_CONTEXT);
+      psf.setLoadComments(context != DiffPreferencesInfo.WHOLE_FILE_CONTEXT);
       PatchScript ps = psf.call();
       Content content = new Content(ps);
       for (Edit edit : ps.getEdits()) {
@@ -362,14 +361,14 @@ public class GetDiff implements RestReadView<FileResource> {
   }
 
   enum IgnoreWhitespace {
-    NONE(AccountDiffPreference.Whitespace.IGNORE_NONE),
-    TRAILING(AccountDiffPreference.Whitespace.IGNORE_SPACE_AT_EOL),
-    CHANGED(AccountDiffPreference.Whitespace.IGNORE_SPACE_CHANGE),
-    ALL(AccountDiffPreference.Whitespace.IGNORE_ALL_SPACE);
+    NONE(DiffPreferencesInfo.Whitespace.IGNORE_NONE),
+    TRAILING(DiffPreferencesInfo.Whitespace.IGNORE_SPACE_AT_EOL),
+    CHANGED(DiffPreferencesInfo.Whitespace.IGNORE_SPACE_CHANGE),
+    ALL(DiffPreferencesInfo.Whitespace.IGNORE_ALL_SPACE);
 
-    private final AccountDiffPreference.Whitespace whitespace;
+    private final DiffPreferencesInfo.Whitespace whitespace;
 
-    private IgnoreWhitespace(AccountDiffPreference.Whitespace whitespace) {
+    private IgnoreWhitespace(DiffPreferencesInfo.Whitespace whitespace) {
       this.whitespace = whitespace;
     }
   }
@@ -408,7 +407,7 @@ public class GetDiff implements RestReadView<FileResource> {
       final String value = params.getParameter(0);
       short context;
       if ("all".equalsIgnoreCase(value)) {
-        context = AccountDiffPreference.WHOLE_FILE_CONTEXT;
+        context = DiffPreferencesInfo.WHOLE_FILE_CONTEXT;
       } else {
         try {
           context = Short.parseShort(value, 10);

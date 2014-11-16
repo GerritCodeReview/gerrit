@@ -14,8 +14,8 @@
 
 package com.google.gerrit.prettify.client;
 
+import com.google.gerrit.extensions.common.DiffPreferencesInfo;
 import com.google.gerrit.prettify.common.SparseFileContent;
-import com.google.gerrit.reviewdb.client.AccountDiffPreference;
 import com.google.gwtexpui.safehtml.client.SafeHtml;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 
@@ -73,7 +73,7 @@ public abstract class PrettyFormatter implements SparseHtmlFile {
   protected SparseFileContent content;
   protected EditFilter side;
   protected List<Edit> edits;
-  protected AccountDiffPreference diffPrefs;
+  protected DiffPreferencesInfo diffPrefs;
   protected String fileName;
   protected Set<Integer> trailingEdits;
 
@@ -110,7 +110,7 @@ public abstract class PrettyFormatter implements SparseHtmlFile {
     edits = all;
   }
 
-  public void setDiffPrefs(AccountDiffPreference how) {
+  public void setDiffPrefs(DiffPreferencesInfo how) {
     diffPrefs = how;
   }
 
@@ -132,7 +132,7 @@ public abstract class PrettyFormatter implements SparseHtmlFile {
     String html = toHTML(src);
 
     html = expandTabs(html);
-    if (diffPrefs.isSyntaxHighlighting() && getFileType() != null
+    if (diffPrefs.syntaxHighlighting && getFileType() != null
         && src.isWholeFile()) {
       // The prettify parsers don't like &#39; as an entity for the
       // single quote character. Replace them all out so we don't
@@ -233,7 +233,7 @@ public abstract class PrettyFormatter implements SparseHtmlFile {
       cleanText(txt, pos, start);
       pos = txt.indexOf(';', start + 1) + 1;
 
-      if (diffPrefs.getLineLength() <= col) {
+      if (diffPrefs.lineLength <= col) {
         buf.append("<br />");
         col = 0;
       }
@@ -247,14 +247,14 @@ public abstract class PrettyFormatter implements SparseHtmlFile {
 
   private void cleanText(String txt, int pos, int end) {
     while (pos < end) {
-      int free = diffPrefs.getLineLength() - col;
+      int free = diffPrefs.lineLength - col;
       if (free <= 0) {
         // The current line is full. Throw an explicit line break
         // onto the end, and we'll continue on the next line.
         //
         buf.append("<br />");
         col = 0;
-        free = diffPrefs.getLineLength();
+        free = diffPrefs.lineLength;
       }
 
       int n = Math.min(end - pos, free);
@@ -326,7 +326,7 @@ public abstract class PrettyFormatter implements SparseHtmlFile {
   private String toHTML(SparseFileContent src) {
     SafeHtml html;
 
-    if (diffPrefs.isIntralineDifference()) {
+    if (diffPrefs.intralineDifference) {
       html = colorLineEdits(src);
     } else {
       SafeHtmlBuilder b = new SafeHtmlBuilder();
@@ -342,7 +342,7 @@ public abstract class PrettyFormatter implements SparseHtmlFile {
       html = html.replaceAll("\r([^\n])", r);
     }
 
-    if (diffPrefs.isShowWhitespaceErrors()) {
+    if (diffPrefs.showWhitespaceErrors) {
       // We need to do whitespace errors before showing tabs, because
       // these patterns rely on \t as a literal, before it expands.
       //
@@ -350,12 +350,12 @@ public abstract class PrettyFormatter implements SparseHtmlFile {
       html = showTrailingWhitespace(html);
     }
 
-    if (diffPrefs.isShowLineEndings()){
+    if (diffPrefs.showLineEndings){
       html = showLineEndings(html);
     }
 
-    if (diffPrefs.isShowTabs()) {
-      String t = 1 < diffPrefs.getTabSize() ? "\t" : "";
+    if (diffPrefs.showTabs) {
+      String t = 1 < diffPrefs.tabSize ? "\t" : "";
       html = html.replaceAll("\t", "<span class=\"vt\">\u00BB</span>" + t);
     }
 
@@ -528,10 +528,10 @@ public abstract class PrettyFormatter implements SparseHtmlFile {
   private String expandTabs(String html) {
     StringBuilder tmp = new StringBuilder();
     int i = 0;
-    if (diffPrefs.isShowTabs()) {
+    if (diffPrefs.showTabs) {
       i = 1;
     }
-    for (; i < diffPrefs.getTabSize(); i++) {
+    for (; i < diffPrefs.tabSize; i++) {
       tmp.append("&nbsp;");
     }
     return html.replaceAll("\t", tmp.toString());

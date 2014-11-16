@@ -16,6 +16,7 @@ package com.google.gerrit.reviewdb.client;
 
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_USER;
 
+import com.google.gerrit.extensions.common.DiffPreferencesInfo;
 import com.google.gwtorm.client.Column;
 import com.google.gwtorm.client.IntKey;
 
@@ -51,7 +52,7 @@ import java.sql.Timestamp;
  * notifications of updates on that change, or just book-marking it for faster
  * future reference. One record per starred change.</li>
  *
- * <li>{@link AccountDiffPreference}: user's preferences for rendering side-to-side
+ * <li>{@link DiffPreferencesInfo}: user's preferences for rendering side-to-side
  * and unified diff</li>
  *
  * </ul>

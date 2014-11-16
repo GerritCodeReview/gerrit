@@ -12,6 +12,7 @@ gwt_module(
   ]),
   deps = [
     ':google-code-prettify',
+    '//gerrit-extension-api:client',
     '//gerrit-patch-jgit:client',
     '//gerrit-reviewdb:client',
     '//gerrit-gwtexpui:SafeHtml',

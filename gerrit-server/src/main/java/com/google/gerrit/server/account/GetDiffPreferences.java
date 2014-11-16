@@ -14,91 +14,56 @@
 
 package com.google.gerrit.server.account;
 
-import com.google.gerrit.extensions.common.Theme;
+import static com.google.gerrit.server.config.ConfigUtil.loadSection;
+
+import com.google.gerrit.extensions.common.DiffPreferencesInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.RestReadView;
-import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.AccountDiffPreference;
-import com.google.gerrit.reviewdb.client.AccountDiffPreference.Whitespace;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gwtorm.server.OrmException;
+import com.google.gerrit.server.config.AllUsersName;
+import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
+import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.lib.Repository;
+
+import java.io.IOException;
+
 @Singleton
 public class GetDiffPreferences implements RestReadView<AccountResource> {
   private final Provider<CurrentUser> self;
-  private final Provider<ReviewDb> db;
+  private final AllUsersName allUsersName;
+  private final GitRepositoryManager gitMgr;
 
   @Inject
-  GetDiffPreferences(Provider<CurrentUser> self, Provider<ReviewDb> db) {
+  GetDiffPreferences(Provider<CurrentUser> self,
+      AllUsersName allUsersName,
+      GitRepositoryManager gitMgr) {
     this.self = self;
-    this.db = db;
+    this.allUsersName = allUsersName;
+    this.gitMgr = gitMgr;
   }
 
   @Override
   public DiffPreferencesInfo apply(AccountResource rsrc)
-      throws AuthException, OrmException {
+      throws AuthException, ConfigInvalidException, IOException {
     if (self.get() != rsrc.getUser()
         && !self.get().getCapabilities().canAdministrateServer()) {
       throw new AuthException("restricted to administrator");
     }
 
-    Account.Id userId = rsrc.getUser().getAccountId();
-    AccountDiffPreference a = db.get().accountDiffPreferences().get(userId);
-    if (a == null) {
-      a = new AccountDiffPreference(userId);
+    Repository git = gitMgr.openRepository(allUsersName);
+    try {
+      VersionedAccountPreferences p =
+          VersionedAccountPreferences.forUser(rsrc.getUser().getAccountId());
+      p.load(git);
+      DiffPreferencesInfo prefs = new DiffPreferencesInfo();
+      loadSection(p.getConfig(), "diff", null, prefs);
+      return prefs;
+    } finally {
+      git.close();
     }
-    return DiffPreferencesInfo.parse(a);
-  }
-
-  public static class DiffPreferencesInfo {
-    static DiffPreferencesInfo parse(AccountDiffPreference p) {
-      DiffPreferencesInfo info = new DiffPreferencesInfo();
-      info.context = p.getContext();
-      info.expandAllComments = p.isExpandAllComments() ? true : null;
-      info.ignoreWhitespace = p.getIgnoreWhitespace();
-      info.intralineDifference = p.isIntralineDifference() ? true : null;
-      info.lineLength = p.getLineLength();
-      info.manualReview = p.isManualReview() ? true : null;
-      info.retainHeader = p.isRetainHeader() ? true : null;
-      info.showLineEndings = p.isShowLineEndings() ? true : null;
-      info.showTabs = p.isShowTabs() ? true : null;
-      info.showWhitespaceErrors = p.isShowWhitespaceErrors() ? true : null;
-      info.skipDeleted = p.isSkipDeleted() ? true : null;
-      info.skipUncommented = p.isSkipUncommented() ? true : null;
-      info.hideTopMenu = p.isHideTopMenu() ? true : null;
-      info.autoHideDiffTableHeader = p.isAutoHideDiffTableHeader() ? true : null;
-      info.hideLineNumbers = p.isHideLineNumbers() ? true : null;
-      info.syntaxHighlighting = p.isSyntaxHighlighting() ? true : null;
-      info.tabSize = p.getTabSize();
-      info.renderEntireFile = p.isRenderEntireFile() ? true : null;
-      info.hideEmptyPane = p.isHideEmptyPane() ? true : null;
-      info.theme = p.getTheme();
-      return info;
-    }
-
-    public short context;
-    public Boolean expandAllComments;
-    public Whitespace ignoreWhitespace;
-    public Boolean intralineDifference;
-    public int lineLength;
-    public Boolean manualReview;
-    public Boolean retainHeader;
-    public Boolean showLineEndings;
-    public Boolean showTabs;
-    public Boolean showWhitespaceErrors;
-    public Boolean skipDeleted;
-    public Boolean skipUncommented;
-    public Boolean syntaxHighlighting;
-    public Boolean hideTopMenu;
-    public Boolean autoHideDiffTableHeader;
-    public Boolean hideLineNumbers;
-    public Boolean renderEntireFile;
-    public Boolean hideEmptyPane;
-    public int tabSize;
-    public Theme theme;
   }
 }

@@ -17,7 +17,7 @@ package com.google.gerrit.client.diff;
 import com.google.gerrit.client.changes.ChangeApi;
 import com.google.gerrit.client.rpc.NativeMap;
 import com.google.gerrit.client.rpc.RestApi;
-import com.google.gerrit.reviewdb.client.AccountDiffPreference;
+import com.google.gerrit.extensions.common.DiffPreferencesInfo;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
@@ -63,7 +63,7 @@ public class DiffApi {
     return this;
   }
 
-  public DiffApi ignoreWhitespace(AccountDiffPreference.Whitespace w) {
+  public DiffApi ignoreWhitespace(DiffPreferencesInfo.Whitespace w) {
     switch (w) {
       default:
       case IGNORE_NONE:

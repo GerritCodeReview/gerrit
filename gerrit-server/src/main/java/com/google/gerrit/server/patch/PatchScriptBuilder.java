@@ -17,10 +17,10 @@ package com.google.gerrit.server.patch;
 import com.google.gerrit.common.data.CommentDetail;
 import com.google.gerrit.common.data.PatchScript;
 import com.google.gerrit.common.data.PatchScript.DisplayMethod;
+import com.google.gerrit.extensions.common.DiffPreferencesInfo;
+import com.google.gerrit.extensions.common.DiffPreferencesInfo.Whitespace;
 import com.google.gerrit.prettify.common.EditList;
 import com.google.gerrit.prettify.common.SparseFileContent;
-import com.google.gerrit.reviewdb.client.AccountDiffPreference;
-import com.google.gerrit.reviewdb.client.AccountDiffPreference.Whitespace;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
@@ -65,7 +65,7 @@ class PatchScriptBuilder {
   private Project.NameKey projectKey;
   private ObjectReader reader;
   private Change change;
-  private AccountDiffPreference diffPrefs;
+  private DiffPreferencesInfo diffPrefs;
   private boolean againstParent;
   private ObjectId aId;
   private ObjectId bId;
@@ -95,11 +95,11 @@ class PatchScriptBuilder {
     this.change = c;
   }
 
-  void setDiffPrefs(final AccountDiffPreference dp) {
+  void setDiffPrefs(final DiffPreferencesInfo dp) {
     diffPrefs = dp;
 
-    context = diffPrefs.getContext();
-    if (context == AccountDiffPreference.WHOLE_FILE_CONTEXT) {
+    context = diffPrefs.context;
+    if (context == DiffPreferencesInfo.WHOLE_FILE_CONTEXT) {
       context = MAX_CONTEXT;
     } else if (context > MAX_CONTEXT) {
       context = MAX_CONTEXT;
@@ -140,11 +140,11 @@ class PatchScriptBuilder {
 
     if (!isModify(content)) {
       intralineDifferenceIsPossible = false;
-    } else if (diffPrefs.isIntralineDifference()) {
+    } else if (diffPrefs.intralineDifference) {
       IntraLineDiff d =
           patchListCache.getIntraLineDiff(new IntraLineDiffKey(a.id, a.src,
               b.id, b.src, edits, projectKey, bId, b.path,
-              diffPrefs.getIgnoreWhitespace() != Whitespace.IGNORE_NONE));
+              diffPrefs.ignoreWhitespace != Whitespace.IGNORE_NONE));
       if (d != null) {
         switch (d.getStatus()) {
           case EDIT_LIST:
@@ -205,7 +205,7 @@ class PatchScriptBuilder {
       //
       context = MAX_CONTEXT;
 
-      packContent(diffPrefs.getIgnoreWhitespace() != Whitespace.IGNORE_NONE);
+      packContent(diffPrefs.ignoreWhitespace != Whitespace.IGNORE_NONE);
     }
 
     return new PatchScript(change.getKey(), content.getChangeType(),

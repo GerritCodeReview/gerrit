@@ -16,8 +16,8 @@ package com.google.gerrit.common.data;
 
 import com.google.gerrit.common.audit.Audit;
 import com.google.gerrit.common.auth.SignInRequired;
+import com.google.gerrit.extensions.common.DiffPreferencesInfo;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.AccountDiffPreference;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences;
 import com.google.gerrit.reviewdb.client.AccountProjectWatch;
 import com.google.gwtjsonrpc.common.AsyncCallback;
@@ -41,7 +41,7 @@ public interface AccountService extends RemoteJsonService {
 
   @Audit
   @SignInRequired
-  void changeDiffPreferences(AccountDiffPreference diffPref,
+  void changeDiffPreferences(DiffPreferencesInfo diffPref,
       AsyncCallback<VoidResult> callback);
 
   @SignInRequired

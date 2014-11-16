@@ -32,7 +32,7 @@ import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.data.ChangeDetail;
 import com.google.gerrit.common.data.PatchSetDetail;
 import com.google.gerrit.common.data.UiCommandDetail;
-import com.google.gerrit.reviewdb.client.AccountDiffPreference;
+import com.google.gerrit.extensions.common.DiffPreferencesInfo;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DownloadCommand;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DownloadScheme;
 import com.google.gerrit.reviewdb.client.Change;
@@ -661,7 +661,7 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel
         }
       }
 
-      AccountDiffPreference diffPrefs;
+      DiffPreferencesInfo diffPrefs;
       if (patchTable == null) {
         diffPrefs = new ListenableAccountDiffPreference().get();
       } else {
@@ -687,7 +687,7 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel
   @Override
   public void onOpen(final OpenEvent<DisclosurePanel> event) {
     if (infoTable == null) {
-      AccountDiffPreference diffPrefs;
+      DiffPreferencesInfo diffPrefs;
       if (diffBaseId == null) {
         diffPrefs = null;
       } else {

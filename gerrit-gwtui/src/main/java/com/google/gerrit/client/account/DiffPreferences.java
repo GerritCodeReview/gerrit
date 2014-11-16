@@ -14,55 +14,57 @@
 
 package com.google.gerrit.client.account;
 
+import com.google.gerrit.extensions.common.DiffPreferencesInfo;
+import com.google.gerrit.extensions.common.DiffPreferencesInfo.Whitespace;
 import com.google.gerrit.extensions.common.Theme;
-import com.google.gerrit.reviewdb.client.AccountDiffPreference;
-import com.google.gerrit.reviewdb.client.AccountDiffPreference.Whitespace;
 import com.google.gwt.core.client.JavaScriptObject;
 
 public class DiffPreferences extends JavaScriptObject {
-  public static DiffPreferences create(AccountDiffPreference in) {
+  public static DiffPreferences create(DiffPreferencesInfo in) {
     DiffPreferences p = createObject().cast();
-    if (in == null) {
-      in = AccountDiffPreference.createDefault(null);
-    }
-    p.ignoreWhitespace(in.getIgnoreWhitespace());
-    p.tabSize(in.getTabSize());
-    p.lineLength(in.getLineLength());
-    p.context(in.getContext());
-    p.intralineDifference(in.isIntralineDifference());
-    p.showLineEndings(in.isShowLineEndings());
-    p.showTabs(in.isShowTabs());
-    p.showWhitespaceErrors(in.isShowWhitespaceErrors());
-    p.syntaxHighlighting(in.isSyntaxHighlighting());
-    p.hideTopMenu(in.isHideTopMenu());
-    p.autoHideDiffTableHeader(in.isAutoHideDiffTableHeader());
-    p.hideLineNumbers(in.isHideLineNumbers());
-    p.expandAllComments(in.isExpandAllComments());
-    p.manualReview(in.isManualReview());
-    p.renderEntireFile(in.isRenderEntireFile());
-    p.theme(in.getTheme());
-    p.hideEmptyPane(in.isHideEmptyPane());
+    p.ignoreWhitespace(in.ignoreWhitespace);
+    p.tabSize(in.tabSize);
+    p.lineLength(in.lineLength);
+    p.context(in.context);
+    p.intralineDifference(in.intralineDifference);
+    p.showLineEndings(in.showLineEndings);
+    p.showTabs(in.showTabs);
+    p.showWhitespaceErrors(in.showWhitespaceErrors);
+    p.syntaxHighlighting(in.syntaxHighlighting);
+    p.hideTopMenu(in.hideTopMenu);
+    p.autoHideDiffTableHeader(in.autoHideDiffTableHeader);
+    p.hideLineNumbers(in.hideLineNumbers);
+    p.expandAllComments(in.expandAllComments);
+    p.manualReview(in.manualReview);
+    p.renderEntireFile(in.renderEntireFile);
+    p.theme(in.theme);
+    p.hideEmptyPane(in.hideEmptyPane);
     return p;
   }
 
-  public final void copyTo(AccountDiffPreference p) {
-    p.setIgnoreWhitespace(ignoreWhitespace());
-    p.setTabSize(tabSize());
-    p.setLineLength(lineLength());
-    p.setContext((short)context());
-    p.setIntralineDifference(intralineDifference());
-    p.setShowLineEndings(showLineEndings());
-    p.setShowTabs(showTabs());
-    p.setShowWhitespaceErrors(showWhitespaceErrors());
-    p.setSyntaxHighlighting(syntaxHighlighting());
-    p.setHideTopMenu(hideTopMenu());
-    p.setAutoHideDiffTableHeader(autoHideDiffTableHeader());
-    p.setHideLineNumbers(hideLineNumbers());
-    p.setExpandAllComments(expandAllComments());
-    p.setManualReview(manualReview());
-    p.setRenderEntireFile(renderEntireFile());
-    p.setTheme(theme());
-    p.setHideEmptyPane(hideEmptyPane());
+  public final void copyTo(DiffPreferencesInfo p) {
+    p.context = context();
+    p.tabSize = tabSize();
+    p.lineLength = lineLength();
+    p.expandAllComments = expandAllComments();
+    p.intralineDifference = intralineDifference();
+    p.manualReview = manualReview();
+    // unused
+    // p.retainHeader = ???;
+    p.showLineEndings = showLineEndings();
+    p.showTabs = showTabs();
+    p.showWhitespaceErrors = showWhitespaceErrors();
+    // unused
+    // p.skipDeleted = ???;
+    // p.skipUncommented = ???;
+    p.syntaxHighlighting = syntaxHighlighting();
+    p.hideTopMenu = hideTopMenu();
+    p.autoHideDiffTableHeader = autoHideDiffTableHeader();
+    p.hideLineNumbers = hideLineNumbers();
+    p.renderEntireFile = renderEntireFile();
+    p.hideEmptyPane = hideEmptyPane();
+    p.theme = theme();
+    p.ignoreWhitespace = ignoreWhitespace();
   }
 
   public final void ignoreWhitespace(Whitespace i) {

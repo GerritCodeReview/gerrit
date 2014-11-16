@@ -117,7 +117,7 @@ public class SideBySideTable extends AbstractPatchContentTable {
         a = getSparseHtmlFileA(script);
         b = getSparseHtmlFileB(script);
         final boolean intraline =
-            script.getDiffPrefs().isIntralineDifference()
+            script.getDiffPrefs().intralineDifference
                 && script.hasIntralineDifference();
         for (final EditList.Hunk hunk : script.getHunks()) {
           if (!hunk.isStartOfFile()) {

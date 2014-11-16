@@ -125,6 +125,24 @@
     },
     {
       "key": {
+        "uuid": "daea87ee_b12800b0",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1017804
+      },
+      "writtenOn": "2014-11-16T07:19:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "daea87ee_b1eda020",
+      "revId": "5836717fbdc276b3d3641906bd2eb248468d6bfb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "daea87ee_91f29cfa",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/GerritConfigProvider.java",
         "patchSetId": 3
@@ -148,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "daea87ee_912dfcbf",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/GerritConfigProvider.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1017804
+      },
+      "writtenOn": "2014-11-16T07:19:05Z",
+      "side": 1,
+      "message": "Is this explained somewhere? I\u0027m just curious why it had been put there (in nearby places) first, but shouldn\u0027t be there now.",
+      "parentUuid": "daea87ee_91f29cfa",
+      "range": {
+        "startLine": 177,
+        "startChar": 4,
+        "endLine": 177,
+        "endChar": 9
+      },
+      "revId": "5836717fbdc276b3d3641906bd2eb248468d6bfb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "daea87ee_71085851",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/GerritConfigProvider.java",
         "patchSetId": 3
@@ -159,6 +201,30 @@
       "writtenOn": "2014-11-15T09:18:35Z",
       "side": 1,
       "message": "same",
+      "range": {
+        "startLine": 181,
+        "startChar": 4,
+        "endLine": 181,
+        "endChar": 9
+      },
+      "revId": "5836717fbdc276b3d3641906bd2eb248468d6bfb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baef93fe_b0ed9820",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/GerritConfigProvider.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1017804
+      },
+      "writtenOn": "2014-11-16T07:19:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "daea87ee_71085851",
       "range": {
         "startLine": 181,
         "startChar": 4,

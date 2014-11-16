@@ -23,11 +23,11 @@ import com.google.gerrit.common.data.PatchSetDetail;
 import com.google.gerrit.common.data.UiCommandDetail;
 import com.google.gerrit.common.errors.NoSuchEntityException;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.client.DiffPreferencesInfo;
+import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
 import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.httpd.rpc.Handler;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.AccountDiffPreference;
-import com.google.gerrit.reviewdb.client.AccountDiffPreference.Whitespace;
 import com.google.gerrit.reviewdb.client.AccountPatchReview;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Patch;
@@ -78,7 +78,7 @@ class PatchSetDetailFactory extends Handler<PatchSetDetail> {
     PatchSetDetailFactory create(
         @Assisted("psIdBase") @Nullable PatchSet.Id psIdBase,
         @Assisted("psIdNew") PatchSet.Id psIdNew,
-        @Nullable AccountDiffPreference diffPrefs);
+        @Nullable DiffPreferencesInfo diffPrefs);
   }
 
   private final PatchSetInfoFactory infoFactory;
@@ -94,7 +94,7 @@ class PatchSetDetailFactory extends Handler<PatchSetDetail> {
   private Project.NameKey projectKey;
   private final PatchSet.Id psIdBase;
   private final PatchSet.Id psIdNew;
-  private final AccountDiffPreference diffPrefs;
+  private final DiffPreferencesInfo diffPrefs;
   private ObjectId oldId;
   private ObjectId newId;
 
@@ -113,7 +113,7 @@ class PatchSetDetailFactory extends Handler<PatchSetDetail> {
       ChangeEditUtil editUtil,
       @Assisted("psIdBase") @Nullable final PatchSet.Id psIdBase,
       @Assisted("psIdNew") final PatchSet.Id psIdNew,
-      @Assisted @Nullable final AccountDiffPreference diffPrefs) {
+      @Assisted @Nullable final DiffPreferencesInfo diffPrefs) {
     this.infoFactory = psif;
     this.db = db;
     this.patchListCache = patchListCache;
@@ -162,7 +162,7 @@ class PatchSetDetailFactory extends Handler<PatchSetDetail> {
           newId = toObjectId(psIdNew);
         }
 
-        list = listFor(keyFor(diffPrefs.getIgnoreWhitespace()));
+        list = listFor(keyFor(diffPrefs.ignoreWhitespace));
       } else { // OK, means use base to compare
         list = patchListCache.get(control.getChange(), patchSet);
       }

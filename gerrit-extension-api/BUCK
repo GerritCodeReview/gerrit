@@ -5,6 +5,7 @@ gwt_module(
   name = 'client',
   srcs = glob([
     SRC + 'api/projects/ProjectState.java',
+    SRC + 'common/DiffPreferencesInfo.java',
     SRC + 'common/EditPreferencesInfo.java',
     SRC + 'common/InheritableBoolean.java',
     SRC + 'common/ListChangesOption.java',

@@ -16,7 +16,7 @@
 package com.google.gerrit.server.patch;
 
 import com.google.common.cache.LoadingCache;
-import com.google.gerrit.reviewdb.client.AccountDiffPreference.Whitespace;
+import com.google.gerrit.extensions.common.DiffPreferencesInfo.Whitespace;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;

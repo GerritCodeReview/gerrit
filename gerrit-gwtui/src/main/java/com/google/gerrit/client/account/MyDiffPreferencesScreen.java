@@ -25,7 +25,7 @@ public class MyDiffPreferencesScreen extends SettingsScreen {
     super.onInitUI();
 
     PreferencesBox pb = new PreferencesBox(null);
-    pb.set(DiffPreferences.create(Gerrit.getAccountDiffPreference()));
+    pb.set(DiffPreferences.create(Gerrit.getDiffPreferences()));
     FlowPanel p = new FlowPanel();
     p.setStyleName(pb.getStyle().dialog());
     p.add(pb);

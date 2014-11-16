@@ -18,10 +18,10 @@ import com.google.common.base.Optional;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.CommentDetail;
 import com.google.gerrit.common.data.PatchScript;
+import com.google.gerrit.extensions.client.DiffPreferencesInfo;
+import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.AccountDiffPreference;
-import com.google.gerrit.reviewdb.client.AccountDiffPreference.Whitespace;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.Patch.ChangeType;
@@ -66,7 +66,7 @@ public class PatchScriptFactory implements Callable<PatchScript> {
         String fileName,
         @Assisted("patchSetA") PatchSet.Id patchSetA,
         @Assisted("patchSetB") PatchSet.Id patchSetB,
-        AccountDiffPreference diffPrefs);
+        DiffPreferencesInfo diffPrefs);
   }
 
   private static final Logger log =
@@ -83,7 +83,7 @@ public class PatchScriptFactory implements Callable<PatchScript> {
   @Nullable
   private final PatchSet.Id psa;
   private final PatchSet.Id psb;
-  private final AccountDiffPreference diffPrefs;
+  private final DiffPreferencesInfo diffPrefs;
   private final ChangeEditUtil editReader;
   private Optional<ChangeEdit> edit;
 
@@ -110,7 +110,7 @@ public class PatchScriptFactory implements Callable<PatchScript> {
       @Assisted final String fileName,
       @Assisted("patchSetA") @Nullable final PatchSet.Id patchSetA,
       @Assisted("patchSetB") final PatchSet.Id patchSetB,
-      @Assisted final AccountDiffPreference diffPrefs) {
+      @Assisted DiffPreferencesInfo diffPrefs) {
     this.repoManager = grm;
     this.builderFactory = builderFactory;
     this.patchListCache = patchListCache;
@@ -156,7 +156,7 @@ public class PatchScriptFactory implements Callable<PatchScript> {
 
     try (Repository git = repoManager.openRepository(project)) {
       try {
-        final PatchList list = listFor(keyFor(diffPrefs.getIgnoreWhitespace()));
+        final PatchList list = listFor(keyFor(diffPrefs.ignoreWhitespace));
         final PatchScriptBuilder b = newBuilder(list, git);
         final PatchListEntry content = list.get(fileName);
 
@@ -192,11 +192,10 @@ public class PatchScriptFactory implements Callable<PatchScript> {
   }
 
   private PatchScriptBuilder newBuilder(final PatchList list, Repository git) {
-    final AccountDiffPreference dp = new AccountDiffPreference(diffPrefs);
     final PatchScriptBuilder b = builderFactory.get();
     b.setRepository(git, project);
     b.setChange(change);
-    b.setDiffPrefs(dp);
+    b.setDiffPrefs(diffPrefs);
     b.setTrees(list.isAgainstParent(), list.getOldId(), list.getNewId());
     return b;
   }

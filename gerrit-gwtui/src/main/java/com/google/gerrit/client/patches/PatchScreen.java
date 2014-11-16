@@ -30,9 +30,9 @@ import com.google.gerrit.client.ui.ListenableAccountDiffPreference;
 import com.google.gerrit.client.ui.Screen;
 import com.google.gerrit.common.data.PatchScript;
 import com.google.gerrit.common.data.PatchSetDetail;
+import com.google.gerrit.extensions.common.DiffPreferencesInfo;
 import com.google.gerrit.prettify.client.ClientSideFormatter;
 import com.google.gerrit.prettify.client.PrettyFactory;
-import com.google.gerrit.reviewdb.client.AccountDiffPreference;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.Scheduler;
@@ -151,9 +151,9 @@ public abstract class PatchScreen extends Screen implements
     prefs = fileList != null
         ? fileList.getPreferences()
         : new ListenableAccountDiffPreference();
-    if (Gerrit.isSignedIn()) {
-      prefs.reset();
-    }
+//    if (Gerrit.isSignedIn()) {
+//      prefs.reset();
+//    }
     reviewedPanels = new ReviewedPanels();
     settingsPanel = new PatchScriptSettingsPanel(prefs);
   }
@@ -168,10 +168,10 @@ public abstract class PatchScreen extends Screen implements
     lastScript = null;
   }
 
-  private void update(AccountDiffPreference dp) {
+  private void update(DiffPreferencesInfo dp) {
     // Did the user just turn on auto-review?
-    if (!reviewedPanels.getValue() && prefs.getOld().isManualReview()
-        && !dp.isManualReview()) {
+    if (!reviewedPanels.getValue() && prefs.getOld().manualReview
+        && !dp.manualReview) {
       reviewedPanels.setValue(true);
       reviewedPanels.setReviewedByCurrentUser(true);
     }
@@ -195,25 +195,25 @@ public abstract class PatchScreen extends Screen implements
     }
   }
 
-  private boolean canReuse(AccountDiffPreference dp, PatchScript last) {
-    if (last.getDiffPrefs().getIgnoreWhitespace() != dp.getIgnoreWhitespace()) {
+  private boolean canReuse(DiffPreferencesInfo dp, PatchScript last) {
+    if (last.getDiffPrefs().ignoreWhitespace != dp.ignoreWhitespace) {
       // Whitespace ignore setting requires server computation.
       return false;
     }
 
-    final int ctx = dp.getContext();
-    if (ctx == AccountDiffPreference.WHOLE_FILE_CONTEXT && !last.getA().isWholeFile()) {
+    final int ctx = dp.context;
+    if (ctx == DiffPreferencesInfo.WHOLE_FILE_CONTEXT
+        && !last.getA().isWholeFile()) {
       // We don't have the entire file here, so we can't render it.
       return false;
     }
 
-    if (last.getDiffPrefs().getContext() < ctx && !last.getA().isWholeFile()) {
+    if (last.getDiffPrefs().context < ctx && !last.getA().isWholeFile()) {
       // We don't have sufficient context.
       return false;
     }
 
-    if (dp.isSyntaxHighlighting()
-        && !last.getA().isWholeFile()) {
+    if (dp.syntaxHighlighting && !last.getA().isWholeFile()) {
       // We need the whole file to syntax highlight accurately.
       return false;
     }
@@ -462,15 +462,15 @@ public abstract class PatchScreen extends Screen implements
     }
 
     if (script.isHugeFile()) {
-      AccountDiffPreference dp = script.getDiffPrefs();
-      int context = dp.getContext();
-      if (context == AccountDiffPreference.WHOLE_FILE_CONTEXT) {
+      DiffPreferencesInfo dp = script.getDiffPrefs();
+      int context = dp.context;
+      if (context == DiffPreferencesInfo.WHOLE_FILE_CONTEXT) {
         context = Short.MAX_VALUE;
       } else if (context > Short.MAX_VALUE) {
         context = Short.MAX_VALUE;
       }
-      dp.setContext((short) Math.min(context, LARGE_FILE_CONTEXT));
-      dp.setSyntaxHighlighting(false);
+      dp.context = Math.min(context, LARGE_FILE_CONTEXT);
+      dp.syntaxHighlighting = false;
       script.setDiffPrefs(dp);
     }
 
@@ -491,7 +491,7 @@ public abstract class PatchScreen extends Screen implements
 
     if (Gerrit.isSignedIn()) {
       boolean isReviewed = false;
-      if (isFirst && !prefs.get().isManualReview()) {
+      if (isFirst && !prefs.get().manualReview) {
         isReviewed = true;
         reviewedPanels.setReviewedByCurrentUser(isReviewed);
       } else {
@@ -514,9 +514,9 @@ public abstract class PatchScreen extends Screen implements
     super.onShowView();
     if (prefsHandler == null) {
       prefsHandler = prefs.addValueChangeHandler(
-          new ValueChangeHandler<AccountDiffPreference>() {
+          new ValueChangeHandler<DiffPreferencesInfo>() {
             @Override
-            public void onValueChange(ValueChangeEvent<AccountDiffPreference> event) {
+            public void onValueChange(ValueChangeEvent<DiffPreferencesInfo> event) {
               update(event.getValue());
             }
           });
@@ -529,7 +529,7 @@ public abstract class PatchScreen extends Screen implements
       new ErrorDialog(PatchUtil.C.intralineTimeout()).setText(
           Gerrit.C.warnTitle()).show();
     }
-    if (topView != null && prefs.get().isRetainHeader()) {
+    if (topView != null && prefs.get().retainHeader) {
       setTopView(topView);
     }
   }

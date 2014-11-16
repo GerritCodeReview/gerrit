@@ -15,7 +15,7 @@
 package com.google.gerrit.common.data;
 
 import com.google.gerrit.common.audit.Audit;
-import com.google.gerrit.reviewdb.client.AccountDiffPreference;
+import com.google.gerrit.extensions.common.DiffPreferencesInfo;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwtjsonrpc.common.AsyncCallback;
@@ -27,5 +27,5 @@ import com.google.gwtjsonrpc.common.RpcImpl.Version;
 public interface PatchDetailService extends RemoteJsonService {
   @Audit
   void patchScript(Patch.Key key, PatchSet.Id a, PatchSet.Id b,
-      AccountDiffPreference diffPrefs, AsyncCallback<PatchScript> callback);
+      DiffPreferencesInfo diffPrefs, AsyncCallback<PatchScript> callback);
 }

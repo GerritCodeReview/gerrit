@@ -19,6 +19,7 @@ import com.google.gerrit.reviewdb.client.SystemConfig;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.config.AllProjectsName;
+import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -76,6 +77,7 @@ public class SchemaUpdater {
         for (Class<?> c : new Class<?>[] {
             AllProjectsName.class,
             AllUsersCreator.class,
+            AllUsersName.class,
             GitRepositoryManager.class,
             SitePaths.class,
             }) {

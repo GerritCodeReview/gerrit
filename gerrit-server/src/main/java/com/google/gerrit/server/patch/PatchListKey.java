@@ -14,15 +14,15 @@
 
 package com.google.gerrit.server.patch;
 
-import static com.google.gerrit.server.ioutil.BasicSerialization.readEnum;
-import static com.google.gerrit.server.ioutil.BasicSerialization.writeEnum;
 import static org.eclipse.jgit.lib.ObjectIdSerialization.readCanBeNull;
 import static org.eclipse.jgit.lib.ObjectIdSerialization.readNotNull;
 import static org.eclipse.jgit.lib.ObjectIdSerialization.writeCanBeNull;
 import static org.eclipse.jgit.lib.ObjectIdSerialization.writeNotNull;
 
+import com.google.common.collect.BiMap;
+import com.google.common.collect.ImmutableBiMap;
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.reviewdb.client.AccountDiffPreference.Whitespace;
+import com.google.gerrit.extensions.common.DiffPreferencesInfo.Whitespace;
 import com.google.gerrit.reviewdb.client.Project;
 
 import org.eclipse.jgit.lib.AnyObjectId;
@@ -35,6 +35,12 @@ import java.io.Serializable;
 
 public class PatchListKey implements Serializable {
   static final long serialVersionUID = 17L;
+
+  public static final BiMap<Whitespace, Character> WHITESPACE_TYPES = ImmutableBiMap.of(
+      Whitespace.IGNORE_NONE, 'N',
+      Whitespace.IGNORE_SPACE_AT_EOL, 'E',
+      Whitespace.IGNORE_SPACE_CHANGE, 'S',
+      Whitespace.IGNORE_ALL_SPACE, 'A');
 
   private transient ObjectId oldId;
   private transient ObjectId newId;
@@ -117,12 +123,20 @@ public class PatchListKey implements Serializable {
   private void writeObject(final ObjectOutputStream out) throws IOException {
     writeCanBeNull(out, oldId);
     writeNotNull(out, newId);
-    writeEnum(out, whitespace);
+    Character c = WHITESPACE_TYPES.get(whitespace);
+    if (c == null) {
+      throw new IOException("Invalid whitespace type: " + whitespace);
+    }
+    out.writeChar(c);
   }
 
   private void readObject(final ObjectInputStream in) throws IOException {
     oldId = readCanBeNull(in);
     newId = readNotNull(in);
-    whitespace = readEnum(in, Whitespace.values());
+    char t = in.readChar();
+    whitespace = WHITESPACE_TYPES.inverse().get(t);
+    if (whitespace == null) {
+      throw new IOException("Invalid whitespace type code: " + t);
+    }
   }
 }

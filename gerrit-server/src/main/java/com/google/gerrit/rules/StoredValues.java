@@ -17,8 +17,8 @@ package com.google.gerrit.rules;
 import static com.google.gerrit.rules.StoredValue.create;
 
 import com.google.common.collect.Maps;
+import com.google.gerrit.extensions.common.DiffPreferencesInfo.Whitespace;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.AccountDiffPreference.Whitespace;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetInfo;

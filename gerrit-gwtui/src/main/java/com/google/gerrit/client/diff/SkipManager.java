@@ -16,7 +16,7 @@ package com.google.gerrit.client.diff;
 
 import com.google.gerrit.client.diff.DiffInfo.Region;
 import com.google.gerrit.client.patches.SkippedLine;
-import com.google.gerrit.reviewdb.client.AccountDiffPreference;
+import com.google.gerrit.extensions.common.DiffPreferencesInfo;
 import com.google.gwt.core.client.JsArray;
 
 import net.codemirror.lib.CodeMirror;
@@ -43,7 +43,7 @@ class SkipManager {
   }
 
   void render(int context, DiffInfo diff) {
-    if (context == AccountDiffPreference.WHOLE_FILE_CONTEXT) {
+    if (context == DiffPreferencesInfo.WHOLE_FILE_CONTEXT) {
       return;
     }
 

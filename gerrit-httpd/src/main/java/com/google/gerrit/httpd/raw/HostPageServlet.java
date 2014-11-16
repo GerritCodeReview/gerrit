@@ -190,7 +190,7 @@ public class HostPageServlet extends HttpServlet {
       w.write(";");
 
       w.write(HPD_ID + ".accountDiffPref=");
-      json(((IdentifiedUser) user).getAccountDiffPreference(), w);
+      json(((IdentifiedUser) user).getDiffPreferences(), w);
       w.write(";");
 
       w.write(HPD_ID + ".theme=");

@@ -19,9 +19,9 @@ import com.google.gerrit.common.data.AccountService;
 import com.google.gerrit.common.data.AgreementInfo;
 import com.google.gerrit.common.errors.InvalidQueryException;
 import com.google.gerrit.common.errors.NoSuchEntityException;
+import com.google.gerrit.extensions.common.DiffPreferencesInfo;
 import com.google.gerrit.httpd.rpc.BaseServiceImplementation;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.AccountDiffPreference;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences;
 import com.google.gerrit.reviewdb.client.AccountProjectWatch;
 import com.google.gerrit.reviewdb.client.Project;
@@ -97,17 +97,18 @@ class AccountServiceImpl extends BaseServiceImplementation implements
   }
 
   @Override
-  public void changeDiffPreferences(final AccountDiffPreference diffPref,
+  public void changeDiffPreferences(final DiffPreferencesInfo diffPref,
       AsyncCallback<VoidResult> callback) {
     run(callback, new Action<VoidResult>(){
       @Override
       public VoidResult run(ReviewDb db) throws OrmException {
-        if (!diffPref.getAccountId().equals(getAccountId())) {
-          throw new IllegalArgumentException("diffPref.getAccountId() "
-              + diffPref.getAccountId() + " doesn't match"
-              + " the accountId of the signed in user " + getAccountId());
-        }
-        db.accountDiffPreferences().upsert(Collections.singleton(diffPref));
+// TODO(davido): Implement changing diff preferences for old style RPC service
+//        if (!diffPref.getAccountId().equals(getAccountId())) {
+//          throw new IllegalArgumentException("diffPref.getAccountId() "
+//              + diffPref.getAccountId() + " doesn't match"
+//              + " the accountId of the signed in user " + getAccountId());
+//        }
+//        db.accountDiffPreferences().upsert(Collections.singleton(diffPref));
         return VoidResult.INSTANCE;
       }
     });

@@ -14,144 +14,224 @@
 
 package com.google.gerrit.server.account;
 
-import com.google.gerrit.extensions.client.Theme;
+import static com.google.gerrit.server.account.GetDiffPreferences.initFromDb;
+import static com.google.gerrit.server.account.GetDiffPreferences.readFromGit;
+import static com.google.gerrit.server.config.ConfigUtil.loadSection;
+import static com.google.gerrit.server.config.ConfigUtil.storeSection;
+
+import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference.Whitespace;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.account.GetDiffPreferences.DiffPreferencesInfo;
-import com.google.gerrit.server.account.SetDiffPreferences.Input;
+import com.google.gerrit.server.config.AllUsersName;
+import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.git.MetaDataUpdate;
+import com.google.gerrit.server.git.UserConfigSections;
+import com.google.gerrit.server.patch.PatchListKey;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
+import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.errors.RepositoryNotFoundException;
+import org.eclipse.jgit.lib.Config;
+
+import java.io.IOException;
 import java.util.Collections;
 
 @Singleton
-public class SetDiffPreferences implements RestModifyView<AccountResource, Input> {
-  static class Input {
-    Short context;
-    Boolean expandAllComments;
-    Whitespace ignoreWhitespace;
-    Boolean intralineDifference;
-    Integer lineLength;
-    Boolean manualReview;
-    Boolean retainHeader;
-    Boolean showLineEndings;
-    Boolean showTabs;
-    Boolean showWhitespaceErrors;
-    Boolean skipDeleted;
-    Boolean skipUncommented;
-    Boolean syntaxHighlighting;
-    Boolean hideTopMenu;
-    Boolean autoHideDiffTableHeader;
-    Boolean hideLineNumbers;
-    Boolean renderEntireFile;
-    Integer tabSize;
-    Theme theme;
-    Boolean hideEmptyPane;
-  }
-
+public class SetDiffPreferences implements
+    RestModifyView<AccountResource, DiffPreferencesInfo> {
   private final Provider<CurrentUser> self;
   private final Provider<ReviewDb> db;
+  private final Provider<MetaDataUpdate.User> metaDataUpdateFactory;
+  private final AllUsersName allUsersName;
+  private final GitRepositoryManager gitMgr;
+  private final boolean readFromGit;
 
   @Inject
-  SetDiffPreferences(Provider<CurrentUser> self, Provider<ReviewDb> db) {
+  SetDiffPreferences(Provider<CurrentUser> self,
+      Provider<ReviewDb> db,
+      @GerritServerConfig Config cfg,
+      Provider<MetaDataUpdate.User> metaDataUpdateFactory,
+      AllUsersName allUsersName,
+      GitRepositoryManager gitMgr) {
     this.self = self;
     this.db = db;
+    this.metaDataUpdateFactory = metaDataUpdateFactory;
+    this.allUsersName = allUsersName;
+    this.gitMgr = gitMgr;
+    readFromGit = cfg.getBoolean("user", null, "readPrefsFromGit", false);
   }
 
   @Override
-  public DiffPreferencesInfo apply(AccountResource rsrc, Input input)
-      throws AuthException, OrmException {
+  public DiffPreferencesInfo apply(AccountResource rsrc, DiffPreferencesInfo in)
+      throws AuthException, BadRequestException, ConfigInvalidException,
+      RepositoryNotFoundException, IOException, OrmException {
     if (self.get() != rsrc.getUser()
         && !self.get().getCapabilities().canModifyAccount()) {
       throw new AuthException("restricted to members of Modify Accounts");
     }
-    if (input == null) {
-      input = new Input();
+
+    if (in == null) {
+      throw new BadRequestException("input must be provided");
     }
 
-    Account.Id accountId = rsrc.getUser().getAccountId();
-    AccountDiffPreference p;
+    Account.Id userId = rsrc.getUser().getAccountId();
+    DiffPreferencesInfo n = readFromGit
+        ? readFromGit(userId, gitMgr, allUsersName, false)
+        : initFromDb(db.get().accountDiffPreferences().get(userId));
+    n = merge(n, in);
+    DiffPreferencesInfo out = writeToGit(n, userId);
+    writeToDb(n, userId);
+    return out;
+  }
 
-    db.get().accounts().beginTransaction(accountId);
+  private void writeToDb(DiffPreferencesInfo in, Account.Id id)
+      throws OrmException {
+    db.get().accounts().beginTransaction(id);
     try {
-      p = db.get().accountDiffPreferences().get(accountId);
-      if (p == null) {
-        p = new AccountDiffPreference(accountId);
-      }
-
-      if (input.context != null) {
-        p.setContext(input.context);
-      }
-      if (input.ignoreWhitespace != null) {
-        p.setIgnoreWhitespace(input.ignoreWhitespace);
-      }
-      if (input.expandAllComments != null) {
-        p.setExpandAllComments(input.expandAllComments);
-      }
-      if (input.intralineDifference != null) {
-        p.setIntralineDifference(input.intralineDifference);
-      }
-      if (input.lineLength != null) {
-        p.setLineLength(input.lineLength);
-      }
-      if (input.manualReview != null) {
-        p.setManualReview(input.manualReview);
-      }
-      if (input.retainHeader != null) {
-        p.setRetainHeader(input.retainHeader);
-      }
-      if (input.showLineEndings != null) {
-        p.setShowLineEndings(input.showLineEndings);
-      }
-      if (input.showTabs != null) {
-        p.setShowTabs(input.showTabs);
-      }
-      if (input.showWhitespaceErrors != null) {
-        p.setShowWhitespaceErrors(input.showWhitespaceErrors);
-      }
-      if (input.skipDeleted != null) {
-        p.setSkipDeleted(input.skipDeleted);
-      }
-      if (input.skipUncommented != null) {
-        p.setSkipUncommented(input.skipUncommented);
-      }
-      if (input.syntaxHighlighting != null) {
-        p.setSyntaxHighlighting(input.syntaxHighlighting);
-      }
-      if (input.hideTopMenu != null) {
-        p.setHideTopMenu(input.hideTopMenu);
-      }
-      if (input.autoHideDiffTableHeader != null) {
-        p.setAutoHideDiffTableHeader(input.autoHideDiffTableHeader);
-      }
-      if (input.hideLineNumbers != null) {
-        p.setHideLineNumbers(input.hideLineNumbers);
-      }
-      if (input.renderEntireFile != null) {
-        p.setRenderEntireFile(input.renderEntireFile);
-      }
-      if (input.tabSize != null) {
-        p.setTabSize(input.tabSize);
-      }
-      if (input.theme != null) {
-        p.setTheme(input.theme);
-      }
-      if (input.hideEmptyPane != null) {
-        p.setHideEmptyPane(input.hideEmptyPane);
-      }
-
+      AccountDiffPreference p = db.get().accountDiffPreferences().get(id);
+      p = initAccountDiffPreferences(p, in, id);
       db.get().accountDiffPreferences().upsert(Collections.singleton(p));
       db.get().commit();
     } finally {
       db.get().rollback();
     }
-    return DiffPreferencesInfo.parse(p);
+  }
+
+  private DiffPreferencesInfo writeToGit(DiffPreferencesInfo in,
+      Account.Id useId) throws RepositoryNotFoundException, IOException,
+          ConfigInvalidException {
+    MetaDataUpdate md = metaDataUpdateFactory.get().create(allUsersName);
+
+    VersionedAccountPreferences prefs;
+    DiffPreferencesInfo out = new DiffPreferencesInfo();
+    try {
+      prefs = VersionedAccountPreferences.forUser(useId);
+      prefs.load(md);
+      storeSection(prefs.getConfig(), UserConfigSections.DIFF, null, in,
+          DiffPreferencesInfo.defaults());
+      prefs.commit(md);
+      loadSection(prefs.getConfig(), UserConfigSections.DIFF, null, out,
+          DiffPreferencesInfo.defaults(), true);
+    } finally {
+      md.close();
+    }
+    return out;
+  }
+
+  private DiffPreferencesInfo merge(DiffPreferencesInfo n,
+      DiffPreferencesInfo i) {
+    if (i.context != null) {
+      n.context = i.context;
+    }
+    if (i.expandAllComments != null) {
+      n.expandAllComments = i.expandAllComments;
+    }
+    if (i.hideLineNumbers != null) {
+      n.hideLineNumbers = i.hideLineNumbers;
+    }
+    if (i.hideTopMenu != null) {
+      n.hideTopMenu = i.hideTopMenu;
+    }
+    if (i.ignoreWhitespace != null) {
+      n.ignoreWhitespace = i.ignoreWhitespace;
+    }
+    if (i.intralineDifference != null) {
+      n.intralineDifference = i.intralineDifference;
+    }
+    if (i.lineLength != null) {
+      n.lineLength = i.lineLength;
+    }
+    if (i.manualReview != null) {
+      n.manualReview = i.manualReview;
+    }
+    if (i.renderEntireFile != null) {
+      n.renderEntireFile = i.renderEntireFile;
+    }
+    if (i.retainHeader != null) {
+      n.retainHeader = i.retainHeader;
+    }
+    if (i.showLineEndings != null) {
+      n.showLineEndings = i.showLineEndings;
+    }
+    if (i.showTabs != null) {
+      n.showTabs = i.showTabs;
+    }
+    if (i.showWhitespaceErrors != null) {
+      n.showWhitespaceErrors = i.showWhitespaceErrors;
+    }
+    if (i.skipDeleted != null) {
+      n.skipDeleted = i.skipDeleted;
+    }
+    if (i.skipUncommented != null) {
+      n.skipUncommented = i.skipUncommented;
+    }
+    if (i.syntaxHighlighting != null) {
+      n.syntaxHighlighting = i.syntaxHighlighting;
+    }
+    if (i.tabSize != null) {
+      n.tabSize = i.tabSize;
+    }
+    if (i.theme != null) {
+      n.theme = i.theme;
+    }
+    if (i.hideEmptyPane != null) {
+      n.hideEmptyPane = i.hideEmptyPane;
+    }
+    if (i.autoHideDiffTableHeader != null) {
+      n.autoHideDiffTableHeader = i.autoHideDiffTableHeader;
+    }
+    return n;
+  }
+
+  private static AccountDiffPreference initAccountDiffPreferences(
+      AccountDiffPreference a, DiffPreferencesInfo i, Account.Id id) {
+    if (a == null) {
+      a = AccountDiffPreference.createDefault(id);
+    }
+    int context = i.context == null
+        ? DiffPreferencesInfo.DEFAULT_CONTEXT
+        :  i.context;
+    a.setContext((short)context);
+    a.setExpandAllComments(b(i.expandAllComments));
+    a.setHideLineNumbers(b(i.hideLineNumbers));
+    a.setHideTopMenu(b(i.hideTopMenu));
+    a.setIgnoreWhitespace(i.ignoreWhitespace == null
+        ? Whitespace.IGNORE_NONE
+        : Whitespace.forCode(
+            PatchListKey.WHITESPACE_TYPES.get(i.ignoreWhitespace)));
+    a.setIntralineDifference(b(i.intralineDifference));
+    a.setLineLength(i.lineLength == null
+        ? DiffPreferencesInfo.DEFAULT_LINE_LENGTH
+        : i.lineLength);
+    a.setManualReview(b(i.manualReview));
+    a.setRenderEntireFile(b(i.renderEntireFile));
+    a.setRetainHeader(b(i.retainHeader));
+    a.setShowLineEndings(b(i.showLineEndings));
+    a.setShowTabs(b(i.showTabs));
+    a.setShowWhitespaceErrors(b(i.showWhitespaceErrors));
+    a.setSkipDeleted(b(i.skipDeleted));
+    a.setSkipUncommented(b(i.skipUncommented));
+    a.setSyntaxHighlighting(b(i.syntaxHighlighting));
+    a.setTabSize(i.tabSize == null
+        ? DiffPreferencesInfo.DEFAULT_TAB_SIZE
+        : i.tabSize);
+    a.setTheme(i.theme);
+    a.setHideEmptyPane(b(i.hideEmptyPane));
+    a.setAutoHideDiffTableHeader(b(i.autoHideDiffTableHeader));
+    return a;
+  }
+
+  private static boolean b(Boolean b) {
+    return b == null ? false : b;
   }
 }

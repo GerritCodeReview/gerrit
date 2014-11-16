@@ -294,7 +294,7 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
   private void appendImageDifferences(final PatchScript script,
       final SafeHtmlBuilder nc) {
     final boolean syntaxHighlighting =
-        script.getDiffPrefs().isSyntaxHighlighting();
+        script.getDiffPrefs().syntaxHighlighting;
     if (script.getDisplayMethodA() == DisplayMethod.IMG) {
       final String url = getUrlA();
       appendImageLine(nc, url, syntaxHighlighting, false);
@@ -310,7 +310,7 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
     final SparseHtmlFile a = getSparseHtmlFileA(script);
     final SparseHtmlFile b = getSparseHtmlFileB(script);
     final boolean syntaxHighlighting =
-        script.getDiffPrefs().isSyntaxHighlighting();
+        script.getDiffPrefs().syntaxHighlighting;
     for (final EditList.Hunk hunk : script.getHunks()) {
       appendHunkHeader(nc, hunk);
       while (hunk.next()) {

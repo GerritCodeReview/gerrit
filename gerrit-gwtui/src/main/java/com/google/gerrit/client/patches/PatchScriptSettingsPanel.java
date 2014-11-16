@@ -20,8 +20,8 @@ import com.google.gerrit.client.account.Util;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.ListenableAccountDiffPreference;
 import com.google.gerrit.client.ui.NpIntTextBox;
-import com.google.gerrit.reviewdb.client.AccountDiffPreference;
-import com.google.gerrit.reviewdb.client.AccountDiffPreference.Whitespace;
+import com.google.gerrit.extensions.client.DiffPreferencesInfo;
+import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.NodeList;
 import com.google.gwt.dom.client.OptionElement;
@@ -156,7 +156,7 @@ public class PatchScriptSettingsPanel extends Composite {
   public void setEnableSmallFileFeatures(final boolean on) {
     enableSmallFileFeatures = on;
     if (enableSmallFileFeatures) {
-      syntaxHighlighting.setValue(getValue().isSyntaxHighlighting());
+      syntaxHighlighting.setValue(getValue().syntaxHighlighting);
     } else {
       syntaxHighlighting.setValue(false);
     }
@@ -181,7 +181,7 @@ public class PatchScriptSettingsPanel extends Composite {
   public void setEnableIntralineDifference(final boolean on) {
     enableIntralineDifference = on;
     if (enableIntralineDifference) {
-      intralineDifference.setValue(getValue().isIntralineDifference());
+      intralineDifference.setValue(getValue().intralineDifference);
     } else {
       intralineDifference.setValue(false);
     }
@@ -197,36 +197,36 @@ public class PatchScriptSettingsPanel extends Composite {
     syntaxHighlighting.setTitle(title);
   }
 
-  public AccountDiffPreference getValue() {
+  public DiffPreferencesInfo getValue() {
     return listenablePrefs.get();
   }
 
-  public void setValue(final AccountDiffPreference dp) {
+  public void setValue(final DiffPreferencesInfo dp) {
     listenablePrefs.set(dp);
     display();
   }
 
   protected void display() {
-    final AccountDiffPreference dp = getValue();
-    setIgnoreWhitespace(dp.getIgnoreWhitespace());
+    final DiffPreferencesInfo dp = getValue();
+    setIgnoreWhitespace(dp.ignoreWhitespace);
     if (enableSmallFileFeatures) {
-      syntaxHighlighting.setValue(dp.isSyntaxHighlighting());
+      syntaxHighlighting.setValue(dp.syntaxHighlighting);
     } else {
       syntaxHighlighting.setValue(false);
     }
-    setContext(dp.getContext());
+    setContext(dp.context);
 
-    tabWidth.setIntValue(dp.getTabSize());
-    colWidth.setIntValue(dp.getLineLength());
-    intralineDifference.setValue(dp.isIntralineDifference());
-    whitespaceErrors.setValue(dp.isShowWhitespaceErrors());
-    showLineEndings.setValue(dp.isShowLineEndings());
-    showTabs.setValue(dp.isShowTabs());
-    skipDeleted.setValue(dp.isSkipDeleted());
-    skipUncommented.setValue(dp.isSkipUncommented());
-    expandAllComments.setValue(dp.isExpandAllComments());
-    retainHeader.setValue(dp.isRetainHeader());
-    manualReview.setValue(dp.isManualReview());
+    tabWidth.setIntValue(dp.tabSize);
+    colWidth.setIntValue(dp.lineLength);
+    intralineDifference.setValue(dp.intralineDifference);
+    whitespaceErrors.setValue(dp.showWhitespaceErrors);
+    showLineEndings.setValue(dp.showLineEndings);
+    showTabs.setValue(dp.showTabs);
+    skipDeleted.setValue(dp.skipDeleted);
+    skipUncommented.setValue(dp.skipUncommented);
+    expandAllComments.setValue(dp.expandAllComments);
+    retainHeader.setValue(dp.retainHeader);
+    manualReview.setValue(dp.manualReview);
   }
 
   @UiHandler("update")
@@ -244,22 +244,22 @@ public class PatchScriptSettingsPanel extends Composite {
       new ErrorDialog(PatchUtil.C.illegalNumberOfColumns()).center();
       return;
     }
-
-    AccountDiffPreference dp = new AccountDiffPreference(getValue());
-    dp.setIgnoreWhitespace(getIgnoreWhitespace());
-    dp.setContext(getContext());
-    dp.setTabSize(tabWidth.getIntValue());
-    dp.setLineLength(colWidth.getIntValue());
-    dp.setSyntaxHighlighting(syntaxHighlighting.getValue());
-    dp.setIntralineDifference(intralineDifference.getValue());
-    dp.setShowWhitespaceErrors(whitespaceErrors.getValue());
-    dp.setShowLineEndings(showLineEndings.getValue());
-    dp.setShowTabs(showTabs.getValue());
-    dp.setSkipDeleted(skipDeleted.getValue());
-    dp.setSkipUncommented(skipUncommented.getValue());
-    dp.setExpandAllComments(expandAllComments.getValue());
-    dp.setRetainHeader(retainHeader.getValue());
-    dp.setManualReview(manualReview.getValue());
+    //DiffPreferencesInfo dp = new DiffPreferencesInfo(getValue());
+    DiffPreferencesInfo dp = getValue();
+    dp.ignoreWhitespace = getIgnoreWhitespace();
+    dp.context = getContext();
+    dp.tabSize = tabWidth.getIntValue();
+    dp.lineLength = colWidth.getIntValue();
+    dp.syntaxHighlighting = syntaxHighlighting.getValue();
+    dp.intralineDifference = intralineDifference.getValue();
+    dp.showWhitespaceErrors = whitespaceErrors.getValue();
+    dp.showLineEndings = showLineEndings.getValue();
+    dp.showTabs = showTabs.getValue();
+    dp.skipDeleted = skipDeleted.getValue();
+    dp.skipUncommented = skipUncommented.getValue();
+    dp.expandAllComments = expandAllComments.getValue();
+    dp.retainHeader = retainHeader.getValue();
+    dp.manualReview = manualReview.getValue();
 
     listenablePrefs.set(dp);
   }
@@ -298,9 +298,9 @@ public class PatchScriptSettingsPanel extends Composite {
   }
 
   private void initContext(ListBox context) {
-    for (final short v : AccountDiffPreference.CONTEXT_CHOICES) {
+    for (final short v : DiffPreferencesInfo.CONTEXT_CHOICES) {
       final String label;
-      if (v == AccountDiffPreference.WHOLE_FILE_CONTEXT) {
+      if (v == DiffPreferencesInfo.WHOLE_FILE_CONTEXT) {
         label = Util.C.contextWholeFile();
       } else {
         label = Util.M.lines(v);
@@ -314,7 +314,7 @@ public class PatchScriptSettingsPanel extends Composite {
     if (0 <= sel) {
       return Whitespace.valueOf(ignoreWhitespace.getValue(sel));
     }
-    return getValue().getIgnoreWhitespace();
+    return getValue().ignoreWhitespace;
   }
 
   private void setIgnoreWhitespace(Whitespace s) {
@@ -327,12 +327,12 @@ public class PatchScriptSettingsPanel extends Composite {
     ignoreWhitespace.setSelectedIndex(0);
   }
 
-  private short getContext() {
+  private int getContext() {
     final int sel = context.getSelectedIndex();
     if (0 <= sel) {
       return Short.parseShort(context.getValue(sel));
     }
-    return getValue().getContext();
+    return getValue().context;
   }
 
   private void setContext(int ctx) {

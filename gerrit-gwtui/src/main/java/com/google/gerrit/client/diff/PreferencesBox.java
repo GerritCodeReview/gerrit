@@ -14,12 +14,13 @@
 
 package com.google.gerrit.client.diff;
 
-import static com.google.gerrit.reviewdb.client.AccountDiffPreference.DEFAULT_CONTEXT;
-import static com.google.gerrit.reviewdb.client.AccountDiffPreference.WHOLE_FILE_CONTEXT;
-import static com.google.gerrit.reviewdb.client.AccountDiffPreference.Whitespace.IGNORE_ALL_SPACE;
-import static com.google.gerrit.reviewdb.client.AccountDiffPreference.Whitespace.IGNORE_NONE;
-import static com.google.gerrit.reviewdb.client.AccountDiffPreference.Whitespace.IGNORE_SPACE_AT_EOL;
-import static com.google.gerrit.reviewdb.client.AccountDiffPreference.Whitespace.IGNORE_SPACE_CHANGE;
+import static com.google.gerrit.extensions.client.DiffPreferencesInfo.DEFAULT_CONTEXT;
+import static com.google.gerrit.extensions.client.DiffPreferencesInfo.WHOLE_FILE_CONTEXT;
+import static com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace.IGNORE_ALL_SPACE;
+import static com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace.IGNORE_NONE;
+import static com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace.IGNORE_SPACE_AT_EOL;
+import static com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace.IGNORE_SPACE_CHANGE;
+
 import static com.google.gwt.event.dom.client.KeyCodes.KEY_ESCAPE;
 
 import com.google.gerrit.client.Gerrit;
@@ -29,9 +30,9 @@ import com.google.gerrit.client.patches.PatchUtil;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.client.ui.NpIntTextBox;
+import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.extensions.client.Theme;
-import com.google.gerrit.reviewdb.client.AccountDiffPreference;
-import com.google.gerrit.reviewdb.client.AccountDiffPreference.Whitespace;
+import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.Patch.ChangeType;
 import com.google.gwt.core.client.GWT;
@@ -434,12 +435,9 @@ class PreferencesBox extends Composite {
     AccountApi.putDiffPreferences(prefs, new GerritCallback<DiffPreferences>() {
       @Override
       public void onSuccess(DiffPreferences result) {
-        AccountDiffPreference p = Gerrit.getAccountDiffPreference();
-        if (p == null) {
-          p = AccountDiffPreference.createDefault(Gerrit.getUserAccount().getId());
-        }
+        DiffPreferencesInfo p = Gerrit.getDiffPreferences();
         result.copyTo(p);
-        Gerrit.setAccountDiffPreference(p);
+        Gerrit.setDiffPreferences(p);
       }
     });
     close();

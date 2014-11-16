@@ -16,7 +16,7 @@ package com.google.gerrit.httpd.rpc.changedetail;
 
 import com.google.gerrit.common.data.ChangeDetailService;
 import com.google.gerrit.common.data.PatchSetDetail;
-import com.google.gerrit.reviewdb.client.AccountDiffPreference;
+import com.google.gerrit.extensions.common.DiffPreferencesInfo;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwtjsonrpc.common.AsyncCallback;
 import com.google.inject.Inject;
@@ -38,7 +38,7 @@ class ChangeDetailServiceImpl implements ChangeDetailService {
 
   @Override
   public void patchSetDetail2(PatchSet.Id baseId, PatchSet.Id id,
-      AccountDiffPreference diffPrefs, AsyncCallback<PatchSetDetail> callback) {
+      DiffPreferencesInfo diffPrefs, AsyncCallback<PatchSetDetail> callback) {
     patchSetDetail.create(baseId, id, diffPrefs).to(callback);
   }
 }

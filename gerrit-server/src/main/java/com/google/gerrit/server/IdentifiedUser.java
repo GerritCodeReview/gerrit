@@ -20,15 +20,18 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.AccountInfo;
+import com.google.gerrit.extensions.client.DiffPreferencesInfo;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.AccountDiffPreference;
 import com.google.gerrit.reviewdb.client.AccountProjectWatch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.StarredChange;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.account.AccountCache;
+import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.CapabilityControl;
+import com.google.gerrit.server.account.GetDiffPreferences;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupMembership;
 import com.google.gerrit.server.account.ListGroupMembership;
@@ -47,11 +50,13 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.google.inject.util.Providers;
 
+import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.util.SystemReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.MalformedURLException;
@@ -77,6 +82,7 @@ public class IdentifiedUser extends CurrentUser {
     private final AccountCache accountCache;
     private final GroupBackend groupBackend;
     private final Boolean disableReverseDnsLookup;
+    private final GetDiffPreferences getDiff;
 
     @Inject
     public GenericFactory(
@@ -87,7 +93,8 @@ public class IdentifiedUser extends CurrentUser {
         @CanonicalWebUrl Provider<String> canonicalUrl,
         @DisableReverseDnsLookup Boolean disableReverseDnsLookup,
         AccountCache accountCache,
-        GroupBackend groupBackend) {
+        GroupBackend groupBackend,
+        GetDiffPreferences getDiff) {
       this.capabilityControlFactory = capabilityControlFactory;
       this.authConfig = authConfig;
       this.realm = realm;
@@ -96,6 +103,7 @@ public class IdentifiedUser extends CurrentUser {
       this.accountCache = accountCache;
       this.groupBackend = groupBackend;
       this.disableReverseDnsLookup = disableReverseDnsLookup;
+      this.getDiff = getDiff;
     }
 
     public IdentifiedUser create(final Account.Id id) {
@@ -105,20 +113,22 @@ public class IdentifiedUser extends CurrentUser {
     public IdentifiedUser create(Provider<ReviewDb> db, Account.Id id) {
       return new IdentifiedUser(capabilityControlFactory, authConfig, realm,
           anonymousCowardName, canonicalUrl, accountCache, groupBackend,
-          disableReverseDnsLookup, null, db, id, null);
+          disableReverseDnsLookup, getDiff, null, db, id, null);
     }
 
     public IdentifiedUser create(SocketAddress remotePeer, Account.Id id) {
       return new IdentifiedUser(capabilityControlFactory, authConfig, realm,
           anonymousCowardName, canonicalUrl, accountCache, groupBackend,
-          disableReverseDnsLookup, Providers.of(remotePeer), null, id, null);
+          disableReverseDnsLookup, getDiff, Providers.of(remotePeer), null,
+          id, null);
     }
 
     public CurrentUser runAs(SocketAddress remotePeer, Account.Id id,
         @Nullable CurrentUser caller) {
       return new IdentifiedUser(capabilityControlFactory, authConfig, realm,
           anonymousCowardName, canonicalUrl, accountCache, groupBackend,
-          disableReverseDnsLookup, Providers.of(remotePeer), null, id, caller);
+          disableReverseDnsLookup, getDiff, Providers.of(remotePeer), null,
+          id, caller);
     }
   }
 
@@ -138,6 +148,7 @@ public class IdentifiedUser extends CurrentUser {
     private final AccountCache accountCache;
     private final GroupBackend groupBackend;
     private final Boolean disableReverseDnsLookup;
+    private final GetDiffPreferences getDiff;
 
     private final Provider<SocketAddress> remotePeerProvider;
     private final Provider<ReviewDb> dbProvider;
@@ -152,7 +163,7 @@ public class IdentifiedUser extends CurrentUser {
         final AccountCache accountCache,
         final GroupBackend groupBackend,
         @DisableReverseDnsLookup final Boolean disableReverseDnsLookup,
-
+        GetDiffPreferences getDiff,
         @RemotePeer final Provider<SocketAddress> remotePeerProvider,
         final Provider<ReviewDb> dbProvider) {
       this.capabilityControlFactory = capabilityControlFactory;
@@ -163,7 +174,7 @@ public class IdentifiedUser extends CurrentUser {
       this.accountCache = accountCache;
       this.groupBackend = groupBackend;
       this.disableReverseDnsLookup = disableReverseDnsLookup;
-
+      this.getDiff = getDiff;
       this.remotePeerProvider = remotePeerProvider;
       this.dbProvider = dbProvider;
     }
@@ -171,13 +182,15 @@ public class IdentifiedUser extends CurrentUser {
     public IdentifiedUser create(Account.Id id) {
       return new IdentifiedUser(capabilityControlFactory, authConfig, realm,
           anonymousCowardName, canonicalUrl, accountCache, groupBackend,
-          disableReverseDnsLookup, remotePeerProvider, dbProvider, id, null);
+          disableReverseDnsLookup, getDiff, remotePeerProvider, dbProvider,
+          id, null);
     }
 
     public IdentifiedUser runAs(Account.Id id, CurrentUser caller) {
       return new IdentifiedUser(capabilityControlFactory, authConfig, realm,
           anonymousCowardName, canonicalUrl, accountCache, groupBackend,
-          disableReverseDnsLookup, remotePeerProvider, dbProvider, id, caller);
+          disableReverseDnsLookup, getDiff, remotePeerProvider, dbProvider,
+          id, caller);
     }
   }
 
@@ -197,6 +210,7 @@ public class IdentifiedUser extends CurrentUser {
   private final String anonymousCowardName;
   private final Boolean disableReverseDnsLookup;
   private final Set<String> validEmails = Sets.newHashSetWithExpectedSize(4);
+  private final GetDiffPreferences getDiff;
 
   @Nullable
   private final Provider<SocketAddress> remotePeerProvider;
@@ -224,6 +238,7 @@ public class IdentifiedUser extends CurrentUser {
       final AccountCache accountCache,
       final GroupBackend groupBackend,
       final Boolean disableReverseDnsLookup,
+      GetDiffPreferences getDiff,
       @Nullable final Provider<SocketAddress> remotePeerProvider,
       @Nullable final Provider<ReviewDb> dbProvider,
       final Account.Id id,
@@ -236,6 +251,7 @@ public class IdentifiedUser extends CurrentUser {
     this.realm = realm;
     this.anonymousCowardName = anonymousCowardName;
     this.disableReverseDnsLookup = disableReverseDnsLookup;
+    this.getDiff = getDiff;
     this.remotePeerProvider = remotePeerProvider;
     this.dbProvider = dbProvider;
     this.accountId = id;
@@ -270,18 +286,13 @@ public class IdentifiedUser extends CurrentUser {
     return state().getAccount();
   }
 
-  public AccountDiffPreference getAccountDiffPreference() {
-    AccountDiffPreference diffPref;
+  public DiffPreferencesInfo getDiffPreferences() {
     try {
-      diffPref = dbProvider.get().accountDiffPreferences().get(getAccountId());
-      if (diffPref == null) {
-        diffPref = AccountDiffPreference.createDefault(getAccountId());
-      }
-    } catch (OrmException e) {
+      return getDiff.apply(new AccountResource(this));
+    } catch (AuthException | ConfigInvalidException | IOException e) {
       log.warn("Cannot query account diff preferences", e);
-      diffPref = AccountDiffPreference.createDefault(getAccountId());
     }
-    return diffPref;
+    return new DiffPreferencesInfo();
   }
 
   public boolean hasEmailAddress(String email) {

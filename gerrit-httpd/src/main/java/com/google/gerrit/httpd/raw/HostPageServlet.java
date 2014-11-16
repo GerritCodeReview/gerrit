@@ -23,14 +23,18 @@ import com.google.common.hash.Hashing;
 import com.google.common.primitives.Bytes;
 import com.google.gerrit.common.Version;
 import com.google.gerrit.common.data.HostPageData;
+import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.registration.DynamicSet;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.systemstatus.MessageOfTheDay;
 import com.google.gerrit.extensions.webui.WebUiPlugin;
 import com.google.gerrit.httpd.HtmlDomUtil;
 import com.google.gerrit.httpd.WebSession;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.account.AccountResource;
+import com.google.gerrit.server.account.GetDiffPreferences;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
@@ -42,6 +46,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
+import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -87,6 +92,7 @@ public class HostPageServlet extends HttpServlet {
   private final StaticServlet staticServlet;
   private final boolean isNoteDbEnabled;
   private final Integer pluginsLoadTimeout;
+  private final GetDiffPreferences getDiff;
   private volatile Page page;
 
   @Inject
@@ -100,7 +106,8 @@ public class HostPageServlet extends HttpServlet {
       DynamicSet<MessageOfTheDay> motd,
       @GerritServerConfig Config cfg,
       StaticServlet ss,
-      NotesMigration migration)
+      NotesMigration migration,
+      GetDiffPreferences diffPref)
       throws IOException, ServletException {
     currentUser = cu;
     session = w;
@@ -113,6 +120,7 @@ public class HostPageServlet extends HttpServlet {
     staticServlet = ss;
     isNoteDbEnabled = migration.enabled();
     pluginsLoadTimeout = getPluginsLoadTimeout(cfg);
+    getDiff = diffPref;
 
     final String pageName = "HostPage.html";
     template = HtmlDomUtil.parseFile(getClass(), pageName);
@@ -191,7 +199,7 @@ public class HostPageServlet extends HttpServlet {
       w.write(";");
 
       w.write(HPD_ID + ".accountDiffPref=");
-      json(((IdentifiedUser) user).getAccountDiffPreference(), w);
+      json(getDiffPreferences((IdentifiedUser) user), w);
       w.write(";");
 
       w.write(HPD_ID + ".theme=");
@@ -222,6 +230,15 @@ public class HostPageServlet extends HttpServlet {
     try (OutputStream out = rsp.getOutputStream()) {
       out.write(tosend);
     }
+  }
+
+  private DiffPreferencesInfo getDiffPreferences(IdentifiedUser user) {
+    try {
+      return getDiff.apply(new AccountResource(user));
+    } catch (AuthException | ConfigInvalidException | IOException e) {
+      log.warn("Cannot query account diff preferences", e);
+    }
+    return DiffPreferencesInfo.defaults();
   }
 
   private void plugins(StringWriter w) {

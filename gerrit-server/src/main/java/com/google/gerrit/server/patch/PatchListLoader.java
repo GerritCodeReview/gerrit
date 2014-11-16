@@ -20,7 +20,7 @@ import com.google.common.base.Throwables;
 import com.google.common.cache.CacheLoader;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.Iterables;
-import com.google.gerrit.reviewdb.client.AccountDiffPreference.Whitespace;
+import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.config.ConfigUtil;

@@ -49,6 +49,11 @@ import com.google.gerrit.common.data.SystemInfoService;
 import com.google.gerrit.extensions.client.EditPreferencesInfo;
 import com.google.gerrit.extensions.client.GerritTopMenu;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference;
+import com.google.gerrit.extensions.client.DiffPreferencesInfo;
+import com.google.gerrit.extensions.client.EditPreferencesInfo;
+import com.google.gerrit.extensions.client.GerritTopMenu;
+import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.AccountGeneralPreferences;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.aria.client.Roles;
 import com.google.gwt.core.client.EntryPoint;
@@ -118,7 +123,7 @@ public class Gerrit implements EntryPoint {
   private static String docUrl;
   private static HostPageData.Theme myTheme;
   private static String defaultScreenToken;
-  private static AccountDiffPreference myAccountDiffPref;
+  private static DiffPreferencesInfo myAccountDiffPref;
   private static EditPreferencesInfo editPrefs;
   private static String xGerritAuth;
   private static boolean isNoteDbEnabled;
@@ -315,6 +320,7 @@ public class Gerrit implements EntryPoint {
     return xGerritAuth;
   }
 
+<<<<<<< HEAD
   /** @return the preferences of the currently signed in user, the default preferences if not signed in */
   public static AccountPreferencesInfo getUserPreferences() {
     return myPrefs;
@@ -322,10 +328,14 @@ public class Gerrit implements EntryPoint {
 
   /** @return the currently signed in users's diff preferences; null if no diff preferences defined for the account */
   public static AccountDiffPreference getAccountDiffPreference() {
+=======
+  /** @return the currently signed in users's diff preferences, or default values */
+  public static DiffPreferencesInfo getDiffPreferences() {
+>>>>>>> 4d0b10b... Replace ACCOUNT_DIFF_PREFERENCES table with Git backend
     return myAccountDiffPref;
   }
 
-  public static void setAccountDiffPreference(AccountDiffPreference accountDiffPref) {
+  public static void setDiffPreferences(DiffPreferencesInfo accountDiffPref) {
     myAccountDiffPref = accountDiffPref;
   }
 

@@ -17,11 +17,11 @@ package com.google.gerrit.client.ui;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.account.Util;
 import com.google.gerrit.client.rpc.GerritCallback;
-import com.google.gerrit.reviewdb.client.AccountDiffPreference;
+import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gwtjsonrpc.common.VoidResult;
 
 public class ListenableAccountDiffPreference
-    extends ListenableOldValue<AccountDiffPreference> {
+    extends ListenableOldValue<DiffPreferencesInfo> {
 
   public ListenableAccountDiffPreference() {
     reset();
@@ -33,7 +33,7 @@ public class ListenableAccountDiffPreference
           new GerritCallback<VoidResult>() {
         @Override
         public void onSuccess(VoidResult result) {
-          Gerrit.setAccountDiffPreference(get());
+          Gerrit.setDiffPreferences(get());
           cb.onSuccess(result);
         }
 
@@ -46,10 +46,10 @@ public class ListenableAccountDiffPreference
   }
 
   public void reset() {
-    if (Gerrit.isSignedIn() && Gerrit.getAccountDiffPreference() != null) {
-      set(Gerrit.getAccountDiffPreference());
+    if (Gerrit.isSignedIn() && Gerrit.getDiffPreferences() != null) {
+      set(Gerrit.getDiffPreferences());
     } else {
-      set(AccountDiffPreference.createDefault(null));
+      set(DiffPreferencesInfo.defaults());
     }
   }
 }

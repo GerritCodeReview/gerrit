@@ -14,10 +14,10 @@
 
 package com.google.gerrit.common.data;
 
+import com.google.gerrit.extensions.client.DiffPreferencesInfo;
+import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
 import com.google.gerrit.prettify.common.EditList;
 import com.google.gerrit.prettify.common.SparseFileContent;
-import com.google.gerrit.reviewdb.client.AccountDiffPreference;
-import com.google.gerrit.reviewdb.client.AccountDiffPreference.Whitespace;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.Patch.ChangeType;
@@ -42,7 +42,7 @@ public class PatchScript {
   protected FileMode oldMode;
   protected FileMode newMode;
   protected List<String> header;
-  protected AccountDiffPreference diffPrefs;
+  protected DiffPreferencesInfo diffPrefs;
   protected SparseFileContent a;
   protected SparseFileContent b;
   protected List<Edit> edits;
@@ -62,7 +62,7 @@ public class PatchScript {
 
   public PatchScript(final Change.Key ck, final ChangeType ct, final String on,
       final String nn, final FileMode om, final FileMode nm,
-      final List<String> h, final AccountDiffPreference dp,
+      final List<String> h, final DiffPreferencesInfo dp,
       final SparseFileContent ca, final SparseFileContent cb,
       final List<Edit> e, final DisplayMethod ma, final DisplayMethod mb,
       final String mta, final String mtb, final CommentDetail cd,
@@ -142,11 +142,11 @@ public class PatchScript {
     return history;
   }
 
-  public AccountDiffPreference getDiffPrefs() {
+  public DiffPreferencesInfo getDiffPrefs() {
     return diffPrefs;
   }
 
-  public void setDiffPrefs(AccountDiffPreference dp) {
+  public void setDiffPrefs(DiffPreferencesInfo dp) {
     diffPrefs = dp;
   }
 
@@ -155,7 +155,7 @@ public class PatchScript {
   }
 
   public boolean isIgnoreWhitespace() {
-    return diffPrefs.getIgnoreWhitespace() != Whitespace.IGNORE_NONE;
+    return diffPrefs.ignoreWhitespace != Whitespace.IGNORE_NONE;
   }
 
   public boolean hasIntralineDifference() {
@@ -171,7 +171,7 @@ public class PatchScript {
   }
 
   public boolean isExpandAllComments() {
-    return diffPrefs.isExpandAllComments();
+    return diffPrefs.expandAllComments;
   }
 
   public SparseFileContent getA() {
@@ -195,8 +195,8 @@ public class PatchScript {
   }
 
   public Iterable<EditList.Hunk> getHunks() {
-    int ctx = diffPrefs.getContext();
-    if (ctx == AccountDiffPreference.WHOLE_FILE_CONTEXT) {
+    int ctx = diffPrefs.context;
+    if (ctx == DiffPreferencesInfo.WHOLE_FILE_CONTEXT) {
       ctx = Math.max(a.size(), b.size());
     }
     return new EditList(edits, ctx, a.size(), b.size()).getHunks();

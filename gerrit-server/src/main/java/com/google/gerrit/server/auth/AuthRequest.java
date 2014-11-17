@@ -14,8 +14,9 @@
 
 package com.google.gerrit.server.auth;
 
-import com.google.common.base.Objects;
 import com.google.gerrit.common.Nullable;
+
+import java.util.Objects;
 
 /**
  * Defines an abstract request for user authentication to Gerrit.
@@ -50,7 +51,7 @@ public abstract class AuthRequest {
   }
 
   public void checkPassword(String pwd) throws AuthException {
-    if (!Objects.equal(getPassword(), pwd)) {
+    if (!Objects.equals(getPassword(), pwd)) {
       throw new InvalidCredentialsException();
     }
   }

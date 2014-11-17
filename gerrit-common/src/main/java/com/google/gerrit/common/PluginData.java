@@ -14,9 +14,8 @@
 
 package com.google.gerrit.common;
 
-import com.google.common.base.Objects;
-
 import java.io.File;
+import java.util.Objects;
 
 public class PluginData {
   public final String name;
@@ -33,14 +32,14 @@ public class PluginData {
   public boolean equals(Object obj) {
     if (obj instanceof PluginData) {
       PluginData o = (PluginData) obj;
-      return Objects.equal(name, o.name) && Objects.equal(version, o.version)
-          && Objects.equal(pluginFile, o.pluginFile);
+      return Objects.equals(name, o.name) && Objects.equals(version, o.version)
+          && Objects.equals(pluginFile, o.pluginFile);
     }
     return super.equals(obj);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hashCode(name, version, pluginFile);
+    return Objects.hash(name, version, pluginFile);
   }
 }

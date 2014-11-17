@@ -14,12 +14,12 @@
 
 package com.google.gerrit.server.query.change;
 
-import com.google.common.base.Objects;
 import com.google.gerrit.extensions.common.SubmitType;
 
 import org.eclipse.jgit.lib.ObjectId;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 public class ConflictKey implements Serializable {
   private static final long serialVersionUID = 2L;
@@ -73,6 +73,6 @@ public class ConflictKey implements Serializable {
 
   @Override
   public int hashCode() {
-    return Objects.hashCode(commit, otherCommit, submitType, contentMerge);
+    return Objects.hash(commit, otherCommit, submitType, contentMerge);
   }
 }

@@ -19,7 +19,6 @@ import static com.google.gerrit.server.PatchLineCommentsUtil.setCommentRevId;
 import static com.google.gerrit.server.notedb.CommentsInNotesUtil.getCommentPsId;
 
 import com.google.common.base.MoreObjects;
-import com.google.common.base.Objects;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ComparisonChain;
 import com.google.common.collect.Lists;
@@ -52,6 +51,7 @@ import java.sql.Timestamp;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
 
@@ -232,13 +232,13 @@ public class ChangeRebuilder {
     }
 
     protected void checkUpdate(AbstractChangeUpdate update) {
-      checkState(Objects.equal(update.getPatchSetId(), psId),
+      checkState(Objects.equals(update.getPatchSetId(), psId),
           "cannot apply event for %s to update for %s",
           update.getPatchSetId(), psId);
       checkState(when.getTime() - update.getWhen().getTime() <= TS_WINDOW_MS,
           "event at %s outside update window starting at %s",
           when, update.getWhen());
-      checkState(Objects.equal(update.getUser().getAccountId(), who),
+      checkState(Objects.equals(update.getUser().getAccountId(), who),
           "cannot apply event by %s to update by %s",
           who, update.getUser().getAccountId());
     }

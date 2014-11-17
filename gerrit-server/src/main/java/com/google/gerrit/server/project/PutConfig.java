@@ -16,7 +16,6 @@ package com.google.gerrit.server.project;
 
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Joiner;
-import com.google.common.base.Objects;
 import com.google.common.base.Strings;
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.extensions.api.projects.ProjectInput.ConfigValue;
@@ -56,6 +55,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Map.Entry;
 
 @Singleton
@@ -178,7 +178,7 @@ public class PutConfig implements RestModifyView<ProjectResource, Input> {
         ObjectId baseRev = projectConfig.getRevision();
         ObjectId commitRev = projectConfig.commit(md);
         // Only fire hook if project was actually changed.
-        if (!Objects.equal(baseRev, commitRev)) {
+        if (!Objects.equals(baseRev, commitRev)) {
           IdentifiedUser user = (IdentifiedUser) currentUser.get();
           hooks.doRefUpdatedHook(
             new Branch.NameKey(projectName, RefNames.REFS_CONFIG),

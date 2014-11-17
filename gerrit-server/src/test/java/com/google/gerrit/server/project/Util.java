@@ -127,6 +127,25 @@ public class Util {
     return rule;
   }
 
+  public static PermissionRule allow(ProjectConfig project,
+      String permissionName, AccountGroup.UUID group, String ref) {
+    return grant(project, permissionName, newRule(project, group), ref);
+  }
+
+  public static PermissionRule block(ProjectConfig project,
+      String permissionName, AccountGroup.UUID group, String ref) {
+    PermissionRule r = grant(project, permissionName, newRule(project, group), ref);
+    r.setBlock();
+    return r;
+  }
+
+  public static PermissionRule deny(ProjectConfig project,
+      String permissionName, AccountGroup.UUID group, String ref) {
+    PermissionRule r = grant(project, permissionName, newRule(project, group), ref);
+    r.setDeny();
+    return r;
+  }
+
   private final Map<Project.NameKey, ProjectState> all;
   private final ProjectCache projectCache;
   private final CapabilityControl.Factory capabilityControlFactory;

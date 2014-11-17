@@ -111,6 +111,8 @@ submitter:: link:json.html#account[account attribute]
 eventCreatedOn:: Time in seconds since the UNIX epoch when this event was
 created.
 
+mergeResult:: link:json.html#change[mergeResult attribute]
+
 ==== Merge Failed
 type:: "merge-failed"
 

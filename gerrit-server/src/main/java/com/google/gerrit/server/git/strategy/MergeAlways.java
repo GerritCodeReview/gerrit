@@ -17,6 +17,7 @@ package com.google.gerrit.server.git.strategy;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.MergeException;
+import com.google.gerrit.server.git.MergeTip;
 
 import java.util.Collection;
 import java.util.List;
@@ -27,24 +28,29 @@ public class MergeAlways extends SubmitStrategy {
   }
 
   @Override
-  protected CodeReviewCommit _run(CodeReviewCommit mergeTip,
+  protected MergeTip _run(CodeReviewCommit branchTip,
       Collection<CodeReviewCommit> toMerge) throws MergeException {
-    List<CodeReviewCommit> sorted = args.mergeUtil.reduceToMinimalMerge(
-        args.mergeSorter, toMerge);
-
-    if (mergeTip == null) {
+  List<CodeReviewCommit> sorted = args.mergeUtil.reduceToMinimalMerge(args.mergeSorter, toMerge);
+    MergeTip mergeTip;
+    if (branchTip == null) {
       // The branch is unborn. Take a fast-forward resolution to
       // create the branch.
-      mergeTip = sorted.remove(0);
+      mergeTip = new MergeTip(sorted.get(0), toMerge);
+      sorted.remove(0);
+    } else {
+      mergeTip = new MergeTip(branchTip, toMerge);
     }
     while (!sorted.isEmpty()) {
-      mergeTip = args.mergeUtil.mergeOneCommit(args.serverIdent.get(),
-          args.repo, args.rw, args.inserter, args.canMergeFlag, args.destBranch,
-          mergeTip, sorted.remove(0));
+      CodeReviewCommit mergedFrom = sorted.remove(0);
+      CodeReviewCommit newTip =
+          args.mergeUtil.mergeOneCommit(args.serverIdent.get(), args.repo, args.rw,
+              args.inserter, args.canMergeFlag, args.destBranch, mergeTip.getCurrentTip(),
+              mergedFrom);
+      mergeTip.moveTipTo(newTip, mergedFrom.getName());
     }
 
-    PatchSetApproval submitApproval =
-        args.mergeUtil.markCleanMerges(args.rw, args.canMergeFlag, mergeTip,
+    final PatchSetApproval submitApproval =
+        args.mergeUtil.markCleanMerges(args.rw, args.canMergeFlag, mergeTip.getCurrentTip(),
             args.alreadyAccepted);
     setRefLogIdent(submitApproval);
 

@@ -24,6 +24,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.MergeException;
 import com.google.gerrit.server.git.MergeSorter;
+import com.google.gerrit.server.git.MergeTip;
 import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.project.ChangeControl;
@@ -104,21 +105,21 @@ public abstract class SubmitStrategy {
    * <p>
    * If possible, the provided commits will be merged with this submit strategy.
    *
-   * @param mergeTip the merge tip.
+   * @param currentTip the mergeTip
    * @param toMerge the list of submitted commits that should be merged using
    *        this submit strategy. Implementations are responsible for ordering
    *        of commits, and should not modify the input in place.
    * @return the new merge tip.
    * @throws MergeException
    */
-  public CodeReviewCommit run(CodeReviewCommit mergeTip,
-      Collection<CodeReviewCommit> toMerge) throws MergeException {
+  public final MergeTip run(final CodeReviewCommit currentTip,
+      final Collection<CodeReviewCommit> toMerge) throws MergeException {
     refLogIdent = null;
-    return _run(mergeTip, toMerge);
+    return _run(currentTip, toMerge);
   }
 
   /** @see #run(CodeReviewCommit, Collection) */
-  protected abstract CodeReviewCommit _run(CodeReviewCommit mergeTip,
+  protected abstract MergeTip _run(CodeReviewCommit currentTip,
       Collection<CodeReviewCommit> toMerge) throws MergeException;
 
   /**

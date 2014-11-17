@@ -17,6 +17,7 @@ package com.google.gerrit.server.git.strategy;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.MergeException;
+import com.google.gerrit.server.git.MergeTip;
 
 import java.util.Collection;
 import java.util.List;
@@ -27,29 +28,36 @@ public class MergeIfNecessary extends SubmitStrategy {
   }
 
   @Override
-  protected CodeReviewCommit _run(CodeReviewCommit mergeTip,
+  protected MergeTip _run(CodeReviewCommit branchTip,
       Collection<CodeReviewCommit> toMerge) throws MergeException {
-    List<CodeReviewCommit> sorted = args.mergeUtil.reduceToMinimalMerge(
-        args.mergeSorter, toMerge);
-
-    if (mergeTip == null) {
+    List<CodeReviewCommit> sorted =
+        args.mergeUtil.reduceToMinimalMerge(args.mergeSorter, toMerge);
+    MergeTip mergeTip;
+    if (branchTip == null) {
       // The branch is unborn. Take a fast-forward resolution to
       // create the branch.
-      mergeTip = sorted.remove(0);
+      mergeTip = new MergeTip(sorted.get(0), toMerge);
+      branchTip = sorted.remove(0);
+    } else {
+      mergeTip = new MergeTip(branchTip, toMerge);
+      branchTip =
+          args.mergeUtil.getFirstFastForward(branchTip, args.rw, sorted);
     }
-
-    mergeTip =
-        args.mergeUtil.getFirstFastForward(mergeTip, args.rw, sorted);
+    mergeTip.moveTipTo(branchTip, branchTip.getName());
 
     // For every other commit do a pair-wise merge.
     while (!sorted.isEmpty()) {
-      mergeTip = args.mergeUtil.mergeOneCommit(args.serverIdent.get(),
-          args.repo, args.rw, args.inserter, args.canMergeFlag, args.destBranch,
-          mergeTip, sorted.remove(0));
+      CodeReviewCommit mergedFrom = sorted.remove(0);
+      branchTip =
+          args.mergeUtil.mergeOneCommit(args.serverIdent.get(), args.repo,
+              args.rw, args.inserter, args.canMergeFlag, args.destBranch,
+              branchTip, mergedFrom);
+      mergeTip.moveTipTo(branchTip, mergedFrom.getName());
     }
 
-    PatchSetApproval submitApproval = args.mergeUtil.markCleanMerges(
-        args.rw, args.canMergeFlag, mergeTip, args.alreadyAccepted);
+    final PatchSetApproval submitApproval =
+        args.mergeUtil.markCleanMerges(args.rw, args.canMergeFlag, branchTip,
+            args.alreadyAccepted);
     setRefLogIdent(submitApproval);
 
     return mergeTip;

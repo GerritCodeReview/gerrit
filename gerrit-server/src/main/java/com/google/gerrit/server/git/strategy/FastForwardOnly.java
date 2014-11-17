@@ -18,6 +18,7 @@ import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.CommitMergeStatus;
 import com.google.gerrit.server.git.MergeException;
+import com.google.gerrit.server.git.MergeTip;
 
 import java.util.Collection;
 import java.util.List;
@@ -28,23 +29,26 @@ public class FastForwardOnly extends SubmitStrategy {
   }
 
   @Override
-  protected CodeReviewCommit _run(CodeReviewCommit mergeTip,
-      Collection<CodeReviewCommit> toMerge) throws MergeException {
+  protected MergeTip _run(final CodeReviewCommit branchTip,
+      final Collection<CodeReviewCommit> toMerge) throws MergeException {
+    MergeTip mergeTip = new MergeTip(branchTip, toMerge);
     List<CodeReviewCommit> sorted = args.mergeUtil.reduceToMinimalMerge(
         args.mergeSorter, toMerge);
-    CodeReviewCommit newMergeTip =
-        args.mergeUtil.getFirstFastForward(mergeTip, args.rw, sorted);
+    final CodeReviewCommit newMergeTipCommit =
+        args.mergeUtil.getFirstFastForward(branchTip, args.rw, sorted);
+    mergeTip.moveTipTo(newMergeTipCommit, newMergeTipCommit.getName());
 
     while (!sorted.isEmpty()) {
-      CodeReviewCommit n = sorted.remove(0);
+      final CodeReviewCommit n = sorted.remove(0);
       n.setStatusCode(CommitMergeStatus.NOT_FAST_FORWARD);
     }
 
-    PatchSetApproval submitApproval = args.mergeUtil.markCleanMerges(args.rw,
-        args.canMergeFlag, newMergeTip, args.alreadyAccepted);
+    PatchSetApproval submitApproval =
+        args.mergeUtil.markCleanMerges(args.rw, args.canMergeFlag, newMergeTipCommit,
+            args.alreadyAccepted);
     setRefLogIdent(submitApproval);
 
-    return newMergeTip;
+    return mergeTip;
   }
 
   @Override

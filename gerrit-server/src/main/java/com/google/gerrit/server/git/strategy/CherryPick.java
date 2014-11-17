@@ -30,6 +30,7 @@ import com.google.gerrit.server.git.CommitMergeStatus;
 import com.google.gerrit.server.git.MergeConflictException;
 import com.google.gerrit.server.git.MergeException;
 import com.google.gerrit.server.git.MergeIdenticalTreeException;
+import com.google.gerrit.server.git.MergeTip;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.server.OrmException;
@@ -63,18 +64,20 @@ public class CherryPick extends SubmitStrategy {
   }
 
   @Override
-  protected CodeReviewCommit _run(CodeReviewCommit mergeTip,
+  protected MergeTip _run(CodeReviewCommit branchTip,
       Collection<CodeReviewCommit> toMerge) throws MergeException {
-    List<CodeReviewCommit> sorted = CodeReviewCommit.ORDER.sortedCopy(toMerge);
-    while (!sorted.isEmpty()) {
-      CodeReviewCommit n = sorted.remove(0);
-
+    MergeTip mergeTip =
+        branchTip != null ? new MergeTip(branchTip, toMerge)
+            : null;
+        List<CodeReviewCommit> sorted = CodeReviewCommit.ORDER.sortedCopy(toMerge);
+        while (!sorted.isEmpty()) {
+          CodeReviewCommit n = sorted.remove(0);
       try {
         if (mergeTip == null) {
           // The branch is unborn. Take a fast-forward resolution to
           // create the branch.
           //
-          mergeTip = n;
+          mergeTip = new MergeTip(n, Lists.newArrayList(n));
           n.setStatusCode(CommitMergeStatus.CLEAN_MERGE);
 
         } else if (n.getParentCount() == 0) {
@@ -89,8 +92,10 @@ public class CherryPick extends SubmitStrategy {
           // that on the current merge tip.
           //
           try {
-            mergeTip = writeCherryPickCommit(mergeTip, n);
-            newCommits.put(mergeTip.getPatchsetId().getParentKey(), mergeTip);
+            CodeReviewCommit merge = writeCherryPickCommit(mergeTip.getCurrentTip(), n);
+            mergeTip.moveTipTo(merge, merge.getName());
+            newCommits.put(mergeTip.getCurrentTip().getPatchsetId()
+                .getParentKey(), mergeTip.getCurrentTip());
           } catch (MergeConflictException mce) {
             n.setStatusCode(CommitMergeStatus.PATH_CONFLICT);
             mergeTip = null;
@@ -106,15 +111,17 @@ public class CherryPick extends SubmitStrategy {
           // instead behave as though MERGE_IF_NECESSARY was configured.
           //
           if (!args.mergeUtil.hasMissingDependencies(args.mergeSorter, n)) {
-            if (args.rw.isMergedInto(mergeTip, n)) {
-              mergeTip = n;
+            if (args.rw.isMergedInto(mergeTip.getCurrentTip(), n)) {
+              mergeTip.moveTipTo(n, n.getName());
             } else {
-              mergeTip = args.mergeUtil.mergeOneCommit(args.serverIdent.get(),
-                  args.repo, args.rw, args.inserter, args.canMergeFlag,
-                  args.destBranch, mergeTip, n);
-            }
-            PatchSetApproval submitApproval = args.mergeUtil.markCleanMerges(
-                args.rw, args.canMergeFlag, mergeTip, args.alreadyAccepted);
+              mergeTip.moveTipTo(
+                  args.mergeUtil.mergeOneCommit(args.serverIdent.get(), args.repo,
+                      args.rw, args.inserter, args.canMergeFlag,
+                      args.destBranch, mergeTip.getCurrentTip(), n), n.getName());
+           }
+            final PatchSetApproval submitApproval =
+                args.mergeUtil.markCleanMerges(args.rw, args.canMergeFlag,
+                    mergeTip.getCurrentTip(), args.alreadyAccepted);
             setRefLogIdent(submitApproval);
           } else {
             // One or more dependencies were not met. The status was

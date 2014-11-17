@@ -72,6 +72,8 @@ patchSet:: link:json.html#patchSet[patchSet attribute]
 
 submitter:: link:json.html#account[account attribute]
 
+newRev:: The resulting revision of the merge.
+
 eventCreatedOn:: Time in seconds since the UNIX epoch when this event was
 created.
 

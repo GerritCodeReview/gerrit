@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da87e727_69f3e5ff",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 629,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-11-17T01:44:12Z",
+      "side": 1,
+      "message": "Missing isTrue()",
+      "range": {
+        "startLine": 629,
+        "startChar": 4,
+        "endLine": 629,
+        "endChar": 64
+      },
+      "revId": "ce4e574620903ab202c96c2c01dbc4294a5c09d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da87e727_89073940",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 645,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-11-17T01:44:12Z",
+      "side": 1,
+      "message": "Missing isTrue()",
+      "range": {
+        "startLine": 643,
+        "startChar": 4,
+        "endLine": 645,
+        "endChar": 43
+      },
+      "revId": "ce4e574620903ab202c96c2c01dbc4294a5c09d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a81ef19_27f91ae2",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 661,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-11-17T01:44:12Z",
+      "side": 1,
+      "message": "Missing isTrue()",
+      "range": {
+        "startLine": 661,
+        "startChar": 4,
+        "endLine": 661,
+        "endChar": 64
+      },
+      "revId": "ce4e574620903ab202c96c2c01dbc4294a5c09d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a81ef19_47ee0e1d",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 677,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-11-17T01:44:12Z",
+      "side": 1,
+      "message": "Missing isTrue()",
+      "range": {
+        "startLine": 675,
+        "startChar": 4,
+        "endLine": 677,
+        "endChar": 44
+      },
+      "revId": "ce4e574620903ab202c96c2c01dbc4294a5c09d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

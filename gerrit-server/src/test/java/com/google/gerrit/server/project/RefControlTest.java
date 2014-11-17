@@ -70,11 +70,23 @@ public class RefControlTest {
   public void testOwnerProject() {
     grant(local, OWNER, ADMIN, "refs/*");
 
-    ProjectControl uBlah = util.user(local, DEVS);
-    ProjectControl uAdmin = util.user(local, DEVS, ADMIN);
+    assertAdminsAreOwnersAndDevsAreNot();
+  }
 
-    assertFalse("not owner", uBlah.isOwner());
-    assertTrue("is owner", uAdmin.isOwner());
+  @Test
+  public void testDenyOwnerProject() {
+    allow(local, OWNER, ADMIN, "refs/*");
+    deny(local, OWNER, DEVS, "refs/*");
+
+    assertAdminsAreOwnersAndDevsAreNot();
+  }
+
+  @Test
+  public void testBlockOwnerProject() {
+    allow(local, OWNER, ADMIN, "refs/*");
+    block(local, OWNER, DEVS, "refs/*");
+
+    assertAdminsAreOwnersAndDevsAreNot();
   }
 
   @Test
@@ -522,5 +534,13 @@ public class RefControlTest {
         .getRange(LABEL + "Code-Review");
     assertFalse("u can vote -2", range.contains(-2));
     assertFalse("u can vote +2", range.contains(2));
+  }
+
+  private void assertAdminsAreOwnersAndDevsAreNot() {
+    ProjectControl uBlah = util.user(local, DEVS);
+    ProjectControl uAdmin = util.user(local, DEVS, ADMIN);
+
+    assertFalse("not owner", uBlah.isOwner());
+    assertTrue("is owner", uAdmin.isOwner());
   }
 }

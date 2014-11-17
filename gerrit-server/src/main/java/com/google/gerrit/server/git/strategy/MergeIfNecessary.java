@@ -17,6 +17,7 @@ package com.google.gerrit.server.git.strategy;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.MergeException;
+import com.google.gerrit.server.git.MergeTip;
 
 import java.util.List;
 
@@ -27,29 +28,34 @@ public class MergeIfNecessary extends SubmitStrategy {
   }
 
   @Override
-  protected CodeReviewCommit _run(CodeReviewCommit mergeTip,
+  protected MergeTip _run(CodeReviewCommit branchTip,
       List<CodeReviewCommit> toMerge) throws MergeException {
     args.mergeUtil.reduceToMinimalMerge(args.mergeSorter, toMerge);
-
-    if (mergeTip == null) {
+    MergeTip mergeTip;
+    if (branchTip == null) {
       // The branch is unborn. Take a fast-forward resolution to
       // create the branch.
-      mergeTip = toMerge.remove(0);
+      mergeTip = new MergeTip(toMerge.get(0), toMerge);
+      toMerge.remove(0);
+    } else {
+      mergeTip = new MergeTip(branchTip, toMerge);
     }
 
-    mergeTip =
-        args.mergeUtil.getFirstFastForward(mergeTip, args.rw, toMerge);
-
+    branchTip =
+        args.mergeUtil.getFirstFastForward(branchTip, args.rw, toMerge);
+    mergeTip.moveTipTo(branchTip, branchTip.getName());
     // For every other commit do a pair-wise merge.
     while (!toMerge.isEmpty()) {
-      mergeTip =
+      CodeReviewCommit mergedFrom = toMerge.remove(0);
+      branchTip =
           args.mergeUtil.mergeOneCommit(args.serverIdent.get(), args.repo, args.rw,
-              args.inserter, args.canMergeFlag, args.destBranch, mergeTip,
-              toMerge.remove(0));
+              args.inserter, args.canMergeFlag, args.destBranch, branchTip,
+              mergedFrom);
+      mergeTip.moveTipTo(branchTip, mergedFrom.getName());
     }
 
     final PatchSetApproval submitApproval = args.mergeUtil.markCleanMerges(
-        args.rw, args.canMergeFlag, mergeTip, args.alreadyAccepted);
+        args.rw, args.canMergeFlag, branchTip, args.alreadyAccepted);
     setRefLogIdent(submitApproval);
 
     return mergeTip;

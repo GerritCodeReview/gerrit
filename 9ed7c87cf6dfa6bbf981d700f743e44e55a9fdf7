@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "baef93fe_70085051",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2014-11-17T07:56:36Z",
+      "side": 1,
+      "message": "Strange that I have not observed this so far.",
+      "range": {
+        "startLine": 12,
+        "startChar": 1,
+        "endLine": 12,
+        "endChar": 51
+      },
+      "revId": "9ed7c87cf6dfa6bbf981d700f743e44e55a9fdf7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baef93fe_90f294fa",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/DbGroupMemberAuditListener.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2014-11-17T07:56:36Z",
+      "side": 1,
+      "message": "Do we have to close the db in a finally if we obtain it from a SchemaFactory?",
+      "revId": "9ed7c87cf6dfa6bbf981d700f743e44e55a9fdf7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

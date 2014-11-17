@@ -2189,7 +2189,7 @@ public class ReceiveCommits {
       hooks.doPatchsetCreatedHook(change, newPatchSet, db);
       if (mergedIntoRef != null) {
         hooks.doChangeMergedHook(
-            change, currentUser.getAccount(), newPatchSet, db);
+            change, currentUser.getAccount(), newPatchSet, db, newCommit.getName());
       }
 
       if (magicBranch != null && magicBranch.isSubmit()) {
@@ -2465,7 +2465,7 @@ public class ReceiveCommits {
     result.mergedIntoRef = refName;
     markChangeMergedByPush(db, result, result.changeCtl);
     hooks.doChangeMergedHook(
-        change, currentUser.getAccount(), result.newPatchSet, db);
+        change, currentUser.getAccount(), result.newPatchSet, db, commit.getName());
     sendMergedEmail(result);
     return change.getKey();
   }

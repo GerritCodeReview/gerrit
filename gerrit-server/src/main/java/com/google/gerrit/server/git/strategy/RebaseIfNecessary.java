@@ -25,6 +25,7 @@ import com.google.gerrit.server.changedetail.RebaseChange;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.CommitMergeStatus;
 import com.google.gerrit.server.git.MergeException;
+import com.google.gerrit.server.git.MergeTip;
 import com.google.gerrit.server.git.RebaseSorter;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
@@ -53,20 +54,19 @@ public class RebaseIfNecessary extends SubmitStrategy {
   }
 
   @Override
-  protected CodeReviewCommit _run(final CodeReviewCommit mergeTip,
+  protected MergeTip _run(final CodeReviewCommit branchTip,
       final List<CodeReviewCommit> toMerge) throws MergeException {
-    CodeReviewCommit newMergeTip = mergeTip;
+    MergeTip mergeTip = new MergeTip(branchTip, toMerge);
     sort(toMerge);
-
     while (!toMerge.isEmpty()) {
       final CodeReviewCommit n = toMerge.remove(0);
 
-      if (newMergeTip == null) {
+      if (mergeTip.getCurrentTip() == null) {
         // The branch is unborn. Take a fast-forward resolution to
         // create the branch.
         //
-        newMergeTip = n;
         n.setStatusCode(CommitMergeStatus.CLEAN_MERGE);
+        mergeTip.moveTipTo(n,n.getName());
 
       } else if (n.getParentCount() == 0) {
         // Refuse to merge a root commit into an existing branch,
@@ -76,9 +76,9 @@ public class RebaseIfNecessary extends SubmitStrategy {
 
       } else if (n.getParentCount() == 1) {
         if (args.mergeUtil.canFastForward(
-            args.mergeSorter, newMergeTip, args.rw, n)) {
-          newMergeTip = n;
+            args.mergeSorter, mergeTip.getCurrentTip(), args.rw, n)) {
           n.setStatusCode(CommitMergeStatus.CLEAN_MERGE);
+          mergeTip.moveTipTo(n, n.getName());
 
         } else {
           try {
@@ -87,8 +87,8 @@ public class RebaseIfNecessary extends SubmitStrategy {
             final PatchSet newPatchSet =
                 rebaseChange.rebase(args.repo, args.rw, args.inserter,
                     n.getPatchsetId(), n.change(), uploader,
-                    newMergeTip, args.mergeUtil, args.serverIdent.get(),
-                    false, false, ValidatePolicy.NONE);
+                    mergeTip.getCurrentTip(), args.mergeUtil,
+                    args.serverIdent.get(), false, false, ValidatePolicy.NONE);
 
             List<PatchSetApproval> approvals = Lists.newArrayList();
             for (PatchSetApproval a : args.approvalsUtil.byPatchSet(
@@ -98,16 +98,18 @@ public class RebaseIfNecessary extends SubmitStrategy {
             // rebaseChange.rebase() may already have copied some approvals,
             // use upsert, not insert, to avoid constraint violation on database
             args.db.patchSetApprovals().upsert(approvals);
-            newMergeTip =
-                (CodeReviewCommit) args.rw.parseCommit(ObjectId
-                    .fromString(newPatchSet.getRevision().get()));
+
+            mergeTip.moveTipTo((CodeReviewCommit) args.rw.parseCommit(ObjectId
+                .fromString(newPatchSet.getRevision().get())), newPatchSet
+                .getRevision().get());
             n.change().setCurrentPatchSet(
-                patchSetInfoFactory.get(newMergeTip, newPatchSet.getId()));
-            newMergeTip.copyFrom(n);
-            newMergeTip.setControl(args.changeControlFactory.controlFor(n.change(), uploader));
-            newMergeTip.setPatchsetId(newPatchSet.getId());
-            newMergeTip.setStatusCode(CommitMergeStatus.CLEAN_REBASE);
-            newCommits.put(newPatchSet.getId().getParentKey(), newMergeTip);
+                patchSetInfoFactory.get(mergeTip.getCurrentTip(), newPatchSet.getId()));
+            mergeTip.getCurrentTip().copyFrom(n);
+            mergeTip.getCurrentTip().setControl(
+                args.changeControlFactory.controlFor(n.change(), uploader));
+            mergeTip.getCurrentTip().setPatchsetId(newPatchSet.getId());
+            mergeTip.getCurrentTip().setStatusCode(CommitMergeStatus.CLEAN_REBASE);
+            newCommits.put(newPatchSet.getId().getParentKey(), mergeTip.getCurrentTip());
             setRefLogIdent(args.mergeUtil.getSubmitter(n));
           } catch (PathConflictException e) {
             n.setStatusCode(CommitMergeStatus.PATH_CONFLICT);
@@ -125,25 +127,25 @@ public class RebaseIfNecessary extends SubmitStrategy {
         // instead behave as though MERGE_IF_NECESSARY was configured.
         //
         try {
-          if (args.rw.isMergedInto(newMergeTip, n)) {
-            newMergeTip = n;
+          if (args.rw.isMergedInto(mergeTip.getCurrentTip(), n)) {
+            mergeTip.moveTipTo(n, n.getName());
           } else {
-            newMergeTip = args.mergeUtil.mergeOneCommit(
+            mergeTip.moveTipTo(args.mergeUtil.mergeOneCommit(
                 args.serverIdent.get(), args.repo, args.rw, args.inserter,
-                args.canMergeFlag, args.destBranch, newMergeTip, n);
+                args.canMergeFlag, args.destBranch, mergeTip.getCurrentTip(), n), n.getName());
           }
           final PatchSetApproval submitApproval = args.mergeUtil.markCleanMerges(
-              args.rw, args.canMergeFlag, newMergeTip, args.alreadyAccepted);
+              args.rw, args.canMergeFlag, mergeTip.getCurrentTip(), args.alreadyAccepted);
           setRefLogIdent(submitApproval);
         } catch (IOException e) {
           throw new MergeException("Cannot merge " + n.name(), e);
         }
       }
 
-      args.alreadyAccepted.add(newMergeTip);
+      args.alreadyAccepted.add(mergeTip.getCurrentTip());
     }
 
-    return newMergeTip;
+    return mergeTip;
   }
 
   private void sort(final List<CodeReviewCommit> toSort) throws MergeException {

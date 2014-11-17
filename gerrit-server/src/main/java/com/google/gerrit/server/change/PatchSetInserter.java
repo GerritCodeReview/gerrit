@@ -316,7 +316,7 @@ public class PatchSetInserter {
     } finally {
       db.rollback();
     }
-    indexer.index(db, c);
+    indexer.index(db, updatedChange);
     if (runHooks) {
       hooks.doPatchsetCreatedHook(updatedChange, patchSet, db);
     }

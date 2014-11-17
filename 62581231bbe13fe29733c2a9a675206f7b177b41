@@ -60,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "3a148387_24a2d2b8",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/UpdatePrimaryKeys.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-11-17T08:41:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9ae00fb1_0f406560",
+      "range": {
+        "startLine": 118,
+        "startChar": 13,
+        "endLine": 118,
+        "endChar": 39
+      },
+      "revId": "62581231bbe13fe29733c2a9a675206f7b177b41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9ae00fb1_6f4b3189",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/UpdatePrimaryKeys.java",
         "patchSetId": 3
@@ -71,6 +95,30 @@
       "writtenOn": "2014-11-12T06:43:02Z",
       "side": 1,
       "message": "Not thrown",
+      "range": {
+        "startLine": 128,
+        "startChar": 13,
+        "endLine": 128,
+        "endChar": 25
+      },
+      "revId": "62581231bbe13fe29733c2a9a675206f7b177b41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fafd8b73_12c0ac59",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/UpdatePrimaryKeys.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-11-17T08:41:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9ae00fb1_6f4b3189",
       "range": {
         "startLine": 128,
         "startChar": 13,

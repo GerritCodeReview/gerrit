@@ -82,7 +82,7 @@ public interface ChangeHooks {
    * @throws OrmException
    */
   public void doChangeMergedHook(Change change, Account account,
-      PatchSet patchSet, ReviewDb db) throws OrmException;
+      PatchSet patchSet, ReviewDb db, String mergeResultRev) throws OrmException;
 
   /**
    * Fire the Merge Failed Hook.

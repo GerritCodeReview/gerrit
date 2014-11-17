@@ -168,7 +168,7 @@ public class MergeOp {
   private RevWalk rw;
   private RevFlag canMergeFlag;
   private CodeReviewCommit branchTip;
-  private CodeReviewCommit mergeTip;
+  private MergeTip mergeTip;
   private ObjectInserter inserter;
   private PersonIdent refLogIdent;
 
@@ -272,11 +272,11 @@ public class MergeOp {
             branchUpdate = openBranch();
           }
           SubmitStrategy strategy = createStrategy(submitType);
-          preMerge(strategy, toMerge.get(submitType));
+          MergeTip mergeTip = preMerge(strategy, toMerge.get(submitType));
           RefUpdate update = updateBranch(strategy, branchUpdate);
           reopen = true;
 
-          updateChangeStatus(toSubmit.get(submitType));
+          updateChangeStatus(toSubmit.get(submitType), mergeTip);
           updateSubscriptions(toSubmit.get(submitType));
           if (update != null) {
             fireRefUpdated(update);
@@ -310,7 +310,7 @@ public class MergeOp {
         logDebug("Adding {} changes to merge on next run", toMerge.size());
       }
 
-      updateChangeStatus(toUpdate);
+      updateChangeStatus(toUpdate, mergeTip);
 
       for (CodeReviewCommit commit : potentiallyStillSubmittableOnNextRun) {
         Capable capable = isSubmitStillPossible(commit);
@@ -398,7 +398,7 @@ public class MergeOp {
     return true;
   }
 
-  private void preMerge(SubmitStrategy strategy,
+  private MergeTip preMerge(SubmitStrategy strategy,
       List<CodeReviewCommit> toMerge) throws MergeException {
     logDebug("Running submit strategy {} for {} commits",
         strategy.getClass().getSimpleName(), toMerge.size());
@@ -406,6 +406,7 @@ public class MergeOp {
     refLogIdent = strategy.getRefLogIdent();
     logDebug("Produced {} new commits", strategy.getNewCommits().size());
     commits.putAll(strategy.getNewCommits());
+    return mergeTip;
   }
 
   private SubmitStrategy createStrategy(SubmitType submitType)
@@ -594,7 +595,7 @@ public class MergeOp {
                 idstr, ps.getId());
             commit.setStatusCode(CommitMergeStatus.ALREADY_MERGED);
             try {
-              setMerged(chg, null);
+              setMerged(chg, null, null);
             } catch (OrmException e) {
               logError("Cannot mark change " + chg.getId() + " merged", e);
             }
@@ -640,11 +641,13 @@ public class MergeOp {
 
   private RefUpdate updateBranch(SubmitStrategy strategy,
       RefUpdate branchUpdate) throws MergeException {
-    if (branchTip == mergeTip) {
+    final CodeReviewCommit currentTip =
+        mergeTip != null ? mergeTip.getCurrentTip() : null;
+    if (branchTip == currentTip) {
       logDebug("Branch already at merge tip {}, no update to perform",
-          mergeTip.name());
+          currentTip.name());
       return null;
-    } else if (mergeTip == null) {
+    } else if (currentTip == null) {
       logDebug("No merge tip, no update to perform");
       return null;
     }
@@ -654,17 +657,17 @@ public class MergeOp {
       try {
         ProjectConfig cfg =
             new ProjectConfig(destProject.getProject().getNameKey());
-        cfg.load(repo, mergeTip);
+        cfg.load(repo, currentTip);
       } catch (Exception e) {
         throw new MergeException("Submit would store invalid"
-            + " project configuration " + mergeTip.name() + " for "
+            + " project configuration " + currentTip.name() + " for "
             + destProject.getProject().getName(), e);
       }
     }
 
     branchUpdate.setRefLogIdent(refLogIdent);
     branchUpdate.setForceUpdate(false);
-    branchUpdate.setNewObjectId(mergeTip);
+    branchUpdate.setNewObjectId(currentTip);
     branchUpdate.setRefLogMessage("merged", true);
     try {
       RefUpdate.Result result = branchUpdate.update(rw);
@@ -678,7 +681,7 @@ public class MergeOp {
             tagCache.updateFastForward(destBranch.getParentKey(),
                 branchUpdate.getName(),
                 branchUpdate.getOldObjectId(),
-                mergeTip);
+                currentTip);
           }
 
           if (RefNames.REFS_CONFIG.equals(branchUpdate.getName())) {
@@ -712,7 +715,8 @@ public class MergeOp {
   private void fireRefUpdated(RefUpdate branchUpdate) {
     logDebug("Firing ref updated hooks for {}", branchUpdate.getName());
     gitRefUpdated.fire(destBranch.getParentKey(), branchUpdate);
-    hooks.doRefUpdatedHook(destBranch, branchUpdate, getAccount(mergeTip));
+    hooks.doRefUpdatedHook(destBranch, branchUpdate,
+        getAccount(mergeTip.getCurrentTip()));
   }
 
   private Account getAccount(CodeReviewCommit codeReviewCommit) {
@@ -733,7 +737,7 @@ public class MergeOp {
     return "";
   }
 
-  private void updateChangeStatus(List<Change> submitted)
+  private void updateChangeStatus(List<Change> submitted, MergeTip mergeTip)
       throws NoSuchChangeException {
     logDebug("Updating change status for {} changes", submitted);
     for (Change c : submitted) {
@@ -750,21 +754,22 @@ public class MergeOp {
 
       String txt = s.getMessage();
       logDebug("Status of change {} on {}: {}", c.getId(), c.getDest(), s);
-
+      String mergeResultRev = mergeTip.getMergeResults().get(commit.getName());
       try {
         switch (s) {
           case CLEAN_MERGE:
-            setMerged(c, message(c, txt + getByAccountName(commit)));
+            setMerged(c, message(c, txt + getByAccountName(commit)),
+                mergeResultRev);
             break;
 
           case CLEAN_REBASE:
           case CLEAN_PICK:
             setMerged(c, message(c, txt + " as " + commit.name()
-                + getByAccountName(commit)));
+                + getByAccountName(commit)), mergeResultRev);
             break;
 
           case ALREADY_MERGED:
-            setMerged(c, null);
+            setMerged(c, null, mergeResultRev);
             break;
 
           case PATH_CONFLICT:
@@ -799,13 +804,14 @@ public class MergeOp {
   }
 
   private void updateSubscriptions(List<Change> submitted) {
-    if (mergeTip != null && (branchTip == null || branchTip != mergeTip)) {
+    if (mergeTip != null
+        && (branchTip == null || branchTip != mergeTip.getCurrentTip())) {
       logDebug("Updating submodule subscriptions for {} changes",
           submitted.size());
       SubmoduleOp subOp =
-          subOpFactory.create(destBranch, mergeTip, rw, repo,
+          subOpFactory.create(destBranch, mergeTip.getCurrentTip(), rw, repo,
               destProject.getProject(), submitted, commits,
-              getAccount(mergeTip));
+              getAccount(mergeTip.getCurrentTip()));
       try {
         subOp.update();
       } catch (SubmoduleException e) {
@@ -917,7 +923,7 @@ public class MergeOp {
     return m;
   }
 
-  private void setMerged(Change c, ChangeMessage msg)
+  private void setMerged(Change c, ChangeMessage msg, String mergeResultRev)
       throws OrmException, IOException {
     logDebug("Setting change {} merged", c.getId());
     ChangeUpdate update = null;
@@ -943,6 +949,7 @@ public class MergeOp {
         cmUtil.addChangeMessage(db, update, msg);
       }
       db.commit();
+
     } finally {
       db.rollback();
     }
@@ -953,7 +960,7 @@ public class MergeOp {
       try {
         hooks.doChangeMergedHook(c,
             accountCache.get(submitter.getAccountId()).getAccount(),
-            merged, db);
+            merged, db, mergeResultRev);
       } catch (OrmException ex) {
         logError("Cannot run hook for submitted patch set " + c.getId(), ex);
       }

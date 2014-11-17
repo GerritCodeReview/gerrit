@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "daea87ee_f1456874",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1017804
+      },
+      "writtenOn": "2014-11-17T09:15:21Z",
+      "side": 1,
+      "message": "This addresses issue 2994, by the way.",
+      "revId": "f9b09f492ca2289b17da0c122e770d125671e961",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

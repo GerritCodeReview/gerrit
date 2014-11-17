@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "1ae09f12_8bf26dfa",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/UpdatePrimaryKeys.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-11-17T13:29:29Z",
+      "side": 1,
+      "message": "Nit: Unneeded new line.",
+      "revId": "8677b18d76d31b9af27e9aa1e6bf494cb5e6916c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1ae09f12_ebf33101",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/UpdatePrimaryKeys.java",
         "patchSetId": 4
@@ -19,6 +36,23 @@
         "endLine": 136,
         "endChar": 5
       },
+      "revId": "8677b18d76d31b9af27e9aa1e6bf494cb5e6916c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "daea87ee_b17240d3",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/UpdatePrimaryKeys.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-11-17T13:29:29Z",
+      "side": 1,
+      "message": "Optional: Add a comment, that PostgreSQL doesn\u0027t support \"alter table foo drop primary key\" form.",
       "revId": "8677b18d76d31b9af27e9aa1e6bf494cb5e6916c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -18,7 +18,6 @@ import static com.google.common.base.Preconditions.checkArgument;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Function;
-import com.google.common.base.Objects;
 import com.google.common.base.Predicate;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
@@ -57,6 +56,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -91,7 +91,7 @@ public class ApprovalsUtil {
     return Iterables.filter(psas, new Predicate<PatchSetApproval>() {
       @Override
       public boolean apply(PatchSetApproval input) {
-        return Objects.equal(input.getAccountId(), accountId);
+        return Objects.equals(input.getAccountId(), accountId);
       }
     });
   }

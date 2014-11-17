@@ -15,11 +15,11 @@
 package com.google.gerrit.server.securestore;
 
 import com.google.common.base.MoreObjects;
-import com.google.common.base.Objects;
 
 import java.io.File;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.util.Objects;
 
 public class SecureStoreData {
   public final File pluginFile;
@@ -73,6 +73,6 @@ public class SecureStoreData {
 
   @Override
   public int hashCode() {
-    return Objects.hashCode(storeName);
+    return Objects.hash(storeName);
   }
 }

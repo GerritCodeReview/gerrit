@@ -18,7 +18,6 @@ import static com.google.common.base.Preconditions.checkArgument;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.MoreObjects;
-import com.google.common.base.Objects;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
@@ -38,6 +37,7 @@ import com.google.inject.Singleton;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Normalizes votes on labels according to project config and permissions.
@@ -85,16 +85,16 @@ public class LabelNormalizer {
     public boolean equals(Object o) {
       if (o instanceof Result) {
         Result r = (Result) o;
-        return Objects.equal(unchanged, r.unchanged)
-            && Objects.equal(updated, r.updated)
-            && Objects.equal(deleted, r.deleted);
+        return Objects.equals(unchanged, r.unchanged)
+            && Objects.equals(updated, r.updated)
+            && Objects.equals(deleted, r.deleted);
       }
       return false;
     }
 
     @Override
     public int hashCode() {
-      return Objects.hashCode(unchanged, updated, deleted);
+      return Objects.hash(unchanged, updated, deleted);
     }
 
     @Override

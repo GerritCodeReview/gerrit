@@ -15,7 +15,6 @@
 package com.google.gerrit.server.git;
 
 import com.google.common.base.MoreObjects;
-import com.google.common.base.Objects;
 
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheBuilder;
@@ -47,6 +46,7 @@ import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.util.RawParseUtils;
 
 import java.io.IOException;
+import java.util.Objects;
 
 /**
  * Support for metadata stored within a version controlled branch.
@@ -275,7 +275,7 @@ public abstract class VersionedMetaData {
 
       @Override
       public RevCommit createRef(String refName) throws IOException {
-        if (Objects.equal(src, revision)) {
+        if (Objects.equals(src, revision)) {
           return revision;
         }
         return updateRef(ObjectId.zeroId(), src, refName);
@@ -306,7 +306,7 @@ public abstract class VersionedMetaData {
 
       @Override
       public RevCommit commitAt(ObjectId expected) throws IOException {
-        if (Objects.equal(src, expected)) {
+        if (Objects.equals(src, expected)) {
           return revision;
         }
         return updateRef(MoreObjects.firstNonNull(expected, ObjectId.zeroId()),

@@ -18,7 +18,6 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.gerrit.server.change.ChangeKind.NO_CODE_CHANGE;
 import static com.google.gerrit.server.change.ChangeKind.TRIVIAL_REBASE;
 
-import com.google.common.base.Objects;
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Maps;
@@ -47,6 +46,7 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
 import java.util.NavigableSet;
+import java.util.Objects;
 import java.util.SortedSet;
 import java.util.TreeMap;
 
@@ -156,7 +156,7 @@ public class ApprovalCopier {
     LabelType type = project.getLabelTypes().byLabel(psa.getLabelId());
     if (type == null) {
       return false;
-    } else if (Objects.equal(n, previous(allPsIds, psId.get())) && (
+    } else if (Objects.equals(n, previous(allPsIds, psId.get())) && (
         type.isCopyMinScore() && type.isMaxNegative(psa)
         || type.isCopyMaxScore() && type.isMaxPositive(psa))) {
       // Copy min/max score only from the immediately preceding patch set (which

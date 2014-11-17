@@ -15,7 +15,6 @@
 package com.google.gerrit.server.project;
 
 import com.google.common.base.MoreObjects;
-import com.google.common.base.Objects;
 import com.google.common.base.Strings;
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -40,6 +39,7 @@ import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.ObjectId;
 
 import java.io.IOException;
+import java.util.Objects;
 
 @Singleton
 class PutDescription implements RestModifyView<ProjectResource, Input> {
@@ -97,7 +97,7 @@ class PutDescription implements RestModifyView<ProjectResource, Input> {
         ObjectId baseRev = config.getRevision();
         ObjectId commitRev = config.commit(md);
         // Only fire hook if project was actually changed.
-        if (!Objects.equal(baseRev, commitRev)) {
+        if (!Objects.equals(baseRev, commitRev)) {
           hooks.doRefUpdatedHook(
             new Branch.NameKey(resource.getNameKey(), RefNames.REFS_CONFIG),
             baseRev, commitRev, user.getAccount());

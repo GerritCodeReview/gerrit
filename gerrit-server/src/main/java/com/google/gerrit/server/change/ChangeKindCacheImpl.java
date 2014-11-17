@@ -19,7 +19,6 @@ import static org.eclipse.jgit.lib.ObjectIdSerialization.readNotNull;
 import static org.eclipse.jgit.lib.ObjectIdSerialization.writeNotNull;
 
 import com.google.common.annotations.VisibleForTesting;
-import com.google.common.base.Objects;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.cache.Weigher;
@@ -53,6 +52,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 
 public class ChangeKindCacheImpl implements ChangeKindCache {
@@ -156,16 +156,16 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
     public boolean equals(Object o) {
       if (o instanceof Key) {
         Key k = (Key) o;
-        return Objects.equal(prior, k.prior)
-            && Objects.equal(next, k.next)
-            && Objects.equal(strategyName, k.strategyName);
+        return Objects.equals(prior, k.prior)
+            && Objects.equals(next, k.next)
+            && Objects.equals(strategyName, k.strategyName);
       }
       return false;
     }
 
     @Override
     public int hashCode() {
-      return Objects.hashCode(prior, next, strategyName);
+      return Objects.hash(prior, next, strategyName);
     }
 
     private void writeObject(ObjectOutputStream out) throws IOException {
@@ -185,7 +185,7 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
   private static class Loader extends CacheLoader<Key, ChangeKind> {
     @Override
     public ChangeKind load(Key key) throws IOException {
-      if (Objects.equal(key.prior, key.next)) {
+      if (Objects.equals(key.prior, key.next)) {
         return ChangeKind.NO_CODE_CHANGE;
       }
 

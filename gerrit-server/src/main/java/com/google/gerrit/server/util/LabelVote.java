@@ -16,10 +16,11 @@ package com.google.gerrit.server.util;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
-import com.google.common.base.Objects;
 import com.google.common.base.Strings;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
+
+import java.util.Objects;
 
 /** A single vote on a label, consisting of a label name and a value. */
 public class LabelVote {
@@ -99,7 +100,7 @@ public class LabelVote {
   public boolean equals(Object o) {
     if (o instanceof LabelVote) {
       LabelVote l = (LabelVote) o;
-      return Objects.equal(name, l.name)
+      return Objects.equals(name, l.name)
           && value == l.value;
     }
     return false;

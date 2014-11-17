@@ -20,7 +20,6 @@ import static java.util.concurrent.TimeUnit.MINUTES;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.eclipse.jgit.lib.RefDatabase.ALL;
 
-import com.google.common.base.Objects;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.ListMultimap;
@@ -97,6 +96,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -1058,8 +1058,8 @@ public class MergeOp {
     try {
       ChangeMessage last = Iterables.getLast(cmUtil.byChange(db, notes));
       if (last != null) {
-        if (Objects.equal(last.getAuthor(), msg.getAuthor())
-            && Objects.equal(last.getMessage(), msg.getMessage())) {
+        if (Objects.equals(last.getAuthor(), msg.getAuthor())
+            && Objects.equals(last.getMessage(), msg.getMessage())) {
           long lastMs = last.getWrittenOn().getTime();
           long msgMs = msg.getWrittenOn().getTime();
           long sinceMs = msgMs - lastMs;

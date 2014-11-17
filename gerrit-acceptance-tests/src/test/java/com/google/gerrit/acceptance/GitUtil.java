@@ -14,8 +14,11 @@
 
 package com.google.gerrit.acceptance;
 
+import static com.google.common.base.Preconditions.checkState;
+
 import com.google.common.collect.Iterables;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.testutil.TempFileUtil;
 
 import com.jcraft.jsch.JSch;
@@ -30,12 +33,9 @@ import org.eclipse.jgit.api.FetchCommand;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.PushCommand;
 import org.eclipse.jgit.api.errors.GitAPIException;
-import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
-import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.JschConfigSessionFactory;
 import org.eclipse.jgit.transport.OpenSshConfig.Host;
 import org.eclipse.jgit.transport.PushResult;
@@ -48,6 +48,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.List;
 import java.util.Properties;
 
 public class GitUtil {
@@ -148,49 +149,34 @@ public class GitUtil {
   }
 
   public static Commit createCommit(Git git, PersonIdent i, String msg)
-      throws GitAPIException, IOException {
+      throws GitAPIException {
     return createCommit(git, i, msg, null);
   }
 
   public static Commit amendCommit(Git git, PersonIdent i, String msg, String changeId)
-      throws GitAPIException, IOException {
+      throws GitAPIException {
     msg = ChangeIdUtil.insertId(msg, ObjectId.fromString(changeId.substring(1)));
     return createCommit(git, i, msg, changeId);
   }
 
   private static Commit createCommit(Git git, PersonIdent i, String msg,
-      String changeId) throws GitAPIException, IOException {
+      String changeId) throws GitAPIException {
 
     final CommitCommand commitCmd = git.commit();
     commitCmd.setAmend(changeId != null);
     commitCmd.setAuthor(i);
     commitCmd.setCommitter(i);
-
-    if (changeId == null) {
-      ObjectId id = computeChangeId(git, i, msg);
-      changeId = "I" + id.getName();
-    }
-    msg = ChangeIdUtil.insertId(msg, ObjectId.fromString(changeId.substring(1)));
     commitCmd.setMessage(msg);
+    commitCmd.setInsertChangeId(changeId == null);
 
     RevCommit c = commitCmd.call();
-    return new Commit(c, changeId);
-  }
 
-  private static ObjectId computeChangeId(Git git, PersonIdent i, String msg)
-      throws IOException {
-    RevWalk rw = new RevWalk(git.getRepository());
-    try {
-      Ref head = git.getRepository().getRef(Constants.HEAD);
-      if (head.getObjectId() != null) {
-        RevCommit parent = rw.lookupCommit(head.getObjectId());
-        return ChangeIdUtil.computeChangeId(parent.getTree(), parent.getId(), i, i, msg);
-      } else {
-        return ChangeIdUtil.computeChangeId(null, null, i, i, msg);
-      }
-    } finally {
-      rw.release();
-    }
+    List<String> ids = c.getFooterLines(MergeUtil.CHANGE_ID);
+    checkState(ids.size() >= 1,
+        "No Change-Id found in new commit:\n%s", c.getFullMessage());
+    changeId = ids.get(ids.size() - 1);
+
+    return new Commit(c, changeId);
   }
 
   public static void fetch(Git git, String spec) throws GitAPIException {

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1ae09f12_6b086151",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/DbGroupMemberAuditListener.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-11-17T14:04:27Z",
+      "side": 1,
+      "message": "We could avoid the init to null and the null check in the finally block:\n\n    try {\n      ReviewDb db \u003d schema.open();\n      try {\n        db.accountGroupMembersAudit().insert(auditInserts);\n      } finally {\n        db.close();\n      }\n    } catch (OrmException e) {\n      logOrmExceptionForAccounts(\n          \"Cannot log add accounts to group event performed by user\", me,\n          added, e);\n    }\n\nSame in all other places below...",
+      "range": {
+        "startLine": 70,
+        "startChar": 0,
+        "endLine": 82,
+        "endChar": 5
+      },
+      "revId": "bee5e5cbfcb44ddafa05b2c4c7f6d8d05183ebdc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

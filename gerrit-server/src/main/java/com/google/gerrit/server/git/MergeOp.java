@@ -921,16 +921,18 @@ public class MergeOp {
       throws OrmException, IOException {
     logDebug("Setting change {} merged", c.getId());
     ChangeUpdate update = null;
+    PatchSetApproval submitter;
+    PatchSet merged;
     try {
       db.changes().beginTransaction(c.getId());
 
       // We must pull the patchset out of commits, because the patchset ID is
       // modified when using the cherry-pick merge strategy.
       CodeReviewCommit commit = commits.get(c.getId());
-      PatchSet.Id merged = commit.change().currentPatchSetId();
-      c = setMergedPatchSet(c.getId(), merged);
-      PatchSetApproval submitter =
-          approvalsUtil.getSubmitter(db, commit.notes(), merged);
+      PatchSet.Id mergedId = commit.change().currentPatchSetId();
+      merged = db.patchSets().get(mergedId);
+      c = setMergedPatchSet(c.getId(), mergedId);
+      submitter = approvalsUtil.getSubmitter(db, commit.notes(), mergedId);
       ChangeControl control = commit.getControl();
       update = updateFactory.create(control, c.getLastUpdatedOn());
 
@@ -941,22 +943,20 @@ public class MergeOp {
         cmUtil.addChangeMessage(db, update, msg);
       }
       db.commit();
-
-      sendMergedEmail(c, submitter);
-      indexer.index(db, c);
-      if (submitter != null) {
-        try {
-          hooks.doChangeMergedHook(c,
-              accountCache.get(submitter.getAccountId()).getAccount(),
-              db.patchSets().get(merged), db);
-        } catch (OrmException ex) {
-          logError("Cannot run hook for submitted patch set " + c.getId(), ex);
-        }
-      }
     } finally {
       db.rollback();
     }
+    sendMergedEmail(c, submitter);
     indexer.index(db, c);
+    if (submitter != null) {
+      try {
+        hooks.doChangeMergedHook(c,
+            accountCache.get(submitter.getAccountId()).getAccount(),
+            merged, db);
+      } catch (OrmException ex) {
+        logError("Cannot run hook for submitted patch set " + c.getId(), ex);
+      }
+    }
     update.commit();
   }
 

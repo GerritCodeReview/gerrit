@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "daea87ee_517af4ab",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-11-17T14:06:16Z",
+      "side": 1,
+      "message": "Have you checked this pending change [1]?\n\n  [1] https://gerrit-review.googlesource.com/61410/",
+      "revId": "8419d9958e90940da87c4f40f49e5dd5a18be2a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

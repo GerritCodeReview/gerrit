@@ -41,6 +41,7 @@ import com.google.gerrit.server.data.AccountAttribute;
 import com.google.gerrit.server.data.ApprovalAttribute;
 import com.google.gerrit.server.data.ChangeAttribute;
 import com.google.gerrit.server.data.DependencyAttribute;
+import com.google.gerrit.server.data.MergeResultAttribute;
 import com.google.gerrit.server.data.MessageAttribute;
 import com.google.gerrit.server.data.PatchAttribute;
 import com.google.gerrit.server.data.PatchSetAttribute;
@@ -550,6 +551,12 @@ public class EventFactory {
     a.file = c.getKey().getParentKey().get();
     a.line = c.getLine();
     a.message = c.getMessage();
+    return a;
+  }
+
+  public MergeResultAttribute asMergeResult(String mergeResultRev) {
+    MergeResultAttribute a = new MergeResultAttribute();
+    a.revision = mergeResultRev;
     return a;
   }
 

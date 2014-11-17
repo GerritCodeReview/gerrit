@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7a76fb13_a60fc64f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-11-17T18:00:27Z",
+      "side": 1,
+      "message": "Can you elaborate on why this is necessary? In I8b49d6f9f as far as I could tell it was only required as an explicit dep due to a Buck bug.",
+      "revId": "c93bc42f8cf97aa45075f78c94c5989192e3b05e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

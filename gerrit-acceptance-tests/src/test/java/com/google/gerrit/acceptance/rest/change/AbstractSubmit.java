@@ -28,6 +28,8 @@ import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.SshSession;
+import com.google.gerrit.common.ChangeHooks;
+import com.google.gerrit.common.ChangeListener;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.common.InheritableBoolean;
@@ -37,9 +39,14 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.ApprovalsUtil;
+import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.change.ChangeJson.ChangeInfo;
 import com.google.gerrit.server.change.ChangeJson.LabelInfo;
+import com.google.gerrit.server.events.ChangeEvent;
+import com.google.gerrit.server.events.ChangeMergedEvent;
 import com.google.gerrit.server.notedb.ChangeNotes;
+import com.google.gerrit.server.project.ListBranches.BranchInfo;
 import com.google.gerrit.server.project.PutConfig;
 import com.google.gson.reflect.TypeToken;
 import com.google.gwtorm.server.OrmException;
@@ -73,8 +80,30 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   private ApprovalsUtil approvalsUtil;
 
 
+
+  private CurrentUser listenerUser;
+
+  private String latestMergeResult;
+
+  @Inject
+  private IdentifiedUser.GenericFactory factory;
+  @Inject
+  ChangeHooks hooks;
+
   @Before
   public void setUp() throws Exception {
+    listenerUser = factory.create(user.id);
+    hooks.addChangeListener(new ChangeListener() {
+
+      @Override
+      public void onChangeEvent(ChangeEvent event) {
+        if (event instanceof ChangeMergedEvent) {
+          setLatestMergeResult(((ChangeMergedEvent)event).mergeResult.revision);
+        }
+
+      }
+
+    }, listenerUser);
     project = new Project.NameKey("p2");
   }
 
@@ -119,6 +148,11 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
         adminSession.put("/projects/" + project.get() + "/config", in);
     assertEquals(HttpStatus.SC_OK, r.getStatusCode());
     r.consume();
+  }
+
+  private void setLatestMergeResult(String revision) {
+    this.latestMergeResult = revision;
+
   }
 
   protected void setUseContentMerge() throws IOException {
@@ -168,6 +202,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   }
 
   private void submit(String changeId, int expectedStatus) throws IOException {
+    latestMergeResult = null;
     approve(changeId);
     SubmitInput subm = new SubmitInput();
     subm.waitForMerge = true;
@@ -179,6 +214,18 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
           newGson().fromJson(r.getReader(),
               new TypeToken<ChangeInfo>() {}.getType());
       assertEquals(Change.Status.MERGED, change.status);
+      RestResponse b = adminSession.get("/projects/" + project.get() + "/branches/" + change.branch);
+      if (b.getStatusCode() == HttpStatus.SC_OK) {
+        BranchInfo branch =
+            newGson().fromJson(b.getReader(),
+                new TypeToken<BranchInfo>() {}.getType());
+
+        if (latestMergeResult != null) {
+          assertEquals(branch.revision, latestMergeResult);
+        }
+
+      }
+      b.consume();
     }
     r.consume();
   }

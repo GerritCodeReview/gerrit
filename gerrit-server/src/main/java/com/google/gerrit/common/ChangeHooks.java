@@ -79,10 +79,11 @@ public interface ChangeHooks {
    * @param change The change itself.
    * @param account The gerrit user who submitted the change.
    * @param patchSet The patchset that was merged.
+   * @param mergeResultRev The SHA-1 of the merge result revision.
    * @throws OrmException
    */
   public void doChangeMergedHook(Change change, Account account,
-      PatchSet patchSet, ReviewDb db) throws OrmException;
+      PatchSet patchSet, ReviewDb db, String mergeResultRev) throws OrmException;
 
   /**
    * Fire the Merge Failed Hook.

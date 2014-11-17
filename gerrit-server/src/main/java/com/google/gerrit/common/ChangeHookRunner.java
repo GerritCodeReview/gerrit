@@ -446,14 +446,16 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener {
     }
 
     @Override
-    public void doChangeMergedHook(final Change change, final Account account,
-          final PatchSet patchSet, final ReviewDb db) throws OrmException {
+  public void doChangeMergedHook(final Change change, final Account account,
+      final PatchSet patchSet, final ReviewDb db, String mergeResultRev)
+      throws OrmException {
         final ChangeMergedEvent event = new ChangeMergedEvent();
         final AccountState owner = accountCache.get(change.getOwner());
 
         event.change = eventFactory.asChangeAttribute(change);
         event.submitter = eventFactory.asAccountAttribute(account);
         event.patchSet = eventFactory.asPatchSetAttribute(patchSet);
+        event.mergeResult = eventFactory.asMergeResult(mergeResultRev);
         fireEvent(change, event, db);
 
         final List<String> args = new ArrayList<>();
@@ -465,6 +467,7 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener {
         addArg(args, "--topic", event.change.topic);
         addArg(args, "--submitter", getDisplayName(account));
         addArg(args, "--commit", event.patchSet.revision);
+        addArg(args, "--merge-result", mergeResultRev);
 
         runHook(change.getProject(), changeMergedHook, args);
     }

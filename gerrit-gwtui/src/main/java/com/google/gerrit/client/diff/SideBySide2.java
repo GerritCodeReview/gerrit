@@ -267,6 +267,7 @@ public class SideBySide2 extends Screen {
       }
     });
     setLineLength(prefs.lineLength());
+    setLineWrapping(prefs.lineWrapping());
     diffTable.refresh();
 
     if (startLine == 0) {
@@ -613,7 +614,7 @@ public class SideBySide2 extends Screen {
       .set("lineNumbers", prefs.showLineNumbers())
       .set("tabSize", prefs.tabSize())
       .set("mode", mode)
-      .set("lineWrapping", false)
+      .set("lineWrapping", prefs.lineWrapping())
       .set("styleSelectedText", true)
       .set("showTrailingSpace", prefs.showWhitespaceErrors())
       .set("keyMap", "vim_ro")
@@ -649,6 +650,11 @@ public class SideBySide2 extends Screen {
     } else {
       diffTable.removeStyleName(DiffTable.style.showTabs());
     }
+  }
+
+  void setLineWrapping(boolean b) {
+    cmA.setOption("lineWrapping", b);
+    cmB.setOption("lineWrapping", b);
   }
 
   void setLineLength(int columns) {

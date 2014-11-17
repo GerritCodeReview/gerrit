@@ -34,6 +34,24 @@
       "revId": "8419d9958e90940da87c4f40f49e5dd5a18be2a1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "daea87ee_d154a416",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-11-17T14:33:20Z",
+      "side": 1,
+      "message": "Partially? The idea is to use AutoValue library to generate all boilerplate for us and not write it manually. But i think not all places were removed. May be rebase this change on top of it?",
+      "parentUuid": "1ae09f12_8b2dcdbf",
+      "revId": "8419d9958e90940da87c4f40f49e5dd5a18be2a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -85,6 +85,7 @@ class PreferencesBox extends Composite {
   @UiField ToggleButton intralineDifference;
   @UiField ToggleButton syntaxHighlighting;
   @UiField ToggleButton whitespaceErrors;
+  @UiField ToggleButton lineWrapping;
   @UiField ToggleButton showTabs;
   @UiField ToggleButton lineNumbers;
   @UiField ToggleButton leftSide;
@@ -153,6 +154,7 @@ class PreferencesBox extends Composite {
     whitespaceErrors.setValue(prefs.showWhitespaceErrors());
     showTabs.setValue(prefs.showTabs());
     lineNumbers.setValue(prefs.showLineNumbers());
+    lineWrapping.setValue(prefs.lineWrapping());
     leftSide.setValue(view.diffTable.isVisibleA());
     emptyPane.setValue(!prefs.hideEmptyPane());
     leftSide.setEnabled(!(prefs.hideEmptyPane()
@@ -289,6 +291,12 @@ class PreferencesBox extends Composite {
   void onShowTabs(ValueChangeEvent<Boolean> e) {
     prefs.showTabs(e.getValue());
     view.setShowTabs(prefs.showTabs());
+  }
+
+  @UiHandler("lineWrapping")
+  void onLineWrapping(ValueChangeEvent<Boolean> e) {
+    prefs.lineWrapping(e.getValue());
+    view.setLineWrapping(prefs.lineWrapping());
   }
 
   @UiHandler("lineNumbers")

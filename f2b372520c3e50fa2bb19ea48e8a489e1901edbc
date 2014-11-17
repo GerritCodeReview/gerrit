@@ -16,6 +16,24 @@
       "revId": "f2b372520c3e50fa2bb19ea48e8a489e1901edbc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3ab563f8_dc6dedf8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 960,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-11-17T22:46:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7a76fb13_06697aec",
+      "revId": "f2b372520c3e50fa2bb19ea48e8a489e1901edbc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

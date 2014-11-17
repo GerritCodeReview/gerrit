@@ -20,6 +20,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.data.AccountAttribute;
 import com.google.gerrit.server.data.ChangeAttribute;
+import com.google.gerrit.server.data.MergeResultAttribute;
 import com.google.gerrit.server.data.PatchSetAttribute;
 
 public class ChangeMergedEvent extends ChangeEvent {
@@ -27,6 +28,7 @@ public class ChangeMergedEvent extends ChangeEvent {
   public ChangeAttribute change;
   public PatchSetAttribute patchSet;
   public AccountAttribute submitter;
+  public MergeResultAttribute mergeResult;
 
   @Override
   public String getType() {

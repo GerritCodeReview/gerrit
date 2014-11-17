@@ -1544,6 +1544,8 @@ Number of spaces that should be used to display one tab.
 |'hide_empty_pane'             |not set if `false`|
 Whether empty panes should be hidden. The left pane is empty when a
 file was added; the right pane is empty when a file was deleted.
+|'line_wrapping'               ||
+Whether long line should be wrapped.
 |===========================================
 
 [[diff-preferences-input]]

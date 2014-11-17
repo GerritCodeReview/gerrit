@@ -48,6 +48,7 @@ public class DiffPreferencesInfo {
   public boolean hideLineNumbers;
   public boolean renderEntireFile;
   public boolean hideEmptyPane;
+  public boolean lineWrapping;
   public Theme theme;
   public Whitespace ignoreWhitespace;
 
@@ -77,5 +78,6 @@ public class DiffPreferencesInfo {
     hideLineNumbers = false;
     renderEntireFile = false;
     hideEmptyPane = false;
+    lineWrapping = false;
   }
 }

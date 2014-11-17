@@ -22,11 +22,14 @@ import static com.google.gerrit.extensions.common.ListChangesOption.CURRENT_REVI
 import static com.google.gerrit.extensions.common.ListChangesOption.DETAILED_LABELS;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.SshSession;
+import com.google.gerrit.common.ChangeHooks;
+import com.google.gerrit.common.ChangeListener;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
@@ -41,7 +44,12 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.ApprovalsUtil;
+import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.events.ChangeEvent;
+import com.google.gerrit.server.events.ChangeMergedEvent;
 import com.google.gerrit.server.notedb.ChangeNotes;
+import com.google.gerrit.server.project.ListBranches.BranchInfo;
 import com.google.gerrit.server.project.PutConfig;
 import com.google.gson.reflect.TypeToken;
 import com.google.gwtorm.server.OrmException;
@@ -66,16 +74,39 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 public abstract class AbstractSubmit extends AbstractDaemonTest {
+
+  private Map<String, String> latestMergeResult;
+
   @Inject
   private ChangeNotes.Factory notesFactory;
 
   @Inject
   private ApprovalsUtil approvalsUtil;
 
+  @Inject
+  private IdentifiedUser.GenericFactory factory;
+
+  @Inject
+  ChangeHooks hooks;
+
   @Before
   public void setUp() throws Exception {
+    latestMergeResult = Maps.newHashMap();
+    CurrentUser listenerUser = factory.create(user.id);
+    hooks.addChangeListener(new ChangeListener() {
+
+      @Override
+      public void onChangeEvent(ChangeEvent event) {
+        if (event instanceof ChangeMergedEvent) {
+          ChangeMergedEvent cMEvent = (ChangeMergedEvent) event;
+          latestMergeResult.put(cMEvent.change.number, cMEvent.newRev);
+        }
+      }
+
+    }, listenerUser);
     project = new Project.NameKey("p2");
   }
 
@@ -181,8 +212,25 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
           newGson().fromJson(r.getReader(),
               new TypeToken<ChangeInfo>() {}.getType());
       assertThat(change.status).isEqualTo(ChangeStatus.MERGED);
+
+      checkMergeResult(change);
     }
     r.consume();
+  }
+
+  private void checkMergeResult(ChangeInfo change) throws IOException {
+    // Get the revision of the branch after the submit to compare with the
+    // newRev of the ChangeMergedEvent.
+    RestResponse b =
+        adminSession.get("/projects/" + project.get() + "/branches/"
+            + change.branch);
+    if (b.getStatusCode() == HttpStatus.SC_OK) {
+      BranchInfo branch =
+          newGson().fromJson(b.getReader(),
+              new TypeToken<BranchInfo>() {}.getType());
+      assertThat(branch.revision).isEqualTo(latestMergeResult.get(Integer.toString(change._number)));
+    }
+    b.consume();
   }
 
   private void approve(String changeId) throws IOException {

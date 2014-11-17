@@ -96,6 +96,8 @@ patchSet:: link:json.html#patchSet[patchSet attribute]
 
 submitter:: link:json.html#account[account attribute]
 
+mergeResult:: link:json.html#change[mergeResult attribute]
+
 ==== Merge Failed
 type:: "merge-failed"
 

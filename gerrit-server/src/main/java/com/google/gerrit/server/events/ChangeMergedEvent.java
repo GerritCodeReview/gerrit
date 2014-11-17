@@ -27,6 +27,7 @@ public class ChangeMergedEvent extends ChangeEvent {
   public ChangeAttribute change;
   public PatchSetAttribute patchSet;
   public AccountAttribute submitter;
+  public String newRev;
 
   @Override
   public String getType() {

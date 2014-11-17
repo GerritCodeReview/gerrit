@@ -160,6 +160,12 @@ refName:: Ref name within project.
 
 project:: Project path in Gerrit.
 
+[[mergeResult]]
+== mergeResult
+Result of a merge.
+
+revision:: The SHA-1 of the merge commit
+
 [[submitRecord]]
 == submitRecord
 Information about the submit status of a change.

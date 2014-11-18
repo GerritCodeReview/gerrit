@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "da87e727_c95db136",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-11-18T07:42:03Z",
+      "side": 1,
+      "message": "You can probably ignore the SLF4J warning.\n\nYou don\u0027t need to install asciidoctor standalone; it, and the java wrapper, should be downloaded as dependencies of the doc build and you\u0027ll see the JAR files in the cache:\n\n ls ~/.gerritcodereview/buck-cache/ | grep asciidoctor\n asciidoctorj-1.5.0.jar-192df5660f72a0fb76966dcc64193b94fba65f99\n asciidoctor-java-integration-0.1.4.jar-3596c7142fd30d7b65a0e64ba294f3d9d4bd538f",
+      "parentUuid": "1ae09f12_0b31dd0a",
+      "range": {
+        "startLine": 45,
+        "startChar": 46,
+        "endLine": 46,
+        "endChar": 29
+      },
+      "revId": "e907422d1731b203feaf2e71073e55183b3c68f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3a2ac314_94d64453",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

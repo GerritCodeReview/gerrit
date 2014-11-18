@@ -173,6 +173,26 @@ examples:
   * Put a blank line between external import sources, but not
     between internal ones.
 
+When to use `final` modifier and when not (in new code):
+
+Always:
+
+  * final fields: marking fields as final forces them to be
+  initialised in the constructor or at declaration
+  * final static fields: clearly communicates the intent
+  * to use final variables in inner anonymous classes
+
+Optional:
+
+  * final classes: use when appropriate, e.g. API restriction
+  * final methods: similar to final classes
+
+Never:
+
+  * local variables: it clutters the code, and make the code less
+  readable. When copying old code to new location, finals should
+  be removed
+  * method parameters: similar to local variables
 
 == Code Organization
 

@@ -2663,10 +2663,14 @@ Common unit suffixes of 'k', 'm', or 'g' are supported.
 The maximum number of changes that Gerrit allows to be pushed
 in a batch for review. When this number is exceeded Gerrit rejects
 the push with an error message.
-
++
+May be overridden for certain groups by specifying a limit in the
+link:access-control.html#capability_batchChangesLimit['Batch Changes Limit']
+global capability.
++
 This setting can be used to prevent users from uploading large
 number of changes for review by mistake.
-
++
 Default is zero, no limit.
 
 [[receive.threadPoolSize]]receive.threadPoolSize::

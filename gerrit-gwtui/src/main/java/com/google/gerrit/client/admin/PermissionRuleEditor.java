@@ -169,6 +169,10 @@ public class PermissionRuleEditor extends Composite implements
       deleteRule.removeFromParent();
       deleteRule = null;
     }
+
+    if (name.equals(GlobalCapability.BATCH_CHANGES_LIMIT)) {
+      min.setEnabled(false);
+    }
   }
 
   boolean isDeleted() {

@@ -97,6 +97,30 @@
     },
     {
       "key": {
+        "uuid": "3a2ac314_d4f35c01",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-11-18T08:54:33Z",
+      "side": 1,
+      "message": "\u003e  if I understand I1f5ba30815 correctly, it shouldn\u0027t be needed anymore\n\nLooks that way.  If I have time I\u0027ll try to do a clean build and see if I get the same error.\n\nWhat platform are you building on?",
+      "parentUuid": "daea87ee_31b9b0ed",
+      "range": {
+        "startLine": 45,
+        "startChar": 46,
+        "endLine": 46,
+        "endChar": 29
+      },
+      "revId": "e907422d1731b203feaf2e71073e55183b3c68f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3a2ac314_94d64453",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

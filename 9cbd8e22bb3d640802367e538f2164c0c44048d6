@@ -22,6 +22,30 @@
       "revId": "9cbd8e22bb3d640802367e538f2164c0c44048d6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1ae09f12_0b5b1d42",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/UpdatePrimaryKeys.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-11-18T09:34:22Z",
+      "side": 1,
+      "message": "I commented on this already in a previous reply. Copying the reply here again:\n\nWe already do have code in some schema migration which checks the current DB dialect and does specific things for specific database. \nAs it is a goal to move all data from DB to git notes, the motivation to solve primary key update in gwtorm is low, I guess.",
+      "parentUuid": "1ae09f12_8b770dc3",
+      "range": {
+        "startLine": 157,
+        "startChar": 10,
+        "endLine": 157,
+        "endChar": 46
+      },
+      "revId": "9cbd8e22bb3d640802367e538f2164c0c44048d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

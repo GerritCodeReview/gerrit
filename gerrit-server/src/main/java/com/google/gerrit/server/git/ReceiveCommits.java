@@ -1485,7 +1485,8 @@ public class ReceiveCommits {
 
       List<ChangeLookup> pending = Lists.newArrayList();
       final Set<Change.Key> newChangeIds = new HashSet<>();
-      final int maxBatchChanges = receiveConfig.maxBatchChanges;
+      final int maxBatchChanges =
+          receiveConfig.getEffectiveMaxBatchChangesLimit(currentUser);
       for (;;) {
         final RevCommit c = walk.next();
         if (c == null) {

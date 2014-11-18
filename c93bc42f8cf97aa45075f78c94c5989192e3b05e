@@ -34,6 +34,24 @@
       "revId": "c93bc42f8cf97aa45075f78c94c5989192e3b05e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da87e727_a936bd03",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-11-18T00:22:42Z",
+      "side": 1,
+      "message": "I can\u0027t reproduce any error in the tests without this change.",
+      "parentUuid": "1ae09f12_6b3aa1ed",
+      "revId": "c93bc42f8cf97aa45075f78c94c5989192e3b05e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

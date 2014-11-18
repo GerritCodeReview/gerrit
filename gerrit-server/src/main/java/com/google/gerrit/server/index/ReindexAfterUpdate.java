@@ -20,6 +20,7 @@ import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
@@ -80,7 +81,8 @@ public class ReindexAfterUpdate implements GitReferenceUpdatedListener {
             List<ListenableFuture<Void>> result =
                 Lists.newArrayListWithCapacity(changes.size());
             for (Change c : changes) {
-              result.add(executor.submit(new Index(event, c)));
+              result.add(executor.submit(
+                  new Index(event, c.getOwner(), c.getId())));
             }
             return Futures.allAsList(result);
           }
@@ -132,19 +134,21 @@ public class ReindexAfterUpdate implements GitReferenceUpdatedListener {
   }
 
   private class Index extends Task<Void> {
-    private final Change change;
+    private final Account.Id user;
+    private final Change.Id id;
 
-    Index(Event event, Change change) {
+    Index(Event event, Account.Id user, Change.Id id) {
       super(event);
-      this.change = change;
+      this.user = user;
+      this.id = id;
     }
 
     @Override
-    protected Void impl() throws IOException {
+    protected Void impl() throws OrmException, IOException {
       RequestContext context = new RequestContext() {
         @Override
         public CurrentUser getCurrentUser() {
-          return userFactory.create(change.getOwner());
+          return userFactory.create(user);
         }
 
         @Override
@@ -154,7 +158,8 @@ public class ReindexAfterUpdate implements GitReferenceUpdatedListener {
       };
       RequestContext old = tl.setContext(context);
       try {
-        indexerFactory.create(executor, indexes).index(db, change);
+        Change c = db.changes().get(id);
+        indexerFactory.create(executor, indexes).index(db, c);
         return null;
       } finally {
         tl.setContext(old);

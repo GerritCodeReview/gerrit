@@ -1,0 +1,358 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa6aeb64_cacc03cb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-11-18T18:30:04Z",
+      "side": 1,
+      "message": "I\u0027m not sure I follow. Nothing is stopping any group from _reviewing_ all changes once they\u0027ve been pushed. This capability only controls _pushing_ changes initially.\n\nI would maybe reword this entire paragraph to focus on the group pushing the changes:\n\n\"One use case is when a group is responsible for importing large batches of changes delivered from internal partners, and those changes all require review. This group, and only this group, should be allowed to bypass the limit that is enforced for everyone else.\"",
+      "range": {
+        "startLine": 9,
+        "startChar": 58,
+        "endLine": 9,
+        "endChar": 64
+      },
+      "revId": "373608bba277c813b8fd98ac40b714a969990614",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a721759_edd1e55d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-11-18T18:30:04Z",
+      "side": 1,
+      "message": "wants to review",
+      "range": {
+        "startLine": 9,
+        "startChar": 52,
+        "endLine": 9,
+        "endChar": 64
+      },
+      "revId": "373608bba277c813b8fd98ac40b714a969990614",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a721759_8dd62153",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-11-18T18:30:04Z",
+      "side": 1,
+      "message": "Long line.",
+      "revId": "373608bba277c813b8fd98ac40b714a969990614",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa6aeb64_ead1c75d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-11-18T18:30:04Z",
+      "side": 1,
+      "message": "\"The effective limit value will be the capability value if it exists, or the value in gerrit.config if it exists, or else no limit.\"",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 9
+      },
+      "revId": "373608bba277c813b8fd98ac40b714a969990614",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa6aeb64_8ad60b53",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 2662,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-11-18T18:30:04Z",
+      "side": 1,
+      "message": "\u0027May be overridden for certain groups by specifying a limit in the \"Batch Changes Limit\" global capability.\u0027\n\nDo we document global capabilities somewhere? If so, that should be updated as well, and linked to from here.",
+      "range": {
+        "startLine": 2661,
+        "startChar": 32,
+        "endLine": 2662,
+        "endChar": 42
+      },
+      "revId": "373608bba277c813b8fd98ac40b714a969990614",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa6aeb64_aadbcf7b",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/GlobalCapability.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-11-18T18:30:04Z",
+      "side": 1,
+      "message": "\"Maximum number of changes that may be pushed in a batch.\"",
+      "range": {
+        "startLine": 73,
+        "startChar": 6,
+        "endLine": 73,
+        "endChar": 42
+      },
+      "revId": "373608bba277c813b8fd98ac40b714a969990614",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa6aeb64_4ae1f32e",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/GlobalCapability.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-11-18T18:30:04Z",
+      "side": 1,
+      "message": "\"Default maximum number of changes that may be pushed in a batch.\"",
+      "range": {
+        "startLine": 79,
+        "startChar": 6,
+        "endLine": 79,
+        "endChar": 49
+      },
+      "revId": "373608bba277c813b8fd98ac40b714a969990614",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a721759_addbdd7b",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/GlobalCapability.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-11-18T18:30:04Z",
+      "side": 1,
+      "message": "This is a confusing considering that the actual default is 0 (no limit). Is this just used as a suggestion for prepopulating the field in the access UI? Maybe we should give it a name/description that makes that clearer. In that case I\u0027m also not sure it needs to be public.\n\nAlso have we discussed what is an appropriate value here? 10 seems a little low.",
+      "revId": "373608bba277c813b8fd98ac40b714a969990614",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a721759_4de1192f",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/GlobalCapability.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-11-18T18:30:04Z",
+      "side": 1,
+      "message": "Keep these in lexicographic order.",
+      "revId": "373608bba277c813b8fd98ac40b714a969990614",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa6aeb64_6ade376c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/CapabilityCollection.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-11-18T18:30:04Z",
+      "side": 1,
+      "message": "Ordering.",
+      "revId": "373608bba277c813b8fd98ac40b714a969990614",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa6aeb64_0aebfb10",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/CapabilityCollection.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-11-18T18:30:04Z",
+      "side": 1,
+      "message": "Ordering.",
+      "revId": "373608bba277c813b8fd98ac40b714a969990614",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa6aeb64_2ae83f11",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/CapabilityConstants.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-11-18T18:30:04Z",
+      "side": 1,
+      "message": "Ordering.",
+      "revId": "373608bba277c813b8fd98ac40b714a969990614",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a721759_6dde556c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveConfig.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-11-18T18:30:04Z",
+      "side": 1,
+      "message": "In general use \"barFoo\" instead of \"fooOfBar\", making this \"systemMaxBatchChanges\"",
+      "range": {
+        "startLine": 30,
+        "startChar": 20,
+        "endLine": 30,
+        "endChar": 43
+      },
+      "revId": "373608bba277c813b8fd98ac40b714a969990614",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa6aeb64_caf3a301",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveConfig.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-11-18T18:30:04Z",
+      "side": 1,
+      "message": "Optional: you can save a line by making this a static import.",
+      "revId": "373608bba277c813b8fd98ac40b714a969990614",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a721759_0deb1111",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveConfig.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-11-18T18:30:04Z",
+      "side": 1,
+      "message": "Always use multi-line if statements with braces.",
+      "revId": "373608bba277c813b8fd98ac40b714a969990614",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa6aeb64_eaf8e7df",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveConfig.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-11-18T18:30:04Z",
+      "side": 1,
+      "message": "Hm, does this mean there is no way to give someone \"no limit\" by configuring their global capability? You\u0027d just have to set a very high limit?",
+      "range": {
+        "startLine": 50,
+        "startChar": 8,
+        "endLine": 50,
+        "endChar": 38
+      },
+      "revId": "373608bba277c813b8fd98ac40b714a969990614",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a721759_2de84d11",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveConfig.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-11-18T18:30:04Z",
+      "side": 1,
+      "message": "Nits:\n\n* One space between ; and //\n* One space after //\n* Start comments with a capital letter, and end them with a period.",
+      "revId": "373608bba277c813b8fd98ac40b714a969990614",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a721759_cdf3c901",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/config/CapabilityConstants.properties",
+        "patchSetId": 5
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-11-18T18:30:04Z",
+      "side": 1,
+      "message": "Ordering.",
+      "revId": "373608bba277c813b8fd98ac40b714a969990614",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

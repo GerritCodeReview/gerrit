@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a900f9b_af443975",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-11-18T23:44:49Z",
+      "side": 0,
+      "message": "Yes, this is an ugly hack, to set our own attribute that we render on the change screen and ask Labels class to populate it during submittable computation.",
+      "revId": "a0e79b74dbe26df6d0d20a83fc2083a39a1eede0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a751b3d_ae443775",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Labels.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-11-18T23:44:49Z",
+      "side": 0,
+      "message": "Yes, this doesn\u0027t belong here.",
+      "revId": "a0e79b74dbe26df6d0d20a83fc2083a39a1eede0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

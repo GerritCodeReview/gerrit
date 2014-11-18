@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7a751b3d_6e372f02",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 936,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-11-18T23:44:49Z",
+      "side": 1,
+      "message": "As pointed out in another comment, i think it would be less confusing just to add private boolean isSubmittable() method. Can\u0027t we even postpone the invocation untill it\u0027s really needed?",
+      "range": {
+        "startLine": 933,
+        "startChar": 4,
+        "endLine": 936,
+        "endChar": 5
+      },
+      "revId": "061add5810847c3352b671c68f6cac065744e720",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a751b3d_4e3a73ed",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 937,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-11-18T23:44:49Z",
+      "side": 1,
+      "message": "Nit: Unneeded new line.",
+      "revId": "061add5810847c3352b671c68f6cac065744e720",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a900f9b_4f3a6ded",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 980,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-11-18T23:44:49Z",
+      "side": 1,
+      "message": "Can we call in in this if branch, only when current? This method has two side effects: set statusText (only when current) and compute canSubmit, that we only need here.\n\n  loadSubmitType(info.status(), isSubmittable(info));\n\nThis allow us to eliminate the current paramter alltogether, Right? E. g. define this new method below:\n\n  private boolean isSubmittable(ChangeInfo info) {\n    boolean canSubmit \u003d info.status().isOpen();\n    if (canSubmit \u0026\u0026 info.status() \u003d\u003d Change.Status.NEW) {\n      for (String name : info.labels()) {\n        LabelInfo label \u003d info.label(name);\n        switch (label.status()) {\n          case NEED:\n            statusText.setInnerText(\"Needs \" + name);\n            canSubmit \u003d false;\n            break;\n          case REJECT:\n          case IMPOSSIBLE:\n            if (label.blocking()) {\n              statusText.setInnerText(\"Not \" + name);\n              canSubmit \u003d false;\n            }\n            break;\n          default:\n            break;\n          }\n      }\n    }\n    return canSubmit;\n  }",
+      "revId": "061add5810847c3352b671c68f6cac065744e720",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a751b3d_8e3ffbdc",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeInfo.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-11-18T23:44:49Z",
+      "side": 1,
+      "message": "I understand your intent, to put it in ChangeInfo because the method below uses some of attributes. However it\u0027s unexpected, bcause client side Info classes only used with in context of JSNI code, and this helper class and method has nothing to do with it. So i would rather not add it here. See my other comment.",
+      "revId": "061add5810847c3352b671c68f6cac065744e720",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

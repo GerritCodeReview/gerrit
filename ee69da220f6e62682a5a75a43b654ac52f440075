@@ -34,6 +34,24 @@
       "revId": "ee69da220f6e62682a5a75a43b654ac52f440075",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3ab563f8_7c649907",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/contact/EncryptedContactStore.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-11-18T17:17:11Z",
+      "side": 1,
+      "message": "It\u0027s not just reasonable it\u0027s equivalent: BcPGPPUblicKeyRingCollection calls super(in, new BcKeyFingerprintCalculator()).",
+      "parentUuid": "1a4a5f99_5bf363ff",
+      "revId": "ee69da220f6e62682a5a75a43b654ac52f440075",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

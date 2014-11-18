@@ -1158,6 +1158,20 @@ able to grant any access right to any group. They will also have all
 capabilities granted to them automatically.
 
 
+[[capability_batchChangesLimit]]
+=== Batch Changes Limit
+
+Allow site administrators to configure the batch changes limit for
+users to override the system config
+link:config-gerrit.html#receive.maxBatchChanges['receive.maxBatchChanges'].
+
+Administrators can add a global block to `All-Projects` with group(s)
+that should have different limits.
+
+When applying a batch changes limit to a user the largest value
+granted by any of their groups is used. 0 means no limit.
+
+
 [[capability_createAccount]]
 === Create Account
 

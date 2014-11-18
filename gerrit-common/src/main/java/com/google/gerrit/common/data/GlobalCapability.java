@@ -21,6 +21,13 @@ import java.util.List;
 
 /** Server wide capabilities. Represented as {@link Permission} objects. */
 public class GlobalCapability {
+  /**
+   * Default maximum number of changes that may be pushed in a batch, 0 means no
+   * limit. This is just used as a suggestion for prepopulating the field in the
+   * access UI
+   */
+  private static final int DEFAULT_MAX_BATCH_CHANGES = 0;
+
   /** Ability to access the database (with gsql). */
   public static final String ACCESS_DATABASE = "accessDatabase";
 
@@ -34,6 +41,9 @@ public class GlobalCapability {
    * "OR user has capability ADMINISTRATE_SERVER".
    */
   public static final String ADMINISTRATE_SERVER = "administrateServer";
+
+  /** Maximum number of changes that may be pushed in a batch. */
+  public static final String BATCH_CHANGES_LIMIT = "batchChangesLimit";
 
   /** Can create any account on the server. */
   public static final String CREATE_ACCOUNT = "createAccount";
@@ -104,6 +114,7 @@ public class GlobalCapability {
     NAMES_ALL = new ArrayList<>();
     NAMES_ALL.add(ACCESS_DATABASE);
     NAMES_ALL.add(ADMINISTRATE_SERVER);
+    NAMES_ALL.add(BATCH_CHANGES_LIMIT);
     NAMES_ALL.add(CREATE_ACCOUNT);
     NAMES_ALL.add(CREATE_GROUP);
     NAMES_ALL.add(CREATE_PROJECT);
@@ -140,7 +151,8 @@ public class GlobalCapability {
 
   /** @return true if the capability should have a range attached. */
   public static boolean hasRange(String varName) {
-    return QUERY_LIMIT.equalsIgnoreCase(varName);
+    return QUERY_LIMIT.equalsIgnoreCase(varName)
+        || BATCH_CHANGES_LIMIT.equalsIgnoreCase(varName);
   }
 
   /** @return the valid range for the capability if it has one, otherwise null. */
@@ -150,6 +162,12 @@ public class GlobalCapability {
           varName,
           0, Integer.MAX_VALUE,
           0, DEFAULT_MAX_QUERY_LIMIT);
+    }
+    if (BATCH_CHANGES_LIMIT.equalsIgnoreCase(varName)) {
+      return new PermissionRange.WithDefaults(
+          varName,
+          0, Integer.MAX_VALUE,
+          0, DEFAULT_MAX_BATCH_CHANGES);
     }
     return null;
   }

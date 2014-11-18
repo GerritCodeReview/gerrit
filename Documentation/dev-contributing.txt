@@ -173,6 +173,26 @@ examples:
   * Put a blank line between external import sources, but not
     between internal ones.
 
+When to use `final` modifier and when not (in new code):
+
+Always:
+
+  * final fields: marking fields as final forces them to be
+  initialised in the constructor
+  * final static fields: clearly communicates the intent
+  * to use final variables in inner anonymous classes
+
+Optional:
+
+  * final classes: use when appropriate, e.g. API restriction
+  * final methods: similar to final classes
+
+Never:
+
+  * local variables: it clutters the code, and make the code less
+  readable. When copying old code to new location, finals should
+  be removed
+  * method parameters: similar to local variables
 
 == Code Organization
 
@@ -204,6 +224,7 @@ Here are some guidelines that Gerrit uses:
   * Prefer to open multiple AutoCloseable resources in the same
     try-with-resources block instead of nesting the try-with-resources
     blocks and increasing the indentation level more than necessary.
+  * Using of final modifiers in new code: Required: 
 
 Wow that's a lot!  But don't worry, you'll get the habit and most
 of the code is organized this way already; so if you pay attention

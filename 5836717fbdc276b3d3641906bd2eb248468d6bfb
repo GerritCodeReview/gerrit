@@ -190,6 +190,30 @@
     },
     {
       "key": {
+        "uuid": "3a2ac314_d4ccbcca",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/GerritConfigProvider.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-11-18T01:36:25Z",
+      "side": 1,
+      "message": "This pops up from time to time and seems to be an unwritten rule.  It should probably be added to the developer documentation.\n\nI would add it myself, but I also don\u0027t know the rationale for omitting the \"final\".",
+      "parentUuid": "daea87ee_912dfcbf",
+      "range": {
+        "startLine": 177,
+        "startChar": 4,
+        "endLine": 177,
+        "endChar": 9
+      },
+      "revId": "5836717fbdc276b3d3641906bd2eb248468d6bfb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "daea87ee_71085851",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/GerritConfigProvider.java",
         "patchSetId": 3

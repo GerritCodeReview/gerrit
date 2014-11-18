@@ -148,21 +148,18 @@ public class PushOneCommit {
     this.changeId = changeId;
   }
 
-  public Result to(Git git, String ref)
-      throws GitAPIException, IOException {
+  public Result to(Git git, String ref) throws GitAPIException, IOException {
     add(git, fileName, content);
     return execute(git, ref);
   }
 
-  public Result rm(Git git, String ref)
-      throws GitAPIException, IOException {
+  public Result rm(Git git, String ref) throws GitAPIException {
     GitUtil.rm(git, fileName);
     return execute(git, ref);
   }
 
   private Result execute(Git git, String ref) throws GitAPIException,
-      IOException, ConcurrentRefUpdateException, InvalidTagNameException,
-      NoHeadException {
+      ConcurrentRefUpdateException, InvalidTagNameException, NoHeadException {
     Commit c;
     if (changeId != null) {
       c = amendCommit(git, i, subject, changeId);

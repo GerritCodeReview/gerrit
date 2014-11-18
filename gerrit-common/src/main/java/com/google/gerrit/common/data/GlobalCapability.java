@@ -70,8 +70,14 @@ public class GlobalCapability {
   /** Maximum result limit per executed query. */
   public static final String QUERY_LIMIT = "queryLimit";
 
+  /** Maximum changes limit per batch push. */
+  public static final String BATCH_CHANGES_LIMIT = "batchChangesLimit";
+
   /** Default result limit per executed query. */
   public static final int DEFAULT_MAX_QUERY_LIMIT = 500;
+
+  /** Default changes number limit per batch push. */
+  public static final int DEFAULT_MAX_BATCH_CHANGES = 10;
 
   /** Ability to impersonate another user. */
   public static final String RUN_AS = "runAs";
@@ -113,6 +119,7 @@ public class GlobalCapability {
     NAMES_ALL.add(MODIFY_ACCOUNT);
     NAMES_ALL.add(PRIORITY);
     NAMES_ALL.add(QUERY_LIMIT);
+    NAMES_ALL.add(BATCH_CHANGES_LIMIT);
     NAMES_ALL.add(RUN_AS);
     NAMES_ALL.add(RUN_GC);
     NAMES_ALL.add(STREAM_EVENTS);
@@ -140,7 +147,8 @@ public class GlobalCapability {
 
   /** @return true if the capability should have a range attached. */
   public static boolean hasRange(String varName) {
-    return QUERY_LIMIT.equalsIgnoreCase(varName);
+    return QUERY_LIMIT.equalsIgnoreCase(varName)
+        || BATCH_CHANGES_LIMIT.equalsIgnoreCase(varName);
   }
 
   /** @return the valid range for the capability if it has one, otherwise null. */
@@ -150,6 +158,12 @@ public class GlobalCapability {
           varName,
           0, Integer.MAX_VALUE,
           0, DEFAULT_MAX_QUERY_LIMIT);
+    }
+    if (BATCH_CHANGES_LIMIT.equalsIgnoreCase(varName)) {
+      return new PermissionRange.WithDefaults(
+          varName,
+          0, Integer.MAX_VALUE,
+          0, DEFAULT_MAX_BATCH_CHANGES);
     }
     return null;
   }

@@ -37,6 +37,7 @@ public class CapabilityCollection {
   public final List<PermissionRule> emailReviewers;
   public final List<PermissionRule> priority;
   public final List<PermissionRule> queryLimit;
+  public final List<PermissionRule> batchChangesLimit;
 
   public CapabilityCollection(AccessSection section) {
     if (section == null) {
@@ -77,6 +78,7 @@ public class CapabilityCollection {
     emailReviewers = getPermission(GlobalCapability.EMAIL_REVIEWERS);
     priority = getPermission(GlobalCapability.PRIORITY);
     queryLimit = getPermission(GlobalCapability.QUERY_LIMIT);
+    batchChangesLimit = getPermission(GlobalCapability.BATCH_CHANGES_LIMIT);
   }
 
   public List<PermissionRule> getPermission(String permissionName) {

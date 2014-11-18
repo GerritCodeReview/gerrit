@@ -34,6 +34,7 @@ public class CapabilityCollection {
   private final Map<String, List<PermissionRule>> permissions;
 
   public final List<PermissionRule> administrateServer;
+  public final List<PermissionRule> batchChangesLimit;
   public final List<PermissionRule> emailReviewers;
   public final List<PermissionRule> priority;
   public final List<PermissionRule> queryLimit;
@@ -74,6 +75,7 @@ public class CapabilityCollection {
     permissions = Collections.unmodifiableMap(res);
 
     administrateServer = getPermission(GlobalCapability.ADMINISTRATE_SERVER);
+    batchChangesLimit = getPermission(GlobalCapability.BATCH_CHANGES_LIMIT);
     emailReviewers = getPermission(GlobalCapability.EMAIL_REVIEWERS);
     priority = getPermission(GlobalCapability.PRIORITY);
     queryLimit = getPermission(GlobalCapability.QUERY_LIMIT);

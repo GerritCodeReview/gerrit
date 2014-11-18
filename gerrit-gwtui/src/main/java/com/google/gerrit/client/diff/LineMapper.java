@@ -195,7 +195,7 @@ class LineMapper {
 
     @Override
     public int hashCode() {
-      return Objects.hash(this);
+      return Objects.hash(line, aligned);
     }
 
     @Override

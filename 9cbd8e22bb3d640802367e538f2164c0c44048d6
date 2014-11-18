@@ -46,6 +46,30 @@
       "revId": "9cbd8e22bb3d640802367e538f2164c0c44048d6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a2ac314_b4f260fa",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/UpdatePrimaryKeys.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-11-18T09:40:58Z",
+      "side": 1,
+      "message": "Uploaded as RFC:\n\nhttps://gerrit-review.googlesource.com/61655",
+      "parentUuid": "1ae09f12_0b5b1d42",
+      "range": {
+        "startLine": 157,
+        "startChar": 10,
+        "endLine": 157,
+        "endChar": 46
+      },
+      "revId": "9cbd8e22bb3d640802367e538f2164c0c44048d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

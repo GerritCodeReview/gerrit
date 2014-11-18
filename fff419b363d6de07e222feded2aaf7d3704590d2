@@ -60,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "1afa5ff3_fbd62f53",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PermissionCollection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-11-18T20:23:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a77bfc2_9386dc39",
+      "range": {
+        "startLine": 217,
+        "startChar": 0,
+        "endLine": 218,
+        "endChar": 80
+      },
+      "revId": "fff419b363d6de07e222feded2aaf7d3704590d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "daec477c_61f916e1",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SectionSortCache.java",
         "patchSetId": 1
@@ -89,6 +113,24 @@
       "side": 1,
       "message": "The autovalue version is sorter, so its probably worth switching. But for me, cachedHashCode() is a better name than computedHashCode().\n\nAt first I thought computedHashCode() was some @AutoValue magic method. Then I read further and saw its just the cached hashCode we build before, because the hashCode performance is critical in this code and recomputing for each section item in the list was too slow to do on the fly.",
       "parentUuid": "daec477c_61f916e1",
+      "revId": "fff419b363d6de07e222feded2aaf7d3704590d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3aa1e35e_fc7929b6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SectionSortCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-11-18T20:23:29Z",
+      "side": 1,
+      "message": "I think I meant \"precomputed.\" \"Cached\" to me says \"started out empty, then got computed on first access\". \"Precomputed\" says \"computed in advance, whether or not we actually use it.\"\n\nOf course, we always use it, so *shrug*. Changed to \"cached\".",
+      "parentUuid": "3aa1e35e_7c6e79f6",
       "revId": "fff419b363d6de07e222feded2aaf7d3704590d2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

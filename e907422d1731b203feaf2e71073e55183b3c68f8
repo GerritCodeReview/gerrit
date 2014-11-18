@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "daea87ee_31b9b0ed",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1017804
+      },
+      "writtenOn": "2014-11-18T08:52:25Z",
+      "side": 1,
+      "message": "I only get asciidoctorj and not asciidoctor-java-integration. However, if I understand I1f5ba30815 correctly, it shouldn\u0027t be needed anymore. Or is that the point, that other people have the integration thing lying around in their caches and I don\u0027t and therefore it doesn\u0027t work? Probably not. I tried to check it anyway. First by just adding back the old dependency in the BUCK file. Building failed with some kind of OutOfMemoryError. Then I went back before that change and tried to build, which also gives me errors.\n\nThis is quite frustrating. Lots of guessing around to correct a fairly unimportant problem. (I\u0027d want to guess less, but I don\u0027t know where to look without investing a lot of time.)",
+      "parentUuid": "da87e727_c95db136",
+      "range": {
+        "startLine": 45,
+        "startChar": 46,
+        "endLine": 46,
+        "endChar": 29
+      },
+      "revId": "e907422d1731b203feaf2e71073e55183b3c68f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3a2ac314_94d64453",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

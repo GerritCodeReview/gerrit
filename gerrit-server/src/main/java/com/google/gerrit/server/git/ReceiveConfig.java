@@ -14,6 +14,9 @@
 
 package com.google.gerrit.server.git;
 
+import static com.google.gerrit.common.data.GlobalCapability.BATCH_CHANGES_LIMIT;
+
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -25,7 +28,7 @@ class ReceiveConfig {
   final boolean checkMagicRefs;
   final boolean checkReferencedObjectsAreReachable;
   final boolean allowDrafts;
-  final int maxBatchChanges;
+  final private int systemMaxBatchChanges;
 
   @Inject
   ReceiveConfig(@GerritServerConfig Config config) {
@@ -38,6 +41,13 @@ class ReceiveConfig {
     allowDrafts = config.getBoolean(
         "change", null, "allowDrafts",
         true);
-    maxBatchChanges = config.getInt("receive", "maxBatchChanges", 0);
+    systemMaxBatchChanges = config.getInt("receive", "maxBatchChanges", 0);
+  }
+
+  public int getEffectiveMaxBatchChangesLimit(CurrentUser user) {
+    if (user.getCapabilities().canPerform(BATCH_CHANGES_LIMIT)) {
+      return user.getCapabilities().getRange(BATCH_CHANGES_LIMIT).getMax();
+    }
+    return systemMaxBatchChanges;
   }
 }

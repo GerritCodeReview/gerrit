@@ -24,6 +24,7 @@ public class CapabilityConstants extends TranslationBundle {
 
   public String accessDatabase;
   public String administrateServer;
+  public String batchChangesLimit;
   public String createAccount;
   public String createGroup;
   public String createProject;

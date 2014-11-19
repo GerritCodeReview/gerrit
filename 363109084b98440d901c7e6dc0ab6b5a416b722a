@@ -157,6 +157,24 @@
       "revId": "363109084b98440d901c7e6dc0ab6b5a416b722a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a133f13_3308c850",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveConfig.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-11-19T07:23:48Z",
+      "side": 1,
+      "message": "I was wrong reading your nice comments! I am still on old side by side diff UI, \nsorry. \nDone",
+      "parentUuid": "1a133f13_d3f234fb",
+      "revId": "363109084b98440d901c7e6dc0ab6b5a416b722a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

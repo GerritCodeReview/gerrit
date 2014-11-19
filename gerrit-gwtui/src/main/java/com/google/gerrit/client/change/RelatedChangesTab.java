@@ -82,6 +82,7 @@ class RelatedChangesTab implements IsWidget {
   }
 
   private final SimplePanel panel;
+  private final RelatedChanges.Tab subject;
 
   private boolean showBranches;
   private boolean showIndirectAncestors;
@@ -91,8 +92,9 @@ class RelatedChangesTab implements IsWidget {
   private String project;
   private NavigationList view;
 
-  RelatedChangesTab() {
+  RelatedChangesTab(RelatedChanges.Tab topic) {
     panel = new SimplePanel();
+    this.subject = topic;
   }
 
   @Override
@@ -487,6 +489,7 @@ class RelatedChangesTab implements IsWidget {
         movePointerTo(startRow + DOM.getChildIndex(body, row), false);
         event.stopPropagation();
       }
+      saveSelectedTab();
     }
 
     @Override
@@ -537,6 +540,12 @@ class RelatedChangesTab implements IsWidget {
           }
         }
       }
+
+      saveSelectedTab();
+    }
+
+    private void saveSelectedTab() {
+      RelatedChanges.setSavedTab(subject);
     }
 
     @Override

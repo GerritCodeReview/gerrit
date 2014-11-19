@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "1a133f13_b3f33802",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 2664,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-11-19T07:14:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a072fcb_97f8a4df",
+      "revId": "363109084b98440d901c7e6dc0ab6b5a416b722a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a072fcb_f7eda01f",
         "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/GlobalCapability.java",
         "patchSetId": 6
@@ -48,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "1a133f13_93f8bcdf",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/GlobalCapability.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-11-19T07:14:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a072fcb_f7eda01f",
+      "revId": "363109084b98440d901c7e6dc0ab6b5a416b722a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7a1c3b1f_f62800b1",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveConfig.java",
         "patchSetId": 6
@@ -59,6 +95,24 @@
       "writtenOn": "2014-11-19T07:04:55Z",
       "side": 1,
       "message": "nit: add a blank line between static imports and normal imports.",
+      "revId": "363109084b98440d901c7e6dc0ab6b5a416b722a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a133f13_f3edb01f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveConfig.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-11-19T07:14:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7a1c3b1f_f62800b1",
       "revId": "363109084b98440d901c7e6dc0ab6b5a416b722a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -82,6 +136,24 @@
         "endLine": 30,
         "endChar": 43
       },
+      "revId": "363109084b98440d901c7e6dc0ab6b5a416b722a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a133f13_d3f234fb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveConfig.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-11-19T07:14:32Z",
+      "side": 1,
+      "message": "with it, Gerrit need not fetch it each time when getEffectiveMaxBatchChangesLimit is call and it is the effective one.",
+      "parentUuid": "9a072fcb_d7f21cfb",
       "revId": "363109084b98440d901c7e6dc0ab6b5a416b722a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

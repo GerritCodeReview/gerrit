@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a133f13_3313a87c",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-11-19T09:28:50Z",
+      "side": 1,
+      "message": "For both there is of course one exception. E.g. when the variable should be used in an anonymous method, Java requires that the variable is final and in this case it\u0027s okay to use final. See runAsync() method in MergeabilityChecker for an example). Not sure though, if this exception needs to be mentioned here.",
+      "range": {
+        "startLine": 192,
+        "startChar": 1,
+        "endLine": 195,
+        "endChar": 49
+      },
+      "revId": "8e65434803a94e9825d9f8d3ec926ba9dbcc7793",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

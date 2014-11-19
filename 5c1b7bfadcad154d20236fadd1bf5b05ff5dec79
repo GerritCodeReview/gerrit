@@ -1,0 +1,165 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a072fcb_17de546a",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-11-19T01:10:45Z",
+      "side": 1,
+      "message": "add backticks",
+      "range": {
+        "startLine": 176,
+        "startChar": 12,
+        "endLine": 176,
+        "endChar": 17
+      },
+      "revId": "5c1b7bfadcad154d20236fadd1bf5b05ff5dec79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a072fcb_37e1d830",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-11-19T01:10:45Z",
+      "side": 1,
+      "message": "to be initialised in the constructor",
+      "range": {
+        "startLine": 180,
+        "startChar": 54,
+        "endLine": 181,
+        "endChar": 37
+      },
+      "revId": "5c1b7bfadcad154d20236fadd1bf5b05ff5dec79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a1c3b1f_56e8d411",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-11-19T01:10:45Z",
+      "side": 1,
+      "message": "e.g.",
+      "range": {
+        "startLine": 187,
+        "startChar": 40,
+        "endLine": 187,
+        "endChar": 47
+      },
+      "revId": "5c1b7bfadcad154d20236fadd1bf5b05ff5dec79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a1c3b1f_96f8acdf",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-11-19T01:10:45Z",
+      "side": 1,
+      "message": "remove this bit?",
+      "range": {
+        "startLine": 193,
+        "startChar": 17,
+        "endLine": 193,
+        "endChar": 47
+      },
+      "revId": "5c1b7bfadcad154d20236fadd1bf5b05ff5dec79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a1c3b1f_b6f32802",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-11-19T01:10:45Z",
+      "side": 1,
+      "message": "readable",
+      "range": {
+        "startLine": 193,
+        "startChar": 2,
+        "endLine": 193,
+        "endChar": 16
+      },
+      "revId": "5c1b7bfadcad154d20236fadd1bf5b05ff5dec79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a1c3b1f_f6eda01f",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-11-19T01:10:45Z",
+      "side": 1,
+      "message": "comma after",
+      "range": {
+        "startLine": 194,
+        "startChar": 2,
+        "endLine": 194,
+        "endChar": 10
+      },
+      "revId": "5c1b7bfadcad154d20236fadd1bf5b05ff5dec79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a1c3b1f_d6f224fb",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-11-19T01:10:45Z",
+      "side": 1,
+      "message": "what is required?\n\nalso, trailing whitespace",
+      "range": {
+        "startLine": 227,
+        "startChar": 42,
+        "endLine": 227,
+        "endChar": 52
+      },
+      "revId": "5c1b7bfadcad154d20236fadd1bf5b05ff5dec79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

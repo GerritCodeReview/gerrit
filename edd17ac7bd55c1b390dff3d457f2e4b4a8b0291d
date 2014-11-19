@@ -22,6 +22,30 @@
       "revId": "edd17ac7bd55c1b390dff3d457f2e4b4a8b0291d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1afa5ff3_3b3a57ec",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListKey.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1016722
+      },
+      "writtenOn": "2014-11-19T16:10:36Z",
+      "side": 1,
+      "message": "Currently the application uses the order of patches as it is passed from the gui. There is no need to determine if the order is direct or reverse. I do not think it is easier or harder to use your approach or my approach. I think it is not necessary to calculate a boolean flag for the order of patches. It is an extra operation which itself does not have a big impact on performance, but still takes time.",
+      "parentUuid": "1a133f13_93543c16",
+      "range": {
+        "startLine": 47,
+        "startChar": 2,
+        "endLine": 53,
+        "endChar": 3
+      },
+      "revId": "edd17ac7bd55c1b390dff3d457f2e4b4a8b0291d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

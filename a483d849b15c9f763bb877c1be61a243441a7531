@@ -22,6 +22,24 @@
       "revId": "a483d849b15c9f763bb877c1be61a243441a7531",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a133f13_93239cd3",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 627,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-11-19T08:05:40Z",
+      "side": 1,
+      "message": "In old ages, the \u0027members\u0027 only refer to subgroup of a given group. this is not a good name now, but it is an old name, just missing  \ndocument here just like I add in commit message \u0027 Also add the \nmissed document for \u0027groups_members\u0027 cache.\u0027 \n\nGustaf suggest  to keep the old cache name untouched else GitAm will  complain. I think he is right.",
+      "parentUuid": "9a072fcb_1705b436",
+      "revId": "a483d849b15c9f763bb877c1be61a243441a7531",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

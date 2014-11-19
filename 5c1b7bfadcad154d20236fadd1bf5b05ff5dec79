@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "3a164301_94f8a4df",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-11-19T06:04:43Z",
+      "side": 1,
+      "message": "It could also be defined where it declared: private final int foo \u003d 42. What i was trying to say: at the time an instance of object was constructed a value must be assigned to it.",
+      "parentUuid": "9a072fcb_37e1d830",
+      "range": {
+        "startLine": 180,
+        "startChar": 54,
+        "endLine": 181,
+        "endChar": 37
+      },
+      "revId": "5c1b7bfadcad154d20236fadd1bf5b05ff5dec79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7a1c3b1f_56e8d411",
         "filename": "Documentation/dev-contributing.txt",
         "patchSetId": 3
@@ -151,6 +175,30 @@
       "writtenOn": "2014-11-19T01:10:45Z",
       "side": 1,
       "message": "what is required?\n\nalso, trailing whitespace",
+      "range": {
+        "startLine": 227,
+        "startChar": 42,
+        "endLine": 227,
+        "endChar": 52
+      },
+      "revId": "5c1b7bfadcad154d20236fadd1bf5b05ff5dec79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a133f13_d3db547b",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-11-19T06:04:43Z",
+      "side": 1,
+      "message": "started to right it here, but move it above to own section. Is a left over, will remove it.",
+      "parentUuid": "7a1c3b1f_d6f224fb",
       "range": {
         "startLine": 227,
         "startChar": 42,

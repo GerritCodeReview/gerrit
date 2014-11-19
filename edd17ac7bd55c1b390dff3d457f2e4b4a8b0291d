@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a133f13_93543c16",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListKey.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-11-19T15:23:43Z",
+      "side": 1,
+      "message": "Wouldn\u0027t it be easier to just add a param to this constructor?\n\npublic PatchListKey(final Project.NameKey pk, final AnyObjectId a, boolean reversedOrder\n      final AnyObjectId b, final Whitespace ws) {\n    projectKey \u003d pk;\n    if (reversedOrder) {\n        oldId \u003d b !\u003d null ? a.copy() : null;\n        newId \u003d a.copy();\n    } else {\n        oldId \u003d a !\u003d null ? a.copy() : null;\n        newId \u003d b.copy();\n    }\n    whitespace \u003d ws;\n  }\n\nand call it with:\nboolean reversedOrder \u003d base !\u003d null ? base.getId().get() - patchSet.getId().get() \u003c 0 : false;\nnew PatchListKey(change.getProject(), a, b,\nreversedOrder, Whitespace.IGNORE_NONE);",
+      "range": {
+        "startLine": 47,
+        "startChar": 2,
+        "endLine": 53,
+        "endChar": 3
+      },
+      "revId": "edd17ac7bd55c1b390dff3d457f2e4b4a8b0291d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

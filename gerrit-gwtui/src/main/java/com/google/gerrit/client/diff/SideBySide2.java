@@ -157,6 +157,7 @@ public class SideBySide2 extends Screen {
   protected void onInitUI() {
     super.onInitUI();
     setHeaderVisible(false);
+    setWindowTitle(FileInfo.getFileName(path));
   }
 
   @Override

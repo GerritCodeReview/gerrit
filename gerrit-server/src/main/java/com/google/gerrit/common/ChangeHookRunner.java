@@ -28,7 +28,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.config.AnonymousCowardName;
@@ -101,9 +101,9 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener {
 
     private static class ChangeListenerHolder {
         final ChangeListener listener;
-        final IdentifiedUser user;
+        final CurrentUser user;
 
-        ChangeListenerHolder(ChangeListener l, IdentifiedUser u) {
+        ChangeListenerHolder(ChangeListener l, CurrentUser u) {
             listener = l;
             user = u;
         }
@@ -277,7 +277,7 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener {
     }
 
     @Override
-    public void addChangeListener(ChangeListener listener, IdentifiedUser user) {
+    public void addChangeListener(ChangeListener listener, CurrentUser user) {
         listeners.put(listener, new ChangeListenerHolder(listener, user));
     }
 
@@ -720,7 +720,7 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener {
       fireEventForUnrestrictedListeners( event );
     }
 
-    private boolean isVisibleTo(Change change, IdentifiedUser user, ReviewDb db) throws OrmException {
+    private boolean isVisibleTo(Change change, CurrentUser user, ReviewDb db) throws OrmException {
         final ProjectState pe = projectCache.get(change.getProject());
         if (pe == null) {
           return false;
@@ -729,7 +729,7 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener {
         return pc.controlFor(change).isVisible(db);
     }
 
-    private boolean isVisibleTo(Branch.NameKey branchName, IdentifiedUser user) {
+    private boolean isVisibleTo(Branch.NameKey branchName, CurrentUser user) {
         final ProjectState pe = projectCache.get(branchName.getParentKey());
         if (pe == null) {
           return false;

@@ -70,6 +70,30 @@
       "revId": "7fc1e0bc7dc75d7085daad1a1ffe1012f2b93e27",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afd63e9_fc3f49db",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2014-11-19T15:37:34Z",
+      "side": 1,
+      "message": "I was hoping to get prompted for admin user creation right after auth type but I understand now that\u0027s not possible, thanks for the explanation.",
+      "parentUuid": "1a133f13_13614cf7",
+      "range": {
+        "startLine": 64,
+        "startChar": 4,
+        "endLine": 64,
+        "endChar": 35
+      },
+      "revId": "7fc1e0bc7dc75d7085daad1a1ffe1012f2b93e27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

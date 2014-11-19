@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "3a164301_944a6483",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-11-19T08:50:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a072fcb_b71e8885",
+      "range": {
+        "startLine": 181,
+        "startChar": 2,
+        "endLine": 181,
+        "endChar": 32
+      },
+      "revId": "c42dcec6d87899dfec462eae2e831b003cae7412",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7a1c3b1f_3613987c",
         "filename": "Documentation/dev-contributing.txt",
         "patchSetId": 4
@@ -36,6 +60,30 @@
       "writtenOn": "2014-11-19T08:47:36Z",
       "side": 1,
       "message": "This is still here.",
+      "range": {
+        "startLine": 227,
+        "startChar": 2,
+        "endLine": 227,
+        "endChar": 52
+      },
+      "revId": "c42dcec6d87899dfec462eae2e831b003cae7412",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a133f13_d32d14bf",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-11-19T08:50:48Z",
+      "side": 1,
+      "message": "Sorry. Done.",
+      "parentUuid": "7a1c3b1f_3613987c",
       "range": {
         "startLine": 227,
         "startChar": 2,

@@ -94,6 +94,30 @@
       "revId": "7fc1e0bc7dc75d7085daad1a1ffe1012f2b93e27",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a164301_d4c97c87",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-11-19T16:01:22Z",
+      "side": 1,
+      "message": "Actually it would be possible. We could ask the questions in the run() method, store the input data in some class variables and then do the actual user creation silently in the postRun() method. This is actually what the InitLabel init step does. I just didn\u0027t do it this way because I want to skip the questions if a user was already created, and to check whether a user exists already I need access to the database and database access is only available in postRun()...",
+      "parentUuid": "3afd63e9_fc3f49db",
+      "range": {
+        "startLine": 64,
+        "startChar": 4,
+        "endLine": 64,
+        "endChar": 35
+      },
+      "revId": "7fc1e0bc7dc75d7085daad1a1ffe1012f2b93e27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

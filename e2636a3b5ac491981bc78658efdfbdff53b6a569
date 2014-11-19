@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3a164301_74eb4810",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-11-19T05:48:29Z",
+      "side": 1,
+      "message": "This desciption is done based on Java code, whereas on GWT it\u0027s emulated in JS. I assume that something that is not right to do in Java is also wrong to do in JS.",
+      "revId": "e2636a3b5ac491981bc78658efdfbdff53b6a569",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

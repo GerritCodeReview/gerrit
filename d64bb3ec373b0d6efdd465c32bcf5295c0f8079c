@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "3a164301_f4491880",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitAdminUser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-11-19T13:31:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3a164301_b44fa084",
+      "revId": "d64bb3ec373b0d6efdd465c32bcf5295c0f8079c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3a164301_94542416",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitAdminUser.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2014-11-19T12:46:23Z",
       "side": 1,
       "message": "Use equality comparison of enum values and don\u0027t worry about the order of the parameters to equals for NPE prevention [1]:\n\n  if (authType \u003d\u003d AuthType.DEVELOPMENT_BECOME_ANY_ACCOUNT) {\n\n [1] http://stackoverflow.com/questions/1750435/comparing-java-enum-members-or-equals",
+      "revId": "d64bb3ec373b0d6efdd465c32bcf5295c0f8079c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a133f13_337d68a3",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitAdminUser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-11-19T13:31:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3a164301_94542416",
       "revId": "d64bb3ec373b0d6efdd465c32bcf5295c0f8079c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

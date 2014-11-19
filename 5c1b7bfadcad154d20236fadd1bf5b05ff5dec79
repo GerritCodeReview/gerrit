@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "1a133f13_13de6c6a",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-11-19T07:07:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a072fcb_17de546a",
+      "range": {
+        "startLine": 176,
+        "startChar": 12,
+        "endLine": 176,
+        "endChar": 17
+      },
+      "revId": "5c1b7bfadcad154d20236fadd1bf5b05ff5dec79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a072fcb_37e1d830",
         "filename": "Documentation/dev-contributing.txt",
         "patchSetId": 3
@@ -72,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "3a164301_3408b050",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-11-19T07:07:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a072fcb_37e1d830",
+      "range": {
+        "startLine": 180,
+        "startChar": 54,
+        "endLine": 181,
+        "endChar": 37
+      },
+      "revId": "5c1b7bfadcad154d20236fadd1bf5b05ff5dec79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7a1c3b1f_56e8d411",
         "filename": "Documentation/dev-contributing.txt",
         "patchSetId": 3
@@ -83,6 +131,30 @@
       "writtenOn": "2014-11-19T01:10:45Z",
       "side": 1,
       "message": "e.g.",
+      "range": {
+        "startLine": 187,
+        "startChar": 40,
+        "endLine": 187,
+        "endChar": 47
+      },
+      "revId": "5c1b7bfadcad154d20236fadd1bf5b05ff5dec79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a164301_1405b436",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-11-19T07:07:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7a1c3b1f_56e8d411",
       "range": {
         "startLine": 187,
         "startChar": 40,
@@ -141,6 +213,54 @@
     },
     {
       "key": {
+        "uuid": "3a164301_74022830",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-11-19T07:07:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7a1c3b1f_96f8acdf",
+      "range": {
+        "startLine": 193,
+        "startChar": 17,
+        "endLine": 193,
+        "endChar": 47
+      },
+      "revId": "5c1b7bfadcad154d20236fadd1bf5b05ff5dec79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a133f13_73eb6010",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-11-19T07:07:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7a1c3b1f_b6f32802",
+      "range": {
+        "startLine": 193,
+        "startChar": 2,
+        "endLine": 193,
+        "endChar": 16
+      },
+      "revId": "5c1b7bfadcad154d20236fadd1bf5b05ff5dec79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7a1c3b1f_f6eda01f",
         "filename": "Documentation/dev-contributing.txt",
         "patchSetId": 3
@@ -152,6 +272,30 @@
       "writtenOn": "2014-11-19T01:10:45Z",
       "side": 1,
       "message": "comma after",
+      "range": {
+        "startLine": 194,
+        "startChar": 2,
+        "endLine": 194,
+        "endChar": 10
+      },
+      "revId": "5c1b7bfadcad154d20236fadd1bf5b05ff5dec79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a133f13_53e8e411",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-11-19T07:07:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7a1c3b1f_f6eda01f",
       "range": {
         "startLine": 194,
         "startChar": 2,
@@ -198,6 +342,30 @@
       "writtenOn": "2014-11-19T06:04:43Z",
       "side": 1,
       "message": "started to right it here, but move it above to own section. Is a left over, will remove it.",
+      "parentUuid": "7a1c3b1f_d6f224fb",
+      "range": {
+        "startLine": 227,
+        "startChar": 42,
+        "endLine": 227,
+        "endChar": 52
+      },
+      "revId": "5c1b7bfadcad154d20236fadd1bf5b05ff5dec79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a164301_54ff2cc0",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-11-19T07:07:49Z",
+      "side": 1,
+      "message": "Done",
       "parentUuid": "7a1c3b1f_d6f224fb",
       "range": {
         "startLine": 227,

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7a1c3b1f_761d1084",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 329,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-11-19T08:52:36Z",
+      "side": 1,
+      "message": "Inline edit seems to change the line edit here.",
+      "revId": "dd4e6c26def273efce58de51812e1ca6bc9e77aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -48,6 +48,42 @@
     },
     {
       "key": {
+        "uuid": "7a751b3d_2e31270b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-11-19T06:57:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fa6aeb64_cacc03cb",
+      "revId": "373608bba277c813b8fd98ac40b714a969990614",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a751b3d_0e346bfa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-11-19T06:57:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a721759_edd1e55d",
+      "revId": "373608bba277c813b8fd98ac40b714a969990614",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a721759_8dd62153",
         "filename": "/COMMIT_MSG",
         "patchSetId": 5
@@ -59,6 +95,24 @@
       "writtenOn": "2014-11-18T18:30:04Z",
       "side": 1,
       "message": "Long line.",
+      "revId": "373608bba277c813b8fd98ac40b714a969990614",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a900f9b_2f31290b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-11-19T06:57:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a721759_8dd62153",
       "revId": "373608bba277c813b8fd98ac40b714a969990614",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -88,6 +142,24 @@
     },
     {
       "key": {
+        "uuid": "9a900f9b_cf689deb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-11-19T06:57:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fa6aeb64_ead1c75d",
+      "revId": "373608bba277c813b8fd98ac40b714a969990614",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fa6aeb64_8ad60b53",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 5
@@ -105,6 +177,24 @@
         "endLine": 2662,
         "endChar": 42
       },
+      "revId": "373608bba277c813b8fd98ac40b714a969990614",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a900f9b_0f3465fa",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 2662,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-11-19T06:57:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fa6aeb64_8ad60b53",
       "revId": "373608bba277c813b8fd98ac40b714a969990614",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -134,6 +224,24 @@
     },
     {
       "key": {
+        "uuid": "9a900f9b_ef6d61f8",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/GlobalCapability.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-11-19T06:57:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fa6aeb64_aadbcf7b",
+      "revId": "373608bba277c813b8fd98ac40b714a969990614",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fa6aeb64_4ae1f32e",
         "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/GlobalCapability.java",
         "patchSetId": 5
@@ -157,6 +265,24 @@
     },
     {
       "key": {
+        "uuid": "9a900f9b_8f7295d3",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/GlobalCapability.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-11-19T06:57:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fa6aeb64_4ae1f32e",
+      "revId": "373608bba277c813b8fd98ac40b714a969990614",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a721759_addbdd7b",
         "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/GlobalCapability.java",
         "patchSetId": 5
@@ -168,6 +294,24 @@
       "writtenOn": "2014-11-18T18:30:04Z",
       "side": 1,
       "message": "This is a confusing considering that the actual default is 0 (no limit). Is this just used as a suggestion for prepopulating the field in the access UI? Maybe we should give it a name/description that makes that clearer. In that case I\u0027m also not sure it needs to be public.\n\nAlso have we discussed what is an appropriate value here? 10 seems a little low.",
+      "revId": "373608bba277c813b8fd98ac40b714a969990614",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3afd63e9_dc2d2dbf",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/GlobalCapability.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-11-19T06:57:24Z",
+      "side": 1,
+      "message": "\u003eis this just used as a suggestion for prepopulating the field in the access UI? \n\nYeah.\n\n\u003eAlso have we discussed what is an appropriate value here?\n\nNo.\n\n\u003ethe actual default is 0 (no limit)\n\nFine \u0026 Done.",
+      "parentUuid": "5a721759_addbdd7b",
       "revId": "373608bba277c813b8fd98ac40b714a969990614",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -191,6 +335,24 @@
     },
     {
       "key": {
+        "uuid": "3a164301_b4ccc0c9",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/GlobalCapability.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-11-19T06:57:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a721759_4de1192f",
+      "revId": "373608bba277c813b8fd98ac40b714a969990614",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fa6aeb64_6ade376c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/CapabilityCollection.java",
         "patchSetId": 5
@@ -202,6 +364,24 @@
       "writtenOn": "2014-11-18T18:30:04Z",
       "side": 1,
       "message": "Ordering.",
+      "revId": "373608bba277c813b8fd98ac40b714a969990614",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a133f13_b3ccd8c9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/CapabilityCollection.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-11-19T06:57:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fa6aeb64_6ade376c",
       "revId": "373608bba277c813b8fd98ac40b714a969990614",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -225,6 +405,24 @@
     },
     {
       "key": {
+        "uuid": "3a164301_94d1c45f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/CapabilityCollection.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-11-19T06:57:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fa6aeb64_0aebfb10",
+      "revId": "373608bba277c813b8fd98ac40b714a969990614",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fa6aeb64_2ae83f11",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/CapabilityConstants.java",
         "patchSetId": 5
@@ -236,6 +434,24 @@
       "writtenOn": "2014-11-18T18:30:04Z",
       "side": 1,
       "message": "Ordering.",
+      "revId": "373608bba277c813b8fd98ac40b714a969990614",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a164301_f4d63853",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/CapabilityConstants.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-11-19T06:57:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fa6aeb64_2ae83f11",
       "revId": "373608bba277c813b8fd98ac40b714a969990614",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -265,6 +481,24 @@
     },
     {
       "key": {
+        "uuid": "3a164301_d4db3c7b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveConfig.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-11-19T06:57:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a721759_6dde556c",
+      "revId": "373608bba277c813b8fd98ac40b714a969990614",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fa6aeb64_caf3a301",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveConfig.java",
         "patchSetId": 5
@@ -276,6 +510,24 @@
       "writtenOn": "2014-11-18T18:30:04Z",
       "side": 1,
       "message": "Optional: you can save a line by making this a static import.",
+      "revId": "373608bba277c813b8fd98ac40b714a969990614",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a164301_34e1d030",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveConfig.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-11-19T06:57:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fa6aeb64_caf3a301",
       "revId": "373608bba277c813b8fd98ac40b714a969990614",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -322,6 +574,42 @@
     },
     {
       "key": {
+        "uuid": "3a164301_14de546a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveConfig.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-11-19T06:57:24Z",
+      "side": 1,
+      "message": "\u003ethere is no way to give someone \"no limit\" by configuring their global capability? \n\nuser can set max as 0, no limit, \nDone",
+      "parentUuid": "fa6aeb64_eaf8e7df",
+      "revId": "373608bba277c813b8fd98ac40b714a969990614",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a133f13_93d1dc5f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveConfig.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-11-19T06:57:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a721759_0deb1111",
+      "revId": "373608bba277c813b8fd98ac40b714a969990614",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a721759_2de84d11",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveConfig.java",
         "patchSetId": 5
@@ -339,6 +627,24 @@
     },
     {
       "key": {
+        "uuid": "1a133f13_f3d65053",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveConfig.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-11-19T06:57:24Z",
+      "side": 1,
+      "message": "very nice comments.  kept in mind. Thanks ! \n\nDone",
+      "parentUuid": "5a721759_2de84d11",
+      "revId": "373608bba277c813b8fd98ac40b714a969990614",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a721759_cdf3c901",
         "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/config/CapabilityConstants.properties",
         "patchSetId": 5
@@ -350,6 +656,24 @@
       "writtenOn": "2014-11-18T18:30:04Z",
       "side": 1,
       "message": "Ordering.",
+      "revId": "373608bba277c813b8fd98ac40b714a969990614",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a164301_b4f32002",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/config/CapabilityConstants.properties",
+        "patchSetId": 5
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-11-19T06:57:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a721759_cdf3c901",
       "revId": "373608bba277c813b8fd98ac40b714a969990614",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

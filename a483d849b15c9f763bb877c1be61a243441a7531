@@ -40,6 +40,24 @@
       "revId": "a483d849b15c9f763bb877c1be61a243441a7531",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a164301_1410146c",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 627,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-11-19T08:20:07Z",
+      "side": 1,
+      "message": "I find you extracted it to https://gerrit-review.googlesource.com/#/c/61713/2/Documentation/config-gerrit.txt\nso I will rebase this commit on it",
+      "parentUuid": "1a133f13_93239cd3",
+      "revId": "a483d849b15c9f763bb877c1be61a243441a7531",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

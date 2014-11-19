@@ -52,6 +52,24 @@
       "revId": "8419d9958e90940da87c4f40f49e5dd5a18be2a1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a164301_946d44fa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-11-19T09:44:13Z",
+      "side": 1,
+      "message": "Ok, I will rebase this change, when the other one is merged. It definitely makes sense get the AutoValue change in first.",
+      "parentUuid": "daea87ee_d154a416",
+      "revId": "8419d9958e90940da87c4f40f49e5dd5a18be2a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

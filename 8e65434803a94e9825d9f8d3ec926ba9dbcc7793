@@ -22,6 +22,30 @@
       "revId": "8e65434803a94e9825d9f8d3ec926ba9dbcc7793",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a96dfc9_dbd6f353",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-11-19T19:10:16Z",
+      "side": 1,
+      "message": "Yes, you are right. I covered this case more or less on line 183 above, but missed to explicitly mention it here as well.",
+      "parentUuid": "1a133f13_3313a87c",
+      "range": {
+        "startLine": 192,
+        "startChar": 1,
+        "endLine": 195,
+        "endChar": 49
+      },
+      "revId": "8e65434803a94e9825d9f8d3ec926ba9dbcc7793",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

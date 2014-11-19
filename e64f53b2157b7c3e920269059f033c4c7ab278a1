@@ -22,6 +22,30 @@
       "revId": "e64f53b2157b7c3e920269059f033c4c7ab278a1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a133f13_7387e036",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1017804
+      },
+      "writtenOn": "2014-11-19T13:52:09Z",
+      "side": 1,
+      "message": "Hehe, I copied this style from David Pursehouse, who had changed my \"#2960\" to \"Issue 2960\" in I12a280b8a.",
+      "parentUuid": "7a751b3d_ae2d17bf",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 15
+      },
+      "revId": "e64f53b2157b7c3e920269059f033c4c7ab278a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

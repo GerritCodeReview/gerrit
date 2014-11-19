@@ -62,7 +62,7 @@ public class RelatedChanges extends TabPanel {
     String tabPanel();
   }
 
-  private enum Tab {
+  enum Tab {
     RELATED_CHANGES(Resources.C.relatedChanges(),
         Resources.C.relatedChangesTooltip()) {
       @Override
@@ -127,6 +127,8 @@ public class RelatedChanges extends TabPanel {
     }
   }
 
+  private static Tab savedTab;
+
   private final List<RelatedChangesTab> tabs;
   private int maxHeightWithHeader;
   private int selectedTab;
@@ -155,7 +157,7 @@ public class RelatedChanges extends TabPanel {
     });
 
     for (Tab tabInfo : Tab.values()) {
-      RelatedChangesTab panel = new RelatedChangesTab();
+      RelatedChangesTab panel = new RelatedChangesTab(tabInfo);
       add(panel, tabInfo.defaultTitle);
       tabs.add(panel);
 
@@ -220,6 +222,10 @@ public class RelatedChanges extends TabPanel {
   protected void onLoad() {
     super.onLoad();
     R.css().ensureInjected();
+  }
+
+  static void setSavedTab(Tab subject) {
+    savedTab = subject;
   }
 
   private RelatedChangesTab getTab(Tab tabInfo) {
@@ -292,6 +298,10 @@ public class RelatedChanges extends TabPanel {
             break;
           }
         }
+      }
+
+      if (tabInfo == savedTab && enabled) {
+        selectTab(savedTab.ordinal());
       }
     }
   }

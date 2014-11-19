@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3afd63e9_bc45c175",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2014-11-19T15:06:09Z",
+      "side": 1,
+      "message": "move after line 55, since this step is related to one type of Auth",
+      "range": {
+        "startLine": 64,
+        "startChar": 4,
+        "endLine": 64,
+        "endChar": 35
+      },
+      "revId": "7fc1e0bc7dc75d7085daad1a1ffe1012f2b93e27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

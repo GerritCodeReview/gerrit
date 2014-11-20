@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1ac17fc3_c32d36bf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/PutHttpPassword.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-11-20T01:03:33Z",
+      "side": 1,
+      "message": "A word of caution: libcurl prior to 7.33.0 has a hard limit of 64 characters in password length, after which it silently truncates. This affects a large number of clients in the wild, including for example default curl on OS X 10.9 and earlier.\n\nSo this is fine for now, but can\u0027t grow all that much further. I wouldn\u0027t count on clients upgrading to recent libcurl in a timely fashion.\n\n(By a fun coincidence we just ran into this issue yesterday when our password generator for googlesource.com started spitting out some longer passwords. Yay.)",
+      "revId": "d1732a11bfb354145edc8c7b39e5b6f6ac9b416b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

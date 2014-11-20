@@ -16,6 +16,24 @@
       "revId": "08180de4deb931a8fa29a579ce4d40f885054cca",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bff14552_80f536e9",
+        "filename": ".gitignore",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-11-20T18:15:25Z",
+      "side": 1,
+      "message": "If you switch between stable branches, you\u0027re going to have a bad time for lots of reasons.\n\nI have had this alias for a long time:\n\n $ which buck-build-gerrit\n buck-build-gerrit: aliased to rm -f .classpath .factorypath .apt_generated \u0026\u0026 ./tools/eclipse/project.py \u0026\u0026 ./tools/eclipse/project.py --src \u0026\u0026 buck build :chrome\n\n(Just recently added the .factorypath and .apt_generated of course.)\n\nYou could also just \"git clean -f -d -x\" instead. That would have the side benefit of cleaning out buck-out so you don\u0027t get that annoying prompt when old versions of buck don\u0027t know about files in buck-out added by new versions of buck.",
+      "parentUuid": "9a580f1c_cfd61d54",
+      "revId": "08180de4deb931a8fa29a579ce4d40f885054cca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

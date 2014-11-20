@@ -93,6 +93,30 @@
       "revId": "796a5fd55fb2249dbac6a807c438d31948dca6bb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da4e0756_d1d6c453",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Check.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-11-20T05:13:31Z",
+      "side": 1,
+      "message": "My reasoning was that restricting it to admins would be consistent with the \u0027index\u0027 endpoint.",
+      "parentUuid": "fa490b4e_f2dbc87a",
+      "range": {
+        "startLine": 30,
+        "startChar": 0,
+        "endLine": 30,
+        "endChar": 60
+      },
+      "revId": "796a5fd55fb2249dbac6a807c438d31948dca6bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

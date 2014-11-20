@@ -2,6 +2,63 @@
   "comments": [
     {
       "key": {
+        "uuid": "fa490b4e_12e12c30",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-11-20T05:39:37Z",
+      "side": 1,
+      "message": "I guess you meant transaction boundaries for Git and database operations here; since 2.8.6.1 pure database transactions are supported for both SQL \u0026 No-SQL dialects.",
+      "range": {
+        "startLine": 9,
+        "startChar": 13,
+        "endLine": 9,
+        "endChar": 33
+      },
+      "revId": "796a5fd55fb2249dbac6a807c438d31948dca6bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a6fbfad_33de286b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-11-20T05:39:37Z",
+      "side": 1,
+      "message": "REST API documentation is missing.",
+      "revId": "796a5fd55fb2249dbac6a807c438d31948dca6bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a6fbfad_53eba40f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-11-20T05:39:37Z",
+      "side": 1,
+      "message": "Unit tests are missing. Adding check() and check(boolean repair) methods in change API would simplify the tests and allow alternative plugin API implementations to expose these methods as well; as it would simplify writing Checker site-program tool.",
+      "revId": "796a5fd55fb2249dbac6a807c438d31948dca6bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ba85d38b_c0f8bee0",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Check.java",
         "patchSetId": 1
@@ -113,6 +170,29 @@
         "startChar": 0,
         "endLine": 30,
         "endChar": 60
+      },
+      "revId": "796a5fd55fb2249dbac6a807c438d31948dca6bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa490b4e_32de306b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ConsistencyChecker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-11-20T05:39:37Z",
+      "side": 1,
+      "message": "This return value in unexpected. This method doesn\u0027t render ChangeInfo. So no reason to instantiate CheckResult. Just return messages.",
+      "range": {
+        "startLine": 85,
+        "startChar": 9,
+        "endLine": 85,
+        "endChar": 20
       },
       "revId": "796a5fd55fb2249dbac6a807c438d31948dca6bb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

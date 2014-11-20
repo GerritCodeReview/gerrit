@@ -170,7 +170,7 @@ public class AbstractChangeNotesTest {
   }
 
   protected Change newChange() {
-    return TestChanges.newChange(project, changeOwner);
+    return TestChanges.newChange(project, changeOwner.getAccountId());
   }
 
   protected ChangeUpdate newUpdate(Change c, IdentifiedUser user)

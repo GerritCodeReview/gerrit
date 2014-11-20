@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ba85d38b_c0f8bee0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Check.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-11-20T01:18:06Z",
+      "side": 1,
+      "message": "If this will eventually also fix up any corrupt changes, should this be RestModifyView?",
+      "range": {
+        "startLine": 30,
+        "startChar": 30,
+        "endLine": 30,
+        "endChar": 42
+      },
+      "revId": "796a5fd55fb2249dbac6a807c438d31948dca6bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba85d38b_e0edc21f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Check.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-11-20T01:18:06Z",
+      "side": 1,
+      "message": "Limit it to admins?\n\n  @RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)",
+      "range": {
+        "startLine": 30,
+        "startChar": 0,
+        "endLine": 30,
+        "endChar": 60
+      },
+      "revId": "796a5fd55fb2249dbac6a807c438d31948dca6bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -610,6 +610,24 @@
     },
     {
       "key": {
+        "uuid": "5a23f78d_05081250",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveConfig.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-11-20T19:01:45Z",
+      "side": 1,
+      "message": "Ok, I think this was not working in this version here but I see you\u0027ve fixed it by calling canPerform, which checks whether any value was set.",
+      "parentUuid": "3a164301_14de546a",
+      "revId": "373608bba277c813b8fd98ac40b714a969990614",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a721759_2de84d11",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveConfig.java",
         "patchSetId": 5

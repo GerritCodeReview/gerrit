@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "bff14552_801e5685",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-11-20T19:10:10Z",
+      "side": 1,
+      "message": "What\u0027s your point? Even before we had transactions in gwtorm they were still supported by the underlying database. The problem is and always has been that we don\u0027t use transactions in every place where we should. In other words, a lack of transactions.",
+      "parentUuid": "fa490b4e_12e12c30",
+      "range": {
+        "startLine": 9,
+        "startChar": 13,
+        "endLine": 9,
+        "endChar": 33
+      },
+      "revId": "796a5fd55fb2249dbac6a807c438d31948dca6bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a6fbfad_33de286b",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "bff14552_602352d5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-11-20T19:10:10Z",
+      "side": 1,
+      "message": "I think you might have missed the \"RFC\" in the subject.",
+      "parentUuid": "1a6fbfad_33de286b",
+      "revId": "796a5fd55fb2249dbac6a807c438d31948dca6bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a6fbfad_53eba40f",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -53,6 +95,24 @@
       "writtenOn": "2014-11-20T05:39:37Z",
       "side": 1,
       "message": "Unit tests are missing. Adding check() and check(boolean repair) methods in change API would simplify the tests and allow alternative plugin API implementations to expose these methods as well; as it would simplify writing Checker site-program tool.",
+      "revId": "796a5fd55fb2249dbac6a807c438d31948dca6bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bff14552_40284ead",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-11-20T19:10:10Z",
+      "side": 1,
+      "message": "Comments like this on what is missing from an RFC change are not very productive.",
+      "parentUuid": "1a6fbfad_53eba40f",
       "revId": "796a5fd55fb2249dbac6a807c438d31948dca6bb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -177,6 +237,30 @@
     },
     {
       "key": {
+        "uuid": "5a23f78d_c528bab1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Check.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-11-20T19:10:10Z",
+      "side": 1,
+      "message": "Good point. However, TBH, I think that was a mistake, we would get fewer complaints if users could reindex their own changes.",
+      "parentUuid": "da4e0756_d1d6c453",
+      "range": {
+        "startLine": 30,
+        "startChar": 0,
+        "endLine": 30,
+        "endChar": 60
+      },
+      "revId": "796a5fd55fb2249dbac6a807c438d31948dca6bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fa490b4e_32de306b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ConsistencyChecker.java",
         "patchSetId": 1
@@ -188,6 +272,30 @@
       "writtenOn": "2014-11-20T05:39:37Z",
       "side": 1,
       "message": "This return value in unexpected. This method doesn\u0027t render ChangeInfo. So no reason to instantiate CheckResult. Just return messages.",
+      "range": {
+        "startLine": 85,
+        "startChar": 9,
+        "endLine": 85,
+        "endChar": 20
+      },
+      "revId": "796a5fd55fb2249dbac6a807c438d31948dca6bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bff14552_a0ff1abf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ConsistencyChecker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-11-20T19:10:10Z",
+      "side": 1,
+      "message": "I think in the future there may be more complex structure than just a list of strings, for example, enum values for each message indicating severity, whether they were fixed, etc. But we can fix that later. Done.",
+      "parentUuid": "fa490b4e_32de306b",
       "range": {
         "startLine": 85,
         "startChar": 9,

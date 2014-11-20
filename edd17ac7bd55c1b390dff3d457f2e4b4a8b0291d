@@ -46,6 +46,30 @@
       "revId": "edd17ac7bd55c1b390dff3d457f2e4b4a8b0291d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a6fbfad_93f37c02",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListKey.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-11-20T07:26:47Z",
+      "side": 1,
+      "message": "This change takes great care in reversing the order. It\u0027s just that instead of this rather simple approach it introduces to new class members and getter methods for those to perform the reordering in the PatchListLoader.\nThe \"reversed\" check is still being done in PatchListLoader.java:144 so this approach would introduce no \"extra\" operation.\nThe question is:\nSince we are after the absolute difference, should theese classes (PatchListKey, PatchListLoader) know of or care about any possible ordering of the revisions to create patches from?\n\nEven placing the ordering in the constructor of PatchListKey (as I suggested) feels like a hack, if the ordering is not considered a state of the PatchListKey.",
+      "parentUuid": "1afa5ff3_3b3a57ec",
+      "range": {
+        "startLine": 47,
+        "startChar": 2,
+        "endLine": 53,
+        "endChar": 3
+      },
+      "revId": "edd17ac7bd55c1b390dff3d457f2e4b4a8b0291d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

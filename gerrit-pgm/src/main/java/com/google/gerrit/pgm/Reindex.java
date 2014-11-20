@@ -31,6 +31,7 @@ import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.lucene.LuceneIndexModule;
 import com.google.gerrit.pgm.util.SiteProgram;
+import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -53,6 +54,8 @@ import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.CanonicalWebUrlProvider;
 import com.google.gerrit.server.config.FactoryModule;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.config.GitReceivePackGroups;
+import com.google.gerrit.server.config.GitUploadPackGroups;
 import com.google.gerrit.server.git.GitModule;
 import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.git.WorkQueue;
@@ -68,10 +71,11 @@ import com.google.gerrit.server.index.IndexModule.IndexType;
 import com.google.gerrit.server.mail.ReplacePatchSetSender;
 import com.google.gerrit.server.notedb.NoteDbModule;
 import com.google.gerrit.server.patch.PatchListCacheImpl;
-import com.google.gerrit.server.project.AccessControlModule;
+import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.CommentLinkInfo;
 import com.google.gerrit.server.project.CommentLinkProvider;
 import com.google.gerrit.server.project.ProjectCacheImpl;
+import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.project.SectionSortCache;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -218,7 +222,16 @@ public class Reindex extends SiteProgram {
         bind(IdentifiedUser.class)
           .toProvider(Providers. <IdentifiedUser>of(null));
         bind(CurrentUser.class).to(IdentifiedUser.class);
-        install(new AccessControlModule());
+
+        bind(new TypeLiteral<Set<AccountGroup.UUID>>() {})
+            .annotatedWith(GitUploadPackGroups.class)
+            .toInstance(Collections.<AccountGroup.UUID> emptySet());
+        bind(new TypeLiteral<Set<AccountGroup.UUID>>() {})
+            .annotatedWith(GitReceivePackGroups.class)
+            .toInstance(Collections.<AccountGroup.UUID> emptySet());
+        factory(ChangeControl.AssistedFactory.class);
+        factory(ProjectControl.AssistedFactory.class);
+
         install(new DefaultCacheFactory.Module());
         install(new GroupModule());
         install(new PrologModule());

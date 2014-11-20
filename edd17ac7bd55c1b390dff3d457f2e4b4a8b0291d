@@ -70,6 +70,30 @@
       "revId": "edd17ac7bd55c1b390dff3d457f2e4b4a8b0291d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bff14552_00124677",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListKey.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1016722
+      },
+      "writtenOn": "2014-11-20T19:33:20Z",
+      "side": 1,
+      "message": "We are not after the absolute difference. The difference will show if any files are added or deleted. \nWhen the order is reversed the added files will show as deleted and deleted will show as added.\nYou can see that in the junit test PatchListCacheIT.java\nThe PatchListLoader has to be made aware of the order one way or another. \nIn principal I do not mind the approach you proposed in your previous comment. \nUnless you have any other ideas I will try to refactor the code according to your suggestion.",
+      "parentUuid": "1a6fbfad_93f37c02",
+      "range": {
+        "startLine": 47,
+        "startChar": 2,
+        "endLine": 53,
+        "endChar": 3
+      },
+      "revId": "edd17ac7bd55c1b390dff3d457f2e4b4a8b0291d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

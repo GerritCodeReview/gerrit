@@ -303,7 +303,7 @@ public class CommentsTest  {
   }
 
   private Change newChange() {
-    return TestChanges.newChange(project, changeOwner);
+    return TestChanges.newChange(project, changeOwner.getAccountId());
   }
 
   private ChangeUpdate newUpdate(Change c, final IdentifiedUser user) throws Exception {

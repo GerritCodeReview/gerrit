@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5a23f78d_451daa83",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2014-11-20T19:57:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a23f78d_0513b27b",
+      "revId": "e350890c36d7ea15c2def21f7f7885e7ab012853",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bff14552_e00e4253",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2014-11-20T19:48:50Z",
       "side": 1,
       "message": "This seems like it would be the easier solution. Can you describe a little more why you chose not to do this?",
+      "revId": "e350890c36d7ea15c2def21f7f7885e7ab012853",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bff14552_c01b3e8f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2014-11-20T19:57:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bff14552_e00e4253",
       "revId": "e350890c36d7ea15c2def21f7f7885e7ab012853",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

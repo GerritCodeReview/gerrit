@@ -45,6 +45,54 @@
       "revId": "796a5fd55fb2249dbac6a807c438d31948dca6bb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a6fbfad_d3d6d453",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Check.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-11-20T04:59:33Z",
+      "side": 1,
+      "message": "My thought was to allow both GET and POST. GET is just informational; POST will fix up anything that can be fixed.\n\nThe post body may include options for how to deal with certain types of corruption. For example, if there are multiple patch sets with the same commit SHA-1, should we keep the oldest or the newest?",
+      "parentUuid": "ba85d38b_c0f8bee0",
+      "range": {
+        "startLine": 30,
+        "startChar": 30,
+        "endLine": 30,
+        "endChar": 42
+      },
+      "revId": "796a5fd55fb2249dbac6a807c438d31948dca6bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa490b4e_f2dbc87a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Check.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-11-20T04:59:33Z",
+      "side": 1,
+      "message": "Is there any reason we wouldn\u0027t want to allow this for any user that can see the change? If they can see the change, they can hypothetically see all the entities spread across the database.\n\nAs noted in my TODO below I think we can expose _more_ to administrators, such as stack traces.",
+      "parentUuid": "ba85d38b_e0edc21f",
+      "range": {
+        "startLine": 30,
+        "startChar": 0,
+        "endLine": 30,
+        "endChar": 60
+      },
+      "revId": "796a5fd55fb2249dbac6a807c438d31948dca6bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

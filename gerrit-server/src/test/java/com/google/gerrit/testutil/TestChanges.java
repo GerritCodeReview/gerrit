@@ -18,6 +18,7 @@ import static org.easymock.EasyMock.expect;
 
 import com.google.common.collect.Ordering;
 import com.google.gerrit.common.TimeUtil;
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -47,17 +48,17 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class TestChanges {
   private static final AtomicInteger nextChangeId = new AtomicInteger(1);
 
-  public static Change newChange(Project.NameKey project, IdentifiedUser user) {
-    return newChange(project, user, nextChangeId.getAndIncrement());
+  public static Change newChange(Project.NameKey project, Account.Id userId) {
+    return newChange(project, userId, nextChangeId.getAndIncrement());
   }
 
-  public static Change newChange(Project.NameKey project, IdentifiedUser user,
+  public static Change newChange(Project.NameKey project, Account.Id userId,
       int id) {
     Change.Id changeId = new Change.Id(id);
     Change c = new Change(
         new Change.Key("Iabcd1234abcd1234abcd1234abcd1234abcd1234"),
         changeId,
-        user.getAccount().getId(),
+        userId,
         new Branch.NameKey(project, "master"),
         TimeUtil.nowTs());
     incrementPatchSet(c);

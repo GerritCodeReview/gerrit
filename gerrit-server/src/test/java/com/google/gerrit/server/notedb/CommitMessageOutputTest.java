@@ -36,7 +36,7 @@ import java.util.TimeZone;
 public class CommitMessageOutputTest extends AbstractChangeNotesTest {
   @Test
   public void approvalsCommitFormatSimple() throws Exception {
-    Change c = TestChanges.newChange(project, changeOwner, 1);
+    Change c = TestChanges.newChange(project, changeOwner.getAccountId(), 1);
     ChangeUpdate update = newUpdate(c, changeOwner);
     update.putApproval("Verified", (short) 1);
     update.putApproval("Code-Review", (short) -1);
@@ -71,7 +71,7 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
 
   @Test
   public void changeMessageCommitFormatSimple() throws Exception {
-    Change c = TestChanges.newChange(project, changeOwner, 1);
+    Change c = TestChanges.newChange(project, changeOwner.getAccountId(), 1);
     ChangeUpdate update = newUpdate(c, changeOwner);
     update.setChangeMessage("Just a little code change.\n"
         + "How about a new line");

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a580f1c_cfd61d54",
+        "filename": ".gitignore",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-11-20T07:39:12Z",
+      "side": 1,
+      "message": "Note that the directories added here will, if not removed, prevent the stable-2.9 and stable-2.10 branches from building in Eclipse.",
+      "revId": "08180de4deb931a8fa29a579ce4d40f885054cca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

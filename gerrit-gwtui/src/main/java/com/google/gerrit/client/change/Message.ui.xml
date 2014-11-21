@@ -105,6 +105,8 @@ limitations under the License.
     .closed .reply {
       visibility: HIDDEN;
     }
+    .comment {
+    }
   </ui:style>
 
   <g:HTMLPanel
@@ -125,7 +127,8 @@ limitations under the License.
       </g:HTMLPanel>
       <div ui:field='message'
            aria-hidden='true'
-           style='display: NONE'/>
+           style='display: NONE'
+           styleName='{style.comment}'/>
       <g:FlowPanel ui:field='comments' visible='false'/>
     </div>
   </g:HTMLPanel>

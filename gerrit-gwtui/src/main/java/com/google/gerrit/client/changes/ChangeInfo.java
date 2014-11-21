@@ -319,6 +319,7 @@ public class ChangeInfo extends JavaScriptObject {
     public final native GitPerson committer() /*-{ return this.committer; }-*/;
     public final native String subject() /*-{ return this.subject; }-*/;
     public final native String message() /*-{ return this.message; }-*/;
+    public final native JsArray<WebLinkInfo> web_links() /*-{ return this.web_links; }-*/;
 
     protected CommitInfo() {
     }

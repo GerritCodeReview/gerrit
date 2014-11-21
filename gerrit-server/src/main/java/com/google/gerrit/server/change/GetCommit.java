@@ -15,6 +15,7 @@
 package com.google.gerrit.server.change;
 
 import com.google.gerrit.extensions.common.CommitInfo;
+import com.google.gerrit.extensions.common.ListChangesOption;
 import com.google.gerrit.extensions.restapi.CacheControl;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
@@ -24,11 +25,23 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import org.kohsuke.args4j.Option;
+
 import java.util.concurrent.TimeUnit;
 
 @Singleton
 public class GetCommit implements RestReadView<RevisionResource> {
   private final ChangeJson json;
+
+  @Option(name = "-o", usage = "Output options")
+  void addOption(ListChangesOption o) {
+    json.addOption(o);
+  }
+
+  @Option(name = "-O", usage = "Output option flags, in hex")
+  void setOptionFlagsHex(String hex) {
+    json.addOptions(ListChangesOption.fromBits(Integer.parseInt(hex, 16)));
+  }
 
   @Inject
   GetCommit(ChangeJson json) {
@@ -40,7 +53,8 @@ public class GetCommit implements RestReadView<RevisionResource> {
       throws ResourceNotFoundException, OrmException {
     try {
       Response<CommitInfo> r =
-          Response.ok(json.toCommit(resource.getPatchSet()));
+          Response.ok(json.toCommit(resource.getPatchSet(), resource
+              .getChange().getProject().get()));
       if (resource.isCacheable()) {
         r.caching(CacheControl.PRIVATE(7, TimeUnit.DAYS));
       }

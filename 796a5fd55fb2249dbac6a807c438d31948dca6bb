@@ -119,6 +119,24 @@
     },
     {
       "key": {
+        "uuid": "7f242da4_36d6b856",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-11-21T00:22:19Z",
+      "side": 1,
+      "message": "To be fair, there have been changes that (even if not explicitly mentioned in the commit message as WiP or RFC) ended up being merged without documentation, so I don\u0027t think it\u0027s unreasonable to mention it.",
+      "parentUuid": "bff14552_40284ead",
+      "revId": "796a5fd55fb2249dbac6a807c438d31948dca6bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ba85d38b_c0f8bee0",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Check.java",
         "patchSetId": 1

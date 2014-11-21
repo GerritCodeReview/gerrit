@@ -129,7 +129,7 @@ public class ChangeControl {
     }
   }
 
-  interface AssistedFactory {
+  public interface AssistedFactory {
     ChangeControl create(RefControl refControl, Change change);
     ChangeControl create(RefControl refControl, ChangeNotes notes);
   }

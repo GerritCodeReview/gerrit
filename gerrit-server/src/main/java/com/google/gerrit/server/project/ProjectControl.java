@@ -138,7 +138,7 @@ public class ProjectControl {
     }
   }
 
-  interface AssistedFactory {
+  public interface AssistedFactory {
     ProjectControl create(CurrentUser who, ProjectState ps);
   }
 

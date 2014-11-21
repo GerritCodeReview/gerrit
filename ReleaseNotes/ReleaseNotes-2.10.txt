@@ -8,7 +8,8 @@ link:https://gerrit-releases.storage.googleapis.com/gerrit-2.10.war[
 https://gerrit-releases.storage.googleapis.com/gerrit-2.10.war]
 
 Gerrit 2.10 includes the bug fixes done with
-link:ReleaseNotes-2.9.1.html[Gerrit 2.9.1].
+link:ReleaseNotes-2.9.1.html[Gerrit 2.9.1] and
+link:ReleaseNotes-2.9.2.html[Gerrit 2.9.2].
 These bug fixes are *not* listed in these release notes.
 
 Important Notes
@@ -20,6 +21,11 @@ Important Notes
   java -jar gerrit.war init -d site_path
   java -jar gerrit.war reindex --recheck-mergeable -d site_path
 ----
+
+*WARNING:* When upgrading from an existing site that was initialised with Gerrit
+version 2.6 to version 2.9.1, the primary key column order will be updated for
+some tables. It is therefore important to upgrade the site with the init program,
+rather than only copying the .war file over the existing one.
 
 *WARNING:* Upgrading to 2.10.x requires the server be first upgraded to 2.1.7 (or
 a later 2.1.x version), and then to 2.10.x.  If you are upgrading from 2.2.x.x or

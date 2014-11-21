@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "df6359f0_e9085551",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-11-21T07:56:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5f212994_55fa4cd6",
+      "revId": "8b21e164a9c24c64f2e28d89999d7fecb68d086b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7f242da4_761e7088",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -36,6 +54,24 @@
       "writtenOn": "2014-11-21T07:47:56Z",
       "side": 1,
       "message": "Also mention that this change sets the default ranges for range permissions.",
+      "revId": "8b21e164a9c24c64f2e28d89999d7fecb68d086b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1f3091e8_0bf4bde6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-11-21T07:56:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7f242da4_761e7088",
       "revId": "8b21e164a9c24c64f2e28d89999d7fecb68d086b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -59,6 +95,24 @@
         "endLine": 98,
         "endChar": 70
       },
+      "revId": "8b21e164a9c24c64f2e28d89999d7fecb68d086b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1f3091e8_eb085151",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/account/CapabilitiesIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-11-21T07:56:56Z",
+      "side": 1,
+      "message": "Good Idea!\nDone",
+      "parentUuid": "7f242da4_96ffccbf",
       "revId": "8b21e164a9c24c64f2e28d89999d7fecb68d086b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

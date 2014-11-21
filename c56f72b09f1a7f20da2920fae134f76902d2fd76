@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5f212994_55236cd4",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-11-21T10:11:30Z",
+      "side": 0,
+      "message": "There are still links to this anchor from within this file and from in config-gerrit.txt",
+      "range": {
+        "startLine": 60,
+        "startChar": 0,
+        "endLine": 60,
+        "endChar": 25
+      },
+      "revId": "c56f72b09f1a7f20da2920fae134f76902d2fd76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

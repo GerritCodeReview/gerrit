@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7f242da4_16773cc6",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1119,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-11-21T10:11:30Z",
+      "side": 1,
+      "message": "This links to an anchor that has been removed.",
+      "range": {
+        "startLine": 1119,
+        "startChar": 0,
+        "endLine": 1119,
+        "endChar": 71
+      },
+      "revId": "2386bff5db223ba8127a49ab32826adb0151c9d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5f212994_751e6888",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1180,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-11-21T10:11:30Z",
+      "side": 1,
+      "message": "This links to an anchor that has been removed.",
+      "range": {
+        "startLine": 1180,
+        "startChar": 0,
+        "endLine": 1180,
+        "endChar": 71
+      },
+      "revId": "2386bff5db223ba8127a49ab32826adb0151c9d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

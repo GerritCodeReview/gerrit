@@ -41,9 +41,9 @@ public class GlobalCapability {
   /**
    * Default maximum number of changes that may be pushed in a batch, 0 means no
    * limit. This is just used as a suggestion for prepopulating the field in the
-   * access UI.
+   * access UI and accept test.
    */
-  private static final int DEFAULT_MAX_BATCH_CHANGES_LIMIT = 0;
+  public static final int DEFAULT_MAX_BATCH_CHANGES_LIMIT = 0;
 
   /** Can create any account on the server. */
   public static final String CREATE_ACCOUNT = "createAccount";

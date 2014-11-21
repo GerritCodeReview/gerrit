@@ -30,6 +30,7 @@ import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.Permission;
+import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
@@ -46,7 +47,7 @@ public class CapabilitiesIT extends AbstractDaemonTest {
 
   @Test
   public void testCapabilitiesUser() throws Exception {
-    grantAllCapabilities();
+    grantAllCapabilitiesExceptAdministrateServerAndPriority();
     RestResponse r =
         userSession.get("/accounts/self/capabilities");
     int code = r.getStatusCode();
@@ -60,7 +61,7 @@ public class CapabilitiesIT extends AbstractDaemonTest {
         assertFalse(info.priority);
       } else if (QUERY_LIMIT.equals(c)) {
         assertEquals(0, info.queryLimit.min);
-        assertEquals(0, info.queryLimit.max);
+        assertEquals(DEFAULT_MAX_QUERY_LIMIT, info.queryLimit.max);
       } else {
         assertTrue(String.format("capability %s was not granted", c),
             (Boolean) CapabilityInfo.class.getField(c).get(info));
@@ -94,21 +95,28 @@ public class CapabilitiesIT extends AbstractDaemonTest {
     }
   }
 
-  private void grantAllCapabilities() throws IOException,
-      ConfigInvalidException {
+  private void grantAllCapabilitiesExceptAdministrateServerAndPriority()
+      throws IOException, ConfigInvalidException {
     MetaDataUpdate md = metaDataUpdateFactory.create(allProjects);
     md.setMessage("Make super user");
     ProjectConfig config = ProjectConfig.read(md);
     AccessSection s = config.getAccessSection(
         AccessSection.GLOBAL_CAPABILITIES);
     for (String c : GlobalCapability.getAllNames()) {
-      if (ADMINISTRATE_SERVER.equals(c)) {
+      if (ADMINISTRATE_SERVER.equals(c) || PRIORITY.equals(c)) {
         continue;
       }
       Permission p = s.getPermission(c, true);
-      p.add(new PermissionRule(
+      PermissionRule rule = new PermissionRule(
           config.resolve(SystemGroupBackend.getGroup(
-              SystemGroupBackend.REGISTERED_USERS))));
+              SystemGroupBackend.REGISTERED_USERS)));
+      if (GlobalCapability.hasRange(c)) {
+        PermissionRange.WithDefaults range = GlobalCapability.getRange(c);
+        if (range != null) {
+          rule.setRange(range.getDefaultMin(), range.getDefaultMax());
+        }
+      }
+      p.add(rule);
     }
     config.commit(md);
     projectCache.evict(config.getProject());

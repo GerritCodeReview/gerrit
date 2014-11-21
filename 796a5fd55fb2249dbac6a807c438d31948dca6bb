@@ -49,6 +49,53 @@
     },
     {
       "key": {
+        "uuid": "df6359f0_e9df3565",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-11-21T07:51:42Z",
+      "side": 1,
+      "message": "| What\u0027s your point?\n\nDisagreement with your wording in the commit message.\n\n| Even before we had transactions in gwtorm they were still supported by the underlying database.\n\nThat\u0027s not true. Yes before this change [1] PostgreSQL, Oracle and MySQL (InnoDB engine) had support for transactions. But before [1] gwtorm haven\u0027t supported transaction semantic by leaving beginTransaction(), commit() and rollback() methods a no-op for JDBC dialects. So that rollback() in this basic idiom:\n\n  beginTransaction();\n  try {\n    insertPatchSetAncestors();\n    insertPatchSets();\n    updateChange();\n    commit();\n  } catch (OrmException e) {\n    rollback();\n  }\n\nhad never worked for JDBC dialects.  Combined with simultaneos database record mutations in background updates (mergeability checker and merge queue) and interactive updates (add reviewer REST endpoint) and gwtorm\u0027s optimistic database locking strategy this continuously produced dozens of corrupted changes every month in our production environment (PosgreSQL \u0026 cherry-pick submit strategy).\n\nAs the matter of fact, before [1], Gerrit issue tracker was full of intermittent database corruption problems, see for example [2], [3], [4], [5]. Since applying of [1] i have neither seen even one database corruption case in our production environment, nor one new filed corruption issue in Gerrit issue tracker.\n\nIOW: I am not aware of any code path on most recent master, that lack of transactions, that may lead to change corruption.\n\n* [1] https://gerrit-review.googlesource.com/57851\n* [2] https://code.google.com/p/gerrit/issues/detail?id\u003d2034\n* [3] https://code.google.com/p/gerrit/issues/detail?id\u003d2246\n* [4] https://code.google.com/p/gerrit/issues/detail?id\u003d2383\n* [5] https://code.google.com/p/gerrit/issues/detail?id\u003d2702",
+      "parentUuid": "bff14552_801e5685",
+      "range": {
+        "startLine": 9,
+        "startChar": 13,
+        "endLine": 9,
+        "endChar": 33
+      },
+      "revId": "796a5fd55fb2249dbac6a807c438d31948dca6bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "df6359f0_c9dc7173",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-11-21T07:51:42Z",
+      "side": 1,
+      "message": "Given that using the word \"unreliable\" with DBMS, is the most offensive thing you can say about it, and given that you have used plural form, could you provide any evidences? Gerrit has open and closed source bindings for these DB systems:\n\n* H2\n* Oracle\n* MaxDB\n* PostgreSQL\n* MySQL (InnoDB engine)\n* MS SQL (closed source binding provided by gerritforge)\n* Google Megastore (No-SQL dialect, closed source)\n\nI am interessted to see any pending intermittent database corruption issues, broken transaction management, etc. on their issue trackers? Drivers? Versions? And of course we must warn Gerrit community to avoid using DBMS that known/proven to be intermittently broken.",
+      "range": {
+        "startLine": 9,
+        "startChar": 39,
+        "endLine": 9,
+        "endChar": 59
+      },
+      "revId": "796a5fd55fb2249dbac6a807c438d31948dca6bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a6fbfad_33de286b",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -78,6 +125,24 @@
       "side": 1,
       "message": "I think you might have missed the \"RFC\" in the subject.",
       "parentUuid": "1a6fbfad_33de286b",
+      "revId": "796a5fd55fb2249dbac6a807c438d31948dca6bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1f3091e8_0bdb9d7c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-11-21T07:51:42Z",
+      "side": 1,
+      "message": "No i havn\u0027t, see my answer below.",
+      "parentUuid": "bff14552_602352d5",
       "revId": "796a5fd55fb2249dbac6a807c438d31948dca6bb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -130,6 +195,42 @@
       "writtenOn": "2014-11-21T00:22:19Z",
       "side": 1,
       "message": "To be fair, there have been changes that (even if not explicitly mentioned in the commit message as WiP or RFC) ended up being merged without documentation, so I don\u0027t think it\u0027s unreasonable to mention it.",
+      "parentUuid": "bff14552_40284ead",
+      "revId": "796a5fd55fb2249dbac6a807c438d31948dca6bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1f3091e8_ebdf3165",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-11-21T07:51:42Z",
+      "side": 1,
+      "message": "... e.g.: [1].\n\n [1] https://gerrit-review.googlesource.com/49081",
+      "parentUuid": "7f242da4_36d6b856",
+      "revId": "796a5fd55fb2249dbac6a807c438d31948dca6bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "df6359f0_a9e93d17",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-11-21T07:51:42Z",
+      "side": 1,
+      "message": "My assumption of \"RFC\" \u0026 \"WIP\" prefixes in change subject was: change owner supposed to explicitly mention in TODO section in the commit message what she thinks is still missing and supposed to be done in next patch sets, e.g. [1]. When this assumption was wrong, please ignore this mssing  parts comment above.\n\n [1] https://gerrit-review.googlesource.com/61604",
       "parentUuid": "bff14552_40284ead",
       "revId": "796a5fd55fb2249dbac6a807c438d31948dca6bb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

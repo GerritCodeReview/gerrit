@@ -22,6 +22,30 @@
       "revId": "e7c9ac03f284c0f957d715347e70fe59ddf187a6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1f3091e8_0b2dddbc",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/EditPreferences.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-11-21T10:05:58Z",
+      "side": 1,
+      "message": "Yes this would probably also work because in this change i changed the server side container\u0027s attributes from Boolean to boolan, so that the values always present. But this client side container\u0027s code was borrowed (copy/paste) from [1]. And compare it with [2], where the attributes are only populated when the value is not null, to prevent blown JSON: [2]. I would prefer to wait for review if it\u0027s accepted to use boolean instead Boolean in underlying server containers, before changing this, though.\n\n* [1] gerrit-gwtui/src/main/java/com/google/gerrit/client/account/DiffPreferences.java\n* [2] gerrit-server/src/main/java/com/google/gerrit/server/account/GetDiffPreferences.java",
+      "parentUuid": "df6359f0_c90eb153",
+      "range": {
+        "startLine": 84,
+        "startChar": 87,
+        "endLine": 84,
+        "endChar": 95
+      },
+      "revId": "e7c9ac03f284c0f957d715347e70fe59ddf187a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

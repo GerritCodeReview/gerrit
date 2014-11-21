@@ -261,6 +261,30 @@
     },
     {
       "key": {
+        "uuid": "7f242da4_76cc30c8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Check.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-11-21T00:16:54Z",
+      "side": 1,
+      "message": "So would you approve a change that removes the admin restriction for /index?  Or if there really is reason to restrict its usage, maybe add a new capability for it?",
+      "parentUuid": "5a23f78d_c528bab1",
+      "range": {
+        "startLine": 30,
+        "startChar": 0,
+        "endLine": 30,
+        "endChar": 60
+      },
+      "revId": "796a5fd55fb2249dbac6a807c438d31948dca6bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fa490b4e_32de306b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ConsistencyChecker.java",
         "patchSetId": 1

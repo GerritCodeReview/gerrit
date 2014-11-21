@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "df6359f0_c90eb153",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/EditPreferences.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-11-21T09:37:11Z",
+      "side": 1,
+      "message": "strange for me, why not \u0027return this.show_trailing_space\u0027 directly?",
+      "range": {
+        "startLine": 84,
+        "startChar": 87,
+        "endLine": 84,
+        "endChar": 95
+      },
+      "revId": "e7c9ac03f284c0f957d715347e70fe59ddf187a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "df6359f0_49d1a15c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-11-21T05:20:38Z",
+      "side": 1,
+      "message": "I agree that requiring \"Administrate Server\" capabilities for reindexing change is way to restrictive, and that allowing it to every one is way to open. OTOH we should try to avoid capabilities explosion, when we would create dedicated capability for each and every action. For example, Dave\u0027s pending change checker REST endpoint could also be assigned a dedicated global capability.\n\nDo we really need this granularity? Another approach is to protect different actions with the same capability and name it correspondingly. Could we add something like \"Server Maintenance\" or some such and include there reindex change, check change, ... actions?",
+      "revId": "7cfbb4801f9e7b25009a17e627dbf6c10647d033",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7f242da4_96e6ac45",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/IndexChangeIT.java",
         "patchSetId": 1
@@ -37,6 +54,30 @@
       "side": 1,
       "message": "OK. In CapabilityUtils.checkRequiresCapability it does this:\n\n  if (ctl.canAdministrateServer()) {\n     return;\n  }\n\nbefore checking the allowed capabilities.  Effectively meaning that the admin group can do anything even without having the capability.\n\nThis seems wrong to me.",
       "parentUuid": "7f242da4_96e6ac45",
+      "range": {
+        "startLine": 46,
+        "startChar": 4,
+        "endLine": 47,
+        "endChar": 69
+      },
+      "revId": "7cfbb4801f9e7b25009a17e627dbf6c10647d033",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "df6359f0_29d66d56",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/IndexChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-11-21T05:20:38Z",
+      "side": 1,
+      "message": "Yes, that\u0027s is the reason for it. But until now, the only capability Administrators don\u0027t have assigned from the beginning is ACCESS_DATABASE, and this is not relevant for RestApiServlet, that uses the method you have referenced. When you check for AdminQueryShell.java that implements gsql SSH command, it\u0027s doing the double check ;-)\n\n  @RequiresCapability(GlobalCapability.ACCESS_DATABASE)\n\nAnd this method is called later:\n\n   private void checkPermission() throws PermissionDeniedException {\n    if (!currentUser.getCapabilities().canAccessDatabase()) {\n      throw new PermissionDeniedException(String.format(\n          \"%s does not have \\\"Access Database\\\" capability.\",\n          currentUser.getUserName()));\n    }\n  }",
+      "parentUuid": "7f242da4_76f550e6",
       "range": {
         "startLine": 46,
         "startChar": 4,

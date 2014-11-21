@@ -1821,6 +1821,10 @@ describes the revision.
   }
 ----
 
+Adding query parameter `links` (for example `/changes/.../commit?links`)
+returns a link:#commit-info[CommitInfo] with the additional field web_links:
+Links to the file in external sites as a list of
+link:rest-api-changes.html#web-link-info[WebLinkInfo] entries.
 
 [[get-review]]
 === Get Review
@@ -3545,6 +3549,9 @@ link:#git-person-info[GitPersonInfo] entity.
 |`subject`     |
 The subject of the commit (header line of the commit message).
 |`message`     |The commit message.
+|`web_links`   |optional|
+Links to the commit in external sites as a list of
+link:#web-link-info[WebLinkInfo] entities.
 |==========================
 
 [[diff-content]]
@@ -3930,10 +3937,6 @@ entities.
 |`reviewed`     |optional|
 Indicates whether the caller is authenticated and has commented on the
 current revision. Only set if link:#reviewed[REVIEWED] option is requested.
-|`web_links`   |optional|
-Links to the patch set in external sites as a list of
-link:#web-link-info[WebLinkInfo] entities. Only set if
-link:#web-links[WEB_LINKS] option is requested.
 |===========================
 
 [[rule-input]]

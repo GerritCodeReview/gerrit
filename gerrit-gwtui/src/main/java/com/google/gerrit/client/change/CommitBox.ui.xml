@@ -87,9 +87,12 @@ limitations under the License.
     .webLinkPanel>a {
       margin-left:2px;
     }
-    .parentWebLink {
+
+    .parentWebLink a:first-child {
       margin-left:16px;
-      display: block;
+    }
+    .parentWebLink>a {
+      margin-left:2px;
     }
 
     .commit {
@@ -165,7 +168,7 @@ limitations under the License.
           <g:FlowPanel ui:field='parentCommits'/>
         </td>
         <td>
-          <g:FlowPanel ui:field='parentWebLinks'/>
+          <g:FlowPanel ui:field='parentWebLinks' styleName='{style.parentWebLink}'/>
         </td>
       </tr>
       <tr>

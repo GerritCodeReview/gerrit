@@ -22,13 +22,16 @@ import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-import com.google.inject.Singleton;
+
+import org.kohsuke.args4j.Option;
 
 import java.util.concurrent.TimeUnit;
 
-@Singleton
 public class GetCommit implements RestReadView<RevisionResource> {
   private final ChangeJson json;
+
+  @Option(name = "--links", usage = "Add weblinks")
+  private boolean addLinks;
 
   @Inject
   GetCommit(ChangeJson json) {
@@ -40,7 +43,8 @@ public class GetCommit implements RestReadView<RevisionResource> {
       throws ResourceNotFoundException, OrmException {
     try {
       Response<CommitInfo> r =
-          Response.ok(json.toCommit(resource.getPatchSet()));
+          Response.ok(json.toCommit(resource.getPatchSet(), resource
+              .getChange().getProject().get(), addLinks));
       if (resource.isCacheable()) {
         r.caching(CacheControl.PRIVATE(7, TimeUnit.DAYS));
       }

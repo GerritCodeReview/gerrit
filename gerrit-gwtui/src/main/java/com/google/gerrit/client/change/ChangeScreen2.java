@@ -234,8 +234,7 @@ public class ChangeScreen2 extends Screen {
     RestApi call = ChangeApi.detail(changeId.get());
     ChangeList.addOptions(call, EnumSet.of(
       ListChangesOption.CURRENT_ACTIONS,
-      ListChangesOption.ALL_REVISIONS,
-      ListChangesOption.WEB_LINKS));
+      ListChangesOption.ALL_REVISIONS));
     if (!fg) {
       call.background();
     }
@@ -822,18 +821,18 @@ public class ChangeScreen2 extends Screen {
     if (rev.is_edit()) {
       return;
     }
-    ChangeApi.revision(changeId.get(), rev.name())
-      .view("commit")
-      .get(group.add(new AsyncCallback<CommitInfo>() {
-        @Override
-        public void onSuccess(CommitInfo info) {
-          rev.set_commit(info);
-        }
 
-        @Override
-        public void onFailure(Throwable caught) {
-        }
-      }));
+    ChangeApi.commitWithLinks(changeId.get(), rev.name(),
+        group.add(new AsyncCallback<CommitInfo>() {
+          @Override
+          public void onSuccess(CommitInfo info) {
+            rev.set_commit(info);
+          }
+
+          @Override
+          public void onFailure(Throwable caught) {
+          }
+        }));
   }
 
   private void loadSubmitType(final Change.Status status, final boolean canSubmit) {

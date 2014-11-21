@@ -51,9 +51,6 @@ public enum ListChangesOption {
   /** Include download commands for the caller. */
   DOWNLOAD_COMMANDS(13),
 
-  /** Include patch set weblinks. */
-  WEB_LINKS(14),
-
   /** Include consistency check results. */
   CHECK(15);
 

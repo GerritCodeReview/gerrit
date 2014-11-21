@@ -295,11 +295,6 @@ default. Optional fields are:
   authenticated and has commented on the current revision.
 --
 
-[[web-links]]
---
-* `WEB_LINKS`: include the `web_links` field.
---
-
 [[check]]
 --
 * `CHECK`: include potential problems with the change.
@@ -1821,6 +1816,9 @@ describes the revision.
   }
 ----
 
+Adding query parameter `links` (for example `/changes/.../commit?links`)
+returns a link:#commit-info[CommitInfo] with the additional field webLinks:
+a list of links to external services for the commit.
 
 [[get-review]]
 === Get Review
@@ -3545,6 +3543,10 @@ link:#git-person-info[GitPersonInfo] entity.
 |`subject`     |
 The subject of the commit (header line of the commit message).
 |`message`     |The commit message.
+|`web_links`   |optional|
+Links to the commit in external sites as a list of
+link:#web-link-info[WebLinkInfo] entities. Only set if
+link:#web-links[WEB_LINKS] option is requested.
 |==========================
 
 [[diff-content]]
@@ -3930,10 +3932,6 @@ entities.
 |`reviewed`     |optional|
 Indicates whether the caller is authenticated and has commented on the
 current revision. Only set if link:#reviewed[REVIEWED] option is requested.
-|`web_links`   |optional|
-Links to the patch set in external sites as a list of
-link:#web-link-info[WebLinkInfo] entities. Only set if
-link:#web-links[WEB_LINKS] option is requested.
 |===========================
 
 [[rule-input]]

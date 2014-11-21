@@ -69,6 +69,10 @@ public class ChangeList extends JsArray<ChangeInfo> {
     call.addParameterRaw("O", Integer.toHexString(ListChangesOption.toBits(s)));
   }
 
+  public static void addWebLinksOption(RestApi call) {
+    call.addParameterTrue("links");
+  }
+
   private static RestApi newQuery(String query) {
     RestApi call = new RestApi(URI);
     // The server default is ?q=status:open so don't repeat it.

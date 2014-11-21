@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7f242da4_16f4dce6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-11-21T07:27:50Z",
+      "side": 1,
+      "message": "Mention that this capability was removed in Id907cc103591eed029fd08af700bb1bb6a618ff8",
+      "revId": "6a62c3e93c389d330ce7d3003c2168b5e77e7d91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

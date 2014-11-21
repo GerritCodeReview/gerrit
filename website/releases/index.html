@@ -39,7 +39,7 @@
 
 <script>
 $.getJSON(
-'https://www.googleapis.com/storage/v1beta2/b/gerrit-releases/o?projection=noAcl&fields=items(name%2Csize)&callback=?',
+'https://www.googleapis.com/storage/v1/b/gerrit-releases/o?projection=noAcl&fields=items(name%2Csize)&callback=?',
 function(data) {
   var doc = document;
   var frg = doc.createDocumentFragment();

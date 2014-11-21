@@ -38,6 +38,7 @@ import org.bouncycastle.openpgp.PGPPublicKey;
 import org.bouncycastle.openpgp.PGPPublicKeyRing;
 import org.bouncycastle.openpgp.PGPPublicKeyRingCollection;
 import org.bouncycastle.openpgp.PGPUtil;
+import org.bouncycastle.openpgp.bc.BcPGPPublicKeyRingCollection;
 import org.bouncycastle.openpgp.operator.bc.BcPGPDataEncryptorBuilder;
 import org.bouncycastle.openpgp.operator.bc.BcPublicKeyKeyEncryptionMethodGenerator;
 import org.slf4j.Logger;
@@ -113,7 +114,7 @@ class EncryptedContactStore implements ContactStore {
   private static PGPPublicKeyRingCollection readPubRing(final File pub) {
     try (InputStream fin = new FileInputStream(pub);
         InputStream in = PGPUtil.getDecoderStream(fin)) {
-        return new PGPPublicKeyRingCollection(in);
+        return new BcPGPPublicKeyRingCollection(in);
     } catch (IOException e) {
       throw new ProvisionException("Cannot read " + pub, e);
     } catch (PGPException e) {

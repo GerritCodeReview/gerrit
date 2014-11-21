@@ -149,8 +149,7 @@ was added or last updated.
 by:: Reviewer of the patch set in <<account,account attribute>>.
 
 [[refUpdate]]
-refUpdate
---------
+== refUpdate
 Information about a ref that was updated.
 
 oldRev:: The old value of the ref, prior to the update.

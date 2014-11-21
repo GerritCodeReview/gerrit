@@ -807,7 +807,7 @@ public class ChangeJson {
 
     if (has(ALL_COMMITS) || (out.isCurrent && has(CURRENT_COMMIT))) {
       try {
-        out.commit = toCommit(in);
+        out.commit = toCommit(in, cd.change().getProject().get());
       } catch (PatchSetInfoNotAvailableException e) {
         log.warn("Cannot load PatchSetInfo " + in.getId(), e);
       }
@@ -845,14 +845,12 @@ public class ChangeJson {
     }
 
     if (has(WEB_LINKS)) {
-      FluentIterable<WebLinkInfo> links =
-          webLinks.getPatchSetLinks(project, in.getRevision().get());
-      out.webLinks = links.isEmpty() ? null : links.toList();
+
     }
     return out;
   }
 
-  CommitInfo toCommit(PatchSet in)
+  CommitInfo toCommit(PatchSet in, String project)
       throws PatchSetInfoNotAvailableException {
     PatchSetInfo info = patchSetInfoFactory.get(db.get(), in.getId());
     CommitInfo commit = new CommitInfo();
@@ -861,10 +859,16 @@ public class ChangeJson {
     commit.committer = toGitPerson(info.getCommitter());
     commit.subject = info.getSubject();
     commit.message = info.getMessage();
+    FluentIterable<WebLinkInfo> links =
+        webLinks.getPatchSetLinks(project, in.getRevision().get());
+    commit.webLinks = links.isEmpty() ? null : links.toList();
     for (ParentInfo parent : info.getParents()) {
       CommitInfo i = new CommitInfo();
       i.commit = parent.id.get();
       i.subject = parent.shortMessage;
+      FluentIterable<WebLinkInfo> parentLinks =
+          webLinks.getPatchSetLinks(project, parent.id.get());
+      i.webLinks = parentLinks.isEmpty() ? null : parentLinks.toList();
       commit.parents.add(i);
     }
     return commit;

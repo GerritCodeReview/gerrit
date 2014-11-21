@@ -127,6 +127,7 @@ public class Reindex extends SiteProgram {
     }
     modules.add(changeIndexModule);
     modules.add(dbInjector.getInstance(BatchProgramModule.class));
+
     return dbInjector.createChildInjector(modules);
   }
 

@@ -19,6 +19,7 @@ import static com.google.inject.Scopes.SINGLETON;
 import com.google.common.cache.Cache;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.registration.DynamicSet;
+import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.rules.PrologModule;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
@@ -37,6 +38,8 @@ import com.google.gerrit.server.config.CanonicalWebUrlProvider;
 import com.google.gerrit.server.config.DisableReverseDnsLookup;
 import com.google.gerrit.server.config.DisableReverseDnsLookupProvider;
 import com.google.gerrit.server.config.FactoryModule;
+import com.google.gerrit.server.config.GitReceivePackGroups;
+import com.google.gerrit.server.config.GitUploadPackGroups;
 import com.google.gerrit.server.git.ChangeCache;
 import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.git.TagCache;
@@ -44,10 +47,11 @@ import com.google.gerrit.server.group.GroupModule;
 import com.google.gerrit.server.mail.ReplacePatchSetSender;
 import com.google.gerrit.server.notedb.NoteDbModule;
 import com.google.gerrit.server.patch.PatchListCacheImpl;
-import com.google.gerrit.server.project.AccessControlModule;
+import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.CommentLinkInfo;
 import com.google.gerrit.server.project.CommentLinkProvider;
 import com.google.gerrit.server.project.ProjectCacheImpl;
+import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.project.SectionSortCache;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -56,7 +60,9 @@ import com.google.inject.Module;
 import com.google.inject.TypeLiteral;
 import com.google.inject.util.Providers;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Module for programs that perform batch operations on a site.
@@ -97,7 +103,16 @@ public class BatchProgramModule extends FactoryModule {
     bind(CurrentUser.class).to(IdentifiedUser.class);
     factory(MergeUtil.Factory.class);
     factory(PatchSetInserter.Factory.class);
-    install(new AccessControlModule());
+
+    bind(new TypeLiteral<Set<AccountGroup.UUID>>() {})
+      .annotatedWith(GitUploadPackGroups.class)
+      .toInstance(Collections.<AccountGroup.UUID> emptySet());
+    bind(new TypeLiteral<Set<AccountGroup.UUID>>() {})
+      .annotatedWith(GitReceivePackGroups.class)
+      .toInstance(Collections.<AccountGroup.UUID> emptySet());
+    factory(ChangeControl.AssistedFactory.class);
+    factory(ProjectControl.AssistedFactory.class);
+
     install(new BatchGitModule());
     install(new DefaultCacheFactory.Module());
     install(new GroupModule());

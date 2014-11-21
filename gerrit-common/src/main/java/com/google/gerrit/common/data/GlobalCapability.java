@@ -38,11 +38,15 @@ public class GlobalCapability {
   /** Maximum number of changes that may be pushed in a batch. */
   public static final String BATCH_CHANGES_LIMIT = "batchChangesLimit";
 
+  /**
+   * Default maximum number of changes that may be pushed in a batch, 0 means no
+   * limit. This is just used as a suggestion for prepopulating the field in the
+   * access UI.
+   */
+  private static final int DEFAULT_MAX_BATCH_CHANGES_LIMIT = 0;
+
   /** Can create any account on the server. */
   public static final String CREATE_ACCOUNT = "createAccount";
-
-  /** Can modify any account on the server. */
-  public static final String MODIFY_ACCOUNT = "modifyAccount";
 
   /** Can create any group on the server. */
   public static final String CREATE_GROUP = "createGroup";
@@ -66,6 +70,9 @@ public class GlobalCapability {
 
   /** Can terminate any task using the kill command. */
   public static final String KILL_TASK = "killTask";
+
+  /** Can modify any account on the server. */
+  public static final String MODIFY_ACCOUNT = "modifyAccount";
 
   /** Queue a user can access to submit their tasks to. */
   public static final String PRIORITY = "priority";
@@ -99,13 +106,6 @@ public class GlobalCapability {
 
   /** Can view all pending tasks in the queue (not just the filtered set). */
   public static final String VIEW_QUEUE = "viewQueue";
-
-  /**
-   * Default maximum number of changes that may be pushed in a batch, 0 means no
-   * limit. This is just used as a suggestion for prepopulating the field in the
-   * access UI.
-   */
-  private static final int DEFAULT_MAX_BATCH_CHANGES = 0;
 
   private static final List<String> NAMES_ALL;
   private static final List<String> NAMES_LC;
@@ -167,7 +167,7 @@ public class GlobalCapability {
       return new PermissionRange.WithDefaults(
           varName,
           0, Integer.MAX_VALUE,
-          0, DEFAULT_MAX_BATCH_CHANGES);
+          0, DEFAULT_MAX_BATCH_CHANGES_LIMIT);
     }
     return null;
   }

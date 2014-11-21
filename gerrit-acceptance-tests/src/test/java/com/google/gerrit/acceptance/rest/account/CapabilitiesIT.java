@@ -55,6 +55,8 @@ public class CapabilitiesIT extends AbstractDaemonTest {
       } else if (GlobalCapability.QUERY_LIMIT.equals(c)) {
         assertEquals(0, info.queryLimit.min);
         assertEquals(0, info.queryLimit.max);
+      } else if (GlobalCapability.BATCH_CHANGES_LIMIT.equals(c)) {
+        assertEquals(0, info.batchChangesLimit.max);
       } else {
         assertTrue(String.format("capability %s was not granted", c),
             (Boolean)CapabilityInfo.class.getField(c).get(info));
@@ -81,6 +83,9 @@ public class CapabilitiesIT extends AbstractDaemonTest {
         assertFalse(info.accessDatabase);
       } else if (GlobalCapability.RUN_AS.equals(c)) {
         assertFalse(info.runAs);
+      } else if (GlobalCapability.BATCH_CHANGES_LIMIT.equals(c)) {
+        assertNotNull("missing batchChangesLimit", info.batchChangesLimit);
+        assertEquals(0, info.batchChangesLimit.max);
       } else {
         assertTrue(String.format("capability %s was not granted", c),
             (Boolean)CapabilityInfo.class.getField(c).get(info));

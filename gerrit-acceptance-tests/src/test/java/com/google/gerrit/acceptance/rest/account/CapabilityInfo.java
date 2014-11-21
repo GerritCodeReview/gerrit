@@ -17,6 +17,7 @@ package com.google.gerrit.acceptance.rest.account;
 class CapabilityInfo {
   public boolean accessDatabase;
   public boolean administrateServer;
+  public BatchChangesLimit batchChangesLimit;
   public boolean createAccount;
   public boolean createGroup;
   public boolean createProject;
@@ -38,6 +39,10 @@ class CapabilityInfo {
 
   static class QueryLimit {
     short min;
+    short max;
+  }
+
+  static class BatchChangesLimit {
     short max;
   }
 }

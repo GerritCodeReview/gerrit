@@ -38,6 +38,13 @@ public class GlobalCapability {
   /** Maximum number of changes that may be pushed in a batch. */
   public static final String BATCH_CHANGES_LIMIT = "batchChangesLimit";
 
+  /**
+   * Default maximum number of changes that may be pushed in a batch, 0 means no
+   * limit. This is just used as a suggestion for prepopulating the field in the
+   * access UI.
+   */
+  public static final int DEFAULT_MAX_BATCH_CHANGES = 0;
+
   /** Can create any account on the server. */
   public static final String CREATE_ACCOUNT = "createAccount";
 
@@ -99,13 +106,6 @@ public class GlobalCapability {
 
   /** Can view all pending tasks in the queue (not just the filtered set). */
   public static final String VIEW_QUEUE = "viewQueue";
-
-  /**
-   * Default maximum number of changes that may be pushed in a batch, 0 means no
-   * limit. This is just used as a suggestion for prepopulating the field in the
-   * access UI.
-   */
-  private static final int DEFAULT_MAX_BATCH_CHANGES = 0;
 
   private static final List<String> NAMES_ALL;
   private static final List<String> NAMES_LC;

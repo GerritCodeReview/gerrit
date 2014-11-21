@@ -40,7 +40,8 @@ public class GetCommit implements RestReadView<RevisionResource> {
       throws ResourceNotFoundException, OrmException {
     try {
       Response<CommitInfo> r =
-          Response.ok(json.toCommit(resource.getPatchSet()));
+          Response.ok(json.toCommit(resource.getPatchSet(), resource
+              .getChange().getProject().get()));
       if (resource.isCacheable()) {
         r.caching(CacheControl.PRIVATE(7, TimeUnit.DAYS));
       }

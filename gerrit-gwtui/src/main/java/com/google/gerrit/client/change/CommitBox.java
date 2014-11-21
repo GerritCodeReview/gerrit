@@ -130,7 +130,7 @@ class CommitBox extends Composite {
           gw.getLinkName());
     }
 
-    JsArray<WebLinkInfo> links = revInfo.web_links();
+    JsArray<WebLinkInfo> links = revInfo.commit().web_links();
     if (links != null) {
       for (WebLinkInfo link : Natives.asList(links)) {
         webLinkPanel.add(link.toAnchor());
@@ -159,6 +159,12 @@ class CommitBox extends Composite {
             new Anchor(gw.getLinkName(), gw.toRevision(project, c.commit()));
         a.setStyleName(style.parentWebLink());
         parentWebLinks.add(a);
+      }
+      JsArray<WebLinkInfo> links = c.web_links();
+      if (links != null) {
+        for (WebLinkInfo link : Natives.asList(links)) {
+          parentWebLinks.add(link.toAnchor());
+        }
       }
     }
   }

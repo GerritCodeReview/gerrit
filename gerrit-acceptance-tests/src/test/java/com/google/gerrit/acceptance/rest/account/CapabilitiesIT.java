@@ -14,6 +14,12 @@
 
 package com.google.gerrit.acceptance.rest.account;
 
+import static com.google.gerrit.common.data.GlobalCapability.ACCESS_DATABASE;
+import static com.google.gerrit.common.data.GlobalCapability.ADMINISTRATE_SERVER;
+import static com.google.gerrit.common.data.GlobalCapability.DEFAULT_MAX_QUERY_LIMIT;
+import static com.google.gerrit.common.data.GlobalCapability.PRIORITY;
+import static com.google.gerrit.common.data.GlobalCapability.QUERY_LIMIT;
+import static com.google.gerrit.common.data.GlobalCapability.RUN_AS;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -47,17 +53,17 @@ public class CapabilitiesIT extends AbstractDaemonTest {
     assertEquals(code, 200);
     CapabilityInfo info = (new Gson()).fromJson(r.getReader(),
         new TypeToken<CapabilityInfo>() {}.getType());
-    for (String c: GlobalCapability.getAllNames()) {
-      if (GlobalCapability.ADMINISTRATE_SERVER.equals(c)) {
+    for (String c : GlobalCapability.getAllNames()) {
+      if (ADMINISTRATE_SERVER.equals(c)) {
         assertFalse(info.administrateServer);
-      } else if (GlobalCapability.PRIORITY.equals(c)) {
+      } else if (PRIORITY.equals(c)) {
         assertFalse(info.priority);
-      } else if (GlobalCapability.QUERY_LIMIT.equals(c)) {
+      } else if (QUERY_LIMIT.equals(c)) {
         assertEquals(0, info.queryLimit.min);
         assertEquals(0, info.queryLimit.max);
       } else {
         assertTrue(String.format("capability %s was not granted", c),
-            (Boolean)CapabilityInfo.class.getField(c).get(info));
+            (Boolean) CapabilityInfo.class.getField(c).get(info));
       }
     }
   }
@@ -70,20 +76,20 @@ public class CapabilitiesIT extends AbstractDaemonTest {
     assertEquals(code, 200);
     CapabilityInfo info = (new Gson()).fromJson(r.getReader(),
         new TypeToken<CapabilityInfo>() {}.getType());
-    for (String c: GlobalCapability.getAllNames()) {
-      if (GlobalCapability.PRIORITY.equals(c)) {
+    for (String c : GlobalCapability.getAllNames()) {
+      if (PRIORITY.equals(c)) {
         assertFalse(info.priority);
-      } else if (GlobalCapability.QUERY_LIMIT.equals(c)) {
+      } else if (QUERY_LIMIT.equals(c)) {
         assertNotNull("missing queryLimit", info.queryLimit);
         assertEquals(0, info.queryLimit.min);
-        assertEquals(500, info.queryLimit.max);
-      } else if (GlobalCapability.ACCESS_DATABASE.equals(c)) {
+        assertEquals(DEFAULT_MAX_QUERY_LIMIT, info.queryLimit.max);
+      } else if (ACCESS_DATABASE.equals(c)) {
         assertFalse(info.accessDatabase);
-      } else if (GlobalCapability.RUN_AS.equals(c)) {
+      } else if (RUN_AS.equals(c)) {
         assertFalse(info.runAs);
       } else {
         assertTrue(String.format("capability %s was not granted", c),
-            (Boolean)CapabilityInfo.class.getField(c).get(info));
+            (Boolean) CapabilityInfo.class.getField(c).get(info));
       }
     }
   }
@@ -95,8 +101,8 @@ public class CapabilitiesIT extends AbstractDaemonTest {
     ProjectConfig config = ProjectConfig.read(md);
     AccessSection s = config.getAccessSection(
         AccessSection.GLOBAL_CAPABILITIES);
-    for (String c: GlobalCapability.getAllNames()) {
-      if (GlobalCapability.ADMINISTRATE_SERVER.equals(c)) {
+    for (String c : GlobalCapability.getAllNames()) {
+      if (ADMINISTRATE_SERVER.equals(c)) {
         continue;
       }
       Permission p = s.getPermission(c, true);

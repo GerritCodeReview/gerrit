@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "df6359f0_89e67945",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/account/CapabilitiesIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-11-21T07:26:23Z",
+      "side": 1,
+      "message": "Thank  adding a patch! David\n\nThere should not default value from users on GlobalCapability.BATCH_CHANGES_LIMIT, else they can override the system configuration.\n\nI have a hand of commit to fix issues of this class  please see \n   https://gerrit-review.googlesource.com/61803",
+      "revId": "12fe10337f1b29c37881d6ff2ccd7c4cd6eb2182",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1f3091e8_abe92917",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/CapabilityCollection.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-11-21T07:26:23Z",
+      "side": 1,
+      "message": "There should not default value from users on GlobalCapability.BATCH_CHANGES_LIMIT, else they can override the system configuration.",
+      "revId": "12fe10337f1b29c37881d6ff2ccd7c4cd6eb2182",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

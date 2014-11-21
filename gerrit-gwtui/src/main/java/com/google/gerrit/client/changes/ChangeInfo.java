@@ -257,7 +257,6 @@ public class ChangeInfo extends JavaScriptObject {
 
     public final native boolean has_fetch() /*-{ return this.hasOwnProperty('fetch') }-*/;
     public final native NativeMap<FetchInfo> fetch() /*-{ return this.fetch; }-*/;
-    public final native JsArray<WebLinkInfo> web_links() /*-{ return this.web_links; }-*/;
 
     public static void sortRevisionInfoByNumber(JsArray<RevisionInfo> list) {
       final int editParent = findEditParent(list);
@@ -318,6 +317,7 @@ public class ChangeInfo extends JavaScriptObject {
     public final native GitPerson committer() /*-{ return this.committer; }-*/;
     public final native String subject() /*-{ return this.subject; }-*/;
     public final native String message() /*-{ return this.message; }-*/;
+    public final native JsArray<WebLinkInfo> web_links() /*-{ return this.web_links; }-*/;
 
     protected CommitInfo() {
     }

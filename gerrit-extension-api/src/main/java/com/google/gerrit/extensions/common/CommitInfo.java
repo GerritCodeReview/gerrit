@@ -23,4 +23,5 @@ public class CommitInfo {
   public GitPerson committer;
   public String subject;
   public String message;
+  public List<WebLinkInfo> webLinks;
 }

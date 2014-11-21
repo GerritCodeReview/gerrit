@@ -24,6 +24,7 @@ class CapabilityInfo {
   public boolean emailReviewers;
   public boolean flushCaches;
   public boolean generateHttpPassword;
+  public boolean indexChange;
   public boolean killTask;
   public boolean modifyAccount;
   public boolean priority;

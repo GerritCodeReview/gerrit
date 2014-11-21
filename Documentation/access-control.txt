@@ -1218,6 +1218,12 @@ group to link:cmd-flush-caches.html[flush some or all Gerrit caches via ssh].
 This capability doesn't imply permissions to the show-caches command.  For that
 you need the <<capability_viewCaches,view caches capability>>.
 
+[[capability_index]]
+=== Index Change
+
+Allow to force indexing of a change.  This capability allows the granted
+group to link:rest-api-changes.html#index-change[index a change via the
+REST API].
 
 [[capability_kill]]
 === Kill Task

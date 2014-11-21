@@ -14,8 +14,6 @@
 
 package com.google.gerrit.server.change;
 
-import com.google.gerrit.common.data.GlobalCapability;
-import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -27,7 +25,6 @@ import com.google.inject.Singleton;
 
 import java.io.IOException;
 
-@RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)
 @Singleton
 public class Index implements RestModifyView<ChangeResource, Input> {
   public static class Input {

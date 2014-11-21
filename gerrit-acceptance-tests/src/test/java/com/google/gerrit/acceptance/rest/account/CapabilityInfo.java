@@ -22,7 +22,6 @@ class CapabilityInfo {
   public boolean createProject;
   public boolean emailReviewers;
   public boolean flushCaches;
-  public boolean generateHttpPassword;
   public boolean killTask;
   public boolean modifyAccount;
   public boolean priority;

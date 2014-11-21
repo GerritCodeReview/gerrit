@@ -94,6 +94,30 @@
       "revId": "edd17ac7bd55c1b390dff3d457f2e4b4a8b0291d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "df6359f0_69f585e6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListKey.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-11-21T07:29:48Z",
+      "side": 1,
+      "message": "It\u0027s just my own opinion that what we\u0027re after is the absolute difference between rev A and rev B. Based on the fact that I can\u0027t think of a usecase where you want to see the deleted files as added and reversed.\nDoesn\u0027t mean that someone else can\u0027t come up with one though!\n\nI didn\u0027t set a Code-Review grade because I\u0027m not entirely sure how I want it to behave. I suggest you don\u0027t push the refactoring until you get input from more people...",
+      "parentUuid": "bff14552_00124677",
+      "range": {
+        "startLine": 47,
+        "startChar": 2,
+        "endLine": 53,
+        "endChar": 3
+      },
+      "revId": "edd17ac7bd55c1b390dff3d457f2e4b4a8b0291d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

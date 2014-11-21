@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "7f242da4_36efd818",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-11-21T05:27:51Z",
+      "side": 1,
+      "message": "I would argue that the change checker/fixer should be protected by the Administrate Server capability.  The context of that is different to indexing a change.",
+      "parentUuid": "df6359f0_49d1a15c",
+      "revId": "7cfbb4801f9e7b25009a17e627dbf6c10647d033",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7f242da4_96e6ac45",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/IndexChangeIT.java",
         "patchSetId": 1
@@ -78,6 +96,30 @@
       "side": 1,
       "message": "Yes, that\u0027s is the reason for it. But until now, the only capability Administrators don\u0027t have assigned from the beginning is ACCESS_DATABASE, and this is not relevant for RestApiServlet, that uses the method you have referenced. When you check for AdminQueryShell.java that implements gsql SSH command, it\u0027s doing the double check ;-)\n\n  @RequiresCapability(GlobalCapability.ACCESS_DATABASE)\n\nAnd this method is called later:\n\n   private void checkPermission() throws PermissionDeniedException {\n    if (!currentUser.getCapabilities().canAccessDatabase()) {\n      throw new PermissionDeniedException(String.format(\n          \"%s does not have \\\"Access Database\\\" capability.\",\n          currentUser.getUserName()));\n    }\n  }",
       "parentUuid": "7f242da4_76f550e6",
+      "range": {
+        "startLine": 46,
+        "startChar": 4,
+        "endLine": 47,
+        "endChar": 69
+      },
+      "revId": "7cfbb4801f9e7b25009a17e627dbf6c10647d033",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5f212994_f5df1865",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/IndexChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-11-21T05:27:51Z",
+      "side": 1,
+      "message": "I see.  Well, I\u0027ll just remove this test then.",
+      "parentUuid": "df6359f0_29d66d56",
       "range": {
         "startLine": 46,
         "startChar": 4,

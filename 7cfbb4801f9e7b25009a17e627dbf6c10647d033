@@ -22,6 +22,30 @@
       "revId": "7cfbb4801f9e7b25009a17e627dbf6c10647d033",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7f242da4_76f550e6",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/IndexChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-11-21T05:14:17Z",
+      "side": 1,
+      "message": "OK. In CapabilityUtils.checkRequiresCapability it does this:\n\n  if (ctl.canAdministrateServer()) {\n     return;\n  }\n\nbefore checking the allowed capabilities.  Effectively meaning that the admin group can do anything even without having the capability.\n\nThis seems wrong to me.",
+      "parentUuid": "7f242da4_96e6ac45",
+      "range": {
+        "startLine": 46,
+        "startChar": 4,
+        "endLine": 47,
+        "endChar": 69
+      },
+      "revId": "7cfbb4801f9e7b25009a17e627dbf6c10647d033",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

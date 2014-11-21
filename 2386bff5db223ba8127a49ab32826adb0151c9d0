@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "df6359f0_494c019f",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1119,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-11-21T10:14:07Z",
+      "side": 1,
+      "message": "Jonathan mention in last comment that it should be linked to site initialization documentation instead.",
+      "parentUuid": "7f242da4_16773cc6",
+      "range": {
+        "startLine": 1119,
+        "startChar": 0,
+        "endLine": 1119,
+        "endChar": 71
+      },
+      "revId": "2386bff5db223ba8127a49ab32826adb0151c9d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5f212994_751e6888",
         "filename": "Documentation/access-control.txt",
         "patchSetId": 2

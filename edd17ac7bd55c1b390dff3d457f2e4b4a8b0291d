@@ -118,6 +118,30 @@
       "revId": "edd17ac7bd55c1b390dff3d457f2e4b4a8b0291d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1f49717c_63cc82c8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListKey.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1016722
+      },
+      "writtenOn": "2014-11-21T12:54:44Z",
+      "side": 1,
+      "message": "I need to do refactoring anyway because the master branch has changed and wont merge. I will push that and anyone is welcome to make a comment.",
+      "parentUuid": "df6359f0_69f585e6",
+      "range": {
+        "startLine": 47,
+        "startChar": 2,
+        "endLine": 53,
+        "endChar": 3
+      },
+      "revId": "edd17ac7bd55c1b390dff3d457f2e4b4a8b0291d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

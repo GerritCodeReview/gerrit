@@ -14,8 +14,10 @@
 
 package com.google.gerrit.client.changes;
 
+import com.google.gerrit.client.changes.ChangeInfo.CommitInfo;
 import com.google.gerrit.client.changes.ChangeInfo.EditInfo;
 import com.google.gerrit.client.changes.ChangeInfo.IncludedInInfo;
+import com.google.gerrit.client.rpc.CallbackGroup.Callback;
 import com.google.gerrit.client.rpc.NativeString;
 import com.google.gerrit.client.rpc.RestApi;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -264,5 +266,13 @@ public class ChangeApi {
 
   public static String emptyToNull(String str) {
     return str == null || str.isEmpty() ? null : str;
+  }
+
+  public static void commitWithLinks(int changeId, String revision,
+      Callback<CommitInfo> callback) {
+    revision(changeId, revision)
+        .view("commit")
+        .addParameterTrue("links")
+        .get(callback);
   }
 }

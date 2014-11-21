@@ -27,6 +27,7 @@ import com.google.gerrit.extensions.webui.FileWebLink;
 import com.google.gerrit.extensions.webui.PatchSetWebLink;
 import com.google.gerrit.extensions.webui.ProjectWebLink;
 import com.google.gerrit.extensions.webui.WebLink;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -78,13 +79,13 @@ public class WebLinks {
    * @param commit SHA1 of commit.
    * @return Links for patch sets.
    */
-  public FluentIterable<WebLinkInfo> getPatchSetLinks(final String project,
+  public FluentIterable<WebLinkInfo> getPatchSetLinks(final Project.NameKey project,
       final String commit) {
     return filterLinks(patchSetLinks, new Function<WebLink, WebLinkInfo>() {
 
       @Override
       public WebLinkInfo apply(WebLink webLink) {
-        return ((PatchSetWebLink)webLink).getPathSetWebLink(project, commit);
+        return ((PatchSetWebLink)webLink).getPathSetWebLink(project.get(), commit);
       }
     });
   }

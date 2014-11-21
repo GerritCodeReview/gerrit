@@ -92,6 +92,7 @@ public class CapabilityCollection {
   private static void configureDefaults(Map<String, List<PermissionRule>> out,
       AccessSection section) {
     configureDefault(out, section, GlobalCapability.QUERY_LIMIT, anonymous);
+    configureDefault(out, section, GlobalCapability.BATCH_CHANGES_LIMIT, anonymous);
   }
 
   private static void configureDefault(Map<String, List<PermissionRule>> out,

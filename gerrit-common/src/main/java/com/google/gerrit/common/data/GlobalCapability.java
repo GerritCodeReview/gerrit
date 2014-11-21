@@ -43,7 +43,7 @@ public class GlobalCapability {
    * limit. This is just used as a suggestion for prepopulating the field in the
    * access UI.
    */
-  private static final int DEFAULT_MAX_BATCH_CHANGES_LIMIT = 0;
+  public static final int DEFAULT_MAX_BATCH_CHANGES_LIMIT = 0;
 
   /** Can create any account on the server. */
   public static final String CREATE_ACCOUNT = "createAccount";

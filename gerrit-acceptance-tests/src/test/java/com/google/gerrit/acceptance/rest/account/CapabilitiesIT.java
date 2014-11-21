@@ -16,6 +16,8 @@ package com.google.gerrit.acceptance.rest.account;
 
 import static com.google.gerrit.common.data.GlobalCapability.ACCESS_DATABASE;
 import static com.google.gerrit.common.data.GlobalCapability.ADMINISTRATE_SERVER;
+import static com.google.gerrit.common.data.GlobalCapability.BATCH_CHANGES_LIMIT;
+import static com.google.gerrit.common.data.GlobalCapability.DEFAULT_MAX_BATCH_CHANGES;
 import static com.google.gerrit.common.data.GlobalCapability.DEFAULT_MAX_QUERY_LIMIT;
 import static com.google.gerrit.common.data.GlobalCapability.PRIORITY;
 import static com.google.gerrit.common.data.GlobalCapability.QUERY_LIMIT;
@@ -23,6 +25,7 @@ import static com.google.gerrit.common.data.GlobalCapability.RUN_AS;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
@@ -57,6 +60,9 @@ public class CapabilitiesIT extends AbstractDaemonTest {
     for (String c : GlobalCapability.getAllNames()) {
       if (ADMINISTRATE_SERVER.equals(c)) {
         assertFalse(info.administrateServer);
+      } else if (BATCH_CHANGES_LIMIT.equals(c)) {
+        assertEquals(0, info.batchChangesLimit.min);
+        assertEquals(DEFAULT_MAX_BATCH_CHANGES, info.batchChangesLimit.max);
       } else if (PRIORITY.equals(c)) {
         assertFalse(info.priority);
       } else if (QUERY_LIMIT.equals(c)) {
@@ -78,7 +84,11 @@ public class CapabilitiesIT extends AbstractDaemonTest {
     CapabilityInfo info = (new Gson()).fromJson(r.getReader(),
         new TypeToken<CapabilityInfo>() {}.getType());
     for (String c : GlobalCapability.getAllNames()) {
-      if (PRIORITY.equals(c)) {
+      if (BATCH_CHANGES_LIMIT.equals(c)) {
+        // It does not have default value for any user as it can override the
+        // 'receive.batchChangesLimit'. It need be grant explicitly.
+        assertNull(info.batchChangesLimit);
+      } else if (PRIORITY.equals(c)) {
         assertFalse(info.priority);
       } else if (QUERY_LIMIT.equals(c)) {
         assertNotNull("missing queryLimit", info.queryLimit);

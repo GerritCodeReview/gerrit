@@ -1024,6 +1024,7 @@ link:#diff-preferences-info[DiffPreferencesInfo] entity.
   )]}'
   {
     "context": 10,
+    "theme": "DEFAULT",
     "ignore_whitespace": "IGNORE_ALL_SPACE",
     "intraline_difference": true,
     "line_length": 100,
@@ -1052,6 +1053,7 @@ link:#diff-preferences-input[DiffPreferencesInput] entity.
 
   {
     "context": 10,
+    "theme": "ECLIPSE",
     "ignore_whitespace": "IGNORE_ALL_SPACE",
     "intraline_difference": true,
     "line_length": 100,
@@ -1075,6 +1077,7 @@ link:#diff-preferences-info[DiffPreferencesInfo] entity.
   )]}'
   {
     "context": 10,
+    "theme": "ECLIPSE",
     "ignore_whitespace": "IGNORE_ALL_SPACE",
     "intraline_difference": true,
     "line_length": 100,
@@ -1421,6 +1424,9 @@ preferences of a user.
 |Field Name                    ||Description
 |`context`                     ||
 The number of lines of context when viewing a patch.
+|`theme`                       ||
+The CodeMirror theme. Currently only a subset of light and dark
+CodeMirror themes is supported.
 |`expand_all_comments`         |not set if `false`|
 Whether all inline comments should be automatically expanded.
 |`ignore_whitespace`           ||

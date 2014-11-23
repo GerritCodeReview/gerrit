@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3f7ab5aa_74d1a85c",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1429,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-11-23T13:40:38Z",
+      "side": 1,
+      "message": "[optional]\n\n\"is\" is grammatically correct if \"subset\" is considered to be singular.\n\n\"are\" sounds more correct to me though.",
+      "range": {
+        "startLine": 1429,
+        "startChar": 18,
+        "endLine": 1429,
+        "endChar": 20
+      },
+      "revId": "5eb0a13336594dc0075346550469974c20ba1ac9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

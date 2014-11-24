@@ -1467,6 +1467,9 @@ scrolling down more than half of a page.
 If true the line numbers are hidden.
 |`tab_size`                    ||
 Number of spaces that should be used to display one tab.
+|'hide_empty_pane'             |not set if `false`|
+Whether empty panes should be hidden. The left pane is empty when a
+file was added; the right pane is empty when a file was deleted.
 |===========================================
 
 [[diff-preferences-input]]

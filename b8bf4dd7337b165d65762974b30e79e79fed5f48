@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bf66a510_981b5590",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/edit/ChangeEditIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-11-24T11:38:03Z",
+      "side": 1,
+      "message": "[optional] should this be the other way around?\n\n  assertThat(edit.get().getEditCommit().getFullMessage()).isEqualTo(msg);\n\n?",
+      "revId": "b8bf4dd7337b165d65762974b30e79e79fed5f48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bf66a510_b8189993",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/edit/ChangeEditIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-11-24T11:38:03Z",
+      "side": 1,
+      "message": "same here",
+      "range": {
+        "startLine": 267,
+        "startChar": 3,
+        "endLine": 268,
+        "endChar": 65
+      },
+      "revId": "b8bf4dd7337b165d65762974b30e79e79fed5f48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bf66a510_5847fd7d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-11-24T11:38:03Z",
+      "side": 1,
+      "message": "Do these checks before opening the repository in line 238 so that we fail early?",
+      "range": {
+        "startLine": 243,
+        "startChar": 8,
+        "endLine": 253,
+        "endChar": 9
+      },
+      "revId": "b8bf4dd7337b165d65762974b30e79e79fed5f48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

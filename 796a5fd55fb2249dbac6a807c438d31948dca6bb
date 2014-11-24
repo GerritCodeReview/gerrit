@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "7f80adc4_f6dce072",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-11-24T22:30:29Z",
+      "side": 1,
+      "message": "Reworded to make clear that these have been problems in the past, without making claims about whether they are problems today.",
+      "parentUuid": "df6359f0_e9df3565",
+      "range": {
+        "startLine": 9,
+        "startChar": 13,
+        "endLine": 9,
+        "endChar": 33
+      },
+      "revId": "796a5fd55fb2249dbac6a807c438d31948dca6bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a6fbfad_33de286b",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -143,6 +167,24 @@
       "side": 1,
       "message": "No i havn\u0027t, see my answer below.",
       "parentUuid": "bff14552_602352d5",
+      "revId": "796a5fd55fb2249dbac6a807c438d31948dca6bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7f80adc4_96e9ec17",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-11-24T22:30:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1f3091e8_0bdb9d7c",
       "revId": "796a5fd55fb2249dbac6a807c438d31948dca6bb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -232,6 +274,24 @@
       "side": 1,
       "message": "My assumption of \"RFC\" \u0026 \"WIP\" prefixes in change subject was: change owner supposed to explicitly mention in TODO section in the commit message what she thinks is still missing and supposed to be done in next patch sets, e.g. [1]. When this assumption was wrong, please ignore this mssing  parts comment above.\n\n [1] https://gerrit-review.googlesource.com/61604",
       "parentUuid": "bff14552_40284ead",
+      "revId": "796a5fd55fb2249dbac6a807c438d31948dca6bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5f7da99e_f505b838",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-11-24T22:30:29Z",
+      "side": 1,
+      "message": "It\u0027s up to the reviewer to not LGTM changes until they\u0027re ready to be checked in.",
+      "parentUuid": "df6359f0_a9e93d17",
       "revId": "796a5fd55fb2249dbac6a807c438d31948dca6bb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

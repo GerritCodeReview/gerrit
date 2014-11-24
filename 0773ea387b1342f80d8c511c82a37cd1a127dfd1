@@ -69,6 +69,30 @@
       "revId": "0773ea387b1342f80d8c511c82a37cd1a127dfd1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9f6ba1dc_f77860b2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeEdits.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 498,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-11-24T12:44:21Z",
+      "side": 1,
+      "message": "Ah ok, now I got it. Thanks for explaining.",
+      "parentUuid": "bf66a510_d83a2dea",
+      "range": {
+        "startLine": 498,
+        "startChar": 8,
+        "endLine": 498,
+        "endChar": 78
+      },
+      "revId": "0773ea387b1342f80d8c511c82a37cd1a127dfd1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

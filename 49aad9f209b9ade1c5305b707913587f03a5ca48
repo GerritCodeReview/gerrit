@@ -1,0 +1,136 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9f6ba1dc_3746d87f",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 1273,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-11-24T11:46:57Z",
+      "side": 1,
+      "message": "Shouldn\u0027t it be rather \u0027200 OK\u0027?",
+      "range": {
+        "startLine": 1272,
+        "startChar": 67,
+        "endLine": 1273,
+        "endChar": 40
+      },
+      "revId": "49aad9f209b9ade1c5305b707913587f03a5ca48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9f6ba1dc_d73afce9",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 3904,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-11-24T11:46:57Z",
+      "side": 1,
+      "message": "nit: align the colums:\n\n  |Field Name    ||Description\n  |`message`     ||New commit message.",
+      "revId": "49aad9f209b9ade1c5305b707913587f03a5ca48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bf66a510_784c419f",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/edit/ChangeEditIT.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-11-24T11:46:57Z",
+      "side": 1,
+      "message": "[optional] swap this?\n\n  assertThat(edit.get().getEditCommit().getFullMessage()).isEqualTo(in.message);",
+      "range": {
+        "startLine": 280,
+        "startChar": 0,
+        "endLine": 281,
+        "endChar": 27
+      },
+      "revId": "49aad9f209b9ade1c5305b707913587f03a5ca48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9f6ba1dc_973484fe",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/edit/ChangeEditIT.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-11-24T11:46:57Z",
+      "side": 1,
+      "message": "same here",
+      "range": {
+        "startLine": 287,
+        "startChar": 4,
+        "endLine": 288,
+        "endChar": 27
+      },
+      "revId": "49aad9f209b9ade1c5305b707913587f03a5ca48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9f6ba1dc_57682ce7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeEdits.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 461,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-11-24T11:46:57Z",
+      "side": 1,
+      "message": "Should this be converted into Bad Request?",
+      "range": {
+        "startLine": 461,
+        "startChar": 21,
+        "endLine": 461,
+        "endChar": 52
+      },
+      "revId": "49aad9f209b9ade1c5305b707913587f03a5ca48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9f6ba1dc_b731880d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeEdits.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 475,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-11-24T11:46:57Z",
+      "side": 1,
+      "message": "I think 200 OK would be more appropriate.",
+      "range": {
+        "startLine": 475,
+        "startChar": 13,
+        "endLine": 475,
+        "endChar": 29
+      },
+      "revId": "49aad9f209b9ade1c5305b707913587f03a5ca48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

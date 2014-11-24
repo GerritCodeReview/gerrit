@@ -45,6 +45,30 @@
       "revId": "0773ea387b1342f80d8c511c82a37cd1a127dfd1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bf66a510_d83a2dea",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeEdits.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 498,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-11-24T12:37:22Z",
+      "side": 1,
+      "message": "Have you followed the previous discussion in this change? Client calls currently always this endpoint, in both cases: when change edits already exists for a change and when no change edits exist. When wir would throw here 404 with current client implementation, them you wouldn\u0027t be able to create change edit by changing commit message any more.\n\nTo fix this we need client change to dispatch to another REST endpoint, as explained in the TODO.",
+      "parentUuid": "9f6ba1dc_3777b8c6",
+      "range": {
+        "startLine": 498,
+        "startChar": 8,
+        "endLine": 498,
+        "endChar": 78
+      },
+      "revId": "0773ea387b1342f80d8c511c82a37cd1a127dfd1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

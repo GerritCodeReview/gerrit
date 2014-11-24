@@ -64,23 +64,44 @@ public abstract class EmailHeader {
     return false;
   }
 
+  static boolean needsQuotedPrintableWithinPhrase(final int cp) {
+    switch (cp) {
+      case '!':
+      case '*':
+      case '+':
+      case '-':
+      case '/':
+      case '=':
+      case '_':
+        return false;
+      default:
+        if ( (cp >= 'a' && cp <= 'z') || (cp >= 'A' && cp <= 'Z') || (cp >= '0' && cp <= '9') )
+          return false;
+        else
+          return true;
+    }
+  }
+
   static java.lang.String quotedPrintable(java.lang.String value)
       throws UnsupportedEncodingException {
     final StringBuilder r = new StringBuilder();
-    final byte[] encoded = value.getBytes("UTF-8");
 
     r.append("=?UTF-8?Q?");
-    for (byte b : encoded) {
-      if (b == ' ') {
+    for (int i = 0; i < value.length(); i++) {
+      final int cp = value.codePointAt(i);
+      if (cp == ' ') {
         r.append('_');
 
-      } else if (b == ',' || b == '=' || b == '"' || b == '_' || b < ' ' || '~' <= b) {
-        r.append('=');
-        r.append(Integer.toHexString((b >>> 4) & 0x0f).toUpperCase());
-        r.append(Integer.toHexString(b & 0x0f).toUpperCase());
+      } else if (needsQuotedPrintableWithinPhrase(cp)) {
+        byte[] buf = new java.lang.String(Character.toChars(cp)).getBytes("UTF-8");
+        for (byte b: buf) {
+          r.append('=');
+          r.append(Integer.toHexString((b >>> 4) & 0x0f).toUpperCase());
+          r.append(Integer.toHexString(b & 0x0f).toUpperCase());
+        }
 
       } else {
-        r.append((char) b);
+        r.append(Character.toChars(cp));
       }
     }
     r.append("?=");

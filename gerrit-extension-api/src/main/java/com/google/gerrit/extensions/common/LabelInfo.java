@@ -23,7 +23,9 @@ public class LabelInfo {
   public AccountInfo recommended;
   public AccountInfo disliked;
   public List<ApprovalInfo> all;
+
   public Map<String, String> values;
+
   public Short value;
   public Short defaultValue;
   public Boolean optional;

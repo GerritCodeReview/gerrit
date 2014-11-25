@@ -24,7 +24,7 @@ import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.RestResponse;
-import com.google.gerrit.server.change.ChangeJson.ChangeInfo;
+import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gson.reflect.TypeToken;
 
 import org.apache.http.HttpStatus;

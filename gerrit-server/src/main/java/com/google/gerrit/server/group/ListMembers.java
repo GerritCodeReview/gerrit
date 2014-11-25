@@ -20,13 +20,14 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Ordering;
 import com.google.gerrit.common.data.GroupDetail;
 import com.google.gerrit.common.errors.NoSuchGroupException;
+import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroupById;
 import com.google.gerrit.reviewdb.client.AccountGroupMember;
-import com.google.gerrit.server.account.AccountInfo;
+import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.account.GroupDetailFactory;
 import com.google.gwtorm.server.OrmException;
@@ -43,7 +44,7 @@ import java.util.Map;
 public class ListMembers implements RestReadView<GroupResource> {
   private final GroupCache groupCache;
   private final GroupDetailFactory.Factory groupDetailFactory;
-  private final AccountInfo.Loader accountLoader;
+  private final AccountLoader accountLoader;
 
   @Option(name = "--recursive", usage = "to resolve included groups recursively")
   private boolean recursive;
@@ -51,7 +52,7 @@ public class ListMembers implements RestReadView<GroupResource> {
   @Inject
   protected ListMembers(GroupCache groupCache,
       GroupDetailFactory.Factory groupDetailFactory,
-      AccountInfo.Loader.Factory accountLoaderFactory) {
+      AccountLoader.Factory accountLoaderFactory) {
     this.groupCache = groupCache;
     this.groupDetailFactory = groupDetailFactory;
     this.accountLoader = accountLoaderFactory.create(true);

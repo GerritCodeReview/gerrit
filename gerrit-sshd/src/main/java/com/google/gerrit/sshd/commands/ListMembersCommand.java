@@ -18,8 +18,9 @@ import static com.google.gerrit.sshd.CommandMetaData.Mode.MASTER_OR_SLAVE;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
+import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.server.account.AccountInfo;
+import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.account.GroupDetailFactory.Factory;
 import com.google.gerrit.server.group.ListMembers;
@@ -62,7 +63,7 @@ public class ListMembersCommand extends SshCommand {
     @Inject
     protected ListMembersCommandImpl(GroupCache groupCache,
         Factory groupDetailFactory,
-        AccountInfo.Loader.Factory accountLoaderFactory) {
+        AccountLoader.Factory accountLoaderFactory) {
       super(groupCache, groupDetailFactory, accountLoaderFactory);
       this.groupCache = groupCache;
     }
@@ -89,7 +90,7 @@ public class ListMembersCommand extends SshCommand {
           continue;
         }
 
-        formatter.addColumn(member._id.toString());
+        formatter.addColumn(Integer.toString(member._accountId));
         formatter.addColumn(MoreObjects.firstNonNull(
             member.username, "n/a"));
         formatter.addColumn(MoreObjects.firstNonNull(

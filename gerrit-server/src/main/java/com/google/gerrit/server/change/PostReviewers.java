@@ -39,9 +39,9 @@ import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
-import com.google.gerrit.server.account.AccountInfo;
 import com.google.gerrit.server.account.AccountsCollection;
 import com.google.gerrit.server.account.GroupMembers;
+import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.change.ReviewerJson.PostResult;
 import com.google.gerrit.server.change.ReviewerJson.ReviewerInfo;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -81,7 +81,7 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
   private final AddReviewerSender.Factory addReviewerSenderFactory;
   private final GroupsCollection groupsCollection;
   private final GroupMembers.Factory groupMembersFactory;
-  private final AccountInfo.Loader.Factory accountLoaderFactory;
+  private final AccountLoader.Factory accountLoaderFactory;
   private final Provider<ReviewDb> dbProvider;
   private final ChangeUpdate.Factory updateFactory;
   private final Provider<CurrentUser> currentUser;
@@ -99,7 +99,7 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
       AddReviewerSender.Factory addReviewerSenderFactory,
       GroupsCollection groupsCollection,
       GroupMembers.Factory groupMembersFactory,
-      AccountInfo.Loader.Factory accountLoaderFactory,
+      AccountLoader.Factory accountLoaderFactory,
       Provider<ReviewDb> db,
       ChangeUpdate.Factory updateFactory,
       Provider<CurrentUser> currentUser,

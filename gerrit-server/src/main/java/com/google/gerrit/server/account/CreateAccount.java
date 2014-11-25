@@ -21,6 +21,7 @@ import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.GroupDescriptions;
 import com.google.gerrit.common.errors.InvalidSshKeyException;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
+import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.DefaultInput;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -72,7 +73,7 @@ public class CreateAccount implements RestModifyView<TopLevelResource, Input> {
   private final SshKeyCache sshKeyCache;
   private final AccountCache accountCache;
   private final AccountByEmailCache byEmailCache;
-  private final AccountInfo.Loader.Factory infoLoader;
+  private final AccountLoader.Factory infoLoader;
   private final String username;
   private final AuditService auditService;
 
@@ -80,7 +81,7 @@ public class CreateAccount implements RestModifyView<TopLevelResource, Input> {
   CreateAccount(ReviewDb db, Provider<IdentifiedUser> currentUser,
       GroupsCollection groupsCollection, SshKeyCache sshKeyCache,
       AccountCache accountCache, AccountByEmailCache byEmailCache,
-      AccountInfo.Loader.Factory infoLoader,
+      AccountLoader.Factory infoLoader,
       @Assisted String username, AuditService auditService) {
     this.db = db;
     this.currentUser = currentUser;
@@ -180,7 +181,7 @@ public class CreateAccount implements RestModifyView<TopLevelResource, Input> {
     accountCache.evictByUsername(username);
     byEmailCache.evict(input.email);
 
-    AccountInfo.Loader loader = infoLoader.create(true);
+    AccountLoader loader = infoLoader.create(true);
     AccountInfo info = loader.get(id);
     loader.fill();
     return Response.created(info);

@@ -22,7 +22,7 @@ import com.google.common.collect.Collections2;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.server.account.AccountInfo;
+import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.server.group.CreateGroup;
 import com.google.gson.reflect.TypeToken;
 

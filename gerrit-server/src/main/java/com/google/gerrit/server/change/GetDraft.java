@@ -15,7 +15,7 @@
 package com.google.gerrit.server.change;
 
 import com.google.gerrit.extensions.restapi.RestReadView;
-import com.google.gerrit.server.account.AccountInfo;
+import com.google.gerrit.server.account.AccountLoader;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -23,16 +23,16 @@ import com.google.inject.Singleton;
 @Singleton
 class GetDraft implements RestReadView<DraftResource> {
 
-  private final AccountInfo.Loader.Factory accountLoaderFactory;
+  private final AccountLoader.Factory accountLoaderFactory;
 
   @Inject
-  GetDraft(AccountInfo.Loader.Factory accountLoaderFactory) {
+  GetDraft(AccountLoader.Factory accountLoaderFactory) {
     this.accountLoaderFactory = accountLoaderFactory;
   }
 
   @Override
   public CommentInfo apply(DraftResource rsrc) throws OrmException {
-    AccountInfo.Loader accountLoader = accountLoaderFactory.create(true);
+    AccountLoader accountLoader = accountLoaderFactory.create(true);
     CommentInfo ci = new CommentInfo(rsrc.getComment(), accountLoader);
     accountLoader.fill();
     return ci;

@@ -22,6 +22,30 @@
       "revId": "10701e23ac2827cf7429e273f9385b8efa3ccf8a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7faeed66_06413a66",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ReplyBox.ui.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1012247
+      },
+      "writtenOn": "2014-11-25T12:17:20Z",
+      "side": 1,
+      "message": "Yes, I\u0027m aware of that. However, I believe that this is just a refactoring change \"for cleanness\", so my impression is that it wouldn\u0027t be welcome in a stable branch.\n\nI by design used the cherry-pick button to tie these two commits together. I could easily do so with the other commit as well. Or do you guys want me to squash both into a single change?\n\nAnyway, feel free to adapt in any way you like, or propose followup changes, etc.",
+      "parentUuid": "7faeed66_4647327e",
+      "range": {
+        "startLine": 66,
+        "startChar": 6,
+        "endLine": 66,
+        "endChar": 14
+      },
+      "revId": "10701e23ac2827cf7429e273f9385b8efa3ccf8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

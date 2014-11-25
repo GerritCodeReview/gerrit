@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.change;
 
+import com.google.gerrit.extensions.api.changes.ProblemInfo;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.restapi.RestReadView;
@@ -25,6 +26,8 @@ import com.google.inject.Singleton;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.List;
 
 @Singleton
 public class Check implements RestReadView<ChangeResource> {
@@ -41,20 +44,22 @@ public class Check implements RestReadView<ChangeResource> {
   }
 
   @Override
-  public CheckResult apply(ChangeResource rsrc) {
-    CheckResult result = new CheckResult();
-    result.messages = checkerProvider.get().check(rsrc.getChange());
+  public ChangeInfo apply(ChangeResource rsrc) {
+    List<ProblemInfo> problems = checkerProvider.get().check(rsrc.getChange());
+    ChangeInfo result;
     try {
-      result.change = json.format(rsrc);
+      result = json.format(rsrc);
     } catch (OrmException e) {
       // Even with no options there are a surprising number of dependencies in
       // ChangeJson. Fall back to a very basic implementation with no
       // dependencies if this fails.
-      String msg = "Error rendering final ChangeInfo";
-      log.warn(msg, e);
-      result.messages.add(msg);
-      result.change = basicChangeInfo(rsrc.getChange());
+      ProblemInfo p = new ProblemInfo();
+      p.message = "Error rendering final ChangeInfo";
+      log.warn(p.message, e);
+      problems.add(p);
+      result = basicChangeInfo(rsrc.getChange());
     }
+    result.problems = problems;
     return result;
   }
 

@@ -14,8 +14,11 @@
 
 package com.google.gerrit.extensions.common;
 
+import com.google.gerrit.extensions.api.changes.ProblemInfo;
+
 import java.sql.Timestamp;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 public class ChangeInfo {
@@ -50,4 +53,6 @@ public class ChangeInfo {
   public String currentRevision;
   public Map<String, RevisionInfo> revisions;
   public Boolean _moreChanges;
+
+  public List<ProblemInfo> problems;
 }

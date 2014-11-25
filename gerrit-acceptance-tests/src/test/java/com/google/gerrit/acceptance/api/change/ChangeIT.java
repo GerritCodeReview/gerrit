@@ -247,6 +247,7 @@ public class ChangeIT extends AbstractDaemonTest {
 
     RevisionInfo rev = Iterables.getOnlyElement(result.revisions.values());
     assertThat(rev._number).isEqualTo(r.getPatchSetId().get());
+    assertThat(rev.ref).isEqualTo(r.getPatchSetId().toRefName());
     assertThat(rev.actions).isNotEmpty();
   }
 

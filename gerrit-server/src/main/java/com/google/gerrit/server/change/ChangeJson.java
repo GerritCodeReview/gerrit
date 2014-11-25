@@ -792,6 +792,7 @@ public class ChangeJson {
     RevisionInfo out = new RevisionInfo();
     out.isCurrent = in.getId().equals(cd.change().currentPatchSetId());
     out._number = in.getId().get();
+    out.ref = in.getRefName();
     out.draft = in.isDraft() ? true : null;
     out.fetch = makeFetchMap(ctl, in);
 

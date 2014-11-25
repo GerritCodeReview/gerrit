@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "3fa8f55a_24db127d",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 3928,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-11-25T16:28:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7faeed66_26db167d",
+      "revId": "b0392e0c13cee159e4f45c6c99d543c7e95ffa79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5fabe956_05d61256",
         "filename": "gerrit-server/BUCK",
         "patchSetId": 3

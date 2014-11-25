@@ -284,6 +284,9 @@ The entries in the map are sorted by project name.
   }
 ----
 
+[[json-entities]]
+== JSON Entities
+
 [[access-section-info]]
 === AccessSectionInfo
 The `AccessSectionInfo` describes the access rights that are assigned

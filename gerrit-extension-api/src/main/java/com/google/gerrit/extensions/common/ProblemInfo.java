@@ -12,13 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.change;
+package com.google.gerrit.extensions.common;
 
-import com.google.gerrit.extensions.common.ChangeInfo;
-
-import java.util.List;
-
-public class CheckResult {
-  public ChangeInfo change;
-  public List<String> messages;
+public class ProblemInfo {
+  public String message;
 }

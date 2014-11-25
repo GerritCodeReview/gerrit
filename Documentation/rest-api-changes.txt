@@ -1143,7 +1143,12 @@ Adds or updates the change in the secondary index.
 --
 
 Performs consistency checks on the change, and returns a
-link:#check-result[CheckResult] entity.
+link:#change-info[ChangeInfo] entity with the `problems` field set to a
+list of link:#problem-info[ProblemInfo] entities.
+
+Depending on the type of problem, some fields not marked optional may be
+missing from the result. At least `id`, `project`, `branch`, and
+`_number` will be present.
 
 .Request
 ----
@@ -1158,26 +1163,26 @@ link:#check-result[CheckResult] entity.
 
   )]}'
   {
-    "change": {
-      "id": "myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940",
-      "project": "myProject",
-      "branch": "master",
-      "change_id": "I8473b95934b5732ac55d26311a706c9c2bde9940",
-      "subject": "Implementing Feature X",
-      "status": "NEW",
-      "created": "2013-02-01 09:59:32.126000000",
-      "updated": "2013-02-21 11:16:36.775000000",
-      "mergeable": true,
-      "insertions": 34,
-      "deletions": 101,
-      "_sortkey": "0023412400000f7d",
-      "_number": 3965,
-      "owner": {
-        "name": "John Doe"
-      }
+    "id": "myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940",
+    "project": "myProject",
+    "branch": "master",
+    "change_id": "I8473b95934b5732ac55d26311a706c9c2bde9940",
+    "subject": "Implementing Feature X",
+    "status": "NEW",
+    "created": "2013-02-01 09:59:32.126000000",
+    "updated": "2013-02-21 11:16:36.775000000",
+    "mergeable": true,
+    "insertions": 34,
+    "deletions": 101,
+    "_sortkey": "0023412400000f7d",
+    "_number": 3965,
+    "owner": {
+      "name": "John Doe"
     },
-    "messages": [
-      "Current patch set 1 not found"
+    "problems": [
+      {
+        "message": "Current patch set 1 not found"
+      }
     ]
   }
 ----
@@ -3259,6 +3264,10 @@ if link:#all-revisions[all revisions] are requested.
 |`_more_changes`      |optional, not set if `false`|
 Whether the query would deliver more results if not limited. +
 Only set on either the last or the first change that is returned.
+|`problems`           |optional|
+A list of link:#problem-info[ProblemInfo] entities describing potential
+problems with this change. Only set by the link:#check-change[/check]
+handler.
 |==================================
 
 [[related-changes-info]]
@@ -3978,22 +3987,17 @@ the commit message within a change edit.
 |`message`     ||New commit message.
 |===========================
 
-[[check-result]]
-=== CheckResult
-The `CheckResult` entity contains the results of a consistency check on
-a change.
+[[problem-info]]
+=== ProblemInfo
+The `ProblemInfo` entity contains a description of a potential consistency problem
+with a change. These are not related to the code review process, but rather
+indicate some inconsistency in Gerrit's database or repository metadata related
+to the enclosing change.
 
 [options="header",cols="1,6"]
 |===========================
 |Field Name|Description
-|`change`|
-link:#change-info[ChangeInfo] entity containing information about the change,
-as in link:#get-change[Get Change] with no options. Some fields not marked
-optional may be missing if a consistency check failed, but at least
-`id`, `project`, `branch`, and `_number` will be present.
-|`messages`|
-List of messages describing potential problems with the change. May be
-empty if no problems were found.
+|`message` |Plaintext message describing the problem with the change.
 |===========================
 
 GERRIT

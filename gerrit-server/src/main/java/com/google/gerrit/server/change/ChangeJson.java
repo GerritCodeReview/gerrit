@@ -51,7 +51,9 @@ import com.google.gerrit.common.data.LabelValue;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.common.data.SubmitRecord;
+import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ActionInfo;
+import com.google.gerrit.extensions.common.ApprovalInfo;
 import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.extensions.common.FetchInfo;
 import com.google.gerrit.extensions.common.GitPerson;
@@ -81,7 +83,7 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchLineCommentsUtil;
 import com.google.gerrit.server.WebLinks;
-import com.google.gerrit.server.account.AccountInfo;
+import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.extensions.webui.UiActions;
 import com.google.gerrit.server.git.LabelNormalizer;
 import com.google.gerrit.server.notedb.ChangeNotes;
@@ -122,7 +124,7 @@ public class ChangeJson {
   private final ChangeData.Factory changeDataFactory;
   private final PatchSetInfoFactory patchSetInfoFactory;
   private final FileInfoJson fileInfoJson;
-  private final AccountInfo.Loader.Factory accountLoaderFactory;
+  private final AccountLoader.Factory accountLoaderFactory;
   private final DynamicMap<DownloadScheme> downloadSchemes;
   private final DynamicMap<DownloadCommand> downloadCommands;
   private final DynamicMap<RestView<ChangeResource>> changeViews;
@@ -132,7 +134,7 @@ public class ChangeJson {
   private final ChangeMessagesUtil cmUtil;
   private final PatchLineCommentsUtil plcUtil;
 
-  private AccountInfo.Loader accountLoader;
+  private AccountLoader accountLoader;
 
   @Inject
   ChangeJson(
@@ -144,7 +146,7 @@ public class ChangeJson {
       ChangeData.Factory cdf,
       PatchSetInfoFactory psi,
       FileInfoJson fileInfoJson,
-      AccountInfo.Loader.Factory ailf,
+      AccountLoader.Factory ailf,
       DynamicMap<DownloadScheme> downloadSchemes,
       DynamicMap<DownloadCommand> downloadCommands,
       DynamicMap<RestView<ChangeResource>> changeViews,
@@ -582,7 +584,7 @@ public class ChangeJson {
   }
 
   private ApprovalInfo approvalInfo(Account.Id id, Integer value, Timestamp date) {
-    ApprovalInfo ai = new ApprovalInfo(id);
+    ApprovalInfo ai = new ApprovalInfo(id.get());
     ai.value = value;
     ai.date = date;
     accountLoader.put(ai);
@@ -686,11 +688,11 @@ public class ChangeJson {
         continue;
       }
       for (ApprovalInfo ai : label.all) {
-        if (ctl.canRemoveReviewer(ai._id,
-            MoreObjects.firstNonNull(ai.value, 0))) {
-          removable.add(ai._id);
+        Account.Id id = new Account.Id(ai._accountId);
+        if (ctl.canRemoveReviewer(id, MoreObjects.firstNonNull(ai.value, 0))) {
+          removable.add(id);
         } else {
-          fixed.add(ai._id);
+          fixed.add(id);
         }
       }
     }
@@ -983,15 +985,6 @@ public class ChangeJson {
         all = Lists.newArrayList();
       }
       all.add(ai);
-    }
-  }
-
-  public static class ApprovalInfo extends AccountInfo {
-    public Integer value;
-    public Timestamp date;
-
-    ApprovalInfo(Account.Id id) {
-      super(id);
     }
   }
 

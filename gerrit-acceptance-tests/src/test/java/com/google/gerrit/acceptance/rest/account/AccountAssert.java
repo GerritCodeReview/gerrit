@@ -18,7 +18,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import com.google.gerrit.acceptance.TestAccount;
-import com.google.gerrit.server.account.AccountInfo;
+import com.google.gerrit.extensions.common.AccountInfo;
 
 public class AccountAssert {
 

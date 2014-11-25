@@ -23,12 +23,13 @@ import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.common.data.SubmitRecord;
+import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
-import com.google.gerrit.server.account.AccountInfo;
+import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.SubmitRuleEvaluator;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -47,13 +48,13 @@ public class ReviewerJson {
   private final Provider<ReviewDb> db;
   private final ChangeData.Factory changeDataFactory;
   private final ApprovalsUtil approvalsUtil;
-  private final AccountInfo.Loader.Factory accountLoaderFactory;
+  private final AccountLoader.Factory accountLoaderFactory;
 
   @Inject
   ReviewerJson(Provider<ReviewDb> db,
       ChangeData.Factory changeDataFactory,
       ApprovalsUtil approvalsUtil,
-      AccountInfo.Loader.Factory accountLoaderFactory) {
+      AccountLoader.Factory accountLoaderFactory) {
     this.db = db;
     this.changeDataFactory = changeDataFactory;
     this.approvalsUtil = approvalsUtil;
@@ -63,7 +64,7 @@ public class ReviewerJson {
   public List<ReviewerInfo> format(Collection<ReviewerResource> rsrcs)
       throws OrmException {
     List<ReviewerInfo> infos = Lists.newArrayListWithCapacity(rsrcs.size());
-    AccountInfo.Loader loader = accountLoaderFactory.create(true);
+    AccountLoader loader = accountLoaderFactory.create(true);
     for (ReviewerResource rsrc : rsrcs) {
       ReviewerInfo info = format(new ReviewerInfo(
           rsrc.getUser().getAccountId()),
@@ -82,7 +83,8 @@ public class ReviewerJson {
   public ReviewerInfo format(ReviewerInfo out, ChangeControl ctl) throws OrmException {
     PatchSet.Id psId = ctl.getChange().currentPatchSetId();
     return format(out, ctl,
-        approvalsUtil.byPatchSetUser(db.get(), ctl, psId, out._id));
+        approvalsUtil.byPatchSetUser(db.get(), ctl, psId,
+            new Account.Id(out._accountId)));
   }
 
   public ReviewerInfo format(ReviewerInfo out, ChangeControl ctl,
@@ -136,7 +138,7 @@ public class ReviewerJson {
     Map<String, String> approvals;
 
     protected ReviewerInfo(Account.Id id) {
-      super(id);
+      super(id.get());
     }
   }
 

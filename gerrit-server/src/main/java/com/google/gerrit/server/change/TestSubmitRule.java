@@ -18,13 +18,14 @@ import com.google.common.base.MoreObjects;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.gerrit.common.data.SubmitRecord;
+import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.DefaultInput;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.rules.RulesCache;
-import com.google.gerrit.server.account.AccountInfo;
+import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.change.TestSubmitRule.Input;
 import com.google.gerrit.server.project.SubmitRuleEvaluator;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -51,7 +52,7 @@ public class TestSubmitRule implements RestModifyView<RevisionResource, Input> {
   private final Provider<ReviewDb> db;
   private final ChangeData.Factory changeDataFactory;
   private final RulesCache rules;
-  private final AccountInfo.Loader.Factory accountInfoFactory;
+  private final AccountLoader.Factory accountInfoFactory;
 
   @Option(name = "--filters", usage = "impact of filters in parent projects")
   private Filters filters = Filters.RUN;
@@ -60,7 +61,7 @@ public class TestSubmitRule implements RestModifyView<RevisionResource, Input> {
   TestSubmitRule(Provider<ReviewDb> db,
       ChangeData.Factory changeDataFactory,
       RulesCache rules,
-      AccountInfo.Loader.Factory infoFactory) {
+      AccountLoader.Factory infoFactory) {
     this.db = db;
     this.changeDataFactory = changeDataFactory;
     this.rules = rules;
@@ -86,7 +87,7 @@ public class TestSubmitRule implements RestModifyView<RevisionResource, Input> {
           .setRule(input.rule)
           .canSubmit();
     List<Record> out = Lists.newArrayListWithCapacity(records.size());
-    AccountInfo.Loader accounts = accountInfoFactory.create(true);
+    AccountLoader accounts = accountInfoFactory.create(true);
     for (SubmitRecord r : records) {
       out.add(new Record(r, accounts));
     }
@@ -103,7 +104,7 @@ public class TestSubmitRule implements RestModifyView<RevisionResource, Input> {
     Map<String, AccountInfo> may;
     Map<String, None> impossible;
 
-    Record(SubmitRecord r, AccountInfo.Loader accounts) {
+    Record(SubmitRecord r, AccountLoader accounts) {
       this.status = r.status;
       this.errorMessage = r.errorMessage;
 

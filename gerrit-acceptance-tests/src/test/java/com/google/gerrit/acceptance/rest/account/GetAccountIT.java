@@ -20,8 +20,8 @@ import static org.junit.Assert.assertEquals;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.TestAccount;
+import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.restapi.Url;
-import com.google.gerrit.server.account.AccountInfo;
 
 import org.apache.http.HttpStatus;
 import org.junit.Test;

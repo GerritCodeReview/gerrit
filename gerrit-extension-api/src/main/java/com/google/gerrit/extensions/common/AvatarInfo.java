@@ -12,26 +12,20 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.api.accounts;
+package com.google.gerrit.extensions.common;
 
-import com.google.gerrit.extensions.common.AccountInfo;
+public class AvatarInfo {
+  /**
+   * Size in pixels the UI prefers an avatar image to be.
+   *
+   * The web UI prefers avatar images to be square, both
+   * the height and width of the image should be this size.
+   * The height is the more important dimension to match
+   * than the width.
+   */
+  public static final int DEFAULT_SIZE = 26;
 
-public class AccountInfoMapper {
-  public static AccountInfo fromAcountInfo(
-      com.google.gerrit.server.account.AccountInfo i) {
-    if (i == null) {
-      return null;
-    }
-    AccountInfo ai = new AccountInfo();
-    fromAccount(i, ai);
-    return ai;
-  }
-
-  public static void fromAccount(
-      com.google.gerrit.server.account.AccountInfo i, AccountInfo ai) {
-    ai._accountId = i._accountId;
-    ai.email = i.email;
-    ai.name = i.name;
-    ai.username = i.username;
-  }
+  public String url;
+  public Integer height;
+  public Integer width;
 }

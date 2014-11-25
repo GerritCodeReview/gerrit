@@ -14,9 +14,16 @@
 
 package com.google.gerrit.extensions.common;
 
+import java.util.List;
+
 public class AccountInfo {
   public Integer _accountId;
   public String name;
   public String email;
   public String username;
+  public List<AvatarInfo> avatars;
+
+  public AccountInfo(Integer id) {
+    this._accountId = id;
+  }
 }

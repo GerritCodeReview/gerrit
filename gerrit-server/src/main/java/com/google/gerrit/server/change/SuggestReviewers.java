@@ -21,6 +21,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.errors.NoSuchGroupException;
+import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.Url;
@@ -32,7 +33,7 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountControl;
-import com.google.gerrit.server.account.AccountInfo;
+import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.account.AccountVisibility;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupMembers;
@@ -60,7 +61,7 @@ public class SuggestReviewers implements RestReadView<ChangeResource> {
   private static final int DEFAULT_MAX_SUGGESTED = 10;
   private static final int DEFAULT_MAX_MATCHES = 100;
 
-  private final AccountInfo.Loader.Factory accountLoaderFactory;
+  private final AccountLoader.Factory accountLoaderFactory;
   private final AccountControl.Factory accountControlFactory;
   private final GroupMembers.Factory groupMembersFactory;
   private final AccountCache accountCache;
@@ -94,7 +95,7 @@ public class SuggestReviewers implements RestReadView<ChangeResource> {
 
   @Inject
   SuggestReviewers(AccountVisibility av,
-      AccountInfo.Loader.Factory accountLoaderFactory,
+      AccountLoader.Factory accountLoaderFactory,
       AccountControl.Factory accountControlFactory,
       AccountCache accountCache,
       GroupMembers.Factory groupMembersFactory,
@@ -216,13 +217,13 @@ public class SuggestReviewers implements RestReadView<ChangeResource> {
     LinkedHashMap<Account.Id, AccountInfo> r = Maps.newLinkedHashMap();
     for (Account p : dbProvider.get().accounts()
         .suggestByFullName(a, b, limit)) {
-      addSuggestion(r, p, new AccountInfo(p.getId()), visibilityControl);
+      addSuggestion(r, p, new AccountInfo(p.getId().get()), visibilityControl);
     }
 
     if (r.size() < limit) {
       for (Account p : dbProvider.get().accounts()
           .suggestByPreferredEmail(a, b, limit - r.size())) {
-        addSuggestion(r, p, new AccountInfo(p.getId()), visibilityControl);
+        addSuggestion(r, p, new AccountInfo(p.getId().get()), visibilityControl);
       }
     }
 
@@ -231,7 +232,7 @@ public class SuggestReviewers implements RestReadView<ChangeResource> {
           .suggestByEmailAddress(a, b, limit - r.size())) {
         if (!r.containsKey(e.getAccountId())) {
           Account p = accountCache.get(e.getAccountId()).getAccount();
-          AccountInfo info = new AccountInfo(p.getId());
+          AccountInfo info = new AccountInfo(p.getId().get());
           addSuggestion(r, p, info, visibilityControl);
         }
       }
@@ -260,14 +261,14 @@ public class SuggestReviewers implements RestReadView<ChangeResource> {
       }
     }
     for (Account a : fullNameMatches) {
-      addSuggestion(accountMap, a, new AccountInfo(a.getId()), visibilityControl);
+      addSuggestion(accountMap, a, new AccountInfo(a.getId().get()), visibilityControl);
       if (accountMap.size() >= limit) {
         break;
       }
     }
     if (accountMap.size() < limit) {
       for (Account a : emailMatches) {
-        addSuggestion(accountMap, a, new AccountInfo(a.getId()), visibilityControl);
+        addSuggestion(accountMap, a, new AccountInfo(a.getId().get()), visibilityControl);
         if (accountMap.size() >= limit) {
           break;
         }

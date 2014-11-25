@@ -57,6 +57,12 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(c.changeId).isEqualTo(r.getChangeId());
     assertThat(c.created).isEqualTo(c.updated);
     assertThat(c._number).is(1);
+
+    assertThat(c.owner.name).isEqualTo(admin.fullName);
+    assertThat(c.owner._accountId).isNull();
+    assertThat(c.owner.email).isNull();
+    assertThat(c.owner.username).isNull();
+    assertThat(c.owner.avatars).isNull();
   }
 
   @Test

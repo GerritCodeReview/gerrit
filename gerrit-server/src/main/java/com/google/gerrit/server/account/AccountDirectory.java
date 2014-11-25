@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.account;
 
+import com.google.gerrit.extensions.common.AccountInfo;
+
 import java.util.Set;
 
 /**
@@ -34,7 +36,10 @@ public abstract class AccountDirectory {
     AVATARS,
 
     /** Unique user identity to login to Gerrit, may be deprecated. */
-    USERNAME
+    USERNAME,
+
+    /** Numeric account ID, may be deprecated. */
+    ID;
   }
 
   public abstract void fillAccountInfo(

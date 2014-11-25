@@ -19,4 +19,8 @@ import java.sql.Timestamp;
 public class ApprovalInfo extends AccountInfo {
   public Integer value;
   public Timestamp date;
+
+  public ApprovalInfo(Integer id) {
+    super(id);
+  }
 }

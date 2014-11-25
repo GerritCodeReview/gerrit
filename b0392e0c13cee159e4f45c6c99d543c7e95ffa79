@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7faeed66_26db167d",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 3928,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-11-25T07:25:33Z",
+      "side": 1,
+      "message": "[Optional]: List of messages is empty, when the change is sane.",
+      "revId": "b0392e0c13cee159e4f45c6c99d543c7e95ffa79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5fabe956_05d61256",
+        "filename": "gerrit-server/BUCK",
+        "patchSetId": 3
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-11-25T07:25:33Z",
+      "side": 1,
+      "message": "Unrelated to this change, but we should mark this tests with server lable to be able only execute these tests:\n\n  [...],\n  labels \u003d [\u0027server\u0027],\n  [...],\n\nthat would give us:\n\n  $ buck test --include server",
+      "revId": "b0392e0c13cee159e4f45c6c99d543c7e95ffa79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5fabe956_65d1065d",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/change/ConsistencyCheckerTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-11-25T07:25:33Z",
+      "side": 1,
+      "message": "These are really cool and impressive change corruption recipes ;-)",
+      "revId": "b0392e0c13cee159e4f45c6c99d543c7e95ffa79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

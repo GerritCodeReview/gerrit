@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dfbfd98a_69fa45d7",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1471,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-11-25T00:57:33Z",
+      "side": 1,
+      "message": "\"Whether to hide empty panes.\"",
+      "range": {
+        "startLine": 1471,
+        "startChar": 1,
+        "endLine": 1471,
+        "endChar": 31
+      },
+      "revId": "df5ed3f7041006bac601f9c52b56f575279e3a40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bfb4e5b0_e8dcf372",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1472,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-11-25T00:57:33Z",
+      "side": 1,
+      "message": "Mention \"not set if `false`\" (if this is the case)",
+      "revId": "df5ed3f7041006bac601f9c52b56f575279e3a40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

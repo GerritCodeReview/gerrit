@@ -44,8 +44,8 @@ import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.account.GroupBackend;
-import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gerrit.server.config.ProjectOwnerGroups;
+import com.google.gerrit.server.config.ProjectOwnerGroupsProvider;
+import com.google.gerrit.server.config.RepositoryConfig;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MetaDataUpdate;
@@ -61,7 +61,6 @@ import com.google.inject.assistedinject.Assisted;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.CommitBuilder;
-import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
@@ -76,7 +75,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 
 @RequiresCapability(GlobalCapability.CREATE_PROJECT)
 public class CreateProject implements RestModifyView<TopLevelResource, ProjectInput> {
@@ -96,10 +94,10 @@ public class CreateProject implements RestModifyView<TopLevelResource, ProjectIn
   private final DynamicSet<NewProjectCreatedListener> createdListener;
   private final ProjectCache projectCache;
   private final GroupBackend groupBackend;
-  private final Set<AccountGroup.UUID> projectOwnerGroups;
+  private final ProjectOwnerGroupsProvider.Factory projectOwnerGroups;
   private final MetaDataUpdate.User metaDataUpdateFactory;
   private final GitReferenceUpdated referenceUpdated;
-  private final Config cfg;
+  private final RepositoryConfig repositoryCfg;
   private final PersonIdent serverIdent;
   private final Provider<CurrentUser> currentUser;
   private final Provider<PutConfig> putConfig;
@@ -114,10 +112,10 @@ public class CreateProject implements RestModifyView<TopLevelResource, ProjectIn
       DynamicSet<NewProjectCreatedListener> createdListener,
       ProjectCache projectCache,
       GroupBackend groupBackend,
-      @ProjectOwnerGroups Set<AccountGroup.UUID> projectOwnerGroups,
+      ProjectOwnerGroupsProvider.Factory projectOwnerGroups,
       MetaDataUpdate.User metaDataUpdateFactory,
       GitReferenceUpdated referenceUpdated,
-      @GerritServerConfig Config cfg,
+      RepositoryConfig repositoryCfg,
       @GerritPersonIdent PersonIdent serverIdent,
       Provider<CurrentUser> currentUser,
       Provider<PutConfig> putConfig,
@@ -134,7 +132,7 @@ public class CreateProject implements RestModifyView<TopLevelResource, ProjectIn
     this.projectOwnerGroups = projectOwnerGroups;
     this.metaDataUpdateFactory = metaDataUpdateFactory;
     this.referenceUpdated = referenceUpdated;
-    this.cfg = cfg;
+    this.repositoryCfg = repositoryCfg;
     this.serverIdent = serverIdent;
     this.currentUser = currentUser;
     this.putConfig = putConfig;
@@ -165,7 +163,8 @@ public class CreateProject implements RestModifyView<TopLevelResource, ProjectIn
     args.submitType = input.submitType;
     args.branch = normalizeBranchNames(input.branches);
     if (input.owners == null || input.owners.isEmpty()) {
-      args.ownerIds = new ArrayList<>(projectOwnerGroups);
+      args.ownerIds =
+          new ArrayList<>(projectOwnerGroups.create(args.getProject()).get());
     } else {
       args.ownerIds =
         Lists.newArrayListWithCapacity(input.owners.size());
@@ -305,7 +304,7 @@ public class CreateProject implements RestModifyView<TopLevelResource, ProjectIn
       Project newProject = config.getProject();
       newProject.setDescription(args.projectDescription);
       newProject.setSubmitType(MoreObjects.firstNonNull(args.submitType,
-          cfg.getEnum("repository", "*", "defaultSubmitType", SubmitType.MERGE_IF_NECESSARY)));
+          repositoryCfg.getDefaultSubmitType(args.getProject())));
       newProject
           .setUseContributorAgreements(args.contributorAgreements);
       newProject.setUseSignedOffBy(args.signedOffBy);

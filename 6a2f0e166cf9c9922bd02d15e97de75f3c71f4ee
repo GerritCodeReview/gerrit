@@ -16,6 +16,24 @@
       "revId": "6a2f0e166cf9c9922bd02d15e97de75f3c71f4ee",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bfb4e5b0_28f44be7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Index.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-11-25T07:13:24Z",
+      "side": 1,
+      "message": "Does \"see the change\" not mean \"read access to the destination branch\"?",
+      "parentUuid": "7faeed66_46cc12c8",
+      "revId": "6a2f0e166cf9c9922bd02d15e97de75f3c71f4ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5fabe956_e57896b2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-11-25T23:03:47Z",
+      "side": 1,
+      "message": "This is great, and this allows to remove ChangeInfoMapper as well (in follow-up change). Last time i tried to to something similar, i failed to separate AccountLoader from AcountInfo entity, somehow.",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 65
+      },
+      "revId": "6941053a929e0514b27f993fb43eaad927c4efb9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

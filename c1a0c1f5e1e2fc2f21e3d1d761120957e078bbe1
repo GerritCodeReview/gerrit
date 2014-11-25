@@ -48,6 +48,54 @@
     },
     {
       "key": {
+        "uuid": "dfbfd98a_e9dcf572",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/EmailHeader.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-11-25T00:54:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dfbfd98a_09d62956",
+      "range": {
+        "startLine": 78,
+        "startChar": 12,
+        "endLine": 78,
+        "endChar": 13
+      },
+      "revId": "c1a0c1f5e1e2fc2f21e3d1d761120957e078bbe1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dfbfd98a_89e9b917",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/EmailHeader.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-11-25T00:54:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dfbfd98a_29dbed7c",
+      "range": {
+        "startLine": 78,
+        "startChar": 8,
+        "endLine": 78,
+        "endChar": 95
+      },
+      "revId": "c1a0c1f5e1e2fc2f21e3d1d761120957e078bbe1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bfb4e5b0_28dbeb7c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/EmailHeader.java",
         "patchSetId": 3
@@ -59,6 +107,30 @@
       "writtenOn": "2014-11-25T00:54:09Z",
       "side": 1,
       "message": "nit: if-else blocks should always have { and } even for one-liners.",
+      "range": {
+        "startLine": 79,
+        "startChar": 10,
+        "endLine": 81,
+        "endChar": 22
+      },
+      "revId": "c1a0c1f5e1e2fc2f21e3d1d761120957e078bbe1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dfbfd98a_a9e6fd44",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/EmailHeader.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-11-25T00:54:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bfb4e5b0_28dbeb7c",
       "range": {
         "startLine": 79,
         "startChar": 10,

@@ -38,7 +38,6 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.OutputFormat;
 import com.google.gerrit.server.account.GroupCache;
-import com.google.gerrit.server.change.ChangeJson;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MetaDataUpdate;
@@ -197,17 +196,17 @@ public abstract class AbstractDaemonTest {
     return push.to(git, "refs/for/master");
   }
 
-  protected ChangeJson.ChangeInfo getChange(String changeId, ListChangesOption... options)
+  protected ChangeInfo getChange(String changeId, ListChangesOption... options)
       throws IOException {
     return getChange(adminSession, changeId, options);
   }
 
-  protected ChangeJson.ChangeInfo getChange(RestSession session, String changeId,
+  protected ChangeInfo getChange(RestSession session, String changeId,
       ListChangesOption... options) throws IOException {
     String q = options.length > 0 ? "?o=" + Joiner.on("&o=").join(options) : "";
     RestResponse r = session.get("/changes/" + changeId + q);
     assertEquals(HttpStatus.SC_OK, r.getStatusCode());
-    return newGson().fromJson(r.getReader(), ChangeJson.ChangeInfo.class);
+    return newGson().fromJson(r.getReader(), ChangeInfo.class);
   }
 
   protected ChangeInfo info(String id)

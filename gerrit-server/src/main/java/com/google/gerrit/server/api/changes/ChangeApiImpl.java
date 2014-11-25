@@ -198,8 +198,7 @@ class ChangeApiImpl extends ChangeApi.NotImplemented implements ChangeApi {
   public ChangeInfo get(EnumSet<ListChangesOption> s)
       throws RestApiException {
     try {
-      return ChangeInfoMapper.INSTANCE.apply(
-          changeJson.get().addOptions(s).format(change));
+      return changeJson.get().addOptions(s).format(change);
     } catch (OrmException e) {
       throw new RestApiException("Cannot retrieve change", e);
     }

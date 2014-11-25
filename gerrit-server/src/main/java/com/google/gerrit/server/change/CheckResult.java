@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.change;
 
-import com.google.gerrit.server.change.ChangeJson.ChangeInfo;
+import com.google.gerrit.extensions.common.ChangeInfo;
 
 import java.util.List;
 

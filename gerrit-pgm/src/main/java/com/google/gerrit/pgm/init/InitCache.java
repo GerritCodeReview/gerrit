@@ -14,7 +14,7 @@
 
 package com.google.gerrit.pgm.init;
 
-import static com.google.gerrit.pgm.init.InitUtil.die;
+import static com.google.gerrit.pgm.init.api.InitUtil.die;
 
 import com.google.gerrit.pgm.init.api.InitStep;
 import com.google.gerrit.pgm.init.api.Section;

@@ -15,6 +15,7 @@
 package com.google.gerrit.pgm.init;
 
 import com.google.common.base.Strings;
+import com.google.gerrit.pgm.init.api.InitUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
 

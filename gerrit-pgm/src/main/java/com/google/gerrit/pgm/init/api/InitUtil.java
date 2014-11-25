@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.pgm.init;
+package com.google.gerrit.pgm.init.api;
 
 import static com.google.gerrit.common.FileUtil.chmod;
 import static com.google.gerrit.common.FileUtil.modified;
@@ -38,22 +38,22 @@ import java.net.UnknownHostException;
 import java.nio.ByteBuffer;
 
 /** Utility functions to help initialize a site. */
-class InitUtil {
-  static Die die(String why) {
+public class InitUtil {
+  public static Die die(String why) {
     return new Die(why);
   }
 
-  static Die die(String why, Throwable cause) {
+  public static Die die(String why, Throwable cause) {
     return new Die(why, cause);
   }
 
-  static void savePublic(final FileBasedConfig sec) throws IOException {
+  public static void savePublic(final FileBasedConfig sec) throws IOException {
     if (modified(sec)) {
       sec.save();
     }
   }
 
-  static void saveSecure(final FileBasedConfig sec) throws IOException {
+  public static void saveSecure(final FileBasedConfig sec) throws IOException {
     if (modified(sec)) {
       final byte[] out = Constants.encode(sec.toText());
       final File path = sec.getFile();
@@ -73,25 +73,25 @@ class InitUtil {
     }
   }
 
-  static void mkdir(final File path) {
+  public static void mkdir(final File path) {
     if (!path.isDirectory() && !path.mkdir()) {
       throw die("Cannot make directory " + path);
     }
   }
 
-  static String version() {
+  public static String version() {
     return com.google.gerrit.common.Version.getVersion();
   }
 
-  static String username() {
+  public static String username() {
     return System.getProperty("user.name");
   }
 
-  static String hostname() {
+  public static String hostname() {
     return SystemReader.getInstance().getHostname();
   }
 
-  static boolean isLocal(final String hostname) {
+  public static boolean isLocal(final String hostname) {
     try {
       return InetAddress.getByName(hostname).isLoopbackAddress();
     } catch (UnknownHostException e) {
@@ -99,7 +99,7 @@ class InitUtil {
     }
   }
 
-  static String dnOf(String name) {
+  public static String dnOf(String name) {
     if (name != null) {
       int p = name.indexOf("://");
       if (0 < p) {
@@ -117,7 +117,7 @@ class InitUtil {
     return name;
   }
 
-  static String domainOf(String name) {
+  public static String domainOf(String name) {
     if (name != null) {
       int p = name.indexOf("://");
       if (0 < p) {
@@ -131,7 +131,7 @@ class InitUtil {
     return name;
   }
 
-  static void extract(final File dst, final Class<?> sibling,
+  public static void extract(final File dst, final Class<?> sibling,
       final String name) throws IOException {
     try (InputStream in = open(sibling, name)) {
       if (in != null) {
@@ -158,7 +158,7 @@ class InitUtil {
     return in;
   }
 
-  static void copy(final File dst, final ByteBuffer buf)
+  public static void copy(final File dst, final ByteBuffer buf)
       throws FileNotFoundException, IOException {
     // If the file already has the content we want to put there,
     // don't attempt to overwrite the file.
@@ -196,7 +196,7 @@ class InitUtil {
     }
   }
 
-  static URI toURI(String url) throws URISyntaxException {
+  public static URI toURI(String url) throws URISyntaxException {
     final URI u = new URI(url);
     if (isAnyAddress(u)) {
       // If the URL uses * it means all addresses on this system, use the
@@ -208,12 +208,12 @@ class InitUtil {
     return new URI(url);
   }
 
-  static boolean isAnyAddress(final URI u) {
+  public static boolean isAnyAddress(final URI u) {
     return u.getHost() == null
         && (u.getAuthority().equals("*") || u.getAuthority().startsWith("*:"));
   }
 
-  static int portOf(final URI uri) {
+  public static int portOf(final URI uri) {
     int port = uri.getPort();
     if (port < 0) {
       port = "https".equals(uri.getScheme()) ? 443 : 80;

@@ -15,12 +15,12 @@
 package com.google.gerrit.pgm.init;
 
 import static com.google.gerrit.common.FileUtil.chmod;
-import static com.google.gerrit.pgm.init.InitUtil.die;
-import static com.google.gerrit.pgm.init.InitUtil.extract;
-import static com.google.gerrit.pgm.init.InitUtil.mkdir;
-import static com.google.gerrit.pgm.init.InitUtil.savePublic;
-import static com.google.gerrit.pgm.init.InitUtil.saveSecure;
-import static com.google.gerrit.pgm.init.InitUtil.version;
+import static com.google.gerrit.pgm.init.api.InitUtil.die;
+import static com.google.gerrit.pgm.init.api.InitUtil.extract;
+import static com.google.gerrit.pgm.init.api.InitUtil.mkdir;
+import static com.google.gerrit.pgm.init.api.InitUtil.savePublic;
+import static com.google.gerrit.pgm.init.api.InitUtil.saveSecure;
+import static com.google.gerrit.pgm.init.api.InitUtil.version;
 
 import com.google.gerrit.pgm.init.api.ConsoleUI;
 import com.google.gerrit.pgm.init.api.InitFlags;

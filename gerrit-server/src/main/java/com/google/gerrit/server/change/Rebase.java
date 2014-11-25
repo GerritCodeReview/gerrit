@@ -15,6 +15,7 @@
 package com.google.gerrit.server.change;
 
 import com.google.gerrit.common.errors.EmailException;
+import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ListChangesOption;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -24,7 +25,6 @@ import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.change.ChangeJson.ChangeInfo;
 import com.google.gerrit.server.change.Rebase.Input;
 import com.google.gerrit.server.changedetail.RebaseChange;
 import com.google.gerrit.server.project.ChangeControl;

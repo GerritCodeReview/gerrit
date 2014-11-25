@@ -22,7 +22,6 @@ import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.common.errors.ProjectCreationFailedException;
-import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.events.NewProjectCreatedListener;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -31,8 +30,8 @@ import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.GroupBackend;
-import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gerrit.server.config.ProjectOwnerGroups;
+import com.google.gerrit.server.config.ProjectOwnerGroupsProvider;
+import com.google.gerrit.server.config.RepositoryConfig;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MetaDataUpdate;
@@ -44,7 +43,6 @@ import com.google.inject.assistedinject.Assisted;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.CommitBuilder;
-import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
@@ -59,7 +57,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 
 
 /** Common class that holds the code to create projects */
@@ -71,8 +68,8 @@ public class PerformCreateProject {
     PerformCreateProject create(CreateProjectArgs createProjectArgs);
   }
 
-  private final Config cfg;
-  private final Set<AccountGroup.UUID> projectOwnerGroups;
+  private final RepositoryConfig repositoryCfg;
+  private final ProjectOwnerGroupsProvider.Factory projectOwnerGroups;
   private final IdentifiedUser currentUser;
   private final GitRepositoryManager repoManager;
   private final GitReferenceUpdated referenceUpdated;
@@ -84,16 +81,16 @@ public class PerformCreateProject {
   private final MetaDataUpdate.User metaDataUpdateFactory;
 
   @Inject
-  PerformCreateProject(@GerritServerConfig Config cfg,
-      @ProjectOwnerGroups Set<AccountGroup.UUID> pOwnerGroups,
+  PerformCreateProject(RepositoryConfig repositoryCfg,
+      ProjectOwnerGroupsProvider.Factory projectOwnerGroups,
       IdentifiedUser identifiedUser, GitRepositoryManager gitRepoManager,
       GitReferenceUpdated referenceUpdated,
       DynamicSet<NewProjectCreatedListener> createdListener,
       @GerritPersonIdent PersonIdent personIdent, GroupBackend groupBackend,
       MetaDataUpdate.User metaDataUpdateFactory,
       @Assisted CreateProjectArgs createPArgs, ProjectCache pCache) {
-    this.cfg = cfg;
-    this.projectOwnerGroups = pOwnerGroups;
+    this.repositoryCfg = repositoryCfg;
+    this.projectOwnerGroups = projectOwnerGroups;
     this.currentUser = identifiedUser;
     this.repoManager = gitRepoManager;
     this.referenceUpdated = referenceUpdated;
@@ -187,8 +184,9 @@ public class PerformCreateProject {
 
       Project newProject = config.getProject();
       newProject.setDescription(createProjectArgs.projectDescription);
-      newProject.setSubmitType(MoreObjects.firstNonNull(createProjectArgs.submitType,
-          cfg.getEnum("repository", "*", "defaultSubmitType", SubmitType.MERGE_IF_NECESSARY)));
+      newProject.setSubmitType(MoreObjects.firstNonNull(
+          createProjectArgs.submitType,
+          repositoryCfg.getDefaultSubmitType(createProjectArgs.getProject())));
       newProject
           .setUseContributorAgreements(createProjectArgs.contributorAgreements);
       newProject.setUseSignedOffBy(createProjectArgs.signedOffBy);
@@ -241,7 +239,9 @@ public class PerformCreateProject {
 
     if (createProjectArgs.ownerIds == null
         || createProjectArgs.ownerIds.isEmpty()) {
-      createProjectArgs.ownerIds = new ArrayList<>(projectOwnerGroups);
+      createProjectArgs.ownerIds =
+          new ArrayList<>(projectOwnerGroups.create(
+              createProjectArgs.getProject()).get());
     }
 
     List<String> transformedBranches = new ArrayList<>();

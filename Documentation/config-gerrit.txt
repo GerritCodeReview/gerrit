@@ -2748,9 +2748,22 @@ to be the default owner of new projects.
   ownerGroup = Registered Users
 ----
 
-[NOTE]
-Currently only the repository name `*` is supported.
-This is a wildcard designating all repositories.
+The only matching patterns supported are exact match or wildcard matching which
+can be specified by ending the name by a `*`. If a project matches more than one
+repository configuration, then the configuration from the more precise match
+will be used. In the following example, the default submit type for a project
+named `project/plugins/a` would be `CHERRY_PICK`.
+
+----
+[repository "project/*"]
+  defaultSubmitType = MERGE_IF_NECESSARY
+[repository "project/plugins/*"]
+  defaultSubmitType = CHERRY_PICK
+----
+
+[NOTE] All properties are used from the matching repository configuration. In
+the previous example, all properties will be used from `project/plugins/\*`
+section and no properties will be inherited nor overridden from `project/*`.
 
 [[repository.name.defaultSubmitType]]repository.<name>.defaultSubmitType::
 +

@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bfb4e5b0_e805d338",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/RelatedChangesTab.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-11-25T08:22:25Z",
+      "side": 1,
+      "message": "nit: unnecessary blank line",
+      "revId": "b1e541b6c9cc6ecdd189215422787eec3c0a1493",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bfb4e5b0_8802172e",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/RelatedChangesTab.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-11-25T08:22:25Z",
+      "side": 1,
+      "message": "There are three terms being used for the same thing: A \u0027Tab\u0027 object, named \u0027topic\u0027 in the argument, and \u0027subject\u0027 in the member variable.\n\nAll the method names refer to \u0027Tab\u0027.  Why not name the member variable \u0027tab\u0027, and the argument also \u0027tab\u0027?.",
+      "range": {
+        "startLine": 98,
+        "startChar": 4,
+        "endLine": 98,
+        "endChar": 24
+      },
+      "revId": "b1e541b6c9cc6ecdd189215422787eec3c0a1493",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

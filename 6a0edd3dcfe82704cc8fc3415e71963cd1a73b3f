@@ -46,6 +46,30 @@
       "revId": "6a0edd3dcfe82704cc8fc3415e71963cd1a73b3f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7faeed66_46517225",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-11-25T22:15:07Z",
+      "side": 1,
+      "message": "| But it can\u0027t.\n\nIt can and it in fact does. I pointed you to this commit: [1] in my previous comment: Theme was previously in \nAccountDiffPreference.java and stored in the database. I moved it in extension.common and added this class to extension GWT client module, so that it is exposed in both plugin API and in client extension GWT module that reviewdb depends on:\n\n  gwt_module(\n  name \u003d \u0027client\u0027,\n  srcs \u003d glob([\n    SRC + \u0027api/projects/ProjectState.java\u0027,\n    SRC + \u0027common/InheritableBoolean.java\u0027,\n    SRC + \u0027common/ListChangesOption.java\u0027,\n    SRC + \u0027common/SubmitType.java\u0027,\n    SRC + \u0027common/Theme.java\u0027,\n    SRC + \u0027webui/GerritTopMenu.java\u0027,\n  ]),\n  gwt_xml \u003d SRC + \u0027Extensions.gwt.xml\u0027,\n  visibility \u003d [\u0027PUBLIC\u0027],\n)\n\nWe could do exactly the same with Change.Status what i did with Theme.\n\n [1] https://gerrit-review.googlesource.com/#/c/61600",
+      "parentUuid": "7f434d81_3ef5a9e7",
+      "range": {
+        "startLine": 19,
+        "startChar": 51,
+        "endLine": 22,
+        "endChar": 6
+      },
+      "revId": "6a0edd3dcfe82704cc8fc3415e71963cd1a73b3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

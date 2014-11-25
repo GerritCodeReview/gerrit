@@ -29,7 +29,8 @@ public class GitUploadPackGroupsProvider extends GroupSetProvider {
       @GerritServerConfig Config config,
       ThreadLocalRequestContext threadContext,
       ServerRequestContext serverCtx) {
-    super(gb, config, threadContext, serverCtx, "upload", null, "allowGroup");
+    super(gb, threadContext, serverCtx, config.getStringList("upload", null,
+        "allowGroup"));
 
     // If no group was set, default to "registered users" and "anonymous"
     //

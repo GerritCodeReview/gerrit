@@ -30,7 +30,8 @@ public class GitReceivePackGroupsProvider extends GroupSetProvider {
       @GerritServerConfig Config config,
       ThreadLocalRequestContext threadContext,
       ServerRequestContext serverCtx) {
-    super(gb, config, threadContext, serverCtx, "receive", null, "allowGroup");
+    super(gb, threadContext, serverCtx, config.getStringList("receive", null,
+        "allowGroup"));
 
     // If no group was set, default to "registered users"
     //

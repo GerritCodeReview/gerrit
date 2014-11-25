@@ -25,7 +25,6 @@ import com.google.gerrit.server.util.ThreadLocalRequestContext;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
-import org.eclipse.jgit.lib.Config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -40,13 +39,10 @@ public abstract class GroupSetProvider implements
 
   @Inject
   protected GroupSetProvider(GroupBackend groupBackend,
-      @GerritServerConfig Config config,
       ThreadLocalRequestContext threadContext,
-      ServerRequestContext serverCtx, String section,
-      String subsection, String name) {
+      ServerRequestContext serverCtx, String[] groupNames) {
     RequestContext ctx = threadContext.setContext(serverCtx);
     try {
-      String[] groupNames = config.getStringList(section, subsection, name);
       ImmutableSet.Builder<AccountGroup.UUID> builder = ImmutableSet.builder();
       for (String n : groupNames) {
         GroupReference g = GroupBackends.findBestSuggestion(groupBackend, n);

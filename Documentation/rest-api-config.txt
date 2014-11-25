@@ -826,7 +826,7 @@ The ID of the task (hex string).
 === CacheInfo
 The `CacheInfo` entity contains information about a cache.
 
-[options="header",width="50%",cols="1,^1,5"]
+[options="header",cols="1,^1,5"]
 |==================================
 |Field Name           ||Description
 |`name`               |
@@ -851,7 +851,7 @@ HitRatioInfo] entity.
 === CapabilityInfo
 The `CapabilityInfo` entity contains information about a capability.
 
-[options="header",width="50%",cols="1,6"]
+[options="header",cols="1,6"]
 |=================================
 |Field Name           |Description
 |`id`                 |capability ID
@@ -863,7 +863,7 @@ The `CapabilityInfo` entity contains information about a capability.
 The `CacheOperationInput` entity contains information about an
 operation that should be executed on caches.
 
-[options="header",width="50%",cols="1,^1,5"]
+[options="header",cols="1,^1,5"]
 |==================================
 |Field Name           ||Description
 |`operation`          ||
@@ -883,7 +883,7 @@ specified depends on the operation being executed.
 The `EntriesInfo` entity contains information about the entries in a
 cache.
 
-[options="header",width="50%",cols="1,^1,5"]
+[options="header",cols="1,^1,5"]
 |==================================
 |Field Name ||Description
 |`mem`      |optional|Number of cache entries that are held in memory.
@@ -901,7 +901,7 @@ with a unit abbreviation (`k`: kilobytes, `m`: megabytes,
 The `HitRatioInfo` entity contains information about the hit ratio of a
 cache.
 
-[options="header",width="50%",cols="1,^1,5"]
+[options="header",cols="1,^1,5"]
 |==================================
 |Field Name ||Description
 |`mem`      ||
@@ -915,7 +915,7 @@ Only set for disk caches.
 === JvmSummaryInfo
 The `JvmSummaryInfo` entity contains information about the JVM.
 
-[options="header",width="50%",cols="1,^1,5"]
+[options="header",cols="1,^1,5"]
 |========================================
 |Field Name                 ||Description
 |`vm_vendor`                ||The vendor of the virtual machine.
@@ -936,7 +936,7 @@ The host on which Gerrit is running.
 The `MemSummaryInfo` entity contains information about the current
 memory usage.
 
-[options="header",width="50%",cols="1,^1,5"]
+[options="header",cols="1,^1,5"]
 |============================
 |Field Name     ||Description
 |`total`        ||
@@ -963,7 +963,7 @@ The number of open files.
 The `SummaryInfo` entity contains information about the current state
 of the server.
 
-[options="header",width="50%",cols="1,^1,5"]
+[options="header",cols="1,^1,5"]
 |============================
 |Field Name     ||Description
 |`task_summary` ||
@@ -985,7 +985,7 @@ Only set if the `jvm` option was set.
 The `TaskInfo` entity contains information about a task in a background
 work queue.
 
-[options="header",width="50%",cols="1,^1,5"]
+[options="header",cols="1,^1,5"]
 |====================================
 |Field Name   ||Description
 |`id`         ||The ID of the task.
@@ -1006,7 +1006,7 @@ project.
 The `TaskSummaryInfo` entity contains information about the current
 tasks.
 
-[options="header",width="50%",cols="1,^1,5"]
+[options="header",cols="1,^1,5"]
 |============================
 |Field Name     ||Description
 |`total`        |optional|
@@ -1024,7 +1024,7 @@ Number of currently sleeping tasks.
 The `ThreadSummaryInfo` entity contains information about the current
 threads.
 
-[options="header",width="50%",cols="1,6"]
+[options="header",cols="1,6"]
 |===========================
 |Field Name     |Description
 |`cpus`         |
@@ -1048,7 +1048,7 @@ included: `NEW`, `RUNNABLE`, `BLOCKED`, `WAITING`, `TIMED_WAITING` and
 The `TopMenuEntryInfo` entity contains information about a top menu
 entry.
 
-[options="header",width="50%",cols="1,6"]
+[options="header",cols="1,6"]
 |=================================
 |Field Name           |Description
 |`name`               |Name of the top menu entry.
@@ -1060,7 +1060,7 @@ entry.
 The `TopMenuItemInfo` entity contains information about a menu item in
 a top menu entry.
 
-[options="header",width="50%",cols="1,^1,5"]
+[options="header",cols="1,^1,5"]
 |========================
 |Field Name ||Description
 |`url`      ||The URL of the menu item link.

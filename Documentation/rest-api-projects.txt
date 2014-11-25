@@ -1783,7 +1783,7 @@ The name of the project.
 === BranchInfo
 The `BranchInfo` entity contains information about a branch.
 
-[options="header",width="50%",cols="1,^2,4"]
+[options="header",cols="1,^2,4"]
 |=========================
 |Field Name  ||Description
 |`ref`       ||The ref of the branch.
@@ -1800,7 +1800,7 @@ link:rest-api-changes.html#web-link-info[WebLinkInfo] entries.
 The `BanInput` entity contains information for banning commits in a
 project.
 
-[options="header",width="50%",cols="1,^2,4"]
+[options="header",cols="1,^2,4"]
 |=======================
 |Field Name||Description
 |`commits` ||List of commits to be banned.
@@ -1811,7 +1811,7 @@ project.
 === BanResultInfo
 The `BanResultInfo` entity describes the result of banning commits.
 
-[options="header",width="50%",cols="1,^2,4"]
+[options="header",cols="1,^2,4"]
 |=============================
 |Field Name      ||Description
 |`newly_banned`  |optional|List of newly banned commits.
@@ -1824,7 +1824,7 @@ The `BanResultInfo` entity describes the result of banning commits.
 The `BranchInput` entity contains information for the creation of
 a new branch.
 
-[options="header",width="50%",cols="1,^2,4"]
+[options="header",cols="1,^2,4"]
 |=======================
 |Field Name||Description
 |`ref`     |optional|
@@ -1841,7 +1841,7 @@ If not set, `HEAD` will be used as base revision.
 The `ConfigInfo` entity contains information about the effective project
 configuration.
 
-[options="header",width="50%",cols="1,^2,4"]
+[options="header",cols="1,^2,4"]
 |=======================================================
 |Field Name                                ||Description
 |`description`                             |optional|
@@ -1902,7 +1902,7 @@ link:rest-api-changes.html#action-info[ActionInfo] entities.
 === ConfigInput
 The `ConfigInput` entity describes a new project configuration.
 
-[options="header",width="50%",cols="1,^2,4"]
+[options="header",cols="1,^2,4"]
 |======================================================
 |Field Name                               ||Description
 |`description`                            |optional|
@@ -1962,7 +1962,7 @@ ConfigParameterInfo
 The `ConfigParameterInfo` entity describes a project configuration
 parameter.
 
-[options="header",width="50%",cols="1,^2,4"]
+[options="header",cols="1,^2,4"]
 |===============================
 |Field Name        ||Description
 |`display_name`    |optional|
@@ -2001,7 +2001,7 @@ The list of permitted values, only set if the `type` is `LIST`.
 The `DashboardInfo` entity contains information about a project
 dashboard.
 
-[options="header",width="50%",cols="1,^2,4"]
+[options="header",cols="1,^2,4"]
 |===============================
 |Field Name        ||Description
 |`id`              ||
@@ -2038,7 +2038,7 @@ The list of link:#dashboard-section-info[sections] in the dashboard.
 The `DashboardInput` entity contains information to create/update a
 project dashboard.
 
-[options="header",width="50%",cols="1,^2,4"]
+[options="header",cols="1,^2,4"]
 |=============================
 |Field Name      ||Description
 |`id`            |optional|
@@ -2052,7 +2052,7 @@ Message that should be used to commit the change of the dashboard.
 The `DashboardSectionInfo` entity contains information about a section
 in a dashboard.
 
-[options="header",width="50%",cols="1,6"]
+[options="header",cols="1,6"]
 |===========================
 |Field Name    |Description
 |`name`        |The title of the section.
@@ -2065,7 +2065,7 @@ Tokens such as `${project}` are not resolved.
 The `GCInput` entity contains information to run the Git garbage
 collection.
 
-[options="header",width="50%",cols="1,^2,4"]
+[options="header",cols="1,^2,4"]
 |=============================
 |Field Name      ||Description
 |`show_progress` |`false` if not set|
@@ -2077,7 +2077,7 @@ Whether progress information should be shown.
 The `HeadInput` entity contains information for setting `HEAD` for a
 project.
 
-[options="header",width="50%",cols="1,6"]
+[options="header",cols="1,6"]
 |============================
 |Field Name      |Description
 |`ref`           |
@@ -2089,7 +2089,7 @@ omitted.
 === InheritedBooleanInfo
 A boolean value that can also be inherited.
 
-[options="header",width="50%",cols="1,^2,4"]
+[options="header",cols="1,^2,4"]
 |================================
 |Field Name         ||Description
 |`value`            ||
@@ -2107,7 +2107,7 @@ The `MaxObjectSizeLimitInfo` entity contains information about the
 link:config-gerrit.html#receive.maxObjectSizeLimit[max object size
 limit] of a project.
 
-[options="header",width="50%",cols="1,^2,4"]
+[options="header",cols="1,^2,4"]
 |===============================
 |Field Name        ||Description
 |`value`           |optional|
@@ -2128,7 +2128,7 @@ Not set if there is no global limit for the object size.
 The `ProjectDescriptionInput` entity contains information for setting a
 project description.
 
-[options="header",width="50%",cols="1,^2,4"]
+[options="header",cols="1,^2,4"]
 |=============================
 |Field Name      ||Description
 |`description`   |optional|The project description. +
@@ -2143,7 +2143,7 @@ branch.
 === ProjectInfo
 The `ProjectInfo` entity contains information about a project.
 
-[options="header",width="50%",cols="1,^2,4"]
+[options="header",cols="1,^2,4"]
 |===========================
 |Field Name    ||Description
 |`id`          ||The URL encoded project name.
@@ -2167,7 +2167,7 @@ link:rest-api-changes.html#web-link-info[WebLinkInfo] entries.
 The `ProjectInput` entity contains information for the creation of
 a new project.
 
-[options="header",width="50%",cols="1,^2,4"]
+[options="header",cols="1,^2,4"]
 |=========================================
 |Field Name                  ||Description
 |`name`                      |optional|
@@ -2227,7 +2227,7 @@ of parameter names to values.
 The `ProjectParentInput` entity contains information for setting a
 project parent.
 
-[options="header",width="50%",cols="1,^2,4"]
+[options="header",cols="1,^2,4"]
 |=============================
 |Field Name      ||Description
 |`parent`        ||The name of the parent project.
@@ -2240,7 +2240,7 @@ in the `project.config` file to the `refs/meta/config` branch.
 === ReflogEntryInfo
 The `ReflogEntryInfo` entity describes an entry in a reflog.
 
-[options="header",width="50%",cols="1,6"]
+[options="header",cols="1,6"]
 |============================
 |Field Name      |Description
 |`old_id`        |The old commit ID.
@@ -2256,7 +2256,7 @@ link:rest-api-changes.html#git-person-info[GitPersonInfo] entity.
 The `RepositoryStatisticsInfo` entity contains information about
 statistics of a Git repository.
 
-[options="header",width="50%",cols="1,6"]
+[options="header",cols="1,6"]
 |======================================
 |Field Name                |Description
 |`number_of_loose_objects` |Number of loose objects.
@@ -2272,7 +2272,7 @@ statistics of a Git repository.
 === TagInfo
 The `TagInfo` entity contains information about a tag.
 
-[options="header",width="50%",cols="1,^2,4"]
+[options="header",cols="1,^2,4"]
 |=========================
 |Field Name  ||Description
 |`ref`       ||The ref of the tag.
@@ -2290,7 +2290,7 @@ link:rest-api-changes.html#git-person-info[GitPersonInfo] entity.
 === ThemeInfo
 The `ThemeInfo` entity describes a theme.
 
-[options="header",width="50%",cols="1,^2,4"]
+[options="header",cols="1,^2,4"]
 |=============================
 |Field Name      ||Description
 |`css`           |optional|

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7faeed66_46cc12c8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Index.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-11-25T07:10:38Z",
+      "side": 1,
+      "message": "I think Dave\u0027s suggestion was to restrict the reindex operation only to users who able to see the change, a lá:\n\n  @Override\n  public Response\u003c?\u003e apply(ChangeResource rsrc, Input input)\n      throws IOException, AuthException, OrmException {\n    if (!rsrc.getControl().isVisible(db.get())) {\n      throw new AuthException(\"index not permitted\");\n    }\n    [...]",
+      "revId": "6a2f0e166cf9c9922bd02d15e97de75f3c71f4ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

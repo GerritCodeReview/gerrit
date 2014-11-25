@@ -22,6 +22,30 @@
       "revId": "ee16956ae37625825ca4b968d04121b11e1f3c86",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5fabe956_25f46ee7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-11-25T09:27:57Z",
+      "side": 1,
+      "message": "No clue. Last time we upgraded to GWT 2.6, we did the same [1]: disabled it first and enabled it again, after the gwt-test-util framework was adapted to new GWT release.\n\n [1] https://gerrit-review.googlesource.com/#/c/53916",
+      "parentUuid": "bfb4e5b0_481e5f88",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 63
+      },
+      "revId": "ee16956ae37625825ca4b968d04121b11e1f3c86",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

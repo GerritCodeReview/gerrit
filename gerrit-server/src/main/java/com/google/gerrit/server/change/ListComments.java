@@ -17,7 +17,7 @@ package com.google.gerrit.server.change;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.PatchLineCommentsUtil;
-import com.google.gerrit.server.account.AccountInfo;
+import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -27,7 +27,7 @@ import com.google.inject.Singleton;
 @Singleton
 class ListComments extends ListDrafts {
   @Inject
-  ListComments(Provider<ReviewDb> db, AccountInfo.Loader.Factory alf,
+  ListComments(Provider<ReviewDb> db, AccountLoader.Factory alf,
       PatchLineCommentsUtil plcUtil) {
     super(db, alf, plcUtil);
   }

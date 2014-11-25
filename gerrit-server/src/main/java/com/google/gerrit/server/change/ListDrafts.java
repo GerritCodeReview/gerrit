@@ -23,7 +23,7 @@ import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.PatchLineCommentsUtil;
-import com.google.gerrit.server.account.AccountInfo;
+import com.google.gerrit.server.account.AccountLoader;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -38,10 +38,10 @@ import java.util.Map;
 class ListDrafts implements RestReadView<RevisionResource> {
   protected final Provider<ReviewDb> db;
   protected final PatchLineCommentsUtil plcUtil;
-  private final AccountInfo.Loader.Factory accountLoaderFactory;
+  private final AccountLoader.Factory accountLoaderFactory;
 
   @Inject
-  ListDrafts(Provider<ReviewDb> db, AccountInfo.Loader.Factory alf,
+  ListDrafts(Provider<ReviewDb> db, AccountLoader.Factory alf,
       PatchLineCommentsUtil plcUtil) {
     this.db = db;
     this.accountLoaderFactory = alf;
@@ -62,7 +62,7 @@ class ListDrafts implements RestReadView<RevisionResource> {
   public Map<String, List<CommentInfo>> apply(RevisionResource rsrc)
       throws OrmException {
     Map<String, List<CommentInfo>> out = Maps.newTreeMap();
-    AccountInfo.Loader accountLoader =
+    AccountLoader accountLoader =
         includeAuthorInfo() ? accountLoaderFactory.create(true) : null;
     for (PatchLineComment c : listComments(rsrc)) {
       CommentInfo o = new CommentInfo(c, accountLoader);

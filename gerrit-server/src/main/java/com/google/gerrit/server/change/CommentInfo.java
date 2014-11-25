@@ -16,10 +16,11 @@ package com.google.gerrit.server.change;
 
 import com.google.common.base.Strings;
 import com.google.gerrit.common.changes.Side;
+import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.CommentRange;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
-import com.google.gerrit.server.account.AccountInfo;
+import com.google.gerrit.server.account.AccountLoader;
 
 import java.sql.Timestamp;
 
@@ -34,7 +35,7 @@ public class CommentInfo {
   AccountInfo author;
   CommentRange range;
 
-  CommentInfo(PatchLineComment c, AccountInfo.Loader accountLoader) {
+  CommentInfo(PatchLineComment c, AccountLoader accountLoader) {
     id = Url.encode(c.getKey().get());
     path = c.getKey().getParentKey().getFileName();
     if (c.getSide() == 0) {

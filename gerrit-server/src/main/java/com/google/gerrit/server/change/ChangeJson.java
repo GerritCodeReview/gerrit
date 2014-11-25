@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.change;
 
+import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.extensions.common.ListChangesOption.ALL_COMMITS;
 import static com.google.gerrit.extensions.common.ListChangesOption.ALL_FILES;
 import static com.google.gerrit.extensions.common.ListChangesOption.ALL_REVISIONS;
@@ -30,13 +31,17 @@ import static com.google.gerrit.extensions.common.ListChangesOption.MESSAGES;
 import static com.google.gerrit.extensions.common.ListChangesOption.REVIEWED;
 import static com.google.gerrit.extensions.common.ListChangesOption.WEB_LINKS;
 
+import com.google.auto.value.AutoValue;
+import com.google.common.base.Function;
 import com.google.common.base.Joiner;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Optional;
+import com.google.common.collect.EnumBiMap;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.LinkedHashMultimap;
 import com.google.common.collect.Lists;
@@ -45,6 +50,7 @@ import com.google.common.collect.Multimap;
 import com.google.common.collect.SetMultimap;
 import com.google.common.collect.Sets;
 import com.google.common.collect.Table;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.LabelValue;
@@ -54,9 +60,13 @@ import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ActionInfo;
 import com.google.gerrit.extensions.common.ApprovalInfo;
+import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.extensions.common.ChangeMessageInfo;
+import com.google.gerrit.extensions.common.ChangeStatus;
 import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.extensions.common.FetchInfo;
 import com.google.gerrit.extensions.common.GitPerson;
+import com.google.gerrit.extensions.common.LabelInfo;
 import com.google.gerrit.extensions.common.ListChangesOption;
 import com.google.gerrit.extensions.common.RevisionInfo;
 import com.google.gerrit.extensions.common.WebLinkInfo;
@@ -113,8 +123,31 @@ import java.util.TreeMap;
 
 public class ChangeJson {
   private static final Logger log = LoggerFactory.getLogger(ChangeJson.class);
+
   private static final List<ChangeMessage> NO_MESSAGES =
       ImmutableList.of();
+
+  private static final EnumBiMap<Change.Status, ChangeStatus> STATUS_MAP =
+      EnumBiMap.create(Change.Status.class, ChangeStatus.class);
+  static {
+    STATUS_MAP.put(Change.Status.ABANDONED, ChangeStatus.ABANDONED);
+    STATUS_MAP.put(Change.Status.DRAFT, ChangeStatus.DRAFT);
+    STATUS_MAP.put(Change.Status.MERGED, ChangeStatus.MERGED);
+    STATUS_MAP.put(Change.Status.NEW, ChangeStatus.NEW);
+    STATUS_MAP.put(Change.Status.SUBMITTED, ChangeStatus.SUBMITTED);
+    checkState(STATUS_MAP.size() == Change.Status.values().length);
+  }
+
+  public static Change.Status changeStatusToStatus(ChangeStatus status) {
+    if (status != null) {
+      return STATUS_MAP.inverse().get(status);
+    }
+    return Change.Status.NEW;
+  }
+
+  public static ChangeStatus statusToChangeStatus(Change.Status status) {
+    return STATUS_MAP.get(status);
+  }
 
   private final Provider<ReviewDb> db;
   private final LabelNormalizer labelNormalizer;
@@ -285,7 +318,7 @@ public class ChangeJson {
       out.deletions = changedLines.deletions;
     }
     out.subject = in.getSubject();
-    out.status = in.getStatus();
+    out.status = statusToChangeStatus(in.getStatus());
     out.owner = accountLoader.get(in.getOwner());
     out.created = in.getCreatedOn();
     out.updated = in.getLastUpdatedOn();
@@ -297,6 +330,7 @@ public class ChangeJson {
     out.reviewed = in.getStatus().isOpen()
         && has(REVIEWED)
         && reviewed.contains(cd.getId()) ? true : null;
+
     out.labels = labelsFor(ctl, cd, has(LABELS), has(DETAILED_LABELS));
 
     if (out.labels != null && has(DETAILED_LABELS)) {
@@ -313,7 +347,7 @@ public class ChangeJson {
     if (has(MESSAGES)) {
       out.messages = messages(ctl, cd, src);
     }
-    out.finish();
+    finish(out);
 
     if (has(ALL_REVISIONS)
         || has(CURRENT_REVISION)
@@ -364,8 +398,8 @@ public class ChangeJson {
     return cd.getSubmitRecords();
   }
 
-  private Map<String, LabelInfo> labelsFor(ChangeControl ctl, ChangeData cd, boolean standard,
-      boolean detailed) throws OrmException {
+  private Map<String, LabelInfo> labelsFor(ChangeControl ctl,
+      ChangeData cd, boolean standard, boolean detailed) throws OrmException {
     if (!standard && !detailed) {
       return null;
     }
@@ -375,21 +409,21 @@ public class ChangeJson {
     }
 
     LabelTypes labelTypes = ctl.getLabelTypes();
-    if (cd.change().getStatus().isOpen()) {
-      return labelsForOpenChange(ctl, cd, labelTypes, standard, detailed);
-    } else {
-      return labelsForClosedChange(cd, labelTypes, standard, detailed);
-    }
+    Map<String, LabelWithStatus> withStatus = cd.change().getStatus().isOpen()
+      ? labelsForOpenChange(ctl, cd, labelTypes, standard, detailed)
+      : labelsForClosedChange(cd, labelTypes, standard, detailed);
+    return ImmutableMap.copyOf(
+        Maps.transformValues(withStatus, LabelWithStatus.TO_LABEL_INFO));
   }
 
-  private Map<String, LabelInfo> labelsForOpenChange(ChangeControl ctl,
+  private Map<String, LabelWithStatus> labelsForOpenChange(ChangeControl ctl,
       ChangeData cd, LabelTypes labelTypes, boolean standard, boolean detailed)
       throws OrmException {
-    Map<String, LabelInfo> labels = initLabels(cd, labelTypes, standard);
+    Map<String, LabelWithStatus> labels = initLabels(cd, labelTypes, standard);
     if (detailed) {
       setAllApprovals(ctl, cd, labels);
     }
-    for (Map.Entry<String, LabelInfo> e : labels.entrySet()) {
+    for (Map.Entry<String, LabelWithStatus> e : labels.entrySet()) {
       LabelType type = labelTypes.byLabel(e.getKey());
       if (type == null) {
         continue;
@@ -410,19 +444,18 @@ public class ChangeJson {
     return labels;
   }
 
-  private Map<String, LabelInfo> initLabels(ChangeData cd,
+  private Map<String, LabelWithStatus> initLabels(ChangeData cd,
       LabelTypes labelTypes, boolean standard) throws OrmException {
     // Don't use Maps.newTreeMap(Comparator) due to OpenJDK bug 100167.
-    Map<String, LabelInfo> labels = new TreeMap<>(labelTypes.nameComparator());
+    Map<String, LabelWithStatus> labels = new TreeMap<>(labelTypes.nameComparator());
     for (SubmitRecord rec : submitRecords(cd)) {
       if (rec.labels == null) {
         continue;
       }
       for (SubmitRecord.Label r : rec.labels) {
-        LabelInfo p = labels.get(r.label);
-        if (p == null || p._status.compareTo(r.status) < 0) {
+        LabelWithStatus p = labels.get(r.label);
+        if (p == null || p.status().compareTo(r.status) < 0) {
           LabelInfo n = new LabelInfo();
-          n._status = r.status;
           if (standard) {
             switch (r.status) {
               case OK:
@@ -437,8 +470,8 @@ public class ChangeJson {
             }
           }
 
-          n.optional = n._status == SubmitRecord.Label.Status.MAY ? true : null;
-          labels.put(r.label, n);
+          n.optional = r.status == SubmitRecord.Label.Status.MAY ? true : null;
+          labels.put(r.label, LabelWithStatus.create(n, r.status));
         }
       }
     }
@@ -446,8 +479,8 @@ public class ChangeJson {
   }
 
   private void setLabelScores(LabelType type,
-      LabelInfo label, short score, Account.Id accountId) {
-    if (label.approved != null || label.rejected != null) {
+      LabelWithStatus l, short score, Account.Id accountId) {
+    if (l.label().approved != null || l.label().rejected != null) {
       return;
     }
 
@@ -458,21 +491,21 @@ public class ChangeJson {
 
     if (score != 0) {
       if (score == type.getMin().getValue()) {
-        label.rejected = accountLoader.get(accountId);
+        l.label().rejected = accountLoader.get(accountId);
       } else if (score == type.getMax().getValue()) {
-        label.approved = accountLoader.get(accountId);
+        l.label().approved = accountLoader.get(accountId);
       } else if (score < 0) {
-        label.disliked = accountLoader.get(accountId);
-        label.value = score;
-      } else if (score > 0 && label.disliked == null) {
-        label.recommended = accountLoader.get(accountId);
-        label.value = score;
+        l.label().disliked = accountLoader.get(accountId);
+        l.label().value = score;
+      } else if (score > 0 && l.label().disliked == null) {
+        l.label().recommended = accountLoader.get(accountId);
+        l.label().value = score;
       }
     }
   }
 
   private void setAllApprovals(ChangeControl baseCtrl, ChangeData cd,
-      Map<String, LabelInfo> labels) throws OrmException {
+      Map<String, LabelWithStatus> labels) throws OrmException {
     // Include a user in the output for this label if either:
     //  - They are an explicit reviewer.
     //  - They ever voted on this change.
@@ -491,7 +524,7 @@ public class ChangeJson {
     for (Account.Id accountId : allUsers) {
       IdentifiedUser user = userFactory.create(accountId);
       ChangeControl ctl = baseCtrl.forUser(user);
-      for (Map.Entry<String, LabelInfo> e : labels.entrySet()) {
+      for (Map.Entry<String, LabelWithStatus> e : labels.entrySet()) {
         LabelType lt = ctl.getLabelTypes().byLabel(e.getKey());
         if (lt == null) {
           // Ignore submit record for undefined label; likely the submit rule
@@ -510,12 +543,12 @@ public class ChangeJson {
           // user can vote on this label.
           value = labelNormalizer.canVote(ctl, lt, accountId) ? 0 : null;
         }
-        e.getValue().addApproval(approvalInfo(accountId, value, date));
+        addApproval(e.getValue().label(), approvalInfo(accountId, value, date));
       }
     }
   }
 
-  private Map<String, LabelInfo> labelsForClosedChange(ChangeData cd,
+  private Map<String, LabelWithStatus> labelsForClosedChange(ChangeData cd,
       LabelTypes labelTypes, boolean standard, boolean detailed)
       throws OrmException {
     Set<Account.Id> allUsers = Sets.newHashSet();
@@ -538,14 +571,15 @@ public class ChangeJson {
     }
 
     // Don't use Maps.newTreeMap(Comparator) due to OpenJDK bug 100167.
-    Map<String, LabelInfo> labels = new TreeMap<>(labelTypes.nameComparator());
+    Map<String, LabelWithStatus> labels =
+        new TreeMap<>(labelTypes.nameComparator());
     for (String name : labelNames) {
       LabelType type = labelTypes.byLabel(name);
-      LabelInfo li = new LabelInfo();
+      LabelWithStatus l = LabelWithStatus.create(new LabelInfo(), null);
       if (detailed) {
-        setLabelValues(type, li);
+        setLabelValues(type, l);
       }
-      labels.put(type.getName(), li);
+      labels.put(type.getName(), l);
     }
 
     for (Account.Id accountId : allUsers) {
@@ -553,10 +587,10 @@ public class ChangeJson {
           Maps.newHashMapWithExpectedSize(labels.size());
 
       if (detailed) {
-        for (Map.Entry<String, LabelInfo> entry : labels.entrySet()) {
+        for (Map.Entry<String, LabelWithStatus> entry : labels.entrySet()) {
           ApprovalInfo ai = approvalInfo(accountId, 0, null);
           byLabel.put(entry.getKey(), ai);
-          entry.getValue().addApproval(ai);
+          addApproval(entry.getValue().label(), ai);
         }
       }
       for (PatchSetApproval psa : current.get(accountId)) {
@@ -571,13 +605,11 @@ public class ChangeJson {
           info.value = Integer.valueOf(val);
           info.date = psa.getGranted();
         }
-
-        LabelInfo li = labels.get(type.getName());
         if (!standard) {
           continue;
         }
 
-        setLabelScores(type, li, val, accountId);
+        setLabelScores(type, labels.get(type.getName()), val, accountId);
       }
     }
     return labels;
@@ -595,14 +627,14 @@ public class ChangeJson {
     return values.isEmpty() || (values.size() == 1 && values.contains(" 0"));
   }
 
-  private void setLabelValues(LabelType type, LabelInfo label) {
-    label.defaultValue = type.getDefaultValue();
-    label.values = Maps.newLinkedHashMap();
+  private void setLabelValues(LabelType type, LabelWithStatus l) {
+    l.label().defaultValue = type.getDefaultValue();
+    l.label().values = Maps.newLinkedHashMap();
     for (LabelValue v : type.getValues()) {
-      label.values.put(v.formatValue(), v.getText());
+      l.label().values.put(v.formatValue(), v.getText());
     }
-    if (isOnlyZero(label.values.keySet())) {
-      label.values = null;
+    if (isOnlyZero(l.label().values.keySet())) {
+      l.label().values = null;
     }
   }
 
@@ -925,75 +957,36 @@ public class ChangeJson {
     return p;
   }
 
-  public static class ChangeInfo {
-    public String id;
-    public String project;
-    public String branch;
-    public String topic;
-    public Collection<String> hashtags;
-    public String changeId;
-    public String subject;
-    public Change.Status status;
-    public Timestamp created;
-    public Timestamp updated;
-    public Boolean starred;
-    public Boolean reviewed;
-    public Boolean mergeable;
-    public Integer insertions;
-    public Integer deletions;
-
-    public String _sortkey;
-    public int _number;
-
-    public AccountInfo owner;
-
-    public Map<String, ActionInfo> actions;
-    public Map<String, LabelInfo> labels;
-    public Map<String, Collection<String>> permittedLabels;
-    public Collection<AccountInfo> removableReviewers;
-    public Collection<ChangeMessageInfo> messages;
-
-    public String currentRevision;
-    public Map<String, RevisionInfo> revisions;
-    public Boolean _moreChanges;
-
-    void finish() {
-      id = Joiner.on('~').join(
-          Url.encode(project),
-          Url.encode(branch),
-          Url.encode(changeId));
-    }
+  private static void finish(ChangeInfo info) {
+    info.id = Joiner.on('~').join(
+        Url.encode(info.project),
+        Url.encode(info.branch),
+        Url.encode(info.changeId));
   }
 
-  public static class LabelInfo {
-    transient SubmitRecord.Label.Status _status;
-
-    public AccountInfo approved;
-    public AccountInfo rejected;
-    public AccountInfo recommended;
-    public AccountInfo disliked;
-    public List<ApprovalInfo> all;
-
-    public Map<String, String> values;
-
-    public Short value;
-    public Short defaultValue;
-    public Boolean optional;
-    public Boolean blocking;
-
-    void addApproval(ApprovalInfo ai) {
-      if (all == null) {
-        all = Lists.newArrayList();
-      }
-      all.add(ai);
+  private static void addApproval(LabelInfo label, ApprovalInfo approval) {
+    if (label.all == null) {
+      label.all = Lists.newArrayList();
     }
+    label.all.add(approval);
   }
 
-  public static class ChangeMessageInfo {
-    public String id;
-    public AccountInfo author;
-    public Timestamp date;
-    public String message;
-    public Integer _revisionNumber;
+  @AutoValue
+  abstract static class LabelWithStatus {
+    private static final Function<LabelWithStatus, LabelInfo> TO_LABEL_INFO =
+        new Function<LabelWithStatus, LabelInfo>() {
+          @Override
+          public LabelInfo apply(LabelWithStatus in) {
+            return in.label();
+          }
+        };
+
+    private static LabelWithStatus create(LabelInfo label,
+        SubmitRecord.Label.Status status) {
+      return new AutoValue_ChangeJson_LabelWithStatus(label, status);
+    }
+
+    abstract LabelInfo label();
+    @Nullable abstract SubmitRecord.Label.Status status();
   }
 }

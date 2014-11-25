@@ -34,6 +34,24 @@
       "revId": "6a2f0e166cf9c9922bd02d15e97de75f3c71f4ee",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7faeed66_86852a31",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Index.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-11-25T15:41:03Z",
+      "side": 1,
+      "message": "David Ostrovsky is right about the definition of \"see change.\" ChangeControl#isVisible also takes into account draft status.\n\nHowever, neither check is necessary here. ChangesCollection#parse already calls changeControlFactory#validateFor which calls isVisible immediately after constructing the ChangeControl.",
+      "parentUuid": "bfb4e5b0_28f44be7",
+      "revId": "6a2f0e166cf9c9922bd02d15e97de75f3c71f4ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

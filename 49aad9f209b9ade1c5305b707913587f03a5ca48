@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "7faeed66_2650f61e",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 1273,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-11-25T22:32:07Z",
+      "side": 1,
+      "message": "I would prefer not to start with 200 in case nothing happen from this change. All change edit REST endpoints consistently return \"204 No Content\" untill now. I would prefer to continue. When other reviewers agree, i would replace it in all endpoints 204 with 200 in a separate change. We could easily do it, as we explicitly said in the documentation, that the whole change edit REST endpoints are experimental and subject to be changed without notice.",
+      "parentUuid": "9f6ba1dc_3746d87f",
+      "range": {
+        "startLine": 1272,
+        "startChar": 67,
+        "endLine": 1273,
+        "endChar": 40
+      },
+      "revId": "49aad9f209b9ade1c5305b707913587f03a5ca48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9f6ba1dc_d73afce9",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 13
@@ -36,6 +60,24 @@
       "writtenOn": "2014-11-24T11:46:57Z",
       "side": 1,
       "message": "nit: align the colums:\n\n  |Field Name    ||Description\n  |`message`     ||New commit message.",
+      "revId": "49aad9f209b9ade1c5305b707913587f03a5ca48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7faeed66_064b7a77",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 3904,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-11-25T22:32:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9f6ba1dc_d73afce9",
       "revId": "49aad9f209b9ade1c5305b707913587f03a5ca48",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "7faeed66_e6617ef8",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/edit/ChangeEditIT.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-11-25T22:32:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bf66a510_784c419f",
+      "range": {
+        "startLine": 280,
+        "startChar": 0,
+        "endLine": 281,
+        "endChar": 27
+      },
+      "revId": "49aad9f209b9ade1c5305b707913587f03a5ca48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9f6ba1dc_973484fe",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/edit/ChangeEditIT.java",
         "patchSetId": 13
@@ -76,6 +142,30 @@
       "writtenOn": "2014-11-24T11:46:57Z",
       "side": 1,
       "message": "same here",
+      "range": {
+        "startLine": 287,
+        "startChar": 4,
+        "endLine": 288,
+        "endChar": 27
+      },
+      "revId": "49aad9f209b9ade1c5305b707913587f03a5ca48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5fabe956_057292d5",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/edit/ChangeEditIT.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-11-25T22:32:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9f6ba1dc_973484fe",
       "range": {
         "startLine": 287,
         "startChar": 4,
@@ -122,6 +212,30 @@
       "writtenOn": "2014-11-24T11:46:57Z",
       "side": 1,
       "message": "I think 200 OK would be more appropriate.",
+      "range": {
+        "startLine": 475,
+        "startChar": 13,
+        "endLine": 475,
+        "endChar": 29
+      },
+      "revId": "49aad9f209b9ade1c5305b707913587f03a5ca48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7faeed66_c664820b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeEdits.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 475,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-11-25T22:32:07Z",
+      "side": 1,
+      "message": "The same here, as in REST endpoint documentation.",
+      "parentUuid": "9f6ba1dc_b731880d",
       "range": {
         "startLine": 475,
         "startChar": 13,

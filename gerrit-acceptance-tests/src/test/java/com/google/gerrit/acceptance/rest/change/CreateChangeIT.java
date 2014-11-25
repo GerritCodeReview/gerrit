@@ -21,7 +21,6 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeStatus;
-import com.google.gerrit.server.change.ChangeJson;
 
 import org.apache.http.HttpStatus;
 import org.junit.Test;
@@ -79,8 +78,7 @@ public class CreateChangeIT extends AbstractDaemonTest {
     RestResponse r = adminSession.post("/changes/", in);
     assertEquals(HttpStatus.SC_CREATED, r.getStatusCode());
 
-    ChangeJson.ChangeInfo info = newGson().fromJson(r.getReader(),
-        ChangeJson.ChangeInfo.class);
+    ChangeInfo info = newGson().fromJson(r.getReader(), ChangeInfo.class);
     ChangeInfo out = get(info.changeId);
 
     assertEquals(in.branch, out.branch);

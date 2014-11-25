@@ -1896,7 +1896,7 @@ entities.
 Actions the caller might be able to perform on this project. The
 information is a map of view names to
 link:rest-api-changes.html#action-info[ActionInfo] entities.
-|=========================================
+|=======================================================
 
 [[config-input]]
 === ConfigInput
@@ -1954,7 +1954,7 @@ If not set, the project state is not updated.
 |`plugin_config_values`                    |optional|
 Plugin configuration values as map which maps the plugin name to a map
 of parameter names to values.
-|=========================================
+|======================================================
 
 [[config-parameter-info]]
 ConfigParameterInfo

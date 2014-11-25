@@ -130,7 +130,7 @@ get::/Documentation/?q=keyword
 === DocResult
 The `DocResult` entity contains information about a document.
 
-[options="header",width="50%",cols="1,^2,4"]
+[options="header",cols="1,^2,4"]
 |=========================
 |Field Name  ||Description
 |`title`     ||The title of the document.

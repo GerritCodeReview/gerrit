@@ -1212,7 +1212,7 @@ The sequence number of the SSH key.
 === AccountInfo
 The `AccountInfo` entity contains information about an account.
 
-[options="header",width="50%",cols="1,^1,5"]
+[options="header",cols="1,^1,5"]
 |===========================
 |Field Name    ||Description
 |`_account_id` ||The numeric ID of the account.
@@ -1233,7 +1233,7 @@ account information] is requested.
 The `AccountInput` entity contains information for the creation of
 a new account.
 
-[options="header",width="50%",cols="1,^2,4"]
+[options="header",cols="1,^2,4"]
 |============================
 |Field Name     ||Description
 |`username`     |optional|
@@ -1252,7 +1252,7 @@ the groups to which the user should be added.
 The `AccountNameInput` entity contains information for setting a name
 for an account.
 
-[options="header",width="50%",cols="1,^2,4"]
+[options="header",cols="1,^2,4"]
 |=============================
 |Field Name ||Description
 |`name`     |optional|The new full name of the account. +
@@ -1264,7 +1264,7 @@ If not set or if set to an empty string, the account name is deleted.
 The `CapabilityInfo` entity contains information about the global
 capabilities of a user.
 
-[options="header",width="50%",cols="1,^1,5"]
+[options="header",cols="1,^1,5"]
 |=================================
 |Field Name          ||Description
 |`accessDatabase`    |not set if `false`|Whether the user has the
@@ -1321,7 +1321,7 @@ link:access-control.html#capability_viewQueue[View Queue] capability.
 === PreferencesInfo
 The `PreferencesInfo` entity contains information about a user's preferences.
 
-[options="header",width="50%",cols="1,^1,5"]
+[options="header",cols="1,^1,5"]
 |=====================================
 |Field Name              ||Description
 |`changes_per_page`               ||
@@ -1370,7 +1370,7 @@ Allowed values are `OLD_UI`, `CHANGE_SCREEN2`.
 The `PreferencesInput` entity contains information for setting the
 user preferences. Fields which are not set will not be updated.
 
-[options="header",width="50%",cols="1,^1,5"]
+[options="header",cols="1,^1,5"]
 |=====================================
 |Field Name              ||Description
 |`changes_per_page`               |optional|
@@ -1419,7 +1419,7 @@ Allowed values are `OLD_UI`, `CHANGE_SCREEN2`.
 The `DiffPreferencesInfo` entity contains information about the diff
 preferences of a user.
 
-[options="header",width="50%",cols="1,^1,5"]
+[options="header",cols="1,^1,5"]
 |===========================================
 |Field Name                    ||Description
 |`context`                     ||
@@ -1475,7 +1475,7 @@ The `DiffPreferencesInput` entity contains information for setting the
 diff preferences of a user. Fields which are not set will not be
 updated.
 
-[options="header",width="50%",cols="1,^1,5"]
+[options="header",cols="1,^1,5"]
 |===========================================
 |Field Name                    ||Description
 |`context`                     |optional|
@@ -1527,7 +1527,7 @@ Number of spaces that should be used to display one tab.
 The `EmailInfo` entity contains information about an email address of a
 user.
 
-[options="header",width="50%",cols="1,^1,5"]
+[options="header",cols="1,^1,5"]
 |========================
 |Field Name ||Description
 |`email`    ||The email address.
@@ -1544,7 +1544,7 @@ this address.
 The `EmailInput` entity contains information for registering a new
 email address.
 
-[options="header",width="50%",cols="1,^1,5"]
+[options="header",cols="1,^1,5"]
 |==============================
 |Field Name       ||Description
 |`email`          ||
@@ -1566,7 +1566,7 @@ confirmation.
 The `HttpPasswordInput` entity contains information for setting/generating
 an HTTP password.
 
-[options="header",width="50%",cols="1,^1,5"]
+[options="header",cols="1,^1,5"]
 |============================
 |Field Name     ||Description
 |`generate`     |`false` if not set|
@@ -1583,7 +1583,7 @@ password is deleted.
 The `QueryLimitInfo` entity contains information about the
 link:access-control.html#capability_queryLimit[Query Limit] of a user.
 
-[options="header",width="50%",cols="1,6"]
+[options="header",cols="1,6"]
 |================================
 |Field Name          |Description
 |`min`               |Lower limit.
@@ -1595,7 +1595,7 @@ link:access-control.html#capability_queryLimit[Query Limit] of a user.
 The `SshKeyInfo` entity contains information about an SSH key of a
 user.
 
-[options="header",width="50%",cols="1,^1,5"]
+[options="header",cols="1,^1,5"]
 |=============================
 |Field Name      ||Description
 |`seq`           ||The sequence number of the SSH key.

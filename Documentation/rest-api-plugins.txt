@@ -247,7 +247,7 @@ The ID of the plugin.
 === PluginInfo
 The `PluginInfo` entity describes a plugin.
 
-[options="header",width="50%",cols="1,^2,4"]
+[options="header",cols="1,^2,4"]
 |=======================
 |Field Name ||Description
 |`id`       ||The ID of the plugin.
@@ -260,7 +260,7 @@ The `PluginInfo` entity describes a plugin.
 === PluginInput
 The `PluginInput` entity describes a plugin that should be installed.
 
-[options="header",width="50%",cols="1,6"]
+[options="header",cols="1,6"]
 |======================
 |Field Name|Description
 |`url`     |URL to the plugin jar.

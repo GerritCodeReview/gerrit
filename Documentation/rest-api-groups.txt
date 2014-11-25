@@ -1113,7 +1113,7 @@ Group name that uniquely identifies one group.
 The `GroupInfo` entity contains information about a group. This can be
 a Gerrit internal group, or an external group that is known to Gerrit.
 
-[options="header",width="50%",cols="1,^1,5"]
+[options="header",cols="1,^1,5"]
 |===========================
 |Field Name    ||Description
 |`id`          ||The URL encoded UUID of the group.
@@ -1152,7 +1152,7 @@ The type of a group can be deduced from the group's UUID:
 The 'GroupInput' entity contains information for the creation of
 a new internal group.
 
-[options="header",width="50%",cols="1,^1,5"]
+[options="header",cols="1,^1,5"]
 |===========================
 |Field Name      ||Description
 |`name`          |optional|The name of the group (not encoded). +
@@ -1172,7 +1172,7 @@ If not set, the new group will be self-owned.
 The `GroupsInput` entity contains information about groups that should
 be included into a group or that should be deleted from a group.
 
-[options="header",width="50%",cols="1,^1,5"]
+[options="header",cols="1,^1,5"]
 |==========================
 |Field Name   ||Description
 |`_one_group` |optional|
@@ -1186,7 +1186,7 @@ should be included or deleted.
 === GroupOptionsInfo
 Options of the group.
 
-[options="header",width="50%",cols="1,^1,5"]
+[options="header",cols="1,^1,5"]
 |=============================
 |Field Name      ||Description
 |`visible_to_all`|not set if `false`|
@@ -1197,7 +1197,7 @@ Whether the group is visible to all registered users.
 === GroupOptionsInput
 New options for a group.
 
-[options="header",width="50%",cols="1,^1,5"]
+[options="header",cols="1,^1,5"]
 |=============================
 |Field Name      ||Description
 |`visible_to_all`|not set if `false`|
@@ -1210,7 +1210,7 @@ MembersInput
 The `MembersInput` entity contains information about accounts that should
 be added as members to a group or that should be deleted from the group.
 
-[options="header",width="50%",cols="1,^1,5"]
+[options="header",cols="1,^1,5"]
 |==========================
 |Field Name   ||Description
 |`_one_member`|optional|

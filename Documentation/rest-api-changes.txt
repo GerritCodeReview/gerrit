@@ -2995,7 +2995,7 @@ This can be:
 === AbandonInput
 The `AbandonInput` entity contains information for abandoning a change.
 
-[options="header",width="50%",cols="1,^1,5"]
+[options="header",cols="1,^1,5"]
 |===========================
 |Field Name    ||Description
 |`message`     |optional|
@@ -3009,7 +3009,7 @@ The `ActionInfo` entity describes a REST API call the client can
 make to manipulate a resource. These are frequently implemented by
 plugins and may be discovered at runtime.
 
-[options="header",width="50%",cols="1,^1,5"]
+[options="header",cols="1,^1,5"]
 |====================================
 |Field Name             ||Description
 |`method`               |optional|
@@ -3034,7 +3034,7 @@ at the server or permissions are modified. Not present if false.
 The `AddReviewerResult` entity describes the result of adding a
 reviewer to a change.
 
-[options="header",width="50%",cols="1,^1,5"]
+[options="header",cols="1,^1,5"]
 |===========================
 |Field Name    ||Description
 |`reviewers`   |optional|
@@ -3057,7 +3057,7 @@ user for a label on a change.
 link:rest-api-accounts.html#account-info[AccountInfo].
 In addition `ApprovalInfo` has the following fields:
 
-[options="header",width="50%",cols="1,^1,5"]
+[options="header",cols="1,^1,5"]
 |===========================
 |Field Name    ||Description
 |`value`       |optional|
@@ -3072,7 +3072,7 @@ The time and date describing when the approval was made.
 === GroupBaseInfo
 The `GroupBaseInfo` entity contains base information about the group.
 
-[options="header",width="50%",cols="1,6"]
+[options="header",cols="1,6"]
 |==========================
 |Field Name    |Description
 |`id`          |The id of the group.
@@ -3083,7 +3083,7 @@ The `GroupBaseInfo` entity contains base information about the group.
 === ChangeInfo
 The `ChangeInfo` entity contains information about a change.
 
-[options="header",width="50%",cols="1,^1,5"]
+[options="header",cols="1,^1,5"]
 |==================================
 |Field Name           ||Description
 |`id`                 ||
@@ -3165,7 +3165,7 @@ Only set on either the last or the first change that is returned.
 The `RelatedChangesInfo` entity contains information about related
 changes.
 
-[options="header",width="50%",cols="1,6"]
+[options="header",cols="1,6"]
 |===========================
 |Field Name                |Description
 |`changes`                 |A list of
@@ -3180,7 +3180,7 @@ oldest. Empty if there are no related changes.
 The `RelatedChangeAndCommitInfo` entity contains information about
 a related change and commit.
 
-[options="header",width="50%",cols="1,^1,5"]
+[options="header",cols="1,^1,5"]
 |===========================
 |Field Name                ||Description
 |`change_id`               |optional|The Change-Id of the change.
@@ -3196,7 +3196,7 @@ link:#commit-info[CommitInfo] entity.
 The `ChangeMessageInfo` entity contains information about a message
 attached to a change.
 
-[options="header",width="50%",cols="1,^1,5"]
+[options="header",cols="1,^1,5"]
 |==================================
 |Field Name           ||Description
 |`id`                 ||The ID of the message.
@@ -3215,7 +3215,7 @@ Which patchset (if any) generated this message.
 === CherryPickInput
 The `CherryPickInput` entity contains information for cherry-picking a change to a new branch.
 
-[options="header",width="50%",cols="1,6"]
+[options="header",cols="1,6"]
 |===========================
 |Field Name    |Description
 |`message`     |Commit message for the cherry-picked change
@@ -3226,7 +3226,7 @@ The `CherryPickInput` entity contains information for cherry-picking a change to
 === CommentInfo
 The `CommentInfo` entity contains information about an inline comment.
 
-[options="header",width="50%",cols="1,^1,5"]
+[options="header",cols="1,^1,5"]
 |===========================
 |Field Name    ||Description
 |`id`          ||The URL encoded UUID of the comment.
@@ -3261,7 +3261,7 @@ Unset for draft comments, assumed to be the calling user.
 The `CommentInput` entity contains information for creating an inline
 comment.
 
-[options="header",width="50%",cols="1,^1,5"]
+[options="header",cols="1,^1,5"]
 |===========================
 |Field Name    ||Description
 |`id`          |optional|
@@ -3298,7 +3298,7 @@ comment is deleted.
 === CommentRange
 The `CommentRange` entity describes the range of an inline comment.
 
-[options="header",width="50%",cols="1,^1,5"]
+[options="header",cols="1,^1,5"]
 |===========================
 |Field Name    ||Description
 |`start_line`        ||The start line number of the range.
@@ -3311,7 +3311,7 @@ The `CommentRange` entity describes the range of an inline comment.
 === CommitInfo
 The `CommitInfo` entity contains information about a commit.
 
-[options="header",width="50%",cols="1,6"]
+[options="header",cols="1,6"]
 |==========================
 |Field Name    |Description
 |`commit`      |The commit ID.
@@ -3333,7 +3333,7 @@ The subject of the commit (header line of the commit message).
 The `DiffContent` entity contains information about the content differences
 in a file.
 
-[options="header",width="50%",cols="1,^1,5"]
+[options="header",cols="1,^1,5"]
 |==========================
 |Field Name ||Description
 |`a`        |optional|Content only in the file on side A (deleted in B).
@@ -3357,7 +3357,7 @@ used instead of ab.
 === DiffFileMetaInfo
 The `DiffFileMetaInfo` entity contains meta information about a file diff.
 
-[options="header",width="50%",cols="1,^1,5"]
+[options="header",cols="1,^1,5"]
 |==========================
 |Field Name    ||Description
 |`name`        ||The name of the file.
@@ -3373,7 +3373,7 @@ link:rest-api-changes.html#web-link-info[WebLinkInfo] entries.
 The `DiffInfo` entity contains information about the diff of a file
 in a revision.
 
-[options="header",width="50%",cols="1,^1,5"]
+[options="header",cols="1,^1,5"]
 |==========================
 |Field Name        ||Description
 |`meta_a`          |not present when the file is added|
@@ -3410,7 +3410,7 @@ the length calculation, and thus it is possible for the edits to span newlines.
 The `FetchInfo` entity contains information about how to fetch a patch
 set via a certain protocol.
 
-[options="header",width="50%",cols="1,^1,5"]
+[options="header",cols="1,^1,5"]
 |==========================
 |Field Name    ||Description
 |`url`         ||The URL of the project.
@@ -3425,7 +3425,7 @@ Only set if link:#download_commands[download commands] are requested.
 === FileInfo
 The `FileInfo` entity contains information about a file in a patch set.
 
-[options="header",width="50%",cols="1,^1,5"]
+[options="header",cols="1,^1,5"]
 |=============================
 |Field Name      ||Description
 |`status`        |optional|
@@ -3449,7 +3449,7 @@ Not set for binary files or if no lines were deleted.
 The `GitPersonInfo` entity contains information about the
 author/committer of a commit.
 
-[options="header",width="50%",cols="1,6"]
+[options="header",cols="1,6"]
 |==========================
 |Field Name    |Description
 |`name`        |The name of the author/committer.
@@ -3473,7 +3473,7 @@ link:#labels[`LABELS`] and link:#detailed-labels[`DETAILED_LABELS`].
   users and the allowed range of votes for the current user, use `DETAILED_LABELS`.
 
 ==== Common fields
-[options="header",width="50%",cols="1,^1,5"]
+[options="header",cols="1,^1,5"]
 |===========================
 |Field Name    ||Description
 |`optional`    |not set if `false`|
@@ -3483,7 +3483,7 @@ set.
 |===========================
 
 ==== Fields set by `LABELS`
-[options="header",width="50%",cols="1,^1,5"]
+[options="header",cols="1,^1,5"]
 |===========================
 |Field Name    ||Description
 |`approved`    |optional|One user who approved this label on the change
@@ -3508,7 +3508,7 @@ This value may be outside the range specified in permitted_labels.
 |===========================
 
 ==== Fields set by `DETAILED_LABELS`
-[options="header",width="50%",cols="1,^1,5"]
+[options="header",cols="1,^1,5"]
 |===========================
 |Field Name    ||Description
 |`all`         |optional|List of all approvals for this label as a list
@@ -3523,7 +3523,7 @@ to the value descriptions.
 The `MergeableInfo` entity contains information about the mergeability of a
 change.
 
-[options="header",width="50%",cols="1,^1,5"]
+[options="header",cols="1,^1,5"]
 |============================
 |Field Name      ||Description
 |`submit_type`   ||
@@ -3540,7 +3540,7 @@ A list of other branch names where this change could merge cleanly
 === RestoreInput
 The `RestoreInput` entity contains information for restoring a change.
 
-[options="header",width="50%",cols="1,^1,5"]
+[options="header",cols="1,^1,5"]
 |===========================
 |Field Name    ||Description
 |`message`     |optional|
@@ -3552,7 +3552,7 @@ change.
 === RevertInput
 The `RevertInput` entity contains information for reverting a change.
 
-[options="header",width="50%",cols="1,^1,5"]
+[options="header",cols="1,^1,5"]
 |===========================
 |Field Name    ||Description
 |`message`     |optional|
@@ -3564,7 +3564,7 @@ change.
 === ReviewInfo
 The `ReviewInfo` entity contains information about a review.
 
-[options="header",width="50%",cols="1,6"]
+[options="header",cols="1,6"]
 |===========================
 |Field Name     |Description
 |`labels`       |
@@ -3577,7 +3577,7 @@ voting values.
 The `ReviewInput` entity contains information for adding a review to a
 revision.
 
-[options="header",width="50%",cols="1,^1,5"]
+[options="header",cols="1,^1,5"]
 |============================
 |Field Name     ||Description
 |`message`      |optional|
@@ -3622,7 +3622,7 @@ link:rest-api-accounts.html#account-info[AccountInfo] and includes
 link:#detailed-accounts[detailed account information].
 In addition `ReviewerInfo` has the following fields:
 
-[options="header",width="50%",cols="1,6"]
+[options="header",cols="1,6"]
 |==========================
 |Field Name    |Description
 |`approvals`   |
@@ -3635,7 +3635,7 @@ approval values ("`-2`", "`-1`", "`0`", "`+1`", "`+2`").
 The `ReviewerInput` entity contains information for adding a reviewer
 to a change.
 
-[options="header",width="50%",cols="1,^1,5"]
+[options="header",cols="1,^1,5"]
 |===========================
 |Field Name    ||Description
 |`reviewer`    ||
@@ -3658,7 +3658,7 @@ Not all fields are returned by default.  Additional fields can
 be obtained by adding `o` parameters as described in
 link:#list-changes[Query Changes].
 
-[options="header",width="50%",cols="1,^1,5"]
+[options="header",cols="1,^1,5"]
 |===========================
 |Field Name    ||Description
 |`draft`       |not set if `false`|Whether the patch set is a draft.
@@ -3697,7 +3697,7 @@ link:#web-links[WEB_LINKS] option is requested.
 === RuleInput
 The `RuleInput` entity contains information to test a Prolog rule.
 
-[options="header",width="50%",cols="1,^1,5"]
+[options="header",cols="1,^1,5"]
 |===========================
 |Field Name      ||Description
 |`rule`||
@@ -3725,7 +3725,7 @@ link:rest-api-changes.html#group-base-info[GroupBaseInfo] entity.
 The `SubmitInfo` entity contains information about the change status
 after submitting.
 
-[options="header",width="50%",cols="1,6"]
+[options="header",cols="1,6"]
 |==========================
 |Field Name    |Description
 |`status`      |
@@ -3749,7 +3749,7 @@ not with the identity of the CI account.
 === SubmitInput
 The `SubmitInput` entity contains information for submitting a change.
 
-[options="header",width="50%",cols="1,^1,5"]
+[options="header",cols="1,^1,5"]
 |===========================
 |Field Name      ||Description
 |`wait_for_merge`|`false` if not set|
@@ -3763,7 +3763,7 @@ could be merged successfully.
 === SubmitRecord
 The `SubmitRecord` entity describes results from a submit_rule.
 
-[options="header",width="50%",cols="1,^1,5"]
+[options="header",cols="1,^1,5"]
 |===========================
 |Field Name      ||Description
 |`status`||
@@ -3798,7 +3798,7 @@ the failure of the rule predicate.
 === TopicInput
 The `TopicInput` entity contains information for setting a topic.
 
-[options="header",width="50%",cols="1,^1,5"]
+[options="header",cols="1,^1,5"]
 |===========================
 |Field Name    ||Description
 |`topic`       |optional|The topic. +
@@ -3810,7 +3810,7 @@ The topic will be deleted if not set.
 The `IncludedInInfo` entity contains information about the branches a
 change was merged into and tags it was tagged with.
 
-[options="header",width="50%",cols="1,6"]
+[options="header",cols="1,6"]
 |==========================
 |Field Name |Description
 |`branches` | The list of branches this change was merged into.
@@ -3823,7 +3823,7 @@ Each tag is listed without the 'refs/tags/' prefix.
 === WebLinkInfo
 The `WebLinkInfo` entity describes a link to an external site.
 
-[options="header",width="50%",cols="1,6"]
+[options="header",cols="1,6"]
 |======================
 |Field Name|Description
 |`name`    |The link name.
@@ -3835,7 +3835,7 @@ The `WebLinkInfo` entity describes a link to an external site.
 === EditInfo
 The `EditInfo` entity contains information about a change edit.
 
-[options="header",width="50%",cols="1,^1,5"]
+[options="header",cols="1,^1,5"]
 |===========================
 |Field Name    ||Description
 |`commit`      ||The commit of change edit as
@@ -3859,7 +3859,7 @@ link:#file-info[FileInfo] entities.
 The `ChangeEditInput` entity contains information for restoring a
 path within change edit.
 
-[options="header",width="50%",cols="1,^1,5"]
+[options="header",cols="1,^1,5"]
 |===========================
 |Field Name    ||Description
 |`restore_path`|optional|Path to file to restore.

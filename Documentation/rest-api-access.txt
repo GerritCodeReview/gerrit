@@ -292,7 +292,7 @@ The entries in the map are sorted by project name.
 The `AccessSectionInfo` describes the access rights that are assigned
 on a ref.
 
-[options="header",width="50%",cols="1,^1,5"]
+[options="header",cols="1,^1,5"]
 |==================================
 |Field Name           ||Description
 |`permissions`        ||
@@ -306,7 +306,7 @@ entities.
 The `PermissionInfo` entity contains information about an assigned
 permission.
 
-[options="header",width="50%",cols="1,^1,5"]
+[options="header",cols="1,^1,5"]
 |==================================
 |Field Name     ||Description
 |`label`        |optional|
@@ -324,7 +324,7 @@ link:#permission-info[PermissionRuleInfo] entities.
 The `PermissionRuleInfo` entity contains information about a permission
 rule that is assigned to group.
 
-[options="header",width="50%",cols="1,^1,5"]
+[options="header",cols="1,^1,5"]
 |==================================
 |Field Name     ||Description
 |`action`       ||
@@ -346,7 +346,7 @@ The max value of the permission range.
 The `ProjectAccessInfo` entity contains information about the access
 rights for a project.
 
-[options="header",width="50%",cols="1,^1,5"]
+[options="header",cols="1,^1,5"]
 |==================================
 |Field Name           ||Description
 |`revision`           ||

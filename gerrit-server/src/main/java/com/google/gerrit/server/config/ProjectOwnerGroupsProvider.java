@@ -14,30 +14,37 @@
 
 package com.google.gerrit.server.config;
 
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.util.ServerRequestContext;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;
-import com.google.inject.Inject;
-
-import org.eclipse.jgit.lib.Config;
+import com.google.inject.assistedinject.Assisted;
+import com.google.inject.assistedinject.AssistedInject;
 
 /**
  * Provider of the group(s) which should become owners of a newly created
- * project. Currently only supports {@code ownerGroup} declarations in the
- * {@code "*"} repository, like so:
+ * project. The only matching patterns supported are exact match or wildcard
+ * matching which can be specified by ending the name by a {@code *}.
  *
  * <pre>
  * [repository &quot;*&quot;]
  *     ownerGroup = Registered Users
  *     ownerGroup = Administrators
+ * [repository &quot;project/*&quot;]
+ *     ownerGroup = Administrators
  * </pre>
  */
 public class ProjectOwnerGroupsProvider extends GroupSetProvider {
-  @Inject
+
+  public interface Factory {
+    public ProjectOwnerGroupsProvider create(Project.NameKey project);
+  }
+
+  @AssistedInject
   public ProjectOwnerGroupsProvider(GroupBackend gb,
-      @GerritServerConfig final Config config,
-      ThreadLocalRequestContext context,
-      ServerRequestContext serverCtx) {
-    super(gb, config, context, serverCtx, "repository", "*", "ownerGroup");
+      ThreadLocalRequestContext context, ServerRequestContext serverCtx,
+      RepositoryConfig repositoryCfg,
+      @Assisted Project.NameKey project) {
+    super(gb, context, serverCtx, repositoryCfg.getOwnerGroups(project));
   }
 }

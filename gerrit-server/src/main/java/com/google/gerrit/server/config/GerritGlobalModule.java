@@ -38,7 +38,6 @@ import com.google.gerrit.extensions.webui.FileWebLink;
 import com.google.gerrit.extensions.webui.PatchSetWebLink;
 import com.google.gerrit.extensions.webui.ProjectWebLink;
 import com.google.gerrit.extensions.webui.TopMenu;
-import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.rules.PrologModule;
 import com.google.gerrit.rules.RulesCache;
 import com.google.gerrit.server.AnonymousUser;
@@ -141,7 +140,6 @@ import org.eclipse.jgit.transport.PostReceiveHook;
 import org.eclipse.jgit.transport.PreUploadHook;
 
 import java.util.List;
-import java.util.Set;
 
 
 /** Starts global state with standard dependencies. */
@@ -211,9 +209,8 @@ public class GerritGlobalModule extends FactoryModule {
     bind(AccountVisibility.class)
         .toProvider(AccountVisibilityProvider.class)
         .in(SINGLETON);
-    bind(new TypeLiteral<Set<AccountGroup.UUID>>() {})
-        .annotatedWith(ProjectOwnerGroups.class)
-        .toProvider(ProjectOwnerGroupsProvider.class).in(SINGLETON);
+    factory(ProjectOwnerGroupsProvider.Factory.class);
+    bind(RepositoryConfig.class);
 
     bind(AuthBackend.class).to(UniversalAuthBackend.class).in(SINGLETON);
     DynamicSet.setOf(binder(), AuthBackend.class);

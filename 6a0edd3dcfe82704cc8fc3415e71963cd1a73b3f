@@ -22,6 +22,30 @@
       "revId": "6a0edd3dcfe82704cc8fc3415e71963cd1a73b3f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7f434d81_3ef5a9e7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-11-25T22:07:59Z",
+      "side": 1,
+      "message": "I was already assuming they had to remain in separate packages for the reason you state.\n\nWhat I meant by \"with no dependencies on each other\" is that if reviewdb.client could depend on extensions.common, then we could include the corresponding ChangeStatus enum in the Status enum and not have to maintain the map in a separate class. But it can\u0027t.\n\nBut that was not clear at all. Will reword.",
+      "parentUuid": "5fabe956_e5373601",
+      "range": {
+        "startLine": 19,
+        "startChar": 51,
+        "endLine": 22,
+        "endChar": 6
+      },
+      "revId": "6a0edd3dcfe82704cc8fc3415e71963cd1a73b3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

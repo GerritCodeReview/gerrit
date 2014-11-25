@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7faeed66_4647327e",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ReplyBox.ui.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-11-25T12:12:07Z",
+      "side": 1,
+      "message": "The \u003cui:msg\u003e no longer needs to include the button, look at Shawn\u0027s change [1] to align the removal with master.\n\n[1] https://gerrit-review.googlesource.com/#/c/58960/",
+      "range": {
+        "startLine": 66,
+        "startChar": 6,
+        "endLine": 66,
+        "endChar": 14
+      },
+      "revId": "10701e23ac2827cf7429e273f9385b8efa3ccf8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

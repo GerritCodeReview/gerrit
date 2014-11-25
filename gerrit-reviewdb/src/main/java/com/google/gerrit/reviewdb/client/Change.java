@@ -16,12 +16,14 @@ package com.google.gerrit.reviewdb.client;
 
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_CHANGES;
 
+import com.google.gerrit.extensions.common.ChangeStatus;
 import com.google.gwtorm.client.Column;
 import com.google.gwtorm.client.IntKey;
 import com.google.gwtorm.client.RowVersion;
 import com.google.gwtorm.client.StringKey;
 
 import java.sql.Timestamp;
+import java.util.Arrays;
 
 /**
  * A change proposed to be merged into a {@link Branch}.
@@ -279,7 +281,7 @@ public final class Change {
      * <li>{@link #ABANDONED} - when the Abandon action is used.
      * </ul>
      */
-    NEW(STATUS_NEW),
+    NEW(STATUS_NEW, ChangeStatus.NEW),
 
     /**
      * Change is open, but has been submitted to the merge queue.
@@ -306,7 +308,7 @@ public final class Change {
      * <li>{@link #ABANDONED} - when the Abandon action is used.
      * </ul>
      */
-    SUBMITTED(STATUS_SUBMITTED),
+    SUBMITTED(STATUS_SUBMITTED, ChangeStatus.SUBMITTED),
 
     /**
      * Change is a draft change that only consists of draft patchsets.
@@ -324,7 +326,7 @@ public final class Change {
      * <li>{@link #NEW} - when the change is published, it becomes a new change;
      * </ul>
      */
-    DRAFT(STATUS_DRAFT),
+    DRAFT(STATUS_DRAFT, ChangeStatus.DRAFT),
 
     /**
      * Change is closed, and submitted to its destination branch.
@@ -334,7 +336,7 @@ public final class Change {
      * replacement patch set. Draft comments however may be published,
      * supporting a post-submit review.
      */
-    MERGED(STATUS_MERGED),
+    MERGED(STATUS_MERGED, ChangeStatus.MERGED),
 
     /**
      * Change is closed, but was not submitted to its destination branch.
@@ -344,14 +346,31 @@ public final class Change {
      * a replacement patch set, and it cannot be merged. Draft comments however
      * may be published, permitting reviewers to send constructive feedback.
      */
-    ABANDONED('A');
+    ABANDONED('A', ChangeStatus.ABANDONED);
+
+    static {
+      boolean ok = true;
+      if (Status.values().length != ChangeStatus.values().length) {
+        ok = false;
+      }
+      for (Status s : Status.values()) {
+        ok &= s.name().equals(s.changeStatus.name());
+      }
+      if (!ok) {
+        throw new IllegalStateException("Mismatched status mapping: "
+            + Arrays.asList(Status.values()) + " != "
+            + Arrays.asList(ChangeStatus.values()));
+      }
+    }
 
     private final char code;
     private final boolean closed;
+    private final ChangeStatus changeStatus;
 
-    private Status(final char c) {
+    private Status(char c, ChangeStatus cs) {
       code = c;
       closed = !(MIN_OPEN <= c && c <= MAX_OPEN);
+      changeStatus = cs;
     }
 
     public char getCode() {
@@ -366,9 +385,22 @@ public final class Change {
       return closed;
     }
 
+    public ChangeStatus asChangeStatus() {
+      return changeStatus;
+    }
+
     public static Status forCode(final char c) {
       for (final Status s : Status.values()) {
         if (s.code == c) {
+          return s;
+        }
+      }
+      return null;
+    }
+
+    public static Status forChangeStatus(ChangeStatus cs) {
+      for (Status s : Status.values()) {
+        if (s.changeStatus == cs) {
           return s;
         }
       }

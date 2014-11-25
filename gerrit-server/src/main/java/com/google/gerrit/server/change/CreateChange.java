@@ -36,7 +36,6 @@ import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.api.changes.ChangeInfoMapper;
 import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeUtil;
@@ -107,7 +106,7 @@ public class CreateChange implements
   }
 
   @Override
-  public Response<ChangeJson.ChangeInfo> apply(TopLevelResource parent,
+  public Response<ChangeInfo> apply(TopLevelResource parent,
       ChangeInfo input) throws AuthException, OrmException,
       BadRequestException, UnprocessableEntityException, IOException,
       InvalidChangeOperationException, ResourceNotFoundException {
@@ -200,7 +199,8 @@ public class CreateChange implements
         updateRef(git, rw, c, change, ins.getPatchSet());
 
         change.setTopic(input.topic);
-        change.setStatus(ChangeInfoMapper.changeStatus2Status(input.status));
+        change.setStatus(input.status != null
+            ? Change.Status.forChangeStatus(input.status) : Change.Status.NEW);
         ins.insert();
 
         return Response.created(json.format(change.getId()));

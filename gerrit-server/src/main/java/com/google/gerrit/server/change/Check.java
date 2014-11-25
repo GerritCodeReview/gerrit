@@ -15,9 +15,9 @@
 package com.google.gerrit.server.change;
 
 import com.google.gerrit.extensions.common.AccountInfo;
+import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.server.change.ChangeJson.ChangeInfo;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -65,12 +65,12 @@ public class Check implements RestReadView<ChangeResource> {
     info.topic = c.getTopic();
     info.changeId = c.getKey().get();
     info.subject = c.getSubject();
-    info.status = c.getStatus();
+    info.status = c.getStatus().asChangeStatus();
     info.owner = new AccountInfo(c.getOwner().get());
     info.created = c.getCreatedOn();
     info.updated = c.getLastUpdatedOn();
     info._number = c.getId().get();
-    info.finish();
+    ChangeJson.finish(info);
     return info;
   }
 }

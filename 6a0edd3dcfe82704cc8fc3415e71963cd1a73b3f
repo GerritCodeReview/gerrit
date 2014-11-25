@@ -70,6 +70,30 @@
       "revId": "6a0edd3dcfe82704cc8fc3415e71963cd1a73b3f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7f434d81_1efa6dd5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-11-25T22:37:13Z",
+      "side": 1,
+      "message": "Hm. That might be good enough. (I still don\u0027t like the way we include certain classes as srcs of gerrit-extension-api:client rather than along package boundaries, but that\u0027s a cleanup for another day.)",
+      "parentUuid": "7faeed66_46517225",
+      "range": {
+        "startLine": 19,
+        "startChar": 51,
+        "endLine": 22,
+        "endChar": 6
+      },
+      "revId": "6a0edd3dcfe82704cc8fc3415e71963cd1a73b3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

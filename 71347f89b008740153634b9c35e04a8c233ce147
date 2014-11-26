@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7faeed66_0655bac0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 598,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-11-26T16:16:21Z",
+      "side": 1,
+      "message": "what is a valid merge result here????",
+      "range": {
+        "startLine": 598,
+        "startChar": 35,
+        "endLine": 598,
+        "endChar": 39
+      },
+      "revId": "71347f89b008740153634b9c35e04a8c233ce147",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

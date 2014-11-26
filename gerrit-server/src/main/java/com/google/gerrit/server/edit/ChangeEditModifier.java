@@ -169,7 +169,7 @@ public class ChangeEditModifier {
         RevCommit editCommit = edit.getEditCommit();
         if (editCommit.getParentCount() == 0) {
           throw new InvalidChangeOperationException(
-              "Rebase edit against root commit not implemented");
+              "Rebase edit against root commit not supported");
         }
         RevCommit tip = rw.parseCommit(ObjectId.fromString(
             current.getRevision().get()));
@@ -282,7 +282,7 @@ public class ChangeEditModifier {
         RevCommit prevEdit = edit.getEditCommit();
         if (prevEdit.getParentCount() == 0) {
           throw new InvalidChangeOperationException(
-              "Modify edit against root commit not implemented");
+              "Modify edit against root commit not supported");
         }
 
         RevCommit base = prevEdit.getParent(0);

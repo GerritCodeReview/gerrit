@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5fabe956_c5ad5aad",
+        "filename": "ReleaseNotes/ReleaseNotes-2.9.2.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-11-26T07:48:00Z",
+      "side": 1,
+      "message": "[optional] this could be omitted",
+      "range": {
+        "startLine": 125,
+        "startChar": 4,
+        "endLine": 125,
+        "endChar": 20
+      },
+      "revId": "e1af989f6714060723f674a9c8598ca911c91d41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

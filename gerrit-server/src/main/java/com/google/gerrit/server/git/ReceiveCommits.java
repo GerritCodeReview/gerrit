@@ -70,6 +70,7 @@ import com.google.gerrit.reviewdb.client.PatchSetInfo;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.client.RevId;
+import com.google.gerrit.reviewdb.client.SubmoduleSubscription;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalCopier;
 import com.google.gerrit.server.ApprovalsUtil;
@@ -607,6 +608,17 @@ public class ReceiveCommits {
                 break;
 
               case DELETE:
+            ResultSet<SubmoduleSubscription> submoduleSubscriptions = null;
+            Branch.NameKey projRef = new Branch.NameKey(project.getNameKey(),
+                c.getRefName());
+            try {
+              submoduleSubscriptions =
+                  db.submoduleSubscriptions().bySuperProject(projRef);
+              db.submoduleSubscriptions().delete(submoduleSubscriptions);
+            } catch (OrmException e) {
+              log.error("Cannot delete submodule subscription(s) of branch "
+                  + projRef + ": " + submoduleSubscriptions, e);
+            }
                 break;
             }
           }

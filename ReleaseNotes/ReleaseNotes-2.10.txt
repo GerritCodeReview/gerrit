@@ -76,8 +76,6 @@ Change Screen
 ^^^^^^^^^^^^^
 
 
-* Remove 'send email' checkbox from reply box on change screen.
-
 * Do not linkify trailing dot or comma in messages.
 +
 As linkifying trailing dots and trailing commas does more harm than

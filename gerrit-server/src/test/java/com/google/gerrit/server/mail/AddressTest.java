@@ -131,6 +131,12 @@ public class AddressTest {
   }
 
   @Test
+  public void testToHeaderString_NameEmail7() {
+    assertEquals("=?UTF-8?Q?A_=E2=82=AC_B_=28Code_Review=29?= <a@a>",
+        format("A \u20ac B (Code Review)", "a@a"));
+  }
+
+  @Test
   public void testToHeaderString_Email1() {
     assertEquals("a@a", format(null, "a@a"));
   }

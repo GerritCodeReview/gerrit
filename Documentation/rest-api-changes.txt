@@ -334,6 +334,7 @@ default. Optional fields are:
       "revisions": {
         "184ebe53805e102605d11f6b143486d15c23a09c": {
           "_number": 1,
+          "ref": "refs/changes/97/97/1",
           "fetch": {
             "git": {
               "url": "git://localhost/gerrit",
@@ -883,6 +884,7 @@ is included.
     "revisions": {
       "27cc4558b5a3d3387dd11ee2df7a117e7e581822": {
         "_number": 2,
+        "ref": "refs/changes/99/4799/2",
         "fetch": {
           "http": {
             "url": "http://gerrit:8080/myProject",
@@ -1806,6 +1808,7 @@ for the current patch set.
     "revisions": {
       "674ac754f91e64a0efb8087e59a176484bd534d1": {
       "_number": 2,
+      "ref": "refs/changes/65/3965/2",
       "fetch": {
         "http": {
           "url": "http://gerrit/myProject",
@@ -1996,6 +1999,7 @@ is included.
     "revisions": {
       "27cc4558b5a3d3387dd11ee2df7a117e7e581822": {
         "_number": 2,
+        "ref": "refs/changes/99/4799/2",
         "fetch": {
           "http": {
             "url": "http://gerrit:8080/myProject",
@@ -3708,6 +3712,7 @@ link:#list-changes[Query Changes].
 set has one or more draft comments by the calling user. Only set if
 link:#draft_comments[DRAFT_COMMENTS] option is requested.
 |`_number`     ||The patch set number.
+|`ref`         ||The Git reference for the patch set.
 |`fetch`       ||
 Information about how to fetch this patch set. The fetch information is
 provided as a map that maps the protocol name ("`git`", "`http`",

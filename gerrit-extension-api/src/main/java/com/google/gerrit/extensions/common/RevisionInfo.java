@@ -22,6 +22,7 @@ public class RevisionInfo {
   public Boolean draft;
   public Boolean hasDraftComments;
   public int _number;
+  public String ref;
   public Map<String, FetchInfo> fetch;
   public CommitInfo commit;
   public Map<String, FileInfo> files;

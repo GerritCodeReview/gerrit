@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7faeed66_c64ec234",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-11-26T16:33:08Z",
+      "side": 1,
+      "message": "for:\nSubmitByCherryPickIT.submitWithContentMerge_Conflict()\nSubmitByCherryPickIT.submitOutOfOrder_Conflict()\n\nexpectedStatus is \"\u003c409\u003e\"\nbut whith my change r.getStatusCode() returns \"\u003c200\u003e\".",
+      "range": {
+        "startLine": 211,
+        "startChar": 4,
+        "endLine": 211,
+        "endChar": 51
+      },
+      "revId": "31a18cdb8e67934b7f7ce165c08a02de43755915",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -49,14 +49,14 @@ public class AccountLoader {
   }
 
   private final InternalAccountDirectory directory;
-  private final boolean detailed;
+  private final Set<FillOptions> options;
   private final Map<Account.Id, AccountInfo> created;
   private final List<AccountInfo> provided;
 
   @Inject
   AccountLoader(InternalAccountDirectory directory, @Assisted boolean detailed) {
     this.directory = directory;
-    this.detailed = detailed;
+    options = detailed ? DETAILED_OPTIONS : InternalAccountDirectory.ID_ONLY;
     created = Maps.newHashMap();
     provided = Lists.newArrayList();
   }
@@ -81,8 +81,7 @@ public class AccountLoader {
   public void fill() throws OrmException {
     try {
       directory.fillAccountInfo(
-          Iterables.concat(created.values(), provided),
-          detailed ? DETAILED_OPTIONS : EnumSet.of(FillOptions.NAME));
+          Iterables.concat(created.values(), provided), options);
     } catch (DirectoryException e) {
       Throwables.propagateIfPossible(e.getCause(), OrmException.class);
       throw new OrmException(e);

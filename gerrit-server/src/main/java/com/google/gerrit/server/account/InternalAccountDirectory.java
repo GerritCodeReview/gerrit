@@ -32,10 +32,15 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
+import java.util.Collections;
+import java.util.EnumSet;
 import java.util.Set;
 
 @Singleton
 public class InternalAccountDirectory extends AccountDirectory {
+  static final Set<FillOptions> ID_ONLY =
+      Collections.unmodifiableSet(EnumSet.of(FillOptions.ID));
+
   public static class Module extends AbstractModule {
     @Override
     protected void configure() {
@@ -64,6 +69,9 @@ public class InternalAccountDirectory extends AccountDirectory {
       Iterable<? extends AccountInfo> in,
       Set<FillOptions> options)
       throws DirectoryException {
+    if (options.equals(ID_ONLY)) {
+      return;
+    }
     Multimap<Account.Id, AccountInfo> missing = ArrayListMultimap.create();
     for (AccountInfo info : in) {
       Account.Id id = new Account.Id(info._accountId);

@@ -1790,7 +1790,7 @@ The `BranchInfo` entity contains information about a branch.
 |`revision`  ||The revision to which the branch points.
 |`can_delete`|`false` if not set|
 Whether the calling user can delete this branch.
-|'web_links' |optional|
+|`web_links` |optional|
 Links to the branch in external sites as a list of
 link:rest-api-changes.html#web-link-info[WebLinkInfo] entries.
 |=========================
@@ -2157,7 +2157,7 @@ is increased for each non-visible project).
 |`description` |optional|The description of the project.
 |`state`       |optional|`ACTIVE`, `READ_ONLY` or `HIDDEN`.
 |`branches`    |optional|Map of branch names to HEAD revisions.
-|'web_links'   |optional|
+|`web_links`   |optional|
 Links to the project in external sites as a list of
 link:rest-api-changes.html#web-link-info[WebLinkInfo] entries.
 |===========================

@@ -92,6 +92,30 @@
       "revId": "eac09b75dd611bb8f371e9228fc18eb9fcdb797f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7f434d81_9eaafd91",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/accounts/AccountApiImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-11-26T16:47:52Z",
+      "side": 1,
+      "message": "This whole sequence of accountLoaderFactory.create/accountLoader.get/accountLoader.fill/return ai is repeated several times in slightly different ways. I agree it should probably be cleaned up but that\u0027s beyond the scope of this change.",
+      "parentUuid": "5fabe956_85ec42cf",
+      "range": {
+        "startLine": 60,
+        "startChar": 6,
+        "endLine": 62,
+        "endChar": 16
+      },
+      "revId": "eac09b75dd611bb8f371e9228fc18eb9fcdb797f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

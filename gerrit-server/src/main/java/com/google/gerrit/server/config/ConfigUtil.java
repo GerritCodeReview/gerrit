@@ -26,24 +26,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class ConfigUtil {
-  /**
-   * Parse a Java enumeration from the configuration.
-   *
-   * @param <T> type of the enumeration object.
-   * @param config the configuration file to read.
-   * @param section section the key is in.
-   * @param subsection subsection the key is in, or null if not in a subsection.
-   * @param setting name of the setting to read.
-   * @param defaultValue default value to return if the setting was not set.
-   *        Must not be null as the enumeration values are derived from this.
-   * @return the selected enumeration value, or {@code defaultValue}.
-   */
-  public static <T extends Enum<?>> T getEnum(final Config config,
-      final String section, final String subsection, final String setting,
-      final T defaultValue) {
-    final T[] all = allValuesOf(defaultValue);
-    return getEnum(config, section, subsection, setting, all, defaultValue);
-  }
 
   @SuppressWarnings("unchecked")
   private static <T> T[] allValuesOf(final T defaultValue) {
@@ -60,31 +42,6 @@ public class ConfigUtil {
     } catch (NoSuchMethodException e) {
       throw new IllegalArgumentException("Cannot obtain enumeration values", e);
     }
-  }
-
-  /**
-   * Parse a Java enumeration from the configuration.
-   *
-   * @param <T> type of the enumeration object.
-   * @param config the configuration file to read.
-   * @param section section the key is in.
-   * @param subsection subsection the key is in, or null if not in a subsection.
-   * @param setting name of the setting to read.
-   * @param all all possible values in the enumeration which should be
-   *        recognized. This should be {@code EnumType.values()}.
-   * @param defaultValue default value to return if the setting was not set.
-   *        This value may be null.
-   * @return the selected enumeration value, or {@code defaultValue}.
-   */
-  public static <T extends Enum<?>> T getEnum(final Config config,
-      final String section, final String subsection, final String setting,
-      final T[] all, final T defaultValue) {
-    final String valueString = config.getString(section, subsection, setting);
-    if (valueString == null) {
-      return defaultValue;
-    }
-
-    return getEnum(section, subsection, setting, valueString, all);
   }
 
   /**

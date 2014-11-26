@@ -198,7 +198,7 @@ public class JettyServer {
     final URI[] listenUrls = listenURLs(cfg);
     final boolean reuseAddress = cfg.getBoolean("httpd", "reuseaddress", true);
     final int acceptors = cfg.getInt("httpd", "acceptorThreads", 2);
-    final AuthType authType = ConfigUtil.getEnum(cfg, "auth", null, "type", AuthType.OPENID);
+    final AuthType authType = cfg.getEnum("auth", null, "type", AuthType.OPENID);
 
     reverseProxy = isReverseProxied(listenUrls);
     final Connector[] connectors = new Connector[listenUrls.length];

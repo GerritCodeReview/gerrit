@@ -506,8 +506,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
           NOTIFY, sectionName, KEY_TYPE,
           NotifyType.ALL));
       n.setTypes(types);
-      n.setHeader(ConfigUtil.getEnum(rc,
-          NOTIFY, sectionName, KEY_HEADER,
+      n.setHeader(rc.getEnum(NOTIFY, sectionName, KEY_HEADER,
           NotifyConfig.Header.BCC));
 
       for (String dst : rc.getStringList(NOTIFY, sectionName, KEY_EMAIL)) {

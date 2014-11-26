@@ -111,7 +111,7 @@ public class AuthConfig {
   }
 
   private static AuthType toType(final Config cfg) {
-    return ConfigUtil.getEnum(cfg, "auth", null, "type", AuthType.OPENID);
+    return cfg.getEnum("auth", null, "type", AuthType.OPENID);
   }
 
   /** Type of user authentication used by this Gerrit server. */

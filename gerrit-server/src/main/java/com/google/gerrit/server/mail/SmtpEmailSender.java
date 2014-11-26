@@ -86,8 +86,7 @@ public class SmtpEmailSender implements EmailSender {
     }
 
     smtpEncryption =
-        ConfigUtil.getEnum(cfg, "sendemail", null, "smtpencryption",
-            Encryption.NONE);
+        cfg.getEnum("sendemail", null, "smtpencryption", Encryption.NONE);
     sslVerify = cfg.getBoolean("sendemail", null, "sslverify", true);
 
     final int defaultPort;

@@ -42,6 +42,24 @@
     },
     {
       "key": {
+        "uuid": "3fa8f55a_e4789ab2",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/LabelInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-11-26T15:31:43Z",
+      "side": 1,
+      "message": "Kind of. I copied the contents of LabelInfo from ChangeJson.LabelInfo to ensure they had all the same fields. I figured the fact that it had spaces separating logical groups of fields was a bonus. A small one, though, I\u0027ll admit.",
+      "parentUuid": "5fabe956_e5b096d3",
+      "revId": "43c96b2b51fcd04f223fd63ae4555fc8f2ba0414",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7faeed66_46897206",
         "filename": "gerrit-server/BUCK",
         "patchSetId": 2

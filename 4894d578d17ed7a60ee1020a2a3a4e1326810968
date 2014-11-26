@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "bfb4e5b0_48a3bfbd",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/git/SubmoduleOpTest.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 679,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-11-26T03:13:35Z",
+      "side": 1,
+      "message": "Fixed in https://gerrit-review.googlesource.com/#/c/61795/",
+      "parentUuid": "7f6c2d15_96dcac72",
+      "range": {
+        "startLine": 679,
+        "startChar": 4,
+        "endLine": 679,
+        "endChar": 25
+      },
+      "revId": "4894d578d17ed7a60ee1020a2a3a4e1326810968",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bfb4e5b0_e8aab392",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/git/SubmoduleOpTest.java",
         "patchSetId": 31

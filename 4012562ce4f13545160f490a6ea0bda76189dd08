@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bfb4e5b0_c896cf53",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 3919,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-11-26T05:42:02Z",
+      "side": 1,
+      "message": "Please rebase this change on latest master and remove this.\n\nSee [1] where the width restriction was removed.\n\n[1] https://gerrit-review.googlesource.com/#/c/61794/",
+      "range": {
+        "startLine": 3919,
+        "startChar": 17,
+        "endLine": 3919,
+        "endChar": 29
+      },
+      "revId": "4012562ce4f13545160f490a6ea0bda76189dd08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "5fabe956_65a82697",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 1273,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-11-26T08:29:21Z",
+      "side": 1,
+      "message": "I agree, if it\u0027s consistent with the other edit REST endpoints, it should be the same here.\n\nIf to change it, it should then be done in an own change for all REST endpoints.\n\nRereading the definition of 204 [1], I think, actually 204 might be just fine in this case.\n\n[1] http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.5",
+      "parentUuid": "7faeed66_2650f61e",
+      "range": {
+        "startLine": 1272,
+        "startChar": 67,
+        "endLine": 1273,
+        "endChar": 40
+      },
+      "revId": "49aad9f209b9ade1c5305b707913587f03a5ca48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9f6ba1dc_d73afce9",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 13

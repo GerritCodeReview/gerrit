@@ -32,6 +32,7 @@ import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.common.InheritableBoolean;
 import com.google.gerrit.extensions.common.SubmitType;
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
@@ -203,7 +204,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     LabelInfo cr = c.labels.get("Code-Review");
     assertEquals(1, cr.all.size());
     assertEquals(2, cr.all.get(0).value.intValue());
-    assertEquals("Administrator", cr.all.get(0).name);
+    assertEquals(admin.getId(), new Account.Id(cr.all.get(0)._accountId));
   }
 
   protected void assertSubmitter(String changeId, int psId)

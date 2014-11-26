@@ -66,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "5fabe956_656026a8",
+        "filename": "gerrit-gwtdebug/src/main/java/com/google/gwt/dev/codeserver/WebServer.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-11-26T16:09:04Z",
+      "side": 1,
+      "message": "Yes, that why it was adjusted here. But the reference still stays the same, because in this original diff the upgrade to Jetty 9.2 can be easily seen and used für future upgrades.",
+      "parentUuid": "3fa8f55a_a482a224",
+      "revId": "ee16956ae37625825ca4b968d04121b11e1f3c86",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7f434d81_3e512927",
         "filename": "gerrit-gwtui/src/test/java/com/google/gerrit/client/diff/EditIteratorTest.java",
         "patchSetId": 16
@@ -77,6 +95,24 @@
       "writtenOn": "2014-11-26T15:42:53Z",
       "side": 1,
       "message": "TODO to run this when test lib is fixed.",
+      "revId": "ee16956ae37625825ca4b968d04121b11e1f3c86",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5fabe956_e562d6b3",
+        "filename": "gerrit-gwtui/src/test/java/com/google/gerrit/client/diff/EditIteratorTest.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-11-26T16:09:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7f434d81_3e512927",
       "revId": "ee16956ae37625825ca4b968d04121b11e1f3c86",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

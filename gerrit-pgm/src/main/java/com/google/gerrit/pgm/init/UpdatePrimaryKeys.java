@@ -42,6 +42,11 @@ import java.util.TreeMap;
 
 public class UpdatePrimaryKeys implements InitStep {
 
+  private static class PrimaryKey {
+    String oldNameInDb;
+    List<String> cols;
+  }
+
   private final ConsoleUI ui;
 
   private SchemaFactory<ReviewDb> dbFactory;
@@ -64,7 +69,7 @@ public class UpdatePrimaryKeys implements InitStep {
     try {
       conn = ((JdbcSchema) db).getConnection();
       dialect = ((JdbcSchema) db).getDialect();
-      Map<String, List<String>> corrections = findPKUpdates();
+      Map<String, PrimaryKey> corrections = findPKUpdates();
       if (corrections.isEmpty()) {
         return;
       }
@@ -76,7 +81,7 @@ public class UpdatePrimaryKeys implements InitStep {
         ui.message("fixing primary keys...\n");
         JdbcExecutor executor = new JdbcExecutor(conn);
         try {
-          for (Map.Entry<String, List<String>> c : corrections.entrySet()) {
+          for (Map.Entry<String, PrimaryKey> c : corrections.entrySet()) {
             ui.message("  table: %s ... ", c.getKey());
             recreatePK(executor, c.getKey(), c.getValue());
             ui.message("done\n");
@@ -96,19 +101,20 @@ public class UpdatePrimaryKeys implements InitStep {
     this.dbFactory = dbFactory;
   }
 
-  private Map<String, List<String>> findPKUpdates()
+  private Map<String, PrimaryKey> findPKUpdates()
       throws OrmException, SQLException {
-    Map<String, List<String>> corrections = new TreeMap<>();
+    Map<String, PrimaryKey> corrections = new TreeMap<>();
     ReviewDb db = dbFactory.open();
     try {
       DatabaseMetaData meta = conn.getMetaData();
       JavaSchemaModel jsm = new JavaSchemaModel(ReviewDb.class);
       for (RelationModel rm : jsm.getRelations()) {
         String tableName = rm.getRelationName();
-        List<String> expectedPK = relationPK(rm);
-        List<String> actualPK = dbTablePK(meta, tableName);
-        if (!expectedPK.equals(actualPK)) {
-          corrections.put(tableName, expectedPK);
+        List<String> expectedPKCols = relationPK(rm);
+        PrimaryKey actualPK = dbTablePK(meta, tableName);
+        if (!expectedPKCols.equals(actualPK.cols)) {
+          actualPK.cols = expectedPKCols;
+          corrections.put(tableName, actualPK);
         }
       }
       return corrections;
@@ -126,7 +132,7 @@ public class UpdatePrimaryKeys implements InitStep {
     return pk;
   }
 
-  private List<String> dbTablePK(DatabaseMetaData meta, String tableName)
+  private PrimaryKey dbTablePK(DatabaseMetaData meta, String tableName)
       throws SQLException {
     if (meta.storesUpperCaseIdentifiers()) {
       tableName = tableName.toUpperCase();
@@ -136,14 +142,18 @@ public class UpdatePrimaryKeys implements InitStep {
 
     ResultSet cols = meta.getPrimaryKeys(null, null, tableName);
     try {
+      PrimaryKey pk = new PrimaryKey();
       Map<Short, String> seqToName = new TreeMap<>();
       while (cols.next()) {
         seqToName.put(cols.getShort("KEY_SEQ"), cols.getString("COLUMN_NAME"));
+        if (pk.oldNameInDb == null) {
+          pk.oldNameInDb = cols.getString("PK_NAME");
+        }
       }
 
-      List<String> pk = new ArrayList<>(seqToName.size());
+      pk.cols = new ArrayList<>(seqToName.size());
       for (String name : seqToName.values()) {
-        pk.add(name.toLowerCase(Locale.US));
+        pk.cols.add(name.toLowerCase(Locale.US));
       }
       return pk;
     } finally {
@@ -152,20 +162,24 @@ public class UpdatePrimaryKeys implements InitStep {
   }
 
   private void recreatePK(StatementExecutor executor, String tableName,
-      List<String> cols) throws OrmException {
+      PrimaryKey pk) throws OrmException {
     try {
-      if (dialect instanceof DialectPostgreSQL) {
-        // postgresql doesn't support the ALTER TABLE foo DROP PRIMARY KEY form
-        executor.execute("ALTER TABLE " + tableName + " DROP CONSTRAINT "
-            + tableName + "_pkey");
+      if (pk.oldNameInDb == null) {
+        ui.message("WARN: primary key for table %s didn't exist\n", tableName);
       } else {
-        executor.execute("ALTER TABLE " + tableName + " DROP PRIMARY KEY");
+        if (dialect instanceof DialectPostgreSQL) {
+          // postgresql doesn't support the ALTER TABLE foo DROP PRIMARY KEY form
+          executor.execute("ALTER TABLE " + tableName + " DROP CONSTRAINT "
+              + pk.oldNameInDb);
+        } else {
+          executor.execute("ALTER TABLE " + tableName + " DROP PRIMARY KEY");
+        }
       }
     } catch (OrmException ignore) {
       // maybe the primary key was dropped in a previous run but the creation failed
       ui.message("WARN: %s\n", ignore.getMessage());
     }
     executor.execute("ALTER TABLE " + tableName
-        + " ADD PRIMARY KEY(" + Joiner.on(",").join(cols) + ")");
+        + " ADD PRIMARY KEY(" + Joiner.on(",").join(pk.cols) + ")");
   }
 }

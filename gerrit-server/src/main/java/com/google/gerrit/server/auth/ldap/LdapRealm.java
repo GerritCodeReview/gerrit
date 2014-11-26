@@ -32,7 +32,6 @@ import com.google.gerrit.server.account.EmailExpander;
 import com.google.gerrit.server.account.Realm;
 import com.google.gerrit.server.auth.AuthenticationUnavailableException;
 import com.google.gerrit.server.config.AuthConfig;
-import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;

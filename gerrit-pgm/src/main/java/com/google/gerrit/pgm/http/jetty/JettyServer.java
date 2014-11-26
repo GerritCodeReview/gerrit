@@ -28,7 +28,6 @@ import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.launcher.GerritLauncher;
 import com.google.gerrit.pgm.http.jetty.HttpLog.HttpLogFactory;
 import com.google.gerrit.reviewdb.client.AuthType;
-import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gwtexpui.linker.server.UserAgentRule;

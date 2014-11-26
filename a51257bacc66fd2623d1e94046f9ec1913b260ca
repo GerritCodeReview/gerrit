@@ -1,0 +1,278 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3fa8f55a_c43a3eea",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/data/MergeResultAttribute.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-11-26T14:57:03Z",
+      "side": 1,
+      "message": "Why is this a separate class instead of just recording mergeResult in the event as a String? In fact I see that in many places you do just pass around a String that is semantically the SHA-1 of the merge result.",
+      "revId": "a51257bacc66fd2623d1e94046f9ec1913b260ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7f434d81_3e1e4987",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/EventFactory.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 573,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-11-26T14:57:03Z",
+      "side": 1,
+      "message": "Unnecessary blank line.",
+      "revId": "a51257bacc66fd2623d1e94046f9ec1913b260ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7f434d81_1e238dd5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 718,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-11-26T14:57:03Z",
+      "side": 1,
+      "message": "Long line.",
+      "revId": "a51257bacc66fd2623d1e94046f9ec1913b260ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3fa8f55a_c411de73",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 760,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-11-26T14:57:03Z",
+      "side": 1,
+      "message": "Long line.",
+      "revId": "a51257bacc66fd2623d1e94046f9ec1913b260ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3fa8f55a_e40e5a53",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 805,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-11-26T14:57:03Z",
+      "side": 1,
+      "message": "Long line.",
+      "revId": "a51257bacc66fd2623d1e94046f9ec1913b260ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3fa8f55a_a4186293",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeTip.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-11-26T14:57:03Z",
+      "side": 1,
+      "message": "Nit: \"mergeOperation\" sounds like it\u0027s referring to a variable, but no such variable exists. Use either \"merge operation\" or \"MergeOp\".",
+      "range": {
+        "startLine": 23,
+        "startChar": 39,
+        "endLine": 23,
+        "endChar": 53
+      },
+      "revId": "a51257bacc66fd2623d1e94046f9ec1913b260ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3fa8f55a_841be68f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeTip.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-11-26T14:57:03Z",
+      "side": 1,
+      "message": "Can be a single line.",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 2
+      },
+      "revId": "a51257bacc66fd2623d1e94046f9ec1913b260ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7f434d81_7e28d1ad",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeTip.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-11-26T14:57:03Z",
+      "side": 1,
+      "message": "By \"initial\" you mean the tip before the merge took place?",
+      "revId": "a51257bacc66fd2623d1e94046f9ec1913b260ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3fa8f55a_44472e7e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeTip.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-11-26T14:57:03Z",
+      "side": 1,
+      "message": "I\u0027m curious about this, how would you end up with the opposite?",
+      "revId": "a51257bacc66fd2623d1e94046f9ec1913b260ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7f434d81_5e2d15bc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeTip.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-11-26T14:57:03Z",
+      "side": 1,
+      "message": "Nit: blank line before first @param",
+      "revId": "a51257bacc66fd2623d1e94046f9ec1913b260ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3fa8f55a_04413666",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeTip.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-11-26T14:57:03Z",
+      "side": 1,
+      "message": "Again, mergeResults and mergeOperation sound like variables.",
+      "range": {
+        "startLine": 55,
+        "startChar": 17,
+        "endLine": 55,
+        "endChar": 51
+      },
+      "revId": "a51257bacc66fd2623d1e94046f9ec1913b260ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3fa8f55a_2446b27f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeTip.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-11-26T14:57:03Z",
+      "side": 1,
+      "message": "I have no idea what this means. What are \"merged\" and \"mergeResult\" in this context? They are just strings. Are they SHA-1s or what? What do the keys and values represent? Why use strings for this instead of a richer type, like for example CodeReviewCommit?",
+      "range": {
+        "startLine": 55,
+        "startChar": 56,
+        "endLine": 55,
+        "endChar": 75
+      },
+      "revId": "a51257bacc66fd2623d1e94046f9ec1913b260ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3fa8f55a_644caa9f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeTip.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-11-26T14:57:03Z",
+      "side": 1,
+      "message": "Nit: Space after comma.",
+      "range": {
+        "startLine": 57,
+        "startChar": 19,
+        "endLine": 57,
+        "endChar": 20
+      },
+      "revId": "a51257bacc66fd2623d1e94046f9ec1913b260ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7f434d81_be11b974",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/CherryPick.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-11-26T14:57:03Z",
+      "side": 1,
+      "message": "Missing space",
+      "range": {
+        "startLine": 79,
+        "startChar": 35,
+        "endLine": 79,
+        "endChar": 36
+      },
+      "revId": "a51257bacc66fd2623d1e94046f9ec1913b260ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

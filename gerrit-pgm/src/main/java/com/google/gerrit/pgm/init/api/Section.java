@@ -115,7 +115,7 @@ public class Section {
   public <T extends Enum<?>> T select(final String title, final String name,
       final T defValue, final boolean nullIfDefault) {
     final boolean set = get(name) != null;
-    T oldValue = ConfigUtil.getEnum(flags.cfg, section, subsection, name, defValue);
+    T oldValue = flags.cfg.getEnum(section, subsection, name, defValue);
     T newValue = ui.readEnum(oldValue, "%s", title);
     if (nullIfDefault && newValue == defValue) {
       newValue = null;

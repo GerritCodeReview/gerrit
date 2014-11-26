@@ -99,7 +99,7 @@ public class LdapRealm implements Realm {
   }
 
   static SearchScope scope(final Config c, final String setting) {
-    return ConfigUtil.getEnum(c, "ldap", null, setting, SearchScope.SUBTREE);
+    return c.getEnum("ldap", null, setting, SearchScope.SUBTREE);
   }
 
   static String optional(final Config config, final String name) {

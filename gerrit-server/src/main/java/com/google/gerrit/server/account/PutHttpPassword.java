@@ -45,7 +45,7 @@ public class PutHttpPassword implements RestModifyView<AccountResource, Input> {
     public boolean generate;
   }
 
-  private static final int LEN = 12;
+  private static final int LEN = 31;
   private static final SecureRandom rng;
 
   static {
@@ -126,8 +126,8 @@ public class PutHttpPassword implements RestModifyView<AccountResource, Input> {
     rng.nextBytes(rand);
 
     byte[] enc = Base64.encodeBase64(rand, false);
-    StringBuilder r = new StringBuilder(LEN);
-    for (int i = 0; i < LEN; i++) {
+    StringBuilder r = new StringBuilder(enc.length);
+    for (int i = 0; i < enc.length; i++) {
       if (enc[i] == '=') {
         break;
       }

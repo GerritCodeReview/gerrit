@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bfb4e5b0_080e2727",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-11-26T07:24:00Z",
+      "side": 1,
+      "message": "\"not implemented\" implies that this is a missing feature that will be added later.\n\nIs that the case?  If not, it would be better to say \"not supported\" here.",
+      "range": {
+        "startLine": 240,
+        "startChar": 43,
+        "endLine": 240,
+        "endChar": 58
+      },
+      "revId": "5c42ad68dcb8db15b9785ef847acc97d97ce0fb6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -659,9 +659,6 @@ public class SubmoduleOpTest extends LocalDiskRepositoryTestCase {
     expect(subscriptions.bySubmodule(targetBranchNameKey)).andReturn(
         emptySubscriptions);
 
-    expect(schema.submoduleSubscriptions()).andReturn(subscriptions);
-    subscriptions.delete(EasyMock.<Iterable<SubmoduleSubscription>>anyObject());
-
     schema.close();
 
     final PersonIdent myIdent =
@@ -769,11 +766,6 @@ public class SubmoduleOpTest extends LocalDiskRepositoryTestCase {
                 targetBranchNameKey, "target-project")));
     expect(subscriptions.bySubmodule(targetBranchNameKey)).andReturn(
         incorrectSubscriptions);
-
-    expect(schema.submoduleSubscriptions()).andReturn(subscriptions);
-    subscriptions.delete(EasyMock.<Iterable<SubmoduleSubscription>>anyObject());
-    expect(schema.submoduleSubscriptions()).andReturn(subscriptions);
-    subscriptions.delete(EasyMock.<Iterable<SubmoduleSubscription>>anyObject());
 
     schema.close();
 

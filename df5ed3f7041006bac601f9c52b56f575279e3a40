@@ -39,6 +39,24 @@
       "revId": "df5ed3f7041006bac601f9c52b56f575279e3a40",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5fabe956_45bacae7",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1472,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-11-26T07:44:11Z",
+      "side": 1,
+      "message": "Thanks for fixing it ;-)",
+      "parentUuid": "bfb4e5b0_e8dcf372",
+      "revId": "df5ed3f7041006bac601f9c52b56f575279e3a40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

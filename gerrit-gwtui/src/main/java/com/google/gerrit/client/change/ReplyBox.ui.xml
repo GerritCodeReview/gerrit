@@ -68,7 +68,7 @@ limitations under the License.
           styleName='{res.style.button}'>
         <ui:attribute name='title'/>
         <div>Post</div>
-      </g:Button> and <g:CheckBox ui:field='email' value='true'>send email</g:CheckBox></ui:msg>
+      </g:Button></ui:msg>
 
       <g:Button ui:field='cancel'
           title='Close reply form (Shortcut: Esc)'

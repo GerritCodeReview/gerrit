@@ -601,11 +601,6 @@ comment needs to be edited.
 
 The `Post` button publishes the comments and the votes.
 
-The `send email` checkbox controls whether the reply should trigger
-email notifications for other users. Deselecting the checkbox means
-that there will be no email notification about the change update to the
-change author, the reviewers or any other user.
-
 image::images/user-review-ui-change-screen-replying.png[width=800, link="images/user-review-ui-change-screen-replying.png"]
 
 If a user can approve a label that is still required, a quick approve

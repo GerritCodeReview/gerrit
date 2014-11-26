@@ -14,9 +14,9 @@
 
 package com.google.gerrit.pgm.init;
 
-import static com.google.gerrit.pgm.init.InitUtil.die;
-import static com.google.gerrit.pgm.init.InitUtil.savePublic;
-import static com.google.gerrit.pgm.init.InitUtil.saveSecure;
+import static com.google.gerrit.pgm.init.api.InitUtil.die;
+import static com.google.gerrit.pgm.init.api.InitUtil.savePublic;
+import static com.google.gerrit.pgm.init.api.InitUtil.saveSecure;
 
 import com.google.gerrit.pgm.init.api.ConsoleUI;
 import com.google.gerrit.pgm.init.api.InitFlags;

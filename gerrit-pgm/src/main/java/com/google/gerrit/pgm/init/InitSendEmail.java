@@ -14,8 +14,8 @@
 
 package com.google.gerrit.pgm.init;
 
-import static com.google.gerrit.pgm.init.InitUtil.isLocal;
-import static com.google.gerrit.pgm.init.InitUtil.username;
+import static com.google.gerrit.pgm.init.api.InitUtil.isLocal;
+import static com.google.gerrit.pgm.init.api.InitUtil.username;
 
 import com.google.gerrit.pgm.init.api.ConsoleUI;
 import com.google.gerrit.pgm.init.api.InitStep;

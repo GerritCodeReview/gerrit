@@ -14,7 +14,7 @@
 
 package com.google.gerrit.pgm.init;
 
-import static com.google.gerrit.pgm.init.InitUtil.username;
+import static com.google.gerrit.pgm.init.api.InitUtil.username;
 
 import com.google.common.base.Strings;
 import com.google.gerrit.pgm.init.api.Section;

@@ -15,8 +15,8 @@
 package com.google.gerrit.pgm.init;
 
 import static com.google.gerrit.common.FileUtil.chmod;
-import static com.google.gerrit.pgm.init.InitUtil.die;
-import static com.google.gerrit.pgm.init.InitUtil.hostname;
+import static com.google.gerrit.pgm.init.api.InitUtil.die;
+import static com.google.gerrit.pgm.init.api.InitUtil.hostname;
 
 import com.google.gerrit.pgm.init.api.ConsoleUI;
 import com.google.gerrit.pgm.init.api.InitStep;

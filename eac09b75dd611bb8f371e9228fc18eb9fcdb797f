@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "3fa8f55a_042856ac",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-11-26T14:35:47Z",
+      "side": 1,
+      "message": "The behavior I have implemented matches the old behavior:\n\n $ curl -s https://gerrit-review.googlesource.com/changes/61852 | grep -A3 owner\n   \"owner\": {\n     \"name\": \"Dave Borowitz\"\n   }\n }\n\nI was a bit surprised by this as well. We should fix the documentation.",
+      "parentUuid": "5fabe956_05aa9266",
+      "range": {
+        "startLine": 20,
+        "startChar": 23,
+        "endLine": 21,
+        "endChar": 25
+      },
+      "revId": "eac09b75dd611bb8f371e9228fc18eb9fcdb797f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5fabe956_85ec42cf",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/accounts/AccountApiImpl.java",
         "patchSetId": 2

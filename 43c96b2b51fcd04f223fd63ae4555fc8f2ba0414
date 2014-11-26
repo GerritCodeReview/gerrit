@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7faeed66_a6baa6ad",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-11-26T15:30:01Z",
+      "side": 1,
+      "message": "As pointed out in my previous comment, we can easily eliminate the need for two different enums. The dependency between reviewdb.client and extensions.common exists and not the issue here. The right question to ask here is: do we really need the information hiding, that \u0027n\u0027 corresponds to NEW?",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 6
+      },
+      "revId": "43c96b2b51fcd04f223fd63ae4555fc8f2ba0414",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5fabe956_e5b096d3",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/LabelInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-11-26T15:30:01Z",
+      "side": 1,
+      "message": "Was this change intended?",
+      "revId": "43c96b2b51fcd04f223fd63ae4555fc8f2ba0414",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7faeed66_46897206",
+        "filename": "gerrit-server/BUCK",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-11-26T15:30:01Z",
+      "side": 1,
+      "message": "We don\u0027t care to do alphabetical sorting and content changes in the same change, do we?",
+      "revId": "43c96b2b51fcd04f223fd63ae4555fc8f2ba0414",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

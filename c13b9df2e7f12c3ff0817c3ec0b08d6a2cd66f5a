@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3fa8f55a_047296d5",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/util/SiteProgram.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-11-26T15:12:10Z",
+      "side": 1,
+      "message": "I\u0027m a bit confused by this. It gets initialized to ChangeSchemas.getLatest() in Reindex, and is just null in RebuildNoteDb--presumably because RebuildNoteDb doesn\u0027t use the secondary index at all, but does need some other binding provided by IndexModule.\n\nI wonder if it would make more sense to extract out from IndexModule the parts that RebuildNoteDb needs to function, without having this can\u0027t-ever-work-because-it\u0027s-null parameter.",
+      "revId": "c13b9df2e7f12c3ff0817c3ec0b08d6a2cd66f5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

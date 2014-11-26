@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "7faeed66_e662deb3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/data/MergeResultAttribute.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-11-26T16:15:25Z",
+      "side": 1,
+      "message": "I might need to expand this with an \"applicable\" attribute of some sort.",
+      "parentUuid": "3fa8f55a_c43a3eea",
+      "revId": "a51257bacc66fd2623d1e94046f9ec1913b260ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7f434d81_3e1e4987",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/EventFactory.java",
         "patchSetId": 6
@@ -30,6 +48,24 @@
       "writtenOn": "2014-11-26T14:57:03Z",
       "side": 1,
       "message": "Unnecessary blank line.",
+      "revId": "a51257bacc66fd2623d1e94046f9ec1913b260ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5fabe956_455baaf6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/EventFactory.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 573,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-11-26T16:15:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7f434d81_3e1e4987",
       "revId": "a51257bacc66fd2623d1e94046f9ec1913b260ca",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "7faeed66_866f6a9a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 718,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-11-26T16:15:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7f434d81_1e238dd5",
+      "revId": "a51257bacc66fd2623d1e94046f9ec1913b260ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3fa8f55a_c411de73",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
         "patchSetId": 6
@@ -64,6 +118,24 @@
       "writtenOn": "2014-11-26T14:57:03Z",
       "side": 1,
       "message": "Long line.",
+      "revId": "a51257bacc66fd2623d1e94046f9ec1913b260ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7faeed66_a66ce6a5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 760,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-11-26T16:15:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3fa8f55a_c411de73",
       "revId": "a51257bacc66fd2623d1e94046f9ec1913b260ca",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "7faeed66_465bb2f6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 805,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-11-26T16:15:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3fa8f55a_e40e5a53",
+      "revId": "a51257bacc66fd2623d1e94046f9ec1913b260ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3fa8f55a_a4186293",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeTip.java",
         "patchSetId": 6
@@ -98,6 +188,30 @@
       "writtenOn": "2014-11-26T14:57:03Z",
       "side": 1,
       "message": "Nit: \"mergeOperation\" sounds like it\u0027s referring to a variable, but no such variable exists. Use either \"merge operation\" or \"MergeOp\".",
+      "range": {
+        "startLine": 23,
+        "startChar": 39,
+        "endLine": 23,
+        "endChar": 53
+      },
+      "revId": "a51257bacc66fd2623d1e94046f9ec1913b260ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5fabe956_e5997651",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeTip.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-11-26T16:15:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3fa8f55a_a4186293",
       "range": {
         "startLine": 23,
         "startChar": 39,
@@ -133,6 +247,30 @@
     },
     {
       "key": {
+        "uuid": "7faeed66_2688f6ff",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeTip.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-11-26T16:15:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3fa8f55a_841be68f",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 2
+      },
+      "revId": "a51257bacc66fd2623d1e94046f9ec1913b260ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7f434d81_7e28d1ad",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeTip.java",
         "patchSetId": 6
@@ -144,6 +282,24 @@
       "writtenOn": "2014-11-26T14:57:03Z",
       "side": 1,
       "message": "By \"initial\" you mean the tip before the merge took place?",
+      "revId": "a51257bacc66fd2623d1e94046f9ec1913b260ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5fabe956_85968220",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeTip.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-11-26T16:15:25Z",
+      "side": 1,
+      "message": "Yes.",
+      "parentUuid": "7f434d81_7e28d1ad",
       "revId": "a51257bacc66fd2623d1e94046f9ec1913b260ca",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -167,6 +323,24 @@
     },
     {
       "key": {
+        "uuid": "7faeed66_c69c8244",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeTip.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-11-26T16:15:25Z",
+      "side": 1,
+      "message": "When merge is not fast-forward moveTipTo(...) is called which in turn records a new mergeResult for the ref.\nRecording the fast-forward merge\u0027s merge results turned out to be a drag and just assuming that all merges where fast forward in the beginning and change the merge results for the merges that where not seemed to me to be a sweet solution to the dilemma.",
+      "parentUuid": "3fa8f55a_44472e7e",
+      "revId": "a51257bacc66fd2623d1e94046f9ec1913b260ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7f434d81_5e2d15bc",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeTip.java",
         "patchSetId": 6
@@ -178,6 +352,24 @@
       "writtenOn": "2014-11-26T14:57:03Z",
       "side": 1,
       "message": "Nit: blank line before first @param",
+      "revId": "a51257bacc66fd2623d1e94046f9ec1913b260ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7faeed66_e6997e51",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeTip.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-11-26T16:15:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7f434d81_5e2d15bc",
       "revId": "a51257bacc66fd2623d1e94046f9ec1913b260ca",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -230,6 +422,54 @@
     },
     {
       "key": {
+        "uuid": "7faeed66_86968a20",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeTip.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-11-26T16:15:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3fa8f55a_04413666",
+      "range": {
+        "startLine": 55,
+        "startChar": 17,
+        "endLine": 55,
+        "endChar": 51
+      },
+      "revId": "a51257bacc66fd2623d1e94046f9ec1913b260ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7faeed66_c66562be",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeTip.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-11-26T16:15:25Z",
+      "side": 1,
+      "message": "\"Why use strings for this instead of a richer type, like for example CodeReviewCommit?\"\nBecause in the edge case where the commit was merged but had status \"submitted\" then the CodeReviewCommit gets parsed from a RevWalk, so it wouldn\u0027t be the same object.\nIn this edge-case my code blows up with a null-pointer (MergeOp.java:598) because i have no MergeTip at this stage...\nIn this case it\u0027s not possible to get a merge result so I need to figure out if the ChangeMergeHook is ever run under theese circumstances and if so: what should I return to the hook:\n* mergeResult.revision \u003d \"NOT APPLICABLE\"\n* mergeResult.revision \u003d \"\"\n* mergeResult.applicable \u003d \"false\"\n* mergeResult.revision \u003d null\n* mergeResult \u003d null \nso I guess it\u0027s back to the drawing board...",
+      "parentUuid": "3fa8f55a_2446b27f",
+      "range": {
+        "startLine": 55,
+        "startChar": 56,
+        "endLine": 55,
+        "endChar": 75
+      },
+      "revId": "a51257bacc66fd2623d1e94046f9ec1913b260ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3fa8f55a_644caa9f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeTip.java",
         "patchSetId": 6
@@ -253,6 +493,30 @@
     },
     {
       "key": {
+        "uuid": "5fabe956_a56cdea5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeTip.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-11-26T16:15:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3fa8f55a_644caa9f",
+      "range": {
+        "startLine": 57,
+        "startChar": 19,
+        "endLine": 57,
+        "endChar": 20
+      },
+      "revId": "a51257bacc66fd2623d1e94046f9ec1913b260ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7f434d81_be11b974",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/CherryPick.java",
         "patchSetId": 6
@@ -264,6 +528,30 @@
       "writtenOn": "2014-11-26T14:57:03Z",
       "side": 1,
       "message": "Missing space",
+      "range": {
+        "startLine": 79,
+        "startChar": 35,
+        "endLine": 79,
+        "endChar": 36
+      },
+      "revId": "a51257bacc66fd2623d1e94046f9ec1913b260ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5fabe956_e54bb621",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/CherryPick.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-11-26T16:15:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7f434d81_be11b974",
       "range": {
         "startLine": 79,
         "startChar": 35,

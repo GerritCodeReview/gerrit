@@ -28,7 +28,6 @@ import com.google.common.util.concurrent.MoreExecutors;
 import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.lifecycle.LifecycleManager;
-import com.google.gerrit.lucene.LuceneIndexModule;
 import com.google.gerrit.pgm.util.BatchProgramModule;
 import com.google.gerrit.pgm.util.SiteProgram;
 import com.google.gerrit.pgm.util.ThreadLimiter;
@@ -41,18 +40,15 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MultiProgressMonitor;
 import com.google.gerrit.server.git.MultiProgressMonitor.Task;
 import com.google.gerrit.server.git.WorkQueue;
-import com.google.gerrit.server.index.IndexModule;
 import com.google.gerrit.server.index.ReindexAfterUpdate;
 import com.google.gerrit.server.notedb.ChangeRebuilder;
 import com.google.gerrit.server.notedb.NoteDbModule;
 import com.google.gerrit.server.notedb.NotesMigration;
-import com.google.gerrit.solr.SolrIndexModule;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.AbstractModule;
 import com.google.inject.Injector;
 import com.google.inject.Key;
-import com.google.inject.Module;
 import com.google.inject.TypeLiteral;
 
 import org.eclipse.jgit.lib.BatchRefUpdate;
@@ -169,7 +165,7 @@ public class RebuildNotedb extends SiteProgram {
     }
 
     double t = sw.elapsed(TimeUnit.MILLISECONDS) / 1000d;
-    System.out.format("Rebuild %d changes in %.01fs (%.01f/s)\n",
+    System.out.format("Rebuilt %d changes in %.01fs (%.01f/s)\n",
         changesByProject.size(), t, changesByProject.size() / t);
     return ok.get() ? 0 : 1;
   }
@@ -214,18 +210,7 @@ public class RebuildNotedb extends SiteProgram {
         install(new NoteDbModule());
         DynamicSet.bind(binder(), GitReferenceUpdatedListener.class).to(
             ReindexAfterUpdate.class);
-        Module changeIndexModule;
-        switch (IndexModule.getIndexType(dbInjector)) {
-          case LUCENE:
-            changeIndexModule = new LuceneIndexModule(null, threads, null);
-            break;
-          case SOLR:
-            changeIndexModule = new SolrIndexModule(false, threads, null);
-            break;
-          default:
-            throw new IllegalStateException("unsupported index.type");
-        }
-        install(changeIndexModule);
+        install(getIndexModule(dbInjector, null, threads, null));
       }
     });
   }

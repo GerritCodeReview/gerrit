@@ -20,7 +20,6 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.Die;
 import com.google.gerrit.lifecycle.LifecycleManager;
-import com.google.gerrit.lucene.LuceneIndexModule;
 import com.google.gerrit.pgm.util.BatchProgramModule;
 import com.google.gerrit.pgm.util.SiteProgram;
 import com.google.gerrit.pgm.util.ThreadLimiter;
@@ -34,7 +33,6 @@ import com.google.gerrit.server.index.IndexCollection;
 import com.google.gerrit.server.index.IndexModule;
 import com.google.gerrit.server.index.IndexModule.IndexType;
 import com.google.gerrit.server.index.SiteIndexer;
-import com.google.gerrit.solr.SolrIndexModule;
 import com.google.inject.Injector;
 import com.google.inject.Key;
 import com.google.inject.Module;
@@ -114,18 +112,8 @@ public class Reindex extends SiteProgram {
 
   private Injector createSysInjector() {
     List<Module> modules = Lists.newArrayList();
-    Module changeIndexModule;
-    switch (IndexModule.getIndexType(dbInjector)) {
-      case LUCENE:
-        changeIndexModule = new LuceneIndexModule(version, threads, outputBase);
-        break;
-      case SOLR:
-        changeIndexModule = new SolrIndexModule(false, threads, outputBase);
-        break;
-      default:
-        throw new IllegalStateException("unsupported index.type");
-    }
-    modules.add(changeIndexModule);
+
+    modules.add(getIndexModule(dbInjector, version, threads, outputBase));
     modules.add(dbInjector.getInstance(BatchProgramModule.class));
 
     return dbInjector.createChildInjector(modules);

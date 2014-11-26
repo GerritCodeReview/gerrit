@@ -21,10 +21,13 @@ import com.google.common.collect.Lists;
 import com.google.gerrit.common.Die;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.lifecycle.LifecycleModule;
+import com.google.gerrit.lucene.LuceneIndexModule;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.GerritServerConfigModule;
 import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.git.LocalDiskRepositoryManager;
+import com.google.gerrit.server.index.ChangeSchemas;
+import com.google.gerrit.server.index.IndexModule;
 import com.google.gerrit.server.schema.DataSourceModule;
 import com.google.gerrit.server.schema.DataSourceProvider;
 import com.google.gerrit.server.schema.DataSourceType;
@@ -32,6 +35,7 @@ import com.google.gerrit.server.schema.DatabaseModule;
 import com.google.gerrit.server.schema.SchemaModule;
 import com.google.gerrit.server.securestore.SecureStore;
 import com.google.gerrit.server.securestore.SecureStoreProvider;
+import com.google.gerrit.solr.SolrIndexModule;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.AbstractModule;
 import com.google.inject.Binding;
@@ -177,6 +181,31 @@ public abstract class SiteProgram extends AbstractProgram {
         why = why.getCause();
       }
       throw die(buf.toString(), new RuntimeException("DbInjector failed", ce));
+    }
+  }
+
+  /**
+   * Get the secondary index module.
+   *
+   * @param dbInjector the DB injector
+   * @param luceneVersion the Lucene version (null if not relevant)
+   * @param threads number of threads to use for the indexer
+   * @param outputBase index base dir (null if not relevant)
+   * @return Module instance for the secondary index.
+   * @throws IllegalStateException if the configured index type is unsupported.
+   */
+  protected Module getIndexModule(Injector dbInjector, Integer luceneVersion,
+      int threads, String outputBase) throws IllegalStateException {
+    switch (IndexModule.getIndexType(dbInjector)) {
+      case LUCENE:
+        Integer version = luceneVersion != null
+            ? luceneVersion
+            : ChangeSchemas.getLatest().getVersion();
+        return new LuceneIndexModule(version, threads, outputBase);
+      case SOLR:
+        return new SolrIndexModule(false, threads, outputBase);
+      default:
+        throw new IllegalStateException("unsupported index.type");
     }
   }
 

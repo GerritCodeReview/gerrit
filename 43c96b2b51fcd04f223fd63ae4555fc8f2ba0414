@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "3fa8f55a_04c4d66d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-11-26T16:59:10Z",
+      "side": 1,
+      "message": "\u003e do we really need the information hiding, that \u0027n\u0027 corresponds to NEW?\n\nNot quite. The question is: why should we expose an internal implementation detail of the database storage layer to the extension API? The default assumption is still that internal implementation details are not exposed in the public API.\n\n\"To avoid the presence of two similar classes with slightly different implementations and purposes\" is not a sufficient answer. If it were, we would be trying harder to merge com.google.gerrit.reviewdb.client.Change and com.google.gerrit.extensions.common.ChangeInfo, and ditto for all the other reviewdb/extension classes. But that\u0027s simply a non-goal at this stage.\n\n\"To avoid unmaintainably ugly mapping code\" is a stronger argument. But I don\u0027t think maintaining a single bimap of enum values meets the bar of \"unmaintainably ugly.\"",
+      "parentUuid": "7faeed66_a6baa6ad",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 6
+      },
+      "revId": "43c96b2b51fcd04f223fd63ae4555fc8f2ba0414",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5fabe956_e5b096d3",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/LabelInfo.java",
         "patchSetId": 2

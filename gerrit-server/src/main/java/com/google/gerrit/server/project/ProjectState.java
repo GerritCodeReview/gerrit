@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.project;
 
+import static com.google.gerrit.common.data.PermissionRule.Action.ALLOW;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.base.Function;
@@ -140,7 +141,7 @@ public class ProjectState {
         if (owner != null) {
           for (PermissionRule rule : owner.getRules()) {
             GroupReference ref = rule.getGroup();
-            if (ref.getUUID() != null) {
+            if (rule.getAction() == ALLOW && ref.getUUID() != null) {
               groups.add(ref.getUUID());
             }
           }

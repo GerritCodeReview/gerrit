@@ -60,6 +60,24 @@
     },
     {
       "key": {
+        "uuid": "5fabe956_255a2ef0",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/LabelInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-11-26T16:10:22Z",
+      "side": 1,
+      "message": "That\u0027s fine then.",
+      "parentUuid": "3fa8f55a_e4789ab2",
+      "revId": "43c96b2b51fcd04f223fd63ae4555fc8f2ba0414",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7faeed66_46897206",
         "filename": "gerrit-server/BUCK",
         "patchSetId": 2

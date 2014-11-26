@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7f434d81_be3a59e8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 39
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-11-26T15:23:29Z",
+      "side": 1,
+      "message": "So if someone includes a \"Hashtags:\" footer in a commit message and notedb isn\u0027t enabled, we flat out reject the change? That doesn\u0027t seem right.",
+      "revId": "b77ed697127de3a3b79412f14bd5e595e3c1fbc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7f434d81_9e379d02",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeInserter.java",
+        "patchSetId": 39
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-11-26T15:23:29Z",
+      "side": 1,
+      "message": "\u003cString\u003e should be redundant, does \"Sets.newHashSet()\" give you a compile error or something?",
+      "revId": "b77ed697127de3a3b79412f14bd5e595e3c1fbc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7f434d81_fe34e1fe",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/HashtagsUtil.java",
+        "patchSetId": 39
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-11-26T15:23:29Z",
+      "side": 1,
+      "message": "So we have to have commit messages of the form:\n\n My change\n\n Did something here.\n\n Hashtag: change\n Hashtag: something\n Change-Id: Ideadbeef\n\nDo we actually expect people to type that?\n\nWhy not do what every single social network supporting hashtags does and just support:\n\n My #change\n\n Did #something here.\n\n Change-Id; Ideadbeef",
+      "revId": "b77ed697127de3a3b79412f14bd5e595e3c1fbc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

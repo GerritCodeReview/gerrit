@@ -22,6 +22,30 @@
       "revId": "5c42ad68dcb8db15b9785ef847acc97d97ce0fb6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7faeed66_069dba6f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-11-26T07:33:05Z",
+      "side": 1,
+      "message": "Done. There are more places that were introduced in previous changes. Fixed in this change [1].\n\n [1] https://gerrit-review.googlesource.com/61864",
+      "parentUuid": "bfb4e5b0_080e2727",
+      "range": {
+        "startLine": 240,
+        "startChar": 43,
+        "endLine": 240,
+        "endChar": 58
+      },
+      "revId": "5c42ad68dcb8db15b9785ef847acc97d97ce0fb6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

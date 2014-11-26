@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "bfb4e5b0_a8b4bbf4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-11-26T02:43:46Z",
+      "side": 1,
+      "message": "After removing this if-block the tests pass...",
+      "range": {
+        "startLine": 261,
+        "startChar": 8,
+        "endLine": 261,
+        "endChar": 48
+      },
+      "revId": "4894d578d17ed7a60ee1020a2a3a4e1326810968",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7f6c2d15_96dcac72",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/git/SubmoduleOpTest.java",
         "patchSetId": 31

@@ -189,6 +189,54 @@
       "revId": "20ec12f9edf218df1cd3f3ba4cbcc0df9e303da9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5fabe956_c56b1a5f",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/UpdatePrimaryKeys.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-11-27T14:55:43Z",
+      "side": 1,
+      "message": "Agreed. Done.",
+      "parentUuid": "7faeed66_e6689e64",
+      "range": {
+        "startLine": 168,
+        "startChar": 8,
+        "endLine": 172,
+        "endChar": 9
+      },
+      "revId": "20ec12f9edf218df1cd3f3ba4cbcc0df9e303da9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5fabe956_25678e98",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/UpdatePrimaryKeys.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-11-27T14:55:43Z",
+      "side": 1,
+      "message": "No, the pk wouldn\u0027t be null only the pk.oldNameInDb would be null. The pk.cols contains the primary key columns as they should be i.e. derived from the corresponding Java class.",
+      "parentUuid": "7faeed66_a672a64e",
+      "range": {
+        "startLine": 168,
+        "startChar": 8,
+        "endLine": 172,
+        "endChar": 9
+      },
+      "revId": "20ec12f9edf218df1cd3f3ba4cbcc0df9e303da9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

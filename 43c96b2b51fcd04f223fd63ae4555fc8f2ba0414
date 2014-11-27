@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "5fabe956_e5fe563d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-11-27T09:34:52Z",
+      "side": 1,
+      "message": "The right BUCK rule excerpt is these lines from gerrit-reviewdb/BUCK\n\n  SRC \u003d \u0027src/main/java/com/google/gerrit/reviewdb/\u0027\n  gwt_module(\n    name \u003d \u0027client\u0027,\n    srcs \u003d glob([SRC + \u0027client/**/*.java\u0027]),\n    gwt_xml \u003d SRC + \u0027ReviewDB.gwt.xml\u0027,\n    deps \u003d [\n      \u0027//gerrit-extension-api:client\u0027,\n      [...]",
+      "parentUuid": "7faeed66_06185a16",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 6
+      },
+      "revId": "43c96b2b51fcd04f223fd63ae4555fc8f2ba0414",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5fabe956_e5b096d3",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/LabelInfo.java",
         "patchSetId": 2

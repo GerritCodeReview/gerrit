@@ -128,7 +128,7 @@ java_test(
     '//lib/easymock:easymock',
     '//lib/guice:guice',
     '//lib/jgit:jgit',
-    '//lib/jgit:junit',
+    '//lib/jgit:jgit.junit',
   ],
   source_under_test = [':pgm'],
 )

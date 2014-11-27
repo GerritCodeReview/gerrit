@@ -37,7 +37,7 @@ java_library(
     '//lib/guice:guice',
     '//lib/guice:guice-assistedinject',
     '//lib/jgit:jgit',
-    '//lib/jgit:junit',
+    '//lib/jgit:jgit.junit',
     '//lib/mina:sshd',
   ],
   visibility = [

@@ -31,7 +31,7 @@ java_library(
     '//lib/guice:guice-assistedinject',
     '//lib/guice:guice-servlet',
     '//lib/jgit:jgit',
-    '//lib/jgit:jgit-servlet',
+    '//lib/jgit:jgit.http.server',
     '//lib/log:api',
     '//lib/lucene:core',
   ],
@@ -63,7 +63,7 @@ java_test(
     '//lib/easymock:easymock',
     '//lib/guice:guice',
     '//lib/jgit:jgit',
-    '//lib/jgit:junit',
+    '//lib/jgit:jgit.junit',
   ],
   source_under_test = [':httpd'],
   # TODO(sop) Remove after Buck supports Eclipse

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7faeed66_e6517ea2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/CherryPick.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-11-27T15:51:39Z",
+      "side": 1,
+      "message": "This won\u0027t work because this value is collected with the sha1 of the latest ps of the change as key.\nSince the resulting commit of writeCherryPickCommit(...) is now the latest ps I should treat it like a ff merge of this commit instead.",
+      "range": {
+        "startLine": 94,
+        "startChar": 12,
+        "endLine": 96,
+        "endChar": 29
+      },
+      "revId": "84d9735f790222519c5c08b4cbd204a4d133fe9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

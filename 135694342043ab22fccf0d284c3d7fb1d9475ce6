@@ -1,0 +1,291 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bfb4e5b0_285a0bf0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ExtRefPatternMatcher.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-11-27T06:18:46Z",
+      "side": 1,
+      "message": "Missing license and copyright header.",
+      "revId": "135694342043ab22fccf0d284c3d7fb1d9475ce6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7f6c2d15_96930c62",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ExtRefPatternMatcher.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-11-27T06:18:46Z",
+      "side": 1,
+      "message": "Not necessary",
+      "range": {
+        "startLine": 10,
+        "startChar": 57,
+        "endLine": 10,
+        "endChar": 63
+      },
+      "revId": "135694342043ab22fccf0d284c3d7fb1d9475ce6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bfb4e5b0_28cbeb2e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PermissionCollection.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-11-27T06:18:46Z",
+      "side": 1,
+      "message": "Not necessary",
+      "range": {
+        "startLine": 117,
+        "startChar": 48,
+        "endLine": 117,
+        "endChar": 54
+      },
+      "revId": "135694342043ab22fccf0d284c3d7fb1d9475ce6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7f6c2d15_f6908056",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PermissionCollection.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-11-27T06:18:46Z",
+      "side": 1,
+      "message": "style nit: don\u0027t put spaces after ( and before )",
+      "range": {
+        "startLine": 119,
+        "startChar": 10,
+        "endLine": 119,
+        "endChar": 11
+      },
+      "revId": "135694342043ab22fccf0d284c3d7fb1d9475ce6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bfb4e5b0_c84ecf34",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PermissionCollection.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-11-27T06:18:46Z",
+      "side": 1,
+      "message": "nit: no spaces",
+      "range": {
+        "startLine": 135,
+        "startChar": 14,
+        "endLine": 135,
+        "endChar": 15
+      },
+      "revId": "135694342043ab22fccf0d284c3d7fb1d9475ce6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bfb4e5b0_e84b9321",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PermissionCollection.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-11-27T06:18:46Z",
+      "side": 1,
+      "message": "nit: no spaces",
+      "range": {
+        "startLine": 137,
+        "startChar": 18,
+        "endLine": 137,
+        "endChar": 19
+      },
+      "revId": "135694342043ab22fccf0d284c3d7fb1d9475ce6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7f6c2d15_d68d843e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectControl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-11-27T06:18:46Z",
+      "side": 1,
+      "message": "Make these private final and inject them in the constructor.",
+      "range": {
+        "startLine": 167,
+        "startChar": 2,
+        "endLine": 170,
+        "endChar": 47
+      },
+      "revId": "135694342043ab22fccf0d284c3d7fb1d9475ce6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bfb4e5b0_8848d726",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectControl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-11-27T06:18:46Z",
+      "side": 1,
+      "message": "nit: no spaces",
+      "range": {
+        "startLine": 206,
+        "startChar": 8,
+        "endLine": 206,
+        "endChar": 9
+      },
+      "revId": "135694342043ab22fccf0d284c3d7fb1d9475ce6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bfb4e5b0_a8459b0f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectControl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-11-27T06:18:46Z",
+      "side": 1,
+      "message": "Wrap this long line",
+      "revId": "135694342043ab22fccf0d284c3d7fb1d9475ce6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7f6c2d15_3604b808",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectControl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-11-27T06:18:46Z",
+      "side": 1,
+      "message": "Not necessary",
+      "range": {
+        "startLine": 215,
+        "startChar": 38,
+        "endLine": 215,
+        "endChar": 61
+      },
+      "revId": "135694342043ab22fccf0d284c3d7fb1d9475ce6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bfb4e5b0_08c62728",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectControl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-11-27T06:18:46Z",
+      "side": 1,
+      "message": "Wrong indenttation",
+      "range": {
+        "startLine": 235,
+        "startChar": 0,
+        "endLine": 236,
+        "endChar": 23
+      },
+      "revId": "135694342043ab22fccf0d284c3d7fb1d9475ce6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bfb4e5b0_48bc1f92",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectControl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-11-27T06:18:46Z",
+      "side": 1,
+      "message": "Remove this",
+      "range": {
+        "startLine": 239,
+        "startChar": 8,
+        "endLine": 239,
+        "endChar": 42
+      },
+      "revId": "135694342043ab22fccf0d284c3d7fb1d9475ce6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7f6c2d15_1609bc1e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectControl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-11-27T06:18:46Z",
+      "side": 1,
+      "message": "Use a logger instead.",
+      "range": {
+        "startLine": 240,
+        "startChar": 8,
+        "endLine": 240,
+        "endChar": 28
+      },
+      "revId": "135694342043ab22fccf0d284c3d7fb1d9475ce6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

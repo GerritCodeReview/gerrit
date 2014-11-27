@@ -28,6 +28,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.changes.Side;
+import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
@@ -49,7 +50,7 @@ import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchLineCommentsUtil;
 import com.google.gerrit.server.account.AccountCache;
-import com.google.gerrit.server.account.AccountInfo;
+import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.account.CapabilityControl;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.config.AllUsersNameProvider;
@@ -143,8 +144,8 @@ public class CommentsTest  {
     final TypeLiteral<DynamicMap<RestView<DraftResource>>> draftViewsType =
         new TypeLiteral<DynamicMap<RestView<DraftResource>>>() {};
 
-    final AccountInfo.Loader.Factory alf =
-        createMock(AccountInfo.Loader.Factory.class);
+    final AccountLoader.Factory alf =
+        createMock(AccountLoader.Factory.class);
     db = createMock(ReviewDb.class);
     final FakeAccountCache accountCache = new FakeAccountCache();
     final PersonIdent serverIdent = new PersonIdent(
@@ -168,7 +169,7 @@ public class CommentsTest  {
       protected void configure() {
         bind(commentViewsType).toInstance(commentViews);
         bind(draftViewsType).toInstance(draftViews);
-        bind(AccountInfo.Loader.Factory.class).toInstance(alf);
+        bind(AccountLoader.Factory.class).toInstance(alf);
         bind(ReviewDb.class).toInstance(db);
         bind(Config.class).annotatedWith(GerritServerConfig.class).toInstance(config);
         bind(ProjectCache.class).toProvider(Providers.<ProjectCache> of(null));
@@ -206,13 +207,13 @@ public class CommentsTest  {
     changeOwner = userFactory.create(ownerId);
     IdentifiedUser otherUser = userFactory.create(otherUserId);
 
-    AccountInfo.Loader accountLoader = createMock(AccountInfo.Loader.class);
+    AccountLoader accountLoader = createMock(AccountLoader.class);
     accountLoader.fill();
     expectLastCall().anyTimes();
     expect(accountLoader.get(ownerId))
-        .andReturn(new AccountInfo(ownerId)).anyTimes();
+        .andReturn(new AccountInfo(ownerId.get())).anyTimes();
     expect(accountLoader.get(otherUserId))
-        .andReturn(new AccountInfo(otherUserId)).anyTimes();
+        .andReturn(new AccountInfo(otherUserId.get())).anyTimes();
     expect(alf.create(true)).andReturn(accountLoader).anyTimes();
     replay(accountLoader, alf);
 
@@ -432,7 +433,7 @@ public class CommentsTest  {
     assertEquals(plc.getMessage(), ci.message);
     if (isPublished) {
       assertNotNull(ci.author);
-      assertEquals(plc.getAuthor(), ci.author._id);
+      assertEquals(plc.getAuthor(), new Account.Id(ci.author._accountId));
     }
     assertEquals(plc.getLine(), (int) ci.line);
     assertEquals(plc.getSide() == 0 ? Side.PARENT : Side.REVISION,

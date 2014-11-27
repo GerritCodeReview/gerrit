@@ -18,6 +18,7 @@ import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.gerrit.audit.AuditService;
+import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.DefaultInput;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
@@ -31,7 +32,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountException;
-import com.google.gerrit.server.account.AccountInfo;
+import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.account.AccountsCollection;
@@ -79,7 +80,7 @@ public class AddMembers implements RestModifyView<GroupResource, Input> {
   private final AccountsCollection accounts;
   private final AccountResolver accountResolver;
   private final AccountCache accountCache;
-  private final AccountInfo.Loader.Factory infoFactory;
+  private final AccountLoader.Factory infoFactory;
   private final Provider<ReviewDb> db;
   private final AuditService auditService;
 
@@ -89,7 +90,7 @@ public class AddMembers implements RestModifyView<GroupResource, Input> {
       AccountsCollection accounts,
       AccountResolver accountResolver,
       AccountCache accountCache,
-      AccountInfo.Loader.Factory infoFactory,
+      AccountLoader.Factory infoFactory,
       Provider<ReviewDb> db,
       AuditService auditService) {
     this.accountManager = accountManager;
@@ -116,7 +117,7 @@ public class AddMembers implements RestModifyView<GroupResource, Input> {
     Map<Account.Id, AccountGroupMember> newAccountGroupMembers = Maps.newHashMap();
     List<AccountInfo> result = Lists.newLinkedList();
     Account.Id me = ((IdentifiedUser) control.getCurrentUser()).getAccountId();
-    AccountInfo.Loader loader = infoFactory.create(true);
+    AccountLoader loader = infoFactory.create(true);
 
     for (String nameOrEmail : input.members) {
       Account a = findAccount(nameOrEmail);

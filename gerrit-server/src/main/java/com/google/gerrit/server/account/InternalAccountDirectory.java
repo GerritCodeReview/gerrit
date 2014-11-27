@@ -19,11 +19,12 @@ import com.google.common.base.Strings;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
+import com.google.gerrit.extensions.common.AccountInfo;
+import com.google.gerrit.extensions.common.AvatarInfo;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.account.AccountInfo.AvatarInfo;
 import com.google.gerrit.server.avatar.AvatarProvider;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.AbstractModule;
@@ -65,11 +66,12 @@ public class InternalAccountDirectory extends AccountDirectory {
       throws DirectoryException {
     Multimap<Account.Id, AccountInfo> missing = ArrayListMultimap.create();
     for (AccountInfo info : in) {
-      AccountState state = accountCache.getIfPresent(info._id);
+      Account.Id id = new Account.Id(info._accountId);
+      AccountState state = accountCache.getIfPresent(id);
       if (state != null) {
         fill(info, state.getAccount(), options);
       } else {
-        missing.put(info._id, info);
+        missing.put(id, info);
       }
     }
     if (!missing.isEmpty()) {
@@ -88,6 +90,12 @@ public class InternalAccountDirectory extends AccountDirectory {
   private void fill(AccountInfo info,
       Account account,
       Set<FillOptions> options) {
+    if (options.contains(FillOptions.ID)) {
+      info._accountId = account.getId().get();
+    } else {
+      // Was previously set to look up account for filling.
+      info._accountId = null;
+    }
     if (options.contains(FillOptions.NAME)) {
       info.name = Strings.emptyToNull(account.getFullName());
       if (info.name == null) {

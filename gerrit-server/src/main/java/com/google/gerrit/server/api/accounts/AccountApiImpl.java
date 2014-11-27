@@ -15,10 +15,11 @@
 package com.google.gerrit.server.api.accounts;
 
 import com.google.gerrit.extensions.api.accounts.AccountApi;
+import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
-import com.google.gerrit.server.account.AccountInfo;
+import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.account.StarredChanges;
 import com.google.gerrit.server.change.ChangeResource;
@@ -34,12 +35,12 @@ public class AccountApiImpl extends AccountApi.NotImplemented implements Account
 
   private final AccountResource account;
   private final ChangesCollection changes;
-  private final AccountInfo.Loader.Factory accountLoaderFactory;
+  private final AccountLoader.Factory accountLoaderFactory;
   private final StarredChanges.Create starredChangesCreate;
   private final StarredChanges.Delete starredChangesDelete;
 
   @Inject
-  AccountApiImpl(AccountInfo.Loader.Factory ailf,
+  AccountApiImpl(AccountLoader.Factory ailf,
       ChangesCollection changes,
       StarredChanges.Create starredChangesCreate,
       StarredChanges.Delete starredChangesDelete,
@@ -54,11 +55,11 @@ public class AccountApiImpl extends AccountApi.NotImplemented implements Account
   @Override
   public com.google.gerrit.extensions.common.AccountInfo get()
       throws RestApiException {
-    AccountInfo.Loader accountLoader = accountLoaderFactory.create(true);
+    AccountLoader accountLoader = accountLoaderFactory.create(true);
     try {
       AccountInfo ai = accountLoader.get(account.getUser().getAccountId());
       accountLoader.fill();
-      return AccountInfoMapper.fromAcountInfo(ai);
+      return ai;
     } catch (OrmException e) {
       throw new RestApiException("Cannot parse change", e);
     }

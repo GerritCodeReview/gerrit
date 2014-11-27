@@ -70,6 +70,30 @@
       "revId": "7122a5cca3646bbb6c3ace385845f05201f87502",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7faeed66_e6273e53",
+        "filename": "ReleaseNotes/ReleaseNotes-2.9.2.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-11-27T10:39:34Z",
+      "side": 1,
+      "message": "My point was that the fact it wasn\u0027t approved until now, may be a sign that it\u0027s a controversial change and/or needs more review time.",
+      "parentUuid": "7f6c2d15_16325ce6",
+      "range": {
+        "startLine": 96,
+        "startChar": 0,
+        "endLine": 98,
+        "endChar": 74
+      },
+      "revId": "7122a5cca3646bbb6c3ace385845f05201f87502",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

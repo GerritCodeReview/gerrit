@@ -45,6 +45,30 @@
       "revId": "20ec12f9edf218df1cd3f3ba4cbcc0df9e303da9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bfb4e5b0_48e5ffb7",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/UpdatePrimaryKeys.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-11-27T10:35:38Z",
+      "side": 1,
+      "message": "Or without the else-block:\n\n if (pk.oldNameInDb \u003d\u003d null) {\n   throw new IllegalStateException(...);\n }\n executor.execute(...);",
+      "parentUuid": "5fabe956_850be2c1",
+      "range": {
+        "startLine": 168,
+        "startChar": 8,
+        "endLine": 172,
+        "endChar": 9
+      },
+      "revId": "20ec12f9edf218df1cd3f3ba4cbcc0df9e303da9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

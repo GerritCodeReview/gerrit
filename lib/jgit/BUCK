@@ -1,58 +1,58 @@
 include_defs('//lib/maven.defs')
+include_defs('//lib/jgit/DEFS.py')
 
-VERS = '3.5.1.201410131835-r'
-
-maven_jar(
+java_library(
   name = 'jgit',
-  id = 'org.eclipse.jgit:org.eclipse.jgit:' + VERS,
-  bin_sha1 = '23b8793639407fcbe2fee8557fb8238d18b2e409',
-  src_sha1 = '48ae55f9fed45e188177bcf3bf4638eed6bf3aae',
-  license = 'jgit',
-  unsign = True,
-  deps = [':ewah'],
-  exclude = [
-    'META-INF/eclipse.inf',
-    'about.html',
-    'plugin.properties',
+  srcs = glob(['src/%s/src/**' % DIRS['jgit']]),
+  resources = glob(['src/%s/resources/**' % DIRS['jgit']]),
+  deps = [
+    ':ewah',
+    '//lib:jsch',
+    '//lib:LICENSE-jgit',
   ],
+  visibility = ['PUBLIC'],
 )
 
-maven_jar(
+java_library(
   name = 'jgit-servlet',
-  id = 'org.eclipse.jgit:org.eclipse.jgit.http.server:' + VERS,
-  sha1 = 'ee4f9852eb62d9b0785705e4eb40e40035119da7',
-  license = 'jgit',
-  deps = [':jgit'],
-  unsign = True,
-  exclude = [
-    'about.html',
-    'plugin.properties',
+  srcs = glob(['src/%s/src/**' % DIRS['jgit-servlet']]),
+  resources = glob(['src/%s/resources/**' % DIRS['jgit-servlet']]),
+  deps = [
+    ':jgit',
+    '//lib:servlet-api-3_1',
+    '//lib:LICENSE-jgit',
   ],
+  visibility = ['PUBLIC'],
 )
 
-maven_jar(
+java_library(
   name = 'jgit-archive',
-  id = 'org.eclipse.jgit:org.eclipse.jgit.archive:' + VERS,
-  sha1 = '48ddea0e3f6e78f9696e30dfc257118a446b453c',
-  license = 'jgit',
-  deps = [':jgit',
+  srcs = glob(
+    ['src/%s/src/**' % DIRS['jgit-archive']],
+    excludes = [
+      'src/%s/src/%s' % (DIRS['jgit-archive'], e)
+      for e in EXCLUDE['jgit-archive']
+    ],
+  ),
+  resources = glob(['src/%s/resources/**' % DIRS['jgit-archive']]),
+  deps = [
+    ':jgit',
     '//lib/commons:compress',
     '//lib:tukaani-xz',
+    '//lib:LICENSE-jgit',
   ],
-  unsign = True,
-  exclude = [
-    'about.html',
-    'plugin.properties',
-  ],
+  visibility = ['PUBLIC'],
 )
 
-maven_jar(
+java_library(
   name = 'junit',
-  id = 'org.eclipse.jgit:org.eclipse.jgit.junit:' + VERS,
-  sha1 = '1e8a9e7fa493e96ec6c07b9f6f51ed2d2db60b9f',
-  license = 'DO_NOT_DISTRIBUTE',
-  unsign = True,
-  deps = [':jgit'],
+  srcs = glob(['src/%s/src/**' % DIRS['junit']]),
+  deps = [
+    ':jgit',
+    '//lib:junit',
+    '//lib:LICENSE-DO_NOT_DISTRIBUTE',
+  ],
+  visibility = ['PUBLIC'],
 )
 
 maven_jar(
@@ -70,9 +70,7 @@ prebuilt_jar(
 
 genrule(
   name = 'jgit_edit_src',
-  cmd = 'unzip -qd $TMP $(location :jgit_src) ' +
-    'org/eclipse/jgit/diff/Edit.java;' +
-    'cd $TMP;' +
-    'zip -Dq $OUT org/eclipse/jgit/diff/Edit.java',
+  cmd = 'jar cf $OUT -C src/org.eclipse.jgit/src .',
+  srcs = ['src/org.eclipse.jgit/src/org/eclipse/jgit/diff/Edit.java'],
   out = 'edit-src.jar',
 )

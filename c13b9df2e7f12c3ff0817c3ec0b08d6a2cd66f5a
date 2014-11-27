@@ -16,6 +16,24 @@
       "revId": "c13b9df2e7f12c3ff0817c3ec0b08d6a2cd66f5a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7f6c2d15_96614cfa",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/util/SiteProgram.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-11-27T00:29:48Z",
+      "side": 1,
+      "message": "I wondered about this, but since it was being set to null in the original code I left it.\n\nIn the next patch set I\u0027ve changed this to initialise the version to latest if null in the Lucene case.\n\nIf that\u0027s still -1 I\u0027ll have a look if it\u0027s possible to bind the dummy index module for rebuild notedb.",
+      "parentUuid": "3fa8f55a_047296d5",
+      "revId": "c13b9df2e7f12c3ff0817c3ec0b08d6a2cd66f5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -155,7 +155,9 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
     ChangeControl control = rsrc.getControl().forUser(
         identifiedUserFactory.create(id));
     PostResult result = new PostResult();
-    addReviewers(rsrc, result, ImmutableMap.of(id, control));
+    if (control.isRefVisible()) {
+      addReviewers(rsrc, result, ImmutableMap.of(id, control));
+    }
     return result;
   }
 

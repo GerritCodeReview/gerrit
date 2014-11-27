@@ -97,6 +97,30 @@
     },
     {
       "key": {
+        "uuid": "bfb4e5b0_88d9b701",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-11-27T10:15:00Z",
+      "side": 1,
+      "message": "\u003e  the above statement should be reworded\n\nCan you upload a new PS with edited commit message?\n\n(it\u0027s Thanksgiving in the US; it\u0027s likely Dave will be offline until next week.)",
+      "parentUuid": "7faeed66_06185a16",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 6
+      },
+      "revId": "43c96b2b51fcd04f223fd63ae4555fc8f2ba0414",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5fabe956_e5b096d3",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/LabelInfo.java",
         "patchSetId": 2

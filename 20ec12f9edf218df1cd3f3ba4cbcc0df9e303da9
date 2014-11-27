@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7faeed66_a60866c5",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/UpdatePrimaryKeys.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-11-27T10:17:14Z",
+      "side": 1,
+      "message": "We only use pk name for PostgreSQL dialect below, so i would expect, that we retrieve it here only for it:\n\n  if (dialect instanceof DialectPostgreSQL) {\n    pk.oldNameInDb \u003d cols.getString(\"PK_NAME\");\n  }",
+      "range": {
+        "startLine": 149,
+        "startChar": 8,
+        "endLine": 151,
+        "endChar": 9
+      },
+      "revId": "20ec12f9edf218df1cd3f3ba4cbcc0df9e303da9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5fabe956_850be2c1",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/UpdatePrimaryKeys.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-11-27T10:17:14Z",
+      "side": 1,
+      "message": "Add an else branch and throw IllegalStateException(\"something went wrong\").",
+      "range": {
+        "startLine": 168,
+        "startChar": 8,
+        "endLine": 172,
+        "endChar": 9
+      },
+      "revId": "20ec12f9edf218df1cd3f3ba4cbcc0df9e303da9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -151,11 +151,12 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
 
   private PostResult putAccount(ReviewerResource rsrc) throws OrmException,
       EmailException, IOException {
-    Account.Id id = rsrc.getUser().getAccountId();
-    ChangeControl control = rsrc.getControl().forUser(
-        identifiedUserFactory.create(id));
+    Account member = rsrc.getUser().getAccount();
+    ChangeControl control = rsrc.getControl();
     PostResult result = new PostResult();
-    addReviewers(rsrc, result, ImmutableMap.of(id, control));
+    if (isValidReviewer(member, control)) {
+      addReviewers(rsrc, result, ImmutableMap.of(member.getId(), control));
+    }
     return result;
   }
 
@@ -206,18 +207,23 @@ public class PostReviewers implements RestModifyView<ChangeResource, AddReviewer
     }
 
     for (Account member : members) {
-      if (member.isActive()) {
-        IdentifiedUser user = identifiedUserFactory.create(member.getId());
-        // Does not account for draft status as a user might want to let a
-        // reviewer see a draft.
-        if (control.forUser(user).isRefVisible()) {
-          reviewers.put(user.getAccountId(), control);
-        }
+      if (isValidReviewer(member, control)) {
+        reviewers.put(member.getId(), control);
       }
     }
 
     addReviewers(rsrc, result, reviewers);
     return result;
+  }
+
+  private boolean isValidReviewer(Account member, ChangeControl control) {
+    if (member.isActive()) {
+      IdentifiedUser user = identifiedUserFactory.create(member.getId());
+      // Does not account for draft status as a user might want to let a
+      // reviewer see a draft.
+      return control.forUser(user).isRefVisible();
+    }
+    return false;
   }
 
   private void addReviewers(ChangeResource rsrc, PostResult result,

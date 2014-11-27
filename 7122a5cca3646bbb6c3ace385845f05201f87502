@@ -94,6 +94,30 @@
       "revId": "7122a5cca3646bbb6c3ace385845f05201f87502",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bfb4e5b0_08df07e2",
+        "filename": "ReleaseNotes/ReleaseNotes-2.9.2.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-11-27T10:54:48Z",
+      "side": 1,
+      "message": "I don\u0027t think it\u0027s controversial.  Edwin had comments on an earlier patch set, so I was waiting for him to confirm that the latest version addresses the comments.\n\nIn the meantime I was going to test it myself.",
+      "parentUuid": "7faeed66_e6273e53",
+      "range": {
+        "startLine": 96,
+        "startChar": 0,
+        "endLine": 98,
+        "endChar": 74
+      },
+      "revId": "7122a5cca3646bbb6c3ace385845f05201f87502",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

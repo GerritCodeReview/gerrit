@@ -141,6 +141,30 @@
       "revId": "20ec12f9edf218df1cd3f3ba4cbcc0df9e303da9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7faeed66_e6689e64",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/UpdatePrimaryKeys.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-11-27T14:12:27Z",
+      "side": 1,
+      "message": "I see, but why to have different code paths for different dialects? Why to try to drop something that doesn\u0027t exist, that we (may) know that it doesn\u0027t exist?\n\nSuggestion: activate again the retrieval for pk key name for all dialects (line 149 above) and then use the knowledge to either drop pk or not: for all dialects, a lá\n\n  if (pk.oldNameInDb \u003d\u003d null) {\n    log.warn(\"pk for table {} doesn\u0027t exist\", tableName);\n  } else {\n    if (dialect instanceof DialectPostgreSQL) {\n      // drop for PostgreSQL with pk name \n    } else {\n      // drop for all other dialects without pk name\n    }\n  }",
+      "parentUuid": "5fabe956_c52a3a1c",
+      "range": {
+        "startLine": 168,
+        "startChar": 8,
+        "endLine": 172,
+        "endChar": 9
+      },
+      "revId": "20ec12f9edf218df1cd3f3ba4cbcc0df9e303da9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

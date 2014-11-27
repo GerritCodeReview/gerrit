@@ -15,6 +15,7 @@
 package com.google.gerrit.httpd;
 
 import com.google.common.base.Function;
+import com.google.common.base.Optional;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.data.GerritConfig;
@@ -172,6 +173,17 @@ class GerritConfigProvider implements Provider<GerritConfig> {
     if (sshInfo != null && !sshInfo.getHostKeys().isEmpty()) {
       config.setSshdAddress(sshInfo.getHostKeys().get(0).getHost());
     }
+
+    String replyTitle =
+        Optional.fromNullable(cfg.getString("change", null, "replyTooltip"))
+        .or("Reply and score")
+        + " (Shortcut: a)";
+    String replyLabel =
+        Optional.fromNullable(cfg.getString("change", null, "replyLabel"))
+        .or("Reply")
+        + "\u2026";
+    config.setReplyTitle(replyTitle);
+    config.setReplyLabel(replyLabel);
 
     return config;
   }

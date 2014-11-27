@@ -22,6 +22,30 @@
       "revId": "7122a5cca3646bbb6c3ace385845f05201f87502",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7faeed66_46373288",
+        "filename": "ReleaseNotes/ReleaseNotes-2.9.2.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-11-27T10:18:20Z",
+      "side": 1,
+      "message": "Skip it then and release 2.9.2 without it?",
+      "parentUuid": "bfb4e5b0_88d3f710",
+      "range": {
+        "startLine": 96,
+        "startChar": 0,
+        "endLine": 98,
+        "endChar": 74
+      },
+      "revId": "7122a5cca3646bbb6c3ace385845f05201f87502",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

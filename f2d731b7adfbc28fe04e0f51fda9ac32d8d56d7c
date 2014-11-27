@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bfb4e5b0_a86cbba5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-11-27T05:48:06Z",
+      "side": 1,
+      "message": "The mergeability check task is removed.  This should be replaced with another example.",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 45
+      },
+      "revId": "f2d731b7adfbc28fe04e0f51fda9ac32d8d56d7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bfb4e5b0_886f779a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/MergeabilityChecker.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-11-27T05:48:06Z",
+      "side": 1,
+      "message": "This file has been removed on master.",
+      "revId": "f2d731b7adfbc28fe04e0f51fda9ac32d8d56d7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bfb4e5b0_e862b3b3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-11-27T05:48:06Z",
+      "side": 1,
+      "message": "nit: missing space before {",
+      "range": {
+        "startLine": 288,
+        "startChar": 47,
+        "endLine": 288,
+        "endChar": 48
+      },
+      "revId": "f2d731b7adfbc28fe04e0f51fda9ac32d8d56d7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

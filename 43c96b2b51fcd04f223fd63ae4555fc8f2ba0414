@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "7faeed66_06185a16",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-11-27T09:15:44Z",
+      "side": 1,
+      "message": "| But I don\u0027t think maintaining a single bimap of enum values meets the bar of \"unmaintainably ugly.\"\n\nI tend to agree here. So the above statement should be reworded, to correctly justify the existence for different enums. As it stays, \"two enums must be maintained because two packages don\u0027t have dependencies on each other\" simply not true, as mentioned in my previous comments:\n\n  gwt_module(\n  name \u003d \u0027ui_module\u0027,\n  srcs \u003d glob([\u0027src/main/java/**/*.java\u0027]),\n  gwt_xml \u003d \u0027src/main/java/%s.gwt.xml\u0027 % MODULE.replace(\u0027.\u0027, \u0027/\u0027),\n  resources \u003d glob([\u0027src/main/java/**/*\u0027], excludes \u003d DIFFY),\n  deps \u003d [\n    \u0027:diffy_logo\u0027,\n    \u0027:freebie_application_icon_set\u0027,\n    \u0027//gerrit-gwtexpui:Clippy\u0027,\n    \u0027//gerrit-gwtexpui:GlobalKey\u0027,\n    \u0027//gerrit-gwtexpui:Progress\u0027,\n    \u0027//gerrit-gwtexpui:SafeHtml\u0027,\n    \u0027//gerrit-gwtexpui:UserAgent\u0027,\n    \u0027//gerrit-gwtui-common:client\u0027,\n    \u0027//gerrit-common:client\u0027,\n    \u0027//gerrit-extension-api:client\u0027,\n   [...]",
+      "parentUuid": "3fa8f55a_04c4d66d",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 6
+      },
+      "revId": "43c96b2b51fcd04f223fd63ae4555fc8f2ba0414",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5fabe956_e5b096d3",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/LabelInfo.java",
         "patchSetId": 2

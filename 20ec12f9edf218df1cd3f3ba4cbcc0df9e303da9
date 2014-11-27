@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "5fabe956_85244250",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/UpdatePrimaryKeys.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2014-11-27T13:39:45Z",
+      "side": 1,
+      "message": "This doesn\u0027t any harm, I think. Hence I don\u0027t think we need to have special handling for PostgreSQL here.",
+      "parentUuid": "7faeed66_a60866c5",
+      "range": {
+        "startLine": 149,
+        "startChar": 8,
+        "endLine": 151,
+        "endChar": 9
+      },
+      "revId": "20ec12f9edf218df1cd3f3ba4cbcc0df9e303da9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5fabe956_850be2c1",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/UpdatePrimaryKeys.java",
         "patchSetId": 1

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "bfb4e5b0_e8995351",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 936,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-11-27T02:37:50Z",
+      "side": 1,
+      "message": "My original intention was to try to implement an \"is:submittable\" search.  Moving this logic completely out of the UI was a step towards that.\n\nI\u0027m now not really sure if such a search would be useful though.",
+      "parentUuid": "7a751b3d_6e372f02",
+      "range": {
+        "startLine": 933,
+        "startChar": 4,
+        "endLine": 936,
+        "endChar": 5
+      },
+      "revId": "061add5810847c3352b671c68f6cac065744e720",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7a751b3d_4e3a73ed",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
         "patchSetId": 3

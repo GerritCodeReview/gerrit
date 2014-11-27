@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "7faeed66_465892d1",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/UpdatePrimaryKeys.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-11-27T13:35:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7faeed66_a60866c5",
+      "range": {
+        "startLine": 149,
+        "startChar": 8,
+        "endLine": 151,
+        "endChar": 9
+      },
+      "revId": "20ec12f9edf218df1cd3f3ba4cbcc0df9e303da9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5fabe956_850be2c1",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/UpdatePrimaryKeys.java",
         "patchSetId": 1
@@ -60,6 +84,30 @@
       "side": 1,
       "message": "Or without the else-block:\n\n if (pk.oldNameInDb \u003d\u003d null) {\n   throw new IllegalStateException(...);\n }\n executor.execute(...);",
       "parentUuid": "5fabe956_850be2c1",
+      "range": {
+        "startLine": 168,
+        "startChar": 8,
+        "endLine": 172,
+        "endChar": 9
+      },
+      "revId": "20ec12f9edf218df1cd3f3ba4cbcc0df9e303da9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5fabe956_c52a3a1c",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/UpdatePrimaryKeys.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-11-27T13:35:08Z",
+      "side": 1,
+      "message": "The pk.oldNameInDb \u003d\u003d null means that a primary key didn\u0027t exist for that table.\n\nThis might happen if a previous init dropped the primary key and crashed before creating a new one. \n\nFor other databases we can blindly run the ALTER TABLE ... DROP PRIMARY KEY\" and then catch/ignore the exception. For postgres we cannot as pk.oldNameInDb will cause a NPE when the primary key didn\u0027t exist.",
+      "parentUuid": "bfb4e5b0_48e5ffb7",
       "range": {
         "startLine": 168,
         "startChar": 8,

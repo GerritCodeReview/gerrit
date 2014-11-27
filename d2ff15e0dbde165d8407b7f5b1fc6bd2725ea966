@@ -46,6 +46,53 @@
       "revId": "d2ff15e0dbde165d8407b7f5b1fc6bd2725ea966",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7faeed66_a6ef0691",
+        "filename": ".gitmodules",
+        "patchSetId": 4
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-11-27T07:56:34Z",
+      "side": 1,
+      "message": "| I did this patch because I wanted to update JGit to a more recent version, and this seemed easier than rebuilding JGit with Maven.\n\nI don\u0027t follow this argumentation. What make JGit that special? For different bug fixes and new features I replaced Google Guice Servlet Extension (maven based build) and GWT (ant based build) with most recent versions. We have local_jar() there with detailed documentation how to replace parts of Gerrit\u0027s dependencies using it. Setting it up is a matter of 1 min. So why you picked up JGit, why not to integrate gwtexpui, Guice, Guice extension, GWT, ... in Gerrit build tool chain as well?\n\nProjects have their development cycles, release processes, (release train in JGit), so that the chance your forked Buck build process wouldn\u0027t produce exactly the same results, as the build tool chain of the project is high. For example JGit stuff is signed, that we have to strip, because we are messing around with JGit\u0027s Edit.java sources for GWT modules ;-)\n\nBut given how invasive this change is, it would be probably hard to do it optional, to support both JGit integration modes: a/ fetch maven artifacts (default) or b/ build it as a submodule.\n\nYet this is another complication of build process in Gerrit for devs who don\u0027t use submodules; i always try to avoid to use submodules, where i can. I maintain two working copies of Gerrit project. My main working copy is cloned without submodules because I don\u0027t care about core plugins. When i touch some bits that related to core plugins (that happens very seldom), i verify that change in another working copy with submodules. When change is merged there is no way to skip submodules syncronization.\n\nGiven that the inersection of sets of active Gerrit \u0026 JGit developers is \u003c 2, and considering how stable JGit is, i fail to see the justification for this change.",
+      "parentUuid": "bfb4e5b0_a8935b2f",
+      "range": {
+        "startLine": 3,
+        "startChar": 1,
+        "endLine": 3,
+        "endChar": 14
+      },
+      "revId": "d2ff15e0dbde165d8407b7f5b1fc6bd2725ea966",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5fabe956_450e4ada",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-11-27T07:56:34Z",
+      "side": 1,
+      "message": "So why not to finish Maven to Buck migration in JGit [1], and replace Maven fetching to point to Buck built artifacts from jgit/buck-out/gen directory with local_jar() rule?\n\n [1] https://git.eclipse.org/r/17955/",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 53
+      },
+      "revId": "d2ff15e0dbde165d8407b7f5b1fc6bd2725ea966",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

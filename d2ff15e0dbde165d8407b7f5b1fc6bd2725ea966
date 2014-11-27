@@ -22,6 +22,30 @@
       "revId": "d2ff15e0dbde165d8407b7f5b1fc6bd2725ea966",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bfb4e5b0_a8935b2f",
+        "filename": ".gitmodules",
+        "patchSetId": 4
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-11-27T04:55:53Z",
+      "side": 1,
+      "message": "Yes, this is just a mirror. No intention to fork JGit, or even float patches like we did in the early days of Buck.\n\nWe run an automatic sync from eclipse.org every 5 minutes. The way that sync works enforces that the refs/heads/* and refs/tags/* namespaces must exactly match eclipse.org. Right now gerrit-review is completely unable to modify these branches or tags, it errors out if anyone even managed to try.\n\nFWIW the mirror here is backed by the same mirror that powers https://eclipse.googlesource.com/jgit/jgit, and that site tries to be a full mirror of all eclipse.org Git repositories.\n\nI figured since we mirror Buck, we should also mirror JGit to ensure we have the JGit sources available with the same availability as Gerrit sources.\n\nI did this patch because I wanted to update JGit to a more recent version, and this seemed easier than rebuilding JGit with Maven.",
+      "parentUuid": "bfb4e5b0_088387e8",
+      "range": {
+        "startLine": 3,
+        "startChar": 1,
+        "endLine": 3,
+        "endChar": 14
+      },
+      "revId": "d2ff15e0dbde165d8407b7f5b1fc6bd2725ea966",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

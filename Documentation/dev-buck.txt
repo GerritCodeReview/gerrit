@@ -14,6 +14,7 @@ Clone the git and build it:
 ----
   git clone https://gerrit.googlesource.com/buck
   cd buck
+  git checkout $(cat ../gerrit/.buckversion)
   ant
 ----
 

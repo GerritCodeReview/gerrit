@@ -35,6 +35,11 @@ ROOT = path.abspath(__file__)
 while not path.exists(path.join(ROOT, '.buckconfig')):
   ROOT = path.dirname(ROOT)
 
+sys.path.append(ROOT)
+
+from lib.jgit import DEFS as jgit_defs
+
+
 opts = OptionParser()
 opts.add_option('--src', action='store_true')
 opts.add_option('--plugins', help='create eclipse projects for plugins',
@@ -93,7 +98,7 @@ def gen_classpath():
     impl = minidom.getDOMImplementation()
     return impl.createDocument(None, 'classpath', None)
 
-  def classpathentry(kind, path, src=None, out=None, exported=None):
+  def classpathentry(kind, path, src=None, out=None, exported=None, excluding=None):
     e = doc.createElement('classpathentry')
     e.setAttribute('kind', kind)
     e.setAttribute('path', path)
@@ -103,16 +108,19 @@ def gen_classpath():
       e.setAttribute('output', out)
     if exported:
       e.setAttribute('exported', 'true')
+    if excluding:
+      e.setAttribute('excluding', ','.join(excluding))
     doc.documentElement.appendChild(e)
 
   doc = make_classpath()
   src = set()
   lib = set()
+  jgit = set()
   gwt_src = set()
   gwt_lib = set()
   plugins = set()
 
-  java_library = re.compile(r'[^/]+/gen/(.*)/lib__[^/]+__output/[^/]+[.]jar$')
+  java_library = re.compile(r'[^/]+/gen/(.*)/lib__[^/]+__output/([^/]+)[.]jar$')
   for p in _query_classpath(MAIN):
     if p.endswith('-src.jar'):
       # gwt_module() depends on -src.jar for Java to JavaScript compiles.
@@ -127,7 +135,9 @@ def gen_classpath():
       continue
 
     m = java_library.match(p)
-    if m:
+    if m and m.group(1) == 'lib/jgit':
+      jgit.add(m.group(2))
+    elif m:
       src.add(m.group(1))
     else:
       lib.add(p)
@@ -165,6 +175,14 @@ def gen_classpath():
         if path.exists(p):
           classpathentry('src', p, out=o)
 
+  for n in sorted(jgit):
+    s = jgit_defs.DIRS.get(n)
+    if s:
+      for srctype in ['src', 'resources']:
+        p = path.join('lib', 'jgit', 'src', s, srctype)
+        if path.exists(p):
+          classpathentry('src', p, excluding=jgit_defs.EXCLUDE.get(n))
+
   for libs in [gwt_lib, lib]:
     for j in sorted(libs):
       s = None
@@ -176,9 +194,11 @@ def gen_classpath():
         classpathentry('lib', j, s, exported=True)
       else:
         classpathentry('lib', j, s)
+
   for s in sorted(gwt_src):
     p = path.join(ROOT, s, 'src', 'main', 'java')
-    classpathentry('lib', p, out='buck-out/eclipse/gwtsrc')
+    if path.exists(p):
+      classpathentry('lib', p)
 
   classpathentry('con', JRE)
   classpathentry('output', 'buck-out/eclipse/classes')

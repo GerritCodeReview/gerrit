@@ -1,3 +1,7 @@
+[submodule "lib/jgit/src"]
+	path = lib/jgit/src
+	url = ../jgit
+
 [submodule "plugins/commit-message-length-validator"]
 	path = plugins/commit-message-length-validator
 	url = ../plugins/commit-message-length-validator

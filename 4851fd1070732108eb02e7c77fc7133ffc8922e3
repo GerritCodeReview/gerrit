@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bfb4e5b0_28368b89",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewers.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-11-28T01:39:39Z",
+      "side": 1,
+      "message": "When adding reviewers through a group, it also checks if the user is active (line 211).  Do we need to do that here too?",
+      "range": {
+        "startLine": 158,
+        "startChar": 4,
+        "endLine": 160,
+        "endChar": 5
+      },
+      "revId": "4851fd1070732108eb02e7c77fc7133ffc8922e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7f6c2d15_36ff9878",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewers.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-11-28T01:39:39Z",
+      "side": 1,
+      "message": "here",
+      "range": {
+        "startLine": 211,
+        "startChar": 6,
+        "endLine": 211,
+        "endChar": 30
+      },
+      "revId": "4851fd1070732108eb02e7c77fc7133ffc8922e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5fabe956_6546e6f2",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/UpdatePrimaryKeys.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-11-28T07:25:53Z",
+      "side": 1,
+      "message": "[Optional] Replace \u0027\\n\u0027 with \" ... \". That way we are going to win the beauty contest ;-)\n\n    Fix primary keys column order  [Y/n]? Y\n  fixing primary keys...\n    table: account_group_by_id_aud ... done\n    table: account_group_members_audit ... done\n    table: account_patch_reviews ... done\n    table: account_project_watches ... done\n    table: patch_comments ... WARN: primary key for table patch_comments didn\u0027t exist\n  done\n    table: patch_set_approvals ... done\n    table: submodule_subscriptions ... done\n  done",
+      "range": {
+        "startLine": 168,
+        "startChar": 63,
+        "endLine": 168,
+        "endChar": 65
+      },
+      "revId": "6bc334d02fd10106903172494115c59c90e50a1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

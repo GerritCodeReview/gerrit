@@ -2,6 +2,98 @@
   "comments": [
     {
       "key": {
+        "uuid": "5fabe956_65982601",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-11-28T14:42:49Z",
+      "side": 1,
+      "message": "Debugging debris, remove.",
+      "range": {
+        "startLine": 225,
+        "startChar": 8,
+        "endLine": 225,
+        "endChar": 40
+      },
+      "revId": "84d9735f790222519c5c08b4cbd204a4d133fe9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1f117199_43f426e8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 598,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-11-28T14:42:49Z",
+      "side": 1,
+      "message": "Since the commit is already merged and just get\u0027s to slip by: treat it as if the commit and mergeResults are the same.",
+      "range": {
+        "startLine": 598,
+        "startChar": 35,
+        "endLine": 598,
+        "endChar": 39
+      },
+      "revId": "84d9735f790222519c5c08b4cbd204a4d133fe9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5fabe956_058db2c1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 757,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-11-28T14:42:49Z",
+      "side": 1,
+      "message": "When merge fails mergeTip is null, just set mergeResultRev to null since it won\u0027t be read.",
+      "range": {
+        "startLine": 757,
+        "startChar": 6,
+        "endLine": 757,
+        "endChar": 79
+      },
+      "revId": "84d9735f790222519c5c08b4cbd204a4d133fe9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5fabe956_25922ee1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeTip.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-11-28T14:42:49Z",
+      "side": 1,
+      "message": "This won\u0027t work.",
+      "range": {
+        "startLine": 38,
+        "startChar": 39,
+        "endLine": 38,
+        "endChar": 49
+      },
+      "revId": "84d9735f790222519c5c08b4cbd204a4d133fe9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7faeed66_e6517ea2",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/CherryPick.java",
         "patchSetId": 10
@@ -18,6 +110,52 @@
         "startChar": 12,
         "endLine": 96,
         "endChar": 29
+      },
+      "revId": "84d9735f790222519c5c08b4cbd204a4d133fe9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1f117199_a3087a50",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/FastForwardOnly.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-11-28T14:42:49Z",
+      "side": 1,
+      "message": "The MergeTip needs to be created before the call to get reduceToMinimalMerge to populate all merge results correctly.",
+      "range": {
+        "startLine": 37,
+        "startChar": 4,
+        "endLine": 37,
+        "endChar": 65
+      },
+      "revId": "84d9735f790222519c5c08b4cbd204a4d133fe9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1f117199_83057e3a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/MergeIfNecessary.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-11-28T14:42:49Z",
+      "side": 1,
+      "message": "This won\u0027t work if branchTip is null.",
+      "range": {
+        "startLine": 44,
+        "startChar": 1,
+        "endLine": 46,
+        "endChar": 55
       },
       "revId": "84d9735f790222519c5c08b4cbd204a4d133fe9a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

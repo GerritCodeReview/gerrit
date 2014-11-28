@@ -22,10 +22,13 @@ Important Notes
   java -jar gerrit.war reindex --recheck-mergeable -d site_path
 ----
 
-*WARNING:* When upgrading from an existing site that was initialised with Gerrit
+*WARNING:* When upgrading from an existing site that was initialized with Gerrit
 version 2.6 to version 2.9.1, the primary key column order will be updated for
-some tables. It is therefore important to upgrade the site with the init program,
+some tables. It is therefore important to upgrade the site with the `init` program,
 rather than only copying the .war file over the existing one.
+
+It is recommended to run the `init` program in interactive mode. Warnings will
+be suppressed in batch mode.
 
 *WARNING:* Upgrading to 2.10.x requires the server be first upgraded to 2.1.7 (or
 a later 2.1.x version), and then to 2.10.x.  If you are upgrading from 2.2.x.x or

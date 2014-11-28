@@ -22,6 +22,30 @@
       "revId": "0729495d4bb47bc8329e9b5e24040b323fdedb45",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5fabe956_65afc628",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/UpdatePrimaryKeys.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-11-28T08:16:18Z",
+      "side": 1,
+      "message": "Hmm.. actually now that we detect if the primary key existed or not and only drop it when it exists, this catch block has to be removed. I will push a new patch set.",
+      "parentUuid": "bfb4e5b0_28676b98",
+      "range": {
+        "startLine": 180,
+        "startChar": 26,
+        "endLine": 180,
+        "endChar": 28
+      },
+      "revId": "0729495d4bb47bc8329e9b5e24040b323fdedb45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

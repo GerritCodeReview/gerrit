@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bfb4e5b0_48373f88",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2736,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-11-28T00:22:13Z",
+      "side": 1,
+      "message": "I think we typically refer to this as wildcard matching?",
+      "range": {
+        "startLine": 2735,
+        "startChar": 56,
+        "endLine": 2736,
+        "endChar": 12
+      },
+      "revId": "93c9fff3880d536ff0fcdaf7fa76f810098bb588",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bfb4e5b0_683c8369",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2747,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-11-28T00:22:13Z",
+      "side": 1,
+      "message": "Add a blank line before this paragraph.",
+      "revId": "93c9fff3880d536ff0fcdaf7fa76f810098bb588",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7f6c2d15_f6d3600f",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2748,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-11-28T00:22:13Z",
+      "side": 1,
+      "message": "Enclose this in backticks.  Also on the next line.",
+      "range": {
+        "startLine": 2748,
+        "startChar": 55,
+        "endLine": 2748,
+        "endChar": 72
+      },
+      "revId": "93c9fff3880d536ff0fcdaf7fa76f810098bb588",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bfb4e5b0_08314790",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/config/RepositoryConfigTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-11-28T00:22:13Z",
+      "side": 1,
+      "message": "[optional] use com.google.common.truth",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 33
+      },
+      "revId": "93c9fff3880d536ff0fcdaf7fa76f810098bb588",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

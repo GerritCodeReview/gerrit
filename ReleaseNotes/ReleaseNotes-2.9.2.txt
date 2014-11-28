@@ -10,7 +10,7 @@ Important Notes
 
 *WARNING:* There are no schema changes from
 link:ReleaseNotes-2.9.1.html[2.9.1], but when upgrading from an existing site
-that was initialised with Gerrit version 2.6 or later the primary key column
+that was initialized with Gerrit version 2.6 or later the primary key column
 order will be updated for some tables. It is therefore important to upgrade the
 site with the `init` program, rather than only copying the .war file over the
 existing one.
@@ -45,8 +45,8 @@ database tables. This caused poor performance for those SQL queries which rely
 on using a prefix of the primary key column sequence in their WHERE conditions.
 +
 This version of gwtorm fixes the issue for new sites. For existing sites that
-were initialised with Gerrit version 2.6 or later, the primary key column
-order will be fixed during initialisation when upgrading to 2.9.2.
+were initialized with Gerrit version 2.6 or later, the primary key column
+order will be fixed during initialization when upgrading to 2.9.2.
 
 Secondary Index
 ~~~~~~~~~~~~~~~

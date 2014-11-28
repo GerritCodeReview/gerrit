@@ -46,6 +46,30 @@
       "revId": "7fe39b90b0ac3f0b6cdf416b22b5911dc758405d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bfb4e5b0_a8727b4e",
+        "filename": "ReleaseNotes/ReleaseNotes-2.9.2.txt",
+        "patchSetId": 15
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-11-28T08:51:50Z",
+      "side": 1,
+      "message": "Gah.  I\u0027m not going to update this now; I already made the tag locally on this commit and built the release WAR.",
+      "parentUuid": "5fabe956_25b9ce6e",
+      "range": {
+        "startLine": 13,
+        "startChar": 9,
+        "endLine": 13,
+        "endChar": 20
+      },
+      "revId": "7fe39b90b0ac3f0b6cdf416b22b5911dc758405d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

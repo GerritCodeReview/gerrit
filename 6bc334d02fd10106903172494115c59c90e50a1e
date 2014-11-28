@@ -70,6 +70,30 @@
       "revId": "6bc334d02fd10106903172494115c59c90e50a1e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5fabe956_2540eed0",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/UpdatePrimaryKeys.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-11-28T07:54:50Z",
+      "side": 1,
+      "message": "True for all InitStep implementations not only for this one.\nThis issue shouldn\u0027t be coupled with this change I think.",
+      "parentUuid": "7faeed66_26b9d66e",
+      "range": {
+        "startLine": 168,
+        "startChar": 63,
+        "endLine": 168,
+        "endChar": 65
+      },
+      "revId": "6bc334d02fd10106903172494115c59c90e50a1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -46,6 +46,30 @@
       "revId": "6bc334d02fd10106903172494115c59c90e50a1e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bfb4e5b0_48589fd1",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/UpdatePrimaryKeys.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-11-28T07:48:54Z",
+      "side": 1,
+      "message": "I\u0027d rather do the logging fix separately, and not in 2.9.2\n\nTo avoid the potential to miss any warnings, we can add a warning in the 2.9.2 release note to not run the upgrade in batch mode.",
+      "parentUuid": "7faeed66_26b9d66e",
+      "range": {
+        "startLine": 168,
+        "startChar": 63,
+        "endLine": 168,
+        "endChar": 65
+      },
+      "revId": "6bc334d02fd10106903172494115c59c90e50a1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

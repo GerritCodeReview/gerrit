@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "7f434d81_1e09cd1e",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2736,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2014-11-28T15:01:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bfb4e5b0_48373f88",
+      "range": {
+        "startLine": 2735,
+        "startChar": 56,
+        "endLine": 2736,
+        "endChar": 12
+      },
+      "revId": "93c9fff3880d536ff0fcdaf7fa76f810098bb588",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bfb4e5b0_683c8369",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 1
@@ -36,6 +60,24 @@
       "writtenOn": "2014-11-28T00:22:13Z",
       "side": 1,
       "message": "Add a blank line before this paragraph.",
+      "revId": "93c9fff3880d536ff0fcdaf7fa76f810098bb588",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7f434d81_3e048908",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2747,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2014-11-28T15:01:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bfb4e5b0_683c8369",
       "revId": "93c9fff3880d536ff0fcdaf7fa76f810098bb588",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "bfd5c501_60d69257",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2748,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2014-11-28T15:01:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7f6c2d15_f6d3600f",
+      "range": {
+        "startLine": 2748,
+        "startChar": 55,
+        "endLine": 2748,
+        "endChar": 72
+      },
+      "revId": "93c9fff3880d536ff0fcdaf7fa76f810098bb588",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bfb4e5b0_08314790",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/config/RepositoryConfigTest.java",
         "patchSetId": 1
@@ -76,6 +142,30 @@
       "writtenOn": "2014-11-28T00:22:13Z",
       "side": 1,
       "message": "[optional] use com.google.common.truth",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 33
+      },
+      "revId": "93c9fff3880d536ff0fcdaf7fa76f810098bb588",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bfd5c501_40d18e5c",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/config/RepositoryConfigTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2014-11-28T15:01:13Z",
+      "side": 1,
+      "message": "Done, Thanks for telling me about com.google.common.truth, it makes the assertions more readable.",
+      "parentUuid": "bfb4e5b0_08314790",
       "range": {
         "startLine": 17,
         "startChar": 0,

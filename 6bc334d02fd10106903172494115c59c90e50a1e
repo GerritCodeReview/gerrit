@@ -121,6 +121,30 @@
     },
     {
       "key": {
+        "uuid": "1f117199_23cc8ac7",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/UpdatePrimaryKeys.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2014-11-28T08:01:46Z",
+      "side": 1,
+      "message": "I agree.",
+      "parentUuid": "5fabe956_2540eed0",
+      "range": {
+        "startLine": 168,
+        "startChar": 63,
+        "endLine": 168,
+        "endChar": 65
+      },
+      "revId": "6bc334d02fd10106903172494115c59c90e50a1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7f6c2d15_96ef8cc3",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/UpdatePrimaryKeys.java",
         "patchSetId": 3

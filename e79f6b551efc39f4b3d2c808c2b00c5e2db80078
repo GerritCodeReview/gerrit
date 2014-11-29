@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bfb4e5b0_68afa328",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewers.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-11-29T12:28:56Z",
+      "side": 1,
+      "message": "[optional] this could be shortened to:\n\n return control.forUser(user).isRefVisible();",
+      "range": {
+        "startLine": 224,
+        "startChar": 0,
+        "endLine": 226,
+        "endChar": 7
+      },
+      "revId": "e79f6b551efc39f4b3d2c808c2b00c5e2db80078",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

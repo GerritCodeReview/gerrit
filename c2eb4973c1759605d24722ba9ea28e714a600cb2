@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5fc5a95b_d502bc2e",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-12-01T12:11:19Z",
+      "side": 1,
+      "message": "Make it local instead.",
+      "range": {
+        "startLine": 86,
+        "startChar": 2,
+        "endLine": 86,
+        "endChar": 35
+      },
+      "revId": "c2eb4973c1759605d24722ba9ea28e714a600cb2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5f73e923_05f5f2e6",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-12-01T12:11:19Z",
+      "side": 1,
+      "message": "Refactor to private method",
+      "range": {
+        "startLine": 219,
+        "startChar": 0,
+        "endLine": 226,
+        "endChar": 18
+      },
+      "revId": "c2eb4973c1759605d24722ba9ea28e714a600cb2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

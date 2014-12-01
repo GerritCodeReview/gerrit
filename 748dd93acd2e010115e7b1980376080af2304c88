@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5f73e923_25d10e5e",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 949,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-01T07:15:34Z",
+      "side": 1,
+      "message": "Cool, Google Truth has support for assumption.",
+      "revId": "748dd93acd2e010115e7b1980376080af2304c88",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "5fc5a95b_55ef8c16",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 39
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-12-01T08:15:31Z",
+      "side": 1,
+      "message": "Hi Dave,\n\nMay I share your idea here so that I can add a patch accordingly, it is better than keeping it pending .",
+      "parentUuid": "7f434d81_be3a59e8",
+      "revId": "b77ed697127de3a3b79412f14bd5e595e3c1fbc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7f434d81_9e379d02",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeInserter.java",
         "patchSetId": 39

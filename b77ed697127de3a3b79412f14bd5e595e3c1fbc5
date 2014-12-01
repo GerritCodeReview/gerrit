@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "7fdfcd23_3ed1095e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 39
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-12-01T03:43:55Z",
+      "side": 1,
+      "message": "I agree with Sven. if NoteDb isn\u0027t enabled, just as hashtags REST API do Gerrit should reject add-hashtags.  User should delete the Hashtags footer from commit message to make sure not take dirty data in, else it might cause confusion later on if Gerrit admins will enable hashtags in the future.",
+      "parentUuid": "5fabe956_651346ff",
+      "revId": "b77ed697127de3a3b79412f14bd5e595e3c1fbc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7f434d81_9e379d02",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeInserter.java",
         "patchSetId": 39
@@ -48,6 +66,24 @@
       "writtenOn": "2014-11-26T15:23:29Z",
       "side": 1,
       "message": "\u003cString\u003e should be redundant, does \"Sets.newHashSet()\" give you a compile error or something?",
+      "revId": "b77ed697127de3a3b79412f14bd5e595e3c1fbc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1f117199_637202d7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeInserter.java",
+        "patchSetId": 39
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-12-01T03:43:55Z",
+      "side": 1,
+      "message": "It is redundant. \nThanks.\nRemoved .\nDone.",
+      "parentUuid": "7f434d81_9e379d02",
       "revId": "b77ed697127de3a3b79412f14bd5e595e3c1fbc5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -83,6 +119,24 @@
       "side": 1,
       "message": "Then every commit message with # sign in them would create hashtags. I think that would be more confusing than useful.\nIt would be efficient for those that could handle the power.\nBut with great power comes great responsibilities...",
       "parentUuid": "7f434d81_fe34e1fe",
+      "revId": "b77ed697127de3a3b79412f14bd5e595e3c1fbc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5fc5a95b_15cc34c7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/HashtagsUtil.java",
+        "patchSetId": 39
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-12-01T03:43:55Z",
+      "side": 1,
+      "message": "I agree with Sven.",
+      "parentUuid": "5fabe956_05185216",
       "revId": "b77ed697127de3a3b79412f14bd5e595e3c1fbc5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -148,9 +148,7 @@ class GerritConfigProvider implements Provider<GerritConfig> {
 
     config.setNewFeatures(cfg.getBoolean("gerrit", "enableNewFeatures", true));
 
-    final String reportBugUrl = cfg.getString("gerrit", null, "reportBugUrl");
-    config.setReportBugUrl(reportBugUrl != null ?
-        reportBugUrl : "http://code.google.com/p/gerrit/issues/list");
+    config.setReportBugUrl(cfg.getString("gerrit", null, "reportBugUrl"));
     config.setReportBugText(cfg.getString("gerrit", null, "reportBugText"));
 
     final Set<Account.FieldName> fields = new HashSet<>();

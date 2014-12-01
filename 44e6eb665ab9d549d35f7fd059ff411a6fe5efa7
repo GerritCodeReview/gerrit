@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9f81e119_c7e91e17",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeFileApi.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-12-01T06:51:45Z",
+      "side": 1,
+      "message": "change",
+      "range": {
+        "startLine": 64,
+        "startChar": 42,
+        "endLine": 64,
+        "endChar": 47
+      },
+      "revId": "44e6eb665ab9d549d35f7fd059ff411a6fe5efa7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -306,6 +306,24 @@
     },
     {
       "key": {
+        "uuid": "5f73e923_85080251",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeTip.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-12-01T12:18:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7f434d81_7e28d1ad",
+      "revId": "a51257bacc66fd2623d1e94046f9ec1913b260ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3fa8f55a_44472e7e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeTip.java",
         "patchSetId": 6
@@ -334,6 +352,42 @@
       "writtenOn": "2014-11-26T16:15:25Z",
       "side": 1,
       "message": "When merge is not fast-forward moveTipTo(...) is called which in turn records a new mergeResult for the ref.\nRecording the fast-forward merge\u0027s merge results turned out to be a drag and just assuming that all merges where fast forward in the beginning and change the merge results for the merges that where not seemed to me to be a sweet solution to the dilemma.",
+      "parentUuid": "3fa8f55a_44472e7e",
+      "revId": "a51257bacc66fd2623d1e94046f9ec1913b260ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5f73e923_65f4e6e8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeTip.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-12-01T12:18:23Z",
+      "side": 1,
+      "message": "Now I see, it should be \"fast-forward\".",
+      "parentUuid": "7faeed66_c69c8244",
+      "revId": "a51257bacc66fd2623d1e94046f9ec1913b260ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5fc5a95b_55286cad",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeTip.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-12-01T12:18:23Z",
+      "side": 1,
+      "message": "Done",
       "parentUuid": "3fa8f55a_44472e7e",
       "revId": "a51257bacc66fd2623d1e94046f9ec1913b260ca",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

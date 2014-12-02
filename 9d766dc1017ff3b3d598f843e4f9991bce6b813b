@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9fa80192_2f6d69f7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/HashtagsUtil.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1006818
+      },
+      "writtenOn": "2014-12-02T13:51:08Z",
+      "side": 1,
+      "message": "how about \n (?:\\\\s|\\\\A)(?:#[\\\\\u0027|\\\\\\\"]?)[\\\\ \\\\w-]+(?:[\\\\\u0027|\\\\\\\"]?)\n\nto also support cases like\n #\u0027s e1 e2\u0027\n\n #\"s e1 e2\"\n\n #_s_e1_e2",
+      "range": {
+        "startLine": 49,
+        "startChar": 41,
+        "endLine": 49,
+        "endChar": 66
+      },
+      "revId": "9d766dc1017ff3b3d598f843e4f9991bce6b813b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

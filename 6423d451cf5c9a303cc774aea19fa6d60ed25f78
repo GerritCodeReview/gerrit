@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "5f73e923_45728ad6",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/edit/ChangeEditIT.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-02T20:48:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9fa80192_8f081551",
+      "range": {
+        "startLine": 251,
+        "startChar": 12,
+        "endLine": 251,
+        "endChar": 43
+      },
+      "revId": "6423d451cf5c9a303cc774aea19fa6d60ed25f78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9fa80192_cf021d2f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
         "patchSetId": 12
@@ -36,6 +60,30 @@
       "writtenOn": "2014-12-02T00:53:40Z",
       "side": 1,
       "message": "Put this on a separate line, consistent with the others?",
+      "range": {
+        "startLine": 229,
+        "startChar": 24,
+        "endLine": 229,
+        "endChar": 48
+      },
+      "revId": "6423d451cf5c9a303cc774aea19fa6d60ed25f78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5f73e923_657786c5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-02T20:48:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9fa80192_cf021d2f",
       "range": {
         "startLine": 229,
         "startChar": 24,
@@ -95,6 +143,30 @@
     },
     {
       "key": {
+        "uuid": "5fc5a95b_15ba74e6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-02T20:48:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9fa80192_efffe1bd",
+      "range": {
+        "startLine": 246,
+        "startChar": 10,
+        "endLine": 246,
+        "endChar": 73
+      },
+      "revId": "6423d451cf5c9a303cc774aea19fa6d60ed25f78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9fa80192_af05d939",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/UnchangedCommitMessage.java",
         "patchSetId": 12
@@ -129,6 +201,30 @@
       "writtenOn": "2014-12-02T09:12:04Z",
       "side": 1,
       "message": "Yes, \"Exception\" suffix would be fine.",
+      "parentUuid": "9fa80192_af05d939",
+      "range": {
+        "startLine": 17,
+        "startChar": 13,
+        "endLine": 17,
+        "endChar": 35
+      },
+      "revId": "6423d451cf5c9a303cc774aea19fa6d60ed25f78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5fc5a95b_f55b383d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/UnchangedCommitMessage.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-02T20:48:28Z",
+      "side": 1,
+      "message": "Done",
       "parentUuid": "9fa80192_af05d939",
       "range": {
         "startLine": 17,

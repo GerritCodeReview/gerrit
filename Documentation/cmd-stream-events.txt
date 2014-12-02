@@ -56,6 +56,9 @@ patchSet:: link:json.html#patchSet[patchSet attribute]
 
 uploader:: link:json.html#account[account attribute]
 
+eventCreatedOn:: Time in seconds since the UNIX epoch when this event was
+created.
+
 ==== Draft Published
 type:: "draft-published"
 
@@ -64,6 +67,9 @@ change:: link:json.html#change[change attribute]
 patchSet:: link:json.html#patchSet[patchSet attribute]
 
 uploader:: link:json.html#account[account attribute]
+
+eventCreatedOn:: Time in seconds since the UNIX epoch when this event was
+created.
 
 ==== Change Abandoned
 type:: "change-abandoned"
@@ -76,6 +82,9 @@ abandoner:: link:json.html#account[account attribute]
 
 reason:: Reason for abandoning the change.
 
+eventCreatedOn:: Time in seconds since the UNIX epoch when this event was
+created.
+
 ==== Change Restored
 type:: "change-restored"
 
@@ -87,6 +96,9 @@ restorer:: link:json.html#account[account attribute]
 
 reason:: Reason for restoring the change.
 
+eventCreatedOn:: Time in seconds since the UNIX epoch when this event was
+created.
+
 ==== Change Merged
 type:: "change-merged"
 
@@ -95,6 +107,9 @@ change:: link:json.html#change[change attribute]
 patchSet:: link:json.html#patchSet[patchSet attribute]
 
 submitter:: link:json.html#account[account attribute]
+
+eventCreatedOn:: Time in seconds since the UNIX epoch when this event was
+created.
 
 ==== Merge Failed
 type:: "merge-failed"
@@ -106,6 +121,9 @@ patchSet:: link:json.html#patchSet[patchSet attribute]
 submitter:: link:json.html#account[account attribute]
 
 reason:: Reason that the merge failed.
+
+eventCreatedOn:: Time in seconds since the UNIX epoch when this event was
+created.
 
 ==== Comment Added
 type:: "comment-added"
@@ -120,12 +138,18 @@ approvals:: All link:json.html#approval[approval attributes] granted.
 
 comment:: Comment text author had written
 
+eventCreatedOn:: Time in seconds since the UNIX epoch when this event was
+created.
+
 ==== Ref Updated
 type:: "ref-updated"
 
 submitter:: link:json.html#account[account attribute]
 
 refUpdate:: link:json.html#refUpdate[refUpdate attribute]
+
+eventCreatedOn:: Time in seconds since the UNIX epoch when this event was
+created.
 
 ==== Reviewer Added
 type:: "reviewer-added"
@@ -136,6 +160,9 @@ patchSet:: link:json.html#patchSet[patchSet attribute]
 
 reviewer:: link:json.html#account[account attribute]
 
+eventCreatedOn:: Time in seconds since the UNIX epoch when this event was
+created.
+
 ==== Topic Changed
 type:: "topic-changed"
 
@@ -144,6 +171,9 @@ change:: link:json.html#change[change attribute]
 changer:: link:json.html#account[account attribute]
 
 oldTopic:: Topic name before it was changed.
+
+eventCreatedOn:: Time in seconds since the UNIX epoch when this event was
+created.
 
 ==== Hashtags Changed
 type:: "hashtags-changed"
@@ -157,6 +187,9 @@ added:: List of hashtags added to the change
 removed:: List of hashtags removed from the change
 
 hashtags:: List of hashtags on the change after tags were added or removed
+
+eventCreatedOn:: Time in seconds since the UNIX epoch when this event was
+created.
 
 == SEE ALSO
 

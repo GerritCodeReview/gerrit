@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5fc5a95b_15519426",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-02T08:46:41Z",
+      "side": 1,
+      "message": "Two words. I sought only in German they write all words together: \"Änderungssicht\" not ;-)?",
+      "range": {
+        "startLine": 7,
+        "startChar": 42,
+        "endLine": 7,
+        "endChar": 54
+      },
+      "revId": "f5d1c987fe22fbfb434ee04b54439d8984b2c153",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5fc5a95b_3556901f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-02T08:46:41Z",
+      "side": 1,
+      "message": "Explain why?",
+      "revId": "f5d1c987fe22fbfb434ee04b54439d8984b2c153",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5fc5a95b_554b0c76",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-02T08:46:41Z",
+      "side": 1,
+      "message": "Point in the end.",
+      "range": {
+        "startLine": 9,
+        "startChar": 48,
+        "endLine": 9,
+        "endChar": 58
+      },
+      "revId": "f5d1c987fe22fbfb434ee04b54439d8984b2c153",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5fc5a95b_f5825825",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 849,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-02T08:46:41Z",
+      "side": 1,
+      "message": "Is the WEB_LINKS option obsolete now and can be removed? Including documentation?",
+      "range": {
+        "startLine": 847,
+        "startChar": 4,
+        "endLine": 849,
+        "endChar": 5
+      },
+      "revId": "f5d1c987fe22fbfb434ee04b54439d8984b2c153",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

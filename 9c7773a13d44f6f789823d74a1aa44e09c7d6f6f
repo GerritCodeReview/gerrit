@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5f73e923_051ed286",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-12-02T05:29:42Z",
+      "side": 1,
+      "message": "need some document to tell users the pattern that would be though of hashtags  in commit message by Gerrit.",
+      "revId": "9c7773a13d44f6f789823d74a1aa44e09c7d6f6f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

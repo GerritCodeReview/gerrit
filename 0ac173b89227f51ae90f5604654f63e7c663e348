@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5fc5a95b_75464880",
+        "filename": "ReleaseNotes/ReleaseNotes-2.11.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-02T07:04:32Z",
+      "side": 1,
+      "message": "Haven\u0027t we said, that pk column order fix post setp isn\u0027t going to be used on master, and instead schema migration with the same logic is going to be implemented?",
+      "revId": "0ac173b89227f51ae90f5604654f63e7c663e348",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

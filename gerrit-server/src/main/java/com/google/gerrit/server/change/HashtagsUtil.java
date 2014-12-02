@@ -17,6 +17,7 @@ package com.google.gerrit.server.change;
 import static com.google.common.base.CharMatcher.WHITESPACE;
 
 import com.google.common.base.CharMatcher;
+import com.google.common.base.Strings;
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.extensions.api.changes.HashtagsInput;
 import com.google.gerrit.extensions.registration.DynamicSet;
@@ -39,6 +40,8 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Singleton
 public class HashtagsUtil {
@@ -52,7 +55,8 @@ public class HashtagsUtil {
 
   @Inject
   HashtagsUtil(ChangeUpdate.Factory updateFactory,
-      Provider<ReviewDb> dbProvider, ChangeIndexer indexer,
+      Provider<ReviewDb> dbProvider,
+      ChangeIndexer indexer,
       ChangeHooks hooks,
       DynamicSet<HashtagValidationListener> hashtagValidationListeners) {
     this.updateFactory = updateFactory;
@@ -66,6 +70,20 @@ public class HashtagsUtil {
     hashtag = LEADER.trimLeadingFrom(hashtag);
     hashtag = WHITESPACE.trimTrailingFrom(hashtag);
     return hashtag.toLowerCase();
+  }
+
+  public static Set<String> extractTags(String input) {
+    if (Strings.isNullOrEmpty(input)) {
+      return Collections.emptySet();
+    } else {
+      HashSet<String> result = new HashSet<>();
+      Pattern pattern = Pattern.compile("#[A-Za-z0-9]+");
+      Matcher matcher = pattern.matcher(input);
+      while (matcher.find()) {
+        result.add(matcher.group());
+      }
+      return result;
+    }
   }
 
   private Set<String> extractTags(Set<String> input)

@@ -18,6 +18,9 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 
 public abstract class ChangeEvent {
+
+  public long eventCreatedOn = System.currentTimeMillis();
+
   public abstract String getType();
 
   public abstract Project.NameKey getProjectNameKey();

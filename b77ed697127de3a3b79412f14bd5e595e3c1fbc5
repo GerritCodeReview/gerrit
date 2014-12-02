@@ -91,6 +91,24 @@
     },
     {
       "key": {
+        "uuid": "5fc5a95b_b50e2052",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 39
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-12-02T02:43:51Z",
+      "side": 1,
+      "message": "Okay.\nLet\u0027s just ignore it .",
+      "parentUuid": "bfa305b2_70f4b0e8",
+      "revId": "b77ed697127de3a3b79412f14bd5e595e3c1fbc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7f434d81_9e379d02",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeInserter.java",
         "patchSetId": 39
@@ -209,6 +227,24 @@
       "side": 1,
       "message": "I prefer the #hashtag solution; it\u0027s more aligned with the way other tools work.\n\nIs there any reason to not support both ways?",
       "parentUuid": "1f941150_6bdbe17b",
+      "revId": "b77ed697127de3a3b79412f14bd5e595e3c1fbc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5f73e923_c502fa2e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/HashtagsUtil.java",
+        "patchSetId": 39
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-12-02T02:43:51Z",
+      "side": 1,
+      "message": "That would means in commit message the \u0027#\u0027 will have special \n meanings, only used by hashtags, I think this is what Sven care about. \n No problem for me to implement it.  \n Let\u0027s go with Dave\u0027s idea and see if there is complains.",
+      "parentUuid": "9f81e119_8711e674",
       "revId": "b77ed697127de3a3b79412f14bd5e595e3c1fbc5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

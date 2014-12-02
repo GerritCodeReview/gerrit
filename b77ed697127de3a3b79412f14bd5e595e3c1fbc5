@@ -158,6 +158,24 @@
       "revId": "b77ed697127de3a3b79412f14bd5e595e3c1fbc5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1f941150_6bdbe17b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/HashtagsUtil.java",
+        "patchSetId": 39
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-12-02T01:08:47Z",
+      "side": 1,
+      "message": "This is already the way every tweet works, and you don\u0027t see Twitter users complaining.\n\nThe *entire point* of hashtags it that they are automatically created from text prefixed with \"#\". If you don\u0027t do that, in what sense are they hashtags?\n\nTo be quite honest, I would probably rather support turning off this entire feature at the server level than require people to add footers.",
+      "parentUuid": "5fc5a95b_15cc34c7",
+      "revId": "b77ed697127de3a3b79412f14bd5e595e3c1fbc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

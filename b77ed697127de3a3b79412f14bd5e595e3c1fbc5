@@ -109,6 +109,24 @@
     },
     {
       "key": {
+        "uuid": "9fa80192_af379901",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 39
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 1006818
+      },
+      "writtenOn": "2014-12-02T12:49:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bfa305b2_70f4b0e8",
+      "revId": "b77ed697127de3a3b79412f14bd5e595e3c1fbc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7f434d81_9e379d02",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeInserter.java",
         "patchSetId": 39
@@ -245,6 +263,24 @@
       "side": 1,
       "message": "That would means in commit message the \u0027#\u0027 will have special \n meanings, only used by hashtags, I think this is what Sven care about. \n No problem for me to implement it.  \n Let\u0027s go with Dave\u0027s idea and see if there is complains.",
       "parentUuid": "9f81e119_8711e674",
+      "revId": "b77ed697127de3a3b79412f14bd5e595e3c1fbc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9fa80192_8f3ad5e8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/HashtagsUtil.java",
+        "patchSetId": 39
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1006818
+      },
+      "writtenOn": "2014-12-02T12:49:59Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "1f941150_6bdbe17b",
       "revId": "b77ed697127de3a3b79412f14bd5e595e3c1fbc5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

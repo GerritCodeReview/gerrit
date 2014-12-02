@@ -351,7 +351,7 @@ public class FileTable extends FlowPanel {
           });
     }
 
-    void onEditMessage(int idx) {
+    void onEditMessage(@SuppressWarnings("unused") int idx) {
       ChangeFileApi.getMessage(curr,
           new GerritCallback<String>() {
             @Override

@@ -176,6 +176,24 @@
       "revId": "b77ed697127de3a3b79412f14bd5e595e3c1fbc5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9f81e119_8711e674",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/HashtagsUtil.java",
+        "patchSetId": 39
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-12-02T01:18:24Z",
+      "side": 1,
+      "message": "I prefer the #hashtag solution; it\u0027s more aligned with the way other tools work.\n\nIs there any reason to not support both ways?",
+      "parentUuid": "1f941150_6bdbe17b",
+      "revId": "b77ed697127de3a3b79412f14bd5e595e3c1fbc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -21,7 +21,8 @@ Important Notes
 a later 2.1.x version), and then to 2.11.x.  If you are upgrading from 2.2.x.x or
 later, you may ignore this warning and upgrade directly to 2.11.x.
 
-*WARNING:* The 'Generate HTTP Password' capability has been removed.
+*WARNING:* The 'Generate HTTP Password' capability has been
+link:#remove-generate-http-password-capability[removed].
 
 
 Release Highlights
@@ -29,10 +30,39 @@ Release Highlights
 
 
 * link:http://code.google.com/p/gerrit/issues/detail?id=505[Issue 505]:
-Inline editing: Changes can be edited directly in the browser.
+Changes can be created and edited directly in the browser. See the
+link:#inline-editing[Inline editing] section for more details.
+
+
+Experimental Features
+---------------------
+
+The following new features are experimental. They are not fully documented yet,
+and it is not recommended to enable them in live production systems.
+
+* Migration of review information from database to git notes.
 +
-Files can be added, deleted, restored or edited directly in the browser. Change
-edits can be published, deleted and rebased on top of the latest patch set.
+Groundwork has been done to implement migration of review information from the
+database to a git notes based backend.
++
+Existing review information can be migrated from the review database to
+git notes with the `RebuildNotedb` program.
++
+This feature can be enabled with the following settings in `gerrit.config`:
+----
+[gerrit]
+  notedbpath = notedb
+[notedb "changes"]
+  write = true
+  read = true
+----
+
+* Hashtags.
++
+Hashtags can be added to changes. The hashtags are stored in git notes and
+are indexed in the secondary index.
++
+This feature requires the notedb to be enabled.
 
 
 New Features
@@ -42,32 +72,296 @@ New Features
 Web UI
 ~~~~~~
 
-TODO
+[[inline-editing]]
+Inline Editing
+^^^^^^^^^^^^^^
 
-Global
-^^^^^^
+* New changes can be created and populated directly in the browser via
+a 'Create Change' button on the project info screen.
 
-TODO
+* New follow-up changes can be created via a 'Follow-Up' button on the change
+screen
+
+* Content editing takes place in a full screen CodeMirror window with support for
+themes, syntax highlighting, different key maps (Emacs, Vim, Default).
+
+* The CodeMirror screen can be configured in the same way as the side-by-side
+diff screen.
+
+* The file table in the change screen supports edit mode with seamless navigation
+to CodeMirror for editing.
+
+* Edit mode can be started from the side-by-side diff screen with seamless
+navigation to CodeMirror.
+
+* The commit message can be changed in context of change edit. The 'Edit Message'
+button is still supported, but now it creates a change edit that must be published.
+
+* Files can be added, deleted, restored and modified directly in browser.
+
+* User-specific configuration dedicated to edit mode in CodeMirror are stored in
+the `All-Users` repository rather than in the database.
+
+Change Screen
+^^^^^^^^^^^^^
+
+* Show the parent commit's subject as a tooltip.
+
+* link:http://code.google.com/p/gerrit/issues/detail?id=2541[Issue 2541],
+link:http://code.google.com/p/gerrit/issues/detail?id=2974[Issue 2974]:
+Allow the 'Reply' button's
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.11/config-gerrit.html#change.replyLabel[
+label and tooltip] to be configured.
+
+Side-By-Side Diff
+^^^^^^^^^^^^^^^^^
+
+* New preference setting to toggle auto-hiding of the diff table header.
++
+The setting determines whether or not the diff table header with the patch set
+selection should be automatically hidden when scrolling down more than half of
+a page.
+
 
 REST
 ~~~~
 
-TODO
+Changes
+^^^^^^^
 
-SSH
+* Add new
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.11/rest-api-changes.html#check-change[
+check change endpoint].
++
+In the past, Gerrit bugs, lack of transactions, and unreliable NoSQL backends
+have at various times produced a bewildering variety of corrupt states.
++
+This endpoint can be used to detect and explain some of these possible states
+of a change.
+
+
+Projects
+^^^^^^^^
+
+* Add filtering and pagination options on the
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.11/rest-api-projects.html#list-branches[
+list branches] endpoint.
+
+* Add new
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.11/rest-api-projects.html#list-tags[
+list tags] endpoint.
+
+* Add new
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.11/rest-api-projects.html#get-tag[
+get tag] endpoint.
+
+
+Configuration
+~~~~~~~~~~~~~
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=2786[Issue 2786]:
+Allow non-administrators to modify user accounts.
++
+A new global capability,
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.11/access-control.html#capability_modifyAccount[
+'Modify Account'], allows the granted group members to modify user account
+settings via the
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.11/cmd-set-account.html[
+`set-account` SSH command].
++
+Modification of users' SSH keys is still restricted to administrators.
+
+* Add support for
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.11/config-gerrit.html#ldap.useConnectionPooling[
+LDAP connection pooling].
+
+* Allow to
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.11/config-gerrit.html#receive.maxBatchChanges[
+limit max number of changes pushed in a batch].
++
+Can be overridden by members of groups that are granted the
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.11/access-control.html#capability_batchChangesLimit[
+Batch Changes Limit] capability.
+
+* Allow to
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.11/config-gerrit.html#gerrit.disableReverseDnsLookup[
+disable reverse DNS lookup].
++
+This option can be set to improve push time from hosts without a reverse DNS
+entry.
+
+* Allow to
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.11/config-gerrit.html#sshd.rekeyBytesLimit[
+configure SSH rekey values].
+
+* Allow to
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.11/config-gerrit.html#cache.projects.loadOnStartup[
+load the project cache at server startup].
+
+* Allow members of groups granted the
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.11/access-control.html#capability_accessDatabase[
+AccessDatabase capability] to view metadata refs.
+
+* Allow to
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.11/config-gerrit.html#http.addUserAsRequestAttribute[
+add the user to the http request attributes].
+
+* Allow to
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.11/config-gerrit.html#suggest.fullTextSearch[
+enable full text search in memory for review suggestions].
++
+The maximum number of reviewers evaluated can be limited with
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.11/config-gerrit.html#suggest.fullTextSearchMaxMatches[
+suggest.fullTextSearchMaxMatches].
+
+* Allow to provide an alternative
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.11/config-gerrit.html#gerrit.secureStoreClass[
+secure store implementation].
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=1195[Issue 1195]:
+Allow projects to be configured to create a new change for every uploaded commit that is not in the target branch.
+
+Daemon
+~~~~~~
+
+* Allow to enable the http daemon when running in slave mode.
+
+The `--enable-httpd` option can be used in conjunction with the `--slave` option
+to allow clients to fetch from the slave over the http protocol.
+
+* Include the submitter's name in the change message when a change is submitted.
+
+
+ssh
 ~~~
 
-TODO
+* Add new commands
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.11/cmd-logging-ls-level.html[
+`logging ls-level`] and
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.11/cmd-logging-set-level.html[
+`logging set-level`] to show and set the logging level at runtime.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=602[Issue 602]:
+Add `--json` option to the
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.11/cmd-review.html[
+`review` SSH command].
++
+Review input can be given to the `review` command in JSON format corresponding
+to the REST API's
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.11/rest-api-changes.html#review-input[
+ReviewInput] entity.
+
+*  link:https://code.google.com/p/gerrit/issues/detail?id=2824[Issue 2824]:
+Add `--rebase` option to the
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.11/cmd-review.html[
+`review` SSH command].
+
+* Add `--clear-http-password` option to the
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.11/cmd-set-account.html[
+`set-account` SSH command].
+
+* Add `--preferred-email` option to the
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.11/cmd-set-account.html[
+`set-account` SSH command].
+
 
 Plugins
 ~~~~~~~
 
-TODO
+General
+^^^^^^^
 
-Other
-~~~~~
+* Plugins can listen to account group membership changes
++
+The audit log service allows to register listeners to group member added and
+group member deleted events. A default listener logs these events to the database
+as before, but additional listeners may now be registered for these events using
+the `GroupMemberAuditListener` interface.
 
-* The 'Generate HTTP Password' capability is removed.
+* Plugins can validate ref operations.
++
+Plugins implementing the `RefOperationValidationListener` interface can
+perform additional validation checks against ref creation/deletion operations
+before they are applied to the git repository.
+
+* Plugins can provide project-aware top menu extensions
++
+Plugins can provide sub-menu items within the 'Projects' context. The
+'${projectName}' placeholder is replaced by the project name.
+
+* Auto register static/init.js as JavaScript plugin.
++
+When a plugin does not expose Guice Modules explicitly, auto discover and
+register static/init.js as WebUi extension if found by the plugin content
+scanner.
+
+* Plugins that provide initialization steps may now use functionality
+from InitUtil in core Gerrit.
+
+* New extensions in the Java Plugin API:
+
+** Set/Put topic.
+** Get mergeable status.
+** link:https://code.google.com/p/gerrit/issues/detail?id=461[Issue 461]:
+Get current user.
+
+Replication
+^^^^^^^^^^^
+
+* Projects can be specified with wildcard in the `start` command.
+
+
+Bug Fixes
+---------
+
+Daemon
+~~~~~~
+
+* Change "Merge topic" to "Merge changes from topic".
++
+When multiple changes from a topic are submitted resulting in a merge commit,
+the title of the merge commit is now "Merge changes from topic" instead of
+"Merge topic".
+
+* Fix visibility checks for `refs/meta/config`.
++
+Under some conditions it was possible for the `refs/meta/config` branch to be
+erroneously considerered not visible to the user.
+
+* Sort list of updated changes in output from push.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=2940[Issue 2940]:
+Improve warning messages when Change-Id is missing in the commit message.
+
+** Add a hint to amend the commit after installing the commit-msg hook.
+** Don't show "Suggestion for commit message" when Change-Id is missing.
+
+ssh
+~~~
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=2797[Issue 2797]:
+Allow ECDSA based public key authentication.
+
+* Include all command arguments in SSH log entry.
++
+The SSH log only included the first argument. This prevented the repository name
+from being logged when `git receive-pack` was executed instead of `git-receive-pack`.
+
+
+Secondary Index / Search
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=2822[Issue 2822]:
+Improve Lucene analysis of words linked with '_' or '.'.
++
+Instead of treating words linked with '_' or '.' as one word, Lucene now
+treats them as separate words.
+
+Configuration
+~~~~~~~~~~~~~
+
+[[remove-generate-http-password-capability]]
+* Remove the 'Generate HTTP Password' capability.
 +
 The 'Generate HTTP Password' capability has been removed to close a security
 vulnerability.  Now only administrators are allowed to generate and delete other
@@ -75,7 +369,119 @@ users' http passwords via the REST or SSH interface.
 +
 It is encouraged to clean up your `project.config` settings after upgrading.
 
+
+Web UI
+~~~~~~
+
+Change Screen
+^^^^^^^^^^^^^
+
+* Differentiate between conflicts and already merged errors in cherry-pick
++
+When a cherry-pick operation failed with "Cherry pick failed" error, there was no
+way to know the reason for the failure: merge conflict or the commit is already
+on the target branch.  These failures are now differentiated and a proper error
+is reported to the client.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=2837[Issue 2837]:
+Improve display of long user names for collapsed comments in history.
++
+If there were several users with long user names with the same prefix, e.g.
+'AutomaticGerritVoterLinux' and 'AutomaticGerritVoterWindows', they would both
+be shown as 'AutomaticGerritVo...' and users had to expand the comment to see
+the full user name.
++
+The ellipsis is now inserted in the middle of the user name so that the start
+and end of the user name are always visible, e.g. 'AutomaticG...VoterLinux' and
+'AutomaticG...terWindows'.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=2992[Issue 2992]:
+Fix display of review comments for Chrome on Android.
++
+Chrome for Android has Font Boosting, which caused the review comments to
+be displayed too large.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=2909[Issue 2909]:
+Make change owner votes removable.
++
+If a change owner voted on a change, it was not possible for anyone other
+than the owner to remove the vote.
+
+* Preserve topic when cherry-picking.
++
+When a change is cherry-picked, the topic from the source change is preserved
+on the newly created change.
+
+* link:http://code.google.com/p/gerrit/issues/detail?id=3007[Issue 3007]:
+Make the selected tab persistent.
++
+If a change from the "Same Topic" tab was clicked, the selected tab would reset
+to the default tab ("Related Changes").
+
+
+Side-By-Side Diff
+^^^^^^^^^^^^^^^^^
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=2848[Issue 2848]:
+Add support for CSharp syntax highlighting.
+
+* Remove support for syntax highlighting of Restructured Text and Go file types.
++
+Syntax highlighting for these file types caused rendering failures due to a
+link:https://github.com/codemirror/CodeMirror/issues/2850[bug in CodeMirror].
+
+Project Screen
+^^^^^^^^^^^^^^
+
+* Fix alignment of checkboxes on project access screen.
++
+The "Exclusive" checkbox was not aligned with the other checkboxes.
+
+REST API
+~~~~~~~~
+
+Changes
+^^^^^^^
+
+* Remove the administrator restriction on the
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.11/rest-api-changes.html#index-change[
+index change] endpoint.
++
+The endpoint can now be used by any user who has visibility of the change.
+
+* Only include account IDs in responses when `DETAILED_ACCOUNTS` option is set.
+
+* Include revision's ref in responses.
++
+The ref of a revision was only returned as part of the fetch info, which is only
+available if the download commands are installed.
+
+* Correctly set the limit to the default when no limit is given in the
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.11/rest-api-changes.html#suggest-reviewers[
+suggest reviewers] endpoint.
+
+Projects
+^^^^^^^^
+
+* Make it mandatory to specify at least one of the `--prefix`, `--match` or `--regex`
+options in the
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.11/rest-api-projects.html#list-projects[
+list projects] endpoint.
+
+
 Upgrades
 --------
 
-TODO
+* Update asciidoctorj to 1.5.0.
+
+* Update CodeMirror to 57e7ed7177.
+
+* Update guava to 18.0.
+
+* Update Guice to 4.0-beta5.
+
+* Update jetty to 9.2.2.
+
+* Update Lucene to 4.10.2.
+
+* Update pegdown to 1.4.2.

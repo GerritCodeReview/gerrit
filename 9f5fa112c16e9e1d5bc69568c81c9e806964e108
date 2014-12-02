@@ -202,6 +202,24 @@
       "revId": "9f5fa112c16e9e1d5bc69568c81c9e806964e108",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9f81e119_877ba6ad",
+        "filename": "ReleaseNotes/ReleaseNotes-2.11.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-12-02T07:37:31Z",
+      "side": 1,
+      "message": "\u003e Given that this series is 2 years under reviw now, i am sceptical that we can/should wait untill all changes above are merged before cutting 2.11-rc0\n\n7 changes from the series have already been merged this week.\n\nSome more would have gone in this morning after I rebased the remaining ones, but I found some nits in the one at the bottom of the stack.\n\nI don\u0027t think it\u0027s unreasonable that the rest will be merged before 2.11-rc0.  If there are bits missing or broken they can be fixed up on stable-2.11.",
+      "parentUuid": "5f73e923_0547b27e",
+      "revId": "9f5fa112c16e9e1d5bc69568c81c9e806964e108",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

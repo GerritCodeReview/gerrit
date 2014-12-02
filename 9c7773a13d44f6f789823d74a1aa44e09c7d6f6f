@@ -16,6 +16,23 @@
       "revId": "9c7773a13d44f6f789823d74a1aa44e09c7d6f6f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5fc5a95b_354cd09e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/HashtagsUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-12-02T05:35:39Z",
+      "side": 1,
+      "message": "should there be a space before # ? \n\nsee the  case like \n\"Vulnerability Note VU#150227: HTTP proxy default configurations allow arbitrary TCP connections\". US-CERT. 2002-05-17. Retrieved 2007-05-10.",
+      "revId": "9c7773a13d44f6f789823d74a1aa44e09c7d6f6f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

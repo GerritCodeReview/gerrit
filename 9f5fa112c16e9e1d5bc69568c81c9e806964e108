@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9fa80192_ef18c194",
+        "filename": "ReleaseNotes/ReleaseNotes-2.11.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-12-02T07:22:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5fc5a95b_f531780c",
+      "range": {
+        "startLine": 43,
+        "startChar": 0,
+        "endLine": 44,
+        "endChar": 75
+      },
+      "revId": "9f5fa112c16e9e1d5bc69568c81c9e806964e108",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5f73e923_a50ede51",
         "filename": "ReleaseNotes/ReleaseNotes-2.11.txt",
         "patchSetId": 2
@@ -121,6 +145,24 @@
       "writtenOn": "2014-12-02T07:08:20Z",
       "side": 1,
       "message": "May be add all not merged features at the end of this section?",
+      "revId": "9f5fa112c16e9e1d5bc69568c81c9e806964e108",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9fa80192_cf1bfd8e",
+        "filename": "ReleaseNotes/ReleaseNotes-2.11.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-12-02T07:22:17Z",
+      "side": 1,
+      "message": "My intention was that this change would stay open until the features are merged.",
+      "parentUuid": "5fc5a95b_356db0f7",
       "revId": "9f5fa112c16e9e1d5bc69568c81c9e806964e108",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

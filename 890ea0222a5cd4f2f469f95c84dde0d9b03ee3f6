@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9f81e119_8764860a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/HashtagsUtil.java",
+        "patchSetId": 42
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-12-02T13:26:36Z",
+      "side": 1,
+      "message": "line break these to align with .from and .transform",
+      "range": {
+        "startLine": 67,
+        "startChar": 32,
+        "endLine": 67,
+        "endChar": 72
+      },
+      "revId": "890ea0222a5cd4f2f469f95c84dde0d9b03ee3f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9f81e119_474b6e76",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/HashtagsUtil.java",
+        "patchSetId": 42
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-12-02T13:26:36Z",
+      "side": 1,
+      "message": "move this after the constructor with the other static methods?\n\nor should those be moved up here above the constructor?",
+      "range": {
+        "startLine": 59,
+        "startChar": 2,
+        "endLine": 77,
+        "endChar": 3
+      },
+      "revId": "890ea0222a5cd4f2f469f95c84dde0d9b03ee3f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9f81e119_a7618af9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/CommitReceivedEvent.java",
+        "patchSetId": 42
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-12-02T13:26:36Z",
+      "side": 1,
+      "message": "Is it better to call the other constructor here?",
+      "range": {
+        "startLine": 45,
+        "startChar": 0,
+        "endLine": 50,
+        "endChar": 23
+      },
+      "revId": "890ea0222a5cd4f2f469f95c84dde0d9b03ee3f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9fa80192_cf34ddff",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 42
+      },
+      "lineNbr": 1936,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-12-02T13:26:36Z",
+      "side": 1,
+      "message": "nit: extra space",
+      "range": {
+        "startLine": 1936,
+        "startChar": 44,
+        "endLine": 1936,
+        "endChar": 45
+      },
+      "revId": "890ea0222a5cd4f2f469f95c84dde0d9b03ee3f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9fa80192_ef31a10c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 42
+      },
+      "lineNbr": 2171,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-12-02T13:26:36Z",
+      "side": 1,
+      "message": "is this needed?",
+      "range": {
+        "startLine": 2171,
+        "startChar": 50,
+        "endLine": 2171,
+        "endChar": 51
+      },
+      "revId": "890ea0222a5cd4f2f469f95c84dde0d9b03ee3f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9f81e119_c75e7e30",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 42
+      },
+      "lineNbr": 2361,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-12-02T13:26:36Z",
+      "side": 1,
+      "message": "needs to close",
+      "range": {
+        "startLine": 2361,
+        "startChar": 47,
+        "endLine": 2361,
+        "endChar": 57
+      },
+      "revId": "890ea0222a5cd4f2f469f95c84dde0d9b03ee3f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

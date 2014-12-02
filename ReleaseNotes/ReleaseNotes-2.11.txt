@@ -62,7 +62,11 @@ TODO
 Plugins
 ~~~~~~~
 
-TODO
+Replication
+^^^^^^^^^^^
+
+* Projects can be specified with wildcard in the `start` command.
+
 
 Other
 ~~~~~

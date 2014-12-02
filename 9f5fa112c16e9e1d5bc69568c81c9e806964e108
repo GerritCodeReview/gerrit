@@ -166,6 +166,24 @@
       "revId": "9f5fa112c16e9e1d5bc69568c81c9e806964e108",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5f73e923_0547b27e",
+        "filename": "ReleaseNotes/ReleaseNotes-2.11.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-02T07:31:37Z",
+      "side": 1,
+      "message": "Given that this series is 2 years under reviw now, i am sceptical that we can/should wait untill all changes above are merged before cutting 2.11-rc0. What is urgently missing and really needed is CM3 integration [1]. Other changes are nice to have and can be done later.\n\n [1] https://gerrit-review.googlesource.com/61243",
+      "parentUuid": "9fa80192_cf1bfd8e",
+      "revId": "9f5fa112c16e9e1d5bc69568c81c9e806964e108",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

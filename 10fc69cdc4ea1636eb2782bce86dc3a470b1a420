@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5fc5a95b_d51b9c8e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/HashtagsUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-12-02T05:27:27Z",
+      "side": 1,
+      "message": "I am just thinking about this. \nthanks providing this ahead of me :)\n\nI think we should take in account the cases like: \n\n     ... Features about #extract-hashags-from-commit-message...\n or \n     ... Features about #\u0027extract hashags from commit message\u0027...\n \n\nand should not think it as  hashtags in cases like\n\n     ...The # symbol sometimes has special meanings in commit message\n\n  or \n\n     ...but # isn\u0027t a hash...",
+      "revId": "10fc69cdc4ea1636eb2782bce86dc3a470b1a420",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

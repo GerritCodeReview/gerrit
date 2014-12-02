@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bfa305b2_b00e1852",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2754,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2014-12-02T16:38:19Z",
+      "side": 1,
+      "message": "missing: be",
+      "range": {
+        "startLine": 2754,
+        "startChar": 69,
+        "endLine": 2754,
+        "endChar": 70
+      },
+      "revId": "855b9a3c58e1a4683b555ff3134edf255e16436f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

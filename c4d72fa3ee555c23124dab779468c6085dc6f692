@@ -1,0 +1,205 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9fa80192_4f28edad",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-12-02T07:16:02Z",
+      "side": 1,
+      "message": "I can\u0027t find it in the style guide, but don\u0027t we usually put not-injected members separately from the injected members?\n\nActually, the guideline says we only inject in constructors, not in fields.  So this code already violates it :/",
+      "range": {
+        "startLine": 84,
+        "startChar": 2,
+        "endLine": 84,
+        "endChar": 35
+      },
+      "revId": "c4d72fa3ee555c23124dab779468c6085dc6f692",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9fa80192_6f2db1bc",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-12-02T07:16:02Z",
+      "side": 1,
+      "message": "Add a blank line before this, for consistency with the others.",
+      "revId": "c4d72fa3ee555c23124dab779468c6085dc6f692",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9f81e119_a737ca01",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-12-02T07:16:02Z",
+      "side": 1,
+      "message": "wrap this long line.",
+      "range": {
+        "startLine": 221,
+        "startChar": 80,
+        "endLine": 221,
+        "endChar": 99
+      },
+      "revId": "c4d72fa3ee555c23124dab779468c6085dc6f692",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9fa80192_8f11f574",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHooks.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-12-02T07:16:02Z",
+      "side": 1,
+      "message": "Add this to the javadoc.",
+      "range": {
+        "startLine": 85,
+        "startChar": 45,
+        "endLine": 85,
+        "endChar": 59
+      },
+      "revId": "c4d72fa3ee555c23124dab779468c6085dc6f692",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9f81e119_c734beff",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 644,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-12-02T07:16:02Z",
+      "side": 1,
+      "message": "Don\u0027t use final",
+      "range": {
+        "startLine": 644,
+        "startChar": 4,
+        "endLine": 644,
+        "endChar": 9
+      },
+      "revId": "c4d72fa3ee555c23124dab779468c6085dc6f692",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9f81e119_e731c20c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 759,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-12-02T07:16:02Z",
+      "side": 1,
+      "message": "wrap",
+      "range": {
+        "startLine": 759,
+        "startChar": 78,
+        "endLine": 759,
+        "endChar": 99
+      },
+      "revId": "c4d72fa3ee555c23124dab779468c6085dc6f692",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9fa80192_af0eb951",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeTip.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-12-02T07:16:02Z",
+      "side": 1,
+      "message": "wrap",
+      "range": {
+        "startLine": 56,
+        "startChar": 78,
+        "endLine": 56,
+        "endChar": 120
+      },
+      "revId": "c4d72fa3ee555c23124dab779468c6085dc6f692",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9f81e119_076896e6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeTip.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-12-02T07:16:02Z",
+      "side": 1,
+      "message": "Missing javadoc.",
+      "range": {
+        "startLine": 66,
+        "startChar": 2,
+        "endLine": 66,
+        "endChar": 43
+      },
+      "revId": "c4d72fa3ee555c23124dab779468c6085dc6f692",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9f81e119_47728ed6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/RebaseIfNecessary.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-12-02T07:16:02Z",
+      "side": 1,
+      "message": "wrap",
+      "range": {
+        "startLine": 135,
+        "startChar": 79,
+        "endLine": 135,
+        "endChar": 95
+      },
+      "revId": "c4d72fa3ee555c23124dab779468c6085dc6f692",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

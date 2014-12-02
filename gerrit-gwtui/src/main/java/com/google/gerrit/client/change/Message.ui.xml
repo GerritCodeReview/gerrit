@@ -102,7 +102,7 @@ limitations under the License.
       font-size: 18px;
     }
     .closed .reply {
-      visibility: HIDDEN;
+      visibility: hidden;
     }
     .comment {
     }

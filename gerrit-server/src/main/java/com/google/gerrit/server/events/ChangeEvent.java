@@ -14,10 +14,14 @@
 
 package com.google.gerrit.server.events;
 
+import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 
 public abstract class ChangeEvent {
+
+  public long eventCreatedOn = TimeUtil.nowMs() / 1000L;
+
   public abstract String getType();
 
   public abstract Project.NameKey getProjectNameKey();

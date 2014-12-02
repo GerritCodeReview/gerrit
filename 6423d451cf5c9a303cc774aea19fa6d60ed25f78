@@ -71,6 +71,30 @@
     },
     {
       "key": {
+        "uuid": "5fc5a95b_9564c40a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-02T09:12:04Z",
+      "side": 1,
+      "message": "The reason we need the message in some place is because we want to propagate this to the client. This is done in REST endpoint. We can move it to constructor.\n\n  try {\n        editModifier.modifyMessage(edit.get(), input.message);\n  } catch (UnchangedCommitMessage ucm) {\n        throw new ResourceConflictException(ucm.getMessage());\n  }",
+      "parentUuid": "9fa80192_efffe1bd",
+      "range": {
+        "startLine": 246,
+        "startChar": 10,
+        "endLine": 246,
+        "endChar": 73
+      },
+      "revId": "6423d451cf5c9a303cc774aea19fa6d60ed25f78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9fa80192_af05d939",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/UnchangedCommitMessage.java",
         "patchSetId": 12
@@ -82,6 +106,30 @@
       "writtenOn": "2014-12-02T00:53:40Z",
       "side": 1,
       "message": "Should this have an `Exception` or `Error` suffix?",
+      "range": {
+        "startLine": 17,
+        "startChar": 13,
+        "endLine": 17,
+        "endChar": 35
+      },
+      "revId": "6423d451cf5c9a303cc774aea19fa6d60ed25f78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5fc5a95b_b561c0f9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/UnchangedCommitMessage.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-02T09:12:04Z",
+      "side": 1,
+      "message": "Yes, \"Exception\" suffix would be fine.",
+      "parentUuid": "9fa80192_af05d939",
       "range": {
         "startLine": 17,
         "startChar": 13,

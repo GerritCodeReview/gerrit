@@ -17,16 +17,22 @@ Important Notes
   java -jar gerrit.war reindex --recheck-mergeable -d site_path
 ----
 
+*WARNING:* Upgrading to 2.11.x requires the server be first upgraded to 2.1.7 (or
+a later 2.1.x version), and then to 2.11.x.  If you are upgrading from 2.2.x.x or
+later, you may ignore this warning and upgrade directly to 2.11.x.
+
+*WARNING:* The 'Generate HTTP Password' capability has been removed.
+
+
 Release Highlights
 ------------------
 
 
 * link:http://code.google.com/p/gerrit/issues/detail?id=505[Issue 505]:
-Code changes can be done directly in browser.
+Inline editing: Changes can be edited directly in the browser.
 +
-Files can be added, deleted, restored or amended directly in browser
-in context of change edit. Change edits can be published, deleted and
-rebased on top of the latest patch set.
+Files can be added, deleted, restored or edited directly in the browser. Change
+edits can be published, deleted and rebased on top of the latest patch set.
 
 
 New Features
@@ -61,10 +67,13 @@ TODO
 Other
 ~~~~~
 
-The 'Generate HTTP Password' capability has been removed to close a
-security vulnerability.  Now only administrators are allowed to generate
-and delete other user's http passwords via the REST or SSH interface.
-We would encourage you to clean up your project.config setting after upgrading.
+* The 'Generate HTTP Password' capability is removed.
++
+The 'Generate HTTP Password' capability has been removed to close a security
+vulnerability.  Now only administrators are allowed to generate and delete other
+users' http passwords via the REST or SSH interface.
++
+It is encouraged to clean up your `project.config` settings after upgrading.
 
 Upgrades
 --------

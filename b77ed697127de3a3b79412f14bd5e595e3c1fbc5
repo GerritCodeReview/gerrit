@@ -73,6 +73,24 @@
     },
     {
       "key": {
+        "uuid": "bfa305b2_70f4b0e8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 39
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-12-02T01:21:45Z",
+      "side": 1,
+      "message": "Sven, I think you\u0027re overthinking it. This feature essentially doesn\u0027t exist at all on a server until notedb is enabled for the first time, and once notedb is enabled, it\u0027s never going to be turned off. It\u0027s not like users have some long-standing expectations about how hashtags work that will be violated.\n\nIn fact, the only expectation users have is that with a few documented exceptions, they can put whatever they want in footers and the server will accept it. Rejecting or even warning on a change with unknown footers violates that expectation.\n\nI really think we should just ignore (continue ignoring) hashtags.",
+      "parentUuid": "5fabe956_651346ff",
+      "revId": "b77ed697127de3a3b79412f14bd5e595e3c1fbc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7f434d81_9e379d02",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeInserter.java",
         "patchSetId": 39

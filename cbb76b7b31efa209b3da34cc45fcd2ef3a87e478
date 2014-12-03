@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dfea79ee_1100ec24",
+        "filename": "Documentation/cmd-create-project.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-12-03T12:42:36Z",
+      "side": 1,
+      "message": "It\u0027s showing 2 spaces here, but the inline edit won\u0027t let me remove one of them.\n\nTried it on Chrome and Safari (both on Mac OS) and got the \"no changes made\" error both times.",
+      "range": {
+        "startLine": 141,
+        "startChar": 43,
+        "endLine": 141,
+        "endChar": 47
+      },
+      "revId": "cbb76b7b31efa209b3da34cc45fcd2ef3a87e478",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

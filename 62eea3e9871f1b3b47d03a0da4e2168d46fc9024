@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "df1359da_09e7a943",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1561,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-03T08:40:31Z",
+      "side": 1,
+      "message": "Add that the default secure-store implementation is a no-op?",
+      "revId": "62eea3e9871f1b3b47d03a0da4e2168d46fc9024",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

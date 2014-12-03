@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dfea79ee_b127e0de",
+        "filename": "Documentation/cmd-create-project.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-12-03T12:57:49Z",
+      "side": 1,
+      "message": "\"number\" is repeated.",
+      "range": {
+        "startLine": 142,
+        "startChar": 64,
+        "endLine": 143,
+        "endChar": 7
+      },
+      "revId": "a71107423097326b0531fa539e40eb081841421b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

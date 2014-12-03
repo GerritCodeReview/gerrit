@@ -80,4 +80,13 @@ public interface Resources extends ClientBundle {
 
   @Source("merge.png")
   public ImageResource merge();
+
+  @Source("go-prev.png")
+  public ImageResource go_prev();
+
+  @Source("go-next.png")
+  public ImageResource go_next();
+
+  @Source("go-up.png")
+  public ImageResource go_up();
 }

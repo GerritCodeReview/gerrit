@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "df1359da_095c4935",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/gear.png",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-03T14:51:09Z",
+      "side": 0,
+      "message": "Why this was removed? And why this was removed in this change? Inline edit series makes use of it.",
+      "revId": "133dbe6ef430bf6bbe57c8d7a97588477b8d0e56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1550,6 +1550,16 @@ Disables reverse DNS lookup during computing ref log entry for identified user.
 +
 Defaults to false.
 
+[[gerrit.secureStoreClass]]gerrit.secureStoreClass::
++
+Use the secure store implementation from a specified class.
++
+If specified, must be the fully qualified class name of a class that implements
+the `com.google.gerrit.server.securestore.SecureStore` interface, and the jar
+file containing the class must be placed in the `$site_path/lib` folder.
++
+If not specified, the default implementation is used.
+
 [[gitweb]]
 === Section gitweb
 

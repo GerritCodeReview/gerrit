@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bfa305b2_707750c5",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 1373,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-12-03T01:10:51Z",
+      "side": 1,
+      "message": "I would say \"content MIME type\" here and below.",
+      "range": {
+        "startLine": 1373,
+        "startChar": 18,
+        "endLine": 1373,
+        "endChar": 31
+      },
+      "revId": "d13d3edf5b65a57366abe6bf9143bd811461ec74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1f941150_2b4c799e",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 1385,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-12-03T01:10:51Z",
+      "side": 1,
+      "message": "When you say \"as text\" I would expect the result to be text/plain.",
+      "range": {
+        "startLine": 1385,
+        "startChar": 41,
+        "endLine": 1385,
+        "endChar": 48
+      },
+      "revId": "d13d3edf5b65a57366abe6bf9143bd811461ec74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1f941150_4b41c565",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 1394,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-12-03T01:10:51Z",
+      "side": 1,
+      "message": "IIRC some parsers expect application/json to be a JSON object, not a JSON string, so this would have to be something like {\"type\": \"text/plain\"}.\n\nMaybe making the response just plaintext is better.",
+      "revId": "d13d3edf5b65a57366abe6bf9143bd811461ec74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1f941150_6b468180",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/FileContentUtil.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-12-03T01:10:51Z",
+      "side": 1,
+      "message": "This can throw LargeObjectException. See CatServlet for a way to do this that works even on large blobs.",
+      "revId": "d13d3edf5b65a57366abe6bf9143bd811461ec74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

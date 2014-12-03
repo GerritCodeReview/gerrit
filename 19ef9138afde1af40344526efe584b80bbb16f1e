@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ff0e5db4_aa408f63",
+        "filename": "Documentation/cmd-create-project.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-12-03T12:14:16Z",
+      "side": 1,
+      "message": "\"is a merge commit\"?",
+      "range": {
+        "startLine": 141,
+        "startChar": 41,
+        "endLine": 141,
+        "endChar": 56
+      },
+      "revId": "19ef9138afde1af40344526efe584b80bbb16f1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

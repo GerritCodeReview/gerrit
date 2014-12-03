@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "ff0e5db4_aaee4f18",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/HashtagsUtil.java",
+        "patchSetId": 42
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-12-03T09:41:14Z",
+      "side": 1,
+      "message": "they are not on the save level with .from and .transform\n But I adjusted them a bit to easy review.",
+      "parentUuid": "9f81e119_8764860a",
+      "revId": "890ea0222a5cd4f2f469f95c84dde0d9b03ee3f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9f81e119_474b6e76",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/HashtagsUtil.java",
         "patchSetId": 42
@@ -42,6 +60,24 @@
         "endLine": 77,
         "endChar": 3
       },
+      "revId": "890ea0222a5cd4f2f469f95c84dde0d9b03ee3f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff0e5db4_caf983e2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/HashtagsUtil.java",
+        "patchSetId": 42
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-12-03T09:41:14Z",
+      "side": 1,
+      "message": "according to Code Organization in https://gerrit-review.googlesource.com/Documentation/dev-contributing.html\nother static methods should  be moved up here above the constructor",
+      "parentUuid": "9f81e119_474b6e76",
       "revId": "890ea0222a5cd4f2f469f95c84dde0d9b03ee3f6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -71,6 +107,24 @@
     },
     {
       "key": {
+        "uuid": "df1359da_4906c145",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/CommitReceivedEvent.java",
+        "patchSetId": 42
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-12-03T09:41:14Z",
+      "side": 1,
+      "message": "Certainly that would be better. :)\n\nDone",
+      "parentUuid": "9f81e119_a7618af9",
+      "revId": "890ea0222a5cd4f2f469f95c84dde0d9b03ee3f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9fa80192_cf34ddff",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 42
@@ -88,6 +142,24 @@
         "endLine": 1936,
         "endChar": 45
       },
+      "revId": "890ea0222a5cd4f2f469f95c84dde0d9b03ee3f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "df1359da_29038d35",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 42
+      },
+      "lineNbr": 1936,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-12-03T09:41:14Z",
+      "side": 1,
+      "message": "Thanks !\n\nDone",
+      "parentUuid": "9fa80192_cf34ddff",
       "revId": "890ea0222a5cd4f2f469f95c84dde0d9b03ee3f6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -117,6 +189,24 @@
     },
     {
       "key": {
+        "uuid": "df1359da_0900c924",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 42
+      },
+      "lineNbr": 2171,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-12-03T09:41:14Z",
+      "side": 1,
+      "message": "please see line 2231 below.",
+      "parentUuid": "9fa80192_ef31a10c",
+      "revId": "890ea0222a5cd4f2f469f95c84dde0d9b03ee3f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9f81e119_c75e7e30",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 42
@@ -134,6 +224,24 @@
         "endLine": 2361,
         "endChar": 57
       },
+      "revId": "890ea0222a5cd4f2f469f95c84dde0d9b03ee3f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff0e5db4_6a097753",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 42
+      },
+      "lineNbr": 2361,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-12-03T09:41:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9f81e119_c75e7e30",
       "revId": "890ea0222a5cd4f2f469f95c84dde0d9b03ee3f6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

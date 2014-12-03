@@ -14,7 +14,9 @@
 
 package com.google.gerrit.httpd;
 
+import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DownloadScheme;
 import com.google.gerrit.server.config.AuthConfig;
+import com.google.gerrit.server.config.DownloadConfig;
 import com.google.inject.Inject;
 import com.google.inject.servlet.ServletModule;
 
@@ -23,10 +25,13 @@ import javax.servlet.Filter;
 /** Configures Git access over HTTP with authentication. */
 public class GitOverHttpModule extends ServletModule {
   private final AuthConfig authConfig;
+  private final DownloadConfig downloadConfig;
 
   @Inject
-  GitOverHttpModule(AuthConfig authConfig) {
+  GitOverHttpModule(AuthConfig authConfig,
+      DownloadConfig downloadConfig) {
     this.authConfig = authConfig;
+    this.downloadConfig = downloadConfig;
   }
 
   @Override
@@ -40,10 +45,18 @@ public class GitOverHttpModule extends ServletModule {
       authFilter = ProjectDigestFilter.class;
     }
 
-    String git = GitOverHttpServlet.URL_REGEX;
-    filterRegex(git).through(authFilter);
-    serveRegex(git).with(GitOverHttpServlet.class);
+    if (isHttpEnabled()) {
+      String git = GitOverHttpServlet.URL_REGEX;
+      filterRegex(git).through(authFilter);
+      serveRegex(git).with(GitOverHttpServlet.class);
+    }
 
     filter("/a/*").through(authFilter);
+  }
+
+  private boolean isHttpEnabled(){
+    return downloadConfig.getDownloadSchemes().contains(DownloadScheme.DEFAULT_DOWNLOADS)
+        || downloadConfig.getDownloadSchemes().contains(DownloadScheme.ANON_HTTP)
+        || downloadConfig.getDownloadSchemes().contains(DownloadScheme.HTTP);
   }
 }

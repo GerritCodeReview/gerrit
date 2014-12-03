@@ -53,12 +53,12 @@ public class GroupIncludeCacheImpl implements GroupIncludeCache {
         cache(PARENT_GROUPS_NAME,
             AccountGroup.UUID.class,
             new TypeLiteral<Set<AccountGroup.UUID>>() {})
-          .loader(parentGroupsLoader.class);
+          .loader(ParentGroupsLoader.class);
 
         cache(SUBGROUPS_NAME,
             AccountGroup.UUID.class,
             new TypeLiteral<Set<AccountGroup.UUID>>() {})
-          .loader(subgroupsLoader.class);
+          .loader(SubgroupsLoader.class);
 
         cache(EXTERNAL_NAME,
             String.class,
@@ -133,12 +133,12 @@ public class GroupIncludeCacheImpl implements GroupIncludeCache {
     }
   }
 
-  static class subgroupsLoader extends
+  static class SubgroupsLoader extends
       CacheLoader<AccountGroup.UUID, Set<AccountGroup.UUID>> {
     private final SchemaFactory<ReviewDb> schema;
 
     @Inject
-    subgroupsLoader(final SchemaFactory<ReviewDb> sf) {
+    SubgroupsLoader(final SchemaFactory<ReviewDb> sf) {
       schema = sf;
     }
 
@@ -163,12 +163,12 @@ public class GroupIncludeCacheImpl implements GroupIncludeCache {
     }
   }
 
-  static class parentGroupsLoader extends
+  static class ParentGroupsLoader extends
       CacheLoader<AccountGroup.UUID, Set<AccountGroup.UUID>> {
     private final SchemaFactory<ReviewDb> schema;
 
     @Inject
-    parentGroupsLoader(final SchemaFactory<ReviewDb> sf) {
+    ParentGroupsLoader(final SchemaFactory<ReviewDb> sf) {
       schema = sf;
     }
 

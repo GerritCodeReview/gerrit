@@ -79,20 +79,17 @@ Change Screen
 ^^^^^^^^^^^^^
 
 
-* Do not linkify trailing dot or comma in messages.
-+
-As linkifying trailing dots and trailing commas does more harm than
-good, we only treat dots and commas as being part of urls, if they are
-neither followed by whitespace nor occur at the end of a string.
-
-* Improve message when removing a reviewer.
-
 * Display avatar for author, committer, and change owner.
 
 * Remove message box when editing topic of change.
 
 * link:https://code.google.com/p/gerrit/issues/detail?id=2573[Issue 2573]:
 Add option to quickly add current user as reviewer of a change.
++
+An 'Add Me' button is displayed next to the 'Add' button when searching for
+reviewers to add to a change. This allows users to quickly add themselves as a
+reviewer on the change without having to type their name in the search
+box.
 
 * Link project name to dashboard.
 
@@ -452,8 +449,22 @@ Re-arrange info at footer of Gerrit web UI pages.
 +
 Move the Gerrit info link so that there are no links close to the next page link.
 
-Changes
-^^^^^^^
+* Only create All-Projects ACL once.
++
+If `refs/meta/config` already existed it was overwritten with default configuration
+if a site administrator ran `java -war gerrit.war init -d /some/existing/site --batch`.
+
+
+Change Screen
+^^^^^^^^^^^^^
+
+* Do not linkify trailing dot or comma in messages.
++
+As linkifying trailing dots and trailing commas does more harm than
+good, we only treat dots and commas as being part of urls, if they are
+neither followed by whitespace nor occur at the end of a string.
+
+* Improve message when removing a reviewer.
 
 * link:http://code.google.com/p/gerrit/issues/detail?id=527[Issue 527]:
 Preserve line breaks in inline and review comments.
@@ -465,6 +476,17 @@ Preserve line breaks in inline and review comments.
 * Only include message on quick approve if reply is open.
 
 * List reviewers with dummy approvals on closed changes.
+
+* link:http://code.google.com/p/gerrit/issues/detail?id=2890[Issue 2890]:
+Enable scrollbars for "Edit Commit Message" TextArea.
+
+* Use current time instead of submitter time for cherry-picked commits.
++
+Cherry picking with the submitter time could cause massive clock skew
+in the Git commit graph if the server was shutdown before the submit could
+finish, and restarted hours later.
+
+* Fix exception when clicking on a binary file without being signed in.
 
 
 Side-By-Side Diff
@@ -518,6 +540,16 @@ General
 ^^^^^^^
 
 * Fix REST API responses for 3xx and 4xx classes.
+
+Changes
+^^^^^^^
+
+* Fix inconsistent behaviour in the
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.10/rest-api-changes.html#add-reviewer[
+add reviewer endpoint]
++
+When adding a single reviewer to a change, it was possible to use the endpoint
+to add a user who had no visibility to the change or whose account was invalid.
 
 
 Changes

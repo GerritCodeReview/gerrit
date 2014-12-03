@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "df1359da_0983292c",
+        "filename": "gerrit-gwtui-common/src/main/java/com/google/gerrit/client/GerritCss.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-12-03T14:23:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ff0e5db4_ea67a717",
+      "revId": "63cbe4956cc88b59dcc1edea30165f4cda0b8fd6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ff0e5db4_ca6ce3fc",
         "filename": "gerrit-gwtui-common/src/main/java/com/google/gerrit/client/GerritResourcesBase.java",
         "patchSetId": 5
@@ -30,6 +48,24 @@
       "writtenOn": "2014-12-03T14:22:19Z",
       "side": 1,
       "message": "unused import",
+      "revId": "63cbe4956cc88b59dcc1edea30165f4cda0b8fd6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff0e5db4_6a7cd7a5",
+        "filename": "gerrit-gwtui-common/src/main/java/com/google/gerrit/client/GerritResourcesBase.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-12-03T14:23:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ff0e5db4_ca6ce3fc",
       "revId": "63cbe4956cc88b59dcc1edea30165f4cda0b8fd6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -59,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "ff0e5db4_4a7913b4",
+        "filename": "gerrit-gwtui-common/src/main/java/com/google/gerrit/client/GerritResourcesBase.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-12-03T14:23:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ff0e5db4_2a35bff8",
+      "range": {
+        "startLine": 21,
+        "startChar": 17,
+        "endLine": 21,
+        "endChar": 36
+      },
+      "revId": "63cbe4956cc88b59dcc1edea30165f4cda0b8fd6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ff0e5db4_aa71afd2",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/GerritResources.java",
         "patchSetId": 5
@@ -76,6 +136,24 @@
     },
     {
       "key": {
+        "uuid": "df1359da_497921b4",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/GerritResources.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-12-03T14:23:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ff0e5db4_aa71afd2",
+      "revId": "63cbe4956cc88b59dcc1edea30165f4cda0b8fd6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "df1359da_8976f9c6",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/GerritResources.java",
         "patchSetId": 5
@@ -87,6 +165,24 @@
       "writtenOn": "2014-12-03T14:22:19Z",
       "side": 1,
       "message": "unused import",
+      "revId": "63cbe4956cc88b59dcc1edea30165f4cda0b8fd6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "df1359da_2986ed3b",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/GerritResources.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-12-03T14:23:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "df1359da_8976f9c6",
       "revId": "63cbe4956cc88b59dcc1edea30165f4cda0b8fd6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

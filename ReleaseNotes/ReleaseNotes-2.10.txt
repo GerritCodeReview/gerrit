@@ -452,8 +452,14 @@ Re-arrange info at footer of Gerrit web UI pages.
 +
 Move the Gerrit info link so that there are no links close to the next page link.
 
-Changes
-^^^^^^^
+* Only create All-Projects ACL once.
++
+If `refs/meta/config` already existed it was overwritten with default configuration
+if a site administrator ran `java -war gerrit.war init -d /some/existing/site --batch`.
+
+
+Change Screen
+^^^^^^^^^^^^^
 
 * link:http://code.google.com/p/gerrit/issues/detail?id=527[Issue 527]:
 Preserve line breaks in inline and review comments.
@@ -465,6 +471,17 @@ Preserve line breaks in inline and review comments.
 * Only include message on quick approve if reply is open.
 
 * List reviewers with dummy approvals on closed changes.
+
+* link:http://code.google.com/p/gerrit/issues/detail?id=2890[Issue 2890]:
+Enable scrollbars for "Edit Commit Message" TextArea.
+
+* Use current time instead of submitter time for cherry-picked commits.
++
+Cherry picking with the submitter time could cause massive clock skew
+in the Git commit graph if the server was shutdown before the submit could
+finish, and restarted hours later.
+
+* Fix exception when clicking on a binary file without being signed in.
 
 
 Side-By-Side Diff
@@ -518,6 +535,16 @@ General
 ^^^^^^^
 
 * Fix REST API responses for 3xx and 4xx classes.
+
+Changes
+^^^^^^^
+
+* Fix inconsistent behaviour in the
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.10/rest-api-changes.html#add-reviewer[
+add reviewer endpoint]
++
+When adding a single reviewer to a change, it was possible to use the endpoint
+to add a user who had no visibility to the change or whose account was invalid.
 
 
 Changes

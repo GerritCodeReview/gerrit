@@ -1,0 +1,95 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ff0e5db4_ea67a717",
+        "filename": "gerrit-gwtui-common/src/main/java/com/google/gerrit/client/GerritCss.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-12-03T14:22:19Z",
+      "side": 1,
+      "message": "Why is this class moved?\n\nFrom patch set 4 on GerritResourcesBase isn\u0027t using this class anymore.",
+      "revId": "63cbe4956cc88b59dcc1edea30165f4cda0b8fd6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff0e5db4_ca6ce3fc",
+        "filename": "gerrit-gwtui-common/src/main/java/com/google/gerrit/client/GerritResourcesBase.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-12-03T14:22:19Z",
+      "side": 1,
+      "message": "unused import",
+      "revId": "63cbe4956cc88b59dcc1edea30165f4cda0b8fd6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff0e5db4_2a35bff8",
+        "filename": "gerrit-gwtui-common/src/main/java/com/google/gerrit/client/GerritResourcesBase.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-12-03T14:22:19Z",
+      "side": 1,
+      "message": "I\u0027m not really liking this name, maybe just \u0027Resources\u0027?",
+      "range": {
+        "startLine": 21,
+        "startChar": 17,
+        "endLine": 21,
+        "endChar": 36
+      },
+      "revId": "63cbe4956cc88b59dcc1edea30165f4cda0b8fd6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff0e5db4_aa71afd2",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/GerritResources.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-12-03T14:22:19Z",
+      "side": 1,
+      "message": "unused import",
+      "revId": "63cbe4956cc88b59dcc1edea30165f4cda0b8fd6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "df1359da_8976f9c6",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/GerritResources.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-12-03T14:22:19Z",
+      "side": 1,
+      "message": "unused import",
+      "revId": "63cbe4956cc88b59dcc1edea30165f4cda0b8fd6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

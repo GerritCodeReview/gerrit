@@ -59,6 +59,24 @@
     },
     {
       "key": {
+        "uuid": "7fd98d6e_0e00cb24",
+        "filename": "ReleaseNotes/ReleaseNotes-2.11.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 452,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-12-03T12:37:30Z",
+      "side": 1,
+      "message": "Thanks.  I\u0027ll update this in the next patch set.",
+      "parentUuid": "df1359da_e91d758a",
+      "revId": "2782a999e9ec5bdd2ad65adb4d6b66ce7d062b16",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ff0e5db4_2a037f35",
         "filename": "ReleaseNotes/ReleaseNotes-2.11.txt",
         "patchSetId": 3

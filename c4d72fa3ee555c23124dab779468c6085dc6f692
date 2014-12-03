@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "ff0e5db4_eacb27af",
+        "filename": "Documentation/json.txt",
+        "patchSetId": 15
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-12-03T06:32:56Z",
+      "side": 1,
+      "message": "merged",
+      "revId": "c4d72fa3ee555c23124dab779468c6085dc6f692",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9fa80192_4f28edad",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java",
         "patchSetId": 15
@@ -42,6 +59,23 @@
     },
     {
       "key": {
+        "uuid": "df1359da_e9cb35af",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-12-03T06:32:56Z",
+      "side": 1,
+      "message": "I would not need one line method.",
+      "revId": "c4d72fa3ee555c23124dab779468c6085dc6f692",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9f81e119_a737ca01",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java",
         "patchSetId": 15
@@ -58,6 +92,52 @@
         "startChar": 80,
         "endLine": 221,
         "endChar": 99
+      },
+      "revId": "c4d72fa3ee555c23124dab779468c6085dc6f692",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff0e5db4_cad0635c",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-12-03T06:32:56Z",
+      "side": 1,
+      "message": "move to 214 to let this method to be only about checkingMergeResult?",
+      "range": {
+        "startLine": 228,
+        "startChar": 4,
+        "endLine": 230,
+        "endChar": 29
+      },
+      "revId": "c4d72fa3ee555c23124dab779468c6085dc6f692",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "df1359da_c9d0715c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 470,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-12-03T06:32:56Z",
+      "side": 1,
+      "message": "merged-commit",
+      "range": {
+        "startLine": 470,
+        "startChar": 24,
+        "endLine": 470,
+        "endChar": 36
       },
       "revId": "c4d72fa3ee555c23124dab779468c6085dc6f692",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
@@ -134,6 +214,52 @@
     },
     {
       "key": {
+        "uuid": "ff0e5db4_8ada6b76",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeTip.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-12-03T06:32:56Z",
+      "side": 1,
+      "message": "branchTip is better",
+      "range": {
+        "startLine": 26,
+        "startChar": 27,
+        "endLine": 26,
+        "endChar": 37
+      },
+      "revId": "c4d72fa3ee555c23124dab779468c6085dc6f692",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "df1359da_49dda16b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeTip.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-12-03T06:32:56Z",
+      "side": 1,
+      "message": "hard for me to understand why we need \u0027mergeResults\u0027 and even we need MergeTip. Is it simple to add a \u0027mergedCommit\u0027 in CodeReviewCommit to work with \u0027statusCode\u0027 there?.",
+      "range": {
+        "startLine": 27,
+        "startChar": 29,
+        "endLine": 27,
+        "endChar": 41
+      },
+      "revId": "c4d72fa3ee555c23124dab779468c6085dc6f692",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9fa80192_af0eb951",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeTip.java",
         "patchSetId": 15
@@ -157,6 +283,29 @@
     },
     {
       "key": {
+        "uuid": "df1359da_a9d53d4a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeTip.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-12-03T06:32:56Z",
+      "side": 1,
+      "message": "I would not use one line method to make it simple",
+      "range": {
+        "startLine": 63,
+        "startChar": 4,
+        "endLine": 63,
+        "endChar": 16
+      },
+      "revId": "c4d72fa3ee555c23124dab779468c6085dc6f692",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9f81e119_076896e6",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeTip.java",
         "patchSetId": 15
@@ -173,6 +322,29 @@
         "startChar": 2,
         "endLine": 66,
         "endChar": 43
+      },
+      "revId": "c4d72fa3ee555c23124dab779468c6085dc6f692",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff0e5db4_4add936b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/CherryPick.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-12-03T06:32:56Z",
+      "side": 1,
+      "message": "one line",
+      "range": {
+        "startLine": 95,
+        "startChar": 12,
+        "endLine": 97,
+        "endChar": 32
       },
       "revId": "c4d72fa3ee555c23124dab779468c6085dc6f692",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

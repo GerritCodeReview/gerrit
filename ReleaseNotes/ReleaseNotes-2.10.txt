@@ -452,6 +452,12 @@ Re-arrange info at footer of Gerrit web UI pages.
 +
 Move the Gerrit info link so that there are no links close to the next page link.
 
+* Only create All-Projects ACL once.
++
+If `refs/meta/config` already existed it was overwritten with default configuration
+if a site administrator ran `java -war gerrit.war init -d /some/existing/site --batch`.
+
+
 Changes
 ^^^^^^^
 

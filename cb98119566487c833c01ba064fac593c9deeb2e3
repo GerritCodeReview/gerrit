@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3f7f1523_ccf42fed",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/DeleteBranch.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1012612
+      },
+      "writtenOn": "2014-12-04T19:56:21Z",
+      "side": 1,
+      "message": "Just a thought: instead of using an endless loop with an explicit break below (which is perfectly fine), this seems like a do/while loop might serve the same purpose a little more obviously.",
+      "range": {
+        "startLine": 85,
+        "startChar": 6,
+        "endLine": 85,
+        "endChar": 14
+      },
+      "revId": "cb98119566487c833c01ba064fac593c9deeb2e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

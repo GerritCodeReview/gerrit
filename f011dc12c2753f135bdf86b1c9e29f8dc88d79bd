@@ -198,6 +198,24 @@
     },
     {
       "key": {
+        "uuid": "ff0e5db4_aa264fa9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-12-04T10:17:12Z",
+      "side": 1,
+      "message": "\u003e I don\u0027t follow. When you revert all downgrade changes, then we would end up with broken SSHD 0.13\n\nI am NOT reverting all downgrade changes. In [1] I am reverting all SSHD upgrade related changes. Just start from stable-2.9 and revert each commit mentioned in the commit message of the change [1]. After the last revert the version in lib/mina/BUCK is 0.9.0.201311081.\n\n\u003e I don\u0027t think this version is perfect. I think it suffers from ...\n\nOK, then I misunderstood your change [2]... the commit message is telling what needs to be applied and not what is already contained in that sshd version.\n\nI am going to create a custom SSHD version based on the commit message in [2] and upload it to the google storage.\n\n[1] https://gerrit-review.googlesource.com/62070\n[2] https://gerrit-review.googlesource.com/60161",
+      "parentUuid": "df1359da_89fdd97c",
+      "revId": "f011dc12c2753f135bdf86b1c9e29f8dc88d79bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "df1359da_a99c1d74",
         "filename": "lib/mina/BUCK",
         "patchSetId": 1

@@ -49,6 +49,7 @@ import com.google.common.util.concurrent.CheckedFuture;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListeningExecutorService;
+import com.google.gerrit.common.changes.FooterConstants;
 import com.google.gerrit.common.ChangeHookRunner.HookResult;
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.Nullable;
@@ -134,7 +135,6 @@ import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.notes.NoteMap;
-import org.eclipse.jgit.revwalk.FooterKey;
 import org.eclipse.jgit.revwalk.FooterLine;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevObject;
@@ -179,7 +179,7 @@ public class ReceiveCommits {
   public static final Pattern NEW_PATCHSET = Pattern.compile(
       "^" + REFS_CHANGES + "(?:[0-9][0-9]/)?([1-9][0-9]*)(?:/new)?$");
 
-  private static final FooterKey CHANGE_ID = new FooterKey("Change-Id");
+
 
   private static final String COMMAND_REJECTION_MESSAGE_FOOTER =
       "Please read the documentation and contact an administrator\n"
@@ -1524,7 +1524,7 @@ public class ReceiveCommits {
         }
 
         Change.Key changeKey = new Change.Key("I" + c.name());
-        final List<String> idList = c.getFooterLines(CHANGE_ID);
+        final List<String> idList = c.getFooterLines(FooterConstants.CHANGE_ID_FOOTER);
         if (idList.isEmpty()) {
           newChanges.add(new CreateRequest(magicBranch.ctl, c, changeKey));
           continue;
@@ -1534,6 +1534,15 @@ public class ReceiveCommits {
         if (idStr.matches("^I00*$")) {
           // Reject this invalid line from EGit.
           reject(magicBranch.cmd, "invalid Change-Id");
+          return Collections.emptyList();
+        }
+
+        final List<String> dependencies = c.getFooterLines(
+            FooterConstants.DEPENDS_ON_FOOTER);
+        if (dependencies.size() > 1) {
+          // This makes life very easy for selecting all other dependencies.
+          reject(magicBranch.cmd, "just one " +
+              FooterConstants.DEPENDS_ON_FOOTER.getName() + " allowed");
           return Collections.emptyList();
         }
 
@@ -2133,7 +2142,8 @@ public class ReceiveCommits {
                   }
                   change.setCurrentPatchSet(info);
 
-                  final List<String> idList = newCommit.getFooterLines(CHANGE_ID);
+                  final List<String> idList = newCommit.getFooterLines(
+                      FooterConstants.CHANGE_ID_FOOTER);
                   if (idList.isEmpty()) {
                     change.setKey(new Change.Key("I" + newCommit.name()));
                   } else {
@@ -2405,7 +2415,8 @@ public class ReceiveCommits {
           }
         }
 
-        for (final String changeId : c.getFooterLines(CHANGE_ID)) {
+        for (final String changeId : c.getFooterLines(
+            FooterConstants.CHANGE_ID_FOOTER)) {
           if (byKey == null) {
             byKey = openChangesByKey(branch);
           }

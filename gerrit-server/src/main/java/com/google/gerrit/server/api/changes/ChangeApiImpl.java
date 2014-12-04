@@ -30,6 +30,7 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.change.Abandon;
 import com.google.gerrit.server.change.ChangeJson;
 import com.google.gerrit.server.change.ChangeResource;
+import com.google.gerrit.server.change.Check;
 import com.google.gerrit.server.change.GetHashtags;
 import com.google.gerrit.server.change.GetTopic;
 import com.google.gerrit.server.change.PostHashtags;
@@ -65,6 +66,7 @@ class ChangeApiImpl extends ChangeApi.NotImplemented implements ChangeApi {
   private final Provider<ChangeJson> changeJson;
   private final PostHashtags postHashtags;
   private final GetHashtags getHashtags;
+  private final Check check;
 
   @Inject
   ChangeApiImpl(Changes changeApi,
@@ -79,6 +81,7 @@ class ChangeApiImpl extends ChangeApi.NotImplemented implements ChangeApi {
       Provider<ChangeJson> changeJson,
       PostHashtags postHashtags,
       GetHashtags getHashtags,
+      Check check,
       @Assisted ChangeResource change) {
     this.changeApi = changeApi;
     this.revert = revert;
@@ -92,6 +95,7 @@ class ChangeApiImpl extends ChangeApi.NotImplemented implements ChangeApi {
     this.changeJson = changeJson;
     this.postHashtags = postHashtags;
     this.getHashtags = getHashtags;
+    this.check = check;
     this.change = change;
   }
 
@@ -229,6 +233,15 @@ class ChangeApiImpl extends ChangeApi.NotImplemented implements ChangeApi {
       return getHashtags.apply(change).value();
     } catch (IOException | OrmException e) {
       throw new RestApiException("Cannot get hashtags", e);
+    }
+  }
+
+  @Override
+  public ChangeInfo check() throws RestApiException {
+    try {
+      return check.apply(change).value();
+    } catch (OrmException e) {
+      throw new RestApiException("Cannot check change", e);
     }
   }
 }

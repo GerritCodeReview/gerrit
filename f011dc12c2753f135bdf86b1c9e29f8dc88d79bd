@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "df1359da_69caa55a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-04T08:50:29Z",
+      "side": 1,
+      "message": "No. SSHD-348 is stuck thread problem. SSHD-356 is back port of SSHD-330 to 0.9. That why the commit message must be as detailed as possible. Just copy this part from my change with all links:\n\nUnfortunately 0.9 release suffers from sporadic handshake failures\n[2].  The fix cannot be cleanly cherry-picked to 0.9 release. The back\nport of this fix [3] is tracked under its own issue [4], was uploaded as\nPR for SSHD Mina\u0027s GH repository [5] and merged recently [6].\n\n* [2] https://issues.apache.org/jira/browse/SSHD-330\n* [3] https://git-wip-us.apache.org/repos/asf?p\u003dmina-sshd.git;a\u003dcommit;\\\nh\u003d2aed686bdb21681a421033c6ee5997e5cd8a9a83\n* [4] https://issues.apache.org/jira/browse/SSHD-356\n* [5] https://github.com/apache/mina-sshd/pull/7\n* [6] https://git-wip-us.apache.org/repos/asf?p\u003dmina-sshd.git;a\u003dcommit;\\\nh\u003dcc7162acf7ca89561ca57a9c68de735f17bf168b",
+      "parentUuid": "ff0e5db4_2a225f9c",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 8
+      },
+      "revId": "f011dc12c2753f135bdf86b1c9e29f8dc88d79bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "df1359da_c908711d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -78,6 +102,24 @@
       "side": 1,
       "message": "In your change, the sshd version is 0.9.0.201311081 which is exactly the version in lib/mina/BUCK in my first change:\nhttps://gerrit-review.googlesource.com/#/c/62070/1/lib/mina/BUCK\n\nThis means that this change can actually be abandoned as 0.9.0.201311081 is exactly what we need. Right?",
       "parentUuid": "df1359da_c908711d",
+      "revId": "f011dc12c2753f135bdf86b1c9e29f8dc88d79bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff0e5db4_0a1f9b4c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-04T08:50:29Z",
+      "side": 1,
+      "message": "My change is already abandoned, as we\u0027ve believed, that 0.13 fixed stuck thread problem. I think that your approach is cleaner, to have two changes:\n\n* 1. change downgrade to 0.9.\n* 2. change patch 0.9 to fix known bugs.",
+      "parentUuid": "df1359da_0938c9bd",
       "revId": "f011dc12c2753f135bdf86b1c9e29f8dc88d79bd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

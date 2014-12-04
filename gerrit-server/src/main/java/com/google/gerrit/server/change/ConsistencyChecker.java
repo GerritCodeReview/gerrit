@@ -21,13 +21,16 @@ import com.google.common.collect.Multimap;
 import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.Ordering;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.extensions.api.changes.FixInput;
 import com.google.gerrit.extensions.common.ProblemInfo;
+import com.google.gerrit.extensions.common.ProblemInfo.Status;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gwtorm.server.AtomicUpdate;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -80,6 +83,7 @@ public class ConsistencyChecker {
   private final Provider<ReviewDb> db;
   private final GitRepositoryManager repoManager;
 
+  private FixInput fix;
   private Change change;
   private Repository repo;
   private RevWalk rw;
@@ -105,9 +109,13 @@ public class ConsistencyChecker {
   }
 
   public Result check(ChangeData cd) {
+    return check(cd, null);
+  }
+
+  public Result check(ChangeData cd, @Nullable FixInput f) {
     reset();
     try {
-      return check(cd.change());
+      return check(cd.change(), f);
     } catch (OrmException e) {
       error("Error looking up change", e);
       return Result.create(cd.getId(), problems);
@@ -115,7 +123,12 @@ public class ConsistencyChecker {
   }
 
   public Result check(Change c) {
+    return check(c, null);
+  }
+
+  public Result check(Change c, @Nullable FixInput f) {
     reset();
+    fix = f;
     change = c;
     try {
       checkImpl();
@@ -258,15 +271,37 @@ public class ConsistencyChecker {
       return;
     }
     if (merged && change.getStatus() != Change.Status.MERGED) {
-      problem(String.format("Patch set %d (%s) is merged into destination"
-            + " ref %s (%s), but change status is %s", currPs.getId().get(),
-            currPsCommit.name(), refName, tip.name(), change.getStatus()));
-      // TODO(dborowitz): Just fix it.
+      ProblemInfo p = problem(String.format(
+          "Patch set %d (%s) is merged into destination ref %s (%s), but change"
+          + " status is %s", currPs.getId().get(), currPsCommit.name(),
+          refName, tip.name(), change.getStatus()));
+      if (fix != null) {
+        fixMerged(p);
+      }
     } else if (!merged && change.getStatus() == Change.Status.MERGED) {
       problem(String.format("Patch set %d (%s) is not merged into"
             + " destination ref %s (%s), but change status is %s",
             currPs.getId().get(), currPsCommit.name(), refName, tip.name(),
             change.getStatus()));
+    }
+  }
+
+  private void fixMerged(ProblemInfo p) {
+    try {
+      change = db.get().changes().atomicUpdate(change.getId(),
+          new AtomicUpdate<Change>() {
+            @Override
+            public Change update(Change c) {
+              c.setStatus(Change.Status.MERGED);
+              return c;
+            }
+          });
+      p.status = Status.FIXED;
+      p.outcome = "Marked change as merged";
+    } catch (OrmException e) {
+      log.warn("Error marking " + change.getId() + "as merged", e);
+      p.status = Status.FIX_FAILED;
+      p.outcome = "Error updating status to merged";
     }
   }
 
@@ -283,10 +318,11 @@ public class ConsistencyChecker {
     return null;
   }
 
-  private void problem(String msg) {
+  private ProblemInfo problem(String msg) {
     ProblemInfo p = new ProblemInfo();
     p.message = msg;
     problems.add(p);
+    return p;
   }
 
   private boolean error(String msg, Throwable t) {

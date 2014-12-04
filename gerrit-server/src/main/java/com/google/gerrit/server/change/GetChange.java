@@ -53,7 +53,7 @@ public class GetChange implements RestReadView<ChangeResource> {
     return cache(json.format(rsrc));
   }
 
-  private Response<ChangeInfo> cache(ChangeInfo res) {
+  static Response<ChangeInfo> cache(ChangeInfo res) {
     return Response.ok(res)
         .caching(CacheControl.PRIVATE(0, TimeUnit.SECONDS).setMustRevalidate());
   }

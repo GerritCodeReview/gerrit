@@ -42,6 +42,24 @@
     },
     {
       "key": {
+        "uuid": "df1359da_0938c9bd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-12-04T08:20:57Z",
+      "side": 1,
+      "message": "In your change, the sshd version is 0.9.0.201311081 which is exactly the version in lib/mina/BUCK in my first change:\nhttps://gerrit-review.googlesource.com/#/c/62070/1/lib/mina/BUCK\n\nThis means that this change can actually be abandoned as 0.9.0.201311081 is exactly what we need. Right?",
+      "parentUuid": "df1359da_c908711d",
+      "revId": "f011dc12c2753f135bdf86b1c9e29f8dc88d79bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "df1359da_a99c1d74",
         "filename": "lib/mina/BUCK",
         "patchSetId": 1

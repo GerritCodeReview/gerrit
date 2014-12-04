@@ -34,6 +34,24 @@
       "revId": "4315896139ba2bda7a22ef47f7a35450845ee0d8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "df1359da_e9d575fb",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Reviewers.ui.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-04T08:18:02Z",
+      "side": 1,
+      "message": "The problem with \"enable per default/disable programmatically\" approach is, that the widget becomes visible for a moment (for short time) and then is hidden again.",
+      "parentUuid": "7fd98d6e_ce6c03fd",
+      "revId": "4315896139ba2bda7a22ef47f7a35450845ee0d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

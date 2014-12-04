@@ -19,6 +19,10 @@ import static com.google.common.truth.Truth.assertThat;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.extensions.api.changes.FixInput;
+import com.google.gerrit.extensions.api.changes.ReviewInput;
+import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.extensions.common.ChangeStatus;
 import com.google.gerrit.extensions.common.ProblemInfo;
 import com.google.gerrit.reviewdb.client.Change;
 
@@ -44,6 +48,37 @@ public class CheckIT extends AbstractDaemonTest {
     assertThat(problems).hasSize(1);
     assertThat(problems.get(0).message)
         .isEqualTo("Current patch set 1 not found");
+  }
+
+  @Test
+  public void fixReturnsUpdatedValue() throws Exception {
+    PushOneCommit.Result r = createChange();
+    gApi.changes()
+        .id(r.getChangeId())
+        .revision(r.getCommit().name())
+        .review(ReviewInput.approve());
+    gApi.changes()
+        .id(r.getChangeId())
+        .revision(r.getCommit().name())
+        .submit();
+
+    Change c = getChange(r);
+    c.setStatus(Change.Status.NEW);
+    db.changes().update(Collections.singleton(c));
+
+    ChangeInfo info = gApi.changes()
+        .id(r.getChangeId())
+        .check();
+    assertThat(info.problems).hasSize(1);
+    assertThat(info.problems.get(0).status).isNull();
+    assertThat(info.status).isEqualTo(ChangeStatus.NEW);
+
+    info = gApi.changes()
+        .id(r.getChangeId())
+        .check(new FixInput());
+    assertThat(info.problems).hasSize(1);
+    assertThat(info.problems.get(0).status).isEqualTo(ProblemInfo.Status.FIXED);
+    assertThat(info.status).isEqualTo(ChangeStatus.MERGED);
   }
 
   private Change getChange(PushOneCommit.Result r) throws Exception {

@@ -19,6 +19,7 @@ import com.google.gerrit.extensions.api.changes.AbandonInput;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.api.changes.ChangeApi;
 import com.google.gerrit.extensions.api.changes.Changes;
+import com.google.gerrit.extensions.api.changes.FixInput;
 import com.google.gerrit.extensions.api.changes.HashtagsInput;
 import com.google.gerrit.extensions.api.changes.RestoreInput;
 import com.google.gerrit.extensions.api.changes.RevertInput;
@@ -240,6 +241,15 @@ class ChangeApiImpl extends ChangeApi.NotImplemented implements ChangeApi {
   public ChangeInfo check() throws RestApiException {
     try {
       return check.apply(change).value();
+    } catch (OrmException e) {
+      throw new RestApiException("Cannot check change", e);
+    }
+  }
+
+  @Override
+  public ChangeInfo check(FixInput fix) throws RestApiException {
+    try {
+      return check.apply(change, fix).value();
     } catch (OrmException e) {
       throw new RestApiException("Cannot check change", e);
     }

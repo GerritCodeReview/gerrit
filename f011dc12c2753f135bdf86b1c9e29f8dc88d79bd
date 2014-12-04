@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "ff0e5db4_2a225f9c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-12-04T08:23:25Z",
+      "side": 1,
+      "message": "You are right, I put a wrong issue number here... it should have been SSHD-330. The 348 was used to track backporting of the 330 to 0.9.x.",
+      "parentUuid": "9f0d61be_87da6676",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 8
+      },
+      "revId": "f011dc12c2753f135bdf86b1c9e29f8dc88d79bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "df1359da_c908711d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

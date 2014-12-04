@@ -234,6 +234,24 @@
     },
     {
       "key": {
+        "uuid": "ff0e5db4_cadaa329",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-12-04T13:00:58Z",
+      "side": 1,
+      "message": "OK, I think I understand everything now.\n\nTthe 0.9.x branch of the mina-sshd [1] contains everything we need... so I did build a correct version of mina-sshd... just my commit message was a bit wrong with the issue numbers.\n\nI will squash this change into the previous one as it is easier to explain everything in one commit message :-)\n\n[1] https://github.com/apache/mina-sshd/commits/0.9.x",
+      "parentUuid": "ff0e5db4_8a2b8b71",
+      "revId": "f011dc12c2753f135bdf86b1c9e29f8dc88d79bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "df1359da_a99c1d74",
         "filename": "lib/mina/BUCK",
         "patchSetId": 1

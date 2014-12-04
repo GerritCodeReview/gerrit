@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "bf8b056f_90ee3419",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/ProblemInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-12-04T19:48:24Z",
+      "side": 1,
+      "message": "The third change in this series (which I haven\u0027t pushed yet, but will in a few minutes) will have more fields. Do you really want me to add \"there will be more fields later\" to this commit message rather than just having me work on that change?",
+      "parentUuid": "df86f964_51e0d42c",
+      "range": {
+        "startLine": 17,
+        "startChar": 13,
+        "endLine": 17,
+        "endChar": 24
+      },
+      "revId": "84ee02fb3e37370da92839fa30101f86b0a6eede",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "df86f964_71ddd86b",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/ChangeInfo.java",
         "patchSetId": 1

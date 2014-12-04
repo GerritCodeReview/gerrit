@@ -33,6 +33,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.Style.Visibility;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyDownEvent;
@@ -65,6 +66,7 @@ public class Reviewers extends Composite {
 
   @UiField Element reviewersText;
   @UiField Button openForm;
+  @UiField Button addMe;
   @UiField Element form;
   @UiField Element error;
   @UiField(provided = true)
@@ -146,7 +148,7 @@ public class Reviewers extends Composite {
     }
   }
 
-  @UiHandler("addme")
+  @UiHandler("addMe")
   void onAddMe(ClickEvent e) {
     String accountId = String.valueOf(Gerrit.getUserAccountInfo()._account_id());
     addReviewer(accountId, false);
@@ -248,6 +250,16 @@ public class Reviewers extends Composite {
 
     reviewersText.setInnerSafeHtml(rHtml);
     ccText.setInnerSafeHtml(ccHtml);
+    if (Gerrit.isSignedIn()) {
+      int currentUser = Gerrit.getUserAccountInfo()._account_id();
+      if (info.owner()._account_id() != currentUser
+          && !cc.containsKey(currentUser)
+          && !r.containsKey(currentUser)) {
+        addMe.getElement().getStyle().setVisibility(Visibility.VISIBLE);
+      } else {
+        addMe.getElement().getStyle().setVisibility(Visibility.HIDDEN);
+      }
+    }
   }
 
   private static Map<Integer, VotableInfo> votable(ChangeInfo change) {

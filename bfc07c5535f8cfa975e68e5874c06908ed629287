@@ -22,6 +22,30 @@
       "revId": "bfc07c5535f8cfa975e68e5874c06908ed629287",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bf8b056f_700f1050",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 596,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-12-04T21:37:48Z",
+      "side": 1,
+      "message": "I didn\u0027t want to have to track down all callers to see if any of them are depending on it maybe being null. And then if we did it for currentPatchSet() we\u0027d want to do it for change() et al. to be consistent, etc.",
+      "parentUuid": "df86f964_11032c35",
+      "range": {
+        "startLine": 596,
+        "startChar": 22,
+        "endLine": 596,
+        "endChar": 39
+      },
+      "revId": "bfc07c5535f8cfa975e68e5874c06908ed629287",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

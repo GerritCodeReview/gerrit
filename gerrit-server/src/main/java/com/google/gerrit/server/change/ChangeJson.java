@@ -56,6 +56,7 @@ import com.google.gerrit.common.data.LabelValue;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.common.data.SubmitRecord;
+import com.google.gerrit.extensions.api.changes.FixInput;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ActionInfo;
 import com.google.gerrit.extensions.common.ApprovalInfo;
@@ -66,6 +67,7 @@ import com.google.gerrit.extensions.common.FetchInfo;
 import com.google.gerrit.extensions.common.GitPerson;
 import com.google.gerrit.extensions.common.LabelInfo;
 import com.google.gerrit.extensions.common.ListChangesOption;
+import com.google.gerrit.extensions.common.ProblemInfo;
 import com.google.gerrit.extensions.common.RevisionInfo;
 import com.google.gerrit.extensions.common.WebLinkInfo;
 import com.google.gerrit.extensions.config.DownloadCommand;
@@ -145,6 +147,7 @@ public class ChangeJson {
   private final Provider<ConsistencyChecker> checkerProvider;
 
   private AccountLoader accountLoader;
+  private FixInput fix;
 
   @Inject
   ChangeJson(
@@ -192,6 +195,11 @@ public class ChangeJson {
 
   public ChangeJson addOptions(Collection<ListChangesOption> o) {
     options.addAll(o);
+    return this;
+  }
+
+  public ChangeJson fix(FixInput fix) {
+    this.fix = fix;
     return this;
   }
 
@@ -298,7 +306,7 @@ public class ChangeJson {
   }
 
   private ChangeInfo checkOnly(ChangeData cd) {
-    ConsistencyChecker.Result result = checkerProvider.get().check(cd);
+    ConsistencyChecker.Result result = checkerProvider.get().check(cd, fix);
     ChangeInfo info;
     Change c = result.change();
     if (c != null) {
@@ -325,9 +333,21 @@ public class ChangeJson {
 
   private ChangeInfo toChangeInfo(ChangeData cd, Set<Change.Id> reviewed,
       Optional<PatchSet.Id> limitToPsId) throws OrmException {
-    ChangeControl ctl = cd.changeControl().forUser(userProvider.get());
     ChangeInfo out = new ChangeInfo();
+
+    if (has(CHECK)) {
+      out.problems = checkerProvider.get().check(cd.change(), fix).problems();
+      // If any problems were fixed, the ChangeData needs to be reloaded.
+      for (ProblemInfo p : out.problems) {
+        if (p.status == ProblemInfo.Status.FIXED) {
+          cd = changeDataFactory.create(cd.db(), cd.getId());
+          break;
+        }
+      }
+    }
+
     Change in = cd.change();
+    ChangeControl ctl = cd.changeControl().forUser(userProvider.get());
     out.project = in.getProject().get();
     out.branch = in.getDest().getShortName();
     out.topic = in.getTopic();
@@ -404,10 +424,6 @@ public class ChangeJson {
         descr.setTitle("Create follow-up change");
         out.actions.put(descr.getId(), new ActionInfo(descr));
       }
-    }
-
-    if (has(CHECK)) {
-      out.problems = checkerProvider.get().check(in).problems();
     }
 
     return out;

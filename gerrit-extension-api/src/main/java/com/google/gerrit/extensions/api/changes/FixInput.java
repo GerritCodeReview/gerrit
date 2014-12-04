@@ -12,14 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.extensions.common;
+package com.google.gerrit.extensions.api.changes;
 
-public class ProblemInfo {
-  public static enum Status {
-    FIXED, FIX_FAILED;
-  }
-
-  public String message;
-  public Status status;
-  public String outcome;
+public class FixInput {
 }

@@ -594,6 +594,9 @@ public class ChangeData {
         mergeable = true;
       } else {
         PatchSet ps = currentPatchSet();
+        if (ps == null) {
+          throw new OrmException("Missing patch set for mergeability check");
+        }
         Repository repo = null;
         try {
           repo = repoManager.openRepository(c.getProject());

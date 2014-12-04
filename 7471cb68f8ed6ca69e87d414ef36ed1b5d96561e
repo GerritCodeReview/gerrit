@@ -16,6 +16,24 @@
       "revId": "7471cb68f8ed6ca69e87d414ef36ed1b5d96561e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dfea79ee_5179d4b3",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Reviewers.ui.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-12-04T10:15:30Z",
+      "side": 1,
+      "message": "I did that but it doesn\u0027t work.  The gwt compilation fails with:\n\n Class Button has no appropriate setStyle() method\n\nMaybe I\u0027m missing something?",
+      "parentUuid": "df1359da_49f001a2",
+      "revId": "7471cb68f8ed6ca69e87d414ef36ed1b5d96561e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

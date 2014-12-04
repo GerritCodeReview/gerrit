@@ -72,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "7fd98d6e_2e35c7f8",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 1385,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-12-04T03:30:08Z",
+      "side": 1,
+      "message": "Also\n\n- https://gerrit-review.googlesource.com/Documentation/rest-api-projects.html#get-project-description\n- https://gerrit-review.googlesource.com/Documentation/rest-api-projects.html#get-project-parent\n- https://gerrit-review.googlesource.com/Documentation/rest-api-projects.html#get-head\n\nand probably quite a few more.\n\nThe only difference is that for those the documentation doesn\u0027t explicitly say that the response is returned \"as text\".\n\nIf we need to fix those to return \"text/plain\" it needs to be done separately, and I don\u0027t think it makes much difference if it\u0027s done before or after this change.",
+      "parentUuid": "df1359da_c96cf1fc",
+      "range": {
+        "startLine": 1385,
+        "startChar": 41,
+        "endLine": 1385,
+        "endChar": 48
+      },
+      "revId": "d13d3edf5b65a57366abe6bf9143bd811461ec74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1f941150_4b41c565",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 10
@@ -83,6 +107,24 @@
       "writtenOn": "2014-12-03T01:10:51Z",
       "side": 1,
       "message": "IIRC some parsers expect application/json to be a JSON object, not a JSON string, so this would have to be something like {\"type\": \"text/plain\"}.\n\nMaybe making the response just plaintext is better.",
+      "revId": "d13d3edf5b65a57366abe6bf9143bd811461ec74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dfea79ee_713bb8ef",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 1394,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-12-04T03:30:08Z",
+      "side": 1,
+      "message": "See previous comment.  If we change this here it makes it inconsistent with the other endpoints\u0027 behaviour.",
+      "parentUuid": "1f941150_4b41c565",
       "revId": "d13d3edf5b65a57366abe6bf9143bd811461ec74",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

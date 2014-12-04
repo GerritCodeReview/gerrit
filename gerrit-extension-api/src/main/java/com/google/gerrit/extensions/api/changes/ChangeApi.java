@@ -81,9 +81,9 @@ public interface ChangeApi {
 
   ChangeInfo get(EnumSet<ListChangesOption> options) throws RestApiException;
 
-  /** {@code get} with {@link ListChangesOption} set to ALL. */
+  /** {@code get} with {@link ListChangesOption} set to all except CHECK. */
   ChangeInfo get() throws RestApiException;
-  /** {@code get} with {@link ListChangesOption} set to NONE. */
+  /** {@code get} with {@link ListChangesOption} set to none. */
   ChangeInfo info() throws RestApiException;
 
   /**

@@ -17,6 +17,7 @@ package com.google.gerrit.server.change;
 import static com.google.gerrit.extensions.common.ListChangesOption.ALL_COMMITS;
 import static com.google.gerrit.extensions.common.ListChangesOption.ALL_FILES;
 import static com.google.gerrit.extensions.common.ListChangesOption.ALL_REVISIONS;
+import static com.google.gerrit.extensions.common.ListChangesOption.CHECK;
 import static com.google.gerrit.extensions.common.ListChangesOption.CURRENT_ACTIONS;
 import static com.google.gerrit.extensions.common.ListChangesOption.CURRENT_COMMIT;
 import static com.google.gerrit.extensions.common.ListChangesOption.CURRENT_FILES;
@@ -141,6 +142,7 @@ public class ChangeJson {
   private final EnumSet<ListChangesOption> options;
   private final ChangeMessagesUtil cmUtil;
   private final PatchLineCommentsUtil plcUtil;
+  private final Provider<ConsistencyChecker> checkerProvider;
 
   private AccountLoader accountLoader;
 
@@ -161,7 +163,8 @@ public class ChangeJson {
       Revisions revisions,
       WebLinks webLinks,
       ChangeMessagesUtil cmUtil,
-      PatchLineCommentsUtil plcUtil) {
+      PatchLineCommentsUtil plcUtil,
+      Provider<ConsistencyChecker> checkerProvider) {
     this.db = db;
     this.labelNormalizer = ln;
     this.userProvider = user;
@@ -178,6 +181,7 @@ public class ChangeJson {
     this.webLinks = webLinks;
     this.cmUtil = cmUtil;
     this.plcUtil = plcUtil;
+    this.checkerProvider = checkerProvider;
     options = EnumSet.noneOf(ListChangesOption.class);
   }
 
@@ -200,7 +204,16 @@ public class ChangeJson {
   }
 
   public ChangeInfo format(Change.Id id) throws OrmException {
-    return format(changeDataFactory.create(db.get(), id));
+    Change c;
+    try {
+      c = db.get().changes().get(id);
+    } catch (OrmException e) {
+      if (!has(CHECK)) {
+        throw e;
+      }
+      return checkOnly(changeDataFactory.create(db.get(), id));
+    }
+    return format(changeDataFactory.create(db.get(), c));
   }
 
   public ChangeInfo format(ChangeData cd) throws OrmException {
@@ -209,14 +222,21 @@ public class ChangeJson {
 
   private ChangeInfo format(ChangeData cd, Optional<PatchSet.Id> limitToPsId)
       throws OrmException {
-    accountLoader = accountLoaderFactory.create(has(DETAILED_ACCOUNTS));
-    Set<Change.Id> reviewed = Sets.newHashSet();
-    if (has(REVIEWED)) {
-      reviewed = loadReviewed(Collections.singleton(cd));
+    try {
+      accountLoader = accountLoaderFactory.create(has(DETAILED_ACCOUNTS));
+      Set<Change.Id> reviewed = Sets.newHashSet();
+      if (has(REVIEWED)) {
+        reviewed = loadReviewed(Collections.singleton(cd));
+      }
+      ChangeInfo res = toChangeInfo(cd, reviewed, limitToPsId);
+      accountLoader.fill();
+      return res;
+    } catch (OrmException e) {
+      if (!has(CHECK)) {
+        throw e;
+      }
+      return checkOnly(cd);
     }
-    ChangeInfo res = toChangeInfo(cd, reviewed, limitToPsId);
-    accountLoader.fill();
-    return res;
   }
 
   public ChangeInfo format(RevisionResource rsrc) throws OrmException {
@@ -262,13 +282,43 @@ public class ChangeJson {
         try {
           i = toChangeInfo(cd, reviewed, Optional.<PatchSet.Id> absent());
         } catch (OrmException e) {
-          log.warn(
-              "Omitting corrupt change " + cd.getId() + " from results", e);
-          continue;
+          if (has(CHECK)) {
+            i = checkOnly(cd);
+          } else {
+            log.warn(
+                "Omitting corrupt change " + cd.getId() + " from results", e);
+            continue;
+          }
         }
         out.put(cd.getId(), i);
       }
       info.add(i);
+    }
+    return info;
+  }
+
+  private ChangeInfo checkOnly(ChangeData cd) {
+    ConsistencyChecker.Result result = checkerProvider.get().check(cd);
+    ChangeInfo info;
+    Change c = result.change();
+    if (c != null) {
+      info = new ChangeInfo();
+      info.project = c.getProject().get();
+      info.branch = c.getDest().getShortName();
+      info.topic = c.getTopic();
+      info.changeId = c.getKey().get();
+      info.subject = c.getSubject();
+      info.status = c.getStatus().asChangeStatus();
+      info.owner = new AccountInfo(c.getOwner().get());
+      info.created = c.getCreatedOn();
+      info.updated = c.getLastUpdatedOn();
+      info._number = c.getId().get();
+      info.problems = result.problems();
+      finish(info);
+    } else {
+      info = new ChangeInfo();
+      info._number = result.id().get();
+      info.problems = result.problems();
     }
     return info;
   }
@@ -355,6 +405,11 @@ public class ChangeJson {
         out.actions.put(descr.getId(), new ActionInfo(descr));
       }
     }
+
+    if (has(CHECK)) {
+      out.problems = checkerProvider.get().check(in).problems();
+    }
+
     return out;
   }
 

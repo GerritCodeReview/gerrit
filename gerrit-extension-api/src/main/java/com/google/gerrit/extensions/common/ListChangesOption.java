@@ -52,7 +52,10 @@ public enum ListChangesOption {
   DOWNLOAD_COMMANDS(13),
 
   /** Include patch set weblinks. */
-  WEB_LINKS(14);
+  WEB_LINKS(14),
+
+  /** Include consistency check results. */
+  CHECK(15);
 
   private final int value;
 

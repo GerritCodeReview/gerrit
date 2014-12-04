@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "ff0e5db4_aa0d2f2b",
+        "filename": "gerrit-gwtui-common/BUCK",
+        "patchSetId": 6
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-12-04T07:02:30Z",
+      "side": 1,
+      "message": "run \u0027buck build //gerrit-gwtui-common:diffy_image_files_ln \u0027\n go under of  buck-out/gen/gerrit-gwtui-common\n run \u0027ls -l\u0027  \n find the diffy_images.jar is not a soft link. STRANGE\n (Ubuntu)",
+      "revId": "133dbe6ef430bf6bbe57c8d7a97588477b8d0e56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ff0e5db4_8aa14bb4",
         "filename": "gerrit-gwtui-common/src/main/java/com/google/gerrit/client/Resources.java",
         "patchSetId": 6

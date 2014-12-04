@@ -14,68 +14,26 @@
 
 package com.google.gerrit.server.change;
 
-import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
-import com.google.gerrit.extensions.common.ProblemInfo;
+import com.google.gerrit.extensions.common.ListChangesOption;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
-import com.google.gerrit.reviewdb.client.Change;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.util.List;
 
 @Singleton
 public class Check implements RestReadView<ChangeResource> {
-  private static final Logger log = LoggerFactory.getLogger(Check.class);
-
-  private final Provider<ConsistencyChecker> checkerProvider;
-  private final ChangeJson json;
+  private final GetChange delegate;
 
   @Inject
-  Check(Provider<ConsistencyChecker> checkerProvider,
-      ChangeJson json) {
-    this.checkerProvider = checkerProvider;
-    this.json = json;
+  Check(GetChange delegate) {
+    this.delegate = delegate;
+    delegate.addOption(ListChangesOption.CHECK);
   }
 
   @Override
-  public ChangeInfo apply(ChangeResource rsrc) {
-    List<ProblemInfo> problems = checkerProvider.get().check(rsrc.getChange());
-    ChangeInfo result;
-    try {
-      result = json.format(rsrc);
-    } catch (OrmException e) {
-      // Even with no options there are a surprising number of dependencies in
-      // ChangeJson. Fall back to a very basic implementation with no
-      // dependencies if this fails.
-      ProblemInfo p = new ProblemInfo();
-      p.message = "Error rendering final ChangeInfo";
-      log.warn(p.message, e);
-      problems.add(p);
-      result = basicChangeInfo(rsrc.getChange());
-    }
-    result.problems = problems;
-    return result;
-  }
-
-  private static ChangeInfo basicChangeInfo(Change c) {
-    ChangeInfo info = new ChangeInfo();
-    info.project = c.getProject().get();
-    info.branch = c.getDest().getShortName();
-    info.topic = c.getTopic();
-    info.changeId = c.getKey().get();
-    info.subject = c.getSubject();
-    info.status = c.getStatus().asChangeStatus();
-    info.owner = new AccountInfo(c.getOwner().get());
-    info.created = c.getCreatedOn();
-    info.updated = c.getLastUpdatedOn();
-    info._number = c.getId().get();
-    ChangeJson.finish(info);
-    return info;
+  public Response<ChangeInfo> apply(ChangeResource rsrc) throws OrmException {
+    return delegate.apply(rsrc);
   }
 }

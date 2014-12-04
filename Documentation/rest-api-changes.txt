@@ -299,6 +299,10 @@ default. Optional fields are:
 --
 * `WEB_LINKS`: include the `web_links` field.
 --
+[[check]]
+--
+* `CHECK`: include potential problems with the change.
+--
 
 .Request
 ----
@@ -3266,8 +3270,7 @@ Whether the query would deliver more results if not limited. +
 Only set on either the last or the first change that is returned.
 |`problems`           |optional|
 A list of link:#problem-info[ProblemInfo] entities describing potential
-problems with this change. Only set by the link:#check-change[/check]
-handler.
+problems with this change. Only set if link:#check[CHECK] is set.
 |==================================
 
 [[related-changes-info]]

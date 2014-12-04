@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "df1359da_09bb29b5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-04T13:29:57Z",
+      "side": 1,
+      "message": "[Optional] 0.9.1 instead of 0.9.0 in the name of patched SSHD artifact would better reflect what going on here: [1].\n\n* [1] https://issues.apache.org/jira/browse/SSHD/fixforversion/12328842/?selectedTab\u003dcom.atlassian.jira.jira-projects-plugin:version-summary-panel",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 34
+      },
+      "revId": "bde8e9ac6f26a85c1a757ac0fa298f8b0c3c5783",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

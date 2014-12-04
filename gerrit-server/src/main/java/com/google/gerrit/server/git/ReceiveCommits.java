@@ -180,6 +180,7 @@ public class ReceiveCommits {
       "^" + REFS_CHANGES + "(?:[0-9][0-9]/)?([1-9][0-9]*)(?:/new)?$");
 
   private static final FooterKey CHANGE_ID = new FooterKey("Change-Id");
+  private static final FooterKey DEPENDS_ON = new FooterKey("Depends-On");
 
   private static final String COMMAND_REJECTION_MESSAGE_FOOTER =
       "Please read the documentation and contact an administrator\n"
@@ -1534,6 +1535,13 @@ public class ReceiveCommits {
         if (idStr.matches("^I00*$")) {
           // Reject this invalid line from EGit.
           reject(magicBranch.cmd, "invalid Change-Id");
+          return Collections.emptyList();
+        }
+
+        final List<String> dependencies = c.getFooterLines(DEPENDS_ON);
+        if (dependencies.size() > 1) {
+          // This makes life very easy for selecting all other dependencies.
+          reject(magicBranch.cmd, "just one " DEPENDS_ON.getName() + " allowed");
           return Collections.emptyList();
         }
 

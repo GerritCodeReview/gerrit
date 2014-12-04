@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "3f7f1523_acf3e3ff",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/ProblemInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-12-04T20:50:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "df86f964_b1da6076",
+      "range": {
+        "startLine": 15,
+        "startChar": 8,
+        "endLine": 15,
+        "endChar": 48
+      },
+      "revId": "84ee02fb3e37370da92839fa30101f86b0a6eede",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "df86f964_51e0d42c",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/ProblemInfo.java",
         "patchSetId": 1
@@ -83,6 +107,30 @@
       "writtenOn": "2014-12-04T19:42:43Z",
       "side": 1,
       "message": "That why this is the wrong package. All other extension API classes used here are in the same package.",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 60
+      },
+      "revId": "84ee02fb3e37370da92839fa30101f86b0a6eede",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3f7f1523_4c091f53",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/ChangeInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-12-04T20:50:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "df86f964_71ddd86b",
       "range": {
         "startLine": 17,
         "startChar": 0,

@@ -43,10 +43,6 @@ class PRED__load_commit_labels_1 extends Predicate.P1 {
           StoredValues.CHANGE_CONTROL.get(engine).getLabelTypes();
 
       for (PatchSetApproval a : cd.currentApprovals()) {
-        if (a.getValue() == 0) {
-          continue;
-        }
-
         LabelType t = types.byLabel(a.getLabelId());
         if (t == null) {
           continue;

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "df86f964_11032c35",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 596,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-04T21:34:57Z",
+      "side": 1,
+      "message": "Not really related to this change, but more or less all callers of currentPatchSet() method use the same idiom:\n\n  PatchSet ps \u003d cd.currentPatchSet();\n  if (ps \u003d\u003d null) {\n    throw new OrmException(\"Missing patch set);\n  }\n\nWhy not just throw this OrmException from currentPatchSet() itself, instead of returning null?",
+      "range": {
+        "startLine": 596,
+        "startChar": 22,
+        "endLine": 596,
+        "endChar": 39
+      },
+      "revId": "bfc07c5535f8cfa975e68e5874c06908ed629287",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

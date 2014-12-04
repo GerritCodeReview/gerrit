@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "df86f964_11ea4c0b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/changes/ChangeApiImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-04T19:43:14Z",
+      "side": 1,
+      "message": "Just:\n\n  return get(EnumSet.complementOf(EnumSet.of(ListChangesOption.CHECK)));",
+      "range": {
+        "startLine": 209,
+        "startChar": 4,
+        "endLine": 211,
+        "endChar": 21
+      },
+      "revId": "9b9dd9fcf8439c40550a109bd4d73db228530891",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5f720959_4de0392d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-04T19:43:14Z",
+      "side": 1,
+      "message": "Wrong indentation.",
+      "revId": "9b9dd9fcf8439c40550a109bd4d73db228530891",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "df86f964_f1f9c8e1",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/change/ConsistencyCheckerTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-04T19:43:14Z",
+      "side": 1,
+      "message": "Yeah, here you did it right. This is the right package, but you have put it in wrong package in parent change:\n\n  com.google.gerrit.extensions.api.changes.ProblemInfo;\n\nSo that this doesn\u0027t compile.",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 55
+      },
+      "revId": "9b9dd9fcf8439c40550a109bd4d73db228530891",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "df86f964_d1f4c4ec",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/change/ConsistencyCheckerTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-04T19:43:14Z",
+      "side": 1,
+      "message": "That why i am not convinced that you need List\u003cProblemInfo\u003e and not just List\u003cString\u003e.",
+      "range": {
+        "startLine": 245,
+        "startChar": 15,
+        "endLine": 251,
+        "endChar": 12
+      },
+      "revId": "9b9dd9fcf8439c40550a109bd4d73db228530891",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

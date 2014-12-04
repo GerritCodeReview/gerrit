@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ff0e5db4_8aa14bb4",
+        "filename": "gerrit-gwtui-common/src/main/java/com/google/gerrit/client/Resources.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-12-04T03:02:48Z",
+      "side": 1,
+      "message": "2014",
+      "revId": "133dbe6ef430bf6bbe57c8d7a97588477b8d0e56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

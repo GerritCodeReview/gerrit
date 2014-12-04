@@ -206,7 +206,7 @@ class ChangeApiImpl extends ChangeApi.NotImplemented implements ChangeApi {
 
   @Override
   public ChangeInfo get() throws RestApiException {
-    return get(EnumSet.allOf(ListChangesOption.class));
+    return get(EnumSet.complementOf(EnumSet.of(ListChangesOption.CHECK)));
   }
 
   @Override

@@ -301,4 +301,17 @@ public class ChangeIT extends AbstractDaemonTest {
         .id(r.getChangeId())
         .topic()).isEqualTo("");
   }
+
+  @Test
+  public void check() throws Exception {
+    PushOneCommit.Result r = createChange();
+    assertThat(gApi.changes()
+        .id(r.getChangeId())
+        .get()
+        .problems).isNull();
+    assertThat(gApi.changes()
+        .id(r.getChangeId())
+        .get(EnumSet.of(ListChangesOption.CHECK))
+        .problems).isEmpty();
+  }
 }

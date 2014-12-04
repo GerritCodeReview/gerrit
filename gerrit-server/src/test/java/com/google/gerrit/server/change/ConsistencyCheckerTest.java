@@ -241,7 +241,7 @@ public class ConsistencyCheckerTest {
   }
 
   private void assertProblems(Change c, String... expected) {
-    assertThat(Lists.transform(checker.check(c),
+    assertThat(Lists.transform(checker.check(c).problems(),
           new Function<ProblemInfo, String>() {
             @Override
             public String apply(ProblemInfo in) {

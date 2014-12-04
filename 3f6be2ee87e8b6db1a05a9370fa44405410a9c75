@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3f7f1523_ec224bd0",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/change/ConsistencyCheckerTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-12-04T20:52:03Z",
+      "side": 1,
+      "message": "Done.",
+      "revId": "3f6be2ee87e8b6db1a05a9370fa44405410a9c75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

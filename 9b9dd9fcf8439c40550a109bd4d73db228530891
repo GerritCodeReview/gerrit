@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "3f7f1523_6c065b46",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/changes/ChangeApiImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-12-04T20:50:13Z",
+      "side": 1,
+      "message": "Thanks. Done.",
+      "parentUuid": "df86f964_11ea4c0b",
+      "range": {
+        "startLine": 209,
+        "startChar": 4,
+        "endLine": 211,
+        "endChar": 21
+      },
+      "revId": "9b9dd9fcf8439c40550a109bd4d73db228530891",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "df86f964_b1f34000",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
         "patchSetId": 1
@@ -89,6 +113,24 @@
     },
     {
       "key": {
+        "uuid": "bf8b056f_902714df",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-12-04T20:50:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5f720959_4de0392d",
+      "revId": "9b9dd9fcf8439c40550a109bd4d73db228530891",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "df86f964_5109b452",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
         "patchSetId": 1
@@ -146,6 +188,30 @@
       "writtenOn": "2014-12-04T19:43:14Z",
       "side": 1,
       "message": "That why i am not convinced that you need List\u003cProblemInfo\u003e and not just List\u003cString\u003e.",
+      "range": {
+        "startLine": 245,
+        "startChar": 15,
+        "endLine": 251,
+        "endChar": 12
+      },
+      "revId": "9b9dd9fcf8439c40550a109bd4d73db228530891",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bf8b056f_b02c98c1",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/change/ConsistencyCheckerTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-12-04T20:50:13Z",
+      "side": 1,
+      "message": "Whoops, this obviously should have been in the parent change.",
+      "parentUuid": "df86f964_d1f4c4ec",
       "range": {
         "startLine": 245,
         "startChar": 15,

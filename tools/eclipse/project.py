@@ -52,8 +52,8 @@ def _query_classpath(targets):
   return deps
 
 
-def gen_project(name='gerrit', dir=ROOT):
-  p = path.join(dir, '.project')
+def gen_project(name='gerrit', root=ROOT):
+  p = path.join(root, '.project')
   with open(p, 'w') as fd:
     print("""\
 <?xml version="1.0" encoding="UTF-8"?>
@@ -70,10 +70,10 @@ def gen_project(name='gerrit', dir=ROOT):
 </projectDescription>\
 """, file=fd)
 
-def gen_plugin_classpath(dir):
-  p = path.join(dir, '.classpath')
+def gen_plugin_classpath(root):
+  p = path.join(root, '.classpath')
   with open(p, 'w') as fd:
-    if path.exists(path.join(dir, 'src', 'test', 'java')):
+    if path.exists(path.join(root, 'src', 'test', 'java')):
       testpath = """
   <classpathentry kind="src" path="src/test/java"\
  out="buck-out/eclipse/test"/>"""

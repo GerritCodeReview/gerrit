@@ -25,7 +25,7 @@ def main():
     patchset = None
 
     try:
-        opts, args = getopt.getopt(sys.argv[1:], '', \
+        opts, _args = getopt.getopt(sys.argv[1:], '', \
             ['change=', 'project=', 'branch=', 'commit=', 'patchset='])
     except getopt.GetoptError as err:
         print('Error: %s' % (err))

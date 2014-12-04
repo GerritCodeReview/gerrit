@@ -34,6 +34,24 @@
       "revId": "7471cb68f8ed6ca69e87d414ef36ed1b5d96561e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff0e5db4_2a3b7fbe",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Reviewers.ui.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-04T11:15:15Z",
+      "side": 1,
+      "message": "Yes, g:Button only works with addStyleNames\u003d\u0027{foo}\u0027.\n\n\"aria-hidden\" is only used in divs. So, just replace: \"visibility: hidden;\" with \"display: none;\" above on line 55. See for example: diff/SkipBar.ui.xml.",
+      "parentUuid": "dfea79ee_5179d4b3",
+      "revId": "7471cb68f8ed6ca69e87d414ef36ed1b5d96561e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

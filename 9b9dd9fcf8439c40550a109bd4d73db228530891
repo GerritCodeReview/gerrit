@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "3f7f1523_ecf9ebe1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-12-04T19:59:30Z",
+      "side": 1,
+      "message": "That\u0027s true. Unfortunately it will be a huge PITA to trigger OrmExceptions from access methods on demand, which is why I didn\u0027t do it.",
+      "parentUuid": "df86f964_b1f34000",
+      "range": {
+        "startLine": 211,
+        "startChar": 6,
+        "endLine": 214,
+        "endChar": 63
+      },
+      "revId": "9b9dd9fcf8439c40550a109bd4d73db228530891",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5f720959_4de0392d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
         "patchSetId": 1

@@ -22,6 +22,30 @@
       "revId": "793c694be7f2a042175eb66df29ce17a09624887",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7fd98d6e_0e832b2c",
+        "filename": "ReleaseNotes/ReleaseNotes-2.10.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-12-04T11:07:04Z",
+      "side": 1,
+      "message": "\"themself\" or \"themselves\" is not gender specific, so we don\u0027t have to worry about if we should use \"himself\" or \"herself\".",
+      "parentUuid": "ff0e5db4_4a3eb3ae",
+      "range": {
+        "startLine": 90,
+        "startChar": 42,
+        "endLine": 90,
+        "endChar": 74
+      },
+      "revId": "793c694be7f2a042175eb66df29ce17a09624887",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

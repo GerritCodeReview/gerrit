@@ -52,6 +52,24 @@
       "revId": "7471cb68f8ed6ca69e87d414ef36ed1b5d96561e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff0e5db4_0a38bbbd",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Reviewers.ui.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-12-04T11:18:16Z",
+      "side": 1,
+      "message": "Pretty sure I already tried that and calling setVisible(true) on the Button in the code wasn\u0027t having any effect, i.e. it remained invisible.\n\nI\u0027ll have another look at it tomorrow.",
+      "parentUuid": "ff0e5db4_2a3b7fbe",
+      "revId": "7471cb68f8ed6ca69e87d414ef36ed1b5d96561e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

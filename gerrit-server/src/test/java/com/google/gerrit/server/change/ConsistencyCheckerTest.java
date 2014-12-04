@@ -23,6 +23,7 @@ import static java.util.Collections.singleton;
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.TimeUtil;
+import com.google.gerrit.extensions.api.changes.FixInput;
 import com.google.gerrit.extensions.common.ProblemInfo;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
@@ -42,6 +43,8 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.List;
 
 public class ConsistencyCheckerTest {
   private InMemoryDatabase schemaFactory;
@@ -238,6 +241,28 @@ public class ConsistencyCheckerTest {
     assertProblems(c,
         "Patch set 1 (" + commit.name() + ") is merged into destination ref"
         + " master (" + commit.name() + "), but change status is NEW");
+  }
+
+  @Test
+  public void newChangeIsMergedWithFix() throws Exception {
+    Change c = newChange(project, userId);
+    db.changes().insert(singleton(c));
+    RevCommit commit = repo.branch(c.currentPatchSetId().toRefName()).commit()
+        .parent(tip).create();
+    PatchSet ps = newPatchSet(c.currentPatchSetId(), commit, userId);
+    db.patchSets().insert(singleton(ps));
+    repo.branch(c.getDest().get()).update(commit);
+
+    List<ProblemInfo> problems = checker.check(c, new FixInput()).problems();
+    assertThat(problems).hasSize(1);
+    ProblemInfo p = problems.get(0);
+    assertThat(p.message).isEqualTo(
+        "Patch set 1 (" + commit.name() + ") is merged into destination ref"
+        + " master (" + commit.name() + "), but change status is NEW");
+    assertThat(p.status).isEqualTo(ProblemInfo.Status.FIXED);
+    assertThat(p.outcome).isEqualTo("Marked change as merged");
+
+    assertProblems(db.changes().get(c.getId()));
   }
 
   private void assertProblems(Change c, String... expected) {

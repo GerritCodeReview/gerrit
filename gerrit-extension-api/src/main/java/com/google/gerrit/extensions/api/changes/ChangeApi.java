@@ -99,6 +99,7 @@ public interface ChangeApi {
   Set<String> getHashtags() throws RestApiException;
 
   ChangeInfo check() throws RestApiException;
+  ChangeInfo check(FixInput fix) throws RestApiException;
 
   /**
    * A default implementation which allows source compatibility
@@ -202,6 +203,11 @@ public interface ChangeApi {
 
     @Override
     public ChangeInfo check() throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public ChangeInfo check(FixInput fix) throws RestApiException {
       throw new NotImplementedException();
     }
   }

@@ -14,26 +14,41 @@
 
 package com.google.gerrit.server.change;
 
+import com.google.gerrit.extensions.api.changes.FixInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ListChangesOption;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.Response;
+import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.RestReadView;
+import com.google.gerrit.server.project.ChangeControl;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-import com.google.inject.Singleton;
 
-@Singleton
-public class Check implements RestReadView<ChangeResource> {
-  private final GetChange delegate;
+public class Check implements RestReadView<ChangeResource>,
+    RestModifyView<ChangeResource, FixInput> {
+  private final ChangeJson json;
 
   @Inject
-  Check(GetChange delegate) {
-    this.delegate = delegate;
-    delegate.addOption(ListChangesOption.CHECK);
+  Check(ChangeJson json) {
+    this.json = json;
+    json.addOption(ListChangesOption.CHECK);
   }
 
   @Override
   public Response<ChangeInfo> apply(ChangeResource rsrc) throws OrmException {
-    return delegate.apply(rsrc);
+    return GetChange.cache(json.format(rsrc));
+  }
+
+  @Override
+  public Response<ChangeInfo> apply(ChangeResource rsrc, FixInput input)
+      throws AuthException, OrmException {
+    ChangeControl ctl = rsrc.getControl();
+    if (!ctl.isOwner()
+        && !ctl.getProjectControl().isOwner()
+        && !ctl.getCurrentUser().getCapabilities().canAdministrateServer()) {
+      throw new AuthException("Not owner");
+    }
+    return GetChange.cache(json.fix(input).format(rsrc));
   }
 }

@@ -216,6 +216,24 @@
     },
     {
       "key": {
+        "uuid": "ff0e5db4_8a2b8b71",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-04T10:40:50Z",
+      "side": 1,
+      "message": "| I am NOT reverting all downgrade changes.\n\nI see where the confusion was: With revert you meant the reverts in [1]; i sought you meant the revert of [1] itself.\n\n| I am going to create a custom SSHD version based on the commit message in [2] and upload it to the google storage.\n\nYes. That why [2] was uploaded in the first place and i only haven\u0027t done this until now, because i don\u0027t have the rights to upload artifacts to Google storage bucket. So that nobody gave me the right and nobody did it for me.\n\nFor the record copy the commit message of [2] in this change. So that when we downgrade again in two years + apply other bug fixes we would have it easier then today. Of course another option is to restore my change and abandon this one.",
+      "parentUuid": "ff0e5db4_aa264fa9",
+      "revId": "f011dc12c2753f135bdf86b1c9e29f8dc88d79bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "df1359da_a99c1d74",
         "filename": "lib/mina/BUCK",
         "patchSetId": 1

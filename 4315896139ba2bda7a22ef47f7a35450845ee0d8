@@ -16,6 +16,24 @@
       "revId": "4315896139ba2bda7a22ef47f7a35450845ee0d8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7fd98d6e_ce6c03fd",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Reviewers.ui.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-12-04T06:58:43Z",
+      "side": 1,
+      "message": "My initial intention was to do it that way, but I wasn\u0027t sure if it was a good idea to have both \u0027styleName\u0027 and \u0027style\u0027 parameters here.\n\nAnyway, it works as implemented now.  Do you see any actual benefit to reverse the logic?",
+      "parentUuid": "df1359da_c93191e3",
+      "revId": "4315896139ba2bda7a22ef47f7a35450845ee0d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

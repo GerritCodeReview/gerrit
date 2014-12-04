@@ -162,6 +162,42 @@
     },
     {
       "key": {
+        "uuid": "df1359da_89fdd97c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-04T09:56:42Z",
+      "side": 1,
+      "message": "I don\u0027t follow. When you revert all downgrade changes, then we would end up with broken SSHD 0.13, as this is the current version used on stable-2.9 branch: [1].\n\n  maven_jar(\n    name \u003d \u0027sshd\u0027,\n    id \u003d \u0027org.apache.sshd:sshd-core:0.13.0\u0027,\n    sha1 \u003d \u0027c616c5865cc55473c6d63c6fcf46e60d382be172\u0027,\n   ...\n\n| [...] this version is perfect i.e. it solves all the issues?\n\nI don\u0027t think this version is perfect. I think it suffers from sporadic handshake failures SSHD-330 that was back ported to 0.9 branch and is tracked under [2].\n\n* [1] https://gerrit.googlesource.com/gerrit/+/stable-2.9/lib/mina/BUCK\n* [2] https://issues.apache.org/jira/browse/SSHD-356",
+      "parentUuid": "df1359da_e9fe9579",
+      "revId": "f011dc12c2753f135bdf86b1c9e29f8dc88d79bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff0e5db4_ca3183e3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-04T09:56:42Z",
+      "side": 1,
+      "message": "Yes, on Shawn\u0027s laptop, as he created it one year ago.",
+      "parentUuid": "ff0e5db4_ea2c478d",
+      "revId": "f011dc12c2753f135bdf86b1c9e29f8dc88d79bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "df1359da_a99c1d74",
         "filename": "lib/mina/BUCK",
         "patchSetId": 1

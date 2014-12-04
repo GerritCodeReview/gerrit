@@ -239,7 +239,7 @@ public class ChangeJson {
       ChangeInfo res = toChangeInfo(cd, reviewed, limitToPsId);
       accountLoader.fill();
       return res;
-    } catch (OrmException e) {
+    } catch (OrmException | RuntimeException e) {
       if (!has(CHECK)) {
         throw e;
       }
@@ -289,7 +289,7 @@ public class ChangeJson {
       if (i == null) {
         try {
           i = toChangeInfo(cd, reviewed, Optional.<PatchSet.Id> absent());
-        } catch (OrmException e) {
+        } catch (OrmException | RuntimeException e) {
           if (has(CHECK)) {
             i = checkOnly(cd);
           } else {

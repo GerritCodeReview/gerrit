@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "df86f964_b1da6076",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/ProblemInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-04T19:42:43Z",
+      "side": 1,
+      "message": "Wrong package. This should be com.google.gerrit.extensions.api.common.",
+      "range": {
+        "startLine": 15,
+        "startChar": 8,
+        "endLine": 15,
+        "endChar": 48
+      },
+      "revId": "84ee02fb3e37370da92839fa30101f86b0a6eede",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "df86f964_51e0d42c",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/ProblemInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-04T19:42:43Z",
+      "side": 1,
+      "message": "It\u0027s not clear (mentioned in the commit mesasge or TODO?) why this class is needed, why List\u003cString\u003e doesn\u0027t do the job?",
+      "range": {
+        "startLine": 17,
+        "startChar": 13,
+        "endLine": 17,
+        "endChar": 24
+      },
+      "revId": "84ee02fb3e37370da92839fa30101f86b0a6eede",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "df86f964_71ddd86b",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/ChangeInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-04T19:42:43Z",
+      "side": 1,
+      "message": "That why this is the wrong package. All other extension API classes used here are in the same package.",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 60
+      },
+      "revId": "84ee02fb3e37370da92839fa30101f86b0a6eede",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

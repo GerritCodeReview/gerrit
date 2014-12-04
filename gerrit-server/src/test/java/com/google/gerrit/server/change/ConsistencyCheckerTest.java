@@ -18,9 +18,13 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.testutil.TestChanges.incrementPatchSet;
 import static com.google.gerrit.testutil.TestChanges.newChange;
 import static com.google.gerrit.testutil.TestChanges.newPatchSet;
+
 import static java.util.Collections.singleton;
 
+import com.google.common.base.Function;
+import com.google.common.collect.Lists;
 import com.google.gerrit.common.TimeUtil;
+import com.google.gerrit.extensions.common.ProblemInfo;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -90,7 +94,7 @@ public class ConsistencyCheckerTest {
     PatchSet ps2 = newPatchSet(c.currentPatchSetId(), commit2, userId);
     db.patchSets().insert(singleton(ps2));
 
-    assertThat(checker.check(c)).isEmpty();
+    assertProblems(c);
   }
 
   @Test
@@ -110,7 +114,7 @@ public class ConsistencyCheckerTest {
     db.patchSets().insert(singleton(ps2));
 
     repo.branch(c.getDest().get()).update(commit2);
-    assertThat(checker.check(c)).isEmpty();
+    assertProblems(c);
   }
 
   @Test
@@ -122,7 +126,7 @@ public class ConsistencyCheckerTest {
     PatchSet ps = newPatchSet(c.currentPatchSetId(), commit, userId);
     db.patchSets().insert(singleton(ps));
 
-    assertThat(checker.check(c)).containsExactly("Missing change owner: 2");
+    assertProblems(c, "Missing change owner: 2");
   }
 
   @Test
@@ -132,8 +136,7 @@ public class ConsistencyCheckerTest {
     PatchSet ps = newPatchSet(c.currentPatchSetId(),
         ObjectId.fromString("deadbeefdeadbeefdeadbeefdeadbeefdeadbeef"), userId);
     db.patchSets().insert(singleton(ps));
-    assertThat(checker.check(c))
-        .containsExactly("Destination repository not found: otherproject");
+    assertProblems(c, "Destination repository not found: otherproject");
   }
 
   @Test
@@ -153,7 +156,7 @@ public class ConsistencyCheckerTest {
     PatchSet ps2 = newPatchSet(c.currentPatchSetId(), commit2, userId);
     db.patchSets().insert(singleton(ps2));
 
-    assertThat(checker.check(c)).containsExactly(
+    assertProblems(c,
         "Invalid revision on patch set 1:"
         + " fooooooooooooooooooooooooooooooooooooooo");
   }
@@ -166,7 +169,7 @@ public class ConsistencyCheckerTest {
         ObjectId.fromString("deadbeefdeadbeefdeadbeefdeadbeefdeadbeef"), userId);
     db.patchSets().insert(singleton(ps));
 
-    assertThat(checker.check(c)).containsExactly(
+    assertProblems(c,
         "Object missing: patch set 1: deadbeefdeadbeefdeadbeefdeadbeefdeadbeef");
   }
 
@@ -174,8 +177,7 @@ public class ConsistencyCheckerTest {
   public void currentPatchSetMissing() throws Exception {
     Change c = newChange(project, userId);
     db.changes().insert(singleton(c));
-    assertThat(checker.check(c))
-      .containsExactly("Current patch set 1 not found");
+    assertProblems(c, "Current patch set 1 not found");
   }
 
   @Test
@@ -191,8 +193,8 @@ public class ConsistencyCheckerTest {
     PatchSet ps2 = newPatchSet(c.currentPatchSetId(), commit1, userId);
     db.patchSets().insert(singleton(ps2));
 
-    assertThat(checker.check(c)).containsExactly("Multiple patch sets pointing to "
-        + commit1.name() + ": [1, 2]");
+    assertProblems(c,
+        "Multiple patch sets pointing to " + commit1.name() + ": [1, 2]");
   }
 
   @Test
@@ -206,8 +208,7 @@ public class ConsistencyCheckerTest {
     PatchSet ps = newPatchSet(c.currentPatchSetId(), commit, userId);
     db.patchSets().insert(singleton(ps));
 
-    assertThat(checker.check(c)).containsExactly(
-        "Destination ref not found (may be new branch): master");
+    assertProblems(c, "Destination ref not found (may be new branch): master");
   }
 
   @Test
@@ -220,7 +221,7 @@ public class ConsistencyCheckerTest {
     PatchSet ps = newPatchSet(c.currentPatchSetId(), commit, userId);
     db.patchSets().insert(singleton(ps));
 
-    assertThat(checker.check(c)).containsExactly(
+    assertProblems(c,
         "Patch set 1 (" + commit.name() + ") is not merged into destination ref"
         + " master (" + tip.name() + "), but change status is MERGED");
   }
@@ -235,8 +236,18 @@ public class ConsistencyCheckerTest {
     db.patchSets().insert(singleton(ps));
     repo.branch(c.getDest().get()).update(commit);
 
-    assertThat(checker.check(c)).containsExactly(
+    assertProblems(c,
         "Patch set 1 (" + commit.name() + ") is merged into destination ref"
         + " master (" + commit.name() + "), but change status is NEW");
+  }
+
+  private void assertProblems(Change c, String... expected) {
+    assertThat(Lists.transform(checker.check(c).problems(),
+          new Function<ProblemInfo, String>() {
+            @Override
+            public String apply(ProblemInfo in) {
+              return in.message;
+            }
+          })).containsExactly((Object[]) expected);
   }
 }

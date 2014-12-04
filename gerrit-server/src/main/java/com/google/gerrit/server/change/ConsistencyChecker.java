@@ -14,17 +14,20 @@
 
 package com.google.gerrit.server.change;
 
+import com.google.auto.value.AutoValue;
 import com.google.common.base.Function;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.Ordering;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.api.changes.ProblemInfo;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -56,6 +59,24 @@ public class ConsistencyChecker {
   private static final Logger log =
       LoggerFactory.getLogger(ConsistencyChecker.class);
 
+  @AutoValue
+  public static abstract class Result {
+    private static Result create(Change.Id id, List<ProblemInfo> problems) {
+      return new AutoValue_ConsistencyChecker_Result(id, null, problems);
+    }
+
+    private static Result create(Change c, List<ProblemInfo> problems) {
+      return new AutoValue_ConsistencyChecker_Result(c.getId(), c, problems);
+    }
+
+    public abstract Change.Id id();
+
+    @Nullable
+    public abstract Change change();
+
+    public abstract List<ProblemInfo> problems();
+  }
+
   private final Provider<ReviewDb> db;
   private final GitRepositoryManager repoManager;
 
@@ -83,12 +104,22 @@ public class ConsistencyChecker {
     problems = new ArrayList<>();
   }
 
-  public List<ProblemInfo> check(Change c) {
+  public Result check(ChangeData cd) {
+    reset();
+    try {
+      return check(cd.change());
+    } catch (OrmException e) {
+      error("Error looking up change", e);
+      return Result.create(cd.getId(), problems);
+    }
+  }
+
+  public Result check(Change c) {
     reset();
     change = c;
     try {
       checkImpl();
-      return problems;
+      return Result.create(c, problems);
     } finally {
       if (rw != null) {
         rw.release();

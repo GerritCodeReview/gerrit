@@ -25,6 +25,29 @@
     },
     {
       "key": {
+        "uuid": "df86f964_b1f34000",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-04T19:56:06Z",
+      "side": 1,
+      "message": "This and all other catches below that trigger checkOnly() method invocation are not test covered.",
+      "range": {
+        "startLine": 211,
+        "startChar": 6,
+        "endLine": 214,
+        "endChar": 63
+      },
+      "revId": "9b9dd9fcf8439c40550a109bd4d73db228530891",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5f720959_4de0392d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
         "patchSetId": 1
@@ -36,6 +59,29 @@
       "writtenOn": "2014-12-04T19:43:14Z",
       "side": 1,
       "message": "Wrong indentation.",
+      "revId": "9b9dd9fcf8439c40550a109bd4d73db228530891",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "df86f964_5109b452",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-04T19:56:06Z",
+      "side": 1,
+      "message": "The whole method is not test covered (both if branches).",
+      "range": {
+        "startLine": 300,
+        "startChar": 2,
+        "endLine": 324,
+        "endChar": 3
+      },
       "revId": "9b9dd9fcf8439c40550a109bd4d73db228530891",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

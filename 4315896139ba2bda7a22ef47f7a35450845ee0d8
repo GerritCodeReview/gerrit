@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "df1359da_c93191e3",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Reviewers.ui.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-04T06:54:11Z",
+      "side": 1,
+      "message": "Can we reverse the logic: disable the button per default and only make it optionally programmatically visible.",
+      "revId": "4315896139ba2bda7a22ef47f7a35450845ee0d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

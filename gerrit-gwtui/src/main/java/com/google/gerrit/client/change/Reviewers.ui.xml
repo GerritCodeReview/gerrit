@@ -50,6 +50,10 @@ limitations under the License.
     .cancel {
       float: right;
     }
+
+    .hidden {
+      display: none;
+    }
   </ui:style>
   <g:HTMLPanel>
     <div>
@@ -72,7 +76,9 @@ limitations under the License.
         <g:Button ui:field='add' styleName='{res.style.button}'>
           <div>Add</div>
         </g:Button>
-        <g:Button ui:field='addme' styleName='{res.style.button}'>
+        <g:Button ui:field='addMe'
+              styleName='{res.style.button}'
+              addStyleNames='{style.hidden}'>
           <div>Add Me</div>
         </g:Button>
         <g:Button ui:field='cancel'

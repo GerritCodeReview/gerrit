@@ -16,6 +16,24 @@
       "revId": "5696c9b1e417b3430cef9dbba8c17168f2032add",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5f720959_edd0055c",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Reviewers.ui.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-04T16:15:26Z",
+      "side": 1,
+      "message": "There is also explanation in [1] about this.\n\nSetter methods that follow JavaBean property conventions are exposed as attributes in UiBinder templates. For example, because UiObject implements setWidth(String) you can set the width of any widget like so:\n\n \u003cg:Label width\u003d\u002715em\u0027\u003eHello there\u003c/g:Label\u003e\n\nGenerally speaking, values are parsed as if they were Java literals, so methods like setVisible(boolean) are also available:\n\n \u003cg:Label width\u003d\u002715em\u0027 visible\u003d\u0027false\u0027\u003eHello there\u003c/g:Label\u003e\n\n* [1]  http://www.gwtproject.org/javadoc/latest/com/google/gwt/user/client/ui/UIObject.html",
+      "parentUuid": "5f720959_cdcbc9af",
+      "revId": "5696c9b1e417b3430cef9dbba8c17168f2032add",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -126,6 +126,24 @@
     },
     {
       "key": {
+        "uuid": "df1359da_e9fe9579",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-12-04T09:37:14Z",
+      "side": 1,
+      "message": "But when I revert (change 1) the sshd version is already 0.9.0.201311081 and according to your abandoned change this version is perfect i.e. it solves all the issues? If this is true then my second change (exactly this one) is obsolete.",
+      "parentUuid": "ff0e5db4_0a1f9b4c",
+      "revId": "f011dc12c2753f135bdf86b1c9e29f8dc88d79bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "df1359da_a99c1d74",
         "filename": "lib/mina/BUCK",
         "patchSetId": 1

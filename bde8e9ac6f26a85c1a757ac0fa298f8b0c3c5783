@@ -22,6 +22,30 @@
       "revId": "bde8e9ac6f26a85c1a757ac0fa298f8b0c3c5783",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff0e5db4_6aca975a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-12-04T13:33:16Z",
+      "side": 1,
+      "message": "From this point of view, yes.\n\nHowever, if we checkout the 0.9.x branch and then do a \"git describe\" it will describe it as sshd-0.9.0-4-g5967cfd. Therefore, I would keep it here unchanged :-)",
+      "parentUuid": "df1359da_09bb29b5",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 34
+      },
+      "revId": "bde8e9ac6f26a85c1a757ac0fa298f8b0c3c5783",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

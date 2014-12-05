@@ -32,7 +32,6 @@ import static javax.servlet.http.HttpServletResponse.SC_PRECONDITION_FAILED;
 
 import com.google.common.base.Function;
 import com.google.common.base.Joiner;
-import com.google.common.base.MoreObjects;
 import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableMultimap;
@@ -345,27 +344,34 @@ public class RestApiServlet extends HttpServlet {
         }
       }
     } catch (AuthException e) {
-      replyError(req, res, status = SC_FORBIDDEN, e.getMessage(), e.caching(), e);
+      replyError(req, res, status = SC_FORBIDDEN, messageOr(e, "Forbidden"),
+          e.caching(), e);
     } catch (BadRequestException e) {
-      replyError(req, res, status = SC_BAD_REQUEST, e.getMessage(), e.caching(), e);
+      replyError(req, res, status = SC_BAD_REQUEST, messageOr(e, "Bad request"),
+          e.caching(), e);
     } catch (MethodNotAllowedException e) {
-      replyError(req, res, status = SC_METHOD_NOT_ALLOWED, "Method not allowed", e.caching(), e);
+      replyError(req, res, status = SC_METHOD_NOT_ALLOWED,
+          messageOr(e, "Method not allowed"), e.caching(), e);
     } catch (ResourceConflictException e) {
-      replyError(req, res, status = SC_CONFLICT, e.getMessage(), e.caching(), e);
+      replyError(req, res, status = SC_CONFLICT, messageOr(e, "Conflict"),
+          e.caching(), e);
     } catch (PreconditionFailedException e) {
       replyError(req, res, status = SC_PRECONDITION_FAILED,
-          MoreObjects.firstNonNull(e.getMessage(), "Precondition failed"), e.caching(), e);
+          messageOr(e, "Precondition failed"), e.caching(), e);
     } catch (ResourceNotFoundException e) {
-      replyError(req, res, status = SC_NOT_FOUND, "Not found", e.caching(), e);
+      replyError(req, res, status = SC_NOT_FOUND, messageOr(e, "Not found"),
+          e.caching(), e);
     } catch (UnprocessableEntityException e) {
-      replyError(req, res, status = 422,
-          MoreObjects.firstNonNull(e.getMessage(), "Unprocessable Entity"), e.caching(), e);
+      replyError(req, res, status = 422, messageOr(e, "Unprocessable Entity"),
+          e.caching(), e);
     } catch (AmbiguousViewException e) {
-      replyError(req, res, status = SC_NOT_FOUND, e.getMessage(), e);
+      replyError(req, res, status = SC_NOT_FOUND, messageOr(e, "Ambiguous"), e);
     } catch (MalformedJsonException e) {
-      replyError(req, res, status = SC_BAD_REQUEST, "Invalid " + JSON_TYPE + " in request", e);
+      replyError(req, res, status = SC_BAD_REQUEST,
+          "Invalid " + JSON_TYPE + " in request", e);
     } catch (JsonParseException e) {
-      replyError(req, res, status = SC_BAD_REQUEST, "Invalid " + JSON_TYPE + " in request", e);
+      replyError(req, res, status = SC_BAD_REQUEST,
+          "Invalid " + JSON_TYPE + " in request", e);
     } catch (Exception e) {
       status = SC_INTERNAL_SERVER_ERROR;
       handleException(e, req, res);
@@ -375,6 +381,13 @@ public class RestApiServlet extends HttpServlet {
           auditStartTs, params, req.getMethod(), inputRequestBody, status,
           result));
     }
+  }
+
+  private static String messageOr(Throwable t, String defaultMessage) {
+    if (!Strings.isNullOrEmpty(t.getMessage())) {
+      return t.getMessage();
+    }
+    return defaultMessage;
   }
 
   private static boolean notModified(HttpServletRequest req, RestResource rsrc) {

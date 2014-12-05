@@ -32,8 +32,6 @@ import com.google.gerrit.server.RemotePeer;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.GerritRequestModule;
-import com.google.gerrit.server.contact.ContactStore;
-import com.google.gerrit.server.contact.ContactStoreProvider;
 import com.google.gerrit.server.git.AsyncReceiveCommits;
 import com.google.gerrit.server.util.GuiceRequestScopePropagator;
 import com.google.gerrit.server.util.RequestScopePropagator;
@@ -95,8 +93,6 @@ public class WebModule extends LifecycleModule {
       install(new GitWebModule());
     }
 
-    bind(ContactStore.class).toProvider(ContactStoreProvider.class).in(
-        SINGLETON);
     bind(GerritConfigProvider.class);
     bind(GerritConfig.class).toProvider(GerritConfigProvider.class);
     DynamicSet.setOf(binder(), WebUiPlugin.class);

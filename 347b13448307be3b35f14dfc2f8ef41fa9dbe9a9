@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "df86f964_91271cdf",
+        "filename": "ReleaseNotes/ReleaseNotes-2.11.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-05T05:33:36Z",
+      "side": 1,
+      "message": "Remove this? SSHD 0.9 doesn\u0027t support it.",
+      "range": {
+        "startLine": 342,
+        "startChar": 0,
+        "endLine": 343,
+        "endChar": 44
+      },
+      "revId": "347b13448307be3b35f14dfc2f8ef41fa9dbe9a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

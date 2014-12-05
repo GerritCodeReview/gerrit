@@ -16,8 +16,8 @@ are accepted.  To view and accept the agreements do the following:
 
 For reference, the actual agreements are linked below
 
-* https://gerrit-review.googlesource.com/static/cla_individual.html
-* https://gerrit-review.googlesource.com/static/cla_corporate.html
+* https://cla.developers.google.com/about/android-individual
+* https://source.android.com/source/cla-corporate.pdf
 
 As Gerrit is a code review tool, naturally contributions will
 be reviewed before they will get submitted to the code base.  To

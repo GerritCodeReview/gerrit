@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ff49fd4d_92cb5cb0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeKindCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-12-05T18:25:42Z",
+      "side": 1,
+      "message": "Add a comment here with a brief summary of what you say in the commit message.",
+      "revId": "a39d1abb8c487b8ec93dfd72671797df39c4e8cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

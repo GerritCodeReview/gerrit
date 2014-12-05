@@ -57,7 +57,7 @@ public class DeleteDraftPatchSetIT extends AbstractDaemonTest {
     assertEquals(triplet, c.id);
     assertEquals(ChangeStatus.DRAFT, c.status);
     RestResponse r = deletePatchSet(changeId, ps, userSession);
-    assertEquals("Not found", r.getEntityContent());
+    assertEquals("Not found: " + changeId, r.getEntityContent());
     assertEquals(404, r.getStatusCode());
   }
 

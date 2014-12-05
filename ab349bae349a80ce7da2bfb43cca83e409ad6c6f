@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bfb7854b_b0f4b8eb",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 4060,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-12-05T01:13:55Z",
+      "side": 1,
+      "message": "\". Only set if a fix was attempted.\"\n\nActually, is there any reason to not explicitly include a \"FIX_NOT_ATTEMPTED\" value here?",
+      "range": {
+        "startLine": 4059,
+        "startChar": 56,
+        "endLine": 4060,
+        "endChar": 18
+      },
+      "revId": "ab349bae349a80ce7da2bfb43cca83e409ad6c6f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7f1c2d1f_b6f4c8eb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ConsistencyChecker.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-12-05T01:13:55Z",
+      "side": 1,
+      "message": "I can imagine that in future there will be several methods like this, to fix various problems.\n\nIs it worth splitting them out into separate classes?",
+      "range": {
+        "startLine": 289,
+        "startChar": 0,
+        "endLine": 305,
+        "endChar": 5
+      },
+      "revId": "ab349bae349a80ce7da2bfb43cca83e409ad6c6f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7f1c2d1f_56e73442",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/change/ConsistencyCheckerTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-12-05T01:13:55Z",
+      "side": 1,
+      "message": "Add an assertion that the change status has actually been changed to merged?",
+      "revId": "ab349bae349a80ce7da2bfb43cca83e409ad6c6f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -70,6 +70,30 @@
       "revId": "9b07f7585ad0bad4819598bf4098ab0132c9bb42",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4426beb6_6dcb55b4",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshLog.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-12-05T21:55:29Z",
+      "side": 1,
+      "message": "We need a new change to fix this. Please push it for stable-2.10 as this change was cherry-picked there.",
+      "parentUuid": "84443658_6fcb51b4",
+      "range": {
+        "startLine": 272,
+        "startChar": 4,
+        "endLine": 275,
+        "endChar": 5
+      },
+      "revId": "9b07f7585ad0bad4819598bf4098ab0132c9bb42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

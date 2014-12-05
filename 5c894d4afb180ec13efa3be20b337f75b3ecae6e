@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bfb7854b_d0da1c77",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Check.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-12-05T00:57:53Z",
+      "side": 1,
+      "message": "Is it worth adding a simple constructor on the ProblemInfo class to set the message on construction?",
+      "range": {
+        "startLine": 56,
+        "startChar": 6,
+        "endLine": 57,
+        "endChar": 53
+      },
+      "revId": "5c894d4afb180ec13efa3be20b337f75b3ecae6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bfb7854b_30e0c82c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ConsistencyChecker.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-12-05T00:57:53Z",
+      "side": 1,
+      "message": "This could be simplified to\n\n problems.add(new ProblemInfo(msg));\n\nif we add a constructor as suggested in my comment on the other file.",
+      "range": {
+        "startLine": 256,
+        "startChar": 4,
+        "endLine": 258,
+        "endChar": 20
+      },
+      "revId": "5c894d4afb180ec13efa3be20b337f75b3ecae6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

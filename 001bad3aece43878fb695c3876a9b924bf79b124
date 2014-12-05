@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bfb7854b_70ea500c",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-12-05T01:05:08Z",
+      "side": 1,
+      "message": "nit: missing new line before this section.",
+      "revId": "001bad3aece43878fb695c3876a9b924bf79b124",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

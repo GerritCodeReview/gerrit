@@ -656,9 +656,6 @@ String[] reviewers = cfg.getGlobalPluginConfig("default-reviewer")
                         .getStringList("branch", "refs/heads/master", "reviewer");
 ----
 
-The plugin configuration is loaded only once and is then cached.
-Similar to changes in 'gerrit.config', changes to the plugin
-configuration file will only become effective after a Gerrit restart.
 
 [[simple-project-specific-configuration]]
 == Simple Project Specific Configuration in `project.config`

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "df1359da_29d4adf7",
+        "filename": "gerrit-gwtui-common/BUCK",
+        "patchSetId": 6
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-12-05T13:34:50Z",
+      "side": 1,
+      "message": "This is no new code, it was moved here from gerrit-gwtui/BUCK. If there is a problem with this code, it should be fixed in an own commit.",
+      "parentUuid": "ff0e5db4_aa0d2f2b",
+      "revId": "133dbe6ef430bf6bbe57c8d7a97588477b8d0e56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ff0e5db4_8aa14bb4",
         "filename": "gerrit-gwtui-common/src/main/java/com/google/gerrit/client/Resources.java",
         "patchSetId": 6
@@ -30,6 +48,24 @@
       "writtenOn": "2014-12-04T03:02:48Z",
       "side": 1,
       "message": "2014",
+      "revId": "133dbe6ef430bf6bbe57c8d7a97588477b8d0e56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "df1359da_49c7e150",
+        "filename": "gerrit-gwtui-common/src/main/java/com/google/gerrit/client/Resources.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-12-05T13:34:50Z",
+      "side": 1,
+      "message": "This is not new code, but the code was only moved. So keeping the original year seems appropriate to me.",
+      "parentUuid": "ff0e5db4_8aa14bb4",
       "revId": "133dbe6ef430bf6bbe57c8d7a97588477b8d0e56",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

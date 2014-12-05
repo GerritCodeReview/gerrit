@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "3f7f1523_0c3557f8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/DeleteBranch.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2014-12-05T14:06:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7f1c2d1f_f6d5a049",
+      "range": {
+        "startLine": 35,
+        "startChar": 0,
+        "endLine": 35,
+        "endChar": 45
+      },
+      "revId": "c8723263545217d1a445a4ce1161939cb6cf888c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7f1c2d1f_d6da2477",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/DeleteBranch.java",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2014-12-05T00:44:40Z",
       "side": 1,
       "message": "Can this go inside the catch block at line 88?",
+      "range": {
+        "startLine": 94,
+        "startChar": 8,
+        "endLine": 102,
+        "endChar": 9
+      },
+      "revId": "c8723263545217d1a445a4ce1161939cb6cf888c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bf8b056f_503becee",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/DeleteBranch.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2014-12-05T14:06:11Z",
+      "side": 1,
+      "message": "No, not all the RefDatabase implementations behave the same way, i.e. RefDirectory throws LockFailedException when it fails to lock the pack-refs file to delete a branch and the DfsRefDatabase returns a LOCK_FAILURE result.\n\nThe way I did it, the retry logic works for both behaviours.",
+      "parentUuid": "7f1c2d1f_d6da2477",
       "range": {
         "startLine": 94,
         "startChar": 8,

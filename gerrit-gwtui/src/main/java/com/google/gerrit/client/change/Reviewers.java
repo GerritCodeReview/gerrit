@@ -65,6 +65,7 @@ public class Reviewers extends Composite {
 
   @UiField Element reviewersText;
   @UiField Button openForm;
+  @UiField Button addMe;
   @UiField Element form;
   @UiField Element error;
   @UiField(provided = true)
@@ -146,7 +147,7 @@ public class Reviewers extends Composite {
     }
   }
 
-  @UiHandler("addme")
+  @UiHandler("addMe")
   void onAddMe(@SuppressWarnings("unused") ClickEvent e) {
     String accountId = String.valueOf(Gerrit.getUserAccountInfo()._account_id());
     addReviewer(accountId, false);
@@ -248,6 +249,13 @@ public class Reviewers extends Composite {
 
     reviewersText.setInnerSafeHtml(rHtml);
     ccText.setInnerSafeHtml(ccHtml);
+    if (Gerrit.isSignedIn()) {
+      int currentUser = Gerrit.getUserAccountInfo()._account_id();
+      boolean showAddMeButton = info.owner()._account_id() != currentUser
+          && !cc.containsKey(currentUser)
+          && !r.containsKey(currentUser);
+      addMe.setVisible(showAddMeButton);
+    }
   }
 
   private static Map<Integer, VotableInfo> votable(ChangeInfo change) {

@@ -14,12 +14,13 @@
 
 package com.google.gerrit.server.contact;
 
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gwtorm.server.SchemaFactory;
-import com.google.inject.Inject;
-import com.google.inject.Provider;
+import com.google.inject.AbstractModule;
+import com.google.inject.Provides;
 import com.google.inject.ProvisionException;
 
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
@@ -35,24 +36,16 @@ import java.net.URL;
 import java.security.Security;
 
 /** Creates the {@link ContactStore} based on the configuration. */
-public class ContactStoreProvider implements Provider<ContactStore> {
-  private final Config config;
-  private final SitePaths site;
-  private final SchemaFactory<ReviewDb> schema;
-  private final ContactStoreConnection.Factory connFactory;
-
-  @Inject
-  ContactStoreProvider(@GerritServerConfig final Config config,
-      final SitePaths site, final SchemaFactory<ReviewDb> schema,
-      final ContactStoreConnection.Factory connFactory) {
-    this.config = config;
-    this.site = site;
-    this.schema = schema;
-    this.connFactory = connFactory;
+public class ContactStoreModule extends AbstractModule {
+  @Override
+  protected void configure() {
   }
 
-  @Override
-  public ContactStore get() {
+  @Nullable
+  @Provides
+  public ContactStore provideContactStore(@GerritServerConfig final Config config,
+      final SitePaths site, final SchemaFactory<ReviewDb> schema,
+      final ContactStoreConnection.Factory connFactory) {
     final String url = config.getString("contactstore", null, "url");
     if (StringUtils.isEmptyOrNull(url)) {
       return new NoContactStore();

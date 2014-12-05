@@ -51,6 +51,7 @@ import com.google.gerrit.server.config.GerritGlobalModule;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.MasterNodeStartup;
 import com.google.gerrit.server.config.RestCacheAdminModule;
+import com.google.gerrit.server.contact.ContactStoreModule;
 import com.google.gerrit.server.contact.HttpContactStoreConnection;
 import com.google.gerrit.server.git.GarbageCollectionRunner;
 import com.google.gerrit.server.git.ReceiveCommitsExecutorModule;
@@ -419,6 +420,7 @@ public class Daemon extends SiteProgram {
     modules.add(sysInjector.getInstance(GitOverHttpModule.class));
     modules.add(sysInjector.getInstance(WebModule.class));
     modules.add(new HttpPluginModule());
+    modules.add(new ContactStoreModule());
     if (sshd) {
       modules.add(sshInjector.getInstance(WebSshGlueModule.class));
     } else {

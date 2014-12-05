@@ -18,7 +18,7 @@ import com.google.gerrit.common.errors.ContactInformationStoreException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.ContactInformation;
 
-class NoContactStore implements ContactStore {
+public class NoContactStore implements ContactStore {
   @Override
   public boolean isEnabled() {
     return false;

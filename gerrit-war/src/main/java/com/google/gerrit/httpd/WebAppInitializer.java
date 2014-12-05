@@ -36,6 +36,7 @@ import com.google.gerrit.server.config.GerritServerConfigModule;
 import com.google.gerrit.server.config.MasterNodeStartup;
 import com.google.gerrit.server.config.RestCacheAdminModule;
 import com.google.gerrit.server.config.SitePath;
+import com.google.gerrit.server.contact.ContactStoreModule;
 import com.google.gerrit.server.contact.HttpContactStoreConnection;
 import com.google.gerrit.server.git.GarbageCollectionRunner;
 import com.google.gerrit.server.git.LocalDiskRepositoryManager;
@@ -337,6 +338,7 @@ public class WebAppInitializer extends GuiceServletContextListener
     modules.add(H2CacheBasedWebSession.module());
     modules.add(HttpContactStoreConnection.module());
     modules.add(new HttpPluginModule());
+    modules.add(new ContactStoreModule());
 
     AuthConfig authConfig = cfgInjector.getInstance(AuthConfig.class);
     if (authConfig.getAuthType() == AuthType.OPENID) {

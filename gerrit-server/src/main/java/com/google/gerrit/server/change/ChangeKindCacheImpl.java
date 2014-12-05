@@ -127,7 +127,7 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
         ObjectId next, boolean useRecursiveMerge) {
       checkNotNull(next, "next");
       String strategyName = MergeUtil.mergeStrategyName(
-          project.isUseContentMerge(), useRecursiveMerge);
+          true, useRecursiveMerge);
       this.prior = prior.copy();
       this.next = next.copy();
       this.strategyName = strategyName;

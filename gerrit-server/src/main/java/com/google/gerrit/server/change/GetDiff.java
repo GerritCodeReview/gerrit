@@ -23,6 +23,7 @@ import com.google.common.collect.Lists;
 import com.google.gerrit.common.data.PatchScript;
 import com.google.gerrit.common.data.PatchScript.DisplayMethod;
 import com.google.gerrit.common.data.PatchScript.FileMode;
+import com.google.gerrit.extensions.common.DiffWebLinkInfo;
 import com.google.gerrit.extensions.common.WebLinkInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.CacheControl;
@@ -80,6 +81,9 @@ public class GetDiff implements RestReadView<FileResource> {
 
   @Option(name = "--intraline")
   boolean intraline;
+
+  @Option(name = "--weblinks-only")
+  boolean webLinksOnly;
 
   @Inject
   GetDiff(ProjectCache projectCache,
@@ -148,49 +152,63 @@ public class GetDiff implements RestReadView<FileResource> {
           projectCache.get(resource.getRevision().getChange().getProject());
 
       Result result = new Result();
-      if (ps.getDisplayMethodA() != DisplayMethod.NONE) {
-        result.metaA = new FileMeta();
-        result.metaA.name = MoreObjects.firstNonNull(ps.getOldName(),
-            ps.getNewName());
-        setContentType(result.metaA, state, ps.getFileModeA(), ps.getMimeTypeA());
-        result.metaA.lines = ps.getA().size();
+      // TODO referring to the parent commit by refs/changes/12/60012/1^1
+      // will likely not work for inline edits
+      String revA = basePatchSet != null
+          ? basePatchSet.getRefName()
+          : resource.getRevision().getPatchSet().getRefName() + "^1";
+      String revB = resource.getRevision().getEdit().isPresent()
+           ? resource.getRevision().getEdit().get().getRefName()
+           : resource.getRevision().getPatchSet().getRefName();
 
-        // TODO referring to the parent commit by refs/changes/12/60012/1^1
-        // will likely not work for inline edits
-        String rev = basePatchSet != null
-            ? basePatchSet.getRefName()
-            : resource.getRevision().getPatchSet().getRefName() + "^1";
-        result.metaA.webLinks =
-            getFileWebLinks(state.getProject(), rev, result.metaA.name);
-      }
+      FluentIterable<DiffWebLinkInfo> links =
+          webLinks.getDiffLinks(state.getProject().getName(),
+              resource.getPatchKey().getParentKey().getParentKey().get(),
+              basePatchSet != null ? basePatchSet.getId().get() : null,
+              revA,
+              MoreObjects.firstNonNull(ps.getOldName(), ps.getNewName()),
+              resource.getPatchKey().getParentKey().get(),
+              revB,
+              ps.getNewName());
+      result.webLinks = links.isEmpty() ? null : links.toList();
 
-      if (ps.getDisplayMethodB() != DisplayMethod.NONE) {
-        result.metaB = new FileMeta();
-        result.metaB.name = ps.getNewName();
-        setContentType(result.metaB, state, ps.getFileModeB(), ps.getMimeTypeB());
-        result.metaB.lines = ps.getB().size();
-        String rev = resource.getRevision().getEdit().isPresent()
-            ? resource.getRevision().getEdit().get().getRefName()
-            : resource.getRevision().getPatchSet().getRefName();
-        result.metaB.webLinks =
-            getFileWebLinks(state.getProject(), rev, result.metaB.name);
-      }
-
-      if (intraline) {
-        if (ps.hasIntralineTimeout()) {
-          result.intralineStatus = IntraLineStatus.TIMEOUT;
-        } else if (ps.hasIntralineFailure()) {
-          result.intralineStatus = IntraLineStatus.FAILURE;
-        } else {
-          result.intralineStatus = IntraLineStatus.OK;
+      if (!webLinksOnly) {
+        if (ps.getDisplayMethodA() != DisplayMethod.NONE) {
+          result.metaA = new FileMeta();
+          result.metaA.name = MoreObjects.firstNonNull(ps.getOldName(),
+              ps.getNewName());
+          setContentType(result.metaA, state, ps.getFileModeA(), ps.getMimeTypeA());
+          result.metaA.lines = ps.getA().size();
+          result.metaA.webLinks =
+              getFileWebLinks(state.getProject(), revA, result.metaA.name);
         }
+
+        if (ps.getDisplayMethodB() != DisplayMethod.NONE) {
+          result.metaB = new FileMeta();
+          result.metaB.name = ps.getNewName();
+          setContentType(result.metaB, state, ps.getFileModeB(), ps.getMimeTypeB());
+          result.metaB.lines = ps.getB().size();
+          result.metaB.webLinks =
+              getFileWebLinks(state.getProject(), revB, result.metaB.name);
+        }
+
+        if (intraline) {
+          if (ps.hasIntralineTimeout()) {
+            result.intralineStatus = IntraLineStatus.TIMEOUT;
+          } else if (ps.hasIntralineFailure()) {
+            result.intralineStatus = IntraLineStatus.FAILURE;
+          } else {
+            result.intralineStatus = IntraLineStatus.OK;
+          }
+        }
+
+        result.changeType = ps.getChangeType();
+        if (ps.getPatchHeader().size() > 0) {
+          result.diffHeader = ps.getPatchHeader();
+        }
+        result.content = content.lines;
       }
 
-      result.changeType = ps.getChangeType();
-      if (ps.getPatchHeader().size() > 0) {
-        result.diffHeader = ps.getPatchHeader();
-      }
-      result.content = content.lines;
       Response<Result> r = Response.ok(result);
       if (resource.isCacheable()) {
         r.caching(CacheControl.PRIVATE(7, TimeUnit.DAYS));
@@ -217,6 +235,7 @@ public class GetDiff implements RestReadView<FileResource> {
     ChangeType changeType;
     List<String> diffHeader;
     List<ContentEntry> content;
+    List<DiffWebLinkInfo> webLinks;
   }
 
   static class FileMeta {

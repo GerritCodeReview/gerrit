@@ -18,9 +18,11 @@ import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 import com.google.common.base.Strings;
 import com.google.common.collect.FluentIterable;
+import com.google.gerrit.extensions.common.DiffWebLinkInfo;
 import com.google.gerrit.extensions.common.WebLinkInfo;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.webui.BranchWebLink;
+import com.google.gerrit.extensions.webui.DiffWebLink;
 import com.google.gerrit.extensions.webui.FileWebLink;
 import com.google.gerrit.extensions.webui.PatchSetWebLink;
 import com.google.gerrit.extensions.webui.ProjectWebLink;
@@ -53,16 +55,19 @@ public class WebLinks {
 
   private final DynamicSet<PatchSetWebLink> patchSetLinks;
   private final DynamicSet<FileWebLink> fileLinks;
+  private final DynamicSet<DiffWebLink> diffLinks;
   private final DynamicSet<ProjectWebLink> projectLinks;
   private final DynamicSet<BranchWebLink> branchLinks;
 
   @Inject
   public WebLinks(DynamicSet<PatchSetWebLink> patchSetLinks,
       DynamicSet<FileWebLink> fileLinks,
+      DynamicSet<DiffWebLink> diffLinks,
       DynamicSet<ProjectWebLink> projectLinks,
       DynamicSet<BranchWebLink> branchLinks) {
     this.patchSetLinks = patchSetLinks;
     this.fileLinks = fileLinks;
+    this.diffLinks = diffLinks;
     this.projectLinks = projectLinks;
     this.branchLinks = branchLinks;
   }
@@ -101,6 +106,34 @@ public class WebLinks {
       }
     });
   }
+
+  /**
+   *
+   * @param project Project name.
+   * @param patchSetIdA Patch set ID of side A, <code>null</code> if no base
+   *        patch set was selected.
+   * @param revisionA SHA1 of revision of side A.
+   * @param fileA File name of side A.
+   * @param patchSetIdB Patch set ID of side B.
+   * @param revisionB SHA1 of revision of side B.
+   * @param fileB File name of side B.
+   * @return Links for file diffs.
+   */
+  public FluentIterable<DiffWebLinkInfo> getDiffLinks(final String project, final int changeId,
+      final Integer patchSetIdA, final String revisionA, final String fileA,
+      final int patchSetIdB, final String revisionB, final String fileB) {
+   return FluentIterable
+       .from(diffLinks)
+       .transform(new Function<WebLink, DiffWebLinkInfo>() {
+         @Override
+         public DiffWebLinkInfo apply(WebLink webLink) {
+            return ((DiffWebLink) webLink).getDiffLink(project, changeId,
+                patchSetIdA, revisionA, fileA,
+                patchSetIdB, revisionB, fileB);
+          }
+       })
+       .filter(INVALID_WEBLINK);
+ }
 
   /**
    *

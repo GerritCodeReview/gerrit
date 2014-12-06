@@ -17,6 +17,7 @@ package com.google.gerrit.client.diff;
 import static com.google.gerrit.reviewdb.client.AccountDiffPreference.WHOLE_FILE_CONTEXT;
 import static java.lang.Double.POSITIVE_INFINITY;
 
+import com.google.gerrit.client.DiffWebLinkInfo;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.JumpKeys;
 import com.google.gerrit.client.account.DiffPreferences;
@@ -33,6 +34,7 @@ import com.google.gerrit.client.patches.PatchUtil;
 import com.google.gerrit.client.projects.ConfigInfoCache;
 import com.google.gerrit.client.rpc.CallbackGroup;
 import com.google.gerrit.client.rpc.GerritCallback;
+import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.client.rpc.RestApi;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.Screen;
@@ -78,6 +80,7 @@ import net.codemirror.lib.ModeInjector;
 
 import java.util.ArrayList;
 import java.util.EnumSet;
+import java.util.LinkedList;
 import java.util.List;
 
 public class SideBySide2 extends Screen {
@@ -614,7 +617,7 @@ public class SideBySide2 extends Screen {
             chunkManager.getLineMapper());
 
     prefsAction = new PreferencesAction(this, prefs);
-    header.init(prefsAction);
+    header.init(prefsAction, getSideBySideDiffWebLinks(diff.web_links()));
 
     if (prefs.syntaxHighlighting() && fileSize.compareTo(FileSize.SMALL) > 0) {
       Scheduler.get().scheduleFixedDelay(new RepeatingCommand() {
@@ -627,6 +630,20 @@ public class SideBySide2 extends Screen {
         }
       }, 250);
     }
+  }
+
+  private List<DiffWebLinkInfo> getSideBySideDiffWebLinks(
+      JsArray<DiffWebLinkInfo> webLinks) {
+    List<DiffWebLinkInfo> sideBySideDiffWebLinks = new LinkedList<>();
+    List<DiffWebLinkInfo> allDiffWebLinks = Natives.asList(webLinks);
+    if (allDiffWebLinks != null) {
+      for (DiffWebLinkInfo webLink : allDiffWebLinks) {
+        if (webLink.showOnSideBySideDiffView()) {
+          sideBySideDiffWebLinks.add(webLink);
+        }
+      }
+    }
+    return sideBySideDiffWebLinks;
   }
 
   private CodeMirror newCM(

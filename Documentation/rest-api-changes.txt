@@ -3490,6 +3490,9 @@ Intraline status (`OK`, `ERROR`, `TIMEOUT`).
 |`diff_header`     ||A list of strings representing the patch set diff header.
 |`content`         ||The content differences in the file as a list of
 link:#diff-content[DiffContent] entities.
+|`web_links`       |optional|
+Links to the file diff in external sites as a list of
+link:rest-api-changes.html#diff-web-link-info[DiffWebLinkInfo] entries.
 |==========================
 
 [[diff-intraline-info]]
@@ -3505,6 +3508,23 @@ diff content lines.
 
 Note that the implied newline character at the end of each line is included in
 the length calculation, and thus it is possible for the edits to span newlines.
+
+[[diff-web-link-info]]
+=== DiffWebLinkInfo
+The `DiffWebLinkInfo` entity describes a link on a diff screen to an
+external site.
+
+[options="header",cols="1,6"]
+|=======================
+|Field Name|Description
+|`name`     |The link name.
+|`url`      |The link URL.
+|`image_url`|URL to the icon of the link.
+|show_on_side_by_side_diff_view|
+Whether the web link should be shown on the side-by-side diff screen.
+|show_on_unified_diff_view|
+Whether the web link should be shown on the unified diff screen.
+|=======================
 
 [[fetch-info]]
 === FetchInfo

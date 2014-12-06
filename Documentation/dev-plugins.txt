@@ -1772,6 +1772,10 @@ public class MyWeblinkPlugin implements PatchSetWebLink {
 FileWebLinks will appear in the side-by-side diff screen on the right
 side of the patch selection on each side.
 
+DiffWebLinks will appear in the side-by-side diff screen in the header
+next to the navigation icons. DiffWebLinks on the unified diff screen
+are not supported yet.
+
 ProjectWebLinks will appear in the project list in the
 `Repository Browser` column.
 

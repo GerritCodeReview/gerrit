@@ -14,6 +14,7 @@
 
 package com.google.gerrit.client.diff;
 
+import com.google.gerrit.client.DiffWebLinkInfo;
 import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.GitwebLink;
@@ -47,6 +48,7 @@ import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.UIObject;
@@ -54,6 +56,8 @@ import com.google.gwtexpui.globalkey.client.KeyCommand;
 import com.google.gwtexpui.globalkey.client.KeyCommandSet;
 import com.google.gwtexpui.safehtml.client.SafeHtml;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
+
+import java.util.List;
 
 class Header extends Composite {
   interface Binder extends UiBinder<HTMLPanel, Header> {}
@@ -71,6 +75,7 @@ class Header extends Composite {
   @UiField Element filePath;
 
   @UiField Element noDiff;
+  @UiField FlowPanel webLinksPanel;
 
   @UiField InlineHyperlink prev;
   @UiField InlineHyperlink up;
@@ -207,9 +212,15 @@ class Header extends Composite {
     project.setInnerText(info.project());
   }
 
-  void init(PreferencesAction pa) {
+  void init(PreferencesAction pa, List<DiffWebLinkInfo> webLinks) {
     prefsAction = pa;
     prefsAction.setPartner(preferences);
+
+    if (webLinks != null) {
+      for (DiffWebLinkInfo webLink : webLinks) {
+        webLinksPanel.add(webLink.toAnchor());
+      }
+    }
   }
 
   @UiHandler("reviewed")

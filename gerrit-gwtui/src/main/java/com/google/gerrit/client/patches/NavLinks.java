@@ -14,7 +14,9 @@
 
 package com.google.gerrit.client.patches;
 
+import com.google.gerrit.client.DiffWebLinkInfo;
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.WebLinkInfo;
 import com.google.gerrit.client.changes.PatchTable;
 import com.google.gerrit.client.changes.Util;
 import com.google.gerrit.client.ui.ChangeLink;
@@ -75,7 +77,7 @@ class NavLinks extends Composite {
   }
 
   void display(int patchIndex, PatchScreen.Type type, PatchTable fileList,
-      List<InlineHyperlink> links) {
+      List<InlineHyperlink> links, List<WebLinkInfo> webLinks) {
     if (fileList != null) {
       setupNav(Nav.PREV, fileList.getPreviousPatchLink(patchIndex, type));
       setupNav(Nav.NEXT, fileList.getNextPatchLink(patchIndex, type));
@@ -83,9 +85,14 @@ class NavLinks extends Composite {
       setupNav(Nav.PREV, null);
       setupNav(Nav.NEXT, null);
     }
+
     FlowPanel linkPanel = new FlowPanel();
+    linkPanel.setStyleName(Gerrit.RESOURCES.css().linkPanel());
     for (InlineHyperlink link : links) {
       linkPanel.add(link);
+    }
+    for (WebLinkInfo webLink : webLinks) {
+      linkPanel.add(webLink.toAnchor());
     }
     table.setWidget(0, 2, linkPanel);
   }

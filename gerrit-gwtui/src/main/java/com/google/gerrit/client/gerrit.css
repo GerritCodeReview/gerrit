@@ -684,6 +684,10 @@ a:hover {
   font-size: small;
 }
 
+.linkPanel img {
+  padding-right: 3px;
+}
+
 
 /** PatchContentTable **/
 .patchContentTable {

@@ -18,9 +18,12 @@ import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.ErrorDialog;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.RpcStatus;
+import com.google.gerrit.client.WebLinkInfo;
 import com.google.gerrit.client.changes.CommitMessageBlock;
 import com.google.gerrit.client.changes.PatchTable;
 import com.google.gerrit.client.changes.Util;
+import com.google.gerrit.client.diff.DiffApi;
+import com.google.gerrit.client.diff.DiffInfo;
 import com.google.gerrit.client.projects.ConfigInfoCache;
 import com.google.gerrit.client.rpc.CallbackGroup;
 import com.google.gerrit.client.rpc.GerritCallback;
@@ -277,9 +280,19 @@ public abstract class PatchScreen extends Screen implements
     }
 
     if (fileList != null) {
-      topNav.display(patchIndex, getPatchScreenType(), fileList, getLinks());
-      bottomNav.display(patchIndex, getPatchScreenType(), fileList, getLinks());
+      displayNav();
     }
+  }
+
+  private void displayNav() {
+    DiffApi.diff(idSideB, patchKey.getFileName()).base(idSideA)
+    .get(new GerritCallback<DiffInfo>() {
+      @Override
+      public void onSuccess(DiffInfo diffInfo) {
+        topNav.display(patchIndex, getPatchScreenType(), fileList, getLinks(), getWebLinks(diffInfo));
+        bottomNav.display(patchIndex, getPatchScreenType(), fileList, getLinks(), getWebLinks(diffInfo));
+      }
+    });
   }
 
   private List<InlineHyperlink> getLinks() {
@@ -295,6 +308,16 @@ public abstract class PatchScreen extends Screen implements
       toSideBySideDiffLink.setTargetHistoryToken(getSideBySideDiffUrl());
       toSideBySideDiffLink.setTitle(PatchUtil.C.sideBySideDiff());
       return Collections.singletonList(toSideBySideDiffLink);
+    } else {
+      return Collections.emptyList();
+    }
+  }
+
+  private List<WebLinkInfo> getWebLinks(DiffInfo diffInfo) {
+    if (contentTable instanceof SideBySideTable) {
+      return diffInfo.side_by_side_web_links();
+    } else if (contentTable instanceof UnifiedDiffTable) {
+      return diffInfo.unified_web_links();
     } else {
       return Collections.emptyList();
     }
@@ -528,8 +551,7 @@ public abstract class PatchScreen extends Screen implements
     lastScript = script;
 
     if (fileList != null) {
-      topNav.display(patchIndex, getPatchScreenType(), fileList, getLinks());
-      bottomNav.display(patchIndex, getPatchScreenType(), fileList, getLinks());
+      displayNav();
     }
 
     if (Gerrit.isSignedIn()) {

@@ -17,6 +17,7 @@ package com.google.gerrit.client.diff;
 import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.GitwebLink;
+import com.google.gerrit.client.WebLinkInfo;
 import com.google.gerrit.client.changes.ChangeApi;
 import com.google.gerrit.client.changes.ChangeInfo;
 import com.google.gerrit.client.changes.ChangeInfo.RevisionInfo;
@@ -211,12 +212,16 @@ class Header extends Composite {
     project.setInnerText(info.project());
   }
 
-  void init(PreferencesAction pa, List<InlineHyperlink> links) {
+  void init(PreferencesAction pa, List<InlineHyperlink> links,
+      List<WebLinkInfo> webLinks) {
     prefsAction = pa;
     prefsAction.setPartner(preferences);
 
     for (InlineHyperlink link : links) {
       linkPanel.add(link);
+    }
+    for (WebLinkInfo webLink : webLinks) {
+      linkPanel.add(webLink.toAnchor());
     }
   }
 

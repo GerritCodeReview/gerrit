@@ -617,7 +617,7 @@ public class SideBySide2 extends Screen {
             chunkManager.getLineMapper());
 
     prefsAction = new PreferencesAction(this, prefs);
-    header.init(prefsAction, getLinks());
+    header.init(prefsAction, getLinks(), diff.side_by_side_web_links());
 
     if (prefs.syntaxHighlighting() && fileSize.compareTo(FileSize.SMALL) > 0) {
       Scheduler.get().scheduleFixedDelay(new RepeatingCommand() {

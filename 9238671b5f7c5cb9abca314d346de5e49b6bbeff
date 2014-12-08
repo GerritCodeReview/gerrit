@@ -45,6 +45,30 @@
       "revId": "9238671b5f7c5cb9abca314d346de5e49b6bbeff",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e46c12f3_fa028930",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-12-08T15:08:26Z",
+      "side": 1,
+      "message": "This was a mistake. If JGit doesn\u0027t support concurrent branch deletion we should do it sequentially :)",
+      "parentUuid": "c471cec8_39f1eff4",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 8
+      },
+      "revId": "9238671b5f7c5cb9abca314d346de5e49b6bbeff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

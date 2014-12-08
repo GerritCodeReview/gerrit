@@ -343,35 +343,35 @@ public class RestApiServlet extends HttpServlet {
           replyJson(req, res, config, result);
         }
       }
-    } catch (AuthException e) {
-      replyError(req, res, status = SC_FORBIDDEN, messageOr(e, "Forbidden"),
-          e.caching(), e);
-    } catch (BadRequestException e) {
-      replyError(req, res, status = SC_BAD_REQUEST, messageOr(e, "Bad request"),
-          e.caching(), e);
-    } catch (MethodNotAllowedException e) {
-      replyError(req, res, status = SC_METHOD_NOT_ALLOWED,
-          messageOr(e, "Method not allowed"), e.caching(), e);
-    } catch (ResourceConflictException e) {
-      replyError(req, res, status = SC_CONFLICT, messageOr(e, "Conflict"),
-          e.caching(), e);
-    } catch (PreconditionFailedException e) {
-      replyError(req, res, status = SC_PRECONDITION_FAILED,
-          messageOr(e, "Precondition failed"), e.caching(), e);
-    } catch (ResourceNotFoundException e) {
-      replyError(req, res, status = SC_NOT_FOUND, messageOr(e, "Not found"),
-          e.caching(), e);
-    } catch (UnprocessableEntityException e) {
-      replyError(req, res, status = 422, messageOr(e, "Unprocessable Entity"),
-          e.caching(), e);
-    } catch (AmbiguousViewException e) {
-      replyError(req, res, status = SC_NOT_FOUND, messageOr(e, "Ambiguous"), e);
     } catch (MalformedJsonException e) {
       replyError(req, res, status = SC_BAD_REQUEST,
           "Invalid " + JSON_TYPE + " in request", e);
     } catch (JsonParseException e) {
       replyError(req, res, status = SC_BAD_REQUEST,
           "Invalid " + JSON_TYPE + " in request", e);
+    } catch (BadRequestException e) {
+      replyError(req, res, status = SC_BAD_REQUEST, messageOr(e, "Bad Request"),
+          e.caching(), e);
+    } catch (AuthException e) {
+      replyError(req, res, status = SC_FORBIDDEN, messageOr(e, "Forbidden"),
+          e.caching(), e);
+    } catch (AmbiguousViewException e) {
+      replyError(req, res, status = SC_NOT_FOUND, messageOr(e, "Ambiguous"), e);
+    } catch (ResourceNotFoundException e) {
+      replyError(req, res, status = SC_NOT_FOUND, messageOr(e, "Not Found"),
+          e.caching(), e);
+    } catch (MethodNotAllowedException e) {
+      replyError(req, res, status = SC_METHOD_NOT_ALLOWED,
+          messageOr(e, "Method Not Allowed"), e.caching(), e);
+    } catch (ResourceConflictException e) {
+      replyError(req, res, status = SC_CONFLICT, messageOr(e, "Conflict"),
+          e.caching(), e);
+    } catch (PreconditionFailedException e) {
+      replyError(req, res, status = SC_PRECONDITION_FAILED,
+          messageOr(e, "Precondition Failed"), e.caching(), e);
+    } catch (UnprocessableEntityException e) {
+      replyError(req, res, status = 422, messageOr(e, "Unprocessable Entity"),
+          e.caching(), e);
     } catch (Exception e) {
       status = SC_INTERNAL_SERVER_ERROR;
       handleException(e, req, res);

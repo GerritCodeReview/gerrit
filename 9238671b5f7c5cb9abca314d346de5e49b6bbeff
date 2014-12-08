@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e46c12f3_1aec1d1c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-12-08T14:46:59Z",
+      "side": 1,
+      "message": "packed",
+      "range": {
+        "startLine": 10,
+        "startChar": 20,
+        "endLine": 10,
+        "endChar": 24
+      },
+      "revId": "9238671b5f7c5cb9abca314d346de5e49b6bbeff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c471cec8_39f1eff4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-12-08T14:46:59Z",
+      "side": 1,
+      "message": "I would rather clarify why is the deletion done in parallel. It is known that JGit doesn\u0027t have an API for deletion of N references and it is known that only one thread can lock the packed-ref file at a time.\n\nInstead of trying to fix the current status by the wait/retry logic (which still doesn\u0027t guarantee that the deletion of all branches will be done) why don\u0027t we simply delete the branches one after the other?\n\nI am also inviting Edwin for review as the \"concurrent\" delete of branches was done by him.",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 8
+      },
+      "revId": "9238671b5f7c5cb9abca314d346de5e49b6bbeff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "4494fefe_bdfcffca",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Check.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-12-08T19:45:29Z",
+      "side": 1,
+      "message": "Constructors are uncommon among our JSON POJOs, but I see your point. However, at the tip of this branch, there is one instance of \"new ProblemInfo\", so I\u0027m going to go with \"not worth it\" :)",
+      "parentUuid": "bfb7854b_d0da1c77",
+      "range": {
+        "startLine": 56,
+        "startChar": 6,
+        "endLine": 57,
+        "endChar": 53
+      },
+      "revId": "5c894d4afb180ec13efa3be20b337f75b3ecae6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bfb7854b_30e0c82c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ConsistencyChecker.java",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2014-12-05T00:57:53Z",
       "side": 1,
       "message": "This could be simplified to\n\n problems.add(new ProblemInfo(msg));\n\nif we add a constructor as suggested in my comment on the other file.",
+      "range": {
+        "startLine": 256,
+        "startChar": 4,
+        "endLine": 258,
+        "endChar": 20
+      },
+      "revId": "5c894d4afb180ec13efa3be20b337f75b3ecae6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a4669a10_78f761ec",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ConsistencyChecker.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-12-08T19:45:29Z",
+      "side": 1,
+      "message": "This is the only remaining constructor call at tip.",
+      "parentUuid": "bfb7854b_30e0c82c",
       "range": {
         "startLine": 256,
         "startChar": 4,

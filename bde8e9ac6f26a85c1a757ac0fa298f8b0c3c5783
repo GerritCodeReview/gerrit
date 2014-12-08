@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e46c12f3_7ad0b95e",
+        "filename": "lib/mina/BUCK",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-08T20:13:07Z",
+      "side": 0,
+      "message": "I\u0027m concerned with this SHA1-change as i do not understand it.\n\nCan it be that JAR was modified in Google storage bucket after it was uploaded? It happens second time, with first time being during last hackathon where Dave created custom SSHD version to enable missing eliptic curve public key authentication. The difference with current wrong-SHA1-incident is that last time during verification SHA1 was reported as wrong in my environment.\n\nBut this time, I verified the original change, by building, installing 2.9-site and testing the whole SSHD machinery. All worked as expected. Looking into my buck-cache (i never clean buck-cache), reveals:\n\n  davido@wizball:~/.gerritcodereview/buck-cache$ sha1sum sshd-core-0.9.0-4-g5967cfd.jar-8f4b6f7ebc54655dc7d25a77665cf51f2b1288b2\n8f4b6f7ebc54655dc7d25a77665cf51f2b1288b2  sshd-core-0.9.0-4-g5967cfd.jar-8f4b6f7ebc54655dc7d25a77665cf51f2b1288b2\n\nWhen i download it today, then it\u0027s different now:\n\n  wget http://gerrit-maven.storage.googleapis.com/org/apache/sshd/sshd-core/0.9.0-4-g5967cfd/sshd-core-0.9.0-4-g5967cfd.jar\n  sha1sum sshd-core-0.9.0-4-g5967cfd.jar\n  449ec11c4417b295dbf1661585a50c6ec7d9a452  sshd-core-0.9.0-4-g5967cfd.jar\n\nThe files have different timestamps:\n\n  old file: -rw-r--r-- 1 davido users 465059 Dec  4 22:38\n  new file: -rw-r--r-- 1 davido users 465059 Dec  5 13:50",
+      "range": {
+        "startLine": 12,
+        "startChar": 10,
+        "endLine": 12,
+        "endChar": 50
+      },
+      "revId": "bde8e9ac6f26a85c1a757ac0fa298f8b0c3c5783",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

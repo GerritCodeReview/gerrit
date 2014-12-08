@@ -15,7 +15,6 @@
 package com.google.gerrit.httpd;
 
 import static com.google.gerrit.extensions.registration.PrivateInternals_DynamicTypes.registerInParentInjectors;
-import static com.google.inject.Scopes.SINGLETON;
 
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.GerritConfig;

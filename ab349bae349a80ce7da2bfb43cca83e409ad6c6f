@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "4494fefe_1d23b3cd",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 4060,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-12-08T19:56:03Z",
+      "side": 1,
+      "message": "\u003e \". Only set if a fix was attempted.\"\n\nDone.\n\n\u003e Actually, is there any reason to not explicitly include a \"FIX_NOT_ATTEMPTED\" value here?\n\nIt\u0027s just noise if you are just checking and not fixing, I definitely think it should be unset in that case.\n\nIn the case where we try to fix, I guess that\u0027s just for consistency with the not-fixing case, and the fact that unset values are very common in our JSON classes if the semantics are clear.\n\nI might be convinced to always set it in the fixing case, if you feel strongly.",
+      "parentUuid": "bfb7854b_b0f4b8eb",
+      "range": {
+        "startLine": 4059,
+        "startChar": 56,
+        "endLine": 4060,
+        "endChar": 18
+      },
+      "revId": "ab349bae349a80ce7da2bfb43cca83e409ad6c6f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7f1c2d1f_b6f4c8eb",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ConsistencyChecker.java",
         "patchSetId": 3
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "a4669a10_18ec251c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ConsistencyChecker.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-12-08T19:56:03Z",
+      "side": 1,
+      "message": "As it is today, we save a lot of argument passing by using mutable instance variables. To retain that benefit when splitting it into separate classes, they would have to be inner classes. At that point this file is the same size, but instead of a bunch of methods, you have a bunch of one-method classes, not a huge win.\n\nMaybe someday this class will grow unwieldy and it\u0027ll be worth the refactoring, but I think we\u0027re not there yet.",
+      "parentUuid": "7f1c2d1f_b6f4c8eb",
+      "range": {
+        "startLine": 289,
+        "startChar": 0,
+        "endLine": 305,
+        "endChar": 5
+      },
+      "revId": "ab349bae349a80ce7da2bfb43cca83e409ad6c6f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7f1c2d1f_56e73442",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/change/ConsistencyCheckerTest.java",
         "patchSetId": 3
@@ -59,6 +107,24 @@
       "writtenOn": "2014-12-05T01:13:55Z",
       "side": 1,
       "message": "Add an assertion that the change status has actually been changed to merged?",
+      "revId": "ab349bae349a80ce7da2bfb43cca83e409ad6c6f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4494fefe_3d28efa6",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/change/ConsistencyCheckerTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-12-08T19:56:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7f1c2d1f_56e73442",
       "revId": "ab349bae349a80ce7da2bfb43cca83e409ad6c6f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

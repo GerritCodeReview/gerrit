@@ -69,6 +69,30 @@
       "revId": "9238671b5f7c5cb9abca314d346de5e49b6bbeff",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e46c12f3_9affcdbf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-12-08T15:22:10Z",
+      "side": 1,
+      "message": "OK :-)\n\nHugo, the place to start from is ProjectApi.deleteBranches.",
+      "parentUuid": "e46c12f3_fa028930",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 8
+      },
+      "revId": "9238671b5f7c5cb9abca314d346de5e49b6bbeff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

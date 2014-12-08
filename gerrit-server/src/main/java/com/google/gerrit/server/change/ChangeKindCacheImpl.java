@@ -99,7 +99,7 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
         ObjectId prior, ObjectId next) {
       try {
         return new Loader().load(
-            new Key(project, repo, prior, next, useRecursiveMerge));
+            new Key(repo, prior, next, useRecursiveMerge));
       } catch (IOException e) {
         log.warn("Cannot check trivial rebase of new patch set " + next.name()
             + " in " + project.getProject().getName(), e);
@@ -123,7 +123,7 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
 
     private transient Repository repo; // Passed through to loader on miss.
 
-    private Key(ProjectState project, Repository repo, ObjectId prior,
+    private Key(Repository repo, ObjectId prior,
         ObjectId next, boolean useRecursiveMerge) {
       checkNotNull(next, "next");
       String strategyName = MergeUtil.mergeStrategyName(
@@ -274,7 +274,7 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
   public ChangeKind getChangeKind(ProjectState project, Repository repo,
       ObjectId prior, ObjectId next) {
     try {
-      return cache.get(new Key(project, repo, prior, next, useRecursiveMerge));
+      return cache.get(new Key(repo, prior, next, useRecursiveMerge));
     } catch (ExecutionException e) {
       log.warn("Cannot check trivial rebase of new patch set " + next.name()
           + " in " + project.getProject().getName(), e);

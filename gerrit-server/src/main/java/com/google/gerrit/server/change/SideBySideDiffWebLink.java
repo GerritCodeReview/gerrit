@@ -17,14 +17,13 @@ package com.google.gerrit.server.change;
 import com.google.gerrit.extensions.common.DiffWebLinkInfo;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.extensions.webui.DiffWebLink;
-import com.google.gerrit.extensions.webui.WebLink.Target;
 
 public class SideBySideDiffWebLink implements DiffWebLink {
 
   @Override
   public DiffWebLinkInfo getDiffLink(String projectName, int changeId,
-      Integer patchSetIdA, String revisionA, String fileNameA,
-      int patchSetIdB, String revisionB, String fileNameB) {
+      Integer patchSetIdA, String revisionA, String fileNameA, int patchSetIdB,
+      String revisionB, String fileNameB) {
     return DiffWebLinkInfo.forUnifiedDiffView("side-by-side diff",
         "/static/sideBySideDiff.png",
         getUrl(changeId, patchSetIdA, patchSetIdB, fileNameB),
@@ -34,7 +33,7 @@ public class SideBySideDiffWebLink implements DiffWebLink {
   public static String getUrl(int changeId, Integer patchSetIdA,
       int patchSetIdB, String fileName) {
     StringBuilder url = new StringBuilder();
-    url.append("/c/");
+    url.append("#/c/");
     url.append(changeId);
     url.append("/");
     if (patchSetIdA != null) {

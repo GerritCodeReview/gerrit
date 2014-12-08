@@ -104,6 +104,9 @@ public class SitePathInitializer {
     extractMailExample("Restored.vm");
     extractMailExample("Reverted.vm");
 
+    extractStaticResource("sideBySideDiff.png");
+    extractStaticResource("unifiedDiff.png");
+
     if (!ui.isBatch()) {
       System.err.println();
     }
@@ -123,6 +126,12 @@ public class SitePathInitializer {
   private void extractMailExample(String orig) throws Exception {
     File ex = new File(site.mail_dir, orig + ".example");
     extract(ex, OutgoingEmail.class, orig);
+    chmod(0444, ex);
+  }
+
+  private void extractStaticResource(String file) throws Exception {
+    File ex = new File(site.static_dir, file);
+    extract(ex, SitePathInitializer.class, file);
     chmod(0444, ex);
   }
 

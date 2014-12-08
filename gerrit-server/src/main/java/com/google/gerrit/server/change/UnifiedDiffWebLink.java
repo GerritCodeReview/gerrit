@@ -17,12 +17,21 @@ package com.google.gerrit.server.change;
 import com.google.gerrit.extensions.common.DiffWebLinkInfo;
 import com.google.gerrit.extensions.webui.DiffWebLink;
 
-public class UnfiedDiffWebLink implements DiffWebLink {
+public class UnifiedDiffWebLink implements DiffWebLink {
 
   @Override
   public DiffWebLinkInfo getDiffLink(String projectName, int changeId,
-      Integer patchSetIdA, String revisionA, String fileNameA,
-      int patchSetIdB, String revisionB, String fileNameB) {
-    return null;
+      Integer patchSetIdA, String revisionA, String fileNameA, int patchSetIdB,
+      String revisionB, String fileNameB) {
+    return DiffWebLinkInfo.forSideBySideDiffView("unified diff",
+        "/static/unifiedDiff.png",
+        getUrl(changeId, patchSetIdA, patchSetIdB, fileNameB),
+        Target.SELF);
+  }
+
+  private static String getUrl(int changeId, Integer patchSetIdA,
+      int patchSetIdB, String fileName) {
+    return SideBySideDiffWebLink.getUrl(changeId, patchSetIdA, patchSetIdB,
+        fileName) + ",unified";
   }
 }

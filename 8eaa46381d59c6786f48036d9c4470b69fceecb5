@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e46c12f3_3ada417f",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 350,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-12-08T08:25:30Z",
+      "side": 1,
+      "message": "nit: Should we use a consistent capitalization in all cases?\n\nFor \"Unprocessable Entity\" the second word starts with a capital letter, but not for \"Bad request\" and \"Not found\".",
+      "range": {
+        "startLine": 350,
+        "startChar": 66,
+        "endLine": 350,
+        "endChar": 77
+      },
+      "revId": "8eaa46381d59c6786f48036d9c4470b69fceecb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

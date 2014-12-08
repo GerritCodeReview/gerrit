@@ -22,6 +22,30 @@
       "revId": "8eaa46381d59c6786f48036d9c4470b69fceecb5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a4669a10_18d5054e",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 350,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-12-08T18:12:37Z",
+      "side": 1,
+      "message": "Yes, we should be consistent. I think \"Bad Request\" is standard but not 100% sure. I\u0027ll fix them up in a followup.",
+      "parentUuid": "e46c12f3_3ada417f",
+      "range": {
+        "startLine": 350,
+        "startChar": 66,
+        "endLine": 350,
+        "endChar": 77
+      },
+      "revId": "8eaa46381d59c6786f48036d9c4470b69fceecb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

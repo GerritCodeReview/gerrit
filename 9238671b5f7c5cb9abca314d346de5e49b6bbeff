@@ -93,6 +93,30 @@
       "revId": "9238671b5f7c5cb9abca314d346de5e49b6bbeff",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4494fefe_dddeab71",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2014-12-08T16:19:08Z",
+      "side": 1,
+      "message": "Thanks for the info, I will do it the right way and prevent concurrent deletion for the same repo.",
+      "parentUuid": "e46c12f3_9affcdbf",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 8
+      },
+      "revId": "9238671b5f7c5cb9abca314d346de5e49b6bbeff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

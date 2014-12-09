@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4494fefe_bd2abf92",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetChange.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-12-09T01:14:59Z",
+      "side": 1,
+      "message": "I think this method is poorly named. Its basically telling the client it cannot cache. Yet its named \"cache\".\n\nWithin the scope of this tiny GetChange class, it wasn\u0027t so bad. You read the method call above and then quickly see what it does and its bad, but its terrible.\n\nIts very confusing from Check.",
+      "range": {
+        "startLine": 56,
+        "startChar": 30,
+        "endLine": 56,
+        "endChar": 35
+      },
+      "revId": "3be39d02913f8cafa88dfa711a673ba687a843fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

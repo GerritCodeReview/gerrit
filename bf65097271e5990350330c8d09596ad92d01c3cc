@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a4669a10_b813b97c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1544,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-12-09T19:35:13Z",
+      "side": 1,
+      "message": "There is no need to apologize. These is fine:\n\n \"only one Depends-On footer is allowed\"",
+      "range": {
+        "startLine": 1544,
+        "startChar": 34,
+        "endLine": 1544,
+        "endChar": 71
+      },
+      "revId": "bf65097271e5990350330c8d09596ad92d01c3cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4494fefe_fd660709",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1545,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-12-09T19:35:13Z",
+      "side": 1,
+      "message": "You are missing a return Collections.emptyList() here. Other failures abort early, this should too.",
+      "revId": "bf65097271e5990350330c8d09596ad92d01c3cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

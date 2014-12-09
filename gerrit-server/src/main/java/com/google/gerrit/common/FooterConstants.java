@@ -21,4 +21,7 @@ public class FooterConstants {
   public static final FooterKey REVIEWED_ON = new FooterKey("Reviewed-on");
   public static final FooterKey TESTED_BY = new FooterKey("Tested-by");
   public static final FooterKey REVIEWED_BY = new FooterKey("Reviewed-By");
+
+  /** What we're looking for, when parsing the dependencies. */
+  public static final FooterKey DEPENDS_ON = new FooterKey("Depends-On");
 }

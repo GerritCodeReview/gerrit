@@ -146,10 +146,11 @@ class Message extends Composite {
   }
 
   private static String elide(final String s, final int len) {
-    if (s == null || s.length() < len || len <= 10) {
+    if (s == null || s.length() <= len || len <= 10) {
       return s;
     }
-    return s.substring(0, len - 10) + "..." + s.substring(s.length() - 10);
+    int i = (len - 3) / 2;
+    return s.substring(0, i) + "..." + s.substring(s.length() - i);
   }
 
   void autoOpen() {

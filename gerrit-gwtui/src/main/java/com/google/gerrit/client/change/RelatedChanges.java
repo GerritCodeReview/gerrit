@@ -55,6 +55,8 @@ public class RelatedChanges extends TabPanel {
     String current();
     String gitweb();
     String indirect();
+    String abandoned();
+    String merged();
     String notCurrent();
     String pointer();
     String row();
@@ -342,6 +344,13 @@ public class RelatedChanges extends TabPanel {
     }
 
     public final native String id() /*-{ return this.change_id }-*/;
+
+    public final Change.Status status() {
+      String s = statusRaw();
+      return s != null ? Change.Status.valueOf(s) : null;
+    }
+    private final native String statusRaw() /*-{ return this.status; }-*/;
+
     public final native CommitInfo commit() /*-{ return this.commit }-*/;
     final native String branch() /*-{ return this.branch }-*/;
 

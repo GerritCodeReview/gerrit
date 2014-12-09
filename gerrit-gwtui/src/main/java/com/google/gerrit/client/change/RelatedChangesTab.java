@@ -20,6 +20,7 @@ import com.google.gerrit.client.change.RelatedChanges.ChangeAndCommit;
 import com.google.gerrit.client.changes.ChangeInfo.CommitInfo;
 import com.google.gerrit.client.changes.Util;
 import com.google.gerrit.common.PageLinks;
+import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JsArray;
@@ -300,6 +301,14 @@ class RelatedChangesTab implements IsWidget {
           && info._current_revision_number() != info._revision_number()) {
         sb.setStyleName(RelatedChanges.R.css().notCurrent());
         sb.setAttribute("title", Util.C.notCurrent());
+        sb.append('\u25CF');
+      } else if (Change.Status.MERGED == info.status()) {
+        sb.setStyleName(RelatedChanges.R.css().merged());
+        sb.setAttribute("title", Resources.C.merged());
+        sb.append('\u25CF');
+      } else if (Change.Status.ABANDONED == info.status()) {
+        sb.setStyleName(RelatedChanges.R.css().abandoned());
+        sb.setAttribute("title", Resources.C.abandoned());
         sb.append('\u25CF');
       } else {
         sb.setStyleName(RelatedChanges.R.css().current());

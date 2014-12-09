@@ -47,4 +47,6 @@ interface ChangeConstants extends Constants {
   String sameTopicTooltip();
   String noChanges();
   String indirectAncestor();
+  String merged();
+  String abandoned();
 }

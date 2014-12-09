@@ -2,6 +2,46 @@
   "comments": [
     {
       "key": {
+        "uuid": "a4669a10_58405d65",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-12-09T19:44:51Z",
+      "side": 1,
+      "message": "Depends-On",
+      "range": {
+        "startLine": 7,
+        "startChar": 6,
+        "endLine": 7,
+        "endChar": 15
+      },
+      "revId": "5dce5ddf2b1aff394216611ce4c1b14368e5fb1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a4669a10_78452174",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-12-09T19:44:51Z",
+      "side": 1,
+      "message": "Can you briefly explain what this footer means, and what the plan is for using it? A detailed design is not necessary, but give the reader some context.",
+      "revId": "5dce5ddf2b1aff394216611ce4c1b14368e5fb1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a4669a10_f8305108",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java",
         "patchSetId": 1
@@ -13,6 +53,80 @@
       "writtenOn": "2014-12-09T19:43:44Z",
       "side": 1,
       "message": "\u003d\u003d does not work on strings in Java.",
+      "revId": "5dce5ddf2b1aff394216611ce4c1b14368e5fb1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a4669a10_183ae5eb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-12-09T19:44:51Z",
+      "side": 1,
+      "message": "Put the FooterKey constant you put in ReceiveCommits somewhere common and use that, instead of hard-coding this here (with inconsistent capitalization).",
+      "range": {
+        "startLine": 158,
+        "startChar": 32,
+        "endLine": 158,
+        "endChar": 44
+      },
+      "revId": "5dce5ddf2b1aff394216611ce4c1b14368e5fb1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4494fefe_5da4dbbd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-12-09T19:44:51Z",
+      "side": 1,
+      "message": "Block statements should always have braces, even if it\u0027s one statement.\n\nhttps://google-styleguide.googlecode.com/svn/trunk/javaguide.html#s4.1.1-braces-always-used",
+      "revId": "5dce5ddf2b1aff394216611ce4c1b14368e5fb1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4494fefe_1dc73376",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-12-09T19:44:51Z",
+      "side": 1,
+      "message": "Don\u0027t catch Exception, use a multi-catch instead.",
+      "revId": "5dce5ddf2b1aff394216611ce4c1b14368e5fb1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4494fefe_ddb0eb01",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-12-09T19:44:51Z",
+      "side": 1,
+      "message": "No empty catch blocks please. Wrap in OrmException and rethrow as in the other fields in this class.",
       "revId": "5dce5ddf2b1aff394216611ce4c1b14368e5fb1b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -42,6 +156,23 @@
     },
     {
       "key": {
+        "uuid": "4494fefe_1d9e5374",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-12-09T19:44:51Z",
+      "side": 1,
+      "message": "You want to return null here, that means don\u0027t emit a field. Otherwise you will emit the empty string as a field value, which is probably not what you want.",
+      "revId": "5dce5ddf2b1aff394216611ce4c1b14368e5fb1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4494fefe_9dba63de",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
         "patchSetId": 1
@@ -65,6 +196,23 @@
     },
     {
       "key": {
+        "uuid": "a4669a10_b82ad992",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 359,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-12-09T19:44:51Z",
+      "side": 1,
+      "message": "Indentation",
+      "revId": "5dce5ddf2b1aff394216611ce4c1b14368e5fb1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a4669a10_982d95af",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/DependsOnPredicate.java",
         "patchSetId": 1
@@ -76,6 +224,23 @@
       "writtenOn": "2014-12-09T19:43:44Z",
       "side": 1,
       "message": "Yes.",
+      "revId": "5dce5ddf2b1aff394216611ce4c1b14368e5fb1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4494fefe_dd978b53",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/DependsOnPredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-12-09T19:44:51Z",
+      "side": 1,
+      "message": "Yes. It\u0027s a ChangeData so you can just use the same commitFooters() method you did in the FieldDef",
       "revId": "5dce5ddf2b1aff394216611ce4c1b14368e5fb1b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

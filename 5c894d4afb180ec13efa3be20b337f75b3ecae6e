@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "4494fefe_1d3ad3eb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Check.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-12-09T01:00:04Z",
+      "side": 1,
+      "message": "Ack, its not worth using a constructor.",
+      "parentUuid": "4494fefe_bdfcffca",
+      "range": {
+        "startLine": 56,
+        "startChar": 6,
+        "endLine": 57,
+        "endChar": 53
+      },
+      "revId": "5c894d4afb180ec13efa3be20b337f75b3ecae6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bfb7854b_30e0c82c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ConsistencyChecker.java",
         "patchSetId": 2
@@ -84,6 +108,30 @@
       "side": 1,
       "message": "This is the only remaining constructor call at tip.",
       "parentUuid": "bfb7854b_30e0c82c",
+      "range": {
+        "startLine": 256,
+        "startChar": 4,
+        "endLine": 258,
+        "endChar": 20
+      },
+      "revId": "5c894d4afb180ec13efa3be20b337f75b3ecae6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4494fefe_3d3f8fdc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ConsistencyChecker.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-12-09T01:00:04Z",
+      "side": 1,
+      "message": "Don\u0027t bother with a constructor.",
+      "parentUuid": "a4669a10_78f761ec",
       "range": {
         "startLine": 256,
         "startChar": 4,

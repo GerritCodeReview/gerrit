@@ -20,6 +20,7 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.extensions.common.ChangeStatus;
 import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.Change;
@@ -291,6 +292,7 @@ public class GetRelated implements RestReadView<RevisionResource> {
 
   public static class ChangeAndCommit {
     public String changeId;
+    public ChangeStatus status;
     public CommitInfo commit;
     public Integer _changeNumber;
     public Integer _revisionNumber;
@@ -299,6 +301,7 @@ public class GetRelated implements RestReadView<RevisionResource> {
     ChangeAndCommit(@Nullable Change change, @Nullable PatchSet ps, RevCommit c) {
       if (change != null) {
         changeId = change.getKey().get();
+        status = change.getStatus().asChangeStatus();
         _changeNumber = change.getChangeId();
         _revisionNumber = ps != null ? ps.getPatchSetId() : null;
         PatchSet.Id curr = change.currentPatchSetId();

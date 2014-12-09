@@ -1,0 +1,147 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a4669a10_f8305108",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-12-09T19:43:44Z",
+      "side": 1,
+      "message": "\u003d\u003d does not work on strings in Java.",
+      "revId": "5dce5ddf2b1aff394216611ce4c1b14368e5fb1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4494fefe_fdada7a6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-12-09T19:43:44Z",
+      "side": 1,
+      "message": "Try this instead:\n\n  } catch (NoSuchChangeException | IOExeption | OrmException e) {\n  return \"\"; // assume no Depends-On footer.",
+      "range": {
+        "startLine": 161,
+        "startChar": 9,
+        "endLine": 163,
+        "endChar": 11
+      },
+      "revId": "5dce5ddf2b1aff394216611ce4c1b14368e5fb1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4494fefe_9dba63de",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 359,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-12-09T19:43:44Z",
+      "side": 1,
+      "message": "nit: Please adjust formatting to match local convention. E.g. see line 352 just above. Only one space after ) and the wrapped line indents two levels.",
+      "range": {
+        "startLine": 358,
+        "startChar": 2,
+        "endLine": 359,
+        "endChar": 23
+      },
+      "revId": "5dce5ddf2b1aff394216611ce4c1b14368e5fb1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a4669a10_982d95af",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/DependsOnPredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-12-09T19:43:44Z",
+      "side": 1,
+      "message": "Yes.",
+      "revId": "5dce5ddf2b1aff394216611ce4c1b14368e5fb1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4494fefe_bdb71ff5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/DependsOnPredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-12-09T19:43:44Z",
+      "side": 1,
+      "message": "Please fix?",
+      "revId": "5dce5ddf2b1aff394216611ce4c1b14368e5fb1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4494fefe_7da99794",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 397,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-12-09T19:43:44Z",
+      "side": 1,
+      "message": "missing space after void before by",
+      "range": {
+        "startLine": 397,
+        "startChar": 9,
+        "endLine": 397,
+        "endChar": 15
+      },
+      "revId": "5dce5ddf2b1aff394216611ce4c1b14368e5fb1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a4669a10_586ffdeb",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 403,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-12-09T19:43:44Z",
+      "side": 1,
+      "message": "\"dependson:bar\"?",
+      "range": {
+        "startLine": 403,
+        "startChar": 21,
+        "endLine": 403,
+        "endChar": 26
+      },
+      "revId": "5dce5ddf2b1aff394216611ce4c1b14368e5fb1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

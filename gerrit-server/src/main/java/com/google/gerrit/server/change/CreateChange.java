@@ -17,6 +17,7 @@ package com.google.gerrit.server.change;
 import com.google.common.base.Strings;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.common.TimeUtil;
+import com.google.gerrit.common.changes.FooterConstants;
 import com.google.gerrit.common.data.Capable;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeStatus;
@@ -250,7 +251,7 @@ public class CreateChange implements
 
   private static Change.Key getChangeId(ObjectId id, RevCommit emptyCommit) {
     List<String> idList = emptyCommit.getFooterLines(
-        MergeUtil.CHANGE_ID);
+        FooterConstants.CHANGE_ID);
     Change.Key changeKey = !idList.isEmpty()
         ? new Change.Key(idList.get(idList.size() - 1).trim())
         : new Change.Key("I" + id.name());

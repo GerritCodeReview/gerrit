@@ -15,6 +15,7 @@
 package com.google.gerrit.server.change;
 
 import com.google.gerrit.common.TimeUtil;
+import com.google.gerrit.common.changes.FooterConstants;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
@@ -53,7 +54,6 @@ import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.revwalk.FooterKey;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.ReceiveCommand;
@@ -65,8 +65,6 @@ import java.util.TimeZone;
 
 @Singleton
 public class CherryPickChange {
-
-  private static final FooterKey CHANGE_ID = new FooterKey("Change-Id");
 
   private final Provider<ReviewDb> db;
   private final GitRepositoryManager gitManager;
@@ -162,7 +160,7 @@ public class CherryPickChange {
         }
 
         Change.Key changeKey;
-        final List<String> idList = cherryPickCommit.getFooterLines(CHANGE_ID);
+        final List<String> idList = cherryPickCommit.getFooterLines(FooterConstants.CHANGE_ID);
         if (!idList.isEmpty()) {
           final String idStr = idList.get(idList.size() - 1).trim();
           changeKey = new Change.Key(idStr);

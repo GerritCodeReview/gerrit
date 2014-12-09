@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "4494fefe_dd69cbdb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1543,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-12-09T19:36:40Z",
+      "side": 1,
+      "message": "Comments should start with a capital letter and end with a period.",
+      "revId": "bf65097271e5990350330c8d09596ad92d01c3cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a4669a10_b813b97c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 1
@@ -19,6 +36,23 @@
         "endLine": 1544,
         "endChar": 71
       },
+      "revId": "bf65097271e5990350330c8d09596ad92d01c3cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4494fefe_bd607feb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1544,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-12-09T19:36:40Z",
+      "side": 1,
+      "message": "No need to be so polite, you can drop the \"sorry\" :)\n\nAnd maybe leave off the \"for now\" part, no telling when we are going to change it. Maybe just:\n\n \"only one \" + DEPENDS_ON.getName() + \" allowed\"",
       "revId": "bf65097271e5990350330c8d09596ad92d01c3cc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

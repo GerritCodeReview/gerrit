@@ -81,9 +81,9 @@ public interface ChangeApi {
 
   ChangeInfo get(EnumSet<ListChangesOption> options) throws RestApiException;
 
-  /** {@code get} with {@link ListChangesOption} set to ALL. */
+  /** {@code get} with {@link ListChangesOption} set to all except CHECK. */
   ChangeInfo get() throws RestApiException;
-  /** {@code get} with {@link ListChangesOption} set to NONE. */
+  /** {@code get} with {@link ListChangesOption} set to none. */
   ChangeInfo info() throws RestApiException;
 
   /**
@@ -97,6 +97,9 @@ public interface ChangeApi {
    * @throws RestApiException
    */
   Set<String> getHashtags() throws RestApiException;
+
+  ChangeInfo check() throws RestApiException;
+  ChangeInfo check(FixInput fix) throws RestApiException;
 
   /**
    * A default implementation which allows source compatibility
@@ -195,6 +198,16 @@ public interface ChangeApi {
 
     @Override
     public Set<String> getHashtags() throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public ChangeInfo check() throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public ChangeInfo check(FixInput fix) throws RestApiException {
       throw new NotImplementedException();
     }
   }

@@ -14,63 +14,41 @@
 
 package com.google.gerrit.server.change;
 
-import com.google.gerrit.extensions.common.AccountInfo;
+import com.google.gerrit.extensions.api.changes.FixInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.extensions.common.ListChangesOption;
+import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.Response;
+import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.RestReadView;
-import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.server.project.ChangeControl;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
-import com.google.inject.Singleton;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-@Singleton
-public class Check implements RestReadView<ChangeResource> {
-  private static final Logger log = LoggerFactory.getLogger(Check.class);
-
-  private final Provider<ConsistencyChecker> checkerProvider;
+public class Check implements RestReadView<ChangeResource>,
+    RestModifyView<ChangeResource, FixInput> {
   private final ChangeJson json;
 
   @Inject
-  Check(Provider<ConsistencyChecker> checkerProvider,
-      ChangeJson json) {
-    this.checkerProvider = checkerProvider;
+  Check(ChangeJson json) {
     this.json = json;
+    json.addOption(ListChangesOption.CHECK);
   }
 
   @Override
-  public CheckResult apply(ChangeResource rsrc) {
-    CheckResult result = new CheckResult();
-    result.messages = checkerProvider.get().check(rsrc.getChange());
-    try {
-      result.change = json.format(rsrc);
-    } catch (OrmException e) {
-      // Even with no options there are a surprising number of dependencies in
-      // ChangeJson. Fall back to a very basic implementation with no
-      // dependencies if this fails.
-      String msg = "Error rendering final ChangeInfo";
-      log.warn(msg, e);
-      result.messages.add(msg);
-      result.change = basicChangeInfo(rsrc.getChange());
-    }
-    return result;
+  public Response<ChangeInfo> apply(ChangeResource rsrc) throws OrmException {
+    return GetChange.cache(json.format(rsrc));
   }
 
-  private static ChangeInfo basicChangeInfo(Change c) {
-    ChangeInfo info = new ChangeInfo();
-    info.project = c.getProject().get();
-    info.branch = c.getDest().getShortName();
-    info.topic = c.getTopic();
-    info.changeId = c.getKey().get();
-    info.subject = c.getSubject();
-    info.status = c.getStatus().asChangeStatus();
-    info.owner = new AccountInfo(c.getOwner().get());
-    info.created = c.getCreatedOn();
-    info.updated = c.getLastUpdatedOn();
-    info._number = c.getId().get();
-    ChangeJson.finish(info);
-    return info;
+  @Override
+  public Response<ChangeInfo> apply(ChangeResource rsrc, FixInput input)
+      throws AuthException, OrmException {
+    ChangeControl ctl = rsrc.getControl();
+    if (!ctl.isOwner()
+        && !ctl.getProjectControl().isOwner()
+        && !ctl.getCurrentUser().getCapabilities().canAdministrateServer()) {
+      throw new AuthException("Not owner");
+    }
+    return GetChange.cache(json.fix(input).format(rsrc));
   }
 }

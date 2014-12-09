@@ -12,13 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.change;
+package com.google.gerrit.extensions.common;
 
-import com.google.gerrit.extensions.common.ChangeInfo;
+public class ProblemInfo {
+  public static enum Status {
+    FIXED, FIX_FAILED;
+  }
 
-import java.util.List;
-
-public class CheckResult {
-  public ChangeInfo change;
-  public List<String> messages;
+  public String message;
+  public Status status;
+  public String outcome;
 }

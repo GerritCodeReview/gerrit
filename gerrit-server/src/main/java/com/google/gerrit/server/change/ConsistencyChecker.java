@@ -14,16 +14,23 @@
 
 package com.google.gerrit.server.change;
 
+import com.google.auto.value.AutoValue;
 import com.google.common.base.Function;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.Ordering;
+import com.google.gerrit.common.Nullable;
+import com.google.gerrit.extensions.api.changes.FixInput;
+import com.google.gerrit.extensions.common.ProblemInfo;
+import com.google.gerrit.extensions.common.ProblemInfo.Status;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gwtorm.server.AtomicUpdate;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -55,9 +62,28 @@ public class ConsistencyChecker {
   private static final Logger log =
       LoggerFactory.getLogger(ConsistencyChecker.class);
 
+  @AutoValue
+  public static abstract class Result {
+    private static Result create(Change.Id id, List<ProblemInfo> problems) {
+      return new AutoValue_ConsistencyChecker_Result(id, null, problems);
+    }
+
+    private static Result create(Change c, List<ProblemInfo> problems) {
+      return new AutoValue_ConsistencyChecker_Result(c.getId(), c, problems);
+    }
+
+    public abstract Change.Id id();
+
+    @Nullable
+    public abstract Change change();
+
+    public abstract List<ProblemInfo> problems();
+  }
+
   private final Provider<ReviewDb> db;
   private final GitRepositoryManager repoManager;
 
+  private FixInput fix;
   private Change change;
   private Repository repo;
   private RevWalk rw;
@@ -65,7 +91,7 @@ public class ConsistencyChecker {
   private PatchSet currPs;
   private RevCommit currPsCommit;
 
-  private List<String> messages;
+  private List<ProblemInfo> problems;
 
   @Inject
   ConsistencyChecker(Provider<ReviewDb> db,
@@ -79,15 +105,34 @@ public class ConsistencyChecker {
     change = null;
     repo = null;
     rw = null;
-    messages = new ArrayList<>();
+    problems = new ArrayList<>();
   }
 
-  public List<String> check(Change c) {
+  public Result check(ChangeData cd) {
+    return check(cd, null);
+  }
+
+  public Result check(ChangeData cd, @Nullable FixInput f) {
     reset();
+    try {
+      return check(cd.change(), f);
+    } catch (OrmException e) {
+      error("Error looking up change", e);
+      return Result.create(cd.getId(), problems);
+    }
+  }
+
+  public Result check(Change c) {
+    return check(c, null);
+  }
+
+  public Result check(Change c, @Nullable FixInput f) {
+    reset();
+    fix = f;
     change = c;
     try {
       checkImpl();
-      return messages;
+      return Result.create(c, problems);
     } finally {
       if (rw != null) {
         rw.release();
@@ -115,7 +160,7 @@ public class ConsistencyChecker {
   private void checkOwner() {
     try {
       if (db.get().accounts().get(change.getOwner()) == null) {
-        messages.add("Missing change owner: " + change.getOwner());
+        problem("Missing change owner: " + change.getOwner());
       }
     } catch (OrmException e) {
       error("Failed to look up owner", e);
@@ -127,7 +172,7 @@ public class ConsistencyChecker {
       PatchSet.Id psId = change.currentPatchSetId();
       currPs = db.get().patchSets().get(psId);
       if (currPs == null) {
-        messages.add(String.format("Current patch set %d not found", psId.get()));
+        problem(String.format("Current patch set %d not found", psId.get()));
       }
     } catch (OrmException e) {
       error("Failed to look up current patch set", e);
@@ -189,7 +234,7 @@ public class ConsistencyChecker {
     for (Map.Entry<ObjectId, Collection<PatchSet>> e
         : bySha.asMap().entrySet()) {
       if (e.getValue().size() > 1) {
-        messages.add(String.format("Multiple patch sets pointing to %s: %s",
+        problem(String.format("Multiple patch sets pointing to %s: %s",
             e.getKey().name(),
             Collections2.transform(e.getValue(), toPsId)));
       }
@@ -204,11 +249,11 @@ public class ConsistencyChecker {
     try {
       dest = repo.getRef(refName);
     } catch (IOException e) {
-      messages.add("Failed to look up destination ref: " + refName);
+      problem("Failed to look up destination ref: " + refName);
       return;
     }
     if (dest == null) {
-      messages.add("Destination ref not found (may be new branch): "
+      problem("Destination ref not found (may be new branch): "
           + change.getDest().get());
       return;
     }
@@ -221,20 +266,42 @@ public class ConsistencyChecker {
     try {
       merged = rw.isMergedInto(currPsCommit, tip);
     } catch (IOException e) {
-      messages.add("Error checking whether patch set " + currPs.getId().get()
+      problem("Error checking whether patch set " + currPs.getId().get()
           + " is merged");
       return;
     }
     if (merged && change.getStatus() != Change.Status.MERGED) {
-      messages.add(String.format("Patch set %d (%s) is merged into destination"
-            + " ref %s (%s), but change status is %s", currPs.getId().get(),
-            currPsCommit.name(), refName, tip.name(), change.getStatus()));
-      // TODO(dborowitz): Just fix it.
+      ProblemInfo p = problem(String.format(
+          "Patch set %d (%s) is merged into destination ref %s (%s), but change"
+          + " status is %s", currPs.getId().get(), currPsCommit.name(),
+          refName, tip.name(), change.getStatus()));
+      if (fix != null) {
+        fixMerged(p);
+      }
     } else if (!merged && change.getStatus() == Change.Status.MERGED) {
-      messages.add(String.format("Patch set %d (%s) is not merged into"
+      problem(String.format("Patch set %d (%s) is not merged into"
             + " destination ref %s (%s), but change status is %s",
             currPs.getId().get(), currPsCommit.name(), refName, tip.name(),
             change.getStatus()));
+    }
+  }
+
+  private void fixMerged(ProblemInfo p) {
+    try {
+      change = db.get().changes().atomicUpdate(change.getId(),
+          new AtomicUpdate<Change>() {
+            @Override
+            public Change update(Change c) {
+              c.setStatus(Change.Status.MERGED);
+              return c;
+            }
+          });
+      p.status = Status.FIXED;
+      p.outcome = "Marked change as merged";
+    } catch (OrmException e) {
+      log.warn("Error marking " + change.getId() + "as merged", e);
+      p.status = Status.FIX_FAILED;
+      p.outcome = "Error updating status to merged";
     }
   }
 
@@ -242,17 +309,24 @@ public class ConsistencyChecker {
     try {
       return rw.parseCommit(objId);
     } catch (MissingObjectException e) {
-      messages.add(String.format("Object missing: %s: %s", desc, objId.name()));
+      problem(String.format("Object missing: %s: %s", desc, objId.name()));
     } catch (IncorrectObjectTypeException e) {
-      messages.add(String.format("Not a commit: %s: %s", desc, objId.name()));
+      problem(String.format("Not a commit: %s: %s", desc, objId.name()));
     } catch (IOException e) {
-      messages.add(String.format("Failed to look up: %s: %s", desc, objId.name()));
+      problem(String.format("Failed to look up: %s: %s", desc, objId.name()));
     }
     return null;
   }
 
+  private ProblemInfo problem(String msg) {
+    ProblemInfo p = new ProblemInfo();
+    p.message = msg;
+    problems.add(p);
+    return p;
+  }
+
   private boolean error(String msg, Throwable t) {
-    messages.add(msg);
+    problem(msg);
     // TODO(dborowitz): Expose stack trace to administrators.
     log.warn("Error in consistency check of change " + change.getId(), t);
     return false;

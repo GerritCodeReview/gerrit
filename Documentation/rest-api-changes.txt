@@ -300,6 +300,11 @@ default. Optional fields are:
 * `WEB_LINKS`: include the `web_links` field.
 --
 
+[[check]]
+--
+* `CHECK`: include potential problems with the change.
+--
+
 .Request
 ----
   GET /changes/?q=97&o=CURRENT_REVISION&o=CURRENT_COMMIT&o=CURRENT_FILES&o=DOWNLOAD_COMMANDS HTTP/1.0
@@ -1143,7 +1148,12 @@ Adds or updates the change in the secondary index.
 --
 
 Performs consistency checks on the change, and returns a
-link:#check-result[CheckResult] entity.
+link:#change-info[ChangeInfo] entity with the `problems` field set to a
+list of link:#problem-info[ProblemInfo] entities.
+
+Depending on the type of problem, some fields not marked optional may be
+missing from the result. At least `id`, `project`, `branch`, and
+`_number` will be present.
 
 .Request
 ----
@@ -1158,26 +1168,80 @@ link:#check-result[CheckResult] entity.
 
   )]}'
   {
-    "change": {
-      "id": "myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940",
-      "project": "myProject",
-      "branch": "master",
-      "change_id": "I8473b95934b5732ac55d26311a706c9c2bde9940",
-      "subject": "Implementing Feature X",
-      "status": "NEW",
-      "created": "2013-02-01 09:59:32.126000000",
-      "updated": "2013-02-21 11:16:36.775000000",
-      "mergeable": true,
-      "insertions": 34,
-      "deletions": 101,
-      "_sortkey": "0023412400000f7d",
-      "_number": 3965,
-      "owner": {
-        "name": "John Doe"
-      }
+    "id": "myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940",
+    "project": "myProject",
+    "branch": "master",
+    "change_id": "I8473b95934b5732ac55d26311a706c9c2bde9940",
+    "subject": "Implementing Feature X",
+    "status": "NEW",
+    "created": "2013-02-01 09:59:32.126000000",
+    "updated": "2013-02-21 11:16:36.775000000",
+    "mergeable": true,
+    "insertions": 34,
+    "deletions": 101,
+    "_sortkey": "0023412400000f7d",
+    "_number": 3965,
+    "owner": {
+      "name": "John Doe"
     },
-    "messages": [
-      "Current patch set 1 not found"
+    "problems": [
+      {
+        "message": "Current patch set 1 not found"
+      }
+    ]
+  }
+----
+
+[[fix-change]]
+=== Fix change
+--
+'POST /changes/link:#change-id[\{change-id\}]/check'
+--
+
+Performs consistency checks on the change as with link:#check-change[GET
+/check], and additionally fixes any problems that can be fixed
+automatically. The returned field values reflect any fixes.
+
+Only the change owner, a project owner, or an administrator may fix changes.
+
+.Request
+----
+  POST /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/check HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  {
+    "id": "myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940",
+    "project": "myProject",
+    "branch": "master",
+    "change_id": "I8473b95934b5732ac55d26311a706c9c2bde9940",
+    "subject": "Implementing Feature X",
+    "status": "MERGED",
+    "created": "2013-02-01 09:59:32.126000000",
+    "updated": "2013-02-21 11:16:36.775000000",
+    "mergeable": true,
+    "insertions": 34,
+    "deletions": 101,
+    "_sortkey": "0023412400000f7d",
+    "_number": 3965,
+    "owner": {
+      "name": "John Doe"
+    },
+    "problems": [
+      {
+        "message": "Current patch set 2 not found"
+      },
+      {
+        "message": "Patch set 1 (1eee2c9d8f352483781e772f35dc586a69ff5646) is merged into destination ref master (1eee2c9d8f352483781e772f35dc586a69ff5646), but change status is NEW",
+        "status": FIXED,
+        "outcome": "Marked change as merged"
+      }
     ]
   }
 ----
@@ -3259,6 +3323,9 @@ if link:#all-revisions[all revisions] are requested.
 |`_more_changes`      |optional, not set if `false`|
 Whether the query would deliver more results if not limited. +
 Only set on either the last or the first change that is returned.
+|`problems`           |optional|
+A list of link:#problem-info[ProblemInfo] entities describing potential
+problems with this change. Only set if link:#check[CHECK] is set.
 |==================================
 
 [[related-changes-info]]
@@ -3978,22 +4045,23 @@ the commit message within a change edit.
 |`message`     ||New commit message.
 |===========================
 
-[[check-result]]
-=== CheckResult
-The `CheckResult` entity contains the results of a consistency check on
-a change.
+[[problem-info]]
+=== ProblemInfo
+The `ProblemInfo` entity contains a description of a potential consistency problem
+with a change. These are not related to the code review process, but rather
+indicate some inconsistency in Gerrit's database or repository metadata related
+to the enclosing change.
 
-[options="header",cols="1,6"]
+[options="header",cols="1,^1,5"]
 |===========================
-|Field Name|Description
-|`change`|
-link:#change-info[ChangeInfo] entity containing information about the change,
-as in link:#get-change[Get Change] with no options. Some fields not marked
-optional may be missing if a consistency check failed, but at least
-`id`, `project`, `branch`, and `_number` will be present.
-|`messages`|
-List of messages describing potential problems with the change. May be
-empty if no problems were found.
+|Field Name||Description
+|`message` ||Plaintext message describing the problem with the change.
+|`status`  |optional|
+The status of fixing the problem (`FIXED`, `FIX_FAILED`). Only set if a
+fix was attempted.
+|`outcome` |optional|
+If `status` is set, an additional plaintext message describing the
+outcome of the fix.
 |===========================
 
 GERRIT

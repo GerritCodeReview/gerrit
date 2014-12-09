@@ -14,6 +14,8 @@
 
 package com.google.gerrit.extensions.restapi;
 
+import java.util.concurrent.TimeUnit;
+
 /** Special return value to mean specific HTTP status codes in a REST API. */
 public abstract class Response<T> {
   @SuppressWarnings({"rawtypes"})
@@ -22,6 +24,11 @@ public abstract class Response<T> {
   /** HTTP 200 OK: pointless wrapper for type safety. */
   public static <T> Response<T> ok(T value) {
     return new Impl<>(200, value);
+  }
+
+  public static <T> Response<T> withMustRevalidate(T value) {
+    return ok(value).caching(
+        CacheControl.PRIVATE(0, TimeUnit.SECONDS).setMustRevalidate());
   }
 
   /** HTTP 201 Created: typically used when a new resource is made. */

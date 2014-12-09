@@ -16,15 +16,12 @@ package com.google.gerrit.server.change;
 
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ListChangesOption;
-import com.google.gerrit.extensions.restapi.CacheControl;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
 import org.kohsuke.args4j.Option;
-
-import java.util.concurrent.TimeUnit;
 
 public class GetChange implements RestReadView<ChangeResource> {
   private final ChangeJson json;
@@ -46,15 +43,10 @@ public class GetChange implements RestReadView<ChangeResource> {
 
   @Override
   public Response<ChangeInfo> apply(ChangeResource rsrc) throws OrmException {
-    return cache(json.format(rsrc));
+    return Response.withMustRevalidate(json.format(rsrc));
   }
 
   Response<ChangeInfo> apply(RevisionResource rsrc) throws OrmException {
-    return cache(json.format(rsrc));
-  }
-
-  static Response<ChangeInfo> cache(ChangeInfo res) {
-    return Response.ok(res)
-        .caching(CacheControl.PRIVATE(0, TimeUnit.SECONDS).setMustRevalidate());
+    return Response.withMustRevalidate(json.format(rsrc));
   }
 }

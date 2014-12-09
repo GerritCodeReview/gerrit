@@ -37,7 +37,7 @@ public class Check implements RestReadView<ChangeResource>,
 
   @Override
   public Response<ChangeInfo> apply(ChangeResource rsrc) throws OrmException {
-    return GetChange.cache(json.format(rsrc));
+    return Response.withMustRevalidate(json.format(rsrc));
   }
 
   @Override
@@ -49,6 +49,6 @@ public class Check implements RestReadView<ChangeResource>,
         && !ctl.getCurrentUser().getCapabilities().canAdministrateServer()) {
       throw new AuthException("Not owner");
     }
-    return GetChange.cache(json.fix(input).format(rsrc));
+    return Response.withMustRevalidate(json.fix(input).format(rsrc));
   }
 }

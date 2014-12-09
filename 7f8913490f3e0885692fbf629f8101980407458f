@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e46c12f3_1a797db6",
+        "filename": "Documentation/dev-release.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 415,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-12-09T11:58:59Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this be a SNAPSHOT version?",
+      "range": {
+        "startLine": 415,
+        "startChar": 20,
+        "endLine": 415,
+        "endChar": 24
+      },
+      "revId": "7f8913490f3e0885692fbf629f8101980407458f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

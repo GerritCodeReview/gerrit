@@ -22,6 +22,30 @@
       "revId": "2049183d6f2d13d1fbceccba782ec9edf147020a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "049e8622_fbdb6f7e",
+        "filename": "ReleaseNotes/ReleaseNotes-2.9.3.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-12-09T00:18:25Z",
+      "side": 1,
+      "message": "Done.  Thanks.",
+      "parentUuid": "4494fefe_3dda2f7f",
+      "range": {
+        "startLine": 30,
+        "startChar": 18,
+        "endLine": 30,
+        "endChar": 23
+      },
+      "revId": "2049183d6f2d13d1fbceccba782ec9edf147020a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

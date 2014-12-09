@@ -65,6 +65,30 @@
     },
     {
       "key": {
+        "uuid": "c471cec8_397ecf9f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-12-09T15:33:59Z",
+      "side": 1,
+      "message": "If webLinks are moved from RevisionInfo to CommitInfo then the description of RevisionInfo and CommitInfo in rest-api-changes.txt needs to be updated.",
+      "parentUuid": "5fc5a95b_554b0c76",
+      "range": {
+        "startLine": 9,
+        "startChar": 48,
+        "endLine": 9,
+        "endChar": 58
+      },
+      "revId": "f5d1c987fe22fbfb434ee04b54439d8984b2c153",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5fc5a95b_f5825825",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
         "patchSetId": 1

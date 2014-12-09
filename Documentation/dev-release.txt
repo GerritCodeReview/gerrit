@@ -406,10 +406,17 @@ including some or all of the following in the email:
 === Increase Gerrit Version for Current Development
 
 All new development that is done in the `master` branch will be
-included in the next Gerrit release. Update the Gerrit version in the
-`VERSION` file, and plugin archetypes' `pom.xml` files. Push the change
-for review and get it merged.
+included in the next Gerrit release.
 
+Use the `version` tool to update the Gerrit version in the `VERSION` file
+and plugin archetypes' `pom.xml` files:
+
+----
+ ./tools/version.py 2.10
+----
+
+Verify that the changes made by the tool are sane, then commit them, push
+the change for review on the master branch, and get it merged.
 
 [[merge-stable]]
 === Merge `stable` into `master`

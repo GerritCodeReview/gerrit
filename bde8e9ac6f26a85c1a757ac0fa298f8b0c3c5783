@@ -22,6 +22,30 @@
       "revId": "bde8e9ac6f26a85c1a757ac0fa298f8b0c3c5783",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a4585a42_a8fffbbe",
+        "filename": "lib/mina/BUCK",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-12-09T02:32:21Z",
+      "side": 0,
+      "message": "Is it only the timestamp that has changed?",
+      "parentUuid": "e46c12f3_7ad0b95e",
+      "range": {
+        "startLine": 12,
+        "startChar": 10,
+        "endLine": 12,
+        "endChar": 50
+      },
+      "revId": "bde8e9ac6f26a85c1a757ac0fa298f8b0c3c5783",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

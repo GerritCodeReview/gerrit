@@ -105,6 +105,30 @@
     },
     {
       "key": {
+        "uuid": "a4669a10_d8822d2a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2014-12-09T19:57:45Z",
+      "side": 1,
+      "message": "where would I find somewhere common places in gerrit?\nSo ReceiveCommits is not common enough, because it\u0027s living below the gerrit/server/git directory?",
+      "parentUuid": "a4669a10_183ae5eb",
+      "range": {
+        "startLine": 158,
+        "startChar": 32,
+        "endLine": 158,
+        "endChar": 44
+      },
+      "revId": "5dce5ddf2b1aff394216611ce4c1b14368e5fb1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4494fefe_5da4dbbd",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java",
         "patchSetId": 1
@@ -116,6 +140,24 @@
       "writtenOn": "2014-12-09T19:44:51Z",
       "side": 1,
       "message": "Block statements should always have braces, even if it\u0027s one statement.\n\nhttps://google-styleguide.googlecode.com/svn/trunk/javaguide.html#s4.1.1-braces-always-used",
+      "revId": "5dce5ddf2b1aff394216611ce4c1b14368e5fb1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4494fefe_7d08b71d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2014-12-09T19:57:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4494fefe_5da4dbbd",
       "revId": "5dce5ddf2b1aff394216611ce4c1b14368e5fb1b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -214,6 +256,24 @@
       "writtenOn": "2014-12-09T19:44:51Z",
       "side": 1,
       "message": "You want to return null here, that means don\u0027t emit a field. Otherwise you will emit the empty string as a field value, which is probably not what you want.",
+      "revId": "5dce5ddf2b1aff394216611ce4c1b14368e5fb1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a4669a10_f87ff196",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2014-12-09T19:57:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4494fefe_1d9e5374",
       "revId": "5dce5ddf2b1aff394216611ce4c1b14368e5fb1b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

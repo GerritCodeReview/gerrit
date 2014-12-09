@@ -46,6 +46,30 @@
       "revId": "347b13448307be3b35f14dfc2f8ef41fa9dbe9a9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a4585a42_28230bce",
+        "filename": "ReleaseNotes/ReleaseNotes-2.11.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-12-09T10:25:16Z",
+      "side": 1,
+      "message": "Reverted in https://gerrit-review.googlesource.com/62214",
+      "parentUuid": "bfb7854b_30128878",
+      "range": {
+        "startLine": 342,
+        "startChar": 0,
+        "endLine": 343,
+        "endChar": 44
+      },
+      "revId": "347b13448307be3b35f14dfc2f8ef41fa9dbe9a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

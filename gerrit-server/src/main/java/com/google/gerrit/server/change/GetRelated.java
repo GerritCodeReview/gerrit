@@ -25,6 +25,7 @@ import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetAncestor;
+import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CommonConverters;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -119,6 +120,18 @@ public class GetRelated implements RestReadView<RevisionResource> {
       if (p != null) {
         g = changes.get(p.getId().getParentKey());
         added.add(p.getId().getParentKey());
+      } else {
+        // check if there is a merged or abandoned change for this commit
+        ReviewDb db = dbProvider.get();
+        for (PatchSet ps : db.patchSets().byRevision(new RevId(c.name())).toList()) {
+          Change change = db.changes().get(ps.getId().getParentKey());
+          if (change != null && change.getDest().equals(rsrc.getChange().getDest())) {
+            p = ps;
+            g = change;
+            added.add(g.getId());
+            break;
+          }
+        }
       }
       parents.add(new ChangeAndCommit(g, p, c));
     }

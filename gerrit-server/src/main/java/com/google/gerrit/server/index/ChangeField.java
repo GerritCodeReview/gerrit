@@ -38,6 +38,8 @@ import com.google.gwtorm.protobuf.ProtobufCodec;
 import com.google.gwtorm.server.OrmException;
 import com.google.protobuf.CodedOutputStream;
 
+import org.eclipse.jgit.revwalk.FooterLine;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.sql.Timestamp;
@@ -140,6 +142,27 @@ public class ChangeField {
         public String get(ChangeData input, FillArgs args)
             throws OrmException {
           return MoreObjects.firstNonNull(input.change().getTopic(), "");
+        }
+      };
+
+  /** The footer Depends-on */
+  public static final FieldDef<ChangeData, String> DEPENDS_ON =
+      new FieldDef.Single<ChangeData, String>(
+          ChangeQueryBuilder.FIELD_DEPENDS_ON, FieldType.PREFIX, false) {
+
+        @Override
+        public String get(ChangeData input, FillArgs args)
+            throws OrmException {
+          try {
+            for (FooterLine f : input.commitFooters()) {
+              if (f.getKey().equals()) {
+                return f.getValue();
+              }
+            }
+          } catch (NoSuchChangeException | IOException e) {
+
+          }
+          return null;
         }
       };
 

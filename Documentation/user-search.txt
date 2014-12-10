@@ -187,6 +187,11 @@ Matches changes where the approval score 'VALUE' has been set during
 a review.  See <<labels,labels>> below for more detail on the format
 of the argument.
 
+[[dependson]]
+dependson:'PREFIX'::
++
+Changes depending on each other starting with 'PREFIX'.
+
 [[message]]
 message:'MESSAGE'::
 +

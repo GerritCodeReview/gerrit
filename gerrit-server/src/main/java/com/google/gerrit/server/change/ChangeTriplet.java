@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.change;
 
+import com.google.auto.value.AutoValue;
+import com.google.common.base.Optional;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
@@ -21,17 +23,30 @@ import com.google.gerrit.reviewdb.client.Project;
 
 import org.eclipse.jgit.lib.Constants;
 
-public class ChangeTriplet {
+@AutoValue
+public abstract class ChangeTriplet {
+  public static String format(Change change) {
+    return format(change.getDest(), change.getKey());
+  }
 
-  private final Change.Key changeKey;
-  private final Project.NameKey projectNameKey;
-  private final Branch.NameKey branchNameKey;
+  private static String format(Branch.NameKey branch, Change.Key change) {
+    return branch.getParentKey().get()
+        + "~" + branch.getShortName()
+        + "~" + change.get();
+  }
 
-  public ChangeTriplet(final String triplet) throws ParseException {
+  /**
+   * Parse a triplet out of a string.
+   *
+   * @param triplet string of the form "project~branch~id".
+   * @return the triplet if the input string has the proper format, or absent if
+   *     not.
+   */
+  public static Optional<ChangeTriplet> parse(String triplet) {
     int t2 = triplet.lastIndexOf('~');
     int t1 = triplet.lastIndexOf('~', t2 - 1);
     if (t1 < 0 || t2 < 0) {
-      throw new ParseException();
+      return Optional.absent();
     }
 
     String project = Url.decode(triplet.substring(0, t1));
@@ -42,30 +57,21 @@ public class ChangeTriplet {
       branch = Constants.R_HEADS + branch;
     }
 
-    changeKey = new Change.Key(changeId);
-    projectNameKey = new Project.NameKey(project);
-    branchNameKey = new Branch.NameKey(projectNameKey, branch);
+    ChangeTriplet result = new AutoValue_ChangeTriplet(
+        new Branch.NameKey(new Project.NameKey(project), branch),
+        new Change.Key(changeId));
+    return Optional.of(result);
   }
 
-  public Change.Key getChangeKey() {
-    return changeKey;
+  public final Project.NameKey project() {
+    return branch().getParentKey();
   }
 
-  public Branch.NameKey getBranchNameKey() {
-    return branchNameKey;
-  }
+  public abstract Branch.NameKey branch();
+  public abstract Change.Key id();
 
-  public static String format(final Change change) {
-    return change.getProject().get() + "~"
-        + change.getDest().getShortName() + "~"
-        + change.getKey().get();
-  }
-
-  public static class ParseException extends Exception {
-    private static final long serialVersionUID = 1L;
-
-    ParseException() {
-      super();
-    }
+  @Override
+  public String toString() {
+    return format(branch(), id());
   }
 }

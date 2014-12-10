@@ -20,6 +20,7 @@ import static java.util.concurrent.TimeUnit.MINUTES;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.base.Optional;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.primitives.Ints;
@@ -560,15 +561,14 @@ public class ChangeUtil {
     }
 
     // Try change triplet
-    ChangeTriplet triplet;
-    try {
-        triplet = new ChangeTriplet(id);
-    } catch (ChangeTriplet.ParseException e) {
-        throw new ResourceNotFoundException(id);
+    Optional<ChangeTriplet> triplet = ChangeTriplet.parse(id);
+    if (triplet.isPresent()) {
+      return db.get().changes().byBranchKey(
+          triplet.get().branch(),
+          triplet.get().id()).toList();
     }
-    return db.get().changes().byBranchKey(
-        triplet.getBranchNameKey(),
-        triplet.getChangeKey()).toList();
+
+    throw new ResourceNotFoundException(id);
   }
 
   private IdentifiedUser user() {

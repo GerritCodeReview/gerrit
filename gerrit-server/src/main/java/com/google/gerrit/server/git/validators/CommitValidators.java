@@ -15,6 +15,7 @@
 package com.google.gerrit.server.git.validators;
 
 import com.google.common.base.CharMatcher;
+import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.extensions.registration.DynamicSet;
@@ -58,8 +59,6 @@ import java.util.List;
 public class CommitValidators {
   private static final Logger log = LoggerFactory
       .getLogger(CommitValidators.class);
-
-  private static final FooterKey CHANGE_ID = new FooterKey("Change-Id");
 
   public interface Factory {
     CommitValidators create(RefControl refControl, SshInfo sshInfo,
@@ -179,14 +178,15 @@ public class CommitValidators {
     @Override
     public List<CommitValidationMessage> onCommitReceived(
         CommitReceivedEvent receiveEvent) throws CommitValidationException {
-      final List<String> idList = receiveEvent.commit.getFooterLines(CHANGE_ID);
+      final List<String> idList = receiveEvent.commit.getFooterLines(
+          FooterConstants.CHANGE_ID);
 
       List<CommitValidationMessage> messages = new LinkedList<>();
 
       if (idList.isEmpty()) {
         if (projectControl.getProjectState().isRequireChangeID()) {
           String shortMsg = receiveEvent.commit.getShortMessage();
-          String changeIdPrefix = CHANGE_ID.getName() + ":";
+          String changeIdPrefix = FooterConstants.CHANGE_ID.getName() + ":";
           if (shortMsg.startsWith(changeIdPrefix)
               && shortMsg.substring(changeIdPrefix.length()).trim()
                   .matches("^I[0-9a-f]{8,}.*$")) {

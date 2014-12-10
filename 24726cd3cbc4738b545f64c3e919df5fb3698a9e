@@ -240,6 +240,30 @@
     },
     {
       "key": {
+        "uuid": "e4cb3264_62d5b64d",
+        "filename": "Documentation/user-search.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2014-12-10T18:47:24Z",
+      "side": 1,
+      "message": "While commit-A in repo-A builds fine on itself, repo-B without commit-B will be broken as it won\u0027t build using the latest repo-A. That\u0027s why we want to mark them depending on each other. So commit-A must not go in, if commit-B is still under review. They must go in together. That was the initial reasoning for either having circular dependencies on the change IDs or having just one atomic \"group\" in different repos.\n\nDave coined the term \"group\" yesterday in the office discussion, but as he outlined below, we\u0027ll probably reuse the topics for this purpose.\n\nHaving a group/topic without explicitly stating the depending $ChangeId has the risk of not having uploaded the changes in all the repos (Say there is a repo-C which needs commit-C, very similar to commit-B in repo-B). However I feel this may be easier for users than having to deal with the circular dependencies.\nNow that we introduced commit-C in repo-C, and we want to have the \"Depends-On: \" footer being explicit about its dependencies, we\u0027d need to have\n\nIn commit-A:\n    Depends-On $ChangeID(commit-B)\n    Depends-On $ChangeID(commit-C)\n\nIn commit-B:\n    Depends-On $ChangeID(commit-A)\n\nIn commit-C:\n    Depends-On $ChangeID(commit-A)  \n\nImagine there are more than two API consumers (repo-B/C), buth maybe 5. Then writing commit message in commit-A becomes cumbersome. \n\nThat\u0027s why I\u0027d currently rather go with the group/topic approach and hope the users will upload all the changes before there is a subset uploaded\u0026Reviewed\u0026Submitted already. The reviewers may spot the missing dependencies?",
+      "parentUuid": "843ef6e8_5f286ba7",
+      "range": {
+        "startLine": 193,
+        "startChar": 32,
+        "endLine": 193,
+        "endChar": 54
+      },
+      "revId": "24726cd3cbc4738b545f64c3e919df5fb3698a9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "843ef6e8_5ff18bf3",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
         "patchSetId": 7

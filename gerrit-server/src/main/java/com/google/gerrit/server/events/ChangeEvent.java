@@ -14,19 +14,30 @@
 
 package com.google.gerrit.server.events;
 
-import com.google.gerrit.common.TimeUtil;
+import static org.eclipse.jgit.lib.Constants.R_HEADS;
+
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.server.data.ChangeAttribute;
 
-public abstract class ChangeEvent {
+public abstract class ChangeEvent extends RefEvent {
+  public ChangeAttribute change;
 
-  public long eventCreatedOn = TimeUtil.nowMs() / 1000L;
+  protected ChangeEvent(String type) {
+    super(type);
+  }
 
-  public abstract String getType();
+  @Override
+  public Project.NameKey getProjectNameKey() {
+    return new Project.NameKey(change.project);
+  }
 
-  public abstract Project.NameKey getProjectNameKey();
+  @Override
+  public String getRefName() {
+    return R_HEADS + change.branch;
+  }
 
-  public abstract Change.Key getChangeKey();
-
-  public abstract String getRefName();
+  public Change.Key getChangeKey() {
+    return new Change.Key(change.id);
+  }
 }

@@ -23,7 +23,7 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.events.ChangeEvent;
+import com.google.gerrit.server.events.Event;
 import com.google.gwtorm.server.OrmException;
 
 import org.eclipse.jgit.lib.ObjectId;
@@ -34,9 +34,9 @@ import java.util.Set;
 
 /** Invokes hooks on server actions. */
 public interface ChangeHooks {
-  public void addChangeListener(ChangeListener listener, CurrentUser user);
+  public void addEventListener(EventListener listener, CurrentUser user);
 
-  public void removeChangeListener(ChangeListener listener);
+  public void removeEventListener(EventListener listener);
 
   /**
    * Fire the Patchset Created Hook.
@@ -196,7 +196,7 @@ public interface ChangeHooks {
    * @param db The database
    * @throws OrmException
    */
-  public void postEvent(Change change, ChangeEvent event, ReviewDb db)
+  public void postEvent(Change change, Event event, ReviewDb db)
       throws OrmException;
 
   /**
@@ -205,5 +205,5 @@ public interface ChangeHooks {
    * @param branchName The branch that the event is related to
    * @param event The event to post
    */
-  public void postEvent(Branch.NameKey branchName, ChangeEvent event);
+  public void postEvent(Branch.NameKey branchName, Event event);
 }

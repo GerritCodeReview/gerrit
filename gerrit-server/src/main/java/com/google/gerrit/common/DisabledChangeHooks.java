@@ -23,7 +23,7 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.events.ChangeEvent;
+import com.google.gerrit.server.events.Event;
 
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.RefUpdate;
@@ -34,7 +34,7 @@ import java.util.Set;
 /** Does not invoke hooks. */
 public final class DisabledChangeHooks implements ChangeHooks {
   @Override
-  public void addChangeListener(ChangeListener listener, CurrentUser user) {
+  public void addEventListener(EventListener listener, CurrentUser user) {
   }
 
   @Override
@@ -103,7 +103,7 @@ public final class DisabledChangeHooks implements ChangeHooks {
   }
 
   @Override
-  public void removeChangeListener(ChangeListener listener) {
+  public void removeEventListener(EventListener listener) {
   }
 
   @Override
@@ -113,10 +113,10 @@ public final class DisabledChangeHooks implements ChangeHooks {
   }
 
   @Override
-  public void postEvent(Change change, ChangeEvent event, ReviewDb db) {
+  public void postEvent(Change change, Event event, ReviewDb db) {
   }
 
   @Override
-  public void postEvent(Branch.NameKey branchName, ChangeEvent event) {
+  public void postEvent(Branch.NameKey branchName, Event event) {
   }
 }

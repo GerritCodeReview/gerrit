@@ -16,6 +16,7 @@ package com.google.gerrit.server.mail;
 
 import com.google.common.collect.Multimap;
 import com.google.gerrit.common.errors.NoSuchAccountException;
+import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.account.AccountResolver;
@@ -31,8 +32,6 @@ import java.util.List;
 import java.util.Set;
 
 public class MailUtil {
-  private static final FooterKey REVIEWED_BY = new FooterKey("Reviewed-by");
-  private static final FooterKey TESTED_BY = new FooterKey("Tested-by");
 
   public static MailRecipients getRecipientsFromFooters(
       final AccountResolver accountResolver, final PatchSet ps,
@@ -77,8 +76,8 @@ public class MailUtil {
   private static boolean isReviewer(final FooterLine candidateFooterLine) {
     return candidateFooterLine.matches(FooterKey.SIGNED_OFF_BY)
         || candidateFooterLine.matches(FooterKey.ACKED_BY)
-        || candidateFooterLine.matches(REVIEWED_BY)
-        || candidateFooterLine.matches(TESTED_BY);
+        || candidateFooterLine.matches(FooterConstants.REVIEWED_BY)
+        || candidateFooterLine.matches(FooterConstants.TESTED_BY);
   }
 
   public static class MailRecipients {

@@ -15,6 +15,7 @@
 package com.google.gerrit.server.query.change;
 
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.base.Optional;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.GroupReference;
@@ -30,6 +31,7 @@ import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.account.CapabilityControl;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupBackends;
+import com.google.gerrit.server.change.ChangeTriplet;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.TrackingFooters;
@@ -71,8 +73,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   private static final Pattern PAT_LEGACY_ID = Pattern.compile("^[1-9][0-9]*$");
   private static final Pattern PAT_CHANGE_ID =
       Pattern.compile("^[iI][0-9a-f]{4,}.*$");
-  private static final Pattern DEF_CHANGE =
-      Pattern.compile("^([1-9][0-9]*|[iI][0-9a-f]{4,}.*)$");
+  private static final Pattern DEF_CHANGE = Pattern.compile(
+      "^(?:[1-9][0-9]*|(?:[^~]+~[^~]+~)?[iI][0-9a-f]{4,}.*)$");
 
   // NOTE: As new search operations are added, please keep the
   // SearchSuggestOracle up to date.
@@ -260,15 +262,21 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   }
 
   @Operator
-  public Predicate<ChangeData> change(String query) {
+  public Predicate<ChangeData> change(String query) throws QueryParseException {
     if (PAT_LEGACY_ID.matcher(query).matches()) {
       return new LegacyChangeIdPredicate(args, Change.Id.parse(query));
-
     } else if (PAT_CHANGE_ID.matcher(query).matches()) {
       return new ChangeIdPredicate(args, parseChangeId(query));
     }
+    Optional<ChangeTriplet> triplet = ChangeTriplet.parse(query);
+    if (triplet.isPresent()) {
+      return Predicate.and(
+          project(triplet.get().project().get()),
+          branch(triplet.get().branch().get()),
+          new ChangeIdPredicate(args, parseChangeId(triplet.get().id().get())));
+    }
 
-    throw new IllegalArgumentException();
+    throw new QueryParseException("Invalid change format");
   }
 
   @Operator
@@ -713,7 +721,11 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     if (query.startsWith("refs/")) {
       return ref(query);
     } else if (DEF_CHANGE.matcher(query).matches()) {
-      return change(query);
+      try {
+        return change(query);
+      } catch (QueryParseException e) {
+        // Skip.
+      }
     }
 
     List<Predicate<ChangeData>> predicates = Lists.newArrayListWithCapacity(9);

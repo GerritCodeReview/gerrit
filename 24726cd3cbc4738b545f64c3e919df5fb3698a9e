@@ -72,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "843ef6e8_1f1ee38c",
+        "filename": "Documentation/user-search.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-12-10T01:36:18Z",
+      "side": 1,
+      "message": "Hmm, OK, then I think we need some clarification about what values are expected to be put in the Depends-On footer.\n\nI\u0027m interested in this because we are already using a Depends-On footer internally which ties into a workflow and tool chain outside of Gerrit.",
+      "parentUuid": "44407e75_dd13eb7b",
+      "range": {
+        "startLine": 193,
+        "startChar": 32,
+        "endLine": 193,
+        "endChar": 54
+      },
+      "revId": "24726cd3cbc4738b545f64c3e919df5fb3698a9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "843ef6e8_5ff18bf3",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
         "patchSetId": 7

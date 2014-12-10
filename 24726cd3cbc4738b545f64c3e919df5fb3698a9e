@@ -308,6 +308,30 @@
       "revId": "24726cd3cbc4738b545f64c3e919df5fb3698a9e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "24146a87_a405223c",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 400,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2014-12-10T20:44:05Z",
+      "side": 1,
+      "message": "No it is not. I have too many foos in there.",
+      "parentUuid": "843ef6e8_5ff18bf3",
+      "range": {
+        "startLine": 400,
+        "startChar": 24,
+        "endLine": 400,
+        "endChar": 39
+      },
+      "revId": "24726cd3cbc4738b545f64c3e919df5fb3698a9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

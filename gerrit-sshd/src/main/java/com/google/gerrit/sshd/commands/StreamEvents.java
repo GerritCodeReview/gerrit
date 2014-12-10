@@ -21,7 +21,7 @@ import com.google.gerrit.common.ChangeListener;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.events.ChangeEvent;
+import com.google.gerrit.server.events.Event;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.git.WorkQueue.CancelableRunnable;
 import com.google.gerrit.sshd.BaseCommand;
@@ -58,7 +58,7 @@ final class StreamEvents extends BaseCommand {
   private WorkQueue.Executor pool;
 
   /** Queue of events to stream to the connected user. */
-  private final LinkedBlockingQueue<ChangeEvent> queue =
+  private final LinkedBlockingQueue<Event> queue =
       new LinkedBlockingQueue<>(MAX_EVENTS);
 
   private final Gson gson = new Gson();
@@ -71,7 +71,7 @@ final class StreamEvents extends BaseCommand {
 
   private final ChangeListener listener = new ChangeListener() {
     @Override
-    public void onChangeEvent(final ChangeEvent event) {
+    public void onEvent(final Event event) {
       offer(event);
     }
   };
@@ -157,7 +157,7 @@ final class StreamEvents extends BaseCommand {
     }
   }
 
-  private void offer(final ChangeEvent event) {
+  private void offer(final Event event) {
     synchronized (taskLock) {
       if (!queue.offer(event)) {
         dropped = true;
@@ -169,9 +169,9 @@ final class StreamEvents extends BaseCommand {
     }
   }
 
-  private ChangeEvent poll() {
+  private Event poll() {
     synchronized (taskLock) {
-      ChangeEvent event = queue.poll();
+      Event event = queue.poll();
       if (event == null) {
         task = null;
       }
@@ -199,7 +199,7 @@ final class StreamEvents extends BaseCommand {
         dropped = false;
       }
 
-      final ChangeEvent event = poll();
+      final Event event = poll();
       if (event == null) {
         break;
       }

@@ -11,29 +11,15 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+
 package com.google.gerrit.server.events;
 
-import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.data.PatchSetAttribute;
 
-import org.eclipse.jgit.transport.ReceiveCommand;
+public class PatchSetEvent extends ChangeEvent {
+  public PatchSetAttribute patchSet;
 
-public class RefReceivedEvent extends RefEvent {
-  public ReceiveCommand command;
-  public Project project;
-  public IdentifiedUser user;
-
-  public RefReceivedEvent() {
-    super("ref-received");
-  }
-
-  @Override
-  public Project.NameKey getProjectNameKey() {
-    return project.getNameKey();
-  }
-
-  @Override
-  public String getRefName() {
-    return command.getRefName();
+  protected PatchSetEvent(String type) {
+    super(type);
   }
 }

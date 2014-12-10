@@ -11,29 +11,20 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+
 package com.google.gerrit.server.events;
 
-import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.common.TimeUtil;
 
-import org.eclipse.jgit.transport.ReceiveCommand;
+public abstract class Event {
+  public final String type;
+  public long eventCreatedOn = TimeUtil.nowMs() / 1000L;
 
-public class RefReceivedEvent extends RefEvent {
-  public ReceiveCommand command;
-  public Project project;
-  public IdentifiedUser user;
-
-  public RefReceivedEvent() {
-    super("ref-received");
+  protected Event(String type) {
+    this.type = type;
   }
 
-  @Override
-  public Project.NameKey getProjectNameKey() {
-    return project.getNameKey();
-  }
-
-  @Override
-  public String getRefName() {
-    return command.getRefName();
+  public String getType() {
+    return type;
   }
 }

@@ -1537,6 +1537,15 @@ public class ReceiveCommits {
           return Collections.emptyList();
         }
 
+        final List<String> dependencies = c.getFooterLines(
+            FooterConstants.DEPENDS_ON);
+        if (dependencies.size() > 1) {
+          // This makes life very easy for selecting all other dependencies.
+          reject(magicBranch.cmd, "just one " +
+              FooterConstants.DEPENDS_ON.getName() + " allowed");
+          return Collections.emptyList();
+        }
+
         changeKey = new Change.Key(idStr);
         pending.add(new ChangeLookup(c, changeKey));
         if (maxBatchChanges != 0

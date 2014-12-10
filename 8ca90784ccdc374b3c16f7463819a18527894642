@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "44407e75_5d3fdbda",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/FooterConstants.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2014-12-10T18:18:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "44407e75_1d1ef38c",
+      "range": {
+        "startLine": 20,
+        "startChar": 10,
+        "endLine": 20,
+        "endChar": 18
+      },
+      "revId": "8ca90784ccdc374b3c16f7463819a18527894642",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e4589271_1a1efd8c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/common/FooterConstants.java",
         "patchSetId": 3
@@ -36,6 +60,30 @@
       "writtenOn": "2014-12-10T01:28:28Z",
       "side": 1,
       "message": "change",
+      "range": {
+        "startLine": 23,
+        "startChar": 45,
+        "endLine": 23,
+        "endChar": 51
+      },
+      "revId": "8ca90784ccdc374b3c16f7463819a18527894642",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e4589271_7a23b9cc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/FooterConstants.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2014-12-10T18:18:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e4589271_1a1efd8c",
       "range": {
         "startLine": 23,
         "startChar": 45,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "e4589271_5a2875a7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/FooterConstants.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2014-12-10T18:18:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "843ef6e8_ffffbfbd",
+      "range": {
+        "startLine": 24,
+        "startChar": 61,
+        "endLine": 24,
+        "endChar": 72
+      },
+      "revId": "8ca90784ccdc374b3c16f7463819a18527894642",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "44407e75_7d23b7cc",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/common/FooterConstants.java",
         "patchSetId": 3
@@ -82,6 +154,30 @@
       "writtenOn": "2014-12-10T01:28:28Z",
       "side": 1,
       "message": "Mention that this is a URL.",
+      "range": {
+        "startLine": 26,
+        "startChar": 28,
+        "endLine": 26,
+        "endChar": 33
+      },
+      "revId": "8ca90784ccdc374b3c16f7463819a18527894642",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "44407e75_bd337f13",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/FooterConstants.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2014-12-10T18:18:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "44407e75_7d23b7cc",
       "range": {
         "startLine": 26,
         "startChar": 28,
@@ -111,6 +207,24 @@
     },
     {
       "key": {
+        "uuid": "44407e75_9d304308",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/FooterConstants.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2014-12-10T18:18:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "44407e75_5d287ba7",
+      "revId": "8ca90784ccdc374b3c16f7463819a18527894642",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "44407e75_9d096350",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 3
@@ -128,6 +242,24 @@
     },
     {
       "key": {
+        "uuid": "44407e75_7d3a97ec",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2014-12-10T18:18:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "44407e75_9d096350",
+      "revId": "8ca90784ccdc374b3c16f7463819a18527894642",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6443c281_fee8610e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 3
@@ -139,6 +271,30 @@
       "writtenOn": "2014-12-10T01:17:27Z",
       "side": 1,
       "message": "Does this still compile?  CHANGE_ID is no longer explicitly defined or imported.",
+      "range": {
+        "startLine": 1525,
+        "startChar": 53,
+        "endLine": 1525,
+        "endChar": 62
+      },
+      "revId": "8ca90784ccdc374b3c16f7463819a18527894642",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "44407e75_1d455375",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1525,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2014-12-10T18:18:53Z",
+      "side": 1,
+      "message": "fixed.",
+      "parentUuid": "6443c281_fee8610e",
       "range": {
         "startLine": 1525,
         "startChar": 53,

@@ -141,6 +141,30 @@
       "revId": "347b13448307be3b35f14dfc2f8ef41fa9dbe9a9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "244d4aaf_5c3fddda",
+        "filename": "ReleaseNotes/ReleaseNotes-2.11.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 475,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-10T16:43:56Z",
+      "side": 1,
+      "message": "I\u0027ve seen your +1 vote on corresponding upstream issue [1]. However I would prefer not to be in position of waiting for uncertain time, especially not when Gerrit master is broken. That why my suggestion is to act, in this case either:\n\n* build custom version of parboiled that is compatible with asm 5.x or\n* revert GWT 2.7 and dependend changes\n\nand either way to fix broken master ASAP.  We also should add new unit test to detect markdown toolchain breakage earlier in the future.\n\n [1] https://github.com/sirthias/parboiled/issues/81",
+      "parentUuid": "843ef6e8_7f3a8fec",
+      "range": {
+        "startLine": 475,
+        "startChar": 0,
+        "endLine": 475,
+        "endChar": 22
+      },
+      "revId": "347b13448307be3b35f14dfc2f8ef41fa9dbe9a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

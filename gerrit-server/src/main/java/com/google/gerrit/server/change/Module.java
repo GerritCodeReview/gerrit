@@ -103,6 +103,7 @@ public class Module extends RestApiModule {
     put(FILE_KIND, "reviewed").to(PutReviewed.class);
     delete(FILE_KIND, "reviewed").to(DeleteReviewed.class);
     get(FILE_KIND, "content").to(GetContent.class);
+    get(FILE_KIND, "type").to(GetContentType.class);
     get(FILE_KIND, "diff").to(GetDiff.class);
 
     child(CHANGE_KIND, "edit").to(ChangeEdits.class);
@@ -114,6 +115,7 @@ public class Module extends RestApiModule {
     put(CHANGE_EDIT_KIND, "/").to(ChangeEdits.Put.class);
     delete(CHANGE_EDIT_KIND).to(ChangeEdits.DeleteContent.class);
     get(CHANGE_EDIT_KIND, "/").to(ChangeEdits.Get.class);
+    get(CHANGE_EDIT_KIND, "type").to(ChangeEdits.GetType.class);
 
     install(new FactoryModule() {
       @Override

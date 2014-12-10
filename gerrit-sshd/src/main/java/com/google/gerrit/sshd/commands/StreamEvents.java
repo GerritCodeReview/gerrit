@@ -17,11 +17,11 @@ package com.google.gerrit.sshd.commands;
 import static com.google.gerrit.sshd.CommandMetaData.Mode.MASTER_OR_SLAVE;
 
 import com.google.gerrit.common.ChangeHooks;
-import com.google.gerrit.common.ChangeListener;
+import com.google.gerrit.common.EventListener;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.events.ChangeEvent;
+import com.google.gerrit.server.events.Event;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.git.WorkQueue.CancelableRunnable;
 import com.google.gerrit.sshd.BaseCommand;
@@ -58,7 +58,7 @@ final class StreamEvents extends BaseCommand {
   private WorkQueue.Executor pool;
 
   /** Queue of events to stream to the connected user. */
-  private final LinkedBlockingQueue<ChangeEvent> queue =
+  private final LinkedBlockingQueue<Event> queue =
       new LinkedBlockingQueue<>(MAX_EVENTS);
 
   private final Gson gson = new Gson();
@@ -69,9 +69,9 @@ final class StreamEvents extends BaseCommand {
     final String type = "dropped-output";
   };
 
-  private final ChangeListener listener = new ChangeListener() {
+  private final EventListener listener = new EventListener() {
     @Override
-    public void onChangeEvent(final ChangeEvent event) {
+    public void onEvent(final Event event) {
       offer(event);
     }
   };
@@ -124,12 +124,12 @@ final class StreamEvents extends BaseCommand {
     }
 
     stdout = toPrintWriter(out);
-    hooks.addChangeListener(listener, currentUser);
+    hooks.addEventListener(listener, currentUser);
   }
 
   @Override
   protected void onExit(final int rc) {
-    hooks.removeChangeListener(listener);
+    hooks.removeEventListener(listener);
 
     synchronized (taskLock) {
       done = true;
@@ -140,7 +140,7 @@ final class StreamEvents extends BaseCommand {
 
   @Override
   public void destroy() {
-    hooks.removeChangeListener(listener);
+    hooks.removeEventListener(listener);
 
     final boolean exit;
     synchronized (taskLock) {
@@ -157,7 +157,7 @@ final class StreamEvents extends BaseCommand {
     }
   }
 
-  private void offer(final ChangeEvent event) {
+  private void offer(final Event event) {
     synchronized (taskLock) {
       if (!queue.offer(event)) {
         dropped = true;
@@ -169,9 +169,9 @@ final class StreamEvents extends BaseCommand {
     }
   }
 
-  private ChangeEvent poll() {
+  private Event poll() {
     synchronized (taskLock) {
-      ChangeEvent event = queue.poll();
+      Event event = queue.poll();
       if (event == null) {
         task = null;
       }
@@ -188,7 +188,7 @@ final class StreamEvents extends BaseCommand {
         // destroy() above, or it closed the stream and is no longer
         // accepting output. Either way terminate this instance.
         //
-        hooks.removeChangeListener(listener);
+        hooks.removeEventListener(listener);
         flush();
         onExit(0);
         return;
@@ -199,7 +199,7 @@ final class StreamEvents extends BaseCommand {
         dropped = false;
       }
 
-      final ChangeEvent event = poll();
+      final Event event = poll();
       if (event == null) {
         break;
       }

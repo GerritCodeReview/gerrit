@@ -1,4 +1,4 @@
-// Copyright (C) 2010 The Android Open Source Project
+// Copyright (C) 2014 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,12 +12,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.common;
+package com.google.gerrit.server.events;
 
-import com.google.gerrit.extensions.annotations.ExtensionPoint;
-import com.google.gerrit.server.events.ChangeEvent;
+import com.google.gerrit.common.TimeUtil;
 
-@ExtensionPoint
-public interface ChangeListener {
-    public void onChangeEvent(ChangeEvent event);
+public abstract class Event {
+  public final String type;
+  public long eventCreatedOn = TimeUtil.nowMs() / 1000L;
+
+  protected Event(String type) {
+    this.type = type;
+  }
+
+  public String getType() {
+    return type;
+  }
 }

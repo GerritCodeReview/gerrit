@@ -12,17 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.events;
+package com.google.gerrit.common;
 
-import com.google.gerrit.server.data.AccountAttribute;
-import com.google.gerrit.server.data.ApprovalAttribute;
+import com.google.gerrit.extensions.annotations.ExtensionPoint;
+import com.google.gerrit.server.events.Event;
 
-public class CommentAddedEvent extends PatchSetEvent {
-  public AccountAttribute author;
-  public ApprovalAttribute[] approvals;
-  public String comment;
-
-  public CommentAddedEvent() {
-    super("comment-added");
-  }
+@ExtensionPoint
+public interface EventListener {
+  public void onEvent(Event event);
 }

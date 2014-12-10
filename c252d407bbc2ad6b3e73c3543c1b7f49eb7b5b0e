@@ -224,6 +224,24 @@
     },
     {
       "key": {
+        "uuid": "44407e75_ddfc8bcc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/FooterConstants.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-12-10T01:24:36Z",
+      "side": 1,
+      "message": "Ok, and you checked the others too?",
+      "parentUuid": "843ef6e8_bfded76f",
+      "revId": "c252d407bbc2ad6b3e73c3543c1b7f49eb7b5b0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "44407e75_fde8670e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CherryPickChange.java",
         "patchSetId": 1

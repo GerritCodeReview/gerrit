@@ -20,6 +20,7 @@ import com.google.common.base.Function;
 import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
 import com.google.common.collect.Iterables;
+import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.reviewdb.client.Account;
@@ -80,8 +81,6 @@ import java.util.Set;
 import java.util.TimeZone;
 
 public class MergeUtil {
-  public static final FooterKey CHANGE_ID = new FooterKey("Change-Id");
-  private static final FooterKey REVIEWED_ON = new FooterKey("Reviewed-on");
   private static final Logger log = LoggerFactory.getLogger(MergeUtil.class);
   private static final String R_HEADS_MASTER =
       Constants.R_HEADS + Constants.MASTER;
@@ -224,8 +223,8 @@ public class MergeUtil {
       msgbuf.append('\n');
     }
 
-    if (!contains(footers, CHANGE_ID, n.change().getKey().get())) {
-      msgbuf.append(CHANGE_ID.getName());
+    if (!contains(footers, FooterConstants.CHANGE_ID, n.change().getKey().get())) {
+      msgbuf.append(FooterConstants.CHANGE_ID.getName());
       msgbuf.append(": ");
       msgbuf.append(n.change().getKey().get());
       msgbuf.append('\n');
@@ -234,8 +233,8 @@ public class MergeUtil {
     final String siteUrl = urlProvider.get();
     if (siteUrl != null) {
       final String url = siteUrl + n.getPatchsetId().getParentKey().get();
-      if (!contains(footers, REVIEWED_ON, url)) {
-        msgbuf.append(REVIEWED_ON.getName());
+      if (!contains(footers, FooterConstants.REVIEWED_ON, url)) {
+        msgbuf.append(FooterConstants.REVIEWED_ON.getName());
         msgbuf.append(": ");
         msgbuf.append(url);
         msgbuf.append('\n');

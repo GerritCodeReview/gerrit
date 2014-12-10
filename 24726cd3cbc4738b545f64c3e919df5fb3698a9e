@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "843ef6e8_7fec4f1d",
+        "filename": "Documentation/user-search.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-12-10T01:22:51Z",
+      "side": 1,
+      "message": "Would it be better to make this an exact search on change-id rather than a prefix search?",
+      "range": {
+        "startLine": 193,
+        "startChar": 32,
+        "endLine": 193,
+        "endChar": 54
+      },
+      "revId": "24726cd3cbc4738b545f64c3e919df5fb3698a9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6443c281_dee5a534",
+        "filename": "Documentation/user-search.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-12-10T01:22:51Z",
+      "side": 1,
+      "message": "other changes",
+      "range": {
+        "startLine": 193,
+        "startChar": 20,
+        "endLine": 193,
+        "endChar": 31
+      },
+      "revId": "24726cd3cbc4738b545f64c3e919df5fb3698a9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "843ef6e8_5ff18bf3",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 400,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-12-10T01:22:51Z",
+      "side": 1,
+      "message": "Is this a realistic use case?",
+      "range": {
+        "startLine": 400,
+        "startChar": 24,
+        "endLine": 400,
+        "endChar": 39
+      },
+      "revId": "24726cd3cbc4738b545f64c3e919df5fb3698a9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

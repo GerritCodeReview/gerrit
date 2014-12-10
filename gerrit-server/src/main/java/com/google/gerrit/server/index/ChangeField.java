@@ -21,6 +21,7 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+import com.google.gerrit.common.changes.FooterConstants;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
@@ -37,6 +38,8 @@ import com.google.gwtorm.protobuf.CodecFactory;
 import com.google.gwtorm.protobuf.ProtobufCodec;
 import com.google.gwtorm.server.OrmException;
 import com.google.protobuf.CodedOutputStream;
+
+import org.eclipse.jgit.revwalk.FooterLine;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -140,6 +143,27 @@ public class ChangeField {
         public String get(ChangeData input, FillArgs args)
             throws OrmException {
           return MoreObjects.firstNonNull(input.change().getTopic(), "");
+        }
+      };
+
+  /** The footer Depends-on */
+  public static final FieldDef<ChangeData, String> DEPENDS_ON =
+      new FieldDef.Single<ChangeData, String>(
+          ChangeQueryBuilder.FIELD_DEPENDS_ON, FieldType.PREFIX, false) {
+
+        @Override
+        public String get(ChangeData input, FillArgs args)
+            throws OrmException {
+          try {
+            for (FooterLine f : input.commitFooters()) {
+              if (f.getKey().equals(FooterConstants.DEPENDS_ON.getName())) {
+                return f.getValue();
+              }
+            }
+          } catch (NoSuchChangeException | IOException e) {
+            throw new OrmException(e);
+          }
+          return null;
         }
       };
 

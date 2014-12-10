@@ -303,6 +303,34 @@ public class ChangeSchemas {
       ChangeField.DELTA,
       ChangeField.HASHTAG);
 
+  static final Schema<ChangeData> V15 = release(
+      ChangeField.LEGACY_ID,
+      ChangeField.ID,
+      ChangeField.STATUS,
+      ChangeField.PROJECT,
+      ChangeField.PROJECTS,
+      ChangeField.REF,
+      ChangeField.TOPIC,
+      ChangeField.DEPENDS_ON,
+      ChangeField.UPDATED,
+      ChangeField.FILE_PART,
+      ChangeField.PATH,
+      ChangeField.OWNER,
+      ChangeField.REVIEWER,
+      ChangeField.COMMIT,
+      ChangeField.TR,
+      ChangeField.LABEL,
+      ChangeField.REVIEWED,
+      ChangeField.COMMIT_MESSAGE,
+      ChangeField.COMMENT,
+      ChangeField.CHANGE,
+      ChangeField.APPROVAL,
+      ChangeField.MERGEABLE,
+      ChangeField.ADDED,
+      ChangeField.DELETED,
+      ChangeField.DELTA,
+      ChangeField.HASHTAG);
+
   private static Schema<ChangeData> release(Collection<FieldDef<ChangeData, ?>> fields) {
     return new Schema<>(true, fields);
   }

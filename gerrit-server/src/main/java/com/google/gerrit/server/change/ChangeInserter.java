@@ -33,12 +33,14 @@ import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.auth.AuthException;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
+import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.mail.CreateChangeSender;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.RefControl;
+import com.google.gerrit.server.util.RequestScopePropagator;
 import com.google.gerrit.server.validators.ValidationException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -73,6 +75,7 @@ public class ChangeInserter {
   private final CreateChangeSender.Factory createChangeSenderFactory;
   private final HashtagsUtil hashtagsUtil;
   private final AccountCache accountCache;
+  private final WorkQueue workQueue;
 
   private final RefControl refControl;
   private final Change change;
@@ -85,6 +88,7 @@ public class ChangeInserter {
   private Set<Account.Id> extraCC;
   private Map<String, Short> approvals;
   private Set<String> hashtags;
+  private RequestScopePropagator requestScopePropagator;
   private boolean runHooks;
   private boolean sendMail;
 
@@ -100,6 +104,7 @@ public class ChangeInserter {
       CreateChangeSender.Factory createChangeSenderFactory,
       HashtagsUtil hashtagsUtil,
       AccountCache accountCache,
+      WorkQueue workQueue,
       @Assisted RefControl refControl,
       @Assisted Change change,
       @Assisted RevCommit commit) {
@@ -113,6 +118,7 @@ public class ChangeInserter {
     this.createChangeSenderFactory = createChangeSenderFactory;
     this.hashtagsUtil = hashtagsUtil;
     this.accountCache = accountCache;
+    this.workQueue = workQueue;
     this.refControl = refControl;
     this.change = change;
     this.commit = commit;
@@ -173,6 +179,11 @@ public class ChangeInserter {
     return this;
   }
 
+  public ChangeInserter setRequestScopePropagator(RequestScopePropagator r) {
+    this.requestScopePropagator = r;
+    return this;
+  }
+
   public PatchSet getPatchSet() {
     return patchSet;
   }
@@ -224,21 +235,36 @@ public class ChangeInserter {
 
     CheckedFuture<?, IOException> f = indexer.indexAsync(change.getId());
 
-    if(!messageIsForChange()) {
+    if (!messageIsForChange()) {
       commitMessageNotForChange();
     }
 
-    if (sendMail) {
-      try {
-        CreateChangeSender cm =
-            createChangeSenderFactory.create(change);
-        cm.setFrom(change.getOwner());
-        cm.setPatchSet(patchSet, patchSetInfo);
-        cm.addReviewers(reviewers);
-        cm.addExtraCC(extraCC);
-        cm.send();
-      } catch (Exception err) {
-        log.error("Cannot send email for new change " + change.getId(), err);
+    if (sendMail && change.getStatus() == Change.Status.NEW) {
+      Runnable sender = new Runnable() {
+        @Override
+        public void run() {
+          try {
+            CreateChangeSender cm =
+                createChangeSenderFactory.create(change);
+            cm.setFrom(change.getOwner());
+            cm.setPatchSet(patchSet, patchSetInfo);
+            cm.addReviewers(reviewers);
+            cm.addExtraCC(extraCC);
+            cm.send();
+          } catch (Exception e) {
+            log.error("Cannot send email for new change " + change.getId(), e);
+          }
+        }
+
+        @Override
+        public String toString() {
+          return "send-email newchange";
+        }
+      };
+      if (requestScopePropagator != null) {
+        workQueue.getDefaultQueue().submit(requestScopePropagator.wrap(sender));
+      } else {
+        sender.run();
       }
     }
     f.checkedGet();

@@ -189,6 +189,7 @@ java_test(
 
 java_test(
   name = 'server_tests',
+  labels = ['server'],
   srcs = glob(
     ['src/test/java/**/*.java'],
     excludes = TESTUTIL + PROLOG_TESTS + PROLOG_TEST_CASE + QUERY_TESTS
@@ -212,6 +213,8 @@ java_test(
     '//lib/jgit:jgit',
     '//lib/jgit:junit',
     '//lib/joda:joda-time',
+    '//lib:parboiled-core',
+    '//lib:parboiled-java',
     '//lib/prolog:prolog-cafe',
   ],
   source_under_test = [':server'],

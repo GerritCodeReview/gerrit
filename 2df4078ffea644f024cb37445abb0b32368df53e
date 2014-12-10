@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "244d4aaf_1c455575",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-10T16:37:36Z",
+      "side": 1,
+      "message": "FYI: Require Java 1.8 change cannot be merged for now and was rejected [1], as major shareholders in Gerrit community arn\u0027t ready for migration yet (migration of their toolchain to java 1.8 is still pending [for a year or two]).\n\n [1] https://gerrit-review.googlesource.com/57852",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 24
+      },
+      "revId": "2df4078ffea644f024cb37445abb0b32368df53e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6443c281_3e1929a5",
         "filename": "gerrit-plugin-api/pom.xml",
         "patchSetId": 1

@@ -394,6 +394,17 @@ public abstract class AbstractQueryChangesTest {
   }
 
   @Test
+  public void byDependsOnPrefix() throws Exception {
+    TestRepository<InMemoryRepository> repo1 = createProject("repo1");
+    RevCommit commit1 = repo1.parseBody(repo1.commit().
+        message("foo\n\nDepends-On: foo").create());
+    Change change1 = newChange(repo, commit1, null, null, null).insert();
+
+    assertResultEquals(change1, queryOne("dependson:foo"));
+    assertThat(query("dependson:bar")).isEmpty();
+  }
+
+  @Test
   public void byBranchAndRef() throws Exception {
     TestRepository<InMemoryRepository> repo = createProject("repo");
     Change change1 = newChange(repo, null, null, null, "master").insert();

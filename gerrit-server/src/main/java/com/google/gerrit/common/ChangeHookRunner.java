@@ -36,11 +36,11 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.data.ApprovalAttribute;
 import com.google.gerrit.server.events.ChangeAbandonedEvent;
-import com.google.gerrit.server.events.ChangeEvent;
 import com.google.gerrit.server.events.ChangeMergedEvent;
 import com.google.gerrit.server.events.ChangeRestoredEvent;
 import com.google.gerrit.server.events.CommentAddedEvent;
 import com.google.gerrit.server.events.DraftPublishedEvent;
+import com.google.gerrit.server.events.Event;
 import com.google.gerrit.server.events.EventFactory;
 import com.google.gerrit.server.events.HashtagsChangedEvent;
 import com.google.gerrit.server.events.MergeFailedEvent;
@@ -99,11 +99,11 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener {
       }
     }
 
-    private static class ChangeListenerHolder {
-        final ChangeListener listener;
+    private static class EventListenerHolder {
+        final EventListener listener;
         final CurrentUser user;
 
-        ChangeListenerHolder(ChangeListener l, CurrentUser u) {
+        EventListenerHolder(EventListener l, CurrentUser u) {
             listener = l;
             user = u;
         }
@@ -159,11 +159,11 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener {
 
     /** Listeners to receive changes as they happen (limited by visibility
      *  of holder's user). */
-    private final Map<ChangeListener, ChangeListenerHolder> listeners =
+    private final Map<EventListener, EventListenerHolder> listeners =
         new ConcurrentHashMap<>();
 
     /** Listeners to receive all changes as they happen. */
-    private final DynamicSet<ChangeListener> unrestrictedListeners;
+    private final DynamicSet<EventListener> unrestrictedListeners;
 
     /** Filename of the new patchset hook. */
     private final File patchsetCreatedHook;
@@ -244,7 +244,7 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener {
       final ProjectCache projectCache,
       final AccountCache accountCache,
       final EventFactory eventFactory,
-      final DynamicSet<ChangeListener> unrestrictedListeners) {
+      final DynamicSet<EventListener> unrestrictedListeners) {
         this.anonymousCowardName = anonymousCowardName;
         this.repoManager = repoManager;
         this.hookQueue = queue.createQueue(1, "hook");
@@ -277,12 +277,12 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener {
     }
 
     @Override
-    public void addChangeListener(ChangeListener listener, CurrentUser user) {
-        listeners.put(listener, new ChangeListenerHolder(listener, user));
+    public void addEventListener(EventListener listener, CurrentUser user) {
+        listeners.put(listener, new EventListenerHolder(listener, user));
     }
 
     @Override
-    public void removeChangeListener(ChangeListener listener) {
+    public void removeEventListener(EventListener listener) {
         listeners.remove(listener);
     }
 
@@ -686,37 +686,38 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener {
     }
 
     @Override
-    public void postEvent(final Change change, final ChangeEvent event,
+    public void postEvent(final Change change, final Event event,
         final ReviewDb db) throws OrmException {
       fireEvent(change, event, db);
     }
 
     @Override
     public void postEvent(final Branch.NameKey branchName,
-        final ChangeEvent event) {
+        final Event event) {
       fireEvent(branchName, event);
     }
 
-    private void fireEventForUnrestrictedListeners(final ChangeEvent event) {
-      for (ChangeListener listener : unrestrictedListeners) {
-          listener.onChangeEvent(event);
+    private void fireEventForUnrestrictedListeners(final Event event) {
+      for (EventListener listener : unrestrictedListeners) {
+          listener.onEvent(event);
       }
     }
 
-    private void fireEvent(final Change change, final ChangeEvent event, final ReviewDb db) throws OrmException {
-      for (ChangeListenerHolder holder : listeners.values()) {
+    private void fireEvent(final Change change, final Event event,
+        final ReviewDb db) throws OrmException {
+      for (EventListenerHolder holder : listeners.values()) {
           if (isVisibleTo(change, holder.user, db)) {
-              holder.listener.onChangeEvent(event);
+              holder.listener.onEvent(event);
           }
       }
 
       fireEventForUnrestrictedListeners( event );
     }
 
-    private void fireEvent(Branch.NameKey branchName, final ChangeEvent event) {
-      for (ChangeListenerHolder holder : listeners.values()) {
+    private void fireEvent(Branch.NameKey branchName, final Event event) {
+      for (EventListenerHolder holder : listeners.values()) {
           if (isVisibleTo(branchName, holder.user)) {
-              holder.listener.onChangeEvent(event);
+              holder.listener.onEvent(event);
           }
       }
 

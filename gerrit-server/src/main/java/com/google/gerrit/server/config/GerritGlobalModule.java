@@ -18,7 +18,7 @@ import static com.google.inject.Scopes.SINGLETON;
 
 import com.google.common.cache.Cache;
 import com.google.gerrit.audit.AuditModule;
-import com.google.gerrit.common.ChangeListener;
+import com.google.gerrit.common.EventListener;
 import com.google.gerrit.extensions.config.CapabilityDefinition;
 import com.google.gerrit.extensions.config.DownloadCommand;
 import com.google.gerrit.extensions.config.DownloadScheme;
@@ -271,7 +271,7 @@ public class GerritGlobalModule extends FactoryModule {
     DynamicSet.bind(binder(), GitReferenceUpdatedListener.class).to(ReindexAfterUpdate.class);
     DynamicSet.bind(binder(), GitReferenceUpdatedListener.class)
         .to(ProjectConfigEntry.UpdateChecker.class);
-    DynamicSet.setOf(binder(), ChangeListener.class);
+    DynamicSet.setOf(binder(), EventListener.class);
     DynamicSet.setOf(binder(), CommitValidationListener.class);
     DynamicSet.setOf(binder(), RefOperationValidationListener.class);
     DynamicSet.setOf(binder(), MergeValidationListener.class);

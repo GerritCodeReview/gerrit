@@ -142,7 +142,7 @@ maven_jar(
     '//lib/ow2:ow2-asm-util',
   ],
   attach_source = False,
-  visibility = [],
+  visibility = ['//gerrit-server:server_tests'],
 )
 
 maven_jar(

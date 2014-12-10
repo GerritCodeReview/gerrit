@@ -28,4 +28,7 @@ public class FooterConstants {
 
   /** The footer telling us who tested the change. */
   public static final FooterKey TESTED_BY = new FooterKey("Tested-by");
+
+  /**The footer telling us the dependencies topic */
+  public static final FooterKey DEPENDS_ON = new FooterKey("Depends-On");
 }

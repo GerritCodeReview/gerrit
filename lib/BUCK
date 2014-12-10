@@ -132,8 +132,8 @@ maven_jar(
 
 maven_jar(
   name = 'parboiled-java',
-  id = 'org.parboiled:parboiled-java:1.1.6',
-  sha1 = 'cb2ffa720f75b2fce8cfd1875599319e75ea9557',
+  id = 'org.parboiled:parboiled-java:1.1.6-14-g76586a4',
+  sha1 = '62c4272f0ccc01383a3c16ce8dd1ee216eb15f80',
   license = 'Apache2.0',
   deps = [
     ':parboiled-core',
@@ -143,6 +143,7 @@ maven_jar(
   ],
   attach_source = False,
   visibility = [],
+  repository = "http://gerritforge.com/snapshot",
 )
 
 maven_jar(

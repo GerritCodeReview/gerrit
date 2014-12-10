@@ -86,6 +86,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   public static final String FIELD_COMMENT = "comment";
   public static final String FIELD_COMMIT = "commit";
   public static final String FIELD_CONFLICTS = "conflicts";
+  public static final String FIELD_DEPENDS_ON = "dependson";
   public static final String FIELD_DELETED = "deleted";
   public static final String FIELD_DELTA = "delta";
   public static final String FIELD_DRAFTBY = "draftby";
@@ -351,6 +352,12 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   public Predicate<ChangeData> conflicts(String value) throws OrmException,
       QueryParseException {
     return new ConflictsPredicate(args, value, parseChange(value));
+  }
+
+  @Operator
+  public Predicate<ChangeData> dependson(String value)  throws OrmException,
+      QueryParseException {
+    return new DependsOnPredicate(value);
   }
 
   @Operator

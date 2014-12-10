@@ -22,6 +22,30 @@
       "revId": "7f8913490f3e0885692fbf629f8101980407458f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "843ef6e8_ff169f6d",
+        "filename": "Documentation/dev-release.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 415,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-12-10T02:51:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e46c12f3_1a797db6",
+      "range": {
+        "startLine": 415,
+        "startChar": 20,
+        "endLine": 415,
+        "endChar": 24
+      },
+      "revId": "7f8913490f3e0885692fbf629f8101980407458f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

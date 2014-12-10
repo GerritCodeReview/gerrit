@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "044a0699_5bf1a3f3",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/editor/EditScreen.ui.xml",
+        "patchSetId": 28
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-10T07:28:37Z",
+      "side": 1,
+      "message": "M-x: untabify",
+      "range": {
+        "startLine": 85,
+        "startChar": 0,
+        "endLine": 101,
+        "endChar": 9
+      },
+      "revId": "8030ba3f2bf06f51b5a3d41ccccb559e2ac0ebf8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

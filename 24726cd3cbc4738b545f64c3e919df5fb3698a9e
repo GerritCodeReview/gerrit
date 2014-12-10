@@ -216,6 +216,30 @@
     },
     {
       "key": {
+        "uuid": "24146a87_24cbf2b4",
+        "filename": "Documentation/user-search.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-12-10T17:42:27Z",
+      "side": 1,
+      "message": "Yesterday in our office we had a discussion about what we should do for a name and came up with an interesting idea. We did not discuss the CI dependency issue you bring up, so I\u0027ll leave to Stefan to respond to that.\n\nThe idea was to not introduce an N+1th way of grouping changes together, and instead reuse the existing topic feature for this purpose. If a change has a topic, provide a way at submit time (e.g. a checkbox) to also submit all other changes in that topic. Leave it unchecked by default to preserve the current behavior.\n\nAdvantages include:\n\n* Actually give some functionality to topic other than \"like a hashtag but there can be only one of them\".\n* Reuse existing \"Same topic\" tab on change screen rather than adding an N+1th tab.\n* Allow submitting multiple changes in sequence on a single repo by clicking \"Submit\" only on the last one, which as you know has been a feature request for years.",
+      "parentUuid": "843ef6e8_9f095350",
+      "range": {
+        "startLine": 193,
+        "startChar": 32,
+        "endLine": 193,
+        "endChar": 54
+      },
+      "revId": "24726cd3cbc4738b545f64c3e919df5fb3698a9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "843ef6e8_5ff18bf3",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
         "patchSetId": 7

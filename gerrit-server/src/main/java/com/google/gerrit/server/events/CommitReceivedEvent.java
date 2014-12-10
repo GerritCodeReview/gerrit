@@ -14,15 +14,13 @@
 
 package com.google.gerrit.server.events;
 
-import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.IdentifiedUser;
 
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.transport.ReceiveCommand;
 
-public class CommitReceivedEvent extends ChangeEvent {
-  public final String type = "commit-received";
+public class CommitReceivedEvent extends RefEvent {
   public final ReceiveCommand command;
   public final Project project;
   public final String refName;
@@ -31,6 +29,7 @@ public class CommitReceivedEvent extends ChangeEvent {
 
   public CommitReceivedEvent(ReceiveCommand command, Project project,
       String refName, RevCommit commit, IdentifiedUser user) {
+    super("commit-received");
     this.command = command;
     this.project = project;
     this.refName = refName;
@@ -39,18 +38,8 @@ public class CommitReceivedEvent extends ChangeEvent {
   }
 
   @Override
-  public String getType() {
-    return type;
-  }
-
-  @Override
   public Project.NameKey getProjectNameKey() {
     return project.getNameKey();
-  }
-
-  @Override
-  public Change.Key getChangeKey() {
-    return null;
   }
 
   @Override

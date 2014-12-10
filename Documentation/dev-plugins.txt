@@ -413,7 +413,8 @@ Gerrit's `stream-events` ssh command will receive them.
 
 To send an event, the plugin must invoke one of the `postEvent`
 methods in the `ChangeHookRunner` class, passing an instance of
-its own custom event class derived from `ChangeEvent`.
+its own custom event class derived from
+`com.google.gerrit.server.events.Event`.
 
 [[validation]]
 == Validation Listeners

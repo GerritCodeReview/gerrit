@@ -46,6 +46,24 @@
       "revId": "84ee02fb3e37370da92839fa30101f86b0a6eede",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "044a0699_dbfc93cc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Check.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-12-10T08:15:50Z",
+      "side": 0,
+      "message": "IMO But GetChange is not @Singleton. GetReview should not be \u0027@Singleton\u0027",
+      "parentUuid": "df86f964_31e75044",
+      "revId": "84ee02fb3e37370da92839fa30101f86b0a6eede",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

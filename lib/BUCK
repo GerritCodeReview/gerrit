@@ -130,19 +130,15 @@ maven_jar(
   attach_source = False,
 )
 
-maven_jar(
+local_jar(
   name = 'parboiled-java',
-  id = 'org.parboiled:parboiled-java:1.1.6',
-  sha1 = 'cb2ffa720f75b2fce8cfd1875599319e75ea9557',
-  license = 'Apache2.0',
+  jar = '/home/davido/projects/parboiled/parboiled-java/target/parboiled-java-1.1.6.jar',
   deps = [
     ':parboiled-core',
     '//lib/ow2:ow2-asm-tree',
     '//lib/ow2:ow2-asm-analysis',
     '//lib/ow2:ow2-asm-util',
   ],
-  attach_source = False,
-  visibility = [],
 )
 
 maven_jar(

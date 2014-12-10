@@ -192,6 +192,30 @@
     },
     {
       "key": {
+        "uuid": "843ef6e8_9f095350",
+        "filename": "Documentation/user-search.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-12-10T02:48:29Z",
+      "side": 1,
+      "message": "\u003e In all repositories we want to make changes which depend on each other in a way, we put\n\u003e     Depends-On: \"My random topic affecting different repos\"\n\u003e That string can be anything, it must be unique for all the\n\u003e currently open changes. So you could in theory reuse the string after a while when all depending changes where merged or abandoned.\n\nWhat happens if I upload change-A with\n\n  Depends-On: \"My random topic affecting different repos\"\n\nand then continuous integration for change-A is triggered before any other changes with the same Depends-On footer are uploaded?\n\nAssuming the CI system is aware of Depends-On, how can it determine that all the necessary dependent changes have been uploaded?\n\nIf Depends-On is a Change-Id, CI can attempt to fetch it and abort/fail if it doesn\u0027t exist.\n\nOn the other hand if it\u0027s \"My random topic affecting different repos\" and CI uses a query like\n\n dependson:\"My random topic affecting different repos\" status:open\n\nthe result of the query may not include all the necessary changes if they have not been uploaded yet, and CI has no way to know that.",
+      "parentUuid": "44407e75_fd2d07ae",
+      "range": {
+        "startLine": 193,
+        "startChar": 32,
+        "endLine": 193,
+        "endChar": 54
+      },
+      "revId": "24726cd3cbc4738b545f64c3e919df5fb3698a9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "843ef6e8_5ff18bf3",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
         "patchSetId": 7

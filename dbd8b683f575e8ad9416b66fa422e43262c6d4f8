@@ -22,6 +22,30 @@
       "revId": "dbd8b683f575e8ad9416b66fa422e43262c6d4f8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "24146a87_041eb68c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_101.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-12-10T23:21:04Z",
+      "side": 1,
+      "message": "I agree, we shouldn\u0027t offer the option.",
+      "parentUuid": "24e9cacf_fce5e933",
+      "range": {
+        "startLine": 70,
+        "startChar": 4,
+        "endLine": 70,
+        "endChar": 58
+      },
+      "revId": "dbd8b683f575e8ad9416b66fa422e43262c6d4f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

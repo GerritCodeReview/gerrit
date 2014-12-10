@@ -1,4 +1,4 @@
-// Copyright (C) 2010 The Android Open Source Project
+// Copyright (C) 2014 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,15 +14,12 @@
 
 package com.google.gerrit.server.events;
 
-import com.google.gerrit.server.data.AccountAttribute;
-import com.google.gerrit.server.data.ApprovalAttribute;
+import com.google.gerrit.server.data.PatchSetAttribute;
 
-public class CommentAddedEvent extends PatchSetEvent {
-  public AccountAttribute author;
-  public ApprovalAttribute[] approvals;
-  public String comment;
+public class PatchSetEvent extends ChangeEvent {
+  public PatchSetAttribute patchSet;
 
-  public CommentAddedEvent() {
-    super("comment-added");
+  protected PatchSetEvent(String type) {
+    super(type);
   }
 }

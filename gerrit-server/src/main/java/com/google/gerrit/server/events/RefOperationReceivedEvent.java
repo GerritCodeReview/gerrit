@@ -13,31 +13,23 @@
 // limitations under the License.
 package com.google.gerrit.server.events;
 
-import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.IdentifiedUser;
 
 import org.eclipse.jgit.transport.ReceiveCommand;
 
-public class RefOperationReceivedEvent extends ChangeEvent {
-  public final String type = "ref-received";
+public class RefOperationReceivedEvent extends RefEvent {
   public ReceiveCommand command;
   public Project project;
   public IdentifiedUser user;
 
-  @Override
-  public String getType() {
-    return type;
+  public RefOperationReceivedEvent() {
+    super("ref-received");
   }
 
   @Override
   public Project.NameKey getProjectNameKey() {
     return project.getNameKey();
-  }
-
-  @Override
-  public Change.Key getChangeKey() {
-    return null;
   }
 
   @Override

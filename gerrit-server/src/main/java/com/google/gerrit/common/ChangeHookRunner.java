@@ -36,11 +36,11 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.data.ApprovalAttribute;
 import com.google.gerrit.server.events.ChangeAbandonedEvent;
-import com.google.gerrit.server.events.ChangeEvent;
 import com.google.gerrit.server.events.ChangeMergedEvent;
 import com.google.gerrit.server.events.ChangeRestoredEvent;
 import com.google.gerrit.server.events.CommentAddedEvent;
 import com.google.gerrit.server.events.DraftPublishedEvent;
+import com.google.gerrit.server.events.Event;
 import com.google.gerrit.server.events.EventFactory;
 import com.google.gerrit.server.events.HashtagsChangedEvent;
 import com.google.gerrit.server.events.MergeFailedEvent;
@@ -683,37 +683,37 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener {
     }
 
     @Override
-    public void postEvent(final Change change, final ChangeEvent event,
+    public void postEvent(final Change change, final Event event,
         final ReviewDb db) throws OrmException {
       fireEvent(change, event, db);
     }
 
     @Override
     public void postEvent(final Branch.NameKey branchName,
-        final ChangeEvent event) {
+        final Event event) {
       fireEvent(branchName, event);
     }
 
-    private void fireEventForUnrestrictedListeners(final ChangeEvent event) {
+    private void fireEventForUnrestrictedListeners(final Event event) {
       for (ChangeListener listener : unrestrictedListeners) {
-          listener.onChangeEvent(event);
+          listener.onEvent(event);
       }
     }
 
-    private void fireEvent(final Change change, final ChangeEvent event, final ReviewDb db) throws OrmException {
+    private void fireEvent(final Change change, final Event event, final ReviewDb db) throws OrmException {
       for (ChangeListenerHolder holder : listeners.values()) {
           if (isVisibleTo(change, holder.user, db)) {
-              holder.listener.onChangeEvent(event);
+              holder.listener.onEvent(event);
           }
       }
 
       fireEventForUnrestrictedListeners( event );
     }
 
-    private void fireEvent(Branch.NameKey branchName, final ChangeEvent event) {
+    private void fireEvent(Branch.NameKey branchName, final Event event) {
       for (ChangeListenerHolder holder : listeners.values()) {
           if (isVisibleTo(branchName, holder.user)) {
-              holder.listener.onChangeEvent(event);
+              holder.listener.onEvent(event);
           }
       }
 

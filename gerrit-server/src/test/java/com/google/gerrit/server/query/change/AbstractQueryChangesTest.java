@@ -207,6 +207,28 @@ public abstract class AbstractQueryChangesTest {
   }
 
   @Test
+  public void byTriplet() throws Exception {
+    TestRepository<InMemoryRepository> repo = createProject("repo");
+    Change change = newChange(repo, null, null, null, "branch").insert();
+    String k = change.getKey().get();
+
+    assertResultEquals(change, queryOne("repo~branch~" + k));
+    assertResultEquals(change, queryOne("change:repo~branch~" + k));
+    assertResultEquals(change, queryOne("repo~refs/heads/branch~" + k));
+    assertResultEquals(change, queryOne("change:repo~refs/heads/branch~" + k));
+    assertResultEquals(change, queryOne("repo~branch~" + k.substring(0, 10)));
+    assertResultEquals(change,
+        queryOne("change:repo~branch~" + k.substring(0, 10)));
+
+    assertThat(query("change:otherrepo~branch~" + k)).isEmpty();
+    assertThat(query("change:otherrepo~branch~" + k)).isEmpty();
+    assertThat(query("change:repo~otherbranch~" + k)).isEmpty();
+    assertThat(query(
+          "change:repo~branch~I0000000000000000000000000000000000000000"))
+        .isEmpty();
+  }
+
+  @Test
   public void byStatus() throws Exception {
     TestRepository<InMemoryRepository> repo = createProject("repo");
     ChangeInserter ins1 = newChange(repo, null, null, null, null);

@@ -1,0 +1,193 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "244d4aaf_dc13ed7b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-12-10T15:26:47Z",
+      "side": 1,
+      "message": "diff file list",
+      "range": {
+        "startLine": 7,
+        "startChar": 14,
+        "endLine": 7,
+        "endChar": 18
+      },
+      "revId": "fa293268989bdb30df304c73a8be973acdfcecf3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "244d4aaf_bc0c2160",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-12-10T15:26:47Z",
+      "side": 1,
+      "message": "Can you elaborate more on this? Under which circumstances did the issue occur?",
+      "revId": "fa293268989bdb30df304c73a8be973acdfcecf3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "244d4aaf_fc16a96d",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/PatchListCacheIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-12-10T15:26:47Z",
+      "side": 1,
+      "message": "Looks like the purpose of these tests is to show that this change fixes the issue.\n\nCould we also have a test which reproduces the issue on the \"old\" code (without your change)?",
+      "range": {
+        "startLine": 153,
+        "startChar": 0,
+        "endLine": 162,
+        "endChar": 49
+      },
+      "revId": "fa293268989bdb30df304c73a8be973acdfcecf3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "044a0699_bb338713",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/FileInfoJson.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-12-10T15:26:47Z",
+      "side": 1,
+      "message": "When base \u003d\u003d null then setPatchSetIds will not be called. So, even if patchSet !\u003d null the bPatchSetId will not be set. Is this intentional or a mistake?",
+      "revId": "fa293268989bdb30df304c73a8be973acdfcecf3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "044a0699_5b3fe3da",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListKey.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-12-10T15:26:47Z",
+      "side": 1,
+      "message": "oldSeqNum\n\nto keep the naming pattern compatible with the oldId/newId",
+      "range": {
+        "startLine": 42,
+        "startChar": 24,
+        "endLine": 42,
+        "endChar": 35
+      },
+      "revId": "fa293268989bdb30df304c73a8be973acdfcecf3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "244d4aaf_7c23b9cc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListKey.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-12-10T15:26:47Z",
+      "side": 1,
+      "message": "newSeqNum",
+      "range": {
+        "startLine": 43,
+        "startChar": 24,
+        "endLine": 43,
+        "endChar": 35
+      },
+      "revId": "fa293268989bdb30df304c73a8be973acdfcecf3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "244d4aaf_5c287da7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListKey.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-12-10T15:26:47Z",
+      "side": 1,
+      "message": "Maybe define a new constructor with these two additional parameters instead of the setter method. It would then be clearer that the a/bPatchSetId are not mutable.\n\nLooks like. for the new constructor, you could pass the PatchSet objects instead of ObjectId and an int. In that case there is no risk that the caller provides inconsistent pair of the patch set objectId and the patch set number.",
+      "range": {
+        "startLine": 55,
+        "startChar": 0,
+        "endLine": 58,
+        "endChar": 3
+      },
+      "revId": "fa293268989bdb30df304c73a8be973acdfcecf3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "044a0699_7b3a9fec",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListKey.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-12-10T15:26:47Z",
+      "side": 1,
+      "message": "Are these two lines not redundant?\n\n  eq(oldId, k.oldId) implies aPatchSetId \u003d\u003d k.aPatchSetId\n  eq(newId, k.newId) implies bPatchsetId \u003d\u003d k.bPatchSetId\n\nRight?",
+      "revId": "fa293268989bdb30df304c73a8be973acdfcecf3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "244d4aaf_9c096550",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-12-10T15:26:47Z",
+      "side": 1,
+      "message": "key.getBPatchSetId() \u003e\u003d key.getAPatchSetId()",
+      "range": {
+        "startLine": 144,
+        "startChar": 18,
+        "endLine": 144,
+        "endChar": 66
+      },
+      "revId": "fa293268989bdb30df304c73a8be973acdfcecf3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

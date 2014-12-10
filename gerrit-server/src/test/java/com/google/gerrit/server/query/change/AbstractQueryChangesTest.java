@@ -50,6 +50,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.change.ChangeInserter;
+import com.google.gerrit.server.change.ChangeTriplet;
 import com.google.gerrit.server.change.ChangesCollection;
 import com.google.gerrit.server.change.PostReview;
 import com.google.gerrit.server.change.RevisionResource;
@@ -204,6 +205,33 @@ public abstract class AbstractQueryChangesTest {
       String q = key.substring(0, 41 - i);
       assertResultEquals("result for " + q, change, queryOne(q));
     }
+  }
+
+  @Test
+  public void byTriplet() throws Exception {
+    TestRepository<InMemoryRepository> repo = createProject("repo");
+    Change change = newChange(repo, null, null, null, "branch").insert();
+    String k = change.getKey().get();
+
+    assertResultEquals(change, queryOne("repo~branch~" + k));
+    assertResultEquals(change, queryOne("change:repo~branch~" + k));
+    assertResultEquals(change, queryOne("repo~refs/heads/branch~" + k));
+    assertResultEquals(change, queryOne("change:repo~refs/heads/branch~" + k));
+    assertResultEquals(change, queryOne("repo~branch~" + k.substring(0, 10)));
+    assertResultEquals(change,
+        queryOne("change:repo~branch~" + k.substring(0, 10)));
+
+    assertThat(query("foo~bar")).isEmpty();
+    assertBadQuery("change:foo~bar");
+    assertThat(query("otherrepo~branch~" + k)).isEmpty();
+    assertThat(query("change:otherrepo~branch~" + k)).isEmpty();
+    assertThat(query("repo~otherbranch~" + k)).isEmpty();
+    assertThat(query("change:repo~otherbranch~" + k)).isEmpty();
+    assertThat(query("repo~branch~I0000000000000000000000000000000000000000"))
+        .isEmpty();
+    assertThat(query(
+          "change:repo~branch~I0000000000000000000000000000000000000000"))
+        .isEmpty();
   }
 
   @Test
@@ -990,6 +1018,7 @@ public abstract class AbstractQueryChangesTest {
 
     assertResultEquals(change1,
         queryOne(Integer.toString(change1.getId().get())));
+    assertResultEquals(change1, queryOne(ChangeTriplet.format(change1)));
     assertResultEquals(change2, queryOne("foosubject"));
     assertResultEquals(change3, queryOne("Foo.java"));
     assertResultEquals(change4, queryOne("Code-Review+1"));

@@ -264,6 +264,30 @@
     },
     {
       "key": {
+        "uuid": "e4cb3264_a2dede6f",
+        "filename": "Documentation/user-search.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2014-12-10T19:00:02Z",
+      "side": 1,
+      "message": "So to come back to the continuous integration  \n\n\u003e then continuous integration for change-A is triggered before any other changes with the same Depends-On footer are uploaded?\n\nIt will fail, because the topic is not complete yet. So if a user just forgets to upload commit-C in repo-C the CI will fail and they will be reminded to upload it.\n\n\u003e Assuming the CI system is aware of Depends-On, how can it determine that all the necessary dependent changes have been uploaded?\n\nIt cannot. So we\u0027ll probably see at least one failed build for all of these cross repository changes. Maybe we can fix that by having a footer:\n    \n    Topic: 3: \"My random topic affecting different repos\"\n\nand the 3 indicates we will have 3 repositories affected. So the CI system waits until it can see at least 3 repos having a commit with this topic.\nHowever if you find out you need to do changes in another 4th repo, you may need to change the : 3: in all the other repos.\nOr the number is just a hint to wait for so many repos and may be different across repositories/commits.",
+      "parentUuid": "e4cb3264_62d5b64d",
+      "range": {
+        "startLine": 193,
+        "startChar": 32,
+        "endLine": 193,
+        "endChar": 54
+      },
+      "revId": "24726cd3cbc4738b545f64c3e919df5fb3698a9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "843ef6e8_5ff18bf3",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
         "patchSetId": 7

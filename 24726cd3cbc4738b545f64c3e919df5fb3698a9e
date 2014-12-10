@@ -144,6 +144,30 @@
     },
     {
       "key": {
+        "uuid": "44407e75_3d6f6fed",
+        "filename": "Documentation/user-search.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2014-12-10T02:04:00Z",
+      "side": 1,
+      "message": "So you\u0027d rename it?\n\nNaming things is one of the harder problems in computer science, so how about:\n\n   CrossAtomicMerge: \"It should become a merge across repos\"\n   CrossSubmit: \"Submitting is a bit more general\"\n   X-Submit: \"well yeah\"\n   AtomicSubmit: \"could be mistaken easily?\"\n   \nI personally would prefer Cross-Submit.",
+      "parentUuid": "e4589271_9a096d50",
+      "range": {
+        "startLine": 193,
+        "startChar": 32,
+        "endLine": 193,
+        "endChar": 54
+      },
+      "revId": "24726cd3cbc4738b545f64c3e919df5fb3698a9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "843ef6e8_5ff18bf3",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
         "patchSetId": 7

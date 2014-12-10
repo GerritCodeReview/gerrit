@@ -1,0 +1,51 @@
+// Copyright (C) 2014 The Android Open Source Project
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License./**
+
+package com.google.gerrit.server.query.change;
+
+import com.google.gerrit.common.changes.FooterConstants;
+import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.server.index.ChangeField;
+import com.google.gerrit.server.index.IndexPredicate;
+import com.google.gwtorm.server.OrmException;
+import com.google.gerrit.server.project.NoSuchChangeException;
+
+import org.eclipse.jgit.revwalk.FooterLine;
+
+import java.io.IOException;
+
+public class DependsOnPredicate extends IndexPredicate<ChangeData> {
+  DependsOnPredicate(String prefix) {
+    super(ChangeField.DEPENDS_ON, prefix);
+  }
+
+  @Override
+  public boolean match(ChangeData object) throws OrmException {
+    try {
+      for (FooterLine f : object.commitFooters()) {
+        if (f.getKey().equals(FooterConstants.DEPENDS_ON.getName())) {
+          return true;
+        }
+      }
+    } catch (NoSuchChangeException | IOException e) {
+      throw new OrmException(e);
+    }
+    return false;
+  }
+
+  @Override
+  public int getCost() {
+    return 1;
+  }
+}

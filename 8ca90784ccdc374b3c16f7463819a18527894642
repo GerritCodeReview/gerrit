@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "843ef6e8_ffffbfbd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/FooterConstants.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-12-10T01:27:14Z",
+      "side": 1,
+      "message": "\"Reviewed-by\"",
+      "range": {
+        "startLine": 24,
+        "startChar": 61,
+        "endLine": 24,
+        "endChar": 72
+      },
+      "revId": "8ca90784ccdc374b3c16f7463819a18527894642",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6443c281_fee8610e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 3

@@ -132,8 +132,8 @@ maven_jar(
 
 maven_jar(
   name = 'parboiled-java',
-  id = 'org.parboiled:parboiled-java:1.1.6',
-  sha1 = 'cb2ffa720f75b2fce8cfd1875599319e75ea9557',
+  id = 'org.parboiled:parboiled-java:1.1.6-14-g76586a4',
+  sha1 = '8cbe0bd4d41c4e2dc0db1107719ca44132f87fed',
   license = 'Apache2.0',
   deps = [
     ':parboiled-core',
@@ -142,7 +142,8 @@ maven_jar(
     '//lib/ow2:ow2-asm-util',
   ],
   attach_source = False,
-  visibility = [],
+  visibility = ['//gerrit-server:server_tests'],
+  repository = GERRIT,
 )
 
 maven_jar(

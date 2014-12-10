@@ -1,0 +1,146 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e4589271_9adb2d80",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-12-10T00:20:42Z",
+      "side": 1,
+      "message": "\"All\" is inaccurate. How about \"common\".",
+      "range": {
+        "startLine": 7,
+        "startChar": 20,
+        "endLine": 7,
+        "endChar": 23
+      },
+      "revId": "c252d407bbc2ad6b3e73c3543c1b7f49eb7b5b0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "44407e75_dde5ab34",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-12-10T00:20:42Z",
+      "side": 1,
+      "message": "s/,//",
+      "revId": "c252d407bbc2ad6b3e73c3543c1b7f49eb7b5b0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e4589271_5ada357f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/FooterConstants.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-12-10T00:20:42Z",
+      "side": 1,
+      "message": "Wrong package.",
+      "revId": "c252d407bbc2ad6b3e73c3543c1b7f49eb7b5b0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e4589271_7ad5794d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/FooterConstants.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-12-10T00:20:42Z",
+      "side": 1,
+      "message": "Add javadoc comments for each of these.",
+      "revId": "c252d407bbc2ad6b3e73c3543c1b7f49eb7b5b0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "44407e75_9ddb2380",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/FooterConstants.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-12-10T00:20:42Z",
+      "side": 1,
+      "message": "Order alphabetically.",
+      "revId": "c252d407bbc2ad6b3e73c3543c1b7f49eb7b5b0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "44407e75_bddedf6f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/FooterConstants.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-12-10T00:20:42Z",
+      "side": 1,
+      "message": "Please double-check the case of all of these. It looks like it should be \"Reviewed-by\" but not sure about the others.",
+      "revId": "c252d407bbc2ad6b3e73c3543c1b7f49eb7b5b0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "44407e75_fde8670e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CherryPickChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-12-10T00:20:42Z",
+      "side": 1,
+      "message": "Long line. Either break into multiple lines or add a static import.",
+      "revId": "c252d407bbc2ad6b3e73c3543c1b7f49eb7b5b0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e4589271_badef16f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2410,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-12-10T00:20:42Z",
+      "side": 1,
+      "message": "Maybe in this class it makes the most sense to add a static import to avoid extra line breaks.",
+      "revId": "c252d407bbc2ad6b3e73c3543c1b7f49eb7b5b0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

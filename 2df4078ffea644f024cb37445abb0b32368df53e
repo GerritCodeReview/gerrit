@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "e4589271_da13e57b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-12-10T16:46:32Z",
+      "side": 1,
+      "message": "I don\u0027t think this change is requiring Java 1.8...?\n\nAlso, I don\u0027t appreciate your insinuation that Google is being lazy. First of all, Java 8 final was released in March 2014, so nobody\u0027s been delaying \"for a year or two.\"\n\nSecond of all, Google plans to migrate _all_ of its Java code running in _all_ its datacenters to Java 8 within roughly 1 year after the release date. You\u0027d be hard pressed to find a company with a similar sized codebase and number of machines with such an ambitious upgrade schedule. We are not being lazy, it is simply a hard problem.",
+      "parentUuid": "244d4aaf_1c455575",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 24
+      },
+      "revId": "2df4078ffea644f024cb37445abb0b32368df53e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6443c281_3e1929a5",
         "filename": "gerrit-plugin-api/pom.xml",
         "patchSetId": 1

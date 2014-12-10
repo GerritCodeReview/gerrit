@@ -38,9 +38,6 @@ import org.bouncycastle.openpgp.PGPPublicKey;
 import org.bouncycastle.openpgp.PGPPublicKeyRing;
 import org.bouncycastle.openpgp.PGPPublicKeyRingCollection;
 import org.bouncycastle.openpgp.PGPUtil;
-import org.bouncycastle.openpgp.bc.BcPGPPublicKeyRingCollection;
-import org.bouncycastle.openpgp.operator.bc.BcPGPDataEncryptorBuilder;
-import org.bouncycastle.openpgp.operator.bc.BcPublicKeyKeyEncryptionMethodGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -52,6 +49,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
 import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
 import java.security.SecureRandom;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
@@ -96,7 +94,7 @@ class EncryptedContactStore implements ContactStore {
     //
     try {
       encrypt("test", new Date(0), "test".getBytes("UTF-8"));
-    } catch (PGPException | IOException e) {
+    } catch (NoSuchProviderException | PGPException | IOException e) {
       throw new ProvisionException("PGP encryption not available", e);
     }
   }
@@ -109,10 +107,8 @@ class EncryptedContactStore implements ContactStore {
   private static PGPPublicKeyRingCollection readPubRing(final File pub) {
     try (InputStream fin = new FileInputStream(pub);
         InputStream in = PGPUtil.getDecoderStream(fin)) {
-        return new BcPGPPublicKeyRingCollection(in);
-    } catch (IOException e) {
-      throw new ProvisionException("Cannot read " + pub, e);
-    } catch (PGPException e) {
+        return new PGPPublicKeyRingCollection(in);
+    } catch (IOException | PGPException e) {
       throw new ProvisionException("Cannot read " + pub, e);
     }
   }
@@ -154,26 +150,23 @@ class EncryptedContactStore implements ContactStore {
       u.put("account_id", String.valueOf(account.getId().get()));
       u.put("data", encStr);
       connFactory.open(storeUrl).store(u.toString().getBytes("UTF-8"));
-    } catch (IOException | PGPException e) {
+    } catch (IOException | PGPException | NoSuchProviderException e) {
       log.error("Cannot store encrypted contact information", e);
       throw new ContactInformationStoreException(e);
     }
   }
 
-  private final PGPEncryptedDataGenerator cpk() {
-    final BcPGPDataEncryptorBuilder builder =
-        new BcPGPDataEncryptorBuilder(PGPEncryptedData.CAST5)
-            .setSecureRandom(prng);
+  @SuppressWarnings("deprecation")
+  private final PGPEncryptedDataGenerator cpk()
+      throws NoSuchProviderException, PGPException {
     PGPEncryptedDataGenerator cpk =
-        new PGPEncryptedDataGenerator(builder, true);
-    final BcPublicKeyKeyEncryptionMethodGenerator methodGenerator =
-        new BcPublicKeyKeyEncryptionMethodGenerator(dest);
-    cpk.addMethod(methodGenerator);
+        new PGPEncryptedDataGenerator(PGPEncryptedData.CAST5, true, prng, "BC");
+    cpk.addMethod(dest);
     return cpk;
   }
 
   private byte[] encrypt(final String name, final Date date,
-      final byte[] rawText) throws PGPException,
+      final byte[] rawText) throws NoSuchProviderException, PGPException,
       IOException {
     final byte[] zText = compress(name, date, rawText);
 

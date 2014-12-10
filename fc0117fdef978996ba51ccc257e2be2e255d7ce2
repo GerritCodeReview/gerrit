@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "e4589271_dafc85cc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2014-12-10T01:20:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6443c281_7ed5714d",
+      "range": {
+        "startLine": 15,
+        "startChar": 27,
+        "endLine": 15,
+        "endChar": 43
+      },
+      "revId": "fc0117fdef978996ba51ccc257e2be2e255d7ce2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6443c281_5eda357f",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4
@@ -36,6 +60,30 @@
       "writtenOn": "2014-12-10T01:13:58Z",
       "side": 1,
       "message": "It may be clearer to explicitly say \"the second repository\" here, even if it is repeating.",
+      "range": {
+        "startLine": 17,
+        "startChar": 32,
+        "endLine": 17,
+        "endChar": 48
+      },
+      "revId": "fc0117fdef978996ba51ccc257e2be2e255d7ce2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e4589271_faffc9bd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2014-12-10T01:20:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6443c281_5eda357f",
       "range": {
         "startLine": 17,
         "startChar": 32,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "44407e75_9d020330",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2014-12-10T01:20:17Z",
+      "side": 1,
+      "message": "I\u0027ll remove it.",
+      "parentUuid": "843ef6e8_ffe85f0e",
+      "range": {
+        "startLine": 19,
+        "startChar": 39,
+        "endLine": 20,
+        "endChar": 7
+      },
+      "revId": "fc0117fdef978996ba51ccc257e2be2e255d7ce2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6443c281_beded96f",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "e4589271_9a020d30",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2014-12-10T01:20:17Z",
+      "side": 1,
+      "message": "Yes, originally I wanted to just squash it in here, so I already had the commit message ready. But I decided to make it 2 commits so I removed this part in a later patch.",
+      "parentUuid": "6443c281_beded96f",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 30,
+        "endChar": 44
+      },
+      "revId": "fc0117fdef978996ba51ccc257e2be2e255d7ce2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "843ef6e8_dfe59b34",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 4
@@ -105,6 +201,30 @@
       "writtenOn": "2014-12-10T01:13:58Z",
       "side": 1,
       "message": "only",
+      "range": {
+        "startLine": 1544,
+        "startChar": 35,
+        "endLine": 1544,
+        "endChar": 39
+      },
+      "revId": "fc0117fdef978996ba51ccc257e2be2e255d7ce2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "44407e75_fdffc7bd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1544,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2014-12-10T01:20:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "843ef6e8_dfe59b34",
       "range": {
         "startLine": 1544,
         "startChar": 35,

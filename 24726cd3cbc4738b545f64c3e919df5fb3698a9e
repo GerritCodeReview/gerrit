@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "44407e75_fd2d07ae",
+        "filename": "Documentation/user-search.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2014-12-10T01:56:48Z",
+      "side": 1,
+      "message": "Glad you show up then.\nSo we have the problem as described in the commit message of different repos which should go in atomically.\n\nThere are different ways to expose this dependency modelling to the user. You could have a\n    \n    Depends-On: $CHANGE_ID\n\nbut think about how the work flow would look like for a while. You\u0027d create the commit in the first repo. How much knowledge do you expect the standard user to have about the change IDs? So they commit and look at the commit to retrieve the change ID and copy paste that into the commit of the second repo. \nBetter to be safe, they also copy the change ID of the commit from the second repo to the commit of the first repo.\n\nThat would work, but is that a viable and easy way we should impose on the user? I think we can do better.\n\nSo how about this:\nIn all repositories we want to make changes which depend on each other in a way, we put\n\n    Depends-On: \"My random topic affecting different repos\"\n\nThat string can be anything, it must be unique for all the\ncurrently open changes. So you could in theory reuse the string after a while when all depending changes where merged or abandoned.\n\nThese are my thoughts so far. Please share your thoughts on the Depends-On: field as you seem to use it already.",
+      "parentUuid": "843ef6e8_1f1ee38c",
+      "range": {
+        "startLine": 193,
+        "startChar": 32,
+        "endLine": 193,
+        "endChar": 54
+      },
+      "revId": "24726cd3cbc4738b545f64c3e919df5fb3698a9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "843ef6e8_5ff18bf3",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
         "patchSetId": 7

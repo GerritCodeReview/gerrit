@@ -168,6 +168,30 @@
     },
     {
       "key": {
+        "uuid": "843ef6e8_5f286ba7",
+        "filename": "Documentation/user-search.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-12-10T02:09:23Z",
+      "side": 1,
+      "message": "\u003e they commit and look at the commit to retrieve the change ID and copy paste that into the commit of the second repo.\n\nWe\u0027re using it pretty much like this.  I think in most cases the changes are not interdependent though, so we don\u0027t need it in both commits.\n\nFor example we could have commit-A in repo-A and commit-B in repo-B, where commit-A will build standalone, but commit-B needs commit-A to be included.  \"Depends-On: Iabcd123...\" is added in commit-B\u0027s commit message, with the Change-Id of commit-A (which the user manually gets from the git log of repo-A).\n\nThe way you describe the expected workflow is a bit different, and as Dave says the \"Depends-on\" name is misleading.\n\nThat bike shed looks like it needs a new coat of paint... :)",
+      "parentUuid": "e4589271_9a096d50",
+      "range": {
+        "startLine": 193,
+        "startChar": 32,
+        "endLine": 193,
+        "endChar": 54
+      },
+      "revId": "24726cd3cbc4738b545f64c3e919df5fb3698a9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "843ef6e8_5ff18bf3",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
         "patchSetId": 7

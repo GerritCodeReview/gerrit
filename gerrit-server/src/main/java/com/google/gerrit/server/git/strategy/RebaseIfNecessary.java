@@ -20,10 +20,10 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.change.PatchSetInserter.ValidatePolicy;
-import com.google.gerrit.server.changedetail.PathConflictException;
 import com.google.gerrit.server.changedetail.RebaseChange;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.CommitMergeStatus;
+import com.google.gerrit.server.git.MergeConflictException;
 import com.google.gerrit.server.git.MergeException;
 import com.google.gerrit.server.git.RebaseSorter;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
@@ -109,8 +109,8 @@ public class RebaseIfNecessary extends SubmitStrategy {
             newMergeTip.setStatusCode(CommitMergeStatus.CLEAN_REBASE);
             newCommits.put(newPatchSet.getId().getParentKey(), newMergeTip);
             setRefLogIdent(args.mergeUtil.getSubmitter(n));
-          } catch (PathConflictException e) {
-            n.setStatusCode(CommitMergeStatus.PATH_CONFLICT);
+          } catch (MergeConflictException e) {
+            n.setStatusCode(CommitMergeStatus.REBASE_MERGE_CONFLICT);
           } catch (NoSuchChangeException | OrmException | IOException
               | InvalidChangeOperationException e) {
             throw new MergeException("Cannot rebase " + n.name(), e);

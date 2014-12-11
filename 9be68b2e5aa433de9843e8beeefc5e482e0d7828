@@ -1,0 +1,280 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e4e5f21c_726a98d1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-11T22:25:09Z",
+      "side": 1,
+      "message": "So, you prepared the REST end points and extension point for both: SBS2 \u0026 Unified2, even though the Unified2 change is staled: [1]. I think we shouldn\u0027t expose extension points for something that we currently don\u0027t support and not going to support in near future. Nothing is more disappointing that unfullfiled expectations (when a plugin developers would create and bind unified diff links and would ask on the dev ML: \"Hej folks, why are my unified links are not get rendered on unified screen?\")\n\nI prefer to ignore Unified2 completely for now and revisit weblink integration including REST endpoints and container extensions only when Unified2 screen based on CM3 is merged.\n\n [1] https://gerrit-review.googlesource.com/49171",
+      "range": {
+        "startLine": 13,
+        "startChar": 16,
+        "endLine": 14,
+        "endChar": 66
+      },
+      "revId": "9be68b2e5aa433de9843e8beeefc5e482e0d7828",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e4e5f21c_52679405",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 3526,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-11T22:25:09Z",
+      "side": 1,
+      "message": "Remove this?",
+      "range": {
+        "startLine": 3525,
+        "startChar": 1,
+        "endLine": 3526,
+        "endChar": 64
+      },
+      "revId": "9be68b2e5aa433de9843e8beeefc5e482e0d7828",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a4ef7afe_50954c49",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/DiffWebLinkInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-11T22:25:09Z",
+      "side": 1,
+      "message": "When you drop unified for now, do you really need this filter? Either the link is there or it\u0027s not?",
+      "range": {
+        "startLine": 18,
+        "startChar": 17,
+        "endLine": 18,
+        "endChar": 41
+      },
+      "revId": "9be68b2e5aa433de9843e8beeefc5e482e0d7828",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e4e5f21c_326410ff",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/DiffWebLinkInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-11T22:25:09Z",
+      "side": 1,
+      "message": "I would just say no to dead code. Remove it?",
+      "range": {
+        "startLine": 19,
+        "startChar": 17,
+        "endLine": 19,
+        "endChar": 38
+      },
+      "revId": "9be68b2e5aa433de9843e8beeefc5e482e0d7828",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a4ef7afe_30bbe8e5",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/DiffWebLinkInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-11T22:25:09Z",
+      "side": 1,
+      "message": "I would just say no to dead method. Remove it?",
+      "range": {
+        "startLine": 26,
+        "startChar": 2,
+        "endLine": 29,
+        "endChar": 3
+      },
+      "revId": "9be68b2e5aa433de9843e8beeefc5e482e0d7828",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a4ef7afe_70985085",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/DiffWebLinkInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-11T22:25:09Z",
+      "side": 1,
+      "message": "Not needed?",
+      "range": {
+        "startLine": 31,
+        "startChar": 32,
+        "endLine": 31,
+        "endChar": 63
+      },
+      "revId": "9be68b2e5aa433de9843e8beeefc5e482e0d7828",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a4ef7afe_d0a81c94",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/DiffWebLinkInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-11T22:25:09Z",
+      "side": 1,
+      "message": "not needed?",
+      "range": {
+        "startLine": 38,
+        "startChar": 7,
+        "endLine": 38,
+        "endChar": 35
+      },
+      "revId": "9be68b2e5aa433de9843e8beeefc5e482e0d7828",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a4ef7afe_b09d9878",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/DiffWebLinkInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-11T22:25:09Z",
+      "side": 1,
+      "message": "Remove it?",
+      "range": {
+        "startLine": 41,
+        "startChar": 4,
+        "endLine": 41,
+        "endChar": 69
+      },
+      "revId": "9be68b2e5aa433de9843e8beeefc5e482e0d7828",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a4ef7afe_50ae6ca3",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/DiffWebLinkInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-11T22:25:09Z",
+      "side": 1,
+      "message": "True is not needed here and below just use:\n\n  return this.show_on_side_by_side_diff_view || false;",
+      "range": {
+        "startLine": 19,
+        "startChar": 52,
+        "endLine": 19,
+        "endChar": 56
+      },
+      "revId": "9be68b2e5aa433de9843e8beeefc5e482e0d7828",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a4ef7afe_10b8e4e4",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/DiffWebLinkInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-11T22:25:09Z",
+      "side": 1,
+      "message": "Remove this?",
+      "range": {
+        "startLine": 21,
+        "startChar": 2,
+        "endLine": 22,
+        "endChar": 66
+      },
+      "revId": "9be68b2e5aa433de9843e8beeefc5e482e0d7828",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a4ef7afe_f0a320b5",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/Header.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-11T22:25:09Z",
+      "side": 1,
+      "message": "This check is not needed and unexpected, as we never mess around with nulls, when containers involved. Just remove this if. You are creating correctly:\n\n  List\u003cDiffWebLinkInfo\u003e sideBySideDiffWebLinks \u003d new LinkedList\u003c\u003e();\n\nin the method:\n\n  private List\u003cDiffWebLinkInfo\u003e getSideBySideDiffWebLinks()\n\nso this is never null.",
+      "range": {
+        "startLine": 219,
+        "startChar": 4,
+        "endLine": 219,
+        "endChar": 27
+      },
+      "revId": "9be68b2e5aa433de9843e8beeefc5e482e0d7828",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a4ef7afe_90a294ae",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/SideBySide2.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 647,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-11T22:25:09Z",
+      "side": 1,
+      "message": "If you drop unified for now you don\u0027t need all this filtering, but can just pass SBS2 links?",
+      "range": {
+        "startLine": 635,
+        "startChar": 2,
+        "endLine": 647,
+        "endChar": 3
+      },
+      "revId": "9be68b2e5aa433de9843e8beeefc5e482e0d7828",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

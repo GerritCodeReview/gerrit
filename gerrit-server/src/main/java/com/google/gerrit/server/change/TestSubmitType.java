@@ -36,6 +36,7 @@ import org.kohsuke.args4j.Option;
 public class TestSubmitType implements RestModifyView<RevisionResource, Input> {
   private final Provider<ReviewDb> db;
   private final ChangeData.Factory changeDataFactory;
+  private final SubmitRuleEvaluator.Factory submitRuleEvaluatorFactory;
   private final RulesCache rules;
 
   @Option(name = "--filters", usage = "impact of filters in parent projects")
@@ -44,9 +45,11 @@ public class TestSubmitType implements RestModifyView<RevisionResource, Input> {
   @Inject
   TestSubmitType(Provider<ReviewDb> db,
       ChangeData.Factory changeDataFactory,
+      SubmitRuleEvaluator.Factory submitRuleEvaluatorFactory,
       RulesCache rules) {
     this.db = db;
     this.changeDataFactory = changeDataFactory;
+    this.submitRuleEvaluatorFactory = submitRuleEvaluatorFactory;
     this.rules = rules;
   }
 
@@ -60,7 +63,7 @@ public class TestSubmitType implements RestModifyView<RevisionResource, Input> {
       throw new AuthException("project rules are disabled");
     }
     input.filters = MoreObjects.firstNonNull(input.filters, filters);
-    SubmitRuleEvaluator evaluator = new SubmitRuleEvaluator(
+    SubmitRuleEvaluator evaluator = submitRuleEvaluatorFactory.create(
           changeDataFactory.create(db.get(), rsrc.getControl()));
 
     SubmitTypeRecord rec = evaluator.setPatchSet(rsrc.getPatchSet())

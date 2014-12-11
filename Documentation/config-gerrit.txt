@@ -2800,6 +2800,19 @@ only the default internal rules will be used.
 +
 Default is true, to execute project specific rules.
 
+[[rules.evaluationTimeout]]rules.evaluationTimeout::
++
+Set time constraint for Prolog rules and submit type evaluation. When
+the time elapses, evaluation is cancelled.
++
+To disable time constraints set this value to 0.
++
+Values can be specified using standard time unit abbreviations
+('ms', 'sec', 'min', etc.).
+If no unit is specified, milliseconds is assumed.
++
+Default is 0, to disable execution time constraint.
+
 [[execution]]
 === Section execution
 

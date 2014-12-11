@@ -161,7 +161,7 @@ public class ChangeData {
    */
   static ChangeData createForTest(Change.Id id, int currentPatchSetId) {
     ChangeData cd = new ChangeData(null, null, null, null, null, null, null,
-        null, null, null, null, null, null, id);
+        null, null, null, null, null, null, null, id);
     cd.currentPatchSet = new PatchSet(new PatchSet.Id(id, currentPatchSetId));
     return cd;
   }
@@ -179,6 +179,7 @@ public class ChangeData {
   private final PatchListCache patchListCache;
   private final NotesMigration notesMigration;
   private final MergeabilityCache mergeabilityCache;
+  private final SubmitRuleEvaluator.Factory submitRuleEvaluatorFactory;
   private final Change.Id legacyId;
   private ChangeDataSource returnedBySource;
   private Change change;
@@ -212,6 +213,7 @@ public class ChangeData {
       PatchListCache patchListCache,
       NotesMigration notesMigration,
       MergeabilityCache mergeabilityCache,
+      SubmitRuleEvaluator.Factory submitRuleEvaluatorFactory,
       @Assisted ReviewDb db,
       @Assisted Change.Id id) {
     this.db = db;
@@ -226,6 +228,7 @@ public class ChangeData {
     this.plcUtil = plcUtil;
     this.patchListCache = patchListCache;
     this.notesMigration = notesMigration;
+    this.submitRuleEvaluatorFactory = submitRuleEvaluatorFactory;
     this.mergeabilityCache = mergeabilityCache;
     legacyId = id;
   }
@@ -244,6 +247,7 @@ public class ChangeData {
       PatchListCache patchListCache,
       NotesMigration notesMigration,
       MergeabilityCache mergeabilityCache,
+      SubmitRuleEvaluator.Factory submitRuleEvaluatorFactory,
       @Assisted ReviewDb db,
       @Assisted Change c) {
     this.db = db;
@@ -258,6 +262,7 @@ public class ChangeData {
     this.plcUtil = plcUtil;
     this.patchListCache = patchListCache;
     this.notesMigration = notesMigration;
+    this.submitRuleEvaluatorFactory = submitRuleEvaluatorFactory;
     this.mergeabilityCache = mergeabilityCache;
     legacyId = c.getId();
     change = c;
@@ -277,6 +282,7 @@ public class ChangeData {
       PatchListCache patchListCache,
       NotesMigration notesMigration,
       MergeabilityCache mergeabilityCache,
+      SubmitRuleEvaluator.Factory submitRuleEvaluatorFactory,
       @Assisted ReviewDb db,
       @Assisted ChangeControl c) {
     this.db = db;
@@ -291,6 +297,7 @@ public class ChangeData {
     this.plcUtil = plcUtil;
     this.patchListCache = patchListCache;
     this.notesMigration = notesMigration;
+    this.submitRuleEvaluatorFactory = submitRuleEvaluatorFactory;
     this.mergeabilityCache = mergeabilityCache;
     legacyId = c.getChange().getId();
     change = c.getChange();
@@ -601,8 +608,8 @@ public class ChangeData {
         try {
           repo = repoManager.openRepository(c.getProject());
           Ref ref = repo.getRef(c.getDest().get());
-          SubmitTypeRecord rec = new SubmitRuleEvaluator(this)
-              .getSubmitType();
+          SubmitTypeRecord rec =
+              submitRuleEvaluatorFactory.create(this).getSubmitType();
           if (rec.status != SubmitTypeRecord.Status.OK) {
             throw new OrmException(
                 "Error in mergeability check: " + rec.errorMessage);

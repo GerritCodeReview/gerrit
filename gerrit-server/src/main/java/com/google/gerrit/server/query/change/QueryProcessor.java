@@ -97,6 +97,7 @@ public class QueryProcessor {
   private final ChangeQueryRewriter queryRewriter;
   private final TrackingFooters trackingFooters;
   private final CurrentUser user;
+  private final SubmitRuleEvaluator.Factory submitRuleEvaluatorFactory;
   private final int maxLimit;
 
   private OutputFormat outputFormat = OutputFormat.TEXT;
@@ -118,16 +119,19 @@ public class QueryProcessor {
   private PrintWriter out;
   private boolean moreResults;
 
+
   @Inject
   QueryProcessor(EventFactory eventFactory,
       ChangeQueryBuilder.Factory queryBuilder, CurrentUser currentUser,
       ChangeQueryRewriter queryRewriter,
-      TrackingFooters trackingFooters) {
+      TrackingFooters trackingFooters,
+      SubmitRuleEvaluator.Factory submitRuleEvaluatorFactory) {
     this.eventFactory = eventFactory;
     this.queryBuilder = queryBuilder.create(currentUser);
     this.queryRewriter = queryRewriter;
     this.trackingFooters = trackingFooters;
     this.user = currentUser;
+    this.submitRuleEvaluatorFactory = submitRuleEvaluatorFactory;
     this.maxLimit = currentUser.getCapabilities()
       .getRange(GlobalCapability.QUERY_LIMIT)
       .getMax();
@@ -321,7 +325,7 @@ public class QueryProcessor {
           }
 
           if (includeSubmitRecords) {
-            eventFactory.addSubmitRecords(c, new SubmitRuleEvaluator(d)
+            eventFactory.addSubmitRecords(c, submitRuleEvaluatorFactory.create(d)
                 .setAllowClosed(true)
                 .setAllowDraft(true)
                 .canSubmit());

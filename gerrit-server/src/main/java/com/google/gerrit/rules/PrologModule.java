@@ -16,6 +16,7 @@ package com.google.gerrit.rules;
 
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.server.config.FactoryModule;
+import com.google.gerrit.server.project.SubmitRuleEvaluator;
 
 public class PrologModule extends FactoryModule {
   @Override
@@ -29,6 +30,7 @@ public class PrologModule extends FactoryModule {
     protected void configure() {
       DynamicSet.setOf(binder(), PredicateProvider.class);
       factory(PrologEnvironment.Factory.class);
+      factory(SubmitRuleEvaluator.Factory.class);
     }
   }
 }

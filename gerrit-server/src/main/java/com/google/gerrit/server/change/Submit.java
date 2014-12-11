@@ -115,6 +115,7 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
   private final ChangesCollection changes;
   private final String label;
   private final ParameterizedString titlePattern;
+  private final SubmitRuleEvaluator.Factory submitRuleEvaluatorFactory;
 
   @Inject
   Submit(@GerritPersonIdent PersonIdent serverIdent,
@@ -130,7 +131,8 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
       ChangesCollection changes,
       ChangeIndexer indexer,
       LabelNormalizer labelNormalizer,
-      @GerritServerConfig Config cfg) {
+      @GerritServerConfig Config cfg,
+      SubmitRuleEvaluator.Factory submitRuleEvaluatorFactory) {
     this.serverIdent = serverIdent;
     this.dbProvider = dbProvider;
     this.repoManager = repoManager;
@@ -144,6 +146,7 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
     this.changes = changes;
     this.indexer = indexer;
     this.labelNormalizer = labelNormalizer;
+    this.submitRuleEvaluatorFactory = submitRuleEvaluatorFactory;
     this.label = MoreObjects.firstNonNull(
         Strings.emptyToNull(cfg.getString("change", null, "submitLabel")),
         "Submit");
@@ -382,7 +385,7 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
       boolean force) throws ResourceConflictException, OrmException {
     ChangeData cd =
         changeDataFactory.create(dbProvider.get(), rsrc.getControl());
-    List<SubmitRecord> results = new SubmitRuleEvaluator(cd)
+    List<SubmitRecord> results = submitRuleEvaluatorFactory.create(cd)
         .setPatchSet(rsrc.getPatchSet())
         .canSubmit();
     Optional<SubmitRecord> ok = findOkRecord(results);

@@ -30,7 +30,7 @@ public class BasicChangeRewrites extends QueryRewriter<ChangeData> {
           new InvalidProvider<ReviewDb>(),
           new InvalidProvider<ChangeQueryRewriter>(),
           null, null, null, null, null, null, null, null, null, null, null,
-          null, null, null, null, null, null, null, null),
+          null, null, null, null, null, null, null, null, null),
           null);
 
   private static final QueryRewriter.Definition<ChangeData, BasicChangeRewrites> mydef =

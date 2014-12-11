@@ -58,6 +58,7 @@ import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.testutil.FakeAccountCache;
 import com.google.gerrit.testutil.InMemoryRepositoryManager;
+import com.google.gwtorm.server.OrmException;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Provider;
@@ -282,6 +283,15 @@ public class Util {
         bind(ChangeKindCache.class).to(ChangeKindCacheImpl.NoCache.class);
         bind(MergeabilityCache.class)
           .to(MergeabilityCache.NotImplemented.class);
+
+        bind(SubmitRuleEvaluator.Factory.class).toInstance(
+            new SubmitRuleEvaluator.Factory() {
+              @Override
+              public SubmitRuleEvaluator create(ChangeData cd)
+                  throws OrmException {
+                return new SubmitRuleEvaluator(new Config(), cd);
+              }
+            });
       }
     });
 

@@ -25,12 +25,14 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.project.Util;
 import com.google.gerrit.testutil.InMemoryRepositoryManager;
 import com.google.inject.AbstractModule;
 
+import org.eclipse.jgit.lib.Config;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -64,6 +66,8 @@ public class GerritCommonTest extends PrologTestCase {
                 null,
                 null,
                 null));
+        bind(Config.class).annotatedWith(GerritServerConfig.class).toInstance(
+            new Config());
       }
     });
 

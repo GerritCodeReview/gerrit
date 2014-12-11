@@ -101,4 +101,10 @@ public interface Resources extends ClientBundle {
 
   @Source("goUp.png")
   public ImageResource goUp();
+
+  @Source("sideBySideDiff.png")
+  public ImageResource sideBySideDiff();
+
+  @Source("unifiedDiff.png")
+  public ImageResource unifiedDiff();
 }

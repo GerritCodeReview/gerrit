@@ -26,6 +26,7 @@ import com.google.gerrit.client.rpc.CallbackGroup;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.CommentLinkProcessor;
+import com.google.gerrit.client.ui.InlineHyperlink;
 import com.google.gerrit.client.ui.ListenableAccountDiffPreference;
 import com.google.gerrit.client.ui.Screen;
 import com.google.gerrit.common.data.PatchScript;
@@ -43,9 +44,13 @@ import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.ImageResourceRenderer;
 import com.google.gwtexpui.globalkey.client.GlobalKey;
 import com.google.gwtexpui.globalkey.client.KeyCommand;
 import com.google.gwtexpui.globalkey.client.KeyCommandSet;
+
+import java.util.Collections;
+import java.util.List;
 
 public abstract class PatchScreen extends Screen implements
     CommentEditorContainer {
@@ -271,9 +276,47 @@ public abstract class PatchScreen extends Screen implements
     }
 
     if (fileList != null) {
-      topNav.display(patchIndex, getPatchScreenType(), fileList);
-      bottomNav.display(patchIndex, getPatchScreenType(), fileList);
+      topNav.display(patchIndex, getPatchScreenType(), fileList, getLinks());
+      bottomNav.display(patchIndex, getPatchScreenType(), fileList, getLinks());
     }
+  }
+
+  private List<InlineHyperlink> getLinks() {
+    if (contentTable instanceof SideBySideTable) {
+      InlineHyperlink toUnifiedDiffLink = new InlineHyperlink();
+      toUnifiedDiffLink.setHTML(new ImageResourceRenderer().render(Gerrit.RESOURCES.unifiedDiff()));
+      toUnifiedDiffLink.setTargetHistoryToken(getUnifiedDiffUrl());
+      toUnifiedDiffLink.setTitle(PatchUtil.C.unifiedDiff());
+      return Collections.singletonList(toUnifiedDiffLink);
+    } else if (contentTable instanceof UnifiedDiffTable) {
+      InlineHyperlink toSideBySideDiffLink = new InlineHyperlink();
+      toSideBySideDiffLink.setHTML(new ImageResourceRenderer().render(Gerrit.RESOURCES.sideBySideDiff()));
+      toSideBySideDiffLink.setTargetHistoryToken(getSideBySideDiffUrl());
+      toSideBySideDiffLink.setTitle(PatchUtil.C.sideBySideDiff());
+      return Collections.singletonList(toSideBySideDiffLink);
+    } else {
+      throw new IllegalStateException("unknown table type: "
+          + contentTable.getClass().getSimpleName());
+    }
+  }
+
+  private String getSideBySideDiffUrl() {
+    StringBuilder url = new StringBuilder();
+    url.append("/c/");
+    url.append(patchKey.getParentKey().getParentKey().get());
+    url.append("/");
+    if (idSideA != null) {
+      url.append(idSideA.get());
+      url.append("..");
+    }
+    url.append(idSideB.get());
+    url.append("/");
+    url.append(patchKey.getFileName());
+    return url.toString();
+  }
+
+  private String getUnifiedDiffUrl() {
+    return getSideBySideDiffUrl() + ",unified";
   }
 
   @Override
@@ -485,8 +528,8 @@ public abstract class PatchScreen extends Screen implements
     lastScript = script;
 
     if (fileList != null) {
-      topNav.display(patchIndex, getPatchScreenType(), fileList);
-      bottomNav.display(patchIndex, getPatchScreenType(), fileList);
+      topNav.display(patchIndex, getPatchScreenType(), fileList, getLinks());
+      bottomNav.display(patchIndex, getPatchScreenType(), fileList, getLinks());
     }
 
     if (Gerrit.isSignedIn()) {

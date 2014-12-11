@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a4ef7afe_7083b02f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SideBySideDiffWebLink.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-12-11T14:30:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a4ef7afe_b078f8b3",
+      "revId": "d56219545bc63de16d37975bed94c3330793daf8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e4e5f21c_5231d409",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/UnfiedDiffWebLink.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2014-12-11T14:28:20Z",
       "side": 1,
       "message": "This file was included by mistake and should be removed.",
+      "revId": "d56219545bc63de16d37975bed94c3330793daf8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e4e5f21c_f26e88ee",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/UnfiedDiffWebLink.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-12-11T14:30:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e4e5f21c_5231d409",
       "revId": "d56219545bc63de16d37975bed94c3330793daf8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

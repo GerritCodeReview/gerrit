@@ -46,6 +46,13 @@ limitations under the License.
     vertical-align: top;
     font-weight: bold;
     margin-right: 1em;
+    float: left;
+  }
+  .linkPanel {
+    float: left;
+  }
+  .linkPanel img {
+    padding-right: 3px;
   }
   .preferences {
     cursor: pointer;
@@ -60,6 +67,7 @@ limitations under the License.
     <span class='{style.path}'><span ui:field='project'/> / <span ui:field='filePath'/></span>
     <div class='{style.navigation}'>
       <span ui:field='noDiff' class='{style.nodiff}'><ui:msg>No Differences</ui:msg></span>
+      <g:FlowPanel ui:field='linkPanel' styleName='{style.linkPanel}'/>
       <x:InlineHyperlink ui:field='prev' styleName='{res.style.go_prev}'/>
       <x:InlineHyperlink ui:field='up'
           styleName='{res.style.go_up}'

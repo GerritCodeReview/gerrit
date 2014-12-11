@@ -87,4 +87,10 @@ public interface GerritResources extends ClientBundle {
 
   @Source("merge.png")
   public ImageResource merge();
+
+  @Source("sideBySideDiff.png")
+  public ImageResource sideBySideDiff();
+
+  @Source("unifiedDiff.png")
+  public ImageResource unifiedDiff();
 }

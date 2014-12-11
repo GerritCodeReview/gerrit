@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a4ef7afe_90d9748c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1483,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-11T06:55:38Z",
+      "side": 1,
+      "message": "Not related to this change, but we usually not use -ea JVM option to enable it. Replace with Preconditions.checkNotNull(...)?",
+      "range": {
+        "startLine": 1483,
+        "startChar": 8,
+        "endLine": 1483,
+        "endChar": 39
+      },
+      "revId": "3172eb8c3fc9419842b2ca24dc1871c812042127",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

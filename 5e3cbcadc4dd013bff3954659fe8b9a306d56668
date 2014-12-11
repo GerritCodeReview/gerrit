@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "84bfd6dd_97f064f2",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeFileApi.java",
+        "patchSetId": 29
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-12-11T02:42:15Z",
+      "side": 1,
+      "message": "of a file or commit message",
+      "range": {
+        "startLine": 72,
+        "startChar": 23,
+        "endLine": 72,
+        "endChar": 32
+      },
+      "revId": "5e3cbcadc4dd013bff3954659fe8b9a306d56668",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "84bfd6dd_b7eb6805",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeFileApi.java",
+        "patchSetId": 29
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-12-11T02:42:15Z",
+      "side": 1,
+      "message": "change",
+      "range": {
+        "startLine": 72,
+        "startChar": 50,
+        "endLine": 72,
+        "endChar": 55
+      },
+      "revId": "5e3cbcadc4dd013bff3954659fe8b9a306d56668",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "44d15e3e_15e6943f",
+        "filename": "gerrit-gwtui/src/main/java/net/codemirror/lib/CodeMirror.java",
+        "patchSetId": 29
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-12-11T02:42:15Z",
+      "side": 1,
+      "message": "nit: does this need to be wrapped?",
+      "range": {
+        "startLine": 44,
+        "startChar": 34,
+        "endLine": 46,
+        "endChar": 23
+      },
+      "revId": "5e3cbcadc4dd013bff3954659fe8b9a306d56668",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

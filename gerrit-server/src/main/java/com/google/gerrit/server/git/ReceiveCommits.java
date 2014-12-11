@@ -1480,7 +1480,6 @@ public class ReceiveCommits {
         for (RevCommit c : magicBranch.baseCommit) {
           walk.markUninteresting(c);
         }
-        assert magicBranch.ctl != null;
         Ref targetRef = allRefs.get(magicBranch.ctl.getRefName());
         if (targetRef != null) {
           walk.markUninteresting(walk.parseCommit(targetRef.getObjectId()));

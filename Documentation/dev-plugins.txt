@@ -415,6 +415,10 @@ methods in the `ChangeHookRunner` class, passing an instance of
 its own custom event class derived from
 `com.google.gerrit.server.events.Event`.
 
+Plugins which define new Events should register them via the
+`com.google.gerrit.server.events.EventTypes.registerClass()`
+method. This will make the EventType known to the system.
+
 [[validation]]
 == Validation Listeners
 
@@ -1175,10 +1179,10 @@ can be accessed from any REST client, i. e.:
 
 ====
   curl -X POST -H "Content-Type: application/json" \
-    -d '{message: "François", french: true}' \
+    -d '{message: "FranÃ§ois", french: true}' \
     --digest --user joe:secret \
     http://host:port/a/changes/1/revisions/1/cookbook~say-hello
-  "Bonjour François from change 1, patch set 1!"
+  "Bonjour FranÃ§ois from change 1, patch set 1!"
 ====
 
 A special case is to bind an endpoint without a view name.  This is

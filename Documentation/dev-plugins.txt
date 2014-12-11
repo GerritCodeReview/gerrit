@@ -415,6 +415,11 @@ methods in the `ChangeHookRunner` class, passing an instance of
 its own custom event class derived from
 `com.google.gerrit.server.events.Event`.
 
+Plugins which define new Events should register them via the
+* `com.google.gerrit.server.events.EventTypes.registerClass()`
+method.  This will make the EventType known to the system.
+
+
 [[validation]]
 == Validation Listeners
 

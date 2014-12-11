@@ -45,6 +45,29 @@
       "revId": "3c99330adc68a5d693550023bdffe893ab30dcbc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "24ce2aa4_d4cffcbc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1611,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2014-12-11T01:13:01Z",
+      "side": 1,
+      "message": "do we want a return after this reject as we return after all the other rejects?",
+      "range": {
+        "startLine": 1611,
+        "startChar": 47,
+        "endLine": 1611,
+        "endChar": 48
+      },
+      "revId": "3c99330adc68a5d693550023bdffe893ab30dcbc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

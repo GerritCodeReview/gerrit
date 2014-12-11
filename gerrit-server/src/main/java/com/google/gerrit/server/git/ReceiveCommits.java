@@ -1315,6 +1315,7 @@ public class ReceiveCommits {
     if (magicBranch.isSubmit() && !projectControl.controlForRef(
         MagicBranch.NEW_CHANGE + ref).canSubmit()) {
       reject(cmd, "submit not allowed");
+      return;
     }
 
     RevWalk walk = rp.getRevWalk();

@@ -87,6 +87,7 @@ LINK_SCRIPT = """
     decorate(document.getElementsByTagName('h1'));
     decorate(document.getElementsByTagName('h2'));
     decorate(document.getElementsByTagName('h3'));
+    decorate(document.getElementsByTagName('h4'));
 
     var divs = document.getElementsByTagName('div');
     var arr = new Array();

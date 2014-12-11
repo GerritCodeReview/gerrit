@@ -68,16 +68,16 @@ public class ProjectWatch {
 
     for (AccountProjectWatch w : args.db.get().accountProjectWatches()
         .byProject(project)) {
-      if (w.isNotify(type)) {
+      if(add(matching, w, type)) {
+        // We only want to prevent matching All-Projects if this filter hits
         projectWatchers.add(w.getAccountId());
-        add(matching, w);
       }
     }
 
     for (AccountProjectWatch w : args.db.get().accountProjectWatches()
         .byProject(args.allProjectsName)) {
-      if (!projectWatchers.contains(w.getAccountId()) && w.isNotify(type)) {
-        add(matching, w);
+      if (!projectWatchers.contains(w.getAccountId())) {
+        add(matching, w, type);
       }
     }
 
@@ -174,18 +174,24 @@ public class ProjectWatch {
     }
   }
 
-  private void add(Watchers matching, AccountProjectWatch w)
+  private boolean add(Watchers matching, AccountProjectWatch w, NotifyType type)
       throws OrmException {
     IdentifiedUser user =
         args.identifiedUserFactory.create(args.db, w.getAccountId());
 
     try {
       if (filterMatch(user, w.getFilter())) {
-        matching.bcc.accounts.add(w.getAccountId());
+        // If we are set to notify on this type, add the user.
+        // Otherwise, still return true to stop notifications for this user.
+        if(w.isNotify(type)) {
+          matching.bcc.accounts.add(w.getAccountId());
+        }
+        return true;
       }
     } catch (QueryParseException e) {
       // Ignore broken filter expressions.
     }
+    return false;
   }
 
   private boolean filterMatch(CurrentUser user, String filter)

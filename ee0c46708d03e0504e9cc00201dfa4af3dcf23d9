@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "84bfd6dd_17e6943f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/FooterConstants.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-12-11T01:20:02Z",
+      "side": 1,
+      "message": "nit: missing space",
+      "range": {
+        "startLine": 32,
+        "startChar": 3,
+        "endLine": 32,
+        "endChar": 8
+      },
+      "revId": "ee0c46708d03e0504e9cc00201dfa4af3dcf23d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "84bfd6dd_f7f1e0f8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/FooterConstants.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-12-11T01:20:02Z",
+      "side": 1,
+      "message": "Should be \"Depends-on\" for consistency with the others.",
+      "range": {
+        "startLine": 33,
+        "startChar": 60,
+        "endLine": 33,
+        "endChar": 70
+      },
+      "revId": "ee0c46708d03e0504e9cc00201dfa4af3dcf23d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "84bfd6dd_d7f6dcee",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 1541,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-12-11T01:20:02Z",
+      "side": 1,
+      "message": "[optional] we don\u0027t really need the List here.  It could be inlined:\n\n if (c.getFooterLines(FooterConstants.DEPENDS_ON).size() \u003e 1) {\n   ...",
+      "range": {
+        "startLine": 1539,
+        "startChar": 8,
+        "endLine": 1541,
+        "endChar": 38
+      },
+      "revId": "ee0c46708d03e0504e9cc00201dfa4af3dcf23d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "44d15e3e_55dc0c77",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 1542,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-12-11T01:20:02Z",
+      "side": 1,
+      "message": "Is this needed?",
+      "range": {
+        "startLine": 1542,
+        "startChar": 10,
+        "endLine": 1542,
+        "endChar": 76
+      },
+      "revId": "ee0c46708d03e0504e9cc00201dfa4af3dcf23d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

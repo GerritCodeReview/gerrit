@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "84bfd6dd_57dc0c77",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/CreateChangeSender.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-12-11T01:04:42Z",
+      "side": 1,
+      "message": "What about watchers who have the \u0027view draft\u0027 capability?",
+      "range": {
+        "startLine": 48,
+        "startChar": 4,
+        "endLine": 51,
+        "endChar": 64
+      },
+      "revId": "8690a108f6f63b58496d49c09e1e6ea954c7c7b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

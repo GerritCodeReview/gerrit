@@ -1171,24 +1171,8 @@ public class ReceiveCommits {
       this.notesMigration = notesMigration;
     }
 
-    boolean isDraft() {
-      return draft;
-    }
-
-    boolean isSubmit() {
-      return submit;
-    }
-
     MailRecipients getMailRecipients() {
       return new MailRecipients(reviewer, cc);
-    }
-
-    Set<String> getHashtags() {
-      return hashtags;
-    }
-
-    Map<String, Short> getLabels() {
-      return labels;
     }
 
     String parse(CmdLineParser clp, Repository repo, Set<String> refs)
@@ -1233,10 +1217,6 @@ public class ReceiveCommits {
       }
       return ref.substring(0, split);
     }
-
-    void setCmdLineParser(CmdLineParser clp) {
-      this.clp = clp;
-    }
   }
 
   private void parseMagicBranch(final ReceiveCommand cmd) {
@@ -1252,7 +1232,7 @@ public class ReceiveCommits {
 
     String ref;
     CmdLineParser clp = optionParserFactory.create(magicBranch);
-    magicBranch.setCmdLineParser(clp);
+    magicBranch.clp = clp;
     try {
       ref = magicBranch.parse(clp, repo, rp.getAdvertisedRefs().keySet());
     } catch (CmdLineException e) {
@@ -1287,7 +1267,7 @@ public class ReceiveCommits {
       return;
     }
 
-    if (magicBranch.isDraft()
+    if (magicBranch.draft
         && (!receiveConfig.allowDrafts
             || projectControl.controlForRef("refs/drafts/" + ref)
             .isBlocked(Permission.PUSH))) {
@@ -1302,12 +1282,12 @@ public class ReceiveCommits {
       return;
     }
 
-    if (magicBranch.isDraft() && magicBranch.isSubmit()) {
+    if (magicBranch.draft && magicBranch.submit) {
       reject(cmd, "cannot submit draft");
       return;
     }
 
-    if (magicBranch.isSubmit() && !projectControl.controlForRef(
+    if (magicBranch.submit && !projectControl.controlForRef(
         MagicBranch.NEW_CHANGE + ref).canSubmit()) {
       reject(cmd, "submit not allowed");
       return;
@@ -1650,7 +1630,7 @@ public class ReceiveCommits {
           TimeUtil.nowTs());
       change.setTopic(magicBranch.topic);
       ins = changeInserterFactory.create(ctl, change, c)
-          .setDraft(magicBranch.isDraft());
+          .setDraft(magicBranch.draft);
       cmd = new ReceiveCommand(ObjectId.zeroId(), c,
           ins.getPatchSet().getRefName());
     }
@@ -1690,8 +1670,8 @@ public class ReceiveCommits {
       Map<String, Short> approvals = new HashMap<>();
       if (magicBranch != null) {
         recipients.add(magicBranch.getMailRecipients());
-        approvals = magicBranch.getLabels();
-        ins.setHashtags(magicBranch.getHashtags());
+        approvals = magicBranch.labels;
+        ins.setHashtags(magicBranch.hashtags);
       }
       recipients.add(getRecipientsFromFooters(accountResolver, ps, footerLines));
       recipients.remove(me);
@@ -1711,7 +1691,7 @@ public class ReceiveCommits {
         .insert();
       created = true;
 
-      if (magicBranch != null && magicBranch.isSubmit()) {
+      if (magicBranch != null && magicBranch.submit) {
         submit(projectControl.controlFor(change), ps);
       }
     }
@@ -1958,7 +1938,7 @@ public class ReceiveCommits {
       newPatchSet.setCreatedOn(TimeUtil.nowTs());
       newPatchSet.setUploader(currentUser.getAccountId());
       newPatchSet.setRevision(toRevId(newCommit));
-      if (magicBranch != null && magicBranch.isDraft()) {
+      if (magicBranch != null && magicBranch.draft) {
         newPatchSet.setDraft(true);
       }
       info = patchSetInfoFactory.get(newCommit, newPatchSet.getId());
@@ -2034,8 +2014,8 @@ public class ReceiveCommits {
 
       if (magicBranch != null) {
         recipients.add(magicBranch.getMailRecipients());
-        approvals = magicBranch.getLabels();
-        Set<String> hashtags = magicBranch.getHashtags();
+        approvals = magicBranch.labels;
+        Set<String> hashtags = magicBranch.hashtags;
         if (!hashtags.isEmpty()) {
           ChangeNotes notes = changeCtl.getNotes().load();
           hashtags.addAll(notes.getHashtags());
@@ -2169,7 +2149,7 @@ public class ReceiveCommits {
             change, currentUser.getAccount(), newPatchSet, db);
       }
 
-      if (magicBranch != null && magicBranch.isSubmit()) {
+      if (magicBranch != null && magicBranch.submit) {
         submit(changeCtl, newPatchSet);
       }
 

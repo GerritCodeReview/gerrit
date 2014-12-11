@@ -212,13 +212,20 @@ class Header extends Composite {
     project.setInnerText(info.project());
   }
 
-  void init(PreferencesAction pa, List<DiffWebLinkInfo> webLinks) {
+  void init(PreferencesAction pa, List<InlineHyperlink> links,
+      List<DiffWebLinkInfo> webLinks) {
     prefsAction = pa;
     prefsAction.setPartner(preferences);
 
     if (webLinks != null) {
       for (DiffWebLinkInfo webLink : webLinks) {
         webLinksPanel.add(webLink.toAnchor());
+      }
+    }
+
+    if (links != null) {
+      for (InlineHyperlink link : links) {
+        webLinksPanel.add(link);
       }
     }
   }

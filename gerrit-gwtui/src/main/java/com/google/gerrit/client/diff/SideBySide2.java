@@ -37,6 +37,7 @@ import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.client.rpc.RestApi;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
+import com.google.gerrit.client.ui.InlineHyperlink;
 import com.google.gerrit.client.ui.Screen;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.extensions.common.ListChangesOption;
@@ -63,6 +64,7 @@ import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.ImageResourceRenderer;
 import com.google.gwtexpui.globalkey.client.GlobalKey;
 import com.google.gwtexpui.globalkey.client.KeyCommand;
 import com.google.gwtexpui.globalkey.client.KeyCommandSet;
@@ -79,6 +81,7 @@ import net.codemirror.lib.LineCharacter;
 import net.codemirror.lib.ModeInjector;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.EnumSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -617,7 +620,8 @@ public class SideBySide2 extends Screen {
             chunkManager.getLineMapper());
 
     prefsAction = new PreferencesAction(this, prefs);
-    header.init(prefsAction, getSideBySideDiffWebLinks(diff.web_links()));
+    header.init(prefsAction, getLinks(),
+        getSideBySideDiffWebLinks(diff.web_links()));
 
     if (prefs.syntaxHighlighting() && fileSize.compareTo(FileSize.SMALL) > 0) {
       Scheduler.get().scheduleFixedDelay(new RepeatingCommand() {
@@ -630,6 +634,34 @@ public class SideBySide2 extends Screen {
         }
       }, 250);
     }
+  }
+
+  private List<InlineHyperlink> getLinks() {
+    if (revision.get() > 0) {
+      InlineHyperlink toUnifiedDiffLink = new InlineHyperlink();
+      toUnifiedDiffLink.setHTML(new ImageResourceRenderer().render(Gerrit.RESOURCES.unifiedDiff()));
+      toUnifiedDiffLink.setTargetHistoryToken(getUnifiedDiffUrl());
+      toUnifiedDiffLink.setTitle(PatchUtil.C.unifiedDiff());
+      return Collections.singletonList(toUnifiedDiffLink);
+    } else {
+      return Collections.emptyList();
+    }
+  }
+
+  private String getUnifiedDiffUrl() {
+    StringBuilder url = new StringBuilder();
+    url.append("/c/");
+    url.append(changeId.get());
+    url.append("/");
+    if (base != null) {
+      url.append(base.get());
+      url.append("..");
+    }
+    url.append(revision.get());
+    url.append("/");
+    url.append(path);
+    url.append(",unified");
+    return url.toString();
   }
 
   private List<DiffWebLinkInfo> getSideBySideDiffWebLinks(

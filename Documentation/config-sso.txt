@@ -52,11 +52,56 @@ To trust only Google Accounts:
 
 User identities obtained from OpenID providers are stored into the
 `account_external_ids` table.  Users may link more than one OpenID
-identity to the same Gerrit account (use Settings, Web Identities
+identity to the same Gerrit account (use Settings, Identities
 to manage this linking), making it easier for their browser to sign
 in to Gerrit if they are frequently switching between different
 unique OpenID accounts.
 
+*WARNING:* It is important to link from already existing Gerrit account
+additional identities within the same or alternative OpenID providers.
+The steps are:
+
+* Login
+* Select menu Settings -> Identities
+* Click "Link Another Identity" button
+* Select OpenID provider to link to another identity
+* authenticate with another identity
+
+Only after the linking was sucessful, login with alternative identity can be
+performed.
+
+"Note:* When the user registers itself with halternative identity instead of
+linking from existing account, completely different user account is created,
+that cannot be linked any more to already existing account in full automatic
+way. In this case the user is screwed and site administrator must be contacted
+to fix it. And yes, the error message is very clear: "contact site admin".
+
+Tutorial:
+
+Existing Gerrit account: 42, identity: john.doe@gmail.com,
+OpenID provider: Google.
+
+Another identity: john.doe@example.net,
+OpenID provider: launchpad.net
+
+should be linked to the same account: 42. The steps are:
+
+* Login as john.doe@gmail.com (OpenID Google)
+* Select menu Settings -> Identities
+* Click "Link Another Identity" button
+* Enter Launchpad OpenID URL: https://login.launchpad.net/+openid
+* authenticate with user: john.doe@example.net, pwd: secret
+* you are redirected to the setting page again, and now both identities
+are linked to the existing Gerrit account: 42.
+
+The content of the Identites table now is:
+
+john.doe@gmail.com    Google Account
+john.doe@example.net  https://login.launchpad.net/+id/qopBpoq
+
+Now the user can connect to Gerrit with alternative identity:
+john.doe@example.net, OpenID provider Launchpad, and the same account 42 is
+used.
 
 == HTTP Basic/Digest Authentication
 

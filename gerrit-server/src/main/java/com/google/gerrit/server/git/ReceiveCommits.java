@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.git;
 
+import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_CHANGES;
 import static com.google.gerrit.server.change.HashtagsUtil.cleanupHashtag;
 import static com.google.gerrit.server.git.MultiProgressMonitor.UNKNOWN;
@@ -1477,10 +1478,10 @@ public class ReceiveCommits {
       Set<ObjectId> existing = Sets.newHashSet();
       walk.markStart(walk.parseCommit(magicBranch.cmd.getNewId()));
       if (magicBranch.baseCommit != null) {
+        checkState(magicBranch.ctl != null);
         for (RevCommit c : magicBranch.baseCommit) {
           walk.markUninteresting(c);
         }
-        assert magicBranch.ctl != null;
         Ref targetRef = allRefs.get(magicBranch.ctl.getRefName());
         if (targetRef != null) {
           walk.markUninteresting(walk.parseCommit(targetRef.getObjectId()));

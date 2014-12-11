@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "84bfd6dd_17fd74c5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-12-11T03:41:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "64d4a22e_d6cf04bd",
+      "range": {
+        "startLine": 12,
+        "startChar": 33,
+        "endLine": 12,
+        "endChar": 40
+      },
+      "revId": "3c99330adc68a5d693550023bdffe893ab30dcbc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "24ce2aa4_f4caf8ae",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "84bfd6dd_f718c0a2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-12-11T03:41:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "24ce2aa4_f4caf8ae",
+      "range": {
+        "startLine": 12,
+        "startChar": 57,
+        "endLine": 13,
+        "endChar": 15
+      },
+      "revId": "3c99330adc68a5d693550023bdffe893ab30dcbc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "24ce2aa4_d4cffcbc",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 1
@@ -59,6 +107,30 @@
       "writtenOn": "2014-12-11T01:13:01Z",
       "side": 1,
       "message": "do we want a return after this reject as we return after all the other rejects?",
+      "range": {
+        "startLine": 1611,
+        "startChar": 47,
+        "endLine": 1611,
+        "endChar": 48
+      },
+      "revId": "3c99330adc68a5d693550023bdffe893ab30dcbc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "44d15e3e_d5f6dcee",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1611,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-12-11T03:41:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "24ce2aa4_d4cffcbc",
       "range": {
         "startLine": 1611,
         "startChar": 47,

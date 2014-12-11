@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e4e5f21c_322e50aa",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/SitePathInitializer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-12-11T14:29:27Z",
+      "side": 1,
+      "message": "This is pretty ugly to have those two icons in the static folder. Will come up with another implementation.",
+      "range": {
+        "startLine": 107,
+        "startChar": 4,
+        "endLine": 108,
+        "endChar": 45
+      },
+      "revId": "53dd7880b50c304ff56a33d402cf9d1020fb92c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

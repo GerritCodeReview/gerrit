@@ -554,7 +554,7 @@ public class ReceiveCommits {
 
     parseCommands(commands);
     if (magicBranch != null && magicBranch.cmd.getResult() == NOT_ATTEMPTED) {
-      newChanges = selectNewChanges();
+      selectNewAndReplacedChangesFromMagicBranch();
     }
     preparePatchSetsForReplace();
 
@@ -1467,8 +1467,8 @@ public class ReceiveCommits {
     return true;
   }
 
-  private List<CreateRequest> selectNewChanges() {
-    final List<CreateRequest> newChanges = Lists.newArrayList();
+  private void selectNewAndReplacedChangesFromMagicBranch() {
+    newChanges = Lists.newArrayList();
     final RevWalk walk = rp.getRevWalk();
     walk.reset();
     walk.sort(RevSort.TOPO);
@@ -1509,8 +1509,8 @@ public class ReceiveCommits {
 
         if (!validCommit(magicBranch.ctl, magicBranch.cmd, c)) {
           // Not a change the user can propose? Abort as early as possible.
-          //
-          return Collections.emptyList();
+          newChanges = Collections.emptyList();
+          return;
         }
 
         // Don't allow merges to be uploaded in commit chain via all-not-in-target
@@ -1531,7 +1531,8 @@ public class ReceiveCommits {
         if (idStr.matches("^I00*$")) {
           // Reject this invalid line from EGit.
           reject(magicBranch.cmd, "invalid Change-Id");
-          return Collections.emptyList();
+          newChanges = Collections.emptyList();
+          return;
         }
 
         changeKey = new Change.Key(idStr);
@@ -1541,14 +1542,16 @@ public class ReceiveCommits {
           reject(magicBranch.cmd,
               "the number of pushed changes in a batch exceeds the max limit "
                   + maxBatchChanges);
-          return Collections.emptyList();
+          newChanges = Collections.emptyList();
+          return;
         }
       }
 
       for (ChangeLookup p : pending) {
         if (newChangeIds.contains(p.changeKey)) {
           reject(magicBranch.cmd, "squash commits first");
-          return Collections.emptyList();
+          newChanges = Collections.emptyList();
+          return;
         }
 
         List<Change> changes = p.destChanges.toList();
@@ -1559,7 +1562,8 @@ public class ReceiveCommits {
           // this error message as Change-Id should be unique.
           //
           reject(magicBranch.cmd, p.changeKey.get() + " has duplicates");
-          return Collections.emptyList();
+          newChanges = Collections.emptyList();
+          return;
         }
 
         if (changes.size() == 1) {
@@ -1568,14 +1572,16 @@ public class ReceiveCommits {
           if (requestReplace(magicBranch.cmd, false, changes.get(0), p.commit)) {
             continue;
           } else {
-            return Collections.emptyList();
+            newChanges = Collections.emptyList();
+            return;
           }
         }
 
         if (changes.size() == 0) {
           if (!isValidChangeId(p.changeKey.get())) {
             reject(magicBranch.cmd, "invalid Change-Id");
-            return Collections.emptyList();
+            newChanges = Collections.emptyList();
+            return;
           }
 
           newChangeIds.add(p.changeKey);
@@ -1588,21 +1594,22 @@ public class ReceiveCommits {
       //
       magicBranch.cmd.setResult(REJECTED_MISSING_OBJECT);
       log.error("Invalid pack upload; one or more objects weren't sent", e);
-      return Collections.emptyList();
+      newChanges = Collections.emptyList();
+      return;
     } catch (OrmException e) {
       log.error("Cannot query database to locate prior changes", e);
       reject(magicBranch.cmd, "database error");
-      return Collections.emptyList();
+      newChanges = Collections.emptyList();
+      return;
     }
 
     if (newChanges.isEmpty() && replaceByChange.isEmpty()) {
       reject(magicBranch.cmd, "no new changes");
-      return Collections.emptyList();
+      return;
     }
     for (CreateRequest create : newChanges) {
       batch.addCommand(create.cmd);
     }
-    return newChanges;
   }
 
   private void markHeadsAsUninteresting(

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "84bfd6dd_f70200fe",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-12-12T03:01:53Z",
+      "side": 1,
+      "message": "Getting a 500 internal server error from this line when saving a change edit from the UI\n\n ERROR com.google.gerrit.httpd.restapi.RestApiServlet : Error in PUT /changes/113/edit/FF\n java.lang.NumberFormatException: For input string: \"1000000-113\"\n \tat java.lang.NumberFormatException.forInputString(NumberFormatException.java:65)\n \tat java.lang.Integer.parseInt(Integer.java:492)\n \tat java.lang.Integer.valueOf(Integer.java:582)\n \tat com.google.gerrit.server.edit.ChangeEditUtil.getBasePatchSet(ChangeEditUtil.java:182)\n \tat com.google.gerrit.server.edit.ChangeEditUtil.byChange(ChangeEditUtil.java:106)\n \tat com.google.gerrit.server.change.ChangeEdits$Create.createEdit(ChangeEdits.java:191)\n \tat com.google.gerrit.server.change.ChangeEdits$Create.apply(ChangeEdits.java:179)\n \tat com.google.gerrit.server.change.ChangeEdits$Create.apply(ChangeEdits.java:1)",
+      "range": {
+        "startLine": 181,
+        "startChar": 0,
+        "endLine": 182,
+        "endChar": 50
+      },
+      "revId": "c6c1950f75976cd45291023b110d87e6ed5627b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

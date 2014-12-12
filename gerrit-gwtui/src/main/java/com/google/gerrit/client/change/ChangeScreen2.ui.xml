@@ -474,8 +474,15 @@ limitations under the License.
       </tr>
     </table>
 
-    <div class='{style.sectionHeader}'>
+    <div class='{style.sectionHeader} {style.headerButtons}'>
       <ui:msg>Files</ui:msg>
+      <g:Button ui:field='addFile'
+         title='Add file to this change'
+         styleName=''
+         visible='true'>
+        <ui:attribute name='title'/>
+        <div><ui:msg>Add&#8230;</ui:msg></div>
+      </g:Button>
       <div class='{style.headerButtons}'>
         <g:Button ui:field='openAll'
             styleName=''
@@ -498,14 +505,7 @@ limitations under the License.
             visible='false'
             title='Done with edit mode'>
           <ui:attribute name='title'/>
-          <div><ui:msg>Done</ui:msg></div>
-        </g:Button>
-        <g:Button ui:field='addFile'
-             title='Add file to this change'
-             styleName=''
-             visible='false'>
-          <ui:attribute name='title'/>
-          <div><ui:msg>Add&#8230;</ui:msg></div>
+          <div><ui:msg>Done Edit</ui:msg></div>
         </g:Button>
       </div>
     </div>

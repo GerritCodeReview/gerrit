@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "44d15e3e_55ae4ca3",
+        "filename": "Documentation/config-sso.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-12-12T06:10:51Z",
+      "side": 1,
+      "message": "Actually, do we need this?  Users having an existing account with Google OpenID are not effected, are they?\n\nIf we do need to add this, perhaps better to add it in the other related change that\u0027s open from Shawn.  Or in a follow up.",
+      "parentUuid": "84bfd6dd_173574c4",
+      "revId": "39a553d7396a81c1be2328385385cbaba4a2cc2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "44d15e3e_b5c6c076",
         "filename": "Documentation/config-sso.txt",
         "patchSetId": 3

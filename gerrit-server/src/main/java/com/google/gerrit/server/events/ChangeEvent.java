@@ -40,4 +40,8 @@ public abstract class ChangeEvent extends RefEvent {
   public Change.Key getChangeKey() {
     return new Change.Key(change.id);
   }
+
+  public Change.Id getChangeId() {
+    return Change.Id.parse(change.number);
+  }
 }

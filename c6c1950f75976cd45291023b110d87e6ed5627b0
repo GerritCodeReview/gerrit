@@ -22,6 +22,30 @@
       "revId": "c6c1950f75976cd45291023b110d87e6ed5627b0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "84bfd6dd_7717103d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-12-12T03:51:19Z",
+      "side": 1,
+      "message": "I know. To use this naming scheme I actually need two refs, e.g.:\n\n  refs/draft-edits/51/10051-1234\n  refs/draft-edits/51/10051-1234.base\n\nI don\u0027t like the idea of having the base patch set encoded in the ref, as it means the user can have two edits open against different patch sets at the same time. That is an error and shouldn\u0027t be allowed.\n\nUsing fixed names per change prevents that, but we lose information and need the second ref to store the SHA-1 of the \"base\" of this edit. That base is necessary to perform a rebase of your edit onto a future patch set supplied by someone else.",
+      "parentUuid": "84bfd6dd_f70200fe",
+      "range": {
+        "startLine": 181,
+        "startChar": 0,
+        "endLine": 182,
+        "endChar": 50
+      },
+      "revId": "c6c1950f75976cd45291023b110d87e6ed5627b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

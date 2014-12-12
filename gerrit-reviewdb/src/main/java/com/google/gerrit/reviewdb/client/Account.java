@@ -14,6 +14,7 @@
 
 package com.google.gerrit.reviewdb.client;
 
+import static com.google.gerrit.reviewdb.client.RefNames.REFS_DRAFT_EDITS;
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_USER;
 
 import com.google.gwtorm.client.Column;
@@ -113,6 +114,14 @@ public final class Account {
       }
       if (name.startsWith(REFS_USER)) {
         return fromRefPart(name.substring(REFS_USER.length()));
+      }
+      if (name.startsWith(REFS_DRAFT_EDITS)) {
+        String s = name.substring(REFS_DRAFT_EDITS.length());
+        int d = s.indexOf('-');
+        if (d > 0) {
+          s = s.substring(0, d);
+        }
+        return fromRefPart(s);
       }
       return null;
     }

@@ -17,16 +17,14 @@ package com.google.gerrit.server.edit;
 import static com.google.common.base.Preconditions.checkArgument;
 
 import com.google.common.base.Optional;
-import com.google.common.collect.Iterables;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
-import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.Change.Status;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.client.RevId;
-import com.google.gerrit.reviewdb.client.Change.Status;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CurrentUser;
@@ -51,7 +49,6 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 
 import java.io.IOException;
-import java.util.Map;
 
 /**
  * Utility functions to manipulate change edits.
@@ -97,16 +94,12 @@ public class ChangeEditUtil {
     Repository repo = gitManager.openRepository(change.getProject());
     try {
       IdentifiedUser me = (IdentifiedUser) user.get();
-      String editRefPrefix = editRefPrefix(me.getAccountId(), change.getId());
-      Map<String, Ref> refs = repo.getRefDatabase().getRefs(editRefPrefix);
-      if (refs.isEmpty()) {
+      String editRef = RefNames.refsDraftEdits(me.getAccountId(), change.getId());
+      Ref ref = repo.getRefDatabase().getRef(editRef);
+      if (ref == null) {
         return Optional.absent();
       }
 
-      // TODO(davido): Rather than failing when we encounter the corrupt state
-      // where there is more than one ref, we could silently delete all but the
-      // current one.
-      Ref ref = Iterables.getOnlyElement(refs.values());
       RevWalk rw = new RevWalk(repo);
       try {
         RevCommit commit = rw.parseCommit(ref.getObjectId());
@@ -190,34 +183,6 @@ public class ChangeEditUtil {
     } catch (OrmException e) {
       throw new IOException(e);
     }
-  }
-
-  /**
-   * Returns reference for this change edit with sharded user and change number:
-   * refs/users/UU/UUUU/edit-CCCC/P.
-   *
-   * @param accountId accout id
-   * @param changeId change number
-   * @param psId patch set number
-   * @return reference for this change edit
-   */
-  static String editRefName(Account.Id accountId, Change.Id changeId,
-      PatchSet.Id psId) {
-    return editRefPrefix(accountId, changeId) + psId.get();
-  }
-
-  /**
-   * Returns reference prefix for this change edit with sharded user and
-   * change number: refs/users/UU/UUUU/edit-CCCC/.
-   *
-   * @param accountId accout id
-   * @param changeId change number
-   * @return reference prefix for this change edit
-   */
-  static String editRefPrefix(Account.Id accountId, Change.Id changeId) {
-    return String.format("%s/edit-%d/",
-        RefNames.refsUsers(accountId),
-        changeId.get());
   }
 
   private RevCommit squashEdit(RevWalk rw, ObjectInserter inserter,

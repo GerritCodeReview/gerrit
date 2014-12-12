@@ -32,6 +32,7 @@ public class RefNames {
   public static final String REFS_DASHBOARDS = "refs/meta/dashboards/";
 
   public static final String REFS_DRAFT_COMMENTS = "refs/draft-comments/";
+  public static final String REFS_DRAFT_EDITS = "refs/draft-edits/";
 
   /**
    * Prefix applied to merge commit base nodes.
@@ -66,6 +67,21 @@ public class RefNames {
       Change.Id changeId) {
     StringBuilder r = new StringBuilder();
     r.append(REFS_DRAFT_COMMENTS);
+    int n = accountId.get() % 100;
+    if (n < 10) {
+      r.append('0');
+    }
+    r.append(n);
+    r.append('/');
+    r.append(accountId.get());
+    r.append('-');
+    r.append(changeId.get());
+    return r.toString();
+  }
+
+  public static String refsDraftEdits(Account.Id accountId, Change.Id changeId) {
+    StringBuilder r = new StringBuilder();
+    r.append(REFS_DRAFT_EDITS);
     int n = accountId.get() % 100;
     if (n < 10) {
       r.append('0');

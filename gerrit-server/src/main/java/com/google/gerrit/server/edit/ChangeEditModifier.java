@@ -16,8 +16,6 @@ package com.google.gerrit.server.edit;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
-import static com.google.gerrit.server.edit.ChangeEditUtil.editRefName;
-import static com.google.gerrit.server.edit.ChangeEditUtil.editRefPrefix;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
 import com.google.common.base.Strings;
@@ -29,6 +27,7 @@ import com.google.gerrit.extensions.restapi.RawInput;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
@@ -52,7 +51,6 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.PersonIdent;
-import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.merge.MergeStrategy;
@@ -64,7 +62,6 @@ import org.eclipse.jgit.treewalk.TreeWalk;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Map;
 import java.util.TimeZone;
 
 /**
@@ -115,11 +112,10 @@ public class ChangeEditModifier {
 
     IdentifiedUser me = (IdentifiedUser) currentUser.get();
     Repository repo = gitManager.openRepository(change.getProject());
-    String refPrefix = editRefPrefix(me.getAccountId(), change.getId());
+    String ref = RefNames.refsDraftEdits(me.getAccountId(), change.getId());
 
     try {
-      Map<String, Ref> refs = repo.getRefDatabase().getRefs(refPrefix);
-      if (!refs.isEmpty()) {
+      if (repo.getRefDatabase().getRef(ref) != null) {
         throw new ResourceConflictException("edit already exists");
       }
 
@@ -131,9 +127,7 @@ public class ChangeEditModifier {
         RevCommit changeBase = base.getParent(0);
         ObjectId commit = createCommit(me, inserter, base, changeBase, base.getTree());
         inserter.flush();
-        String editRefName = editRefName(me.getAccountId(), change.getId(),
-            ps.getId());
-        return update(repo, me, editRefName, rw, ObjectId.zeroId(), commit);
+        return update(repo, me, ref, rw, ObjectId.zeroId(), commit);
       } finally {
         rw.release();
         inserter.release();
@@ -160,8 +154,7 @@ public class ChangeEditModifier {
 
     Change change = edit.getChange();
     IdentifiedUser me = (IdentifiedUser) currentUser.get();
-    String refName = editRefName(me.getAccountId(), change.getId(),
-        current.getId());
+    String ref = RefNames.refsDraftEdits(me.getAccountId(), change.getId());
     Repository repo = gitManager.openRepository(change.getProject());
     try {
       RevWalk rw = new RevWalk(repo);
@@ -195,10 +188,9 @@ public class ChangeEditModifier {
           ObjectId newEdit = inserter.insert(commit);
           inserter.flush();
 
-          ru.addCommand(new ReceiveCommand(ObjectId.zeroId(), newEdit,
-              refName));
-          ru.addCommand(new ReceiveCommand(edit.getRef().getObjectId(),
-              ObjectId.zeroId(), edit.getRefName()));
+          ru.addCommand(new ReceiveCommand(
+              edit.getRef().getObjectId(),
+              newEdit, ref));
           ru.execute(rw, NullProgressMonitor.INSTANCE);
           for (ReceiveCommand cmd : ru.getCommands()) {
             if (cmd.getResult() != ReceiveCommand.Result.OK) {

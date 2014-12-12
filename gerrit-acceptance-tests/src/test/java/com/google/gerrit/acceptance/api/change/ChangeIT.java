@@ -25,7 +25,10 @@ import static com.google.gerrit.server.project.Util.blockLabel;
 import static com.google.gerrit.server.project.Util.category;
 import static com.google.gerrit.server.project.Util.value;
 import static com.google.gerrit.testutil.GerritServerTests.isNoteDbTestEnabled;
+import static org.junit.Assert.fail;
 
+import com.google.common.base.Function;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
@@ -46,7 +49,9 @@ import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.extensions.common.GitPerson;
 import com.google.gerrit.extensions.common.LabelInfo;
 import com.google.gerrit.extensions.common.RevisionInfo;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -63,6 +68,7 @@ import java.util.Collection;
 import java.util.EnumSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 @NoHttpd
 public class ChangeIT extends AbstractDaemonTest {
@@ -376,6 +382,73 @@ public class ChangeIT extends AbstractDaemonTest {
       assertThat(ccs.iterator().next()._accountId)
           .isEqualTo(user.getId().get());
     }
+  }
+
+  @Test
+  public void deleteVote() throws Exception {
+    PushOneCommit.Result r = createChange();
+    gApi.changes()
+        .id(r.getChangeId())
+        .revision(r.getCommit().name())
+        .review(ReviewInput.dislike());
+
+    r = amendChange(r.getChangeId());
+
+    gApi.changes()
+        .id(r.getChangeId())
+        .revision(r.getCommit().name())
+        .review(ReviewInput.approve());
+
+    setApiUser(user);
+
+    gApi.changes()
+        .id(r.getChangeId())
+        .revision(r.getCommit().name())
+        .review(ReviewInput.dislike());
+
+    setApiUser(admin);
+
+    Map<String, Short> m = gApi.changes()
+        .id(r.getChangeId())
+        .reviewer(admin.getId().toString())
+        .votes();
+
+    assertThat(m).hasSize(1);
+    assertThat(m).containsEntry("Code-Review", new Short((short)2));
+
+    setApiUser(user);
+    try {
+      gApi.changes()
+          .id(r.getChangeId())
+          .reviewer(admin.getId().toString())
+          .deleteVote("Code-Review", (short)2);
+      fail("AuthException (delete not permitted) expected");
+    } catch (AuthException e) {
+      assertThat(e.getMessage()).isEqualTo("delete not permitted");
+    }
+
+    setApiUser(admin);
+    gApi.changes()
+        .id(r.getChangeId())
+        .reviewer(admin.getId().toString())
+        .deleteVote("Code-Review", (short)2);
+    m = gApi.changes()
+        .id(r.getChangeId())
+        .reviewer(admin.getId().toString())
+        .votes();
+    assertThat(m).containsEntry("Code-Review", new Short((short)0));
+
+    ChangeInfo c = gApi.changes()
+        .id(r.getChangeId())
+        .get();
+
+    Collection<AccountInfo> reviewers = c.reviewers.get(REVIEWER);
+    assertThat( Iterables.transform(reviewers, new Function<AccountInfo, Account.Id>() {
+      @Override
+      public Account.Id apply(AccountInfo account) {
+        return new Account.Id(account._accountId);
+      }
+    })).containsExactlyElementsIn(ImmutableSet.of(admin.getId(), user.getId()));
   }
 
   @Test

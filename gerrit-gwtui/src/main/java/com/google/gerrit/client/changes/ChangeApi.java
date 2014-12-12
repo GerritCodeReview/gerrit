@@ -155,6 +155,10 @@ public class ChangeApi {
         .addParameter("n", n);
   }
 
+  public static RestApi vote(int id, int reviewer, String vote) {
+    return reviewer(id, reviewer).view("votes").id(vote);
+  }
+
   public static RestApi reviewer(int id, int reviewer) {
     return change(id).view("reviewers").id(reviewer);
   }

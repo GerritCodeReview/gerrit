@@ -32,7 +32,8 @@ import java.util.Map;
 import java.util.Set;
 
 /** Does not invoke hooks. */
-public final class DisabledChangeHooks implements ChangeHooks, EventSource {
+public final class DisabledChangeHooks implements ChangeHooks, EventDispatcher,
+    EventSource {
   @Override
   public void addEventListener(EventListener listener, CurrentUser user) {
   }

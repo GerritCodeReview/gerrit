@@ -23,6 +23,7 @@ import com.google.gerrit.extensions.api.changes.FixInput;
 import com.google.gerrit.extensions.api.changes.HashtagsInput;
 import com.google.gerrit.extensions.api.changes.RestoreInput;
 import com.google.gerrit.extensions.api.changes.RevertInput;
+import com.google.gerrit.extensions.api.changes.ReviewerApi;
 import com.google.gerrit.extensions.api.changes.RevisionApi;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ListChangesOption;
@@ -39,6 +40,7 @@ import com.google.gerrit.server.change.PostReviewers;
 import com.google.gerrit.server.change.PutTopic;
 import com.google.gerrit.server.change.Restore;
 import com.google.gerrit.server.change.Revert;
+import com.google.gerrit.server.change.Reviewers;
 import com.google.gerrit.server.change.Revisions;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -55,7 +57,9 @@ class ChangeApiImpl extends ChangeApi.NotImplemented implements ChangeApi {
   }
 
   private final Changes changeApi;
+  private final Reviewers reviewers;
   private final Revisions revisions;
+  private final ReviewerApiImpl.Factory reviewerApi;
   private final RevisionApiImpl.Factory revisionApi;
   private final ChangeResource change;
   private final Abandon abandon;
@@ -71,7 +75,9 @@ class ChangeApiImpl extends ChangeApi.NotImplemented implements ChangeApi {
 
   @Inject
   ChangeApiImpl(Changes changeApi,
+      Reviewers reviewers,
       Revisions revisions,
+      ReviewerApiImpl.Factory reviewerApi,
       RevisionApiImpl.Factory revisionApi,
       Abandon abandon,
       Revert revert,
@@ -86,7 +92,9 @@ class ChangeApiImpl extends ChangeApi.NotImplemented implements ChangeApi {
       @Assisted ChangeResource change) {
     this.changeApi = changeApi;
     this.revert = revert;
+    this.reviewers = reviewers;
     this.revisions = revisions;
+    this.reviewerApi = reviewerApi;
     this.revisionApi = revisionApi;
     this.abandon = abandon;
     this.restore = restore;
@@ -122,6 +130,16 @@ class ChangeApiImpl extends ChangeApi.NotImplemented implements ChangeApi {
           revisions.parse(change, IdString.fromDecoded(id)));
     } catch (OrmException e) {
       throw new RestApiException("Cannot parse revision", e);
+    }
+  }
+
+  @Override
+  public ReviewerApi reviewer(String id) throws RestApiException {
+    try {
+      return reviewerApi.create(
+          reviewers.parse(change, IdString.fromDecoded(id)));
+    } catch (OrmException e) {
+      throw new RestApiException("Cannot parse reviewer", e);
     }
   }
 

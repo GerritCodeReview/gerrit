@@ -54,7 +54,6 @@ import com.google.gwtexpui.safehtml.client.SafeHtml;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -232,20 +231,13 @@ public class Reviewers extends Composite {
       cc.remove(i);
     }
     cc.remove(info.owner()._account_id());
-
-    Set<Integer> removable = new HashSet<>();
-    if (info.removable_reviewers() != null) {
-      for (AccountInfo a : Natives.asList(info.removable_reviewers())) {
-        removable.add(a._account_id());
-      }
-    }
-
+    Set<Integer> removable = info.removable();
     Map<Integer, VotableInfo> votable = votable(info);
 
     SafeHtml rHtml = Labels.formatUserList(style,
-        r.values(), removable, votable);
+        r.values(), removable, null, votable);
     SafeHtml ccHtml = Labels.formatUserList(style,
-        cc.values(), removable, votable);
+        cc.values(), removable, null, votable);
 
     reviewersText.setInnerSafeHtml(rHtml);
     ccText.setInnerSafeHtml(ccHtml);

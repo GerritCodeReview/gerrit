@@ -1,4 +1,4 @@
-// Copyright (C) 2013 The Android Open Source Project
+// Copyright (C) 2014 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,18 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.api.changes;
+package com.google.gerrit.extensions.api.changes;
 
-import com.google.gerrit.extensions.api.changes.Changes;
-import com.google.gerrit.server.config.FactoryModule;
+import com.google.gerrit.extensions.restapi.RestApiException;
 
-public class Module extends FactoryModule {
-  @Override
-  protected void configure() {
-    bind(Changes.class).to(ChangesImpl.class);
+import java.util.Map;
 
-    factory(ChangeApiImpl.Factory.class);
-    factory(RevisionApiImpl.Factory.class);
-    factory(ReviewerApiImpl.Factory.class);
-  }
+public interface ReviewerApi {
+
+  Map<String, Short> votes() throws RestApiException;
+  void deleteVote(String vote) throws RestApiException;
 }

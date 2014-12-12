@@ -18,5 +18,6 @@ import com.google.gwt.i18n.client.Constants;
 
 public interface OpenIdConstants extends Constants {
   String nameGoogle();
+  String nameLaunchpad();
   String nameYahoo();
 }

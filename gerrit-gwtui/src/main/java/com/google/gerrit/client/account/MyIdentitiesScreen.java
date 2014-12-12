@@ -246,6 +246,9 @@ public class MyIdentitiesScreen extends SettingsScreen {
       } else if (k.isScheme("https://www.google.com/accounts/o8/id")) {
         return OpenIdUtil.C.nameGoogle();
 
+      } else if (k.isScheme(OpenIdUrls.URL_LAUNCHPAD)) {
+        return OpenIdUtil.C.nameLaunchpad();
+
       } else if (k.isScheme(OpenIdUrls.URL_YAHOO)) {
         return OpenIdUtil.C.nameYahoo();
 

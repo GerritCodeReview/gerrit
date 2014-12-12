@@ -282,6 +282,17 @@ public class ApprovalsUtil {
     return notes.load().getApprovals();
   }
 
+  public Iterable<PatchSetApproval> byChangeUser(ReviewDb db,
+      ChangeNotes notes, final Account.Id user) throws OrmException {
+    return Iterables.filter(byChange(db, notes).values(),
+        new Predicate<PatchSetApproval>() {
+          @Override
+          public boolean apply(PatchSetApproval input) {
+            return user.equals(input.getAccountId());
+          }
+        });
+  }
+
   public Iterable<PatchSetApproval> byPatchSet(ReviewDb db, ChangeControl ctl,
       PatchSet.Id psId) throws OrmException {
     if (!migration.readChanges()) {

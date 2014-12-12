@@ -103,6 +103,18 @@ public class EventSourceImpl implements EventSource {
     fireEventForUnrestrictedListeners( event );
   }
 
+  public void fireEvent(final Event event, final ReviewDb db)
+      throws OrmException {
+    if (event instanceof ChangeEvent) {
+      ChangeEvent cev = (ChangeEvent) event;
+      Change change = db.changes().get(cev.getChangeId());
+      fireEvent(change, cev, db);
+    } else if (event instanceof RefEvent) {
+      RefEvent rev = (RefEvent) event;
+      fireEvent(rev.getBranchNameKey(), rev);
+    }
+  }
+
   private boolean isVisibleTo(Change change, CurrentUser user, ReviewDb db)
       throws OrmException {
     ProjectState pe = projectCache.get(change.getProject());

@@ -51,12 +51,32 @@ To trust only Google Accounts:
 === Database Schema
 
 User identities obtained from OpenID providers are stored into the
-`account_external_ids` table.  Users may link more than one OpenID
-identity to the same Gerrit account (use Settings, Web Identities
-to manage this linking), making it easier for their browser to sign
-in to Gerrit if they are frequently switching between different
-unique OpenID accounts.
+`account_external_ids` table.
 
+=== Multiple Identities
+
+Users may link more than one OpenID identity to the same Gerrit account, making
+it easier for their browser to sign in to Gerrit if they are frequently switching
+between different unique OpenID accounts.
+
+[WARNING]
+Users wishing to link an alternative identity should *NOT* log in separately
+with that identity. Doing so will result in a new account being created, and
+subsequent attempts to link that account with the existing account will fail.
+In cases where this happens, the administrator will need to manually merge the
+accounts.  See link:https://code.google.com/p/gerrit/wiki/SqlMergeUserAccounts[
+Merging Gerrit User Accounts] on the Gerrit Wiki for details.
+
+To link another identity to an existing account:
+
+* Login with the existing account
+* Select menu Settings -> Identities
+* Click the 'Link Another Identity' button
+* Select the OpenID provider for the other identity
+* Authenticate with the other identity
+
+Login using the other identity can only be performed after the linking is
+successful.
 
 == HTTP Basic/Digest Authentication
 

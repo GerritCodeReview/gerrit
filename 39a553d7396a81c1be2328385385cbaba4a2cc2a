@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "e4e5f21c_b2c6c076",
+        "filename": "Documentation/config-sso.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-12T06:20:45Z",
+      "side": 1,
+      "message": "All users that using Google\u0027s OpenID provider for their Gerrit authentication (hundreds only for our single Gerrit installation) are affected and must take action before 05-20-2015. Otherwise they wouldn\u0027t be able to login and link to alternative identity after 05-20-2015.\n\nAll users who use *.googlesource.com (also gerrit-review) are not affected, because all Gerrits on *.googlesource.com don\u0027t use OpenID.",
+      "parentUuid": "44d15e3e_55ae4ca3",
+      "revId": "39a553d7396a81c1be2328385385cbaba4a2cc2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "44d15e3e_b5c6c076",
         "filename": "Documentation/config-sso.txt",
         "patchSetId": 3
@@ -114,6 +132,30 @@
       "side": 1,
       "message": "No, I mean copy the content of that wiki page into a new page in the Gerrit documentation.\n\nIt\u0027s more convenient for the admin to have the information at hand, than to have to go off to an external page.",
       "parentUuid": "a4ef7afe_108fc439",
+      "range": {
+        "startLine": 78,
+        "startChar": 11,
+        "endLine": 79,
+        "endChar": 61
+      },
+      "revId": "39a553d7396a81c1be2328385385cbaba4a2cc2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e4e5f21c_92cbbc80",
+        "filename": "Documentation/config-sso.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-12T06:20:45Z",
+      "side": 1,
+      "message": "Or, i would rather not to copy SQL code into markdown. May be just put the script in contributed directory and link from here?",
+      "parentUuid": "84bfd6dd_373878be",
       "range": {
         "startLine": 78,
         "startChar": 11,

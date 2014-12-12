@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a4ef7afe_d0bffc82",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2014-12-12T13:14:37Z",
+      "side": 1,
+      "message": "Not during rebase, AFAIK.",
+      "parentUuid": "a4ef7afe_504d4c38",
+      "range": {
+        "startLine": 14,
+        "startChar": 18,
+        "endLine": 15,
+        "endChar": 8
+      },
+      "revId": "1c1e0a80c297a129c68b345f895f320f50d5bb0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e4e5f21c_d2ab8465",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "a4ef7afe_b0c47820",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2014-12-12T13:14:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e4e5f21c_d2ab8465",
+      "range": {
+        "startLine": 15,
+        "startChar": 38,
+        "endLine": 16,
+        "endChar": 30
+      },
+      "revId": "1c1e0a80c297a129c68b345f895f320f50d5bb0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e4e5f21c_12c22c30",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/CommitMergeStatus.java",
         "patchSetId": 2
@@ -59,6 +107,30 @@
       "writtenOn": "2014-12-12T13:08:12Z",
       "side": 1,
       "message": "If Gerrit handles path conflicts, is this still valid?",
+      "range": {
+        "startLine": 30,
+        "startChar": 1,
+        "endLine": 33,
+        "endChar": 98
+      },
+      "revId": "1c1e0a80c297a129c68b345f895f320f50d5bb0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e4e5f21c_72a29880",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/CommitMergeStatus.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2014-12-12T13:14:37Z",
+      "side": 1,
+      "message": "If content merge is not enabled, it is.",
+      "parentUuid": "e4e5f21c_12c22c30",
       "range": {
         "startLine": 30,
         "startChar": 1,

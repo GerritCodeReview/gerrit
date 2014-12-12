@@ -251,6 +251,9 @@ public class MyIdentitiesScreen extends SettingsScreen {
       } else if (k.isScheme(OpenIdUrls.URL_YAHOO)) {
         return OpenIdUtil.C.nameYahoo();
 
+      } else if (k.isScheme(OpenIdUrls.URL_LAUNCHPAD)) {
+        return OpenIdUtil.C.nameLaunchpad();
+
       } else {
         return k.getExternalId();
       }

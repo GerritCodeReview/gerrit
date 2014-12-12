@@ -28,7 +28,6 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.config.AnonymousCowardName;
@@ -51,8 +50,6 @@ import com.google.gerrit.server.events.TopicChangedEvent;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.project.ProjectCache;
-import com.google.gerrit.server.project.ProjectControl;
-import com.google.gerrit.server.project.ProjectState;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -77,7 +74,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.concurrent.Callable;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.FutureTask;
@@ -86,8 +82,7 @@ import java.util.concurrent.TimeoutException;
 
 /** Spawns local executables when a hook action occurs. */
 @Singleton
-public class ChangeHookRunner implements ChangeHooks, EventSource,
-  LifecycleListener {
+public class ChangeHookRunner implements ChangeHooks, LifecycleListener {
     /** A logger for this class. */
     private static final Logger log = LoggerFactory.getLogger(ChangeHookRunner.class);
 
@@ -98,16 +93,6 @@ public class ChangeHookRunner implements ChangeHooks, EventSource,
         bind(ChangeHooks.class).to(ChangeHookRunner.class);
         listener().to(ChangeHookRunner.class);
       }
-    }
-
-    private static class EventListenerHolder {
-        final EventListener listener;
-        final CurrentUser user;
-
-        EventListenerHolder(EventListener l, CurrentUser u) {
-            listener = l;
-            user = u;
-        }
     }
 
     /** Container class used to hold the return code and output of script hook execution */
@@ -157,14 +142,6 @@ public class ChangeHookRunner implements ChangeHooks, EventSource,
         return sb.toString();
       }
     }
-
-    /** Listeners to receive changes as they happen (limited by visibility
-     *  of holder's user). */
-    private final Map<EventListener, EventListenerHolder> listeners =
-        new ConcurrentHashMap<>();
-
-    /** Listeners to receive all changes as they happen. */
-    private final DynamicSet<EventListener> unrestrictedListeners;
 
     /** Filename of the new patchset hook. */
     private final File patchsetCreatedHook;
@@ -227,6 +204,8 @@ public class ChangeHookRunner implements ChangeHooks, EventSource,
     /** Timeout value for synchronous hooks */
     private final int syncHookTimeout;
 
+    private EventSourceImpl dispatcher;
+
     /**
      * Create a new ChangeHookRunner.
      *
@@ -253,7 +232,6 @@ public class ChangeHookRunner implements ChangeHooks, EventSource,
         this.accountCache = accountCache;
         this.eventFactory = eventFactory;
         this.sitePaths = sitePath;
-        this.unrestrictedListeners = unrestrictedListeners;
 
         final File hooksPath = sitePath.resolve(getValue(config, "hooks", "path", sitePath.hooks_dir.getAbsolutePath()));
 
@@ -275,16 +253,7 @@ public class ChangeHookRunner implements ChangeHooks, EventSource,
             new ThreadFactoryBuilder()
               .setNameFormat("SyncHook-%d")
               .build());
-    }
-
-    @Override
-    public void addEventListener(EventListener listener, CurrentUser user) {
-        listeners.put(listener, new EventListenerHolder(listener, user));
-    }
-
-    @Override
-    public void removeEventListener(EventListener listener) {
-        listeners.remove(listener);
+        dispatcher = new EventSourceImpl(projectCache, unrestrictedListeners);
     }
 
     /**
@@ -698,49 +667,13 @@ public class ChangeHookRunner implements ChangeHooks, EventSource,
       fireEvent(branchName, event);
     }
 
-    private void fireEventForUnrestrictedListeners(final Event event) {
-      for (EventListener listener : unrestrictedListeners) {
-          listener.onEvent(event);
-      }
-    }
-
     private void fireEvent(final Change change, final Event event,
         final ReviewDb db) throws OrmException {
-      for (EventListenerHolder holder : listeners.values()) {
-          if (isVisibleTo(change, holder.user, db)) {
-              holder.listener.onEvent(event);
-          }
-      }
-
-      fireEventForUnrestrictedListeners( event );
+      dispatcher.fireEvent(change, event, db);
     }
 
     private void fireEvent(Branch.NameKey branchName, final Event event) {
-      for (EventListenerHolder holder : listeners.values()) {
-          if (isVisibleTo(branchName, holder.user)) {
-              holder.listener.onEvent(event);
-          }
-      }
-
-      fireEventForUnrestrictedListeners( event );
-    }
-
-    private boolean isVisibleTo(Change change, CurrentUser user, ReviewDb db) throws OrmException {
-        final ProjectState pe = projectCache.get(change.getProject());
-        if (pe == null) {
-          return false;
-        }
-        final ProjectControl pc = pe.controlFor(user);
-        return pc.controlFor(change).isVisible(db);
-    }
-
-    private boolean isVisibleTo(Branch.NameKey branchName, CurrentUser user) {
-        final ProjectState pe = projectCache.get(branchName.getParentKey());
-        if (pe == null) {
-          return false;
-        }
-        final ProjectControl pc = pe.controlFor(user);
-        return pc.controlForRef(branchName).isVisible();
+      dispatcher.fireEvent(branchName, event);
     }
 
     /**

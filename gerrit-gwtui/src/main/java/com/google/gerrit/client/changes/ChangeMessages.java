@@ -43,6 +43,7 @@ public interface ChangeMessages extends Messages {
 
   String removeHashtag(String name);
   String removeReviewer(String fullName);
+  String removeVote(String label);
   String messageWrittenOn(String date);
 
   String renamedFrom(String sourcePath);

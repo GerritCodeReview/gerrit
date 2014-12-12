@@ -48,24 +48,47 @@ import java.util.Set;
 /** Displays a table of label and reviewer scores. */
 class Labels extends Grid {
   private static final String DATA_ID = "data-id";
-  private static final String REMOVE;
+  private static final String DATA_VOTE = "data-vote";
+  private static final String REMOVE_REVIEWER;
+  private static final String REMOVE_VOTE;
 
   static {
-    REMOVE = DOM.createUniqueId().replace('-', '_');
-    init(REMOVE);
+    REMOVE_REVIEWER = DOM.createUniqueId().replace('-', '_');
+    REMOVE_VOTE = DOM.createUniqueId().replace('-', '_');
+    init(REMOVE_REVIEWER, REMOVE_VOTE);
   }
 
-  private static final native void init(String r) /*-{
+  private static final native void init(String r, String v) /*-{
     $wnd[r] = $entry(function(e) {
-      @com.google.gerrit.client.change.Labels::onRemove(Lcom/google/gwt/dom/client/NativeEvent;)(e)
+      @com.google.gerrit.client.change.Labels::onRemoveReviewer(Lcom/google/gwt/dom/client/NativeEvent;)(e)
+    });
+    $wnd[v] = $entry(function(e) {
+      @com.google.gerrit.client.change.Labels::onRemoveVote(Lcom/google/gwt/dom/client/NativeEvent;)(e)
     });
   }-*/;
 
-  private static void onRemove(NativeEvent event) {
+  private static void onRemoveReviewer(NativeEvent event) {
     Integer user = getDataId(event);
     if (user != null) {
       final ChangeScreen screen = ChangeScreen.get(event);
       ChangeApi.reviewer(screen.getChangeId().get(), user).delete(
+          new GerritCallback<JavaScriptObject>() {
+            @Override
+            public void onSuccess(JavaScriptObject result) {
+              if (screen.isCurrentView()) {
+                Gerrit.display(PageLinks.toChange(screen.getChangeId()));
+              }
+            }
+          });
+    }
+  }
+
+  private static void onRemoveVote(NativeEvent event) {
+    Integer user = getDataId(event);
+    String vote = getVoteId(event);
+    if (user != null && vote != null) {
+      final ChangeScreen screen = ChangeScreen.get(event);
+      ChangeApi.vote(screen.getChangeId().get(), user, vote).delete(
           new GerritCallback<JavaScriptObject>() {
             @Override
             public void onSuccess(JavaScriptObject result) {
@@ -90,6 +113,17 @@ class Labels extends Grid {
   }
 
   private ChangeScreen.Style style;
+  private static String getVoteId(NativeEvent event) {
+    Element e = event.getEventTarget().cast();
+    while (e != null) {
+      String v = e.getAttribute(DATA_VOTE);
+      if (!v.isEmpty()) {
+        return v;
+      }
+      e = e.getParentElement();
+    }
+    return null;
+  }
 
   void init(ChangeScreen.Style style) {
     this.style = style;
@@ -97,6 +131,7 @@ class Labels extends Grid {
 
   void set(ChangeInfo info) {
     List<String> names = new ArrayList<>(info.labels());
+    Set<Integer> removable = info.removable();
     Collections.sort(names);
 
     resize(names.size(), 2);
@@ -106,14 +141,14 @@ class Labels extends Grid {
       LabelInfo label = info.label(name);
       setText(row, 0, name);
       if (label.all() != null) {
-        setWidget(row, 1, renderUsers(label));
+        setWidget(row, 1, renderUsers(label, removable));
       }
       getCellFormatter().setStyleName(row, 0, style.labelName());
       getCellFormatter().addStyleName(row, 0, getStyleForLabel(label));
     }
   }
 
-  private Widget renderUsers(LabelInfo label) {
+  private Widget renderUsers(LabelInfo label, Set<Integer> removable) {
     Map<Integer, List<ApprovalInfo>> m = new HashMap<>(4);
     int approved = 0;
     int rejected = 0;
@@ -150,8 +185,8 @@ class Labels extends Grid {
         html.setStyleName(style.label_reject());
       }
       html.append(val).append(" ");
-      html.append(formatUserList(style, m.get(v),
-          Collections.<Integer> emptySet(), null));
+      html.append(formatUserList(style, m.get(v), removable,
+          label.name(), null));
       html.closeSpan();
     }
     return html.toBlockWidget();
@@ -198,6 +233,7 @@ class Labels extends Grid {
   static SafeHtml formatUserList(ChangeScreen.Style style,
       Collection<? extends AccountInfo> in,
       Set<Integer> removable,
+      String labelVote,
       Map<Integer, VotableInfo> votable) {
     List<AccountInfo> users = new ArrayList<>(in);
     Collections.sort(users, new Comparator<AccountInfo>() {
@@ -257,6 +293,9 @@ class Labels extends Grid {
           .setAttribute(DATA_ID, ai._accountId())
           .setAttribute("title", getTitle(ai, votableCategories))
           .setStyleName(style.label_user());
+      if (labelVote != null) {
+        html.setAttribute(DATA_VOTE, labelVote);
+      }
       if (img != null) {
         html.openElement("img")
             .setStyleName(style.avatar())
@@ -271,10 +310,15 @@ class Labels extends Grid {
       }
       html.append(name);
       if (removable.contains(ai._accountId())) {
-        html.openElement("button")
-            .setAttribute("title", Util.M.removeReviewer(name))
-            .setAttribute("onclick", REMOVE + "(event)")
-            .append("×")
+        html.openElement("button");
+        if (labelVote != null) {
+          html.setAttribute("title", Util.M.removeVote(labelVote))
+              .setAttribute("onclick", REMOVE_VOTE + "(event)");
+        } else {
+          html.setAttribute("title", Util.M.removeReviewer(name))
+              .setAttribute("onclick", REMOVE_REVIEWER + "(event)");
+        }
+        html.append("×")
             .closeElement("button");
       }
       html.closeSpan();

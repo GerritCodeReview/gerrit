@@ -21,6 +21,7 @@ import static com.google.gerrit.server.change.DraftCommentResource.DRAFT_COMMENT
 import static com.google.gerrit.server.change.FileResource.FILE_KIND;
 import static com.google.gerrit.server.change.ReviewerResource.REVIEWER_KIND;
 import static com.google.gerrit.server.change.RevisionResource.REVISION_KIND;
+import static com.google.gerrit.server.change.VoteResource.VOTE_KIND;
 
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.RestApiModule;
@@ -37,6 +38,7 @@ public class Module extends RestApiModule {
     bind(DraftComments.class);
     bind(Comments.class);
     bind(Files.class);
+    bind(Votes.class);
 
     DynamicMap.mapOf(binder(), CHANGE_KIND);
     DynamicMap.mapOf(binder(), COMMENT_KIND);
@@ -45,6 +47,7 @@ public class Module extends RestApiModule {
     DynamicMap.mapOf(binder(), REVIEWER_KIND);
     DynamicMap.mapOf(binder(), REVISION_KIND);
     DynamicMap.mapOf(binder(), CHANGE_EDIT_KIND);
+    DynamicMap.mapOf(binder(), VOTE_KIND);
 
     get(CHANGE_KIND).to(GetChange.class);
     get(CHANGE_KIND, "detail").to(GetDetail.class);
@@ -73,6 +76,8 @@ public class Module extends RestApiModule {
     child(CHANGE_KIND, "reviewers").to(Reviewers.class);
     get(REVIEWER_KIND).to(GetReviewer.class);
     delete(REVIEWER_KIND).to(DeleteReviewer.class);
+    child(REVIEWER_KIND, "votes").to(Votes.class);
+    delete(VOTE_KIND).to(DeleteVote.class);
 
     child(CHANGE_KIND, "revisions").to(Revisions.class);
     get(REVISION_KIND, "actions").to(GetRevisionActions.class);

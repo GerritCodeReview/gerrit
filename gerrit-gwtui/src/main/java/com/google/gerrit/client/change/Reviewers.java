@@ -243,9 +243,9 @@ public class Reviewers extends Composite {
     Map<Integer, VotableInfo> votable = votable(info);
 
     SafeHtml rHtml = Labels.formatUserList(style,
-        r.values(), removable, votable);
+        r.values(), removable, null, votable);
     SafeHtml ccHtml = Labels.formatUserList(style,
-        cc.values(), removable, votable);
+        cc.values(), removable, null, votable);
 
     reviewersText.setInnerSafeHtml(rHtml);
     ccText.setInnerSafeHtml(ccHtml);

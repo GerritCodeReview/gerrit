@@ -1772,6 +1772,25 @@ Deletes a reviewer from a change.
   HTTP/1.1 204 No Content
 ----
 
+[[delete-vote]]
+=== Delete Vote
+--
+'DELETE /changes/link:#change-id[\{change-id\}]/reviewers/link:rest-api-accounts.html#account-id[\{account-id\}]/votes/vote-id'
+--
+
+Deletes a single vote from a change. Note, that when last vote of reviewers is
+removed the reviewer itself is removed from the change as well.
+
+.Request
+----
+  DELETE /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/reviewers/John%20Doe/votes/Code-Review-2 HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 204 No Content
+----
+
 [[revision-endpoints]]
 == Revision Endpoints
 

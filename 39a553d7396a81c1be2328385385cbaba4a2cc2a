@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "44d15e3e_b5c6c076",
+        "filename": "Documentation/config-sso.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-12-12T05:19:40Z",
+      "side": 1,
+      "message": "Would it be better to add the information there in a new documentation page?\n\nIf so it can be done in a follow up change.",
+      "range": {
+        "startLine": 78,
+        "startChar": 11,
+        "endLine": 79,
+        "endChar": 61
+      },
+      "revId": "39a553d7396a81c1be2328385385cbaba4a2cc2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

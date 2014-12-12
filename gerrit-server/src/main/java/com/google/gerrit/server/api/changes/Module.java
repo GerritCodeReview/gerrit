@@ -27,5 +27,6 @@ public class Module extends FactoryModule {
     factory(DraftApiImpl.Factory.class);
     factory(RevisionApiImpl.Factory.class);
     factory(FileApiImpl.Factory.class);
+    factory(ReviewerApiImpl.Factory.class);
   }
 }

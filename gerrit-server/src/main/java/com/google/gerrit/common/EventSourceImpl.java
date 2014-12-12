@@ -31,7 +31,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /** Distributes Events to listeners if they are allowed to see them */
-public class EventSourceImpl implements EventSource {
+public class EventSourceImpl implements EventDispatcher, EventSource {
   protected static class EventListenerHolder {
     final EventListener listener;
     final CurrentUser user;
@@ -72,12 +72,14 @@ public class EventSourceImpl implements EventSource {
     listeners.remove(listener);
   }
 
+  @Override
   public void fireEventForUnrestrictedListeners(final Event event) {
     for (EventListener listener : unrestrictedListeners) {
       listener.onEvent(event);
     }
   }
 
+  @Override
   public void fireEvent(final Change change, final ChangeEvent event,
       final ReviewDb db) throws OrmException {
     for (EventListenerHolder holder : listeners.values()) {
@@ -89,6 +91,7 @@ public class EventSourceImpl implements EventSource {
     fireEventForUnrestrictedListeners( event );
   }
 
+  @Override
   public void fireEvent(Branch.NameKey branchName, final RefEvent event) {
     if (event instanceof ChangeEvent) {
       throw new IllegalArgumentException("ChangeEvents require a Change to fire");
@@ -103,6 +106,7 @@ public class EventSourceImpl implements EventSource {
     fireEventForUnrestrictedListeners( event );
   }
 
+  @Override
   public void fireEvent(final Event event, final ReviewDb db)
       throws OrmException {
     if (event instanceof ChangeEvent) {

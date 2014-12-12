@@ -70,6 +70,30 @@
       "revId": "c6c1950f75976cd45291023b110d87e6ed5627b0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e4e5f21c_b29da078",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-12T07:03:55Z",
+      "side": 1,
+      "message": "| That base is necessary to perform a rebase of your edit onto a future patch set supplied by someone else.\n\nAnother use case where we need the base is to sort the edit in the right place into the list of patch sets on the client side:\n\n  1 2 3 4 edit 5\n\nTo be able to do that we have to know that 4 is the base patch set of the edit.",
+      "parentUuid": "84bfd6dd_7717103d",
+      "range": {
+        "startLine": 181,
+        "startChar": 0,
+        "endLine": 182,
+        "endChar": 50
+      },
+      "revId": "c6c1950f75976cd45291023b110d87e6ed5627b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

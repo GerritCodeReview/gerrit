@@ -56,7 +56,8 @@ import javax.servlet.http.HttpServletResponse;
 class LoginForm extends HttpServlet {
   private static final Logger log = LoggerFactory.getLogger(LoginForm.class);
   private static final ImmutableMap<String, String> ALL_PROVIDERS = ImmutableMap.of(
-      "yahoo", OpenIdUrls.URL_YAHOO);
+      "yahoo", OpenIdUrls.URL_YAHOO,
+      "launchpad", OpenIdUrls.URL_LAUNCHPAD);
 
   private final ImmutableSet<String> suggestProviders;
   private final Provider<String> urlProvider;

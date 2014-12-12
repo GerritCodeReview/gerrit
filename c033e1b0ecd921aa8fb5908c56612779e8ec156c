@@ -16,6 +16,24 @@
       "revId": "c033e1b0ecd921aa8fb5908c56612779e8ec156c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "44d15e3e_3592b063",
+        "filename": "Documentation/config-sso.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-12-12T11:27:23Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "a4ef7afe_50e9ccb8",
+      "revId": "c033e1b0ecd921aa8fb5908c56612779e8ec156c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

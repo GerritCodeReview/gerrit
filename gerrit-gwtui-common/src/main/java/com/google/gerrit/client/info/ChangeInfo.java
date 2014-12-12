@@ -31,6 +31,7 @@ import java.sql.Timestamp;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -82,6 +83,16 @@ public class ChangeInfo extends JavaScriptObject {
 
   public final Set<String> labels() {
     return allLabels().keySet();
+  }
+
+  public final Set<Integer> removable() {
+    Set<Integer> removable = new HashSet<>();
+    if (removableReviewers() != null) {
+      for (AccountInfo a : Natives.asList(removableReviewers())) {
+        removable.add(a._accountId());
+      }
+    }
+    return removable;
   }
 
   public final native String id() /*-{ return this.id; }-*/;

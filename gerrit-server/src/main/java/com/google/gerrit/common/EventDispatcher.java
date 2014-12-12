@@ -19,6 +19,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.events.ChangeEvent;
+import com.google.gerrit.server.events.Event;
 import com.google.gerrit.server.events.ProjectEvent;
 import com.google.gerrit.server.events.RefEvent;
 import com.google.gwtorm.server.OrmException;
@@ -51,4 +52,15 @@ public interface EventDispatcher {
    * @param event The event to post.
    */
   public void postEvent(Project.NameKey projectName, ProjectEvent event);
+
+  /**
+   * Post a stream event generically.
+   *
+   * If you are creating a RefEvent or ChangeEvent from scratch,
+   * it is more efficient to use the specific postEvent methods
+   * for those use cases.
+   *
+   * @param event The event to post
+   */
+  public void postEvent(Event event, ReviewDb db) throws OrmException;
 }

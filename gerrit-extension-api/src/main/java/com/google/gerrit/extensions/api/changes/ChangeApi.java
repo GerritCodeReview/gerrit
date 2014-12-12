@@ -58,6 +58,19 @@ public interface ChangeApi {
    */
   RevisionApi revision(String id) throws RestApiException;
 
+  /**
+   * Look up the reviewer for the change.
+   * <p>
+   * @param id ID of the account, can be a string of the format
+   *     "Full Name <mail@example.com>", just the email address, a full name
+   *     if it is unique, an account ID, a user name or 'self' for the
+   *     calling user.
+   * @return API for accessing the reviewer.
+   * @throws RestApiException if id is not account id or is a user that isn't
+   *     known to be a reviewer for this change.
+   */
+  ReviewerApi reviewer(String id) throws RestApiException;
+
   void abandon() throws RestApiException;
   void abandon(AbandonInput in) throws RestApiException;
 
@@ -173,6 +186,11 @@ public interface ChangeApi {
 
     @Override
     public RevisionApi revision(int id) throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public ReviewerApi reviewer(String id) throws RestApiException {
       throw new NotImplementedException();
     }
 

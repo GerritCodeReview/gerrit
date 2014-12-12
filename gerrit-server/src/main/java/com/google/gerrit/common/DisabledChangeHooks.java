@@ -24,6 +24,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.events.ChangeEvent;
+import com.google.gerrit.server.events.Event;
 import com.google.gerrit.server.events.ProjectEvent;
 import com.google.gerrit.server.events.RefEvent;
 
@@ -129,5 +130,9 @@ public final class DisabledChangeHooks implements ChangeHooks, EventDispatcher,
 
   @Override
   public void postEvent(Project.NameKey projectName, ProjectEvent event) {
+  }
+
+  @Override
+  public void postEvent(Event event, ReviewDb db) {
   }
 }

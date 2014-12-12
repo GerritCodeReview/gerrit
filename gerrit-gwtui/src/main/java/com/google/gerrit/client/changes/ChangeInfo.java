@@ -34,6 +34,7 @@ import com.google.gwtjsonrpc.client.impl.ser.JavaSqlTimestamp_JsonSerializer;
 import java.sql.Timestamp;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -79,6 +80,16 @@ public class ChangeInfo extends JavaScriptObject {
 
   public final Set<String> labels() {
     return all_labels().keySet();
+  }
+
+  public final Set<Integer> removable() {
+    Set<Integer> removable = new HashSet<>();
+    if (removable_reviewers() != null) {
+      for (AccountInfo a : Natives.asList(removable_reviewers())) {
+        removable.add(a._account_id());
+      }
+    }
+    return removable;
   }
 
   public final native String id() /*-{ return this.id; }-*/;

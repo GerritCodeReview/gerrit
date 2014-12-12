@@ -16,6 +16,7 @@ package com.google.gerrit.common;
 
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.events.Event;
 import com.google.gwtorm.server.OrmException;
@@ -41,4 +42,6 @@ public interface EventDispatcher {
    * @param event The event to post
    */
   public void postEvent(Branch.NameKey branchName, Event event);
+
+  public void postEvent(Project.NameKey projectName, Event event);
 }

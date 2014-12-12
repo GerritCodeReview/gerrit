@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e4e5f21c_b2f120a8",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/SideBySide2.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 636,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-12T11:34:21Z",
+      "side": 1,
+      "message": "Please add a comment on this line:\n\n  // Skip change edits.\"\n\nNobody (even not me who implemented change edit stuff) immediately understand what this line supposed to do. Yes, you added this in the commit message, but still.",
+      "revId": "92bd3170c4edf6bbe0e73290f0c929402796d1ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a4ef7afe_f08d6017",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchScreen.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-12T11:34:21Z",
+      "side": 1,
+      "message": "Unrelated empty line removal.",
+      "revId": "92bd3170c4edf6bbe0e73290f0c929402796d1ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a4ef7afe_10c22430",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchScreen.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-12T11:34:21Z",
+      "side": 1,
+      "message": "Why not:\n\n  throw new IllegalStateException(\"unknown table type\");",
+      "range": {
+        "startLine": 299,
+        "startChar": 6,
+        "endLine": 299,
+        "endChar": 37
+      },
+      "revId": "92bd3170c4edf6bbe0e73290f0c929402796d1ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

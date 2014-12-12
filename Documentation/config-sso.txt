@@ -59,6 +59,12 @@ Users may link more than one OpenID identity to the same Gerrit account, making
 it easier for their browser to sign in to Gerrit if they are frequently switching
 between different unique OpenID accounts.
 
+Linking another identity is also useful for users whose primary OpenID provider
+shuts down. For example Google will
+link:https://developers.google.com/+/api/auth-migration[shut down their OpenID
+service on 20th April 2015]. Users must add an alternative identity, using another
+OpenID provider, before that shutdown date.
+
 To link another identity to an existing account:
 
 * Login with the existing account

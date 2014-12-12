@@ -418,6 +418,9 @@ its own custom event class derived from
 Plugins which define new Events should register them via the
 `com.google.gerrit.server.events.EventTypes.registerClass()`
 method. This will make the EventType known to the system.
+Deserialzing events with the
+`com.google.gerrit.server.events.EventDesrializer` class requires
+that the event be registered in EventTypes.
 
 [[validation]]
 == Validation Listeners

@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "a4ef7afe_10cc6472",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-12T09:17:47Z",
+      "side": 1,
+      "message": "This is not equivalent replacement and is not sufficient with new ref scheme. The base revision was encoded in old ref name:\n\n  refs/users/UU/UUUU/edit-CCCC/P\n\nWith new approach other means needed not to lose this information. This must be respected in all change edit operations that touch refs: create, delete and rebase change edit.",
+      "range": {
+        "startLine": 130,
+        "startChar": 8,
+        "endLine": 130,
+        "endChar": 68
+      },
+      "revId": "c6c1950f75976cd45291023b110d87e6ed5627b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e4e5f21c_d22ee47d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-12T09:17:47Z",
+      "side": 1,
+      "message": "This is backward incompatible change. Even though we haven\u0027t (officially) released any Gerrit versions with inline edit feature enabled yet, some sites in the wild (most notably *.googlsource.com) rely on the bleeding edge and are affected by this change and would incur total data lost, after Gerrit site was upgraded to new version that contains this change. If this is intended, a big warning must be added in the commit message. If not, refs migration is needed, or this change must be backwards compatible: e. g. reading from old ref scheme combined with deleting and writing to new scheme.",
+      "range": {
+        "startLine": 97,
+        "startChar": 6,
+        "endLine": 101,
+        "endChar": 7
+      },
+      "revId": "c6c1950f75976cd45291023b110d87e6ed5627b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "84bfd6dd_f70200fe",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditUtil.java",
         "patchSetId": 1
@@ -84,6 +130,30 @@
       "writtenOn": "2014-12-12T07:03:55Z",
       "side": 1,
       "message": "| That base is necessary to perform a rebase of your edit onto a future patch set supplied by someone else.\n\nAnother use case where we need the base is to sort the edit in the right place into the list of patch sets on the client side:\n\n  1 2 3 4 edit 5\n\nTo be able to do that we have to know that 4 is the base patch set of the edit.",
+      "parentUuid": "84bfd6dd_7717103d",
+      "range": {
+        "startLine": 181,
+        "startChar": 0,
+        "endLine": 182,
+        "endChar": 50
+      },
+      "revId": "c6c1950f75976cd45291023b110d87e6ed5627b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e4e5f21c_723e18af",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-12T09:17:47Z",
+      "side": 1,
+      "message": "I wonder if splitting this change in two would be less error-prone and easier to follow for reviewers:\n\n* 1. change: don\u0027t hard code base patch set in change edit ref: i. e. split refs/users/UU/UUUU/edit-CCCC/P to refs/users/UU/UUUU/edit-CCCC and refs/users/UU/UUUU/edit-CCCC.base (or similar)\n* 2. change: move ref scheme from to refs/users/UU/UUUU/edit-CCCC* to refs/draft-edits/51/10051-1234*",
       "parentUuid": "84bfd6dd_7717103d",
       "range": {
         "startLine": 181,

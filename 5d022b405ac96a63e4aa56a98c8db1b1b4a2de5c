@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e4e5f21c_323890be",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditModifier.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-12T09:17:47Z",
+      "side": 0,
+      "message": "Instead of just removing the code that removes old ref you would need to update the base ref.",
+      "range": {
+        "startLine": 200,
+        "startChar": 10,
+        "endLine": 201,
+        "endChar": 53
+      },
+      "revId": "5d022b405ac96a63e4aa56a98c8db1b1b4a2de5c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

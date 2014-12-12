@@ -34,10 +34,6 @@ import java.util.Set;
 
 /** Invokes hooks on server actions. */
 public interface ChangeHooks {
-  public void addChangeListener(ChangeListener listener, CurrentUser user);
-
-  public void removeChangeListener(ChangeListener listener);
-
   /**
    * Fire the Patchset Created Hook.
    *

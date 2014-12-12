@@ -67,6 +67,16 @@ In cases where this happens, the administrator will need to manually merge the
 accounts.  See link:https://code.google.com/p/gerrit/wiki/SqlMergeUserAccounts[
 Merging Gerrit User Accounts] on the Gerrit Wiki for details.
 
+Linking another identity is also useful for users whose primary OpenID provider
+shuts down. For example Google will
+link:https://developers.google.com/+/api/auth-migration[shut down their OpenID
+service on 20th April 2015]. Users must add an alternative identity, using another
+OpenID provider, before that shutdown date. User who fail to add an alternative
+identity before that date, and end up with their account only having a disabled
+Google identity, will need to create a separate account with an alternative
+provider and then ask the administrator to merge the accounts using the previously
+mentioned method.
+
 To link another identity to an existing account:
 
 * Login with the existing account

@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "a4ef7afe_b0db58fb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2014-12-12T14:03:21Z",
+      "side": 1,
+      "message": "Sorry. Misread. I have no idea if other places in the code have a similar issue. Someone else is welcome to continue the investigation, but I think it is fine to do so in a separate  changes.",
+      "parentUuid": "a4ef7afe_d0bffc82",
+      "range": {
+        "startLine": 14,
+        "startChar": 18,
+        "endLine": 15,
+        "endChar": 8
+      },
+      "revId": "1c1e0a80c297a129c68b345f895f320f50d5bb0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e4e5f21c_d2ab8465",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a4ef7afe_b00c7831",
+        "filename": "Documentation/config-sso.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-12T06:43:15Z",
+      "side": 1,
+      "message": "20 April. Please add the complete date. I am sure even then we would ned to merge different accounts for the same user manually. But at least we would point them to this documentation and would say: you should have RTFM.",
+      "range": {
+        "startLine": 65,
+        "startChar": 11,
+        "endLine": 65,
+        "endChar": 14
+      },
+      "revId": "e529f27606c5aec2fd62ab7deba0eae8be92a5ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -433,6 +433,13 @@ Log file compression was scheduled using a fixed delay. This caused the start
 times to drift over time. Use a fixed rate instead so that the compression
 reoccurs at the same time every day.
 
+* Do not email project watchers on new draft changes
++
+If a draft change is created by pushing to refs/drafts/master only
+the reviewers explicitly named on the command line (which may be
+empty) should be notified of the change. Users watching the project
+should not be notified, as the change has not yet been published.
+
 Web UI
 ~~~~~~
 

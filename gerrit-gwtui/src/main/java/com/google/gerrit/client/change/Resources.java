@@ -17,16 +17,12 @@ package com.google.gerrit.client.change;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.ClientBundle;
 import com.google.gwt.resources.client.CssResource;
-import com.google.gwt.resources.client.ImageResource;
 
 public interface Resources extends ClientBundle {
   public static final Resources I = GWT.create(Resources.class);
   static final ChangeConstants C = GWT.create(ChangeConstants.class);
   static final ChangeMessages M = GWT.create(ChangeMessages.class);
 
-  @Source("star_open.png") ImageResource star_open();
-  @Source("star_filled.png") ImageResource star_filled();
-  @Source("remove_reviewer.png") ImageResource remove_reviewer();
   @Source("common.css") Style style();
 
   public interface Style extends CssResource {

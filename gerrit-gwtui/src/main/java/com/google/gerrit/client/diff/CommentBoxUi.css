@@ -123,15 +123,15 @@
   color: #fff;
 }
 
-@sprite .go_prev {
-  gwt-image: "go_prev";
+@sprite .goPrev {
+  gwt-image: "goPrev";
   display: inline-block;
 }
-@sprite .go_next {
-  gwt-image: "go_next";
+@sprite .goNext {
+  gwt-image: "goNext";
   display: inline-block;
 }
-@sprite .go_up {
-  gwt-image: "go_up";
+@sprite .goUp {
+  gwt-image: "goUp";
   display: inline-block;
 }

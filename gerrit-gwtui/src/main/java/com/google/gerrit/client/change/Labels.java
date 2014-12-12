@@ -274,7 +274,7 @@ class Labels extends Grid {
         html.openElement("button")
             .setAttribute("title", Util.M.removeReviewer(name))
             .setAttribute("onclick", REMOVE + "(event)")
-            .append(new ImageResourceRenderer().render(Resources.I.remove_reviewer()))
+            .append(new ImageResourceRenderer().render(Gerrit.RESOURCES.removeReviewer()))
             .closeElement("button");
       }
       html.closeSpan();

@@ -20,7 +20,7 @@ limitations under the License.
     xmlns:x='urn:import:com.google.gerrit.client.ui'
     xmlns:clippy='urn:import:com.google.gwtexpui.clippy.client'>
   <ui:with field='ico' type='com.google.gerrit.client.GerritResources'/>
-  <ui:image field="toggle" src="more_less.png"/>
+  <ui:image field="toggle" src="moreLess.png"/>
   <ui:style type='com.google.gerrit.client.change.CommitBox.Style'>
     @eval trimColor com.google.gerrit.client.Gerrit.getTheme().trimColor;
 

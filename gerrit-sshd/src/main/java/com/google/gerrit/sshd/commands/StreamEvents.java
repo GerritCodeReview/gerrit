@@ -16,8 +16,8 @@ package com.google.gerrit.sshd.commands;
 
 import static com.google.gerrit.sshd.CommandMetaData.Mode.MASTER_OR_SLAVE;
 
-import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.ChangeListener;
+import com.google.gerrit.common.EventSource;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.server.IdentifiedUser;
@@ -51,7 +51,7 @@ final class StreamEvents extends BaseCommand {
   private IdentifiedUser currentUser;
 
   @Inject
-  private ChangeHooks hooks;
+  private EventSource source;
 
   @Inject
   @StreamCommandExecutor
@@ -124,12 +124,12 @@ final class StreamEvents extends BaseCommand {
     }
 
     stdout = toPrintWriter(out);
-    hooks.addChangeListener(listener, currentUser);
+    source.addChangeListener(listener, currentUser);
   }
 
   @Override
   protected void onExit(final int rc) {
-    hooks.removeChangeListener(listener);
+    source.removeChangeListener(listener);
 
     synchronized (taskLock) {
       done = true;
@@ -140,7 +140,7 @@ final class StreamEvents extends BaseCommand {
 
   @Override
   public void destroy() {
-    hooks.removeChangeListener(listener);
+    source.removeChangeListener(listener);
 
     final boolean exit;
     synchronized (taskLock) {
@@ -188,7 +188,7 @@ final class StreamEvents extends BaseCommand {
         // destroy() above, or it closed the stream and is no longer
         // accepting output. Either way terminate this instance.
         //
-        hooks.removeChangeListener(listener);
+        source.removeChangeListener(listener);
         flush();
         onExit(0);
         return;

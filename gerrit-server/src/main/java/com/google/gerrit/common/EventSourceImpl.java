@@ -19,9 +19,12 @@ import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.events.ChangeEvent;
 import com.google.gerrit.server.events.Event;
+import com.google.gerrit.server.events.RefEvent;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.ProjectState;
@@ -104,6 +107,12 @@ public class EventSourceImpl implements EventDispatcher, EventSource {
     fireEvent(branchName, event);
   }
 
+  @Override
+  public void postEvent(final Event event, final ReviewDb db)
+      throws OrmException {
+    fireEvent(event, db);
+  }
+
   protected void fireEventForUnrestrictedListeners(final Event event) {
     for (EventListener listener : unrestrictedListeners) {
       listener.onEvent(event);
@@ -131,6 +140,17 @@ public class EventSourceImpl implements EventDispatcher, EventSource {
     fireEventForUnrestrictedListeners( event );
   }
 
+  protected void fireEvent(final Event event, final ReviewDb db)
+      throws OrmException {
+    for (EventListenerHolder holder : listeners.values()) {
+      if (isVisibleTo(event, holder.user, db)) {
+        holder.listener.onEvent(event);
+      }
+    }
+
+    fireEventForUnrestrictedListeners(event);
+  }
+
   protected boolean isVisibleTo(Change change, CurrentUser user, ReviewDb db)
       throws OrmException {
     ProjectState pe = projectCache.get(change.getProject());
@@ -149,4 +169,24 @@ public class EventSourceImpl implements EventDispatcher, EventSource {
     ProjectControl pc = pe.controlFor(user);
     return pc.controlForRef(branchName).isVisible();
   }
+
+  protected boolean isVisibleTo(Event event, CurrentUser user, ReviewDb db)
+      throws OrmException {
+    if (event instanceof RefEvent) {
+      RefEvent rev = (RefEvent) event;
+      String ref = rev.getRefName();
+      if (PatchSet.isRef(ref)) {
+        Change.Id cid;
+        if (event instanceof ChangeEvent) {
+          cid = ((ChangeEvent) event).getChangeId();
+        } else {
+          cid = PatchSet.Id.fromRef(ref).getParentKey();
+        }
+        return isVisibleTo(db.changes().get(cid), user, db);
+      }
+      return isVisibleTo(rev.getBranchNameKey(), user);
+    }
+    return true;
+  }
+
 }

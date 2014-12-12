@@ -38,6 +38,7 @@ import org.junit.Test;
 
 import java.util.EnumSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 @NoHttpd
@@ -155,6 +156,34 @@ public class ChangeIT extends AbstractDaemonTest {
         .addReviewer(in);
     assertThat(getReviewers(r.getChangeId()))
         .containsExactlyElementsIn(ImmutableSet.of(admin.getId(), user.id));
+  }
+
+  @Test
+  public void deleteVote() throws Exception {
+    PushOneCommit.Result r = createChange();
+    gApi.changes()
+        .id(r.getChangeId())
+        .revision(r.getCommit().name())
+        .review(ReviewInput.approve());
+
+    Map<String, Short> m = gApi.changes()
+        .id(r.getChangeId())
+        .reviewer(admin.getId().toString())
+        .votes();
+    assertThat(m).containsEntry("Code-Review", new Short((short)2));
+
+    gApi.changes()
+        .id(r.getChangeId())
+        .reviewer(admin.getId().toString())
+        .deleteVote("Code-Review+2");
+    m = gApi.changes()
+        .id(r.getChangeId())
+        .reviewer(admin.getId().toString())
+        .votes();
+    assertThat(m).containsEntry("Code-Review", new Short((short)0));
+
+    assertThat(getReviewers(r.getChangeId()))
+        .containsExactlyElementsIn(ImmutableSet.of(admin.getId()));
   }
 
   @Test

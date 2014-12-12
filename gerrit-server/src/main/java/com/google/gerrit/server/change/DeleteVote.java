@@ -1,4 +1,4 @@
-// Copyright (C) 2012 The Android Open Source Project
+// Copyright (C) 2014 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.change;
 
-import com.google.common.collect.Lists;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
@@ -28,20 +27,21 @@ import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.change.DeleteReviewer.Input;
+import com.google.gerrit.server.change.DeleteVote.Input;
 import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.util.LabelVote;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import java.io.IOException;
-import java.util.List;
+import java.util.Collections;
 
 @Singleton
-public class DeleteReviewer implements RestModifyView<ReviewerResource, Input> {
+public class DeleteVote implements RestModifyView<VoteResource, Input> {
   public static class Input {
   }
 
@@ -53,7 +53,7 @@ public class DeleteReviewer implements RestModifyView<ReviewerResource, Input> {
   private final IdentifiedUser.GenericFactory userFactory;
 
   @Inject
-  DeleteReviewer(Provider<ReviewDb> dbProvider,
+  DeleteVote(Provider<ReviewDb> dbProvider,
       ChangeUpdate.Factory updateFactory,
       ApprovalsUtil approvalsUtil,
       ChangeMessagesUtil cmUtil,
@@ -68,49 +68,53 @@ public class DeleteReviewer implements RestModifyView<ReviewerResource, Input> {
   }
 
   @Override
-  public Response<?> apply(ReviewerResource rsrc, Input input)
+  public Response<?> apply(VoteResource rsrc, Input input)
       throws AuthException, ResourceNotFoundException, OrmException,
       IOException {
-    ChangeControl control = rsrc.getControl();
-    Change.Id changeId = rsrc.getChange().getId();
+    ChangeControl control = rsrc.getReviewer().getControl();
+    Change change = rsrc.getReviewer().getChange();
+    Change.Id changeId = change.getId();
     ReviewDb db = dbProvider.get();
-    ChangeUpdate update = updateFactory.create(rsrc.getControl());
+    ChangeUpdate update = updateFactory.create(control);
+    LabelVote labelVote = rsrc.getVote();
 
     StringBuilder msg = new StringBuilder();
     db.changes().beginTransaction(changeId);
     try {
-      List<PatchSetApproval> del = Lists.newArrayList();
-      for (PatchSetApproval a : approvalsUtil.byChangeUser(db,
-          update.getChangeNotes(), rsrc.getUser().getAccountId())) {
+      PatchSetApproval   psa = null;
+      Iterable<PatchSetApproval> byChangeUser = approvalsUtil.byChangeUser(db,
+          update.getChangeNotes(),
+          rsrc.getReviewer().getUser().getAccountId());
+      for (PatchSetApproval a : byChangeUser) {
         if (control.canRemoveReviewer(a)) {
-          del.add(a);
-          if (a.getPatchSetId().equals(control.getChange().currentPatchSetId())
-              && a.getValue() != 0) {
-            if (msg.length() == 0) {
-              msg.append("Removed the following votes:\n\n");
-            }
+          if (a.getLabel().equals(labelVote.getLabel())
+              && a.getValue() == rsrc.getVote().getValue()) {
+            a.setValue((short)0);
+            psa = a;
+            msg.append("Removed the following vote:\n\n");
             msg.append("* ")
                 .append(a.getLabel()).append(formatLabelValue(a.getValue()))
-                .append(" by ").append(userFactory.create(a.getAccountId()).getNameEmail())
+                .append(" by ").append(userFactory.create(a.getAccountId())
+                    .getNameEmail())
                 .append("\n");
+            break;
           }
         } else {
           throw new AuthException("delete not permitted");
         }
       }
-      if (del.isEmpty()) {
+      if (psa == null) {
         throw new ResourceNotFoundException();
       }
-      ChangeUtil.bumpRowVersionNotLastUpdatedOn(rsrc.getChange().getId(), db);
-      db.patchSetApprovals().delete(del);
-      update.removeReviewer(rsrc.getUser().getAccountId());
+      ChangeUtil.bumpRowVersionNotLastUpdatedOn(changeId, db);
+      db.patchSetApprovals().update(Collections.singleton(psa));
 
       if (msg.length() > 0) {
         ChangeMessage changeMessage =
-            new ChangeMessage(new ChangeMessage.Key(rsrc.getChange().getId(),
+            new ChangeMessage(new ChangeMessage.Key(change.getId(),
                 ChangeUtil.messageUUID(db)),
                 ((IdentifiedUser) control.getCurrentUser()).getAccountId(),
-                TimeUtil.nowTs(), rsrc.getChange().currentPatchSetId());
+                TimeUtil.nowTs(), change.currentPatchSetId());
         changeMessage.setMessage(msg.toString());
         cmUtil.addChangeMessage(db, update, changeMessage);
       }
@@ -119,8 +123,9 @@ public class DeleteReviewer implements RestModifyView<ReviewerResource, Input> {
     } finally {
       db.rollback();
     }
+
     update.commit();
-    indexer.index(db, rsrc.getChange());
+    indexer.index(db, change);
     return Response.none();
   }
 

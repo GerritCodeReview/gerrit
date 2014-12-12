@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a4ef7afe_b0b0f8d2",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/DiffInfo.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-12T11:01:07Z",
+      "side": 1,
+      "message": "Too much code repetition. Can we optimize it? Pass an enum or flag what to filter and reuse the same logic in both cases?",
+      "range": {
+        "startLine": 38,
+        "startChar": 2,
+        "endLine": 62,
+        "endChar": 3
+      },
+      "revId": "fc09014608dd16173b74028952ac6c35b960c351",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e4e5f21c_12cc6c72",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchScreen.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-12T11:01:07Z",
+      "side": 1,
+      "message": "This REST endpoint retrieves the whole 9 yards of data, while you are only interested here in diff web links. Add an option to the endpoint (see my other comment) and pass it here (if you don\u0027t want to do this optimization in this change, add a TODO here).",
+      "revId": "fc09014608dd16173b74028952ac6c35b960c351",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a4ef7afe_f0a6809d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchScreen.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-12T11:01:07Z",
+      "side": 1,
+      "message": "wrong indentation.",
+      "revId": "fc09014608dd16173b74028952ac6c35b960c351",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e4e5f21c_d2fca481",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchScreen.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-12T11:01:07Z",
+      "side": 1,
+      "message": "Wrap long lines.",
+      "range": {
+        "startLine": 292,
+        "startChar": 8,
+        "endLine": 293,
+        "endChar": 105
+      },
+      "revId": "fc09014608dd16173b74028952ac6c35b960c351",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e4e5f21c_32cf706b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetDiff.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-12T11:01:07Z",
+      "side": 1,
+      "message": "You could return only diff web links here. Just add new @Option(name ) \u0027\u0027-weblink\") or something and ignore all other logic in the endpoint.",
+      "range": {
+        "startLine": 182,
+        "startChar": 6,
+        "endLine": 191,
+        "endChar": 64
+      },
+      "revId": "fc09014608dd16173b74028952ac6c35b960c351",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

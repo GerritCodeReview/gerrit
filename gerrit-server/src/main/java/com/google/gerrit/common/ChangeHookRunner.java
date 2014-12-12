@@ -54,11 +54,13 @@ import com.google.gerrit.server.events.MergeFailedEvent;
 import com.google.gerrit.server.events.PatchSetCreatedEvent;
 import com.google.gerrit.server.events.ProjectCreatedEvent;
 import com.google.gerrit.server.events.ProjectEvent;
+import com.google.gerrit.server.events.RefEvent;
 import com.google.gerrit.server.events.RefUpdatedEvent;
 import com.google.gerrit.server.events.ReviewerAddedEvent;
 import com.google.gerrit.server.events.TopicChangedEvent;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.WorkQueue;
+import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.ProjectState;
@@ -245,6 +247,8 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
     /** Timeout value for synchronous hooks */
     private final int syncHookTimeout;
 
+    private final ChangeNotes.Factory notesFactory;
+
     /**
      * Create a new ChangeHookRunner.
      *
@@ -263,7 +267,8 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
       ProjectCache projectCache,
       AccountCache accountCache,
       EventFactory eventFactory,
-      DynamicSet<EventListener> unrestrictedListeners) {
+      DynamicSet<EventListener> unrestrictedListeners,
+      ChangeNotes.Factory notesFactory) {
         this.anonymousCowardName = anonymousCowardName;
         this.repoManager = repoManager;
         this.hookQueue = queue.createQueue(1, "hook");
@@ -272,6 +277,7 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
         this.eventFactory = eventFactory;
         this.sitePaths = sitePath;
         this.unrestrictedListeners = unrestrictedListeners;
+        this.notesFactory = notesFactory;
 
         Path hooksPath;
         String hooksPathConfig = config.getString("hooks", null, "path");
@@ -835,6 +841,12 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
       fireEvent(branchName, event);
     }
 
+    @Override
+    public void postEvent(com.google.gerrit.server.events.Event event,
+        ReviewDb db) throws OrmException {
+      fireEvent(event, db);
+    }
+
     private Supplier<AccountState> getAccountSupplier(
         final Account.Id account) {
       return Suppliers.memoize(
@@ -934,6 +946,17 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
       fireEventForUnrestrictedListeners(event);
     }
 
+    private void fireEvent(com.google.gerrit.server.events.Event event,
+        ReviewDb db) throws OrmException {
+      for (EventListenerHolder holder : listeners.values()) {
+        if (isVisibleTo(event, holder.user, db)) {
+          holder.listener.onEvent(event);
+        }
+      }
+
+      fireEventForUnrestrictedListeners(event);
+    }
+
     private boolean isVisibleTo(Project.NameKey project, CurrentUser user) {
       ProjectState pe = projectCache.get(project);
       if (pe == null) {
@@ -944,6 +967,9 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
 
     private boolean isVisibleTo(Change change, CurrentUser user, ReviewDb db)
         throws OrmException {
+      if (change == null) {
+        return false;
+      }
       ProjectState pe = projectCache.get(change.getProject());
       if (pe == null) {
         return false;
@@ -959,6 +985,22 @@ public class ChangeHookRunner implements ChangeHooks, EventDispatcher,
       }
       ProjectControl pc = pe.controlFor(user);
       return pc.controlForRef(branchName).isVisible();
+    }
+
+    private boolean isVisibleTo(com.google.gerrit.server.events.Event event,
+        CurrentUser user, ReviewDb db) throws OrmException {
+      if (event instanceof RefEvent) {
+        RefEvent refEvent = (RefEvent) event;
+        String ref = refEvent.getRefName();
+        if (PatchSet.isChangeRef(ref)) {
+          Change.Id cid= PatchSet.Id.fromRef(ref).getParentKey();
+        Change change =
+            notesFactory.create(db, refEvent.getProjectNameKey(), cid).getChange();
+          return isVisibleTo(change, user, db);
+        }
+        return isVisibleTo(refEvent.getBranchNameKey(), user);
+      }
+      return true;
     }
 
     /**

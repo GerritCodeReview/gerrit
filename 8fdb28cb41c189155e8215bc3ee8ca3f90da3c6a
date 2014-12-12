@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a4ef7afe_d0fc9c81",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/auth/openid/OpenIdUrls.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-12T10:17:12Z",
+      "side": 1,
+      "message": "Keep the order lexicographically sorted.",
+      "range": {
+        "startLine": 22,
+        "startChar": 29,
+        "endLine": 22,
+        "endChar": 42
+      },
+      "revId": "8fdb28cb41c189155e8215bc3ee8ca3f90da3c6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a4ef7afe_b0f118a8",
+        "filename": "gerrit-openid/src/main/resources/com/google/gerrit/httpd/auth/openid/LoginForm.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-12T10:17:12Z",
+      "side": 1,
+      "message": "Please, sort this lexicographically (beside sorting order: I am not aware of anyone who is using Yahoo! OpenID provider).",
+      "range": {
+        "startLine": 65,
+        "startChar": 8,
+        "endLine": 68,
+        "endChar": 14
+      },
+      "revId": "8fdb28cb41c189155e8215bc3ee8ca3f90da3c6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

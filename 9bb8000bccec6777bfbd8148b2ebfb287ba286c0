@@ -70,6 +70,30 @@
       "revId": "9bb8000bccec6777bfbd8148b2ebfb287ba286c0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "44d15e3e_35219090",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.ui.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 508,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-12-12T16:10:37Z",
+      "side": 1,
+      "message": "I just tried in my browser and it\u0027s a little bit too wide, but without \"Add\" over there, maybe the inconsistent width doesn\u0027t actually matter. What do you think?",
+      "parentUuid": "84bfd6dd_d7fc9c81",
+      "range": {
+        "startLine": 508,
+        "startChar": 23,
+        "endLine": 508,
+        "endChar": 32
+      },
+      "revId": "9bb8000bccec6777bfbd8148b2ebfb287ba286c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

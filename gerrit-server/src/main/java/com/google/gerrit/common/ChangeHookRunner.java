@@ -86,7 +86,8 @@ import java.util.concurrent.TimeoutException;
 
 /** Spawns local executables when a hook action occurs. */
 @Singleton
-public class ChangeHookRunner implements ChangeHooks, LifecycleListener {
+public class ChangeHookRunner implements ChangeHooks, EventSource,
+  LifecycleListener {
     /** A logger for this class. */
     private static final Logger log = LoggerFactory.getLogger(ChangeHookRunner.class);
 

@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "a4ef7afe_90b5f4c2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-12T10:57:34Z",
+      "side": 1,
+      "message": "Interesting approach.",
+      "parentUuid": "e4e5f21c_f2d0c811",
+      "range": {
+        "startLine": 13,
+        "startChar": 16,
+        "endLine": 14,
+        "endChar": 66
+      },
+      "revId": "9be68b2e5aa433de9843e8beeefc5e482e0d7828",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e4e5f21c_52679405",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 2

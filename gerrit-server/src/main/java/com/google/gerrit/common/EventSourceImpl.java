@@ -19,7 +19,9 @@ import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.events.ChangeEvent;
 import com.google.gerrit.server.events.Event;
+import com.google.gerrit.server.events.RefEvent;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.ProjectState;
@@ -76,7 +78,7 @@ public class EventSourceImpl implements EventSource {
     }
   }
 
-  public void fireEvent(final Change change, final Event event,
+  public void fireEvent(final Change change, final ChangeEvent event,
       final ReviewDb db) throws OrmException {
     for (EventListenerHolder holder : listeners.values()) {
       if (isVisibleTo(change, holder.user, db)) {
@@ -87,7 +89,11 @@ public class EventSourceImpl implements EventSource {
     fireEventForUnrestrictedListeners( event );
   }
 
-  public void fireEvent(Branch.NameKey branchName, final Event event) {
+  public void fireEvent(Branch.NameKey branchName, final RefEvent event) {
+    if (event instanceof ChangeEvent) {
+      throw new IllegalArgumentException("ChangeEvents require a Change to fire");
+    }
+
     for (EventListenerHolder holder : listeners.values()) {
       if (isVisibleTo(branchName, holder.user)) {
         holder.listener.onEvent(event);

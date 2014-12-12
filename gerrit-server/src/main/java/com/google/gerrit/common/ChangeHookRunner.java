@@ -35,15 +35,16 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.data.ApprovalAttribute;
 import com.google.gerrit.server.events.ChangeAbandonedEvent;
+import com.google.gerrit.server.events.ChangeEvent;
 import com.google.gerrit.server.events.ChangeMergedEvent;
 import com.google.gerrit.server.events.ChangeRestoredEvent;
 import com.google.gerrit.server.events.CommentAddedEvent;
 import com.google.gerrit.server.events.DraftPublishedEvent;
-import com.google.gerrit.server.events.Event;
 import com.google.gerrit.server.events.EventFactory;
 import com.google.gerrit.server.events.HashtagsChangedEvent;
 import com.google.gerrit.server.events.MergeFailedEvent;
 import com.google.gerrit.server.events.PatchSetCreatedEvent;
+import com.google.gerrit.server.events.RefEvent;
 import com.google.gerrit.server.events.RefUpdatedEvent;
 import com.google.gerrit.server.events.ReviewerAddedEvent;
 import com.google.gerrit.server.events.TopicChangedEvent;
@@ -656,23 +657,23 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener {
     }
 
     @Override
-    public void postEvent(final Change change, final Event event,
+    public void postEvent(final Change change, final ChangeEvent event,
         final ReviewDb db) throws OrmException {
       fireEvent(change, event, db);
     }
 
     @Override
     public void postEvent(final Branch.NameKey branchName,
-        final Event event) {
+        final RefEvent event) {
       fireEvent(branchName, event);
     }
 
-    private void fireEvent(final Change change, final Event event,
+    private void fireEvent(final Change change, final ChangeEvent event,
         final ReviewDb db) throws OrmException {
       dispatcher.fireEvent(change, event, db);
     }
 
-    private void fireEvent(Branch.NameKey branchName, final Event event) {
+    private void fireEvent(Branch.NameKey branchName, final RefEvent event) {
       dispatcher.fireEvent(branchName, event);
     }
 

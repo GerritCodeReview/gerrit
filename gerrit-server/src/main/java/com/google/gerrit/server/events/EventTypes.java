@@ -30,10 +30,10 @@ public class EventTypes {
     registerClass(new DraftPublishedEvent());
     registerClass(new HashtagsChangedEvent());
     registerClass(new MergeFailedEvent());
-    registerClass(new RefUpdatedEvent());
-    registerClass(new RefReceivedEvent());
-    registerClass(new ReviewerAddedEvent());
     registerClass(new PatchSetCreatedEvent());
+    registerClass(new RefReceivedEvent());
+    registerClass(new RefUpdatedEvent());
+    registerClass(new ReviewerAddedEvent());
     registerClass(new TopicChangedEvent());
   }
 

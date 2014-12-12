@@ -22,6 +22,30 @@
       "revId": "5474614caf3d6d68a796dc24a7147a27a37fd67c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e4e5f21c_92a29cae",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-12T07:31:25Z",
+      "side": 1,
+      "message": "Upps. That was correct. But this is not the (only) reason to remove this. Because all already registered domain can still use this provider. The reason to remove is 05-20-2015, Google shuts down OpenID service provider. This reason and this date should be mentioned here as well.",
+      "parentUuid": "a4ef7afe_f029e077",
+      "range": {
+        "startLine": 9,
+        "startChar": 5,
+        "endLine": 9,
+        "endChar": 11
+      },
+      "revId": "5474614caf3d6d68a796dc24a7147a27a37fd67c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

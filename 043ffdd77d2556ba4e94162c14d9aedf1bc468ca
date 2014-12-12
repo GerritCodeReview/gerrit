@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "84bfd6dd_773ef0ae",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-12-12T04:58:41Z",
+      "side": 1,
+      "message": "All the filenames are now camelCase except the following\n\n gerrit-gwtui/src/main/java/com/google/gerrit/client/change/more_less.png\n gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/go-next.png\n gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/go-prev.png\n gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/go-up.png\n\nShould they also be renamed?",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 35
+      },
+      "revId": "043ffdd77d2556ba4e94162c14d9aedf1bc468ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

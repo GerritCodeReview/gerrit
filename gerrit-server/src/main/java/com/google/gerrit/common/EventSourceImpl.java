@@ -18,6 +18,7 @@ import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
@@ -105,9 +106,24 @@ public class EventSourceImpl implements EventDispatcher, EventSource {
     fireEvent(projectName, event);
   }
 
+  @Override
+  public void postEvent(Event event, ReviewDb db) throws OrmException {
+    fireEvent(event, db);
+  }
+
   private void fireEvent(Project.NameKey project, ProjectEvent event) {
     for (EventListenerHolder holder : listeners.values()) {
       if (isVisibleTo(project, event, holder.user)) {
+        holder.listener.onEvent(event);
+      }
+    }
+
+    fireEventForUnrestrictedListeners(event);
+  }
+
+  protected void fireEvent(Event event, ReviewDb db) throws OrmException {
+    for (EventListenerHolder holder : listeners.values()) {
+      if (isVisibleTo(event, holder.user, db)) {
         holder.listener.onEvent(event);
       }
     }
@@ -173,5 +189,24 @@ public class EventSourceImpl implements EventDispatcher, EventSource {
     }
     ProjectControl pc = pe.controlFor(user);
     return pc.controlForRef(branchName).isVisible();
+  }
+
+  protected boolean isVisibleTo(Event event, CurrentUser user, ReviewDb db)
+      throws OrmException {
+    if (event instanceof RefEvent) {
+      RefEvent rev = (RefEvent) event;
+      String ref = rev.getRefName();
+      if (PatchSet.isRef(ref)) {
+        Change.Id cid;
+        if (event instanceof ChangeEvent) {
+          cid = ((ChangeEvent) event).getChangeId();
+        } else {
+          cid = PatchSet.Id.fromRef(ref).getParentKey();
+        }
+        return isVisibleTo(db.changes().get(cid), user, db);
+      }
+      return isVisibleTo(rev.getBranchNameKey(), user);
+    }
+    return true;
   }
 }

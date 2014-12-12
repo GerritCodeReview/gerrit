@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "84bfd6dd_173574c4",
+        "filename": "Documentation/config-sso.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-12-12T06:00:47Z",
+      "side": 1,
+      "message": "Will add.",
+      "parentUuid": "a4ef7afe_3092c863",
+      "revId": "39a553d7396a81c1be2328385385cbaba4a2cc2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "44d15e3e_b5c6c076",
         "filename": "Documentation/config-sso.txt",
         "patchSetId": 3
@@ -54,6 +72,30 @@
       "side": 1,
       "message": "You mean create a new wiki page \"Linking multiple OpenID identities\" with the content from here? Why Gerrit change is needed for it?",
       "parentUuid": "44d15e3e_b5c6c076",
+      "range": {
+        "startLine": 78,
+        "startChar": 11,
+        "endLine": 79,
+        "endChar": 61
+      },
+      "revId": "39a553d7396a81c1be2328385385cbaba4a2cc2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "84bfd6dd_373878be",
+        "filename": "Documentation/config-sso.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-12-12T06:00:47Z",
+      "side": 1,
+      "message": "No, I mean copy the content of that wiki page into a new page in the Gerrit documentation.\n\nIt\u0027s more convenient for the admin to have the information at hand, than to have to go off to an external page.",
+      "parentUuid": "a4ef7afe_108fc439",
       "range": {
         "startLine": 78,
         "startChar": 11,

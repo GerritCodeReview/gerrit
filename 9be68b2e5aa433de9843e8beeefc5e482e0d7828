@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "e4e5f21c_f2d0c811",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-12-12T10:01:38Z",
+      "side": 1,
+      "message": "I rather support the diff web links in the current unified diff screen. If to ignore the unified diff screen now, it means that the API for plugins will change later and all plugins needs to be adapted. Also it would then be more likely that support for diff web links will be forgotten when Unified2 is finalized.",
+      "parentUuid": "e4e5f21c_726a98d1",
+      "range": {
+        "startLine": 13,
+        "startChar": 16,
+        "endLine": 14,
+        "endChar": 66
+      },
+      "revId": "9be68b2e5aa433de9843e8beeefc5e482e0d7828",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e4e5f21c_52679405",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 2
@@ -209,6 +233,30 @@
     },
     {
       "key": {
+        "uuid": "e4e5f21c_d2d5c4ff",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/DiffWebLinkInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-12-12T10:01:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a4ef7afe_50ae6ca3",
+      "range": {
+        "startLine": 19,
+        "startChar": 52,
+        "endLine": 19,
+        "endChar": 56
+      },
+      "revId": "9be68b2e5aa433de9843e8beeefc5e482e0d7828",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a4ef7afe_10b8e4e4",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/DiffWebLinkInfo.java",
         "patchSetId": 2
@@ -243,6 +291,30 @@
       "writtenOn": "2014-12-11T22:25:09Z",
       "side": 1,
       "message": "This check is not needed and unexpected, as we never mess around with nulls, when containers involved. Just remove this if. You are creating correctly:\n\n  List\u003cDiffWebLinkInfo\u003e sideBySideDiffWebLinks \u003d new LinkedList\u003c\u003e();\n\nin the method:\n\n  private List\u003cDiffWebLinkInfo\u003e getSideBySideDiffWebLinks()\n\nso this is never null.",
+      "range": {
+        "startLine": 219,
+        "startChar": 4,
+        "endLine": 219,
+        "endChar": 27
+      },
+      "revId": "9be68b2e5aa433de9843e8beeefc5e482e0d7828",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e4e5f21c_12358cc4",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/Header.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-12-12T10:01:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a4ef7afe_f0a320b5",
       "range": {
         "startLine": 219,
         "startChar": 4,

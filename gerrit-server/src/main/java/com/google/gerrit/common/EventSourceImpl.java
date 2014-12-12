@@ -1,0 +1,124 @@
+// Copyright (C) 2010 The Android Open Source Project
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+package com.google.gerrit.common;
+
+import com.google.gerrit.extensions.registration.DynamicSet;
+import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.events.Event;
+import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.ProjectControl;
+import com.google.gerrit.server.project.ProjectState;
+import com.google.gwtorm.server.OrmException;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
+/** Distributes Events to listeners if they are allowed to see them */
+public class EventSourceImpl implements EventSource {
+  /** A logger for this class. */
+  private static final Logger log =
+      LoggerFactory.getLogger(EventSourceImpl.class);
+
+  protected static class ChangeListenerHolder {
+      final ChangeListener listener;
+      final CurrentUser user;
+
+      ChangeListenerHolder(ChangeListener l, CurrentUser u) {
+          listener = l;
+          user = u;
+      }
+  }
+
+  /** Listeners to receive changes as they happen (limited by visibility
+   *  of holder's user). */
+  protected final Map<ChangeListener, ChangeListenerHolder> listeners =
+      new ConcurrentHashMap<>();
+
+  /** Listeners to receive all changes as they happen. */
+  protected final DynamicSet<ChangeListener> unrestrictedListeners;
+
+  protected final ProjectCache projectCache;
+
+  /**
+    * Create a new ChangeEventSourceImpl.
+    * @param projectCache the project cache instance for the server.
+    */
+  public EventSourceImpl(final ProjectCache projectCache,
+      final DynamicSet<ChangeListener> unrestrictedListeners) {
+    this.projectCache = projectCache;
+    this.unrestrictedListeners = unrestrictedListeners;
+  }
+
+  @Override
+  public void addChangeListener(ChangeListener listener, CurrentUser user) {
+      listeners.put(listener, new ChangeListenerHolder(listener, user));
+  }
+
+  @Override
+  public void removeChangeListener(ChangeListener listener) {
+      listeners.remove(listener);
+  }
+
+  public void fireEventForUnrestrictedListeners(final Event event) {
+    for (ChangeListener listener : unrestrictedListeners) {
+        listener.onEvent(event);
+    }
+  }
+
+  public void fireEvent(final Change change, final Event event, final ReviewDb db) throws OrmException {
+    for (ChangeListenerHolder holder : listeners.values()) {
+        if (isVisibleTo(change, holder.user, db)) {
+            holder.listener.onEvent(event);
+        }
+    }
+
+    fireEventForUnrestrictedListeners( event );
+  }
+
+  public void fireEvent(Branch.NameKey branchName, final Event event) {
+    for (ChangeListenerHolder holder : listeners.values()) {
+        if (isVisibleTo(branchName, holder.user)) {
+            holder.listener.onEvent(event);
+        }
+    }
+
+    fireEventForUnrestrictedListeners( event );
+  }
+
+  private boolean isVisibleTo(Change change, CurrentUser user, ReviewDb db) throws OrmException {
+      final ProjectState pe = projectCache.get(change.getProject());
+      if (pe == null) {
+        return false;
+      }
+      final ProjectControl pc = pe.controlFor(user);
+      return pc.controlFor(change).isVisible(db);
+  }
+
+  private boolean isVisibleTo(Branch.NameKey branchName, CurrentUser user) {
+      final ProjectState pe = projectCache.get(branchName.getParentKey());
+      if (pe == null) {
+        return false;
+      }
+      final ProjectControl pc = pe.controlFor(user);
+      return pc.controlForRef(branchName).isVisible();
+  }
+}

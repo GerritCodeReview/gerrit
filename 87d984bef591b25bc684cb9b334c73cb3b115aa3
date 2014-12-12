@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "44d15e3e_1561f4ee",
+        "filename": "Documentation/config-sso.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-12-12T04:38:20Z",
+      "side": 1,
+      "message": "This section title doesn\u0027t really match what is being described in the following paragraphs.\n\nChange it to \"Support for Identities from Multiple Providers\" or something like that?",
+      "range": {
+        "startLine": 51,
+        "startChar": 4,
+        "endLine": 51,
+        "endChar": 19
+      },
+      "revId": "87d984bef591b25bc684cb9b334c73cb3b115aa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "84bfd6dd_171e9456",
+        "filename": "Documentation/config-sso.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-12-12T04:38:20Z",
+      "side": 1,
+      "message": "alternative",
+      "range": {
+        "startLine": 73,
+        "startChar": 44,
+        "endLine": 73,
+        "endChar": 56
+      },
+      "revId": "87d984bef591b25bc684cb9b334c73cb3b115aa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "84bfd6dd_f729e077",
+        "filename": "Documentation/config-sso.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-12-12T04:38:20Z",
+      "side": 1,
+      "message": "I would reword this a bit.  I\u0027ll just upload a new patch set; it will be almost the same effort as writing it here.",
+      "range": {
+        "startLine": 60,
+        "startChar": 0,
+        "endLine": 77,
+        "endChar": 74
+      },
+      "revId": "87d984bef591b25bc684cb9b334c73cb3b115aa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "44d15e3e_f5bc38e2",
+        "filename": "Documentation/config-sso.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-12-12T04:38:20Z",
+      "side": 1,
+      "message": "I don\u0027t think this is necessary.  It should be enough to describe the process in the previous paragraphs.",
+      "range": {
+        "startLine": 79,
+        "startChar": 0,
+        "endLine": 104,
+        "endChar": 5
+      },
+      "revId": "87d984bef591b25bc684cb9b334c73cb3b115aa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

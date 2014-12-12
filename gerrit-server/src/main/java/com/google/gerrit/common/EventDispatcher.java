@@ -41,4 +41,16 @@ public interface EventDispatcher {
    * @param event The event to post
    */
   public void postEvent(Branch.NameKey branchName, Event event);
+
+  /**
+   * Post a stream event generically.
+   *
+   * If you are creating a RefEvent or ChangeEvent from scratch,
+   * it is more efficient to use the specific postEvent methods
+   * for those use cases.
+   *
+   * @param event The event to post
+   */
+  public void postEvent(final Event event, final ReviewDb db)
+      throws OrmException;
 }

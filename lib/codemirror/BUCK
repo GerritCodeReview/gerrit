@@ -9,16 +9,12 @@ URL = GERRIT + 'net/codemirror/codemirror-%s.zip' % VERSION
 ZIP = 'codemirror-%s.zip' % VERSION
 TOP = 'codemirror-%s' % VERSION
 
+CLOSURE_VERSION = 'v20141120'
+
 CLOSURE_COMPILER_ARGS = [
   '--compilation_level SIMPLE_OPTIMIZATIONS',
   '--warning_level QUIET'
 ]
-
-# https://code.google.com/p/closure-compiler/wiki/BinaryDownloads?tm=2
-CLOSURE_VERSION = '20140407'
-CLOSURE_COMPILER_URL = 'http://dl.google.com/closure-compiler/compiler-%s.zip' % CLOSURE_VERSION
-COMPILER = 'compiler.jar'
-CLOSURE_COMPILER_SHA1 = 'eeb02bfd45eb4a080b66dd423eaee4bdd1d674e9'
 
 genrule(
   name = 'css',
@@ -100,22 +96,23 @@ java_binary(
   deps = [':compiler-jar']
 )
 
-prebuilt_jar(
+maven_jar(
   name = 'compiler-jar',
-  binary_jar = ':compiler',
+  id = 'com.google.javascript:closure-compiler:' + CLOSURE_VERSION,
+  sha1 = '369618bf5a96f73e32655dc48919c0f97558d3b1',
+  license = 'Apache2.0',
+  deps = [
+    ':closure-compiler-externs',
+    '//lib:args4j',
+    '//lib:gson',
+    '//lib:guava',
+    '//lib:protobuf',
+  ],
 )
 
-genrule(
-  name = 'compiler',
-  cmd = 'unzip -p $(location :closure-compiler-zip) %s >$OUT' % COMPILER,
-  out = COMPILER,
-)
-
-genrule(
-  name = 'closure-compiler-zip',
-  cmd = '$(exe //tools:download_file)' +
-    ' -o $OUT' +
-    ' -u ' + CLOSURE_COMPILER_URL +
-    ' -v ' + CLOSURE_COMPILER_SHA1,
-  out = 'closure-compiler.zip',
+maven_jar(
+  name = 'closure-compiler-externs',
+  id = 'com.google.javascript:closure-compiler-externs:' + CLOSURE_VERSION,
+  sha1 = '247eff337e2737de43c8d963aaaef15bd8cda132',
+  license = 'Apache2.0',
 )

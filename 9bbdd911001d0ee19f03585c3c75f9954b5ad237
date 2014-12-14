@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "8458b61b_0fdf456e",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/ChangeType.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-14T23:47:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d065072b_b70c4261",
+      "revId": "9bbdd911001d0ee19f03585c3c75f9954b5ad237",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c4faa581_4cc73f4b",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/DiffInfo.java",
         "patchSetId": 7
@@ -66,6 +84,24 @@
       "writtenOn": "2014-06-23T17:18:03Z",
       "side": 1,
       "message": "If this is going in the public extension API could it have a bit more documentation?",
+      "revId": "9bbdd911001d0ee19f03585c3c75f9954b5ad237",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8458b61b_efd9218b",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/DiffInfo.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-14T23:47:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c4faa581_4cc73f4b",
       "revId": "9bbdd911001d0ee19f03585c3c75f9954b5ad237",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

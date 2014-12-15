@@ -34,6 +34,24 @@
       "revId": "e60624be31949b31f1702901ef4aadbb3bb68256",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "643d829e_eef03ff3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-15T09:39:58Z",
+      "side": 1,
+      "message": "You are right. Let\u0027s do both in follow up commit.",
+      "parentUuid": "443a3eaa_8d3fc1dc",
+      "revId": "e60624be31949b31f1702901ef4aadbb3bb68256",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

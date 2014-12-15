@@ -118,6 +118,30 @@
       "revId": "f4d693b5a217e0d6a773de26768cc70b4955daa9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "643d829e_2e032737",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/editor/EditScreen.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-15T10:06:25Z",
+      "side": 1,
+      "message": "Can you fix/extend it to return commit message content as well? Just add an if and return base64 encoded commit message:\n\n  changeUtil.getMessage(rsrc.getChange())\n\nsomething that existing endpoint in ChangeEdits is doing (without handling edit case, of course):\n\n  if (Patch.COMMIT_MSG.equals(path)) {\n    return BinaryResult.create(changeUtil.getMessage(rsrc.getChange())).base64();\n  }\n\nAs follow up commit we would need to extend the client to use this endpoints for notmal revisions instead of change edit endpoint and amend GET edit:message endpoint to throw 404 when no edit exist (as suggested by Shawn and Edwin), instead of returning the content of commit message from regular revision commit.",
+      "parentUuid": "443a3eaa_0d34b1fa",
+      "range": {
+        "startLine": 81,
+        "startChar": 4,
+        "endLine": 84,
+        "endChar": 12
+      },
+      "revId": "f4d693b5a217e0d6a773de26768cc70b4955daa9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

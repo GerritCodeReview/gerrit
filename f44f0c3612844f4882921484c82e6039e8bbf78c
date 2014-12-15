@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8458b61b_6fe61141",
+        "filename": "ReleaseNotes/ReleaseNotes-2.11.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-15T05:54:50Z",
+      "side": 1,
+      "message": "Add here what to do when this deadline wasn\u0027t met: register new OpenID account and ask the site administrator to link it manually to the existing one. This is going to be the case in \u003e50%, i think and thus worth mentioning explicitly.",
+      "revId": "f44f0c3612844f4882921484c82e6039e8bbf78c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

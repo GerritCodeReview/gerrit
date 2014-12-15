@@ -20,6 +20,7 @@ import com.google.gerrit.common.EventListener;
 import com.google.gerrit.common.EventSource;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
+import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.events.Event;
 import com.google.gerrit.server.events.EventTypes;
@@ -52,7 +53,7 @@ final class StreamEvents extends BaseCommand {
   private IdentifiedUser currentUser;
 
   @Inject
-  private EventSource source;
+  private DynamicItem<EventSource> source;
 
   @Inject
   @StreamCommandExecutor
@@ -132,12 +133,12 @@ final class StreamEvents extends BaseCommand {
     }
 
     stdout = toPrintWriter(out);
-    source.addEventListener(listener, currentUser);
+    addEventListener();
   }
 
   @Override
   protected void onExit(final int rc) {
-    source.removeEventListener(listener);
+    removeEventListener();
 
     synchronized (taskLock) {
       done = true;
@@ -148,7 +149,7 @@ final class StreamEvents extends BaseCommand {
 
   @Override
   public void destroy() {
-    source.removeEventListener(listener);
+    removeEventListener();
 
     final boolean exit;
     synchronized (taskLock) {
@@ -196,7 +197,7 @@ final class StreamEvents extends BaseCommand {
         // destroy() above, or it closed the stream and is no longer
         // accepting output. Either way terminate this instance.
         //
-        source.removeEventListener(listener);
+        removeEventListener();
         flush();
         onExit(0);
         return;
@@ -226,6 +227,20 @@ final class StreamEvents extends BaseCommand {
       synchronized (taskLock) {
         task = pool.submit(writer);
       }
+    }
+  }
+
+  private void addEventListener() {
+    EventSource src = source.get();
+    if (src != null) {
+      src.addEventListener(listener, currentUser);
+    }
+  }
+
+  private void removeEventListener() {
+    EventSource src = source.get();
+    if (src != null) {
+      src.removeEventListener(listener);
     }
   }
 

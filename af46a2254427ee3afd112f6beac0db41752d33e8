@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "0444c639_6bfd21c5",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/editor/EditScreen.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-12-15T08:17:33Z",
+      "side": 1,
+      "message": "\"Don\u0027t\" or \"No\"",
+      "range": {
+        "startLine": 82,
+        "startChar": 9,
+        "endLine": 82,
+        "endChar": 12
+      },
+      "revId": "af46a2254427ee3afd112f6beac0db41752d33e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8458b61b_2f032937",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/editor/EditScreen.java",
         "patchSetId": 17

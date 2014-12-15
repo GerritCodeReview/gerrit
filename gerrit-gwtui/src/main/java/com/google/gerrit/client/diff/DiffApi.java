@@ -63,6 +63,11 @@ public class DiffApi {
     return this;
   }
 
+  public DiffApi webLinksOnly() {
+    call.addParameter("weblinks-only", true);
+    return this;
+  }
+
   public DiffApi ignoreWhitespace(AccountDiffPreference.Whitespace w) {
     switch (w) {
       default:

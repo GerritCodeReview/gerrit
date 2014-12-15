@@ -14,11 +14,17 @@
 
 package com.google.gerrit.client.diff;
 
+import com.google.gerrit.client.DiffWebLinkInfo;
 import com.google.gerrit.client.WebLinkInfo;
+import com.google.gerrit.client.rpc.Natives;
+import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DiffView;
 import com.google.gerrit.reviewdb.client.Patch.ChangeType;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.core.client.JsArrayString;
+
+import java.util.LinkedList;
+import java.util.List;
 
 public class DiffInfo extends JavaScriptObject {
   public static final String GITLINK = "x-git/gitlink";
@@ -28,6 +34,33 @@ public class DiffInfo extends JavaScriptObject {
   public final native FileMeta meta_b() /*-{ return this.meta_b; }-*/;
   public final native JsArrayString diff_header() /*-{ return this.diff_header; }-*/;
   public final native JsArray<Region> content() /*-{ return this.content; }-*/;
+  public final native JsArray<DiffWebLinkInfo> web_links() /*-{ return this.web_links; }-*/;
+
+  public final List<WebLinkInfo> side_by_side_web_links() {
+    return filterWebLinks(DiffView.SIDE_BY_SIDE);
+  }
+
+  public final List<WebLinkInfo> unified_web_links() {
+    return filterWebLinks(DiffView.UNIFIED_DIFF);
+  }
+
+  private final List<WebLinkInfo> filterWebLinks(DiffView diffView) {
+    List<WebLinkInfo> filteredDiffWebLinks = new LinkedList<>();
+    List<DiffWebLinkInfo> allDiffWebLinks = Natives.asList(web_links());
+    if (allDiffWebLinks != null) {
+      for (DiffWebLinkInfo webLink : allDiffWebLinks) {
+        if (diffView == DiffView.SIDE_BY_SIDE
+            && webLink.showOnSideBySideDiffView()) {
+          filteredDiffWebLinks.add(webLink);
+        }
+        if (diffView == DiffView.UNIFIED_DIFF
+            && webLink.showOnUnifiedDiffView()) {
+          filteredDiffWebLinks.add(webLink);
+        }
+      }
+    }
+    return filteredDiffWebLinks;
+  }
 
   public final ChangeType change_type() {
     return ChangeType.valueOf(change_typeRaw());

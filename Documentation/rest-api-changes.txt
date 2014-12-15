@@ -2972,6 +2972,9 @@ If the `intraline` parameter is specified, intraline differences are included in
 The `base` parameter can be specified to control the base patch set from which the diff should
 be generated.
 
+[[weblinks-only]]
+If the `weblinks-only` parameter is specified, only the diff web links are returned.
+
 .Request
 ----
   GET /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/revisions/b6b9c10649b9041884046119ab794374470a1b45/files/gerrit-server%2Fsrc%2Fmain%2Fjava%2Fcom%2Fgoogle%2Fgerrit%2Fserver%2Fproject%2FRefControl.java/diff?base=2 HTTP/1.0
@@ -3589,6 +3592,9 @@ link:rest-api-changes.html#web-link-info[WebLinkInfo] entries.
 The `DiffInfo` entity contains information about the diff of a file
 in a revision.
 
+If the link:#weblinks-only[weblinks-only] parameter is specified, only
+the `web_links` field is set.
+
 [options="header",cols="1,^1,5"]
 |==========================
 |Field Name        ||Description
@@ -3605,6 +3611,9 @@ Intraline status (`OK`, `ERROR`, `TIMEOUT`).
 |`diff_header`     ||A list of strings representing the patch set diff header.
 |`content`         ||The content differences in the file as a list of
 link:#diff-content[DiffContent] entities.
+|`web_links`       |optional|
+Links to the file diff in external sites as a list of
+link:rest-api-changes.html#diff-web-link-info[DiffWebLinkInfo] entries.
 |==========================
 
 [[diff-intraline-info]]
@@ -3620,6 +3629,23 @@ diff content lines.
 
 Note that the implied newline character at the end of each line is included in
 the length calculation, and thus it is possible for the edits to span newlines.
+
+[[diff-web-link-info]]
+=== DiffWebLinkInfo
+The `DiffWebLinkInfo` entity describes a link on a diff screen to an
+external site.
+
+[options="header",cols="1,6"]
+|=======================
+|Field Name|Description
+|`name`     |The link name.
+|`url`      |The link URL.
+|`image_url`|URL to the icon of the link.
+|show_on_side_by_side_diff_view|
+Whether the web link should be shown on the side-by-side diff screen.
+|show_on_unified_diff_view|
+Whether the web link should be shown on the unified diff screen.
+|=======================
 
 [[fetch-info]]
 === FetchInfo

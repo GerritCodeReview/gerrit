@@ -46,6 +46,30 @@
       "revId": "f4d693b5a217e0d6a773de26768cc70b4955daa9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "443a3eaa_2d0a4d43",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/editor/EditScreen.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-12-15T09:14:11Z",
+      "side": 1,
+      "message": "\u003e return text/plain in endpoint\n\nDone with https://gerrit-review.googlesource.com/#/c/62420\n\n\u003e What is the URL for failing /content in your case?\n\nIt\u0027s working fine in the UI.  I get 404 from:\n\n /changes/246/revisions/3d7a8ac7e8c17bc817dfddf14f5f721ca840d429/files/%2FCOMMIT_MSG/content\n\nvia curl.",
+      "parentUuid": "8458b61b_4f006d28",
+      "range": {
+        "startLine": 81,
+        "startChar": 4,
+        "endLine": 84,
+        "endChar": 12
+      },
+      "revId": "f4d693b5a217e0d6a773de26768cc70b4955daa9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

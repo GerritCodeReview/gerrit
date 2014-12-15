@@ -65,7 +65,7 @@ public class HashtagsUtil {
   public static String cleanupHashtag(String hashtag) {
     hashtag = LEADER.trimLeadingFrom(hashtag);
     hashtag = WHITESPACE.trimTrailingFrom(hashtag);
-    return hashtag.toLowerCase();
+    return hashtag;
   }
 
   private Set<String> extractTags(Set<String> input)

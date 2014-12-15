@@ -315,8 +315,6 @@ public class ReceiveCommits {
   private List<CreateRequest> newChanges = Collections.emptyList();
   private final Map<Change.Id, ReplaceRequest> replaceByChange =
       new HashMap<>();
-  private final Map<RevCommit, ReplaceRequest> replaceByCommit =
-      new HashMap<>();
   private final Set<RevCommit> validCommits = new HashSet<>();
 
   private ListMultimap<Change.Id, Ref> refsByChange;
@@ -554,7 +552,7 @@ public class ReceiveCommits {
 
     parseCommands(commands);
     if (magicBranch != null && magicBranch.cmd.getResult() == NOT_ATTEMPTED) {
-      newChanges = selectNewChanges();
+      selectNewAndReplacedChangesFromMagicBranch();
     }
     preparePatchSetsForReplace();
 
@@ -1172,24 +1170,8 @@ public class ReceiveCommits {
       this.notesMigration = notesMigration;
     }
 
-    boolean isDraft() {
-      return draft;
-    }
-
-    boolean isSubmit() {
-      return submit;
-    }
-
     MailRecipients getMailRecipients() {
       return new MailRecipients(reviewer, cc);
-    }
-
-    Set<String> getHashtags() {
-      return hashtags;
-    }
-
-    Map<String, Short> getLabels() {
-      return labels;
     }
 
     String parse(CmdLineParser clp, Repository repo, Set<String> refs)
@@ -1234,10 +1216,6 @@ public class ReceiveCommits {
       }
       return ref.substring(0, split);
     }
-
-    void setCmdLineParser(CmdLineParser clp) {
-      this.clp = clp;
-    }
   }
 
   private void parseMagicBranch(final ReceiveCommand cmd) {
@@ -1253,7 +1231,7 @@ public class ReceiveCommits {
 
     String ref;
     CmdLineParser clp = optionParserFactory.create(magicBranch);
-    magicBranch.setCmdLineParser(clp);
+    magicBranch.clp = clp;
     try {
       ref = magicBranch.parse(clp, repo, rp.getAdvertisedRefs().keySet());
     } catch (CmdLineException e) {
@@ -1288,7 +1266,7 @@ public class ReceiveCommits {
       return;
     }
 
-    if (magicBranch.isDraft()
+    if (magicBranch.draft
         && (!receiveConfig.allowDrafts
             || projectControl.controlForRef("refs/drafts/" + ref)
             .isBlocked(Permission.PUSH))) {
@@ -1303,12 +1281,12 @@ public class ReceiveCommits {
       return;
     }
 
-    if (magicBranch.isDraft() && magicBranch.isSubmit()) {
+    if (magicBranch.draft && magicBranch.submit) {
       reject(cmd, "cannot submit draft");
       return;
     }
 
-    if (magicBranch.isSubmit() && !projectControl.controlForRef(
+    if (magicBranch.submit && !projectControl.controlForRef(
         MagicBranch.NEW_CHANGE + ref).canSubmit()) {
       reject(cmd, "submit not allowed");
       return;
@@ -1458,29 +1436,22 @@ public class ReceiveCommits {
       reject(cmd, "duplicate request");
       return false;
     }
-    if (replaceByCommit.containsKey(req.newCommit)) {
-      reject(cmd, "duplicate request");
-      return false;
-    }
     replaceByChange.put(req.ontoChange, req);
-    replaceByCommit.put(req.newCommit, req);
     return true;
   }
 
-  private List<CreateRequest> selectNewChanges() {
-    final List<CreateRequest> newChanges = Lists.newArrayList();
+  private void selectNewAndReplacedChangesFromMagicBranch() {
+    newChanges = Lists.newArrayList();
     final RevWalk walk = rp.getRevWalk();
     walk.reset();
     walk.sort(RevSort.TOPO);
     walk.sort(RevSort.REVERSE, true);
     try {
-      Set<ObjectId> existing = Sets.newHashSet();
       walk.markStart(walk.parseCommit(magicBranch.cmd.getNewId()));
       if (magicBranch.baseCommit != null) {
         for (RevCommit c : magicBranch.baseCommit) {
           walk.markUninteresting(c);
         }
-        assert magicBranch.ctl != null;
         Ref targetRef = allRefs.get(magicBranch.ctl.getRefName());
         if (targetRef != null) {
           walk.markUninteresting(walk.parseCommit(targetRef.getObjectId()));
@@ -1488,10 +1459,10 @@ public class ReceiveCommits {
       } else {
         markHeadsAsUninteresting(
             walk,
-            existing,
             magicBranch.ctl != null ? magicBranch.ctl.getRefName() : null);
       }
 
+      Set<ObjectId> existing = changeRefsById().keySet();
       List<ChangeLookup> pending = Lists.newArrayList();
       final Set<Change.Key> newChangeIds = new HashSet<>();
       final int maxBatchChanges =
@@ -1501,16 +1472,14 @@ public class ReceiveCommits {
         if (c == null) {
           break;
         }
-        if (existing.contains(c) || replaceByCommit.containsKey(c)) {
-          // This commit was already scheduled to replace an existing PatchSet.
-          //
+        if (existing.contains(c)) { // Commit is already tracked.
           continue;
         }
 
         if (!validCommit(magicBranch.ctl, magicBranch.cmd, c)) {
           // Not a change the user can propose? Abort as early as possible.
-          //
-          return Collections.emptyList();
+          newChanges = Collections.emptyList();
+          return;
         }
 
         // Don't allow merges to be uploaded in commit chain via all-not-in-target
@@ -1531,7 +1500,8 @@ public class ReceiveCommits {
         if (idStr.matches("^I00*$")) {
           // Reject this invalid line from EGit.
           reject(magicBranch.cmd, "invalid Change-Id");
-          return Collections.emptyList();
+          newChanges = Collections.emptyList();
+          return;
         }
 
         changeKey = new Change.Key(idStr);
@@ -1541,14 +1511,16 @@ public class ReceiveCommits {
           reject(magicBranch.cmd,
               "the number of pushed changes in a batch exceeds the max limit "
                   + maxBatchChanges);
-          return Collections.emptyList();
+          newChanges = Collections.emptyList();
+          return;
         }
       }
 
       for (ChangeLookup p : pending) {
         if (newChangeIds.contains(p.changeKey)) {
           reject(magicBranch.cmd, "squash commits first");
-          return Collections.emptyList();
+          newChanges = Collections.emptyList();
+          return;
         }
 
         List<Change> changes = p.destChanges.toList();
@@ -1559,7 +1531,8 @@ public class ReceiveCommits {
           // this error message as Change-Id should be unique.
           //
           reject(magicBranch.cmd, p.changeKey.get() + " has duplicates");
-          return Collections.emptyList();
+          newChanges = Collections.emptyList();
+          return;
         }
 
         if (changes.size() == 1) {
@@ -1568,14 +1541,16 @@ public class ReceiveCommits {
           if (requestReplace(magicBranch.cmd, false, changes.get(0), p.commit)) {
             continue;
           } else {
-            return Collections.emptyList();
+            newChanges = Collections.emptyList();
+            return;
           }
         }
 
         if (changes.size() == 0) {
           if (!isValidChangeId(p.changeKey.get())) {
             reject(magicBranch.cmd, "invalid Change-Id");
-            return Collections.emptyList();
+            newChanges = Collections.emptyList();
+            return;
           }
 
           newChangeIds.add(p.changeKey);
@@ -1588,40 +1563,33 @@ public class ReceiveCommits {
       //
       magicBranch.cmd.setResult(REJECTED_MISSING_OBJECT);
       log.error("Invalid pack upload; one or more objects weren't sent", e);
-      return Collections.emptyList();
+      newChanges = Collections.emptyList();
+      return;
     } catch (OrmException e) {
       log.error("Cannot query database to locate prior changes", e);
       reject(magicBranch.cmd, "database error");
-      return Collections.emptyList();
+      newChanges = Collections.emptyList();
+      return;
     }
 
     if (newChanges.isEmpty() && replaceByChange.isEmpty()) {
       reject(magicBranch.cmd, "no new changes");
-      return Collections.emptyList();
+      return;
     }
     for (CreateRequest create : newChanges) {
       batch.addCommand(create.cmd);
     }
-    return newChanges;
   }
 
-  private void markHeadsAsUninteresting(
-      final RevWalk walk,
-      Set<ObjectId> existing,
-      @Nullable String forRef) {
+  private void markHeadsAsUninteresting(RevWalk rw, @Nullable String forRef) {
     for (Ref ref : allRefs.values()) {
-      if (ref.getObjectId() == null) {
-        continue;
-      } else if (ref.getName().startsWith(REFS_CHANGES)) {
-        existing.add(ref.getObjectId());
-      } else if (ref.getName().startsWith(R_HEADS)
-          || (forRef != null && forRef.equals(ref.getName()))) {
+      if ((ref.getName().startsWith(R_HEADS) || ref.getName().equals(forRef))
+          && ref.getObjectId() != null) {
         try {
-          walk.markUninteresting(walk.parseCommit(ref.getObjectId()));
+          rw.markUninteresting(rw.parseCommit(ref.getObjectId()));
         } catch (IOException e) {
           log.warn(String.format("Invalid ref %s in %s",
               ref.getName(), project.getName()), e);
-          continue;
         }
       }
     }
@@ -1660,7 +1628,7 @@ public class ReceiveCommits {
           TimeUtil.nowTs());
       change.setTopic(magicBranch.topic);
       ins = changeInserterFactory.create(ctl, change, c)
-          .setDraft(magicBranch.isDraft());
+          .setDraft(magicBranch.draft);
       cmd = new ReceiveCommand(ObjectId.zeroId(), c,
           ins.getPatchSet().getRefName());
     }
@@ -1700,8 +1668,8 @@ public class ReceiveCommits {
       Map<String, Short> approvals = new HashMap<>();
       if (magicBranch != null) {
         recipients.add(magicBranch.getMailRecipients());
-        approvals = magicBranch.getLabels();
-        ins.setHashtags(magicBranch.getHashtags());
+        approvals = magicBranch.labels;
+        ins.setHashtags(magicBranch.hashtags);
       }
       recipients.add(getRecipientsFromFooters(accountResolver, ps, footerLines));
       recipients.remove(me);
@@ -1721,7 +1689,7 @@ public class ReceiveCommits {
         .insert();
       created = true;
 
-      if (magicBranch != null && magicBranch.isSubmit()) {
+      if (magicBranch != null && magicBranch.submit) {
         submit(projectControl.controlFor(change), ps);
       }
     }
@@ -1775,7 +1743,6 @@ public class ReceiveCommits {
           req.validate(false);
           if (req.skip && req.cmd == null) {
             itr.remove();
-            replaceByCommit.remove(req.newCommit);
           }
         }
       }
@@ -1969,7 +1936,7 @@ public class ReceiveCommits {
       newPatchSet.setCreatedOn(TimeUtil.nowTs());
       newPatchSet.setUploader(currentUser.getAccountId());
       newPatchSet.setRevision(toRevId(newCommit));
-      if (magicBranch != null && magicBranch.isDraft()) {
+      if (magicBranch != null && magicBranch.draft) {
         newPatchSet.setDraft(true);
       }
       info = patchSetInfoFactory.get(newCommit, newPatchSet.getId());
@@ -2045,8 +2012,8 @@ public class ReceiveCommits {
 
       if (magicBranch != null) {
         recipients.add(magicBranch.getMailRecipients());
-        approvals = magicBranch.getLabels();
-        Set<String> hashtags = magicBranch.getHashtags();
+        approvals = magicBranch.labels;
+        Set<String> hashtags = magicBranch.hashtags;
         if (!hashtags.isEmpty()) {
           ChangeNotes notes = changeCtl.getNotes().load();
           hashtags.addAll(notes.getHashtags());
@@ -2180,7 +2147,7 @@ public class ReceiveCommits {
             change, currentUser.getAccount(), newPatchSet, db);
       }
 
-      if (magicBranch != null && magicBranch.isSubmit()) {
+      if (magicBranch != null && magicBranch.submit) {
         submit(changeCtl, newPatchSet);
       }
 
@@ -2192,22 +2159,34 @@ public class ReceiveCommits {
     return refsByChange().get(changeId);
   }
 
-  private ListMultimap<Change.Id, Ref> refsByChange() {
+  private void initChangeRefMaps() {
     if (refsByChange == null) {
       int estRefsPerChange = 4;
+      refsById = HashMultimap.create();
       refsByChange = ArrayListMultimap.create(
           allRefs.size() / estRefsPerChange,
           estRefsPerChange);
       for (Ref ref : allRefs.values()) {
-        if (ref.getObjectId() != null) {
+        ObjectId obj = ref.getObjectId();
+        if (obj != null) {
           PatchSet.Id psId = PatchSet.Id.fromRef(ref.getName());
           if (psId != null) {
+            refsById.put(obj, ref);
             refsByChange.put(psId.getParentKey(), ref);
           }
         }
       }
     }
+  }
+
+  private ListMultimap<Change.Id, Ref> refsByChange() {
+    initChangeRefMaps();
     return refsByChange;
+  }
+
+  private SetMultimap<ObjectId, Ref> changeRefsById() {
+    initChangeRefMaps();
+    return refsById;
   }
 
   static boolean parentsEqual(RevCommit a, RevCommit b) {
@@ -2291,12 +2270,11 @@ public class ReceiveCommits {
     walk.reset();
     walk.sort(RevSort.NONE);
     try {
-      Set<ObjectId> existing = Sets.newHashSet();
       walk.markStart(walk.parseCommit(cmd.getNewId()));
-      markHeadsAsUninteresting(walk, existing, cmd.getRefName());
+      markHeadsAsUninteresting(walk, cmd.getRefName());
 
-      RevCommit c;
-      while ((c = walk.next()) != null) {
+      Set<ObjectId> existing = changeRefsById().keySet();
+      for (RevCommit c; (c = walk.next()) != null;) {
         if (existing.contains(c)) {
           continue;
         } else if (!validCommit(ctl, cmd, c)) {
@@ -2456,16 +2434,6 @@ public class ReceiveCommits {
         change, currentUser.getAccount(), result.newPatchSet, db);
     sendMergedEmail(result);
     return change.getKey();
-  }
-
-  private SetMultimap<ObjectId, Ref> changeRefsById() {
-    if (refsById == null) {
-      refsById =  HashMultimap.create();
-      for (Ref r : refsByChange().values()) {
-        refsById.put(r.getObjectId(), r);
-      }
-    }
-    return refsById;
   }
 
   private Map<Change.Key, Change> openChangesByKey(Branch.NameKey branch)

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.common;
 
+import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.reviewdb.client.Branch;
@@ -41,7 +42,8 @@ public class EventBroker implements EventDispatcher {
   public static class Module extends LifecycleModule {
     @Override
     protected void configure() {
-      bind(EventDispatcher.class).to(EventBroker.class);
+      DynamicItem.itemOf(binder(), EventDispatcher.class);
+      DynamicItem.bind(binder(), EventDispatcher.class).to(EventBroker.class);
     }
   }
 

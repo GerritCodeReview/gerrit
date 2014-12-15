@@ -22,6 +22,30 @@
       "revId": "05685204f6ea48d63fdf5d0ad1f88e8715b546ec",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8458b61b_8f55f519",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 1814,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-15T20:16:28Z",
+      "side": 1,
+      "message": "I thought \u0027Code-Review+1\u0027 is straight forward way to specify votes.",
+      "parentUuid": "443a3eaa_0ddf516e",
+      "range": {
+        "startLine": 1813,
+        "startChar": 0,
+        "endLine": 1814,
+        "endChar": 68
+      },
+      "revId": "05685204f6ea48d63fdf5d0ad1f88e8715b546ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

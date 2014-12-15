@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8458b61b_ef7da1a2",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/FileTable.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-15T19:13:44Z",
+      "side": 0,
+      "message": "These methods are no used anymore: instead of using popup-dialog, we are opening change screen. However, the methods themself weren\u0027t deleted. See comments below.",
+      "range": {
+        "startLine": 123,
+        "startChar": 4,
+        "endLine": 127,
+        "endChar": 110
+      },
+      "revId": "8cdfe6d960596fe2dc97220afc6c9a590337b51b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

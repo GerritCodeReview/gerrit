@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8458b61b_0f83c52f",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/FileTable.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-15T19:13:44Z",
+      "side": 1,
+      "message": "not used.",
+      "range": {
+        "startLine": 128,
+        "startChar": 2,
+        "endLine": 133,
+        "endChar": 3
+      },
+      "revId": "c28b13b963c13522e60465c867f03899c8b9873c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "643d829e_ce39c3f8",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/FileTable.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-15T19:13:44Z",
+      "side": 1,
+      "message": "not used.",
+      "range": {
+        "startLine": 135,
+        "startChar": 2,
+        "endLine": 140,
+        "endChar": 3
+      },
+      "revId": "c28b13b963c13522e60465c867f03899c8b9873c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "643d829e_ee3e7fdd",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/FileTable.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-15T19:13:44Z",
+      "side": 1,
+      "message": "not used.",
+      "range": {
+        "startLine": 329,
+        "startChar": 4,
+        "endLine": 343,
+        "endChar": 5
+      },
+      "revId": "c28b13b963c13522e60465c867f03899c8b9873c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "643d829e_0e34abfa",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/FileTable.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 355,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-15T19:13:44Z",
+      "side": 1,
+      "message": "not used.",
+      "range": {
+        "startLine": 345,
+        "startChar": 4,
+        "endLine": 355,
+        "endChar": 5
+      },
+      "revId": "c28b13b963c13522e60465c867f03899c8b9873c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

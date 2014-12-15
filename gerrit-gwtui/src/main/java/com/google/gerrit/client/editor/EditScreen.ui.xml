@@ -20,13 +20,13 @@ limitations under the License.
   <ui:style>
     @eval trimColor com.google.gerrit.client.Gerrit.getTheme().trimColor;
 
-    @def HEADER_HEIGHT 29px;
-    @def COMMIT_WIDTH 560px;
+    @def HEADER_HEIGHT 30px;
+    @def BUTTON_HEIGHT 14px;
 
     .infoLine {
       position: absolute;
       top: 0;
-      left: COMMIT_WIDTH;
+      left: 10px;
       height: HEADER_HEIGHT;
       padding-left: 25px;
     }
@@ -43,30 +43,27 @@ limitations under the License.
     #change_infoTable button:disabled,
     .popdown button:disabled {
       background-color: #999;
-      background-image: -webkit-linear-gradient(top, #999, #999);
     }
 
     .headerButtons button {
       margin: 6px 3px 0 0;
-      border-color: rgba(0, 0, 0, 0.1);
       text-align: center;
       font-size: 8pt;
       font-weight: bold;
-      border: 1px solid;
       cursor: pointer;
-      color: #444;
+      border: 2px solid;
+      color: rgba(0, 0, 0, 0.15);
       background-color: #f5f5f5;
-      background-image: -webkit-linear-gradient(top, #f5f5f5, #f1f1f1);
       -webkit-border-radius: 2px;
       -webkit-box-sizing: content-box;
     }
 
     .headerButtons button div {
       color: #444;
-      height: 10px;
       min-width: 54px;
-      line-height: 10px;
       white-space: nowrap;
+      height: BUTTON_HEIGHT;
+      line-height: BUTTON_HEIGHT;
     }
 
     .infoLineHeaderButtons {

@@ -94,6 +94,30 @@
       "revId": "f4d693b5a217e0d6a773de26768cc70b4955daa9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "443a3eaa_0d34b1fa",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/editor/EditScreen.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-12-15T09:50:58Z",
+      "side": 1,
+      "message": "\u003e  the endpoint you are trying to use wasn\u0027t implemented yet, unfortunately.\n\nIt works as expected for a regular file on the change, returning a base64 encoded string.",
+      "parentUuid": "8458b61b_cf229dc8",
+      "range": {
+        "startLine": 81,
+        "startChar": 4,
+        "endLine": 84,
+        "endChar": 12
+      },
+      "revId": "f4d693b5a217e0d6a773de26768cc70b4955daa9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

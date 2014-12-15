@@ -16,6 +16,7 @@ package com.google.gerrit.server.change;
 
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestReadView;
+import com.google.gerrit.reviewdb.client.Patch;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -33,9 +34,13 @@ public class GetContentType implements RestReadView<FileResource> {
   @Override
   public String apply(FileResource rsrc)
       throws ResourceNotFoundException, IOException {
+    String path = rsrc.getPatchKey().get();
+    if (Patch.COMMIT_MSG.equals(path)) {
+      return "text/plain";
+    }
     return fileContentUtil.getContentType(
         rsrc.getRevision().getControl().getProject().getNameKey(),
         rsrc.getRevision().getPatchSet().getRevision().get(),
-        rsrc.getPatchKey().get());
+        path);
   }
 }

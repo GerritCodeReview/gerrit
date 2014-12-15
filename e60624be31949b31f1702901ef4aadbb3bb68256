@@ -16,6 +16,24 @@
       "revId": "e60624be31949b31f1702901ef4aadbb3bb68256",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "443a3eaa_8d3fc1dc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-12-15T09:32:35Z",
+      "side": 1,
+      "message": "It would probably be good to add a test for it too. There is a test of the file type endpoint, but it\u0027s within the context of an edit.\n\nMaybe this can all be done in a follow up commit, or do you want to upload a new patch set on this change later?",
+      "parentUuid": "8458b61b_8f1895a2",
+      "revId": "e60624be31949b31f1702901ef4aadbb3bb68256",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

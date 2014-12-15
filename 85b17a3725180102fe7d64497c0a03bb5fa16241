@@ -174,6 +174,24 @@
     },
     {
       "key": {
+        "uuid": "643d829e_6e2b6f99",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeEdits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 501,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-15T20:00:53Z",
+      "side": 1,
+      "message": "Done in [1].\n\n [1] https://gerrit-review.googlesource.com/62414",
+      "parentUuid": "3aa1e35e_3c4f9184",
+      "revId": "85b17a3725180102fe7d64497c0a03bb5fa16241",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a77bfc2_d3ae94a9",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeEdits.java",
         "patchSetId": 3

@@ -22,6 +22,30 @@
       "revId": "f4d693b5a217e0d6a773de26768cc70b4955daa9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8458b61b_4f006d28",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/editor/EditScreen.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-15T08:59:18Z",
+      "side": 1,
+      "message": "/type: true, we should do both: prevent to do server roundtrip here (done already in latest patch set) for known MIME content type (text/plain) but still return text/plain in endpoint (still TODO). Will do it later today, unless someone else is faster.\n\n/content: works fine here, line 94 below, for both normal file and commit message. What is the URL for failing /content in your case?",
+      "parentUuid": "443a3eaa_ed2765d5",
+      "range": {
+        "startLine": 81,
+        "startChar": 4,
+        "endLine": 84,
+        "endChar": 12
+      },
+      "revId": "f4d693b5a217e0d6a773de26768cc70b4955daa9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

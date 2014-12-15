@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8458b61b_8f1895a2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-15T09:23:57Z",
+      "side": 1,
+      "message": "Optional: Mention explicitly this fact in REST API documentation and provide a hint, that external tools authors may want to short cut this and save one client server roundtrip; IOW recommend to folks to do what we are doing in edit screen.",
+      "revId": "e60624be31949b31f1702901ef4aadbb3bb68256",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

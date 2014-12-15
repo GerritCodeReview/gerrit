@@ -19,10 +19,17 @@ import static com.google.common.base.Preconditions.checkState;
 import com.google.common.base.MoreObjects;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.google.gerrit.common.data.PatchScript;
 import com.google.gerrit.common.data.PatchScript.DisplayMethod;
 import com.google.gerrit.common.data.PatchScript.FileMode;
+import com.google.gerrit.extensions.common.ChangeType;
+import com.google.gerrit.extensions.common.DiffInfo;
+import com.google.gerrit.extensions.common.DiffInfo.ContentEntry;
+import com.google.gerrit.extensions.common.DiffInfo.FileMeta;
+import com.google.gerrit.extensions.common.DiffInfo.IntraLineStatus;
 import com.google.gerrit.extensions.common.WebLinkInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.CacheControl;
@@ -35,7 +42,6 @@ import com.google.gerrit.prettify.common.SparseFileContent;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference;
 import com.google.gerrit.reviewdb.client.Patch;
-import com.google.gerrit.reviewdb.client.Patch.ChangeType;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.WebLinks;
@@ -64,6 +70,17 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class GetDiff implements RestReadView<FileResource> {
+  private final static ImmutableMap<Patch.ChangeType, ChangeType> CHANGE_TYPE =
+      Maps.immutableEnumMap(
+          new ImmutableMap.Builder<Patch.ChangeType, ChangeType>()
+              .put(Patch.ChangeType.ADDED, ChangeType.ADDED)
+              .put(Patch.ChangeType.MODIFIED, ChangeType.MODIFIED)
+              .put(Patch.ChangeType.DELETED, ChangeType.DELETED)
+              .put(Patch.ChangeType.RENAMED, ChangeType.RENAMED)
+              .put(Patch.ChangeType.COPIED, ChangeType.COPIED)
+              .put(Patch.ChangeType.REWRITE, ChangeType.REWRITE)
+              .build());
+
   private final ProjectCache projectCache;
   private final PatchScriptFactory.Factory patchScriptFactoryFactory;
   private final Revisions revisions;
@@ -93,7 +110,7 @@ public class GetDiff implements RestReadView<FileResource> {
   }
 
   @Override
-  public Response<Result> apply(FileResource resource)
+  public Response<DiffInfo> apply(FileResource resource)
       throws ResourceConflictException, ResourceNotFoundException,
       OrmException, AuthException, InvalidChangeOperationException, IOException {
     PatchSet basePatchSet = null;
@@ -147,7 +164,7 @@ public class GetDiff implements RestReadView<FileResource> {
       ProjectState state =
           projectCache.get(resource.getRevision().getChange().getProject());
 
-      Result result = new Result();
+      DiffInfo result = new DiffInfo();
       if (ps.getDisplayMethodA() != DisplayMethod.NONE) {
         result.metaA = new FileMeta();
         result.metaA.name = MoreObjects.firstNonNull(ps.getOldName(),
@@ -186,12 +203,17 @@ public class GetDiff implements RestReadView<FileResource> {
         }
       }
 
-      result.changeType = ps.getChangeType();
+      result.changeType = CHANGE_TYPE.get(ps.getChangeType());
+      if (result.changeType == null) {
+        throw new IllegalStateException(
+            "unknown change type: " + ps.getChangeType());
+      }
+
       if (ps.getPatchHeader().size() > 0) {
         result.diffHeader = ps.getPatchHeader();
       }
       result.content = content.lines;
-      Response<Result> r = Response.ok(result);
+      Response<DiffInfo> r = Response.ok(result);
       if (resource.isCacheable()) {
         r.caching(CacheControl.PRIVATE(7, TimeUnit.DAYS));
       }
@@ -208,22 +230,6 @@ public class GetDiff implements RestReadView<FileResource> {
     FluentIterable<WebLinkInfo> links =
         webLinks.getFileLinks(project.getName(), rev, file);
     return links.isEmpty() ? null : links.toList();
-  }
-
-  static class Result {
-    FileMeta metaA;
-    FileMeta metaB;
-    IntraLineStatus intralineStatus;
-    ChangeType changeType;
-    List<String> diffHeader;
-    List<ContentEntry> content;
-  }
-
-  static class FileMeta {
-    String name;
-    String contentType;
-    Integer lines;
-    List<WebLinkInfo> webLinks;
   }
 
   private void setContentType(FileMeta meta, ProjectState project,
@@ -252,12 +258,6 @@ public class GetDiff implements RestReadView<FileResource> {
       default:
         throw new IllegalStateException("file mode: " + fileMode);
     }
-  }
-
-  enum IntraLineStatus {
-    OK,
-    TIMEOUT,
-    FAILURE
   }
 
   private static class Content {
@@ -372,28 +372,6 @@ public class GetDiff implements RestReadView<FileResource> {
     private IgnoreWhitespace(AccountDiffPreference.Whitespace whitespace) {
       this.whitespace = whitespace;
     }
-  }
-
-  static final class ContentEntry {
-    // Common lines to both sides.
-    List<String> ab;
-    // Lines of a.
-    List<String> a;
-    // Lines of b.
-    List<String> b;
-
-    // A list of changed sections of the corresponding line list.
-    // Each entry is a character <offset, length> pair. The offset is from the
-    // beginning of the first line in the list. Also, the offset includes an
-    // implied trailing newline character for each line.
-    List<List<Integer>> editA;
-    List<List<Integer>> editB;
-
-    // a and b are actually common with this whitespace ignore setting.
-    Boolean common;
-
-    // Number of lines to skip on both sides.
-    Integer skip;
   }
 
   public static class ContextOptionHandler extends OptionHandler<Short> {

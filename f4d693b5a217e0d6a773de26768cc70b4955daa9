@@ -70,6 +70,30 @@
       "revId": "f4d693b5a217e0d6a773de26768cc70b4955daa9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8458b61b_cf229dc8",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/editor/EditScreen.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-15T09:38:35Z",
+      "side": 1,
+      "message": "Yes, the endpoint you are trying to use wasn\u0027t implemented yet, unfortunately. And even if it would work that way, the client would need to be adjusted. But we should fix this, of course. I will fix it later, unless someone else would do that faster ;-). So the hack that is used for now is, that the same request is returning the content of commit message in both cases: wether change edit for particular change exists or not (in which case it is retrieved from normal revision):\n\n  GET /changes/link:#change-id[\\{change-id\\}]/edit:message\n\nSee the discussion and TODO in this review: [1].\n\n* [1] https://gerrit-review.googlesource.com/#/c/61112/3/gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeEdits.java",
+      "parentUuid": "443a3eaa_2d0a4d43",
+      "range": {
+        "startLine": 81,
+        "startChar": 4,
+        "endLine": 84,
+        "endChar": 12
+      },
+      "revId": "f4d693b5a217e0d6a773de26768cc70b4955daa9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

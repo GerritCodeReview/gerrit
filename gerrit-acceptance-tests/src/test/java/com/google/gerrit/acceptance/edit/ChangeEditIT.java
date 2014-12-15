@@ -275,11 +275,19 @@ public class ChangeEditIT extends AbstractDaemonTest {
 
   @Test
   public void updateMessageRest() throws Exception {
+    assertThat(adminSession.get(urlEditMessage()).getStatusCode())
+        .isEqualTo(SC_NOT_FOUND);
     EditMessage.Input in = new EditMessage.Input();
     in.message = String.format("New commit message\n\nChange-Id: %s",
         change.getKey());
     assertThat(adminSession.put(urlEditMessage(), in).getStatusCode())
         .isEqualTo(SC_NO_CONTENT);
+    RestResponse r = adminSession.get(urlEditMessage());
+    assertThat(adminSession.get(urlEditMessage()).getStatusCode())
+        .isEqualTo(SC_OK);
+    String content = r.getEntityContent();
+    assertThat(StringUtils.newStringUtf8(Base64.decodeBase64(content)))
+        .isEqualTo(in.message);
     Optional<ChangeEdit> edit = editUtil.byChange(change);
     assertThat(edit.get().getEditCommit().getFullMessage())
         .isEqualTo(in.message);

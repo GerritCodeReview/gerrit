@@ -299,7 +299,6 @@ public class RebaseChange {
 
     PatchSetInserter patchSetInserter = patchSetInserterFactory
         .create(git, revWalk, changeControl, rebasedCommit)
-        .setCopyLabels(true)
         .setValidatePolicy(validate)
         .setDraft(originalPatchSet.isDraft())
         .setUploader(uploader.getAccountId())

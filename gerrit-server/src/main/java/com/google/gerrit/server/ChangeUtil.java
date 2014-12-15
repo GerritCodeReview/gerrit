@@ -437,7 +437,6 @@ public class ChangeUtil {
             .create(git, revWalk, ctl, newCommit)
             .setPatchSet(newPatchSet)
             .setMessage(msg)
-            .setCopyLabels(true)
             .setValidatePolicy(RECEIVE_COMMITS)
             .setDraft(ps.isDraft())
             .insert();

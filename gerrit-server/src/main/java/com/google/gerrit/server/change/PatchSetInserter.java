@@ -104,7 +104,6 @@ public class PatchSetInserter {
 
   private PatchSet patchSet;
   private ChangeMessage changeMessage;
-  private boolean copyLabels;
   private SshInfo sshInfo;
   private ValidatePolicy validatePolicy = ValidatePolicy.GERRIT;
   private boolean draft;
@@ -182,11 +181,6 @@ public class PatchSetInserter {
 
   public PatchSetInserter setMessage(ChangeMessage changeMessage) {
     this.changeMessage = changeMessage;
-    return this;
-  }
-
-  public PatchSetInserter setCopyLabels(boolean copyLabels) {
-    this.copyLabels = copyLabels;
     return this;
   }
 
@@ -284,9 +278,7 @@ public class PatchSetInserter {
         cmUtil.addChangeMessage(db, update, changeMessage);
       }
 
-      if (copyLabels) {
-        approvalCopier.copy(db, ctl, patchSet);
-      }
+      approvalCopier.copy(db, ctl, patchSet);
       db.commit();
       if (messageIsForChange()) {
         update.commit();

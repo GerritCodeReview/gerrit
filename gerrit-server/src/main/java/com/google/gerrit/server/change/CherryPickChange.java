@@ -214,7 +214,6 @@ public class CherryPickChange {
       .setMessage("Uploaded patch set " + newPatchSetId.get() + ".")
       .setDraft(current.isDraft())
       .setUploader(identifiedUser.getAccountId())
-      .setCopyLabels(true)
       .insert();
     return change.getId();
   }

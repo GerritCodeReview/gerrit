@@ -20,6 +20,7 @@ import com.google.gerrit.common.ChangeListener;
 import com.google.gerrit.common.EventSource;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
+import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.events.Event;
 import com.google.gerrit.server.git.WorkQueue;
@@ -51,7 +52,7 @@ final class StreamEvents extends BaseCommand {
   private IdentifiedUser currentUser;
 
   @Inject
-  private EventSource source;
+  private DynamicItem<EventSource> source;
 
   @Inject
   @StreamCommandExecutor
@@ -124,12 +125,12 @@ final class StreamEvents extends BaseCommand {
     }
 
     stdout = toPrintWriter(out);
-    source.addChangeListener(listener, currentUser);
+    addChangeListener();
   }
 
   @Override
   protected void onExit(final int rc) {
-    source.removeChangeListener(listener);
+    removeChangeListener();
 
     synchronized (taskLock) {
       done = true;
@@ -140,7 +141,7 @@ final class StreamEvents extends BaseCommand {
 
   @Override
   public void destroy() {
-    source.removeChangeListener(listener);
+    removeChangeListener();
 
     final boolean exit;
     synchronized (taskLock) {
@@ -188,7 +189,7 @@ final class StreamEvents extends BaseCommand {
         // destroy() above, or it closed the stream and is no longer
         // accepting output. Either way terminate this instance.
         //
-        source.removeChangeListener(listener);
+        removeChangeListener();
         flush();
         onExit(0);
         return;
@@ -218,6 +219,20 @@ final class StreamEvents extends BaseCommand {
       synchronized (taskLock) {
         task = pool.submit(writer);
       }
+    }
+  }
+
+  private void addChangeListener() {
+    EventSource src = source.get();
+    if (src != null) {
+      src.addChangeListener(listener, currentUser);
+    }
+  }
+
+  private void removeChangeListener() {
+    EventSource src = source.get();
+    if (src != null) {
+      src.removeChangeListener(listener);
     }
   }
 

@@ -20,7 +20,7 @@ import com.google.gerrit.common.data.ContributorAgreement;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.extensions.events.LifecycleListener;
-import com.google.gerrit.extensions.registration.DynamicSet;
+import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
@@ -205,7 +205,7 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener {
     /** Timeout value for synchronous hooks */
     private final int syncHookTimeout;
 
-    private EventSourceImpl dispatcher;
+    private DynamicItem<EventDispatcher> dispatcher;
 
     /**
      * Create a new ChangeHookRunner.
@@ -225,7 +225,7 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener {
       final ProjectCache projectCache,
       final AccountCache accountCache,
       final EventFactory eventFactory,
-      final DynamicSet<EventListener> unrestrictedListeners) {
+      final DynamicItem<EventDispatcher> dispatcher) {
         this.anonymousCowardName = anonymousCowardName;
         this.repoManager = repoManager;
         this.hookQueue = queue.createQueue(1, "hook");
@@ -233,6 +233,7 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener {
         this.accountCache = accountCache;
         this.eventFactory = eventFactory;
         this.sitePaths = sitePath;
+        this.dispatcher = dispatcher;
 
         final File hooksPath = sitePath.resolve(getValue(config, "hooks", "path", sitePath.hooks_dir.getAbsolutePath()));
 
@@ -254,7 +255,6 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener {
             new ThreadFactoryBuilder()
               .setNameFormat("SyncHook-%d")
               .build());
-        dispatcher = new EventSourceImpl(projectCache, unrestrictedListeners);
     }
 
     /**
@@ -670,11 +670,17 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener {
 
     private void fireEvent(final Change change, final ChangeEvent event,
         final ReviewDb db) throws OrmException {
-      dispatcher.fireEvent(change, event, db);
+      EventDispatcher d = dispatcher.get();
+      if (d != null) {
+        d.fireEvent(change, event, db);
+      }
     }
 
     private void fireEvent(Branch.NameKey branchName, final RefEvent event) {
-      dispatcher.fireEvent(branchName, event);
+      EventDispatcher d = dispatcher.get();
+      if (d != null) {
+        d.fireEvent(branchName, event);
+      }
     }
 
     /**

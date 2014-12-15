@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "643d829e_0e066b46",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/HashtagsUtil.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2014-12-15T09:40:52Z",
+      "side": 1,
+      "message": "This wont support alpha numerical unicode characters like #FRÅGA or #ÜBER. It\u0027s really Java\u0027s fault for not including good unicode character groups. But since we can add those #Hashtags using the UI/REST, we could perhaps try a different approach, like including everything that is not a \",\" or \\\\s or \\\\\".",
+      "revId": "1c5ffd51b450a020b227b035f2ed28d410f51bc1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

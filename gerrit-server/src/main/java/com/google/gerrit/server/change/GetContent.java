@@ -17,6 +17,10 @@ package com.google.gerrit.server.change;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestReadView;
+import com.google.gerrit.reviewdb.client.Patch;
+import com.google.gerrit.server.ChangeUtil;
+import com.google.gerrit.server.project.NoSuchChangeException;
+import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -25,18 +29,27 @@ import java.io.IOException;
 @Singleton
 public class GetContent implements RestReadView<FileResource> {
   private final FileContentUtil fileContentUtil;
+  private final ChangeUtil changeUtil;
 
   @Inject
-  GetContent(FileContentUtil fileContentUtil) {
+  GetContent(FileContentUtil fileContentUtil,
+      ChangeUtil changeUtil) {
     this.fileContentUtil = fileContentUtil;
+    this.changeUtil = changeUtil;
   }
 
   @Override
   public BinaryResult apply(FileResource rsrc)
-      throws ResourceNotFoundException, IOException {
+      throws ResourceNotFoundException, IOException, NoSuchChangeException,
+      OrmException {
+    String path = rsrc.getPatchKey().get();
+    if (Patch.COMMIT_MSG.equals(path)) {
+      return BinaryResult.create(
+          changeUtil.getMessage(rsrc.getRevision().getChange())).base64();
+    }
     return fileContentUtil.getContent(
         rsrc.getRevision().getControl().getProject().getNameKey(),
         rsrc.getRevision().getPatchSet().getRevision().get(),
-        rsrc.getPatchKey().get());
+        path);
   }
 }

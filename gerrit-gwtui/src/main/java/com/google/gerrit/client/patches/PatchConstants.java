@@ -89,4 +89,7 @@ public interface PatchConstants extends Constants {
 
   String patchSkipRegionStart();
   String patchSkipRegionEnd();
+
+  String sideBySideDiff();
+  String unifiedDiff();
 }

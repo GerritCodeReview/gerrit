@@ -1462,8 +1462,7 @@ Retrieves content MIME type of a file from a change edit.
 'GET /changes/link:#change-id[\{change-id\}]/edit:message
 --
 
-Retrieves commit message from change edit or from current patch set when
-change edit doesn't exist.
+Retrieves commit message from change edit.
 
 .Request
 ----

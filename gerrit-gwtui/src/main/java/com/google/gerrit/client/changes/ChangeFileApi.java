@@ -77,23 +77,16 @@ public class ChangeFileApi {
         });
   }
 
-  /** Get commit message in a PatchSet or change edit. */
-  public static void getMessage(PatchSet.Id id, AsyncCallback<String> cb) {
-    ChangeApi.change(id.getParentKey().get()).view("edit:message").get(
-        wrapper(cb));
-  }
-
   /**
    * Get the contents of a file or commit message in a PatchSet or change
    * edit.
    **/
   public static void getContentOrMessage(PatchSet.Id id, String path,
       AsyncCallback<String> cb) {
-    if (Patch.COMMIT_MSG.equals(path)) {
-      getMessage(id, cb);
-    } else {
-      contentEditOrPs(id, path).get(wrapper(cb));
-    }
+    RestApi api = (Patch.COMMIT_MSG.equals(path) && id.get() == 0)
+        ? messageEdit(id)
+        : contentEditOrPs(id, path);
+    api.get(wrapper(cb));
   }
 
   /** Put contents into a File in a change edit. */
@@ -143,6 +136,10 @@ public class ChangeFileApi {
     return id.get() == 0
         ? contentEdit(id.getParentKey(), filename)
         : ChangeApi.revision(id).view("files").id(filename).view("content");
+  }
+
+  private static RestApi messageEdit(PatchSet.Id id) {
+    return ChangeApi.change(id.getParentKey().get()).view("edit:message");
   }
 
   private static RestApi contentTypeEditOrPs(PatchSet.Id id, String filename) {

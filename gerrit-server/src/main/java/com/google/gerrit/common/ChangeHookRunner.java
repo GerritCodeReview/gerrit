@@ -20,6 +20,7 @@ import com.google.gerrit.common.data.ContributorAgreement;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.extensions.events.LifecycleListener;
+import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
@@ -203,7 +204,7 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener {
     /** Timeout value for synchronous hooks */
     private final int syncHookTimeout;
 
-    private EventDispatcher dispatcher;
+    private DynamicItem<EventDispatcher> dispatcher;
 
     /**
      * Create a new ChangeHookRunner.
@@ -223,7 +224,7 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener {
       final ProjectCache projectCache,
       final AccountCache accountCache,
       final EventFactory eventFactory,
-      final EventDispatcher dispatcher) {
+      final DynamicItem<EventDispatcher> dispatcher) {
         this.anonymousCowardName = anonymousCowardName;
         this.repoManager = repoManager;
         this.hookQueue = queue.createQueue(1, "hook");
@@ -656,11 +657,17 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener {
 
     private void postEvent(final Change change, final Event event,
         final ReviewDb db) throws OrmException {
-      dispatcher.postEvent(change, event, db);
+      EventDispatcher d = dispatcher.get();
+      if (d != null) {
+        d.postEvent(change, event, db);
+      }
     }
 
     private void postEvent(final Branch.NameKey branchName, final Event event) {
-      dispatcher.postEvent(branchName, event);
+      EventDispatcher d = dispatcher.get();
+      if (d != null) {
+        d.postEvent(branchName, event);
+      }
     }
 
     /**

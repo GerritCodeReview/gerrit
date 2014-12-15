@@ -422,6 +422,17 @@ Deserialzing events with the
 `com.google.gerrit.server.events.EventDeserializer` class requires
 that the event be registered in EventTypes.
 
+== Modifying the Stream Event Flow
+
+It is possible to modify the stream event flow from plugins by registering
+an `com.google.gerrit.server.events.EventDispatcher` and an
+`com.google.gerrit.server.events.EventSource`.  To receive stream events
+before they are dispatched, a plugin may register a Dispatcher class to
+replace the internal Dispatcher.  To dispatch events to event listeners,
+a plugin may register an EventSource as the main EventSource to replace
+the internal EventSource.  These two classes are DynamicItems, so Gerrit
+may only have one copy of each.
+
 [[validation]]
 == Validation Listeners
 

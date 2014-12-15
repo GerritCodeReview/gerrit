@@ -24,12 +24,15 @@ import static org.apache.http.HttpStatus.SC_OK;
 import static org.junit.Assert.fail;
 
 import com.google.common.base.Optional;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.RestSession;
+import com.google.gerrit.extensions.api.changes.ReviewInput;
+import com.google.gerrit.extensions.common.ApprovalInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.EditInfo;
 import com.google.gerrit.extensions.common.ListChangesOption;
@@ -46,6 +49,7 @@ import com.google.gerrit.server.edit.ChangeEdit;
 import com.google.gerrit.server.edit.ChangeEditModifier;
 import com.google.gerrit.server.edit.ChangeEditUtil;
 import com.google.gerrit.server.edit.UnchangedCommitMessageException;
+import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
@@ -554,6 +558,39 @@ public class ChangeEditIT extends AbstractDaemonTest {
     } catch (InvalidChangeOperationException e) {
       assertThat(e.getMessage()).isEqualTo("no changes were made");
     }
+  }
+
+  @Test
+  public void editCommitMessageCopiesLabelScores() throws Exception {
+    String cr = "Code-Review";
+    ProjectConfig cfg = projectCache.checkedGet(allProjects).getConfig();
+    cfg.getLabelSections().get(cr)
+        .setCopyAllScoresIfNoCodeChange(true);
+    saveProjectConfig(allProjects, cfg);
+
+    String changeId = change.getKey().get();
+    ReviewInput r = new ReviewInput();
+    r.labels = ImmutableMap.<String, Short> of(cr, (short) 1);
+    gApi.changes()
+        .id(changeId)
+        .revision(change.currentPatchSetId().get())
+        .review(r);
+
+    assertThat(modifier.createEdit(change, getCurrentPatchSet(changeId)))
+        .isEqualTo(RefUpdate.Result.NEW);
+    Optional<ChangeEdit> edit = editUtil.byChange(change);
+    String newSubj = "New commit message";
+    String newMsg = newSubj + "\n\nChange-Id: " + changeId + "\n";
+    assertThat(modifier.modifyMessage(edit.get(), newMsg))
+        .isEqualTo(RefUpdate.Result.FORCED);
+    edit = editUtil.byChange(change);
+    editUtil.publish(edit.get());
+
+    ChangeInfo info = get(changeId);
+    assertThat(info.subject).isEqualTo(newSubj);
+    List<ApprovalInfo> approvals = info.labels.get(cr).all;
+    assertThat(approvals).hasSize(1);
+    assertThat(approvals.get(0).value).isEqualTo(1);
   }
 
   private String newChange(Git git, PersonIdent ident) throws Exception {

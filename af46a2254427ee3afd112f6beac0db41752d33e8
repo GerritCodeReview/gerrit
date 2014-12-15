@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8458b61b_2f032937",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/editor/EditScreen.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-15T08:16:35Z",
+      "side": 1,
+      "message": "WTF?",
+      "range": {
+        "startLine": 151,
+        "startChar": 8,
+        "endLine": 151,
+        "endChar": 58
+      },
+      "revId": "af46a2254427ee3afd112f6beac0db41752d33e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

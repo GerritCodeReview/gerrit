@@ -62,6 +62,7 @@ limitations under the License.
     .name {
       white-space: nowrap;
       font-weight: bold;
+      float: left;
     }
     .closed .name {
       width: 150px;
@@ -88,18 +89,18 @@ limitations under the License.
     }
 
     .reply {
-      position: absolute;
+      position: relative;
       top: 0;
-      right: 1px;
+      left: 4px;
       cursor: pointer;
       outline: none;
       border: none;
       background: transparent;
       margin: 0;
       padding: 0;
-      line-height: 15px;
+      line-height: 16px;
       font-family: Arial Unicode MS, sans-serif;
-      font-size: 18px;
+      font-size: 20px;
     }
     .closed .reply {
       visibility: hidden;
@@ -115,14 +116,14 @@ limitations under the License.
     <div class='{style.contents}'>
       <g:HTMLPanel ui:field='header' styleName='{style.header}'>
         <div class='{style.name}' ui:field='name'/>
-        <div ui:field='summary' class='{style.summary}'/>
-        <div class='{style.date}' ui:field='date'/>
         <g:Button styleName='{style.reply}'
             ui:field='reply'
             title='Reply to this message'>
           <ui:attribute name='title'/>
           <div>&#x21a9;</div>
         </g:Button>
+        <div ui:field='summary' class='{style.summary}'/>
+        <div class='{style.date}' ui:field='date'/>
       </g:HTMLPanel>
       <div ui:field='message'
            aria-hidden='true'

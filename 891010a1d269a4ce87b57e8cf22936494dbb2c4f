@@ -52,6 +52,24 @@
       "revId": "891010a1d269a4ce87b57e8cf22936494dbb2c4f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a13f6cb4_7018d09f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/HashtagsUtil.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2014-12-16T09:26:59Z",
+      "side": 1,
+      "message": "If so, ok by me.",
+      "parentUuid": "011bd86b_13274cda",
+      "revId": "891010a1d269a4ce87b57e8cf22936494dbb2c4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

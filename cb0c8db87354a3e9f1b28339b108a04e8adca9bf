@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "21053cfe_7c41b969",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/edit/ChangeEditIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-12-16T10:08:49Z",
+      "side": 1,
+      "message": "Should be:\n\n  assertThat(in.message)\n    .isEqualTo(StringUtils.newStringUtf8(Base64.decodeBase64(content)));\n\nI see it\u0027s also wrong below, but according to [1] it should always be:\n\n  assertThat(actualValue).isEqualTo(expectedValue);\n\n[1] http://google.github.io/truth/",
+      "range": {
+        "startLine": 286,
+        "startChar": 4,
+        "endLine": 287,
+        "endChar": 31
+      },
+      "revId": "cb0c8db87354a3e9f1b28339b108a04e8adca9bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

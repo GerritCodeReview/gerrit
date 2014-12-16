@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "a13f6cb4_303b68f0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 33
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-12-16T11:24:50Z",
+      "side": 1,
+      "message": "\u003e There would be really cool to show in the table. \n\nIndeed, in the file table this information would be also very good.\n\n \u003e Another question is how do we know which files was \n \u003e changed in the edit to render \"*\"?\n\nI guess we need a new REST endpoint for this. Maybe the List Files REST endpoint could be extended to accept a base revision so that it returns the files that have been changed between the two revisions.",
+      "parentUuid": "a13f6cb4_102744da",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 71
+      },
+      "revId": "6426ef083854fa4be7bad8246eb1bc2c09637fae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a13f6cb4_501dcc8d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 33
@@ -96,6 +120,30 @@
     },
     {
       "key": {
+        "uuid": "a13f6cb4_10406462",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 33
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-12-16T11:24:50Z",
+      "side": 1,
+      "message": "\u003e But then we would need another button to jump back to \n \u003e CS2. \n\nYes, such a button would be needed, but I don\u0027t have a good name for it. Maybe this needs some further thinking. Better leave it for now as it is. We can address this later :)",
+      "parentUuid": "a13f6cb4_f00ba044",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 43
+      },
+      "revId": "6426ef083854fa4be7bad8246eb1bc2c09637fae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "21053cfe_3c2211ca",
         "filename": "/COMMIT_MSG",
         "patchSetId": 33
@@ -131,6 +179,30 @@
       "side": 1,
       "message": "You make a valid point. But please note that it was not my suggestion to preserve \"Edit Message\" button from the pre-change-edit workflow era and try to integrate it somehow in new change-edit-workflow.\n\nBefore this change the workflow for change commit message was:\n\n* 1. Click on \"Edit Message\" button, commit message appears in popup dialog, change, save \u003d\u003e Change edit is created \u003d\u003e \"Edit Message\" is hidden unless the Change edit is published or deleted, because to re-edit the commit message again, you supposed to click on edit icon in front of commit message row in file table to open popup dialog again.\n* 2. Create change edit by modifying another file. \"Edit Message\" is hidden on CS2. To modify commit message see A.1 above.\n\nWith this change the workflow for change commit message is:\n\n* 3. Click on \"Edit Message\" button, commit message appears in popup dialog, change, save \u003d\u003e Change edit is created \u003d\u003e \"Edit Message\" is hidden unless the Change edit is published or deleted, because to re-edit the commit message again, you supposed to click on commit message hyperlink to jump n edit screen (CM3 in edit mode)\n* 4. Create change edit by modifying another file. \"Edit Message\" is hidden on CS2. To modify commit message see 3 above.\n\nIOW this is not a problem that this change has introduced. If you is surprised with edit commit message workflow with this change, so you should probably also be surprised before this change.",
       "parentUuid": "21053cfe_3c2211ca",
+      "range": {
+        "startLine": 31,
+        "startChar": 39,
+        "endLine": 31,
+        "endChar": 53
+      },
+      "revId": "6426ef083854fa4be7bad8246eb1bc2c09637fae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "21053cfe_bc2e21a7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 33
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-12-16T11:24:50Z",
+      "side": 1,
+      "message": "You are right, this is not related to this change, and hence it should be addressed in an own change.",
+      "parentUuid": "a13f6cb4_d0089c4a",
       "range": {
         "startLine": 31,
         "startChar": 39,

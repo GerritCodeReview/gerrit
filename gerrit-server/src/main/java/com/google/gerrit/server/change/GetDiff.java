@@ -146,9 +146,9 @@ public class GetDiff implements RestReadView<FileResource> {
         content.addCommon(edit.getBeginA());
 
         checkState(content.nextA == edit.getBeginA(),
-            "nextA = %d; want %d", content.nextA, edit.getBeginA());
+            "nextA = %s; want %s", content.nextA, edit.getBeginA());
         checkState(content.nextB == edit.getBeginB(),
-            "nextB = %d; want %d", content.nextB, edit.getBeginB());
+            "nextB = %s; want %s", content.nextB, edit.getBeginB());
         switch (edit.getType()) {
           case DELETE:
           case INSERT:

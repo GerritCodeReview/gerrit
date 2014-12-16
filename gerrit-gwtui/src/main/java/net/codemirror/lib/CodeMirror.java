@@ -64,7 +64,6 @@ public class CodeMirror extends JavaScriptObject {
   public final native void setWidth(String w) /*-{ this.setSize(w, null); }-*/;
   public final native void setHeight(double h) /*-{ this.setSize(null, h); }-*/;
   public final native void setHeight(String h) /*-{ this.setSize(null, h); }-*/;
-  public final native double defaultCharWidth() /*-{ return this.defaultCharWidth() }-*/;
   public final native String getLine(int n) /*-{ return this.getLine(n) }-*/;
 
   public final native void refresh() /*-{ this.refresh(); }-*/;
@@ -297,6 +296,10 @@ public class CodeMirror extends JavaScriptObject {
 
   public final native Element getMoverElement() /*-{
     return this.display.mover;
+  }-*/;
+
+  public final native Element getMeasureElement() /*-{
+    return this.display.measure;
   }-*/;
 
   public final native Element getScrollbarV() /*-{

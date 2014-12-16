@@ -58,17 +58,14 @@ public class CommitsCollection implements
   @Override
   public CommitResource parse(ProjectResource parent, IdString id)
       throws ResourceNotFoundException, IOException {
-    ObjectId objectId;
-    try {
-      objectId = ObjectId.fromString(id.get());
-    } catch (IllegalArgumentException e) {
-      throw new ResourceNotFoundException(id);
-    }
-
     Repository repo = repoManager.openRepository(parent.getNameKey());
     try {
       RevWalk rw = new RevWalk(repo);
       try {
+        ObjectId objectId = repo.resolve(id.get());
+        if (objectId == null) {
+          throw new ResourceNotFoundException(id);
+        }
         RevCommit commit = rw.parseCommit(objectId);
         rw.parseBody(commit);
         if (!parent.getControl().canReadCommit(db.get(), rw, commit)) {

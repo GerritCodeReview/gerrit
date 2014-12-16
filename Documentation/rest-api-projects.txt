@@ -1758,7 +1758,7 @@ omitted.
 
 [[commit-id]]
 === \{commit-id\}
-Commit ID.
+Commit ID or any ref.
 
 [[tag-id]]
 === \{tag-id\}

@@ -46,6 +46,30 @@
       "revId": "05685204f6ea48d63fdf5d0ad1f88e8715b546ec",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "21053cfe_fcddc974",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 1814,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-16T03:49:49Z",
+      "side": 1,
+      "message": "Let me provide a better justification to your valid question: You are right for now it would be suffiicient and not ambigious to only use label name without vote. However, it wouldn\u0027t be sufficient for future extension on Gerrit ACL concerning votes removability. See also my TODO in DeleteVote.java in this change:\n\n  // TODO(davido): Extend the ACL system to allow fine grained removal\n  // of votes. E.g. allow removing a VRFY-1, but not a CRVW-2 by\n  // implementing ctl.canRemoveVote(v) method.\n\nWe have to introduce fine grained removal of votes in ACL system, so that we can do this:\n\n* DELETE /change/\u003cnumber\u003e/reviewer/\u003caccountId\u003e/votes/Code-Review-1 is possible\n* DELETE /change/\u003cnumber\u003e/reviewer/\u003caccountId\u003e/votes/Code-Review-2 is prohibited.\n\nSo that in DeleteVote REST endpoint we can ask instead of this:\n\n  if (control.canRemoveReviewer(a)) {\n  [...]\n\nsomething like:\n\n  if (control.canRemoveLabelVote(labelVote)) {\n  [...]",
+      "parentUuid": "8458b61b_8f55f519",
+      "range": {
+        "startLine": 1813,
+        "startChar": 0,
+        "endLine": 1814,
+        "endChar": 68
+      },
+      "revId": "05685204f6ea48d63fdf5d0ad1f88e8715b546ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

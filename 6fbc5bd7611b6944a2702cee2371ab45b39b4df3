@@ -22,6 +22,30 @@
       "revId": "6fbc5bd7611b6944a2702cee2371ab45b39b4df3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a13f6cb4_50f82cda",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 545,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-12-16T08:06:37Z",
+      "side": 1,
+      "message": "\u003e Should this now also mention ancestor changes merged\n \u003e on the same branch?\n\nI believe the GetRelated REST endpoint is not returning any ancestor changes that are merged on the same branch. So they will not show up at all :( \n\nIt would be nice to change the logic so that the first merged ancestor of the same branch is shown, but this should be another change.\n\nAlso we got the request from our users to show ancestor changes that are coming in from another branch in an own related changes tab, instead of mixing them into the \"Related Changes\" tab as it is now. This would allow the user to differentiate.",
+      "parentUuid": "011bd86b_53f824da",
+      "range": {
+        "startLine": 543,
+        "startChar": 0,
+        "endLine": 545,
+        "endChar": 41
+      },
+      "revId": "6fbc5bd7611b6944a2702cee2371ab45b39b4df3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

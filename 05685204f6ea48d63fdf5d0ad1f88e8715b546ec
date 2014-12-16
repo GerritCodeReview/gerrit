@@ -70,6 +70,30 @@
       "revId": "05685204f6ea48d63fdf5d0ad1f88e8715b546ec",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "011bd86b_b3e7783d",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 1814,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-12-16T04:42:40Z",
+      "side": 1,
+      "message": "OK, I see your point.  Let\u0027s leave it like this.",
+      "parentUuid": "21053cfe_fcddc974",
+      "range": {
+        "startLine": 1813,
+        "startChar": 0,
+        "endLine": 1814,
+        "endChar": 68
+      },
+      "revId": "05685204f6ea48d63fdf5d0ad1f88e8715b546ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

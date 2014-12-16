@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "011bd86b_53f824da",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 545,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-12-16T04:46:43Z",
+      "side": 1,
+      "message": "Should this now also mention ancestor changes merged on the same branch?\n\nIf so, how can the user differentiate this from the cases that are already described?",
+      "range": {
+        "startLine": 543,
+        "startChar": 0,
+        "endLine": 545,
+        "endChar": 41
+      },
+      "revId": "6fbc5bd7611b6944a2702cee2371ab45b39b4df3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

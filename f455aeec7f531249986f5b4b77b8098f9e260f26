@@ -22,6 +22,30 @@
       "revId": "f455aeec7f531249986f5b4b77b8098f9e260f26",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "21053cfe_7c577922",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetDiff.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-16T13:56:03Z",
+      "side": 1,
+      "message": "Bad rebase. Thanks for noticing. Done.",
+      "parentUuid": "21053cfe_dc7e8d9b",
+      "range": {
+        "startLine": 190,
+        "startChar": 22,
+        "endLine": 190,
+        "endChar": 23
+      },
+      "revId": "f455aeec7f531249986f5b4b77b8098f9e260f26",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

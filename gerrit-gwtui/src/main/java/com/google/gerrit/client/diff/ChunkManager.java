@@ -46,6 +46,8 @@ import java.util.List;
 
 /** Colors modified regions for {@link SideBySide2}. */
 class ChunkManager {
+  private static final String DATA_LINES = "_cs2h";
+  private static double guessedLineHeightPx = 15;
   private static final JavaScriptObject focusA = initOnClick(A);
   private static final JavaScriptObject focusB = initOnClick(B);
   private static final native JavaScriptObject initOnClick(DisplaySide s) /*-{
@@ -84,6 +86,7 @@ class ChunkManager {
   private List<TextMarker> markers;
   private List<Runnable> undo;
   private List<LineWidget> padding;
+  private List<Element> paddingDivs;
 
   ChunkManager(SideBySide2 host,
       CodeMirror cmA,
@@ -122,6 +125,7 @@ class ChunkManager {
     markers = new ArrayList<>();
     undo = new ArrayList<>();
     padding = new ArrayList<>();
+    paddingDivs = new ArrayList<>();
 
     String diffColor = diff.meta_a() == null || diff.meta_b() == null
         ? DiffTable.style.intralineBg()
@@ -137,6 +141,25 @@ class ChunkManager {
       } else {
         render(current, diffColor);
       }
+    }
+
+    if (paddingDivs.isEmpty()) {
+      paddingDivs = null;
+    }
+  }
+
+  void adjustPadding() {
+    if (paddingDivs != null) {
+      double h = host.getLineHeightPx();
+      for (Element div : paddingDivs) {
+        int lines = div.getPropertyInt(DATA_LINES);
+        div.getStyle().setHeight(lines * h, Unit.PX);
+      }
+      for (LineWidget w : padding) {
+        w.changed();
+      }
+      paddingDivs = null;
+      guessedLineHeightPx = h;
     }
   }
 
@@ -243,17 +266,14 @@ class ChunkManager {
    * @param len number of lines to pad. Padding is inserted only if
    *        {@code len >= 1}.
    */
-  private void addPadding(CodeMirror cm, int line, int len) {
+  private void addPadding(CodeMirror cm, int line, final int len) {
     if (0 < len) {
-      // DiffTable adds 1px bottom padding to each line to preserve
-      // sufficient space for underscores commonly appearing in code.
-      // Padding should be 1em + 1px high for each line. Add within
-      // the browser using height + padding-bottom.
       Element pad = DOM.createDiv();
       pad.setClassName(DiffTable.style.padding());
-      pad.getStyle().setHeight(len, Unit.EM);
-      pad.getStyle().setPaddingBottom(len, Unit.PX);
+      pad.setPropertyInt(DATA_LINES, len);
+      pad.getStyle().setHeight(guessedLineHeightPx * len, Unit.PX);
       focusOnClick(pad, cm.side());
+      paddingDivs.add(pad);
       padding.add(cm.addLineWidget(
         line == -1 ? 0 : line,
         pad,

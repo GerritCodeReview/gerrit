@@ -116,6 +116,8 @@ public class SideBySide2 extends Screen {
   private Element columnMarginA;
   private Element columnMarginB;
   private double charWidthPx;
+  private double lineHeightPx;
+
   private HandlerRegistration resizeHandler;
   private ScrollSynchronizer scrollSynchronizer;
   private DiffInfo diff;
@@ -243,6 +245,7 @@ public class SideBySide2 extends Screen {
       public void run() {
         cmA.setHeight(height);
         cmB.setHeight(height);
+        chunkManager.adjustPadding();
         cmA.refresh();
         cmB.refresh();
       }
@@ -636,6 +639,26 @@ public class SideBySide2 extends Screen {
     columnMarginB.getStyle().setMarginLeft(w, Style.Unit.PX);
   }
 
+  double getLineHeightPx() {
+    if (lineHeightPx <= 1) {
+      Element p = DOM.createDiv();
+      int lines = 1;
+      for (int i = 0; i < lines; i++) {
+        Element e = DOM.createDiv();
+        p.appendChild(e);
+
+        Element pre = DOM.createElement("pre");
+        pre.setInnerText("gqyŚŻŹŃ");
+        e.appendChild(pre);
+      }
+
+      cmB.getMeasureElement().appendChild(p);
+      lineHeightPx = ((double) p.getOffsetHeight()) / lines;
+      p.removeFromParent();
+    }
+    return lineHeightPx;
+  }
+
   private double getCharWidthPx() {
     if (charWidthPx <= 1) {
       int len = 100;
@@ -647,11 +670,11 @@ public class SideBySide2 extends Screen {
       e.getStyle().setDisplay(Style.Display.INLINE_BLOCK);
       e.setInnerText(s.toString());
 
-      cmA.getMoverElement().appendChild(e);
+      cmA.getMeasureElement().appendChild(e);
       double a = ((double) e.getOffsetWidth()) / len;
       e.removeFromParent();
 
-      cmB.getMoverElement().appendChild(e);
+      cmB.getMeasureElement().appendChild(e);
       double b = ((double) e.getOffsetWidth()) / len;
       e.removeFromParent();
       charWidthPx = Math.max(a, b);
@@ -1001,6 +1024,7 @@ public class SideBySide2 extends Screen {
                 diffTable.overview.clearDiffMarkers();
                 setShowIntraline(prefs.intralineDifference());
                 render(diff);
+                chunkManager.adjustPadding();
                 skipManager.render(prefs.context(), diff);
               }
             });

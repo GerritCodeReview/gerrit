@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "21053cfe_9cfda5c7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/HashtagsUtil.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2014-12-16T09:23:42Z",
+      "side": 1,
+      "message": "Ahh. \\p{L} was new to me. Works great. It even supports \u0027The Eyes of disapproval\u0027 for bad changes: #ಠ_ಠ\n\nIs there a reason you are using nested character groups?\nThis should be enough:\n\n  (?:\\s|\\A)#[\\p{L}0-9_-]+\n\nI would put the \"-\" at the end of the character group or escape it, to avoid it becoming a range character if feature tweaks are made.",
+      "revId": "891010a1d269a4ce87b57e8cf22936494dbb2c4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

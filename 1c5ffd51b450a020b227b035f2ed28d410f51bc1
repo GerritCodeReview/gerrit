@@ -52,6 +52,24 @@
       "revId": "1c5ffd51b450a020b227b035f2ed28d410f51bc1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "21053cfe_fc34a9fe",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/HashtagsUtil.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-12-16T11:22:24Z",
+      "side": 1,
+      "message": "Touché, we are really quite naïve people aren\u0027t we...",
+      "parentUuid": "443a3eaa_cd39c9f8",
+      "revId": "1c5ffd51b450a020b227b035f2ed28d410f51bc1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

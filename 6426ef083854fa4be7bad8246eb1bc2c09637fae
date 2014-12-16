@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a13f6cb4_102744da",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 33
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-16T10:46:59Z",
+      "side": 1,
+      "message": "Good suggestion. We should do that. There would be really cool to show in the table. So you change has 10 file, you have edited in context of change edit 3 of them, so we want \"*\" in front of them in edit mode, to notify that 3 from 10 were changed. Another question is how do we know which files was changed in the edit to render \"*\"?",
+      "parentUuid": "a13f6cb4_302248ca",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 71
+      },
+      "revId": "6426ef083854fa4be7bad8246eb1bc2c09637fae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a13f6cb4_501dcc8d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 33
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "a13f6cb4_f00ba044",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 33
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-16T10:46:59Z",
+      "side": 1,
+      "message": "Hm. Save means we send the content to server, amend the commit, and reload the change screen by preserving editing mode. Your suggestion is to stay in edit screen even after clicking on save button. But then we would need another button to jump back to CS2. May be rename another button from \"Cancel\" to \"Done\" or \"Done Editing\"? Because after clicking on save it doesn\u0027t really cancel any more.",
+      "parentUuid": "a13f6cb4_501dcc8d",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 43
+      },
+      "revId": "6426ef083854fa4be7bad8246eb1bc2c09637fae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "21053cfe_3c2211ca",
         "filename": "/COMMIT_MSG",
         "patchSetId": 33
@@ -59,6 +107,30 @@
       "writtenOn": "2014-12-16T09:33:48Z",
       "side": 1,
       "message": "I was confused that the \"Edit Message\" button is not shown in edit mode. When I clicked on \"Edit Message\", I got the popup to edit the message and afterwards I land on the change screen in edit mode. This is a good workflow. But now I see that I still overlooked something in the commit message and I want to change it again. As a user I would expect that I could just click on \"Edit Message\" again, but now this button is not shown anymore.",
+      "range": {
+        "startLine": 31,
+        "startChar": 39,
+        "endLine": 31,
+        "endChar": 53
+      },
+      "revId": "6426ef083854fa4be7bad8246eb1bc2c09637fae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a13f6cb4_d0089c4a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 33
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-16T10:46:59Z",
+      "side": 1,
+      "message": "You make a valid point. But please note that it was not my suggestion to preserve \"Edit Message\" button from the pre-change-edit workflow era and try to integrate it somehow in new change-edit-workflow.\n\nBefore this change the workflow for change commit message was:\n\n* 1. Click on \"Edit Message\" button, commit message appears in popup dialog, change, save \u003d\u003e Change edit is created \u003d\u003e \"Edit Message\" is hidden unless the Change edit is published or deleted, because to re-edit the commit message again, you supposed to click on edit icon in front of commit message row in file table to open popup dialog again.\n* 2. Create change edit by modifying another file. \"Edit Message\" is hidden on CS2. To modify commit message see A.1 above.\n\nWith this change the workflow for change commit message is:\n\n* 3. Click on \"Edit Message\" button, commit message appears in popup dialog, change, save \u003d\u003e Change edit is created \u003d\u003e \"Edit Message\" is hidden unless the Change edit is published or deleted, because to re-edit the commit message again, you supposed to click on commit message hyperlink to jump n edit screen (CM3 in edit mode)\n* 4. Create change edit by modifying another file. \"Edit Message\" is hidden on CS2. To modify commit message see 3 above.\n\nIOW this is not a problem that this change has introduced. If you is surprised with edit commit message workflow with this change, so you should probably also be surprised before this change.",
+      "parentUuid": "21053cfe_3c2211ca",
       "range": {
         "startLine": 31,
         "startChar": 39,

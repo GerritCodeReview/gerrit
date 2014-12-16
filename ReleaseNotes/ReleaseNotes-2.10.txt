@@ -433,12 +433,12 @@ Log file compression was scheduled using a fixed delay. This caused the start
 times to drift over time. Use a fixed rate instead so that the compression
 reoccurs at the same time every day.
 
-* Do not email project watchers on new draft changes
+* Don't email project watchers on new draft changes.
 +
-If a draft change is created by pushing to refs/drafts/master only
-the reviewers explicitly named on the command line (which may be
-empty) should be notified of the change. Users watching the project
-should not be notified, as the change has not yet been published.
+If a draft change is created by pushing to `refs/drafts/master`, only the reviewers
+explicitly named on the command line (which may be empty) should be notified of
+the change. Users watching the project should not be notified, as the change has
+not yet been published.
 
 Web UI
 ~~~~~~
@@ -465,7 +465,7 @@ if a site administrator ran `java -war gerrit.war init -d /some/existing/site --
 Change Screen
 ^^^^^^^^^^^^^
 
-* Do not linkify trailing dot or comma in messages.
+* Don't linkify trailing dot or comma in messages.
 +
 As linkifying trailing dots and trailing commas does more harm than
 good, we only treat dots and commas as being part of urls, if they are
@@ -499,7 +499,8 @@ finish, and restarted hours later.
 Side-By-Side Diff
 ^^^^^^^^^^^^^^^^^
 
-* Fix line length column margin to appear at correct column.
+* link:https://code.google.com/p/gerrit/issues/detail?id=2970[Issue 2970]:
+Fix misalignment of side A and side B for long insertion/deletion blocks.
 
 * Give B side full width when A side is hidden.
 

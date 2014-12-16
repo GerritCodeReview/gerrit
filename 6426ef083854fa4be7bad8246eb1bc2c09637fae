@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a13f6cb4_302248ca",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 33
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-12-16T09:33:48Z",
+      "side": 1,
+      "message": "It would be cool to have in addition some kind of indication whether the file was edited and there are still unsaved changes (e.g. show \u0027*\u0027 as in Eclipse). Could be done in another change of course.",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 71
+      },
+      "revId": "6426ef083854fa4be7bad8246eb1bc2c09637fae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a13f6cb4_501dcc8d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 33
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-12-16T09:33:48Z",
+      "side": 1,
+      "message": "I\u0027m not sure if this is the best behaviour for \u0027Save\u0027. At least I\u0027m a paranoid person when editing things in a browser and I would hit save each 5 minutes to not lose my work if my session times out or my browser crashes. In this case landing back on the change screen would be annoying since I would maybe like to continue typing after saving. But this could also be addressed in another change.",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 43
+      },
+      "revId": "6426ef083854fa4be7bad8246eb1bc2c09637fae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "21053cfe_3c2211ca",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 33
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-12-16T09:33:48Z",
+      "side": 1,
+      "message": "I was confused that the \"Edit Message\" button is not shown in edit mode. When I clicked on \"Edit Message\", I got the popup to edit the message and afterwards I land on the change screen in edit mode. This is a good workflow. But now I see that I still overlooked something in the commit message and I want to change it again. As a user I would expect that I could just click on \"Edit Message\" again, but now this button is not shown anymore.",
+      "range": {
+        "startLine": 31,
+        "startChar": 39,
+        "endLine": 31,
+        "endChar": 53
+      },
+      "revId": "6426ef083854fa4be7bad8246eb1bc2c09637fae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "21053cfe_bc006129",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/editor/EditScreen.ui.xml",
+        "patchSetId": 33
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-12-16T09:33:48Z",
+      "side": 1,
+      "message": "Is this defined in the context of this file?\n\nI only find a definition of COMMIT_WIDTH in ChangeScreen2.ui.xml...",
+      "range": {
+        "startLine": 28,
+        "startChar": 12,
+        "endLine": 28,
+        "endChar": 25
+      },
+      "revId": "6426ef083854fa4be7bad8246eb1bc2c09637fae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a13f6cb4_d003fc34",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/editor/EditScreen.ui.xml",
+        "patchSetId": 33
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-12-16T09:33:48Z",
+      "side": 1,
+      "message": "wrong indention?",
+      "range": {
+        "startLine": 23,
+        "startChar": 4,
+        "endLine": 80,
+        "endChar": 5
+      },
+      "revId": "6426ef083854fa4be7bad8246eb1bc2c09637fae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

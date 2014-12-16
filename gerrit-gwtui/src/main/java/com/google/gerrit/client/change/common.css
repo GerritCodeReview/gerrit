@@ -33,7 +33,7 @@
   text-align: center;
   font-size: 11px;
   font-weight: bold;
-  border: 1px solid;
+  border: 2px solid;
   cursor: pointer;
   color: #fff;
   background-color: #4d90fe;
@@ -53,8 +53,8 @@
   width: 54px;
   white-space: nowrap;
   color: #fff;
-  height: 10px;
-  line-height: 10px;
+  height: 14px;
+  line-height: 14px;
 }
 
 .section {

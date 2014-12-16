@@ -23,9 +23,9 @@ limitations under the License.
     button.openAdd {
       margin: 3px 3px 0 0;
       float: right;
-      color: #444;
+      color: rgba(0, 0, 0, 0.15);
       background-color: #f5f5f5;
-      background-image: -webkit-linear-gradient(top, #f5f5f5, #f1f1f1);
+      background-image: none;
       -webkit-border-radius: 2px;
       -moz-border-radius: 2px;
       border-radius: 2px;

@@ -46,6 +46,30 @@
       "revId": "6fbc5bd7611b6944a2702cee2371ab45b39b4df3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "011bd86b_93fd9cc7",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 545,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-12-16T08:17:02Z",
+      "side": 1,
+      "message": "\u003e I believe the GetRelated REST endpoint is not returning any ancestor changes that are merged on the same branch. So they will not show up at all :( \n\nIIRC it\u0027s possible if you do something like this:\n\nPush a series of changes like this:\n\n Change C\n Change B\n Change A\n\nand then locally do an interactive rebase, removing Change A and Change C.  Push again (only Change B), and then approve and merge Change B.\n\nThen look at the related changes list for Change A, it still looks like:\n\n Change C\n Change B\n Change A\n\nbut Change B is merged (on the same branch).",
+      "parentUuid": "a13f6cb4_50f82cda",
+      "range": {
+        "startLine": 543,
+        "startChar": 0,
+        "endLine": 545,
+        "endChar": 41
+      },
+      "revId": "6fbc5bd7611b6944a2702cee2371ab45b39b4df3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

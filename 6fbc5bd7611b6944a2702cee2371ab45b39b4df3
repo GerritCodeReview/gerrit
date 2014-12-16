@@ -94,6 +94,30 @@
       "revId": "6fbc5bd7611b6944a2702cee2371ab45b39b4df3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a13f6cb4_30eda818",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 545,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2014-12-16T08:20:34Z",
+      "side": 1,
+      "message": "Interesting. Yes, I agree that this should be improved in a seperate change :)",
+      "parentUuid": "011bd86b_531dc48d",
+      "range": {
+        "startLine": 543,
+        "startChar": 0,
+        "endLine": 545,
+        "endChar": 41
+      },
+      "revId": "6fbc5bd7611b6944a2702cee2371ab45b39b4df3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

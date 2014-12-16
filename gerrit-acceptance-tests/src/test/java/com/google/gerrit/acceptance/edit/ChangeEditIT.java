@@ -163,8 +163,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
     edit = editUtil.byChange(change);
     assertThat(edit.isPresent()).isFalse();
     PatchSet newCurrentPatchSet = getCurrentPatchSet(changeId);
-    assertThat(oldCurrentPatchSet.getId().equals(newCurrentPatchSet.getId()))
-        .isFalse();
+    assertThat(newCurrentPatchSet.getId()).isNotEqualTo(oldCurrentPatchSet.getId());
   }
 
   @Test
@@ -224,7 +223,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
     assertThat(edit.getBasePatchSet().getPatchSetId()).isEqualTo(
         current.getPatchSetId());
     Date afterRebase = edit.getEditCommit().getCommitterIdent().getWhen();
-    assertThat(beforeRebase.equals(afterRebase)).isFalse();
+    assertThat(afterRebase).isNotEqualTo(beforeRebase);
   }
 
   @Test

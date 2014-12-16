@@ -17,8 +17,8 @@ package com.google.gerrit.acceptance;
 import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.collect.Iterables;
+import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.testutil.TempFileUtil;
 
 import com.jcraft.jsch.JSch;
@@ -171,7 +171,7 @@ public class GitUtil {
 
     RevCommit c = commitCmd.call();
 
-    List<String> ids = c.getFooterLines(MergeUtil.CHANGE_ID);
+    List<String> ids = c.getFooterLines(FooterConstants.CHANGE_ID);
     checkState(ids.size() >= 1,
         "No Change-Id found in new commit:\n%s", c.getFullMessage());
     changeId = ids.get(ids.size() - 1);

@@ -98,7 +98,6 @@ class Labels extends Grid {
 
   void set(ChangeInfo info) {
     List<String> names = new ArrayList<>(info.labels());
-    Collections.sort(names);
 
     resize(names.size(), 2);
 

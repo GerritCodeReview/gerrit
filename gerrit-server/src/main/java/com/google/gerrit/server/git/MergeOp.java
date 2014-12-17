@@ -538,6 +538,22 @@ public class MergeOp {
         continue;
       }
 
+      // all changes from one topic go in together
+      boolean topicDependencies = true;
+      try {
+        String topic = chg.getTopic();
+        for (Change c : db.changes().byTopic(topic)) {
+          if (c.getStatus() != Change.Status.SUBMITTED) {
+            topicDependencies = false;
+          }
+        }
+      } catch (OrmException e) {
+        continue;
+      }
+      if (!topicDependencies) {
+        continue;
+      }
+
       if (!tips.contains(id)) {
         // TODO Technically the proper way to do this test is to use a
         // RevWalk on "$id --not --all" and test for an empty set. But

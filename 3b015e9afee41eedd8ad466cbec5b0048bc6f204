@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8157c840_37f31803",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeEdits.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 494,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-12-17T08:07:47Z",
+      "side": 1,
+      "message": "This is no longer used.",
+      "range": {
+        "startLine": 494,
+        "startChar": 4,
+        "endLine": 494,
+        "endChar": 40
+      },
+      "revId": "3b015e9afee41eedd8ad466cbec5b0048bc6f204",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

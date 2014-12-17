@@ -2800,6 +2800,31 @@ only the default internal rules will be used.
 +
 Default is true, to execute project specific rules.
 
+[[rules.reductionLimit]]rules.reductionLimit::
++
+Maximum number of Prolog reductions that can be performed when
+evaluating rules for a single change. Each function call made
+in user rule code, internal Gerrit Prolog code, or the Prolog
+interpreter counts against this limit.
++
+Sites using very complex rules that need many reductions should
+compile Prolog to Java bytecode with link:pgm-rulec.html[rulec].
+This eliminates the dynamic Prolog interpreter from charging its
+own reductions against the limit, enabling more logic to execute
+within the same bounds.
++
+A reductionLimit of 0 is nearly infinite, implemented by setting
+the internal limit to 2^31-1.
++
+Default is 100,000 reductions (about 14 ms on Intel Core i7 CPU).
+
+[[rules.compileReductionLimit]]rules.compileReductionLimit::
++
+Maximum number of Prolog reductions that can be performed when
+compiling source code to internal Prolog machine code.
++
+Default is 10x reductionLimit (1,000,000).
+
 [[execution]]
 === Section execution
 

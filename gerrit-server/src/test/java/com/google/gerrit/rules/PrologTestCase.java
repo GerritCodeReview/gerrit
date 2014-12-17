@@ -52,8 +52,8 @@ public abstract class PrologTestCase {
   private boolean hasSetup;
   private boolean hasTeardown;
   private List<Term> tests;
-  private PrologMachineCopy machine;
-  private PrologEnvironment.Factory envFactory;
+  protected PrologMachineCopy machine;
+  protected PrologEnvironment.Factory envFactory;
 
   protected void load(String pkg, String prologResource, Module... modules)
       throws CompileException, IOException {

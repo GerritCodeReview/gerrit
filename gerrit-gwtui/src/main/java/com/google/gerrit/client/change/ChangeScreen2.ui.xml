@@ -26,7 +26,9 @@ limitations under the License.
     @eval trimColor com.google.gerrit.client.Gerrit.getTheme().trimColor;
 
     @def COMMIT_WIDTH 560px;
-    @def HEADER_HEIGHT 29px;
+    @def HEADER_HEIGHT 30px;
+
+    @def BUTTON_HEIGHT 14px;
 
     .cs2 {
       margin-bottom: 1em;
@@ -119,8 +121,6 @@ limitations under the License.
       cursor: pointer;
       height: 25px;
       border: none;
-      border-left: 2px solid #fff;
-      border-right: 2px solid #fff;
       background-color: trimColor;
       margin: 0 0 0 -2px;
       padding-left: 2px;
@@ -258,28 +258,25 @@ limitations under the License.
 
     .headerButtons button {
       margin: 6px 3px 0 0;
-      border-color: rgba(0, 0, 0, 0.1);
       text-align: center;
       font-size: 8pt;
       font-weight: bold;
-      border: 1px solid;
       cursor: pointer;
-      color: #444;
+      border: 2px solid;
+      color: rgba(0, 0, 0, 0.15);
       background-color: #f5f5f5;
-      background-image: -webkit-linear-gradient(top, #f5f5f5, #f1f1f1);
       -webkit-border-radius: 2px;
       -webkit-box-sizing: content-box;
     }
     .headerButtons button div {
       color: #444;
-      height: 10px;
       min-width: 54px;
-      line-height: 10px;
       white-space: nowrap;
+      height: BUTTON_HEIGHT;
+      line-height: BUTTON_HEIGHT;
     }
     button.quickApprove {
       background-color: #4d90fe;
-      background-image: -webkit-linear-gradient(top, #4d90fe, #4d90fe);
     }
     button.quickApprove div { color: #fff; }
 
@@ -288,7 +285,7 @@ limitations under the License.
       background-color: trimColor;
       font-weight: bold;
       color: textColor;
-      height: 18px;
+      height: 20px;
       margin: 0 -5px;
       padding: 5px 5px;
     }

@@ -22,6 +22,30 @@
       "revId": "449c0848839ba9a7e2121ceaf76b91f0ff2e4e0d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4117908b_45d9ca87",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/editor/EditScreen.ui.xml",
+        "patchSetId": 34
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-17T07:34:56Z",
+      "side": 1,
+      "message": "The variable name doesn\u0027t make any sense here as well.",
+      "parentUuid": "01111899_03cfcebe",
+      "range": {
+        "startLine": 24,
+        "startChar": 4,
+        "endLine": 24,
+        "endChar": 28
+      },
+      "revId": "449c0848839ba9a7e2121ceaf76b91f0ff2e4e0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

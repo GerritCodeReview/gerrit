@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c1346009_41f37201",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Actions.ui.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-12-17T02:10:06Z",
+      "side": 1,
+      "message": "optional nit: whitespace.  not caused by this change, but would be nice to remove it.",
+      "range": {
+        "startLine": 41,
+        "startChar": 18,
+        "endLine": 41,
+        "endChar": 19
+      },
+      "revId": "fba4cd260ff33be3115639e917c8dccaa8db00ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

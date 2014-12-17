@@ -46,6 +46,30 @@
       "revId": "0baa0eb7e17bce5b149abc25984c790bd8477836",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "01111899_e3155264",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2014-12-17T10:37:42Z",
+      "side": 1,
+      "message": "I accidentally replied with a cover message. My reply should be here instead:\n\n\nI have asked a handful developers here to find the Reply-button (and not the one at the top header). All of them are totally new new (or semi new) to this new change screen. Everyone had issues finding it. A few even found the strange position humorous. \n\n\nI can move it to the left side of the name, but I really think it should be moved from the current position. You reply to an author, not a time-stamp.\n\n\nSome more input would be nice though. Perhaps I\u0027m alone wanting to move it.",
+      "parentUuid": "01111899_8308de49",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 26
+      },
+      "revId": "0baa0eb7e17bce5b149abc25984c790bd8477836",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

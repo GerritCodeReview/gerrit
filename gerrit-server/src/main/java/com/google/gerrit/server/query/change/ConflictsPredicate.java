@@ -26,7 +26,6 @@ import com.google.gerrit.server.git.strategy.SubmitStrategy;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
-import com.google.gerrit.server.project.SubmitRuleEvaluator;
 import com.google.gerrit.server.query.OperatorPredicate;
 import com.google.gerrit.server.query.OrPredicate;
 import com.google.gerrit.server.query.Predicate;
@@ -57,7 +56,8 @@ class ConflictsPredicate extends OrPredicate<ChangeData> {
   }
 
   private static List<Predicate<ChangeData>> predicates(final Arguments args,
-      String value, List<Change> changes) throws OrmException {
+      String value, List<Change> changes)
+      throws OrmException {
     List<Predicate<ChangeData>> changePredicates =
         Lists.newArrayListWithCapacity(changes.size());
     final Provider<ReviewDb> db = args.db;
@@ -148,7 +148,7 @@ class ConflictsPredicate extends OrPredicate<ChangeData> {
         }
 
         private SubmitType getSubmitType(ChangeData cd) throws OrmException {
-          SubmitTypeRecord r = new SubmitRuleEvaluator(cd).getSubmitType();
+          SubmitTypeRecord r = args.submitRuleEvaluatorFactory.create(cd).getSubmitType();
           if (r.status != SubmitTypeRecord.Status.OK) {
             return null;
           }

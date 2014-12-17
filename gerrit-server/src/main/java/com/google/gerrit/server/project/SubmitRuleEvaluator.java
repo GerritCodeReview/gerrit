@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.SubmitRecord;
@@ -29,8 +30,12 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.rules.PrologEnvironment;
 import com.google.gerrit.rules.StoredValues;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.config.ConfigUtil;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
+import com.google.inject.Inject;
+import com.google.inject.assistedinject.Assisted;
 
 import com.googlecode.prolog_cafe.compiler.CompileException;
 import com.googlecode.prolog_cafe.lang.IntegerTerm;
@@ -42,6 +47,7 @@ import com.googlecode.prolog_cafe.lang.SymbolTerm;
 import com.googlecode.prolog_cafe.lang.Term;
 import com.googlecode.prolog_cafe.lang.VariableTerm;
 
+import org.eclipse.jgit.lib.Config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -49,6 +55,13 @@ import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 /**
  * Evaluates a submit-like Prolog rule found in the rules.pl file of the current
@@ -56,11 +69,16 @@ import java.util.List;
  * all the way up to All-Projects.
  */
 public class SubmitRuleEvaluator {
+  private static final TimeUnit TIMEOUT_UNIT = TimeUnit.MILLISECONDS;
   private static final Logger log = LoggerFactory
       .getLogger(SubmitRuleEvaluator.class);
 
   private static final String DEFAULT_MSG =
       "Error evaluating project rules, check server log";
+
+  public interface Factory {
+    SubmitRuleEvaluator create(ChangeData cd) throws OrmException;
+  }
 
   public static List<SubmitRecord> defaultRuleError() {
     return createRuleError(DEFAULT_MSG);
@@ -99,6 +117,7 @@ public class SubmitRuleEvaluator {
 
   private final ChangeData cd;
   private final ChangeControl control;
+  private final long evaluationTimeout;
 
   private PatchSet patchSet;
   private boolean fastEvalLabels;
@@ -110,9 +129,15 @@ public class SubmitRuleEvaluator {
 
   private Term submitRule;
 
-  public SubmitRuleEvaluator(ChangeData cd) throws OrmException {
+  @Inject
+  @VisibleForTesting
+  public SubmitRuleEvaluator(@GerritServerConfig Config gerritConfig,
+      @Assisted ChangeData cd) throws OrmException {
     this.cd = cd;
     this.control = cd.changeControl();
+    this.evaluationTimeout =
+        ConfigUtil.getTimeUnit(gerritConfig, "rules", null,
+            "evaluationTimeout", 0, TIMEOUT_UNIT);
   }
 
   /**
@@ -212,7 +237,7 @@ public class SubmitRuleEvaluator {
       results = evaluateImpl("locate_submit_rule", "can_submit",
           "locate_submit_filter", "filter_submit_results",
           control.getCurrentUser());
-    } catch (RuleEvalException e) {
+    } catch (RuleEvalException | RuleEvalTimeoutException e) {
       return ruleError(e.getMessage(), e);
     }
 
@@ -393,7 +418,7 @@ public class SubmitRuleEvaluator {
           // for mergeability checks, which are stored persistently and so must
           // have a consistent view of the submit type.
           null);
-    } catch (RuleEvalException e) {
+    } catch (RuleEvalException | RuleEvalTimeoutException e) {
       return typeError(e.getMessage(), e);
     }
 
@@ -443,74 +468,36 @@ public class SubmitRuleEvaluator {
       String userRuleWrapperName,
       String filterRuleLocatorName,
       String filterRuleWrapperName,
-      CurrentUser user) throws RuleEvalException {
-    PrologEnvironment env = getPrologEnvironment(user);
+      CurrentUser user) throws RuleEvalException, RuleEvalTimeoutException {
+
+    SubmitRuleEvaluationTask task =
+        new SubmitRuleEvaluationTask(userRuleLocatorName, userRuleWrapperName,
+            filterRuleLocatorName, filterRuleWrapperName, user);
+
+    if (evaluationTimeout < 1) {
+      return task.callUnchecked();
+    }
+
+    ExecutorService executor = Executors.newSingleThreadExecutor();
+    Future<List<Term>> future = executor.submit(task);
     try {
-      Term sr = env.once("gerrit", userRuleLocatorName, new VariableTerm());
-      if (fastEvalLabels) {
-        env.once("gerrit", "assume_range_from_label");
+      return future.get(evaluationTimeout, TIMEOUT_UNIT);
+    } catch (ExecutionException e) {
+      Throwable cause = e.getCause();
+      if (cause instanceof RuleEvalException) {
+        throw (RuleEvalException) cause;
       }
-
-      List<Term> results = new ArrayList<>();
-      try {
-        for (Term[] template : env.all("gerrit", userRuleWrapperName, sr,
-              new VariableTerm())) {
-          results.add(template[1]);
-        }
-      } catch (RuntimeException err) {
-        throw new RuleEvalException("Exception calling " + sr
-            + " on change " + cd.getId() + " of " + getProjectName(),
-            err);
-      }
-
-      Term resultsTerm = toListTerm(results);
-      if (!skipFilters) {
-        resultsTerm = runSubmitFilters(
-            resultsTerm, env, filterRuleLocatorName, filterRuleWrapperName);
-      }
-      List<Term> r;
-      if (resultsTerm.isList()) {
-        r = Lists.newArrayList();
-        for (Term t = resultsTerm; t.isList();) {
-          ListTerm l = (ListTerm) t;
-          r.add(l.car().dereference());
-          t = l.cdr().dereference();
-        }
-      } else {
-        r = Collections.emptyList();
-      }
-      submitRule = sr;
-      return r;
+      throw new RuleEvalException(
+          "Unexpected error during rule evaluation occurs", e);
+    } catch (InterruptedException e) {
+      throw new RuleEvalException("Rule evaluation interrupted", e);
+    } catch (TimeoutException e) {
+      throw new RuleEvalTimeoutException(String.format(
+          "Rule evaluation killed after timeout of %s %s", evaluationTimeout,
+          TIMEOUT_UNIT.toString().toLowerCase()));
     } finally {
-      env.close();
+      executor.shutdownNow();
     }
-  }
-
-  private PrologEnvironment getPrologEnvironment(CurrentUser user)
-      throws RuleEvalException {
-    checkState(patchSet != null,
-        "getPrologEnvironment() called before initPatchSet()");
-    ProjectState projectState = control.getProjectControl().getProjectState();
-    PrologEnvironment env;
-    try {
-      if (rule == null) {
-        env = projectState.newPrologEnvironment();
-      } else {
-        env = projectState.newPrologEnvironment(
-            "stdin", new ByteArrayInputStream(rule.getBytes(UTF_8)));
-      }
-    } catch (CompileException err) {
-      throw new RuleEvalException("Cannot consult rules.pl for "
-          + getProjectName(), err);
-    }
-    env.set(StoredValues.REVIEW_DB, cd.db());
-    env.set(StoredValues.CHANGE_DATA, cd);
-    env.set(StoredValues.PATCH_SET, patchSet);
-    env.set(StoredValues.CHANGE_CONTROL, control);
-    if (user != null) {
-      env.set(StoredValues.CURRENT_USER, user);
-    }
-    return env;
   }
 
   private Term runSubmitFilters(Term results, PrologEnvironment env,
@@ -593,5 +580,100 @@ public class SubmitRuleEvaluator {
 
   private String getProjectName() {
     return control.getProjectControl().getProjectState().getProject().getName();
+  }
+
+  private  class SubmitRuleEvaluationTask implements Callable<List<Term>> {
+    private final CurrentUser user;
+    private final String userRuleLocatorName;
+    private final String userRuleWrapperName;
+    private final String filterRuleLocatorName;
+    private final String filterRuleWrapperName;
+
+    public SubmitRuleEvaluationTask(String userRuleLocatorName,
+        String userRuleWrapperName,
+        String filterRuleLocatorName,
+        String filterRuleWrapperName,
+        CurrentUser user) {
+      this.user = user;
+      this.userRuleLocatorName = userRuleLocatorName;
+      this.userRuleWrapperName = userRuleWrapperName;
+      this.filterRuleLocatorName = filterRuleLocatorName;
+      this.filterRuleWrapperName = filterRuleWrapperName;
+    }
+
+    @Override
+    public List<Term> call() throws Exception {
+      return callUnchecked();
+    }
+
+    public List<Term> callUnchecked() throws RuleEvalException {
+      PrologEnvironment env = getPrologEnvironment(user);
+      try {
+        Term sr = env.once("gerrit", userRuleLocatorName, new VariableTerm());
+        if (fastEvalLabels) {
+          env.once("gerrit", "assume_range_from_label");
+        }
+
+        List<Term> results = new ArrayList<>();
+        try {
+          for (Term[] template : env.all("gerrit", userRuleWrapperName, sr,
+                new VariableTerm())) {
+            results.add(template[1]);
+          }
+        } catch (RuntimeException err) {
+          throw new RuleEvalException("Exception calling " + sr
+              + " on change " + cd.getId() + " of " + getProjectName(),
+              err);
+        }
+
+        Term resultsTerm = toListTerm(results);
+        if (!skipFilters) {
+          resultsTerm = runSubmitFilters(
+              resultsTerm, env, filterRuleLocatorName, filterRuleWrapperName);
+        }
+        List<Term> r;
+        if (resultsTerm.isList()) {
+          r = Lists.newArrayList();
+          for (Term t = resultsTerm; t.isList();) {
+            ListTerm l = (ListTerm) t;
+            r.add(l.car().dereference());
+            t = l.cdr().dereference();
+          }
+        } else {
+          r = Collections.emptyList();
+        }
+        submitRule = sr;
+        return r;
+      } finally {
+        env.close();
+      }
+    }
+
+    private PrologEnvironment getPrologEnvironment(CurrentUser user)
+        throws RuleEvalException {
+      checkState(patchSet != null,
+          "getPrologEnvironment() called before initPatchSet()");
+      ProjectState projectState = control.getProjectControl().getProjectState();
+      PrologEnvironment env;
+      try {
+        if (rule == null) {
+          env = projectState.newPrologEnvironment();
+        } else {
+          env = projectState.newPrologEnvironment(
+              "stdin", new ByteArrayInputStream(rule.getBytes(UTF_8)));
+        }
+      } catch (CompileException err) {
+        throw new RuleEvalException("Cannot consult rules.pl for "
+            + getProjectName(), err);
+      }
+      env.set(StoredValues.REVIEW_DB, cd.db());
+      env.set(StoredValues.CHANGE_DATA, cd);
+      env.set(StoredValues.PATCH_SET, patchSet);
+      env.set(StoredValues.CHANGE_CONTROL, control);
+      if (user != null) {
+        env.set(StoredValues.CURRENT_USER, user);
+      }
+      return env;
+    }
   }
 }

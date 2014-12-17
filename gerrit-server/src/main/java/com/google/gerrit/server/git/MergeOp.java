@@ -160,6 +160,7 @@ public class MergeOp {
   private final ListMultimap<SubmitType, CodeReviewCommit> toMerge;
   private final List<CodeReviewCommit> potentiallyStillSubmittable;
   private final Map<Change.Id, CodeReviewCommit> commits;
+  private final SubmitRuleEvaluator.Factory submitRuleEvaluatorFactory;
   private final List<Change> toUpdate;
 
   private ProjectState destProject;
@@ -171,6 +172,7 @@ public class MergeOp {
   private CodeReviewCommit mergeTip;
   private ObjectInserter inserter;
   private PersonIdent refLogIdent;
+
 
   @Inject
   MergeOp(AccountCache accountCache,
@@ -197,6 +199,7 @@ public class MergeOp {
       SubmoduleOp.Factory subOpFactory,
       TagCache tagCache,
       WorkQueue workQueue,
+      SubmitRuleEvaluator.Factory submitRuleEvaluatorFactory,
       @Assisted Branch.NameKey branch) {
     this.accountCache = accountCache;
     this.approvalsUtil = approvalsUtil;
@@ -222,6 +225,7 @@ public class MergeOp {
     this.subOpFactory = subOpFactory;
     this.tagCache = tagCache;
     this.workQueue = workQueue;
+    this.submitRuleEvaluatorFactory = submitRuleEvaluatorFactory;
     logPrefix = String.format("[%s@%s]: ", branch.toString(),
         ISODateTimeFormat.hourMinuteSecond().print(TimeUtil.nowMs()));
     destBranch = branch;
@@ -625,7 +629,8 @@ public class MergeOp {
   private SubmitType getSubmitType(ChangeControl ctl, PatchSet ps) {
     try {
       ChangeData cd = changeDataFactory.create(db, ctl);
-      SubmitTypeRecord r = new SubmitRuleEvaluator(cd).setPatchSet(ps)
+      SubmitTypeRecord r = submitRuleEvaluatorFactory.create(cd)
+          .setPatchSet(ps)
           .getSubmitType();
       if (r.status != SubmitTypeRecord.Status.OK) {
         logError("Failed to get submit type for " + ctl.getChange().getKey());

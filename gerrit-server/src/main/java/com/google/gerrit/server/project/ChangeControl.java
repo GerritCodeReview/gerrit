@@ -28,6 +28,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
@@ -35,6 +36,8 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
+
+import org.eclipse.jgit.lib.Config;
 
 import java.io.IOException;
 import java.util.Collection;
@@ -137,22 +140,26 @@ public class ChangeControl {
   private final ChangeData.Factory changeDataFactory;
   private final RefControl refControl;
   private final ChangeNotes notes;
+  private final Config gerritServerConfig;
 
   @AssistedInject
   ChangeControl(
+      @GerritServerConfig Config gerritServerConfig,
       ChangeData.Factory changeDataFactory,
       ChangeNotes.Factory notesFactory,
       @Assisted RefControl refControl,
       @Assisted Change change) {
-    this(changeDataFactory, refControl,
+    this(gerritServerConfig, changeDataFactory, refControl,
         notesFactory.create(change));
   }
 
   @AssistedInject
   ChangeControl(
+      @GerritServerConfig Config gerritServerConfig,
       ChangeData.Factory changeDataFactory,
       @Assisted RefControl refControl,
       @Assisted ChangeNotes notes) {
+    this.gerritServerConfig = gerritServerConfig;
     this.changeDataFactory = changeDataFactory;
     this.refControl = refControl;
     this.notes = notes;
@@ -162,7 +169,7 @@ public class ChangeControl {
     if (getCurrentUser().equals(who)) {
       return this;
     }
-    return new ChangeControl(changeDataFactory,
+    return new ChangeControl(gerritServerConfig, changeDataFactory,
         getRefControl().forUser(who), notes);
   }
 

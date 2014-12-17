@@ -143,11 +143,13 @@ public class ChangeJson {
   private final WebLinks webLinks;
   private final EnumSet<ListChangesOption> options;
   private final ChangeMessagesUtil cmUtil;
+  private final SubmitRuleEvaluator.Factory submitRuleEvaluatorFactory;
   private final PatchLineCommentsUtil plcUtil;
   private final Provider<ConsistencyChecker> checkerProvider;
 
   private AccountLoader accountLoader;
   private FixInput fix;
+
 
   @Inject
   ChangeJson(
@@ -167,7 +169,8 @@ public class ChangeJson {
       WebLinks webLinks,
       ChangeMessagesUtil cmUtil,
       PatchLineCommentsUtil plcUtil,
-      Provider<ConsistencyChecker> checkerProvider) {
+      Provider<ConsistencyChecker> checkerProvider,
+      SubmitRuleEvaluator.Factory submitRuleEvaluatorFactory) {
     this.db = db;
     this.labelNormalizer = ln;
     this.userProvider = user;
@@ -185,6 +188,7 @@ public class ChangeJson {
     this.cmUtil = cmUtil;
     this.plcUtil = plcUtil;
     this.checkerProvider = checkerProvider;
+    this.submitRuleEvaluatorFactory = submitRuleEvaluatorFactory;
     options = EnumSet.noneOf(ListChangesOption.class);
   }
 
@@ -437,7 +441,8 @@ public class ChangeJson {
     if (ps == null) {
       return ImmutableList.of();
     }
-    cd.setSubmitRecords(new SubmitRuleEvaluator(cd).setPatchSet(ps)
+    cd.setSubmitRecords(submitRuleEvaluatorFactory.create(cd)
+        .setPatchSet(ps)
         .setFastEvalLabels(true)
         .setAllowDraft(true)
         .canSubmit());

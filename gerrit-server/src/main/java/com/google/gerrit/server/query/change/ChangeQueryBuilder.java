@@ -46,6 +46,7 @@ import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.ListChildProjects;
 import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.SubmitRuleEvaluator;
 import com.google.gerrit.server.query.IntPredicate;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryBuilder;
@@ -163,6 +164,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     final ConflictsCache conflictsCache;
     final TrackingFooters trackingFooters;
     final boolean allowsDrafts;
+    final SubmitRuleEvaluator.Factory submitRuleEvaluatorFactory;
 
     @Inject
     @VisibleForTesting
@@ -186,6 +188,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
         SubmitStrategyFactory submitStrategyFactory,
         ConflictsCache conflictsCache,
         TrackingFooters trackingFooters,
+        SubmitRuleEvaluator.Factory submitRuleEvaluatorFactory,
         @GerritServerConfig Config cfg) {
       this.db = dbProvider;
       this.rewriter = rewriter;
@@ -207,6 +210,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       this.submitStrategyFactory = submitStrategyFactory;
       this.conflictsCache = conflictsCache;
       this.trackingFooters = trackingFooters;
+      this.submitRuleEvaluatorFactory = submitRuleEvaluatorFactory;
       this.allowsDrafts = cfg == null
           ? true
           : cfg.getBoolean("change", "allowDrafts", true);

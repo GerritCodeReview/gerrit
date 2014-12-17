@@ -63,6 +63,7 @@ public class Mergeable implements RestReadView<RevisionResource> {
   private final Provider<ReviewDb> db;
   private final ChangeIndexer indexer;
   private final MergeabilityCache cache;
+  private final SubmitRuleEvaluator.Factory submitRuleEvaluatorFactory;
 
   @Inject
   Mergeable(GitRepositoryManager gitManager,
@@ -71,7 +72,8 @@ public class Mergeable implements RestReadView<RevisionResource> {
       ChangeData.Factory changeDataFactory,
       Provider<ReviewDb> db,
       ChangeIndexer indexer,
-      MergeabilityCache cache) {
+      MergeabilityCache cache,
+      SubmitRuleEvaluator.Factory submitRuleEvaluatorFactory) {
     this.gitManager = gitManager;
     this.projectCache = projectCache;
     this.mergeUtilFactory = mergeUtilFactory;
@@ -79,6 +81,7 @@ public class Mergeable implements RestReadView<RevisionResource> {
     this.db = db;
     this.indexer = indexer;
     this.cache = cache;
+    this.submitRuleEvaluatorFactory = submitRuleEvaluatorFactory;
   }
 
   public void setOtherBranches(boolean otherBranches) {
@@ -100,7 +103,7 @@ public class Mergeable implements RestReadView<RevisionResource> {
     }
 
     ChangeData cd = changeDataFactory.create(db.get(), resource.getControl());
-    SubmitTypeRecord rec = new SubmitRuleEvaluator(cd)
+    SubmitTypeRecord rec = submitRuleEvaluatorFactory.create(cd)
         .setPatchSet(ps)
         .getSubmitType();
     if (rec.status != SubmitTypeRecord.Status.OK) {

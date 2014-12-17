@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "01111899_03f86ed9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GroupException.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-12-17T08:33:13Z",
+      "side": 1,
+      "message": "I had the same confusion as you, while when I found\nGroupUUID, GroupBackend,GroupBackends, GroupDetail, GroupIncludeCache, GroupCache, GroupUUID, GroupMembership ... are all under com.google.gerrit.server.account. so I put it here too.",
+      "parentUuid": "8157c840_17cff4be",
+      "revId": "f3c231cee8be9591dafa5947e875447f6f13c2b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c15d4061_59d9a387",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GroupException.java",
         "patchSetId": 13
@@ -42,6 +60,24 @@
         "endLine": 17,
         "endChar": 6
       },
+      "revId": "f3c231cee8be9591dafa5947e875447f6f13c2b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4117908b_65ede617",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GroupException.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-12-17T08:33:13Z",
+      "side": 1,
+      "message": "my fault :(",
+      "parentUuid": "c15d4061_59d9a387",
       "revId": "f3c231cee8be9591dafa5947e875447f6f13c2b9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -71,6 +107,24 @@
     },
     {
       "key": {
+        "uuid": "01111899_43f266fb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/ldap/Helper.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-12-17T08:33:13Z",
+      "side": 1,
+      "message": "Yes.\nAnd from patch-set 9 , seems something is wrong. I will check it in detail.",
+      "parentUuid": "8157c840_37caf8ae",
+      "revId": "f3c231cee8be9591dafa5947e875447f6f13c2b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c15d4061_79d46753",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/ldap/Helper.java",
         "patchSetId": 13
@@ -94,6 +148,24 @@
     },
     {
       "key": {
+        "uuid": "4117908b_45f26afb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/ldap/Helper.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-12-17T08:33:13Z",
+      "side": 1,
+      "message": "yeah",
+      "parentUuid": "c15d4061_79d46753",
+      "revId": "f3c231cee8be9591dafa5947e875447f6f13c2b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c15d4061_b9dd5f76",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/ldap/LdapQuery.java",
         "patchSetId": 13
@@ -111,6 +183,24 @@
         "endLine": 83,
         "endChar": 7
       },
+      "revId": "f3c231cee8be9591dafa5947e875447f6f13c2b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "01111899_e3e7123c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/ldap/LdapQuery.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2014-12-17T08:33:13Z",
+      "side": 1,
+      "message": "I copy it from below query()  method where this is no comment :(",
+      "parentUuid": "c15d4061_b9dd5f76",
       "revId": "f3c231cee8be9591dafa5947e875447f6f13c2b9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

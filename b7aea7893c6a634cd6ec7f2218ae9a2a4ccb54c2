@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c15d4061_b906ff45",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-12-17T06:25:26Z",
+      "side": 1,
+      "message": "Why has the author changed to me in the latest patch set?",
+      "range": {
+        "startLine": 2,
+        "startChar": 12,
+        "endLine": 2,
+        "endChar": 62
+      },
+      "revId": "b7aea7893c6a634cd6ec7f2218ae9a2a4ccb54c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -238,6 +238,30 @@
     },
     {
       "key": {
+        "uuid": "c15d4061_d9e4933a",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/editor/EditScreen.ui.xml",
+        "patchSetId": 33
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-12-17T06:15:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "21053cfe_bc006129",
+      "range": {
+        "startLine": 28,
+        "startChar": 12,
+        "endLine": 28,
+        "endChar": 25
+      },
+      "revId": "6426ef083854fa4be7bad8246eb1bc2c09637fae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a13f6cb4_d003fc34",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/editor/EditScreen.ui.xml",
         "patchSetId": 33
@@ -285,6 +309,30 @@
     },
     {
       "key": {
+        "uuid": "c15d4061_39f30f03",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/editor/EditScreen.ui.xml",
+        "patchSetId": 33
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-12-17T06:15:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8157c840_77d47053",
+      "range": {
+        "startLine": 23,
+        "startChar": 4,
+        "endLine": 80,
+        "endChar": 5
+      },
+      "revId": "6426ef083854fa4be7bad8246eb1bc2c09637fae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e12fa4b3_e2e4463a",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/editor/EditScreen.ui.xml",
         "patchSetId": 33
@@ -296,6 +344,30 @@
       "writtenOn": "2014-12-17T02:36:30Z",
       "side": 1,
       "message": "Indentation seems wrong here too.",
+      "range": {
+        "startLine": 85,
+        "startChar": 0,
+        "endLine": 101,
+        "endChar": 16
+      },
+      "revId": "6426ef083854fa4be7bad8246eb1bc2c09637fae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c15d4061_19f8cbd9",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/editor/EditScreen.ui.xml",
+        "patchSetId": 33
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-12-17T06:15:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e12fa4b3_e2e4463a",
       "range": {
         "startLine": 85,
         "startChar": 0,

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "01111899_03cfcebe",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/editor/EditScreen.ui.xml",
+        "patchSetId": 34
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-17T07:32:07Z",
+      "side": 1,
+      "message": "While this value is correct for CS2, this doesn\u0027t make any sense for Edit Screen: [1]. Value 10 produces seems to be sufficient.\n\n [1] http://imgur.com/GBfWudl",
+      "range": {
+        "startLine": 24,
+        "startChar": 4,
+        "endLine": 24,
+        "endChar": 28
+      },
+      "revId": "449c0848839ba9a7e2121ceaf76b91f0ff2e4e0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

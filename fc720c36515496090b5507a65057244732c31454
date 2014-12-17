@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4117908b_25caceae",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-17T07:21:56Z",
+      "side": 1,
+      "message": "I disagree to make this non-configurable default behaviour.\n\nOn many Gerrit (open source) sites in the wild review/approval is done only sporadically by folks, because of their $DAY_JOBS. So it is very common to have series (that all belong to one topic) pending for review/approval for years. It is also very common to rebase ready to merge changes out of the series to merge them ASAP, while other changes need more time for review. This change would disallow this workflow.",
+      "revId": "fc720c36515496090b5507a65057244732c31454",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "01111899_23cacaae",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 555,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-17T07:21:56Z",
+      "side": 1,
+      "message": "You should never silently swallow exceptions.",
+      "range": {
+        "startLine": 550,
+        "startChar": 6,
+        "endLine": 555,
+        "endChar": 7
+      },
+      "revId": "fc720c36515496090b5507a65057244732c31454",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

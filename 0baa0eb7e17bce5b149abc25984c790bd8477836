@@ -22,6 +22,30 @@
       "revId": "0baa0eb7e17bce5b149abc25984c790bd8477836",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c15d4061_19460b83",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-12-17T10:04:41Z",
+      "side": 1,
+      "message": "\u003e Well, i am always finding it. \n\nMe too, but let\u0027s consider that we have been involved in the development of it and are therefore perhaps a bit immune to the UI design.\n\nI can see the point that putting it next to the name makes more sense.",
+      "parentUuid": "01111899_8308de49",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 26
+      },
+      "revId": "0baa0eb7e17bce5b149abc25984c790bd8477836",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

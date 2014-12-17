@@ -69,6 +69,7 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.util.RequestScopePropagator;
 import com.google.gwtorm.server.AtomicUpdate;
 import com.google.gwtorm.server.OrmException;
+import com.google.gwtorm.server.ResultSet;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
@@ -536,6 +537,28 @@ public class MergeOp {
         commits.put(changeId, CodeReviewCommit.noPatchSet(ctl));
         toUpdate.add(chg);
         continue;
+      }
+
+      // all changes from one topic go in together
+      boolean atomicTopics = true;
+      if (atomicTopics) {
+        boolean topicDependencies = true;
+        String topic = chg.getTopic();
+        try {
+          ResultSet<Change> chgs = db.changes().byTopic(topic);
+          for (Change c : chgs) {
+            if (c.getStatus() != Change.Status.SUBMITTED) {
+              topicDependencies = false;
+            }
+          }
+        } catch (OrmException e) {
+          logError("Could not retrieve all changes in topic " + topic
+              + " while merging. Removing change id " + chg.getId() + " from merge queue for now.");
+          continue;
+        }
+        if (!topicDependencies) {
+          continue;
+        }
       }
 
       if (!tips.contains(id)) {

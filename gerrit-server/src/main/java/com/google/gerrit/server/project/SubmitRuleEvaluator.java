@@ -27,6 +27,7 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.rules.PrologEnvironment;
+import com.google.gerrit.rules.ReductionLimitException;
 import com.google.gerrit.rules.StoredValues;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -36,7 +37,6 @@ import com.googlecode.prolog_cafe.compiler.CompileException;
 import com.googlecode.prolog_cafe.lang.IntegerTerm;
 import com.googlecode.prolog_cafe.lang.ListTerm;
 import com.googlecode.prolog_cafe.lang.Prolog;
-import com.googlecode.prolog_cafe.lang.PrologException;
 import com.googlecode.prolog_cafe.lang.StructureTerm;
 import com.googlecode.prolog_cafe.lang.SymbolTerm;
 import com.googlecode.prolog_cafe.lang.Term;
@@ -107,6 +107,7 @@ public class SubmitRuleEvaluator {
   private boolean skipFilters;
   private String rule;
   private boolean logErrors = true;
+  private int reductionsConsumed;
 
   private Term submitRule;
 
@@ -181,6 +182,11 @@ public class SubmitRuleEvaluator {
   public SubmitRuleEvaluator setLogErrors(boolean log) {
     logErrors = log;
     return this;
+  }
+
+  /** @return Prolog reductions consumed during evaluation. */
+  public int getReductionsConsumed() {
+    return reductionsConsumed;
   }
 
   /**
@@ -457,10 +463,16 @@ public class SubmitRuleEvaluator {
               new VariableTerm())) {
           results.add(template[1]);
         }
+      } catch (ReductionLimitException err) {
+        throw new RuleEvalException(String.format(
+            "%s on change %d of %s",
+            err.getMessage(), cd.getId().get(), getProjectName()));
       } catch (RuntimeException err) {
-        throw new RuleEvalException("Exception calling " + sr
-            + " on change " + cd.getId() + " of " + getProjectName(),
-            err);
+        throw new RuleEvalException(String.format(
+            "Exception calling %s on change %d of %s",
+            sr, cd.getId().get(), getProjectName()), err);
+      } finally {
+        reductionsConsumed = env.getReductions();
       }
 
       Term resultsTerm = toListTerm(results);
@@ -539,14 +551,16 @@ public class SubmitRuleEvaluator {
             parentEnv.once("gerrit", filterRuleWrapperName, filterRule,
                 results, new VariableTerm());
         results = template[2];
-      } catch (PrologException err) {
-        throw new RuleEvalException("Exception calling " + filterRule
-            + " on change " + cd.getId() + " of "
-            + parentState.getProject().getName(), err);
+      } catch (ReductionLimitException err) {
+        throw new RuleEvalException(String.format(
+            "%s on change %d of %s",
+            err.getMessage(), cd.getId().get(), parentState.getProject().getName()));
       } catch (RuntimeException err) {
-        throw new RuleEvalException("Exception calling " + filterRule
-            + " on change " + cd.getId() + " of "
-            + parentState.getProject().getName(), err);
+        throw new RuleEvalException(String.format(
+            "Exception calling %s on change %d of %s",
+            filterRule, cd.getId().get(), parentState.getProject().getName()), err);
+      } finally {
+        reductionsConsumed += env.getReductions();
       }
       childEnv = parentEnv;
     }

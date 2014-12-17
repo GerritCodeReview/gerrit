@@ -18,6 +18,8 @@ import static com.google.gerrit.common.data.Permission.LABEL;
 import static com.google.gerrit.server.project.Util.allow;
 import static com.google.gerrit.server.project.Util.category;
 import static com.google.gerrit.server.project.Util.value;
+import static com.google.common.truth.Truth.assertThat;
+import static org.junit.Assert.fail;
 
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.LabelType;
@@ -31,9 +33,18 @@ import com.google.gerrit.server.project.Util;
 import com.google.gerrit.testutil.InMemoryRepositoryManager;
 import com.google.inject.AbstractModule;
 
+import com.googlecode.prolog_cafe.compiler.CompileException;
+import com.googlecode.prolog_cafe.lang.JavaObjectTerm;
+import com.googlecode.prolog_cafe.lang.Prolog;
+import com.googlecode.prolog_cafe.lang.StructureTerm;
+import com.googlecode.prolog_cafe.lang.SymbolTerm;
+
+import org.eclipse.jgit.lib.Config;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.PushbackReader;
+import java.io.StringReader;
 import java.util.Arrays;
 
 public class GerritCommonTest extends PrologTestCase {
@@ -56,6 +67,9 @@ public class GerritCommonTest extends PrologTestCase {
     load("gerrit", "gerrit_common_test.pl", new AbstractModule() {
       @Override
       protected void configure() {
+        Config cfg = new Config();
+        cfg.setInt("rules", null, "reductionLimit", 1300);
+        cfg.setInt("rules", null, "compileReductionLimit", (int) 1e6);
         bind(PrologEnvironment.Args.class).toInstance(
             new PrologEnvironment.Args(
                 null,
@@ -63,7 +77,8 @@ public class GerritCommonTest extends PrologTestCase {
                 null,
                 null,
                 null,
-                null));
+                null,
+                cfg));
       }
     });
 
@@ -91,5 +106,31 @@ public class GerritCommonTest extends PrologTestCase {
   @Test
   public void testGerritCommon() {
     runPrologBasedTests();
+  }
+
+  @Test
+  public void testReductionLimit() throws CompileException {
+    PrologEnvironment env = envFactory.create(machine);
+    setUpEnvironment(env);
+    env.setEnabled(Prolog.Feature.IO, true);
+
+    String script = "loopy :- b(5).\n"
+        + "b(N) :- N > 0, !, S = N - 1, b(S).\n"
+        + "b(_) :- true.\n";
+
+    SymbolTerm nameTerm = SymbolTerm.create("testReductionLimit");
+    JavaObjectTerm inTerm = new JavaObjectTerm(
+        new PushbackReader(new StringReader(script), Prolog.PUSHBACK_SIZE));
+    if (!env.execute(Prolog.BUILTIN, "consult_stream", nameTerm, inTerm)) {
+      throw new CompileException("Cannot consult " + nameTerm);
+    }
+
+    try {
+      env.once(Prolog.BUILTIN, "call", new StructureTerm(":",
+          SymbolTerm.create("user"), SymbolTerm.create("loopy")));
+      fail("long running loop did not abort with ReductionLimitException");
+    } catch (ReductionLimitException e) {
+      assertThat(e.getMessage()).isEqualTo("exceeded reduction limit of 1300");
+    }
   }
 }

@@ -16,6 +16,7 @@ package com.google.gerrit.rules;
 
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
@@ -26,9 +27,11 @@ import com.google.inject.Singleton;
 import com.google.inject.assistedinject.Assisted;
 
 import com.googlecode.prolog_cafe.lang.BufferingPrologControl;
+import com.googlecode.prolog_cafe.lang.Predicate;
 import com.googlecode.prolog_cafe.lang.Prolog;
 import com.googlecode.prolog_cafe.lang.PrologMachineCopy;
 
+import org.eclipse.jgit.lib.Config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -65,6 +68,8 @@ public class PrologEnvironment extends BufferingPrologControl {
 
   private final Args args;
   private final Map<StoredValue<Object>, Object> storedValues;
+  private int reductionLimit;
+  private int reductionsRemaining;
   private List<Runnable> cleanup;
 
   @Inject
@@ -74,11 +79,35 @@ public class PrologEnvironment extends BufferingPrologControl {
     setEnabled(EnumSet.allOf(Prolog.Feature.class), false);
     args = a;
     storedValues = new HashMap<>();
+    reductionLimit = a.reductionLimit;
+    reductionsRemaining = reductionLimit;
     cleanup = new LinkedList<>();
   }
 
   public Args getArgs() {
     return args;
+  }
+
+  @Override
+  public boolean isEngineStopped() {
+    if (super.isEngineStopped()) {
+      return true;
+    } else if (--reductionsRemaining <= 0) {
+      throw new ReductionLimitException(reductionLimit);
+    }
+    return false;
+  }
+
+  @Override
+  public void setPredicate(Predicate goal) {
+    super.setPredicate(goal);
+    reductionLimit = args.reductionLimit(goal);
+    reductionsRemaining = reductionLimit;
+  }
+
+  /** @return number of reductions during execution. */
+  public int getReductions() {
+    return reductionLimit - reductionsRemaining;
   }
 
   /**
@@ -154,6 +183,8 @@ public class PrologEnvironment extends BufferingPrologControl {
     private final PatchSetInfoFactory patchSetInfoFactory;
     private final IdentifiedUser.GenericFactory userFactory;
     private final Provider<AnonymousUser> anonymousUser;
+    private final int reductionLimit;
+    private final int compileLimit;
 
     @Inject
     Args(ProjectCache projectCache,
@@ -161,13 +192,29 @@ public class PrologEnvironment extends BufferingPrologControl {
         PatchListCache patchListCache,
         PatchSetInfoFactory patchSetInfoFactory,
         IdentifiedUser.GenericFactory userFactory,
-        Provider<AnonymousUser> anonymousUser) {
+        Provider<AnonymousUser> anonymousUser,
+        @GerritServerConfig Config config) {
       this.projectCache = projectCache;
       this.repositoryManager = repositoryManager;
       this.patchListCache = patchListCache;
       this.patchSetInfoFactory = patchSetInfoFactory;
       this.userFactory = userFactory;
       this.anonymousUser = anonymousUser;
+
+      int limit = config.getInt("rules", null, "reductionLimit", 100000);
+      reductionLimit = limit <= 0 ? Integer.MAX_VALUE : limit;
+
+      limit = config.getInt("rules", null, "compileReductionLimit",
+          (int) Math.min(10L * limit, Integer.MAX_VALUE));
+      compileLimit = limit <= 0 ? Integer.MAX_VALUE : limit;
+    }
+
+    private int reductionLimit(Predicate goal) {
+      if ("com.googlecode.prolog_cafe.builtin.PRED_consult_stream_2"
+          .equals(goal.getClass().getName())) {
+        return compileLimit;
+      }
+      return reductionLimit;
     }
 
     public ProjectCache getProjectCache() {

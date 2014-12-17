@@ -38,7 +38,7 @@ limitations under the License.
       -webkit-box-sizing: content-box;
     }
     #change_actions button div {
-      color: #444; 
+      color: #444;
       min-width: 54px;
       white-space: nowrap;
       height: BUTTON_HEIGHT;

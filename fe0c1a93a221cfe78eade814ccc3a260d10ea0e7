@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c15d4061_39caefae",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-12-17T05:40:35Z",
+      "side": 1,
+      "message": "What is the reason to do this?  Is it needed by another following change?",
+      "revId": "fe0c1a93a221cfe78eade814ccc3a260d10ea0e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

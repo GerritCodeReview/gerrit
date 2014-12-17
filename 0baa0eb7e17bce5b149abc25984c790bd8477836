@@ -70,6 +70,30 @@
       "revId": "0baa0eb7e17bce5b149abc25984c790bd8477836",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "01111899_c312d679",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2014-12-17T10:54:41Z",
+      "side": 1,
+      "message": "David \u0026 David: Arrow on the left side of the name:\n\nhttp://i.imgur.com/H3ZOF6g.png\n\n\nLet me know what you think. If you like i, I\u0027ll push another patch set.",
+      "parentUuid": "01111899_e3155264",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 26
+      },
+      "revId": "0baa0eb7e17bce5b149abc25984c790bd8477836",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

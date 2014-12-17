@@ -22,6 +22,30 @@
       "revId": "b7aea7893c6a634cd6ec7f2218ae9a2a4ccb54c2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "01111899_63d4c253",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2014-12-17T07:48:02Z",
+      "side": 1,
+      "message": "This is a side effect of squashing two commits, which was required after doing `commit --amend` and `rebase --continue` during interactive `rebase` instead of just `rebase --continue`.\n\nSquash will take value of author field from first commit.\n\nWill rebase this on current master, fix author and push again for review.",
+      "parentUuid": "c15d4061_b906ff45",
+      "range": {
+        "startLine": 2,
+        "startChar": 12,
+        "endLine": 2,
+        "endChar": 62
+      },
+      "revId": "b7aea7893c6a634cd6ec7f2218ae9a2a4ccb54c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

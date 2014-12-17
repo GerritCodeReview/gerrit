@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8157c840_17cff4be",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GroupException.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-12-17T05:52:00Z",
+      "side": 1,
+      "message": "Doesn\u0027t this belong in the group package?",
+      "range": {
+        "startLine": 15,
+        "startChar": 33,
+        "endLine": 15,
+        "endChar": 40
+      },
+      "revId": "f3c231cee8be9591dafa5947e875447f6f13c2b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c15d4061_59d9a387",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GroupException.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-12-17T05:52:00Z",
+      "side": 1,
+      "message": "A",
+      "range": {
+        "startLine": 17,
+        "startChar": 4,
+        "endLine": 17,
+        "endChar": 6
+      },
+      "revId": "f3c231cee8be9591dafa5947e875447f6f13c2b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8157c840_37caf8ae",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/ldap/Helper.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-12-17T05:52:00Z",
+      "side": 1,
+      "message": "groupname",
+      "range": {
+        "startLine": 257,
+        "startChar": 61,
+        "endLine": 257,
+        "endChar": 69
+      },
+      "revId": "f3c231cee8be9591dafa5947e875447f6f13c2b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c15d4061_79d46753",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/ldap/Helper.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-12-17T05:52:00Z",
+      "side": 1,
+      "message": "This coding idiom is used in the existing code, but I think it\u0027s a bit strange to use a switch like this.  I think it would be clearer to use an if-else block.\n\n if (res.size() \u003d\u003d 1) {\n   return res.get(0);\n } else if (res.size \u003e 1) {\n   throw new GroupException(\"Duplicate LDAP groups: \" + groupname)\n }\n throw new NoSuchGroupException(...)",
+      "range": {
+        "startLine": 249,
+        "startChar": 0,
+        "endLine": 258,
+        "endChar": 5
+      },
+      "revId": "f3c231cee8be9591dafa5947e875447f6f13c2b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c15d4061_b9dd5f76",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/ldap/LdapQuery.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-12-17T05:52:00Z",
+      "side": 1,
+      "message": "I guess this empty catch block is intended, so please add a comment explaining why it\u0027s ignored.",
+      "range": {
+        "startLine": 82,
+        "startChar": 8,
+        "endLine": 83,
+        "endChar": 7
+      },
+      "revId": "f3c231cee8be9591dafa5947e875447f6f13c2b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c15d4061_7922a7ca",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/editor/EditScreen.ui.xml",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-12-17T07:51:07Z",
+      "side": 1,
+      "message": "I guess the changes here were supposed to be amended into [1]?\n\n[1] https://gerrit-review.googlesource.com/#/c/61243/35",
+      "revId": "881577176410ee842c28e8475638bf6cc57072c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

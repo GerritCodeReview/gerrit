@@ -46,6 +46,30 @@
       "revId": "391b3c262a51c4459851894d2ecc3a0e98e87dec",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a17cccf1_c8e76f3c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-12-18T08:00:01Z",
+      "side": 1,
+      "message": "Aha, now I get it.\n\nGoogling for \"nadsom\" results in suggestions for \"handsome\" but that doesn\u0027t make sense in this context so I disregarded it.\n\nBut now I realise that it was a false-friends translation from the German \"handsam\".",
+      "parentUuid": "81818819_27f83ada",
+      "range": {
+        "startLine": 10,
+        "startChar": 40,
+        "endLine": 10,
+        "endChar": 46
+      },
+      "revId": "391b3c262a51c4459851894d2ecc3a0e98e87dec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

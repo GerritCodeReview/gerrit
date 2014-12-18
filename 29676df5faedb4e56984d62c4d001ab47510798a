@@ -472,6 +472,30 @@
     },
     {
       "key": {
+        "uuid": "418a3030_ad087d49",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 1624,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-18T09:17:32Z",
+      "side": 1,
+      "message": "On second thought, you are actually right. We could disable it per default. Then it makes sense to reverse the logic and rename the var to: show_line_numbers.",
+      "parentUuid": "418a3030_4ded5917",
+      "range": {
+        "startLine": 1624,
+        "startChar": 0,
+        "endLine": 1624,
+        "endChar": 35
+      },
+      "revId": "29676df5faedb4e56984d62c4d001ab47510798a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8157c840_5727acd8",
         "filename": "Documentation/rest-api-accounts.txt",
         "patchSetId": 11

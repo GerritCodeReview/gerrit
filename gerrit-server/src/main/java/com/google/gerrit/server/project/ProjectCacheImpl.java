@@ -22,7 +22,6 @@ import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.cache.CacheModule;
-import com.google.gerrit.server.project.ProjectCacheWarmer;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.GitRepositoryManager;

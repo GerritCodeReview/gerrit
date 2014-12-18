@@ -86,7 +86,7 @@ public class ChangeApi {
   }
 
   public static void editWithFiles(int id, AsyncCallback<EditInfo> cb) {
-    edit(id).addParameter("list", true).get(cb);
+    edit(id).addParameterTrue("list").get(cb);
   }
 
   public static RestApi edit(int id) {
@@ -94,7 +94,7 @@ public class ChangeApi {
   }
 
   public static RestApi editWithCommands(int id) {
-    return edit(id).addParameter("download-commands", true);
+    return edit(id).addParameterTrue("download-commands");
   }
 
   public static void includedIn(int id, AsyncCallback<IncludedInInfo> cb) {

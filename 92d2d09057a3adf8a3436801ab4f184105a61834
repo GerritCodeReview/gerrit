@@ -182,6 +182,24 @@
     },
     {
       "key": {
+        "uuid": "c1870028_4922a1ca",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/Event.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-12-18T13:00:56Z",
+      "side": 1,
+      "message": "\u003e a good chance to also improve some names\n\nPerhaps for this specific one it\u0027s OK because it\u0027s only recently merged on master, but I would be cautious about changing any other attribute names that are already in a released version.  Consumers of the stream-events are most likely depending on the names being consistent.",
+      "parentUuid": "81818819_a77eea99",
+      "revId": "92d2d09057a3adf8a3436801ab4f184105a61834",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c15d4061_195c4b42",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/HashtagsChangedEvent.java",
         "patchSetId": 1

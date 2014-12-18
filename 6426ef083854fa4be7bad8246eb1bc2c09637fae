@@ -215,6 +215,30 @@
     },
     {
       "key": {
+        "uuid": "41a870a2_5ddb1b80",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 33
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-18T22:12:25Z",
+      "side": 1,
+      "message": "Done in [1].\n\n [1] https://gerrit-review.googlesource.com/62600",
+      "parentUuid": "21053cfe_bc2e21a7",
+      "range": {
+        "startLine": 31,
+        "startChar": 39,
+        "endLine": 31,
+        "endChar": 53
+      },
+      "revId": "6426ef083854fa4be7bad8246eb1bc2c09637fae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "21053cfe_bc006129",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/editor/EditScreen.ui.xml",
         "patchSetId": 33

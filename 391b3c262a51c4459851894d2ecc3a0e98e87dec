@@ -70,6 +70,30 @@
       "revId": "391b3c262a51c4459851894d2ecc3a0e98e87dec",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "418a3030_0d18b19e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-18T08:47:34Z",
+      "side": 1,
+      "message": "Yeah, during open source contribution you learn so much new stuff ;-)",
+      "parentUuid": "a17cccf1_c8e76f3c",
+      "range": {
+        "startLine": 10,
+        "startChar": 40,
+        "endLine": 10,
+        "endChar": 46
+      },
+      "revId": "391b3c262a51c4459851894d2ecc3a0e98e87dec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

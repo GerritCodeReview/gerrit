@@ -76,6 +76,24 @@
     },
     {
       "key": {
+        "uuid": "81818819_473b6eee",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeListener.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-12-18T10:52:49Z",
+      "side": 1,
+      "message": "Should a ChangeListener handle all Event types, for example a ProjectEvent?",
+      "parentUuid": "c15d4061_39578f23",
+      "revId": "92d2d09057a3adf8a3436801ab4f184105a61834",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "81818819_c7159e64",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/Event.java",
         "patchSetId": 1

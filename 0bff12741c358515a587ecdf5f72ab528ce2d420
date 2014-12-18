@@ -34,6 +34,24 @@
       "revId": "0bff12741c358515a587ecdf5f72ab528ce2d420",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "418a3030_2d73add9",
+        "filename": "Documentation/cmd-stream-events.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-12-18T11:58:18Z",
+      "side": 1,
+      "message": "I thought that, if the conditions would be know, this could have been documented here. But if we are not sure, then leave it neutral :-)",
+      "parentUuid": "c1870028_291d6d8f",
+      "revId": "0bff12741c358515a587ecdf5f72ab528ce2d420",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

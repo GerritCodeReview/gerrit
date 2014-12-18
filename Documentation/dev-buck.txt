@@ -280,6 +280,7 @@ To include a specific group of acceptance tests:
 The following groups of tests are currently supported:
 
 * api
+* edit
 * git
 * pgm
 * rest

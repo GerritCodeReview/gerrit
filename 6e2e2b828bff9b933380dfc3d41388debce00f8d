@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "81a6e8d1_7fdecf71",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/EventTypes.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2014-12-18T20:15:05Z",
+      "side": 1,
+      "message": "Instead of supressing the warning, how about this:\nprivate static final Map\u003cString, Class\u003c? extends Event\u003e\u003e typesByString \u003d new HashMap\u003c\u003e();",
+      "parentUuid": "c15d4061_f964f702",
+      "range": {
+        "startLine": 21,
+        "startChar": 35,
+        "endLine": 21,
+        "endChar": 40
+      },
+      "revId": "6e2e2b828bff9b933380dfc3d41388debce00f8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8157c840_577dec9f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/EventTypes.java",
         "patchSetId": 1
@@ -82,6 +106,30 @@
       "writtenOn": "2014-12-18T01:24:44Z",
       "side": 1,
       "message": "Class\u003c?\u003e",
+      "range": {
+        "startLine": 43,
+        "startChar": 16,
+        "endLine": 43,
+        "endChar": 21
+      },
+      "revId": "6e2e2b828bff9b933380dfc3d41388debce00f8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a1a12cbc_20e5ca33",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/EventTypes.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2014-12-18T20:15:05Z",
+      "side": 1,
+      "message": "[optional] if you apply my previous comment, you could use Class\u003c? extends Event\u003e to be more precise but Class\u003c?\u003e is still valid if you prefer",
+      "parentUuid": "c15d4061_9967bb06",
       "range": {
         "startLine": 43,
         "startChar": 16,

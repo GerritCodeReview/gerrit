@@ -200,6 +200,24 @@
     },
     {
       "key": {
+        "uuid": "2170dc17_64d94a88",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/Event.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2014-12-18T19:51:01Z",
+      "side": 1,
+      "message": "I thought about naming it createdOn, but for reason David mentioned, I finally named it that way. We could always reconsider since it never made it into an official release but gerrit-event java library 2.5 used by Gerrit-Trigger already supports the eventCreatedOn attribute so if we rename it, I will submit a pull request to gerrit-event lib.",
+      "parentUuid": "c1870028_4922a1ca",
+      "revId": "92d2d09057a3adf8a3436801ab4f184105a61834",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c15d4061_195c4b42",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/HashtagsChangedEvent.java",
         "patchSetId": 1

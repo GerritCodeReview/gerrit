@@ -42,8 +42,8 @@ Note that any field may be missing in the JSON messages, so consumers of
 this JSON stream should deal with that appropriately.
 
 [[events]]
-=== Events
-==== Change Abandoned
+== EVENTS
+=== Change Abandoned
 
 Sent when a change has been abandoned.
 
@@ -60,7 +60,7 @@ reason:: Reason for abandoning the change.
 eventCreatedOn:: Time in seconds since the UNIX epoch when this event was
 created.
 
-==== Change Merged
+=== Change Merged
 
 Sent when a change has been merged into the git repository.
 
@@ -75,7 +75,7 @@ submitter:: link:json.html#account[account attribute]
 eventCreatedOn:: Time in seconds since the UNIX epoch when this event was
 created.
 
-==== Change Restored
+=== Change Restored
 
 Sent when an abandoned change has been restored.
 
@@ -92,7 +92,7 @@ reason:: Reason for restoring the change.
 eventCreatedOn:: Time in seconds since the UNIX epoch when this event was
 created.
 
-==== Comment Added
+=== Comment Added
 
 Sent when a review comment has been posted on a change.
 
@@ -111,7 +111,7 @@ comment:: Comment text author had written
 eventCreatedOn:: Time in seconds since the UNIX epoch when this event was
 created.
 
-==== Draft Published
+=== Draft Published
 
 Sent when a draft change has been published.
 
@@ -126,7 +126,7 @@ uploader:: link:json.html#account[account attribute]
 eventCreatedOn:: Time in seconds since the UNIX epoch when this event was
 created.
 
-==== Hashtags Changed
+=== Hashtags Changed
 
 Sent when the hashtags have been added to or removed from a change.
 
@@ -145,7 +145,7 @@ hashtags:: List of hashtags on the change after tags were added or removed
 eventCreatedOn:: Time in seconds since the UNIX epoch when this event was
 created.
 
-==== Merge Failed
+=== Merge Failed
 
 Sent when a change has failed to be merged into the git repository.
 
@@ -162,7 +162,7 @@ reason:: Reason that the merge failed.
 eventCreatedOn:: Time in seconds since the UNIX epoch when this event was
 created.
 
-==== Patchset Created
+=== Patchset Created
 
 Sent when a new change has been uploaded, or a new patch set has been uploaded
 to an existing change.
@@ -183,7 +183,7 @@ uploader:: link:json.html#account[account attribute]
 eventCreatedOn:: Time in seconds since the UNIX epoch when this event was
 created.
 
-==== Ref Updated
+=== Ref Updated
 
 Sent when a reference is updated in a git repository.
 
@@ -196,7 +196,7 @@ refUpdate:: link:json.html#refUpdate[refUpdate attribute]
 eventCreatedOn:: Time in seconds since the UNIX epoch when this event was
 created.
 
-==== Reviewer Added
+=== Reviewer Added
 
 Sent when a reviewer is added to a change.
 
@@ -211,7 +211,7 @@ reviewer:: link:json.html#account[account attribute]
 eventCreatedOn:: Time in seconds since the UNIX epoch when this event was
 created.
 
-==== Topic Changed
+=== Topic Changed
 
 Sent when the topic of a change has been changed.
 

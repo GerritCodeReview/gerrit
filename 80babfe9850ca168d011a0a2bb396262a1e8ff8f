@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "418a3030_4d22b9ca",
+        "filename": "Documentation/cmd-stream-events.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-18T08:50:11Z",
+      "side": 0,
+      "message": "And it was ugly formatted anyway. If at all, it should be enumeration, with one event per line, alphabetically sorted.",
+      "range": {
+        "startLine": 40,
+        "startChar": 0,
+        "endLine": 43,
+        "endChar": 17
+      },
+      "revId": "80babfe9850ca168d011a0a2bb396262a1e8ff8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

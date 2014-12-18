@@ -22,6 +22,29 @@
       "revId": "58cd081cdbbf1c03ca89ce599cd4bc60b38e20ed",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a1a12cbc_c0d3be6a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/EventDeserializer.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2014-12-18T18:56:32Z",
+      "side": 1,
+      "message": "Maybe give a hint that event class must be registered in EvenTypes?",
+      "range": {
+        "startLine": 45,
+        "startChar": 35,
+        "endLine": 45,
+        "endChar": 64
+      },
+      "revId": "58cd081cdbbf1c03ca89ce599cd4bc60b38e20ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

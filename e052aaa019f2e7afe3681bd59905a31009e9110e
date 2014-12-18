@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "418a3030_ed128579",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 37
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-18T09:35:25Z",
+      "side": 1,
+      "message": "So, inspired by Shawn\u0027s comment in this thread [1], i looked deeper in the documentation of OAuth 2.0 and OpenID Connect 1.0. Given that we try to hard code one specific provider (GH) in Gerrit core (well, we don\u0027t have pluggable auth backend yet), the question is: why to hard code one specific provider? If you think about what this change is trying to achieve through current OpenID implementation glasses, this is like we would add hard coded OpenID iml for Yahoo!, another one for Launchpad, etc. Isn\u0027t the standards and specs were invented not to do such ugly stuff? So instead of hard coding one specific OAuth provider (even a popular one) we could add support to generic OAuth authentication method. One problem with it, that we need to know so much infos, and that \"well known\" endpoint and \"dynamic discovery and registration\" specs (not to need to register client id and client secret in advance) seem isn\u0027t yet supported by all OAuth / OpenID connect providers.\n\nIOW why don\u0027t we try to add generic Oauth method support with ability to configure different/multiple providers, with their respective data, like endpoints, client ids and secrets? When user try to login, and when multiple OAuth provider are configured, then a drop down is presented to let user select the auth provider she like to use, e.g.: Google OAuth | Github OAuth | ...\n\n [1] https://groups.google.com/d/topic/repo-discuss/nrtxry9SNLg/discussion",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 12
+      },
+      "revId": "e052aaa019f2e7afe3681bd59905a31009e9110e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

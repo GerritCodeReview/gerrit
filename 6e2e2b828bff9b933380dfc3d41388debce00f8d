@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8157c840_177374d9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/EventTypes.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-12-18T01:24:44Z",
+      "side": 1,
+      "message": "Type arguments are not necessary since we use Java 7.",
+      "range": {
+        "startLine": 21,
+        "startChar": 70,
+        "endLine": 21,
+        "endChar": 83
+      },
+      "revId": "6e2e2b828bff9b933380dfc3d41388debce00f8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c15d4061_f964f702",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/EventTypes.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-12-18T01:24:44Z",
+      "side": 1,
+      "message": "This is causing a warning:\n\n Class is a raw type. References to generic type Class\u003cT\u003e should be parameterized\n\nI think for other cases of this, it was just suppressed:\n\n @SuppressWarnings(\"rawtypes\")",
+      "range": {
+        "startLine": 21,
+        "startChar": 35,
+        "endLine": 21,
+        "endChar": 40
+      },
+      "revId": "6e2e2b828bff9b933380dfc3d41388debce00f8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c15d4061_9967bb06",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/EventTypes.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-12-18T01:24:44Z",
+      "side": 1,
+      "message": "Class\u003c?\u003e",
+      "range": {
+        "startLine": 43,
+        "startChar": 16,
+        "endLine": 43,
+        "endChar": 21
+      },
+      "revId": "6e2e2b828bff9b933380dfc3d41388debce00f8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -118,6 +118,7 @@ class ReplyBox extends Composite {
     if (names.isEmpty()) {
       UIObject.setVisible(labelsParent, false);
     } else {
+      Collections.sort(names);
       renderLabels(names, all, permitted);
     }
 

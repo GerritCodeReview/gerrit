@@ -37,10 +37,6 @@ This command is intended to be used in scripts.
 == SCHEMA
 The JSON messages consist of nested objects referencing the *change*,
 *patchSet*, *account* involved, and other attributes as appropriate.
-The currently supported message types are *patchset-created*,
-*draft-published*, *change-abandoned*, *change-restored*,
-*change-merged*, *merge-failed*, *comment-added*, *ref-updated* and
-*reviewer-added*.
 
 Note that any field may be missing in the JSON messages, so consumers of
 this JSON stream should deal with that appropriately.

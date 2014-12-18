@@ -106,7 +106,7 @@ author:: link:json.html#account[account attribute]
 
 approvals:: All link:json.html#approval[approval attributes] granted.
 
-comment:: Comment text author had written
+comment:: Review comment cover message.
 
 eventCreatedOn:: Time in seconds since the UNIX epoch when this event was
 created.

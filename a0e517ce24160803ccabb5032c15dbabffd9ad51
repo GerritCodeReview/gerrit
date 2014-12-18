@@ -22,6 +22,30 @@
       "revId": "a0e517ce24160803ccabb5032c15dbabffd9ad51",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c1870028_69f205fc",
+        "filename": "Documentation/cmd-stream-events.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-12-18T09:32:24Z",
+      "side": 1,
+      "message": "I thought about that.  In the end chose \"Sent\" because it sounds a bit more natural.",
+      "parentUuid": "81818819_0718969e",
+      "range": {
+        "startLine": 48,
+        "startChar": 0,
+        "endLine": 48,
+        "endChar": 4
+      },
+      "revId": "a0e517ce24160803ccabb5032c15dbabffd9ad51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

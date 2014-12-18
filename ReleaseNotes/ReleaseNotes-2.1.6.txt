@@ -55,7 +55,7 @@ The new flag includes approval information for all patch sets in the
 resulting query output.
 
 Notifications
-~~~~~~~~~~~~ 
+~~~~~~~~~~~~
 * Customize email notification templates
 +
 Email notifications are now driven by the Velocity template engine,

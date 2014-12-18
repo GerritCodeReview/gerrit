@@ -48,14 +48,14 @@ New Features
 ------------
 * New ssh create-project command
 +
-Thanks to Ulrik Sjölin we now have `gerrit create-project` 
+Thanks to Ulrik Sjölin we now have `gerrit create-project`
 available over SSH, to construct a new repository and database
 record for a project.  Documentation has also been updated to
 reflect that the command is now available.
 
 * Be more liberal in accepting Signed-off-by lines
 +
-The "Require Signed-off-by line" feature in a project is now 
+The "Require Signed-off-by line" feature in a project is now
 more liberal.  Gerrit now requires that the commit be signed off
 by either the author or the committer.  This was relaxed because
 kernel developers often cherry-pick in patches signed off by
@@ -64,7 +64,7 @@ did the backport cherry-pick.
 
 * Allow cache.name.diskLimit = 0 to disable on disk cache
 +
-Setting cache.name.diskLimit to 0 will disable the disk for 
+Setting cache.name.diskLimit to 0 will disable the disk for
 that cache, even though cache.directory was set.  This allows
 sites to set cache.diff.diskLimit to 0 to avoid caching the diff
 records on disk, but still allow caching web_sessions to disk,
@@ -83,7 +83,7 @@ with prior releases.
 
 * Add native LDAP support to Gerrit
 +
-Gerrit now has native LDAP support.  Setting auth.type to 
+Gerrit now has native LDAP support.  Setting auth.type to
 HTTP_LDAP and then configuring the handful of ldap properties
 in gerrit.config will allow Gerrit to load group membership
 directly from the organization's LDAP server.  This replaces
@@ -105,7 +105,7 @@ User information loaded from LDAP, such as full name or SSH
 username, cannot be modified by the end-user.  This allows the
 Gerrit site administrator to require that users conform to the
 standard information published by the organization's directory
-service.  Updates in LDAP are automatically reflected in Gerrit 
+service.  Updates in LDAP are automatically reflected in Gerrit
 the next time the user signs-in.
 
 * Remembers anchor during HTTP logins
@@ -113,7 +113,7 @@ the next time the user signs-in.
 When using an HTTP SSO product, clicking on a Gerrit link received
 out-of-band (e.g. by email or IM) often required clicking the
 link twice.  On the first click Gerrit redirect you to the
-organization's single-sign-on authentication system, which upon 
+organization's single-sign-on authentication system, which upon
 success redirected to your dashboard.  The actual target of the
 link was often lost, so a second click was required.
 With .19 and later, if the administrator changes the frontend web
@@ -129,9 +129,9 @@ of Gerrit, this can be avoided.  For example with Apache:
 ----
    During a request for an arbitrary URL, such as '/#change,42',
    Gerrit realizes the user is not logged in.  Instead of sending an
-   immediate redirect for authentication, Gerrit sends JavaScript   
+   immediate redirect for authentication, Gerrit sends JavaScript
    to save the target token (the part after the '#' in the URL)
-   by redirecting the user to '/login/change,42'.  This enters    
+   by redirecting the user to '/login/change,42'.  This enters
    the secured area, and performs the authentication.  When the
    authenticated user returns to '/login/change,42' Gerrit sends
    a redirect back to the original URL, '/#change,42'.
@@ -139,7 +139,7 @@ of Gerrit, this can be avoided.  For example with Apache:
 
 * Create check_schema_version during schema creation
 +
-Schema upgrades for PostgreSQL now validate that the current 
+Schema upgrades for PostgreSQL now validate that the current
 schema version matches the expected schema version at the start
 of the upgrade script.  If the schema does not match, the script
 aborts, although it will spew many errors.
@@ -148,7 +148,7 @@ aborts, although it will spew many errors.
 +
 Uploading commits to a project now requires that the new commits
 share a common ancestry with the existing commits of that project.
-This catches and prevents problems caused by a user making a typo 
+This catches and prevents problems caused by a user making a typo
 in the project name, and inadvertently selecting the wrong project.
 
 * Change-Id tags in commit messages to associate commits
@@ -156,12 +156,12 @@ in the project name, and inadvertently selecting the wrong project.
 Gerrit now looks for 'Change-Id: I....' in the footer area of a
 commit message and uses this to identify a change record within
 the project.
-If the listed Change-Id has not been seen before, a new change 
+If the listed Change-Id has not been seen before, a new change
 record is created.  If the Change-Id is already known, Gerrit
 updates the change with the new commit.  This simplifies updating
 multiple changes at once, such as might happen when rebasing an
 entire series of commits that are still being reviewed.
-A commit-msg hook can be installed to automatically generate 
+A commit-msg hook can be installed to automatically generate
 these Change-Id lines during initial commit:
 {{{
 scp -P 29418 review.example.com:hooks/commit-msg .git/hooks/
@@ -175,7 +175,7 @@ Bug Fixes
 ---------
 * Fix yet another ArrayIndexOutOfBounds during side-by-s...
 +
-We found yet another bug with the side-by-side view failing 
+We found yet another bug with the side-by-side view failing
 under certain conditions.  I think this is the last bug.
 
 * Apply URL decoding to parameter of /cat/
@@ -183,12 +183,12 @@ under certain conditions.  I think this is the last bug.
 +
 Images weren't displaying correctly, even though
 mimetype.image/png.safe was true in gerrit.config.
-Turned out to be a problem with the parameter decoding of the 
+Turned out to be a problem with the parameter decoding of the
 /cat/ servlet, as well as the link being generated wrong.
 
 * Fix high memory usage seen in `gerrit show-caches`
 +
-In Gerrit 2.0.18 JGit had a bug where the repository wasn't being 
+In Gerrit 2.0.18 JGit had a bug where the repository wasn't being
 reused in memory.  This meant that we were constantly reloading
 the repository data in from disk, so the server was always maxed
 out at core.packedGitLimit and core.packedGitOpenFiles, as no
@@ -196,19 +196,19 @@ data was being reused from the cache.  Fixed in this release.
 
 * Fix display of timeouts in `gerrit show-caches`
 +
-Timeouts were not always shown correctly, sometimes 12 hours 
+Timeouts were not always shown correctly, sometimes 12 hours
 was showing up as 2.5 days, which is completely wrong.  Fixed.
 
 * GERRIT-261  Fix reply button when comment is on the last line
 +
-The "Reply" button didn't work if the comment was on the last 
+The "Reply" button didn't work if the comment was on the last
 line of the file, the browser caught an array index out of
 bounds exception as we walked off the end of the table looking
 for where to insert the new editor box.
 
 * GERRIT-83   Make sign-out really invalidate the user's session
 +
-The sign-out link now does more than delete the cookie from the 
+The sign-out link now does more than delete the cookie from the
 user's browser, it also removes the token from the server side.
 By removing it from the server, we prevent replay attacks where
 an attacker has observed the user's cookie and then later tries
@@ -219,16 +219,16 @@ cookie while it was still live.
 
 * Evict account record after changing SSH username
 +
-Changing the SSH username on the web immediately affected the 
+Changing the SSH username on the web immediately affected the
 SSH daemon, but the web still showed the old username.  This
 was due to the change operation not flushing the cache that
 the web code was displaying from.  Fixed.
 
 * Really don't allow commits to replace in wrong project
 +
-It was possible for users to upload replacement commits to the 
+It was possible for users to upload replacement commits to the
 wrong project, e.g. uploading a replacement commit to project
-B while picking a change number from project A.  Fixed. 
+B while picking a change number from project A.  Fixed.
 
 =Fixes in 2.0.19.1=
 -------------------
@@ -241,7 +241,7 @@ always work as expected, due to some data not being initialized correctly.
 * Ignore harmless "Pipe closed" in scp command
 +
 scp command on the server side threw exceptions when a client aborted the
-data transfer.  We typically don't care to log such cases. 
+data transfer.  We typically don't care to log such cases.
 
 * Refactor user lookup during permission checking
 * GERRIT-264  Fix membership in Registered Users group

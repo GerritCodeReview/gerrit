@@ -343,7 +343,7 @@ filter_submit_results(Filter, [I | In], Tmp, Out) :-
     ( is_all_ok(Ls) -> T = ok(S) ; T = not_ready(S) ),
     filter_submit_results(Filter, In, [T | Tmp], Out).
 filter_submit_results(Filter, [_ | In], Tmp, Out) :-
-   filter_submit_results(Filter, In, Tmp, Out), 
+   filter_submit_results(Filter, In, Tmp, Out),
    !
    .
 filter_submit_results(Filter, [], Out, Out).

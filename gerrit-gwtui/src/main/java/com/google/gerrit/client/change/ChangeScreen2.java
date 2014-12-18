@@ -466,8 +466,10 @@ public class ChangeScreen2 extends Screen {
   }
 
   private void initEditMessageAction(ChangeInfo info, String revision) {
-    NativeMap<ActionInfo> actions = info.revision(revision).actions();
-    if (actions != null && actions.containsKey("message")) {
+    RevisionInfo revisionInfo = info.revision(revision);
+    NativeMap<ActionInfo> actions = revisionInfo.actions();
+    if ((actions != null && actions.containsKey("message"))
+        || revisionInfo.is_edit()) {
       editMessage.setVisible(true);
       editMessageAction = new EditMessageAction(
           info.legacy_id(),

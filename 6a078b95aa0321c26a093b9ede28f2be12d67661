@@ -71,6 +71,23 @@
     },
     {
       "key": {
+        "uuid": "2170dc17_44d44e53",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/EventSourceImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2014-12-18T18:13:33Z",
+      "side": 1,
+      "message": "The changeHooksImpl is a singleton, shouldn\u0027t this class also be one?",
+      "revId": "6a078b95aa0321c26a093b9ede28f2be12d67661",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c15d4061_59a403bc",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/common/EventSourceImpl.java",
         "patchSetId": 1

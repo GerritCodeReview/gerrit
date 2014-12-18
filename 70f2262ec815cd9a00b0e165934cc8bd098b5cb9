@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "21b53cf8_dcce0dc1",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 1615,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-18T20:14:27Z",
+      "side": 1,
+      "message": "Not applicable.",
+      "parentUuid": "c15d4061_597d23a0",
+      "range": {
+        "startLine": 1615,
+        "startChar": 16,
+        "endLine": 1615,
+        "endChar": 22
+      },
+      "revId": "70f2262ec815cd9a00b0e165934cc8bd098b5cb9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c15d4061_b981df28",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/EditPreferencesInfo.java",
         "patchSetId": 8
@@ -36,6 +60,24 @@
       "writtenOn": "2014-12-17T13:34:05Z",
       "side": 1,
       "message": "Maybe add the keymap preference in a separate change?",
+      "revId": "70f2262ec815cd9a00b0e165934cc8bd098b5cb9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "21b53cf8_bcd3416b",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/EditPreferencesInfo.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-18T20:14:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c15d4061_b981df28",
       "revId": "70f2262ec815cd9a00b0e165934cc8bd098b5cb9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

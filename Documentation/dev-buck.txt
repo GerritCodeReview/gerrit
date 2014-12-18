@@ -613,6 +613,25 @@ option:
 buck test --no-results-cache
 ----
 
+== Troubleshooting Buck
+
+In some ases Buck's problem itself need to be investigated, see for example
+this attempt to upgrade Buck [1] and the fix that was needed to make the
+update possible [2].
+
+To replace official Buck version hosted on Google storage bucket, the
+following steps must be applied:
+
+1. Clone vanilla buck from GitHub
+2. [optionally] Apply outstanding changes (pull requests)
+3. Compile the buck with `ant`
+4. In gerrit tree create no check file: `touch .nobuckcheck`
+5. Replace sha1 in  .buckversion
+6. Build gerrit with custom buck version
+
+* [1] https://gerrit-review.googlesource.com/62411
+* [2] https://github.com/facebook/buck/pull/227
+
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]

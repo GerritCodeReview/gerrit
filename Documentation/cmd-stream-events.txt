@@ -43,30 +43,6 @@ this JSON stream should deal with that appropriately.
 
 [[events]]
 === Events
-==== Patchset Created
-type:: "patchset-created"
-
-change:: link:json.html#change[change attribute]
-
-patchSet:: link:json.html#patchSet[patchSet attribute]
-
-uploader:: link:json.html#account[account attribute]
-
-eventCreatedOn:: Time in seconds since the UNIX epoch when this event was
-created.
-
-==== Draft Published
-type:: "draft-published"
-
-change:: link:json.html#change[change attribute]
-
-patchSet:: link:json.html#patchSet[patchSet attribute]
-
-uploader:: link:json.html#account[account attribute]
-
-eventCreatedOn:: Time in seconds since the UNIX epoch when this event was
-created.
-
 ==== Change Abandoned
 type:: "change-abandoned"
 
@@ -77,6 +53,18 @@ patchSet:: link:json.html#patchSet[patchSet attribute]
 abandoner:: link:json.html#account[account attribute]
 
 reason:: Reason for abandoning the change.
+
+eventCreatedOn:: Time in seconds since the UNIX epoch when this event was
+created.
+
+==== Change Merged
+type:: "change-merged"
+
+change:: link:json.html#change[change attribute]
+
+patchSet:: link:json.html#patchSet[patchSet attribute]
+
+submitter:: link:json.html#account[account attribute]
 
 eventCreatedOn:: Time in seconds since the UNIX epoch when this event was
 created.
@@ -95,14 +83,46 @@ reason:: Reason for restoring the change.
 eventCreatedOn:: Time in seconds since the UNIX epoch when this event was
 created.
 
-==== Change Merged
-type:: "change-merged"
+==== Comment Added
+type:: "comment-added"
 
 change:: link:json.html#change[change attribute]
 
 patchSet:: link:json.html#patchSet[patchSet attribute]
 
-submitter:: link:json.html#account[account attribute]
+author:: link:json.html#account[account attribute]
+
+approvals:: All link:json.html#approval[approval attributes] granted.
+
+comment:: Comment text author had written
+
+eventCreatedOn:: Time in seconds since the UNIX epoch when this event was
+created.
+
+==== Draft Published
+type:: "draft-published"
+
+change:: link:json.html#change[change attribute]
+
+patchSet:: link:json.html#patchSet[patchSet attribute]
+
+uploader:: link:json.html#account[account attribute]
+
+eventCreatedOn:: Time in seconds since the UNIX epoch when this event was
+created.
+
+==== Hashtags Changed
+type:: "hashtags-changed"
+
+change:: link:json.html#change[change attribute]
+
+editor:: link:json.html#account[account attribute]
+
+added:: List of hashtags added to the change
+
+removed:: List of hashtags removed from the change
+
+hashtags:: List of hashtags on the change after tags were added or removed
 
 eventCreatedOn:: Time in seconds since the UNIX epoch when this event was
 created.
@@ -121,18 +141,14 @@ reason:: Reason that the merge failed.
 eventCreatedOn:: Time in seconds since the UNIX epoch when this event was
 created.
 
-==== Comment Added
-type:: "comment-added"
+==== Patchset Created
+type:: "patchset-created"
 
 change:: link:json.html#change[change attribute]
 
 patchSet:: link:json.html#patchSet[patchSet attribute]
 
-author:: link:json.html#account[account attribute]
-
-approvals:: All link:json.html#approval[approval attributes] granted.
-
-comment:: Comment text author had written
+uploader:: link:json.html#account[account attribute]
 
 eventCreatedOn:: Time in seconds since the UNIX epoch when this event was
 created.
@@ -167,22 +183,6 @@ change:: link:json.html#change[change attribute]
 changer:: link:json.html#account[account attribute]
 
 oldTopic:: Topic name before it was changed.
-
-eventCreatedOn:: Time in seconds since the UNIX epoch when this event was
-created.
-
-==== Hashtags Changed
-type:: "hashtags-changed"
-
-change:: link:json.html#change[change attribute]
-
-editor:: link:json.html#account[account attribute]
-
-added:: List of hashtags added to the change
-
-removed:: List of hashtags removed from the change
-
-hashtags:: List of hashtags on the change after tags were added or removed
 
 eventCreatedOn:: Time in seconds since the UNIX epoch when this event was
 created.

@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "418a3030_8d066146",
+        "filename": "Documentation/dev-buck.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 622,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-18T07:55:27Z",
+      "side": 1,
+      "message": "Oh, I missed it. Thanks for noticing.",
+      "parentUuid": "c1870028_69d92588",
+      "range": {
+        "startLine": 622,
+        "startChar": 0,
+        "endLine": 622,
+        "endChar": 64
+      },
+      "revId": "1a8590495b9d51b9ea0c4fc85730a35807cddc04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c1870028_49d46153",
         "filename": "Documentation/dev-buck.txt",
         "patchSetId": 1
@@ -82,6 +106,30 @@
       "writtenOn": "2014-12-18T07:46:43Z",
       "side": 1,
       "message": "It would be better to use the `link:` syntax and make these hyperlinks that can be clicked.",
+      "range": {
+        "startLine": 632,
+        "startChar": 0,
+        "endLine": 633,
+        "endChar": 47
+      },
+      "revId": "1a8590495b9d51b9ea0c4fc85730a35807cddc04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "81818819_67f232fc",
+        "filename": "Documentation/dev-buck.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 633,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-18T07:55:27Z",
+      "side": 1,
+      "message": "Agreed. Will fix it later today.",
+      "parentUuid": "a17cccf1_68d92388",
       "range": {
         "startLine": 632,
         "startChar": 0,

@@ -16,6 +16,24 @@
       "revId": "0bff12741c358515a587ecdf5f72ab528ce2d420",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c1870028_291d6d8f",
+        "filename": "Documentation/cmd-stream-events.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-12-18T11:10:25Z",
+      "side": 1,
+      "message": "According to the code in StreamEvents.java, if it fails to add an event to the queue:\n\n  private void offer(final ChangeEvent event) {\n    synchronized (taskLock) {\n      if (!queue.offer(event)) {\n        dropped \u003d true;\n      }\n\n      if (task \u003d\u003d null \u0026\u0026 !done) {\n        task \u003d pool.submit(writer);\n      }\n    }\n  }\n\nWhen `dropped` is true, it injects the event into the output (without the event being queued):\n\n  if (dropped) {\n    write(droppedOutputEvent);\n    dropped \u003d false;\n  }\n\nThe `droppedOutputEvent` is defined locally in StreamEvents, which is why I had not noticed and documented it before.  I only saw it while I was reviewing Martin\u0027s \"events\" topic.\n\nI\u0027m not sure the exact conditions that would cause this to happen, so that\u0027s why I didn\u0027t try to go into any detail here.",
+      "parentUuid": "81818819_4778ceb1",
+      "revId": "0bff12741c358515a587ecdf5f72ab528ce2d420",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

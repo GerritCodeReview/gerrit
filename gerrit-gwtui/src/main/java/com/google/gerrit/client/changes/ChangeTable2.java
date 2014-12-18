@@ -183,6 +183,7 @@ public class ChangeTable2 extends NavigationTable<ChangeInfo> {
         }
       }
     }
+    Collections.sort(labelNames);
 
     int baseColumns = useNewFeatures ? BASE_COLUMNS : BASE_COLUMNS - 1;
     if (baseColumns + labelNames.size() < columns) {

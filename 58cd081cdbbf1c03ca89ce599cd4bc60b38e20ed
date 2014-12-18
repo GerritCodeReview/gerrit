@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "61abb49e_7eded171",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/EventDeserializer.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2014-12-18T23:13:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c15d4061_39bcafdf",
+      "range": {
+        "startLine": 43,
+        "startChar": 4,
+        "endLine": 43,
+        "endChar": 9
+      },
+      "revId": "58cd081cdbbf1c03ca89ce599cd4bc60b38e20ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a1a12cbc_c0d3be6a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/EventDeserializer.java",
         "patchSetId": 7
@@ -36,6 +60,30 @@
       "writtenOn": "2014-12-18T18:56:32Z",
       "side": 1,
       "message": "Maybe give a hint that event class must be registered in EvenTypes?",
+      "range": {
+        "startLine": 45,
+        "startChar": 35,
+        "endLine": 45,
+        "endChar": 64
+      },
+      "revId": "58cd081cdbbf1c03ca89ce599cd4bc60b38e20ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "01b2f811_9bd88b86",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/EventDeserializer.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2014-12-18T23:13:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a1a12cbc_c0d3be6a",
       "range": {
         "startLine": 45,
         "startChar": 35,

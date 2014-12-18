@@ -8,4 +8,8 @@ GWT_COMPILER_ARGS = [
 GWT_PLUGIN_DEPS = [
   '//gerrit-plugin-gwtui:gwtui-api-lib',
   '//lib/gwt:user',
+  '//lib/ow2:ow2-asm',
+  '//lib/ow2:ow2-asm-analysis',
+  '//lib/ow2:ow2-asm-util',
+  '//lib/ow2:ow2-asm-tree',
 ]

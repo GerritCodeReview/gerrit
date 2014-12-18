@@ -85,6 +85,30 @@
       "revId": "570a7ed6fa00a618ddb0b9e12aac48d14e8342f0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a17cccf1_28464b83",
+        "filename": "tools/gwt-constants.defs",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-12-18T15:15:06Z",
+      "side": 1,
+      "message": "Will do this tomorrow, unless you can upload a new patch in the meantime.",
+      "parentUuid": "81818819_07bc16df",
+      "range": {
+        "startLine": 11,
+        "startChar": 1,
+        "endLine": 14,
+        "endChar": 27
+      },
+      "revId": "570a7ed6fa00a618ddb0b9e12aac48d14e8342f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "01b2f811_7bdedf71",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2014-12-18T23:13:58Z",
+      "side": 1,
+      "message": "As weird as it is, I am actually following the style of this file, see line 241.",
+      "parentUuid": "c15d4061_19c1eb61",
+      "revId": "c243787e551cb12431d4fd8a898308d00a42cf7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c15d4061_59cb637f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHooks.java",
         "patchSetId": 1
@@ -30,6 +48,30 @@
       "writtenOn": "2014-12-18T01:39:28Z",
       "side": 1,
       "message": "This is no longer used.",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 44
+      },
+      "revId": "c243787e551cb12431d4fd8a898308d00a42cf7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "01b2f811_5bdb2380",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHooks.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2014-12-18T23:13:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c15d4061_59cb637f",
       "range": {
         "startLine": 25,
         "startChar": 0,
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "61abb49e_3ee8490b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/EventSource.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2014-12-18T23:13:58Z",
+      "side": 1,
+      "message": "Asside form the period, I am not sure what else is missing.  It is meant to be an imperative sentence.",
+      "parentUuid": "8157c840_f78b6042",
+      "range": {
+        "startLine": 19,
+        "startChar": 44,
+        "endLine": 19,
+        "endChar": 67
+      },
+      "revId": "c243787e551cb12431d4fd8a898308d00a42cf7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c15d4061_79c6277b",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/StreamEvents.java",
         "patchSetId": 1
@@ -76,6 +142,24 @@
       "writtenOn": "2014-12-18T01:39:28Z",
       "side": 1,
       "message": "nit: import ordering",
+      "revId": "c243787e551cb12431d4fd8a898308d00a42cf7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "61abb49e_1ee58d33",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/StreamEvents.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2014-12-18T23:13:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c15d4061_79c6277b",
       "revId": "c243787e551cb12431d4fd8a898308d00a42cf7c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

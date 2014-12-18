@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "61abb49e_be21f9c6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2014-12-18T23:15:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c15d4061_d98f7336",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 10
+      },
+      "revId": "994653afcae2fe8c72fb36fa3be874c54ce17e1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8157c840_b7af289e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
         "patchSetId": 1

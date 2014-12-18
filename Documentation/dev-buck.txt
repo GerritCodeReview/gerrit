@@ -613,6 +613,23 @@ option:
 buck test --no-results-cache
 ----
 
+== Troubleshooting Buck
+
+In some cases problems with Buck itself need to be investigated. See for example
+link:https://gerrit-review.googlesource.com/62411[this attempt to upgrade Buck]
+and link:https://github.com/facebook/buck/pull/227[the fix that was needed] to
+make the update possible.
+
+To build Gerrit with a custom version of Buck, the following steps are necessary:
+
+1. In the Buck git apply any necessary changes from pull requests
+2. Compile Buck with `ant`
+3. In the root of the Gerrit project create a `.nobuckcheck` file to prevent Buck
+from updating itself
+4. Replace the sha1 in Gerrit's `.buckversion` file with the required version from
+the custom Buck build
+5. Build Gerrit as usual
+
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]

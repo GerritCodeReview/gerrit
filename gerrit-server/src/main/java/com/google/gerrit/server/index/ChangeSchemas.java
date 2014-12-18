@@ -16,6 +16,7 @@ package com.google.gerrit.server.index;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Maps;
@@ -24,14 +25,13 @@ import com.google.gerrit.server.query.change.ChangeData;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Map;
 
 /** Secondary index schemas for changes. */
 public class ChangeSchemas {
   @SuppressWarnings("deprecation")
-  static final Schema<ChangeData> V1 = release(
+  static final Schema<ChangeData> V1 = schema(
         ChangeField.LEGACY_ID,
         ChangeField.ID,
         ChangeField.STATUS,
@@ -51,7 +51,7 @@ public class ChangeSchemas {
         ChangeField.COMMENT);
 
   @SuppressWarnings("deprecation")
-  static final Schema<ChangeData> V2 = release(
+  static final Schema<ChangeData> V2 = schema(
         ChangeField.LEGACY_ID,
         ChangeField.ID,
         ChangeField.STATUS,
@@ -73,7 +73,7 @@ public class ChangeSchemas {
         ChangeField.APPROVAL);
 
   @SuppressWarnings("deprecation")
-  static final Schema<ChangeData> V3 = release(
+  static final Schema<ChangeData> V3 = schema(
         ChangeField.LEGACY_ID,
         ChangeField.ID,
         ChangeField.STATUS,
@@ -95,10 +95,10 @@ public class ChangeSchemas {
         ChangeField.APPROVAL);
 
   // For upgrade to Lucene 4.4.0 index format only.
-  static final Schema<ChangeData> V4 = release(V3.getFields().values());
+  static final Schema<ChangeData> V4 = schema(V3.getFields().values());
 
   @SuppressWarnings("deprecation")
-  static final Schema<ChangeData> V5 = release(
+  static final Schema<ChangeData> V5 = schema(
         ChangeField.LEGACY_ID,
         ChangeField.ID,
         ChangeField.STATUS,
@@ -121,10 +121,10 @@ public class ChangeSchemas {
         ChangeField.LEGACY_MERGEABLE);
 
   // For upgrade to Lucene 4.6.0 index format only.
-  static final Schema<ChangeData> V6 = release(V5.getFields().values());
+  static final Schema<ChangeData> V6 = schema(V5.getFields().values());
 
   @SuppressWarnings("deprecation")
-  static final Schema<ChangeData> V7 = release(
+  static final Schema<ChangeData> V7 = schema(
         ChangeField.LEGACY_ID,
         ChangeField.ID,
         ChangeField.STATUS,
@@ -148,7 +148,7 @@ public class ChangeSchemas {
         ChangeField.LEGACY_MERGEABLE);
 
   @SuppressWarnings("deprecation")
-  static final Schema<ChangeData> V8 = release(
+  static final Schema<ChangeData> V8 = schema(
         ChangeField.LEGACY_ID,
         ChangeField.ID,
         ChangeField.STATUS,
@@ -171,7 +171,7 @@ public class ChangeSchemas {
         ChangeField.LEGACY_MERGEABLE);
 
   @SuppressWarnings("deprecation")
-  static final Schema<ChangeData> V9 = release(
+  static final Schema<ChangeData> V9 = schema(
         ChangeField.LEGACY_ID,
         ChangeField.ID,
         ChangeField.STATUS,
@@ -195,7 +195,7 @@ public class ChangeSchemas {
         ChangeField.LEGACY_MERGEABLE);
 
   @SuppressWarnings("deprecation")
-  static final Schema<ChangeData> V10 = release(
+  static final Schema<ChangeData> V10 = schema(
         ChangeField.LEGACY_ID,
         ChangeField.ID,
         ChangeField.STATUS,
@@ -219,7 +219,7 @@ public class ChangeSchemas {
         ChangeField.LEGACY_MERGEABLE);
 
   @SuppressWarnings("deprecation")
-  static final Schema<ChangeData> V11 = release(
+  static final Schema<ChangeData> V11 = schema(
         ChangeField.LEGACY_ID,
         ChangeField.ID,
         ChangeField.STATUS,
@@ -246,10 +246,10 @@ public class ChangeSchemas {
         ChangeField.DELTA);
 
   // For upgrade to Lucene 4.10.0 index format only.
-  static final Schema<ChangeData> V12 = release(V11.getFields().values());
+  static final Schema<ChangeData> V12 = schema(V11.getFields().values());
 
   @SuppressWarnings("deprecation")
-  static final Schema<ChangeData> V13 = release(
+  static final Schema<ChangeData> V13 = schema(
       ChangeField.LEGACY_ID,
       ChangeField.ID,
       ChangeField.STATUS,
@@ -276,7 +276,7 @@ public class ChangeSchemas {
       ChangeField.DELTA,
       ChangeField.HASHTAG);
 
-  static final Schema<ChangeData> V14 = release(
+  static final Schema<ChangeData> V14 = schema(
       ChangeField.LEGACY_ID,
       ChangeField.ID,
       ChangeField.STATUS,
@@ -303,19 +303,13 @@ public class ChangeSchemas {
       ChangeField.DELTA,
       ChangeField.HASHTAG);
 
-  private static Schema<ChangeData> release(Collection<FieldDef<ChangeData, ?>> fields) {
-    return new Schema<>(true, fields);
+  private static Schema<ChangeData> schema(Collection<FieldDef<ChangeData, ?>> fields) {
+    return new Schema<>(ImmutableList.copyOf(fields));
   }
 
   @SafeVarargs
-  private static Schema<ChangeData> release(FieldDef<ChangeData, ?>... fields) {
-    return release(Arrays.asList(fields));
-  }
-
-  @SafeVarargs
-  @SuppressWarnings("unused")
-  private static Schema<ChangeData> developer(FieldDef<ChangeData, ?>... fields) {
-    return new Schema<>(false, Arrays.asList(fields));
+  private static Schema<ChangeData> schema(FieldDef<ChangeData, ?>... fields) {
+    return schema(ImmutableList.copyOf(fields));
   }
 
   public static final ImmutableMap<Integer, Schema<ChangeData>> ALL;

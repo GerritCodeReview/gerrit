@@ -248,10 +248,10 @@ public class ChangeEdits implements
     @Option(name = "--base", metaVar = "revision-id")
     String base;
 
-    @Option(name = "--list", metaVar = "LIST")
+    @Option(name = "--list")
     boolean list;
 
-    @Option(name = "--download-commands", metaVar = "download-commands")
+    @Option(name = "--download-commands")
     boolean downloadCommands;
 
     @Inject

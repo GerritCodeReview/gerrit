@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "81818819_c764be03",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-18T14:29:03Z",
+      "side": 1,
+      "message": "You could also leave you as author.",
+      "revId": "570a7ed6fa00a618ddb0b9e12aac48d14e8342f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "81818819_a767ca05",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-18T14:29:03Z",
+      "side": 1,
+      "message": "Thanks for uploading this!",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 40
+      },
+      "revId": "570a7ed6fa00a618ddb0b9e12aac48d14e8342f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "81818819_e761c2f0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-18T14:29:03Z",
+      "side": 1,
+      "message": "This is not quite correct. The dependency was there in older version of GWT as well. The change in 2.7 was not to ship it anymore in gwt-dev.jar. And only provide it through Maven POM. That why compilation with Maven still works.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 47
+      },
+      "revId": "570a7ed6fa00a618ddb0b9e12aac48d14e8342f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "81818819_07bc16df",
+        "filename": "tools/gwt-constants.defs",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-18T14:29:03Z",
+      "side": 1,
+      "message": "DRY: we should try consolidate it, between GWT compile in core and plugins. So may be define here the var:\n\n  GWT_COMMON_DEPS \u003d [\n    \u0027//lib/ow2:ow2-asm\u0027,\n    \u0027//lib/ow2:ow2-asm-analysis\u0027,\n    \u0027//lib/ow2:ow2-asm-util\u0027,\n    \u0027//lib/ow2:ow2-asm-tree\u0027,\n  ]\n\nAnd use it here:\n\n  GWT_PLUGIN_DEPS \u003d GWT_COMMON_DEPS + [\n    \u0027//gerrit-plugin-gwtui:gwtui-api-lib\u0027,\n    \u0027//lib/gwt:user\u0027,\n  ]\n\nAnd in core, in https://gerrit-review.googlesource.com/#/c/59353/21/gerrit-gwtui/BUCK, instead of:\n\n  DEPS \u003d [\n    \u0027//gerrit-gwtexpui:CSS\u0027,\n    \u0027//lib:gwtjsonrpc\u0027,\n    \u0027//lib/ow2:ow2-asm\u0027,\n    \u0027//lib/ow2:ow2-asm-analysis\u0027,\n    \u0027//lib/ow2:ow2-asm-util\u0027,\n    \u0027//lib/ow2:ow2-asm-tree\u0027,\n  ]\n\nmake it just:\n\n  DEPS \u003d GWT_COMMON_DEPS + [\n    \u0027//gerrit-gwtexpui:CSS\u0027,\n    \u0027//lib:gwtjsonrpc\u0027,\n  ]",
+      "range": {
+        "startLine": 11,
+        "startChar": 1,
+        "endLine": 14,
+        "endChar": 27
+      },
+      "revId": "570a7ed6fa00a618ddb0b9e12aac48d14e8342f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

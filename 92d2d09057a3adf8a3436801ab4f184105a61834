@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "81818819_870ba645",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-12-18T10:50:07Z",
+      "side": 1,
+      "message": "These lines are really too short, 53 chars the longest. Why not use the 72 characters line width for commit messages as we recommend in [1]\n\n[1] https://gerrit-review.googlesource.com/Documentation/dev-contributing.html#commit-message",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 19
+      },
+      "revId": "92d2d09057a3adf8a3436801ab4f184105a61834",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8157c840_b73448fe",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
         "patchSetId": 1
@@ -13,6 +36,23 @@
       "writtenOn": "2014-12-18T01:14:51Z",
       "side": 1,
       "message": "nit: wrap this long line",
+      "revId": "92d2d09057a3adf8a3436801ab4f184105a61834",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "418a3030_2d464d83",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHooks.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-12-18T10:50:07Z",
+      "side": 1,
+      "message": "From the commit message: \"and now use ChangeEvent only for events related to Changes\"\n\nThe javadoc here says that is is an event related to a change but the event class is now changed from ChangeEvent to just Event.\n\nAre all Event (sub)types foreseen to be change related?",
       "revId": "92d2d09057a3adf8a3436801ab4f184105a61834",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -36,6 +76,40 @@
     },
     {
       "key": {
+        "uuid": "81818819_c7159e64",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/Event.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-12-18T10:50:07Z",
+      "side": 1,
+      "message": "Why both public and the getter method?",
+      "revId": "92d2d09057a3adf8a3436801ab4f184105a61834",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "81818819_a708aa49",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/Event.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-12-18T10:50:07Z",
+      "side": 1,
+      "message": "final?\n\nRename to just \"createdOd\" as it is already in the Event class?",
+      "revId": "92d2d09057a3adf8a3436801ab4f184105a61834",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c15d4061_195c4b42",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/HashtagsChangedEvent.java",
         "patchSetId": 1
@@ -53,6 +127,57 @@
         "endLine": 25,
         "endChar": 29
       },
+      "revId": "92d2d09057a3adf8a3436801ab4f184105a61834",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "81818819_e712a279",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/PatchSetEvent.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-12-18T10:50:07Z",
+      "side": 1,
+      "message": "final?\n\nwhy is it not set in the constructor?",
+      "revId": "92d2d09057a3adf8a3436801ab4f184105a61834",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "418a3030_4d3b99ee",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/ProjectEvent.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-12-18T10:50:07Z",
+      "side": 1,
+      "message": "Pass projectName to the constructor?",
+      "revId": "92d2d09057a3adf8a3436801ab4f184105a61834",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "81818819_0741766a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/RefEvent.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-12-18T10:50:07Z",
+      "side": 1,
+      "message": "Why not pass the refName to the constructor?",
       "revId": "92d2d09057a3adf8a3436801ab4f184105a61834",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

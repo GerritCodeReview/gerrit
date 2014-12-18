@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "61abb49e_fe17816f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/EventSourceImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2014-12-18T23:14:51Z",
+      "side": 1,
+      "message": "FYI, this code was all taken from the ChangeHooksRunner class, so it is not new code.  But I think it is a good opportunity to clean up the formatting, so I did now.",
+      "parentUuid": "8157c840_d761fcf0",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "6a078b95aa0321c26a093b9ede28f2be12d67661",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8157c840_97678406",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/common/EventSourceImpl.java",
         "patchSetId": 1
@@ -59,6 +83,30 @@
       "writtenOn": "2014-12-18T01:47:18Z",
       "side": 1,
       "message": "Not used (if unused logger at lines 37-39 is removed)",
+      "range": {
+        "startLine": 29,
+        "startChar": 0,
+        "endLine": 30,
+        "endChar": 31
+      },
+      "revId": "6a078b95aa0321c26a093b9ede28f2be12d67661",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "61abb49e_def725eb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/EventSourceImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2014-12-18T23:14:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8157c840_f7640003",
       "range": {
         "startLine": 29,
         "startChar": 0,
@@ -106,6 +154,24 @@
     },
     {
       "key": {
+        "uuid": "61abb49e_fef2e1fc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/EventSourceImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2014-12-18T23:14:51Z",
+      "side": 1,
+      "message": "I did that in a future Change once it actually gets injected.",
+      "parentUuid": "2170dc17_44d44e53",
+      "revId": "6a078b95aa0321c26a093b9ede28f2be12d67661",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c15d4061_59a403bc",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/common/EventSourceImpl.java",
         "patchSetId": 1
@@ -117,6 +183,30 @@
       "writtenOn": "2014-12-18T01:47:18Z",
       "side": 1,
       "message": "Not used.",
+      "range": {
+        "startLine": 37,
+        "startChar": 0,
+        "endLine": 39,
+        "endChar": 53
+      },
+      "revId": "6a078b95aa0321c26a093b9ede28f2be12d67661",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "01b2f811_3be8570b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/EventSourceImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2014-12-18T23:14:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c15d4061_59a403bc",
       "range": {
         "startLine": 37,
         "startChar": 0,
@@ -152,6 +242,30 @@
     },
     {
       "key": {
+        "uuid": "61abb49e_beec591c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/EventSourceImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2014-12-18T23:14:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c15d4061_99acdbaa",
+      "range": {
+        "startLine": 46,
+        "startChar": 0,
+        "endLine": 47,
+        "endChar": 19
+      },
+      "revId": "6a078b95aa0321c26a093b9ede28f2be12d67661",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c15d4061_f9b997ea",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/common/EventSourceImpl.java",
         "patchSetId": 1
@@ -163,6 +277,30 @@
       "writtenOn": "2014-12-18T01:47:18Z",
       "side": 1,
       "message": "nit: wrong indentation",
+      "range": {
+        "startLine": 83,
+        "startChar": 0,
+        "endLine": 83,
+        "endChar": 8
+      },
+      "revId": "6a078b95aa0321c26a093b9ede28f2be12d67661",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "01b2f811_1be59b33",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/EventSourceImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2014-12-18T23:14:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c15d4061_f9b997ea",
       "range": {
         "startLine": 83,
         "startChar": 0,
@@ -192,6 +330,24 @@
     },
     {
       "key": {
+        "uuid": "01b2f811_dbf733eb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/EventSourceImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2014-12-18T23:14:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8157c840_d788dc48",
+      "revId": "6a078b95aa0321c26a093b9ede28f2be12d67661",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8157c840_37579823",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/common/EventSourceImpl.java",
         "patchSetId": 1
@@ -203,6 +359,30 @@
       "writtenOn": "2014-12-18T01:47:18Z",
       "side": 1,
       "message": "nit: wrong indentation",
+      "range": {
+        "startLine": 89,
+        "startChar": 0,
+        "endLine": 91,
+        "endChar": 9
+      },
+      "revId": "6a078b95aa0321c26a093b9ede28f2be12d67661",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "01b2f811_fbf2effc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/EventSourceImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2014-12-18T23:14:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8157c840_37579823",
       "range": {
         "startLine": 89,
         "startChar": 0,
@@ -238,6 +418,30 @@
     },
     {
       "key": {
+        "uuid": "61abb49e_9ef19df8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/EventSourceImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2014-12-18T23:14:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c15d4061_d9b653fa",
+      "range": {
+        "startLine": 99,
+        "startChar": 0,
+        "endLine": 101,
+        "endChar": 9
+      },
+      "revId": "6a078b95aa0321c26a093b9ede28f2be12d67661",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8157c840_7751102a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/common/EventSourceImpl.java",
         "patchSetId": 1
@@ -249,6 +453,30 @@
       "writtenOn": "2014-12-18T01:47:18Z",
       "side": 1,
       "message": "nit: no final in new code",
+      "range": {
+        "startLine": 108,
+        "startChar": 6,
+        "endLine": 108,
+        "endChar": 11
+      },
+      "revId": "6a078b95aa0321c26a093b9ede28f2be12d67661",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "61abb49e_7e07f143",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/EventSourceImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2014-12-18T23:14:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8157c840_7751102a",
       "range": {
         "startLine": 108,
         "startChar": 6,
@@ -307,6 +535,54 @@
     },
     {
       "key": {
+        "uuid": "61abb49e_5e04353d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/EventSourceImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2014-12-18T23:14:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c15d4061_799f476f",
+      "range": {
+        "startLine": 112,
+        "startChar": 6,
+        "endLine": 112,
+        "endChar": 11
+      },
+      "revId": "6a078b95aa0321c26a093b9ede28f2be12d67661",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "01b2f811_bbec671c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/EventSourceImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2014-12-18T23:14:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c15d4061_19aa8b89",
+      "range": {
+        "startLine": 112,
+        "startChar": 6,
+        "endLine": 112,
+        "endChar": 11
+      },
+      "revId": "6a078b95aa0321c26a093b9ede28f2be12d67661",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8157c840_175c1442",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/common/EventSourceImpl.java",
         "patchSetId": 1
@@ -318,6 +594,30 @@
       "writtenOn": "2014-12-18T01:47:18Z",
       "side": 1,
       "message": "nit: wrong indentation",
+      "range": {
+        "startLine": 108,
+        "startChar": 0,
+        "endLine": 113,
+        "endChar": 49
+      },
+      "revId": "6a078b95aa0321c26a093b9ede28f2be12d67661",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "61abb49e_3e01692d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/EventSourceImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2014-12-18T23:14:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8157c840_175c1442",
       "range": {
         "startLine": 108,
         "startChar": 0,
@@ -353,6 +653,30 @@
     },
     {
       "key": {
+        "uuid": "01b2f811_9bf1abf8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/EventSourceImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2014-12-18T23:14:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8157c840_57568c23",
+      "range": {
+        "startLine": 117,
+        "startChar": 6,
+        "endLine": 117,
+        "endChar": 11
+      },
+      "revId": "6a078b95aa0321c26a093b9ede28f2be12d67661",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8157c840_b76a88cc",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/common/EventSourceImpl.java",
         "patchSetId": 1
@@ -376,6 +700,30 @@
     },
     {
       "key": {
+        "uuid": "61abb49e_1efeadc1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/EventSourceImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2014-12-18T23:14:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8157c840_b76a88cc",
+      "range": {
+        "startLine": 121,
+        "startChar": 6,
+        "endLine": 121,
+        "endChar": 11
+      },
+      "revId": "6a078b95aa0321c26a093b9ede28f2be12d67661",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c15d4061_39a5cfbb",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/common/EventSourceImpl.java",
         "patchSetId": 1
@@ -387,6 +735,30 @@
       "writtenOn": "2014-12-18T01:47:18Z",
       "side": 1,
       "message": "nit: wrong indentation",
+      "range": {
+        "startLine": 117,
+        "startChar": 0,
+        "endLine": 122,
+        "endChar": 54
+      },
+      "revId": "6a078b95aa0321c26a093b9ede28f2be12d67661",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "01b2f811_7b07ff43",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/EventSourceImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2014-12-18T23:14:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c15d4061_39a5cfbb",
       "range": {
         "startLine": 117,
         "startChar": 0,

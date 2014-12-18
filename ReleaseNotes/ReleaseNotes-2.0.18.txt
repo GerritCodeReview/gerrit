@@ -22,19 +22,19 @@ to trust any OpenID provider.  Refer to `auth.trustedOpenID` in
 
 * Caches
 +
-The groups that a user is a member of is no longer stored in the 
+The groups that a user is a member of is no longer stored in the
 `groups` cache; it is now part of the `accounts` cache.  If you
 use a cron script to update the `account_groups` database table
-based upon an external data source (such as LDAP), you will need  
+based upon an external data source (such as LDAP), you will need
 to adjust your script to flush the `accounts` cache.
-The `diff` cache is no longer written to disk by default.  
+The `diff` cache is no longer written to disk by default.
 To enable the disk store again, administrators must explicitly
 set `cache.directory` in the gerrit.config file prior to starting
 Gerrit.
 
 * SSH Usernames
 +
-SSH usernames are no longer automatically assigned to the 
+SSH usernames are no longer automatically assigned to the
 local part of the user's email address.  With 2.0.18, usernames
 must also be unique within the database.  These changes were
 implemented to resolve a minor potential security issue with

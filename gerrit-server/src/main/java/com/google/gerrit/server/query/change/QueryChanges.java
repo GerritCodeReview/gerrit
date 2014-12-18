@@ -63,23 +63,6 @@ public class QueryChanges implements RestReadView<TopLevelResource> {
     options.addAll(ListChangesOption.fromBits(Integer.parseInt(hex, 16)));
   }
 
-  @Option(name = "-P", metaVar = "SORTKEY", usage = "Previous changes before SORTKEY")
-  public void setSortKeyAfter(String key) {
-    // Querying for the prior page of changes requires sortkey_after predicate.
-    // Changes are shown most recent->least recent. The previous page of
-    // results contains changes that were updated after the given key.
-    imp.setSortkeyAfter(key);
-    reverse = true;
-  }
-
-  @Option(name = "-N", metaVar = "SORTKEY", usage = "Next changes after SORTKEY")
-  public void setSortKeyBefore(String key) {
-    // Querying for the next page of changes requires sortkey_before predicate.
-    // Changes are shown most recent->least recent. The next page contains
-    // changes that were updated before the given key.
-    imp.setSortkeyBefore(key);
-  }
-
   @Option(name = "--start", aliases = {"-S"}, metaVar = "CNT", usage = "Number of changes to skip")
   public void setStart(int start) {
     imp.setStart(start);

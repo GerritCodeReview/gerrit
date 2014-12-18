@@ -51,38 +51,12 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
 public class QueryProcessor {
   private static final Logger log =
       LoggerFactory.getLogger(QueryProcessor.class);
-
-  private final Comparator<ChangeData> cmpAfter =
-      new Comparator<ChangeData>() {
-        @Override
-        public int compare(ChangeData a, ChangeData b) {
-          try {
-            return a.change().getSortKey().compareTo(b.change().getSortKey());
-          } catch (OrmException e) {
-            return 0;
-          }
-        }
-      };
-
-  private final Comparator<ChangeData> cmpBefore =
-      new Comparator<ChangeData>() {
-        @Override
-        public int compare(ChangeData a, ChangeData b) {
-          try {
-            return b.change().getSortKey().compareTo(a.change().getSortKey());
-          } catch (OrmException e) {
-            return 0;
-          }
-        }
-      };
 
   public static enum OutputFormat {
     TEXT, JSON
@@ -102,8 +76,6 @@ public class QueryProcessor {
   private OutputFormat outputFormat = OutputFormat.TEXT;
   private int limit;
   private int start;
-  private String sortkeyAfter;
-  private String sortkeyBefore;
   private boolean includePatchSets;
   private boolean includeCurrentPatchSet;
   private boolean includeApprovals;
@@ -144,14 +116,6 @@ public class QueryProcessor {
 
   public void setStart(int n) {
     start = n;
-  }
-
-  void setSortkeyAfter(String sortkey) {
-    sortkeyAfter = sortkey;
-  }
-
-  void setSortkeyBefore(String sortkey) {
-    sortkeyBefore = sortkey;
   }
 
   public void setIncludePatchSets(boolean on) {
@@ -217,7 +181,7 @@ public class QueryProcessor {
    * If a limit was specified using {@link #setLimit(int)} this method may
    * return up to {@code limit + 1} results, allowing the caller to determine if
    * there are more than {@code limit} matches and suggest to its own caller
-   * that the query could be retried with {@link #setSortkeyBefore(String)}.
+   * that the query could be retried with {@link #setStart(int)}.
    */
   public List<ChangeData> queryChanges(String queryString)
       throws OrmException, QueryParseException {
@@ -230,7 +194,7 @@ public class QueryProcessor {
    * If a limit was specified using {@link #setLimit(int)} this method may
    * return up to {@code limit + 1} results, allowing the caller to determine if
    * there are more than {@code limit} matches and suggest to its own caller
-   * that the query could be retried with {@link #setSortkeyBefore(String)}.
+   * that the query could be retried with {@link #setStart(int)}.
    */
   public List<List<ChangeData>> queryChanges(List<String> queries)
       throws OrmException, QueryParseException {
@@ -266,20 +230,12 @@ public class QueryProcessor {
     List<List<ChangeData>> out = Lists.newArrayListWithCapacity(cnt);
     for (int i = 0; i < cnt; i++) {
       List<ChangeData> results = matches.get(i).toList();
-      if (sortkeyAfter != null) {
-        Collections.sort(results, cmpAfter);
-      } else if (sortkeyBefore != null) {
-        Collections.sort(results, cmpBefore);
-      }
       if (results.size() > maxLimit) {
         moreResults = true;
       }
       int limit = limits.get(i);
       if (limit < results.size()) {
         results = results.subList(0, limit);
-      }
-      if (sortkeyAfter != null) {
-        Collections.reverse(results);
       }
       out.add(results);
     }
@@ -417,17 +373,7 @@ public class QueryProcessor {
 
   private Predicate<ChangeData> parseQuery(String queryString,
       final Predicate<ChangeData> visibleToMe) throws QueryParseException {
-    Predicate<ChangeData> q = queryBuilder.parse(queryString);
-    if (queryBuilder.supportsSortKey() && !ChangeQueryBuilder.hasSortKey(q)) {
-      if (sortkeyBefore != null) {
-        q = Predicate.and(q, queryBuilder.sortkey_before(sortkeyBefore));
-      } else if (sortkeyAfter != null) {
-        q = Predicate.and(q, queryBuilder.sortkey_after(sortkeyAfter));
-      } else {
-        q = Predicate.and(q, queryBuilder.sortkey_before("z"));
-      }
-    }
-    return Predicate.and(q,
+    return Predicate.and(queryBuilder.parse(queryString),
         queryBuilder.limit(limit > 0 ? Math.min(limit, maxLimit) + 1 : maxLimit),
         visibleToMe);
   }

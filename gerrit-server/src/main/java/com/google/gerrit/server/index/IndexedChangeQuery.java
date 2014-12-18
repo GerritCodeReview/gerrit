@@ -14,18 +14,15 @@
 
 package com.google.gerrit.server.index;
 
-import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Function;
 import com.google.common.base.MoreObjects;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
-import com.google.common.collect.Lists;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeDataSource;
 import com.google.gerrit.server.query.change.Paginated;
-import com.google.gerrit.server.query.change.SortKeyPredicate;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
 
@@ -43,40 +40,6 @@ import java.util.List;
  */
 public class IndexedChangeQuery extends Predicate<ChangeData>
     implements ChangeDataSource, Paginated {
-
-  /**
-   * Replace all {@link SortKeyPredicate}s in a tree.
-   * <p>
-   * Strictly speaking this should replace only the {@link SortKeyPredicate} at
-   * the top-level AND node, but this implementation is simpler, and the
-   * behavior of having multiple sortkey operators is undefined anyway.
-   *
-   * @param p predicate to replace in.
-   * @param newValue new cut value to replace all sortkey operators with.
-   * @return a copy of {@code p} with all sortkey predicates replaced; or p
-   *     itself.
-   */
-  @VisibleForTesting
-  static Predicate<ChangeData> replaceSortKeyPredicates(
-      Predicate<ChangeData> p, String newValue) {
-    if (p instanceof SortKeyPredicate) {
-      return ((SortKeyPredicate) p).copy(newValue);
-    } else if (p.getChildCount() > 0) {
-      List<Predicate<ChangeData>> newChildren =
-          Lists.newArrayListWithCapacity(p.getChildCount());
-      boolean replaced = false;
-      for (Predicate<ChangeData> c : p.getChildren()) {
-        Predicate<ChangeData> nc = replaceSortKeyPredicates(c, newValue);
-        newChildren.add(nc);
-        if (nc != c) {
-          replaced = true;
-        }
-      }
-      return replaced ? p.copy(newChildren) : p;
-    } else {
-      return p;
-    }
-  }
 
   private final ChangeIndex index;
   private final int limit;
@@ -163,27 +126,13 @@ public class IndexedChangeQuery extends Predicate<ChangeData>
   }
 
   @Override
-  public ResultSet<ChangeData> restart(ChangeData last) throws OrmException {
-    pred = replaceSortKeyPredicates(pred, last.change().getSortKey());
-    try {
-      source = index.getSource(pred, 0, limit);
-    } catch (QueryParseException e) {
-      // Don't need to show this exception to the user; the only thing that
-      // changed about pred was its SortKeyPredicates, and any other QPEs
-      // that might happen should have already thrown from the constructor.
-      throw new OrmException(e);
-    }
-    return read();
-  }
-
-  @Override
   public ResultSet<ChangeData> restart(int start) throws OrmException {
     try {
       source = index.getSource(pred, start, limit);
     } catch (QueryParseException e) {
       // Don't need to show this exception to the user; the only thing that
-      // changed about pred was its SortKeyPredicates, and any other QPEs
-      // that might happen should have already thrown from the constructor.
+      // changed about pred was its start, and any other QPEs that might happen
+      // should have already thrown from the constructor.
       throw new OrmException(e);
     }
     return read();

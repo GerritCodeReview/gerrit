@@ -27,7 +27,6 @@ import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
-import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeData.ChangedLines;
@@ -120,18 +119,6 @@ public class ChangeField {
         }
       };
 
-  @Deprecated
-  /** Topic, a short annotation on the branch. */
-  public static final FieldDef<ChangeData, String> LEGACY_TOPIC =
-      new FieldDef.Single<ChangeData, String>(
-          ChangeQueryBuilder.FIELD_TOPIC, FieldType.EXACT, false) {
-        @Override
-        public String get(ChangeData input, FillArgs args)
-            throws OrmException {
-          return input.change().getTopic();
-        }
-      };
-
   /** Topic, a short annotation on the branch. */
   public static final FieldDef<ChangeData, String> TOPIC =
       new FieldDef.Single<ChangeData, String>(
@@ -143,20 +130,6 @@ public class ChangeField {
         }
       };
 
-  // Same value as UPDATED, but implementations truncated to minutes.
-  @Deprecated
-  /** Last update time since January 1, 1970. */
-  public static final FieldDef<ChangeData, Timestamp> LEGACY_UPDATED =
-      new FieldDef.Single<ChangeData, Timestamp>(
-          "updated", FieldType.TIMESTAMP, true) {
-        @Override
-        public Timestamp get(ChangeData input, FillArgs args)
-            throws OrmException {
-          return input.change().getLastUpdatedOn();
-        }
-      };
-
-
   /** Last update time since January 1, 1970. */
   public static final FieldDef<ChangeData, Timestamp> UPDATED =
       new FieldDef.Single<ChangeData, Timestamp>(
@@ -165,43 +138,6 @@ public class ChangeField {
         public Timestamp get(ChangeData input, FillArgs args)
             throws OrmException {
           return input.change().getLastUpdatedOn();
-        }
-      };
-
-  @Deprecated
-  public static long legacyParseSortKey(String sortKey) {
-    if ("z".equals(sortKey)) {
-      return Long.MAX_VALUE;
-    }
-    return Long.parseLong(sortKey.substring(0, 8), 16);
-  }
-
-  /** Legacy sort key field. */
-  @Deprecated
-  public static final FieldDef<ChangeData, Long> LEGACY_SORTKEY =
-      new FieldDef.Single<ChangeData, Long>(
-          "sortkey", FieldType.LONG, true) {
-        @Override
-        public Long get(ChangeData input, FillArgs args)
-            throws OrmException {
-          return legacyParseSortKey(input.change().getSortKey());
-        }
-      };
-
-  /**
-   * Sort key field.
-   * <p>
-   * Redundant with {@link #UPDATED} and {@link #LEGACY_ID}, but secondary index
-   * implementations may not be able to search over tuples of values.
-   */
-  @Deprecated
-  public static final FieldDef<ChangeData, Long> SORTKEY =
-      new FieldDef.Single<ChangeData, Long>(
-          "sortkey2", FieldType.LONG, true) {
-        @Override
-        public Long get(ChangeData input, FillArgs args)
-            throws OrmException {
-          return ChangeUtil.parseSortKey(input.change().getSortKey());
         }
       };
 

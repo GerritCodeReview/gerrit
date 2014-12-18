@@ -41,8 +41,6 @@ import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeDataSource;
-import com.google.gerrit.server.query.change.ChangeQueryBuilder;
-import com.google.gerrit.server.query.change.SortKeyPredicate;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
 import com.google.inject.Provider;
@@ -108,7 +106,7 @@ class SolrChangeIndex implements ChangeIndex, LifecycleListener {
     }
 
     queryBuilder = new QueryBuilder(
-        schema, new StandardAnalyzer(CharArraySet.EMPTY_SET));
+        new StandardAnalyzer(CharArraySet.EMPTY_SET));
 
     base = Strings.nullToEmpty(base);
     openIndex = new CloudSolrServer(url);
@@ -199,23 +197,15 @@ class SolrChangeIndex implements ChangeIndex, LifecycleListener {
       indexes.add(closedIndex);
     }
     return new QuerySource(indexes, queryBuilder.toQuery(p), start, limit,
-        getSorts(schema, p));
+        getSorts());
   }
 
-  @SuppressWarnings("deprecation")
-  private static List<SortClause> getSorts(Schema<ChangeData> schema,
-      Predicate<ChangeData> p) {
-    if (SortKeyPredicate.hasSortKeyField(schema)) {
-      boolean reverse = ChangeQueryBuilder.hasNonTrivialSortKeyAfter(schema, p);
-      return ImmutableList.of(new SortClause(ChangeField.SORTKEY.getName(),
-          !reverse ? SolrQuery.ORDER.desc : SolrQuery.ORDER.asc));
-    } else {
-      return ImmutableList.of(
-          new SortClause(
-            ChangeField.UPDATED.getName(), SolrQuery.ORDER.desc),
-          new SortClause(
-            ChangeField.LEGACY_ID.getName(), SolrQuery.ORDER.desc));
-    }
+  private static List<SortClause> getSorts() {
+    return ImmutableList.of(
+        new SortClause(
+          ChangeField.UPDATED.getName(), SolrQuery.ORDER.desc),
+        new SortClause(
+          ChangeField.LEGACY_ID.getName(), SolrQuery.ORDER.desc));
   }
 
   private void commit(SolrServer server) throws IOException {
@@ -319,17 +309,8 @@ class SolrChangeIndex implements ChangeIndex, LifecycleListener {
         doc.addField(name, value);
       }
     } else if (type == FieldType.TIMESTAMP) {
-      @SuppressWarnings("deprecation")
-      boolean legacy = values.getField() == ChangeField.LEGACY_UPDATED;
-      if (legacy) {
-        for (Object value : values.getValues()) {
-          int t = queryBuilder.toIndexTimeInMinutes((Timestamp) value);
-          doc.addField(name, t);
-        }
-      } else {
-        for (Object value : values.getValues()) {
-          doc.addField(name, ((Timestamp) value).getTime());
-        }
+      for (Object value : values.getValues()) {
+        doc.addField(name, ((Timestamp) value).getTime());
       }
     } else if (type == FieldType.EXACT
         || type == FieldType.PREFIX

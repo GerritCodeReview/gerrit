@@ -37,7 +37,6 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.strategy.SubmitStrategyFactory;
-import com.google.gerrit.server.index.ChangeField;
 import com.google.gerrit.server.index.ChangeIndex;
 import com.google.gerrit.server.index.FieldDef;
 import com.google.gerrit.server.index.IndexCollection;
@@ -126,18 +125,6 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   public static Integer getLimit(Predicate<ChangeData> p) {
     IntPredicate<?> ip = find(p, IntPredicate.class, FIELD_LIMIT);
     return ip != null ? ip.intValue() : null;
-  }
-
-  public static boolean hasNonTrivialSortKeyAfter(Schema<ChangeData> schema,
-      Predicate<ChangeData> p) {
-    SortKeyPredicate after =
-        find(p, SortKeyPredicate.class, "sortkey_after");
-    return after != null && after.getMaxValue(schema) > 0;
-  }
-
-  public static boolean hasSortKey(Predicate<ChangeData> p) {
-    return find(p, SortKeyPredicate.class, "sortkey_after") != null
-        || find(p, SortKeyPredicate.class, "sortkey_before") != null;
   }
 
   @VisibleForTesting
@@ -238,12 +225,12 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
 
   @Operator
   public Predicate<ChangeData> age(String value) {
-    return new AgePredicate(schema(args.indexes), value);
+    return new AgePredicate(value);
   }
 
   @Operator
   public Predicate<ChangeData> before(String value) throws QueryParseException {
-    return new BeforePredicate(schema(args.indexes), value);
+    return new BeforePredicate(value);
   }
 
   @Operator
@@ -253,7 +240,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
 
   @Operator
   public Predicate<ChangeData> after(String value) throws QueryParseException {
-    return new AfterPredicate(schema(args.indexes), value);
+    return new AfterPredicate(value);
   }
 
   @Operator
@@ -374,10 +361,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   }
 
   @Operator
-  public Predicate<ChangeData> projects(String name) throws QueryParseException {
-    if (!schema(args.indexes).hasField(ChangeField.PROJECTS)) {
-      throw new QueryParseException("Unsupported operator: " + FIELD_PROJECTS);
-    }
+  public Predicate<ChangeData> projects(String name) {
     return new ProjectPrefixPredicate(name);
   }
 
@@ -408,8 +392,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   @Operator
   public Predicate<ChangeData> topic(String name) {
     if (name.startsWith("^"))
-      return new RegexTopicPredicate(schema(args.indexes), name);
-    return new TopicPredicate(schema(args.indexes), name);
+      return new RegexTopicPredicate(name);
+    return new TopicPredicate(name);
   }
 
   @Operator
@@ -673,25 +657,6 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     return new LimitPredicate(limit);
   }
 
-  boolean supportsSortKey() {
-    return SortKeyPredicate.hasSortKeyField(schema(args.indexes));
-  }
-
-  @Operator
-  public Predicate<ChangeData> sortkey_after(String sortKey) {
-    return new SortKeyPredicate.After(schema(args.indexes), args.db, sortKey);
-  }
-
-  @Operator
-  public Predicate<ChangeData> sortkey_before(String sortKey) {
-    return new SortKeyPredicate.Before(schema(args.indexes), args.db, sortKey);
-  }
-
-  @Operator
-  public Predicate<ChangeData> resume_sortkey(String sortKey) {
-    return sortkey_before(sortKey);
-  }
-
   @Operator
   public Predicate<ChangeData> added(String value)
       throws QueryParseException {
@@ -717,7 +682,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   }
 
   @Override
-  protected Predicate<ChangeData> defaultField(String query) {
+  protected Predicate<ChangeData> defaultField(String query) throws QueryParseException {
     if (query.startsWith("refs/")) {
       return ref(query);
     } else if (DEF_CHANGE.matcher(query).matches()) {
@@ -752,11 +717,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     }
     predicates.add(message(query));
     predicates.add(comment(query));
-    try {
-      predicates.add(projects(query));
-    } catch (QueryParseException e) {
-      // Skip.
-    }
+    predicates.add(projects(query));
     predicates.add(ref(query));
     predicates.add(branch(query));
     predicates.add(topic(query));

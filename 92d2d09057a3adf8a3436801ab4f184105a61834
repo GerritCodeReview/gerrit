@@ -146,6 +146,24 @@
     },
     {
       "key": {
+        "uuid": "c1870028_e9fd15c6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/Event.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-12-18T11:02:41Z",
+      "side": 1,
+      "message": "And it was added recently in this change:\n\nhttps://gerrit-review.googlesource.com/#/c/62040/5",
+      "parentUuid": "c1870028_a9031d35",
+      "revId": "92d2d09057a3adf8a3436801ab4f184105a61834",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c15d4061_195c4b42",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/HashtagsChangedEvent.java",
         "patchSetId": 1

@@ -164,6 +164,24 @@
     },
     {
       "key": {
+        "uuid": "81818819_a77eea99",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/Event.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2014-12-18T12:16:03Z",
+      "side": 1,
+      "message": "\u003e it\u0027s named createdOn to avoid ambiguity with the createdOn field in the change attribute.\n\nBut these two are in different classes/interfaces?\n\nOK, I see that this name is not invented here but is just moved here due to the refactoring. However, this refactoring might be a good chance to also improve some names...",
+      "parentUuid": "c1870028_a9031d35",
+      "revId": "92d2d09057a3adf8a3436801ab4f184105a61834",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c15d4061_195c4b42",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/HashtagsChangedEvent.java",
         "patchSetId": 1

@@ -19,6 +19,7 @@ import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.events.ChangeEvent;
 import com.google.gerrit.server.events.Event;
 import com.google.gerrit.server.events.RefEvent;
@@ -27,6 +28,8 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import java.util.concurrent.BlockingDeque;
+import java.util.concurrent.LinkedBlockingDeque;
 
 /** An EventSourceImpl which adds a sequenceId to events */
 @Singleton
@@ -45,11 +48,26 @@ public class SequencedEventSource extends EventSourceImpl {
   }
 
   protected int sequenceId = 0;
+  protected BlockingDeque<Event> dq;
 
   @Inject
   public SequencedEventSource(ProjectCache projectCache,
       DynamicSet<EventListener> unrestrictedListeners) {
     super(projectCache, unrestrictedListeners);
+    dq = new LinkedBlockingDeque<>(1000);
+  }
+
+  @Override
+  public synchronized void addEventListener(EventListener listener, CurrentUser user,
+      long sequenceId, ReviewDb db) throws OrmException {
+    for (Event event : dq) {
+      if (sequenceId < new Long(event.sequenceId)) {
+        if (isVisibleTo(event, user, db)) {
+          listener.onEvent(event);
+        }
+      }
+    }
+    addEventListener(listener, user);
   }
 
   @Override
@@ -67,5 +85,8 @@ public class SequencedEventSource extends EventSourceImpl {
 
   public synchronized void sequenceEvent(Event event) {
     event.sequenceId = new Integer(++sequenceId).toString();
+    while (! dq.offer(event)) {
+      dq.poll();
+    }
   }
 }

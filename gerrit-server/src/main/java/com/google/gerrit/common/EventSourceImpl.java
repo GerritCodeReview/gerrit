@@ -72,6 +72,12 @@ public class EventSourceImpl implements EventDispatcher, EventSource {
   }
 
   @Override
+  public void addEventListener(EventListener listener, CurrentUser user,
+      long sequenceId, ReviewDb db) throws OrmException {
+    addEventListener(listener, user);
+  }
+
+  @Override
   public void removeEventListener(EventListener listener) {
     listeners.remove(listener);
   }
@@ -123,7 +129,21 @@ public class EventSourceImpl implements EventDispatcher, EventSource {
     }
   }
 
-  private boolean isVisibleTo(Change change, CurrentUser user, ReviewDb db)
+  protected boolean isVisibleTo(Event event, CurrentUser user, ReviewDb db)
+      throws OrmException {
+    if (event instanceof ChangeEvent) {
+      ChangeEvent cev = (ChangeEvent) event;
+      Change change = db.changes().get(cev.getChangeId());
+      return isVisibleTo(change, user, db);
+    }
+    if (event instanceof RefEvent) {
+      RefEvent rev = (RefEvent) event;
+      return isVisibleTo(rev.getBranchNameKey(), user);
+    }
+    return true;
+  }
+
+  protected boolean isVisibleTo(Change change, CurrentUser user, ReviewDb db)
       throws OrmException {
     ProjectState pe = projectCache.get(change.getProject());
     if (pe == null) {
@@ -133,7 +153,7 @@ public class EventSourceImpl implements EventDispatcher, EventSource {
     return pc.controlFor(change).isVisible(db);
   }
 
-  private boolean isVisibleTo(Branch.NameKey branchName, CurrentUser user) {
+  protected boolean isVisibleTo(Branch.NameKey branchName, CurrentUser user) {
     ProjectState pe = projectCache.get(branchName.getParentKey());
     if (pe == null) {
       return false;

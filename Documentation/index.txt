@@ -1,4 +1,4 @@
-= Gerrit Code Review for Git
+= Gerrit Code Review for Git f
 
 == Tutorial
 . Getting started
@@ -9,6 +9,7 @@
 .. Registering a new Gerrit account
 .. link:user-review-ui.html[Reviewing Changes]
 .. link:user-search.html[Searching Changes]
+.. link:user-inline-edit.html[Manipulating Changes in Browser]
 .. link:user-notify.html[Subscribing to Email Notifications]
 . SSH
 .. SSH connection details

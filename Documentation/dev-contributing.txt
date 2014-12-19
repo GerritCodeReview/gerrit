@@ -323,6 +323,17 @@ Fixes that are known to be needed for a particular release should be pushed
 for review on that release's stable branch.  It will then be included in
 the master branch when the stable branch is merged back.
 
+=== Updating to new version of GWT
+
+When updating to a new version of GWT, there are several things that also need
+to be updated or at least checked.
+
+* Update common and plugin dependencies in `tools/gwt-constants.defs`.
+* Update to the same GWT version in the cookbook plugin and optionally in other
+plugins that are using GWT.
+* Update the GWT version in the archetype metadata in the
+`gerrit-plugin-gwt-archetype`.
+* Update to the same GWT version in the `gwtjsonrpc` project.
 
 GERRIT
 ------

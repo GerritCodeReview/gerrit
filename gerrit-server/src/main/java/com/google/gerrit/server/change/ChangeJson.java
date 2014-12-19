@@ -368,7 +368,6 @@ public class ChangeJson {
     out.created = in.getCreatedOn();
     out.updated = in.getLastUpdatedOn();
     out._number = in.getId().get();
-    out._sortkey = in.getSortKey();
     out.starred = userProvider.get().getStarredChanges().contains(in.getId())
         ? true
         : null;

@@ -55,11 +55,6 @@ public interface ChangeAccess extends Access<Change, Change.Id> {
   @Query("WHERE open = true AND dest = ?")
   ResultSet<Change> byBranchOpenAll(Branch.NameKey p) throws OrmException;
 
-  @Query("WHERE open = true AND dest.projectName = ? AND sortKey < ?"
-      + " ORDER BY sortKey DESC LIMIT ?")
-  ResultSet<Change> byProjectOpenNext(Project.NameKey p, String sortKey,
-      int limit) throws OrmException;
-
   @Query
   ResultSet<Change> all() throws OrmException;
 }

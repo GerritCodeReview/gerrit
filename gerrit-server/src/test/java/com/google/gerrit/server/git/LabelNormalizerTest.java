@@ -34,7 +34,6 @@ import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.PatchSetApproval.LabelId;
 import com.google.gerrit.reviewdb.client.PatchSetInfo;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AuthRequest;
@@ -112,7 +111,6 @@ public class LabelNormalizerTest {
         new Change.Id(1), userId,
         new Branch.NameKey(allProjects, "refs/heads/master"),
         TimeUtil.nowTs());
-    ChangeUtil.computeSortKey(change);
     PatchSetInfo ps = new PatchSetInfo(new PatchSet.Id(change.getId(), 1));
     ps.setSubject("Test change");
     change.setCurrentPatchSet(ps);

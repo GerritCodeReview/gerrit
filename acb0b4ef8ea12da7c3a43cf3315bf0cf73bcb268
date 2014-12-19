@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "212a9c14_d4f27cfd",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-12-19T07:01:30Z",
+      "side": 1,
+      "message": "Reworded this a bit.",
+      "parentUuid": "e181644d_f2cea8c0",
+      "revId": "acb0b4ef8ea12da7c3a43cf3315bf0cf73bcb268",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e181644d_92d39c6b",
         "filename": "Documentation/dev-contributing.txt",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2014-12-19T06:57:25Z",
       "side": 1,
       "message": "And release new version of gwtjsonrpc.",
+      "revId": "acb0b4ef8ea12da7c3a43cf3315bf0cf73bcb268",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "412dd028_d5f27cfd",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-12-19T07:01:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e181644d_92d39c6b",
       "revId": "acb0b4ef8ea12da7c3a43cf3315bf0cf73bcb268",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

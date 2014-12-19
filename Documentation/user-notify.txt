@@ -18,7 +18,9 @@ are visible to the user.
 
 link:user-search.html[Change search expressions] can be used to filter
 change notifications to specific subsets, for example `branch:master`
-to only see changes proposed for the master branch.
+to only see changes proposed for the master branch. If a filter would
+match at the `All-Projects` level as well as a specific project, the
+more specific project's notification settings are used.
 
 Notification mails for new changes and new patch sets are not sent to
 the change owner.

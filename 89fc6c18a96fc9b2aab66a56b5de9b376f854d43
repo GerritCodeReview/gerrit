@@ -77,6 +77,24 @@
     },
     {
       "key": {
+        "uuid": "c1862065_3113d080",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommitsAdvertiseRefsHook.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-12-19T22:16:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c1862065_91215cc7",
+      "revId": "89fc6c18a96fc9b2aab66a56b5de9b376f854d43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6130147f_76329012",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommitsAdvertiseRefsHook.java",
         "patchSetId": 1
@@ -88,6 +106,30 @@
       "writtenOn": "2014-12-19T21:52:27Z",
       "side": 1,
       "message": "use qp you got above. Otherwise the limit was discarded?",
+      "range": {
+        "startLine": 181,
+        "startChar": 29,
+        "endLine": 181,
+        "endChar": 49
+      },
+      "revId": "89fc6c18a96fc9b2aab66a56b5de9b376f854d43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6130147f_b67ca8a5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommitsAdvertiseRefsHook.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-12-19T22:16:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6130147f_76329012",
       "range": {
         "startLine": 181,
         "startChar": 29,

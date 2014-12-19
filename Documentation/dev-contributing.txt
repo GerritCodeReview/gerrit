@@ -1,25 +1,26 @@
 = Gerrit Code Review - Contributing
 
 == Introduction
-Gerrit is developed as a self-hosting open source project and
-very much welcomes contributions from anyone with a contributor's
+Gerrit is developed as a
+link:https://gerrit-review.googlesource.com/[self-hosting open source project]
+and very much welcomes contributions from anyone with a contributor's
 agreement on file with the project.
-
-* https://gerrit-review.googlesource.com/
 
 == Contributor License Agreement
 A Contributor License Agreement must be completed before contributions
 are accepted.  To view and accept the agreements do the following:
 
-* Click "Sign In" at the top right corner of https://gerrit-review.googlesource.com/
+* Click 'Sign In' at the top right corner of https://gerrit-review.googlesource.com/
 * Sign In with your Google account
-* After signing in, go to https://gerrit-review.googlesource.com/#/settings/agreements
-* Click "New Contributor Agreement" and follow the instructions
+* After signing in, go to the
+link:https://gerrit-review.googlesource.com/#/settings/agreements[Agreements]
+tab on the settings page
+* Click 'New Contributor Agreement' and follow the instructions
 
 For reference, the actual agreements are linked below
 
-* https://cla.developers.google.com/about/android-individual
-* https://source.android.com/source/cla-corporate.pdf
+* link:https://cla.developers.google.com/about/android-individual[Individual Agreement]
+* link:https://source.android.com/source/cla-corporate.pdf[Corporate Agreement]
 
 == Code Review
 As Gerrit is a code review tool, naturally contributions will
@@ -28,9 +29,8 @@ start your contribution, please make a git commit and upload it
 for review to the main Gerrit review server.  To help speed up the
 review of your change, review these guidelines before submitting
 your change.  You can view the pending Gerrit contributions and
-their statuses here:
-
-* https://gerrit-review.googlesource.com/#/q/status:open+project:gerrit
+their statuses
+link:https://gerrit-review.googlesource.com/#/q/status:open+project:gerrit[here].
 
 Depending on the size of that list it might take a while for
 your change to get reviewed.  Naturally there are fewer
@@ -78,13 +78,13 @@ change to be reviewed.
   * Followed by one or more explanatory paragraphs
   * Use the present tense (fix instead of fixed)
   * Use the past tense when describing the status before this commit
-  * Include a Bug: Issue <#> line if fixing a Gerrit issue
-  * Include a Change-Id line
+  * Include a `Bug: Issue <#>` line if fixing a Gerrit issue
+  * Include a `Change-Id` line
 
 === Setting up Vim for Git commit message
 
 Git uses Vim as the default commit message editor. Put this into your
-$HOME/.vimrc file to configure Vim for Git commit message formatting
+`$HOME/.vimrc` file to configure Vim for Git commit message formatting
 and writing:
 
 ====
@@ -114,8 +114,8 @@ and writing:
   Change-Id: Ic4a7c07eeb98cdeaf44e9d231a65a51f3fceae52
 ====
 
-The Change-Id is, as usual, created by a local git hook.  To install it, simply
-copy it from the checkout and make it executable:
+The `Change-Id` line is, as usual, created by a local git hook.  To install it,
+simply copy it from the checkout and make it executable:
 
 ====
   cp ./gerrit-server/src/main/resources/com/google/gerrit/server/tools/root/hooks/commit-msg .git/hooks/
@@ -138,7 +138,7 @@ To set up git's remote for easy pushing, run the following:
 ====
 
 The HTTPS access requires proper username and password; this can be obtained
-by clicking the "Obtain Password" link on the
+by clicking the 'Obtain Password' link on the
 link:https://gerrit-review.googlesource.com/#/settings/http-password[HTTP
 Password tab of the user settings page].
 
@@ -219,8 +219,8 @@ Here are some guidelines that Gerrit uses:
     be near each other barring a good reason not to.
   * If you are using assisted injection, the factory for your class
     should be before the instance members.
-  * Annotations should go before language keywords (final, private...) +
-    Example: @Assisted @Nullable final type varName
+  * Annotations should go before language keywords (`final`, `private`, etc) +
+    Example: `@Assisted @Nullable final type varName`
   * Imports should be mostly alphabetical (uppercase sorts before
     all lowercase, which means classes come before packages at the
     same level).
@@ -251,7 +251,7 @@ when coding:
     mitigating this longer load by using a second RPC to fill in
     this data after the page is displayed (or alternatively it might
     be worth proposing caching this data).
-  * @Inject should be used on constructors, not on fields.  The
+  * `@Inject` should be used on constructors, not on fields.  The
     current exceptions are the ssh commands, these were implemented
     earlier in Gerrit's development.  To stay consistent, new ssh
     commands should follow this older pattern; but eventually these
@@ -305,9 +305,9 @@ especially if changing one without the other will break something!
   * Do only what the commit message describes.  In other words, things which
     are not strictly related to the commit message shouldn't be part of
     a change, even trivial things like externalizing a string somewhere
-    or fixing a typo.  This help keep "git blame" more useful in the future
-    and it also makes "git revert" more useful.
-  * Use topic branches to link your separate changes together.
+    or fixing a typo.  This helps keep `git blame` more useful in the future
+    and it also makes `git revert` more useful.
+  * Use topics to link your separate changes together.
 
 [[process]]
 == Process

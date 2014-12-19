@@ -323,31 +323,28 @@ public class RebaseChange {
   }
 
   /**
-   * Rebases a commit.
+   * Rebase a commit.
    *
-   * @param git repository to find commits in
-   * @param inserter inserter to handle new trees and blobs
-   * @param original The commit to rebase
-   * @param base Base to rebase against
-   * @param mergeUtil merge utilities for the destination project
-   * @param committerIdent committer identity
-   * @return the id of the rebased commit
-   * @throws IOException Merged failed
-   * @throws PathConflictException the rebase failed due to a path conflict
+   * @param git repository to find commits in.
+   * @param inserter inserter to handle new trees and blobs.
+   * @param original the commit to rebase.
+   * @param base base to rebase against.
+   * @param mergeUtil merge utilities for the destination project.
+   * @param committerIdent committer identity.
+   * @return the id of the rebased commit.
+   * @throws MergeConflictException the rebase failed due to a merge conflict.
+   * @throws IOException the merge failed for another reason.
    */
-  private ObjectId rebaseCommit(final Repository git,
-      final ObjectInserter inserter, final RevCommit original,
-      final RevCommit base, final MergeUtil mergeUtil,
-      final PersonIdent committerIdent) throws IOException,
-      MergeConflictException {
-
-    final RevCommit parentCommit = original.getParent(0);
+  private ObjectId rebaseCommit(Repository git, ObjectInserter inserter,
+      RevCommit original, RevCommit base, MergeUtil mergeUtil,
+      PersonIdent committerIdent) throws MergeConflictException, IOException {
+    RevCommit parentCommit = original.getParent(0);
 
     if (base.equals(parentCommit)) {
       throw new IOException("Change is already up to date.");
     }
 
-    final ThreeWayMerger merger = mergeUtil.newThreeWayMerger(git, inserter);
+    ThreeWayMerger merger = mergeUtil.newThreeWayMerger(git, inserter);
     merger.setBase(parentCommit);
     merger.merge(original, base);
 
@@ -356,13 +353,13 @@ public class RebaseChange {
           "The change could not be rebased due to a conflict during merge.");
     }
 
-    final CommitBuilder cb = new CommitBuilder();
+    CommitBuilder cb = new CommitBuilder();
     cb.setTreeId(merger.getResultTreeId());
     cb.setParentId(base);
     cb.setAuthor(original.getAuthorIdent());
     cb.setMessage(original.getFullMessage());
     cb.setCommitter(committerIdent);
-    final ObjectId objectId = inserter.insert(cb);
+    ObjectId objectId = inserter.insert(cb);
     inserter.flush();
     return objectId;
   }

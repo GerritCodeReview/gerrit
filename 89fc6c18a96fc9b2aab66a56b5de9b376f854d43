@@ -2,6 +2,46 @@
   "comments": [
     {
       "key": {
+        "uuid": "6130147f_563514f7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommitsAdvertiseRefsHook.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-12-19T21:52:27Z",
+      "side": 1,
+      "message": "This saw and threw out the refs/changes/... ref objects needed to go from PatchSet.Id to ObjectId without a database lookup.",
+      "revId": "89fc6c18a96fc9b2aab66a56b5de9b376f854d43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c1862065_7109584c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommitsAdvertiseRefsHook.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-12-19T21:52:27Z",
+      "side": 1,
+      "message": "Hilariously I think we have the refs in memory already. We skipped them above. We can probably kill this database query in another follow up commit while we are in here mucking around.",
+      "range": {
+        "startLine": 112,
+        "startChar": 6,
+        "endLine": 116,
+        "endChar": 7
+      },
+      "revId": "89fc6c18a96fc9b2aab66a56b5de9b376f854d43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6130147f_3613b880",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommitsAdvertiseRefsHook.java",
         "patchSetId": 1
@@ -31,6 +71,29 @@
       "side": 1,
       "message": "Don\u0027t hand a text query. Build the predicate graph by hand?",
       "parentUuid": "6130147f_3613b880",
+      "revId": "89fc6c18a96fc9b2aab66a56b5de9b376f854d43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6130147f_76329012",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommitsAdvertiseRefsHook.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-12-19T21:52:27Z",
+      "side": 1,
+      "message": "use qp you got above. Otherwise the limit was discarded?",
+      "range": {
+        "startLine": 181,
+        "startChar": 29,
+        "endLine": 181,
+        "endChar": 49
+      },
       "revId": "89fc6c18a96fc9b2aab66a56b5de9b376f854d43",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

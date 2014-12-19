@@ -15,6 +15,8 @@
 package com.google.gerrit.acceptance.edit;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.acceptance.GitUtil.cloneProject;
+import static com.google.gerrit.acceptance.GitUtil.createProject;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
@@ -239,6 +241,26 @@ public class ChangeEditIT extends AbstractDaemonTest {
     editUtil.delete(edit.get());
     edit = editUtil.byChange(change);
     assertThat(edit.isPresent()).isFalse();
+  }
+
+  @Test
+  public void updateRootCommitMessage() throws Exception {
+    createProject(sshSession, "root-msg-test", null, false);
+    git = cloneProject(sshSession.getUrl() + "/root-msg-test");
+    changeId = newChange(git, admin.getIdent());
+    change = getChange(changeId);
+
+    assertThat(modifier.createEdit(change, getCurrentPatchSet(changeId)))
+        .isEqualTo(RefUpdate.Result.NEW);
+    Optional<ChangeEdit> edit = editUtil.byChange(change);
+    assertThat(edit.get().getEditCommit().getParentCount()).isEqualTo(0);
+
+    String msg = String.format("New commit message\n\nChange-Id: %s",
+        change.getKey());
+    assertThat(modifier.modifyMessage(edit.get(), msg))
+        .isEqualTo(RefUpdate.Result.FORCED);
+    edit = editUtil.byChange(change);
+    assertThat(edit.get().getEditCommit().getFullMessage()).isEqualTo(msg);
   }
 
   @Test

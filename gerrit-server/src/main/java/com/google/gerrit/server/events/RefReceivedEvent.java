@@ -19,7 +19,7 @@ import com.google.gerrit.server.IdentifiedUser;
 
 import org.eclipse.jgit.transport.ReceiveCommand;
 
-public class RefOperationReceivedEvent extends ChangeEvent {
+public class RefReceivedEvent extends ChangeEvent {
   public final String type = "ref-received";
   public ReceiveCommand command;
   public Project project;

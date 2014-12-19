@@ -16,15 +16,19 @@ package com.google.gerrit.server.git;
 
 import static org.eclipse.jgit.lib.RefDatabase.ALL;
 
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.query.QueryParseException;
+import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.server.query.change.QueryProcessor;
 import com.google.gerrit.server.util.MagicBranch;
 import com.google.gwtorm.server.OrmException;
+import com.google.inject.Provider;
 
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
@@ -48,11 +52,14 @@ public class ReceiveCommitsAdvertiseRefsHook implements AdvertiseRefsHook {
       .getLogger(ReceiveCommitsAdvertiseRefsHook.class);
 
   private final ReviewDb db;
+  private final Provider<QueryProcessor> queryProcessor;
   private final Project.NameKey projectName;
 
   public ReceiveCommitsAdvertiseRefsHook(ReviewDb db,
+      Provider<QueryProcessor> queryProcessor,
       Project.NameKey projectName) {
     this.db = db;
+    this.queryProcessor = queryProcessor;
     this.projectName = projectName;
   }
 
@@ -93,10 +100,11 @@ public class ReceiveCommitsAdvertiseRefsHook implements AdvertiseRefsHook {
     Set<ObjectId> toInclude = Sets.newHashSet();
 
     // Advertise some recent open changes, in case a commit is based one.
+    final int limit = 32;
     try {
-      Set<PatchSet.Id> toGet = Sets.newHashSetWithExpectedSize(32);
-      for (Change c : db.changes().byProjectOpenNext(projectName, "z", 32)) {
-        PatchSet.Id id = c.currentPatchSetId();
+      Set<PatchSet.Id> toGet = Sets.newHashSetWithExpectedSize(limit);
+      for (ChangeData cd : queryRecentChanges(limit)) {
+        PatchSet.Id id = cd.change().currentPatchSetId();
         if (id != null) {
           toGet.add(id);
         }
@@ -162,6 +170,18 @@ public class ReceiveCommitsAdvertiseRefsHook implements AdvertiseRefsHook {
     }
     rw.reset();
     return toInclude;
+  }
+
+  private Iterable<ChangeData> queryRecentChanges(int limit)
+      throws OrmException {
+    QueryProcessor qp = queryProcessor.get();
+    qp.setLimit(limit);
+    String query = "project:{" + projectName + "} is:open";
+    try {
+      return Iterables.limit(queryProcessor.get().queryChanges(query), limit);
+    } catch (QueryParseException e) {
+      throw new IllegalStateException(e);
+    }
   }
 
   private static boolean skip(String name) {

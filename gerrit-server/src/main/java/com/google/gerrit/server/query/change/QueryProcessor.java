@@ -110,7 +110,7 @@ public class QueryProcessor {
     return limit;
   }
 
-  void setLimit(int n) {
+  public void setLimit(int n) {
     limit = n;
   }
 

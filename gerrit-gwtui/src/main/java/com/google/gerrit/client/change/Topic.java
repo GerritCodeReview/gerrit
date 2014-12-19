@@ -97,6 +97,7 @@ class Topic extends Composite {
 
   void onEdit() {
     if (canEdit) {
+      UIObject.setVisible(show, false);
       UIObject.setVisible(form, true);
 
       input.setText(text.getText());
@@ -108,6 +109,7 @@ class Topic extends Composite {
   void onCancel(@SuppressWarnings("unused") ClickEvent e) {
     input.setFocus(false);
     UIObject.setVisible(form, false);
+    UIObject.setVisible(show, true);
   }
 
   @UiHandler("input")

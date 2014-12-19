@@ -15,6 +15,7 @@
 package com.google.gerrit.server.query.change;
 
 import com.google.auto.value.AutoValue;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.server.query.Predicate;
 
 import java.util.List;
@@ -22,8 +23,8 @@ import java.util.List;
 /** Results of a query over changes. */
 @AutoValue
 public abstract class QueryResult {
-  static QueryResult create(String query, Predicate<ChangeData> predicate,
-      int limit, List<ChangeData> changes) {
+  static QueryResult create(@Nullable String query,
+      Predicate<ChangeData> predicate, int limit, List<ChangeData> changes) {
     boolean moreChanges;
     if (changes.size() > limit) {
       moreChanges = true;
@@ -34,8 +35,11 @@ public abstract class QueryResult {
     return new AutoValue_QueryResult(query, predicate, changes, moreChanges);
   }
 
-  /** @return the original query string. */
-  public abstract String query();
+  /**
+   * @return the original query string, or null if the query was created
+   *     programmatically.
+   */
+  @Nullable public abstract String query();
 
   /**
    * @return the predicate after all rewriting and other modification by the

@@ -135,7 +135,7 @@ public class QueryChanges implements RestReadView<TopLevelResource> {
   private List<List<ChangeInfo>> query0() throws OrmException,
       QueryParseException {
     int cnt = queries.size();
-    List<QueryResult> results = imp.queryChanges(queries);
+    List<QueryResult> results = imp.queryByStrings(queries);
     List<List<ChangeInfo>> res = json.addOptions(options)
         .formatQueryResults(results);
     for (int n = 0; n < cnt; n++) {

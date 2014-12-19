@@ -188,13 +188,6 @@ match the Java sources.
   http://localhost:8080/?dbg=1
 ----
 
-To use the GWT DETAILED style the package must be recompiled and
-`?dbg=1` must be omitted from the URL:
-
-----
-  mvn package -Dgwt.style=DETAILED
-----
-
 
 == Client-Server RPC
 

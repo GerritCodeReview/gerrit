@@ -33,6 +33,12 @@ public enum CommitMergeStatus {
                   + "Please rebase the change locally and upload the rebased commit for review."),
 
   /** */
+  REBASE_MERGE_CONFLICT(
+      "The change could not be merged due to a conflict.\n"
+          + "\n"
+          + "Please rebase the change locally and upload the rebased commit for review."),
+
+  /** */
   MISSING_DEPENDENCY(""),
 
   /** */

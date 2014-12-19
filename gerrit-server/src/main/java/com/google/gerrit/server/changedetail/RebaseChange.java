@@ -31,6 +31,7 @@ import com.google.gerrit.server.change.PatchSetInserter;
 import com.google.gerrit.server.change.PatchSetInserter.ValidatePolicy;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.git.MergeConflictException;
 import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
@@ -138,7 +139,7 @@ public class RebaseChange {
           uploader, baseCommit, mergeUtilFactory.create(
               changeControl.getProjectControl().getProjectState(), true),
           committerIdent, true, true, ValidatePolicy.GERRIT);
-    } catch (PathConflictException e) {
+    } catch (MergeConflictException e) {
       throw new IOException(e.getMessage());
     } finally {
       if (inserter != null) {
@@ -281,7 +282,7 @@ public class RebaseChange {
       boolean sendMail, boolean runHooks, ValidatePolicy validate)
           throws NoSuchChangeException,
       OrmException, IOException, InvalidChangeOperationException,
-      PathConflictException {
+      MergeConflictException {
     if (!change.currentPatchSetId().equals(patchSetId)) {
       throw new InvalidChangeOperationException("patch set is not current");
     }
@@ -338,7 +339,7 @@ public class RebaseChange {
       final ObjectInserter inserter, final RevCommit original,
       final RevCommit base, final MergeUtil mergeUtil,
       final PersonIdent committerIdent) throws IOException,
-      PathConflictException {
+      MergeConflictException {
 
     final RevCommit parentCommit = original.getParent(0);
 
@@ -351,8 +352,8 @@ public class RebaseChange {
     merger.merge(original, base);
 
     if (merger.getResultTreeId() == null) {
-      throw new PathConflictException(
-          "The change could not be rebased due to a path conflict during merge.");
+      throw new MergeConflictException(
+          "The change could not be rebased due to a conflict during merge.");
     }
 
     final CommitBuilder cb = new CommitBuilder();

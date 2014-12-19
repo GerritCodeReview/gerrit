@@ -14,11 +14,11 @@
 
 package com.google.gerrit.rules;
 
+import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.common.data.Permission.LABEL;
 import static com.google.gerrit.server.project.Util.allow;
 import static com.google.gerrit.server.project.Util.category;
 import static com.google.gerrit.server.project.Util.value;
-import static com.google.common.truth.Truth.assertThat;
 import static org.junit.Assert.fail;
 
 import com.google.gerrit.common.TimeUtil;

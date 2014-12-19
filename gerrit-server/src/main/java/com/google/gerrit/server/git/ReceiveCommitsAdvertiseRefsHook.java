@@ -44,6 +44,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -173,7 +174,7 @@ public class ReceiveCommitsAdvertiseRefsHook implements AdvertiseRefsHook {
     return toInclude;
   }
 
-  private Iterable<ChangeData> queryRecentChanges(int limit)
+  private List<ChangeData> queryRecentChanges(int limit)
       throws OrmException {
     QueryProcessor qp = queryProcessor.get();
     qp.setLimit(limit);

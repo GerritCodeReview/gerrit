@@ -433,9 +433,7 @@ public final class Change {
   @Column(id = 5)
   protected Timestamp lastUpdatedOn;
 
-  /** A {@link #lastUpdatedOn} ASC,{@link #changeId} ASC for sorting. */
-  @Column(id = 6, length = 16)
-  protected String sortKey;
+  // DELETED: id = 6 (sortkey)
 
   @Column(id = 7, name = "owner_account_id")
   protected Account.Id owner;
@@ -489,7 +487,6 @@ public final class Change {
     rowVersion = other.rowVersion;
     createdOn = other.createdOn;
     lastUpdatedOn = other.lastUpdatedOn;
-    sortKey = other.sortKey;
     owner = other.owner;
     dest = other.dest;
     open = other.open;
@@ -532,14 +529,6 @@ public final class Change {
 
   public int getRowVersion() {
     return rowVersion;
-  }
-
-  public String getSortKey() {
-    return sortKey;
-  }
-
-  public void setSortKey(final String newSortKey) {
-    sortKey = newSortKey;
   }
 
   public Account.Id getOwner() {

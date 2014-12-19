@@ -15,15 +15,10 @@
 package com.google.gerrit.server;
 
 import static com.google.gerrit.server.change.PatchSetInserter.ValidatePolicy.RECEIVE_COMMITS;
-import static java.util.concurrent.TimeUnit.MILLISECONDS;
-import static java.util.concurrent.TimeUnit.MINUTES;
-import static java.util.concurrent.TimeUnit.SECONDS;
 
-import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Optional;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
-import com.google.common.primitives.Ints;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.reviewdb.client.Change;
@@ -85,15 +80,6 @@ import java.util.Map;
 
 @Singleton
 public class ChangeUtil {
-  /**
-   * Epoch for sort key calculations, Tue Sep 30 2008 17:00:00.
-   * <p>
-   * We overrun approximately 4,083 years later, so ~6092.
-   */
-  @VisibleForTesting
-  private static final long SORT_KEY_EPOCH_MINS =
-      MINUTES.convert(1222819200L, SECONDS);
-
   private static final Object uuidLock = new Object();
   private static final int SEED = 0x2418e6f9;
   private static int uuidPrefix;
@@ -150,7 +136,6 @@ public class ChangeUtil {
 
   public static void updated(Change c) {
     c.setLastUpdatedOn(TimeUtil.nowTs());
-    computeSortKey(c);
   }
 
   public static void insertAncestors(ReviewDb db, PatchSet.Id id, RevCommit src)
@@ -164,29 +149,6 @@ public class ChangeUtil {
       toInsert.add(a);
     }
     db.patchSetAncestors().insert(toInsert);
-  }
-
-  public static String sortKey(long lastUpdatedMs, int id) {
-    long lastUpdatedMins = MINUTES.convert(lastUpdatedMs, MILLISECONDS);
-    long minsSinceEpoch = lastUpdatedMins - SORT_KEY_EPOCH_MINS;
-    StringBuilder r = new StringBuilder(16);
-    r.setLength(16);
-    formatHexInt(r, 0, Ints.checkedCast(minsSinceEpoch));
-    formatHexInt(r, 8, id);
-    return r.toString();
-  }
-
-  public static long parseSortKey(String sortKey) {
-    if ("z".equals(sortKey)) {
-      return Long.MAX_VALUE;
-    }
-    return Long.parseLong(sortKey, 16);
-  }
-
-  public static void computeSortKey(Change c) {
-    long lastUpdatedMs = c.getLastUpdatedOn().getTime();
-    int id = c.getId().get();
-    c.setSortKey(sortKey(lastUpdatedMs, id));
   }
 
   public static PatchSet.Id nextPatchSetId(Map<String, Ref> allRefs,
@@ -584,20 +546,5 @@ public class ChangeUtil {
 
   public static PatchSet.Id nextPatchSetId(PatchSet.Id id) {
     return new PatchSet.Id(id.getParentKey(), id.get() + 1);
-  }
-
-  private static final char[] hexchar =
-      {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', //
-          'a', 'b', 'c', 'd', 'e', 'f'};
-
-  private static void formatHexInt(final StringBuilder dst, final int p, int w) {
-    int o = p + 7;
-    while (o >= p && w != 0) {
-      dst.setCharAt(o--, hexchar[w & 0xf]);
-      w >>>= 4;
-    }
-    while (o >= p) {
-      dst.setCharAt(o--, '0');
-    }
   }
 }

@@ -31,7 +31,6 @@ public class ChangeAttribute {
 
     public Long createdOn;
     public Long lastUpdated;
-    public String sortKey;
     public Boolean open;
     public Change.Status status;
     public List<MessageAttribute> comments;

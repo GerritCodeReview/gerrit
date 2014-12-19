@@ -58,7 +58,7 @@ modified by any project owner through the project console, `Projects` >
 [[fast_forward_only]]
 * Fast Forward Only
 +
-This method produces a strictly linear history.  All merges must
+With this method no merge commits are produced. All merges must
 be handled on the client, prior to uploading to Gerrit for review.
 +
 To submit a change, the change must be a strict superset of the

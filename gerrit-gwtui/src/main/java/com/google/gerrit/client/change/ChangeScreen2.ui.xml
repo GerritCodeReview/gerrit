@@ -286,6 +286,7 @@ limitations under the License.
       font-weight: bold;
       color: textColor;
       height: 20px;
+      line-height: 20px;
       margin: 0 -5px;
       padding: 5px 5px;
     }

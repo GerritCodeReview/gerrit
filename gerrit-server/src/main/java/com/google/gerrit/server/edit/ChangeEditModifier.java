@@ -126,10 +126,9 @@ public class ChangeEditModifier {
       RevWalk rw = new RevWalk(repo);
       ObjectInserter inserter = repo.newObjectInserter();
       try {
-        RevCommit base = rw.parseCommit(ObjectId.fromString(
+        RevCommit revision = rw.parseCommit(ObjectId.fromString(
             ps.getRevision().get()));
-        RevCommit changeBase = base.getParent(0);
-        ObjectId commit = createCommit(me, inserter, base, changeBase, base.getTree());
+        ObjectId commit = createCommit(me, inserter, revision, revision.getTree());
         inserter.flush();
         String editRefName = editRefName(me.getAccountId(), change.getId(),
             ps.getId());
@@ -236,12 +235,8 @@ public class ChangeEditModifier {
     if (!currentUser.get().isIdentifiedUser()) {
       throw new AuthException("Authentication required");
     }
-    RevCommit prevEdit = edit.getEditCommit();
-    if (prevEdit.getParentCount() == 0) {
-      throw new InvalidChangeOperationException(
-          "Modify edit against root commit not supported");
-    }
 
+    RevCommit prevEdit = edit.getEditCommit();
     if (prevEdit.getFullMessage().equals(msg)) {
       throw new UnchangedCommitMessageException();
     }
@@ -254,7 +249,6 @@ public class ChangeEditModifier {
       try {
         String refName = edit.getRefName();
         ObjectId commit = createCommit(me, inserter, prevEdit,
-            rw.parseCommit(prevEdit.getParent(0)),
             prevEdit.getTree(),
             msg);
         inserter.flush();
@@ -332,20 +326,18 @@ public class ChangeEditModifier {
       try {
         String refName = edit.getRefName();
         RevCommit prevEdit = edit.getEditCommit();
-        if (prevEdit.getParentCount() == 0) {
-          throw new InvalidChangeOperationException(
-              "Modify edit against root commit not supported");
-        }
-
-        RevCommit base = prevEdit.getParent(0);
-        base = rw.parseCommit(base);
-        ObjectId newTree = writeNewTree(op, rw, inserter,
-            prevEdit, reader, file, toBlob(inserter, content), base);
+        ObjectId newTree = writeNewTree(op,
+            rw,
+            inserter,
+            prevEdit,
+            reader,
+            file,
+            toBlob(inserter, content));
         if (ObjectId.equals(newTree, prevEdit.getTree())) {
           throw new InvalidChangeOperationException("no changes were made");
         }
 
-        ObjectId commit = createCommit(me, inserter, prevEdit, base, newTree);
+        ObjectId commit = createCommit(me, inserter, prevEdit, newTree);
         inserter.flush();
         return update(repo, me, refName, rw, prevEdit, commit);
       } finally {
@@ -373,18 +365,18 @@ public class ChangeEditModifier {
   }
 
   private ObjectId createCommit(IdentifiedUser me, ObjectInserter inserter,
-      RevCommit prevEdit, RevCommit base, ObjectId tree) throws IOException {
-    return createCommit(me, inserter, prevEdit, base, tree,
-        prevEdit.getFullMessage());
+      RevCommit revision, ObjectId tree) throws IOException {
+    return createCommit(me, inserter, revision, tree,
+        revision.getFullMessage());
   }
 
   private ObjectId createCommit(IdentifiedUser me, ObjectInserter inserter,
-      RevCommit prevEdit, RevCommit base, ObjectId tree, String msg)
+      RevCommit revision, ObjectId tree, String msg)
       throws IOException {
     CommitBuilder builder = new CommitBuilder();
     builder.setTreeId(tree);
-    builder.setParentIds(base);
-    builder.setAuthor(prevEdit.getAuthorIdent());
+    builder.setParentIds(revision.getParents());
+    builder.setAuthor(revision.getAuthorIdent());
     builder.setCommitter(getCommitterIdent(me));
     builder.setMessage(msg);
     return inserter.insert(builder);
@@ -408,8 +400,8 @@ public class ChangeEditModifier {
 
   private static ObjectId writeNewTree(TreeOperation op, RevWalk rw,
       ObjectInserter ins, RevCommit prevEdit, ObjectReader reader,
-      String fileName, final @Nullable ObjectId content, RevCommit base)
-      throws IOException, InvalidChangeOperationException {
+      String fileName, final @Nullable ObjectId content)
+      throws IOException {
     DirCache newTree = readTree(reader, prevEdit);
     DirCacheEditor dce = newTree.editor();
     switch (op) {
@@ -431,21 +423,18 @@ public class ChangeEditModifier {
         break;
 
       case RESTORE_ENTRY:
-        TreeWalk tw = TreeWalk.forPath(
-            rw.getObjectReader(),
-            fileName,
-            base.getTree().getId());
-
-        // If the file does not exist in the base commit, try to restore it
-        // from the base's parent commit.
-        if (tw == null && base.getParentCount() == 1) {
-          tw = TreeWalk.forPath(rw.getObjectReader(), fileName,
-              rw.parseCommit(base.getParent(0)).getTree());
+        if (prevEdit.getParentCount() == 0) {
+          dce.add(new DeletePath(fileName));
+          break;
         }
+
+        RevCommit base = prevEdit.getParent(0);
+        rw.parseHeaders(base);
+        TreeWalk tw =
+            TreeWalk.forPath(rw.getObjectReader(), fileName, base.getTree());
         if (tw == null) {
-          throw new InvalidChangeOperationException(String.format(
-              "cannot restore path %s: missing in base revision %s",
-              fileName, base.abbreviate(8).name()));
+          dce.add(new DeletePath(fileName));
+          break;
         }
 
         final FileMode mode = tw.getFileMode(0);

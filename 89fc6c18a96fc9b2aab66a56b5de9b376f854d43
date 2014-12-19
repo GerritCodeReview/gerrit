@@ -16,6 +16,24 @@
       "revId": "89fc6c18a96fc9b2aab66a56b5de9b376f854d43",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c1862065_91215cc7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommitsAdvertiseRefsHook.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-12-19T21:02:07Z",
+      "side": 1,
+      "message": "Don\u0027t hand a text query. Build the predicate graph by hand?",
+      "parentUuid": "6130147f_3613b880",
+      "revId": "89fc6c18a96fc9b2aab66a56b5de9b376f854d43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

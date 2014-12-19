@@ -46,7 +46,11 @@ public class QueryProcessor {
       .getMax();
   }
 
-  void setLimit(int n) {
+  public ChangeQueryBuilder getQueryBuilder() {
+    return queryBuilder;
+  }
+
+  public void setLimit(int n) {
     limitFromCaller = n;
   }
 

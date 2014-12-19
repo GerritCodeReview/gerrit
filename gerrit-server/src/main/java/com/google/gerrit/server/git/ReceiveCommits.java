@@ -111,6 +111,7 @@ import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.project.RefControl;
 import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.server.query.change.QueryProcessor;
 import com.google.gerrit.server.ssh.SshInfo;
 import com.google.gerrit.server.util.LabelVote;
 import com.google.gerrit.server.util.MagicBranch;
@@ -336,6 +337,7 @@ public class ReceiveCommits {
 
   @Inject
   ReceiveCommits(final ReviewDb db,
+      final Provider<QueryProcessor> queryProcessor,
       final SchemaFactory<ReviewDb> schemaFactory,
       final ChangeData.Factory changeDataFactory,
       final ChangeUpdate.Factory updateFactory,
@@ -472,7 +474,7 @@ public class ReceiveCommits {
     });
     advHooks.add(rp.getAdvertiseRefsHook());
     advHooks.add(new ReceiveCommitsAdvertiseRefsHook(
-        db, projectControl.getProject().getNameKey()));
+        db, queryProcessor, projectControl.getProject().getNameKey()));
     rp.setAdvertiseRefsHook(AdvertiseRefsHookChain.newChain(advHooks));
   }
 

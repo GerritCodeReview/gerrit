@@ -171,7 +171,7 @@ public class Hashtags extends Composite {
           .setAttribute("title", "Remove hashtag")
           .setAttribute("onclick", REMOVE + "(event)")
           .append(
-              new ImageResourceRenderer().render(Gerrit.RESOURCES.removeReviewer()))
+              "☒")
           .closeElement("button")
           .closeSpan();
       if (itr.hasNext()) {

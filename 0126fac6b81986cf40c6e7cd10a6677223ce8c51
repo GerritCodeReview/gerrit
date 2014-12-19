@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "21b53cf8_3c01712d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/UploadArchive.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-19T05:11:22Z",
+      "side": 1,
+      "message": "Is it wanted to align the params?",
+      "range": {
+        "startLine": 323,
+        "startChar": 0,
+        "endLine": 323,
+        "endChar": 37
+      },
+      "revId": "0126fac6b81986cf40c6e7cd10a6677223ce8c51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "21b53cf8_1cfeb5c1",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/UploadArchive.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 344,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-19T05:11:22Z",
+      "side": 1,
+      "message": "same here.",
+      "range": {
+        "startLine": 344,
+        "startChar": 0,
+        "endLine": 344,
+        "endChar": 35
+      },
+      "revId": "0126fac6b81986cf40c6e7cd10a6677223ce8c51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

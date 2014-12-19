@@ -29,6 +29,62 @@ change based on the selected change.
 
 image::images/inline-edit-create-follow-up-change.png[width=800, link="images/inline-edit-create-follow-up-change.png"]
 
+[[editing-change]]
+== Editing Changes
+
+To switch to edit mode, press the 'Edit' button at the top of the file list:
+
+[[switch-to-edit-mode]]
+image::images/inline-edit-enter-edit-mode-from-file-list.png[width=800, link="images/inline-edit-enter-edit-mode-from-file-list.png"]
+
+While in edit mode, it is possible to add new files to the change by clicking
+the 'Add...' button at the top of the file list.
+
+Files can be removed from the change, or restored, by clicking the icon to the
+left of the file name.
+
+To switch from edit mode back to review mode, click the 'Done Editing' button.
+
+image::images/inline-edit-file-list-in-edit-mode.png[width=800, link="images/inline-edit-file-list-in-edit-mode.png"]
+
+[[open-full-screen-editor]]
+While in edit mode, clicking on a file name in the file list opens a full
+screen editor for that file.
+
+To save or abort edits and return to the change screen, click the 'Save' or
+'Cancel' button.
+
+image::images/inline-edit-full-screen-editor.png[width=800, link="images/inline-edit-full-screen-editor.png"]
+
+[[switch-to-edit-mode-from-side-by-side]]
+
+While in review mode, it is possible to switch directly to edit mode and into an
+editor for a file under review by clicking on the edit icon in the patch set list
+on the side-by-side diff view.
+
+image::images/inline-edit-enter-edit-mode-from-diff.png[width=800, link="images/inline-edit-enter-edit-mode-from-diff.png"]
+
+[[reviewing-changes-made-in-change-edit]]
+== Reviewing Change Edits
+
+Change edits are reviewed in the same way as regular patch sets, using the
+side-by-side diff screen. Change edits are shown as 'edit' in the patch list
+on the diff screen:
+
+image::images/inline-edit-edit-in-diff-screen-patch-list.png[width=800, link="images/inline-edit-edit-in-diff-screen-patch-list.png"]
+
+and on the change screen:
+
+image::images/inline-edit-edit-in-patch-list.png[width=800, link="images/inline-edit-edit-in-patch-list.png"]
+
+Note that patch sets may exist that were created after the change edit was created.
+
+For example this sequence:
+
+`1 2 3 4 5 6 7 8 9 edit 10`
+
+means that the change edit was created on top of patch set number 9 and a regular
+patch set was uploaded later.
 
 GERRIT
 ------

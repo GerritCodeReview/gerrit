@@ -433,6 +433,17 @@ a plugin may register an EventSource as the main EventSource to replace
 the internal EventSource.  These two classes are DynamicItems, so Gerrit
 may only have one copy of each.
 
+There are three helper classes which plugins may use to help modify
+the event streams.  The `com.google.gerrit.server.events.SingleDispatch`
+allows events to be dispatched via a single dispatch() function which
+needs to be overridden.  The
+`com.google.gerrit.server.events.JsonEventDispatcher` turns the event
+into JSON and allows these events to be dispatched as JSON by simply
+overriding the dispatchJson() method.  If the
+`com.google.gerrit.server.events.JsonSource` is registered as the
+EventSource, it can be fed JSON strings of events and it will fire
+them to all ChangeListeners.
+
 
 [[validation]]
 == Validation Listeners

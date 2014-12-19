@@ -477,7 +477,7 @@ limitations under the License.
       <g:Button ui:field='addFile'
          title='Add file to this change'
          styleName=''
-         visible='true'>
+         visible='false'>
         <ui:attribute name='title'/>
         <div><ui:msg>Add&#8230;</ui:msg></div>
       </g:Button>

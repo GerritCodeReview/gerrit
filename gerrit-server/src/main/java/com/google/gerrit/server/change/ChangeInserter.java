@@ -136,7 +136,6 @@ public class ChangeInserter {
     patchSet.setRevision(new RevId(commit.name()));
     patchSetInfo = patchSetInfoFactory.get(commit, patchSet.getId());
     change.setCurrentPatchSet(patchSetInfo);
-    ChangeUtil.computeSortKey(change);
   }
 
   public Change getChange() {

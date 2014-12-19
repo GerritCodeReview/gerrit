@@ -365,7 +365,8 @@ public class QueryProcessor {
 
         stats.rowCount = results.size();
         if (moreResults) {
-          stats.resumeSortKey = c.sortKey;
+          // TODO(dborowitz): Indicate this in some way like we do in the REST
+          // API.
         }
         stats.runTimeMilliseconds =
             TimeUtil.nowMs() - stats.runTimeMilliseconds;

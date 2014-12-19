@@ -47,7 +47,6 @@ import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
-import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.ProjectUtil;
@@ -271,7 +270,6 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
             if (change.getStatus().isOpen()) {
               change.setStatus(Change.Status.SUBMITTED);
               change.setLastUpdatedOn(timestamp);
-              ChangeUtil.computeSortKey(change);
               return change;
             }
             return null;

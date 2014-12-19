@@ -124,7 +124,7 @@ WHERE status = 's';
 
 --    covers:             byProjectOpenAll
 CREATE INDEX changes_byProjectOpen
-ON changes (dest_project_name, sort_key)
+ON changes (dest_project_name, last_updated_on)
 WHERE open = 'Y';
 
 --    covers:             byProject

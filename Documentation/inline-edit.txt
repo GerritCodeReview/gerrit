@@ -94,6 +94,50 @@ created after the changed edit was created. For example this sequence:
 means that the change edit was created on top of patch set number 9 and regular
 patch set was uploaded later.
 
+<Place-Holder for previous change ... cannot rebase in browser
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+;-(>
+
+[[missing-features]]
+== Not Implemented Features
+
+* Make changing the commit message consistent (pending)
+* Allow to customize CM3 in edit screen per use base (pending)
+* Add support for different key maps (Emacs, Vim, Default)
+* Allow to upload/amend change edit with `git push`
+* When opened from SBS2, cursor position is lost in Edit Screen
+* Changed files in edit should marked as changed with '*' suffix in file table
+* Navigation icons (left, up, right)) in edit screen are missing
+* Cancel/Save buttons in Edit Screen immediately abort editing.
+This should be revistied
+* Eating your own dog food: Implement conflict resolution during rebase of
+change edit using inline edit feature by creating new edit on top of current
+patch set with auto merge content
+* Reusing existing technology: Now, that inline edit feature is there, conflict
+resolution during rebase of regular pacth set should be implemented on top of it.
+
+
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]

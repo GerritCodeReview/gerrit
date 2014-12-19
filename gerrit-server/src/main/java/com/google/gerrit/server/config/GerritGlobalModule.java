@@ -19,7 +19,7 @@ import static com.google.inject.Scopes.SINGLETON;
 import com.google.common.cache.Cache;
 import com.google.gerrit.audit.AuditModule;
 import com.google.gerrit.common.EventListener;
-import com.google.gerrit.common.EventSourceImpl;
+import com.google.gerrit.common.SequencedEventSource;
 import com.google.gerrit.extensions.config.CapabilityDefinition;
 import com.google.gerrit.extensions.config.DownloadCommand;
 import com.google.gerrit.extensions.config.DownloadScheme;
@@ -178,7 +178,7 @@ public class GerritGlobalModule extends FactoryModule {
     install(new AccessControlModule());
     install(new CmdLineParserModule());
     install(new EmailModule());
-    install(new EventSourceImpl.Module());
+    install(new SequencedEventSource.Module());
     install(new GitModule());
     install(new GroupModule());
     install(new NoteDbModule());

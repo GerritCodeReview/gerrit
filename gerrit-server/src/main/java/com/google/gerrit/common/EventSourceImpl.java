@@ -14,7 +14,6 @@
 
 package com.google.gerrit.common;
 
-import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
@@ -27,7 +26,6 @@ import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gwtorm.server.OrmException;
-import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -37,19 +35,6 @@ import java.util.concurrent.ConcurrentHashMap;
 /** Distributes Events to listeners if they are allowed to see them */
 @Singleton
 public class EventSourceImpl implements EventDispatcher, EventSource {
-  public static class Module extends AbstractModule {
-    @Override
-    protected void configure() {
-      DynamicItem.itemOf(binder(), EventDispatcher.class);
-      DynamicItem.bind(binder(), EventDispatcher.class)
-        .to(EventSourceImpl.class);
-
-      DynamicItem.itemOf(binder(), EventSource.class);
-      DynamicItem.bind(binder(), EventSource.class)
-        .to(EventSourceImpl.class);
-    }
-  }
-
   protected static class EventListenerHolder {
     final EventListener listener;
     final CurrentUser user;

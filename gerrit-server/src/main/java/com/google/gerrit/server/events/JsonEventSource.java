@@ -15,7 +15,7 @@
 package com.google.gerrit.server.events;
 
 import com.google.gerrit.common.EventSourceImpl;
-import com.google.gerrit.common.ChangeListener;
+import com.google.gerrit.common.EventListener;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.events.Event;
@@ -39,7 +39,7 @@ public class JsonEventSource extends EventSourceImpl {
 
   @Inject
   public JsonEventSource(Provider<ReviewDb> db, ProjectCache projectCache,
-      DynamicSet<ChangeListener> unrestrictedListeners) {
+      DynamicSet<EventListener> unrestrictedListeners) {
     super(projectCache, unrestrictedListeners);
     this.db = db;
   }

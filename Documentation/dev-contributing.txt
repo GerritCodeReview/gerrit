@@ -1,11 +1,13 @@
 = Gerrit Code Review - Contributing
 
+== Introduction
 Gerrit is developed as a self-hosting open source project and
 very much welcomes contributions from anyone with a contributor's
 agreement on file with the project.
 
 * https://gerrit-review.googlesource.com/
 
+== Contributor License Agreement
 A Contributor License Agreement must be completed before contributions
 are accepted.  To view and accept the agreements do the following:
 
@@ -19,6 +21,7 @@ For reference, the actual agreements are linked below
 * https://cla.developers.google.com/about/android-individual
 * https://source.android.com/source/cla-corporate.pdf
 
+== Code Review
 As Gerrit is a code review tool, naturally contributions will
 be reviewed before they will get submitted to the code base.  To
 start your contribution, please make a git commit and upload it

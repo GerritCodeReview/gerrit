@@ -19,7 +19,7 @@ import static com.google.gerrit.server.schema.DataSourceProvider.Context.MULTI_U
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.MoreObjects;
 import com.google.gerrit.common.ChangeHookRunner;
-import com.google.gerrit.common.EventSourceImpl;
+import com.google.gerrit.common.SequencedEventSource;
 import com.google.gerrit.httpd.AllRequestFilter;
 import com.google.gerrit.httpd.GerritOptions;
 import com.google.gerrit.httpd.GetUserFilter;
@@ -317,7 +317,7 @@ public class Daemon extends SiteProgram {
     modules.add(new LogFileCompressor.Module());
     modules.add(new WorkQueue.Module());
     modules.add(new ChangeHookRunner.Module());
-    modules.add(new EventSourceImpl.Module());
+    modules.add(new SequencedEventSource.Module());
     modules.add(new ReceiveCommitsExecutorModule());
     modules.add(new IntraLineWorkerPool.Module());
     modules.add(new MimeUtil2Module());

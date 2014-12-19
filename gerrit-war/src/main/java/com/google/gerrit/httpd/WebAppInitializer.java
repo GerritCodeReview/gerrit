@@ -19,7 +19,7 @@ import static com.google.inject.Stage.PRODUCTION;
 
 import com.google.common.base.Splitter;
 import com.google.gerrit.common.ChangeHookRunner;
-import com.google.gerrit.common.EventSourceImpl;
+import com.google.gerrit.common.SequencedEventSource;
 import com.google.gerrit.httpd.auth.openid.OpenIdModule;
 import com.google.gerrit.httpd.plugins.HttpPluginModule;
 import com.google.gerrit.lifecycle.LifecycleManager;
@@ -278,7 +278,7 @@ public class WebAppInitializer extends GuiceServletContextListener
   private Injector createSysInjector() {
     final List<Module> modules = new ArrayList<>();
     modules.add(new WorkQueue.Module());
-    modules.add(new EventSourceImpl.Module());
+    modules.add(new SequencedEventSource.Module());
     modules.add(new ChangeHookRunner.Module());
     modules.add(new ReceiveCommitsExecutorModule());
     modules.add(new IntraLineWorkerPool.Module());

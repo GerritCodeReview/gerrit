@@ -384,6 +384,7 @@ public class ChangeEditModifier {
     ru.setExpectedOldObjectId(oldObjectId);
     ru.setNewObjectId(newEdit);
     ru.setRefLogIdent(getRefLogIdent(me));
+    ru.setRefLogMessage("inline edit (amend)", false);
     ru.setForceUpdate(true);
     RefUpdate.Result res = ru.update(rw);
     if (res != RefUpdate.Result.NEW &&

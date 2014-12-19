@@ -76,7 +76,7 @@
 . Plugin development
 .. link:dev-plugins.html[Developing Plugins]
 .. link:js-api.html[JavaScript Plugin API]
-.. link:config-validation.html[Commit Validation]
+.. link:config-validation.html[Validation Interfaces]
 
 == Maintainer
 . link:dev-release.html[Developer Release]

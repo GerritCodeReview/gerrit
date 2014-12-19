@@ -1,7 +1,7 @@
-= Gerrit Code Review - Commit Validation
+= Gerrit Code Review - Plugin-based Validation
 
-Gerrit supports link:dev-plugins.html[plugin-based] validation of
-commits.
+Gerrit provides interfaces to allow link:dev-plugins.html[plugins] to
+perform validation on certain operations.
 
 [[new-commit-validation]]
 == New commit validation

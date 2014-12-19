@@ -509,6 +509,24 @@
     },
     {
       "key": {
+        "uuid": "0127584c_93ec1c1d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/UploadArchive.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 1017568
+      },
+      "writtenOn": "2014-12-19T10:19:42Z",
+      "side": 1,
+      "message": "There was a discussion about this earlier in the history of this patch.\n\nThe problem is ZIP is not available in download.archive (for security reason, I believe), but should be available in git archive. Using download.archive would either prevent using ZIP format or make the configuration inconsistent (e.g. allow ZIP format in download.archive but it is not available in the download command, with some hack in download command implementation to ignore the ZIP format from the configuration).",
+      "parentUuid": "a1a12cbc_0041a66a",
+      "revId": "b410cde7d57a8c439e8ce0c8f40c0b6e2a5fdec5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a1a12cbc_e045a276",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/UploadArchive.java",
         "patchSetId": 10

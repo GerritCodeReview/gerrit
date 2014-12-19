@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6130147f_3613b880",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommitsAdvertiseRefsHook.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-12-19T20:53:21Z",
+      "side": 1,
+      "message": "Oh great. Gerrit has no problem with a repo named \"{foo}\". And the query language has no way to escape in literals.",
+      "revId": "89fc6c18a96fc9b2aab66a56b5de9b376f854d43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -58,25 +58,25 @@
 . High availability
 . Replication
 . link:https://gerrit-review.googlesource.com/#/admin/projects/?filter=plugins%252F[Plugins]
-. link:dev-design.html[System Design]
 . link:config-contact.html[User Contact Information]
 . link:config-reverseproxy.html[Reverse Proxy]
 . link:config-auto-site-initialization.html[Automatic Site Initialization on Startup]
 . link:pgm-index.html[Server Side Administrative Tools]
 
 == Developer
-. link:dev-readme.html[Developer Setup]
-. link:dev-buck.html[Building with Buck]
-. link:dev-build-plugins.html[Building Gerrit plugins]
-. link:dev-eclipse.html[Eclipse Setup]
-. link:dev-contributing.html[Contributing to Gerrit]
+. Getting Started
+.. link:dev-readme.html[Developer Setup]
+.. link:dev-eclipse.html[Eclipse Setup]
+.. link:dev-buck.html[Building with Buck]
+.. link:dev-contributing.html[Contributing to Gerrit]
+. Plugin Development
+.. link:dev-plugins.html[Developing Plugins]
+.. link:dev-build-plugins.html[Building Gerrit plugins]
+.. link:js-api.html[JavaScript Plugin API]
+.. link:config-validation.html[Validation Interfaces]
 . Documentation formatting guide for contributions
 . link:dev-design.html[System Design]
 . link:i18n-readme.html[i18n Support]
-. Plugin development
-.. link:dev-plugins.html[Developing Plugins]
-.. link:js-api.html[JavaScript Plugin API]
-.. link:config-validation.html[Validation Interfaces]
 
 == Maintainer
 . link:dev-release.html[Developer Release]

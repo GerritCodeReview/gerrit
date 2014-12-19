@@ -52,12 +52,14 @@ public class QueryProcessor {
     return queryBuilder;
   }
 
-  public void setLimit(int n) {
+  public QueryProcessor setLimit(int n) {
     limitFromCaller = n;
+    return this;
   }
 
-  public void setStart(int n) {
+  public QueryProcessor setStart(int n) {
     start = n;
+    return this;
   }
 
   /**

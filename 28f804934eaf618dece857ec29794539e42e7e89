@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6130147f_566bd4d2",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Message.ui.xml",
+        "patchSetId": 4
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2014-12-19T23:53:50Z",
+      "side": 1,
+      "message": "I believe this was reserving a spot for the reply.  I\u0027m guessing that we will no longer need it if the reply is moved next to the name?",
+      "revId": "28f804934eaf618dece857ec29794539e42e7e89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -23,6 +23,55 @@ image::images/inline-edit-create-change-project-screen.png[width=800, link="imag
 
 image::images/inline-edit-create-follow-up-change.png[width=800, link="images/inline-edit-create-follow-up-change.png"]
 
+[[amending-change]]
+== Amending Changes
+
+To create a change edit commit message or file must be changed. Once
+change edit is created it can be deleted, published or rebased. The normal
+workflow is create a change edit by changing commit message or a file content
+and publish it. Publishing change edit promotes it to normal revision. Once
+change edit is published, the Git ref that represents change edit is deleted.
+
+Files can be added, removed, restored and modified in context of change
+edit. The main navigation interface for manipulating existing and adding
+restoring and deleting files in change edit is file table. It was extended for
+inline edit feature to support additional mode: Edit Mode. To switch between
+"Edit Mode" and "Review Mode" new "Edit" button is exposed on file table
+header. In "Edit Mode" restore and delete icons are added in frint of files
+and hyperlinks navigates to Edit Screen instead of Side By Side screen.
+
+[[create-change-edit-by-editing-commit-message]]
+
+By clicking on "Edit Message" button in change screen header, new change edit
+is created.
+
+image::images/inline-edit-create-edit-by-changing-commit-message.png[width=800, link="images/inline-edit-create-edit-by-changing-commit-message.png"]
+
+When change edit created, the file table preserves "Edit Mode" to seamlessly
+allow further change edit manipulations or change edit publishing.
+
+[[create-change-edit-by-amending-file-content-from-side-by-side-screen]]
+
+Change edit can be created by clicking on edit icon in side by side screen. In
+this case the file that was reviewed is opened in edit screen and can be
+directly manipulated. Clicking on "Save" button creates change edit and returns
+to chang screen. Clickin on "Cancel" button aborts the editin and the user is
+taken to change screen as well.
+
+image::images/inline-edit-create-edit-by-changing-commit-message.png[width=800, link="images/inline-edit-create-edit-by-changing-commit-message.png"]
+
+
+[[create-change-edit-by-amending-file-content-from-file-table]]
+
+When file table is switched in "Edit Mode" change edit can be created by
+clicking on icons in front of files or by clicking on files or commit message
+hyperlink and changing the content in edit screen. In addition "Add..." button
+is added to the header of  file tavble. Clicking on this nutton opens popup
+and allows to enter the file name. Clicking on 'tab' in file name input field,
+retrieve the content of the file and put it into the textarea in poppup dialog.
+When new file is added, the text area remains empty. Clicking auf "Save" button
+in the poopup dialog adds new or existing file to the change.
+
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]

@@ -177,35 +177,65 @@ public class QueryProcessor {
 
   /**
    * Query for changes that match the query string.
-   * <p>
-   * If a limit was specified using {@link #setLimit(int)} this method may
-   * return up to {@code limit + 1} results, allowing the caller to determine if
-   * there are more than {@code limit} matches and suggest to its own caller
-   * that the query could be retried with {@link #setStart(int)}.
+   *
+   * @see #queryChanges(List)
+   * @param queryString the query string to parse.
+   * @return results of the query.
    */
-  public List<ChangeData> queryChanges(String queryString)
+  public List<ChangeData> queryByString(String queryString)
       throws OrmException, QueryParseException {
-    return queryChanges(ImmutableList.of(queryString)).get(0);
+    return queryByStrings(ImmutableList.of(queryString)).get(0);
   }
 
   /**
-   * Query for changes that match the query string.
+   * Perform multiple queries over a list of query strings.
+   *
+   * @see #queryChanges(List)
+   * @param queryStrings the query strings to parse.
+   * @return results of the queries, one list per input query.
+   */
+  public List<List<ChangeData>> queryByStrings(List<String> queryStrings)
+      throws OrmException, QueryParseException {
+    List<Predicate<ChangeData>> queries = new ArrayList<>(queryStrings.size());
+    for (String qs : queryStrings) {
+      queries.add(queryBuilder.parse(qs));
+    }
+    return queryChanges(queries);
+  }
+
+  /**
+   * Query for changes that match a structured query.
+   *
+   * @see #queryChanges(List)
+   * @param query the query.
+   * @return results of the query.
+   */
+  public List<ChangeData> queryChanges(Predicate<ChangeData> query)
+      throws OrmException, QueryParseException {
+    return queryChanges(ImmutableList.of(query)).get(0);
+  }
+
+  /**
+   * Perform multiple queries over a list of query strings.
    * <p>
    * If a limit was specified using {@link #setLimit(int)} this method may
    * return up to {@code limit + 1} results, allowing the caller to determine if
    * there are more than {@code limit} matches and suggest to its own caller
    * that the query could be retried with {@link #setStart(int)}.
+   *
+   * @param queries the queries.
+   * @return results of the queries, one list per input query.
    */
-  public List<List<ChangeData>> queryChanges(List<String> queries)
+  public List<List<ChangeData>> queryChanges(List<Predicate<ChangeData>> queries)
       throws OrmException, QueryParseException {
-    final Predicate<ChangeData> visibleToMe = queryBuilder.is_visible();
+    Predicate<ChangeData> visibleToMe = queryBuilder.is_visible();
     int cnt = queries.size();
 
     // Parse and rewrite all queries.
     List<Integer> limits = Lists.newArrayListWithCapacity(cnt);
     List<ChangeDataSource> sources = Lists.newArrayListWithCapacity(cnt);
-    for (String query : queries) {
-      Predicate<ChangeData> q = parseQuery(query, visibleToMe);
+    for (Predicate<ChangeData> query : queries) {
+      Predicate<ChangeData> q = preprocess(query, visibleToMe);
       Predicate<ChangeData> s = queryRewriter.rewrite(q, start);
       if (!(s instanceof ChangeDataSource)) {
         q = Predicate.and(queryBuilder.status_open(), q);
@@ -258,7 +288,7 @@ public class QueryProcessor {
         final QueryStatsAttribute stats = new QueryStatsAttribute();
         stats.runTimeMilliseconds = TimeUtil.nowMs();
 
-        List<ChangeData> results = queryChanges(queryString);
+        List<ChangeData> results = queryByString(queryString);
         ChangeAttribute c = null;
         for (ChangeData d : results) {
           ChangeControl cc = d.changeControl().forUser(user);
@@ -371,10 +401,10 @@ public class QueryProcessor {
     return limit > 0 ? Math.min(n, limit) + 1 : n + 1;
   }
 
-  private Predicate<ChangeData> parseQuery(String queryString,
-      final Predicate<ChangeData> visibleToMe) throws QueryParseException {
-    return Predicate.and(queryBuilder.parse(queryString),
-        queryBuilder.limit(limit > 0 ? Math.min(limit, maxLimit) + 1 : maxLimit),
+  private Predicate<ChangeData> preprocess(Predicate<ChangeData> query,
+      Predicate<ChangeData> visibleToMe) {
+    return Predicate.and(query,
+        queryBuilder.limit(limit > 0 ? Math.min(limit, maxLimit) + 1: maxLimit),
         visibleToMe);
   }
 

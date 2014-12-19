@@ -138,7 +138,7 @@ public class QueryChanges implements RestReadView<TopLevelResource> {
       QueryParseException {
     int cnt = queries.size();
     BitSet more = new BitSet(cnt);
-    List<List<ChangeData>> data = imp.queryChanges(queries);
+    List<List<ChangeData>> data = imp.queryByStrings(queries);
     for (int n = 0; n < cnt; n++) {
       List<ChangeData> changes = data.get(n);
       if (imp.getLimit() > 0 && changes.size() > imp.getLimit()) {

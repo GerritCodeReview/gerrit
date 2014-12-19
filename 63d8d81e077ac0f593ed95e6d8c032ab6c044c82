@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "01b2f811_9b7c0ba6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/EventTypes.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-12-19T02:29:15Z",
+      "side": 1,
+      "message": "This is now causing different warnings.\n\n- HashMap is a raw type. References to generic type HashMap\u003cK,V\u003e should be parameterized\n\n- Type safety: The expression of type HashMap needs unchecked conversion to conform to Map\u003cString,Class\u003c?\u003e\u003e",
+      "range": {
+        "startLine": 22,
+        "startChar": 2,
+        "endLine": 22,
+        "endChar": 75
+      },
+      "revId": "63d8d81e077ac0f593ed95e6d8c032ab6c044c82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "61abb49e_bec5796e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/EventTypes.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-12-19T02:29:15Z",
+      "side": 1,
+      "message": "using",
+      "range": {
+        "startLine": 40,
+        "startChar": 32,
+        "endLine": 40,
+        "endChar": 37
+      },
+      "revId": "63d8d81e077ac0f593ed95e6d8c032ab6c044c82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -16,6 +16,24 @@
       "revId": "00883ab50e2cccb82953099162229560748af6bf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6130147f_56075443",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.ui.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-12-19T19:17:40Z",
+      "side": 1,
+      "message": "The top margin is 5.286px tall. Fractional pixels are all the rage now in CSS browser land thanks to crazy displays that have huge number of pixels and subpixel addressing in the antialiasing renderers. Or something like that.",
+      "parentUuid": "6130147f_b6f108f8",
+      "revId": "00883ab50e2cccb82953099162229560748af6bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

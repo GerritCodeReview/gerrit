@@ -144,7 +144,7 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
           me.setFullName(Strings.emptyToNull(name));
         }
         if (!Strings.isNullOrEmpty(emailAddr)
-            && !self.getEmailAddresses().contains(emailAddr)) {
+            && !self.hasEmailAddress(emailAddr)) {
           throw new Failure(new PermissionDeniedException("Email address must be verified"));
         }
         me.setPreferredEmail(Strings.emptyToNull(emailAddr));

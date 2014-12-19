@@ -394,7 +394,7 @@ public class CommitValidators {
             if (e != null) {
               sboAuthor |= author.getEmailAddress().equals(e);
               sboCommitter |= committer.getEmailAddress().equals(e);
-              sboMe |= currentUser.getEmailAddresses().contains(e);
+              sboMe |= currentUser.hasEmailAddress(e);
             }
           }
         }
@@ -425,7 +425,7 @@ public class CommitValidators {
       IdentifiedUser currentUser = (IdentifiedUser) refControl.getCurrentUser();
       final PersonIdent author = receiveEvent.commit.getAuthorIdent();
 
-      if (!currentUser.getEmailAddresses().contains(author.getEmailAddress())
+      if (!currentUser.hasEmailAddress(author.getEmailAddress())
           && !refControl.canForgeAuthor()) {
         List<CommitValidationMessage> messages = new LinkedList<>();
 
@@ -454,8 +454,7 @@ public class CommitValidators {
         CommitReceivedEvent receiveEvent) throws CommitValidationException {
       IdentifiedUser currentUser = (IdentifiedUser) refControl.getCurrentUser();
       final PersonIdent committer = receiveEvent.commit.getCommitterIdent();
-      if (!currentUser.getEmailAddresses()
-          .contains(committer.getEmailAddress())
+      if (!currentUser.hasEmailAddress(committer.getEmailAddress())
           && !refControl.canForgeCommitter()) {
         List<CommitValidationMessage> messages = new LinkedList<>();
         messages.add(getInvalidEmailError(receiveEvent.commit, "committer", committer,

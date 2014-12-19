@@ -379,8 +379,7 @@ public class MergeUtil {
 
       final Timestamp dt = submitter.getGranted();
       final TimeZone tz = myIdent.getTimeZone();
-      if (emails.size() == 1
-          && who.getEmailAddresses().contains(emails.iterator().next())) {
+      if (emails.size() == 1 && who.hasEmailAddress(emails.iterator().next())) {
         authorIdent =
             new PersonIdent(codeReviewCommits.get(0).getAuthorIdent(), dt, tz);
       } else {

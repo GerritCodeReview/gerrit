@@ -66,7 +66,7 @@ public class Emails implements
         throw new ResourceNotFoundException();
       }
       return new AccountResource.Email(rsrc.getUser(), email);
-    } else if (rsrc.getUser().getEmailAddresses().contains(id.get())) {
+    } else if (rsrc.getUser().hasEmailAddress(id.get())) {
       return new AccountResource.Email(rsrc.getUser(), id.get());
     } else {
       throw new ResourceNotFoundException();

@@ -2279,7 +2279,7 @@ public class ReceiveCommits {
           break;
         }
 
-        if (defaultName && currentUser.getEmailAddresses().contains(
+        if (defaultName && currentUser.hasEmailAddress(
               c.getCommitterIdent().getEmailAddress())) {
           try {
             Account a = db.accounts().get(currentUser.getAccountId());

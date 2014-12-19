@@ -297,7 +297,7 @@ public class RefControl {
         if (getCurrentUser().isIdentifiedUser()) {
           final IdentifiedUser user = (IdentifiedUser) getCurrentUser();
           final String addr = tagger.getEmailAddress();
-          valid = user.getEmailAddresses().contains(addr);
+          valid = user.hasEmailAddress(addr);
         } else {
           valid = false;
         }

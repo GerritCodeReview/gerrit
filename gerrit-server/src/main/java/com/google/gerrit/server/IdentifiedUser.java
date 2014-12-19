@@ -270,6 +270,10 @@ public class IdentifiedUser extends CurrentUser {
     return diffPref;
   }
 
+  public boolean hasEmailAddress(String email) {
+    return getEmailAddresses().contains(email);
+  }
+
   public Set<String> getEmailAddresses() {
     if (emailAddresses == null) {
       emailAddresses = state().getEmailAddresses();

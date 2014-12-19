@@ -96,7 +96,6 @@ public class ChangeInfo extends JavaScriptObject {
   private final native String updatedRaw() /*-{ return this.updated; }-*/;
   public final native boolean starred() /*-{ return this.starred ? true : false; }-*/;
   public final native boolean reviewed() /*-{ return this.reviewed ? true : false; }-*/;
-  public final native String _sortkey() /*-{ return this._sortkey; }-*/;
   public final native NativeMap<LabelInfo> all_labels() /*-{ return this.labels; }-*/;
   public final native LabelInfo label(String n) /*-{ return this.labels[n]; }-*/;
   public final native String current_revision() /*-{ return this.current_revision; }-*/;

@@ -31,7 +31,6 @@ public class ChangeInfo {
   protected String topic;
   protected boolean starred;
   protected Timestamp lastUpdatedOn;
-  protected String sortKey;
   protected PatchSet.Id patchSetId;
   protected boolean latest;
 
@@ -52,7 +51,6 @@ public class ChangeInfo {
     branch = c.getDest().getShortName();
     topic = c.getTopic();
     lastUpdatedOn = c.getLastUpdatedOn();
-    sortKey = c.getSortKey();
     patchSetId = patchId;
     latest = patchSetId == null || patchSetId.equals(c.currentPatchSetId());
   }
@@ -111,9 +109,5 @@ public class ChangeInfo {
 
   public java.sql.Timestamp getLastUpdatedOn() {
     return lastUpdatedOn;
-  }
-
-  public String getSortKey() {
-    return sortKey;
   }
 }

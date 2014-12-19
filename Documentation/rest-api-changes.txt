@@ -55,7 +55,6 @@ the resulting change.
     "mergeable": true,
     "insertions": 0,
     "deletions": 0,
-    "_sortkey": "002cbc25000004e5",
     "_number": 4711,
     "owner": {
       "name": "John Doe"
@@ -105,7 +104,6 @@ Query for open changes of watched projects:
       "mergeable": true,
       "insertions": 26,
       "deletions": 10,
-      "_sortkey": "001e7057000006dc",
       "_number": 1756,
       "owner": {
         "name": "John Doe"
@@ -123,7 +121,6 @@ Query for open changes of watched projects:
       "mergeable": true,
       "insertions": 12,
       "deletions": 18,
-      "_sortkey": "001e7056000006dd",
       "_number": 1757,
       "owner": {
         "name": "John Doe"
@@ -177,7 +174,6 @@ Query that retrieves changes for a user's dashboard:
         "mergeable": true,
         "insertions": 4,
         "deletions": 7,
-        "_sortkey": "001e7057000006dc",
         "_number": 1756,
         "owner": {
           "name": "John Doe"
@@ -330,7 +326,6 @@ default. Optional fields are:
       "mergeable": true,
       "insertions": 16,
       "deletions": 7,
-      "_sortkey": "001c9bf400000061",
       "_number": 97,
       "owner": {
         "name": "Shawn Pearce"
@@ -467,7 +462,6 @@ describes the change.
     "mergeable": true,
     "insertions": 34,
     "deletions": 101,
-    "_sortkey": "0023412400000f7d",
     "_number": 3965,
     "owner": {
       "name": "John Doe"
@@ -520,7 +514,6 @@ REJECTED > APPROVED > DISLIKED > RECOMMENDED.
     "mergeable": true,
     "insertions": 126,
     "deletions": 11,
-    "_sortkey": "0023412400000f7d",
     "_number": 3965,
     "owner": {
       "_account_id": 1000096,
@@ -764,7 +757,6 @@ describes the abandoned change.
     "mergeable": true,
     "insertions": 3,
     "deletions": 310,
-    "_sortkey": "0023412400000f7d",
     "_number": 3965,
     "owner": {
       "name": "John Doe"
@@ -823,7 +815,6 @@ describes the restored change.
     "mergeable": true,
     "insertions": 2,
     "deletions": 13,
-    "_sortkey": "0023412400000f7d",
     "_number": 3965,
     "owner": {
       "name": "John Doe"
@@ -880,7 +871,6 @@ is included.
     "mergeable": false,
     "insertions": 33,
     "deletions": 9,
-    "_sortkey": "0024cf9a000012bf",
     "_number": 4799,
     "owner": {
       "name": "John Doe"
@@ -973,7 +963,6 @@ describes the reverting change.
     "mergeable": true,
     "insertions": 6,
     "deletions": 4,
-    "_sortkey": "0023412400000f7d",
     "_number": 3965,
     "owner": {
       "name": "John Doe"
@@ -1035,7 +1024,6 @@ describes the submitted/merged change.
     "status": "MERGED",
     "created": "2013-02-01 09:59:32.126000000",
     "updated": "2013-02-21 11:16:36.775000000",
-    "_sortkey": "0023412400000f7d",
     "_number": 3965,
     "owner": {
       "name": "John Doe"
@@ -1179,7 +1167,6 @@ missing from the result. At least `id`, `project`, `branch`, and
     "mergeable": true,
     "insertions": 34,
     "deletions": 101,
-    "_sortkey": "0023412400000f7d",
     "_number": 3965,
     "owner": {
       "name": "John Doe"
@@ -1228,7 +1215,6 @@ Only the change owner, a project owner, or an administrator may fix changes.
     "mergeable": true,
     "insertions": 34,
     "deletions": 101,
-    "_sortkey": "0023412400000f7d",
     "_number": 3965,
     "owner": {
       "name": "John Doe"
@@ -1863,7 +1849,6 @@ for the current patch set.
     "mergeable": true,
     "insertions": 34,
     "deletions": 45,
-    "_sortkey": "0023412400000f7d",
     "_number": 3965,
     "owner": {
       "_account_id": 1000096,
@@ -2128,7 +2113,6 @@ is included.
     "mergeable": false,
     "insertions": 21,
     "deletions": 21,
-    "_sortkey": "0024cf9a000012bf",
     "_number": 4799,
     "owner": {
       "name": "John Doe"
@@ -3096,7 +3080,6 @@ describes the resulting cherry picked change.
     "mergeable": true,
     "insertions": 12,
     "deletions": 11,
-    "_sortkey": "0023412400000f7d",
     "_number": 3965,
     "owner": {
       "name": "John Doe"
@@ -3150,7 +3133,6 @@ describes the change.
     "mergeable": true,
     "insertions": 261,
     "deletions": 101,
-    "_sortkey": "0023412400000f7d",
     "_number": 3965,
     "owner": {
       "name": "John Doe"
@@ -3335,7 +3317,6 @@ Not set for merged changes, or if the change has not yet been tested.
 Number of inserted lines.
 |`deletions`          ||
 Number of deleted lines.
-|`_sortkey`           ||The sortkey of the change.
 |`_number`            ||The legacy numeric ID of the change.
 |`owner`              ||
 The owner of the change as an link:rest-api-accounts.html#account-info[
@@ -3373,7 +3354,7 @@ Only set if link:#current-revision[the current revision] is requested
 if link:#all-revisions[all revisions] are requested.
 |`_more_changes`      |optional, not set if `false`|
 Whether the query would deliver more results if not limited. +
-Only set on either the last or the first change that is returned.
+Only set on the last change that is returned.
 |`problems`           |optional|
 A list of link:#problem-info[ProblemInfo] entities describing potential
 problems with this change. Only set if link:#check[CHECK] is set.

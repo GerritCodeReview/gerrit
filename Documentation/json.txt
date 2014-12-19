@@ -35,8 +35,6 @@ was created.
 lastUpdated:: Time in seconds since the UNIX epoch when this change
 was last updated.
 
-sortKey:: Internal key used to sort changes, based on lastUpdated.
-
 open:: Boolean indicating if the change is still open for review.
 
 status:: Current state of this change.

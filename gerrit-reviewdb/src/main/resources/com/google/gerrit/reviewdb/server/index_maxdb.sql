@@ -83,7 +83,7 @@ ON changes (status, dest_project_name, dest_branch_name, last_updated_on)
 
 --    covers:             byProjectOpenPrev, byProjectOpenNext
 CREATE INDEX changes_byProjectOpen
-ON changes (open, dest_project_name, sort_key)
+ON changes (open, dest_project_name, last_updated_on);
 #
 
 --    covers:             byProject

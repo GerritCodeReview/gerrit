@@ -246,9 +246,7 @@ public class OutputStreamQuery {
         }
 
         stats.rowCount = results.changes().size();
-        if (results.moreChanges()) {
-          stats.resumeSortKey = c.sortKey;
-        }
+        stats.moreChanges = results.moreChanges();
         stats.runTimeMilliseconds =
             TimeUtil.nowMs() - stats.runTimeMilliseconds;
         show(stats);

@@ -24,6 +24,7 @@ import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GitUtil.Commit;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.acceptance.RestSession;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.change.GetRelated.ChangeAndCommit;
@@ -166,6 +167,8 @@ public class GetRelatedIT extends AbstractDaemonTest {
 
     Change ch2 = getChange(c2);
     editModifier.createEdit(ch2, getPatchSet(ch2));
+    editModifier.modifyFile(editUtil.byChange(ch2).get(), "a.txt",
+        RestSession.newRawInput(new byte[] {'a'}));
     String editRev = editUtil.byChange(ch2).get().getRevision().get();
 
     List<ChangeAndCommit> related = getRelated(ch2.getId(), 0);

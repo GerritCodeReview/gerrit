@@ -67,7 +67,7 @@ spans, we really do want your code.
 
 
 [[commit-message]]
-== Commit Message
+=== Commit Message
 
 It is essential to have a good commit message if you want your
 change to be reviewed.
@@ -143,7 +143,7 @@ link:https://gerrit-review.googlesource.com/#/settings/http-password[HTTP
 Password tab of the user settings page].
 
 
-== Style
+=== Style
 
 The basic coding style is covered by the tools/GoogleFormat.xml
 doc, see the link:dev-eclipse.html#Formatting[Eclipse Setup]
@@ -197,7 +197,7 @@ Never:
   be removed
   * method parameters: similar to local variables
 
-== Code Organization
+=== Code Organization
 
 Do your best to organize classes and methods in a logical way.
 Here are some guidelines that Gerrit uses:
@@ -235,7 +235,7 @@ Naturally new classes are a little harder; you may want to come
 back and consult this section when creating them.
 
 
-== Design
+=== Design
 
 Here are some design level objectives that you should keep in mind
 when coding:
@@ -267,12 +267,12 @@ when coding:
   * ...and so is Guava (previously known as Google Collections).
 
 
-== Tests
+=== Tests
 
   * Tests for new code will greatly help your change get approved.
 
 
-== Change Size/Number of Files Touched
+=== Change Size/Number of Files Touched
 
 And finally, I probably cannot say enough about change sizes.
 Generally, smaller is better, hopefully within reason.  Do try to

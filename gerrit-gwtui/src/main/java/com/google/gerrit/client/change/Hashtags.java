@@ -37,7 +37,6 @@ import com.google.gwt.user.client.rpc.StatusCodeException;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
-import com.google.gwt.user.client.ui.ImageResourceRenderer;
 import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwtexpui.globalkey.client.NpTextBox;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
@@ -171,7 +170,7 @@ public class Hashtags extends Composite {
           .setAttribute("title", "Remove hashtag")
           .setAttribute("onclick", REMOVE + "(event)")
           .append(
-              new ImageResourceRenderer().render(Gerrit.RESOURCES.removeReviewer()))
+              "â")
           .closeElement("button")
           .closeSpan();
       if (itr.hasNext()) {

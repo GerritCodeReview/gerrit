@@ -31,7 +31,6 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.Grid;
-import com.google.gwt.user.client.ui.ImageResourceRenderer;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwtexpui.safehtml.client.SafeHtml;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
@@ -274,7 +273,7 @@ class Labels extends Grid {
         html.openElement("button")
             .setAttribute("title", Util.M.removeReviewer(name))
             .setAttribute("onclick", REMOVE + "(event)")
-            .append(new ImageResourceRenderer().render(Gerrit.RESOURCES.removeReviewer()))
+            .append("â")
             .closeElement("button");
       }
       html.closeSpan();

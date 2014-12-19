@@ -38,19 +38,6 @@ import java.util.concurrent.ConcurrentHashMap;
 /** Distributes Events to listeners if they are allowed to see them */
 @Singleton
 public class EventSourceImpl implements EventDispatcher, EventSource {
-  public static class Module extends AbstractModule {
-    @Override
-    protected void configure() {
-      DynamicItem.itemOf(binder(), EventDispatcher.class);
-      DynamicItem.bind(binder(), EventDispatcher.class)
-        .to(EventSourceImpl.class);
-
-      DynamicItem.itemOf(binder(), EventSource.class);
-      DynamicItem.bind(binder(), EventSource.class)
-        .to(EventSourceImpl.class);
-    }
-  }
-
   protected static class ChangeListenerHolder {
     final ChangeListener listener;
     final CurrentUser user;

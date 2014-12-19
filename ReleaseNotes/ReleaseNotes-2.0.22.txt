@@ -12,7 +12,7 @@ There is no schema change in this release.
 
 * Restriction on SSH Username
 +
-There is a new restriction placed on the SSH Username field 
+There is a new restriction placed on the SSH Username field
 within an account.  Users who are using invalid names should
 be asked to change their name to something more suitable.
 Administrators can identify these users with the following query:
@@ -20,12 +20,12 @@ Administrators can identify these users with the following query:
      -- PostgreSQL
      SELECT account_id,preferred_email,ssh_user_name
      FROM accounts
-     WHERE NOT (ssh_user_name ~ '^[a-zA-Z][a-zA-Z0-9._-]*[a-zA-Z0-9]$');
+     WHERE NOT (ssh_user_name ~ '[a-zA-Z][a-zA-Z0-9._-]*[a-zA-Z0-9]$');
 
      -- MySQL
      SELECT account_id,preferred_email,ssh_user_name
      FROM accounts
-     WHERE NOT (ssh_user_name REGEXP '^[a-zA-Z][a-zA-Z0-9._-]*[a-zA-Z0-9]$');
+     WHERE NOT (ssh_user_name REGEXP '[a-zA-Z][a-zA-Z0-9._-]*[a-zA-Z0-9]$');
 ----
    Administrators can force these users to select a new name by
    setting ssh_user_name to NULL; the user will not be able to

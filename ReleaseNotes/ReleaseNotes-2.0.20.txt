@@ -24,18 +24,18 @@ link:http://gerrit.googlecode.com/svn/documentation/2.0/cmd-approve.html[http://
 
 * Support changing Google Account identity strings
 +
-For various reasons, including but not being limited to server 
+For various reasons, including but not being limited to server
 host name changes, the Google Accounts OpenID provider service
 may change the identity string it returns to users.  By setting
 auth.allowGoogleAccountUpgrade = true in the configuration file
-administrators may permit automatically updating an existing 
+administrators may permit automatically updating an existing
 account with a new identity by matching on the email address.
 
 Bug Fixes
 ---------
 * GERRIT-262  Disallow creating comments on line 0
 +
-Users were able to create comments in dead regions of a file. 
+Users were able to create comments in dead regions of a file.
 That is, if a region was deleted, and thus the left hand side
 showed red deletion of lines, and the right hand side showed a
 grey background of nothing, users were able to place a comment on
@@ -45,8 +45,8 @@ Because line 0 does not exist (lines are numbered 1..n), these
 comments become hidden and could not be seen, but showed up in
 the "X comments" counter seen on the Patch History or in the
 listing of files in a patch set.
-The UI and RPC layer was fixed to prevent comments on line 0,    
-but existing comments need to be manually moved to a real line. 
+The UI and RPC layer was fixed to prevent comments on line 0,
+but existing comments need to be manually moved to a real line.
 See above for the suggested SQL UPDATE command.
 
 * Make ID column same font size as rest of table

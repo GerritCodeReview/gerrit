@@ -77,6 +77,12 @@ public class EventSourceImpl implements EventDispatcher, EventSource {
   }
 
   @Override
+  public void addEventListener(EventListener listener, CurrentUser user,
+      long sequenceId, ReviewDb db) throws OrmException {
+    addEventListener(listener, user);
+  }
+
+  @Override
   public void removeEventListener(EventListener listener) {
     listeners.remove(listener);
   }

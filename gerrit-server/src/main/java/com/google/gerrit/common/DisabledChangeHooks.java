@@ -39,6 +39,11 @@ public final class DisabledChangeHooks implements ChangeHooks, EventDispatcher,
   }
 
   @Override
+  public void addEventListener(EventListener listener, CurrentUser user,
+      long sequenceId, ReviewDb db) {
+  }
+
+  @Override
   public void doChangeAbandonedHook(Change change, Account account,
       PatchSet patchSet, String reason, ReviewDb db) {
   }

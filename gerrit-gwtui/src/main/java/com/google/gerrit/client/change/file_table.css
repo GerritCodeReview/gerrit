@@ -13,10 +13,16 @@
  * limitations under the License.
  */
 
-.pointer, .reviewed {
-  width: 12px;
+.pointer, .reviewed, .removeButton {
   padding: 0px;
   vertical-align: top;
+}
+.pointer {
+  width: 12px;
+}
+.reviewed, .removeButton {
+  height: 19px;
+  width: 20px;
 }
 
 .table tr {

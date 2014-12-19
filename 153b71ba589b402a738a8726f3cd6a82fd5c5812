@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6130147f_f6f780ea",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Hashtags.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-12-19T18:39:32Z",
+      "side": 1,
+      "message": "nit: should be one line now. I\u0027ll fix this up locally and repush.",
+      "range": {
+        "startLine": 172,
+        "startChar": 11,
+        "endLine": 173,
+        "endChar": 18
+      },
+      "revId": "153b71ba589b402a738a8726f3cd6a82fd5c5812",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

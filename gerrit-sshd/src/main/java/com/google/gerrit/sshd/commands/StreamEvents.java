@@ -21,6 +21,7 @@ import com.google.gerrit.common.EventSource;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.registration.DynamicItem;
+import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.events.Event;
 import com.google.gerrit.server.git.WorkQueue;
@@ -29,9 +30,12 @@ import com.google.gerrit.sshd.BaseCommand;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.StreamCommandExecutor;
 import com.google.gson.Gson;
+import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 
 import org.apache.sshd.server.Environment;
+import org.kohsuke.args4j.Option;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -49,6 +53,9 @@ final class StreamEvents extends BaseCommand {
   private static final int BATCH_SIZE = 32;
 
   @Inject
+  private Provider<ReviewDb> db;
+
+  @Inject
   private IdentifiedUser currentUser;
 
   @Inject
@@ -57,6 +64,9 @@ final class StreamEvents extends BaseCommand {
   @Inject
   @StreamCommandExecutor
   private WorkQueue.Executor pool;
+
+  @Option(name = "--sequenceId", aliases = "-s", usage = "sequenceId to start sending events from")
+  private Long sequenceId;
 
   /** Queue of events to stream to the connected user. */
   private final LinkedBlockingQueue<Event> queue =
@@ -125,7 +135,11 @@ final class StreamEvents extends BaseCommand {
     }
 
     stdout = toPrintWriter(out);
-    addEventListener();
+    try {
+      addEventListener();
+    } catch (OrmException e) {
+      throw new IOException();
+    }
   }
 
   @Override
@@ -222,10 +236,14 @@ final class StreamEvents extends BaseCommand {
     }
   }
 
-  private void addEventListener() {
+  private void addEventListener() throws OrmException {
     EventSource src = source.get();
     if (src != null) {
-      src.addEventListener(listener, currentUser);
+      if (sequenceId == null) {
+        src.addEventListener(listener, currentUser);
+      } else {
+        src.addEventListener(listener, currentUser, sequenceId, db.get());
+      }
     }
   }
 

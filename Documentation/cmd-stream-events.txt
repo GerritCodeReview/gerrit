@@ -6,6 +6,7 @@ gerrit stream-events - Monitor events occurring in real time
 == SYNOPSIS
 --
 'ssh' -p <port> <host> 'gerrit stream-events'
+  [--sequenceId <ID>]
 --
 
 == DESCRIPTION
@@ -17,6 +18,12 @@ only receives events for changes they can view on the web, or in
 the project repository.
 
 Event output is in JSON, one event per line.
+
+== OPTIONS
+
+--sequenceId::
+-s::
+	On connection, replay events which have come after sequenceId.
 
 == ACCESS
 Caller must be a member of the privileged 'Administrators' group,

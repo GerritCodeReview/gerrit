@@ -14,11 +14,16 @@
 
 package com.google.gerrit.common;
 
+import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gwtorm.server.OrmException;
 
 /** Distributes Events to ChangeListeners.  Register listeners here. */
 public interface EventSource {
   public void addEventListener(EventListener listener, CurrentUser user);
+
+  public void addEventListener(EventListener listener, CurrentUser user,
+      long sequenceId, ReviewDb db) throws OrmException;
 
   public void removeEventListener(EventListener listener);
 }

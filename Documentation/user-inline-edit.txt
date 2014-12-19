@@ -1,0 +1,34 @@
+= Inline Edit
+
+This page explains the workflow for creating and amending changes in the
+browser.
+
+
+[[create-change]]
+== Creating a New Empty Change
+
+A new change can be created directly in the browser, meaning it is not necessary
+to clone the whole repository to make trivial changes.
+
+There two different ways to create an empty change:
+
+By clicking on the 'Create Change' button in the project screen, to create an
+empty change on the specified branch of the given project.
+
+[[create-change-from-project-info-screen]]
+
+image::images/inline-edit-create-change-project-screen.png[width=800, link="images/inline-edit-create-change-project-screen.png"]
+
+By clicking the 'Follow-Up' button on the change screen, to create an empty
+change based on the selected change.
+
+[[create-change-from-change-screen]]
+
+image::images/inline-edit-create-follow-up-change.png[width=800, link="images/inline-edit-create-follow-up-change.png"]
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]
+
+SEARCHBOX
+---------

@@ -124,18 +124,13 @@ public class ChangeEditModifier {
       }
 
       RevWalk rw = new RevWalk(repo);
-      ObjectInserter inserter = repo.newObjectInserter();
       try {
-        RevCommit revision = rw.parseCommit(ObjectId.fromString(
-            ps.getRevision().get()));
-        ObjectId commit = createCommit(me, inserter, revision, revision.getTree());
-        inserter.flush();
+        ObjectId revision = ObjectId.fromString(ps.getRevision().get());
         String editRefName = editRefName(me.getAccountId(), change.getId(),
             ps.getId());
-        return update(repo, me, editRefName, rw, ObjectId.zeroId(), commit);
+        return update(repo, me, editRefName, rw, ObjectId.zeroId(), revision);
       } finally {
         rw.release();
-        inserter.release();
       }
     } finally {
       repo.close();

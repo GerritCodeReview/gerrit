@@ -34,6 +34,24 @@
       "revId": "9e695230bcdf09ac206f61c123fffd6dbb624dd8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0127584c_f3455076",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Hashtags.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2014-12-19T14:26:32Z",
+      "side": 1,
+      "message": "Sure. Just paste \"☒\" into a file in edit mode and save. Watch it change into \"â\". Works fine visualizing the character in the diff screen if I push it instead.",
+      "parentUuid": "e181644d_b27ca0a5",
+      "revId": "9e695230bcdf09ac206f61c123fffd6dbb624dd8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

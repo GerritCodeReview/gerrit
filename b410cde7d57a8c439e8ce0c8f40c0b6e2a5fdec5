@@ -42,6 +42,23 @@
     },
     {
       "key": {
+        "uuid": "01b2f811_1b135b80",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/UploadArchive.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-12-19T01:56:40Z",
+      "side": 1,
+      "message": "Missing @Override",
+      "revId": "b410cde7d57a8c439e8ce0c8f40c0b6e2a5fdec5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "81a6e8d1_1f2c63ad",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/UploadArchive.java",
         "patchSetId": 10
@@ -59,6 +76,23 @@
     },
     {
       "key": {
+        "uuid": "61abb49e_5e7f9597",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/UploadArchive.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-12-19T01:56:40Z",
+      "side": 1,
+      "message": "Missing @Override",
+      "revId": "b410cde7d57a8c439e8ce0c8f40c0b6e2a5fdec5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "81a6e8d1_3f2f27a6",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/UploadArchive.java",
         "patchSetId": 10
@@ -70,6 +104,23 @@
       "writtenOn": "2014-12-19T01:24:45Z",
       "side": 1,
       "message": "Import ObjectLoader type. Unlike ZipFormat you aren\u0027t trying to use the same class name.",
+      "revId": "b410cde7d57a8c439e8ce0c8f40c0b6e2a5fdec5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "01b2f811_fb40af68",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/UploadArchive.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-12-19T01:56:40Z",
+      "side": 1,
+      "message": "Missing @Override",
       "revId": "b410cde7d57a8c439e8ce0c8f40c0b6e2a5fdec5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -133,6 +184,29 @@
       "writtenOn": "2014-12-19T01:24:45Z",
       "side": 1,
       "message": "nit: static fields go first in a class, as do static methods. Hoist this up to the top of your inner ZipFormat class.",
+      "revId": "b410cde7d57a8c439e8ce0c8f40c0b6e2a5fdec5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "61abb49e_7e82512d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/UploadArchive.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-12-19T01:56:40Z",
+      "side": 1,
+      "message": "Type is not needed here.  Just use `\u003c\u003e`.",
+      "range": {
+        "startLine": 154,
+        "startChar": 24,
+        "endLine": 154,
+        "endChar": 31
+      },
       "revId": "b410cde7d57a8c439e8ce0c8f40c0b6e2a5fdec5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

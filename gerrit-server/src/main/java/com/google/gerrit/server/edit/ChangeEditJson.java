@@ -35,6 +35,7 @@ import com.google.inject.Singleton;
 
 import org.eclipse.jgit.revwalk.RevCommit;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 @Singleton
@@ -66,16 +67,18 @@ public class ChangeEditJson {
   private static CommitInfo fillCommit(RevCommit editCommit) {
     CommitInfo commit = new CommitInfo();
     commit.commit = editCommit.toObjectId().getName();
-    commit.parents = Lists.newArrayListWithCapacity(1);
     commit.author = CommonConverters.toGitPerson(editCommit.getAuthorIdent());
     commit.committer = CommonConverters.toGitPerson(
         editCommit.getCommitterIdent());
     commit.subject = editCommit.getShortMessage();
     commit.message = editCommit.getFullMessage();
 
-    CommitInfo i = new CommitInfo();
-    i.commit = editCommit.getParent(0).toObjectId().getName();
-    commit.parents.add(i);
+    commit.parents = new ArrayList<>(editCommit.getParentCount());
+    for (RevCommit p : editCommit.getParents()) {
+      CommitInfo i = new CommitInfo();
+      i.commit = p.name();
+      commit.parents.add(i);
+    }
 
     return commit;
   }

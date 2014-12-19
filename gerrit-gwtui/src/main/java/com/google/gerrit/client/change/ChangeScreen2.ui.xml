@@ -63,7 +63,6 @@ limitations under the License.
       top: 0;
       right: 3px;
       height: HEADER_HEIGHT;
-      line-height: HEADER_HEIGHT;
     }
 
     .infoLine {
@@ -77,8 +76,6 @@ limitations under the License.
     .infoLineHeaderButtons {
       display: inline-block;
       height: HEADER_HEIGHT;
-      line-height: HEADER_HEIGHT;
-      vertical-align: top;
     }
     .statusRight {
       position: absolute;
@@ -257,7 +254,7 @@ limitations under the License.
     }
 
     .headerButtons button {
-      margin: 6px 3px 0 0;
+      margin: 5.286px 3px 0 0;
       text-align: center;
       font-size: 8pt;
       font-weight: bold;

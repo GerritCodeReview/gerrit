@@ -313,8 +313,12 @@ limitations under the License.
     }
     .diffBase select {
       margin: 0;
-      border: 1px solid #bbb;
-      font-size: smaller;
+      border: 2px solid rgba(0, 0, 0, 0.15);
+      height: 20px;
+      font-size: 8pt;
+      font-weight: bold;
+      border-radius: 2px;
+      background-color: #f5f5f5
     }
 
     .replyBox {

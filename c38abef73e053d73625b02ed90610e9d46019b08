@@ -22,6 +22,30 @@
       "revId": "c38abef73e053d73625b02ed90610e9d46019b08",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e181644d_122faca5",
+        "filename": "Documentation/user-inline-edit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-19T13:08:30Z",
+      "side": 1,
+      "message": "Yeah! I hoped you or Edwin can help with it?",
+      "parentUuid": "212a9c14_7409284c",
+      "range": {
+        "startLine": 27,
+        "startChar": 14,
+        "endLine": 27,
+        "endChar": 53
+      },
+      "revId": "c38abef73e053d73625b02ed90610e9d46019b08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

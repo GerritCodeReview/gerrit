@@ -106,11 +106,15 @@ public class QueryProcessor {
     this.moreResults = false;
   }
 
+  public ChangeQueryBuilder getQueryBuilder() {
+    return queryBuilder;
+  }
+
   int getLimit() {
     return limit;
   }
 
-  void setLimit(int n) {
+  public void setLimit(int n) {
     limit = n;
   }
 

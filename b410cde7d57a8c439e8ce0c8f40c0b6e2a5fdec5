@@ -492,6 +492,24 @@
     },
     {
       "key": {
+        "uuid": "e181644d_b226e0da",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/UploadArchive.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1017568
+      },
+      "writtenOn": "2014-12-19T10:26:35Z",
+      "side": 1,
+      "message": "Used to be needed to unload the plugin, as I originally implemented this as a separate gerrit plugin (with add some limitations on the supported commands though, as \u0027git archive\u0027 could not be supported: only the legacy \u0027git-archive\u0027).\n\nIn addition, (if I recall correctly) the formats are also loaded/unloaded in the \"Download Archive\" plugin, either in Gerrit or the underlying JGit code.",
+      "parentUuid": "81a6e8d1_ff6d3ff2",
+      "revId": "b410cde7d57a8c439e8ce0c8f40c0b6e2a5fdec5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a1a12cbc_0041a66a",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/UploadArchive.java",
         "patchSetId": 10

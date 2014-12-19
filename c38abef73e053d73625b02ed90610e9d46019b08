@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "212a9c14_7409284c",
+        "filename": "Documentation/user-inline-edit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-12-19T08:54:18Z",
+      "side": 1,
+      "message": "This image isn\u0027t very useful.  It would perhaps be better to somehow highlight the button that needs to be pressed.  See how it\u0027s done for the screenshots in the review documentation.\n\nThis can be done in a follow up change, and we just consider this image (and the others added in this current series) as place-holders.",
+      "range": {
+        "startLine": 27,
+        "startChar": 14,
+        "endLine": 27,
+        "endChar": 53
+      },
+      "revId": "c38abef73e053d73625b02ed90610e9d46019b08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

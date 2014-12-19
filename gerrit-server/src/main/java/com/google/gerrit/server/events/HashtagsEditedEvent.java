@@ -21,7 +21,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.data.AccountAttribute;
 import com.google.gerrit.server.data.ChangeAttribute;
 
-public class HashtagsChangedEvent extends ChangeEvent {
+public class HashtagsEditedEvent extends ChangeEvent {
   public final String type = "hashtags-edited";
   public ChangeAttribute change;
   public AccountAttribute editor;

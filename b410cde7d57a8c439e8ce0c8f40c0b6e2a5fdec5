@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "61abb49e_fe566124",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/UploadArchive.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-12-19T02:08:12Z",
+      "side": 1,
+      "message": "Don\u0027t use wildcard imports.",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 34
+      },
+      "revId": "b410cde7d57a8c439e8ce0c8f40c0b6e2a5fdec5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "81a6e8d1_bf3a17e9",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/UploadArchive.java",
         "patchSetId": 10
@@ -13,6 +36,30 @@
       "writtenOn": "2014-12-19T01:24:45Z",
       "side": 1,
       "message": "Our style is to put the + \" \" on the next line. I moved the + operator but forgot to move the spaces when I was editing this.",
+      "range": {
+        "startLine": 60,
+        "startChar": 67,
+        "endLine": 61,
+        "endChar": 13
+      },
+      "revId": "b410cde7d57a8c439e8ce0c8f40c0b6e2a5fdec5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "61abb49e_3e8cc95a",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/UploadArchive.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-12-19T02:08:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "81a6e8d1_bf3a17e9",
       "range": {
         "startLine": 60,
         "startChar": 67,
@@ -59,6 +106,24 @@
     },
     {
       "key": {
+        "uuid": "01b2f811_bb3a27e9",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/UploadArchive.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-12-19T02:08:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "01b2f811_1b135b80",
+      "revId": "b410cde7d57a8c439e8ce0c8f40c0b6e2a5fdec5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "81a6e8d1_1f2c63ad",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/UploadArchive.java",
         "patchSetId": 10
@@ -70,6 +135,24 @@
       "writtenOn": "2014-12-19T01:24:45Z",
       "side": 1,
       "message": "nit: space after cast",
+      "revId": "b410cde7d57a8c439e8ce0c8f40c0b6e2a5fdec5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "61abb49e_1e890d4b",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/UploadArchive.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-12-19T02:08:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "81a6e8d1_1f2c63ad",
       "revId": "b410cde7d57a8c439e8ce0c8f40c0b6e2a5fdec5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -93,6 +176,24 @@
     },
     {
       "key": {
+        "uuid": "01b2f811_9b3f6bd9",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/UploadArchive.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-12-19T02:08:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "61abb49e_5e7f9597",
+      "revId": "b410cde7d57a8c439e8ce0c8f40c0b6e2a5fdec5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "81a6e8d1_3f2f27a6",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/UploadArchive.java",
         "patchSetId": 10
@@ -104,6 +205,24 @@
       "writtenOn": "2014-12-19T01:24:45Z",
       "side": 1,
       "message": "Import ObjectLoader type. Unlike ZipFormat you aren\u0027t trying to use the same class name.",
+      "revId": "b410cde7d57a8c439e8ce0c8f40c0b6e2a5fdec5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "01b2f811_7b35bff7",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/UploadArchive.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-12-19T02:08:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "81a6e8d1_3f2f27a6",
       "revId": "b410cde7d57a8c439e8ce0c8f40c0b6e2a5fdec5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -127,6 +246,24 @@
     },
     {
       "key": {
+        "uuid": "61abb49e_de5ba54a",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/UploadArchive.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-12-19T02:08:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "01b2f811_fb40af68",
+      "revId": "b410cde7d57a8c439e8ce0c8f40c0b6e2a5fdec5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "81a6e8d1_5f32eb11",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/UploadArchive.java",
         "patchSetId": 10
@@ -138,6 +275,30 @@
       "writtenOn": "2014-12-19T01:24:45Z",
       "side": 1,
       "message": "nit: public static void\n\nBut public here is irrelevant. Its only as visible as the inner class, which is package access. You can skip the public keyword.",
+      "range": {
+        "startLine": 145,
+        "startChar": 3,
+        "endLine": 145,
+        "endChar": 22
+      },
+      "revId": "b410cde7d57a8c439e8ce0c8f40c0b6e2a5fdec5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "01b2f811_5b320312",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/UploadArchive.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-12-19T02:08:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "81a6e8d1_5f32eb11",
       "range": {
         "startLine": 145,
         "startChar": 3,
@@ -173,6 +334,30 @@
     },
     {
       "key": {
+        "uuid": "61abb49e_be50d927",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/UploadArchive.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-12-19T02:08:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a1a12cbc_40168e70",
+      "range": {
+        "startLine": 149,
+        "startChar": 4,
+        "endLine": 149,
+        "endChar": 22
+      },
+      "revId": "b410cde7d57a8c439e8ce0c8f40c0b6e2a5fdec5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "81a6e8d1_7f35aff7",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/UploadArchive.java",
         "patchSetId": 10
@@ -184,6 +369,24 @@
       "writtenOn": "2014-12-19T01:24:45Z",
       "side": 1,
       "message": "nit: static fields go first in a class, as do static methods. Hoist this up to the top of your inner ZipFormat class.",
+      "revId": "b410cde7d57a8c439e8ce0c8f40c0b6e2a5fdec5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "01b2f811_3b2f37a6",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/UploadArchive.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-12-19T02:08:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "81a6e8d1_7f35aff7",
       "revId": "b410cde7d57a8c439e8ce0c8f40c0b6e2a5fdec5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -213,6 +416,30 @@
     },
     {
       "key": {
+        "uuid": "61abb49e_9e551d18",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/UploadArchive.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-12-19T02:08:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "61abb49e_7e82512d",
+      "range": {
+        "startLine": 154,
+        "startChar": 24,
+        "endLine": 154,
+        "endChar": 31
+      },
+      "revId": "b410cde7d57a8c439e8ce0c8f40c0b6e2a5fdec5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a1a12cbc_20138a80",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/UploadArchive.java",
         "patchSetId": 10
@@ -224,6 +451,24 @@
       "writtenOn": "2014-12-19T01:24:45Z",
       "side": 1,
       "message": "This is probably a bad event from a programming error, and should at least be logged in the server log so we can learn about it and correct it.",
+      "revId": "b410cde7d57a8c439e8ce0c8f40c0b6e2a5fdec5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "01b2f811_1b2c7bad",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/UploadArchive.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-12-19T02:08:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a1a12cbc_20138a80",
       "revId": "b410cde7d57a8c439e8ce0c8f40c0b6e2a5fdec5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -298,6 +543,24 @@
       "writtenOn": "2014-12-19T01:24:45Z",
       "side": 1,
       "message": "specify the encoding as UTF-8 here.",
+      "revId": "b410cde7d57a8c439e8ce0c8f40c0b6e2a5fdec5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "01b2f811_fb6d4ff2",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/UploadArchive.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 338,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-12-19T02:08:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "81a6e8d1_df727bd4",
       "revId": "b410cde7d57a8c439e8ce0c8f40c0b6e2a5fdec5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -196,24 +196,6 @@ To use the GWT DETAILED style the package must be recompiled and
 ----
 
 
-== Release Builds
-
-To create a release build for a production server, or deployment
-through the download site:
-
-----
-  ./tools/release.sh
-----
-
-If AsciiDoc isn't installed or is otherwise unavailable, the WAR
-can still be built without the embedded documentation by passing
-an additional flag:
-
-----
-  ./tools/release.sh --without-documentation
-----
-
-
 == Client-Server RPC
 
 The client-server RPC implementation is gwtjsonrpc, not the stock RPC

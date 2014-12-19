@@ -16,13 +16,13 @@ package com.google.gerrit.server.events;
 
 import com.google.gerrit.server.data.AccountAttribute;
 
-public class HashtagsChangedEvent extends ChangeEvent {
+public class HashtagsEditedEvent extends ChangeEvent {
   public AccountAttribute editor;
   public String[] added;
   public String[] removed;
   public String[] hashtags;
 
-  public HashtagsChangedEvent () {
+  public HashtagsEditedEvent () {
     super("hashtags-edited");
   }
 }

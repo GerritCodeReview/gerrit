@@ -41,7 +41,7 @@ import com.google.gerrit.server.events.ChangeRestoredEvent;
 import com.google.gerrit.server.events.CommentAddedEvent;
 import com.google.gerrit.server.events.DraftPublishedEvent;
 import com.google.gerrit.server.events.EventFactory;
-import com.google.gerrit.server.events.HashtagsChangedEvent;
+import com.google.gerrit.server.events.HashtagsEditedEvent;
 import com.google.gerrit.server.events.MergeFailedEvent;
 import com.google.gerrit.server.events.PatchSetCreatedEvent;
 import com.google.gerrit.server.events.RefEvent;
@@ -606,7 +606,7 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener {
     public void doHashtagsChangedHook(Change change, Account account,
         Set<String> added, Set<String> removed, Set<String> hashtags, ReviewDb db)
             throws OrmException {
-      HashtagsChangedEvent event = new HashtagsChangedEvent();
+      HashtagsEditedEvent event = new HashtagsEditedEvent();
       AccountState owner = accountCache.get(change.getOwner());
 
       event.change = eventFactory.asChangeAttribute(change);

@@ -14,7 +14,7 @@
 package com.google.gerrit.server.git.validators;
 
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
-import com.google.gerrit.server.events.RefOperationReceivedEvent;
+import com.google.gerrit.server.events.RefReceivedEvent;
 import com.google.gerrit.server.validators.ValidationException;
 
 import java.util.List;
@@ -32,6 +32,6 @@ public interface RefOperationValidationListener {
    * @return empty list or informational messages on success
    * @throws ValidationException if the ref operation fails to validate
    */
-  List<ValidationMessage> onRefOperation(RefOperationReceivedEvent refEvent)
+  List<ValidationMessage> onRefOperation(RefReceivedEvent refEvent)
       throws ValidationException;
 }

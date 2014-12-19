@@ -28,10 +28,10 @@ public class EventTypes {
     registerClass(new CommentAddedEvent());
     registerClass(new CommitReceivedEvent());
     registerClass(new DraftPublishedEvent());
-    registerClass(new HashtagsChangedEvent());
+    registerClass(new HashtagsEditedEvent());
     registerClass(new MergeFailedEvent());
     registerClass(new RefUpdatedEvent());
-    registerClass(new RefOperationReceivedEvent());
+    registerClass(new RefReceivedEvent());
     registerClass(new ReviewerAddedEvent());
     registerClass(new PatchSetCreatedEvent());
     registerClass(new TopicChangedEvent());

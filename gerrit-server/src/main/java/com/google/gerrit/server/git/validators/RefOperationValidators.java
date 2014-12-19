@@ -19,7 +19,7 @@ import com.google.common.collect.Lists;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.events.RefOperationReceivedEvent;
+import com.google.gerrit.server.events.RefReceivedEvent;
 import com.google.gerrit.server.validators.ValidationException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
@@ -45,7 +45,7 @@ public class RefOperationValidators {
         update.getName(), type);
   }
 
-  private final RefOperationReceivedEvent event;
+  private final RefReceivedEvent event;
   private final DynamicSet<RefOperationValidationListener> refOperationValidationListeners;
 
   @Inject
@@ -54,7 +54,7 @@ public class RefOperationValidators {
       @Assisted Project project, @Assisted IdentifiedUser user,
       @Assisted ReceiveCommand cmd) {
     this.refOperationValidationListeners = refOperationValidationListeners;
-    event = new RefOperationReceivedEvent();
+    event = new RefReceivedEvent();
     event.command = cmd;
     event.project = project;
     event.user = user;
@@ -82,7 +82,7 @@ public class RefOperationValidators {
   }
 
   private void throwException(Iterable<ValidationMessage> messages,
-      RefOperationReceivedEvent event) throws RefOperationValidationException {
+      RefReceivedEvent event) throws RefOperationValidationException {
     Iterable<ValidationMessage> errors = Iterables.filter(messages, GET_ERRORS);
     String header = String.format(
         "Ref \"%s\" %S in project %s validation failed", event.command.getRefName(),

@@ -18,12 +18,12 @@ import com.google.gerrit.server.IdentifiedUser;
 
 import org.eclipse.jgit.transport.ReceiveCommand;
 
-public class RefOperationReceivedEvent extends RefEvent {
+public class RefReceivedEvent extends RefEvent {
   public ReceiveCommand command;
   public Project project;
   public IdentifiedUser user;
 
-  public RefOperationReceivedEvent() {
+  public RefReceivedEvent() {
     super("ref-received");
   }
 

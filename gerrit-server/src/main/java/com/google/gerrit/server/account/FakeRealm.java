@@ -12,16 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.testutil;
+package com.google.gerrit.server.account;
 
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Account.FieldName;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.account.AuthRequest;
-import com.google.gerrit.server.account.Realm;
 
-/** Fake implementation of {@link Realm} for testing. */
-public class FakeRealm implements Realm {
+/** Fake implementation of {@link Realm} that does not communicate. */
+public class FakeRealm extends AbstractRealm {
   @Override
   public boolean allowsEdit(FieldName field) {
     return false;

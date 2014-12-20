@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "212a9c14_342c10ae",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PermissionCollection.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-12-20T01:04:08Z",
+      "side": 1,
+      "message": "Is it likely that filter will be called multiple times over the lifetime of a PermissionCollection instance? Because the usernameProvider is not memoizing.",
+      "revId": "ea749b269585371550d8317a0c8434d050bc9500",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

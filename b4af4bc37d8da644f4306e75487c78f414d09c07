@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "6130147f_96c5ec6e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/IdentifiedUser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-12-20T01:08:44Z",
+      "side": 1,
+      "message": "Ugh. That is another entire layer of indirection.\n\nCurrently there are only 4 Realm implementations. And really AccountExtrenalId should die if we want to get to a pluggable account system. And Realm is the only thing we have right now.\n\nI\u0027m really starting to like the idea of just punting the set construction down into Realm.",
+      "parentUuid": "212a9c14_f47218d4",
+      "revId": "b4af4bc37d8da644f4306e75487c78f414d09c07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "212a9c14_54350cf7",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/Realm.java",
         "patchSetId": 1

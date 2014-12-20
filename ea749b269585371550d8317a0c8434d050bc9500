@@ -16,6 +16,24 @@
       "revId": "ea749b269585371550d8317a0c8434d050bc9500",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6130147f_d6bb64e7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PermissionCollection.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-12-20T01:06:09Z",
+      "side": 1,
+      "message": "Doesn\u0027t really matter. The IdentifiedUser the Provider wraps memoizes the email lookups. After that its just object copying to convert from Set\u003cString\u003e to List\u003cString\u003e inside of the Provider.\n\nThus far we haven\u0027t worried about that kind of garbage. The old version of this code did that on each invocation of filter. I don\u0027t plan to micro-optimize that away right now.\n\nThis change is about avoiding a potentially unnecesary and slow query against the Realm\u0027s backend database.",
+      "parentUuid": "212a9c14_342c10ae",
+      "revId": "ea749b269585371550d8317a0c8434d050bc9500",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

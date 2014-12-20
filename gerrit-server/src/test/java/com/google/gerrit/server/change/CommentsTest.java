@@ -52,7 +52,9 @@ import com.google.gerrit.server.PatchLineCommentsUtil;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.account.CapabilityControl;
+import com.google.gerrit.server.account.FakeRealm;
 import com.google.gerrit.server.account.GroupBackend;
+import com.google.gerrit.server.account.Realm;
 import com.google.gerrit.server.config.AllUsersNameProvider;
 import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.config.AnonymousCowardNameProvider;
@@ -171,6 +173,7 @@ public class CommentsTest  {
         bind(draftViewsType).toInstance(draftViews);
         bind(AccountLoader.Factory.class).toInstance(alf);
         bind(ReviewDb.class).toInstance(db);
+        bind(Realm.class).to(FakeRealm.class);
         bind(Config.class).annotatedWith(GerritServerConfig.class).toInstance(config);
         bind(ProjectCache.class).toProvider(Providers.<ProjectCache> of(null));
         install(new GitModule());

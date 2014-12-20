@@ -26,8 +26,10 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountByEmailCacheImpl;
 import com.google.gerrit.server.account.AccountCacheImpl;
 import com.google.gerrit.server.account.CapabilityControl;
+import com.google.gerrit.server.account.FakeRealm;
 import com.google.gerrit.server.account.GroupCacheImpl;
 import com.google.gerrit.server.account.GroupIncludeCacheImpl;
+import com.google.gerrit.server.account.Realm;
 import com.google.gerrit.server.cache.CacheRemovalListener;
 import com.google.gerrit.server.cache.h2.DefaultCacheFactory;
 import com.google.gerrit.server.change.ChangeKindCacheImpl;
@@ -96,6 +98,7 @@ public class BatchProgramModule extends FactoryModule {
         .toProvider(CanonicalWebUrlProvider.class);
     bind(Boolean.class).annotatedWith(DisableReverseDnsLookup.class)
         .toProvider(DisableReverseDnsLookupProvider.class).in(SINGLETON);
+    bind(Realm.class).to(FakeRealm.class);
     bind(IdentifiedUser.class)
       .toProvider(Providers.<IdentifiedUser> of(null));
     bind(ReplacePatchSetSender.Factory.class).toProvider(

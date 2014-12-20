@@ -26,6 +26,7 @@ import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.account.AbstractRealm;
 import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.EmailExpander;
@@ -58,7 +59,7 @@ import javax.naming.directory.DirContext;
 import javax.security.auth.login.LoginException;
 
 @Singleton
-public class LdapRealm implements Realm {
+public class LdapRealm extends AbstractRealm implements Realm {
   static final Logger log = LoggerFactory.getLogger(LdapRealm.class);
   static final String LDAP = "com.sun.jndi.ldap.LdapCtxFactory";
   static final String USERNAME = "username";

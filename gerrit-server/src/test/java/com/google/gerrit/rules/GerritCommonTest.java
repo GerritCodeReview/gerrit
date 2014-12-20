@@ -27,6 +27,8 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.server.account.FakeRealm;
+import com.google.gerrit.server.account.Realm;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.project.Util;
@@ -70,6 +72,7 @@ public class GerritCommonTest extends PrologTestCase {
         Config cfg = new Config();
         cfg.setInt("rules", null, "reductionLimit", 1300);
         cfg.setInt("rules", null, "compileReductionLimit", (int) 1e6);
+        bind(Realm.class).to(FakeRealm.class);
         bind(PrologEnvironment.Args.class).toInstance(
             new PrologEnvironment.Args(
                 null,

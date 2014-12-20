@@ -25,7 +25,7 @@ import com.google.inject.Singleton;
 import java.util.Set;
 
 @Singleton
-public class DefaultRealm implements Realm {
+public class DefaultRealm extends AbstractRealm implements Realm {
   private final EmailExpander emailExpander;
   private final AccountByEmailCache byEmail;
   private final AuthConfig authConfig;

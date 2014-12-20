@@ -26,6 +26,7 @@ import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.EmailExpander;
@@ -43,6 +44,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -289,6 +291,16 @@ public class LdapRealm implements Realm {
       log.warn(String.format("Cannot lookup account %s in LDAP", accountName), e);
       return null;
     }
+  }
+
+  @Override
+  public boolean hasEmailAddress(IdentifiedUser user, String email) {
+    return false;
+  }
+
+  @Override
+  public Set<String> getEmailAddresses(IdentifiedUser who) {
+    return Collections.emptySet();
   }
 
   static class UserLoader extends CacheLoader<String, Optional<Account.Id>> {

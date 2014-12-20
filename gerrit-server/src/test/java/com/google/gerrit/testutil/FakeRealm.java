@@ -17,8 +17,12 @@ package com.google.gerrit.testutil;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Account.FieldName;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.Realm;
+
+import java.util.Collections;
+import java.util.Set;
 
 /** Fake implementation of {@link Realm} for testing. */
 public class FakeRealm implements Realm {
@@ -50,5 +54,15 @@ public class FakeRealm implements Realm {
   @Override
   public Account.Id lookup(String accountName) {
     return null;
+  }
+
+  @Override
+  public boolean hasEmailAddress(IdentifiedUser who, String email) {
+    return false;
+  }
+
+  @Override
+  public Set<String> getEmailAddresses(IdentifiedUser who) {
+    return Collections.emptySet();
   }
 }

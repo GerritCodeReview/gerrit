@@ -18,10 +18,12 @@ import com.google.common.base.Strings;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import java.util.Collections;
 import java.util.Set;
 
 @Singleton
@@ -88,5 +90,15 @@ public class DefaultRealm implements Realm {
       }
     }
     return null;
+  }
+
+  @Override
+  public boolean hasEmailAddress(IdentifiedUser user, String email) {
+    return false;
+  }
+
+  @Override
+  public Set<String> getEmailAddresses(IdentifiedUser who) {
+    return Collections.emptySet();
   }
 }

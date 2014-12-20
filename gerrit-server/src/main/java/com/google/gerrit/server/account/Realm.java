@@ -16,6 +16,9 @@ package com.google.gerrit.server.account;
 
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.IdentifiedUser;
+
+import java.util.Set;
 
 public interface Realm {
   /** Can the end-user modify this field of their own account? */
@@ -30,6 +33,12 @@ public interface Realm {
       throws AccountException;
 
   public void onCreateAccount(AuthRequest who, Account account);
+
+  /** @return true if the user has the given email address. */
+  public boolean hasEmailAddress(IdentifiedUser who, String email);
+
+  /** @return all known email addresses for the identified user. */
+  public Set<String> getEmailAddresses(IdentifiedUser who);
 
   /**
    * Locate an account whose local username is the given account name.

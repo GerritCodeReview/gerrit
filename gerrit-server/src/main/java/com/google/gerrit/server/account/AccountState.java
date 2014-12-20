@@ -21,7 +21,6 @@ import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.Set;
 
 public class AccountState {
@@ -62,25 +61,6 @@ public class AccountState {
       }
     }
     return null;
-  }
-
-  /**
-   * All email addresses registered to this account.
-   * <p>
-   * Gerrit is "reasonably certain" that the returned email addresses actually
-   * belong to the user of the account. Some emails may have been obtained from
-   * the authentication provider, which in the case of OpenID may be trusting
-   * the provider to have validated the address. Other emails may have been
-   * validated by Gerrit directly.
-   */
-  public Set<String> getEmailAddresses() {
-    final Set<String> emails = new HashSet<>();
-    for (final AccountExternalId e : externalIds) {
-      if (e.getEmailAddress() != null && !e.getEmailAddress().isEmpty()) {
-        emails.add(e.getEmailAddress());
-      }
-    }
-    return emails;
   }
 
   /** The external identities that identify the account holder. */

@@ -30,6 +30,7 @@ import com.google.gerrit.server.account.CapabilityControl;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupMembership;
 import com.google.gerrit.server.account.ListGroupMembership;
+import com.google.gerrit.server.account.Realm;
 import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.CanonicalWebUrl;
@@ -67,6 +68,7 @@ public class IdentifiedUser extends CurrentUser {
   public static class GenericFactory {
     private final CapabilityControl.Factory capabilityControlFactory;
     private final AuthConfig authConfig;
+    private final Realm realm;
     private final String anonymousCowardName;
     private final Provider<String> canonicalUrl;
     private final AccountCache accountCache;
@@ -77,6 +79,7 @@ public class IdentifiedUser extends CurrentUser {
     public GenericFactory(
         @Nullable CapabilityControl.Factory capabilityControlFactory,
         AuthConfig authConfig,
+        Realm realm,
         @AnonymousCowardName String anonymousCowardName,
         @CanonicalWebUrl Provider<String> canonicalUrl,
         @DisableReverseDnsLookup Boolean disableReverseDnsLookup,
@@ -84,6 +87,7 @@ public class IdentifiedUser extends CurrentUser {
         GroupBackend groupBackend) {
       this.capabilityControlFactory = capabilityControlFactory;
       this.authConfig = authConfig;
+      this.realm = realm;
       this.anonymousCowardName = anonymousCowardName;
       this.canonicalUrl = canonicalUrl;
       this.accountCache = accountCache;
@@ -96,20 +100,20 @@ public class IdentifiedUser extends CurrentUser {
     }
 
     public IdentifiedUser create(Provider<ReviewDb> db, Account.Id id) {
-      return new IdentifiedUser(capabilityControlFactory, authConfig,
+      return new IdentifiedUser(capabilityControlFactory, authConfig, realm,
           anonymousCowardName, canonicalUrl, accountCache, groupBackend,
           disableReverseDnsLookup, null, db, id, null);
     }
 
     public IdentifiedUser create(SocketAddress remotePeer, Account.Id id) {
-      return new IdentifiedUser(capabilityControlFactory, authConfig,
+      return new IdentifiedUser(capabilityControlFactory, authConfig, realm,
           anonymousCowardName, canonicalUrl, accountCache, groupBackend,
           disableReverseDnsLookup, Providers.of(remotePeer), null, id, null);
     }
 
     public CurrentUser runAs(SocketAddress remotePeer, Account.Id id,
         @Nullable CurrentUser caller) {
-      return new IdentifiedUser(capabilityControlFactory, authConfig,
+      return new IdentifiedUser(capabilityControlFactory, authConfig, realm,
           anonymousCowardName, canonicalUrl, accountCache, groupBackend,
           disableReverseDnsLookup, Providers.of(remotePeer), null, id, caller);
     }
@@ -125,6 +129,7 @@ public class IdentifiedUser extends CurrentUser {
   public static class RequestFactory {
     private final CapabilityControl.Factory capabilityControlFactory;
     private final AuthConfig authConfig;
+    private final Realm realm;
     private final String anonymousCowardName;
     private final Provider<String> canonicalUrl;
     private final AccountCache accountCache;
@@ -138,6 +143,7 @@ public class IdentifiedUser extends CurrentUser {
     RequestFactory(
         CapabilityControl.Factory capabilityControlFactory,
         final AuthConfig authConfig,
+        Realm realm,
         final @AnonymousCowardName String anonymousCowardName,
         final @CanonicalWebUrl Provider<String> canonicalUrl,
         final AccountCache accountCache,
@@ -148,6 +154,7 @@ public class IdentifiedUser extends CurrentUser {
         final Provider<ReviewDb> dbProvider) {
       this.capabilityControlFactory = capabilityControlFactory;
       this.authConfig = authConfig;
+      this.realm = realm;
       this.anonymousCowardName = anonymousCowardName;
       this.canonicalUrl = canonicalUrl;
       this.accountCache = accountCache;
@@ -159,13 +166,13 @@ public class IdentifiedUser extends CurrentUser {
     }
 
     public IdentifiedUser create(Account.Id id) {
-      return new IdentifiedUser(capabilityControlFactory, authConfig,
+      return new IdentifiedUser(capabilityControlFactory, authConfig, realm,
           anonymousCowardName, canonicalUrl, accountCache, groupBackend,
           disableReverseDnsLookup, remotePeerProvider, dbProvider, id, null);
     }
 
     public IdentifiedUser runAs(Account.Id id, CurrentUser caller) {
-      return new IdentifiedUser(capabilityControlFactory, authConfig,
+      return new IdentifiedUser(capabilityControlFactory, authConfig, realm,
           anonymousCowardName, canonicalUrl, accountCache, groupBackend,
           disableReverseDnsLookup, remotePeerProvider, dbProvider, id, caller);
     }
@@ -182,6 +189,7 @@ public class IdentifiedUser extends CurrentUser {
   private final Provider<String> canonicalUrl;
   private final AccountCache accountCache;
   private final AuthConfig authConfig;
+  private final Realm realm;
   private final GroupBackend groupBackend;
   private final String anonymousCowardName;
   private final Boolean disableReverseDnsLookup;
@@ -195,17 +203,19 @@ public class IdentifiedUser extends CurrentUser {
   private final Account.Id accountId;
 
   private AccountState state;
-  private Set<String> emailAddresses;
+  private boolean loadedAllEmails;
+  private final Set<String> validEmails = Sets.newHashSetWithExpectedSize(4);
+  private Set<String> invalidEmails;
   private GroupMembership effectiveGroups;
   private Set<Change.Id> starredChanges;
   private ResultSet<StarredChange> starredQuery;
   private Collection<AccountProjectWatch> notificationFilters;
   private CurrentUser realUser;
 
-
   private IdentifiedUser(
       CapabilityControl.Factory capabilityControlFactory,
       final AuthConfig authConfig,
+      Realm realm,
       final String anonymousCowardName,
       final Provider<String> canonicalUrl,
       final AccountCache accountCache,
@@ -220,6 +230,7 @@ public class IdentifiedUser extends CurrentUser {
     this.accountCache = accountCache;
     this.groupBackend = groupBackend;
     this.authConfig = authConfig;
+    this.realm = realm;
     this.anonymousCowardName = anonymousCowardName;
     this.disableReverseDnsLookup = disableReverseDnsLookup;
     this.remotePeerProvider = remotePeerProvider;
@@ -271,14 +282,26 @@ public class IdentifiedUser extends CurrentUser {
   }
 
   public boolean hasEmailAddress(String email) {
-    return getEmailAddresses().contains(email);
+    if (validEmails.contains(email)) {
+      return true;
+    } else if (invalidEmails != null && invalidEmails.contains(email)) {
+      return false;
+    } else if (realm.hasEmailAddress(this, email)) {
+      validEmails.add(email);
+      return true;
+    } else if (invalidEmails == null) {
+      invalidEmails = Sets.newHashSetWithExpectedSize(4);
+    }
+    invalidEmails.add(email);
+    return false;
   }
 
   public Set<String> getEmailAddresses() {
-    if (emailAddresses == null) {
-      emailAddresses = state().getEmailAddresses();
+    if (!loadedAllEmails) {
+      validEmails.addAll(realm.getEmailAddresses(this));
+      loadedAllEmails = true;
     }
-    return emailAddresses;
+    return validEmails;
   }
 
   public String getName() {

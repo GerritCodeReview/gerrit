@@ -61,23 +61,23 @@ public class PermissionCollection {
      *        priority order (project specific definitions must appear before
      *        inherited ones).
      * @param ref reference being accessed.
-     * @param usernames if the reference is a per-user reference, access sections
-     *        using the parameter variable "${username}" will first have each of
-     *        {@code usernames} inserted into them before seeing if they apply to
-     *        the reference named by {@code ref}. If null or empty, per-user
-     *        references are ignored.
+     * @param usernameProvider if the reference is a per-user reference, access
+     *        sections using the parameter variable "${username}" will first
+     *        have each of {@code usernames} inserted into them before seeing if
+     *        they apply to the reference named by {@code ref}. If null or
+     *        empty, per-user references are ignored.
      * @return map of permissions that apply to this reference, keyed by
      *         permission name.
      */
     PermissionCollection filter(Iterable<SectionMatcher> matcherList,
-        String ref, Provider<Collection<String>> usernames) {
+        String ref, Provider<? extends Collection<String>> usernameProvider) {
       if (isRE(ref)) {
         ref = RefControl.shortestExample(ref);
       } else if (ref.endsWith("/*")) {
         ref = ref.substring(0, ref.length() - 1);
       }
 
-      boolean hasUsernames = usernames != null && !usernames.isEmpty();
+      Collection<String> usernames = null;
       boolean perUser = false;
       Map<AccessSection, Project.NameKey> sectionToProject = Maps.newLinkedHashMap();
       for (SectionMatcher sm : matcherList) {
@@ -93,11 +93,15 @@ public class PermissionCollection {
         // that will never be shared with non-user references, and the per-user
         // references are usually less frequent than the non-user references.
         //
-        if (hasUsernames) {
-          if (!perUser && sm.matcher instanceof RefPatternMatcher.ExpandParameters) {
-            perUser = ((RefPatternMatcher.ExpandParameters) sm.matcher).matchPrefix(ref);
+        if (sm.matcher instanceof RefPatternMatcher.ExpandParameters) {
+          if (!((RefPatternMatcher.ExpandParameters) sm.matcher).matchPrefix(ref)) {
+            continue;
           }
-          for (String username : usernames.get()) {
+          perUser = true;
+          if (usernames == null) {
+            usernames = usernameProvider.get();
+          }
+          for (String username : usernames) {
             if (sm.match(ref, username)) {
               sectionToProject.put(sm.section, sm.project);
               break;

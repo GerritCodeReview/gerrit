@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.project;
 
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.gerrit.common.Nullable;
@@ -57,6 +56,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -207,22 +207,21 @@ public class ProjectControl {
     }
     RefControl ctl = refControls.get(refName);
     if (ctl == null) {
-      Provider<ImmutableList<String>> usernames =
-          new Provider<ImmutableList<String>>() {
-        private ImmutableList<String> names;
+      Provider<List<String>> usernames = new Provider<List<String>>() {
         @Override
-        public ImmutableList<String> get() {
-          if (names == null) {
-            ImmutableList.Builder<String> usernames = ImmutableList.<String> builder();
-            if (user.getUserName() != null) {
-              usernames.add(user.getUserName());
-            }
-            if (user instanceof IdentifiedUser) {
-              usernames.addAll(((IdentifiedUser) user).getEmailAddresses());
-            }
-            names = usernames.build();
+        public List<String> get() {
+          List<String> r;
+          if (user.isIdentifiedUser()) {
+            Set<String> emails = ((IdentifiedUser) user).getEmailAddresses();
+            r = new ArrayList<>(emails.size() + 1);
+            r.addAll(emails);
+          } else {
+            r = new ArrayList<>(1);
           }
-          return names;
+          if (user.getUserName() != null) {
+            r.add(user.getUserName());
+          }
+          return r;
         }
       };
       PermissionCollection relevant =

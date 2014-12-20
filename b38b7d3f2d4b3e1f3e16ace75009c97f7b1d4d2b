@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "212a9c14_b47ca0a5",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/util/BatchProgramModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-12-20T01:23:10Z",
+      "side": 1,
+      "message": "Don\u0027t forget to update this binding in our internal reindexer.",
+      "revId": "b38b7d3f2d4b3e1f3e16ace75009c97f7b1d4d2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "212a9c14_747fe897",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/IdentifiedUser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-12-20T01:23:10Z",
+      "side": 1,
+      "message": "At this point is it so bad to just allocate this on startup and ditch the lazy creation? Obviously still want to keep the lazy loading from the Realm.",
+      "revId": "b38b7d3f2d4b3e1f3e16ace75009c97f7b1d4d2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "212a9c14_5482ec2c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/DefaultRealm.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-12-20T01:23:10Z",
+      "side": 1,
+      "message": "implements Realm is no longer necessary.",
+      "revId": "b38b7d3f2d4b3e1f3e16ace75009c97f7b1d4d2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "412dd028_953ac4e9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/FakeRealm.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-12-20T01:23:10Z",
+      "side": 1,
+      "message": "implements Realm is no longer necessary.",
+      "revId": "b38b7d3f2d4b3e1f3e16ace75009c97f7b1d4d2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "412dd028_b53fc0d8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/ldap/LdapRealm.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-12-20T01:23:10Z",
+      "side": 1,
+      "message": "implements Realm is no longer necessary.",
+      "revId": "b38b7d3f2d4b3e1f3e16ace75009c97f7b1d4d2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

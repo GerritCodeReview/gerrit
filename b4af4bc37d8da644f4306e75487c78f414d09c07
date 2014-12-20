@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "212a9c14_f47218d4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/IdentifiedUser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-12-20T01:06:04Z",
+      "side": 1,
+      "message": "Ok, that makes sense, Realm is the stuff outside of Gerrit and there may be AccountExternalIds internal to Gerrit.\n\nBut the idea of having every Realm implementation be responsible for scanning AccountExternalIds seems like someone\u0027s likely to forget that.\n\nWhat about giving a Realm to AccountState and merging the list in there?",
+      "parentUuid": "6130147f_16655cfc",
+      "revId": "b4af4bc37d8da644f4306e75487c78f414d09c07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "212a9c14_54350cf7",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/Realm.java",
         "patchSetId": 1

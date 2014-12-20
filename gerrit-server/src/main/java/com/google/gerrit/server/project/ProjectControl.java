@@ -207,15 +207,26 @@ public class ProjectControl {
     }
     RefControl ctl = refControls.get(refName);
     if (ctl == null) {
-      ImmutableList.Builder<String> usernames = ImmutableList.<String> builder();
-      if (user.getUserName() != null) {
-        usernames.add(user.getUserName());
-      }
-      if (user instanceof IdentifiedUser) {
-        usernames.addAll(((IdentifiedUser) user).getEmailAddresses());
-      }
+      Provider<ImmutableList<String>> usernames =
+          new Provider<ImmutableList<String>>() {
+        private ImmutableList<String> names;
+        @Override
+        public ImmutableList<String> get() {
+          if (names == null) {
+            ImmutableList.Builder<String> usernames = ImmutableList.<String> builder();
+            if (user.getUserName() != null) {
+              usernames.add(user.getUserName());
+            }
+            if (user instanceof IdentifiedUser) {
+              usernames.addAll(((IdentifiedUser) user).getEmailAddresses());
+            }
+            names = usernames.build();
+          }
+          return names;
+        }
+      };
       PermissionCollection relevant =
-          permissionFilter.filter(access(), refName, usernames.build());
+          permissionFilter.filter(access(), refName, usernames);
       ctl = new RefControl(this, refName, relevant);
       refControls.put(refName, ctl);
     }

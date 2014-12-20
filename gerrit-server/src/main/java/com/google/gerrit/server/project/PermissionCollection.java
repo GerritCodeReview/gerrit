@@ -24,6 +24,7 @@ import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import java.util.ArrayList;
@@ -69,7 +70,7 @@ public class PermissionCollection {
      *         permission name.
      */
     PermissionCollection filter(Iterable<SectionMatcher> matcherList,
-        String ref, Collection<String> usernames) {
+        String ref, Provider<Collection<String>> usernames) {
       if (isRE(ref)) {
         ref = RefControl.shortestExample(ref);
       } else if (ref.endsWith("/*")) {
@@ -96,7 +97,7 @@ public class PermissionCollection {
           if (!perUser && sm.matcher instanceof RefPatternMatcher.ExpandParameters) {
             perUser = ((RefPatternMatcher.ExpandParameters) sm.matcher).matchPrefix(ref);
           }
-          for (String username : usernames) {
+          for (String username : usernames.get()) {
             if (sm.match(ref, username)) {
               sectionToProject.put(sm.section, sm.project);
               break;

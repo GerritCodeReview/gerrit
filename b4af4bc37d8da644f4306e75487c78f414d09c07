@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "212a9c14_74328812",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/IdentifiedUser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-12-20T01:00:57Z",
+      "side": 1,
+      "message": "From reading just this code I have no idea how AccountState\u0027s list of email addresses differs from the Realm\u0027s. Why doesn\u0027t AccountState.getEmailAddresses just query the realm? Why does this double layer of email address listing belong in IdentifiedUser at all?",
+      "revId": "b4af4bc37d8da644f4306e75487c78f414d09c07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "212a9c14_54350cf7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/Realm.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-12-20T01:00:57Z",
+      "side": 1,
+      "message": "Nit: blank line before this to be consistent with the rest of the file.",
+      "revId": "b4af4bc37d8da644f4306e75487c78f414d09c07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

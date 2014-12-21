@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a164cc9a_68dba380",
+        "filename": "gerrit-server/src/main/java/gerrit/PRED__load_commit_footers_1.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-12-21T04:47:08Z",
+      "side": 1,
+      "message": "Use the PATCH_SET instead:\n\n  PatchSet ps \u003d StoredValues.PATCH_SET.get(engine);",
+      "revId": "3e1cbbe4d875cbfc07d8e198040103770ed2a8ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "81698876_27e5da33",
+        "filename": "gerrit-server/src/main/java/gerrit/PRED__load_commit_footers_1.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-12-21T04:47:08Z",
+      "side": 1,
+      "message": "Use ps.getRevision().get();",
+      "revId": "3e1cbbe4d875cbfc07d8e198040103770ed2a8ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "81698876_c7f2befd",
+        "filename": "gerrit-server/src/main/prolog/gerrit_common.pl",
+        "patchSetId": 5
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-12-21T04:47:08Z",
+      "side": 1,
+      "message": "add here:\n\n  define_hash(commit_footers).\n\nI think that resolves the Prolog error noted.",
+      "revId": "3e1cbbe4d875cbfc07d8e198040103770ed2a8ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a164cc9a_48dedf71",
+        "filename": "gerrit-server/src/main/prolog/gerrit_common.pl",
+        "patchSetId": 5
+      },
+      "lineNbr": 486,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-12-21T04:47:08Z",
+      "side": 1,
+      "message": "I don\u0027t think we want to require atom(Value) to enter this branch. Only Footer is necessary to be an atom for the hash_get/3. Once that is located Value can be a variable that is bound to the values successively from the footer items.",
+      "revId": "3e1cbbe4d875cbfc07d8e198040103770ed2a8ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "81698876_07e8d60a",
+        "filename": "gerrit-server/src/main/prolog/gerrit_common.pl",
+        "patchSetId": 5
+      },
+      "lineNbr": 509,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-12-21T04:47:08Z",
+      "side": 1,
+      "message": "This cut is a no-op, isn\u0027t it? Once the cut happened on line 507 above there are no more alternatives to execute.",
+      "revId": "3e1cbbe4d875cbfc07d8e198040103770ed2a8ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -14,8 +14,8 @@
 
 package com.google.gerrit.httpd.rpc.change;
 
-import com.google.gerrit.server.query.change.QueryProcessor;
-import com.google.gerrit.server.query.change.QueryProcessor.OutputFormat;
+import com.google.gerrit.server.query.change.OutputStreamQuery;
+import com.google.gerrit.server.query.change.OutputStreamQuery.OutputFormat;
 import com.google.gson.Gson;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -31,11 +31,11 @@ import javax.servlet.http.HttpServletResponse;
 @Singleton
 public class DeprecatedChangeQueryServlet extends HttpServlet {
   private static final long serialVersionUID = 1L;
-  private final Provider<QueryProcessor> processor;
+  private final Provider<OutputStreamQuery> queryProvider;
 
   @Inject
-  DeprecatedChangeQueryServlet(Provider<QueryProcessor> processor) {
-    this.processor = processor;
+  DeprecatedChangeQueryServlet(Provider<OutputStreamQuery> queryProvider) {
+    this.queryProvider = queryProvider;
   }
 
   @Override
@@ -44,7 +44,7 @@ public class DeprecatedChangeQueryServlet extends HttpServlet {
     rsp.setContentType("text/json");
     rsp.setCharacterEncoding("UTF-8");
 
-    QueryProcessor p = processor.get();
+    OutputStreamQuery p = queryProvider.get();
     OutputFormat format = OutputFormat.JSON;
     try {
       format = OutputFormat.valueOf(get(req, "format", format.toString()));

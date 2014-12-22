@@ -1,11 +1,11 @@
 include_defs('//lib/maven.defs')
 
-VERSION = '3.2'
+VERSION = '3.5.2'
 
 maven_jar(
   name = 'java_runtime',
   id = 'org.antlr:antlr-runtime:' + VERSION,
-  sha1 = '31c746001016c6226bd7356c9f87a6a084ce3715',
+  sha1 = 'cd9cd41361c155f3af0f653009dcecb08d8b4afd',
   license = 'antlr',
 )
 
@@ -18,8 +18,8 @@ java_binary(
 
 maven_jar(
   name = 'stringtemplate',
-  id = 'org.antlr:stringtemplate:' + VERSION,
-  sha1 = '6fe2e3bb57daebd1555494818909f9664376dd6c',
+  id = 'org.antlr:stringtemplate:4.0.2',
+  sha1 = 'e28e09e2d44d60506a7bcb004d6c23ff35c6ac08',
   license = 'antlr',
   attach_source = False,
   visibility = [],
@@ -28,7 +28,7 @@ maven_jar(
 maven_jar(
   name = 'tool',
   id = 'org.antlr:antlr:' + VERSION,
-  sha1 = '6b0acabea7bb3da058200a77178057e47e25cb69',
+  sha1 = 'c4a65c950bfc3e7d04309c515b2177c00baf7764',
   license = 'antlr',
   deps = [
     ':java_runtime',

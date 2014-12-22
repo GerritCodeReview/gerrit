@@ -16,6 +16,23 @@
       "revId": "0d525d8202be49805f82dd6c52210648fb0cb195",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "81bc2833_8fceb5bf",
+        "filename": "Documentation/user-inline-edit.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-22T09:19:03Z",
+      "side": 1,
+      "message": "May be we want to explain conditions when edits are loaded here: When edit is loaded for a change instead of regular patch set?\n\n* 1. When edit is based on latest patch set. When such a change is loaded, then edit is preselected.\n* 2. When edit is selected from patch list drop down. For example to rebase an edit to latest ps you always have to switch to edit first, because it\u0027s not loaded automagically.",
+      "revId": "0d525d8202be49805f82dd6c52210648fb0cb195",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

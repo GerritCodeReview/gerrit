@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "21161c01_b4f200fc",
+        "filename": "Documentation/user-inline-edit.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-12-22T13:03:08Z",
+      "side": 1,
+      "message": "I\u0027ve deliberately reduced the amount of text in favour of short sentences and more screenshots.\n\nThe \"Add...\" button is mentioned at line 40 and highlighted in the screenshot at line 48.  I\u0027ll rework that section a bit and add a new screenshot of the add file dialog.",
+      "parentUuid": "81bc2833_afc9f9bb",
+      "revId": "0d525d8202be49805f82dd6c52210648fb0cb195",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "81bc2833_8fceb5bf",
         "filename": "Documentation/user-inline-edit.txt",
         "patchSetId": 6

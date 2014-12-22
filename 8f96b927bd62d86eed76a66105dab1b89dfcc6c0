@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "21ab7cf1_ecd30b6a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/IdentifiedUser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-12-22T16:44:04Z",
+      "side": 1,
+      "message": "Nit: final fields before non-final.",
+      "revId": "8f96b927bd62d86eed76a66105dab1b89dfcc6c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "81bc2833_afc9f9bb",
+        "filename": "Documentation/user-inline-edit.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-22T09:13:18Z",
+      "side": 1,
+      "message": "You have removed way too much ;-) The section about adding new files is needed, to explain how to add new or existing files in repository, that wasn\u0027t added yet to change edit + upload a screen shot with Add new/existing file dialog:\n\n\n\n\"When file table is switched to \"Edit Mode\" additional \"Add...\" button is added to the header of  file table. Clicking on this button opens popup dialog and allows to enter the file name.\n\n\u003cadd screenshot of add file dialog\u003e\n\nClicking on \u0027tab\u0027 in file name input field, retrieve the content of the file and put it into the textarea in poppup dialog. When new file is added, the text area remains empty. Clicking auf \"Save\" button in the poopup dialog adds new or existing file to the change.\"",
+      "revId": "0d525d8202be49805f82dd6c52210648fb0cb195",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

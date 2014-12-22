@@ -14,9 +14,8 @@
 
 package com.google.gerrit.server.index;
 
-import static com.google.gerrit.common.data.GlobalCapability.DEFAULT_MAX_QUERY_LIMIT;
+import static com.google.common.base.Preconditions.checkArgument;
 
-import com.google.common.base.MoreObjects;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.gerrit.reviewdb.client.Change;
@@ -29,9 +28,9 @@ import com.google.gerrit.server.query.QueryParseException;
 import com.google.gerrit.server.query.change.AndSource;
 import com.google.gerrit.server.query.change.BasicChangeRewrites;
 import com.google.gerrit.server.query.change.ChangeData;
-import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gerrit.server.query.change.ChangeQueryRewriter;
 import com.google.gerrit.server.query.change.ChangeStatusPredicate;
+import com.google.gerrit.server.query.change.LimitPredicate;
 import com.google.gerrit.server.query.change.OrSource;
 import com.google.inject.Inject;
 
@@ -129,16 +128,14 @@ public class IndexRewriteImpl implements ChangeQueryRewriter {
   }
 
   @Override
-  public Predicate<ChangeData> rewrite(Predicate<ChangeData> in, int start)
-      throws QueryParseException {
+  public Predicate<ChangeData> rewrite(Predicate<ChangeData> in, int start,
+      int limit) throws QueryParseException {
+    checkArgument(limit > 0, "limit must be positive: %s", limit);
     ChangeIndex index = indexes.getSearchIndex();
     in = basicRewrites.rewrite(in);
-    int limit = MoreObjects.firstNonNull(
-        ChangeQueryBuilder.getLimit(in), DEFAULT_MAX_QUERY_LIMIT);
     // Increase the limit rather than skipping, since we don't know how many
     // skipped results would have been filtered out by the enclosing AndSource.
     limit += start;
-    limit = Math.max(limit, 1);
 
     Predicate<ChangeData> out = rewriteImpl(in, index, limit);
     if (in == out || out instanceof IndexPredicate) {
@@ -168,6 +165,9 @@ public class IndexRewriteImpl implements ChangeQueryRewriter {
       ChangeIndex index, int limit) throws QueryParseException {
     if (isIndexPredicate(in, index)) {
       return in;
+    } else if (in instanceof LimitPredicate) {
+      // Replace any limits with the limit provided by the caller.
+      return new LimitPredicate(limit);
     } else if (!isRewritePossible(in)) {
       return null; // magic to indicate "in" cannot be rewritten
     }

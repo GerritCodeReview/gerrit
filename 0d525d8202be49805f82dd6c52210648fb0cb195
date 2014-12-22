@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "81bc2833_0fdbe580",
+        "filename": "Documentation/user-inline-edit.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-22T13:10:08Z",
+      "side": 1,
+      "message": "I see, but Tab key on this dialog plays a key role and should be mentioned, as the content \"jumps\" into the text area after tab key was clicked. A screen shot with the add files dialog would be great.",
+      "parentUuid": "21161c01_b4f200fc",
+      "revId": "0d525d8202be49805f82dd6c52210648fb0cb195",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "81bc2833_8fceb5bf",
         "filename": "Documentation/user-inline-edit.txt",
         "patchSetId": 6

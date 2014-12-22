@@ -32,6 +32,8 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
 import org.eclipse.jgit.util.io.DisabledOutputStream;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -41,11 +43,9 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.lang.reflect.Field;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -56,13 +56,12 @@ public class OutputStreamQuery {
   private static final Logger log =
       LoggerFactory.getLogger(OutputStreamQuery.class);
 
+  private static final DateTimeFormatter dtf =
+      DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss zzz");
+
   public static enum OutputFormat {
     TEXT, JSON
   }
-
-  private final Gson gson = new Gson();
-  private final SimpleDateFormat sdf =
-      new SimpleDateFormat("yyyy-MM-dd HH:mm:ss zzz");
 
   private final QueryProcessor queryProcessor;
   private final EventFactory eventFactory;
@@ -295,7 +294,7 @@ public class OutputStreamQuery {
         break;
 
       case JSON:
-        out.print(gson.toJson(data));
+        out.print(new Gson().toJson(data));
         out.print('\n');
         break;
     }
@@ -342,7 +341,7 @@ public class OutputStreamQuery {
       out.print('\n');
     } else if (value instanceof Long && isDateField(field)) {
       out.print(' ');
-      out.print(sdf.format(new Date(((Long) value) * 1000L)));
+      out.print(dtf.print(((Long) value) * 1000L));
       out.print('\n');
     } else if (isPrimitive(value)) {
       out.print(' ');

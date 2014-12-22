@@ -18,6 +18,6 @@ import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
 
 public interface ChangeQueryRewriter {
-  Predicate<ChangeData> rewrite(Predicate<ChangeData> in, int start)
+  Predicate<ChangeData> rewrite(Predicate<ChangeData> in, int start, int limit)
       throws QueryParseException;
 }

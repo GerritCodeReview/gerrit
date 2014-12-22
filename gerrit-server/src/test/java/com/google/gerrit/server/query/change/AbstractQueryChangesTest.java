@@ -543,9 +543,22 @@ public abstract class AbstractQueryChangesTest {
 
     List<ChangeInfo> results;
     for (int i = 1; i <= n + 2; i++) {
+      int expectedSize;
+      Boolean expectedMoreChanges;
+      if (i < n) {
+        expectedSize = i;
+        expectedMoreChanges = true;
+      } else {
+        expectedSize = n;
+        expectedMoreChanges = null;
+      }
       results = query("status:new limit:" + i);
-      assertThat(results).hasSize(Math.min(i, n));
+      String msg = "i=" + i;
+      assert_().withFailureMessage(msg).that(results).hasSize(expectedSize);
       assertResultEquals(last, results.get(0));
+      assert_().withFailureMessage(msg)
+          .that(results.get(results.size() - 1)._moreChanges)
+          .isEqualTo(expectedMoreChanges);
     }
   }
 

@@ -26,7 +26,7 @@ import static com.google.gerrit.server.query.QueryParser.OR;
 import static com.google.gerrit.server.query.QueryParser.SINGLE_WORD;
 import static com.google.gerrit.server.query.QueryParser.VARIABLE_ASSIGN;
 
-import org.antlr.runtime.tree.Tree;
+import org.antlr.v4.runtime.tree.Tree;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

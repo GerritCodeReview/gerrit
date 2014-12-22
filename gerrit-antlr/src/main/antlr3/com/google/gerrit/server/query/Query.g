@@ -19,10 +19,10 @@ options {
 }
 
 tokens {
-  AND;
-  OR;
-  NOT;
-  DEFAULT_FIELD;
+  AND,
+  OR,
+  NOT,
+  DEFAULT_FIELD
 }
 
 @header {

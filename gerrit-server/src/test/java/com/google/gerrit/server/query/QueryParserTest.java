@@ -15,7 +15,7 @@
 package com.google.gerrit.server.query;
 import static org.junit.Assert.assertEquals;
 
-import org.antlr.runtime.tree.Tree;
+import org.antlr.v4.runtime.tree.Tree;
 import org.junit.Test;
 
 public class QueryParserTest {

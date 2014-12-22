@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c169c0a3_f9d81787",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/IndexRewriteImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-12-22T23:55:01Z",
+      "side": 1,
+      "message": "Doesn\u0027t this omit some other child? n is the number of inputs. By decrementing here you won\u0027t look at the last child in the group, e.g.:\n\n  project:bar limit:12 limit:14 branch:master\n\nn-- during limit:14 kills branch:master from the iteration.",
+      "revId": "965acbd900b1199860364dccb5d7b1d1bf465406",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c169c0a3_d9d3536a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/LimitPredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-12-22T23:55:01Z",
+      "side": 1,
+      "message": "Not every IntPredicate is a limit?\n\nSeems unused (but I am not a compiler).",
+      "range": {
+        "startLine": 48,
+        "startChar": 0,
+        "endLine": 49,
+        "endChar": 37
+      },
+      "revId": "965acbd900b1199860364dccb5d7b1d1bf465406",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

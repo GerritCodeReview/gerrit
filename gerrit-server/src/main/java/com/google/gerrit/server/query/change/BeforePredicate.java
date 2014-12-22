@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.query.change;
 
-import com.google.gerrit.server.index.Schema;
+import com.google.gerrit.server.index.ChangeField;
 import com.google.gerrit.server.index.TimestampRangePredicate;
 import com.google.gerrit.server.query.QueryParseException;
 import com.google.gwtorm.server.OrmException;
@@ -24,9 +24,8 @@ import java.util.Date;
 public class BeforePredicate extends TimestampRangePredicate<ChangeData> {
   private final Date cut;
 
-  BeforePredicate(Schema<ChangeData> schema, String value)
-      throws QueryParseException {
-    super(updatedField(schema), ChangeQueryBuilder.FIELD_BEFORE, value);
+  BeforePredicate(String value) throws QueryParseException {
+    super(ChangeField.UPDATED, ChangeQueryBuilder.FIELD_BEFORE, value);
     cut = parse(value);
   }
 

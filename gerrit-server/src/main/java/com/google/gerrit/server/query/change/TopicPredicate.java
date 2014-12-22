@@ -18,26 +18,12 @@ import static com.google.gerrit.server.index.ChangeField.TOPIC;
 
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.index.ChangeField;
-import com.google.gerrit.server.index.FieldDef;
 import com.google.gerrit.server.index.IndexPredicate;
-import com.google.gerrit.server.index.Schema;
 import com.google.gwtorm.server.OrmException;
 
 class TopicPredicate extends IndexPredicate<ChangeData> {
-  @SuppressWarnings("deprecation")
-  static FieldDef<ChangeData, ?> topicField(Schema<ChangeData> schema) {
-    if (schema == null) {
-      return ChangeField.LEGACY_TOPIC;
-    }
-    FieldDef<ChangeData, ?> f = schema.getFields().get(TOPIC.getName());
-    if (f != null) {
-      return f;
-    }
-    return schema.getFields().get(ChangeField.LEGACY_TOPIC.getName());
-  }
-
-  TopicPredicate(Schema<ChangeData> schema, String topic) {
-    super(topicField(schema), topic);
+  TopicPredicate(String topic) {
+    super(ChangeField.TOPIC, topic);
   }
 
   @Override

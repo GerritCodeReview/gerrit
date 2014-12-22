@@ -50,28 +50,21 @@ public class Schema<T> {
     }
   }
 
-  private final boolean release;
   private final ImmutableMap<String, FieldDef<T, ?>> fields;
   private int version;
 
-  protected Schema(boolean release, Iterable<FieldDef<T, ?>> fields) {
-    this(0, release, fields);
+  protected Schema(Iterable<FieldDef<T, ?>> fields) {
+    this(0, fields);
   }
 
   @VisibleForTesting
-  public Schema(int version, boolean release,
-      Iterable<FieldDef<T, ?>> fields) {
+  public Schema(int version, Iterable<FieldDef<T, ?>> fields) {
     this.version = version;
-    this.release = release;
     ImmutableMap.Builder<String, FieldDef<T, ?>> b = ImmutableMap.builder();
     for (FieldDef<T, ?> f : fields) {
       b.put(f.getName(), f);
     }
     this.fields = b.build();
-  }
-
-  public final boolean isRelease() {
-    return release;
   }
 
   public final int getVersion() {

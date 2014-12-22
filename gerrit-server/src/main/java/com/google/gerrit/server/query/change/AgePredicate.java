@@ -20,7 +20,7 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.config.ConfigUtil;
-import com.google.gerrit.server.index.Schema;
+import com.google.gerrit.server.index.ChangeField;
 import com.google.gerrit.server.index.TimestampRangePredicate;
 import com.google.gwtorm.server.OrmException;
 
@@ -29,8 +29,8 @@ import java.sql.Timestamp;
 public class AgePredicate extends TimestampRangePredicate<ChangeData> {
   private final long cut;
 
-  AgePredicate(Schema<ChangeData> schema, String value) {
-    super(updatedField(schema), ChangeQueryBuilder.FIELD_AGE, value);
+  AgePredicate(String value) {
+    super(ChangeField.UPDATED, ChangeQueryBuilder.FIELD_AGE, value);
 
     long s = ConfigUtil.getTimeUnit(getValue(), 0, SECONDS);
     long ms = MILLISECONDS.convert(s, SECONDS);

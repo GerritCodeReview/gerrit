@@ -108,10 +108,6 @@ public class AndSource extends AndPredicate<ChangeData>
     if (source == null) {
       throw new OrmException("No ChangeDataSource: " + this);
     }
-    @SuppressWarnings("unchecked")
-    Predicate<ChangeData> pred = (Predicate<ChangeData>) source;
-    boolean useSortKey = ChangeQueryBuilder.hasSortKey(pred);
-
     List<ChangeData> r = Lists.newArrayList();
     ChangeData last = null;
     int nextStart = 0;
@@ -133,12 +129,9 @@ public class AndSource extends AndPredicate<ChangeData>
       //
       Paginated p = (Paginated) source;
       while (skipped && r.size() < p.limit() + start) {
-        ChangeData lastBeforeRestart = last;
         skipped = false;
         last = null;
-        ResultSet<ChangeData> next = useSortKey
-            ? p.restart(lastBeforeRestart)
-            : p.restart(nextStart);
+        ResultSet<ChangeData> next = p.restart(nextStart);
 
         for (ChangeData data : buffer(source, next)) {
           if (match(data)) {

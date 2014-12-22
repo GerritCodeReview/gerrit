@@ -25,7 +25,6 @@ import com.google.gerrit.server.index.FieldType;
 import com.google.gerrit.server.index.IndexPredicate;
 import com.google.gerrit.server.index.IntegerRangePredicate;
 import com.google.gerrit.server.index.RegexPredicate;
-import com.google.gerrit.server.index.Schema;
 import com.google.gerrit.server.index.TimestampRangePredicate;
 import com.google.gerrit.server.query.AndPredicate;
 import com.google.gerrit.server.query.NotPredicate;
@@ -33,7 +32,6 @@ import com.google.gerrit.server.query.OrPredicate;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
 import com.google.gerrit.server.query.change.ChangeData;
-import com.google.gerrit.server.query.change.SortKeyPredicate;
 
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.index.Term;
@@ -61,11 +59,9 @@ public class QueryBuilder {
     return intTerm(ID_FIELD, id.get());
   }
 
-  private final Schema<ChangeData> schema;
   private final org.apache.lucene.util.QueryBuilder queryBuilder;
 
-  public QueryBuilder(Schema<ChangeData> schema, Analyzer analyzer) {
-    this.schema = schema;
+  public QueryBuilder(Analyzer analyzer) {
     queryBuilder = new org.apache.lucene.util.QueryBuilder(analyzer);
   }
 
@@ -151,8 +147,6 @@ public class QueryBuilder {
       return prefixQuery(p);
     } else if (p.getType() == FieldType.FULL_TEXT) {
       return fullTextQuery(p);
-    } else if (p instanceof SortKeyPredicate) {
-      return sortKeyQuery((SortKeyPredicate) p);
     } else {
       throw badFieldType(p.getType());
     }
@@ -199,56 +193,28 @@ public class QueryBuilder {
     throw new QueryParseException("not an integer range: " + p);
   }
 
-  private Query sortKeyQuery(SortKeyPredicate p) {
-    long min = p.getMinValue(schema);
-    long max = p.getMaxValue(schema);
-    return NumericRangeQuery.newLongRange(
-        p.getField().getName(),
-        min != Long.MIN_VALUE ? min : null,
-        max != Long.MAX_VALUE ? max : null,
-        false, false);
-  }
-
-  @SuppressWarnings("deprecation")
   private Query timestampQuery(IndexPredicate<ChangeData> p)
       throws QueryParseException {
     if (p instanceof TimestampRangePredicate) {
       TimestampRangePredicate<ChangeData> r =
           (TimestampRangePredicate<ChangeData>) p;
-      if (r.getField() == ChangeField.LEGACY_UPDATED) {
-        return NumericRangeQuery.newIntRange(
-            r.getField().getName(),
-            toIndexTimeInMinutes(r.getMinTimestamp()),
-            toIndexTimeInMinutes(r.getMaxTimestamp()),
-            true, true);
-      } else {
-        return NumericRangeQuery.newLongRange(
-            r.getField().getName(),
-            r.getMinTimestamp().getTime(),
-            r.getMaxTimestamp().getTime(),
-            true, true);
-      }
+      return NumericRangeQuery.newLongRange(
+          r.getField().getName(),
+          r.getMinTimestamp().getTime(),
+          r.getMaxTimestamp().getTime(),
+          true, true);
     }
     throw new QueryParseException("not a timestamp: " + p);
   }
 
-  @SuppressWarnings("deprecation")
   private Query notTimestamp(TimestampRangePredicate<ChangeData> r)
       throws QueryParseException {
     if (r.getMinTimestamp().getTime() == 0) {
-      if (r.getField() == ChangeField.LEGACY_UPDATED) {
-        return NumericRangeQuery.newIntRange(
-            r.getField().getName(),
-            toIndexTimeInMinutes(r.getMaxTimestamp()),
-            null,
-            true, true);
-      } else {
-        return NumericRangeQuery.newLongRange(
-            r.getField().getName(),
-            r.getMaxTimestamp().getTime(),
-            null,
-            true, true);
-      }
+      return NumericRangeQuery.newLongRange(
+          r.getField().getName(),
+          r.getMaxTimestamp().getTime(),
+          null,
+          true, true);
     }
     throw new QueryParseException("cannot negate: " + r);
   }

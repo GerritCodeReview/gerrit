@@ -51,8 +51,6 @@ import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeDataSource;
-import com.google.gerrit.server.query.change.ChangeQueryBuilder;
-import com.google.gerrit.server.query.change.SortKeyPredicate;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
 import com.google.inject.Provider;
@@ -259,7 +257,7 @@ public class LuceneChangeIndex implements ChangeIndex {
     CustomMappingAnalyzer analyzer =
         new CustomMappingAnalyzer(new StandardAnalyzer(CharArraySet.EMPTY_SET),
             CUSTOM_CHAR_MAPPING);
-    queryBuilder = new QueryBuilder(schema, analyzer);
+    queryBuilder = new QueryBuilder(analyzer);
 
     BooleanQuery.setMaxClauseCount(cfg.getInt("index", "defaultMaxClauseCount",
         BooleanQuery.getMaxClauseCount()));
@@ -352,7 +350,7 @@ public class LuceneChangeIndex implements ChangeIndex {
       indexes.add(closedIndex);
     }
     return new QuerySource(indexes, queryBuilder.toQuery(p), start, limit,
-        getSort(schema, p));
+        getSort());
   }
 
   @Override
@@ -360,22 +358,12 @@ public class LuceneChangeIndex implements ChangeIndex {
     setReady(sitePaths, schema.getVersion(), ready);
   }
 
-  @SuppressWarnings("deprecation")
-  private static Sort getSort(Schema<ChangeData> schema,
-      Predicate<ChangeData> p) {
-    // Standard order is descending by sort key, unless reversed due to a
-    // sortkey_before predicate.
-    if (SortKeyPredicate.hasSortKeyField(schema)) {
-      boolean reverse = ChangeQueryBuilder.hasNonTrivialSortKeyAfter(schema, p);
-      return new Sort(new SortField(
-          ChangeField.SORTKEY.getName(), SortField.Type.LONG, !reverse));
-    } else {
-      return new Sort(
-          new SortField(
-            ChangeField.UPDATED.getName(), SortField.Type.LONG, true),
-          new SortField(
-            ChangeField.LEGACY_ID.getName(), SortField.Type.INT, true));
-    }
+  private static Sort getSort() {
+    return new Sort(
+        new SortField(
+          ChangeField.UPDATED.getName(), SortField.Type.LONG, true),
+        new SortField(
+          ChangeField.LEGACY_ID.getName(), SortField.Type.INT, true));
   }
 
   private class QuerySource implements ChangeDataSource {
@@ -530,17 +518,8 @@ public class LuceneChangeIndex implements ChangeIndex {
         doc.add(new LongField(name, (Long) value, store));
       }
     } else if (type == FieldType.TIMESTAMP) {
-      @SuppressWarnings("deprecation")
-      boolean legacy = values.getField() == ChangeField.LEGACY_UPDATED;
-      if (legacy) {
-        for (Object value : values.getValues()) {
-          int t = queryBuilder.toIndexTimeInMinutes((Timestamp) value);
-          doc.add(new IntField(name, t, store));
-        }
-      } else {
-        for (Object value : values.getValues()) {
-          doc.add(new LongField(name, ((Timestamp) value).getTime(), store));
-        }
+      for (Object value : values.getValues()) {
+        doc.add(new LongField(name, ((Timestamp) value).getTime(), store));
       }
     } else if (type == FieldType.EXACT
         || type == FieldType.PREFIX) {

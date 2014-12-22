@@ -84,10 +84,7 @@ public interface ChangeIndex {
    * @param start offset in results list at which to start returning results.
    * @param limit maximum number of results to return.
    * @return a source of documents matching the predicate. Documents must be
-   *     returned in descending sort key order, unless a {@code sortkey_after}
-   *     predicate (with a cut point not at {@link Long#MAX_VALUE}) is provided,
-   *     in which case the source should return documents in ascending sort key
-   *     order starting from the sort key cut point.
+   *     returned in descending updated timestamp order.
    *
    * @throws QueryParseException if the predicate could not be converted to an
    *     indexed data source.

@@ -22,6 +22,30 @@
       "revId": "ccdd78553c4c67ee579561a28f7d8177c2e19c66",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "21161c01_54e56c32",
+        "filename": "Documentation/user-inline-edit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-12-22T13:00:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "61a1f40b_8ecebbbf",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 9
+      },
+      "revId": "ccdd78553c4c67ee579561a28f7d8177c2e19c66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

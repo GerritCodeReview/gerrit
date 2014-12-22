@@ -14,9 +14,8 @@
 
 package com.google.gerrit.server.query.change;
 
-import com.google.common.base.MoreObjects;
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Lists;
+import com.google.common.collect.Ordering;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.LabelTypes;
@@ -71,10 +70,10 @@ public class QueryProcessor {
   private final ChangeQueryRewriter queryRewriter;
   private final TrackingFooters trackingFooters;
   private final CurrentUser user;
-  private final int maxLimit;
+  private final int permittedLimit;
 
   private OutputFormat outputFormat = OutputFormat.TEXT;
-  private int limit;
+  private int limitFromCaller;
   private int start;
   private boolean includePatchSets;
   private boolean includeCurrentPatchSet;
@@ -88,7 +87,6 @@ public class QueryProcessor {
 
   private OutputStream outputStream = DisabledOutputStream.INSTANCE;
   private PrintWriter out;
-  private boolean moreResults;
 
   @Inject
   QueryProcessor(EventFactory eventFactory,
@@ -100,18 +98,13 @@ public class QueryProcessor {
     this.queryRewriter = queryRewriter;
     this.trackingFooters = trackingFooters;
     this.user = currentUser;
-    this.maxLimit = currentUser.getCapabilities()
+    this.permittedLimit = currentUser.getCapabilities()
       .getRange(GlobalCapability.QUERY_LIMIT)
       .getMax();
-    this.moreResults = false;
-  }
-
-  int getLimit() {
-    return limit;
   }
 
   void setLimit(int n) {
-    limit = n;
+    limitFromCaller = n;
   }
 
   public void setStart(int n) {
@@ -183,7 +176,7 @@ public class QueryProcessor {
    * there are more than {@code limit} matches and suggest to its own caller
    * that the query could be retried with {@link #setStart(int)}.
    */
-  public List<ChangeData> queryChanges(String queryString)
+  public QueryResult queryChanges(String queryString)
       throws OrmException, QueryParseException {
     return queryChanges(ImmutableList.of(queryString)).get(0);
   }
@@ -196,48 +189,52 @@ public class QueryProcessor {
    * there are more than {@code limit} matches and suggest to its own caller
    * that the query could be retried with {@link #setStart(int)}.
    */
-  public List<List<ChangeData>> queryChanges(List<String> queries)
+  public List<QueryResult> queryChanges(List<String> queries)
       throws OrmException, QueryParseException {
     final Predicate<ChangeData> visibleToMe = queryBuilder.is_visible();
     int cnt = queries.size();
 
     // Parse and rewrite all queries.
-    List<Integer> limits = Lists.newArrayListWithCapacity(cnt);
-    List<ChangeDataSource> sources = Lists.newArrayListWithCapacity(cnt);
+    List<Integer> limits = new ArrayList<>(cnt);
+    List<Predicate<ChangeData>> predicates = new ArrayList<>(cnt);
+    List<ChangeDataSource> sources = new ArrayList<>(cnt);
     for (String query : queries) {
       Predicate<ChangeData> q = parseQuery(query, visibleToMe);
-      Predicate<ChangeData> s = queryRewriter.rewrite(q, start);
+      int limit = getEffectiveLimit(q);
+      limits.add(limit);
+
+      // Always bump limit by 1, even if this results in exceeding the permitted
+      // max for this user. The only way to see if there are more changes is to
+      // ask for one more result from the query.
+      Predicate<ChangeData> s = queryRewriter.rewrite(q, start, limit + 1);
       if (!(s instanceof ChangeDataSource)) {
         q = Predicate.and(queryBuilder.status_open(), q);
-        s = queryRewriter.rewrite(q, start);
+        s = queryRewriter.rewrite(q, start, limit);
       }
       if (!(s instanceof ChangeDataSource)) {
         throw new QueryParseException("invalid query: " + s);
       }
+      predicates.add(s);
 
       // Don't trust QueryRewriter to have left the visible predicate.
+      // TODO(dborowitz): Probably we can.
       AndSource a = new AndSource(ImmutableList.of(s, visibleToMe), start);
-      limits.add(limit(q));
       sources.add(a);
     }
 
     // Run each query asynchronously, if supported.
-    List<ResultSet<ChangeData>> matches = Lists.newArrayListWithCapacity(cnt);
+    List<ResultSet<ChangeData>> matches = new ArrayList<>(cnt);
     for (ChangeDataSource s : sources) {
       matches.add(s.read());
     }
 
-    List<List<ChangeData>> out = Lists.newArrayListWithCapacity(cnt);
+    List<QueryResult> out = new ArrayList<>(cnt);
     for (int i = 0; i < cnt; i++) {
-      List<ChangeData> results = matches.get(i).toList();
-      if (results.size() > maxLimit) {
-        moreResults = true;
-      }
-      int limit = limits.get(i);
-      if (limit < results.size()) {
-        results = results.subList(0, limit);
-      }
-      out.add(results);
+      out.add(QueryResult.create(
+          queries.get(i),
+          predicates.get(i),
+          limits.get(i),
+          matches.get(i).toList()));
     }
     return out;
   }
@@ -258,9 +255,9 @@ public class QueryProcessor {
         final QueryStatsAttribute stats = new QueryStatsAttribute();
         stats.runTimeMilliseconds = TimeUtil.nowMs();
 
-        List<ChangeData> results = queryChanges(queryString);
+        QueryResult results = queryChanges(queryString);
         ChangeAttribute c = null;
-        for (ChangeData d : results) {
+        for (ChangeData d : results.changes()) {
           ChangeControl cc = d.changeControl().forUser(user);
 
           LabelTypes labelTypes = cc.getLabelTypes();
@@ -329,8 +326,8 @@ public class QueryProcessor {
           show(c);
         }
 
-        stats.rowCount = results.size();
-        if (moreResults) {
+        stats.rowCount = results.changes().size();
+        if (results.moreChanges()) {
           stats.resumeSortKey = c.sortKey;
         }
         stats.runTimeMilliseconds =
@@ -363,19 +360,25 @@ public class QueryProcessor {
   }
 
   boolean isDisabled() {
-    return maxLimit <= 0;
+    return permittedLimit <= 0;
   }
 
-  private int limit(Predicate<ChangeData> s) {
-    int n = MoreObjects.firstNonNull(ChangeQueryBuilder.getLimit(s), maxLimit);
-    return limit > 0 ? Math.min(n, limit) + 1 : n + 1;
+  private int getEffectiveLimit(Predicate<ChangeData> p) {
+    List<Integer> possibleLimits = new ArrayList<>(3);
+    possibleLimits.add(permittedLimit);
+    if (limitFromCaller > 0) {
+      possibleLimits.add(limitFromCaller);
+    }
+    Integer limitFromPredicate = LimitPredicate.getLimit(p);
+    if (limitFromPredicate != null) {
+      possibleLimits.add(limitFromPredicate);
+    }
+    return Ordering.natural().min(possibleLimits);
   }
 
   private Predicate<ChangeData> parseQuery(String queryString,
-      final Predicate<ChangeData> visibleToMe) throws QueryParseException {
-    return Predicate.and(queryBuilder.parse(queryString),
-        queryBuilder.limit(limit > 0 ? Math.min(limit, maxLimit) + 1 : maxLimit),
-        visibleToMe);
+      Predicate<ChangeData> visibleToMe) throws QueryParseException {
+    return Predicate.and(queryBuilder.parse(queryString), visibleToMe);
   }
 
   private void show(Object data) {

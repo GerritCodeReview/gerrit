@@ -16,13 +16,11 @@ package com.google.gerrit.server.query.change;
 
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.query.IntPredicate;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryRewriter;
 import com.google.inject.Inject;
 import com.google.inject.OutOfScopeException;
 import com.google.inject.Provider;
-import com.google.inject.name.Named;
 
 public class BasicChangeRewrites extends QueryRewriter<ChangeData> {
   private static final ChangeQueryBuilder BUILDER = new ChangeQueryBuilder(
@@ -67,14 +65,6 @@ public class BasicChangeRewrites extends QueryRewriter<ChangeData> {
   public Predicate<ChangeData> r00_notAbandoned() {
     return or(ChangeStatusPredicate.open(),
         ChangeStatusPredicate.forStatus(Change.Status.MERGED));
-  }
-
-  @NoCostComputation
-  @Rewrite("A=(limit:*) B=(limit:*)")
-  public Predicate<ChangeData> r00_smallestLimit(
-      @Named("A") IntPredicate<ChangeData> a,
-      @Named("B") IntPredicate<ChangeData> b) {
-    return a.intValue() <= b.intValue() ? a : b;
   }
 
   private static final class InvalidProvider<T> implements Provider<T> {

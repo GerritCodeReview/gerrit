@@ -97,7 +97,7 @@ public class IndexRewriteTest {
         parse("-status:abandoned (status:open OR status:merged)");
     assertEquals(
         query(parse("status:new OR status:submitted OR status:draft OR status:merged")),
-        rewrite.rewrite(in, 0));
+        rewrite.rewrite(in, 0, DEFAULT_MAX_QUERY_LIMIT));
   }
 
   @Test
@@ -158,24 +158,37 @@ public class IndexRewriteTest {
   }
 
   @Test
-  public void testLimit() throws Exception {
+  public void testLimitArgumentOverridesLimitPredicate() throws Exception {
     Predicate<ChangeData> in = parse("file:a limit:3");
-    Predicate<ChangeData> out = rewrite(in);
+    Predicate<ChangeData> out = rewrite(in, 5);
     assertSame(AndSource.class, out.getClass());
     assertEquals(ImmutableList.of(
-          query(in.getChild(0), 3),
-          in.getChild(1)),
+          query(in.getChild(0), 5),
+          parse("limit:5")),
         out.getChildren());
   }
 
   @Test
   public void testStartIncreasesLimit() throws Exception {
+    int n = 3;
     Predicate<ChangeData> f = parse("file:a");
-    Predicate<ChangeData> l = parse("limit:3");
+    Predicate<ChangeData> l = parse("limit:" + n);
     Predicate<ChangeData> in = and(f, l);
-    assertEquals(and(query(f, 3), l), rewrite.rewrite(in, 0));
-    assertEquals(and(query(f, 4), l), rewrite.rewrite(in, 1));
-    assertEquals(and(query(f, 5), l), rewrite.rewrite(in, 2));
+    assertEquals(and(query(f, 3), parse("limit:3")), rewrite.rewrite(in, 0, n));
+    assertEquals(and(query(f, 4), parse("limit:4")), rewrite.rewrite(in, 1, n));
+    assertEquals(and(query(f, 5), parse("limit:5")), rewrite.rewrite(in, 2, n));
+  }
+
+  @Test
+  public void testLimitsWithDifferentValuesTreatedAsDuplicates()
+      throws Exception {
+    Predicate<ChangeData> in = parse("file:a limit:1 limit:2 limit:4");
+    Predicate<ChangeData> out = rewrite(in, 3);
+    assertSame(AndSource.class, out.getClass());
+    assertEquals(ImmutableList.of(
+          query(in.getChild(0), 3),
+          parse("limit:3")),
+        out.getChildren());
   }
 
   @Test
@@ -220,7 +233,12 @@ public class IndexRewriteTest {
 
   private Predicate<ChangeData> rewrite(Predicate<ChangeData> in)
       throws QueryParseException {
-    return rewrite.rewrite(in, 0);
+    return rewrite.rewrite(in, 0, DEFAULT_MAX_QUERY_LIMIT);
+  }
+
+  private Predicate<ChangeData> rewrite(Predicate<ChangeData> in, int limit)
+      throws QueryParseException {
+    return rewrite.rewrite(in, 0, limit);
   }
 
   private IndexedChangeQuery query(Predicate<ChangeData> p)

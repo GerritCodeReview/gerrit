@@ -35,9 +35,11 @@ import com.google.gerrit.rules.RulesCache;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.CapabilityControl;
+import com.google.gerrit.server.account.FakeRealm;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupMembership;
 import com.google.gerrit.server.account.ListGroupMembership;
+import com.google.gerrit.server.account.Realm;
 import com.google.gerrit.server.change.ChangeKindCache;
 import com.google.gerrit.server.change.ChangeKindCacheImpl;
 import com.google.gerrit.server.change.MergeabilityCache;
@@ -265,6 +267,7 @@ public class Util {
         bind(ReviewDb.class).toProvider(nullProvider);
         bind(GitRepositoryManager.class).toInstance(repoManager);
         bind(PatchListCache.class).toProvider(nullProvider);
+        bind(Realm.class).to(FakeRealm.class);
 
         factory(CapabilityControl.Factory.class);
         factory(ChangeControl.AssistedFactory.class);

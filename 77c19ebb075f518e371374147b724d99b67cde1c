@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c169c0a3_79e5e732",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/QueryProcessor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-12-22T23:58:15Z",
+      "side": 1,
+      "message": "Nit: blank line between field and @Inject on constructor.",
+      "revId": "77c19ebb075f518e371374147b724d99b67cde1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

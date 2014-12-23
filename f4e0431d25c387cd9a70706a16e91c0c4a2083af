@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "61781470_562f14a4",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/account/AccountSecurityImpl.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-23T11:07:09Z",
+      "side": 1,
+      "message": "Add this assignment at the end of this method, where groupCache assigned?",
+      "range": {
+        "startLine": 100,
+        "startChar": 4,
+        "endLine": 100,
+        "endChar": 47
+      },
+      "revId": "f4e0431d25c387cd9a70706a16e91c0c4a2083af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "61781470_f63f40d7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GroupIncludeCacheImpl.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-23T11:07:09Z",
+      "side": 1,
+      "message": "Wrong indentation, see cache() invocation above.",
+      "range": {
+        "startLine": 67,
+        "startChar": 8,
+        "endLine": 69,
+        "endChar": 43
+      },
+      "revId": "f4e0431d25c387cd9a70706a16e91c0c4a2083af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "61781470_16359cf8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GroupIncludeCacheImpl.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-23T11:07:09Z",
+      "side": 1,
+      "message": "GroupsAccountsLoader to keep naming consistent with other caches?",
+      "range": {
+        "startLine": 69,
+        "startChar": 19,
+        "endLine": 69,
+        "endChar": 35
+      },
+      "revId": "f4e0431d25c387cd9a70706a16e91c0c4a2083af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "61781470_36329811",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GroupIncludeCacheImpl.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-23T11:07:09Z",
+      "side": 1,
+      "message": "no final in new code.",
+      "range": {
+        "startLine": 205,
+        "startChar": 6,
+        "endLine": 205,
+        "endChar": 11
+      },
+      "revId": "f4e0431d25c387cd9a70706a16e91c0c4a2083af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4175d075_d5215cc6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GroupIncludeCacheImpl.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-23T11:07:09Z",
+      "side": 1,
+      "message": "group.isEmpty()? I see the code above is also using this construct.",
+      "range": {
+        "startLine": 208,
+        "startChar": 12,
+        "endLine": 208,
+        "endChar": 29
+      },
+      "revId": "f4e0431d25c387cd9a70706a16e91c0c4a2083af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

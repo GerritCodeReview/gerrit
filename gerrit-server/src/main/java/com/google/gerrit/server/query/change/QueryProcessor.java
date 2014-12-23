@@ -26,6 +26,7 @@ import com.google.gerrit.server.query.QueryParseException;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,24 +34,28 @@ import java.util.List;
 public class QueryProcessor {
   private final ChangeQueryBuilder queryBuilder;
   private final ChangeQueryRewriter queryRewriter;
-  private final int permittedLimit;
+  private final Provider<CurrentUser> userProvider;
 
   private int limitFromCaller;
   private int start;
+  private boolean enforceVisibility = true;
 
   @Inject
   QueryProcessor(ChangeQueryBuilder queryBuilder,
-      CurrentUser currentUser,
+      Provider<CurrentUser> userProvider,
       ChangeQueryRewriter queryRewriter) {
     this.queryBuilder = queryBuilder;
     this.queryRewriter = queryRewriter;
-    this.permittedLimit = currentUser.getCapabilities()
-      .getRange(GlobalCapability.QUERY_LIMIT)
-      .getMax();
+    this.userProvider = userProvider;
   }
 
   public ChangeQueryBuilder getQueryBuilder() {
     return queryBuilder;
+  }
+
+  public QueryProcessor enforceVisibility(boolean enforce) {
+    enforceVisibility = enforce;
+    return this;
   }
 
   public QueryProcessor setLimit(int n) {
@@ -130,7 +135,9 @@ public class QueryProcessor {
   private List<QueryResult> queryChanges(List<String> queryStrings,
       List<Predicate<ChangeData>> queries)
       throws OrmException, QueryParseException {
-    Predicate<ChangeData> visibleToMe = queryBuilder.is_visible();
+    Predicate<ChangeData> visibleToMe = enforceVisibility
+        ? queryBuilder.is_visible()
+        : null;
     int cnt = queries.size();
 
     // Parse and rewrite all queries.
@@ -152,9 +159,11 @@ public class QueryProcessor {
       if (!(s instanceof ChangeDataSource)) {
         throw new QueryParseException("invalid query: " + s);
       }
-      AndSource a = new AndSource(ImmutableList.of(s, visibleToMe), start);
-      predicates.add(a);
-      sources.add(a);
+      if (enforceVisibility) {
+        s = new AndSource(ImmutableList.of(s, visibleToMe), start);
+      }
+      predicates.add(s);
+      sources.add((ChangeDataSource) s);
     }
 
     // Run each query asynchronously, if supported.
@@ -175,12 +184,21 @@ public class QueryProcessor {
   }
 
   boolean isDisabled() {
-    return permittedLimit <= 0;
+    return getPermittedLimit() <= 0;
+  }
+
+  private int getPermittedLimit() {
+    if (enforceVisibility) {
+      return userProvider.get().getCapabilities()
+        .getRange(GlobalCapability.QUERY_LIMIT)
+        .getMax();
+    }
+    return Integer.MAX_VALUE;
   }
 
   private int getEffectiveLimit(Predicate<ChangeData> p) {
     List<Integer> possibleLimits = new ArrayList<>(3);
-    possibleLimits.add(permittedLimit);
+    possibleLimits.add(getPermittedLimit());
     if (limitFromCaller > 0) {
       possibleLimits.add(limitFromCaller);
     }

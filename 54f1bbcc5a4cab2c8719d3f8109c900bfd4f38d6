@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "61781470_36ad38a5",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-23T23:26:09Z",
+      "side": 1,
+      "message": "it wasn\u0027t mentioned untill this change, but now it is: see line 3383.",
+      "parentUuid": "c169c0a3_5901032c",
+      "range": {
+        "startLine": 19,
+        "startChar": 65,
+        "endLine": 19,
+        "endChar": 76
+      },
+      "revId": "54f1bbcc5a4cab2c8719d3f8109c900bfd4f38d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c169c0a3_79fec7c2",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 1
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "4175d075_756248f6",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-23T23:26:09Z",
+      "side": 1,
+      "message": "Yes, this is too verbose.",
+      "parentUuid": "c169c0a3_79fec7c2",
+      "range": {
+        "startLine": 20,
+        "startChar": 25,
+        "endLine": 21,
+        "endChar": 46
+      },
+      "revId": "54f1bbcc5a4cab2c8719d3f8109c900bfd4f38d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a15e8cfb_f8f1f1f6",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 1
@@ -59,6 +107,30 @@
       "writtenOn": "2014-12-23T23:00:13Z",
       "side": 1,
       "message": "I don\u0027t want to be tied to this particular error message text.\n\nAlthough mentioning the corresponding response code is probably a good idea. What even is the response code? IIUC InvalidChangeOperationException when caught by RestApiServlet turns into a 500? That seems wrong.",
+      "range": {
+        "startLine": 21,
+        "startChar": 58,
+        "endLine": 22,
+        "endChar": 24
+      },
+      "revId": "54f1bbcc5a4cab2c8719d3f8109c900bfd4f38d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "61781470_56bab4df",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-23T23:26:09Z",
+      "side": 1,
+      "message": "Yes, this is wrong. We should throw InvalidChangeOperationException (404) or UnprocessableEntityException (422)",
+      "parentUuid": "a15e8cfb_f8f1f1f6",
       "range": {
         "startLine": 21,
         "startChar": 58,

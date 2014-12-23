@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4175d075_7513287f",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 3556,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-23T12:21:21Z",
+      "side": 1,
+      "message": "Nit: `links` (you used it on line 1824 above). Also may be just link to the corresponding endpoints for the info how to trigger the inclusion of web links in the output instead? Because this place is generic and not in context of get commit or get change-detail endpoint.",
+      "range": {
+        "startLine": 3556,
+        "startChar": 19,
+        "endLine": 3556,
+        "endChar": 26
+      },
+      "revId": "a0821565e821cd879e4782a8c10c5fdb3f4e1f94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "61781470_f67ca0a6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 835,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-23T12:21:21Z",
+      "side": 1,
+      "message": "Unrelated formating change.",
+      "range": {
+        "startLine": 833,
+        "startChar": 6,
+        "endLine": 835,
+        "endChar": 48
+      },
+      "revId": "a0821565e821cd879e4782a8c10c5fdb3f4e1f94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4175d075_9540c468",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetCommit.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-23T12:21:21Z",
+      "side": 1,
+      "message": "Nit: Unneeded new line.",
+      "revId": "a0821565e821cd879e4782a8c10c5fdb3f4e1f94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

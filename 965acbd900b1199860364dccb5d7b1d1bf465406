@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a15e8cfb_98f2b5fc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/IndexRewriteImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-12-23T16:50:36Z",
+      "side": 1,
+      "message": "Missed that this was the loop bound.\n\nJust dropped this optimization. It was here to replace the basic rewrite I deleted, but on second thought it\u0027s not worth the complexity.",
+      "parentUuid": "c169c0a3_f9d81787",
+      "revId": "965acbd900b1199860364dccb5d7b1d1bf465406",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c169c0a3_d9d3536a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/LimitPredicate.java",
         "patchSetId": 1
@@ -30,6 +48,30 @@
       "writtenOn": "2014-12-22T23:55:01Z",
       "side": 1,
       "message": "Not every IntPredicate is a limit?\n\nSeems unused (but I am not a compiler).",
+      "range": {
+        "startLine": 48,
+        "startChar": 0,
+        "endLine": 49,
+        "endChar": 37
+      },
+      "revId": "965acbd900b1199860364dccb5d7b1d1bf465406",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c169c0a3_d9ec331e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/LimitPredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-12-23T16:50:36Z",
+      "side": 1,
+      "message": "Deleted. Relic from before I made this class public.",
+      "parentUuid": "c169c0a3_d9d3536a",
       "range": {
         "startLine": 48,
         "startChar": 0,

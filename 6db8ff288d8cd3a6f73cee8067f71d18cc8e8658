@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "61781470_d6d3246a",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/FileTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 643,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-23T03:44:27Z",
+      "side": 1,
+      "message": "Why not to show old name for renamed files in edit mode?",
+      "range": {
+        "startLine": 643,
+        "startChar": 10,
+        "endLine": 643,
+        "endChar": 33
+      },
+      "revId": "6db8ff288d8cd3a6f73cee8067f71d18cc8e8658",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

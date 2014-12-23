@@ -14,28 +14,27 @@
 
 package com.google.gerrit.server.index;
 
+import static com.google.gerrit.server.query.change.ChangeData.asChanges;
+
 import com.google.common.collect.Lists;
 import com.google.common.util.concurrent.AsyncFunction;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
-import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.git.QueueProvider.QueueType;
+import com.google.gerrit.server.query.change.InternalChangeQuery;
+import com.google.gerrit.server.util.ManualRequestContext;
+import com.google.gerrit.server.util.OneOffRequestContext;
 import com.google.gerrit.server.util.RequestContext;
-import com.google.gerrit.server.util.ThreadLocalRequestContext;
 import com.google.gwtorm.server.OrmException;
-import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import com.google.inject.util.Providers;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -48,24 +47,21 @@ public class ReindexAfterUpdate implements GitReferenceUpdatedListener {
   private static final Logger log = LoggerFactory
       .getLogger(ReindexAfterUpdate.class);
 
-  private final ThreadLocalRequestContext tl;
-  private final SchemaFactory<ReviewDb> schemaFactory;
-  private final IdentifiedUser.GenericFactory userFactory;
+  private final OneOffRequestContext requestContext;
+  private final Provider<InternalChangeQuery> queryProvider;
   private final ChangeIndexer.Factory indexerFactory;
   private final IndexCollection indexes;
   private final ListeningExecutorService executor;
 
   @Inject
   ReindexAfterUpdate(
-      ThreadLocalRequestContext tl,
-      SchemaFactory<ReviewDb> schemaFactory,
-      IdentifiedUser.GenericFactory userFactory,
+      OneOffRequestContext requestContext,
+      Provider<InternalChangeQuery> queryProvider,
       ChangeIndexer.Factory indexerFactory,
       IndexCollection indexes,
       @IndexExecutor(QueueType.BATCH) ListeningExecutorService executor) {
-    this.tl = tl;
-    this.schemaFactory = schemaFactory;
-    this.userFactory = userFactory;
+    this.requestContext = requestContext;
+    this.queryProvider = queryProvider;
     this.indexerFactory = indexerFactory;
     this.indexes = indexes;
     this.executor = executor;
@@ -81,8 +77,7 @@ public class ReindexAfterUpdate implements GitReferenceUpdatedListener {
             List<ListenableFuture<Void>> result =
                 Lists.newArrayListWithCapacity(changes.size());
             for (Change c : changes) {
-              result.add(executor.submit(
-                  new Index(event, c.getOwner(), c.getId())));
+              result.add(executor.submit(new Index(event, c.getId())));
             }
             return Futures.allAsList(result);
           }
@@ -90,7 +85,6 @@ public class ReindexAfterUpdate implements GitReferenceUpdatedListener {
   }
 
   private abstract class Task<V> implements Callable<V> {
-    protected ReviewDb db;
     protected Event event;
 
     protected Task(Event event) {
@@ -99,20 +93,15 @@ public class ReindexAfterUpdate implements GitReferenceUpdatedListener {
 
     @Override
     public final V call() throws Exception {
-      try {
-        db = schemaFactory.open();
-        return impl();
+      try (ManualRequestContext ctx = requestContext.open()) {
+        return impl(ctx);
       } catch (Exception e) {
         log.error("Failed to reindex changes after " + event, e);
         throw e;
-      } finally {
-        if (db != null) {
-          db.close();
-        }
       }
     }
 
-    protected abstract V impl() throws Exception;
+    protected abstract V impl(RequestContext ctx) throws Exception;
   }
 
   private class GetChanges extends Task<List<Change>> {
@@ -121,49 +110,33 @@ public class ReindexAfterUpdate implements GitReferenceUpdatedListener {
     }
 
     @Override
-    protected List<Change> impl() throws OrmException {
+    protected List<Change> impl(RequestContext ctx) throws OrmException {
       String ref = event.getRefName();
       Project.NameKey project = new Project.NameKey(event.getProjectName());
       if (ref.equals(RefNames.REFS_CONFIG)) {
-        return db.changes().byProjectOpenAll(project).toList();
+        return asChanges(queryProvider.get().byProjectOpen(project));
       } else {
-        return db.changes().byBranchOpenAll(new Branch.NameKey(project, ref))
-            .toList();
+        return asChanges(queryProvider.get().byBranchOpen(
+            new Branch.NameKey(project, ref)));
       }
     }
   }
 
   private class Index extends Task<Void> {
-    private final Account.Id user;
     private final Change.Id id;
 
-    Index(Event event, Account.Id user, Change.Id id) {
+    Index(Event event, Change.Id id) {
       super(event);
-      this.user = user;
       this.id = id;
     }
 
     @Override
-    protected Void impl() throws OrmException, IOException {
-      RequestContext context = new RequestContext() {
-        @Override
-        public CurrentUser getCurrentUser() {
-          return userFactory.create(user);
-        }
-
-        @Override
-        public Provider<ReviewDb> getReviewDbProvider() {
-          return Providers.of(db);
-        }
-      };
-      RequestContext old = tl.setContext(context);
-      try {
-        Change c = db.changes().get(id);
-        indexerFactory.create(executor, indexes).index(db, c);
-        return null;
-      } finally {
-        tl.setContext(old);
-      }
+    protected Void impl(RequestContext ctx) throws OrmException, IOException {
+      // Reload change, as some time may have passed since GetChanges.
+      ReviewDb db = ctx.getReviewDbProvider().get();
+      Change c = db.changes().get(id);
+      indexerFactory.create(executor, indexes).index(db, c);
+      return null;
     }
   }
 }

@@ -20,11 +20,13 @@ import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.cache.CacheModule;
-import com.google.gwtorm.server.SchemaFactory;
+import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.server.query.change.InternalChangeQuery;
+import com.google.gerrit.server.util.OneOffRequestContext;
 import com.google.inject.Inject;
 import com.google.inject.Module;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
@@ -79,20 +81,21 @@ public class ChangeCache implements GitReferenceUpdatedListener {
   }
 
   static class Loader extends CacheLoader<Project.NameKey, List<Change>> {
-    private final SchemaFactory<ReviewDb> schema;
+    private final OneOffRequestContext requestContext;
+    private final Provider<InternalChangeQuery> queryProvider;
 
     @Inject
-    Loader(SchemaFactory<ReviewDb> schema) {
-      this.schema = schema;
+    Loader(OneOffRequestContext requestContext,
+        Provider<InternalChangeQuery> queryProvider) {
+      this.requestContext = requestContext;
+      this.queryProvider = queryProvider;
     }
 
     @Override
     public List<Change> load(Project.NameKey key) throws Exception {
-      final ReviewDb db = schema.open();
-      try {
-        return Collections.unmodifiableList(db.changes().byProject(key).toList());
-      } finally {
-        db.close();
+      try (AutoCloseable ctx = requestContext.open()) {
+        return Collections.unmodifiableList(
+            ChangeData.asChanges(queryProvider.get().byProject(key)));
       }
     }
   }

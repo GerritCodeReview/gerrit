@@ -15,6 +15,7 @@
 package com.google.gerrit.server.mail;
 
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.ApprovalsUtil;
@@ -35,6 +36,7 @@ import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gerrit.server.ssh.SshAdvertisedAddresses;
+import com.google.gerrit.server.validators.OutgoingEmailValidationListener;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
@@ -67,6 +69,7 @@ public class EmailArguments {
   final ChangeData.Factory changeDataFactory;
   final RuntimeInstance velocityRuntime;
   final EmailSettings settings;
+  final DynamicSet<OutgoingEmailValidationListener> outgoingEmailValidationListeners;
 
   @Inject
   EmailArguments(GitRepositoryManager server, ProjectCache projectCache,
@@ -88,7 +91,8 @@ public class EmailArguments {
       ChangeData.Factory changeDataFactory,
       RuntimeInstance velocityRuntime,
       EmailSettings settings,
-      @SshAdvertisedAddresses List<String> sshAddresses) {
+      @SshAdvertisedAddresses List<String> sshAddresses,
+      DynamicSet<OutgoingEmailValidationListener> outgoingEmailValidationListeners) {
     this.server = server;
     this.projectCache = projectCache;
     this.groupBackend = groupBackend;
@@ -112,5 +116,6 @@ public class EmailArguments {
     this.velocityRuntime = velocityRuntime;
     this.settings = settings;
     this.sshAddresses = sshAddresses;
+    this.outgoingEmailValidationListeners = outgoingEmailValidationListeners;
   }
 }

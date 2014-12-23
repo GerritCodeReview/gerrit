@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "61781470_96f28cfc",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeInfo.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-12-23T09:27:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "61781470_36db7881",
+      "range": {
+        "startLine": 261,
+        "startChar": 4,
+        "endLine": 261,
+        "endChar": 90
+      },
+      "revId": "77d880cb5353fc508a7cbf17d49adedf3a772ec0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "21053cfe_3c78d1b0",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
         "patchSetId": 3
@@ -106,6 +130,30 @@
       "writtenOn": "2014-12-23T06:58:07Z",
       "side": 1,
       "message": "I somehow managed to review old patch set (3). Seems like in ps 5 this file was adjusted.",
+      "parentUuid": "4175d075_35db7081",
+      "range": {
+        "startLine": 30,
+        "startChar": 0,
+        "endLine": 30,
+        "endChar": 22
+      },
+      "revId": "77d880cb5353fc508a7cbf17d49adedf3a772ec0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "61781470_9617ec70",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetCommit.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-12-23T09:27:46Z",
+      "side": 1,
+      "message": "Done",
       "parentUuid": "4175d075_35db7081",
       "range": {
         "startLine": 30,

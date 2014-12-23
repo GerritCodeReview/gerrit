@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4175d075_15de7470",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 921,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-23T06:50:10Z",
+      "side": 0,
+      "message": "RevisionInfo.webLinks is not used any more and was even removed in the documentation. Why not to remove it from RevisionInfo.java then?",
+      "range": {
+        "startLine": 921,
+        "startChar": 6,
+        "endLine": 921,
+        "endChar": 18
+      },
+      "revId": "e519b542c75333f395b0efcfc74e193831d2e7fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

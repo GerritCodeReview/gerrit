@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "61781470_96a44cc0",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-23T23:29:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c169c0a3_79fec7c2",
+      "range": {
+        "startLine": 20,
+        "startChar": 25,
+        "endLine": 21,
+        "endChar": 46
+      },
+      "revId": "54f1bbcc5a4cab2c8719d3f8109c900bfd4f38d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a15e8cfb_f8f1f1f6",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 1
@@ -130,6 +154,30 @@
       "writtenOn": "2014-12-23T23:26:09Z",
       "side": 1,
       "message": "Yes, this is wrong. We should throw InvalidChangeOperationException (404) or UnprocessableEntityException (422)",
+      "parentUuid": "a15e8cfb_f8f1f1f6",
+      "range": {
+        "startLine": 21,
+        "startChar": 58,
+        "endLine": 22,
+        "endChar": 24
+      },
+      "revId": "54f1bbcc5a4cab2c8719d3f8109c900bfd4f38d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "61781470_b6a94897",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-23T23:29:35Z",
+      "side": 1,
+      "message": "Exception should be replaced in its own change.",
       "parentUuid": "a15e8cfb_f8f1f1f6",
       "range": {
         "startLine": 21,

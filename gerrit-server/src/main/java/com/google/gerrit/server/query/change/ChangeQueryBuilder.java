@@ -52,6 +52,8 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
+import com.google.inject.assistedinject.AssistedInject;
+import com.google.inject.util.Providers;
 
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
 import org.eclipse.jgit.lib.Config;
@@ -125,7 +127,6 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     final Provider<ReviewDb> db;
     final Provider<ChangeQueryRewriter> rewriter;
     final IdentifiedUser.GenericFactory userFactory;
-    final Provider<CurrentUser> self;
     final CapabilityControl.Factory capabilityControlFactory;
     final ChangeControl.GenericFactory changeControlGenericFactory;
     final ChangeData.Factory changeDataFactory;
@@ -149,7 +150,6 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     public Arguments(Provider<ReviewDb> dbProvider,
         Provider<ChangeQueryRewriter> rewriter,
         IdentifiedUser.GenericFactory userFactory,
-        Provider<CurrentUser> self,
         CapabilityControl.Factory capabilityControlFactory,
         ChangeControl.GenericFactory changeControlGenericFactory,
         ChangeData.Factory changeDataFactory,
@@ -170,7 +170,6 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       this.db = dbProvider;
       this.rewriter = rewriter;
       this.userFactory = userFactory;
-      this.self = self;
       this.capabilityControlFactory = capabilityControlFactory;
       this.changeControlGenericFactory = changeControlGenericFactory;
       this.changeDataFactory = changeDataFactory;
@@ -194,17 +193,23 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   }
 
   public interface Factory {
-    ChangeQueryBuilder create(CurrentUser user);
+    ChangeQueryBuilder create(Provider<? extends CurrentUser> userProvider);
   }
 
   private final Arguments args;
-  private final CurrentUser currentUser;
+  private final Provider<CurrentUser> userProvider;
 
-  @Inject
-  public ChangeQueryBuilder(Arguments args, @Assisted CurrentUser currentUser) {
+  ChangeQueryBuilder(Arguments args, CurrentUser currentUser) {
+    this(args, Providers.of(currentUser));
+  }
+
+  @SuppressWarnings("unchecked")
+  @AssistedInject
+  ChangeQueryBuilder(Arguments args,
+      @Assisted Provider<? extends CurrentUser> userProvider) {
     super(mydef);
     this.args = args;
-    this.currentUser = currentUser;
+    this.userProvider = (Provider<CurrentUser>) userProvider;
   }
 
   @VisibleForTesting
@@ -213,7 +218,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       Arguments args, CurrentUser currentUser) {
     super(def);
     this.args = args;
-    this.currentUser = currentUser;
+    this.userProvider = Providers.of(currentUser);
   }
 
   @Operator
@@ -281,7 +286,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   @Operator
   public Predicate<ChangeData> has(String value) {
     if ("star".equalsIgnoreCase(value)) {
-      return new IsStarredByPredicate(args, currentUser);
+      return new IsStarredByPredicate(args, userProvider.get());
     }
 
     if ("draft".equalsIgnoreCase(value)) {
@@ -294,11 +299,11 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   @Operator
   public Predicate<ChangeData> is(String value) {
     if ("starred".equalsIgnoreCase(value)) {
-      return new IsStarredByPredicate(args, currentUser);
+      return new IsStarredByPredicate(args, userProvider.get());
     }
 
     if ("watched".equalsIgnoreCase(value)) {
-      return new IsWatchedByPredicate(args, currentUser, false);
+      return new IsWatchedByPredicate(args, userProvider.get(), false);
     }
 
     if ("visible".equalsIgnoreCase(value)) {
@@ -361,7 +366,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   @Operator
   public Predicate<ChangeData> parentproject(String name) {
     return new ParentProjectPredicate(args.projectCache, args.listChildProjects,
-        args.self, name);
+        userProvider, name);
   }
 
   @Operator
@@ -483,7 +488,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   public Predicate<ChangeData> starredby(String who)
       throws QueryParseException, OrmException {
     if ("self".equals(who)) {
-      return new IsStarredByPredicate(args, currentUser);
+      return new IsStarredByPredicate(args, userProvider.get());
     }
     Set<Account.Id> m = parseAccount(who);
     List<IsStarredByPredicate> p = Lists.newArrayListWithCapacity(m.size());
@@ -500,9 +505,10 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     Set<Account.Id> m = parseAccount(who);
     List<IsWatchedByPredicate> p = Lists.newArrayListWithCapacity(m.size());
     for (Account.Id id : m) {
-      if (currentUser.isIdentifiedUser()
-          && id.equals(((IdentifiedUser) currentUser).getAccountId())) {
-        p.add(new IsWatchedByPredicate(args, currentUser, false));
+      CurrentUser user = userProvider.get();
+      if (user.isIdentifiedUser()
+          && id.equals(((IdentifiedUser) user).getAccountId())) {
+        p.add(new IsWatchedByPredicate(args, user, false));
       } else {
         p.add(new IsWatchedByPredicate(args,
             args.userFactory.create(args.db, id), true));
@@ -558,7 +564,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   }
 
   public Predicate<ChangeData> is_visible() {
-    return visibleto(currentUser);
+    return visibleto(userProvider.get());
   }
 
   @Operator
@@ -744,8 +750,9 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   }
 
   private Account.Id self() {
-    if (currentUser.isIdentifiedUser()) {
-      return ((IdentifiedUser) currentUser).getAccountId();
+    CurrentUser user = userProvider.get();
+    if (user.isIdentifiedUser()) {
+      return ((IdentifiedUser) user).getAccountId();
     }
     throw new IllegalArgumentException();
   }

@@ -16,6 +16,7 @@ package com.google.gerrit.server.query.change;
 
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryRewriter;
 import com.google.inject.Inject;
@@ -28,8 +29,8 @@ public class BasicChangeRewrites extends QueryRewriter<ChangeData> {
           new InvalidProvider<ReviewDb>(),
           new InvalidProvider<ChangeQueryRewriter>(),
           null, null, null, null, null, null, null, null, null, null, null,
-          null, null, null, null, null, null, null, null),
-          null);
+          null, null, null, null, null, null, null),
+          new InvalidProvider<CurrentUser>());
 
   private static final QueryRewriter.Definition<ChangeData, BasicChangeRewrites> mydef =
       new QueryRewriter.Definition<>(BasicChangeRewrites.class, BUILDER);

@@ -156,7 +156,7 @@ class AccountServiceImpl extends BaseServiceImplementation implements
 
         if (filter != null) {
           try {
-            queryBuilder.create(currentUser.get()).parse(filter);
+            queryBuilder.create(currentUser).parse(filter);
           } catch (QueryParseException badFilter) {
             throw new InvalidQueryException(badFilter.getMessage(), filter);
           }

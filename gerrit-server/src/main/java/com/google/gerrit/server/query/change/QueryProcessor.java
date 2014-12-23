@@ -26,6 +26,7 @@ import com.google.gerrit.server.query.QueryParseException;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,20 +34,18 @@ import java.util.List;
 public class QueryProcessor {
   private final ChangeQueryBuilder queryBuilder;
   private final ChangeQueryRewriter queryRewriter;
-  private final int permittedLimit;
+  private final Provider<CurrentUser> userProvider;
 
   private int limitFromCaller;
   private int start;
 
   @Inject
   QueryProcessor(ChangeQueryBuilder.Factory queryBuilder,
-      CurrentUser currentUser,
+      Provider<CurrentUser> userProvider,
       ChangeQueryRewriter queryRewriter) {
-    this.queryBuilder = queryBuilder.create(currentUser);
+    this.queryBuilder = queryBuilder.create(userProvider);
+    this.userProvider = userProvider;
     this.queryRewriter = queryRewriter;
-    this.permittedLimit = currentUser.getCapabilities()
-      .getRange(GlobalCapability.QUERY_LIMIT)
-      .getMax();
   }
 
   public ChangeQueryBuilder getQueryBuilder() {
@@ -173,12 +172,18 @@ public class QueryProcessor {
   }
 
   boolean isDisabled() {
-    return permittedLimit <= 0;
+    return getPermittedLimit() <= 0;
+  }
+
+  private int getPermittedLimit() {
+    return userProvider.get().getCapabilities()
+      .getRange(GlobalCapability.QUERY_LIMIT)
+      .getMax();
   }
 
   private int getEffectiveLimit(Predicate<ChangeData> p) {
     List<Integer> possibleLimits = new ArrayList<>(3);
-    possibleLimits.add(permittedLimit);
+    possibleLimits.add(getPermittedLimit());
     if (limitFromCaller > 0) {
       possibleLimits.add(limitFromCaller);
     }

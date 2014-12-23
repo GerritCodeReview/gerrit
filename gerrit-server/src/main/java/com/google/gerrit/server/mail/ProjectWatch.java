@@ -37,6 +37,7 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gerrit.server.query.change.SingleGroupUser;
 import com.google.gwtorm.server.OrmException;
+import com.google.inject.util.Providers;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -200,9 +201,9 @@ public class ProjectWatch {
     Predicate<ChangeData> p = null;
 
     if (user == null) {
-      qb = args.queryBuilder.create(args.anonymousUser);
+      qb = args.queryBuilder.create(Providers.of(args.anonymousUser));
     } else {
-      qb = args.queryBuilder.create(user);
+      qb = args.queryBuilder.create(Providers.of(user));
       p = qb.is_visible();
     }
 

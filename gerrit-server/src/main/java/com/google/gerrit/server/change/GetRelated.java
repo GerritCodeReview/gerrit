@@ -32,6 +32,8 @@ import com.google.gerrit.server.CommonConverters;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.ProjectControl;
+import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
 import com.google.inject.Inject;
@@ -64,11 +66,15 @@ public class GetRelated implements RestReadView<RevisionResource> {
 
   private final GitRepositoryManager gitMgr;
   private final Provider<ReviewDb> dbProvider;
+  private final Provider<InternalChangeQuery> queryProvider;
 
   @Inject
-  GetRelated(GitRepositoryManager gitMgr, Provider<ReviewDb> db) {
+  GetRelated(GitRepositoryManager gitMgr,
+      Provider<ReviewDb> db,
+      Provider<InternalChangeQuery> queryProvider) {
     this.gitMgr = gitMgr;
     this.dbProvider = db;
+    this.queryProvider = queryProvider;
   }
 
   @Override
@@ -92,8 +98,8 @@ public class GetRelated implements RestReadView<RevisionResource> {
 
   private List<ChangeAndCommit> walk(RevisionResource rsrc, RevWalk rw, Ref ref)
       throws OrmException, IOException {
-    Map<Change.Id, Change> changes = allOpenChanges(rsrc);
-    Map<PatchSet.Id, PatchSet> patchSets = allPatchSets(rsrc, changes.keySet());
+    Map<Change.Id, ChangeData> changes = allOpenChanges(rsrc);
+    Map<PatchSet.Id, PatchSet> patchSets = allPatchSets(rsrc, changes.values());
 
     Map<String, PatchSet> commits = Maps.newHashMap();
     for (PatchSet p : patchSets.values()) {
@@ -119,7 +125,7 @@ public class GetRelated implements RestReadView<RevisionResource> {
       PatchSet p = commits.get(c.name());
       Change g = null;
       if (p != null) {
-        g = changes.get(p.getId().getParentKey());
+        g = changes.get(p.getId().getParentKey()).change();
         added.add(p.getId().getParentKey());
       } else {
         // check if there is a merged or abandoned change for this commit
@@ -148,25 +154,18 @@ public class GetRelated implements RestReadView<RevisionResource> {
     return list;
   }
 
-  private Map<Change.Id, Change> allOpenChanges(RevisionResource rsrc)
+  private Map<Change.Id, ChangeData> allOpenChanges(RevisionResource rsrc)
       throws OrmException {
-    ReviewDb db = dbProvider.get();
-    return db.changes().toMap(
-        db.changes().byBranchOpenAll(rsrc.getChange().getDest()));
+    return ChangeData.asMap(
+        queryProvider.get().byBranchOpen(rsrc.getChange().getDest()));
   }
 
   private Map<PatchSet.Id, PatchSet> allPatchSets(RevisionResource rsrc,
-      Collection<Change.Id> ids) throws OrmException {
-    int n = ids.size();
-    ReviewDb db = dbProvider.get();
-    List<ResultSet<PatchSet>> t = Lists.newArrayListWithCapacity(n);
-    for (Change.Id id : ids) {
-      t.add(db.patchSets().byChange(id));
-    }
-
-    Map<PatchSet.Id, PatchSet> r = Maps.newHashMapWithExpectedSize(n * 2);
-    for (ResultSet<PatchSet> rs : t) {
-      for (PatchSet p : rs) {
+      Collection<ChangeData> cds) throws OrmException {
+    Map<PatchSet.Id, PatchSet> r =
+        Maps.newHashMapWithExpectedSize(cds.size() * 2);
+    for (ChangeData cd : cds) {
+      for (PatchSet p : cd.patches()) {
         r.put(p.getId(), p);
       }
     }
@@ -178,7 +177,7 @@ public class GetRelated implements RestReadView<RevisionResource> {
   }
 
   private List<ChangeAndCommit> children(RevisionResource rsrc, RevWalk rw,
-      Map<Change.Id, Change> changes, Map<PatchSet.Id, PatchSet> patchSets,
+      Map<Change.Id, ChangeData> changes, Map<PatchSet.Id, PatchSet> patchSets,
       Set<Change.Id> added)
       throws OrmException, IOException {
     // children is a map of parent commit name to PatchSet built on it.
@@ -205,9 +204,9 @@ public class GetRelated implements RestReadView<RevisionResource> {
       }
 
       for (Map.Entry<Change.Id, PatchSet.Id> e : matches.entrySet()) {
-        Change change = changes.get(e.getKey());
+        ChangeData cd = changes.get(e.getKey());
         PatchSet ps = patchSets.get(e.getValue());
-        if (change == null || ps == null || !seenChange.add(e.getKey())) {
+        if (cd == null || ps == null || !seenChange.add(e.getKey())) {
           continue;
         }
 
@@ -218,7 +217,7 @@ public class GetRelated implements RestReadView<RevisionResource> {
           q.addFirst(ps.getRevision().get());
           if (added.add(ps.getId().getParentKey())) {
             rw.parseBody(c);
-            graph.add(new ChangeAndCommit(change, ps, c));
+            graph.add(new ChangeAndCommit(cd.change(), ps, c));
           }
         }
       }
@@ -228,13 +227,15 @@ public class GetRelated implements RestReadView<RevisionResource> {
   }
 
   private boolean isVisible(ProjectControl projectCtl,
-      Map<Change.Id, Change> changes,
+      Map<Change.Id, ChangeData> changes,
       Map<PatchSet.Id, PatchSet> patchSets,
       PatchSet.Id psId) throws OrmException {
-    Change c = changes.get(psId.getParentKey());
+    ChangeData cd = changes.get(psId.getParentKey());
     PatchSet ps = patchSets.get(psId);
-    if (c != null && ps != null) {
-      ChangeControl ctl = projectCtl.controlFor(c);
+    if (cd != null && ps != null) {
+      // Related changes are in the same project, so reuse the existing
+      // ProjectControl.
+      ChangeControl ctl = projectCtl.controlFor(cd.change());
       return ctl.isVisible(dbProvider.get())
           && ctl.isPatchVisible(ps, dbProvider.get());
     }

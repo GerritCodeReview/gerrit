@@ -15,52 +15,59 @@
 package com.google.gerrit.server.git;
 
 import com.google.gerrit.reviewdb.client.Branch;
-import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.server.query.change.InternalChangeQuery;
+import com.google.gerrit.server.util.OneOffRequestContext;
 import com.google.gwtorm.server.OrmException;
-import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.HashSet;
+import java.util.List;
 
 @Singleton
 public class ReloadSubmitQueueOp extends DefaultQueueOp {
   private static final Logger log =
       LoggerFactory.getLogger(ReloadSubmitQueueOp.class);
 
-  private final SchemaFactory<ReviewDb> schema;
+  private final OneOffRequestContext requestContext;
+  private final Provider<InternalChangeQuery> queryProvider;
   private final MergeQueue mergeQueue;
 
   @Inject
-  ReloadSubmitQueueOp(final WorkQueue wq, final SchemaFactory<ReviewDb> sf,
-      final MergeQueue mq) {
+  ReloadSubmitQueueOp(
+      OneOffRequestContext rc,
+      WorkQueue wq,
+      Provider<InternalChangeQuery> qp,
+      MergeQueue mq) {
     super(wq);
-    schema = sf;
+    requestContext = rc;
+    queryProvider = qp;
     mergeQueue = mq;
   }
 
   @Override
   public void run() {
-    final HashSet<Branch.NameKey> pending = new HashSet<>();
-    try {
-      final ReviewDb c = schema.open();
-      try {
-        for (final Change change : c.changes().allSubmitted()) {
-          pending.add(change.getDest());
+    try (AutoCloseable ctx = requestContext.open()) {
+      HashSet<Branch.NameKey> pending = new HashSet<>();
+      List<ChangeData> changes = queryProvider.get().allSubmitted();
+      for (ChangeData cd : changes) {
+        try {
+          pending.add(cd.change().getDest());
+        } catch (OrmException e) {
+          log.error("Error reading submitted change", e);
         }
-      } finally {
-        c.close();
       }
-    } catch (OrmException e) {
-      log.error("Cannot reload MergeQueue", e);
-    }
 
-    for (final Branch.NameKey branch : pending) {
-      mergeQueue.schedule(branch);
+      for (Branch.NameKey branch : pending) {
+        mergeQueue.schedule(branch);
+      }
+    } catch (Exception e) {
+      log.error("Cannot reload MergeQueue", e);
     }
   }
 

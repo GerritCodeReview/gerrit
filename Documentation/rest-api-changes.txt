@@ -16,7 +16,10 @@ link:rest-api.html[REST API].
 The change info link:#change-info[ChangeInfo] entity must be provided in the
 request body. Only the following attributes are honored: `project`,
 `branch`, `subject`, `status` and `topic`. The first three attributes are
-mandatory. Valid values for status are: `DRAFT` and `NEW`.
+mandatory. Valid values for status are: `DRAFT` and `NEW`. When `base_change`
+input is specified, then it must uniquely identify the change and this change
+must be visible to the caller of this endpoint, otherwise "Base change not
+found" error is reported.
 
 .Request
 ----
@@ -3377,6 +3380,10 @@ Only set on either the last or the first change that is returned.
 |`problems`           |optional|
 A list of link:#problem-info[ProblemInfo] entities describing potential
 problems with this change. Only set if link:#check[CHECK] is set.
+|`base_change`           |optional|
+A change identifier, either a numeric ID, a Change-Id, or
+project~branch~id triplet that identifies base change for create change
+operation. Only used for link:#create-change[CreateChange] endpoint.
 |==================================
 
 [[related-changes-info]]

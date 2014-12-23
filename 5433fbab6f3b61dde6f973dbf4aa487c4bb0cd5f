@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4175d075_156bd4d3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-23T22:25:55Z",
+      "side": 1,
+      "message": "Update documentation to reflect this change, mention that `baseChange` passed in must exists only once and be visible to the caller? The visibility problem can never happen from the UI, main consumer of this endpoint, right? When i see \"Follow-up\" button on CS2 it should always succeed?",
+      "revId": "5433fbab6f3b61dde6f973dbf4aa487c4bb0cd5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

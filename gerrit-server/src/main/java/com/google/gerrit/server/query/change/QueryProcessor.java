@@ -38,6 +38,7 @@ public class QueryProcessor {
 
   private int limitFromCaller;
   private int start;
+  private boolean enforceVisibility = true;
 
   @Inject
   QueryProcessor(ChangeQueryBuilder.Factory queryBuilder,
@@ -50,6 +51,11 @@ public class QueryProcessor {
 
   public ChangeQueryBuilder getQueryBuilder() {
     return queryBuilder;
+  }
+
+  public QueryProcessor enforceVisibility(boolean enforce) {
+    enforceVisibility = enforce;
+    return this;
   }
 
   public QueryProcessor setLimit(int n) {
@@ -129,7 +135,9 @@ public class QueryProcessor {
   private List<QueryResult> queryChanges(List<String> queryStrings,
       List<Predicate<ChangeData>> queries)
       throws OrmException, QueryParseException {
-    Predicate<ChangeData> visibleToMe = queryBuilder.is_visible();
+    Predicate<ChangeData> visibleToMe = enforceVisibility
+        ? queryBuilder.is_visible()
+        : null;
     int cnt = queries.size();
 
     // Parse and rewrite all queries.
@@ -151,9 +159,11 @@ public class QueryProcessor {
       if (!(s instanceof ChangeDataSource)) {
         throw new QueryParseException("invalid query: " + s);
       }
-      AndSource a = new AndSource(ImmutableList.of(s, visibleToMe), start);
-      predicates.add(a);
-      sources.add(a);
+      if (enforceVisibility) {
+        s = new AndSource(ImmutableList.of(s, visibleToMe), start);
+      }
+      predicates.add(s);
+      sources.add((ChangeDataSource) s);
     }
 
     // Run each query asynchronously, if supported.
@@ -178,6 +188,9 @@ public class QueryProcessor {
   }
 
   private int getPermittedLimit() {
+    if (!enforceVisibility) {
+      return Integer.MAX_VALUE;
+    }
     return userProvider.get().getCapabilities()
       .getRange(GlobalCapability.QUERY_LIMIT)
       .getMax();

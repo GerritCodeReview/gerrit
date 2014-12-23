@@ -14,10 +14,13 @@
 
 package com.google.gerrit.server.query.change;
 
+import static com.google.common.base.Preconditions.checkState;
+
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Ordering;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.index.IndexPredicate;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
 import com.google.gwtorm.server.OrmException;
@@ -114,6 +117,14 @@ public class QueryProcessor {
     return queryChanges(null, queries);
   }
 
+  static {
+    // In addition to this assumption, this queryChanges assumes the basic
+    // rewrites do not touch visibleto predicates either.
+    checkState(
+        !IsVisibleToPredicate.class.isAssignableFrom(IndexPredicate.class),
+        "QueryProcessor assumes visibleto is not used by the index rewriter.");
+  }
+
   private List<QueryResult> queryChanges(List<String> queryStrings,
       List<Predicate<ChangeData>> queries)
       throws OrmException, QueryParseException {
@@ -125,7 +136,6 @@ public class QueryProcessor {
     List<Predicate<ChangeData>> predicates = new ArrayList<>(cnt);
     List<ChangeDataSource> sources = new ArrayList<>(cnt);
     for (Predicate<ChangeData> q : queries) {
-      q = Predicate.and(q, visibleToMe);
       int limit = getEffectiveLimit(q);
       limits.add(limit);
 
@@ -140,11 +150,8 @@ public class QueryProcessor {
       if (!(s instanceof ChangeDataSource)) {
         throw new QueryParseException("invalid query: " + s);
       }
-      predicates.add(s);
-
-      // Don't trust QueryRewriter to have left the visible predicate.
-      // TODO(dborowitz): Probably we can.
       AndSource a = new AndSource(ImmutableList.of(s, visibleToMe), start);
+      predicates.add(a);
       sources.add(a);
     }
 

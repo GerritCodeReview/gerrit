@@ -403,7 +403,10 @@ public class FileTable extends FlowPanel {
     @Override
     protected void onOpenRow(int row) {
       if (1 <= row && row <= list.length()) {
-        Gerrit.display(url(list.get(row - 1)));
+        FileInfo info = list.get(row - 1);
+        if (isEditable(info)) {
+          Gerrit.display(url(info));
+        }
       }
     }
 
@@ -428,6 +431,12 @@ public class FileTable extends FlowPanel {
       public void onKeyPress(KeyPressEvent event) {
         Gerrit.display(url(list.get(index)));
       }
+    }
+
+    boolean isEditable(FileInfo info) {
+      String status = info.status();
+      return status == null
+          || !ChangeType.DELETED.matches(status);
     }
   }
 
@@ -581,7 +590,7 @@ public class FileTable extends FlowPanel {
       sb.openTd().setStyleName(R.css().removeButton());
       if (hasUser) {
         if (!Patch.COMMIT_MSG.equals(info.path())) {
-          boolean editable = isEditable(info);
+          boolean editable = myTable.isEditable(info);
           sb.openElement("button")
             .setAttribute("title", editable
                 ? Resources.C.removeFileInline()
@@ -595,12 +604,6 @@ public class FileTable extends FlowPanel {
         }
       }
       sb.closeTd();
-    }
-
-    private boolean isEditable(FileInfo info) {
-      String status = info.status();
-      return status == null
-          || !ChangeType.DELETED.matches(status);
     }
 
     private void columnStatus(SafeHtmlBuilder sb, FileInfo info) {
@@ -619,7 +622,7 @@ public class FileTable extends FlowPanel {
         .openAnchor();
 
       String path = info.path();
-      if (mode == Mode.EDIT && !isEditable(info)) {
+      if (mode == Mode.EDIT && !myTable.isEditable(info)) {
         sb.setAttribute("onclick", RESTORE + "(event," + info._row() + ")");
       } else {
         sb.setAttribute("href", "#" + url(info))

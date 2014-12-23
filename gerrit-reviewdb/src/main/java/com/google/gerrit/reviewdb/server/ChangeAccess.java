@@ -14,9 +14,7 @@
 
 package com.google.gerrit.reviewdb.server;
 
-import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwtorm.server.Access;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.PrimaryKey;
@@ -34,26 +32,6 @@ public interface ChangeAccess extends Access<Change, Change.Id> {
   @Query("WHERE changeKey >= ? AND changeKey <= ?")
   ResultSet<Change> byKeyRange(Change.Key reva, Change.Key revb)
       throws OrmException;
-
-  @Query("WHERE dest = ? AND changeKey = ?")
-  ResultSet<Change> byBranchKey(Branch.NameKey p, Change.Key key)
-      throws OrmException;
-
-  @Query("WHERE dest.projectName = ?")
-  ResultSet<Change> byProject(Project.NameKey p) throws OrmException;
-
-  @Query("WHERE dest = ? AND status = '" + Change.STATUS_SUBMITTED
-      + "' ORDER BY lastUpdatedOn")
-  ResultSet<Change> submitted(Branch.NameKey dest) throws OrmException;
-
-  @Query("WHERE status = '" + Change.STATUS_SUBMITTED + "'")
-  ResultSet<Change> allSubmitted() throws OrmException;
-
-  @Query("WHERE open = true AND dest.projectName = ?")
-  ResultSet<Change> byProjectOpenAll(Project.NameKey p) throws OrmException;
-
-  @Query("WHERE open = true AND dest = ?")
-  ResultSet<Change> byBranchOpenAll(Branch.NameKey p) throws OrmException;
 
   @Query
   ResultSet<Change> all() throws OrmException;

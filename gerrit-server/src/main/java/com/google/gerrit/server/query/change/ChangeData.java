@@ -75,6 +75,24 @@ import java.util.List;
 import java.util.Map;
 
 public class ChangeData {
+  public static List<Change> asChanges(List<ChangeData> changeDatas)
+      throws OrmException {
+    List<Change> result = new ArrayList<>(changeDatas.size());
+    for (ChangeData cd : changeDatas) {
+      result.add(cd.change());
+    }
+    return result;
+  }
+
+  public static Map<Change.Id, ChangeData> asMap(List<ChangeData> changes) {
+    Map<Change.Id, ChangeData> result =
+        Maps.newHashMapWithExpectedSize(changes.size());
+    for (ChangeData cd : changes) {
+      result.put(cd.getId(), cd);
+    }
+    return result;
+  }
+
   public static void ensureChangeLoaded(Iterable<ChangeData> changes)
       throws OrmException {
     Map<Change.Id, ChangeData> missing = Maps.newHashMap();

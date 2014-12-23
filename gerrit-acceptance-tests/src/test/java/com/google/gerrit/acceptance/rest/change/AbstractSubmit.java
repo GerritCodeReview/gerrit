@@ -40,6 +40,7 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.ApprovalsUtil;
+import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.PutConfig;
 import com.google.gson.reflect.TypeToken;
@@ -73,6 +74,8 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   @Inject
   private ApprovalsUtil approvalsUtil;
 
+  @Inject
+  private ChangeIndexer indexer;
 
   @Before
   public void setUp() throws Exception {
@@ -166,6 +169,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
                 PatchSetApproval.LabelId.SUBMIT),
             (short) 1,
             new Timestamp(System.currentTimeMillis()))));
+    indexer.index(db, c);
   }
 
   private void submit(String changeId, int expectedStatus) throws IOException {

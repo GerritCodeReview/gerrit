@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c169c0a3_5901032c",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-12-23T23:00:13Z",
+      "side": 1,
+      "message": "This is not mentioned at all in [[change-info]] below.",
+      "range": {
+        "startLine": 19,
+        "startChar": 65,
+        "endLine": 19,
+        "endChar": 76
+      },
+      "revId": "54f1bbcc5a4cab2c8719d3f8109c900bfd4f38d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c169c0a3_79fec7c2",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-12-23T23:00:13Z",
+      "side": 1,
+      "message": "This is unnecessarily verbose. Just refer to #change-id. The whole point of my previous change is that the semantics of this lookup exactly match what we do for /changes/{change-id}.",
+      "range": {
+        "startLine": 20,
+        "startChar": 25,
+        "endLine": 21,
+        "endChar": 46
+      },
+      "revId": "54f1bbcc5a4cab2c8719d3f8109c900bfd4f38d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a15e8cfb_f8f1f1f6",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-12-23T23:00:13Z",
+      "side": 1,
+      "message": "I don\u0027t want to be tied to this particular error message text.\n\nAlthough mentioning the corresponding response code is probably a good idea. What even is the response code? IIUC InvalidChangeOperationException when caught by RestApiServlet turns into a 500? That seems wrong.",
+      "range": {
+        "startLine": 21,
+        "startChar": 58,
+        "endLine": 22,
+        "endChar": 24
+      },
+      "revId": "54f1bbcc5a4cab2c8719d3f8109c900bfd4f38d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

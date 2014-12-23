@@ -126,8 +126,12 @@ public final class Change {
     }
 
     /** Parse a Change.Id out of a string representation. */
-    public static Id parse(final String str) {
+    public static Id parse(String str) {
       final Id r = new Id();
+      int editIndex = str.indexOf(",edit");
+      if (editIndex > 0) {
+        str = str.substring(0, editIndex);
+      }
       r.fromString(str);
       return r;
     }

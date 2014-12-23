@@ -156,11 +156,15 @@ public class CreateChange implements
         ObjectId parentCommit;
         if (input.baseChange != null) {
           List<Change> changes = changeUtil.findChanges(input.baseChange);
-          if (changes.isEmpty()) {
+          if (changes.size() != 1) {
             throw new InvalidChangeOperationException(
                 "Base change not found: " + input.baseChange);
           }
           Change change = Iterables.getOnlyElement(changes);
+          if (!rsrc.getControl().controlFor(change).isVisible(db.get())) {
+            throw new InvalidChangeOperationException(
+                "Base change not found: " + input.baseChange);
+          }
           PatchSet ps = db.get().patchSets().get(
               new PatchSet.Id(change.getId(),
               change.currentPatchSetId().get()));

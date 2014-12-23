@@ -538,6 +538,14 @@ public class ChangeUtil {
     db.patchSets().delete(Collections.singleton(patch));
   }
 
+  /**
+   * Find changes matching the given identifier.
+   *
+   * @param id change identifier, either a numeric ID, a Change-Id, or
+   *     project~branch~id triplet.
+   * @return all matching changes, even if they are not visible to the current
+   *     user.
+   */
   public List<Change> findChanges(String id)
       throws OrmException, ResourceNotFoundException {
     // Try legacy id

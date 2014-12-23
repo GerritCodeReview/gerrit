@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "61781470_f6d82087",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/FileTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 407,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-23T05:16:05Z",
+      "side": 1,
+      "message": "This would also drop the event for deleted files in review mode.",
+      "range": {
+        "startLine": 407,
+        "startChar": 8,
+        "endLine": 407,
+        "endChar": 31
+      },
+      "revId": "1db22ccfc4e63d382453d57ee2f7f3eecafb4da6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

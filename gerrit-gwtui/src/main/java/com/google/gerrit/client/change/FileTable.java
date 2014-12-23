@@ -558,11 +558,7 @@ public class FileTable extends FlowPanel {
         columnDeleteRestore(sb, info);
       }
       columnStatus(sb, info);
-      if (mode == Mode.REVIEW) {
-        columnPath(sb, info);
-      } else {
-        columnPathEdit(sb, info);
-      }
+      columnPath(sb, info);
       columnComments(sb, info);
       columnDelta1(sb, info);
       columnDelta2(sb, info);
@@ -578,33 +574,6 @@ public class FileTable extends FlowPanel {
           .setAttribute("onclick", REVIEWED + "(event," + info._row() + ")")
           .closeSelf();
       }
-      sb.closeTd();
-    }
-
-    private void columnPathEdit(SafeHtmlBuilder sb, FileInfo info) {
-      sb.openTd().setStyleName(R.css().pathColumn());
-      String path = info.path();
-      sb.openAnchor();
-
-      if (!isEditable(info)) {
-        sb.setAttribute("onclick", RESTORE + "(event," + info._row() + ")");
-      } else {
-        sb.setAttribute("href", "#" + url(info))
-        .setAttribute("onclick", OPEN + "(event," + info._row()
-            + ")");
-      }
-      if (!Patch.COMMIT_MSG.equals(path)) {
-        int commonPrefixLen = commonPrefix(path);
-        if (commonPrefixLen > 0) {
-          sb.openSpan().setStyleName(R.css().commonPrefix())
-            .append(path.substring(0, commonPrefixLen))
-            .closeSpan();
-        }
-        sb.append(path.substring(commonPrefixLen));
-      } else {
-        sb.append(Util.C.commitMessage());
-      }
-      sb.closeAnchor();
       sb.closeTd();
     }
 
@@ -647,11 +616,16 @@ public class FileTable extends FlowPanel {
     private void columnPath(SafeHtmlBuilder sb, FileInfo info) {
       sb.openTd()
         .setStyleName(R.css().pathColumn())
-        .openAnchor()
-        .setAttribute("href", "#" + url(info))
-        .setAttribute("onclick", OPEN + "(event," + info._row() + ")");
+        .openAnchor();
 
       String path = info.path();
+      if (mode == Mode.EDIT && !isEditable(info)) {
+        sb.setAttribute("onclick", RESTORE + "(event," + info._row() + ")");
+      } else {
+        sb.setAttribute("href", "#" + url(info))
+          .setAttribute("onclick", OPEN + "(event," + info._row() + ")");
+      }
+
       if (Patch.COMMIT_MSG.equals(path)) {
         sb.append(Util.C.commitMessage());
       } else {

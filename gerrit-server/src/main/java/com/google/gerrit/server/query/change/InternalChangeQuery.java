@@ -17,6 +17,8 @@ package com.google.gerrit.server.query.change;
 import static com.google.gerrit.server.query.Predicate.and;
 import static com.google.gerrit.server.query.change.ChangeStatusPredicate.open;
 
+import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
@@ -25,17 +27,36 @@ import com.google.inject.Inject;
 
 import java.util.List;
 
-/** Execute a single query over changes, for use by Gerrit internals. */
+/**
+ * Execute a single query over changes, for use by Gerrit internals.
+ * <p>
+ * By default, visibility of returned changes is not enforced (unlike in {@link
+ * QueryProcessor}). The methods in this class are not typically used by
+ * user-facing paths, but rather by internal callers that need to process all
+ * matching results.
+ */
 public class InternalChangeQuery {
-  private static Predicate<ChangeData> project(Project.NameKey projectName) {
-    return new ProjectPredicate(projectName.get());
+  private static Predicate<ChangeData> ref(Branch.NameKey branch) {
+    return new RefPredicate(branch.get());
+  }
+
+  private static Predicate<ChangeData> change(Change.Key key) {
+    return new ChangeIdPredicate(key.get());
+  }
+
+  private static Predicate<ChangeData> project(Project.NameKey project) {
+    return new ProjectPredicate(project.get());
+  }
+
+  private static Predicate<ChangeData> status(Change.Status status) {
+    return new ChangeStatusPredicate(status);
   }
 
   private final QueryProcessor qp;
 
   @Inject
   InternalChangeQuery(QueryProcessor queryProcessor) {
-    qp = queryProcessor;
+    qp = queryProcessor.enforceVisibility(false);
   }
 
   public InternalChangeQuery setLimit(int n) {
@@ -43,9 +64,47 @@ public class InternalChangeQuery {
     return this;
   }
 
-  public List<ChangeData> byProjectOpen(Project.NameKey projectName)
+  public InternalChangeQuery enforceVisibility(boolean enforce) {
+    qp.enforceVisibility(enforce);
+    return this;
+  }
+
+
+  public List<ChangeData> byBranchKey(Branch.NameKey branch, Change.Key key)
       throws OrmException {
-    return query(and(project(projectName), open()));
+    return query(and(
+        ref(branch),
+        project(branch.getParentKey()),
+        change(key)));
+  }
+
+  public List<ChangeData> byProject(Project.NameKey project)
+      throws OrmException {
+    return query(project(project));
+  }
+
+  public List<ChangeData> submitted(Branch.NameKey branch) throws OrmException {
+    return query(and(
+        ref(branch),
+        project(branch.getParentKey()),
+        status(Change.Status.SUBMITTED)));
+  }
+
+  public List<ChangeData> allSubmitted() throws OrmException {
+    return query(status(Change.Status.SUBMITTED));
+  }
+
+  public List<ChangeData> byBranchOpen(Branch.NameKey branch)
+      throws OrmException {
+    return query(and(
+        ref(branch),
+        project(branch.getParentKey()),
+        open()));
+  }
+
+  public List<ChangeData> byProjectOpen(Project.NameKey project)
+      throws OrmException {
+    return query(and(project(project), open()));
   }
 
   private List<ChangeData> query(Predicate<ChangeData> p) throws OrmException {

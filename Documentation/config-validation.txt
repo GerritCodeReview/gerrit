@@ -85,6 +85,14 @@ group names.
 Plugins implementing the `HashtagValidationListener` interface can perform
 validation of hashtags before they are added to or removed from changes.
 
+[[outgoing-email-validation]]
+== Outgoing e-mail validation
+
+
+This interface provides a low-level e-mail filtering API for plugins.
+Plugins implementing the `OutgoingEmailValidationListener` interface can perform
+filtering of outgoing e-mails just before they are sent.
+
 
 GERRIT
 ------

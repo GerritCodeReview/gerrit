@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "61781470_3609b84d",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/ListChangesOption.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-23T10:13:05Z",
+      "side": 1,
+      "message": "Change it to 14 when you decide not to restore WEB_LINKS option?",
+      "range": {
+        "startLine": 55,
+        "startChar": 2,
+        "endLine": 55,
+        "endChar": 12
+      },
+      "revId": "888f4b405b973878e1afb09c5ff21e8e9ae8005a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4175d075_75fec8c2",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 828,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-23T10:13:05Z",
+      "side": 1,
+      "message": "This is to verbose. Just add helper method in ChangeApi.commitWithInkls() or some such. ChangeList.addWebLinksOption() seems to be a wrong place for adding an private option:\n\n  ChangeApi.commitWithLinks(changeId.get(), rev.name(),\n    new GerritCallback\u003cCommitInfo\u003e() {\n        @Override\n        public void onSuccess(CommitInfo info) {\n          rev.set_commit(info);\n        }\n    }));",
+      "range": {
+        "startLine": 825,
+        "startChar": 4,
+        "endLine": 828,
+        "endChar": 12
+      },
+      "revId": "888f4b405b973878e1afb09c5ff21e8e9ae8005a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "61781470_160cbc5c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 880,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-23T10:13:05Z",
+      "side": 1,
+      "message": "Just restore the WEB_LINK option and pass it here in:\n\n  has(WEB_LINKS)\n\nsee my comment in another file.",
+      "range": {
+        "startLine": 880,
+        "startChar": 66,
+        "endLine": 880,
+        "endChar": 71
+      },
+      "revId": "888f4b405b973878e1afb09c5ff21e8e9ae8005a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

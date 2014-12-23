@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "61781470_f62660db",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/ListChangesOption.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-23T10:13:05Z",
+      "side": 0,
+      "message": "Shouldn\u0027t we preserve this option also for GET /changes/\u003cid\u003e/detail REST endpoint? Yes, change screen2 doesn\u0027t need this, but i think it makes sense, because you could pass in the following options:\n\n* CURRENT_COMMIT(3)\n* ALL_COMMITS(4)\n\nin which case commit info is returned as well. But because you have removed it here, there is no way for a caller to ask for it to be filled. So the only way would be to call in addition GET /changes/\u003cid\u003e/revision/\u003cnumber\u003e/commit?links endpoint.\n\nThis is considered to be a bad practice to require additional server roundtrip to get what you need.",
+      "range": {
+        "startLine": 54,
+        "startChar": 2,
+        "endLine": 55,
+        "endChar": 16
+      },
+      "revId": "4f0decec7bf3a917230fa5aade5bcf7aee0618d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

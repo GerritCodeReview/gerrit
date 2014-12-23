@@ -131,11 +131,15 @@ public class FileTable extends FlowPanel {
     }
   }
 
-  private static void onRestore(NativeEvent e, int idx) {
+  private static boolean onRestore(NativeEvent e, int idx) {
     MyTable t = getMyTable(e);
     if (t != null) {
       t.onRestore(idx);
+      e.preventDefault();
+      e.stopPropagation();
+      return false;
     }
+    return true;
   }
 
   private static void onReviewed(NativeEvent e, int idx) {

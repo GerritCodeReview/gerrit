@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4175d075_35329011",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-23T14:37:05Z",
+      "side": 1,
+      "message": "Sorry, but this should be mentioned: Now it\u0027s only included in the output, when either CURRENT_COMMIT or ALL_COMMITS is provided as well, otherwise web_links are not rendered, even when `WEB_LINKS` option was provided.",
+      "range": {
+        "startLine": 298,
+        "startChar": 0,
+        "endLine": 301,
+        "endChar": 2
+      },
+      "revId": "3ab32f7051cac23fc328c6365b4fc74119c98753",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "61781470_d6508429",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 934,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-23T14:37:05Z",
+      "side": 1,
+      "message": "Nit: add new line ater this block to separate handling different aspects.",
+      "revId": "3ab32f7051cac23fc328c6365b4fc74119c98753",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -15,6 +15,7 @@
 package com.google.gerrit.server;
 
 import static com.google.gerrit.server.change.PatchSetInserter.ValidatePolicy.RECEIVE_COMMITS;
+import static com.google.gerrit.server.query.change.ChangeData.asChanges;
 
 import com.google.common.base.Optional;
 import com.google.common.base.Strings;
@@ -42,6 +43,7 @@ import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.RefControl;
+import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.ssh.SshInfo;
 import com.google.gerrit.server.util.IdGenerator;
 import com.google.gerrit.server.util.MagicBranch;
@@ -182,6 +184,7 @@ public class ChangeUtil {
   private final Provider<CurrentUser> userProvider;
   private final CommitValidators.Factory commitValidatorsFactory;
   private final Provider<ReviewDb> db;
+  private final Provider<InternalChangeQuery> queryProvider;
   private final RevertedSender.Factory revertedSenderFactory;
   private final ChangeInserter.Factory changeInserterFactory;
   private final PatchSetInserter.Factory patchSetInserterFactory;
@@ -193,6 +196,7 @@ public class ChangeUtil {
   ChangeUtil(Provider<CurrentUser> userProvider,
       CommitValidators.Factory commitValidatorsFactory,
       Provider<ReviewDb> db,
+      Provider<InternalChangeQuery> queryProvider,
       RevertedSender.Factory revertedSenderFactory,
       ChangeInserter.Factory changeInserterFactory,
       PatchSetInserter.Factory patchSetInserterFactory,
@@ -202,6 +206,7 @@ public class ChangeUtil {
     this.userProvider = userProvider;
     this.commitValidatorsFactory = commitValidatorsFactory;
     this.db = db;
+    this.queryProvider = queryProvider;
     this.revertedSenderFactory = revertedSenderFactory;
     this.changeInserterFactory = changeInserterFactory;
     this.patchSetInserterFactory = patchSetInserterFactory;
@@ -532,9 +537,9 @@ public class ChangeUtil {
     // Try change triplet
     Optional<ChangeTriplet> triplet = ChangeTriplet.parse(id);
     if (triplet.isPresent()) {
-      return db.get().changes().byBranchKey(
+      return asChanges(queryProvider.get().byBranchKey(
           triplet.get().branch(),
-          triplet.get().id()).toList();
+          triplet.get().id()));
     }
 
     throw new ResourceNotFoundException(id);

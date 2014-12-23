@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "61781470_566554fb",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 334,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-23T19:46:32Z",
+      "side": 1,
+      "message": "This should be converted to truth lib.",
+      "revId": "734da44507764391d1cb94aefc08513b0101522a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4175d075_75e5e832",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetCommit.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-23T07:01:36Z",
+      "side": 1,
+      "message": "Cannot be singleton when parameter passed.",
+      "range": {
+        "startLine": 32,
+        "startChar": 0,
+        "endLine": 32,
+        "endChar": 10
+      },
+      "revId": "f5910f60cd5ba749672c37183ccb616da1dbc9ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4175d075_95f284fc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetCommit.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-23T07:01:36Z",
+      "side": 1,
+      "message": "It doesn\u0027t make any sense to me to borrow list edit options from GET /changes/\u003cid\u003e/detail REST endpoint.\n\nAs in my previous comment, you probably want to add --link parameter and mal it to WEB_LINKS.",
+      "range": {
+        "startLine": 36,
+        "startChar": 2,
+        "endLine": 44,
+        "endChar": 3
+      },
+      "revId": "f5910f60cd5ba749672c37183ccb616da1dbc9ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

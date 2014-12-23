@@ -16,6 +16,24 @@
       "revId": "5433fbab6f3b61dde6f973dbf4aa487c4bb0cd5f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a15e8cfb_b8f779eb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2014-12-23T22:35:23Z",
+      "side": 1,
+      "message": "I would if there were documentation for the base_change field ;)\n\nI think it would just link to #change-id, since the explicit goal of this change is to be consistent with /changes/{change-id}. So that\u0027s where any expanded documentation would go.",
+      "parentUuid": "4175d075_156bd4d3",
+      "revId": "5433fbab6f3b61dde6f973dbf4aa487c4bb0cd5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

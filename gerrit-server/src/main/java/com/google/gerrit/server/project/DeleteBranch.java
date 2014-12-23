@@ -25,6 +25,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.project.DeleteBranch.Input;
+import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
 import com.google.inject.Inject;
@@ -48,16 +49,19 @@ public class DeleteBranch implements RestModifyView<BranchResource, Input>{
   private final Provider<IdentifiedUser> identifiedUser;
   private final GitRepositoryManager repoManager;
   private final Provider<ReviewDb> dbProvider;
+  private final Provider<InternalChangeQuery> queryProvider;
   private final GitReferenceUpdated referenceUpdated;
   private final ChangeHooks hooks;
 
   @Inject
   DeleteBranch(Provider<IdentifiedUser> identifiedUser,
       GitRepositoryManager repoManager, Provider<ReviewDb> dbProvider,
+      Provider<InternalChangeQuery> queryProvider,
       GitReferenceUpdated referenceUpdated, ChangeHooks hooks) {
     this.identifiedUser = identifiedUser;
     this.repoManager = repoManager;
     this.dbProvider = dbProvider;
+    this.queryProvider = queryProvider;
     this.referenceUpdated = referenceUpdated;
     this.hooks = hooks;
   }
@@ -68,8 +72,8 @@ public class DeleteBranch implements RestModifyView<BranchResource, Input>{
     if (!rsrc.getControl().controlForRef(rsrc.getBranchKey()).canDelete()) {
       throw new AuthException("Cannot delete branch");
     }
-    if (dbProvider.get().changes().byBranchOpenAll(rsrc.getBranchKey())
-        .iterator().hasNext()) {
+    if (!queryProvider.get().setLimit(1)
+        .byBranchOpen(rsrc.getBranchKey()).isEmpty()) {
       throw new ResourceConflictException("branch " + rsrc.getBranchKey()
           + " has open changes");
     }

@@ -272,6 +272,7 @@ public class ReceiveCommits {
 
   private final IdentifiedUser currentUser;
   private final ReviewDb db;
+  private final Provider<InternalChangeQuery> queryProvider;
   private final ChangeData.Factory changeDataFactory;
   private final ChangeUpdate.Factory updateFactory;
   private final SchemaFactory<ReviewDb> schemaFactory;
@@ -377,6 +378,7 @@ public class ReceiveCommits {
       final NotesMigration notesMigration) throws IOException {
     this.currentUser = (IdentifiedUser) projectControl.getCurrentUser();
     this.db = db;
+    this.queryProvider = queryProvider;
     this.changeDataFactory = changeDataFactory;
     this.updateFactory = updateFactory;
     this.schemaFactory = schemaFactory;
@@ -1523,7 +1525,7 @@ public class ReceiveCommits {
           return;
         }
 
-        List<Change> changes = p.destChanges.toList();
+        List<ChangeData> changes = p.destChanges;
         if (changes.size() > 1) {
           // WTF, multiple changes in this project have the same key?
           // Since the commit is new, the user should recreate it with
@@ -1538,7 +1540,8 @@ public class ReceiveCommits {
         if (changes.size() == 1) {
           // Schedule as a replacement to this one matching change.
           //
-          if (requestReplace(magicBranch.cmd, false, changes.get(0), p.commit)) {
+          if (requestReplace(
+              magicBranch.cmd, false, changes.get(0).change(), p.commit)) {
             continue;
           } else {
             newChanges = Collections.emptyList();
@@ -1602,12 +1605,12 @@ public class ReceiveCommits {
   private class ChangeLookup {
     final RevCommit commit;
     final Change.Key changeKey;
-    final ResultSet<Change> destChanges;
+    final List<ChangeData> destChanges;
 
     ChangeLookup(RevCommit c, Change.Key key) throws OrmException {
       commit = c;
       changeKey = key;
-      destChanges = db.changes().byBranchKey(magicBranch.dest, key);
+      destChanges = queryProvider.get().byBranchKey(magicBranch.dest, key);
     }
   }
 
@@ -2353,7 +2356,7 @@ public class ReceiveCommits {
           closeProgress.update(1);
           if (closedChange != null) {
             if (byKey == null) {
-              byKey = openChangesByKey(branch);
+              byKey = openChangesByBranch(branch);
             }
             byKey.remove(closedChange);
           }
@@ -2361,7 +2364,7 @@ public class ReceiveCommits {
 
         for (final String changeId : c.getFooterLines(CHANGE_ID)) {
           if (byKey == null) {
-            byKey = openChangesByKey(branch);
+            byKey = openChangesByBranch(branch);
           }
 
           final Change onto = byKey.get(new Change.Key(changeId.trim()));
@@ -2436,11 +2439,11 @@ public class ReceiveCommits {
     return change.getKey();
   }
 
-  private Map<Change.Key, Change> openChangesByKey(Branch.NameKey branch)
+  private Map<Change.Key, Change> openChangesByBranch(Branch.NameKey branch)
       throws OrmException {
     final Map<Change.Key, Change> r = new HashMap<>();
-    for (Change c : db.changes().byBranchOpenAll(branch)) {
-      r.put(c.getKey(), c);
+    for (ChangeData cd : queryProvider.get().byBranchOpen(branch)) {
+      r.put(cd.change().getKey(), cd.change());
     }
     return r;
   }

@@ -31,6 +31,7 @@ import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.common.util.concurrent.MoreExecutors;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -39,6 +40,7 @@ import com.google.gerrit.server.git.MultiProgressMonitor;
 import com.google.gerrit.server.git.MultiProgressMonitor.Task;
 import com.google.gerrit.server.patch.PatchListLoader;
 import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 
@@ -65,9 +67,11 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -237,7 +241,7 @@ public class SiteIndexer {
           repo = repoManager.openRepository(project);
           Map<String, Ref> refs = repo.getRefDatabase().getRefs(ALL);
           db = schemaFactory.open();
-          for (Change c : db.changes().byProject(project)) {
+          for (Change c : scanChanges(db, repo)) {
             Ref r = refs.get(c.currentPatchSetId().toRefName());
             if (r != null) {
               byId.put(r.getObjectId(), changeDataFactory.create(db, c));
@@ -266,6 +270,28 @@ public class SiteIndexer {
         return null;
       }
     };
+  }
+
+  private static List<Change> scanChanges(ReviewDb db, Repository repo)
+      throws OrmException, IOException {
+    Map<String, Ref> refs =
+        repo.getRefDatabase().getRefs(RefNames.REFS_CHANGES);
+    Set<Change.Id> ids = new LinkedHashSet<>();
+    for (Ref r : refs.values()) {
+      Change.Id id = Change.Id.fromRef(r.getName());
+      if (id != null) {
+        ids.add(id);
+      }
+    }
+    List<Change> changes = new ArrayList<>(ids.size());
+    for (Change.Id id : ids) {
+      // Look up each change individually, as SQL backends may not handle
+      // get(Iterable<K>) well with many thousands of keys. Each change will
+      // already incur many individual database queries in the course of
+      // reindexing, so this additional cost is negligible.
+      changes.add(db.changes().get(id));
+    }
+    return changes;
   }
 
   private static class ProjectIndexer implements Callable<Void> {

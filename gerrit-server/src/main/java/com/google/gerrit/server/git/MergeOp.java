@@ -65,11 +65,13 @@ import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.project.SubmitRuleEvaluator;
 import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.util.RequestScopePropagator;
 import com.google.gwtorm.server.AtomicUpdate;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
@@ -148,6 +150,7 @@ public class MergeOp {
   private final MergeValidators.Factory mergeValidatorsFactory;
   private final PatchSetInfoFactory patchSetInfoFactory;
   private final ProjectCache projectCache;
+  private final Provider<InternalChangeQuery> queryProvider;
   private final RequestScopePropagator requestScopePropagator;
   private final SchemaFactory<ReviewDb> schemaFactory;
   private final SubmitStrategyFactory submitStrategyFactory;
@@ -191,6 +194,7 @@ public class MergeOp {
       MergeValidators.Factory mergeValidatorsFactory,
       PatchSetInfoFactory patchSetInfoFactory,
       ProjectCache projectCache,
+      Provider<InternalChangeQuery> queryProvider,
       RequestScopePropagator requestScopePropagator,
       SchemaFactory<ReviewDb> schemaFactory,
       SubmitStrategyFactory submitStrategyFactory,
@@ -216,6 +220,7 @@ public class MergeOp {
     this.mergeValidatorsFactory = mergeValidatorsFactory;
     this.patchSetInfoFactory = patchSetInfoFactory;
     this.projectCache = projectCache;
+    this.queryProvider = queryProvider;
     this.requestScopePropagator = requestScopePropagator;
     this.schemaFactory = schemaFactory;
     this.submitStrategyFactory = submitStrategyFactory;
@@ -256,7 +261,7 @@ public class MergeOp {
       boolean reopen = false;
 
       ListMultimap<SubmitType, Change> toSubmit =
-          validateChangeList(db.changes().submitted(destBranch).toList());
+          validateChangeList(queryProvider.get().submitted(destBranch));
       ListMultimap<SubmitType, CodeReviewCommit> toMergeNextTurn =
           ArrayListMultimap.create();
       List<CodeReviewCommit> potentiallyStillSubmittableOnNextRun =
@@ -444,9 +449,14 @@ public class MergeOp {
         branchTip = null;
         branchUpdate.setExpectedOldObjectId(ObjectId.zeroId());
       } else {
-        for (Change c : db.changes().submitted(destBranch).toList()) {
-          setNew(c, message(c, "Your change could not be merged, "
-              + "because the destination branch does not exist anymore."));
+        for (ChangeData cd : queryProvider.get().submitted(destBranch)) {
+          try {
+            Change c = cd.change();
+            setNew(c, message(c, "Your change could not be merged, "
+                + "because the destination branch does not exist anymore."));
+          } catch (OrmException e) {
+            log.error("Error setting change new", e);
+          }
         }
       }
       return branchUpdate;
@@ -481,7 +491,7 @@ public class MergeOp {
   }
 
   private ListMultimap<SubmitType, Change> validateChangeList(
-      List<Change> submitted) throws MergeException {
+      List<ChangeData> submitted) throws MergeException {
     ListMultimap<SubmitType, Change> toSubmit = ArrayListMultimap.create();
 
     Map<String, Ref> allRefs;
@@ -496,15 +506,16 @@ public class MergeOp {
       tips.add(r.getObjectId());
     }
 
-    for (Change chg : submitted) {
+    for (ChangeData cd : submitted) {
       ChangeControl ctl;
+      Change chg;
       try {
-        ctl = changeControlFactory.controlFor(chg,
-            identifiedUserFactory.create(chg.getOwner()));
-      } catch (NoSuchChangeException e) {
+        ctl = cd.changeControl();
+        chg = cd.change();
+      } catch (OrmException e) {
         throw new MergeException("Failed to validate changes", e);
       }
-      Change.Id changeId = chg.getId();
+      Change.Id changeId = cd.getId();
       if (chg.currentPatchSetId() == null) {
         logError("Missing current patch set on change " + changeId);
         commits.put(changeId, CodeReviewCommit.noPatchSet(ctl));
@@ -514,7 +525,7 @@ public class MergeOp {
 
       PatchSet ps;
       try {
-        ps = db.patchSets().get(chg.currentPatchSetId());
+        ps = cd.currentPatchSet();
       } catch (OrmException e) {
         throw new MergeException("Cannot query the database", e);
       }
@@ -565,6 +576,7 @@ public class MergeOp {
         continue;
       }
 
+      // TODO(dborowitz): Consider putting ChangeData in CodeReviewCommit.
       commit.setControl(ctl);
       commit.setPatchsetId(ps.getId());
       commits.put(changeId, commit);
@@ -733,7 +745,7 @@ public class MergeOp {
 
   private void updateChangeStatus(List<Change> submitted)
       throws NoSuchChangeException {
-    logDebug("Updating change status for {} changes", submitted);
+    logDebug("Updating change status for {} changes", submitted.size());
     for (Change c : submitted) {
       CodeReviewCommit commit = commits.get(c.getId());
       CommitMergeStatus s = commit != null ? commit.getStatusCode() : null;
@@ -747,7 +759,8 @@ public class MergeOp {
       }
 
       String txt = s.getMessage();
-      logDebug("Status of change {} on {}: {}", c.getId(), c.getDest(), s);
+      logDebug("Status of change {} ({}) on {}: {}", c.getId(), commit.name(),
+          c.getDest(), s);
 
       try {
         switch (s) {
@@ -1207,9 +1220,9 @@ public class MergeOp {
     Exception err = null;
     try {
       openSchema();
-      for (Change c
-          : db.changes().byProjectOpenAll(destBranch.getParentKey())) {
-        abandonOneChange(c);
+      for (ChangeData cd
+          : queryProvider.get().byProjectOpen(destBranch.getParentKey())) {
+        abandonOneChange(cd.change());
       }
       db.close();
       db = null;

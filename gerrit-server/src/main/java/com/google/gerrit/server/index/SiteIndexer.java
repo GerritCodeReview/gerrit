@@ -31,6 +31,7 @@ import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.common.util.concurrent.MoreExecutors;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -39,6 +40,8 @@ import com.google.gerrit.server.git.MultiProgressMonitor;
 import com.google.gerrit.server.git.MultiProgressMonitor.Task;
 import com.google.gerrit.server.patch.PatchListLoader;
 import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gwtorm.server.OrmException;
+import com.google.gwtorm.server.ResultSet;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 
@@ -237,7 +240,7 @@ public class SiteIndexer {
           repo = repoManager.openRepository(project);
           Map<String, Ref> refs = repo.getRefDatabase().getRefs(ALL);
           db = schemaFactory.open();
-          for (Change c : db.changes().byProject(project)) {
+          for (Change c : scanChanges(db, repo)) {
             Ref r = refs.get(c.currentPatchSetId().toRefName());
             if (r != null) {
               byId.put(r.getObjectId(), changeDataFactory.create(db, c));
@@ -266,6 +269,20 @@ public class SiteIndexer {
         return null;
       }
     };
+  }
+
+  private static ResultSet<Change> scanChanges(ReviewDb db, Repository repo)
+      throws OrmException, IOException {
+    Map<String, Ref> refs =
+        repo.getRefDatabase().getRefs(RefNames.REFS_CHANGES);
+    Set<Change.Id> ids = Sets.newHashSetWithExpectedSize(refs.size());
+    for (Ref r : refs.values()) {
+      Change.Id id = Change.Id.fromRef(r.getName());
+      if (id != null) {
+        ids.add(id);
+      }
+    }
+    return db.changes().get(ids);
   }
 
   private static class ProjectIndexer implements Callable<Void> {

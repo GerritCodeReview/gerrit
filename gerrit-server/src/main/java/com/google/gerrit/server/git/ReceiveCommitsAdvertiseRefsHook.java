@@ -101,8 +101,10 @@ public class ReceiveCommitsAdvertiseRefsHook implements AdvertiseRefsHook {
     final int limit = 32;
     try {
       Set<PatchSet.Id> toGet = Sets.newHashSetWithExpectedSize(limit);
-      for (ChangeData cd :
-          queryProvider.get().setLimit(limit).byProjectOpen(projectName)) {
+      for (ChangeData cd : queryProvider.get()
+          .enforceVisibility(true)
+          .setLimit(limit)
+          .byProjectOpen(projectName)) {
         PatchSet.Id id = cd.change().currentPatchSetId();
         if (id != null) {
           toGet.add(id);

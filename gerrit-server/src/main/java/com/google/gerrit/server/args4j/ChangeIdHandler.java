@@ -17,9 +17,11 @@ package com.google.gerrit.server.args4j;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 
 import org.kohsuke.args4j.CmdLineException;
@@ -30,17 +32,16 @@ import org.kohsuke.args4j.spi.Parameters;
 import org.kohsuke.args4j.spi.Setter;
 
 public class ChangeIdHandler extends OptionHandler<Change.Id> {
-
-  @Inject
-  private ReviewDb db;
+  private final Provider<InternalChangeQuery> queryProvider;
 
   @Inject
   public ChangeIdHandler(
-      final ReviewDb db,
+      // TODO(dborowitz): Not sure whether this is injectable here.
+      Provider<InternalChangeQuery> queryProvider,
       @Assisted final CmdLineParser parser, @Assisted final OptionDef option,
       @Assisted final Setter<Change.Id> setter) {
     super(parser, option, setter);
-    this.db = db;
+    this.queryProvider = queryProvider;
   }
 
   @Override
@@ -58,8 +59,8 @@ public class ChangeIdHandler extends OptionHandler<Change.Id> {
       final Project.NameKey project = new Project.NameKey(tokens[0]);
       final Branch.NameKey branch =
           new Branch.NameKey(project, "refs/heads/" + tokens[1]);
-      for (final Change change : db.changes().byBranchKey(branch, key)) {
-        setter.addValue(change.getId());
+      for (final ChangeData cd : queryProvider.get().byBranchKey(branch, key)) {
+        setter.addValue(cd.getId());
         return 1;
       }
     } catch (IllegalArgumentException e) {

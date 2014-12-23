@@ -34,6 +34,24 @@
       "revId": "5433fbab6f3b61dde6f973dbf4aa487c4bb0cd5f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "61781470_16b03c00",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-23T22:54:20Z",
+      "side": 1,
+      "message": "| I would if there were documentation for the base_change field ;)\n\n*lol*, Done in [1].\n\n* [1] https://gerrit-review.googlesource.com/62755",
+      "parentUuid": "a15e8cfb_b8f779eb",
+      "revId": "5433fbab6f3b61dde6f973dbf4aa487c4bb0cd5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

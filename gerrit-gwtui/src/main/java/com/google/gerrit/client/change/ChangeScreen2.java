@@ -521,7 +521,12 @@ public class ChangeScreen2 extends Screen {
   private void scrollToPath(String token) {
     int s = token.indexOf('/');
     try {
-      if (s < 0 || !changeId.equals(Change.Id.parse(token.substring(0, s)))) {
+      String c = token.substring(0, s);
+      int editIndex = c.indexOf(",edit");
+      if (editIndex > 0) {
+        c = c.substring(0, editIndex);
+      }
+      if (s < 0 || !changeId.equals(Change.Id.parse(c))) {
         return; // Unrelated URL, do not scroll.
       }
     } catch (IllegalArgumentException e) {

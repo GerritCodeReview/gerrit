@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "61781470_96c9acbc",
+        "filename": "ReleaseNotes/ReleaseNotes-2.11.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 521,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-23T03:08:43Z",
+      "side": 1,
+      "message": "Deprecated\n^^^^^^^^^^\n\nChange commit message in non change edit context:\n\n  \u0027POST /changes/\u003cid\u003e/revisions/\u003cid\u003e/message\u0027\n\n*Warning*: as of Gerrit 2.11 this REST endpoint is\ndeprecated and will be removed in a future version.\nUse link:#put-change-edit-message[put commit message] and\nlink:#publish-edit[publish edit] instead.",
+      "revId": "6b29b67fe86ff701f445541b1db0594766c564bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

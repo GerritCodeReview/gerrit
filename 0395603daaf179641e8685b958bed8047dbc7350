@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "61781470_16075c44",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/Change.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-23T09:01:55Z",
+      "side": 1,
+      "message": "This is to invasive change. This is needed mostly in CS2 and may be in Dispatcher. The current exception path is caused by scrollToPath() invocation in CS2:\n\n  private void scrollToPath(String token) {\n    int s \u003d token.indexOf(\u0027/\u0027);\n    try {\n      if (s \u003c 0 || !changeId.equals(Change.Id.parse(token.substring(0, s)))) {\n        return; // Unrelated URL, do not scroll.\n      }\n    } catch (IllegalArgumentException e) {\n      return;\n    }\n   [...]\n\nFor example: create a change edit (by editing commit message), CS2 is opened with \"#/c/62753, token/\" token. When change edit is deleted (Click on button Delete edit onc CS2), CS2 attempts to invoke scrollToPath from onShowView(). Token is retrieved from Gerrit.getPriorView() \u003d\u003d  \"#/c/62753, token/\". After extracting of change id from the tokeb, we are let with \"62753, token\". This is passed in Change.Id.parse() method and clearly cannot be successfully parsed as integer.\n\nAnother approach is to extract \",edit \" from change id before asking Change.Id.parse() to parse it. For example add a method to dispatcher",
+      "range": {
+        "startLine": 131,
+        "startChar": 6,
+        "endLine": 134,
+        "endChar": 7
+      },
+      "revId": "0395603daaf179641e8685b958bed8047dbc7350",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

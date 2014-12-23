@@ -76,21 +76,6 @@ ON account_project_watches (project_name)
 
 -- *********************************************************************
 -- ChangeAccess
---    covers:             submitted, allSubmitted
-CREATE INDEX changes_submitted
-ON changes (status, dest_project_name, dest_branch_name, last_updated_on)
-#
-
---    covers:             byProjectOpenPrev, byProjectOpenNext
-CREATE INDEX changes_byProjectOpen
-ON changes (open, dest_project_name, last_updated_on);
-#
-
---    covers:             byProject
-CREATE INDEX changes_byProject
-ON changes (dest_project_name)
-#
-
 CREATE INDEX changes_key
 ON changes (change_key)
 #

@@ -39,6 +39,8 @@ import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.project.RefControl;
+import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.ssh.NoSshInfo;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -67,6 +69,7 @@ import java.util.TimeZone;
 public class CherryPickChange {
 
   private final Provider<ReviewDb> db;
+  private final Provider<InternalChangeQuery> queryProvider;
   private final GitRepositoryManager gitManager;
   private final TimeZone serverTimeZone;
   private final Provider<CurrentUser> currentUser;
@@ -76,15 +79,17 @@ public class CherryPickChange {
   final MergeUtil.Factory mergeUtilFactory;
 
   @Inject
-  CherryPickChange(final Provider<ReviewDb> db,
-      @GerritPersonIdent final PersonIdent myIdent,
-      final GitRepositoryManager gitManager,
-      final Provider<CurrentUser> currentUser,
-      final CommitValidators.Factory commitValidatorsFactory,
-      final ChangeInserter.Factory changeInserterFactory,
-      final PatchSetInserter.Factory patchSetInserterFactory,
-      final MergeUtil.Factory mergeUtilFactory) {
+  CherryPickChange(Provider<ReviewDb> db,
+      Provider<InternalChangeQuery> queryProvider,
+      @GerritPersonIdent PersonIdent myIdent,
+      GitRepositoryManager gitManager,
+      Provider<CurrentUser> currentUser,
+      CommitValidators.Factory commitValidatorsFactory,
+      ChangeInserter.Factory changeInserterFactory,
+      PatchSetInserter.Factory patchSetInserterFactory,
+      MergeUtil.Factory mergeUtilFactory) {
     this.db = db;
+    this.queryProvider = queryProvider;
     this.gitManager = gitManager;
     this.serverTimeZone = myIdent.getTimeZone();
     this.currentUser = currentUser;
@@ -163,11 +168,11 @@ public class CherryPickChange {
           changeKey = new Change.Key("I" + computedChangeId.name());
         }
 
-        List<Change> destChanges =
-            db.get().changes()
-                .byBranchKey(new Branch.NameKey(project, destRef.getName()),
-                    changeKey).toList();
-
+        Branch.NameKey newDest =
+            new Branch.NameKey(change.getProject(), destRef.getName());
+        List<ChangeData> destChanges = queryProvider.get()
+            .setLimit(2)
+            .byBranchKey(newDest, changeKey);
         if (destChanges.size() > 1) {
           throw new InvalidChangeOperationException("Several changes with key "
               + changeKey + " reside on the same branch. "
@@ -175,7 +180,7 @@ public class CherryPickChange {
         } else if (destChanges.size() == 1) {
           // The change key exists on the destination branch. The cherry pick
           // will be added as a new patch set.
-          return insertPatchSet(git, revWalk, destChanges.get(0),
+          return insertPatchSet(git, revWalk, destChanges.get(0).change(),
               cherryPickCommit, refControl, identifiedUser);
         } else {
           // Change key not found on destination branch. We can create a new

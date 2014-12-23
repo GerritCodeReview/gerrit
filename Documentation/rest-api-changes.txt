@@ -3377,6 +3377,9 @@ Only set on either the last or the first change that is returned.
 |`problems`           |optional|
 A list of link:#problem-info[ProblemInfo] entities describing potential
 problems with this change. Only set if link:#check[CHECK] is set.
+|`base_change`           |optional|
+A link:#change-id[\{change-id\}] that identifies base change for create
+change operation. Only used for link:#create-change[CreateChange] endpoint.
 |==================================
 
 [[related-changes-info]]

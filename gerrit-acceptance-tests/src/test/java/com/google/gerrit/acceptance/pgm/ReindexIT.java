@@ -14,7 +14,7 @@
 
 package com.google.gerrit.acceptance.pgm;
 
-import static org.junit.Assert.assertEquals;
+import static com.google.common.truth.Truth.assertThat;
 
 import com.google.gerrit.launcher.GerritLauncher;
 import com.google.gerrit.testutil.TempFileUtil;
@@ -53,6 +53,6 @@ public class ReindexIT {
   }
 
   private static void runGerrit(String... args) throws Exception {
-    assertEquals(0, GerritLauncher.mainImpl(args));
+    assertThat(GerritLauncher.mainImpl(args)).isEqualTo(0);
   }
 }

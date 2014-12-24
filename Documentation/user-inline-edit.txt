@@ -135,6 +135,42 @@ command to your terminal. Note: only change edit owners and user that were
 granted `accessDatabase` global capability are able to access change edit
 refs.
 
+[[not-implemented-features]]
+== Not Implemented Features
+
+* [PENDING CHANGE]
+The inline editor uses settings decided from the user's diff preferences, but those
+preferences are only modifiable from the side-by-side diff screen. It should be possible
+to open the preferences also from within the editor.
+
+* Allow to rename files that already contained in the change (from the file table).
+The same rename file dialog can be used with preselected and disabled original file
+name.
+
+* Changed files in change edit should be marked as changed in file table in edit mode.
+One option is to use dirty icon or "*" char in front of changed files, another option
+is to use different hyperlink color for changed files (red?), to avoid adding yet another
+column to the file table
+
+* Add navigation icons in header area of edit screen. When dozen files need to be changed
+in context of change edit, this is not the best workflow to open one file in edit screen,
+change it, save it, close edit screen and select next file from the file table to edit.
+"<-" | "->" icons in header of edit screen could be used to navigate to the next file to
+change from the file table. This would behave like the navigation icons in side by side
+with thefollowing logic on click:
+
+** "save-when-file-was-changed" or
+** "close-when-no-changes"
+
+* Allow to activate different key maps, supported by CM: Emacs, Sublime, Vim. Load key
+maps dynamically. Currently default mode is used.
+
+* Implement conflict resolution during rebase of change edit using inline edit
+feature by creating new edit on top of current patch set with auto merge content
+
+* Similarly, reuse inline edit feature for conflict resolution during rebase of regular
+patch sets
+
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]

@@ -121,6 +121,20 @@ Note that this plugin must be installed for this feature to work. To download pa
 select the desired scheme from "Download" dropdown and copy the command to your
 terminal.
 
+[[missing-features]]
+== Not Implemented Features
+
+* Allow to customize CM3 in edit screen per use base
+* Add support for different key maps (Emacs, Vim, Sublime), load key maps dynamically
+* Changed files in edit should marked as changed with '*' suffix in file table
+* When opened from SBS2, cursor position is lost in Edit Screen
+* Allow to upload/amend change edit with `git push`
+* Add navigation icons (left, up, right)) in header area of edit screen
+* Implement conflict resolution during rebase of change edit using inline edit
+feature by creating new edit on top of current patch set with auto merge content
+* Now, that inline edit feature is there, conflict resolution during rebase of
+regular patch set could be optionally implemented on top of it
+
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]

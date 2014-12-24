@@ -121,6 +121,28 @@ Note that this plugin must be installed for this feature to work. To download pa
 select the desired scheme from "Download" dropdown and copy the command to your
 terminal.
 
+[[missing-features]]
+== Not Implemented Features
+
+* Save button in Edit Screen immediately aborts editing. This should be revistied
+* Allow to customize CM3 in edit screen per use base (pending)
+* Add support for different key maps (Emacs, Vim, Default) (pending)
+* Changed files in edit should marked as changed with '*' suffix in file table
+* When opened from SBS2, cursor position is lost in Edit Screen
+* Allow to upload/amend change edit with `git push`
+* Navigation icons (left, up, right)) in edit screen are missing
+* Replace/Extend "Add file" dialog:
+** implement repository browser in popup dialog -- borrow this feature from
+gitiles? -- and/or
+** asynchronously index the master (and optionally other branches) and implement
+suggest file oracle on top of it: typing "Foo" would suggest
+"foo/bar/baz/FooBarBaz.java" and other matches. That would mimic "Ctrl+Shift+T"
+Open Type feature in Eclipse
+* Implement conflict resolution during rebase of change edit using inline edit
+feature by creating new edit on top of current patch set with auto merge content
+* Now, that inline edit feature is there, conflict resolution during rebase of
+regular pacth set should be implemented on top of it
+
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]

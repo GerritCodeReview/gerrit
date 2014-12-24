@@ -14,8 +14,7 @@
 
 package com.google.gerrit.acceptance.rest.account;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static com.google.common.truth.Truth.assertThat;
 
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.extensions.common.AccountInfo;
@@ -23,8 +22,8 @@ import com.google.gerrit.extensions.common.AccountInfo;
 public class AccountAssert {
 
   public static void assertAccountInfo(TestAccount a, AccountInfo ai) {
-    assertTrue(a.id.get() == ai._accountId);
-    assertEquals(a.fullName, ai.name);
-    assertEquals(a.email, ai.email);
+    assertThat(a.id.get()).isEqualTo(ai._accountId);
+    assertThat(a.fullName).isEqualTo(ai.name);
+    assertThat(a.email).isEqualTo(ai.email);
   }
 }

@@ -14,8 +14,8 @@
 
 package com.google.gerrit.acceptance.rest.account;
 
+import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.rest.account.AccountAssert.assertAccountInfo;
-import static org.junit.Assert.assertEquals;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
@@ -31,8 +31,8 @@ import java.io.IOException;
 public class GetAccountIT extends AbstractDaemonTest {
   @Test
   public void getNonExistingAccount_NotFound() throws Exception {
-    assertEquals(HttpStatus.SC_NOT_FOUND,
-        adminSession.get("/accounts/non-existing").getStatusCode());
+    assertThat(adminSession.get("/accounts/non-existing").getStatusCode())
+      .isEqualTo(HttpStatus.SC_NOT_FOUND);
   }
 
   @Test
@@ -60,7 +60,7 @@ public class GetAccountIT extends AbstractDaemonTest {
   private void testGetAccount(String url, TestAccount expectedAccount)
       throws IOException {
     RestResponse r = adminSession.get(url);
-    assertEquals(HttpStatus.SC_OK, r.getStatusCode());
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
     assertAccountInfo(expectedAccount, newGson()
         .fromJson(r.getReader(), AccountInfo.class));
   }

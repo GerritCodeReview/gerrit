@@ -14,9 +14,9 @@
 
 package com.google.gerrit.acceptance.git;
 
+import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assert_;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Splitter;
@@ -104,13 +104,13 @@ public class VisibleRefFilterIT extends AbstractDaemonTest {
       RefUpdate mtu = repo.updateRef("refs/tags/master-tag");
       mtu.setExpectedOldObjectId(ObjectId.zeroId());
       mtu.setNewObjectId(repo.getRef("refs/heads/master").getObjectId());
-      assertEquals(RefUpdate.Result.NEW, mtu.update());
+      assertThat(mtu.update()).isEqualTo(RefUpdate.Result.NEW);
 
       // branch-tag -> branch
       RefUpdate btu = repo.updateRef("refs/tags/branch-tag");
       btu.setExpectedOldObjectId(ObjectId.zeroId());
       btu.setNewObjectId(repo.getRef("refs/heads/branch").getObjectId());
-      assertEquals(RefUpdate.Result.NEW, btu.update());
+      assertThat(btu.update()).isEqualTo(RefUpdate.Result.NEW);
     } finally {
       repo.close();
     }
@@ -248,7 +248,8 @@ public class VisibleRefFilterIT extends AbstractDaemonTest {
     String out = sshSession.exec(String.format(
         "gerrit ls-user-refs -p %s -u %s",
         project.get(), user.getId().get()));
-    assertFalse(sshSession.getError(), sshSession.hasError());
+    assert_().withFailureMessage(sshSession.getError())
+      .that(sshSession.hasError()).isFalse();
 
     List<String> filtered = new ArrayList<>(expected.length);
     for (String r : expected) {
@@ -258,6 +259,7 @@ public class VisibleRefFilterIT extends AbstractDaemonTest {
     }
 
     Splitter s = Splitter.on(CharMatcher.WHITESPACE).omitEmptyStrings();
-    assertEquals(filtered, Ordering.natural().sortedCopy(s.split(out)));
+    assertThat(filtered).containsSequence(
+        Ordering.natural().sortedCopy(s.split(out)));
   }
 }

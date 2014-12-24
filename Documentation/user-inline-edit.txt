@@ -98,6 +98,51 @@ For example this sequence:
 means that the change edit was created on top of patch set number 9 and a regular
 patch set was uploaded later.
 
+[[change-edit-actions]]
+== Change Edit Actions
+
+Change edits can be deleted, published and rebased, and a patch set that
+represents a change edit can be downloaded like a regular patch set.
+
+[[delete-change-edit]]
+
+There is a special ref for a change edit. When the change edit is deleted, this
+ref is deleted as well. To delete a change edit click on the "Delete Edit"
+button.
+
+[[publish-change-edit]]
+
+When a change edit is based on the current patch set, it can be published. By
+publishing a change edit it is promoted to a regular patch set. The special ref
+that represents the change edit is deleted on publish. To publish a change edit
+click on the "Publish Edit" button. This button is only shown, when the change
+edit is based on the current patch set. Otherwise the change edit must first be
+rebased onto the current patch set.
+
+[[rebase-change-edit]]
+
+Only change edits that are based on the current patch set can be published. If
+in the meantime a new patch set was uploaded, the change edit must be rebased on
+top of the current patch set before it can be published. Rebasing a change
+edit is done by clicking on the "Rebase Edit" button. If the rebase results in
+conflicts, these conflicts cannot be resolved in the browser. In this case the
+change edit must be downloaded (see below) and the conflicts must be resolved in
+the local environment. The commit that contains the conflict resolution can then
+be uploaded by setting `edit` as option on the target ref:
+
+----
+  $ git push host HEAD:refs/for/master%edit
+----
+
+[[download-change-edit-patch]]
+
+Like regular patch sets, change edits can be downloaded by the download
+commands (e.g. provided by the `download-commands` plugin). To download a
+change edit, select the desired scheme from the "Download" dropdown and copy the
+command to your terminal. Note: only change edit owners and users that were
+granted the link:access-control.html#capability_accessDatabase[accessDatabase]
+global capability are able to access change edit refs.
+
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]

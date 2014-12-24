@@ -14,11 +14,8 @@
 
 package com.google.gerrit.acceptance.rest.config;
 
+import static com.google.common.truth.Truth.assertThat;
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
 
 import com.google.common.collect.Ordering;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
@@ -40,63 +37,63 @@ public class ListCachesIT extends AbstractDaemonTest {
   @Test
   public void listCaches() throws Exception {
     RestResponse r = adminSession.get("/config/server/caches/");
-    assertEquals(HttpStatus.SC_OK, r.getStatusCode());
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
     Map<String, CacheInfo> result =
         newGson().fromJson(r.getReader(),
             new TypeToken<Map<String, CacheInfo>>() {}.getType());
 
-    assertTrue(result.containsKey("accounts"));
+    assertThat(result).containsKey("accounts");
     CacheInfo accountsCacheInfo = result.get("accounts");
-    assertEquals(CacheType.MEM, accountsCacheInfo.type);
-    assertEquals(1, accountsCacheInfo.entries.mem.longValue());
-    assertNotNull(accountsCacheInfo.averageGet);
-    assertTrue(accountsCacheInfo.averageGet.endsWith("s"));
-    assertNull(accountsCacheInfo.entries.disk);
-    assertNull(accountsCacheInfo.entries.space);
-    assertTrue(accountsCacheInfo.hitRatio.mem >= 0);
-    assertTrue(accountsCacheInfo.hitRatio.mem <= 100);
-    assertNull(accountsCacheInfo.hitRatio.disk);
+    assertThat(accountsCacheInfo.type).isEqualTo(CacheType.MEM);
+    assertThat(accountsCacheInfo.entries.mem.longValue()).isEqualTo(1);
+    assertThat(accountsCacheInfo.averageGet).isNotNull();
+    assertThat(accountsCacheInfo.averageGet).endsWith("s");
+    assertThat(accountsCacheInfo.entries.disk).isNull();
+    assertThat(accountsCacheInfo.entries.space).isNull();
+    assertThat(accountsCacheInfo.hitRatio.mem).isAtLeast(0);
+    assertThat(accountsCacheInfo.hitRatio.mem).isAtMost(100);
+    assertThat(accountsCacheInfo.hitRatio.disk).isNull();
 
     userSession.get("/config/server/version").consume();
     r = adminSession.get("/config/server/caches/");
-    assertEquals(HttpStatus.SC_OK, r.getStatusCode());
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
     result = newGson().fromJson(r.getReader(),
         new TypeToken<Map<String, CacheInfo>>() {}.getType());
-    assertEquals(2, result.get("accounts").entries.mem.longValue());
+    assertThat(result.get("accounts").entries.mem.longValue()).isEqualTo(2);
   }
 
   @Test
   public void listCaches_Forbidden() throws Exception {
     RestResponse r = userSession.get("/config/server/caches/");
-    assertEquals(HttpStatus.SC_FORBIDDEN, r.getStatusCode());
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_FORBIDDEN);
   }
 
   @Test
   public void listCacheNames() throws Exception {
     RestResponse r = adminSession.get("/config/server/caches/?format=LIST");
-    assertEquals(HttpStatus.SC_OK, r.getStatusCode());
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
     List<String> result =
         newGson().fromJson(r.getReader(),
             new TypeToken<List<String>>() {}.getType());
-    assertTrue(result.contains("accounts"));
-    assertTrue(result.contains("projects"));
-    assertTrue(Ordering.natural().isOrdered(result));
+    assertThat(result).contains("accounts");
+    assertThat(result).contains("projects");
+    assertThat(Ordering.natural().isOrdered(result)).isTrue();
   }
 
   @Test
   public void listCacheNamesTextList() throws Exception {
     RestResponse r = adminSession.get("/config/server/caches/?format=TEXT_LIST");
-    assertEquals(HttpStatus.SC_OK, r.getStatusCode());
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
     String result = new String(Base64.decode(r.getEntityContent()), UTF_8.name());
     List<String> list = Arrays.asList(result.split("\n"));
-    assertTrue(list.contains("accounts"));
-    assertTrue(list.contains("projects"));
-    assertTrue(Ordering.natural().isOrdered(list));
+    assertThat(list).contains("accounts");
+    assertThat(list).contains("projects");
+    assertThat(Ordering.natural().isOrdered(list)).isTrue();
   }
 
   @Test
   public void listCaches_BadRequest() throws Exception {
     RestResponse r = adminSession.get("/config/server/caches/?format=NONSENSE");
-    assertEquals(HttpStatus.SC_BAD_REQUEST, r.getStatusCode());
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_BAD_REQUEST);
   }
 }

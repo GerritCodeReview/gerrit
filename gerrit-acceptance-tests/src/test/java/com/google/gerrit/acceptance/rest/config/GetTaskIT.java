@@ -14,8 +14,7 @@
 
 package com.google.gerrit.acceptance.rest.config;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static com.google.common.truth.Truth.assertThat;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
@@ -33,21 +32,21 @@ public class GetTaskIT extends AbstractDaemonTest {
   public void getTask() throws Exception {
     RestResponse r =
         adminSession.get("/config/server/tasks/" + getLogFileCompressorTaskId());
-    assertEquals(HttpStatus.SC_OK, r.getStatusCode());
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
     TaskInfo info =
         newGson().fromJson(r.getReader(),
             new TypeToken<TaskInfo>() {}.getType());
-    assertNotNull(info.id);
+    assertThat(info.id).isNotNull();
     Long.parseLong(info.id, 16);
-    assertEquals("Log File Compressor", info.command);
-    assertNotNull(info.startTime);
+    assertThat(info.command).isEqualTo("Log File Compressor");
+    assertThat(info.startTime).isNotNull();
   }
 
   @Test
   public void getTask_NotFound() throws Exception {
     RestResponse r =
         userSession.get("/config/server/tasks/" + getLogFileCompressorTaskId());
-    assertEquals(HttpStatus.SC_NOT_FOUND, r.getStatusCode());
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_NOT_FOUND);
   }
 
   private String getLogFileCompressorTaskId() throws Exception {

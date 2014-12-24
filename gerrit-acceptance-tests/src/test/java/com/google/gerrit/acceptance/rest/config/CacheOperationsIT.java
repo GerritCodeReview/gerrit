@@ -14,12 +14,10 @@
 
 package com.google.gerrit.acceptance.rest.config;
 
+import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.server.config.PostCaches.Operation.FLUSH;
 import static com.google.gerrit.server.config.PostCaches.Operation.FLUSH_ALL;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
@@ -44,83 +42,83 @@ public class CacheOperationsIT extends AbstractDaemonTest {
   public void flushAll() throws Exception {
     RestResponse r = adminSession.get("/config/server/caches/project_list");
     CacheInfo cacheInfo = newGson().fromJson(r.getReader(), CacheInfo.class);
-    assertTrue(cacheInfo.entries.mem.longValue() > 0);
+    assertThat(cacheInfo.entries.mem.longValue()).isGreaterThan((long) 0);
 
     r = adminSession.post("/config/server/caches/", new PostCaches.Input(FLUSH_ALL));
-    assertEquals(HttpStatus.SC_OK, r.getStatusCode());
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
     r.consume();
 
     r = adminSession.get("/config/server/caches/project_list");
     cacheInfo = newGson().fromJson(r.getReader(), CacheInfo.class);
-    assertNull(cacheInfo.entries.mem);
+    assertThat(cacheInfo.entries.mem).isNull();
   }
 
   @Test
   public void flushAll_Forbidden() throws Exception {
     RestResponse r = userSession.post("/config/server/caches/",
         new PostCaches.Input(FLUSH_ALL));
-    assertEquals(HttpStatus.SC_FORBIDDEN, r.getStatusCode());
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_FORBIDDEN);
   }
 
   @Test
   public void flushAll_BadRequest() throws Exception {
     RestResponse r = adminSession.post("/config/server/caches/",
         new PostCaches.Input(FLUSH_ALL, Arrays.asList("projects")));
-    assertEquals(HttpStatus.SC_BAD_REQUEST, r.getStatusCode());
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_BAD_REQUEST);
   }
 
   @Test
   public void flush() throws Exception {
     RestResponse r = adminSession.get("/config/server/caches/project_list");
     CacheInfo cacheInfo = newGson().fromJson(r.getReader(), CacheInfo.class);
-    assertTrue(cacheInfo.entries.mem.longValue() > 0);
+    assertThat(cacheInfo.entries.mem.longValue()).isGreaterThan((long)0);
 
     r = adminSession.get("/config/server/caches/projects");
     cacheInfo = newGson().fromJson(r.getReader(), CacheInfo.class);
-    assertTrue(cacheInfo.entries.mem.longValue() > 1);
+    assertThat(cacheInfo.entries.mem.longValue()).isGreaterThan((long)1);
 
     r = adminSession.post("/config/server/caches/",
         new PostCaches.Input(FLUSH, Arrays.asList("accounts", "project_list")));
-    assertEquals(HttpStatus.SC_OK, r.getStatusCode());
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
     r.consume();
 
     r = adminSession.get("/config/server/caches/project_list");
     cacheInfo = newGson().fromJson(r.getReader(), CacheInfo.class);
-    assertNull(cacheInfo.entries.mem);
+    assertThat(cacheInfo.entries.mem).isNull();
 
     r = adminSession.get("/config/server/caches/projects");
     cacheInfo = newGson().fromJson(r.getReader(), CacheInfo.class);
-    assertTrue(cacheInfo.entries.mem.longValue() > 1);
+    assertThat(cacheInfo.entries.mem.longValue()).isGreaterThan((long)1);
   }
 
   @Test
   public void flush_Forbidden() throws Exception {
     RestResponse r = userSession.post("/config/server/caches/",
         new PostCaches.Input(FLUSH, Arrays.asList("projects")));
-    assertEquals(HttpStatus.SC_FORBIDDEN, r.getStatusCode());
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_FORBIDDEN);
   }
 
   @Test
   public void flush_BadRequest() throws Exception {
     RestResponse r = adminSession.post("/config/server/caches/",
         new PostCaches.Input(FLUSH));
-    assertEquals(HttpStatus.SC_BAD_REQUEST, r.getStatusCode());
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_BAD_REQUEST);
   }
 
   @Test
   public void flush_UnprocessableEntity() throws Exception {
     RestResponse r = adminSession.get("/config/server/caches/projects");
     CacheInfo cacheInfo = newGson().fromJson(r.getReader(), CacheInfo.class);
-    assertTrue(cacheInfo.entries.mem.longValue() > 0);
+    assertThat(cacheInfo.entries.mem.longValue()).isGreaterThan((long)0);
 
     r = adminSession.post("/config/server/caches/",
         new PostCaches.Input(FLUSH, Arrays.asList("projects", "unprocessable")));
-    assertEquals(HttpStatus.SC_UNPROCESSABLE_ENTITY, r.getStatusCode());
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_UNPROCESSABLE_ENTITY);
     r.consume();
 
     r = adminSession.get("/config/server/caches/projects");
     cacheInfo = newGson().fromJson(r.getReader(), CacheInfo.class);
-    assertTrue(cacheInfo.entries.mem.longValue() > 0);
+    assertThat(cacheInfo.entries.mem.longValue()).isGreaterThan((long)0);
   }
 
   @Test
@@ -134,12 +132,12 @@ public class CacheOperationsIT extends AbstractDaemonTest {
 
     RestResponse r = userSession.post("/config/server/caches/",
         new PostCaches.Input(FLUSH, Arrays.asList("projects")));
-    assertEquals(HttpStatus.SC_OK, r.getStatusCode());
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
     r.consume();
 
     r = userSession.post("/config/server/caches/",
         new PostCaches.Input(FLUSH, Arrays.asList("web_sessions")));
-    assertEquals(HttpStatus.SC_FORBIDDEN, r.getStatusCode());
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_FORBIDDEN);
   }
 
   private void saveProjectConfig(ProjectConfig cfg) throws IOException {

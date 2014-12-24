@@ -86,6 +86,41 @@ For example this sequence:
 means that the change edit was created on top of patch set number 9 and a regular
 patch set was uploaded later.
 
+[[change-edit-actions]]
+== Change Edit Actions
+
+Change edits can be deleted, published, rebased and patch that represents change
+edit can be downloaded like regular patch sets.
+
+[[delete-change-edit]]
+
+Change edit is saved on special ref. When change edit is deleted, this ref is
+deleted as well. To delete change edit click on "Delete Edit" button.
+
+[[publish-change-edit]]
+
+When change is based on current patch set, it can be published, meant it get
+prompted to regular patch set and the ref, that represents the change edit is
+deleted. To publish change edit click on "Publlish Edit" button. When this button
+is not visible, then the patch set the edit is based on is not the current patch
+set. In this case see next section how to rebase change edit.
+
+[[rebase-change-edit]]
+
+Only change edits that based on the current patch set can be published. When in
+the menatime new patch set was uploaded, change edit must be rebased first on top
+of current patch set. To do that click on "Rebase Edit". When during rebase conflict
+occurs, it currently can bed resolved in browser. In this case the change edit must
+be downloaded (see next section) and conflicts must be resolved you user local
+environment.
+
+[[download-change-edit-patch]]
+
+Like regular patch sets, change edits can be downloaded with download-command plugin.
+Note that this plugin must be installed for this feature to work. To download patch
+select the desired scheme from "Download" dropdown and copy the command to your
+terminal.
+
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]

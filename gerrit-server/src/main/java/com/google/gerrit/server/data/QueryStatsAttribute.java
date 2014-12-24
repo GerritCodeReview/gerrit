@@ -18,5 +18,5 @@ public class QueryStatsAttribute {
   public final String type = "stats";
   public int rowCount;
   public long runTimeMilliseconds;
-  public String resumeSortKey;
+  public boolean moreChanges;
 }

@@ -25,7 +25,6 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetInfo;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RevId;
-import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.AllUsersNameProvider;
@@ -114,6 +113,5 @@ public class TestChanges {
         change.getId(), curr != null ? curr.get() + 1 : 1));
     ps.setSubject("Change subject");
     change.setCurrentPatchSet(ps);
-    ChangeUtil.computeSortKey(change);
   }
 }

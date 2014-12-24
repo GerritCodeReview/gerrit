@@ -104,6 +104,7 @@ import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.SubmitRuleEvaluator;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeData.ChangedLines;
+import com.google.gerrit.server.query.change.QueryResult;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -252,10 +253,16 @@ public class ChangeJson {
     return format(cd, Optional.of(rsrc.getPatchSet().getId()));
   }
 
-  public List<List<ChangeInfo>> formatList2(List<List<ChangeData>> in)
+  public List<List<ChangeInfo>> formatQueryResults(List<QueryResult> in)
       throws OrmException {
     accountLoader = accountLoaderFactory.create(has(DETAILED_ACCOUNTS));
-    Iterable<ChangeData> all = Iterables.concat(in);
+    Iterable<ChangeData> all = FluentIterable.from(in)
+        .transformAndConcat(new Function<QueryResult, List<ChangeData>>() {
+          @Override
+          public List<ChangeData> apply(QueryResult in) {
+            return in.changes();
+          }
+        });
     ChangeData.ensureChangeLoaded(all);
     if (has(ALL_REVISIONS)) {
       ChangeData.ensureAllPatchSetsLoaded(all);
@@ -270,8 +277,12 @@ public class ChangeJson {
 
     List<List<ChangeInfo>> res = Lists.newArrayListWithCapacity(in.size());
     Map<Change.Id, ChangeInfo> out = Maps.newHashMap();
-    for (List<ChangeData> changes : in) {
-      res.add(toChangeInfo(out, changes, reviewed));
+    for (QueryResult r : in) {
+      List<ChangeInfo> infos = toChangeInfo(out, r.changes(), reviewed);
+      if (r.moreChanges()) {
+        infos.get(infos.size() - 1)._moreChanges = true;
+      }
+      res.add(infos);
     }
     accountLoader.fill();
     return res;
@@ -368,7 +379,6 @@ public class ChangeJson {
     out.created = in.getCreatedOn();
     out.updated = in.getLastUpdatedOn();
     out._number = in.getId().get();
-    out._sortkey = in.getSortKey();
     out.starred = userProvider.get().getStarredChanges().contains(in.getId())
         ? true
         : null;

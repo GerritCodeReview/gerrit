@@ -138,7 +138,8 @@ public abstract class QueryBuilder<T> {
    * @param p the predicate to find.
    * @param clazz type of the predicate instance.
    * @param name name of the operator.
-   * @return the predicate, null if not found.
+   * @return the first instance of a predicate having the given type, as found
+   *     by a depth-first search.
    */
   @SuppressWarnings("unchecked")
   public static <T, P extends OperatorPredicate<T>> P find(Predicate<T> p,

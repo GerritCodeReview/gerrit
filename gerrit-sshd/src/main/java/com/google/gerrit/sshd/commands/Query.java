@@ -14,7 +14,8 @@
 
 package com.google.gerrit.sshd.commands;
 
-import com.google.gerrit.server.query.change.QueryProcessor;
+import com.google.gerrit.server.query.change.OutputStreamQuery;
+import com.google.gerrit.server.query.change.OutputStreamQuery.OutputFormat;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.inject.Inject;
@@ -27,10 +28,10 @@ import java.util.List;
 @CommandMetaData(name = "query", description = "Query the change database")
 class Query extends SshCommand {
   @Inject
-  private QueryProcessor processor;
+  private OutputStreamQuery processor;
 
   @Option(name = "--format", metaVar = "FMT", usage = "Output display format")
-  void setFormat(QueryProcessor.OutputFormat format) {
+  void setFormat(OutputFormat format) {
     processor.setOutput(out, format);
   }
 
@@ -97,7 +98,7 @@ class Query extends SshCommand {
 
   @Override
   protected void parseCommandLine() throws UnloggedFailure {
-    processor.setOutput(out, QueryProcessor.OutputFormat.TEXT);
+    processor.setOutput(out, OutputFormat.TEXT);
     super.parseCommandLine();
     if (processor.getIncludeFiles() &&
         !(processor.getIncludePatchSets() || processor.getIncludeCurrentPatchSet())) {

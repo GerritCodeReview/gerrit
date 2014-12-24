@@ -136,18 +136,22 @@ public abstract class AbstractQueryChangesTest {
     userAccount.setPreferredEmail("user@example.com");
     db.accounts().update(ImmutableList.of(userAccount));
     user = userFactory.create(userId);
+    requestContext.setContext(newRequestContext(userAccount.getId()));
+  }
 
-    requestContext.setContext(new RequestContext() {
+  private RequestContext newRequestContext(Account.Id requestUserId) {
+    final CurrentUser requestUser = userFactory.create(requestUserId);
+    return new RequestContext() {
       @Override
       public CurrentUser getCurrentUser() {
-        return user;
+        return requestUser;
       }
 
       @Override
       public Provider<ReviewDb> getReviewDbProvider() {
         return Providers.of(db);
       }
-    });
+    };
   }
 
   @After
@@ -543,9 +547,22 @@ public abstract class AbstractQueryChangesTest {
 
     List<ChangeInfo> results;
     for (int i = 1; i <= n + 2; i++) {
+      int expectedSize;
+      Boolean expectedMoreChanges;
+      if (i < n) {
+        expectedSize = i;
+        expectedMoreChanges = true;
+      } else {
+        expectedSize = n;
+        expectedMoreChanges = null;
+      }
       results = query("status:new limit:" + i);
-      assertThat(results).hasSize(Math.min(i, n));
+      String msg = "i=" + i;
+      assert_().withFailureMessage(msg).that(results).hasSize(expectedSize);
       assertResultEquals(last, results.get(0));
+      assert_().withFailureMessage(msg)
+          .that(results.get(results.size() - 1)._moreChanges)
+          .isEqualTo(expectedMoreChanges);
     }
   }
 
@@ -1029,6 +1046,49 @@ public abstract class AbstractQueryChangesTest {
 
     assertThat(query("user@example.com")).hasSize(6);
     assertThat(query("repo")).hasSize(6);
+  }
+
+  @Test
+  public void implicitVisibleTo() throws Exception {
+    TestRepository<InMemoryRepository> repo = createProject("repo");
+    Change change1 = newChange(repo, null, null, userId.get(), null).insert();
+    ChangeInserter ins2 = newChange(repo, null, null, userId.get(), null);
+    Change change2 = ins2.getChange();
+    change2.setStatus(Change.Status.DRAFT);
+    ins2.insert();
+
+    String q = "project:repo";
+    List<ChangeInfo> results = query(q);
+    assertThat(results).hasSize(2);
+    assertResultEquals(change2, results.get(0));
+    assertResultEquals(change1, results.get(1));
+
+    // Second user cannot see first user's drafts.
+    requestContext.setContext(newRequestContext(accountManager
+        .authenticate(AuthRequest.forUser("anotheruser")).getAccountId()));
+    assertResultEquals(change1, queryOne(q));
+  }
+
+  @Test
+  public void explicitVisibleTo() throws Exception {
+    TestRepository<InMemoryRepository> repo = createProject("repo");
+    Change change1 = newChange(repo, null, null, userId.get(), null).insert();
+    ChangeInserter ins2 = newChange(repo, null, null, userId.get(), null);
+    Change change2 = ins2.getChange();
+    change2.setStatus(Change.Status.DRAFT);
+    ins2.insert();
+
+    String q = "project:repo";
+    List<ChangeInfo> results = query(q);
+    assertThat(results).hasSize(2);
+    assertResultEquals(change2, results.get(0));
+    assertResultEquals(change1, results.get(1));
+
+    // Second user cannot see first user's drafts.
+    Account.Id user2 = accountManager
+        .authenticate(AuthRequest.forUser("anotheruser"))
+        .getAccountId();
+    assertResultEquals(change1, queryOne(q + " visibleto:" + user2.get()));
   }
 
   protected ChangeInserter newChange(

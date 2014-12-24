@@ -36,7 +36,6 @@ public class ChangeInfo {
   public Integer insertions;
   public Integer deletions;
 
-  public String _sortkey;
   public String baseChange;
   public int _number;
 

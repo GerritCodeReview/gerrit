@@ -31,7 +31,6 @@ import com.google.inject.Provider;
 
 import org.kohsuke.args4j.Option;
 
-import java.util.BitSet;
 import java.util.Collections;
 import java.util.EnumSet;
 import java.util.List;
@@ -42,7 +41,6 @@ public class QueryChanges implements RestReadView<TopLevelResource> {
   private final ChangeJson json;
   private final QueryProcessor imp;
   private final Provider<CurrentUser> user;
-  private boolean reverse;
   private EnumSet<ListChangesOption> options;
 
   @Option(name = "--query", aliases = {"-q"}, metaVar = "QUERY", usage = "Query string")
@@ -137,30 +135,13 @@ public class QueryChanges implements RestReadView<TopLevelResource> {
   private List<List<ChangeInfo>> query0() throws OrmException,
       QueryParseException {
     int cnt = queries.size();
-    BitSet more = new BitSet(cnt);
-    List<List<ChangeData>> data = imp.queryChanges(queries);
-    for (int n = 0; n < cnt; n++) {
-      List<ChangeData> changes = data.get(n);
-      if (imp.getLimit() > 0 && changes.size() > imp.getLimit()) {
-        if (reverse) {
-          changes = changes.subList(1, changes.size());
-        } else {
-          changes = changes.subList(0, imp.getLimit());
-        }
-        data.set(n, changes);
-        more.set(n, true);
-      }
-    }
-
-    List<List<ChangeInfo>> res = json.addOptions(options).formatList2(data);
+    List<QueryResult> results = imp.queryByStrings(queries);
+    List<List<ChangeInfo>> res = json.addOptions(options)
+        .formatQueryResults(results);
     for (int n = 0; n < cnt; n++) {
       List<ChangeInfo> info = res.get(n);
-      if (more.get(n) && !info.isEmpty()) {
-        if (reverse) {
-          info.get(0)._moreChanges = true;
-        } else {
-          info.get(info.size() - 1)._moreChanges = true;
-        }
+      if (results.get(n).moreChanges()) {
+        info.get(info.size() - 1)._moreChanges = true;
       }
     }
     return res;

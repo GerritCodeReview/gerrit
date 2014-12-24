@@ -45,7 +45,6 @@ import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.ListChildProjects;
 import com.google.gerrit.server.project.ProjectCache;
-import com.google.gerrit.server.query.IntPredicate;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryBuilder;
 import com.google.gerrit.server.query.QueryParseException;
@@ -120,12 +119,6 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
 
   private static final QueryBuilder.Definition<ChangeData, ChangeQueryBuilder> mydef =
       new QueryBuilder.Definition<>(ChangeQueryBuilder.class);
-
-  @SuppressWarnings("unchecked")
-  public static Integer getLimit(Predicate<ChangeData> p) {
-    IntPredicate<?> ip = find(p, IntPredicate.class, FIELD_LIMIT);
-    return ip != null ? ip.intValue() : null;
-  }
 
   @VisibleForTesting
   public static class Arguments {
@@ -633,28 +626,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   }
 
   @Operator
-  public Predicate<ChangeData> limit(String limit) {
-    return limit(Integer.parseInt(limit));
-  }
-
-  static class LimitPredicate extends IntPredicate<ChangeData> {
-    LimitPredicate(int limit) {
-      super(FIELD_LIMIT, limit);
-    }
-
-    @Override
-    public boolean match(ChangeData object) {
-      return true;
-    }
-
-    @Override
-    public int getCost() {
-      return 0;
-    }
-  }
-
-  public Predicate<ChangeData> limit(int limit) {
-    return new LimitPredicate(limit);
+  public Predicate<ChangeData> limit(String limit) throws QueryParseException {
+    return new LimitPredicate(Integer.parseInt(limit));
   }
 
   @Operator

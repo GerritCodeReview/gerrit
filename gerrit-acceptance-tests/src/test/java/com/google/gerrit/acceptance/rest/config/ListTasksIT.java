@@ -14,9 +14,7 @@
 
 package com.google.gerrit.acceptance.rest.config;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static com.google.common.truth.Truth.assertThat;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
@@ -33,32 +31,32 @@ public class ListTasksIT extends AbstractDaemonTest {
   @Test
   public void listTasks() throws Exception {
     RestResponse r = adminSession.get("/config/server/tasks/");
-    assertEquals(HttpStatus.SC_OK, r.getStatusCode());
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
     List<TaskInfo> result =
         newGson().fromJson(r.getReader(),
             new TypeToken<List<TaskInfo>>() {}.getType());
-    assertTrue(result.size() > 0);
+    assertThat(result).isNotEmpty();
     boolean foundLogFileCompressorTask = false;
     for (TaskInfo info : result) {
       if ("Log File Compressor".equals(info.command)) {
         foundLogFileCompressorTask = true;
       }
-      assertNotNull(info.id);
+      assertThat(info.id).isNotNull();
       Long.parseLong(info.id, 16);
-      assertNotNull(info.command);
-      assertNotNull(info.startTime);
+      assertThat(info.command).isNotNull();
+      assertThat(info.startTime).isNotNull();
     }
-    assertTrue(foundLogFileCompressorTask);
+    assertThat(foundLogFileCompressorTask).isTrue();
   }
 
   @Test
   public void listTasksWithoutViewQueueCapability() throws Exception {
     RestResponse r = userSession.get("/config/server/tasks/");
-    assertEquals(HttpStatus.SC_OK, r.getStatusCode());
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
     List<TaskInfo> result =
         newGson().fromJson(r.getReader(),
             new TypeToken<List<TaskInfo>>() {}.getType());
 
-    assertTrue(result.isEmpty());
+    assertThat(result).isEmpty();
   }
 }

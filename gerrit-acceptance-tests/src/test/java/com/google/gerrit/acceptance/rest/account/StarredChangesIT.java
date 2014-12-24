@@ -14,15 +14,14 @@
 
 package com.google.gerrit.acceptance.rest.account;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static com.google.common.truth.Truth.assertThat;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit.Result;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.reviewdb.client.Change;
 
+import org.apache.http.HttpStatus;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -33,26 +32,26 @@ public class StarredChangesIT extends AbstractDaemonTest {
   public void starredChangeState() throws Exception {
     Result c1 = createChange();
     Result c2 = createChange();
-    assertNull(getChange(c1.getChangeId()).starred);
-    assertNull(getChange(c2.getChangeId()).starred);
+    assertThat(getChange(c1.getChangeId()).starred).isNull();
+    assertThat(getChange(c2.getChangeId()).starred).isNull();
     starChange(true, c1.getPatchSetId().getParentKey());
     starChange(true, c2.getPatchSetId().getParentKey());
-    assertTrue(getChange(c1.getChangeId()).starred);
-    assertTrue(getChange(c2.getChangeId()).starred);
+    assertThat(getChange(c1.getChangeId()).starred).isTrue();
+    assertThat(getChange(c2.getChangeId()).starred).isTrue();
     starChange(false, c1.getPatchSetId().getParentKey());
     starChange(false, c2.getPatchSetId().getParentKey());
-    assertNull(getChange(c1.getChangeId()).starred);
-    assertNull(getChange(c2.getChangeId()).starred);
+    assertThat(getChange(c1.getChangeId()).starred).isNull();
+    assertThat(getChange(c2.getChangeId()).starred).isNull();
   }
 
   private void starChange(boolean on, Change.Id id) throws IOException {
     String url = "/accounts/self/starred.changes/" + id.get();
     if (on) {
       RestResponse r = adminSession.put(url);
-      assertEquals(204, r.getStatusCode());
+      assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_NO_CONTENT);
     } else {
       RestResponse r = adminSession.delete(url);
-      assertEquals(204, r.getStatusCode());
+      assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_NO_CONTENT);
     }
   }
 }

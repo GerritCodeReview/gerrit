@@ -22,6 +22,53 @@
       "revId": "ac629a6afebe45d03fdc47acf0c9b81e9db3f3e6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c169c0a3_996d5bf4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/QueryProcessor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-12-24T17:19:02Z",
+      "side": 1,
+      "message": "Eh, I think the way Dave wrote this makes sense. Most places we want to say if (enforceVisibility) { ... }. So making this true.",
+      "parentUuid": "61781470_9601acfd",
+      "range": {
+        "startLine": 41,
+        "startChar": 18,
+        "endLine": 41,
+        "endChar": 35
+      },
+      "revId": "ac629a6afebe45d03fdc47acf0c9b81e9db3f3e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a15e8cfb_f83f31d7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/QueryProcessor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-12-24T17:19:02Z",
+      "side": 1,
+      "message": "I would wrap the user code:\n\n  if (enforceVisibility) {\n    return userProvider.get()...\n  }\n  return Integer.MAX_VALUE;",
+      "range": {
+        "startLine": 191,
+        "startChar": 4,
+        "endLine": 196,
+        "endChar": 16
+      },
+      "revId": "ac629a6afebe45d03fdc47acf0c9b81e9db3f3e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e149644e_d2ec041e",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 3380,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-12-24T07:45:44Z",
+      "side": 1,
+      "message": "nit: this is misaligned with the previous lines",
+      "range": {
+        "startLine": 3380,
+        "startChar": 22,
+        "endLine": 3380,
+        "endChar": 35
+      },
+      "revId": "e49c35330ccd2a37af0daadd43ba0a4f2e048f5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

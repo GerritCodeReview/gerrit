@@ -121,8 +121,7 @@ public class ChangeFileApi {
   public static void restoreContent(PatchSet.Id id, String filename,
       AsyncCallback<VoidResult> result) {
     Input in = Input.create();
-    in.path(filename);
-    in.restore(true);
+    in.restore_path(filename);
     ChangeApi.edit(id.getParentKey().get()).post(in, result);
   }
 
@@ -155,8 +154,7 @@ public class ChangeFileApi {
   private static native String b64decode(String a) /*-{ return window.atob(a); }-*/;
 
   private static class Input extends JavaScriptObject {
-    final native void path(String p) /*-{ if(p)this.path=p; }-*/;
-    final native void restore(boolean r) /*-{ if(r)this.restore=r; }-*/;
+    final native void restore_path(String p) /*-{ if(p)this.restore_path=p; }-*/;
 
     static Input create() {
       return (Input) createObject();

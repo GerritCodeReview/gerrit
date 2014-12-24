@@ -14,9 +14,7 @@
 
 package com.google.gerrit.acceptance.api.accounts;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static com.google.common.truth.Truth.assertThat;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
@@ -32,9 +30,9 @@ public class AccountIT extends AbstractDaemonTest {
         .accounts()
         .id("admin")
         .get();
-    assertEquals("Administrator", info.name);
-    assertEquals("admin@example.com", info.email);
-    assertEquals("admin", info.username);
+    assertThat(info.name).isEqualTo("Administrator");
+    assertThat(info.email).isEqualTo("admin@example.com");
+    assertThat(info.username).isEqualTo("admin");
   }
 
   @Test
@@ -43,9 +41,9 @@ public class AccountIT extends AbstractDaemonTest {
         .accounts()
         .self()
         .get();
-    assertEquals("Administrator", info.name);
-    assertEquals("admin@example.com", info.email);
-    assertEquals("admin", info.username);
+    assertThat(info.name).isEqualTo("Administrator");
+    assertThat(info.email).isEqualTo("admin@example.com");
+    assertThat(info.username).isEqualTo("admin");
   }
 
   @Test
@@ -55,10 +53,10 @@ public class AccountIT extends AbstractDaemonTest {
     gApi.accounts()
         .self()
         .starChange(triplet);
-    assertTrue(getChange(triplet).starred);
+    assertThat(getChange(triplet).starred).isTrue();
     gApi.accounts()
         .self()
         .unstarChange(triplet);
-    assertNull(getChange(triplet).starred);
+    assertThat(getChange(triplet).starred).isNull();
   }
 }

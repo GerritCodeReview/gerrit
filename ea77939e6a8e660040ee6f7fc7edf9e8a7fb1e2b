@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "4175d075_95a444c0",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/ReviewerApi.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-24T21:45:01Z",
+      "side": 1,
+      "message": "You are right, the API interface should be symmetric accros operation boundaries:\n\n  List\u003cString\u003e votes();  // \"Code-Review+2\", \"Verified+1\"\n  void delete(String vote); // \"Code-Review+2\"\n\nOr even a map\u003cInteger, Vote\u003e of patch set number to Vote, e.g. given Code-Review-1 on ps1, and Code-Review+1 on ps2 we would get:\n\n  {\n    1: \"Code-Review-1\",\n    2: \"Verified+1\",\n  }\n\nOTOH the retrieve votes API ist only provided for completeness and to simplify unit tests to use change API, and not to need to invoke REST endpoints.",
+      "parentUuid": "a15e8cfb_98bb95e8",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 30
+      },
+      "revId": "ea77939e6a8e660040ee6f7fc7edf9e8a7fb1e2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c169c0a3_f9557716",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Labels.java",
         "patchSetId": 6
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "61781470_d60b2417",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Labels.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-24T21:45:01Z",
+      "side": 1,
+      "message": "Yup, i was afraid this wasn\u0027t an accident that \"data-foo\" was picked up. Will amend it.",
+      "parentUuid": "c169c0a3_f9557716",
+      "revId": "ea77939e6a8e660040ee6f7fc7edf9e8a7fb1e2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c169c0a3_b95bff4a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ApprovalsUtil.java",
         "patchSetId": 6
@@ -53,6 +95,24 @@
       "writtenOn": "2014-12-24T19:57:11Z",
       "side": 1,
       "message": "This is all approvals. Which confuses the REST API handlers.",
+      "revId": "ea77939e6a8e660040ee6f7fc7edf9e8a7fb1e2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "61781470_f6102048",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ApprovalsUtil.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-24T21:45:01Z",
+      "side": 1,
+      "message": "I guess i don\u0027t understand this comment?",
+      "parentUuid": "c169c0a3_b95bff4a",
       "revId": "ea77939e6a8e660040ee6f7fc7edf9e8a7fb1e2b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -93,6 +153,30 @@
       "writtenOn": "2014-12-24T19:57:11Z",
       "side": 1,
       "message": "This sounds like its all approvals. Isn\u0027t that confusing if a user gives Code-Review-1 on ps1 and Code-Review+2 on ps2?",
+      "range": {
+        "startLine": 78,
+        "startChar": 6,
+        "endLine": 79,
+        "endChar": 60
+      },
+      "revId": "ea77939e6a8e660040ee6f7fc7edf9e8a7fb1e2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "61781470_16167c41",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Votes.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-24T21:45:01Z",
+      "side": 1,
+      "message": "You mean we need to include patch set number in the output as well?",
+      "parentUuid": "a15e8cfb_b8c0595f",
       "range": {
         "startLine": 78,
         "startChar": 6,

@@ -88,12 +88,12 @@ public final class StoredValues {
     @Override
     public PatchList createValue(Prolog engine) {
       PrologEnvironment env = (PrologEnvironment) engine.control;
-      PatchSetInfo psInfo = StoredValues.PATCH_SET_INFO.get(engine);
+      PatchSet ps = StoredValues.PATCH_SET.get(engine);
       PatchListCache plCache = env.getArgs().getPatchListCache();
       Change change = getChange(engine);
       Project.NameKey projectKey = change.getProject();
       ObjectId a = null;
-      ObjectId b = ObjectId.fromString(psInfo.getRevId());
+      ObjectId b = ObjectId.fromString(ps.getRevision().get());
       Whitespace ws = Whitespace.IGNORE_NONE;
       PatchListKey plKey = new PatchListKey(projectKey, a, b, ws);
       PatchList patchList;

@@ -14,10 +14,7 @@
 
 package com.google.gerrit.acceptance.rest.config;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static com.google.common.truth.Truth.assertThat;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
@@ -32,42 +29,42 @@ public class GetCacheIT extends AbstractDaemonTest {
   @Test
   public void getCache() throws Exception {
     RestResponse r = adminSession.get("/config/server/caches/accounts");
-    assertEquals(HttpStatus.SC_OK, r.getStatusCode());
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
     CacheInfo result = newGson().fromJson(r.getReader(), CacheInfo.class);
 
-    assertEquals("accounts", result.name);
-    assertEquals(CacheType.MEM, result.type);
-    assertEquals(1, result.entries.mem.longValue());
-    assertNotNull(result.averageGet);
-    assertTrue(result.averageGet.endsWith("s"));
-    assertNull(result.entries.disk);
-    assertNull(result.entries.space);
-    assertTrue(result.hitRatio.mem >= 0);
-    assertTrue(result.hitRatio.mem <= 100);
-    assertNull(result.hitRatio.disk);
+    assertThat(result.name).isEqualTo("accounts");
+    assertThat(result.type).isEqualTo(CacheType.MEM);
+    assertThat(result.entries.mem.longValue()).isEqualTo(1);
+    assertThat(result.averageGet).isNotNull();
+    assertThat(result.averageGet).endsWith("s");
+    assertThat(result.entries.disk).isNull();
+    assertThat(result.entries.space).isNull();
+    assertThat(result.hitRatio.mem).isAtLeast(0);
+    assertThat(result.hitRatio.mem).isAtMost(100);
+    assertThat(result.hitRatio.disk).isNull();
 
     userSession.get("/config/server/version").consume();
     r = adminSession.get("/config/server/caches/accounts");
-    assertEquals(HttpStatus.SC_OK, r.getStatusCode());
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
     result = newGson().fromJson(r.getReader(), CacheInfo.class);
-    assertEquals(2, result.entries.mem.longValue());
+    assertThat(result.entries.mem.longValue()).isEqualTo(2);
   }
 
   @Test
   public void getCache_Forbidden() throws Exception {
     RestResponse r = userSession.get("/config/server/caches/accounts");
-    assertEquals(HttpStatus.SC_FORBIDDEN, r.getStatusCode());
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_FORBIDDEN);
   }
 
   @Test
   public void getCache_NotFound() throws Exception {
     RestResponse r = adminSession.get("/config/server/caches/nonExisting");
-    assertEquals(HttpStatus.SC_NOT_FOUND, r.getStatusCode());
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_NOT_FOUND);
   }
 
   @Test
   public void getCacheWithGerritPrefix() throws Exception {
     RestResponse r = adminSession.get("/config/server/caches/gerrit-accounts");
-    assertEquals(HttpStatus.SC_OK, r.getStatusCode());
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
   }
 }

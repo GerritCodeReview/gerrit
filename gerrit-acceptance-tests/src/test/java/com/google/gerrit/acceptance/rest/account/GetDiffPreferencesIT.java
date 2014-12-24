@@ -14,7 +14,7 @@
 
 package com.google.gerrit.acceptance.rest.account;
 
-import static org.junit.Assert.assertEquals;
+import static com.google.common.truth.Truth.assertThat;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
@@ -28,34 +28,34 @@ public class GetDiffPreferencesIT extends AbstractDaemonTest {
   @Test
   public void getDiffPreferencesOfNonExistingAccount_NotFound()
       throws Exception {
-    assertEquals(HttpStatus.SC_NOT_FOUND,
-        adminSession.get("/accounts/non-existing/preferences.diff").getStatusCode());
+    assertThat(adminSession.get("/accounts/non-existing/preferences.diff").getStatusCode())
+      .isEqualTo(HttpStatus.SC_NOT_FOUND);
   }
 
   @Test
   public void getDiffPreferences() throws Exception {
     RestResponse r = adminSession.get("/accounts/" + admin.email + "/preferences.diff");
-    assertEquals(HttpStatus.SC_OK, r.getStatusCode());
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
     DiffPreferencesInfo diffPreferences =
         newGson().fromJson(r.getReader(), DiffPreferencesInfo.class);
     assertDiffPreferences(new AccountDiffPreference(admin.id), diffPreferences);
   }
 
   private static void assertDiffPreferences(AccountDiffPreference expected, DiffPreferencesInfo actual) {
-    assertEquals(expected.getContext(), actual.context);
-    assertEquals(expected.isExpandAllComments(), toBoolean(actual.expandAllComments));
-    assertEquals(expected.getIgnoreWhitespace(), actual.ignoreWhitespace);
-    assertEquals(expected.isIntralineDifference(), toBoolean(actual.intralineDifference));
-    assertEquals(expected.getLineLength(), actual.lineLength);
-    assertEquals(expected.isManualReview(), toBoolean(actual.manualReview));
-    assertEquals(expected.isRetainHeader(), toBoolean(actual.retainHeader));
-    assertEquals(expected.isShowLineEndings(), toBoolean(actual.showLineEndings));
-    assertEquals(expected.isShowTabs(), toBoolean(actual.showTabs));
-    assertEquals(expected.isShowWhitespaceErrors(), toBoolean(actual.showWhitespaceErrors));
-    assertEquals(expected.isSkipDeleted(), toBoolean(actual.skipDeleted));
-    assertEquals(expected.isSkipUncommented(), toBoolean(actual.skipUncommented));
-    assertEquals(expected.isSyntaxHighlighting(), toBoolean(actual.syntaxHighlighting));
-    assertEquals(expected.getTabSize(), actual.tabSize);
+    assertThat(actual.context).isEqualTo(expected.getContext());
+    assertThat(toBoolean(actual.expandAllComments)).isEqualTo(expected.isExpandAllComments());
+    assertThat(actual.ignoreWhitespace).isEqualTo(expected.getIgnoreWhitespace());
+    assertThat(toBoolean(actual.intralineDifference)).isEqualTo(expected.isIntralineDifference());
+    assertThat(actual.lineLength).isEqualTo(expected.getLineLength());
+    assertThat(toBoolean(actual.manualReview)).isEqualTo(expected.isManualReview());
+    assertThat(toBoolean(actual.retainHeader)).isEqualTo(expected.isRetainHeader());
+    assertThat(toBoolean(actual.showLineEndings)).isEqualTo(expected.isShowLineEndings());
+    assertThat(toBoolean(actual.showTabs)).isEqualTo(expected.isShowTabs());
+    assertThat(toBoolean(actual.showWhitespaceErrors)).isEqualTo(expected.isShowWhitespaceErrors());
+    assertThat(toBoolean(actual.skipDeleted)).isEqualTo(expected.isSkipDeleted());
+    assertThat(toBoolean(actual.skipUncommented)).isEqualTo(expected.isSkipUncommented());
+    assertThat(toBoolean(actual.syntaxHighlighting)).isEqualTo(expected.isSyntaxHighlighting());
+    assertThat(actual.tabSize).isEqualTo(expected.getTabSize());
   }
 
   private static boolean toBoolean(Boolean b) {

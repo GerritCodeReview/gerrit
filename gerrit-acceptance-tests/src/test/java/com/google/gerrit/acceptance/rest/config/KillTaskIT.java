@@ -14,8 +14,7 @@
 
 package com.google.gerrit.acceptance.rest.config;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static com.google.common.truth.Truth.assertThat;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
@@ -36,17 +35,17 @@ public class KillTaskIT extends AbstractDaemonTest {
         new TypeToken<List<TaskInfo>>() {}.getType());
     r.consume();
     int taskCount = result.size();
-    assertTrue(taskCount > 0);
+    assertThat(taskCount).isGreaterThan(0);
 
     r = adminSession.delete("/config/server/tasks/" + result.get(0).id);
-    assertEquals(HttpStatus.SC_NO_CONTENT, r.getStatusCode());
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_NO_CONTENT);
     r.consume();
 
     r = adminSession.get("/config/server/tasks/");
     result = newGson().fromJson(r.getReader(),
         new TypeToken<List<TaskInfo>>() {}.getType());
     r.consume();
-    assertEquals(taskCount - 1, result.size());
+    assertThat(result).hasSize(taskCount - 1);
   }
 
   @Test
@@ -55,9 +54,9 @@ public class KillTaskIT extends AbstractDaemonTest {
     List<TaskInfo> result = newGson().fromJson(r.getReader(),
         new TypeToken<List<TaskInfo>>() {}.getType());
     r.consume();
-    assertTrue(result.size() > 0);
+    assertThat(result.size()).isGreaterThan(0);
 
     r = userSession.delete("/config/server/tasks/" + result.get(0).id);
-    assertEquals(HttpStatus.SC_NOT_FOUND, r.getStatusCode());
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_NOT_FOUND);
   }
 }

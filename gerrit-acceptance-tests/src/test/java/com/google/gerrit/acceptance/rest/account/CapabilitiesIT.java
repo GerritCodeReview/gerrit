@@ -22,11 +22,8 @@ import static com.google.gerrit.common.data.GlobalCapability.DEFAULT_MAX_QUERY_L
 import static com.google.gerrit.common.data.GlobalCapability.PRIORITY;
 import static com.google.gerrit.common.data.GlobalCapability.QUERY_LIMIT;
 import static com.google.gerrit.common.data.GlobalCapability.RUN_AS;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assert_;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
@@ -41,6 +38,7 @@ import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import org.apache.http.HttpStatus;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.junit.Test;
 
@@ -53,24 +51,23 @@ public class CapabilitiesIT extends AbstractDaemonTest {
     grantAllCapabilities();
     RestResponse r =
         userSession.get("/accounts/self/capabilities");
-    int code = r.getStatusCode();
-    assertEquals(code, 200);
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
     CapabilityInfo info = (new Gson()).fromJson(r.getReader(),
         new TypeToken<CapabilityInfo>() {}.getType());
     for (String c : GlobalCapability.getAllNames()) {
       if (ADMINISTRATE_SERVER.equals(c)) {
-        assertFalse(info.administrateServer);
+        assertThat(info.administrateServer).isFalse();
       } else if (BATCH_CHANGES_LIMIT.equals(c)) {
-        assertEquals(0, info.batchChangesLimit.min);
-        assertEquals(DEFAULT_MAX_BATCH_CHANGES_LIMIT, info.batchChangesLimit.max);
+        assertThat(info.batchChangesLimit.min).isEqualTo((short) 0);
+        assertThat(info.batchChangesLimit.max).isEqualTo((short) DEFAULT_MAX_BATCH_CHANGES_LIMIT);
       } else if (PRIORITY.equals(c)) {
-        assertFalse(info.priority);
+        assertThat(info.priority).isFalse();
       } else if (QUERY_LIMIT.equals(c)) {
-        assertEquals(0, info.queryLimit.min);
-        assertEquals(DEFAULT_MAX_QUERY_LIMIT, info.queryLimit.max);
+        assertThat(info.queryLimit.min).isEqualTo((short) 0);
+        assertThat(info.queryLimit.max).isEqualTo((short) DEFAULT_MAX_QUERY_LIMIT);
       } else {
-        assertTrue(String.format("capability %s was not granted", c),
-            (Boolean) CapabilityInfo.class.getField(c).get(info));
+        assert_().withFailureMessage(String.format("capability %s was not granted", c))
+          .that((Boolean) CapabilityInfo.class.getField(c).get(info)).isTrue();
       }
     }
   }
@@ -79,28 +76,28 @@ public class CapabilitiesIT extends AbstractDaemonTest {
   public void testCapabilitiesAdmin() throws Exception {
     RestResponse r =
         adminSession.get("/accounts/self/capabilities");
-    int code = r.getStatusCode();
-    assertEquals(code, 200);
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
     CapabilityInfo info = (new Gson()).fromJson(r.getReader(),
         new TypeToken<CapabilityInfo>() {}.getType());
     for (String c : GlobalCapability.getAllNames()) {
       if (BATCH_CHANGES_LIMIT.equals(c)) {
         // It does not have default value for any user as it can override the
         // 'receive.batchChangesLimit'. It needs to be granted explicitly.
-        assertNull(info.batchChangesLimit);
+        assertThat(info.batchChangesLimit).isNull();
       } else if (PRIORITY.equals(c)) {
-        assertFalse(info.priority);
+        assertThat(info.priority).isFalse();
       } else if (QUERY_LIMIT.equals(c)) {
-        assertNotNull("missing queryLimit", info.queryLimit);
-        assertEquals(0, info.queryLimit.min);
-        assertEquals(DEFAULT_MAX_QUERY_LIMIT, info.queryLimit.max);
+        assert_().withFailureMessage("missing queryLimit")
+          .that(info.queryLimit).isNotNull();
+        assertThat(info.queryLimit.min).isEqualTo((short) 0);
+        assertThat(info.queryLimit.max).isEqualTo((short) DEFAULT_MAX_QUERY_LIMIT);
       } else if (ACCESS_DATABASE.equals(c)) {
-        assertFalse(info.accessDatabase);
+        assertThat(info.accessDatabase).isFalse();
       } else if (RUN_AS.equals(c)) {
-        assertFalse(info.runAs);
+        assertThat(info.runAs).isFalse();
       } else {
-        assertTrue(String.format("capability %s was not granted", c),
-            (Boolean) CapabilityInfo.class.getField(c).get(info));
+        assert_().withFailureMessage(String.format("capability %s was not granted", c))
+          .that((Boolean) CapabilityInfo.class.getField(c).get(info)).isTrue();
       }
     }
   }

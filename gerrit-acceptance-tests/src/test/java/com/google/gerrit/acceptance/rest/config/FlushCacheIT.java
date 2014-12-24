@@ -14,10 +14,8 @@
 
 package com.google.gerrit.acceptance.rest.config;
 
+import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
@@ -40,39 +38,39 @@ public class FlushCacheIT extends AbstractDaemonTest {
   public void flushCache() throws Exception {
     RestResponse r = adminSession.get("/config/server/caches/groups");
     CacheInfo result = newGson().fromJson(r.getReader(), CacheInfo.class);
-    assertTrue(result.entries.mem.longValue() > 0);
+    assertThat(result.entries.mem.longValue()).isGreaterThan((long)0);
 
     r = adminSession.post("/config/server/caches/groups/flush");
-    assertEquals(HttpStatus.SC_OK, r.getStatusCode());
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
     r.consume();
 
     r = adminSession.get("/config/server/caches/groups");
     result = newGson().fromJson(r.getReader(), CacheInfo.class);
-    assertNull(result.entries.mem);
+    assertThat(result.entries.mem).isNull();
   }
 
   @Test
   public void flushCache_Forbidden() throws Exception {
     RestResponse r = userSession.post("/config/server/caches/accounts/flush");
-    assertEquals(HttpStatus.SC_FORBIDDEN, r.getStatusCode());
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_FORBIDDEN);
   }
 
   @Test
   public void flushCache_NotFound() throws Exception {
     RestResponse r = adminSession.post("/config/server/caches/nonExisting/flush");
-    assertEquals(HttpStatus.SC_NOT_FOUND, r.getStatusCode());
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_NOT_FOUND);
   }
 
   @Test
   public void flushCacheWithGerritPrefix() throws Exception {
     RestResponse r = adminSession.post("/config/server/caches/gerrit-accounts/flush");
-    assertEquals(HttpStatus.SC_OK, r.getStatusCode());
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
   }
 
   @Test
   public void flushWebSessionsCache() throws Exception {
     RestResponse r = adminSession.post("/config/server/caches/web_sessions/flush");
-    assertEquals(HttpStatus.SC_OK, r.getStatusCode());
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
   }
 
   @Test
@@ -85,11 +83,11 @@ public class FlushCacheIT extends AbstractDaemonTest {
     saveProjectConfig(cfg);
 
     RestResponse r = userSession.post("/config/server/caches/accounts/flush");
-    assertEquals(HttpStatus.SC_OK, r.getStatusCode());
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
     r.consume();
 
     r = userSession.post("/config/server/caches/web_sessions/flush");
-    assertEquals(HttpStatus.SC_FORBIDDEN, r.getStatusCode());
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_FORBIDDEN);
   }
 
   private void saveProjectConfig(ProjectConfig cfg) throws IOException {

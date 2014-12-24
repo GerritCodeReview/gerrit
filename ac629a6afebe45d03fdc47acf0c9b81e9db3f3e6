@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "61781470_9601acfd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/QueryProcessor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-24T13:04:23Z",
+      "side": 1,
+      "message": "Reverse the logic and leave JVM to initialize it, a lá:\n\n  private boolean ignoreVisibility;",
+      "range": {
+        "startLine": 41,
+        "startChar": 18,
+        "endLine": 41,
+        "endChar": 35
+      },
+      "revId": "ac629a6afebe45d03fdc47acf0c9b81e9db3f3e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

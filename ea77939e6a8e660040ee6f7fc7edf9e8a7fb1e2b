@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a15e8cfb_98bb95e8",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/ReviewerApi.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-12-24T19:57:11Z",
+      "side": 1,
+      "message": "This bothers me. We return Map\u003cString,Short\u003e during GET which I assume is:\n\n  {\n    \"Code-Review\": 2,\n    \"Verified\": 1,\n  }\n\nbut then to delete we have to pass in:\n\n  \"Code-Review+2\"\n\n?",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 30
+      },
+      "revId": "ea77939e6a8e660040ee6f7fc7edf9e8a7fb1e2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c169c0a3_f9557716",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Labels.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-12-24T19:57:11Z",
+      "side": 1,
+      "message": "data-id wasn\u0027t just pulled out of thin air. There is a standard that allows HTML elements to have any attributes that start with \"data-*\".\n\nhttps://developer.mozilla.org/en-US/docs/Web/Guide/HTML/Using_data_attributes\n\nDon\u0027t use vote-id. Use \"data-vote\" or \"data-score\" or something like that.",
+      "revId": "ea77939e6a8e660040ee6f7fc7edf9e8a7fb1e2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c169c0a3_b95bff4a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ApprovalsUtil.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-12-24T19:57:11Z",
+      "side": 1,
+      "message": "This is all approvals. Which confuses the REST API handlers.",
+      "revId": "ea77939e6a8e660040ee6f7fc7edf9e8a7fb1e2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c169c0a3_d950b329",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/DeleteVote.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-12-24T19:57:11Z",
+      "side": 1,
+      "message": "I think this is overly verbose. This may be fine:\n\n  \"Removed Code-Review+2 by Shawn Pearce\"\n\nNo need for the email, or a lot of text and formatting.",
+      "range": {
+        "startLine": 95,
+        "startChar": 12,
+        "endLine": 100,
+        "endChar": 30
+      },
+      "revId": "ea77939e6a8e660040ee6f7fc7edf9e8a7fb1e2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a15e8cfb_b8c0595f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Votes.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-12-24T19:57:11Z",
+      "side": 1,
+      "message": "This sounds like its all approvals. Isn\u0027t that confusing if a user gives Code-Review-1 on ps1 and Code-Review+2 on ps2?",
+      "range": {
+        "startLine": 78,
+        "startChar": 6,
+        "endLine": 79,
+        "endChar": 60
+      },
+      "revId": "ea77939e6a8e660040ee6f7fc7edf9e8a7fb1e2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

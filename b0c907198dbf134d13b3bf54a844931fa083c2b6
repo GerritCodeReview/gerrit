@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4175d075_55baacdf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/CommonChangeQuery.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-24T13:04:06Z",
+      "side": 1,
+      "message": "Not related to this change, but I think this and friends are the only public methods in non test java server code that use underscore_naming_convention instead of camelCase. Can this be fixed?\n\n  public Predicate\u003cChangeData\u003e r00_notOpen()\n  public Predicate\u003cChangeData\u003e r00_notClosed()\n  public Predicate\u003cChangeData\u003e r00_notMerged()\n  public Predicate\u003cChangeData\u003e r00_notAbandoned()\n  public Predicate\u003cChangeData\u003e status_open()\n  public Predicate\u003cChangeData\u003e is_visible()",
+      "range": {
+        "startLine": 45,
+        "startChar": 51,
+        "endLine": 45,
+        "endChar": 62
+      },
+      "revId": "b0c907198dbf134d13b3bf54a844931fa083c2b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

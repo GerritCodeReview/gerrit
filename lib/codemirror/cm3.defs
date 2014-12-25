@@ -20,6 +20,7 @@ CM3_JS = [
   'addon/search/search.js',
   'addon/selection/mark-selection.js',
   'addon/edit/trailingspace.js',
+  'addon/mode/overlay.js',
 ]
 
 CM3_MODES = [
@@ -46,11 +47,13 @@ CM3_MODES = [
   'properties/properties.js',
   'python/python.js',
   'r/r.js',
+  'rst/rst.js',
   'ruby/ruby.js',
   'scheme/scheme.js',
   'shell/shell.js',
   'smalltalk/smalltalk.js',
   'sql/sql.js',
+  'stex/stex.js',
   'tcl/tcl.js',
   'velocity/velocity.js',
   'verilog/verilog.js',

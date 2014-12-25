@@ -14,12 +14,12 @@
 
 package com.google.gerrit.acceptance;
 
+import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.GitUtil.cloneProject;
 import static com.google.gerrit.acceptance.GitUtil.createProject;
 import static com.google.gerrit.acceptance.GitUtil.initSsh;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.server.project.Util.block;
-import static org.junit.Assert.assertEquals;
 
 import com.google.common.base.Joiner;
 import com.google.common.primitives.Chars;
@@ -205,7 +205,7 @@ public abstract class AbstractDaemonTest {
       ListChangesOption... options) throws IOException {
     String q = options.length > 0 ? "?o=" + Joiner.on("&o=").join(options) : "";
     RestResponse r = session.get("/changes/" + changeId + q);
-    assertEquals(HttpStatus.SC_OK, r.getStatusCode());
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
     return newGson().fromJson(r.getReader(), ChangeInfo.class);
   }
 

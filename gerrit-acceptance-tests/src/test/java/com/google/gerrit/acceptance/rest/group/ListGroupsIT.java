@@ -14,10 +14,9 @@
 
 package com.google.gerrit.acceptance.rest.group;
 
+import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.rest.group.GroupAssert.assertGroupInfo;
 import static com.google.gerrit.acceptance.rest.group.GroupAssert.assertGroups;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 import com.google.common.base.Function;
 import com.google.common.collect.Iterables;
@@ -69,11 +68,11 @@ public class ListGroupsIT extends AbstractDaemonTest {
     Map<String, GroupInfo> result =
         newGson().fromJson(r.getReader(),
             new TypeToken<Map<String, GroupInfo>>() {}.getType());
-    assertTrue("no groups visible", result.isEmpty());
+    assertThat(result).isEmpty();
 
-    assertEquals(HttpStatus.SC_CREATED, adminSession.put(
-        String.format("/groups/%s/members/%s", newGroupName, user.username)
-      ).getStatusCode());
+    r = adminSession.put(
+        String.format("/groups/%s/members/%s", newGroupName, user.username));
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_CREATED);
 
     r = userSession.get("/groups/");
     result = newGson().fromJson(r.getReader(),

@@ -14,8 +14,7 @@
 
 package com.google.gerrit.acceptance.rest.group;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.base.Function;
 import com.google.common.collect.Collections2;
@@ -37,13 +36,13 @@ public class ListGroupIncludesIT extends AbstractDaemonTest {
 
   @Test
   public void listNonExistingGroupIncludes_NotFound() throws Exception {
-    assertEquals(HttpStatus.SC_NOT_FOUND,
-      adminSession.get("/groups/non-existing/groups/").getStatusCode());
+    assertThat(adminSession.get("/groups/non-existing/groups/").getStatusCode())
+      .isEqualTo(HttpStatus.SC_NOT_FOUND);
   }
 
   @Test
   public void listEmptyGroupIncludes() throws Exception {
-    assertTrue(GET("/groups/Administrators/groups/").isEmpty());
+    assertThat(GET("/groups/Administrators/groups/")).isEmpty();
   }
 
   @Test
@@ -63,19 +62,19 @@ public class ListGroupIncludesIT extends AbstractDaemonTest {
     PUT("/groups/Administrators/groups/gx");
     PUT("/groups/Administrators/groups/gy");
 
-    assertEquals(GET_ONE("/groups/Administrators/groups/gx").name, "gx");
+    assertThat(GET_ONE("/groups/Administrators/groups/gx").name).isEqualTo("gx");
   }
 
   private List<GroupInfo> GET(String endpoint) throws IOException {
     RestResponse r = adminSession.get(endpoint);
-    assertEquals(HttpStatus.SC_OK, r.getStatusCode());
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
     return newGson().fromJson(r.getReader(),
         new TypeToken<List<GroupInfo>>() {}.getType());
   }
 
   private GroupInfo GET_ONE(String endpoint) throws IOException {
     RestResponse r = adminSession.get(endpoint);
-    assertEquals(HttpStatus.SC_OK, r.getStatusCode());
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
     return newGson().fromJson(r.getReader(), GroupInfo.class);
   }
 
@@ -98,10 +97,10 @@ public class ListGroupIncludesIT extends AbstractDaemonTest {
             return info.name;
           }
         });
-    assertTrue(includeNames.contains(name));
+    assertThat(includeNames).contains(name);
     for (String n : names) {
-      assertTrue(includeNames.contains(n));
+      assertThat(includeNames).contains(n);
     }
-    assertEquals(includes.size(), names.length + 1);
+    assertThat(includes).hasSize(names.length + 1);
   }
 }

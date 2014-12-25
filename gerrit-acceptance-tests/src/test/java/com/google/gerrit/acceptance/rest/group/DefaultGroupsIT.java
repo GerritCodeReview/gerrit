@@ -14,8 +14,8 @@
 
 package com.google.gerrit.acceptance.rest.group;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assert_;
 
 import com.google.common.collect.Sets;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
@@ -44,9 +44,10 @@ public class DefaultGroupsIT extends AbstractDaemonTest {
   public void defaultGroupsCreated_ssh() throws Exception {
     SshSession session = new SshSession(server, admin);
     String result = session.exec("gerrit ls-groups");
-    assertFalse(session.getError(), session.hasError());
-    assertTrue(result.contains("Administrators"));
-    assertTrue(result.contains("Non-Interactive Users"));
+    assert_().withFailureMessage(session.getError())
+      .that(session.hasError()).isFalse();
+    assertThat(result).contains("Administrators");
+    assertThat(result).contains("Non-Interactive Users");
     session.close();
   }
 
@@ -58,8 +59,8 @@ public class DefaultGroupsIT extends AbstractDaemonTest {
         newGson().fromJson(r.getReader(),
             new TypeToken<Map<String, GroupInfo>>() {}.getType());
     Set<String> names = result.keySet();
-    assertTrue(names.contains("Administrators"));
-    assertTrue(names.contains("Non-Interactive Users"));
+    assertThat(names).contains("Administrators");
+    assertThat(names).contains("Non-Interactive Users");
   }
 
   @Test
@@ -68,7 +69,7 @@ public class DefaultGroupsIT extends AbstractDaemonTest {
     for (AccountGroup g : db.accountGroups().all()) {
       names.add(g.getName());
     }
-    assertTrue(names.contains("Administrators"));
-    assertTrue(names.contains("Non-Interactive Users"));
+    assertThat(names).contains("Administrators");
+    assertThat(names).contains("Non-Interactive Users");
   }
 }

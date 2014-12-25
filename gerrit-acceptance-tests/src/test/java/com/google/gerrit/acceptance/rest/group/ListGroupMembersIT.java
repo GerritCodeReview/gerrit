@@ -14,8 +14,7 @@
 
 package com.google.gerrit.acceptance.rest.group;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.base.Function;
 import com.google.common.collect.Collections2;
@@ -37,14 +36,14 @@ public class ListGroupMembersIT extends AbstractDaemonTest {
 
   @Test
   public void listNonExistingGroupMembers_NotFound() throws Exception {
-    assertEquals(HttpStatus.SC_NOT_FOUND,
-        adminSession.get("/groups/non-existing/members/").getStatusCode());
+    assertThat(adminSession.get("/groups/non-existing/members/").getStatusCode())
+      .isEqualTo(HttpStatus.SC_NOT_FOUND);
   }
 
   @Test
   public void listEmptyGroupMembers() throws Exception {
     group("empty", "Administrators");
-    assertTrue(GET("/groups/empty/members/").isEmpty());
+    assertThat(GET("/groups/empty/members/")).isEmpty();
   }
 
   @Test
@@ -58,8 +57,8 @@ public class ListGroupMembersIT extends AbstractDaemonTest {
 
   @Test
   public void listOneGroupMember() throws Exception {
-    assertEquals(GET_ONE("/groups/Administrators/members/admin").name,
-        admin.fullName);
+    assertThat(GET_ONE("/groups/Administrators/members/admin").name)
+      .isEqualTo(admin.fullName);
   }
 
   @Test
@@ -78,14 +77,14 @@ public class ListGroupMembersIT extends AbstractDaemonTest {
 
   private List<AccountInfo> GET(String endpoint) throws IOException {
     RestResponse r = adminSession.get(endpoint);
-    assertEquals(HttpStatus.SC_OK, r.getStatusCode());
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
     return newGson().fromJson(r.getReader(),
         new TypeToken<List<AccountInfo>>() {}.getType());
   }
 
   private AccountInfo GET_ONE(String endpoint) throws IOException {
     RestResponse r = adminSession.get(endpoint);
-    assertEquals(HttpStatus.SC_OK, r.getStatusCode());
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
     return newGson().fromJson(r.getReader(), AccountInfo.class);
   }
 
@@ -110,10 +109,10 @@ public class ListGroupMembersIT extends AbstractDaemonTest {
           }
         });
 
-    assertTrue(memberNames.contains(name));
+    assertThat(memberNames).contains(name);
     for (String n : names) {
-      assertTrue(memberNames.contains(n));
+      assertThat(memberNames).contains(n);
     }
-    assertEquals(members.size(), names.length + 1);
+    assertThat(members).hasSize(names.length + 1);
   }
 }

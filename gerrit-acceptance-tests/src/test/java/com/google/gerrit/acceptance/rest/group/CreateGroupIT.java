@@ -14,9 +14,8 @@
 
 package com.google.gerrit.acceptance.rest.group;
 
+import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.rest.group.GroupAssert.assertGroupInfo;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
@@ -34,9 +33,9 @@ public class CreateGroupIT extends AbstractDaemonTest {
     final String newGroupName = "newGroup";
     RestResponse r = adminSession.put("/groups/" + newGroupName);
     GroupInfo g = newGson().fromJson(r.getReader(), GroupInfo.class);
-    assertEquals(newGroupName, g.name);
+    assertThat(g.name).isEqualTo(newGroupName);
     AccountGroup group = groupCache.get(new AccountGroup.NameKey(newGroupName));
-    assertNotNull(group);
+    assertThat(group).isNotNull();
     assertGroupInfo(group, g);
   }
 
@@ -49,23 +48,23 @@ public class CreateGroupIT extends AbstractDaemonTest {
     in.ownerId = groupCache.get(new AccountGroup.NameKey("Administrators")).getGroupUUID().get();
     RestResponse r = adminSession.put("/groups/" + newGroupName, in);
     GroupInfo g = newGson().fromJson(r.getReader(), GroupInfo.class);
-    assertEquals(newGroupName, g.name);
+    assertThat(g.name).isEqualTo(newGroupName);
     AccountGroup group = groupCache.get(new AccountGroup.NameKey(newGroupName));
-    assertEquals(in.description, group.getDescription());
-    assertEquals(in.visibleToAll, group.isVisibleToAll());
-    assertEquals(in.ownerId, group.getOwnerGroupUUID().get());
+    assertThat(group.getDescription()).isEqualTo(in.description);
+    assertThat(group.isVisibleToAll()).isEqualTo(in.visibleToAll);
+    assertThat(group.getOwnerGroupUUID().get()).isEqualTo(in.ownerId);
   }
 
   @Test
   public void testCreateGroupWithoutCapability_Forbidden() throws Exception {
     RestResponse r = (new RestSession(server, user)).put("/groups/newGroup");
-    assertEquals(HttpStatus.SC_FORBIDDEN, r.getStatusCode());
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_FORBIDDEN);
   }
 
   @Test
   public void testCreateGroupWhenGroupAlreadyExists_Conflict()
       throws Exception {
     RestResponse r = adminSession.put("/groups/Administrators");
-    assertEquals(HttpStatus.SC_CONFLICT, r.getStatusCode());
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_CONFLICT);
   }
 }

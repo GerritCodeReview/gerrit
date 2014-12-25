@@ -43,7 +43,7 @@ public class ProjectAssert {
       assertThat(info).isNotNull();
       actual.remove(info);
     }
-    assertThat(actual).isEmpty();
+    assertThat((Iterable<?>)actual).isEmpty();
   }
 
   public static void assertProjectInfo(Project project, ProjectInfo info) {
@@ -67,6 +67,6 @@ public class ProjectAssert {
     for (AccountGroup.UUID g : state.getOwners()) {
       assertThat(expectedOwners.remove(g)).isTrue();
     }
-    assertThat(expectedOwners).isEmpty();
+    assertThat((Iterable<?>)expectedOwners).isEmpty();
   }
 }

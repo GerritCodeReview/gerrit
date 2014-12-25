@@ -129,7 +129,8 @@ public class ChangeIT extends AbstractDaemonTest {
     gApi.changes()
         .id(r.getChangeId())
         .addReviewer(in);
-    assertThat(getReviewers(r.getChangeId()))
+
+    assertThat((Iterable<?>)getReviewers(r.getChangeId()))
         .containsExactlyElementsIn(ImmutableSet.of(user.id));
   }
 
@@ -145,7 +146,7 @@ public class ChangeIT extends AbstractDaemonTest {
         .revision(r.getCommit().name())
         .submit();
 
-    assertThat(getReviewers(r.getChangeId()))
+    assertThat((Iterable<?>)getReviewers(r.getChangeId()))
       .containsExactlyElementsIn(ImmutableSet.of(admin.getId()));
 
     AddReviewerInput in = new AddReviewerInput();
@@ -153,7 +154,7 @@ public class ChangeIT extends AbstractDaemonTest {
     gApi.changes()
         .id(r.getChangeId())
         .addReviewer(in);
-    assertThat(getReviewers(r.getChangeId()))
+    assertThat((Iterable<?>)getReviewers(r.getChangeId()))
         .containsExactlyElementsIn(ImmutableSet.of(admin.getId(), user.id));
   }
 
@@ -234,7 +235,7 @@ public class ChangeIT extends AbstractDaemonTest {
     PushOneCommit.Result r = createChange();
     ChangeInfo result = Iterables.getOnlyElement(query(r.getChangeId()));
     assertThat(result.labels).isNull();
-    assertThat(result.messages).isNull();
+    assertThat((Iterable<?>)result.messages).isNull();
     assertThat(result.revisions).isNull();
     assertThat(result.actions).isNull();
   }
@@ -248,7 +249,7 @@ public class ChangeIT extends AbstractDaemonTest {
         .get());
     assertThat(Iterables.getOnlyElement(result.labels.keySet()))
         .isEqualTo("Code-Review");
-    assertThat(result.messages).hasSize(1);
+    assertThat((Iterable<?>)result.messages).hasSize(1);
     assertThat(result.actions).isNotEmpty();
 
     RevisionInfo rev = Iterables.getOnlyElement(result.revisions.values());

@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4175d075_15991488",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_102.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-25T09:22:59Z",
+      "side": 1,
+      "message": "Investigating development H2 schema for this table reveals that other indices contain sort_key column as well:\n\n  CHANGES_ALLCLOSED (OPEN, STATUS, SORT_KEY)\n  CHANGES_ALLOPEN (OPEN, SORT_KEY)\n  CHANGES_BYBRANCHCLOSED (STATUS, DEST_PROJECT_NAME, DEST_BRANCH_NAME, SORT_KEY)",
+      "range": {
+        "startLine": 40,
+        "startChar": 26,
+        "endLine": 40,
+        "endChar": 58
+      },
+      "revId": "4241459b3faa39d29185a26007d04bab172a950f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4175d075_f5a3b8b2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_102.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-25T09:22:59Z",
+      "side": 1,
+      "message": "Upgrade to 102 is failing here on H2:\n\n  Exception in thread \"main\" com.google.gwtorm.server.OrmException: Cannot apply SQL\nALTER TABLE changes DROP COLUMN sort_key\n\tat com.google.gwtorm.jdbc.JdbcExecutor.execute(JdbcExecutor.java:44)\n\tat com.google.gerrit.pgm.init.BaseInit$SiteRun.upgradeSchema(BaseInit.java:313)\n\tat com.google.gerrit.pgm.init.BaseInit.run(BaseInit.java:111)\n\tat com.google.gerrit.pgm.util.AbstractProgram.main(AbstractProgram.java:64)\n\tat sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\n\tat sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)\n\tat sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\n\tat java.lang.reflect.Method.invoke(Method.java:606)\n\tat com.google.gerrit.launcher.GerritLauncher.invokeProgram(GerritLauncher.java:166)\n\tat com.google.gerrit.launcher.GerritLauncher.mainImpl(GerritLauncher.java:93)\n\tat com.google.gerrit.launcher.GerritLauncher.main(GerritLauncher.java:50)\n\tat Main.main(Main.java:25)\nCaused by: org.h2.jdbc.JdbcSQLException: Column may be referenced by \"PUBLIC.CHANGES_ALLOPEN\"; SQL statement:\nALTER TABLE changes DROP COLUMN sort_key [90083-174]\n\tat org.h2.message.DbException.getJdbcSQLException(DbException.java:332)\n\tat org.h2.message.DbException.get(DbException.java:172)\n\tat org.h2.message.DbException.get(DbException.java:149)\n\tat org.h2.table.Table.dropSingleColumnConstraintsAndIndexes(Table.java:553)\n\tat org.h2.command.ddl.AlterTableAlterColumn.update(AlterTableAlterColumn.java:163)\n\tat org.h2.command.CommandContainer.update(CommandContainer.java:79)\n\tat org.h2.command.Command.executeUpdate(Command.java:253)\n\tat org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:181)\n\tat org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:156)\n\tat com.google.gwtorm.jdbc.JdbcExecutor.execute(JdbcExecutor.java:42)\n\t... 11 more",
+      "revId": "4241459b3faa39d29185a26007d04bab172a950f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

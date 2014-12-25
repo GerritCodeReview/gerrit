@@ -45,7 +45,7 @@ public class DeleteDraftPatchSetIT extends AbstractDaemonTest {
     assertThat(c.id).isEqualTo(triplet);
     assertThat(c.status).isEqualTo(ChangeStatus.NEW);
     RestResponse r = deletePatchSet(changeId, ps, adminSession);
-    assertThat(r.getEntityContent()).isEqualTo("Patch set is not a draft.");
+    assertThat(r.getEntityContent()).isEqualTo("Patch set is not a draft");
     assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_CONFLICT);
   }
 

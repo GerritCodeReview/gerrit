@@ -71,7 +71,7 @@ public class DeleteDraftPatchSet implements RestModifyView<RevisionResource, Inp
     Change change = rsrc.getChange();
 
     if (!patchSet.isDraft()) {
-      throw new ResourceConflictException("Patch set is not a draft.");
+      throw new ResourceConflictException("Patch set is not a draft");
     }
 
     if (!allowDrafts) {

@@ -97,6 +97,9 @@ text/x-python
 r:
 text/r-src
 
+rst:
+text/x-rst
+
 ruby:
 text/x-ruby
 
@@ -118,6 +121,9 @@ text/x-plsql
 
 tcl:
 text/x-tcl
+
+stex:
+text/x-stex
 
 velocity:
 text/velocity

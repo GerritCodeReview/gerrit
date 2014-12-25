@@ -222,7 +222,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     r.assertChange(Change.Status.NEW, null);
 
     Set<String> hashtags = gApi.changes().id(r.getChangeId()).getHashtags();
-    assertThat(hashtags).containsExactlyElementsIn(expected);
+    assertThat((Iterable<?>)hashtags).containsExactlyElementsIn(expected);
 
     // specify a single hashtag as option in new patch set
     String hashtag2 = "tag2";
@@ -233,7 +233,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     r.assertOkStatus();
     expected = ImmutableSet.of(hashtag1, hashtag2);
     hashtags = gApi.changes().id(r.getChangeId()).getHashtags();
-    assertThat(hashtags).containsExactlyElementsIn(expected);
+    assertThat((Iterable<?>)hashtags).containsExactlyElementsIn(expected);
   }
 
   @Test
@@ -253,7 +253,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     r.assertChange(Change.Status.NEW, null);
 
     Set<String> hashtags = gApi.changes().id(r.getChangeId()).getHashtags();
-    assertThat(hashtags).containsExactlyElementsIn(expected);
+    assertThat((Iterable<?>)hashtags).containsExactlyElementsIn(expected);
 
     // specify multiple hashtags as options in new patch set
     String hashtag3 = "tag3";
@@ -266,7 +266,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     r.assertOkStatus();
     expected = ImmutableSet.of(hashtag1, hashtag2, hashtag3, hashtag4);
     hashtags = gApi.changes().id(r.getChangeId()).getHashtags();
-    assertThat(hashtags).containsExactlyElementsIn(expected);
+    assertThat((Iterable<?>)hashtags).containsExactlyElementsIn(expected);
   }
 
   @Test

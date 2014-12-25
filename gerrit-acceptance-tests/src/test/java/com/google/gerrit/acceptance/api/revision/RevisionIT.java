@@ -136,10 +136,10 @@ public class RevisionIT extends AbstractDaemonTest {
     ChangeApi orig = gApi.changes()
         .id("p~master~" + r.getChangeId());
 
-    assertThat(orig.get().messages).hasSize(1);
+    assertThat((Iterable<?>)orig.get().messages).hasSize(1);
     ChangeApi cherry = orig.revision(r.getCommit().name())
         .cherryPick(in);
-    assertThat(orig.get().messages).hasSize(2);
+    assertThat((Iterable<?>)orig.get().messages).hasSize(2);
 
     assertThat(cherry.get().subject).contains(in.message);
     assertThat(cherry.get().topic).isEqualTo("someTopic");
@@ -160,10 +160,10 @@ public class RevisionIT extends AbstractDaemonTest {
     ChangeApi orig = gApi.changes()
         .id("p~master~" + r.getChangeId());
 
-    assertThat(orig.get().messages).hasSize(1);
+    assertThat((Iterable<?>)orig.get().messages).hasSize(1);
     ChangeApi cherry = orig.revision(r.getCommit().name())
         .cherryPick(in);
-    assertThat(orig.get().messages).hasSize(2);
+    assertThat((Iterable<?>)orig.get().messages).hasSize(2);
 
     assertThat(cherry.get().subject).contains(in.message);
     cherry.current().review(ReviewInput.approve());
@@ -194,7 +194,7 @@ public class RevisionIT extends AbstractDaemonTest {
     push.to(git, "refs/heads/foo");
 
     ChangeApi orig = gApi.changes().id("p~master~" + r.getChangeId());
-    assertThat(orig.get().messages).hasSize(1);
+    assertThat((Iterable<?>)orig.get().messages).hasSize(1);
 
     try {
       orig.revision(r.getCommit().name()).cherryPick(in);
@@ -251,7 +251,7 @@ public class RevisionIT extends AbstractDaemonTest {
         .current()
         .setReviewed(PushOneCommit.FILE_NAME, false);
 
-    assertThat(gApi.changes().id(r.getChangeId()).current().reviewed())
+    assertThat((Iterable<?>)gApi.changes().id(r.getChangeId()).current().reviewed())
         .isEmpty();
   }
 

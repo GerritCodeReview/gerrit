@@ -24,6 +24,7 @@ import com.google.inject.Provider;
 
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Set;
 
 public class Schema_102 extends SchemaVersion {
   @Inject
@@ -37,6 +38,23 @@ public class Schema_102 extends SchemaVersion {
     JdbcSchema schema = (JdbcSchema) db;
     SqlDialect dialect = schema.getDialect();
     try (Statement stmt = schema.getConnection().createStatement()) {
+      // Drop left over indexes that were missed to be removed in schema 84.
+      // See "Delete SQL index support" commit for more details:
+      // d4ae3a16d5e1464574bd04f429a63eb9c02b3b43
+      Set<String> listIndexes = dialect.listIndexes(
+          schema.getConnection(), "changes");
+      for (String index : listIndexes) {
+        if (index.equalsIgnoreCase("changes_allOpen")) {
+          stmt.executeUpdate("DROP INDEX " + index);
+        }
+        if (index.equalsIgnoreCase("changes_allClosed")) {
+          stmt.executeUpdate("DROP INDEX " + index);
+        }
+        if (index.equalsIgnoreCase("changes_byBranchClosed")) {
+          stmt.executeUpdate("DROP INDEX " + index);
+        }
+      }
+
       stmt.executeUpdate("DROP INDEX changes_byProjectOpen");
       if (dialect instanceof DialectPostgreSQL) {
         stmt.executeUpdate("CREATE INDEX changes_byProjectOpen"

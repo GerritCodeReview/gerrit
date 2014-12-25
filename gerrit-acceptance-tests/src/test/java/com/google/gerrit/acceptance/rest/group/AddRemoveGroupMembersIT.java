@@ -14,12 +14,9 @@
 
 package com.google.gerrit.acceptance.rest.group;
 
+import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.rest.account.AccountAssert.assertAccountInfo;
 import static com.google.gerrit.acceptance.rest.group.GroupAssert.assertGroupInfo;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -52,34 +49,34 @@ import java.util.Set;
 public class AddRemoveGroupMembersIT extends AbstractDaemonTest {
   @Test
   public void addToNonExistingGroup_NotFound() throws Exception {
-    assertEquals(HttpStatus.SC_NOT_FOUND,
-        PUT("/groups/non-existing/members/admin").getStatusCode());
+    assertThat(PUT("/groups/non-existing/members/admin").getStatusCode())
+      .isEqualTo(HttpStatus.SC_NOT_FOUND);
   }
 
   @Test
   public void removeFromNonExistingGroup_NotFound() throws Exception {
-    assertEquals(HttpStatus.SC_NOT_FOUND,
-        DELETE("/groups/non-existing/members/admin"));
+    assertThat(DELETE("/groups/non-existing/members/admin"))
+      .isEqualTo(HttpStatus.SC_NOT_FOUND);
   }
 
   @Test
   public void addRemoveMember() throws Exception {
     RestResponse r = PUT("/groups/Administrators/members/user");
-    assertEquals(HttpStatus.SC_CREATED, r.getStatusCode());
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_CREATED);
     AccountInfo ai = newGson().fromJson(r.getReader(), AccountInfo.class);
     assertAccountInfo(user, ai);
     assertMembers("Administrators", admin, user);
     r.consume();
 
-    assertEquals(HttpStatus.SC_NO_CONTENT,
-        DELETE("/groups/Administrators/members/user"));
+    assertThat(DELETE("/groups/Administrators/members/user"))
+      .isEqualTo(HttpStatus.SC_NO_CONTENT);
     assertMembers("Administrators", admin);
   }
 
   @Test
   public void addExistingMember_OK() throws Exception {
-    assertEquals(HttpStatus.SC_OK,
-        PUT("/groups/Administrators/members/admin").getStatusCode());
+    assertThat(PUT("/groups/Administrators/members/admin").getStatusCode())
+      .isEqualTo(HttpStatus.SC_OK);
   }
 
   @Test
@@ -101,14 +98,14 @@ public class AddRemoveGroupMembersIT extends AbstractDaemonTest {
   public void includeRemoveGroup() throws Exception {
     group("newGroup");
     RestResponse r = PUT("/groups/Administrators/groups/newGroup");
-    assertEquals(HttpStatus.SC_CREATED, r.getStatusCode());
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_CREATED);
     GroupInfo i = newGson().fromJson(r.getReader(), GroupInfo.class);
     r.consume();
     assertGroupInfo(groupCache.get(new AccountGroup.NameKey("newGroup")), i);
     assertIncludes("Administrators", "newGroup");
 
-    assertEquals(HttpStatus.SC_NO_CONTENT,
-        DELETE("/groups/Administrators/groups/newGroup"));
+    assertThat(DELETE("/groups/Administrators/groups/newGroup"))
+      .isEqualTo(HttpStatus.SC_NO_CONTENT);
     assertNoIncludes("Administrators");
   }
 
@@ -116,8 +113,8 @@ public class AddRemoveGroupMembersIT extends AbstractDaemonTest {
   public void includeExistingGroup_OK() throws Exception {
     group("newGroup");
     PUT("/groups/Administrators/groups/newGroup").consume();
-    assertEquals(HttpStatus.SC_OK,
-        PUT("/groups/Administrators/groups/newGroup").getStatusCode());
+    assertThat(PUT("/groups/Administrators/groups/newGroup").getStatusCode())
+      .isEqualTo(HttpStatus.SC_OK);
   }
 
   @Test
@@ -168,9 +165,9 @@ public class AddRemoveGroupMembersIT extends AbstractDaemonTest {
     for (AccountGroupMember m : all) {
       ids.add(m.getAccountId());
     }
-    assertTrue(ids.size() == members.length);
+    assertThat((Iterable<?>)ids).hasSize(members.length);
     for (TestAccount a : members) {
-      assertTrue(ids.contains(a.id));
+      assertThat((Iterable<?>)ids).contains(a.id);
     }
   }
 
@@ -182,10 +179,10 @@ public class AddRemoveGroupMembersIT extends AbstractDaemonTest {
 
     for (TestAccount a : members) {
       AccountInfo i = infoById.get(a.id.get());
-      assertNotNull(i);
+      assertThat(i).isNotNull();
       assertAccountInfo(a, i);
     }
-    assertEquals(ai.size(), members.length);
+    assertThat(ai).hasSize(members.length);
   }
 
   private void assertIncludes(String group, String... includes)
@@ -197,11 +194,11 @@ public class AddRemoveGroupMembersIT extends AbstractDaemonTest {
     for (AccountGroupById m : all) {
       ids.add(m.getIncludeUUID());
     }
-    assertTrue(ids.size() == includes.length);
+    assertThat((Iterable<?>)ids).hasSize(includes.length);
     for (String i : includes) {
       AccountGroup.UUID id = groupCache.get(
           new AccountGroup.NameKey(i)).getGroupUUID();
-      assertTrue(ids.contains(id));
+      assertThat((Iterable<?>)ids).contains(id);
     }
   }
 
@@ -213,16 +210,16 @@ public class AddRemoveGroupMembersIT extends AbstractDaemonTest {
 
     for (String name : includes) {
       GroupInfo i = groupsByName.get(name);
-      assertNotNull(i);
+      assertThat(i).isNotNull();
       assertGroupInfo(groupCache.get(new AccountGroup.NameKey(name)), i);
     }
-    assertEquals(gi.size(), includes.length);
+    assertThat(gi).hasSize(includes.length);
   }
 
   private void assertNoIncludes(String group) throws OrmException {
     AccountGroup g = groupCache.get(new AccountGroup.NameKey(group));
     Iterator<AccountGroupById> it =
         db.accountGroupById().byGroup(g.getId()).iterator();
-    assertFalse(it.hasNext());
+    assertThat(it.hasNext()).isFalse();
   }
 }

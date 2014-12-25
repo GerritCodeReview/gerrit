@@ -21,7 +21,7 @@ limitations under the License.
     @external .CodeMirror, .CodeMirror-lines, .CodeMirror-selectedtext;
     @external .CodeMirror-linenumber, .CodeMirror-vscrollbar .CodeMirror-scroll;
     @external .CodeMirror-dialog-bottom;
-    @external .cm-keymap-fat-cursor, CodeMirror-cursor;
+    @external .cm-animate-fat-cursor, .CodeMirror-cursor;
     @external .cm-searching, .cm-trailingspace, .cm-tab;
 
     .fullscreen {
@@ -134,10 +134,19 @@ limitations under the License.
       height: 1.11em;
       cursor: pointer;
     }
-    .difftable .CodeMirror.cm-keymap-fat-cursor div.CodeMirror-cursor {
+    .difftable .CodeMirror div.CodeMirror-cursor {
       background: transparent;
       text-decoration: underline;
+      border: none;
       z-index: 2;
+    }
+    .difftable .cm-animate-fat-cursor {
+      text-decoration: underline;
+      border: none;
+      animation: none;
+      -webkit-animation: none;
+      -moz-animation: none;
+      -o-animation: none;
     }
     .difftable .CodeMirror-dialog-bottom {
       border-top: 0;

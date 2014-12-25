@@ -22,7 +22,7 @@ import com.google.gerrit.server.data.AccountAttribute;
 import com.google.gerrit.server.data.ChangeAttribute;
 
 public class HashtagsChangedEvent extends ChangeEvent {
-  public final String type = "hashtags-edited";
+  public final String type = "hashtags-changed";
   public ChangeAttribute change;
   public AccountAttribute editor;
   public String[] added;

@@ -131,7 +131,7 @@ Called whenever hashtags are added to or removed from a change from the Web UI
 or via the REST API.
 
 ====
-  hashtags-edited --change <change id>  --change-owner <change owner> --project <project name> --branch <branch> --editor <editor> --added <hashtag> --removed <hashtag> --hashtag <hashtag>
+  hashtags-changed --change <change id>  --change-owner <change owner> --project <project name> --branch <branch> --editor <editor> --added <hashtag> --removed <hashtag> --hashtag <hashtag>
 ====
 
 The `--added` parameter may be passed multiple times, once for each

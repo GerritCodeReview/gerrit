@@ -14,12 +14,11 @@
 
 package com.google.gerrit.acceptance.rest.change;
 
+import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assert_;
 import static com.google.gerrit.acceptance.GitUtil.cloneProject;
 import static com.google.gerrit.extensions.common.ListChangesOption.CURRENT_REVISION;
 import static com.google.gerrit.extensions.common.ListChangesOption.DETAILED_LABELS;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
@@ -93,7 +92,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     Git git = createProject(false);
     PushOneCommit.Result change = createChange(git);
     submit(change.getChangeId());
-    assertEquals(change.getCommitId(), getRemoteHead().getId());
+    assertThat(getRemoteHead().getId()).isEqualTo(change.getCommitId());
   }
 
   protected Git createProject() throws JSchException, IOException,
@@ -119,7 +118,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     in.useContentMerge = InheritableBoolean.FALSE;
     RestResponse r =
         adminSession.put("/projects/" + project.get() + "/config", in);
-    assertEquals(HttpStatus.SC_OK, r.getStatusCode());
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
     r.consume();
   }
 
@@ -128,7 +127,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     in.useContentMerge = InheritableBoolean.TRUE;
     RestResponse r =
         adminSession.put("/projects/" + project.get() + "/config", in);
-    assertEquals(HttpStatus.SC_OK, r.getStatusCode());
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
     r.consume();
   }
 
@@ -175,12 +174,12 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     subm.waitForMerge = true;
     RestResponse r =
         adminSession.post("/changes/" + changeId + "/submit", subm);
-    assertEquals(expectedStatus, r.getStatusCode());
+    assertThat(r.getStatusCode()).isEqualTo(expectedStatus);
     if (expectedStatus == HttpStatus.SC_OK) {
       ChangeInfo change =
           newGson().fromJson(r.getReader(),
               new TypeToken<ChangeInfo>() {}.getType());
-      assertEquals(ChangeStatus.MERGED, change.status);
+      assertThat(change.status).isEqualTo(ChangeStatus.MERGED);
     }
     r.consume();
   }
@@ -189,23 +188,23 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     RestResponse r = adminSession.post(
         "/changes/" + changeId + "/revisions/current/review",
         new ReviewInput().label("Code-Review", 2));
-    assertEquals(HttpStatus.SC_OK, r.getStatusCode());
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
     r.consume();
   }
 
   protected void assertCurrentRevision(String changeId, int expectedNum,
       ObjectId expectedId) throws IOException {
     ChangeInfo c = getChange(changeId, CURRENT_REVISION);
-    assertEquals(expectedId.name(), c.currentRevision);
-    assertEquals(expectedNum, c.revisions.get(expectedId.name())._number);
+    assertThat(c.currentRevision).isEqualTo(expectedId.name());
+    assertThat(c.revisions.get(expectedId.name())._number).isEqualTo(expectedNum);
   }
 
   protected void assertApproved(String changeId) throws IOException {
     ChangeInfo c = getChange(changeId, DETAILED_LABELS);
     LabelInfo cr = c.labels.get("Code-Review");
-    assertEquals(1, cr.all.size());
-    assertEquals(2, cr.all.get(0).value.intValue());
-    assertEquals(admin.getId(), new Account.Id(cr.all.get(0)._accountId));
+    assertThat(cr.all).hasSize(1);
+    assertThat(cr.all.get(0).value.intValue()).isEqualTo(2);
+    assertThat(new Account.Id(cr.all.get(0)._accountId)).isEqualTo(admin.getId());
   }
 
   protected void assertSubmitter(String changeId, int psId)
@@ -214,16 +213,16 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
         Iterables.getOnlyElement(db.changes().byKey(new Change.Key(changeId))));
     PatchSetApproval submitter = approvalsUtil.getSubmitter(
         db, cn, new PatchSet.Id(cn.getChangeId(), psId));
-    assertTrue(submitter.isSubmit());
-    assertEquals(admin.getId(), submitter.getAccountId());
+    assertThat(submitter.isSubmit()).isTrue();
+    assertThat(submitter.getAccountId()).isEqualTo(admin.getId());
   }
 
   protected void assertCherryPick(Git localGit, boolean contentMerge)
       throws IOException {
     assertRebase(localGit, contentMerge);
     RevCommit remoteHead = getRemoteHead();
-    assertFalse(remoteHead.getFooterLines("Reviewed-On").isEmpty());
-    assertFalse(remoteHead.getFooterLines("Reviewed-By").isEmpty());
+    assertThat(remoteHead.getFooterLines("Reviewed-On")).isNotEmpty();
+    assertThat(remoteHead.getFooterLines("Reviewed-By")).isNotEmpty();
   }
 
   protected void assertRebase(Git localGit, boolean contentMerge)
@@ -231,14 +230,14 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     Repository repo = localGit.getRepository();
     RevCommit localHead = getHead(repo);
     RevCommit remoteHead = getRemoteHead();
-    assertFalse(
-        String.format("%s not equal %s", localHead.name(), remoteHead.name()),
-        localHead.getId().equals(remoteHead.getId()));
-    assertEquals(1, remoteHead.getParentCount());
+    assert_().withFailureMessage(
+        String.format("%s not equal %s", localHead.name(), remoteHead.name()))
+          .that(localHead.getId()).isNotEqualTo(remoteHead.getId());
+    assertThat(remoteHead.getParentCount()).isEqualTo(1);
     if (!contentMerge) {
-      assertEquals(getLatestDiff(repo), getLatestRemoteDiff());
+      assertThat(getLatestRemoteDiff()).isEqualTo(getLatestDiff(repo));
     }
-    assertEquals(localHead.getShortMessage(), remoteHead.getShortMessage());
+    assertThat(remoteHead.getShortMessage()).isEqualTo(localHead.getShortMessage());
   }
 
   private RevCommit getHead(Repository repo) throws IOException {

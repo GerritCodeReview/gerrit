@@ -14,8 +14,8 @@
 
 package com.google.gerrit.acceptance.rest.change;
 
+import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.GitUtil.checkout;
-import static org.junit.Assert.assertEquals;
 
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.extensions.common.SubmitType;
@@ -40,9 +40,9 @@ public class SubmitByMergeAlwaysIT extends AbstractSubmitByMerge {
     PushOneCommit.Result change = createChange(git);
     submit(change.getChangeId());
     RevCommit head = getRemoteHead();
-    assertEquals(2, head.getParentCount());
-    assertEquals(oldHead, head.getParent(0));
-    assertEquals(change.getCommitId(), head.getParent(1));
+    assertThat(head.getParentCount()).isEqualTo(2);
+    assertThat(head.getParent(0)).isEqualTo(oldHead);
+    assertThat(head.getParent(1)).isEqualTo(change.getCommitId());
     assertSubmitter(change.getChangeId(), 1);
   }
 
@@ -66,20 +66,17 @@ public class SubmitByMergeAlwaysIT extends AbstractSubmitByMerge {
 
     List<RevCommit> log = getRemoteLog();
     RevCommit tip = log.get(0);
-    assertEquals(
-        change4.getCommit().getShortMessage(),
-        tip.getParent(1).getShortMessage());
+    assertThat(tip.getParent(1).getShortMessage()).isEqualTo(
+        change4.getCommit().getShortMessage());
 
     tip = tip.getParent(0);
-    assertEquals(
-        change3.getCommit().getShortMessage(),
-        tip.getParent(1).getShortMessage());
+    assertThat(tip.getParent(1).getShortMessage()).isEqualTo(
+        change3.getCommit().getShortMessage());
 
     tip = tip.getParent(0);
-    assertEquals(
-        change2.getCommit().getShortMessage(),
-        tip.getParent(1).getShortMessage());
+    assertThat(tip.getParent(1).getShortMessage()).isEqualTo(
+        change2.getCommit().getShortMessage());
 
-    assertEquals(initialHead.getId(), tip.getParent(0).getId());
+    assertThat(tip.getParent(0).getId()).isEqualTo(initialHead.getId());
   }
 }

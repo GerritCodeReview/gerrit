@@ -14,11 +14,10 @@
 
 package com.google.gerrit.acceptance.rest.change;
 
+import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.extensions.common.ListChangesOption.ALL_REVISIONS;
 import static com.google.gerrit.extensions.common.ListChangesOption.CURRENT_REVISION;
 import static com.google.gerrit.extensions.common.ListChangesOption.MESSAGES;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
@@ -61,36 +60,36 @@ public class ListChangesOptionsIT extends AbstractDaemonTest {
   @Test
   public void noRevisionOptions() throws Exception {
     ChangeInfo c = info(changeId);
-    assertNull(c.currentRevision);
-    assertNull(c.revisions);
+    assertThat(c.currentRevision).isNull();
+    assertThat(c.revisions).isNull();
   }
 
   @Test
   public void currentRevision() throws Exception {
     ChangeInfo c = get(changeId, CURRENT_REVISION);
-    assertEquals(commitId(2), c.currentRevision);
-    assertEquals(ImmutableSet.of(commitId(2)), c.revisions.keySet());
-    assertEquals(3, c.revisions.get(commitId(2))._number);
+    assertThat(c.currentRevision).isEqualTo(commitId(2));
+    assertThat(c.revisions.keySet()).containsAllIn(ImmutableSet.of(commitId(2)));
+    assertThat(c.revisions.get(commitId(2))._number).isEqualTo(3);
   }
 
   @Test
   public void currentRevisionAndMessages() throws Exception {
     ChangeInfo c = get(changeId, CURRENT_REVISION, MESSAGES);
-    assertEquals(1, c.revisions.size());
-    assertEquals(commitId(2), c.currentRevision);
-    assertEquals(ImmutableSet.of(commitId(2)), c.revisions.keySet());
-    assertEquals(3, c.revisions.get(commitId(2))._number);
+    assertThat(c.revisions).hasSize(1);
+    assertThat(c.currentRevision).isEqualTo(commitId(2));
+    assertThat(c.revisions.keySet()).containsAllIn(ImmutableSet.of(commitId(2)));
+    assertThat(c.revisions.get(commitId(2))._number).isEqualTo(3);
   }
 
   @Test
   public void allRevisions() throws Exception {
     ChangeInfo c = get(changeId, ALL_REVISIONS);
-    assertEquals(commitId(2), c.currentRevision);
-    assertEquals(ImmutableSet.of(commitId(0), commitId(1), commitId(2)),
-        c.revisions.keySet());
-    assertEquals(1, c.revisions.get(commitId(0))._number);
-    assertEquals(2, c.revisions.get(commitId(1))._number);
-    assertEquals(3, c.revisions.get(commitId(2))._number);
+    assertThat(c.currentRevision).isEqualTo(commitId(2));
+    assertThat(c.revisions.keySet()).containsAllIn(
+        ImmutableSet.of(commitId(0), commitId(1), commitId(2)));
+    assertThat(c.revisions.get(commitId(0))._number).isEqualTo(1);
+    assertThat(c.revisions.get(commitId(1))._number).isEqualTo(2);
+    assertThat(c.revisions.get(commitId(2))._number).isEqualTo(3);
   }
 
   private String commitId(int i) {

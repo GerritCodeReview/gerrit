@@ -14,9 +14,8 @@
 
 package com.google.gerrit.acceptance.rest.change;
 
+import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.GitUtil.checkout;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 import com.google.common.base.Function;
 import com.google.common.collect.ImmutableSet;
@@ -45,7 +44,7 @@ public class ConflictsOperatorIT extends AbstractDaemonTest {
     createChange(git, false);
 
     Set<String> changes = queryConflictingChanges(change);
-    assertEquals(0, changes.size());
+    assertThat(changes).isEmpty();
   }
 
   @Test
@@ -74,7 +73,7 @@ public class ConflictsOperatorIT extends AbstractDaemonTest {
       throws IOException {
     RestResponse r =
         adminSession.get("/changes/?q=conflicts:" + change.getChangeId());
-    assertEquals(HttpStatus.SC_OK, r.getStatusCode());
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
     Set<ChangeInfo> changes =
         newGson().fromJson(r.getReader(),
             new TypeToken<Set<ChangeInfo>>() {}.getType());
@@ -90,9 +89,9 @@ public class ConflictsOperatorIT extends AbstractDaemonTest {
 
   private void assertChanges(Set<String> actualChanges,
       PushOneCommit.Result... expectedChanges) {
-    assertEquals(expectedChanges.length, actualChanges.size());
+    assertThat(actualChanges).hasSize(expectedChanges.length);
     for (PushOneCommit.Result c : expectedChanges) {
-      assertTrue(actualChanges.contains(id(c)));
+      assertThat(actualChanges.contains(id(c))).isTrue();
     }
   }
 

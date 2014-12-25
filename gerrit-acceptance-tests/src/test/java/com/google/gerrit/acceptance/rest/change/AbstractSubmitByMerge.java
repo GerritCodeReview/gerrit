@@ -14,8 +14,8 @@
 
 package com.google.gerrit.acceptance.rest.change;
 
+import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.GitUtil.checkout;
-import static org.junit.Assert.assertEquals;
 
 import com.google.gerrit.acceptance.PushOneCommit;
 
@@ -45,9 +45,9 @@ public abstract class AbstractSubmitByMerge extends AbstractSubmit {
         createChange(git, "Change 2", "b.txt", "other content");
     submit(change2.getChangeId());
     RevCommit head = getRemoteHead();
-    assertEquals(2, head.getParentCount());
-    assertEquals(oldHead, head.getParent(0));
-    assertEquals(change2.getCommitId(), head.getParent(1));
+    assertThat(head.getParentCount()).isEqualTo(2);
+    assertThat(head.getParent(0)).isEqualTo(oldHead);
+    assertThat(head.getParent(1)).isEqualTo(change2.getCommitId());
   }
 
   @Test
@@ -68,9 +68,9 @@ public abstract class AbstractSubmitByMerge extends AbstractSubmit {
         createChange(git, "Change 3", "a.txt", "bbb\nccc\n");
     submit(change3.getChangeId());
     RevCommit head = getRemoteHead();
-    assertEquals(2, head.getParentCount());
-    assertEquals(oldHead, head.getParent(0));
-    assertEquals(change3.getCommitId(), head.getParent(1));
+    assertThat(head.getParentCount()).isEqualTo(2);
+    assertThat(head.getParent(0)).isEqualTo(oldHead);
+    assertThat(head.getParent(1)).isEqualTo(change3.getCommitId());
   }
 
   @Test
@@ -88,6 +88,6 @@ public abstract class AbstractSubmitByMerge extends AbstractSubmit {
     PushOneCommit.Result change2 =
         createChange(git, "Change 2", "a.txt", "other content");
     submitWithConflict(change2.getChangeId());
-    assertEquals(oldHead, getRemoteHead());
+    assertThat(getRemoteHead()).isEqualTo(oldHead);
   }
 }

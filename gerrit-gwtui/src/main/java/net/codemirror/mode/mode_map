@@ -97,6 +97,9 @@ text/x-python
 r:
 text/r-src
 
+rst:
+text/x-rst
+
 ruby:
 text/x-ruby
 
@@ -115,6 +118,9 @@ text/x-sql
 text/x-mariadb
 text/x-mysql
 text/x-plsql
+
+stex:
+text/x-stex
 
 tcl:
 text/x-tcl

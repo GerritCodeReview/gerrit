@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "61781470_36137852",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_102.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-25T09:26:43Z",
+      "side": 1,
+      "message": "With the consequence, that upgrade is failing and that the table changes still contains sort_key column\n\n  gerrit\u003e \\d CHANGES\n                     Table CHANGES\n COLUMN_NAME          | TYPE\n ---------------------+---------------------------------\n CHANGE_KEY           | VARCHAR(60) DEFAULT \u0027\u0027 NOT NULL\n CREATED_ON           | TIMESTAMP NOT NULL\n CURRENT_PATCH_SET_ID | INTEGER DEFAULT 0 NOT NULL\n DEST_BRANCH_NAME     | VARCHAR(255) DEFAULT \u0027\u0027 NOT NULL\n DEST_PROJECT_NAME    | VARCHAR(255) DEFAULT \u0027\u0027 NOT NULL\n LAST_UPDATED_ON      | TIMESTAMP NOT NULL\n OPEN                 | CHAR(1) DEFAULT \u0027N\u0027 NOT NULL\n OWNER_ACCOUNT_ID     | INTEGER DEFAULT 0 NOT NULL\n SORT_KEY             | VARCHAR(16) DEFAULT \u0027\u0027 NOT NULL\n STATUS               | CHAR(1) DEFAULT \u0027 \u0027 NOT NULL\n SUBJECT              | VARCHAR(255) DEFAULT \u0027\u0027 NOT NULL\n TOPIC                | VARCHAR(255)\n ROW_VERSION          | INTEGER DEFAULT 0 NOT NULL\n CHANGE_ID            | INTEGER DEFAULT 0 NOT NULL\n\neven though the version was upgraded:\n\n  gerrit\u003e select VERSION_NBR from SCHEMA_VERSION;\n VERSION_NBR\n -----------\n 102\n(1 row; 1 ms)",
+      "parentUuid": "4175d075_15991488",
+      "range": {
+        "startLine": 40,
+        "startChar": 26,
+        "endLine": 40,
+        "endChar": 58
+      },
+      "revId": "4241459b3faa39d29185a26007d04bab172a950f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4175d075_f5a3b8b2",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_102.java",
         "patchSetId": 5

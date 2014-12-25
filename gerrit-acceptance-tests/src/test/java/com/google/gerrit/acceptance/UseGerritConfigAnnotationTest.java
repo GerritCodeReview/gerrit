@@ -14,7 +14,7 @@
 
 package com.google.gerrit.acceptance;
 
-import static org.junit.Assert.assertEquals;
+import static com.google.common.truth.Truth.assertThat;
 
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
@@ -31,7 +31,7 @@ public class UseGerritConfigAnnotationTest extends AbstractDaemonTest {
   @Test
   @GerritConfig(name="x.y", value="z")
   public void testOne() {
-    assertEquals("z", serverConfig.getString("x", null, "y"));
+    assertThat(serverConfig.getString("x", null, "y")).isEqualTo("z");
   }
 
   @Test
@@ -40,7 +40,7 @@ public class UseGerritConfigAnnotationTest extends AbstractDaemonTest {
       @GerritConfig(name="a.b", value="c")
   })
   public void testMultiple() {
-    assertEquals("z", serverConfig.getString("x", null, "y"));
-    assertEquals("c", serverConfig.getString("a", null, "b"));
+    assertThat(serverConfig.getString("x", null, "y")).isEqualTo("z");
+    assertThat(serverConfig.getString("a", null, "b")).isEqualTo("c");
   }
 }

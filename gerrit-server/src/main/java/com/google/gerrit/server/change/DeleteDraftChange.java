@@ -67,7 +67,7 @@ public class DeleteDraftChange implements
     }
 
     if (!allowDrafts) {
-      throw new ResourceConflictException("Draft workflow is disabled.");
+      throw new ResourceConflictException("Draft workflow is disabled");
     }
 
     try {

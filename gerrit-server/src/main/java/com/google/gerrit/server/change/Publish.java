@@ -82,7 +82,7 @@ public class Publish implements RestModifyView<RevisionResource, Input>,
     }
 
     if (!allowDrafts) {
-      throw new ResourceConflictException("Draft workflow is disabled.");
+      throw new ResourceConflictException("Draft workflow is disabled");
     }
 
     PatchSet updatedPatchSet = updateDraftPatchSet(rsrc);

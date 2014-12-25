@@ -14,8 +14,8 @@
 
 package com.google.gerrit.acceptance.rest.group;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assert_;
 
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -27,22 +27,24 @@ public class GroupAssert {
 
   public static void assertGroups(Iterable<String> expected, Set<String> actual) {
     for (String g : expected) {
-      assertTrue("missing group " + g, actual.remove(g));
+      assert_().withFailureMessage("missing group " + g)
+        .that(actual.remove(g)).isTrue();
     }
-    assertTrue("unexpected groups: " + actual, actual.isEmpty());
+    assert_().withFailureMessage("unexpected groups: " + actual)
+      .that((Iterable<?>)actual).isEmpty();
   }
 
   public static void assertGroupInfo(AccountGroup group, GroupInfo info) {
     if (info.name != null) {
       // 'name' is not set if returned in a map
-      assertEquals(group.getName(), info.name);
+      assertThat(info.name).isEqualTo(group.getName());
     }
-    assertEquals(group.getGroupUUID().get(), Url.decode(info.id));
-    assertEquals(Integer.valueOf(group.getId().get()), info.groupId);
-    assertEquals("#/admin/groups/uuid-" + Url.encode(group.getGroupUUID().get()), info.url);
-    assertEquals(group.isVisibleToAll(), toBoolean(info.options.visibleToAll));
-    assertEquals(group.getDescription(), info.description);
-    assertEquals(group.getOwnerGroupUUID().get(), Url.decode(info.ownerId));
+    assertThat(Url.decode(info.id)).isEqualTo(group.getGroupUUID().get());
+    assertThat(info.groupId).isEqualTo(Integer.valueOf(group.getId().get()));
+    assertThat(info.url).isEqualTo("#/admin/groups/uuid-" + Url.encode(group.getGroupUUID().get()));
+    assertThat(toBoolean(info.options.visibleToAll)).isEqualTo(group.isVisibleToAll());
+    assertThat(info.description).isEqualTo(group.getDescription());
+    assertThat(Url.decode(info.ownerId)).isEqualTo(group.getOwnerGroupUUID().get());
   }
 
   public static boolean toBoolean(Boolean b) {

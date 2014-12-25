@@ -14,8 +14,8 @@
 
 package com.google.gerrit.acceptance.rest.change;
 
+import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.GitUtil.checkout;
-import static org.junit.Assert.assertEquals;
 
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.extensions.common.SubmitType;
@@ -38,8 +38,8 @@ public class SubmitByRebaseIfNecessaryIT extends AbstractSubmit {
     PushOneCommit.Result change = createChange(git);
     submit(change.getChangeId());
     RevCommit head = getRemoteHead();
-    assertEquals(change.getCommitId(), head.getId());
-    assertEquals(oldHead, head.getParent(0));
+    assertThat(head.getId()).isEqualTo(change.getCommitId());
+    assertThat(head.getParent(0)).isEqualTo(oldHead);
     assertApproved(change.getChangeId());
     assertCurrentRevision(change.getChangeId(), 1, head);
     assertSubmitter(change.getChangeId(), 1);
@@ -60,7 +60,7 @@ public class SubmitByRebaseIfNecessaryIT extends AbstractSubmit {
     submit(change2.getChangeId());
     assertRebase(git, false);
     RevCommit head = getRemoteHead();
-    assertEquals(oldHead, head.getParent(0));
+    assertThat(head.getParent(0)).isEqualTo(oldHead);
     assertApproved(change2.getChangeId());
     assertCurrentRevision(change2.getChangeId(), 2, head);
     assertSubmitter(change2.getChangeId(), 1);
@@ -85,7 +85,7 @@ public class SubmitByRebaseIfNecessaryIT extends AbstractSubmit {
     submit(change3.getChangeId());
     assertRebase(git, true);
     RevCommit head = getRemoteHead();
-    assertEquals(oldHead, head.getParent(0));
+    assertThat(head.getParent(0)).isEqualTo(oldHead);
     assertApproved(change3.getChangeId());
     assertCurrentRevision(change3.getChangeId(), 2, head);
     assertSubmitter(change3.getChangeId(), 1);
@@ -107,7 +107,7 @@ public class SubmitByRebaseIfNecessaryIT extends AbstractSubmit {
         createChange(git, "Change 2", "a.txt", "other content");
     submitWithConflict(change2.getChangeId());
     RevCommit head = getRemoteHead();
-    assertEquals(oldHead, head);
+    assertThat(head).isEqualTo(oldHead);
     assertCurrentRevision(change2.getChangeId(), 1, change2.getCommitId());
     assertSubmitter(change2.getChangeId(), 1);
   }

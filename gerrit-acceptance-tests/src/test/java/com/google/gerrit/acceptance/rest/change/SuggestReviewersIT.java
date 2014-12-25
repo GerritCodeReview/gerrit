@@ -14,8 +14,7 @@
 
 package com.google.gerrit.acceptance.rest.change;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
@@ -69,7 +68,7 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
   public void suggestReviewersNoResult1() throws Exception {
     String changeId = createChange().getChangeId();
     List<SuggestedReviewerInfo> reviewers = suggestReviewers(changeId, "u", 6);
-    assertEquals(reviewers.size(), 0);
+    assertThat(reviewers).isEmpty();
   }
 
   @Test
@@ -81,7 +80,7 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
   public void suggestReviewersNoResult2() throws Exception {
     String changeId = createChange().getChangeId();
     List<SuggestedReviewerInfo> reviewers = suggestReviewers(changeId, "u", 6);
-    assertEquals(reviewers.size(), 0);
+    assertThat(reviewers).isEmpty();
   }
 
   @Test
@@ -89,18 +88,18 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
   public void suggestReviewersNoResult3() throws Exception {
     String changeId = createChange().getChangeId();
     List<SuggestedReviewerInfo> reviewers = suggestReviewers(changeId, "u", 6);
-    assertEquals(reviewers.size(), 0);
+    assertThat(reviewers).isEmpty();
   }
 
   @Test
   public void suggestReviewersChange() throws Exception {
     String changeId = createChange().getChangeId();
     List<SuggestedReviewerInfo> reviewers = suggestReviewers(changeId, "u", 6);
-    assertEquals(reviewers.size(), 6);
+    assertThat(reviewers).hasSize(6);
     reviewers = suggestReviewers(changeId, "u", 5);
-    assertEquals(reviewers.size(), 5);
+    assertThat(reviewers).hasSize(5);
     reviewers = suggestReviewers(changeId, "users3", 10);
-    assertEquals(reviewers.size(), 1);
+    assertThat(reviewers).hasSize(1);
   }
 
   @Test
@@ -110,22 +109,22 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
     List<SuggestedReviewerInfo> reviewers;
 
     reviewers = suggestReviewers(changeId, "user2", 2);
-    assertEquals(1, reviewers.size());
-    assertEquals("User2", Iterables.getOnlyElement(reviewers).account.name);
+    assertThat(reviewers).hasSize(1);
+    assertThat(Iterables.getOnlyElement(reviewers).account.name).isEqualTo("User2");
 
     reviewers = suggestReviewers(new RestSession(server, user1),
         changeId, "user2", 2);
-    assertTrue(reviewers.isEmpty());
+    assertThat(reviewers).isEmpty();
 
     reviewers = suggestReviewers(new RestSession(server, user2),
         changeId, "user2", 2);
-    assertEquals(1, reviewers.size());
-    assertEquals("User2", Iterables.getOnlyElement(reviewers).account.name);
+    assertThat(reviewers).hasSize(1);
+    assertThat(Iterables.getOnlyElement(reviewers).account.name).isEqualTo("User2");
 
     reviewers = suggestReviewers(new RestSession(server, user3),
         changeId, "user2", 2);
-    assertEquals(1, reviewers.size());
-    assertEquals("User2", Iterables.getOnlyElement(reviewers).account.name);
+    assertThat(reviewers).hasSize(1);
+    assertThat(Iterables.getOnlyElement(reviewers).account.name).isEqualTo("User2");
   }
 
   @Test
@@ -136,13 +135,13 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
 
     reviewers = suggestReviewers(new RestSession(server, user1),
         changeId, "user2", 2);
-    assertTrue(reviewers.isEmpty());
+    assertThat(reviewers).isEmpty();
 
     grantCapability(GlobalCapability.VIEW_ALL_ACCOUNTS, group1);
     reviewers = suggestReviewers(new RestSession(server, user1),
         changeId, "user2", 2);
-    assertEquals(1, reviewers.size());
-    assertEquals("User2", Iterables.getOnlyElement(reviewers).account.name);
+    assertThat(reviewers).hasSize(1);
+    assertThat(Iterables.getOnlyElement(reviewers).account.name).isEqualTo("User2");
   }
 
   @Test
@@ -151,7 +150,7 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
     String changeId = createChange().getChangeId();
     List<SuggestedReviewerInfo> reviewers =
         suggestReviewers(changeId, "user", 5);
-    assertEquals(2, reviewers.size());
+    assertThat(reviewers).hasSize(2);
   }
 
   @Test
@@ -160,7 +159,7 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
     String changeId = createChange().getChangeId();
     List<SuggestedReviewerInfo> reviewers =
         suggestReviewers(changeId, "ser", 5);
-    assertEquals(4, reviewers.size());
+    assertThat(reviewers).hasSize(4);
   }
 
   @Test
@@ -172,7 +171,7 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
     String changeId = createChange().getChangeId();
     List<SuggestedReviewerInfo> reviewers =
         suggestReviewers(changeId, "ser", 3);
-    assertEquals(2, reviewers.size());
+    assertThat(reviewers).hasSize(2);
   }
 
   @Test
@@ -187,7 +186,7 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
             .getReader(),
         new TypeToken<List<SuggestedReviewerInfo>>() {}
         .getType());
-    assertEquals(1, suggestedReviewerInfos.size());
+    assertThat(suggestedReviewerInfos).hasSize(1);
   }
 
   private List<SuggestedReviewerInfo> suggestReviewers(RestSession session,

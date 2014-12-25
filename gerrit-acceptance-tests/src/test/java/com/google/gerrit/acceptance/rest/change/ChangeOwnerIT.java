@@ -14,10 +14,10 @@
 
 package com.google.gerrit.acceptance.rest.change;
 
+import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.GitUtil.cloneProject;
 import static com.google.gerrit.acceptance.GitUtil.initSsh;
 import static com.google.gerrit.common.data.Permission.LABEL;
-import static org.junit.Assert.assertEquals;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
@@ -82,7 +82,7 @@ public class ChangeOwnerIT extends AbstractDaemonTest {
     RestResponse r =
         s.post("/changes/" + changeId + "/revisions/current/review",
             new ReviewInput().label("Code-Review", 2));
-    assertEquals(expected, r.getStatusCode());
+    assertThat(r.getStatusCode()).isEqualTo(expected);
     r.consume();
   }
 

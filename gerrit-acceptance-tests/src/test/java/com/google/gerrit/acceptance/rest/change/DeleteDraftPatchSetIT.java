@@ -14,7 +14,7 @@
 
 package com.google.gerrit.acceptance.rest.change;
 
-import static org.junit.Assert.assertEquals;
+import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
@@ -28,6 +28,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwtorm.server.OrmException;
 
+import org.apache.http.HttpStatus;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.junit.Test;
 
@@ -41,11 +42,11 @@ public class DeleteDraftPatchSetIT extends AbstractDaemonTest {
     PatchSet ps = getCurrentPatchSet(changeId);
     String triplet = "p~master~" + changeId;
     ChangeInfo c = get(triplet);
-    assertEquals(triplet, c.id);
-    assertEquals(ChangeStatus.NEW, c.status);
+    assertThat(c.id).isEqualTo(triplet);
+    assertThat(c.status).isEqualTo(ChangeStatus.NEW);
     RestResponse r = deletePatchSet(changeId, ps, adminSession);
-    assertEquals("Patch set is not a draft.", r.getEntityContent());
-    assertEquals(409, r.getStatusCode());
+    assertThat(r.getEntityContent()).isEqualTo("Patch set is not a draft.");
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_CONFLICT);
   }
 
   @Test
@@ -54,11 +55,11 @@ public class DeleteDraftPatchSetIT extends AbstractDaemonTest {
     PatchSet ps = getCurrentPatchSet(changeId);
     String triplet = "p~master~" + changeId;
     ChangeInfo c = get(triplet);
-    assertEquals(triplet, c.id);
-    assertEquals(ChangeStatus.DRAFT, c.status);
+    assertThat(c.id).isEqualTo(triplet);
+    assertThat(c.status).isEqualTo(ChangeStatus.DRAFT);
     RestResponse r = deletePatchSet(changeId, ps, userSession);
-    assertEquals("Not found: " + changeId, r.getEntityContent());
-    assertEquals(404, r.getStatusCode());
+    assertThat(r.getEntityContent()).isEqualTo("Not found: " + changeId);
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_NOT_FOUND);
   }
 
   @Test
@@ -67,19 +68,17 @@ public class DeleteDraftPatchSetIT extends AbstractDaemonTest {
     PatchSet ps = getCurrentPatchSet(changeId);
     String triplet = "p~master~" + changeId;
     ChangeInfo c = get(triplet);
-    assertEquals(triplet, c.id);
-    assertEquals(ChangeStatus.DRAFT, c.status);
+    assertThat(c.id).isEqualTo(triplet);
+    assertThat(c.status).isEqualTo(ChangeStatus.DRAFT);
     RestResponse r = deletePatchSet(changeId, ps, adminSession);
-    assertEquals(204, r.getStatusCode());
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_NO_CONTENT);
     Change change = Iterables.getOnlyElement(db.changes().byKey(
         new Change.Key(changeId)).toList());
-    assertEquals(1, db.patchSets().byChange(change.getId())
-        .toList().size());
+    assertThat(db.patchSets().byChange(change.getId()).toList()).hasSize(1);
     ps = getCurrentPatchSet(changeId);
     r = deletePatchSet(changeId, ps, adminSession);
-    assertEquals(204, r.getStatusCode());
-    assertEquals(0, db.changes().byKey(new Change.Key(changeId))
-        .toList().size());
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_NO_CONTENT);
+    assertThat(db.changes().byKey(new Change.Key(changeId)).toList()).isEmpty();
   }
 
   private String createDraftChangeWith2PS() throws GitAPIException,

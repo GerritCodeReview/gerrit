@@ -14,8 +14,7 @@
 
 package com.google.gerrit.acceptance.rest.change;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static com.google.common.truth.Truth.assertThat;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
@@ -32,8 +31,8 @@ public class CreateChangeIT extends AbstractDaemonTest {
     ChangeInfo ci = new ChangeInfo();
     ci.project = project.get();
     RestResponse r = adminSession.post("/changes/", ci);
-    assertEquals(HttpStatus.SC_BAD_REQUEST, r.getStatusCode());
-    assertTrue(r.getEntityContent().contains("branch must be non-empty"));
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_BAD_REQUEST);
+    assertThat(r.getEntityContent()).contains("branch must be non-empty");
   }
 
   @Test
@@ -42,16 +41,16 @@ public class CreateChangeIT extends AbstractDaemonTest {
     ci.project = project.get();
     ci.branch = "master";
     RestResponse r = adminSession.post("/changes/", ci);
-    assertEquals(HttpStatus.SC_BAD_REQUEST, r.getStatusCode());
-    assertTrue(r.getEntityContent().contains("commit message must be non-empty"));
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_BAD_REQUEST);
+    assertThat(r.getEntityContent()).contains("commit message must be non-empty");
   }
 
   @Test
   public void createEmptyChange_InvalidStatus() throws Exception {
     ChangeInfo ci = newChangeInfo(ChangeStatus.SUBMITTED);
     RestResponse r = adminSession.post("/changes/", ci);
-    assertEquals(HttpStatus.SC_BAD_REQUEST, r.getStatusCode());
-    assertTrue(r.getEntityContent().contains("unsupported change status"));
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_BAD_REQUEST);
+    assertThat(r.getEntityContent()).contains("unsupported change status");
   }
 
   @Test
@@ -76,14 +75,14 @@ public class CreateChangeIT extends AbstractDaemonTest {
 
   private void assertChange(ChangeInfo in) throws Exception {
     RestResponse r = adminSession.post("/changes/", in);
-    assertEquals(HttpStatus.SC_CREATED, r.getStatusCode());
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_CREATED);
 
     ChangeInfo info = newGson().fromJson(r.getReader(), ChangeInfo.class);
     ChangeInfo out = get(info.changeId);
 
-    assertEquals(in.branch, out.branch);
-    assertEquals(in.subject, out.subject);
-    assertEquals(in.topic, out.topic);
-    assertEquals(in.status, out.status);
+    assertThat(out.branch).isEqualTo(in.branch);
+    assertThat(out.subject).isEqualTo(in.subject);
+    assertThat(out.topic).isEqualTo(in.topic);
+    assertThat(out.status).isEqualTo(in.status);
   }
 }

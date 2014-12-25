@@ -14,7 +14,7 @@
 
 package com.google.gerrit.acceptance.rest.change;
 
-import static org.junit.Assert.assertEquals;
+import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
@@ -27,6 +27,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwtorm.server.OrmException;
 
+import org.apache.http.HttpStatus;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -38,11 +39,11 @@ public class DeleteDraftChangeIT extends AbstractDaemonTest {
     String changeId = createChange().getChangeId();
     String triplet = "p~master~" + changeId;
     ChangeInfo c = get(triplet);
-    assertEquals(triplet, c.id);
-    assertEquals(ChangeStatus.NEW, c.status);
+    assertThat(c.id).isEqualTo(triplet);
+    assertThat(c.status).isEqualTo(ChangeStatus.NEW);
     RestResponse r = deleteChange(changeId, adminSession);
-    assertEquals("Change is not a draft", r.getEntityContent());
-    assertEquals(409, r.getStatusCode());
+    assertThat(r.getEntityContent()).isEqualTo("Change is not a draft");
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_CONFLICT);
   }
 
   @Test
@@ -50,10 +51,10 @@ public class DeleteDraftChangeIT extends AbstractDaemonTest {
     String changeId = createDraftChange();
     String triplet = "p~master~" + changeId;
     ChangeInfo c = get(triplet);
-    assertEquals(triplet, c.id);
-    assertEquals(ChangeStatus.DRAFT, c.status);
+    assertThat(c.id).isEqualTo(triplet);
+    assertThat(c.status).isEqualTo(ChangeStatus.DRAFT);
     RestResponse r = deleteChange(changeId, adminSession);
-    assertEquals(204, r.getStatusCode());
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_NO_CONTENT);
   }
 
   @Test
@@ -61,12 +62,12 @@ public class DeleteDraftChangeIT extends AbstractDaemonTest {
     String changeId = createDraftChange();
     String triplet = "p~master~" + changeId;
     ChangeInfo c = get(triplet);
-    assertEquals(triplet, c.id);
-    assertEquals(ChangeStatus.DRAFT, c.status);
+    assertThat(c.id).isEqualTo(triplet);
+    assertThat(c.status).isEqualTo(ChangeStatus.DRAFT);
     RestResponse r = publishChange(changeId);
-    assertEquals(204, r.getStatusCode());
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_NO_CONTENT);
     c = get(triplet);
-    assertEquals(ChangeStatus.NEW, c.status);
+    assertThat(c.status).isEqualTo(ChangeStatus.NEW);
   }
 
   @Test
@@ -74,11 +75,11 @@ public class DeleteDraftChangeIT extends AbstractDaemonTest {
     String changeId = createDraftChange();
     String triplet = "p~master~" + changeId;
     ChangeInfo c = get(triplet);
-    assertEquals(triplet, c.id);
-    assertEquals(ChangeStatus.DRAFT, c.status);
+    assertThat(c.id).isEqualTo(triplet);
+    assertThat(c.status).isEqualTo(ChangeStatus.DRAFT);
     RestResponse r = publishPatchSet(changeId);
-    assertEquals(204, r.getStatusCode());
-    assertEquals(ChangeStatus.NEW, get(triplet).status);
+    assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_NO_CONTENT);
+    assertThat(get(triplet).status).isEqualTo(ChangeStatus.NEW);
   }
 
   private String createDraftChange() throws Exception {

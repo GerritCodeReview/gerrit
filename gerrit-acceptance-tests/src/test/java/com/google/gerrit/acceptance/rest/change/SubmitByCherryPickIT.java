@@ -14,9 +14,8 @@
 
 package com.google.gerrit.acceptance.rest.change;
 
+import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.GitUtil.checkout;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertSame;
 
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.extensions.common.SubmitType;
@@ -40,8 +39,8 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
     PushOneCommit.Result change = createChange(git);
     submit(change.getChangeId());
     assertCherryPick(git, false);
-    assertEquals(change.getCommit().getParent(0),
-        getRemoteHead().getParent(0));
+    assertThat(getRemoteHead().getParent(0))
+      .isEqualTo(change.getCommit().getParent(0));
   }
 
   @Test
@@ -59,8 +58,8 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
     submit(change2.getChangeId());
     assertCherryPick(git, false);
     RevCommit newHead = getRemoteHead();
-    assertEquals(1, newHead.getParentCount());
-    assertEquals(oldHead, newHead.getParent(0));
+    assertThat(newHead.getParentCount()).isEqualTo(1);
+    assertThat(newHead.getParent(0)).isEqualTo(oldHead);
     assertCurrentRevision(change2.getChangeId(), 2, newHead);
     assertSubmitter(change2.getChangeId(), 1);
     assertSubmitter(change2.getChangeId(), 2);
@@ -84,7 +83,7 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
     submit(change3.getChangeId());
     assertCherryPick(git, true);
     RevCommit newHead = getRemoteHead();
-    assertEquals(oldHead, newHead.getParent(0));
+    assertThat(newHead.getParent(0)).isEqualTo(oldHead);
     assertApproved(change3.getChangeId());
     assertCurrentRevision(change3.getChangeId(), 2, newHead);
     assertSubmitter(change2.getChangeId(), 1);
@@ -105,7 +104,7 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
     PushOneCommit.Result change2 =
         createChange(git, "Change 2", "a.txt", "other content");
     submitWithConflict(change2.getChangeId());
-    assertEquals(oldHead, getRemoteHead());
+    assertThat(getRemoteHead()).isEqualTo(oldHead);
     assertCurrentRevision(change2.getChangeId(), 1, change2.getCommitId());
     assertSubmitter(change2.getChangeId(), 1);
   }
@@ -126,7 +125,7 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
     submit(change3.getChangeId());
     assertCherryPick(git, false);
     RevCommit newHead = getRemoteHead();
-    assertEquals(oldHead, newHead.getParent(0));
+    assertThat(newHead.getParent(0)).isEqualTo(oldHead);
     assertApproved(change3.getChangeId());
     assertCurrentRevision(change3.getChangeId(), 2, newHead);
     assertSubmitter(change3.getChangeId(), 1);
@@ -147,7 +146,7 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
     PushOneCommit.Result change3 =
         createChange(git, "Change 3", "b.txt", "different content");
     submitWithConflict(change3.getChangeId());
-    assertEquals(oldHead, getRemoteHead());
+    assertThat(getRemoteHead()).isEqualTo(oldHead);
     assertCurrentRevision(change3.getChangeId(), 1, change3.getCommitId());
     assertSubmitter(change3.getChangeId(), 1);
   }
@@ -171,21 +170,18 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
     submit(change4.getChangeId());
 
     List<RevCommit> log = getRemoteLog();
-    assertEquals(
-        change4.getCommit().getShortMessage(),
-        log.get(0).getShortMessage());
-    assertSame(log.get(1), log.get(0).getParent(0));
+    assertThat(log.get(0).getShortMessage()).isEqualTo(
+        change4.getCommit().getShortMessage());
+    assertThat(log.get(0).getParent(0)).isEqualTo(log.get(1));
 
-    assertEquals(
-        change3.getCommit().getShortMessage(),
-        log.get(1).getShortMessage());
-    assertSame(log.get(2), log.get(1).getParent(0));
+    assertThat(log.get(1).getShortMessage()).isEqualTo(
+        change3.getCommit().getShortMessage());
+    assertThat(log.get(1).getParent(0)).isEqualTo(log.get(2));
 
-    assertEquals(
-        change2.getCommit().getShortMessage(),
-        log.get(2).getShortMessage());
-    assertSame(log.get(3), log.get(2).getParent(0));
+    assertThat(log.get(2).getShortMessage()).isEqualTo(
+        change2.getCommit().getShortMessage());
+    assertThat(log.get(2).getParent(0)).isEqualTo(log.get(3));
 
-    assertEquals(initialHead.getId(), log.get(3).getId());
+    assertThat(log.get(3).getId()).isEqualTo(initialHead.getId());
   }
 }

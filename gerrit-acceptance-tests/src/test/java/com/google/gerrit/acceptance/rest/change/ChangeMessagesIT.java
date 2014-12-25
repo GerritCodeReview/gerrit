@@ -14,11 +14,9 @@
 
 package com.google.gerrit.acceptance.rest.change;
 
+import static com.google.common.truth.Truth.assertThat;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
@@ -75,16 +73,17 @@ public class ChangeMessagesIT extends AbstractDaemonTest {
     String changeId = createChange().getChangeId();
     postMessage(changeId, "Some nits need to be fixed.");
     ChangeInfo c = info(changeId);
-    assertNull(c.messages);
+    assertThat((Iterable<?>)c.messages).isNull();
   }
 
   @Test
   public void defaultMessage() throws Exception {
     String changeId = createChange().getChangeId();
     ChangeInfo c = get(changeId);
-    assertNotNull(c.messages);
-    assertEquals(1, c.messages.size());
-    assertEquals("Uploaded patch set 1.", c.messages.iterator().next().message);
+    assertThat((Iterable<?>)c.messages).isNotNull();
+    assertThat((Iterable<?>)c.messages).hasSize(1);
+    assertThat(c.messages.iterator().next().message)
+      .isEqualTo("Uploaded patch set 1.");
   }
 
   @Test
@@ -95,16 +94,16 @@ public class ChangeMessagesIT extends AbstractDaemonTest {
     String secondMessage = "I like this feature.";
     postMessage(changeId, secondMessage);
     ChangeInfo c = get(changeId);
-    assertNotNull(c.messages);
-    assertEquals(3, c.messages.size());
+    assertThat((Iterable<?>)c.messages).isNotNull();
+    assertThat((Iterable<?>)c.messages).hasSize(3);
     Iterator<ChangeMessageInfo> it = c.messages.iterator();
-    assertEquals("Uploaded patch set 1.", it.next().message);
+    assertThat(it.next().message).isEqualTo("Uploaded patch set 1.");
     assertMessage(firstMessage, it.next().message);
     assertMessage(secondMessage, it.next().message);
   }
 
   private void assertMessage(String expected, String actual) {
-    assertEquals("Patch Set 1:\n\n" + expected, actual);
+    assertThat(actual).isEqualTo("Patch Set 1:\n\n" + expected);
   }
 
   private void postMessage(String changeId, String msg) throws Exception {

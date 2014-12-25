@@ -14,8 +14,8 @@
 
 package com.google.gerrit.acceptance.rest.change;
 
+import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.GitUtil.checkout;
-import static org.junit.Assert.assertEquals;
 
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.extensions.common.SubmitType;
@@ -38,8 +38,8 @@ public class SubmitByFastForwardIT extends AbstractSubmit {
     PushOneCommit.Result change = createChange(git);
     submit(change.getChangeId());
     RevCommit head = getRemoteHead();
-    assertEquals(change.getCommitId(), head.getId());
-    assertEquals(oldHead, head.getParent(0));
+    assertThat(head.getId()).isEqualTo(change.getCommitId());
+    assertThat(head.getParent(0)).isEqualTo(oldHead);
     assertSubmitter(change.getChangeId(), 1);
   }
 
@@ -56,7 +56,7 @@ public class SubmitByFastForwardIT extends AbstractSubmit {
     PushOneCommit.Result change2 =
         createChange(git, "Change 2", "b.txt", "other content");
     submitWithConflict(change2.getChangeId());
-    assertEquals(oldHead, getRemoteHead());
+    assertThat(getRemoteHead()).isEqualTo(oldHead);
     assertSubmitter(change.getChangeId(), 1);
   }
 }

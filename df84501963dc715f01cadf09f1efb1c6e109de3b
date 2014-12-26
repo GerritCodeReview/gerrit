@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e149644e_b27220d3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_102.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-12-26T02:16:46Z",
+      "side": 1,
+      "message": "Why do we need to iterate over the list of indexes?  Is it possible that some of them do not exist in some cases?\n\nIn other words, why can\u0027t we just do:\n\n stmt.executeUpdate(\"DROP INDEX changes_allOpen\");\n stmt.executeUpdate(\"DROP INDEX changes_allClosed\");\n stmt.executeUpdate(\"DROP INDEX changes_byBranchClosed\");\n\n?\n\nIf we do need to test for existence, then how about doing it with a regex instead of sequence of if- statements?\n\n Pattern pattern \u003d\n     Pattern.compile(\"^changes_(allOpen|allClosed|byBranchClosed)$\",\n         Pattern.CASE_INSENSITIVE);\n Set\u003cString\u003e listIndexes \u003d dialect.listIndexes(\n     schema.getConnection(), \"changes\");\n for (String index : listIndexes) {\n   if (pattern.matcher(index).matches()) {\n     stmt.executeUpdate(\"DROP INDEX \" + index);\n   }\n }\n\n?",
+      "range": {
+        "startLine": 44,
+        "startChar": 6,
+        "endLine": 56,
+        "endChar": 7
+      },
+      "revId": "df84501963dc715f01cadf09f1efb1c6e109de3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

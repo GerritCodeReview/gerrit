@@ -46,6 +46,30 @@
       "revId": "1eb04fa62c122feb37339762992e5ef80e8bd3a4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e149644e_522f34a4",
+        "filename": "lib/codemirror/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-12-26T01:54:09Z",
+      "side": 1,
+      "message": "I know.  I will do it, but first I want to reproduce the zip that you have here.\n\nThis one doesn\u0027t match the files available on github [1] or the codemirror site [2] either in sha1:\n\n $ sha1sum *.zip\n bccba320146af24057f67ce75c6ab2876a85edca  codemirror-2111a7e466.zip\n 9f54b1ec801fa0a87ff0345de68814c1ee97da9a  CodeMirror-4.9.0.zip\n 84068a28ac6bc599cca35c0903e0028889d9b600  codemirror-4.9.zip\n\nor file size:\n\n $ stat -c \"%s %n\" *.zip\n 1029729 codemirror-2111a7e466.zip\n 1002696 CodeMirror-4.9.0.zip\n 1017642 codemirror-4.9.zip\n\n[1] https://github.com/codemirror/CodeMirror/archive/4.9.0.zip\n[2] http://codemirror.net/codemirror-4.9.zip",
+      "parentUuid": "4175d075_f5101848",
+      "range": {
+        "startLine": 8,
+        "startChar": 7,
+        "endLine": 8,
+        "endChar": 28
+      },
+      "revId": "1eb04fa62c122feb37339762992e5ef80e8bd3a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

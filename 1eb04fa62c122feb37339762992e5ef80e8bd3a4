@@ -70,6 +70,30 @@
       "revId": "1eb04fa62c122feb37339762992e5ef80e8bd3a4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4175d075_35137052",
+        "filename": "lib/codemirror/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-26T08:00:22Z",
+      "side": 1,
+      "message": "I see. I\u0027ve never packaged CM3 before and i havn\u0027t found any automated scripts that would create this. So, just guessing here (by investigating the content of current zip). I pulled the CM3 locally, created the directory with abbreviated latest SHA-1.\n\n  mv codemirror codemirror-2111a7e466\n\nthen removed .git directory and zipped everything recusively:\n\n  rm -rf codemirror-2111a7e466/.git\n  zip -r codemirror-2111a7e466.zip codemirror-2111a7e466\n\nNote it should be zipped from the parent directory. IOW codemirror-2111a7e466 directory should be inside zip.",
+      "parentUuid": "e149644e_522f34a4",
+      "range": {
+        "startLine": 8,
+        "startChar": 7,
+        "endLine": 8,
+        "endChar": 28
+      },
+      "revId": "1eb04fa62c122feb37339762992e5ef80e8bd3a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

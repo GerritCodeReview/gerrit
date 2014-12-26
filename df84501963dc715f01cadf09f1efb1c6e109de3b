@@ -22,6 +22,30 @@
       "revId": "df84501963dc715f01cadf09f1efb1c6e109de3b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4175d075_15167441",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_102.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-12-26T07:53:12Z",
+      "side": 1,
+      "message": "| Why do we need to iterate over the list of indexes?  Is it possible that some of them do not exist in some cases?\n\nYes, as mentioned in the commit message when site was created with release 2.9 or later the indexes don\u0027t exist.\n\n|In other words, why can\u0027t we just do:\n  stmt.executeUpdate(\"DROP INDEX changes_allOpen\");\n\nWe can do that, but we would need to swallow database index not found exception.\n\n| If we do need to test for existence, then how about doing it with a regex instead of sequence of if- statements?\n\nSure we can do that. This would be equivalent to the current code. The only thing we cannot do is to just use listIndexes .contains(index), because there is no containsIgnoreCase() out there.",
+      "parentUuid": "e149644e_b27220d3",
+      "range": {
+        "startLine": 44,
+        "startChar": 6,
+        "endLine": 56,
+        "endChar": 7
+      },
+      "revId": "df84501963dc715f01cadf09f1efb1c6e109de3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

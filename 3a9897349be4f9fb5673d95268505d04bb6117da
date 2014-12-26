@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e149644e_12820c2c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-12-26T08:47:27Z",
+      "side": 1,
+      "message": "I was going to just update to antlr4 but it\u0027s not a simple drop-in replacement.  I have a separate work-in-progress change for that.  Not uploaded because it doesn\u0027t build.",
+      "range": {
+        "startLine": 9,
+        "startChar": 67,
+        "endLine": 10,
+        "endChar": 55
+      },
+      "revId": "3a9897349be4f9fb5673d95268505d04bb6117da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -31,6 +31,11 @@
 ## The ChangeSubject.vm template will determine the contents of the email
 ## subject line for ALL emails related to changes.
 ##
+## Optionally $change.originalSubject can be used for the first subject
+## in a change. This allows subject based email clients such as GMail
+## to thread comments together even if subsequent patch sets change the
+## first line of the commit message.
+##
 #macro(ellipsis $length $str)
 #if($str.length() > $length)#set($length = $length - 3)${str.substring(0,$length)}...#else$str#end
 #end

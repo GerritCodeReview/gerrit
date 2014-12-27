@@ -31,8 +31,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /** REST API based suggestion Oracle for reviewers. */
-public class RestReviewerSuggestOracle extends SuggestAfterTypingNCharsOracle {
-
+public class ReviewerSuggestOracle extends SuggestAfterTypingNCharsOracle {
   private Change.Id changeId;
 
   @Override

@@ -14,7 +14,6 @@
 
 package com.google.gerrit.common.data;
 
-import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwtjsonrpc.common.AsyncCallback;
 import com.google.gwtjsonrpc.common.RemoteJsonService;
@@ -27,15 +26,4 @@ import java.util.List;
 public interface SuggestService extends RemoteJsonService {
   void suggestAccountGroupForProject(Project.NameKey project, String query,
       int limit, AsyncCallback<List<GroupReference>> callback);
-
-  /**
-   * Suggests reviewers. A reviewer can be a user or a group. Inactive users,
-   * the system groups {@code SystemGroupBackend#ANONYMOUS_USERS} and
-   * {@code SystemGroupBackend#REGISTERED_USERS} and groups that have more than
-   * the configured {@code addReviewer.maxAllowed} members are not suggested as
-   * reviewers.
-   * @param changeId the change for which reviewers should be suggested
-   */
-  void suggestChangeReviewer(Change.Id changeId, String query, int limit,
-      AsyncCallback<List<ReviewerInfo>> callback);
 }

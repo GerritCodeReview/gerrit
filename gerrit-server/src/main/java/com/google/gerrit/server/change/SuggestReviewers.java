@@ -18,7 +18,6 @@ import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.extensions.common.AccountInfo;
@@ -49,7 +48,9 @@ import org.eclipse.jgit.lib.Config;
 import org.kohsuke.args4j.Option;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -61,8 +62,8 @@ public class SuggestReviewers implements RestReadView<ChangeResource> {
   private static final int DEFAULT_MAX_SUGGESTED = 10;
   private static final int DEFAULT_MAX_MATCHES = 100;
 
-  private final AccountLoader.Factory accountLoaderFactory;
-  private final AccountControl.Factory accountControlFactory;
+  private final AccountLoader accountLoader;
+  private final AccountControl accountControl;
   private final GroupMembers.Factory groupMembersFactory;
   private final AccountCache accountCache;
   private final Provider<ReviewDb> dbProvider;
@@ -105,8 +106,8 @@ public class SuggestReviewers implements RestReadView<ChangeResource> {
       @GerritServerConfig Config cfg,
       GroupBackend groupBackend,
       ReviewerSuggestionCache reviewerSuggestionCache) {
-    this.accountLoaderFactory = accountLoaderFactory;
-    this.accountControlFactory = accountControlFactory;
+    this.accountLoader = accountLoaderFactory.create(true);
+    this.accountControl = accountControlFactory.get();
     this.accountCache = accountCache;
     this.groupMembersFactory = groupMembersFactory;
     this.dbProvider = dbProvider;
@@ -135,7 +136,7 @@ public class SuggestReviewers implements RestReadView<ChangeResource> {
   }
 
   private interface VisibilityControl {
-    boolean isVisibleTo(Account account) throws OrmException;
+    boolean isVisibleTo(Account.Id account) throws OrmException;
   }
 
   @Override
@@ -156,7 +157,6 @@ public class SuggestReviewers implements RestReadView<ChangeResource> {
     } else {
       suggestedAccounts = suggestAccount(visibilityControl);
     }
-    accountLoaderFactory.create(true).fill(suggestedAccounts);
 
     List<SuggestedReviewerInfo> reviewer = Lists.newArrayList();
     for (AccountInfo a : suggestedAccounts) {
@@ -186,16 +186,16 @@ public class SuggestReviewers implements RestReadView<ChangeResource> {
     if (rsrc.getControl().getRefControl().isVisibleByRegisteredUsers()) {
       return new VisibilityControl() {
         @Override
-        public boolean isVisibleTo(Account account) throws OrmException {
+        public boolean isVisibleTo(Account.Id account) throws OrmException {
           return true;
         }
       };
     } else {
       return new VisibilityControl() {
         @Override
-        public boolean isVisibleTo(Account account) throws OrmException {
+        public boolean isVisibleTo(Account.Id account) throws OrmException {
           IdentifiedUser who =
-              identifiedUserFactory.create(dbProvider, account.getId());
+              identifiedUserFactory.create(dbProvider, account);
           // we can't use changeControl directly as it won't suggest reviewers
           // to drafts
           return rsrc.getControl().forUser(who).isRefVisible();
@@ -214,16 +214,22 @@ public class SuggestReviewers implements RestReadView<ChangeResource> {
     String a = query;
     String b = a + MAX_SUFFIX;
 
-    LinkedHashMap<Account.Id, AccountInfo> r = Maps.newLinkedHashMap();
+    Map<Account.Id, AccountInfo> r = new LinkedHashMap<>();
+    Map<Account.Id, String> queryEmail = new HashMap<>();
+
     for (Account p : dbProvider.get().accounts()
         .suggestByFullName(a, b, limit)) {
-      addSuggestion(r, p, new AccountInfo(p.getId().get()), visibilityControl);
+      if (p.isActive()) {
+        addSuggestion(r, p.getId(), visibilityControl);
+      }
     }
 
     if (r.size() < limit) {
       for (Account p : dbProvider.get().accounts()
           .suggestByPreferredEmail(a, b, limit - r.size())) {
-        addSuggestion(r, p, new AccountInfo(p.getId().get()), visibilityControl);
+        if (p.isActive()) {
+          addSuggestion(r, p.getId(), visibilityControl);
+        }
       }
     }
 
@@ -232,21 +238,27 @@ public class SuggestReviewers implements RestReadView<ChangeResource> {
           .suggestByEmailAddress(a, b, limit - r.size())) {
         if (!r.containsKey(e.getAccountId())) {
           Account p = accountCache.get(e.getAccountId()).getAccount();
-          AccountInfo info = new AccountInfo(p.getId().get());
-          addSuggestion(r, p, info, visibilityControl);
+          if (p.isActive()) {
+            queryEmail.put(e.getAccountId(), e.getEmailAddress());
+            addSuggestion(r, p.getId(), visibilityControl);
+          }
         }
       }
     }
-
+    accountLoader.fill();
+    for (Map.Entry<Account.Id, String> p : queryEmail.entrySet()) {
+      r.get(p.getKey()).email = p.getValue();
+    }
     return Lists.newArrayList(r.values());
   }
 
   private List<AccountInfo> suggestAccountFullTextSearch(
       VisibilityControl visibilityControl) throws OrmException {
     String str = query.toLowerCase();
-    LinkedHashMap<Account.Id, AccountInfo> accountMap = Maps.newLinkedHashMap();
-    List<Account> fullNameMatches = Lists.newArrayListWithCapacity(fullTextMaxMatches);
-    List<Account> emailMatches = Lists.newArrayListWithCapacity(fullTextMaxMatches);
+    Map<Account.Id, AccountInfo> accountMap = new LinkedHashMap<>();
+    List<Account> fullNameMatches = new ArrayList<>(fullTextMaxMatches);
+    List<Account> emailMatches = new ArrayList<>(fullTextMaxMatches);
+
     for (Account a : reviewerSuggestionCache.get()) {
       if (a.getFullName() != null
           && a.getFullName().toLowerCase().contains(str)) {
@@ -261,32 +273,32 @@ public class SuggestReviewers implements RestReadView<ChangeResource> {
       }
     }
     for (Account a : fullNameMatches) {
-      addSuggestion(accountMap, a, new AccountInfo(a.getId().get()), visibilityControl);
+      addSuggestion(accountMap, a.getId(), visibilityControl);
       if (accountMap.size() >= limit) {
         break;
       }
     }
     if (accountMap.size() < limit) {
       for (Account a : emailMatches) {
-        addSuggestion(accountMap, a, new AccountInfo(a.getId().get()), visibilityControl);
+        addSuggestion(accountMap, a.getId(), visibilityControl);
         if (accountMap.size() >= limit) {
           break;
         }
       }
     }
+    accountLoader.fill();
     return Lists.newArrayList(accountMap.values());
   }
 
-  private void addSuggestion(Map<Account.Id, AccountInfo> map, Account account,
-      AccountInfo info, VisibilityControl visibilityControl)
+  private void addSuggestion(Map<Account.Id, AccountInfo> map,
+      Account.Id account, VisibilityControl visibilityControl)
       throws OrmException {
-    if (!map.containsKey(account.getId())
-        && account.isActive()
+    if (!map.containsKey(account)
         // Can the suggestion see the change?
         && visibilityControl.isVisibleTo(account)
         // Can the account see the current user?
-        && accountControlFactory.get().canSee(account)) {
-      map.put(account.getId(), info);
+        && accountControl.canSee(account)) {
+      map.put(account, accountLoader.get(account));
     }
   }
 
@@ -312,7 +324,7 @@ public class SuggestReviewers implements RestReadView<ChangeResource> {
 
       // require that at least one member in the group can see the change
       for (Account account : members) {
-        if (visibilityControl.isVisibleTo(account)) {
+        if (visibilityControl.isVisibleTo(account.getId())) {
           return true;
         }
       }

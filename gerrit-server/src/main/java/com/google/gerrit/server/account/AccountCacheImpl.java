@@ -121,6 +121,7 @@ public class AccountCacheImpl implements AccountCache {
 
   private static AccountState missing(Account.Id accountId) {
     Account account = new Account(accountId, TimeUtil.nowTs());
+    account.setActive(false);
     Collection<AccountExternalId> ids = Collections.emptySet();
     Set<AccountGroup.UUID> anon = ImmutableSet.of();
     return new AccountState(account, anon, ids);

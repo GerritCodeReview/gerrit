@@ -74,13 +74,13 @@ public class Reviewers extends Composite {
   private ChangeScreen2.Style style;
   private Element ccText;
 
-  private RestReviewerSuggestOracle reviewerSuggestOracle;
+  private ReviewerSuggestOracle reviewerSuggestOracle;
   private HintTextBox nameTxtBox;
   private Change.Id changeId;
   private boolean submitOnSelection;
 
   Reviewers() {
-    reviewerSuggestOracle = new RestReviewerSuggestOracle();
+    reviewerSuggestOracle = new ReviewerSuggestOracle();
     nameTxtBox = new HintTextBox();
     suggestBox = new SuggestBox(reviewerSuggestOracle, nameTxtBox);
     initWidget(uiBinder.createAndBindUi(this));

@@ -467,6 +467,15 @@ public final class Change {
   // DELETED: id = 15 (lastSha1MergeTested)
   // DELETED: id = 16 (mergeable)
 
+  /**
+   * First line of first patch set's commit message.
+   *
+   * Unlike {@link #subject}, this string does not change if future patch sets
+   * change the first line.
+   */
+  @Column(id = 17, notNull = false)
+  protected String originalSubject;
+
   protected Change() {
   }
 
@@ -493,6 +502,7 @@ public final class Change {
     status = other.status;
     currentPatchSetId = other.currentPatchSetId;
     subject = other.subject;
+    originalSubject = other.originalSubject;
     topic = other.topic;
   }
 
@@ -547,6 +557,10 @@ public final class Change {
     return subject;
   }
 
+  public String getOriginalSubject() {
+    return originalSubject != null ? originalSubject : subject;
+  }
+
   /** Get the id of the most current {@link PatchSet} in this change. */
   public PatchSet.Id currentPatchSetId() {
     if (currentPatchSetId > 0) {
@@ -556,8 +570,20 @@ public final class Change {
   }
 
   public void setCurrentPatchSet(final PatchSetInfo ps) {
+    if (originalSubject == null && subject != null) {
+      // Change was created before schema upgrade. Use the last subject
+      // associated with this change, as the most recent discussion will
+      // be under that thread in an email client such as GMail.
+      originalSubject = subject;
+    }
+
     currentPatchSetId = ps.getKey().get();
     subject = ps.getSubject();
+
+    if (originalSubject == null) {
+      // Newly created changes remember the first commit's subject.
+      originalSubject = subject;
+    }
   }
 
   public Status getStatus() {

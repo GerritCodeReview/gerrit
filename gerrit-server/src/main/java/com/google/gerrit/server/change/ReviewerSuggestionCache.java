@@ -14,10 +14,12 @@
 
 package com.google.gerrit.server.change;
 
+import com.google.common.base.Predicate;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Iterables;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.inject.Inject;
@@ -50,7 +52,14 @@ public class ReviewerSuggestionCache {
             .build(new CacheLoader<Boolean, List<Account>>() {
               @Override
               public List<Account> load(Boolean key) throws Exception {
-                return ImmutableList.copyOf(dbProvider.get().accounts().all());
+                return ImmutableList.copyOf(Iterables.filter(
+                    dbProvider.get().accounts().all(),
+                    new Predicate<Account>() {
+                      @Override
+                      public boolean apply(Account in) {
+                        return in.isActive();
+                      }
+                    }));
               }
             });
   }

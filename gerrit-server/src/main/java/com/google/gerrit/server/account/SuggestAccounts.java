@@ -1,0 +1,123 @@
+// Copyright (C) 2014 The Android Open Source Project
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+package com.google.gerrit.server.account;
+
+import com.google.common.base.Strings;
+import com.google.gerrit.extensions.common.AccountInfo;
+import com.google.gerrit.extensions.restapi.RestReadView;
+import com.google.gerrit.extensions.restapi.TopLevelResource;
+import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.AccountExternalId;
+import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gwtorm.server.OrmException;
+import com.google.inject.Inject;
+
+import org.eclipse.jgit.lib.Config;
+import org.kohsuke.args4j.Option;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
+class SuggestAccounts implements RestReadView<TopLevelResource> {
+  private static final int MAX_RESULTS = 100;
+  private static final String MAX_SUFFIX = "\u9fa5";
+
+  private final AccountControl accountControl;
+  private final AccountLoader accountLoader;
+  private final ReviewDb db;
+  private final boolean suggest;
+
+  @Option(name = "--limit", aliases = {"-n"}, metaVar = "CNT", usage = "maximum number of users to return")
+  private int limit = 10;
+
+  @Option(name = "--query", aliases = {"-q"}, metaVar = "QUERY", usage = "match users")
+  private String query;
+
+  @Inject
+  SuggestAccounts(AccountControl.Factory accountControlFactory,
+      AccountLoader.Factory accountLoaderFactory,
+      ReviewDb db,
+      @GerritServerConfig Config cfg) {
+    accountControl = accountControlFactory.get();
+    accountLoader = accountLoaderFactory.create(true);
+    this.db = db;
+
+    if ("off".equalsIgnoreCase(cfg.getString("suggest", null, "accounts"))) {
+      suggest = false;
+    } else {
+      boolean suggest;
+      try {
+        AccountVisibility av =
+            cfg.getEnum("suggest", null, "accounts", AccountVisibility.ALL);
+        suggest = (av != AccountVisibility.NONE);
+      } catch (IllegalArgumentException err) {
+        suggest = cfg.getBoolean("suggest", null, "accounts", true);
+      }
+      this.suggest = suggest;
+    }
+  }
+
+  @Override
+  public List<AccountInfo> apply(TopLevelResource rsrc) throws OrmException {
+    if (!suggest || Strings.isNullOrEmpty(query) || limit <= 0) {
+      return Collections.emptyList();
+    }
+
+    String a = query;
+    String b = a + MAX_SUFFIX;
+    int n = Math.min(limit, MAX_RESULTS);
+
+    Map<Account.Id, AccountInfo> matches = new LinkedHashMap<>();
+    Map<Account.Id, String> queryEmail = new HashMap<>();
+
+    for (Account p : db.accounts().suggestByFullName(a, b, n)) {
+      addSuggestion(matches, p.getId());
+    }
+    if (matches.size() < n) {
+      for (Account p : db.accounts()
+          .suggestByPreferredEmail(a, b, n - matches.size())) {
+        addSuggestion(matches, p.getId());
+      }
+    }
+    if (matches.size() < n) {
+      for (AccountExternalId e : db.accountExternalIds()
+          .suggestByEmailAddress(a, b, n - matches.size())) {
+        queryEmail.put(e.getAccountId(), e.getEmailAddress());
+        addSuggestion(matches, e.getAccountId());
+      }
+    }
+
+    accountLoader.fill();
+    for (Map.Entry<Account.Id, String> p : queryEmail.entrySet()) {
+      AccountInfo info = matches.get(p.getKey());
+      if (info != null) {
+        info.email = p.getValue();
+      }
+    }
+
+    return new ArrayList<>(matches.values());
+  }
+
+  private void addSuggestion(Map<Account.Id, AccountInfo> map, Account.Id id) {
+    if (!map.containsKey(id) && accountControl.canSee(id)) {
+      map.put(id, accountLoader.get(id));
+    }
+  }
+}

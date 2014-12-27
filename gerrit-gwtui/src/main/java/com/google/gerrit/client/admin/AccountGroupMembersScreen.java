@@ -24,6 +24,7 @@ import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.client.ui.AccountGroupSuggestOracle;
 import com.google.gerrit.client.ui.AccountLinkPanel;
+import com.google.gerrit.client.ui.AccountSuggestOracle;
 import com.google.gerrit.client.ui.AddMemberBox;
 import com.google.gerrit.client.ui.FancyFlexTable;
 import com.google.gerrit.client.ui.Hyperlink;
@@ -80,7 +81,10 @@ public class AccountGroupMembersScreen extends AccountGroupScreen {
 
 
   private void initMemberList() {
-    addMemberBox = new AddMemberBox();
+    addMemberBox = new AddMemberBox(
+        Util.C.buttonAddGroupMember(),
+        Util.C.defaultAccountName(),
+        new AccountSuggestOracle());
 
     addMemberBox.addClickHandler(new ClickHandler() {
       @Override

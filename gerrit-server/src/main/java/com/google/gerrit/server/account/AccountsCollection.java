@@ -40,6 +40,7 @@ public class AccountsCollection implements
   private final AccountResolver resolver;
   private final AccountControl.Factory accountControlFactory;
   private final IdentifiedUser.GenericFactory userFactory;
+  private final Provider<SuggestAccounts> list;
   private final DynamicMap<RestView<AccountResource>> views;
   private final CreateAccount.Factory createAccountFactory;
 
@@ -48,12 +49,14 @@ public class AccountsCollection implements
       AccountResolver resolver,
       AccountControl.Factory accountControlFactory,
       IdentifiedUser.GenericFactory userFactory,
+      Provider<SuggestAccounts> list,
       DynamicMap<RestView<AccountResource>> views,
       CreateAccount.Factory createAccountFactory) {
     this.self = self;
     this.resolver = resolver;
     this.accountControlFactory = accountControlFactory;
     this.userFactory = userFactory;
+    this.list = list;
     this.views = views;
     this.createAccountFactory = createAccountFactory;
   }
@@ -128,7 +131,7 @@ public class AccountsCollection implements
 
   @Override
   public RestView<TopLevelResource> list() throws ResourceNotFoundException {
-    throw new ResourceNotFoundException();
+    return list.get();
   }
 
   @Override

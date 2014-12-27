@@ -7,6 +7,44 @@ link:rest-api.html[REST API].
 [[account-endpoints]]
 == Account Endpoints
 
+[[suggest-account]]
+=== Suggest Account
+--
+'GET /accounts/'
+--
+
+Suggest users for a given query `q` and result limit `n`. If result
+limit is not passed, then the default 10 is used. Returns a list of
+matching link:#account-info[AccountInfo] entities.
+
+.Request
+----
+  GET /accounts/?q=John HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  [
+    {
+      "_account_id": 1000096,
+      "name": "John Doe",
+      "email": "john.doe@example.com",
+      "username": "john"
+    },
+    {
+      "_account_id": 1001439,
+      "name": "John Smith",
+      "email": "john.smith@example.com",
+      "username": "jsmith"
+    },
+  ]
+----
+
 [[get-account]]
 === Get Account
 --

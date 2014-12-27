@@ -25,25 +25,8 @@ import java.util.List;
 
 @RpcImpl(version = Version.V2_0)
 public interface SuggestService extends RemoteJsonService {
-  void suggestAccount(String query, Boolean enabled, int limit,
-      AsyncCallback<List<AccountInfo>> callback);
-
-  /**
-   * @see #suggestAccountGroupForProject(com.google.gerrit.reviewdb.client.Project.NameKey, String, int, AsyncCallback)
-   */
-  @Deprecated
-  void suggestAccountGroup(String query, int limit,
-      AsyncCallback<List<GroupReference>> callback);
-
   void suggestAccountGroupForProject(Project.NameKey project, String query,
       int limit, AsyncCallback<List<GroupReference>> callback);
-
-  /**
-   * @see #suggestChangeReviewer(com.google.gerrit.reviewdb.client.Change.Id, String, int, AsyncCallback)
-   */
-  @Deprecated
-  void suggestReviewer(Project.NameKey project, String query, int limit,
-      AsyncCallback<List<ReviewerInfo>> callback);
 
   /**
    * Suggests reviewers. A reviewer can be a user or a group. Inactive users,

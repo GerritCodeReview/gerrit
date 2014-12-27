@@ -33,6 +33,14 @@ public class AccountApi {
     return new RestApi("/accounts/").view("self");
   }
 
+  public static void suggest(String query, int limit,
+      AsyncCallback<JsArray<AccountInfo>> cb) {
+    new RestApi("/accounts/")
+      .addParameter("q", query)
+      .addParameter("n", limit)
+      .get(cb);
+  }
+
   public static void putDiffPreferences(DiffPreferences in,
       AsyncCallback<DiffPreferences> cb) {
     self().view("preferences.diff").put(in, cb);

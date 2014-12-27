@@ -27,7 +27,7 @@ import java.sql.Statement;
 
 public class Schema_102 extends SchemaVersion {
   @Inject
-  Schema_102(Provider<Schema_100> prior) {
+  Schema_102(Provider<Schema_101> prior) {
     super(prior);
   }
 

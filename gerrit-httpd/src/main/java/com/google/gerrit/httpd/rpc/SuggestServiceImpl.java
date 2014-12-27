@@ -30,7 +30,6 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
-import com.google.gerrit.server.account.AccountControl;
 import com.google.gerrit.server.account.AccountVisibility;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupMembers;
@@ -63,7 +62,6 @@ class SuggestServiceImpl extends BaseServiceImplementation implements
   private final AccountCache accountCache;
   private final GroupMembers.Factory groupMembersFactory;
   private final IdentifiedUser.GenericFactory identifiedUserFactory;
-  private final AccountControl.Factory accountControlFactory;
   private final ChangeControl.Factory changeControlFactory;
   private final ProjectControl.Factory projectControlFactory;
   private final Config cfg;
@@ -76,7 +74,6 @@ class SuggestServiceImpl extends BaseServiceImplementation implements
       final GroupMembers.Factory groupMembersFactory,
       final Provider<CurrentUser> currentUser,
       final IdentifiedUser.GenericFactory identifiedUserFactory,
-      final AccountControl.Factory accountControlFactory,
       final ChangeControl.Factory changeControlFactory,
       final ProjectControl.Factory projectControlFactory,
       @GerritServerConfig final Config cfg, final GroupBackend groupBackend) {
@@ -85,7 +82,6 @@ class SuggestServiceImpl extends BaseServiceImplementation implements
     this.accountCache = accountCache;
     this.groupMembersFactory = groupMembersFactory;
     this.identifiedUserFactory = identifiedUserFactory;
-    this.accountControlFactory = accountControlFactory;
     this.changeControlFactory = changeControlFactory;
     this.projectControlFactory = projectControlFactory;
     this.cfg = cfg;
@@ -108,22 +104,6 @@ class SuggestServiceImpl extends BaseServiceImplementation implements
 
   private interface VisibilityControl {
     boolean isVisible(Account account) throws OrmException;
-  }
-
-  @Override
-  public void suggestAccount(final String query, final Boolean active,
-      final int limit, final AsyncCallback<List<AccountInfo>> callback) {
-    run(callback, new Action<List<AccountInfo>>() {
-      @Override
-      public List<AccountInfo> run(final ReviewDb db) throws OrmException {
-        return suggestAccount(db, query, active, limit, new VisibilityControl() {
-          @Override
-          public boolean isVisible(Account account) throws OrmException {
-            return accountControlFactory.get().canSee(account);
-          }
-        });
-      }
-    });
   }
 
   private List<AccountInfo> suggestAccount(final ReviewDb db,
@@ -178,12 +158,6 @@ class SuggestServiceImpl extends BaseServiceImplementation implements
   }
 
   @Override
-  public void suggestAccountGroup(final String query, final int limit,
-      final AsyncCallback<List<GroupReference>> callback) {
-    suggestAccountGroupForProject(null, query, limit, callback);
-  }
-
-  @Override
   public void suggestAccountGroupForProject(final Project.NameKey project,
       final String query, final int limit,
       final AsyncCallback<List<GroupReference>> callback) {
@@ -208,13 +182,6 @@ class SuggestServiceImpl extends BaseServiceImplementation implements
     return Lists.newArrayList(Iterables.limit(
         groupBackend.suggest(query, projectControl),
         limit <= 0 ? 10 : Math.min(limit, 10)));
-  }
-
-  @Override
-  public void suggestReviewer(Project.NameKey project, String query, int limit,
-      AsyncCallback<List<ReviewerInfo>> callback) {
-    // The RPC is deprecated, but return an empty list for RPC API compatibility.
-    callback.onSuccess(Collections.<ReviewerInfo>emptyList());
   }
 
   @Override

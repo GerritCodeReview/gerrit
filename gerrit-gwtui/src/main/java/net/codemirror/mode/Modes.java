@@ -30,7 +30,9 @@ public interface Modes extends ClientBundle {
   @Source("coffeescript/coffeescript.js") @DoNotEmbed DataResource coffeescript();
   @Source("css/css.js") @DoNotEmbed DataResource css();
   @Source("d/d.js") @DoNotEmbed DataResource d();
+  @Source("dart/dart.js") @DoNotEmbed DataResource dart();
   @Source("diff/diff.js") @DoNotEmbed DataResource diff();
+  @Source("dockerfile/dockerfile.js") @DoNotEmbed DataResource dockerfile();
   @Source("dtd/dtd.js") @DoNotEmbed DataResource dtd();
   @Source("erlang/erlang.js") @DoNotEmbed DataResource erlang();
   @Source("gas/gas.js") @DoNotEmbed DataResource gas();
@@ -53,6 +55,7 @@ public interface Modes extends ClientBundle {
   @Source("scheme/scheme.js") @DoNotEmbed DataResource scheme();
   @Source("shell/shell.js") @DoNotEmbed DataResource shell();
   @Source("smalltalk/smalltalk.js") @DoNotEmbed DataResource smalltalk();
+  @Source("soy/soy.js") @DoNotEmbed DataResource soy();
   @Source("sql/sql.js") @DoNotEmbed DataResource sql();
   @Source("stex/stex.js") @DoNotEmbed DataResource stex();
   @Source("tcl/tcl.js") @DoNotEmbed DataResource tcl();

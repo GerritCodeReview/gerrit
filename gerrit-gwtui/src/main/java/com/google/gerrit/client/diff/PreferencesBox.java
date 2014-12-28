@@ -33,8 +33,6 @@ import com.google.gerrit.reviewdb.client.AccountDiffPreference;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference.Whitespace;
 import com.google.gerrit.reviewdb.client.Patch.ChangeType;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.core.client.Scheduler.RepeatingCommand;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.KeyDownEvent;
@@ -348,25 +346,25 @@ class PreferencesBox extends Composite {
 
   @UiHandler("mode")
   void onMode(@SuppressWarnings("unused") ChangeEvent e) {
-    final String m = mode.getValue(mode.getSelectedIndex());
+    String m = mode.getValue(mode.getSelectedIndex());
+    final String mode = m != null && !m.isEmpty() ? m : null;
+
     prefs.syntaxHighlighting(true);
     syntaxHighlighting.setValue(true, false);
-    Scheduler.get().scheduleFixedDelay(new RepeatingCommand() {
+    new ModeInjector().add(mode).inject(new GerritCallback<Void>() {
       @Override
-      public boolean execute() {
+      public void onSuccess(Void result) {
         if (prefs.syntaxHighlighting() && view.isAttached()) {
           view.operation(new Runnable() {
             @Override
             public void run() {
-              String mode = m != null && !m.isEmpty() ? m : null;
               view.getCmFromSide(DisplaySide.A).setOption("mode", mode);
               view.getCmFromSide(DisplaySide.B).setOption("mode", mode);
             }
           });
         }
-        return false;
       }
-    }, 50);
+    });
   }
 
   @UiHandler("whitespaceErrors")

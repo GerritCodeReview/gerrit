@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e149644e_726278f6",
+        "filename": "lib/jgit/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-12-28T10:51:21Z",
+      "side": 1,
+      "message": "This needs to be updated too.\n\n Download http://repo1.maven.org/maven2/org/eclipse/jgit/org.eclipse.jgit.junit/3.5.3.201412180710-r/org.eclipse.jgit.junit-3.5.3.201412180710-r.jar\n http://repo1.maven.org/maven2/org/eclipse/jgit/org.eclipse.jgit.junit/3.5.3.201412180710-r/org.eclipse.jgit.junit-3.5.3.201412180710-r.jar:\n expected 1e8a9e7fa493e96ec6c07b9f6f51ed2d2db60b9f\n received 47e821761059770dfd3f443dc7f14d5381fb6f4f",
+      "range": {
+        "startLine": 52,
+        "startChar": 10,
+        "endLine": 52,
+        "endChar": 50
+      },
+      "revId": "ba091ae2aa57f6f4f683821173b3b9e034cb3be7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

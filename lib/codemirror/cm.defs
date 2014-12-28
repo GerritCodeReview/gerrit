@@ -21,6 +21,7 @@ CM_JS = [
   'addon/selection/mark-selection.js',
   'addon/edit/trailingspace.js',
   'addon/mode/overlay.js',
+  'addon/mode/simple.js',
 ]
 
 CM_MODES = [
@@ -30,7 +31,9 @@ CM_MODES = [
   'commonlisp/commonlisp.js',
   'css/css.js',
   'd/d.js',
+  'dart/dart.js',
   'diff/diff.js',
+  'dockerfile/dockerfile.js',
   'dtd/dtd.js',
   'erlang/erlang.js',
   'gas/gas.js',
@@ -52,6 +55,7 @@ CM_MODES = [
   'scheme/scheme.js',
   'shell/shell.js',
   'smalltalk/smalltalk.js',
+  'soy/soy.js',
   'sql/sql.js',
   'stex/stex.js',
   'tcl/tcl.js',

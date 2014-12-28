@@ -27,8 +27,14 @@ text/x-scss
 d:
 text/x-d
 
+dart:
+application/dart
+
 diff:
 text/x-diff
+
+dockerfile:
+text/x-dockerfile
 
 dtd:
 application/xml-dtd
@@ -112,6 +118,9 @@ application/x-shellscript
 
 smalltalk:
 text/x-stsrc
+
+soy:
+text/x-soy
 
 sql:
 text/x-sql

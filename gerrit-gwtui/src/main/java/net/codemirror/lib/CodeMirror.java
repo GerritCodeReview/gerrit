@@ -208,7 +208,8 @@ public class CodeMirror extends JavaScriptObject {
   }-*/;
 
   public final native void on(String event, BeforeSelectionChangeHandler handler) /*-{
-    this.on(event, $entry(function(cm, e) {
+    this.on(event, $entry(function(cm, o) {
+      var e = o.ranges[o.ranges.length-1];
       handler.@net.codemirror.lib.CodeMirror.BeforeSelectionChangeHandler::handle(
         Lnet/codemirror/lib/CodeMirror;Lnet/codemirror/lib/LineCharacter;
         Lnet/codemirror/lib/LineCharacter;)(cm,e.anchor,e.head);

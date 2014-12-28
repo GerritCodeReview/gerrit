@@ -1,9 +1,9 @@
-CM3_CSS = [
+CM_CSS = [
   'lib/codemirror.css',
   'addon/dialog/dialog.css',
 ]
 
-CM3_THEMES = [
+CM_THEMES = [
   'theme/eclipse.css',
   'theme/elegant.css',
   'theme/midnight.css',
@@ -12,7 +12,7 @@ CM3_THEMES = [
   'theme/twilight.css',
 ]
 
-CM3_JS = [
+CM_JS = [
   'lib/codemirror.js',
   'keymap/vim.js',
   'addon/dialog/dialog.js',
@@ -22,7 +22,7 @@ CM3_JS = [
   'addon/edit/trailingspace.js',
 ]
 
-CM3_MODES = [
+CM_MODES = [
   'clike/clike.js',
   'clojure/clojure.js',
   'coffeescript/coffeescript.js',

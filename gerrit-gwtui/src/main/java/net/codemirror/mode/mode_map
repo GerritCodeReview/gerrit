@@ -1,12 +1,15 @@
 clike:
-text/x-csrc
 text/x-c
 text/x-chdr
+text/x-csharp
+text/x-csrc
 text/x-c++src
 text/x-c++hdr
 text/x-java
-text/x-csharp
+text/x-objectivec
 text/x-scala
+x-shader/x-fragment
+x-shader/x-vertex
 
 clojure:
 text/x-clojure

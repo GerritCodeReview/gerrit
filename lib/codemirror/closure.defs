@@ -3,7 +3,8 @@ def js_minify(
     out,
     compiler_args = [],
     srcs = [],
-    generated = []):
+    generated = [],
+    deps = []):
   cmd = ['$(exe :js_minifier) --js_output_file $OUT'] + compiler_args
   if srcs:
     cmd.append('$SRCS')
@@ -14,5 +15,6 @@ def js_minify(
     name = name,
     cmd = ' '.join(cmd),
     srcs = srcs,
+    deps = deps + generated + [':js_minifier'],
     out = out,
-)
+  )

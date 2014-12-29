@@ -15,7 +15,7 @@
 package com.google.gerrit.client.admin;
 
 import com.google.gerrit.client.ui.AccountGroupSuggestOracle;
-import com.google.gerrit.client.ui.RPCSuggestOracle;
+import com.google.gerrit.client.ui.RemoteSuggestOracle;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.editor.client.LeafValueEditor;
@@ -53,7 +53,7 @@ public class GroupReferenceBox extends Composite implements
     textBox = new NpTextBox();
     oracle = new AccountGroupSuggestOracle();
     suggestBox = new SuggestBox( //
-        new RPCSuggestOracle(oracle), //
+        new RemoteSuggestOracle(oracle), //
         textBox, //
         suggestions);
     initWidget(suggestBox);

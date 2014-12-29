@@ -28,6 +28,7 @@ import com.google.gerrit.client.rpc.NativeMap;
 import com.google.gerrit.client.rpc.NativeString;
 import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.client.ui.HintTextBox;
+import com.google.gerrit.client.ui.RemoteSuggestOracle;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
@@ -82,7 +83,9 @@ public class Reviewers extends Composite {
   Reviewers() {
     reviewerSuggestOracle = new ReviewerSuggestOracle();
     nameTxtBox = new HintTextBox();
-    suggestBox = new SuggestBox(reviewerSuggestOracle, nameTxtBox);
+    suggestBox = new SuggestBox(
+        new RemoteSuggestOracle(reviewerSuggestOracle),
+        nameTxtBox);
     initWidget(uiBinder.createAndBindUi(this));
 
     nameTxtBox.setVisibleLength(55);

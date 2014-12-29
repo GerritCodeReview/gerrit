@@ -27,6 +27,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyDownEvent;
+import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
@@ -118,6 +119,7 @@ class Topic extends Composite {
       onCancel(null);
     } else if (e.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
       e.stopPropagation();
+      e.preventDefault();
       onSave(null);
     }
   }
@@ -136,5 +138,12 @@ class Topic extends Composite {
           }
         });
     onCancel(null);
+  }
+
+  @UiHandler("save")
+  void onSaveKeyPress(KeyPressEvent e) {
+    if (e.getCharCode() == KeyCodes.KEY_ENTER) {
+      e.stopPropagation();
+    }
   }
 }

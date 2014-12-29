@@ -16,6 +16,24 @@
       "revId": "7b932a87dddf62c2523539b213cb3199268f3347",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e149644e_72b7d8f6",
+        "filename": "gerrit-gwtui/src/main/java/net/codemirror/mode/Modes.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-12-29T02:06:35Z",
+      "side": 1,
+      "message": "Never mind.  This file is modified in the following change and it ends up in the correct order there.  Fixing here will cause unnecessary rebase conflict.",
+      "parentUuid": "e149644e_32ad50a5",
+      "revId": "7b932a87dddf62c2523539b213cb3199268f3347",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

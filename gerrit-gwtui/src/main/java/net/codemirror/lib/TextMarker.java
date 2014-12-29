@@ -19,10 +19,6 @@ import com.google.gwt.core.client.JavaScriptObject;
 
 /** Object that represents a text marker within CodeMirror */
 public class TextMarker extends JavaScriptObject {
-  public static TextMarker create() {
-    return createObject().cast();
-  }
-
   public final native void clear() /*-{ this.clear(); }-*/;
   public final native void changed() /*-{ this.changed(); }-*/;
   public final native FromTo find() /*-{ return this.find(); }-*/;
@@ -33,24 +29,21 @@ public class TextMarker extends JavaScriptObject {
   }
 
   public static class FromTo extends JavaScriptObject {
-    public static FromTo create(LineCharacter from, LineCharacter to) {
-      FromTo fromTo = createObject().cast();
-      fromTo.setFrom(from);
-      fromTo.setTo(to);
-      return fromTo;
-    }
+    public static final native FromTo create(Pos f, Pos t) /*-{
+      return {from: f, to: t}
+    }-*/;
 
     public static FromTo create(CommentRange range) {
       return create(
-          LineCharacter.create(range.start_line() - 1, range.start_character()),
-          LineCharacter.create(range.end_line() - 1, range.end_character()));
+          Pos.create(range.start_line() - 1, range.start_character()),
+          Pos.create(range.end_line() - 1, range.end_character()));
     }
 
-    public final native LineCharacter getFrom() /*-{ return this.from; }-*/;
-    public final native LineCharacter getTo() /*-{ return this.to; }-*/;
+    public final native Pos from() /*-{ return this.from }-*/;
+    public final native Pos to() /*-{ return this.to }-*/;
 
-    public final native void setFrom(LineCharacter from) /*-{ this.from = from; }-*/;
-    public final native void setTo(LineCharacter to) /*-{ this.to = to; }-*/;
+    public final native void from(Pos f) /*-{ this.from = f }-*/;
+    public final native void to(Pos t) /*-{ this.to = t }-*/;
 
     protected FromTo() {
     }

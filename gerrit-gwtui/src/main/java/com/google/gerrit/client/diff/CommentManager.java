@@ -26,7 +26,7 @@ import com.google.gwt.core.client.JsArray;
 
 import net.codemirror.lib.CodeMirror;
 import net.codemirror.lib.CodeMirror.LineHandle;
-import net.codemirror.lib.LineCharacter;
+import net.codemirror.lib.Pos;
 import net.codemirror.lib.TextMarker.FromTo;
 
 import java.util.ArrayList;
@@ -92,7 +92,7 @@ class CommentManager {
         // on either side of the editor pair.
         SortedMap<Integer, CommentGroup> map = map(src.side());
         int line = src.hasActiveLine()
-            ? src.getLineNumber(src.getActiveLine()) + 1
+            ? src.getLineNumber(src.activeLine()) + 1
             : 0;
         if (dir == Direction.NEXT) {
           map = map.tailMap(line + 1);
@@ -115,8 +115,8 @@ class CommentManager {
 
         CodeMirror cm = g.getCm();
         double y = cm.heightAtLine(g.getLine() - 1, "local");
-        cm.setCursor(LineCharacter.create(g.getLine() - 1));
-        cm.scrollToY(y - 0.5 * cm.getScrollbarV().getClientHeight());
+        cm.setCursor(Pos.create(g.getLine() - 1));
+        cm.scrollToY(y - 0.5 * cm.scrollbarV().getClientHeight());
         cm.focus();
       }
     };
@@ -297,7 +297,7 @@ class CommentManager {
       public void run() {
         if (cm.hasActiveLine()) {
           CommentGroup w = map(cm.side()).get(
-              cm.getLineNumber(cm.getActiveLine()) + 1);
+              cm.getLineNumber(cm.activeLine()) + 1);
           if (w != null) {
             w.openCloseLast();
           }
@@ -312,7 +312,7 @@ class CommentManager {
       public void run() {
         if (cm.hasActiveLine()) {
           CommentGroup w = map(cm.side()).get(
-              cm.getLineNumber(cm.getActiveLine()) + 1);
+              cm.getLineNumber(cm.activeLine()) + 1);
           if (w != null) {
             w.openCloseAll();
           }
@@ -328,7 +328,7 @@ class CommentManager {
         public void run() {
           String token = host.getToken();
           if (cm.hasActiveLine()) {
-            LineHandle handle = cm.getActiveLine();
+            LineHandle handle = cm.activeLine();
             int line = cm.getLineNumber(handle) + 1;
             token += "@" + (cm.side() == DisplaySide.A ? "a" : "") + line;
           }
@@ -348,13 +348,13 @@ class CommentManager {
   }
 
   private void newDraft(CodeMirror cm) {
-    int line = cm.getLineNumber(cm.getActiveLine()) + 1;
+    int line = cm.getLineNumber(cm.activeLine()) + 1;
     if (cm.somethingSelected()) {
       FromTo fromTo = cm.getSelectedRange();
-      LineCharacter end = fromTo.getTo();
-      if (end.getCh() == 0) {
-        end.setLine(end.getLine() - 1);
-        end.setCh(cm.getLine(end.getLine()).length());
+      Pos end = fromTo.to();
+      if (end.ch() == 0) {
+        end.line(end.line() - 1);
+        end.ch(cm.getLine(end.line()).length());
       }
 
       addDraftBox(cm.side(), CommentInfo.create(

@@ -16,26 +16,26 @@ package net.codemirror.lib;
 
 import com.google.gwt.core.client.JavaScriptObject;
 
-/** LineWidget objects used within CodeMirror. */
-public class LineWidget extends JavaScriptObject {
-  public final native void clear() /*-{ this.clear() }-*/;
-  public final native void changed() /*-{ this.changed() }-*/;
-
-  public final native void onRedraw(Runnable thunk) /*-{
-    this.on("redraw", $entry(function() {
-      thunk.@java.lang.Runnable::run()();
-    }))
+/** Pos (or {line, ch}) objects used within CodeMirror. */
+public class Pos extends JavaScriptObject {
+  public static final native Pos create(int line) /*-{
+    return $wnd.CodeMirror.Pos(line)
   }-*/;
 
-  public final native void onFirstRedraw(Runnable thunk) /*-{
-    var w = this;
-    var h = $entry(function() {
-      thunk.@java.lang.Runnable::run()();
-      w.off("redraw", h);
-    });
-    w.on("redraw", h);
+  public static final native Pos create(int line, int ch) /*-{
+    return $wnd.CodeMirror.Pos(line, ch)
   }-*/;
 
-  protected LineWidget() {
+  public final native void line(int l) /*-{ this.line = l }-*/;
+  public final native void ch(int c) /*-{ this.ch = c }-*/;
+
+  public final native int line() /*-{ return this.line }-*/;
+  public final native int ch() /*-{ return this.ch || 0 }-*/;
+
+  public final boolean equals(Pos o) {
+    return this == o || (line() == o.line() && ch() == o.ch());
+  }
+
+  protected Pos() {
   }
 }

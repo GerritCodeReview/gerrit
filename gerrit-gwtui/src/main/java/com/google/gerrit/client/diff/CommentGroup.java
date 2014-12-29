@@ -218,8 +218,8 @@ class CommentGroup extends Composite {
   private void updateSelection() {
     if (cm.somethingSelected()) {
       FromTo r = cm.getSelectedRange();
-      if (r.getTo().getLine() >= line) {
-        cm.setSelection(r.getFrom(), r.getTo());
+      if (r.to().line() >= line) {
+        cm.setSelection(r.from(), r.to());
       }
     }
   }

@@ -30,9 +30,14 @@ import com.google.gwt.user.client.ui.SuggestOracle;
 public class RemoteSuggestOracle extends SuggestOracle {
   private final SuggestOracle oracle;
   private Query query;
+  private String last;
 
   public RemoteSuggestOracle(SuggestOracle src) {
     oracle = src;
+  }
+
+  public String getLast() {
+    return last;
   }
 
   @Override
@@ -68,6 +73,7 @@ public class RemoteSuggestOracle extends SuggestOracle {
         // No new request was started while this query was running.
         // Propose this request's response as the suggestions.
         query = null;
+        last = request.getQuery();
         callback.onSuggestionsReady(req, res);
       } else {
         // Another query came in while this one was running. Skip

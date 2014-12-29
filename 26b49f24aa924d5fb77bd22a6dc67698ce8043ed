@@ -22,6 +22,30 @@
       "revId": "26b49f24aa924d5fb77bd22a6dc67698ce8043ed",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c169c0a3_79cb275c",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/PreferencesBox.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 350,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-12-29T19:14:55Z",
+      "side": 1,
+      "message": "True, but we don\u0027t currently allow Guava in UI code.",
+      "parentUuid": "813188d3_27db5a81",
+      "range": {
+        "startLine": 350,
+        "startChar": 0,
+        "endLine": 350,
+        "endChar": 61
+      },
+      "revId": "26b49f24aa924d5fb77bd22a6dc67698ce8043ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

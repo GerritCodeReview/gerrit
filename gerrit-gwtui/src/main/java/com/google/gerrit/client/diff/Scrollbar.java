@@ -17,6 +17,7 @@ package com.google.gerrit.client.diff;
 import com.google.gwt.resources.client.CssResource;
 
 import net.codemirror.lib.CodeMirror;
+import net.codemirror.lib.Pos;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -84,7 +85,7 @@ class Scrollbar {
 
   private ScrollbarAnnotation diff(CodeMirror cm, int s, int n) {
     ScrollbarAnnotation a = new ScrollbarAnnotation(cm);
-    a.at(CodeMirror.pos(s), CodeMirror.pos(s + n));
+    a.at(Pos.create(s), Pos.create(s + n));
     diff.add(a);
     return a;
   }

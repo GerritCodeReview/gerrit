@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e149644e_92019cfd",
+        "filename": "gerrit-gwtui/src/main/java/net/codemirror/mode/Modes.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-12-29T05:48:04Z",
+      "side": 1,
+      "message": "nit: should be before commonlisp",
+      "range": {
+        "startLine": 30,
+        "startChar": 2,
+        "endLine": 30,
+        "endChar": 29
+      },
+      "revId": "a5baf93e5145afaff51183fabd7f209f0f8f5055",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "413a30aa_cd7709c2",
+        "filename": "gerrit-gwtui/src/main/java/net/codemirror/mode/Modes.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-12-29T05:48:04Z",
+      "side": 1,
+      "message": "note that I fixed the ordering of these in patch set 3.",
+      "range": {
+        "startLine": 58,
+        "startChar": 2,
+        "endLine": 59,
+        "endChar": 51
+      },
+      "revId": "a5baf93e5145afaff51183fabd7f209f0f8f5055",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

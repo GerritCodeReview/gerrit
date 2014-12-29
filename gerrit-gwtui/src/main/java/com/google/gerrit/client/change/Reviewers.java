@@ -76,18 +76,16 @@ public class Reviewers extends Composite {
   private Element ccText;
 
   private ReviewerSuggestOracle reviewerSuggestOracle;
+  private RemoteSuggestOracle remoteSuggestOracle;
   private HintTextBox nameTxtBox;
   private Change.Id changeId;
   private boolean submitOnSelection;
 
   Reviewers() {
     reviewerSuggestOracle = new ReviewerSuggestOracle();
-    nameTxtBox = new HintTextBox();
-    suggestBox = new SuggestBox(
-        new RemoteSuggestOracle(reviewerSuggestOracle),
-        nameTxtBox);
-    initWidget(uiBinder.createAndBindUi(this));
+    remoteSuggestOracle = new RemoteSuggestOracle(reviewerSuggestOracle);
 
+    nameTxtBox = new HintTextBox();
     nameTxtBox.setVisibleLength(55);
     nameTxtBox.setHintText(Util.C.approvalTableAddReviewerHint());
     nameTxtBox.addKeyDownHandler(new KeyDownHandler() {
@@ -98,15 +96,22 @@ public class Reviewers extends Composite {
         if (e.getNativeEvent().getKeyCode() == KeyCodes.KEY_ESCAPE) {
           onCancel(null);
         } else if (e.getNativeEvent().getKeyCode() == KeyCodes.KEY_ENTER) {
-          if (((DefaultSuggestionDisplay) suggestBox.getSuggestionDisplay())
-              .isSuggestionListShowing()) {
-            submitOnSelection = true;
+          DefaultSuggestionDisplay display =
+              (DefaultSuggestionDisplay) suggestBox.getSuggestionDisplay();
+          if (display.isSuggestionListShowing()) {
+            if (nameTxtBox.getValue().equals(remoteSuggestOracle.getLast())) {
+              submitOnSelection = true;
+            } else {
+              display.hideSuggestions();
+            }
           } else {
             onAdd(null);
           }
         }
       }
     });
+
+    suggestBox = new SuggestBox(remoteSuggestOracle, nameTxtBox);
     suggestBox.addSelectionHandler(new SelectionHandler<Suggestion>() {
       @Override
       public void onSelection(SelectionEvent<Suggestion> event) {
@@ -116,6 +121,8 @@ public class Reviewers extends Composite {
         }
       }
     });
+
+    initWidget(uiBinder.createAndBindUi(this));
   }
 
   void init(ChangeScreen2.Style style, Element ccText) {

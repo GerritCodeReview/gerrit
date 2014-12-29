@@ -553,8 +553,7 @@ public class SideBySide2 extends Screen {
 
     cmA = newCM(diff.meta_a(), diff.text_a(), DisplaySide.A, diffTable.cmA);
     cmB = newCM(diff.meta_b(), diff.text_b(), DisplaySide.B, diffTable.cmB);
-    diffTable.overview.init(cmB);
-    chunkManager = new ChunkManager(this, cmA, cmB, diffTable.overview);
+    chunkManager = new ChunkManager(this, cmA, cmB, diffTable.scrollbar);
     skipManager = new SkipManager(this, commentManager);
 
     columnMarginA = DOM.createDiv();
@@ -650,6 +649,7 @@ public class SideBySide2 extends Screen {
       .set("tabSize", prefs.tabSize())
       .set("mode", mode)
       .set("lineWrapping", false)
+      .set("scrollbarStyle", "overlay")
       .set("styleSelectedText", true)
       .set("showTrailingSpace", prefs.showWhitespaceErrors())
       .set("keyMap", "vim_ro")
@@ -790,7 +790,6 @@ public class SideBySide2 extends Screen {
       public void run() {
         skipManager.removeAll();
         skipManager.render(context, diff);
-        diffTable.overview.refresh();
       }
     });
   }
@@ -981,7 +980,6 @@ public class SideBySide2 extends Screen {
     int height = getCodeMirrorHeight();
     cmA.setHeight(height);
     cmB.setHeight(height);
-    diffTable.overview.refresh();
   }
 
   private int getCodeMirrorHeight() {
@@ -1084,7 +1082,7 @@ public class SideBySide2 extends Screen {
               public void run() {
                 skipManager.removeAll();
                 chunkManager.reset();
-                diffTable.overview.clearDiffMarkers();
+                diffTable.scrollbar.clearDiffAnnotations();
                 setShowIntraline(prefs.intralineDifference());
                 render(diff);
                 chunkManager.adjustPadding();

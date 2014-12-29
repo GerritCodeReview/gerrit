@@ -16,29 +16,16 @@ package com.google.gerrit.client.diff;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.ClientBundle;
-import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.resources.client.ImageResource;
 
 /** Resources used by diff. */
 interface Resources extends ClientBundle {
   static final Resources I = GWT.create(Resources.class);
 
-  @Source("CommentBoxUi.css") Style style();
+  @Source("CommentBox.css") CommentBox.Style style();
+  @Source("OverviewBar.css") OverviewBar.Style overviewBarStyle();
+
   @Source("goPrev.png") ImageResource goPrev();
   @Source("goNext.png") ImageResource goNext();
   @Source("goUp.png") ImageResource goUp();
-
-  interface Style extends CssResource {
-    String commentWidgets();
-    String commentBox();
-    String contents();
-    String message();
-    String header();
-    String summary();
-    String date();
-
-    String goPrev();
-    String goNext();
-    String goUp();
-  }
 }

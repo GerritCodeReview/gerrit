@@ -111,7 +111,6 @@ class SkipManager {
       for (SkipBar bar : skipBars) {
         bar.expandSideAll();
       }
-      getOverviewBar().refresh();
       skipBars = null;
       line0 = null;
     }

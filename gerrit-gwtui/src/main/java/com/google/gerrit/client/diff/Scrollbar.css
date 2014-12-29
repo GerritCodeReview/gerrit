@@ -1,0 +1,65 @@
+/* Copyright (C) 2014 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+@external .CodeMirror;
+@external .CodeMirror-overlayscroll-horizontal;
+@external .CodeMirror-overlayscroll-vertical;
+
+.CodeMirror-overlayscroll-horizontal div {
+  min-width: 25px;
+}
+.CodeMirror-overlayscroll-vertical div {
+  min-height: 25px;
+}
+
+.CodeMirror .CodeMirror-overlayscroll-vertical {
+  z-index: inherit;
+}
+.CodeMirror .CodeMirror-overlayscroll-horizontal div,
+.CodeMirror .CodeMirror-overlayscroll-vertical div {
+  background-color: rgba(128, 128, 128, 0.50);
+  z-index: 8;
+}
+
+.comment, .draft, .insert, .delete, .edit {
+  min-height: 5px;
+  position: absolute;
+  right: 0;
+  z-index: 7;
+}
+
+.comment::before, .draft::before {
+  position: absolute;
+  color: #0d0d0d;
+  font-size: 9px;
+}
+.comment::before {
+  content: "\2736"; // Six pointed black star
+}
+.draft::before {
+  content: "\270D"; // Writing hand
+}
+
+.delete {
+  background-color: #faa;
+}
+.insert {
+  background-color: #9f9;
+}
+.edit {
+  border-left: 3px solid #faa;
+  width: 2px !important;
+  background-color: #9f9;
+}

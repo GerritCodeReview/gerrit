@@ -16,7 +16,7 @@
 </listAttribute>
 <booleanAttribute key="org.eclipse.jdt.launching.DEFAULT_CLASSPATH" value="false"/>
 <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="com.google.gerrit.gwtdebug.GerritGwtDebugLauncher"/>
-<stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-noprecompile -src ${resource_loc:/gerrit} -workDir ${resource_loc:/gerrit}/buck-out/gen/gerrit-gwtui com.google.gerrit.GerritGwtUI -- --console-log --show-stack-trace -d ${resource_loc:/gerrit}/../gerrit_testsite"/>
+<stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-noprecompile -src ${resource_loc:/gerrit} -workDir ${resource_loc:/gerrit}/buck-out/gen/gerrit-gwtui com.google.gerrit.GerritGwtUI -- --console-log --show-stack-trace -d /usr/local/google/home/sbeller/gerrittestserver"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="gerrit"/>
 <stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Xmx1024M&#10;-XX:MaxPermSize=256M&#10;-Dgerrit.disable-gwtui-recompile=true"/>
 </launchConfiguration>

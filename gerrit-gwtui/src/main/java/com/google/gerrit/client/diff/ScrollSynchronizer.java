@@ -43,9 +43,9 @@ class ScrollSynchronizer {
   }
 
   private void updateScreenHeader(ScrollInfo si) {
-    if (si.getTop() == 0 && !diffTable.isHeaderVisible()) {
+    if (si.top() == 0 && !diffTable.isHeaderVisible()) {
       diffTable.setHeaderVisible(true);
-    } else if (si.getTop() > 0.5 * si.getClientHeight()
+    } else if (si.top() > 0.5 * si.clientHeight()
         && diffTable.isHeaderVisible()) {
       diffTable.setHeaderVisible(false);
     }
@@ -73,7 +73,7 @@ class ScrollSynchronizer {
     }
 
     void sync() {
-      dst.scrollToY(align(src.getScrollInfo().getTop()));
+      dst.scrollToY(align(src.getScrollInfo().top()));
     }
 
     @Override
@@ -85,7 +85,7 @@ class ScrollSynchronizer {
       if (active == this) {
         ScrollInfo si = src.getScrollInfo();
         updateScreenHeader(si);
-        dst.scrollTo(si.getLeft(), align(si.getTop()));
+        dst.scrollTo(si.left(), align(si.top()));
         state = 0;
       }
     }
@@ -94,7 +94,7 @@ class ScrollSynchronizer {
       switch (state) {
         case 0:
           state = 1;
-          dst.scrollToY(align(src.getScrollInfo().getTop()));
+          dst.scrollToY(align(src.getScrollInfo().top()));
           break;
         case 1:
           state = 2;

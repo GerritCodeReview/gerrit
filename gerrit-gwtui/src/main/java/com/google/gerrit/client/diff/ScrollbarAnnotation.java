@@ -23,15 +23,15 @@ import com.google.gwt.user.client.ui.Widget;
 
 import net.codemirror.lib.CodeMirror;
 import net.codemirror.lib.CodeMirror.RegisteredHandler;
-import net.codemirror.lib.LineCharacter;
+import net.codemirror.lib.Pos;
 
 /** Displayed on the vertical scrollbar to place a chunk or comment. */
 class ScrollbarAnnotation extends Widget implements ClickHandler {
   private final CodeMirror cm;
   private CodeMirror cmB;
   private RegisteredHandler refresh;
-  private LineCharacter from;
-  private LineCharacter to;
+  private Pos from;
+  private Pos to;
   private double scale;
 
   ScrollbarAnnotation(CodeMirror cm) {
@@ -47,10 +47,10 @@ class ScrollbarAnnotation extends Widget implements ClickHandler {
   }
 
   void at(int line) {
-    at(CodeMirror.pos(line), CodeMirror.pos(line + 1));
+    at(Pos.create(line), Pos.create(line + 1));
   }
 
-  void at(LineCharacter from, LineCharacter to) {
+  void at(Pos from, Pos to) {
     this.from = from;
     this.to = to;
   }
@@ -101,8 +101,8 @@ class ScrollbarAnnotation extends Widget implements ClickHandler {
   public void onClick(ClickEvent event) {
     event.stopPropagation();
 
-    int line = from.getLine();
-    int h = to.getLine() - line;
+    int line = from.line();
+    int h = to.line() - line;
     if (h > 5) {
       // Map click inside of the annotation to the relative position
       // within the region covered by the annotation.
@@ -111,7 +111,7 @@ class ScrollbarAnnotation extends Widget implements ClickHandler {
     }
 
     double y = cm.heightAtLine(line, "local");
-    double viewport = cm.getScrollInfo().getClientHeight();
+    double viewport = cm.getScrollInfo().clientHeight();
     cm.setCursor(from);
     cm.scrollTo(0, y - 0.5 * viewport);
     cm.focus();

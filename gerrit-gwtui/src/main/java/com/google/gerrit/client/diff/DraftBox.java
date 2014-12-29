@@ -236,7 +236,7 @@ class DraftBox extends CommentBox {
     getCommentManager().setUnsaved(this, false);
     setRangeHighlight(false);
     clearRange();
-    getMark().remove();
+    getMark().clear();
     getCommentGroup().remove(this);
     getCm().focus();
   }

@@ -159,10 +159,14 @@ class CommentManager {
             getPatchSetIdFromSide(side),
             info);
         group.add(box);
-        box.setMark(host.diffTable.overview.add(
+        int start = Math.max(0, info.line() - 1);
+        int end = info.range() != null
+            ? Math.max(0, info.range().end_line() - 1)
+            : start;
+        box.setMark(host.diffTable.scrollbar.comment(
             host.getCmFromSide(side),
-            Math.max(0, info.line() - 1), 1,
-            OverviewBar.MarkType.COMMENT));
+            CodeMirror.pos(start),
+            CodeMirror.pos(end)));
         published.put(info.id(), box);
       }
     }
@@ -223,10 +227,14 @@ class CommentManager {
     }
 
     group.add(box);
-    box.setMark(host.diffTable.overview.add(
+    int start = Math.max(0, info.line() - 1);
+    int end = info.range() != null
+        ? Math.max(0, info.range().end_line() - 1)
+        : start;
+    box.setMark(host.diffTable.scrollbar.draft(
         host.getCmFromSide(side),
-        Math.max(0, info.line() - 1), 1,
-        OverviewBar.MarkType.DRAFT));
+        CodeMirror.pos(start),
+        CodeMirror.pos(end)));
     return box;
   }
 

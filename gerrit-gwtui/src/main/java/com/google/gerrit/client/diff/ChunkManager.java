@@ -16,9 +16,6 @@ package com.google.gerrit.client.diff;
 
 import static com.google.gerrit.client.diff.DisplaySide.A;
 import static com.google.gerrit.client.diff.DisplaySide.B;
-import static com.google.gerrit.client.diff.OverviewBar.MarkType.DELETE;
-import static com.google.gerrit.client.diff.OverviewBar.MarkType.EDIT;
-import static com.google.gerrit.client.diff.OverviewBar.MarkType.INSERT;
 
 import com.google.gerrit.client.diff.DiffInfo.Region;
 import com.google.gerrit.client.diff.DiffInfo.Span;
@@ -79,7 +76,7 @@ class ChunkManager {
   private final SideBySide2 host;
   private final CodeMirror cmA;
   private final CodeMirror cmB;
-  private final OverviewBar sidePanel;
+  private final Scrollbar scrollbar;
   private final LineMapper mapper;
 
   private List<DiffChunkInfo> chunks;
@@ -91,11 +88,11 @@ class ChunkManager {
   ChunkManager(SideBySide2 host,
       CodeMirror cmA,
       CodeMirror cmB,
-      OverviewBar sidePanel) {
+      Scrollbar scrollbar) {
     this.host = host;
     this.cmA = cmA;
     this.cmB = cmB;
-    this.sidePanel = sidePanel;
+    this.scrollbar = scrollbar;
     this.mapper = new LineMapper();
   }
 
@@ -197,11 +194,11 @@ class ChunkManager {
 
   private void addGutterTag(Region region, int startA, int startB) {
     if (region.a() == null) {
-      sidePanel.add(cmB, startB, region.b().length(), INSERT);
+      scrollbar.insert(cmB, startB, region.b().length());
     } else if (region.b() == null) {
-      sidePanel.add(cmA, startA, region.a().length(), DELETE);
+      scrollbar.delete(cmA, cmB, startA, region.a().length());
     } else {
-      sidePanel.add(cmB, startB, region.b().length(), EDIT);
+      scrollbar.edit(cmB, startB, region.b().length());
     }
   }
 

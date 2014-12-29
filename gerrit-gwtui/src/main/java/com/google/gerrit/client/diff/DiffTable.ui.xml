@@ -19,7 +19,8 @@ limitations under the License.
     xmlns:d='urn:import:com.google.gerrit.client.diff'>
   <ui:style type='com.google.gerrit.client.diff.DiffTable.DiffTableStyle'>
     @external .CodeMirror, .CodeMirror-lines, .CodeMirror-selectedtext;
-    @external .CodeMirror-linenumber, .CodeMirror-vscrollbar .CodeMirror-scroll;
+    @external .CodeMirror-linenumber;
+    @external .CodeMirror-overlayscroll-vertical, .CodeMirror-scroll;
     @external .CodeMirror-dialog-bottom;
     @external .cm-animate-fat-cursor, .CodeMirror-cursor;
     @external .cm-searching, .cm-trailingspace, .cm-tab;
@@ -75,14 +76,9 @@ limitations under the License.
     .hideA .psNavB, .hideA .b { width: 100% }
     .hideB .psNavA, .hideB .a { width: 100% }
 
-    .overview {
-      width: 10px;
-      vertical-align: top;
-    }
-
-    /* Hide scrollbars, OverviewBar controls both views. */
-    .difftable .CodeMirror-scroll { padding-right: 0; }
-    .difftable .CodeMirror-vscrollbar { display: none !important; }
+    /* Hide scrollbars on A, B controls both views. */
+    .a .CodeMirror-scroll { margin-right: -36px; }
+    .a .CodeMirror-overlayscroll-vertical { display: none !important; }
 
     .showLineNumbers .b { border-left: none; }
     .b { border-left: 1px solid #ddd; }
@@ -195,16 +191,13 @@ limitations under the License.
         <td ui:field='patchSetNavCellB' class='{style.psNavB}'>
           <d:PatchSetSelectBox2 ui:field='patchSetSelectBoxB' />
         </td>
-        <td class='{style.overview}' />
       </tr>
       <tr ui:field='diffHeaderRow' class='{style.diff_header}'>
         <td colspan='2'><pre ui:field='diffHeaderText' /></td>
-        <td class='{style.overview}' />
       </tr>
       <tr>
         <td ui:field='cmA' class='{style.a}' />
         <td ui:field='cmB' class='{style.b}' />
-        <td class='{style.overview}'><d:OverviewBar ui:field='overview'/></td>
       </tr>
     </table>
     <g:FlowPanel ui:field='widgets' visible='false'/>

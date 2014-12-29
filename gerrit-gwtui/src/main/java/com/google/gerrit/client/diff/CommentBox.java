@@ -19,6 +19,7 @@ import com.google.gwt.event.dom.client.MouseOutEvent;
 import com.google.gwt.event.dom.client.MouseOutHandler;
 import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.event.dom.client.MouseOverHandler;
+import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.user.client.ui.Composite;
 
 import net.codemirror.lib.CodeMirror;
@@ -32,8 +33,22 @@ abstract class CommentBox extends Composite {
     Resources.I.style().ensureInjected();
   }
 
+  interface Style extends CssResource {
+    String commentWidgets();
+    String commentBox();
+    String contents();
+    String message();
+    String header();
+    String summary();
+    String date();
+
+    String goPrev();
+    String goNext();
+    String goUp();
+  }
+
   private final CommentGroup group;
-  private OverviewBar.MarkHandle mark;
+  private ScrollbarAnnotation mark;
   private FromTo fromTo;
   private TextMarker rangeMarker;
   private TextMarker rangeHighlightMarker;
@@ -79,11 +94,11 @@ abstract class CommentBox extends Composite {
     return group.getCommentManager();
   }
 
-  OverviewBar.MarkHandle getMark() {
+  ScrollbarAnnotation getMark() {
     return mark;
   }
 
-  void setMark(OverviewBar.MarkHandle mh) {
+  void setMark(ScrollbarAnnotation mh) {
     mark = mh;
   }
 

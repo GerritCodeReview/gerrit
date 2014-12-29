@@ -42,7 +42,7 @@ public class AddMemberBox extends Composite {
     addPanel = new FlowPanel();
     addMember = new Button(buttonLabel);
     nameTxtBox = new HintTextBox();
-    nameTxt = new SuggestBox(new RPCSuggestOracle(
+    nameTxt = new SuggestBox(new RemoteSuggestOracle(
         suggestOracle), nameTxtBox);
     nameTxt.setStyleName(Gerrit.RESOURCES.css().addMemberTextBox());
 

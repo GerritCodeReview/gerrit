@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "413a30aa_6d2c55af",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/ScrollbarAnnotation.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-12-29T05:19:37Z",
+      "side": 1,
+      "message": "Missing license and copyright header.",
+      "revId": "e8b33c0ffe9422f08efd080cf2a524a130026f70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e149644e_12992c88",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/SkipManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-12-29T05:19:37Z",
+      "side": 1,
+      "message": "This is no longer referenced anywhere.",
+      "range": {
+        "startLine": 41,
+        "startChar": 2,
+        "endLine": 43,
+        "endChar": 3
+      },
+      "revId": "e8b33c0ffe9422f08efd080cf2a524a130026f70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -22,7 +22,6 @@ import net.codemirror.lib.ScrollInfo;
 class ScrollSynchronizer {
   private DiffTable diffTable;
   private LineMapper mapper;
-  private OverviewBar overview;
   private ScrollCallback active;
   private ScrollCallback callbackA;
   private ScrollCallback callbackB;
@@ -32,7 +31,6 @@ class ScrollSynchronizer {
       LineMapper mapper) {
     this.diffTable = diffTable;
     this.mapper = mapper;
-    this.overview = diffTable.overview;
 
     callbackA = new ScrollCallback(cmA, cmB, DisplaySide.A);
     callbackB = new ScrollCallback(cmB, cmA, DisplaySide.B);
@@ -87,7 +85,6 @@ class ScrollSynchronizer {
       if (active == this) {
         ScrollInfo si = src.getScrollInfo();
         updateScreenHeader(si);
-        overview.update(si);
         dst.scrollTo(si.getLeft(), align(si.getTop()));
         state = 0;
       }

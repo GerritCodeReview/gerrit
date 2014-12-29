@@ -61,7 +61,7 @@ class DiffTable extends Composite {
 
   @UiField Element cmA;
   @UiField Element cmB;
-  @UiField OverviewBar overview;
+  Scrollbar scrollbar;
   @UiField Element patchSetNavRow;
   @UiField Element patchSetNavCellA;
   @UiField Element patchSetNavCellB;
@@ -92,6 +92,7 @@ class DiffTable extends Composite {
     PatchSetSelectBox2.link(patchSetSelectBoxA, patchSetSelectBoxB);
 
     initWidget(uiBinder.createAndBindUi(this));
+    this.scrollbar = new Scrollbar(this);
     this.parent = parent;
     this.headerVisible = true;
     this.visibleA = true;
@@ -211,7 +212,6 @@ class DiffTable extends Composite {
   }
 
   void refresh() {
-    overview.refresh();
     if (header) {
       CodeMirror cm = parent.getCmFromSide(DisplaySide.A);
       diffHeaderText.getStyle().setMarginLeft(

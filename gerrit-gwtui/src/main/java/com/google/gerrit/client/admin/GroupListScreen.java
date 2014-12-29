@@ -19,8 +19,8 @@ import static com.google.gerrit.common.PageLinks.ADMIN_GROUPS;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.groups.GroupMap;
 import com.google.gerrit.client.rpc.GerritCallback;
-import com.google.gerrit.client.ui.AccountScreen;
 import com.google.gerrit.client.ui.Hyperlink;
+import com.google.gerrit.client.ui.Screen;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences;
 import com.google.gwt.event.dom.client.KeyCodes;
@@ -31,7 +31,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwtexpui.globalkey.client.NpTextBox;
 
-public class GroupListScreen extends AccountScreen {
+public class GroupListScreen extends Screen {
   private Hyperlink prev;
   private Hyperlink next;
   private GroupTable groups;
@@ -43,10 +43,12 @@ public class GroupListScreen extends AccountScreen {
   private Query query;
 
   public GroupListScreen() {
+    setRequiresSignIn(true);
     configurePageSize();
   }
 
   public GroupListScreen(String params) {
+    this();
     for (String kvPair : params.split("[,;&]")) {
       String[] kv = kvPair.split("=", 2);
       if (kv.length != 2 || kv[0].isEmpty()) {
@@ -61,7 +63,6 @@ public class GroupListScreen extends AccountScreen {
         start = Integer.parseInt(URL.decodeQueryString(kv[1]));
       }
     }
-    configurePageSize();
   }
 
   private void configurePageSize() {

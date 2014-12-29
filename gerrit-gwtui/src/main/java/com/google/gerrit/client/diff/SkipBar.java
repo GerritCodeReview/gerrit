@@ -133,7 +133,6 @@ class SkipBar extends Composite {
   void expandBefore(int cnt) {
     expandSideBefore(cnt);
     otherBar.expandSideBefore(cnt);
-    manager.getOverviewBar().refresh();
   }
 
   private void expandSideBefore(int cnt) {
@@ -185,7 +184,6 @@ class SkipBar extends Composite {
     expandSideAll();
     otherBar.expandSideAll();
     manager.remove(this, otherBar);
-    manager.getOverviewBar().refresh();
   }
 
   @UiHandler("upArrow")
@@ -198,7 +196,6 @@ class SkipBar extends Composite {
   void onExpandAfter(@SuppressWarnings("unused") ClickEvent e) {
     expandAfter();
     otherBar.expandAfter();
-    manager.getOverviewBar().refresh();
     cm.focus();
   }
 }

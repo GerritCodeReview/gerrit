@@ -20,11 +20,11 @@ import com.google.gwt.core.client.JavaScriptObject;
 public class CodeMirrorDoc extends JavaScriptObject {
 
   public final native void replaceRange(String replacement,
-      LineCharacter from, LineCharacter to) /*-{
+      Pos from, Pos to) /*-{
     this.replaceRange(replacement, from, to);
   }-*/;
 
-  public final native void insertText(String insertion, LineCharacter at) /*-{
+  public final native void insertText(String insertion, Pos at) /*-{
     this.replaceRange(insertion, at);
   }-*/;
 

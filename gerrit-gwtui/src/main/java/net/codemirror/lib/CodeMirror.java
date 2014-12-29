@@ -69,6 +69,9 @@ public class CodeMirror extends JavaScriptObject {
   public final native void setHeight(double h) /*-{ this.setSize(null, h); }-*/;
   public final native void setHeight(String h) /*-{ this.setSize(null, h); }-*/;
   public final native String getLine(int n) /*-{ return this.getLine(n) }-*/;
+  public final native double barHeight() /*-{ return this.display.barHeight }-*/;
+  public final native double barWidth() /*-{ return this.display.barWidth }-*/;
+  public final native int lastLine() /*-{ return this.lastLine() }-*/;
 
   public final native void refresh() /*-{ this.refresh(); }-*/;
   public final native Element getWrapperElement() /*-{ return this.getWrapperElement(); }-*/;
@@ -178,10 +181,14 @@ public class CodeMirror extends JavaScriptObject {
     });
   }-*/;
 
-  public final native void on(String event, Runnable thunk) /*-{
-    this.on(event, $entry(function() {
-      thunk.@java.lang.Runnable::run()();
-    }));
+  public final native void off(String event, RegisteredHandler h) /*-{
+    this.off(event, h)
+  }-*/;
+
+  public final native RegisteredHandler on(String event, Runnable thunk) /*-{
+    var h = $entry(function() { thunk.@java.lang.Runnable::run()() });
+    this.on(event, h);
+    return h;
   }-*/;
 
   public final native void on(String event, EventHandler handler) /*-{
@@ -351,6 +358,11 @@ public class CodeMirror extends JavaScriptObject {
 
   public static class LineHandle extends JavaScriptObject {
     protected LineHandle(){
+    }
+  }
+
+  public static class RegisteredHandler extends JavaScriptObject {
+    protected RegisteredHandler() {
     }
   }
 

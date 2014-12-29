@@ -16,26 +16,22 @@ package net.codemirror.lib;
 
 import com.google.gwt.core.client.JavaScriptObject;
 
-/** LineWidget objects used within CodeMirror. */
-public class LineWidget extends JavaScriptObject {
-  public final native void clear() /*-{ this.clear() }-*/;
-  public final native void changed() /*-{ this.changed() }-*/;
+/** Pos (or {line, ch}) objects used within CodeMirror. */
+public class Pos extends JavaScriptObject {
+  public static final Pos create(int line) {
+    return create(line, 0);
+  }
 
-  public final native void onRedraw(Runnable thunk) /*-{
-    this.on("redraw", $entry(function() {
-      thunk.@java.lang.Runnable::run()();
-    }))
+  public static final native Pos create(int line, int ch) /*-{
+    return $wnd.CodeMirror.Pos(line, ch)
   }-*/;
 
-  public final native void onFirstRedraw(Runnable thunk) /*-{
-    var w = this;
-    var h = $entry(function() {
-      thunk.@java.lang.Runnable::run()();
-      w.off("redraw", h);
-    });
-    w.on("redraw", h);
-  }-*/;
+  public final native void line(int l) /*-{ this.line = l }-*/;
+  public final native void ch(int c) /*-{ this.ch = c }-*/;
 
-  protected LineWidget() {
+  public final native int line() /*-{ return this.line }-*/;
+  public final native int ch() /*-{ return this.ch }-*/;
+
+  protected Pos() {
   }
 }

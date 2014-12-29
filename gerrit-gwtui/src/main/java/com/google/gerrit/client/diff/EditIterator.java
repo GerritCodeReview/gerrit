@@ -16,7 +16,7 @@ package com.google.gerrit.client.diff;
 
 import com.google.gwt.core.client.JsArrayString;
 
-import net.codemirror.lib.LineCharacter;
+import net.codemirror.lib.Pos;
 
 /** An iterator for intraline edits */
 class EditIterator {
@@ -30,13 +30,13 @@ class EditIterator {
     startLine = start;
   }
 
-  LineCharacter advance(int numOfChar) {
+  Pos advance(int numOfChar) {
     numOfChar = adjustForNegativeDelta(numOfChar);
 
     while (line < lines.length()) {
       int len = lines.get(line).length() - pos + 1; // + 1 for LF
       if (numOfChar < len) {
-        LineCharacter at = LineCharacter.create(
+        Pos at = Pos.create(
             startLine + line,
             numOfChar + pos);
         pos += numOfChar;
@@ -48,7 +48,7 @@ class EditIterator {
       pos = 0;
 
       if (numOfChar == 0) {
-        return LineCharacter.create(startLine + line, 0);
+        return Pos.create(startLine + line, 0);
       }
     }
 

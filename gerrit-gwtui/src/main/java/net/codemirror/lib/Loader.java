@@ -101,12 +101,12 @@ class Loader {
     }
     CodeMirror.addKeyMap("vim_ro", km);
 
-    CodeMirror.mapVimKey("j", "gj");
-    CodeMirror.mapVimKey("k", "gk");
-    CodeMirror.mapVimKey("Down", "gj");
-    CodeMirror.mapVimKey("Up", "gk");
-    CodeMirror.mapVimKey("<PageUp>", "<C-u>");
-    CodeMirror.mapVimKey("<PageDown>", "<C-d>");
+    Vim.mapKey("j", "gj");
+    Vim.mapKey("k", "gk");
+    Vim.mapKey("Down", "gj");
+    Vim.mapKey("Up", "gk");
+    Vim.mapKey("<PageUp>", "<C-u>");
+    Vim.mapKey("<PageDown>", "<C-d>");
   }
 
   private static void error(Exception e) {

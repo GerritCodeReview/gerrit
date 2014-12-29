@@ -32,7 +32,7 @@ import com.google.gwt.user.client.EventListener;
 import net.codemirror.lib.CodeMirror;
 import net.codemirror.lib.CodeMirror.LineClassWhere;
 import net.codemirror.lib.Configuration;
-import net.codemirror.lib.LineCharacter;
+import net.codemirror.lib.Pos;
 import net.codemirror.lib.LineWidget;
 import net.codemirror.lib.TextMarker;
 
@@ -217,20 +217,20 @@ class ChunkManager {
         .set("className", DiffTable.style.diff())
         .set("readOnly", true);
 
-    LineCharacter last = CodeMirror.pos(0, 0);
+    Pos last = Pos.create(0, 0);
     for (Span span : Natives.asList(edits)) {
-      LineCharacter from = iter.advance(span.skip());
-      LineCharacter to = iter.advance(span.mark());
-      if (from.getLine() == last.getLine()) {
+      Pos from = iter.advance(span.skip());
+      Pos to = iter.advance(span.mark());
+      if (from.line() == last.line()) {
         markers.add(cm.markText(last, from, bg));
       } else {
-        markers.add(cm.markText(CodeMirror.pos(from.getLine(), 0), from, bg));
+        markers.add(cm.markText(Pos.create(from.line()), from, bg));
       }
       markers.add(cm.markText(from, to, diff));
       last = to;
       colorLines(cm, LineClassWhere.BACKGROUND,
           DiffTable.style.diff(),
-          from.getLine(), to.getLine());
+          from.line(), to.line());
     }
   }
 
@@ -291,7 +291,7 @@ class ChunkManager {
     return new Runnable() {
       @Override
       public void run() {
-        int line = cm.hasActiveLine() ? cm.getLineNumber(cm.getActiveLine()) : 0;
+        int line = cm.hasActiveLine() ? cm.getLineNumber(cm.activeLine()) : 0;
         int res = Collections.binarySearch(
                 chunks,
                 new DiffChunkInfo(cm.side(), line, 0, false),
@@ -315,11 +315,11 @@ class ChunkManager {
 
         DiffChunkInfo target = chunks.get(res);
         CodeMirror targetCm = host.getCmFromSide(target.getSide());
-        targetCm.setCursor(LineCharacter.create(target.getStart()));
+        targetCm.setCursor(Pos.create(target.getStart()));
         targetCm.focus();
         targetCm.scrollToY(
             targetCm.heightAtLine(target.getStart(), "local") -
-            0.5 * cmB.getScrollbarV().getClientHeight());
+            0.5 * cmB.scrollbarV().getClientHeight());
       }
     };
   }

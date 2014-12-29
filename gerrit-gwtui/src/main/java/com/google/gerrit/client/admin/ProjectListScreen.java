@@ -24,10 +24,8 @@ import com.google.gerrit.client.projects.ProjectInfo;
 import com.google.gerrit.client.projects.ProjectMap;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.Natives;
-import com.google.gerrit.client.ui.FilteredUserInterface;
 import com.google.gerrit.client.ui.HighlightingInlineHyperlink;
 import com.google.gerrit.client.ui.Hyperlink;
-import com.google.gerrit.client.ui.IgnoreOutdatedFilterResultsCallbackWrapper;
 import com.google.gerrit.client.ui.ProjectSearchLink;
 import com.google.gerrit.client.ui.ProjectsTable;
 import com.google.gerrit.client.ui.Screen;
@@ -47,14 +45,16 @@ import com.google.gwtexpui.globalkey.client.NpTextBox;
 
 import java.util.List;
 
-public class ProjectListScreen extends Screen implements FilteredUserInterface {
+public class ProjectListScreen extends Screen {
   private Hyperlink prev;
   private Hyperlink next;
   private ProjectsTable projects;
   private NpTextBox filterTxt;
-  private String subname = "";
-  private int startPosition;
   private int pageSize;
+
+  private String match = "";
+  private int start;
+  private Query query;
 
   public ProjectListScreen() {
     configurePageSize();
@@ -68,11 +68,11 @@ public class ProjectListScreen extends Screen implements FilteredUserInterface {
       }
 
       if ("filter".equals(kv[0])) {
-        subname = URL.decodeQueryString(kv[1]);
+        match = URL.decodeQueryString(kv[1]);
       }
 
       if ("skip".equals(kv[0]) && URL.decodeQueryString(kv[1]).matches("^[\\d]+")) {
-        startPosition = Integer.parseInt(URL.decodeQueryString(kv[1]));
+        start = Integer.parseInt(URL.decodeQueryString(kv[1]));
       }
     }
     configurePageSize();
@@ -92,41 +92,7 @@ public class ProjectListScreen extends Screen implements FilteredUserInterface {
   @Override
   protected void onLoad() {
     super.onLoad();
-    display();
-    refresh(false, false);
-  }
-
-  private void refresh(final boolean open, final boolean filterModified) {
-    if (filterModified){
-      startPosition = 0;
-    }
-    setToken(getTokenForScreen(subname, startPosition));
-    // Retrieve one more project than page size to determine if there are more
-    // projects to display
-    ProjectMap.match(subname, pageSize + 1, startPosition,
-        new IgnoreOutdatedFilterResultsCallbackWrapper<>(this,
-            new GerritCallback<ProjectMap>() {
-              @Override
-              public void onSuccess(ProjectMap result) {
-                if (open && result.values().length() > 0) {
-                  Gerrit.display(PageLinks.toProject(
-                      result.values().get(0).name_key()));
-                } else {
-                  if (result.size() <= pageSize) {
-                    projects.display(result);
-                    next.setVisible(false);
-                  } else {
-                    projects.displaySubset(result, 0, result.size() - 1);
-                    setupNavigationLink(next, subname, startPosition + pageSize);
-                  }
-                  if (startPosition > 0) {
-                    setupNavigationLink(prev, subname, startPosition - pageSize);
-                  } else {
-                    prev.setVisible(false);
-                  }
-                }
-              }
-            }));
+    query = new Query(match).start(start).run();
   }
 
   private void setupNavigationLink(Hyperlink link, String filter, int skip) {
@@ -148,11 +114,6 @@ public class ProjectListScreen extends Screen implements FilteredUserInterface {
       token += "skip=" + skip;
     }
     return token;
-  }
-
-  @Override
-  public String getCurrentFilter() {
-    return subname;
   }
 
   @Override
@@ -215,7 +176,7 @@ public class ProjectListScreen extends Screen implements FilteredUserInterface {
 
         FlowPanel fp = new FlowPanel();
         fp.add(new ProjectSearchLink(k.name_key()));
-        fp.add(new HighlightingInlineHyperlink(k.name(), link(k), subname));
+        fp.add(new HighlightingInlineHyperlink(k.name(), link(k), match));
         table.setWidget(row, ProjectsTable.C_NAME, fp);
         table.setText(row, ProjectsTable.C_DESCRIPTION, k.description());
         addWebLinks(row, k);
@@ -261,16 +222,20 @@ public class ProjectListScreen extends Screen implements FilteredUserInterface {
     filterLabel.setStyleName(Gerrit.RESOURCES.css().projectFilterLabel());
     hp.add(filterLabel);
     filterTxt = new NpTextBox();
-    filterTxt.setValue(subname);
+    filterTxt.setValue(match);
     filterTxt.addKeyUpHandler(new KeyUpHandler() {
       @Override
       public void onKeyUp(KeyUpEvent event) {
-        boolean enterPressed =
-            event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ENTER;
-        boolean filterModified = !filterTxt.getValue().equals(subname);
-        if (enterPressed || filterModified) {
-          subname = filterTxt.getValue();
-          refresh(enterPressed, filterModified);
+        Query q = new Query(filterTxt.getValue())
+          .open(event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ENTER);
+        if (match.equals(q.qMatch)) {
+          q.start(start);
+        }
+        if (q.open || !match.equals(q.qMatch)) {
+          if (query == null) {
+            q.run();
+          }
+          query = q;
         }
       }
     });
@@ -281,8 +246,8 @@ public class ProjectListScreen extends Screen implements FilteredUserInterface {
   @Override
   public void onShowView() {
     super.onShowView();
-    if (subname != null) {
-      filterTxt.setCursorPos(subname.length());
+    if (match != null) {
+      filterTxt.setCursorPos(match.length());
     }
     filterTxt.setFocus(true);
   }
@@ -291,5 +256,73 @@ public class ProjectListScreen extends Screen implements FilteredUserInterface {
   public void registerKeys() {
     super.registerKeys();
     projects.setRegisterKeys(true);
+  }
+
+  private class Query {
+    private final String qMatch;
+    private int qStart;
+    private boolean open;
+
+    Query(String match) {
+      this.qMatch = match;
+    }
+
+    Query start(int start) {
+      this.qStart = start;
+      return this;
+    }
+
+    Query open(boolean open) {
+      this.open = open;
+      return this;
+    }
+
+    Query run() {
+      int limit = open ? 1 : pageSize + 1;
+      ProjectMap.match(qMatch, limit, qStart,
+          new GerritCallback<ProjectMap>() {
+            @Override
+            public void onSuccess(ProjectMap result) {
+              if (!isAttached()) {
+                // View has been disposed.
+              } else if (query == Query.this) {
+                query = null;
+                showMap(result);
+              } else {
+                query.run();
+              }
+            }
+          });
+      return this;
+    }
+
+    private void showMap(ProjectMap result) {
+      if (open && !result.isEmpty()) {
+        Gerrit.display(PageLinks.toProject(result.values().get(0).name_key()));
+        return;
+      }
+
+      setToken(getTokenForScreen(qMatch, qStart));
+      ProjectListScreen.this.match = qMatch;
+      ProjectListScreen.this.start = qStart;
+
+      if (result.size() <= pageSize) {
+        projects.display(result);
+        next.setVisible(false);
+      } else {
+        projects.displaySubset(result, 0, result.size() - 1);
+        setupNavigationLink(next, qMatch, qStart + pageSize);
+      }
+
+      if (qStart > 0) {
+        setupNavigationLink(prev, qMatch, qStart - pageSize);
+      } else {
+        prev.setVisible(false);
+      }
+
+      if (!isCurrentView()) {
+        display();
+      }
+    }
   }
 }

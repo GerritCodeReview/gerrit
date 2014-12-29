@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "4175d075_353c50b2",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-12-29T07:28:52Z",
+      "side": 1,
+      "message": "It is I who should be sorry! :)",
+      "parentUuid": "4175d075_35329011",
+      "range": {
+        "startLine": 298,
+        "startChar": 0,
+        "endLine": 301,
+        "endChar": 2
+      },
+      "revId": "3ab32f7051cac23fc328c6365b4fc74119c98753",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "61781470_d6508429",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
         "patchSetId": 8
@@ -36,6 +60,24 @@
       "writtenOn": "2014-12-23T14:37:05Z",
       "side": 1,
       "message": "Nit: add new line ater this block to separate handling different aspects.",
+      "revId": "3ab32f7051cac23fc328c6365b4fc74119c98753",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4175d075_5539ccc0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 934,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2014-12-29T07:28:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "61781470_d6508429",
       "revId": "3ab32f7051cac23fc328c6365b4fc74119c98753",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

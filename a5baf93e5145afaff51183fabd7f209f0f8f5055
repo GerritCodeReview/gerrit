@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "813188d3_87c966bc",
+        "filename": "gerrit-gwtui/src/main/java/net/codemirror/mode/Modes.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-12-29T05:51:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e149644e_92019cfd",
+      "range": {
+        "startLine": 30,
+        "startChar": 2,
+        "endLine": 30,
+        "endChar": 29
+      },
+      "revId": "a5baf93e5145afaff51183fabd7f209f0f8f5055",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "413a30aa_cd7709c2",
         "filename": "gerrit-gwtui/src/main/java/net/codemirror/mode/Modes.java",
         "patchSetId": 3

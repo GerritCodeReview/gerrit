@@ -35,13 +35,14 @@ import com.google.gwtexpui.globalkey.client.HidePopupPanelCommand;
 import com.google.gwtexpui.globalkey.client.NpTextBox;
 import com.google.gwtexpui.user.client.PluginSafeDialogBox;
 
-/** It creates a popup containing all the projects. */
-public class ProjectListPopup implements FilteredUserInterface {
+/** A popup containing all projects. */
+public class ProjectListPopup {
   private HighlightingProjectsTable projectsTab;
   private PluginSafeDialogBox popup;
   private NpTextBox filterTxt;
   private HorizontalPanel filterPanel;
-  private String subname;
+  private String match;
+  private Query query;
   private Button close;
   private ScrollPanel sp;
   private PopupPanel.PositionCallback popupPosition;
@@ -117,12 +118,16 @@ public class ProjectListPopup implements FilteredUserInterface {
     filterLabel.setStyleName(Gerrit.RESOURCES.css().projectFilterLabel());
     filterPanel.add(filterLabel);
     filterTxt = new NpTextBox();
-    filterTxt.setValue(subname);
     filterTxt.addKeyUpHandler(new KeyUpHandler() {
       @Override
       public void onKeyUp(KeyUpEvent event) {
-        subname = filterTxt.getValue();
-        populateProjects();
+        Query q = new Query(filterTxt.getValue());
+        if (!match.equals(q.qMatch)) {
+          if (query == null) {
+            q.run();
+          }
+          query = q;
+        }
       }
     });
     filterPanel.add(filterTxt);
@@ -158,7 +163,8 @@ public class ProjectListPopup implements FilteredUserInterface {
   public void displayPopup() {
     poppingUp = true;
     if (firstPopupLoad) { // For sizing/positioning, delay display until loaded
-      populateProjects();
+      match = "";
+      query = new Query(match).run();
     } else {
       popup.setPopupPositionAndShow(popupPosition);
       GlobalKey.dialog(popup);
@@ -183,23 +189,39 @@ public class ProjectListPopup implements FilteredUserInterface {
     this.preferredLeft = left;
   }
 
-  protected void populateProjects() {
-    ProjectMap.match(subname,
-        new IgnoreOutdatedFilterResultsCallbackWrapper<>(this,
-            new GerritCallback<ProjectMap>() {
-              @Override
-              public void onSuccess(final ProjectMap result) {
-                projectsTab.display(result, subname);
-                if (firstPopupLoad) { // Display was delayed until table was loaded
-                  firstPopupLoad = false;
-                  displayPopup();
-                }
-              }
-            }));
-  }
+  private class Query {
+    private final String qMatch;
 
-  @Override
-  public String getCurrentFilter() {
-    return subname;
+    Query(String match) {
+      this.qMatch = match;
+    }
+
+    Query run() {
+      ProjectMap.match(qMatch, new GerritCallback<ProjectMap>() {
+          @Override
+          public void onSuccess(ProjectMap result) {
+            if (!firstPopupLoad && !popup.isShowing()) {
+              query = null;
+            } else if (query == Query.this) {
+              query = null;
+              showMap(result);
+            } else {
+              query.run();
+            }
+          }
+        });
+      return this;
+    }
+
+    private void showMap(ProjectMap result) {
+      ProjectListPopup.this.match = qMatch;
+      projectsTab.display(result, qMatch);
+
+      if (firstPopupLoad) {
+        // Display was delayed until table was loaded
+        firstPopupLoad = false;
+        displayPopup();
+      }
+    }
   }
 }

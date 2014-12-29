@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e149644e_32ad50a5",
+        "filename": "gerrit-gwtui/src/main/java/net/codemirror/mode/Modes.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-12-29T01:17:59Z",
+      "side": 1,
+      "message": "nit: should be before sql",
+      "revId": "7b932a87dddf62c2523539b213cb3199268f3347",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -58,8 +58,8 @@ abstract class CommentBox extends Composite {
     if (range != null) {
       fromTo = FromTo.create(range);
       rangeMarker = group.getCm().markText(
-          fromTo.getFrom(),
-          fromTo.getTo(),
+          fromTo.from(),
+          fromTo.to(),
           Configuration.create()
               .set("className", DiffTable.style.range()));
     }
@@ -106,8 +106,8 @@ abstract class CommentBox extends Composite {
     if (fromTo != null) {
       if (highlight && rangeHighlightMarker == null) {
         rangeHighlightMarker = group.getCm().markText(
-            fromTo.getFrom(),
-            fromTo.getTo(),
+            fromTo.from(),
+            fromTo.to(),
             Configuration.create()
                 .set("className", DiffTable.style.rangeHighlight()));
       } else if (!highlight && rangeHighlightMarker != null) {

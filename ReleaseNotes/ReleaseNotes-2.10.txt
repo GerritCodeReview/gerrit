@@ -8,8 +8,10 @@ link:https://gerrit-releases.storage.googleapis.com/gerrit-2.10.war[
 https://gerrit-releases.storage.googleapis.com/gerrit-2.10.war]
 
 Gerrit 2.10 includes the bug fixes done with
-link:ReleaseNotes-2.9.1.html[Gerrit 2.9.1] and
-link:ReleaseNotes-2.9.2.html[Gerrit 2.9.2].
+link:ReleaseNotes-2.9.1.html[Gerrit 2.9.1],
+link:ReleaseNotes-2.9.2.html[Gerrit 2.9.2],
+link:ReleaseNotes-2.9.3.html[Gerrit 2.9.3] and
+link:ReleaseNotes-2.9.4.html[Gerrit 2.9.4].
 These bug fixes are *not* listed in these release notes.
 
 Important Notes
@@ -677,7 +679,7 @@ Upgrades
 
 * Update Jetty to 9.2
 
-* Update JGit to 3.4.0.201406110918-r
+* Update JGit to 3.5.3.201412180710-r
 
 * Update log4j to 1.2.17
 

@@ -20,9 +20,7 @@ import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.groups.GroupMap;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.AccountScreen;
-import com.google.gerrit.client.ui.FilteredUserInterface;
 import com.google.gerrit.client.ui.Hyperlink;
-import com.google.gerrit.client.ui.IgnoreOutdatedFilterResultsCallbackWrapper;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences;
 import com.google.gwt.event.dom.client.KeyCodes;
@@ -33,14 +31,16 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwtexpui.globalkey.client.NpTextBox;
 
-public class GroupListScreen extends AccountScreen implements FilteredUserInterface {
+public class GroupListScreen extends AccountScreen {
   private Hyperlink prev;
   private Hyperlink next;
   private GroupTable groups;
   private NpTextBox filterTxt;
-  private String subname = "";
-  private int startPosition;
   private int pageSize;
+
+  private String match = "";
+  private int start;
+  private Query query;
 
   public GroupListScreen() {
     configurePageSize();
@@ -54,11 +54,11 @@ public class GroupListScreen extends AccountScreen implements FilteredUserInterf
       }
 
       if ("filter".equals(kv[0])) {
-        subname = URL.decodeQueryString(kv[1]);
+        match = URL.decodeQueryString(kv[1]);
       }
 
       if ("skip".equals(kv[0]) && URL.decodeQueryString(kv[1]).matches("^[\\d]+")) {
-        startPosition = Integer.parseInt(URL.decodeQueryString(kv[1]));
+        start = Integer.parseInt(URL.decodeQueryString(kv[1]));
       }
     }
     configurePageSize();
@@ -78,42 +78,7 @@ public class GroupListScreen extends AccountScreen implements FilteredUserInterf
   @Override
   protected void onLoad() {
     super.onLoad();
-    display();
-    refresh(false, false);
-  }
-
-  private void refresh(final boolean open, final boolean filterModified) {
-    if (filterModified){
-      startPosition = 0;
-    }
-    setToken(getTokenForScreen(subname, startPosition));
-    // Retrieve one more group than page size to determine if there are more
-    // groups to display
-    GroupMap.match(subname, pageSize + 1, startPosition,
-        new IgnoreOutdatedFilterResultsCallbackWrapper<>(this,
-            new GerritCallback<GroupMap>() {
-              @Override
-              public void onSuccess(GroupMap result) {
-                if (open && result.values().length() > 0) {
-                  Gerrit.display(PageLinks.toGroup(
-                      result.values().get(0).getGroupUUID()));
-                } else {
-                  if (result.size() <= pageSize) {
-                    groups.display(result, subname);
-                    next.setVisible(false);
-                  } else {
-                    groups.displaySubset(result, 0, result.size() - 1, subname);
-                    setupNavigationLink(next, subname, startPosition + pageSize);
-                  }
-                  if (startPosition > 0) {
-                    setupNavigationLink(prev, subname, startPosition - pageSize);
-                  } else {
-                    prev.setVisible(false);
-                  }
-                  groups.finishDisplay();
-                }
-              }
-            }));
+    query = new Query(match).start(start).run();
   }
 
   private void setupNavigationLink(Hyperlink link, String filter, int skip) {
@@ -135,11 +100,6 @@ public class GroupListScreen extends AccountScreen implements FilteredUserInterf
       token += "skip=" + skip;
     }
     return token;
-  }
-
-  @Override
-  public String getCurrentFilter() {
-    return subname;
   }
 
   @Override
@@ -171,16 +131,20 @@ public class GroupListScreen extends AccountScreen implements FilteredUserInterf
     filterLabel.setStyleName(Gerrit.RESOURCES.css().projectFilterLabel());
     hp.add(filterLabel);
     filterTxt = new NpTextBox();
-    filterTxt.setValue(subname);
+    filterTxt.setValue(match);
     filterTxt.addKeyUpHandler(new KeyUpHandler() {
       @Override
       public void onKeyUp(KeyUpEvent event) {
-        boolean enterPressed =
-            event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ENTER;
-        boolean filterModified = !filterTxt.getValue().equals(subname);
-        if (enterPressed || filterModified) {
-          subname = filterTxt.getValue();
-          refresh(enterPressed, filterModified);
+        Query q = new Query(filterTxt.getValue())
+          .open(event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ENTER);
+        if (match.equals(q.qMatch)) {
+          q.start(start);
+        }
+        if (q.open || !match.equals(q.qMatch)) {
+          if (query == null) {
+            q.run();
+          }
+          query = q;
         }
       }
     });
@@ -191,8 +155,8 @@ public class GroupListScreen extends AccountScreen implements FilteredUserInterf
   @Override
   public void onShowView() {
     super.onShowView();
-    if (subname != null) {
-      filterTxt.setCursorPos(subname.length());
+    if (match != null) {
+      filterTxt.setCursorPos(match.length());
     }
     filterTxt.setFocus(true);
   }
@@ -201,5 +165,74 @@ public class GroupListScreen extends AccountScreen implements FilteredUserInterf
   public void registerKeys() {
     super.registerKeys();
     groups.setRegisterKeys(true);
+  }
+
+  private class Query {
+    private final String qMatch;
+    private int qStart;
+    private boolean open;
+
+    Query(String match) {
+      this.qMatch = match;
+    }
+
+    Query start(int start) {
+      this.qStart = start;
+      return this;
+    }
+
+    Query open(boolean open) {
+      this.open = open;
+      return this;
+    }
+
+    Query run() {
+      int limit = open ? 1 : pageSize + 1;
+      GroupMap.match(qMatch, limit, qStart,
+          new GerritCallback<GroupMap>() {
+            @Override
+            public void onSuccess(GroupMap result) {
+              if (!isAttached()) {
+                // View has been disposed.
+              } else if (query == Query.this) {
+                query = null;
+                showMap(result);
+              } else {
+                query.run();
+              }
+            }
+          });
+      return this;
+    }
+
+    private void showMap(GroupMap result) {
+      if (open && !result.isEmpty()) {
+        Gerrit.display(PageLinks.toGroup(
+            result.values().get(0).getGroupUUID()));
+        return;
+      }
+
+      setToken(getTokenForScreen(qMatch, qStart));
+      GroupListScreen.this.match = qMatch;
+      GroupListScreen.this.start = qStart;
+
+      if (result.size() <= pageSize) {
+        groups.display(result, qMatch);
+        next.setVisible(false);
+      } else {
+        groups.displaySubset(result, 0, result.size() - 1, qMatch);
+        setupNavigationLink(next, qMatch, qStart + pageSize);
+      }
+
+      if (qStart > 0) {
+        setupNavigationLink(prev, qMatch, qStart - pageSize);
+      } else {
+        prev.setVisible(false);
+      }
+
+      if (!isCurrentView()) {
+        display();
+      }
+    }
   }
 }

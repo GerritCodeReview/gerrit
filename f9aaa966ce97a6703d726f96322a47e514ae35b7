@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "813188d3_4765aefb",
+        "filename": "gerrit-gwtui/src/main/java/net/codemirror/mode/Modes.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2014-12-30T00:31:18Z",
+      "side": 1,
+      "message": "Belongs alphabetically before sql.",
+      "range": {
+        "startLine": 59,
+        "startChar": 0,
+        "endLine": 59,
+        "endChar": 55
+      },
+      "revId": "f9aaa966ce97a6703d726f96322a47e514ae35b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

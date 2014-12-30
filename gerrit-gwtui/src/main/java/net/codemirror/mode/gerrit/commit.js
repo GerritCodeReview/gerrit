@@ -2,7 +2,7 @@ CodeMirror.defineMode('gerrit_commit', function() {
   var header = /^(Parent|Author|AuthorDate|Commit|CommitDate):/;
   var id = /^Change-Id: I[0-9a-f]{40}/;
   var footer = /^[A-Z][A-Za-z0-9-]+:/;
-  var sha1 = /[0-9a-f]{6,40}/;
+  var sha1 = /\b[0-9a-f]{6,40}/;
 
   return {
     token: function(stream) {

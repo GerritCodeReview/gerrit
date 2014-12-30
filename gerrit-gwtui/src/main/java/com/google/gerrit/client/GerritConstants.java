@@ -23,7 +23,7 @@ public interface GerritConstants extends Constants {
   String loadingPlugins();
 
   String signInDialogTitle();
-  String signInDialogClose();
+  String signInDialogGoAnonymous();
 
   String linkIdentityDialogTitle();
   String registerDialogTitle();

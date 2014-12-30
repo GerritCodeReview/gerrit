@@ -54,7 +54,7 @@ public class NotSignedInDialog extends PluginSafePopupPanel implements CloseHand
 
     final Button close = new Button();
     close.getElement().getStyle().setProperty("marginLeft", "200px");
-    close.setText(Gerrit.C.signInDialogClose());
+    close.setText(Gerrit.C.signInDialogGoAnonymous());
     close.addClickHandler(new ClickHandler() {
       @Override
       public void onClick(ClickEvent event) {

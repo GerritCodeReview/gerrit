@@ -19,6 +19,7 @@ import com.google.gwt.event.dom.client.MouseOutEvent;
 import com.google.gwt.event.dom.client.MouseOutHandler;
 import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.event.dom.client.MouseOverHandler;
+import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.user.client.ui.Composite;
 
 import net.codemirror.lib.CodeMirror;
@@ -32,8 +33,22 @@ abstract class CommentBox extends Composite {
     Resources.I.style().ensureInjected();
   }
 
+  interface Style extends CssResource {
+    String commentWidgets();
+    String commentBox();
+    String contents();
+    String message();
+    String header();
+    String summary();
+    String date();
+
+    String goPrev();
+    String goNext();
+    String goUp();
+  }
+
   private final CommentGroup group;
-  private OverviewBar.MarkHandle mark;
+  private ScrollbarAnnotation annotation;
   private FromTo fromTo;
   private TextMarker rangeMarker;
   private TextMarker rangeHighlightMarker;
@@ -43,8 +58,8 @@ abstract class CommentBox extends Composite {
     if (range != null) {
       fromTo = FromTo.create(range);
       rangeMarker = group.getCm().markText(
-          fromTo.getFrom(),
-          fromTo.getTo(),
+          fromTo.from(),
+          fromTo.to(),
           Configuration.create()
               .set("className", DiffTable.style.range()));
     }
@@ -79,20 +94,20 @@ abstract class CommentBox extends Composite {
     return group.getCommentManager();
   }
 
-  OverviewBar.MarkHandle getMark() {
-    return mark;
+  ScrollbarAnnotation getAnnotation() {
+    return annotation;
   }
 
-  void setMark(OverviewBar.MarkHandle mh) {
-    mark = mh;
+  void setAnnotation(ScrollbarAnnotation mh) {
+    annotation = mh;
   }
 
   void setRangeHighlight(boolean highlight) {
     if (fromTo != null) {
       if (highlight && rangeHighlightMarker == null) {
         rangeHighlightMarker = group.getCm().markText(
-            fromTo.getFrom(),
-            fromTo.getTo(),
+            fromTo.from(),
+            fromTo.to(),
             Configuration.create()
                 .set("className", DiffTable.style.rangeHighlight()));
       } else if (!highlight && rangeHighlightMarker != null) {

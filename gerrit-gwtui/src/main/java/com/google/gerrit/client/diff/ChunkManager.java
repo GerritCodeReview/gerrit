@@ -16,9 +16,6 @@ package com.google.gerrit.client.diff;
 
 import static com.google.gerrit.client.diff.DisplaySide.A;
 import static com.google.gerrit.client.diff.DisplaySide.B;
-import static com.google.gerrit.client.diff.OverviewBar.MarkType.DELETE;
-import static com.google.gerrit.client.diff.OverviewBar.MarkType.EDIT;
-import static com.google.gerrit.client.diff.OverviewBar.MarkType.INSERT;
 
 import com.google.gerrit.client.diff.DiffInfo.Region;
 import com.google.gerrit.client.diff.DiffInfo.Span;
@@ -35,7 +32,7 @@ import com.google.gwt.user.client.EventListener;
 import net.codemirror.lib.CodeMirror;
 import net.codemirror.lib.CodeMirror.LineClassWhere;
 import net.codemirror.lib.Configuration;
-import net.codemirror.lib.LineCharacter;
+import net.codemirror.lib.Pos;
 import net.codemirror.lib.LineWidget;
 import net.codemirror.lib.TextMarker;
 
@@ -79,7 +76,7 @@ class ChunkManager {
   private final SideBySide2 host;
   private final CodeMirror cmA;
   private final CodeMirror cmB;
-  private final OverviewBar sidePanel;
+  private final Scrollbar scrollbar;
   private final LineMapper mapper;
 
   private List<DiffChunkInfo> chunks;
@@ -91,11 +88,11 @@ class ChunkManager {
   ChunkManager(SideBySide2 host,
       CodeMirror cmA,
       CodeMirror cmB,
-      OverviewBar sidePanel) {
+      Scrollbar scrollbar) {
     this.host = host;
     this.cmA = cmA;
     this.cmB = cmB;
-    this.sidePanel = sidePanel;
+    this.scrollbar = scrollbar;
     this.mapper = new LineMapper();
   }
 
@@ -197,11 +194,11 @@ class ChunkManager {
 
   private void addGutterTag(Region region, int startA, int startB) {
     if (region.a() == null) {
-      sidePanel.add(cmB, startB, region.b().length(), INSERT);
+      scrollbar.insert(cmB, startB, region.b().length());
     } else if (region.b() == null) {
-      sidePanel.add(cmA, startA, region.a().length(), DELETE);
+      scrollbar.delete(cmA, cmB, startA, region.a().length());
     } else {
-      sidePanel.add(cmB, startB, region.b().length(), EDIT);
+      scrollbar.edit(cmB, startB, region.b().length());
     }
   }
 
@@ -220,20 +217,20 @@ class ChunkManager {
         .set("className", DiffTable.style.diff())
         .set("readOnly", true);
 
-    LineCharacter last = CodeMirror.pos(0, 0);
+    Pos last = Pos.create(0, 0);
     for (Span span : Natives.asList(edits)) {
-      LineCharacter from = iter.advance(span.skip());
-      LineCharacter to = iter.advance(span.mark());
-      if (from.getLine() == last.getLine()) {
+      Pos from = iter.advance(span.skip());
+      Pos to = iter.advance(span.mark());
+      if (from.line() == last.line()) {
         markers.add(cm.markText(last, from, bg));
       } else {
-        markers.add(cm.markText(CodeMirror.pos(from.getLine(), 0), from, bg));
+        markers.add(cm.markText(Pos.create(from.line(), 0), from, bg));
       }
       markers.add(cm.markText(from, to, diff));
       last = to;
       colorLines(cm, LineClassWhere.BACKGROUND,
           DiffTable.style.diff(),
-          from.getLine(), to.getLine());
+          from.line(), to.line());
     }
   }
 
@@ -294,7 +291,7 @@ class ChunkManager {
     return new Runnable() {
       @Override
       public void run() {
-        int line = cm.hasActiveLine() ? cm.getLineNumber(cm.getActiveLine()) : 0;
+        int line = cm.hasActiveLine() ? cm.getLineNumber(cm.activeLine()) : 0;
         int res = Collections.binarySearch(
                 chunks,
                 new DiffChunkInfo(cm.side(), line, 0, false),
@@ -318,11 +315,11 @@ class ChunkManager {
 
         DiffChunkInfo target = chunks.get(res);
         CodeMirror targetCm = host.getCmFromSide(target.getSide());
-        targetCm.setCursor(LineCharacter.create(target.getStart()));
+        targetCm.setCursor(Pos.create(target.getStart()));
         targetCm.focus();
         targetCm.scrollToY(
             targetCm.heightAtLine(target.getStart(), "local") -
-            0.5 * cmB.getScrollbarV().getClientHeight());
+            0.5 * cmB.scrollbarV().getClientHeight());
       }
     };
   }

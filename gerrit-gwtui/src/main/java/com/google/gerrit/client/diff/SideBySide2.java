@@ -75,8 +75,8 @@ import net.codemirror.lib.CodeMirror.LineClassWhere;
 import net.codemirror.lib.CodeMirror.LineHandle;
 import net.codemirror.lib.Configuration;
 import net.codemirror.lib.KeyMap;
-import net.codemirror.lib.LineCharacter;
 import net.codemirror.lib.ModeInjector;
+import net.codemirror.lib.Pos;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -294,10 +294,10 @@ public class SideBySide2 extends Screen {
       if (cm.lineAtHeight(height - 20) < line) {
         cm.scrollToY(cm.heightAtLine(line, "local") - 0.5 * height);
       }
-      cm.setCursor(LineCharacter.create(line));
+      cm.setCursor(Pos.create(line));
       cm.focus();
     } else {
-      cmA.setCursor(LineCharacter.create(0));
+      cmA.setCursor(Pos.create(0));
       cmA.focus();
     }
     if (Gerrit.isSignedIn() && prefs.autoReview()) {
@@ -393,19 +393,19 @@ public class SideBySide2 extends Screen {
         .on("Space", new Runnable() {
           @Override
           public void run() {
-            CodeMirror.handleVimKey(cm, "<C-d>");
+            cm.vim().handleKey("<C-d>");
           }
         })
         .on("Shift-Space", new Runnable() {
           @Override
           public void run() {
-            CodeMirror.handleVimKey(cm, "<C-u>");
+            cm.vim().handleKey("<C-u>");
           }
         })
         .on("Ctrl-F", new Runnable() {
           @Override
           public void run() {
-            CodeMirror.handleVimKey(cm, "/");
+            cm.vim().handleKey("/");
           }
         })
         .on("Ctrl-A", new Runnable() {
@@ -424,10 +424,8 @@ public class SideBySide2 extends Screen {
       private InsertCommentBubble bubble;
 
       @Override
-      public void handle(CodeMirror cm, LineCharacter anchor, LineCharacter head) {
-        if (anchor == head
-            || (anchor.getLine() == head.getLine()
-             && anchor.getCh() == head.getCh())) {
+      public void handle(CodeMirror cm, Pos anchor, Pos head) {
+        if (anchor.equals(head)) {
           if (bubble != null) {
             bubble.setVisible(false);
           }
@@ -440,10 +438,10 @@ public class SideBySide2 extends Screen {
         bubble.position(cm.charCoords(head, "local"));
       }
 
-      private void init(LineCharacter anchor) {
+      private void init(Pos anchor) {
         bubble = new InsertCommentBubble(commentManager, cm);
         add(bubble);
-        cm.addWidget(anchor, bubble.getElement(), false);
+        cm.addWidget(anchor, bubble.getElement());
       }
     };
   }
@@ -551,18 +549,17 @@ public class SideBySide2 extends Screen {
       diffTable.addStyleName(DiffTable.style.showLineNumbers());
     }
 
-    cmA = newCM(diff.meta_a(), diff.text_a(), DisplaySide.A, diffTable.cmA);
-    cmB = newCM(diff.meta_b(), diff.text_b(), DisplaySide.B, diffTable.cmB);
-    diffTable.overview.init(cmB);
-    chunkManager = new ChunkManager(this, cmA, cmB, diffTable.overview);
+    cmA = newCM(diff.meta_a(), diff.text_a(), diffTable.cmA).side(DisplaySide.A);
+    cmB = newCM(diff.meta_b(), diff.text_b(), diffTable.cmB).side(DisplaySide.B);
+    chunkManager = new ChunkManager(this, cmA, cmB, diffTable.scrollbar);
     skipManager = new SkipManager(this, commentManager);
 
     columnMarginA = DOM.createDiv();
     columnMarginB = DOM.createDiv();
     columnMarginA.setClassName(DiffTable.style.columnMargin());
     columnMarginB.setClassName(DiffTable.style.columnMargin());
-    cmA.getMoverElement().appendChild(columnMarginA);
-    cmB.getMoverElement().appendChild(columnMarginB);
+    cmA.mover().appendChild(columnMarginA);
+    cmB.mover().appendChild(columnMarginB);
 
     if (prefs.renderEntireFile() && !canEnableRenderEntireFile(prefs)) {
       // CodeMirror is too slow to layout an entire huge file.
@@ -637,19 +634,16 @@ public class SideBySide2 extends Screen {
   private CodeMirror newCM(
       DiffInfo.FileMeta meta,
       String contents,
-      DisplaySide side,
       Element parent) {
-    String mode = fileSize == FileSize.SMALL
-        ? getContentType(meta)
-        : null;
-    return CodeMirror.create(side, parent, Configuration.create()
+    return CodeMirror.create(parent, Configuration.create()
       .set("readOnly", true)
       .set("cursorBlinkRate", 0)
       .set("cursorHeight", 0.85)
       .set("lineNumbers", prefs.showLineNumbers())
       .set("tabSize", prefs.tabSize())
-      .set("mode", mode)
+      .set("mode", fileSize == FileSize.SMALL ? getContentType(meta) : null)
       .set("lineWrapping", false)
+      .set("scrollbarStyle", "overlay")
       .set("styleSelectedText", true)
       .set("showTrailingSpace", prefs.showWhitespaceErrors())
       .set("keyMap", "vim_ro")
@@ -706,7 +700,7 @@ public class SideBySide2 extends Screen {
         e.appendChild(pre);
       }
 
-      cmB.getMeasureElement().appendChild(p);
+      cmB.measure().appendChild(p);
       lineHeightPx = ((double) p.getOffsetHeight()) / lines;
       p.removeFromParent();
     }
@@ -724,11 +718,11 @@ public class SideBySide2 extends Screen {
       e.getStyle().setDisplay(Style.Display.INLINE_BLOCK);
       e.setInnerText(s.toString());
 
-      cmA.getMeasureElement().appendChild(e);
+      cmA.measure().appendChild(e);
       double a = ((double) e.getOffsetWidth()) / len;
       e.removeFromParent();
 
-      cmB.getMeasureElement().appendChild(e);
+      cmB.measure().appendChild(e);
       double b = ((double) e.getOffsetWidth()) / len;
       e.removeFromParent();
       charWidthPx = Math.max(a, b);
@@ -790,7 +784,6 @@ public class SideBySide2 extends Screen {
       public void run() {
         skipManager.removeAll();
         skipManager.render(context, diff);
-        diffTable.overview.refresh();
       }
     });
   }
@@ -818,10 +811,10 @@ public class SideBySide2 extends Screen {
 
   private void clearActiveLine(CodeMirror cm) {
     if (cm.hasActiveLine()) {
-      LineHandle activeLine = cm.getActiveLine();
+      LineHandle activeLine = cm.activeLine();
       cm.removeLineClass(activeLine,
           LineClassWhere.WRAP, DiffTable.style.activeLine());
-      cm.setActiveLine(null);
+      cm.activeLine(null);
     }
   }
 
@@ -841,22 +834,22 @@ public class SideBySide2 extends Screen {
             operation(new Runnable() {
               @Override
               public void run() {
-                LineHandle handle = cm.getLineHandleVisualStart(
-                    cm.getCursor("end").getLine());
-                if (cm.hasActiveLine() && cm.getActiveLine().equals(handle)) {
+                LineHandle handle =
+                    cm.getLineHandleVisualStart(cm.getCursor("end").line());
+                if (cm.hasActiveLine() && cm.activeLine().equals(handle)) {
                   return;
                 }
 
                 clearActiveLine(cm);
                 clearActiveLine(other);
-                cm.setActiveLine(handle);
+                cm.activeLine(handle);
                 cm.addLineClass(
                     handle, LineClassWhere.WRAP, DiffTable.style.activeLine());
                 LineOnOtherInfo info =
                     lineOnOther(cm.side(), cm.getLineNumber(handle));
                 if (info.isAligned()) {
                   LineHandle oLineHandle = other.getLineHandle(info.getLine());
-                  other.setActiveLine(oLineHandle);
+                  other.activeLine(oLineHandle);
                   other.addLineClass(oLineHandle, LineClassWhere.WRAP,
                       DiffTable.style.activeLine());
                 }
@@ -879,8 +872,8 @@ public class SideBySide2 extends Screen {
             && !clickEvent.getCtrlKey()
             && !clickEvent.getShiftKey()) {
           if (!(cm.hasActiveLine() &&
-              cm.getLineNumber(cm.getActiveLine()) == line)) {
-            cm.setCursor(LineCharacter.create(line));
+              cm.getLineNumber(cm.activeLine()) == line)) {
+            cm.setCursor(Pos.create(line));
           }
           Scheduler.get().scheduleDeferred(new ScheduledCommand() {
             @Override
@@ -930,9 +923,9 @@ public class SideBySide2 extends Screen {
       @Override
       public void run() {
         if (cmSrc.hasActiveLine()) {
-          cmDst.setCursor(LineCharacter.create(lineOnOther(
+          cmDst.setCursor(Pos.create(lineOnOther(
               sideSrc,
-              cmSrc.getLineNumber(cmSrc.getActiveLine())).getLine()));
+              cmSrc.getLineNumber(cmSrc.activeLine())).getLine()));
         }
         cmDst.focus();
       }
@@ -943,8 +936,8 @@ public class SideBySide2 extends Screen {
     return new Runnable() {
       @Override
       public void run() {
-        if (cm.hasVimSearchHighlight()) {
-          CodeMirror.handleVimKey(cm, "N");
+        if (cm.vim().hasSearchHighlight()) {
+          cm.vim().handleKey("N");
         } else {
           commentManager.commentNav(cm, Direction.NEXT).run();
         }
@@ -956,8 +949,8 @@ public class SideBySide2 extends Screen {
     return new Runnable() {
       @Override
       public void run() {
-        if (cm.hasVimSearchHighlight()) {
-          CodeMirror.handleVimKey(cm, "n");
+        if (cm.vim().hasSearchHighlight()) {
+          cm.vim().handleKey("n");
         } else {
           chunkManager.diffChunkNav(cm, Direction.NEXT).run();
         }
@@ -981,7 +974,6 @@ public class SideBySide2 extends Screen {
     int height = getCodeMirrorHeight();
     cmA.setHeight(height);
     cmB.setHeight(height);
-    diffTable.overview.refresh();
   }
 
   private int getCodeMirrorHeight() {
@@ -1084,7 +1076,7 @@ public class SideBySide2 extends Screen {
               public void run() {
                 skipManager.removeAll();
                 chunkManager.reset();
-                diffTable.overview.clearDiffMarkers();
+                diffTable.scrollbar.removeDiffAnnotations();
                 setShowIntraline(prefs.intralineDifference());
                 render(diff);
                 chunkManager.adjustPadding();

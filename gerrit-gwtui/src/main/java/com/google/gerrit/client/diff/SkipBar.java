@@ -30,6 +30,7 @@ import com.google.gwt.user.client.ui.HTMLPanel;
 import net.codemirror.lib.CodeMirror;
 import net.codemirror.lib.Configuration;
 import net.codemirror.lib.LineWidget;
+import net.codemirror.lib.Pos;
 import net.codemirror.lib.TextMarker;
 import net.codemirror.lib.TextMarker.FromTo;
 
@@ -95,8 +96,8 @@ class SkipBar extends Composite {
     }
 
     textMarker = cm.markText(
-        CodeMirror.pos(start, 0),
-        CodeMirror.pos(end),
+        Pos.create(start, 0),
+        Pos.create(end),
         Configuration.create()
           .set("collapsed", true)
           .set("inclusiveLeft", true)
@@ -133,14 +134,13 @@ class SkipBar extends Composite {
   void expandBefore(int cnt) {
     expandSideBefore(cnt);
     otherBar.expandSideBefore(cnt);
-    manager.getOverviewBar().refresh();
   }
 
   private void expandSideBefore(int cnt) {
     FromTo range = textMarker.find();
-    int oldStart = range.getFrom().getLine();
+    int oldStart = range.from().line();
     int newStart = oldStart + cnt;
-    int end = range.getTo().getLine();
+    int end = range.to().line();
     clearMarkerAndWidget();
     collapse(newStart, end, true);
     updateSelection();
@@ -153,8 +153,8 @@ class SkipBar extends Composite {
 
   private void expandAfter() {
     FromTo range = textMarker.find();
-    int start = range.getFrom().getLine();
-    int oldEnd = range.getTo().getLine();
+    int start = range.from().line();
+    int oldEnd = range.to().line();
     int newEnd = oldEnd - NUM_ROWS_TO_EXPAND;
     boolean attach = start == 0;
     if (attach) {
@@ -169,7 +169,7 @@ class SkipBar extends Composite {
   private void updateSelection() {
     if (cm.somethingSelected()) {
       FromTo sel = cm.getSelectedRange();
-      cm.setSelection(sel.getFrom(), sel.getTo());
+      cm.setSelection(sel.from(), sel.to());
     }
   }
 
@@ -185,7 +185,6 @@ class SkipBar extends Composite {
     expandSideAll();
     otherBar.expandSideAll();
     manager.remove(this, otherBar);
-    manager.getOverviewBar().refresh();
   }
 
   @UiHandler("upArrow")
@@ -198,7 +197,6 @@ class SkipBar extends Composite {
   void onExpandAfter(@SuppressWarnings("unused") ClickEvent e) {
     expandAfter();
     otherBar.expandAfter();
-    manager.getOverviewBar().refresh();
     cm.focus();
   }
 }

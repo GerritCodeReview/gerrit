@@ -38,10 +38,6 @@ class SkipManager {
     this.commentManager = commentManager;
   }
 
-  OverviewBar getOverviewBar() {
-    return host.diffTable.overview;
-  }
-
   void render(int context, DiffInfo diff) {
     if (context == AccountDiffPreference.WHOLE_FILE_CONTEXT) {
       return;
@@ -111,7 +107,6 @@ class SkipManager {
       for (SkipBar bar : skipBars) {
         bar.expandSideAll();
       }
-      getOverviewBar().refresh();
       skipBars = null;
       line0 = null;
     }

@@ -41,7 +41,7 @@ class Loader {
       injectScript(Lib.I.js().getSafeUri(), new GerritCallback<Void>(){
         @Override
         public void onSuccess(Void result) {
-          initVimKeys();
+          Vim.initKeyMap();
           cb.onSuccess(null);
         }
       });
@@ -85,28 +85,6 @@ class Loader {
        })
       .inject()
       .cast();
-  }
-
-  private static void initVimKeys() {
-    // TODO: Better custom keybindings, remove temporary navigation hacks.
-    KeyMap km = CodeMirror.cloneKeyMap("vim");
-    for (String s : new String[] {
-        "A", "C", "I", "O", "R", "U",
-        "Ctrl-C", "Ctrl-O", "Ctrl-P", "Ctrl-S",
-        "Ctrl-F", "Ctrl-B", "Ctrl-R"}) {
-      km.remove(s);
-    }
-    for (int i = 0; i <= 9; i++) {
-      km.remove("Ctrl-" + i);
-    }
-    CodeMirror.addKeyMap("vim_ro", km);
-
-    CodeMirror.mapVimKey("j", "gj");
-    CodeMirror.mapVimKey("k", "gk");
-    CodeMirror.mapVimKey("Down", "gj");
-    CodeMirror.mapVimKey("Up", "gk");
-    CodeMirror.mapVimKey("<PageUp>", "<C-u>");
-    CodeMirror.mapVimKey("<PageDown>", "<C-d>");
   }
 
   private static void error(Exception e) {

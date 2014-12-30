@@ -236,14 +236,14 @@ class DraftBox extends CommentBox {
     getCommentManager().setUnsaved(this, false);
     setRangeHighlight(false);
     clearRange();
-    getMark().remove();
+    getAnnotation().remove();
     getCommentGroup().remove(this);
     getCm().focus();
   }
 
   private void restoreSelection() {
     if (getFromTo() != null && comment.in_reply_to() == null) {
-      getCm().setSelection(getFromTo().getFrom(), getFromTo().getTo());
+      getCm().setSelection(getFromTo().from(), getFromTo().to());
     }
   }
 

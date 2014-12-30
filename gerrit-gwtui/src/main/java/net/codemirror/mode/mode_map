@@ -1,12 +1,15 @@
 clike:
-text/x-csrc
 text/x-c
 text/x-chdr
+text/x-csharp
+text/x-csrc
 text/x-c++src
 text/x-c++hdr
 text/x-java
-text/x-csharp
+text/x-objectivec
 text/x-scala
+x-shader/x-fragment
+x-shader/x-vertex
 
 clojure:
 text/x-clojure
@@ -24,8 +27,14 @@ text/x-scss
 d:
 text/x-d
 
+dart:
+application/dart
+
 diff:
 text/x-diff
+
+dockerfile:
+text/x-dockerfile
 
 dtd:
 application/xml-dtd
@@ -94,6 +103,9 @@ text/x-python
 r:
 text/r-src
 
+rst:
+text/x-rst
+
 ruby:
 text/x-ruby
 
@@ -107,11 +119,17 @@ application/x-shellscript
 smalltalk:
 text/x-stsrc
 
+soy:
+text/x-soy
+
 sql:
 text/x-sql
 text/x-mariadb
 text/x-mysql
 text/x-plsql
+
+stex:
+text/x-stex
 
 tcl:
 text/x-tcl

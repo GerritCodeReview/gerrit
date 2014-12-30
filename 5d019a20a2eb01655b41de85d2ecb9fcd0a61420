@@ -22,6 +22,30 @@
       "revId": "5d019a20a2eb01655b41de85d2ecb9fcd0a61420",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "813188d3_273c3ab2",
+        "filename": "gerrit-gwtui/src/main/java/net/codemirror/mode/gerrit/commit.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-12-30T17:48:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "413a30aa_4d8cf95b",
+      "range": {
+        "startLine": 5,
+        "startChar": 13,
+        "endLine": 5,
+        "endChar": 29
+      },
+      "revId": "5d019a20a2eb01655b41de85d2ecb9fcd0a61420",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

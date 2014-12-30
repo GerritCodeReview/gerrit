@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c169c0a3_d9c35318",
+        "filename": "lib/codemirror/BUCK",
+        "patchSetId": 6
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2014-12-30T00:51:05Z",
+      "side": 1,
+      "message": "This hash differs from what I uploaded to the bucket, as I built it from the tag using git-archive. I\u0027ll upload a new revision in a minute.",
+      "revId": "ad6acd7e38034d9b55a7475764ed5d2ca8ac8e78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

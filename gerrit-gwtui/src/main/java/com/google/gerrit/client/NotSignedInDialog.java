@@ -19,23 +19,25 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.user.client.History;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwtexpui.globalkey.client.GlobalKey;
-import com.google.gwtexpui.user.client.AutoCenterDialogBox;
+import com.google.gwtexpui.user.client.PluginSafePopupPanel;
 
 /** A dialog box telling the user they are not signed in. */
-public class NotSignedInDialog extends AutoCenterDialogBox implements CloseHandler<PopupPanel> {
-
+public class NotSignedInDialog extends PluginSafePopupPanel implements CloseHandler<PopupPanel> {
   private Button signin;
-  private boolean buttonClicked = false;
+  private boolean buttonClicked;
 
   public NotSignedInDialog() {
     super(/* auto hide */false, /* modal */true);
     setGlassEnabled(true);
-    setText(Gerrit.C.notSignedInTitle());
+    getGlassElement().addClassName(Gerrit.RESOURCES.css().errorDialogGlass());
+    addStyleName(Gerrit.RESOURCES.css().errorDialog());
 
     final FlowPanel buttons = new FlowPanel();
     signin = new Button();
@@ -52,7 +54,7 @@ public class NotSignedInDialog extends AutoCenterDialogBox implements CloseHandl
 
     final Button close = new Button();
     close.getElement().getStyle().setProperty("marginLeft", "200px");
-    close.setText(Gerrit.C.signInDialogClose());
+    close.setText(Gerrit.C.signInDialogGoAnonymous());
     close.addClickHandler(new ClickHandler() {
       @Override
       public void onClick(ClickEvent event) {
@@ -63,13 +65,18 @@ public class NotSignedInDialog extends AutoCenterDialogBox implements CloseHandl
     });
     buttons.add(close);
 
-    final FlowPanel center = new FlowPanel();
+    Label title = new Label(Gerrit.C.notSignedInTitle());
+    title.setStyleName(Gerrit.RESOURCES.css().errorDialogTitle());
+
+    FlowPanel center = new FlowPanel();
+    center.add(title);
     center.add(new HTML(Gerrit.C.notSignedInBody()));
     center.add(buttons);
     add(center);
 
-    center.setWidth("400px");
-
+    int l = Window.getScrollLeft() + 20;
+    int t = Window.getScrollTop() + 20;
+    setPopupPosition(l, t);
     addCloseHandler(this);
   }
 
@@ -84,7 +91,7 @@ public class NotSignedInDialog extends AutoCenterDialogBox implements CloseHandl
 
   @Override
   public void center() {
-    super.center();
+    show();
     GlobalKey.dialog(this);
     signin.setFocus(true);
   }

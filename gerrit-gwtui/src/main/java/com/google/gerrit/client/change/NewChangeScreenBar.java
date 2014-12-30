@@ -84,7 +84,7 @@ class NewChangeScreenBar extends Composite {
 
       Prefs in = Prefs.createObject().cast();
       in.change_screen(sel.name());
-      AccountApi.self().view("preferences").background().post(in,
+      AccountApi.self().view("preferences").background().put(in,
         new AsyncCallback<JavaScriptObject>() {
           @Override public void onFailure(Throwable caught) {}
           @Override public void onSuccess(JavaScriptObject result) {}

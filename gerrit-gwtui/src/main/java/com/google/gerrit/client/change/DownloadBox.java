@@ -270,7 +270,7 @@ class DownloadBox extends VerticalPanel {
       PreferenceInput in = PreferenceInput.create();
       in.download_scheme(scheme);
       AccountApi.self().view("preferences")
-          .post(in, new AsyncCallback<JavaScriptObject>() {
+          .put(in, new AsyncCallback<JavaScriptObject>() {
             @Override
             public void onSuccess(JavaScriptObject result) {
             }

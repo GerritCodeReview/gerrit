@@ -409,7 +409,7 @@ public class MyPreferencesScreen extends SettingsScreen {
     }
 
     AccountApi.self().view("preferences")
-        .post(Preferences.create(p, items), new GerritCallback<Preferences>() {
+        .put(Preferences.create(p, items), new GerritCallback<Preferences>() {
           @Override
           public void onSuccess(Preferences prefs) {
             Gerrit.getUserAccount().setGeneralPreferences(p);

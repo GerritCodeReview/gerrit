@@ -18,12 +18,10 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.ClientBundle;
 import com.google.gwt.resources.client.DataResource;
 import com.google.gwt.resources.client.DataResource.DoNotEmbed;
-import com.google.gwt.resources.client.TextResource;
 
 public interface Modes extends ClientBundle {
   public static final Modes I = GWT.create(Modes.class);
 
-  @Source("mode_map") TextResource mode_map();
   @Source("clike.js") @DoNotEmbed DataResource clike();
   @Source("clojure.js") @DoNotEmbed DataResource clojure();
   @Source("coffeescript.js") @DoNotEmbed DataResource coffeescript();

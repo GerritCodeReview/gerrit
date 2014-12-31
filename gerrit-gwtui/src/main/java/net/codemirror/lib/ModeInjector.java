@@ -19,9 +19,9 @@ import com.google.gwt.resources.client.DataResource;
 import com.google.gwt.safehtml.shared.SafeUri;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
+import net.codemirror.mode.ModeInfo;
 import net.codemirror.mode.Modes;
 
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -30,17 +30,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class ModeInjector {
-  /** Map of server content type to CodeMiror mode or content type. */
-  private static final Map<String, String> mimeAlias;
-
-  /** Map of content type "text/x-java" to mode name "clike". */
-  private static final Map<String, String> mimeModes;
-
   /** Map of names such as "clike" to URI for code download. */
-  private static final Map<String, SafeUri> modeUris;
+  private static final Map<String, SafeUri> modeUris = new HashMap<>();
 
   static {
-    DataResource[] all = {
+    indexModes(new DataResource[] {
       Modes.I.clike(),
       Modes.I.clojure(),
       Modes.I.coffeescript(),
@@ -79,46 +73,48 @@ public class ModeInjector {
       Modes.I.verilog(),
       Modes.I.xml(),
       Modes.I.yaml(),
-    };
+    });
+    ModeInfo.buildMimeMap();
 
-    mimeAlias = new HashMap<>();
-    mimeModes = new HashMap<>();
-    modeUris = new HashMap<>();
-
-    for (DataResource m : all) {
-      modeUris.put(m.getName(), m.getSafeUri());
-    }
-    parseModeMap();
+    alias("application/x-httpd-php-open", "application/x-httpd-php");
+    alias("application/x-javascript", "application/javascript");
+    alias("application/x-shellscript", "text/x-sh");
+    alias("application/x-tcl", "text/x-tcl");
+    alias("text/typescript", "application/typescript");
+    alias("text/x-c", "text/x-csrc");
+    alias("text/x-c++hdr", "text/x-c++src");
+    alias("text/x-chdr", "text/x-csrc");
+    alias("text/x-h", "text/x-csrc");
+    alias("text/x-ini", "text/x-properties");
+    alias("text/x-java-source", "text/x-java");
+    alias("text/x-php", "application/x-httpd-php");
+    alias("text/x-scripttcl", "text/x-tcl");
   }
 
-  private static void parseModeMap() {
-    String mode = null;
-    for (String line : Modes.I.mode_map().getText().split("\n")) {
-      int eq = line.indexOf('=');
-      if (0 < eq) {
-        mimeAlias.put(
-          line.substring(0, eq).trim(),
-          line.substring(eq + 1).trim());
-      } else if (line.endsWith(":")) {
-        String n = line.substring(0, line.length() - 1);
-        if (modeUris.containsKey(n)) {
-          mode = n;
-        }
-      } else if (mode != null && line.contains("/")) {
-        mimeModes.put(line, mode);
-      } else {
-        mode = null;
-      }
+  private static void indexModes(DataResource[] all) {
+    for (DataResource r : all) {
+      modeUris.put(r.getName(), r.getSafeUri());
     }
+  }
+
+  private static void alias(String serverMime, String toMime) {
+    ModeInfo mode = ModeInfo.findModeByMIME(toMime);
+    if (mode != null) {
+      mode.addMime(serverMime);
+    }
+  }
+
+  public static boolean canLoad(String mode) {
+    return modeUris.containsKey(mode);
   }
 
   public static String getContentType(String mode) {
-    String real = mode != null ? mimeAlias.get(mode) : null;
-    return real != null ? real : mode;
-  }
+    if (canLoad(mode)) {
+      return mode;
+    }
 
-  public static Collection<String> getKnownMimeTypes() {
-    return mimeModes.keySet();
+    ModeInfo m = ModeInfo.findModeByMIME(mode);
+    return m != null ? m.mime() : mode;
   }
 
   private static native boolean isModeLoaded(String n)
@@ -139,20 +135,19 @@ public class ModeInjector {
       return this;
     }
 
-    String mode = mimeModes.get(name);
-    if (mode == null) {
-      mode = name;
+    ModeInfo m = ModeInfo.findModeByMIME(name);
+    if (m != null) {
+      name = m.mode();
     }
 
-    SafeUri uri = modeUris.get(mode);
-    if (uri == null) {
+    if (!canLoad(name)) {
       Logger.getLogger("net.codemirror").log(
         Level.WARNING,
-        "CodeMirror mode " + mode + " not configured.");
+        "CodeMirror mode " + name + " not configured.");
       return this;
     }
 
-    loading.add(mode);
+    loading.add(name);
     return this;
   }
 
@@ -197,11 +192,10 @@ public class ModeInjector {
         continue;
       }
 
-      SafeUri uri = modeUris.get(d);
-      if (uri == null) {
+      if (!canLoad(d)) {
         Logger.getLogger("net.codemirror").log(
           Level.SEVERE,
-          "CodeMirror mode " + mode + " needs " + d);
+          "CodeMirror mode " + d + " needs " + d);
         continue;
       }
 

@@ -21,14 +21,13 @@ import com.google.gerrit.client.groups.GroupInfo;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.AccountGroupSuggestOracle;
 import com.google.gerrit.client.ui.OnEditEnabler;
-import com.google.gerrit.client.ui.RemoteSuggestOracle;
+import com.google.gerrit.client.ui.RemoteSuggestBox;
 import com.google.gerrit.client.ui.SmallHeading;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
-import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwtexpui.clippy.client.CopyableLabel;
 import com.google.gwtexpui.globalkey.client.NpTextArea;
@@ -40,8 +39,7 @@ public class AccountGroupInfoScreen extends AccountGroupScreen {
   private NpTextBox groupNameTxt;
   private Button saveName;
 
-  private NpTextBox ownerTxtBox;
-  private SuggestBox ownerTxt;
+  private RemoteSuggestBox ownerTxt;
   private Button saveOwner;
 
   private NpTextArea descTxt;
@@ -66,7 +64,7 @@ public class AccountGroupInfoScreen extends AccountGroupScreen {
 
   private void enableForm(final boolean canModify) {
     groupNameTxt.setEnabled(canModify);
-    ownerTxtBox.setEnabled(canModify);
+    ownerTxt.setEnabled(canModify);
     descTxt.setEnabled(canModify);
     visibleToAllCheckBox.setEnabled(canModify);
   }
@@ -117,12 +115,10 @@ public class AccountGroupInfoScreen extends AccountGroupScreen {
     ownerPanel.setStyleName(Gerrit.RESOURCES.css().groupOwnerPanel());
     ownerPanel.add(new SmallHeading(Util.C.headingOwner()));
 
-    ownerTxtBox = new NpTextBox();
-    ownerTxtBox.setVisibleLength(60);
     final AccountGroupSuggestOracle accountGroupOracle = new AccountGroupSuggestOracle();
-    ownerTxt = new SuggestBox(new RemoteSuggestOracle(
-        accountGroupOracle), ownerTxtBox);
+    ownerTxt = new RemoteSuggestBox(accountGroupOracle);
     ownerTxt.setStyleName(Gerrit.RESOURCES.css().groupOwnerTextBox());
+    ownerTxt.setVisibleLength(60);
     ownerPanel.add(ownerTxt);
 
     saveOwner = new Button(Util.C.buttonChangeGroupOwner());
@@ -227,6 +223,6 @@ public class AccountGroupInfoScreen extends AccountGroupScreen {
     saveGroupOptions.setVisible(canModify);
     new OnEditEnabler(saveDesc, descTxt);
     new OnEditEnabler(saveName, groupNameTxt);
-    new OnEditEnabler(saveOwner, ownerTxtBox);
+    new OnEditEnabler(saveOwner, ownerTxt.getTextBox());
   }
 }

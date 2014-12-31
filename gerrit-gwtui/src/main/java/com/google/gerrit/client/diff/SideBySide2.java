@@ -78,6 +78,7 @@ import net.codemirror.lib.KeyMap;
 import net.codemirror.lib.ModeInjector;
 import net.codemirror.lib.Pos;
 import net.codemirror.mode.ModeInfo;
+import net.codemirror.theme.ThemeLoader;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -175,7 +176,10 @@ public class SideBySide2 extends Screen {
 
     CallbackGroup cmGroup = new CallbackGroup();
     CodeMirror.initLibrary(cmGroup.add(CallbackGroup.<Void> emptyCallback()));
+
     final CallbackGroup group = new CallbackGroup();
+    final AsyncCallback<Void> themeCallback =
+        group.add(CallbackGroup.<Void> emptyCallback());
     final AsyncCallback<Void> modeInjectorCb =
         group.add(CallbackGroup.<Void> emptyCallback());
 
@@ -189,6 +193,7 @@ public class SideBySide2 extends Screen {
         public void onSuccess(DiffInfo diffInfo) {
           diff = diffInfo;
           fileSize = bucketFileSize(diffInfo);
+          ThemeLoader.loadTheme(prefs.theme(), themeCallback);
           if (prefs.syntaxHighlighting()) {
             if (fileSize.compareTo(FileSize.SMALL) > 0) {
               modeInjectorCb.onSuccess(null);

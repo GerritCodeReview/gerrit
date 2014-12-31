@@ -17,7 +17,8 @@ limitations under the License.
 <ui:UiBinder
     xmlns:ui='urn:ui:com.google.gwt.uibinder'
     xmlns:c='urn:import:com.google.gwtexpui.globalkey.client'
-    xmlns:g='urn:import:com.google.gwt.user.client.ui'>
+    xmlns:g='urn:import:com.google.gwt.user.client.ui'
+    xmlns:u='urn:import:com.google.gerrit.client.ui'>
   <ui:with field='res' type='com.google.gerrit.client.change.Resources'/>
   <ui:style>
     button.openAdd {
@@ -64,7 +65,7 @@ limitations under the License.
       </g:Button>
     </div>
     <div ui:field='form' style='display: none' aria-hidden='true'>
-      <g:SuggestBox ui:field='suggestBox' styleName='{style.suggestBox}'/>
+      <u:RemoteSuggestBox ui:field='suggestBox' styleName='{style.suggestBox}'/>
       <div ui:field='error'
            class='{style.error}'
            style='display: none' aria-hidden='true'/>

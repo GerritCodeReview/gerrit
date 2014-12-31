@@ -20,6 +20,7 @@ import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.HintTextBox;
 import com.google.gerrit.client.ui.ProjectListPopup;
 import com.google.gerrit.client.ui.ProjectNameSuggestOracle;
+import com.google.gerrit.client.ui.RemoteSuggestBox;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.data.AccountProjectWatchInfo;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -34,21 +35,16 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.SuggestBox;
-import com.google.gwt.user.client.ui.SuggestBox.DefaultSuggestionDisplay;
-import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
 
 import java.util.List;
 
 public class MyWatchedProjectsScreen extends SettingsScreen {
   private Button addNew;
-  private HintTextBox nameBox;
-  private SuggestBox nameTxt;
+  private RemoteSuggestBox nameBox;
   private HintTextBox filterTxt;
   private MyWatchesTable watchesTab;
   private Button browse;
   private Button delSel;
-  private boolean submitOnSelection;
   private Grid grid;
   private ProjectListPopup projectsPopup;
 
@@ -62,7 +58,7 @@ public class MyWatchedProjectsScreen extends SettingsScreen {
     grid.setStyleName(Gerrit.RESOURCES.css().infoBlock());
     grid.setText(0, 0, Util.C.watchedProjectName());
     final HorizontalPanel hp = new HorizontalPanel();
-    hp.add(nameTxt);
+    hp.add(nameBox);
     hp.add(browse);
     grid.setWidget(0, 1, hp);
 
@@ -108,32 +104,13 @@ public class MyWatchedProjectsScreen extends SettingsScreen {
   }
 
   protected void createWidgets() {
-    nameBox = new HintTextBox();
-    nameTxt = new SuggestBox(new ProjectNameSuggestOracle(), nameBox);
+    nameBox = new RemoteSuggestBox(new ProjectNameSuggestOracle());
     nameBox.setVisibleLength(50);
     nameBox.setHintText(Util.C.defaultProjectName());
-    nameBox.addKeyPressHandler(new KeyPressHandler() {
+    nameBox.addSelectionHandler(new SelectionHandler<String>() {
       @Override
-      public void onKeyPress(KeyPressEvent event) {
-        submitOnSelection = false;
-
-        if (event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ENTER) {
-          if (((DefaultSuggestionDisplay) nameTxt.getSuggestionDisplay())
-              .isSuggestionListShowing()) {
-            submitOnSelection = true;
-          } else {
-            doAddNew();
-          }
-        }
-      }
-    });
-    nameTxt.addSelectionHandler(new SelectionHandler<Suggestion>() {
-      @Override
-      public void onSelection(SelectionEvent<Suggestion> event) {
-        if (submitOnSelection) {
-          submitOnSelection = false;
-          doAddNew();
-        }
+      public void onSelection(SelectionEvent<String> event) {
+        doAddNew();
       }
     });
 
@@ -196,7 +173,7 @@ public class MyWatchedProjectsScreen extends SettingsScreen {
   }
 
   protected void doAddNew() {
-    final String projectName = nameTxt.getText().trim();
+    final String projectName = nameBox.getText().trim();
     if ("".equals(projectName)) {
       return;
     }
@@ -219,7 +196,7 @@ public class MyWatchedProjectsScreen extends SettingsScreen {
             nameBox.setEnabled(true);
             filterTxt.setEnabled(true);
 
-            nameTxt.setText("");
+            nameBox.setText("");
             watchesTab.insertWatch(result);
           }
 

@@ -108,15 +108,6 @@ public class ModeInjector {
     return modeUris.containsKey(mode);
   }
 
-  public static String getContentType(String mode) {
-    if (canLoad(mode)) {
-      return mode;
-    }
-
-    ModeInfo m = ModeInfo.findModeByMIME(mode);
-    return m != null ? m.mime() : mode;
-  }
-
   private static native boolean isModeLoaded(String n)
   /*-{ return $wnd.CodeMirror.modes.hasOwnProperty(n); }-*/;
 

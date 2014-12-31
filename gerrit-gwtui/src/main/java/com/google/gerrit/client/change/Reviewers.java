@@ -27,17 +27,15 @@ import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.NativeMap;
 import com.google.gerrit.client.rpc.NativeString;
 import com.google.gerrit.client.rpc.Natives;
-import com.google.gerrit.client.ui.HintTextBox;
-import com.google.gerrit.client.ui.RemoteSuggestOracle;
+import com.google.gerrit.client.ui.RemoteSuggestBox;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.KeyCodes;
-import com.google.gwt.event.dom.client.KeyDownEvent;
-import com.google.gwt.event.dom.client.KeyDownHandler;
+import com.google.gwt.event.logical.shared.CloseEvent;
+import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -47,9 +45,6 @@ import com.google.gwt.user.client.rpc.StatusCodeException;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
-import com.google.gwt.user.client.ui.SuggestBox;
-import com.google.gwt.user.client.ui.SuggestBox.DefaultSuggestionDisplay;
-import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
 import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwtexpui.safehtml.client.SafeHtml;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
@@ -70,55 +65,29 @@ public class Reviewers extends Composite {
   @UiField Element form;
   @UiField Element error;
   @UiField(provided = true)
-  SuggestBox suggestBox;
+  RemoteSuggestBox suggestBox;
 
   private ChangeScreen2.Style style;
   private Element ccText;
 
   private ReviewerSuggestOracle reviewerSuggestOracle;
-  private RemoteSuggestOracle remoteSuggestOracle;
-  private HintTextBox nameTxtBox;
   private Change.Id changeId;
-  private boolean submitOnSelection;
 
   Reviewers() {
     reviewerSuggestOracle = new ReviewerSuggestOracle();
-    remoteSuggestOracle = new RemoteSuggestOracle(reviewerSuggestOracle);
-
-    nameTxtBox = new HintTextBox();
-    nameTxtBox.setVisibleLength(55);
-    nameTxtBox.setHintText(Util.C.approvalTableAddReviewerHint());
-    nameTxtBox.addKeyDownHandler(new KeyDownHandler() {
+    suggestBox = new RemoteSuggestBox(reviewerSuggestOracle);
+    suggestBox.setVisibleLength(55);
+    suggestBox.setHintText(Util.C.approvalTableAddReviewerHint());
+    suggestBox.addCloseHandler(new CloseHandler<RemoteSuggestBox>() {
       @Override
-      public void onKeyDown(KeyDownEvent e) {
-        submitOnSelection = false;
-
-        if (e.getNativeEvent().getKeyCode() == KeyCodes.KEY_ESCAPE) {
-          onCancel(null);
-        } else if (e.getNativeEvent().getKeyCode() == KeyCodes.KEY_ENTER) {
-          DefaultSuggestionDisplay display =
-              (DefaultSuggestionDisplay) suggestBox.getSuggestionDisplay();
-          if (display.isSuggestionListShowing()) {
-            if (nameTxtBox.getValue().equals(remoteSuggestOracle.getLast())) {
-              submitOnSelection = true;
-            } else {
-              display.hideSuggestions();
-            }
-          } else {
-            onAdd(null);
-          }
-        }
+      public void onClose(CloseEvent<RemoteSuggestBox> event) {
+        Reviewers.this.onCancel(null);
       }
     });
-
-    suggestBox = new SuggestBox(remoteSuggestOracle, nameTxtBox);
-    suggestBox.addSelectionHandler(new SelectionHandler<Suggestion>() {
+    suggestBox.addSelectionHandler(new SelectionHandler<String>() {
       @Override
-      public void onSelection(SelectionEvent<Suggestion> event) {
-        nameTxtBox.setFocus(true);
-        if (submitOnSelection) {
-          onAdd(null);
-        }
+      public void onSelection(SelectionEvent<String> event) {
+        addReviewer(event.getSelectedItem(), false);
       }
     });
 
@@ -151,10 +120,7 @@ public class Reviewers extends Composite {
 
   @UiHandler("add")
   void onAdd(@SuppressWarnings("unused") ClickEvent e) {
-    String reviewer = suggestBox.getText();
-    if (!reviewer.isEmpty()) {
-      addReviewer(reviewer, false);
-    }
+    addReviewer(suggestBox.getText(), false);
   }
 
   @UiHandler("addMe")
@@ -171,13 +137,15 @@ public class Reviewers extends Composite {
   }
 
   private void addReviewer(final String reviewer, boolean confirmed) {
+    if (reviewer.isEmpty()) {
+      return;
+    }
+
     ChangeApi.reviewers(changeId.get()).post(
         PostInput.create(reviewer, confirmed),
         new GerritCallback<PostResult>() {
           @Override
           public void onSuccess(PostResult result) {
-            nameTxtBox.setEnabled(true);
-
             if (result.confirm()) {
               askForConfirmation(result.error());
             } else if (result.error() != null) {
@@ -186,7 +154,7 @@ public class Reviewers extends Composite {
             } else {
               UIObject.setVisible(error, false);
               error.setInnerText("");
-              nameTxtBox.setText("");
+              suggestBox.setText("");
 
               if (result.reviewers() != null
                   && result.reviewers().length() > 0) {
@@ -213,7 +181,6 @@ public class Reviewers extends Composite {
             error.setInnerText(err instanceof StatusCodeException
                 ? ((StatusCodeException) err).getEncodedResponse()
                 : err.getMessage());
-            nameTxtBox.setEnabled(true);
           }
         });
   }

@@ -17,88 +17,54 @@ package com.google.gerrit.client.ui;
 import com.google.gerrit.client.Gerrit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.KeyCodes;
-import com.google.gwt.event.dom.client.KeyPressEvent;
-import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.SuggestBox;
-import com.google.gwt.user.client.ui.SuggestBox.DefaultSuggestionDisplay;
 import com.google.gwt.user.client.ui.SuggestOracle;
-import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
 
 public class AddMemberBox extends Composite {
   private final FlowPanel addPanel;
   private final Button addMember;
-  private final HintTextBox nameTxtBox;
-  private final SuggestBox nameTxt;
-  private boolean submitOnSelection;
+  private final RemoteSuggestBox suggestBox;
 
   public AddMemberBox(final String buttonLabel, final String hint,
       final SuggestOracle suggestOracle) {
     addPanel = new FlowPanel();
     addMember = new Button(buttonLabel);
-    nameTxtBox = new HintTextBox();
-    nameTxt = new SuggestBox(new RemoteSuggestOracle(
-        suggestOracle), nameTxtBox);
-    nameTxt.setStyleName(Gerrit.RESOURCES.css().addMemberTextBox());
 
-    nameTxtBox.setVisibleLength(50);
-    nameTxtBox.setHintText(hint);
-    nameTxtBox.addKeyPressHandler(new KeyPressHandler() {
+    suggestBox = new RemoteSuggestBox(suggestOracle);
+    suggestBox.setStyleName(Gerrit.RESOURCES.css().addMemberTextBox());
+    suggestBox.setVisibleLength(50);
+    suggestBox.setHintText(hint);
+    suggestBox.addSelectionHandler(new SelectionHandler<String>() {
       @Override
-      public void onKeyPress(KeyPressEvent event) {
-        submitOnSelection = false;
-
-        if (event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ENTER) {
-          if (((DefaultSuggestionDisplay) nameTxt.getSuggestionDisplay())
-              .isSuggestionListShowing()) {
-            submitOnSelection = true;
-          } else {
-            doAdd();
-          }
-        }
-      }
-    });
-    nameTxt.addSelectionHandler(new SelectionHandler<Suggestion>() {
-      @Override
-      public void onSelection(SelectionEvent<Suggestion> event) {
-        nameTxtBox.setFocus(true);
-        if (submitOnSelection) {
-          submitOnSelection = false;
-          doAdd();
-        }
+      public void onSelection(SelectionEvent<String> event) {
+        addMember.fireEvent(new ClickEvent() {});
       }
     });
 
-    addPanel.add(nameTxt);
+    addPanel.add(suggestBox);
     addPanel.add(addMember);
 
     initWidget(addPanel);
   }
 
-  public void addClickHandler(final ClickHandler handler) {
+  public void addClickHandler(ClickHandler handler) {
     addMember.addClickHandler(handler);
   }
 
   public String getText() {
-    String s = nameTxtBox.getText();
-    return s == null ? "" : s;
+    return suggestBox.getText();
   }
 
   public void setEnabled(boolean enabled) {
     addMember.setEnabled(enabled);
-    nameTxtBox.setEnabled(enabled);
+    suggestBox.setEnabled(enabled);
   }
 
   public void setText(String text) {
-    nameTxtBox.setText(text);
-  }
-
-  private void doAdd() {
-    addMember.fireEvent(new ClickEvent() {});
+    suggestBox.setText(text);
   }
 }

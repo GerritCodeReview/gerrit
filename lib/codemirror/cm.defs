@@ -4,15 +4,6 @@ CM_CSS = [
   'addon/scroll/simplescrollbars.css',
 ]
 
-CM_THEMES = [
-  'theme/eclipse.css',
-  'theme/elegant.css',
-  'theme/midnight.css',
-  'theme/neat.css',
-  'theme/night.css',
-  'theme/twilight.css',
-]
-
 CM_JS = [
   'lib/codemirror.js',
   'mode/meta.js',
@@ -30,6 +21,21 @@ CM_ADDONS = [
   'mode/simple.js',
 ]
 
+# Available themes must be enumerated here,
+# in gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/Theme.java,
+# in gerrit-gwtui/src/main/java/net/codemirror/theme/Themes.java
+CM_THEMES = [
+  'eclipse',
+  'elegant',
+  'midnight',
+  'neat',
+  'night',
+  'twilight',
+]
+
+# Available modes must be enumerated here,
+# in gerrit-gwtui/src/main/java/net/codemirror/mode/Modes.java,
+# and in CodeMirror's own mode/meta.js script.
 CM_MODES = [
   'clike',
   'clojure',

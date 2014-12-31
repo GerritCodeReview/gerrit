@@ -28,7 +28,7 @@ genrule(
      for n in CM_CSS + CM_THEMES]
   ),
   deps = [':zip'],
-  out = 'cm4.css',
+  out = 'cm.css',
 )
 
 genrule(
@@ -38,17 +38,19 @@ genrule(
       'unzip -p $(location :zip) %s/LICENSE >>$OUT' % TOP,
       "echo '*/' >>$OUT",
     ] +
-    ['unzip -p $(location :zip) %s/%s >>$OUT' % (TOP, n) for n in CM_JS]
+    ['unzip -p $(location :zip) %s/%s >>$OUT' % (TOP, n) for n in CM_JS] +
+    ['unzip -p $(location :zip) %s/addon/%s >>$OUT' % (TOP, n)
+     for n in CM_ADDONS]
   ),
   deps = [':zip'],
-  out = 'cm4-verbose.js',
+  out = 'cm-verbose.js',
 )
 
 js_minify(
   name = 'js',
   generated = [':cm-verbose'],
   compiler_args = CLOSURE_COMPILER_ARGS,
-  out = 'cm4.js'
+  out = 'cm.js'
 )
 
 for n in CM_MODES:

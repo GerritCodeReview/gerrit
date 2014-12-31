@@ -17,14 +17,17 @@ CM_JS = [
   'lib/codemirror.js',
   'mode/meta.js',
   'keymap/vim.js',
-  'addon/dialog/dialog.js',
-  'addon/scroll/simplescrollbars.js',
-  'addon/search/searchcursor.js',
-  'addon/search/search.js',
-  'addon/selection/mark-selection.js',
-  'addon/edit/trailingspace.js',
-  'addon/mode/overlay.js',
-  'addon/mode/simple.js',
+]
+
+CM_ADDONS = [
+  'dialog/dialog.js',
+  'edit/trailingspace.js',
+  'scroll/simplescrollbars.js',
+  'search/searchcursor.js',
+  'search/search.js',
+  'selection/mark-selection.js',
+  'mode/overlay.js',
+  'mode/simple.js',
 ]
 
 CM_MODES = [

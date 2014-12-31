@@ -20,6 +20,7 @@ public enum Theme {
   ECLIPSE,
   ELEGANT,
   NEAT,
+
   // Dark themes
   MIDNIGHT,
   NIGHT,

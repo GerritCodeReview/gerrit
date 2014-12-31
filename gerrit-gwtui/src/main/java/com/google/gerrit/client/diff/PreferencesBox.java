@@ -58,6 +58,8 @@ import net.codemirror.mode.ModeInfo;
 import net.codemirror.mode.ModeInjector;
 import net.codemirror.theme.ThemeLoader;
 
+import java.util.Objects;
+
 /** Displays current diff preferences. */
 class PreferencesBox extends Composite {
   interface Binder extends UiBinder<HTMLPanel, PreferencesBox> {}
@@ -345,15 +347,15 @@ class PreferencesBox extends Composite {
 
   @UiHandler("mode")
   void onMode(@SuppressWarnings("unused") ChangeEvent e) {
-    String m = mode.getValue(mode.getSelectedIndex());
-    final String mode = m != null && !m.isEmpty() ? m : null;
-
+    final String mode = getSelectedMode();
     prefs.syntaxHighlighting(true);
     syntaxHighlighting.setValue(true, false);
     new ModeInjector().add(mode).inject(new GerritCallback<Void>() {
       @Override
       public void onSuccess(Void result) {
-        if (prefs.syntaxHighlighting() && view.isAttached()) {
+        if (prefs.syntaxHighlighting()
+            && Objects.equals(mode, getSelectedMode())
+            && view.isAttached()) {
           view.operation(new Runnable() {
             @Override
             public void run() {
@@ -364,6 +366,11 @@ class PreferencesBox extends Composite {
         }
       }
     });
+  }
+
+  private String getSelectedMode() {
+    String m = mode.getValue(mode.getSelectedIndex());
+    return m != null && !m.isEmpty() ? m : null;
   }
 
   @UiHandler("whitespaceErrors")

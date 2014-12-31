@@ -40,6 +40,7 @@ import com.google.gwtexpui.globalkey.client.GlobalKey;
 import net.codemirror.lib.CodeMirror;
 import net.codemirror.lib.Configuration;
 import net.codemirror.lib.ModeInjector;
+import net.codemirror.mode.ModeInfo;
 
 public class EditScreen extends Screen {
 
@@ -86,7 +87,8 @@ public class EditScreen extends Screen {
           cmGroup.addFinal(new GerritCallback<String>() {
             @Override
             public void onSuccess(String result) {
-              type = result;
+              ModeInfo mode = ModeInfo.findMode(result, path);
+              type = mode != null ? mode.mime() : null;
               injectMode(result, modeInjectorCb);
             }
           }));
@@ -148,7 +150,7 @@ public class EditScreen extends Screen {
         .set("styleSelectedText", true)
         .set("showTrailingSpace", true)
         .set("keyMap", "default")
-        .set("mode", ModeInjector.getContentType(type));
+        .set("mode", type);
   }
 
   private void initPath() {

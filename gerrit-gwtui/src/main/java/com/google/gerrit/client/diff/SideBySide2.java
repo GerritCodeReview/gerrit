@@ -77,6 +77,7 @@ import net.codemirror.lib.Configuration;
 import net.codemirror.lib.KeyMap;
 import net.codemirror.lib.ModeInjector;
 import net.codemirror.lib.Pos;
+import net.codemirror.mode.ModeInfo;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -991,11 +992,12 @@ public class SideBySide2 extends Screen {
   }
 
   private String getContentType(DiffInfo.FileMeta meta) {
-    return prefs.syntaxHighlighting()
-          && meta != null
-          && meta.content_type() != null
-        ? ModeInjector.getContentType(meta.content_type())
-        : null;
+    if (prefs.syntaxHighlighting() && meta != null
+        && meta.content_type() != null) {
+     ModeInfo m = ModeInfo.findMode(meta.content_type(), path);
+     return m != null ? m.mime() : null;
+   }
+   return null;
   }
 
   private void injectMode(DiffInfo diffInfo, AsyncCallback<Void> cb) {

@@ -2,6 +2,7 @@ CM_CSS = [
   'lib/codemirror.css',
   'addon/dialog/dialog.css',
   'addon/scroll/simplescrollbars.css',
+  'addon/search/matchesonscrollbar.css',
 ]
 
 CM_THEMES = [
@@ -22,7 +23,9 @@ CM_JS = [
 CM_ADDONS = [
   'dialog/dialog.js',
   'edit/trailingspace.js',
+  'scroll/annotatescrollbar.js',
   'scroll/simplescrollbars.js',
+  'search/matchesonscrollbar.js',
   'search/searchcursor.js',
   'search/search.js',
   'selection/mark-selection.js',

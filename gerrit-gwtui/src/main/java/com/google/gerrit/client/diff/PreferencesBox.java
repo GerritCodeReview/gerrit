@@ -56,6 +56,7 @@ import com.google.gwt.user.client.ui.ToggleButton;
 
 import net.codemirror.mode.ModeInfo;
 import net.codemirror.mode.ModeInjector;
+import net.codemirror.theme.ThemeLoader;
 
 /** Displays current diff preferences. */
 class PreferencesBox extends Composite {
@@ -387,13 +388,18 @@ class PreferencesBox extends Composite {
   @UiHandler("theme")
   void onTheme(@SuppressWarnings("unused") ChangeEvent e) {
     prefs.theme(Theme.valueOf(theme.getValue(theme.getSelectedIndex())));
-    view.setThemeStyles(prefs.theme().isDark());
-    view.operation(new Runnable() {
+    ThemeLoader.loadTheme(prefs.theme(), new GerritCallback<Void>() {
       @Override
-      public void run() {
-        String t = prefs.theme().name().toLowerCase();
-        view.getCmFromSide(DisplaySide.A).setOption("theme", t);
-        view.getCmFromSide(DisplaySide.B).setOption("theme", t);
+      public void onSuccess(Void result) {
+        view.operation(new Runnable() {
+          @Override
+          public void run() {
+            String t = prefs.theme().name().toLowerCase();
+            view.getCmFromSide(DisplaySide.A).setOption("theme", t);
+            view.getCmFromSide(DisplaySide.B).setOption("theme", t);
+            view.setThemeStyles(prefs.theme().isDark());
+          }
+        });
       }
     });
   }
@@ -493,26 +499,8 @@ class PreferencesBox extends Composite {
   }
 
   private void initTheme() {
-    theme.addItem(
-        Theme.DEFAULT.name().toLowerCase(),
-        Theme.DEFAULT.name());
-    theme.addItem(
-        Theme.ECLIPSE.name().toLowerCase(),
-        Theme.ECLIPSE.name());
-    theme.addItem(
-        Theme.ELEGANT.name().toLowerCase(),
-        Theme.ELEGANT.name());
-    theme.addItem(
-        Theme.NEAT.name().toLowerCase(),
-        Theme.NEAT.name());
-    theme.addItem(
-        Theme.MIDNIGHT.name().toLowerCase(),
-        Theme.MIDNIGHT.name());
-    theme.addItem(
-        Theme.NIGHT.name().toLowerCase(),
-        Theme.NIGHT.name());
-    theme.addItem(
-        Theme.TWILIGHT.name().toLowerCase(),
-        Theme.TWILIGHT.name());
+    for (Theme t : Theme.values()) {
+      theme.addItem(t.name().toLowerCase(), t.name());
+    }
   }
 }

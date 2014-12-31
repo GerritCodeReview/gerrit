@@ -19,17 +19,30 @@ CLOSURE_COMPILER_ARGS = [
 genrule(
   name = 'css',
   cmd = ';'.join([
-      ':>$OUT',
-      "echo '/** @license' >>$OUT",
+      "echo '/** @license' >$OUT",
       'unzip -p $(location :zip) %s/LICENSE >>$OUT' % TOP,
       "echo '*/' >>$OUT",
     ] +
     ['unzip -p $(location :zip) %s/%s >>$OUT' % (TOP, n)
-     for n in CM_CSS + CM_THEMES]
+     for n in CM_CSS]
   ),
   deps = [':zip'],
   out = 'cm.css',
 )
+
+for n in CM_THEMES:
+  genrule(
+    name = 'theme_%s' % n,
+    cmd = ';'.join([
+        "echo '/** @license' >$OUT",
+        'unzip -p $(location :zip) %s/LICENSE >>$OUT' % TOP,
+        "echo '*/' >>$OUT",
+        'unzip -p $(location :zip) %s/theme/%s.css >>$OUT' % (TOP, n)
+      ]
+    ),
+    deps = [':zip'],
+    out = 'theme_%s.css' % n,
+  )
 
 genrule(
   name = 'cm-verbose',
@@ -86,18 +99,21 @@ genrule(
   name = 'jar',
   cmd = ';'.join([
     'cd $TMP',
-    'mkdir -p net/codemirror/{lib,mode}',
+    'mkdir -p net/codemirror/{lib,mode,theme}',
     'cp $(location :css) net/codemirror/lib',
     'cp $(location :js) net/codemirror/lib']
     + ['cp $(location :mode_%s_js) net/codemirror/mode/%s.js' % (n, n)
        for n in CM_MODES]
-    + ['zip -qr $OUT net/codemirror/{lib,mode}']),
+    + ['cp $(location :theme_%s) net/codemirror/theme/%s.css' % (n, n)
+       for n in CM_THEMES]
+    + ['zip -qr $OUT net/codemirror/{lib,mode,theme}']),
   deps = [
     ':css',
     ':js',
     ':js_minifier',
     ':zip',
-  ] + [':mode_%s_js' % n for n in CM_MODES],
+  ] + [':mode_%s_js' % n for n in CM_MODES]
+    + [':theme_%s' % n for n in CM_THEMES],
   out = 'codemirror.jar',
 )
 

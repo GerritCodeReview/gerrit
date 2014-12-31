@@ -5,12 +5,12 @@ CM_CSS = [
 ]
 
 CM_THEMES = [
-  'theme/eclipse.css',
-  'theme/elegant.css',
-  'theme/midnight.css',
-  'theme/neat.css',
-  'theme/night.css',
-  'theme/twilight.css',
+  'eclipse',
+  'elegant',
+  'midnight',
+  'neat',
+  'night',
+  'twilight',
 ]
 
 CM_JS = [

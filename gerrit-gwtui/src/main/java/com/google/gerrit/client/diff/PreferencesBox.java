@@ -27,6 +27,7 @@ import com.google.gerrit.client.account.AccountApi;
 import com.google.gerrit.client.account.DiffPreferences;
 import com.google.gerrit.client.patches.PatchUtil;
 import com.google.gerrit.client.rpc.GerritCallback;
+import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.client.ui.NpIntTextBox;
 import com.google.gerrit.extensions.common.Theme;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference;
@@ -53,11 +54,8 @@ import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.ToggleButton;
 
-import net.codemirror.lib.ModeInjector;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.TreeMap;
+import net.codemirror.mode.ModeInfo;
+import net.codemirror.mode.ModeInjector;
 
 /** Displays current diff preferences. */
 class PreferencesBox extends Composite {
@@ -461,46 +459,22 @@ class PreferencesBox extends Composite {
         IGNORE_ALL_SPACE.name());
   }
 
-  private static final Map<String, String> NAME_TO_MODE;
-  private static final Map<String, String> NORMALIZED_MODES;
-  static {
-    NAME_TO_MODE = new TreeMap<>();
-    NORMALIZED_MODES = new HashMap<>();
-    for (String type : ModeInjector.getKnownMimeTypes()) {
-      String name = type;
-      if (name.startsWith("text/x-")) {
-        name = name.substring("text/x-".length());
-      } else if (name.startsWith("text/")) {
-        name = name.substring("text/".length());
-      } else if (name.startsWith("application/")) {
-        name = name.substring("application/".length());
-      }
-
-      String normalized = NAME_TO_MODE.get(name);
-      if (normalized == null) {
-        normalized = type;
-        NAME_TO_MODE.put(name, normalized);
-      }
-      NORMALIZED_MODES.put(type, normalized);
-    }
-  }
-
   private void initMode() {
     mode.addItem("", "");
-    for (Map.Entry<String, String> e : NAME_TO_MODE.entrySet()) {
-      mode.addItem(e.getKey(), e.getValue());
+    for (ModeInfo m : Natives.asList(ModeInfo.all())) {
+      mode.addItem(m.name(), m.mime());
     }
   }
 
   private void setMode(String modeType) {
     if (modeType != null && !modeType.isEmpty()) {
-      if (NORMALIZED_MODES.containsKey(modeType)) {
-        modeType = NORMALIZED_MODES.get(modeType);
-      }
-      for (int i = 0; i < mode.getItemCount(); i++) {
-        if (mode.getValue(i).equals(modeType)) {
-          mode.setSelectedIndex(i);
-          return;
+      ModeInfo m = ModeInfo.findModeByMIME(modeType);
+      if (m != null) {
+        for (int i = 0; i < mode.getItemCount(); i++) {
+          if (mode.getValue(i).equals(m.mime())) {
+            mode.setSelectedIndex(i);
+            return;
+          }
         }
       }
     }

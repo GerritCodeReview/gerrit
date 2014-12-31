@@ -39,7 +39,7 @@ import com.google.gwtexpui.globalkey.client.GlobalKey;
 
 import net.codemirror.lib.CodeMirror;
 import net.codemirror.lib.Configuration;
-import net.codemirror.lib.ModeInjector;
+import net.codemirror.mode.ModeInjector;
 
 public class EditScreen extends Screen {
 

@@ -345,15 +345,14 @@ class PreferencesBox extends Composite {
 
   @UiHandler("mode")
   void onMode(@SuppressWarnings("unused") ChangeEvent e) {
-    String m = mode.getValue(mode.getSelectedIndex());
-    final String mode = m != null && !m.isEmpty() ? m : null;
-
+    final String mode = getSelectedMode();
     prefs.syntaxHighlighting(true);
     syntaxHighlighting.setValue(true, false);
     new ModeInjector().add(mode).inject(new GerritCallback<Void>() {
       @Override
       public void onSuccess(Void result) {
-        if (prefs.syntaxHighlighting() && view.isAttached()) {
+        if (prefs.syntaxHighlighting() && eq(mode, getSelectedMode())
+            && view.isAttached()) {
           view.operation(new Runnable() {
             @Override
             public void run() {
@@ -364,6 +363,15 @@ class PreferencesBox extends Composite {
         }
       }
     });
+  }
+
+  private String getSelectedMode() {
+    String m = mode.getValue(mode.getSelectedIndex());
+    return m != null && !m.isEmpty() ? m : null;
+  }
+
+  private static boolean eq(String a, String b) {
+    return (a == null && b == null) || (a != null && b != null && a.equals(b));
   }
 
   @UiHandler("whitespaceErrors")

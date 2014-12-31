@@ -30,6 +30,7 @@ import java.util.Map;
 /** Description of a CodeMirror language mode. */
 public class ModeInfo extends JavaScriptObject {
   private static NativeMap<ModeInfo> byMime;
+  private static NativeMap<ModeInfo> byExt;
 
   /** Map of names such as "clike" to URI for code download. */
   private static final Map<String, SafeUri> modeUris = new HashMap<>();
@@ -100,13 +101,37 @@ public class ModeInfo extends JavaScriptObject {
     $wnd.CodeMirror.modeInfo = m
   }-*/;
 
-  /** Lookup mode by primary or alternate MIME types. */
+  /** Look up mode by primary or alternate MIME types. */
   public static ModeInfo findModeByMIME(String mime) {
     return byMime.get(mime);
   }
 
   public static SafeUri getModeScriptUri(String mode) {
     return modeUris.get(mode);
+  }
+
+  /** Look up mode by MIME type or file extension from a path. */
+  public static ModeInfo findMode(String mime, String path) {
+    ModeInfo m = byMime.get(mime);
+    if (m != null) {
+      return m;
+    }
+
+    int s = path.lastIndexOf('/');
+    int d = path.lastIndexOf('.');
+    if (d == -1 || s > d) {
+      return null; // punt on "foo.src/bar" type paths.
+    }
+
+    if (byExt == null) {
+      byExt = NativeMap.create();
+      for (ModeInfo mode : Natives.asList(all())) {
+        for (String ext : Natives.asList(mode.ext())) {
+          byExt.put(ext, mode);
+        }
+      }
+    }
+    return byExt.get(path.substring(d + 1));
   }
 
   private static void alias(String serverMime, String toMime) {
@@ -157,6 +182,9 @@ public class ModeInfo extends JavaScriptObject {
   /** Primary and additional MIME types that activate this mode. */
   public final native JsArrayString mimes()
   /*-{ return this.mimes || [this.mime] }-*/;
+
+  private final native JsArrayString ext()
+  /*-{ return this.ext || [] }-*/;
 
   protected ModeInfo() {
   }

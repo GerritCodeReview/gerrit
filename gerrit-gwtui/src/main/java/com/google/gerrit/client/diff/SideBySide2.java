@@ -75,8 +75,8 @@ import net.codemirror.lib.CodeMirror.LineClassWhere;
 import net.codemirror.lib.CodeMirror.LineHandle;
 import net.codemirror.lib.Configuration;
 import net.codemirror.lib.KeyMap;
-import net.codemirror.lib.ModeInjector;
 import net.codemirror.lib.Pos;
+import net.codemirror.mode.ModeInjector;
 
 import java.util.ArrayList;
 import java.util.Collections;

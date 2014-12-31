@@ -15,6 +15,7 @@ CM_THEMES = [
 
 CM_JS = [
   'lib/codemirror.js',
+  'mode/meta.js',
   'keymap/vim.js',
   'addon/dialog/dialog.js',
   'addon/scroll/simplescrollbars.js',

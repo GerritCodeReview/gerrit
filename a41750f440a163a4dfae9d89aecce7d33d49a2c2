@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "813188d3_27b7dac9",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/RelatedChanges.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 349,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-01-01T18:42:11Z",
+      "side": 1,
+      "message": "statusRaw could return null. Which will fail in valueOf.\n\n  String s \u003d statusRaw();\n  return s !\u003d null ? Change.Status.valueOf(s) : null;",
+      "revId": "a41750f440a163a4dfae9d89aecce7d33d49a2c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

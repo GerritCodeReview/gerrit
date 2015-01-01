@@ -21,7 +21,6 @@ import com.google.gwtorm.jdbc.JdbcExecutor;
 import com.google.gwtorm.jdbc.JdbcSchema;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.StatementExecutor;
-import com.google.inject.AbstractModule;
 import com.google.inject.Provider;
 
 import java.sql.SQLException;
@@ -34,11 +33,8 @@ public abstract class SchemaVersion {
   /** The current schema version. */
   public static final Class<Schema_103> C = Schema_103.class;
 
-  public static class Module extends AbstractModule {
-    @Override
-    protected void configure() {
-      bind(SchemaVersion.class).annotatedWith(Current.class).to(C);
-    }
+  public static int getBinaryVersion() {
+    return guessVersion(C);
   }
 
   private final Provider<? extends SchemaVersion> prior;

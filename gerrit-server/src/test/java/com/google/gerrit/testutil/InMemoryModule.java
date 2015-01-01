@@ -48,10 +48,8 @@ import com.google.gerrit.server.index.ChangeSchemas;
 import com.google.gerrit.server.index.IndexModule.IndexType;
 import com.google.gerrit.server.mail.SignedTokenEmailTokenVerifier;
 import com.google.gerrit.server.mail.SmtpEmailSender;
-import com.google.gerrit.server.schema.Current;
 import com.google.gerrit.server.schema.DataSourceType;
 import com.google.gerrit.server.schema.SchemaCreator;
-import com.google.gerrit.server.schema.SchemaVersion;
 import com.google.gerrit.server.securestore.DefaultSecureStore;
 import com.google.gerrit.server.securestore.SecureStore;
 import com.google.gerrit.server.ssh.NoSshKeyCache;
@@ -127,8 +125,6 @@ public class InMemoryModule extends FactoryModule {
 
     bindScope(RequestScoped.class, PerThreadRequestScope.REQUEST);
 
-    install(new SchemaVersion.Module());
-
     bind(File.class).annotatedWith(SitePath.class).toInstance(new File("."));
     bind(Config.class).annotatedWith(GerritServerConfig.class).toInstance(cfg);
     bind(SocketAddress.class).annotatedWith(RemotePeer.class).toInstance(
@@ -197,9 +193,9 @@ public class InMemoryModule extends FactoryModule {
 
   @Provides
   @Singleton
-  InMemoryDatabase getInMemoryDatabase(@Current SchemaVersion schemaVersion,
-      SchemaCreator schemaCreator) throws OrmException {
-    return new InMemoryDatabase(schemaVersion, schemaCreator);
+  InMemoryDatabase getInMemoryDatabase(SchemaCreator schemaCreator)
+      throws OrmException {
+    return new InMemoryDatabase(schemaCreator);
   }
 
   private Module luceneIndexModule() {

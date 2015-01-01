@@ -17,13 +17,23 @@ package com.google.gerrit.server.schema;
 import com.google.gerrit.reviewdb.client.CurrentSchemaVersion;
 import com.google.gerrit.reviewdb.client.SystemConfig;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.GerritPersonIdent;
+import com.google.gerrit.server.config.AllProjectsName;
+import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
+import com.google.inject.AbstractModule;
+import com.google.inject.Guice;
 import com.google.inject.Inject;
+import com.google.inject.Injector;
+import com.google.inject.Key;
 import com.google.inject.Provider;
+import com.google.inject.Stage;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.lib.PersonIdent;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -37,12 +47,47 @@ public class SchemaUpdater {
   private final Provider<SchemaVersion> updater;
 
   @Inject
-  SchemaUpdater(final SchemaFactory<ReviewDb> schema, final SitePaths site,
-      final SchemaCreator creator, @Current final Provider<SchemaVersion> update) {
+  SchemaUpdater(SchemaFactory<ReviewDb> schema,
+      SitePaths site,
+      SchemaCreator creator,
+      Injector parent) {
     this.schema = schema;
     this.site = site;
     this.creator = creator;
-    this.updater = update;
+    this.updater = buildInjector(parent).getProvider(SchemaVersion.class);
+  }
+
+  private Injector buildInjector(final Injector parent) {
+    return Guice.createInjector(Stage.DEVELOPMENT, new AbstractModule() {
+      @Override
+      protected void configure() {
+        bind(SchemaVersion.class).to(SchemaVersion.C);
+
+        for (Key<?> k : new Key<?>[]{
+            Key.get(PersonIdent.class, GerritPersonIdent.class),
+            Key.get(String.class, AnonymousCowardName.class),
+            }) {
+          rebind(parent, k);
+        }
+
+        for (Class<?> c : new Class<?>[] {
+            AllProjectsName.class,
+            AllUsersCreator.class,
+            GitRepositoryManager.class,
+            SitePaths.class,
+            }) {
+          rebind(parent, c);
+        }
+      }
+
+      private <T> void rebind(Injector parent, Key<T> c) {
+        bind(c).toProvider(parent.getProvider(c));
+      }
+
+      private <T> void rebind(Injector parent, Class<T> c) {
+        bind(c).toProvider(parent.getProvider(c));
+      }
+    });
   }
 
   public void update(final UpdateUI ui) throws OrmException {

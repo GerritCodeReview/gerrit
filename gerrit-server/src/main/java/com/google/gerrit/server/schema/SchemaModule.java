@@ -32,8 +32,6 @@ import org.eclipse.jgit.lib.PersonIdent;
 public class SchemaModule extends FactoryModule {
   @Override
   protected void configure() {
-    install(new SchemaVersion.Module());
-
     bind(PersonIdent.class).annotatedWith(GerritPersonIdent.class)
       .toProvider(GerritPersonIdentProvider.class);
 

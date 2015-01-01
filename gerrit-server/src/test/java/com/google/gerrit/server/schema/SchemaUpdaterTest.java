@@ -74,7 +74,6 @@ public class SchemaUpdaterTest {
       protected void configure() {
         bind(new TypeLiteral<SchemaFactory<ReviewDb>>() {}).toInstance(db);
         bind(SitePaths.class).toInstance(paths);
-        install(new SchemaVersion.Module());
 
         Config cfg = new Config();
         cfg.setString("user", null, "name", "Gerrit Code Review");

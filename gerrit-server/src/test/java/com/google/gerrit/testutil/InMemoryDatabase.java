@@ -67,7 +67,6 @@ public class InMemoryDatabase implements SchemaFactory<ReviewDb> {
     }
   }
 
-  private final SchemaVersion schemaVersion;
   private final SchemaCreator schemaCreator;
 
   private Connection openHandle;
@@ -75,9 +74,7 @@ public class InMemoryDatabase implements SchemaFactory<ReviewDb> {
   private boolean created;
 
   @Inject
-  InMemoryDatabase(SchemaVersion schemaVersion,
-      SchemaCreator schemaCreator) throws OrmException {
-    this.schemaVersion = schemaVersion;
+  InMemoryDatabase(SchemaCreator schemaCreator) throws OrmException {
     this.schemaCreator = schemaCreator;
 
     try {
@@ -161,6 +158,6 @@ public class InMemoryDatabase implements SchemaFactory<ReviewDb> {
 
   public void assertSchemaVersion() throws OrmException {
     final CurrentSchemaVersion act = getSchemaVersion();
-    assertEquals(schemaVersion.getVersionNbr(), act.versionNbr);
+    assertEquals(SchemaVersion.getBinaryVersion(), act.versionNbr);
   }
 }

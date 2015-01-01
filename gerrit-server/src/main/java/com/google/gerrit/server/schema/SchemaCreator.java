@@ -46,23 +46,19 @@ public class SchemaCreator {
   private final PersonIdent serverUser;
   private final DataSourceType dataSourceType;
 
-  private final int versionNbr;
-
   private AccountGroup admin;
   private AccountGroup batch;
 
   @Inject
   public SchemaCreator(SitePaths site,
-      @Current SchemaVersion version,
       AllProjectsCreator ap,
       AllUsersCreator auc,
       @GerritPersonIdent PersonIdent au,
       DataSourceType dst) {
-    this(site.site_path, version, ap, auc, au, dst);
+    this(site.site_path, ap, auc, au, dst);
   }
 
   public SchemaCreator(@SitePath File site,
-      @Current SchemaVersion version,
       AllProjectsCreator ap,
       AllUsersCreator auc,
       @GerritPersonIdent PersonIdent au,
@@ -72,7 +68,6 @@ public class SchemaCreator {
     allUsersCreator = auc;
     serverUser = au;
     dataSourceType = dst;
-    versionNbr = version.getVersionNbr();
   }
 
   public void create(final ReviewDb db) throws OrmException, IOException,
@@ -86,7 +81,7 @@ public class SchemaCreator {
     }
 
     final CurrentSchemaVersion sVer = CurrentSchemaVersion.create();
-    sVer.versionNbr = versionNbr;
+    sVer.versionNbr = SchemaVersion.getBinaryVersion();
     db.schemaVersion().insert(Collections.singleton(sVer));
 
     initSystemConfig(db);

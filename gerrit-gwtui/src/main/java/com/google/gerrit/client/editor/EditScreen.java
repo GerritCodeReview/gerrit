@@ -208,6 +208,7 @@ public class EditScreen extends Screen {
       .set("lineNumbers", true)
       .set("tabSize", prefs.tabSize())
       .set("lineWrapping", false)
+      .set("scrollbarStyle", "overlay")
       .set("styleSelectedText", true)
       .set("showTrailingSpace", true)
       .set("keyMap", "default")

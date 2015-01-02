@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c169c0a3_f94bb7a5",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/editor/EditScreen.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-02T20:52:38Z",
+      "side": 1,
+      "message": "As in a previous change, is this shared with the other CM implementation?",
+      "revId": "e9fcaf53832ee378ecf2df89ebc259a6f246b4f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

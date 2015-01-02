@@ -22,6 +22,30 @@
       "revId": "a6f8207874598d55ad036ef3b2efc6add88e61bc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c169c0a3_d9e27359",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/ProjectListPopup.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-01-02T16:51:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "61781470_b693083c",
+      "range": {
+        "startLine": 203,
+        "startChar": 12,
+        "endLine": 203,
+        "endChar": 37
+      },
+      "revId": "a6f8207874598d55ad036ef3b2efc6add88e61bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

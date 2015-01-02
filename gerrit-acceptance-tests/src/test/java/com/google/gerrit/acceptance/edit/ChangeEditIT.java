@@ -509,18 +509,6 @@ public class ChangeEditIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void getFileContentTypeRest() throws Exception {
-    Put.Input in = new Put.Input();
-    in.content = RestSession.newRawInput(CONTENT_NEW);
-    assertThat(adminSession.putRaw(urlEditFile(), in.content).getStatusCode())
-        .isEqualTo(SC_NO_CONTENT);
-    RestResponse r = adminSession.get(urlEditFileContentType());
-    assertThat(r.getStatusCode()).isEqualTo(SC_OK);
-    String res = newGson().fromJson(r.getReader(), String.class);
-    assertThat(res).isEqualTo("application/octet-stream");
-  }
-
-  @Test
   public void getFileNotFoundRest() throws Exception {
     assertThat(modifier.createEdit(change, ps)).isEqualTo(RefUpdate.Result.NEW);
     assertThat(adminSession.delete(urlEditFile()).getStatusCode()).isEqualTo(
@@ -670,13 +658,6 @@ public class ChangeEditIT extends AbstractDaemonTest {
     return urlEdit()
         + "/"
         + FILE_NAME;
-  }
-
-  private String urlEditFileContentType() {
-    return urlEdit()
-        + "/"
-        + FILE_NAME
-        + "/type";
   }
 
   private String urlGetFiles() {

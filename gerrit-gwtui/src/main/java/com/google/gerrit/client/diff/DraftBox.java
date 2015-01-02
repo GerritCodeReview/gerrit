@@ -49,6 +49,8 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.gwtexpui.globalkey.client.NpTextArea;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 
+import net.codemirror.lib.CodeMirror;
+
 /** An HtmlPanel for displaying and editing a draft */
 class DraftBox extends CommentBox {
   interface Binder extends UiBinder<HTMLPanel, DraftBox> {}
@@ -312,7 +314,9 @@ class DraftBox extends CommentBox {
     } else {
       CommentApi.updateDraft(psId, input.id(), input, group.add(cb));
     }
-    getCm().focus();
+    CodeMirror cm = getCm();
+    cm.setOption("keyMap", "vim_ro");
+    cm.focus();
   }
 
   private void enableEdit(boolean on) {

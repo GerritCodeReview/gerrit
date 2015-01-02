@@ -59,7 +59,7 @@ import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 
 import java.util.List;
 
-class Header extends Composite {
+public class Header extends Composite {
   interface Binder extends UiBinder<HTMLPanel, Header> {}
   private static final Binder uiBinder = GWT.create(Binder.class);
   static {
@@ -109,7 +109,7 @@ class Header extends Composite {
         base != null ? base.getId() : null, patchSetId.getId()));
   }
 
-  private static SafeHtml formatPath(String path, String project, String commit) {
+  public static SafeHtml formatPath(String path, String project, String commit) {
     SafeHtmlBuilder b = new SafeHtmlBuilder();
     if (Patch.COMMIT_MSG.equals(path)) {
       return b.append(Util.C.commitMessage());

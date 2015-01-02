@@ -94,7 +94,7 @@ limitations under the License.
             <div><ui:msg>Save</ui:msg></div>
           </g:Button>
           |
-          <span class='{style.path}' ui:field='filePath'/>
+          <span class='{style.path}'><span ui:field='project'/> / <span ui:field='filePath'/></span>
         </div>
       </div>
     </g:HTMLPanel>

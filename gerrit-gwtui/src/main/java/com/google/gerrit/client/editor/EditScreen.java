@@ -17,8 +17,11 @@ package com.google.gerrit.client.editor;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.VoidResult;
 import com.google.gerrit.client.account.DiffPreferences;
+import com.google.gerrit.client.changes.ChangeApi;
 import com.google.gerrit.client.changes.ChangeFileApi;
+import com.google.gerrit.client.changes.ChangeInfo;
 import com.google.gerrit.client.diff.FileInfo;
+import com.google.gerrit.client.diff.Header;
 import com.google.gerrit.client.rpc.CallbackGroup;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
@@ -38,6 +41,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwtexpui.globalkey.client.GlobalKey;
+import com.google.gwtexpui.safehtml.client.SafeHtml;
 
 import net.codemirror.lib.CodeMirror;
 import net.codemirror.lib.Configuration;
@@ -53,6 +57,7 @@ public class EditScreen extends Screen {
   private CodeMirror cm;
   private String type;
 
+  @UiField Element project;
   @UiField Element filePath;
   @UiField Button cancel;
   @UiField Button save;
@@ -69,7 +74,6 @@ public class EditScreen extends Screen {
   @Override
   protected void onInitUI() {
     super.onInitUI();
-    initPath();
     setHeaderVisible(false);
     setWindowTitle(FileInfo.getFileName(path));
   }
@@ -77,17 +81,15 @@ public class EditScreen extends Screen {
   @Override
   protected void onLoad() {
     super.onLoad();
+
     CallbackGroup cmGroup = new CallbackGroup();
     CodeMirror.initLibrary(cmGroup.add(CallbackGroup.<Void> emptyCallback()));
     CallbackGroup group = new CallbackGroup();
-    final AsyncCallback<Void> modeInjectorCb =
-        group.add(CallbackGroup.<Void> emptyCallback());
-    if (Patch.COMMIT_MSG.equals(path)) {
-      // No need to inject "text/plain", just fire the callback
-      modeInjectorCb.onSuccess(null);
-    } else {
+    if (!Patch.COMMIT_MSG.equals(path)) {
+      final AsyncCallback<Void> modeInjectorCb =
+          group.add(CallbackGroup.<Void> emptyCallback());
       ChangeFileApi.getContentType(revision, path,
-          cmGroup.addFinal(new GerritCallback<String>() {
+          cmGroup.add(new GerritCallback<String>() {
             @Override
             public void onSuccess(String result) {
               type = result;
@@ -95,6 +97,17 @@ public class EditScreen extends Screen {
             }
           }));
     }
+    cmGroup.done();
+
+    ChangeApi.detail(revision.getParentKey().get(),
+        group.add(new GerritCallback<ChangeInfo>() {
+          @Override
+          public void onSuccess(ChangeInfo c) {
+            project.setInnerText(c.project());
+            SafeHtml.setInnerHTML(filePath, Header.formatPath(path, null, null));
+          }
+        }));
+
     ChangeFileApi.getContentOrMessage(revision, path,
         group.addFinal(new ScreenLoadCallback<String>(this) {
           @Override
@@ -162,9 +175,5 @@ public class EditScreen extends Screen {
         .set("showTrailingSpace", true)
         .set("keyMap", "default")
         .set("mode", ModeInjector.getContentType(type));
-  }
-
-  private void initPath() {
-    filePath.setInnerText(path);
   }
 }

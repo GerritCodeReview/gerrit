@@ -65,6 +65,12 @@ public class EditScreen extends Screen {
     String columnMargin();
   }
 
+  static {
+    com.google.gerrit.client.diff.Resources.I
+      .scrollbarStyle()
+      .ensureInjected();
+  }
+
   private final PatchSet.Id revision;
   private final String path;
   private DiffPreferences prefs;
@@ -241,6 +247,7 @@ public class EditScreen extends Screen {
       .set("lineNumbers", true)
       .set("tabSize", prefs.tabSize())
       .set("lineWrapping", false)
+      .set("scrollbarStyle", "overlay")
       .set("styleSelectedText", true)
       .set("showTrailingSpace", true)
       .set("keyMap", "default")

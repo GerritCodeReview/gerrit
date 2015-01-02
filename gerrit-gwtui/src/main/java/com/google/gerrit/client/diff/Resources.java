@@ -19,8 +19,8 @@ import com.google.gwt.resources.client.ClientBundle;
 import com.google.gwt.resources.client.ImageResource;
 
 /** Resources used by diff. */
-interface Resources extends ClientBundle {
-  static final Resources I = GWT.create(Resources.class);
+public interface Resources extends ClientBundle {
+  public static final Resources I = GWT.create(Resources.class);
 
   @Source("CommentBox.css") CommentBox.Style style();
   @Source("Scrollbar.css") Scrollbar.Style scrollbarStyle();

@@ -23,12 +23,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 /** Displays overview of all edits and comments in this file. */
-class Scrollbar {
+public class Scrollbar {
   static {
     Resources.I.scrollbarStyle().ensureInjected();
   }
 
-  interface Style extends CssResource {
+  public interface Style extends CssResource {
     String comment();
     String draft();
     String insert();

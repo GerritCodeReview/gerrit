@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "61781470_36ea98ae",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/AccountSuggestOracle.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-01-02T13:26:49Z",
+      "side": 1,
+      "message": "Do we still need this after we are now doing REST calls and no old style RPCs?",
+      "range": {
+        "startLine": 33,
+        "startChar": 4,
+        "endLine": 33,
+        "endChar": 35
+      },
+      "revId": "b5af2a171cad8c9c54678d9d18f141cd85eddb9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

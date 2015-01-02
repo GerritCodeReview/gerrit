@@ -16,7 +16,6 @@ package com.google.gerrit.server.project;
 
 import com.google.gerrit.extensions.restapi.RestResource;
 import com.google.gerrit.extensions.restapi.RestView;
-import com.google.gerrit.reviewdb.client.Project;
 import com.google.inject.TypeLiteral;
 
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -33,8 +32,8 @@ public class CommitResource implements RestResource {
     this.commit = commit;
   }
 
-  public Project.NameKey getProject() {
-    return project.getNameKey();
+  public ProjectControl getProject() {
+    return project.getControl();
   }
 
   public RevCommit getCommit() {

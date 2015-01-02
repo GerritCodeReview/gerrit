@@ -511,23 +511,4 @@ public class ChangeEdits implements
       throw new ResourceNotFoundException();
     }
   }
-
-  @Singleton
-  public static class GetType implements RestReadView<ChangeEditResource> {
-    private final FileContentUtil fileContentUtil;
-
-    @Inject
-    GetType(FileContentUtil fileContentUtil) {
-      this.fileContentUtil = fileContentUtil;
-    }
-
-    @Override
-    public String apply(ChangeEditResource rsrc)
-        throws ResourceNotFoundException, IOException {
-      return fileContentUtil.getContentType(
-          rsrc.getControl().getProjectControl().getProjectState(),
-          rsrc.getChangeEdit().getEditCommit(),
-          rsrc.getPath());
-    }
-  }
 }

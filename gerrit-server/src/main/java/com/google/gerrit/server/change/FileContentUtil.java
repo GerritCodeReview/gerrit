@@ -119,43 +119,6 @@ public class FileContentUtil {
     return result;
   }
 
-  public String getContentType(ProjectState project, ObjectId rev,
-      String path) throws ResourceNotFoundException, IOException {
-    Repository repo = openRepository(project);
-    try {
-      RevWalk rw = new RevWalk(repo);
-      try {
-        ObjectReader reader = rw.getObjectReader();
-        RevCommit commit = rw.parseCommit(rev);
-        TreeWalk tw = TreeWalk.forPath(reader, path, commit.getTree());
-        if (tw == null) {
-          throw new ResourceNotFoundException();
-        }
-
-        org.eclipse.jgit.lib.FileMode mode = tw.getFileMode(0);
-        if (mode == org.eclipse.jgit.lib.FileMode.GITLINK) {
-          return X_GIT_GITLINK;
-        } else if (mode == org.eclipse.jgit.lib.FileMode.SYMLINK) {
-          return X_GIT_SYMLINK;
-        }
-
-        ObjectLoader blob = reader.open(tw.getObjectId(0), OBJ_BLOB);
-        byte[] raw;
-        try {
-          raw = blob.getCachedBytes(MAX_SIZE);
-        } catch (LargeObjectException e) {
-          raw = null;
-        }
-        String type = registry.getMimeType(path, raw).toString();
-        return resolveContentType(project, path, FileMode.FILE, type);
-      } finally {
-        rw.release();
-      }
-    } finally {
-      repo.close();
-    }
-  }
-
   public static String resolveContentType(ProjectState project, String path,
       FileMode fileMode, String mimeType) {
     switch (fileMode) {

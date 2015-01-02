@@ -14,7 +14,6 @@
 
 package com.google.gerrit.client.ui;
 
-import com.google.gerrit.client.RpcStatus;
 import com.google.gerrit.client.projects.ProjectMap;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.Natives;
@@ -23,17 +22,12 @@ import com.google.gerrit.client.rpc.Natives;
 public class ProjectNameSuggestOracle extends SuggestAfterTypingNCharsOracle {
   @Override
   public void _onRequestSuggestions(final Request req, final Callback callback) {
-    RpcStatus.hide(new Runnable() {
-      @Override
-      public void run() {
-        ProjectMap.suggest(req.getQuery(), req.getLimit(),
-            new GerritCallback<ProjectMap>() {
-              @Override
-              public void onSuccess(ProjectMap map) {
-                callback.onSuggestionsReady(req, new Response(Natives.asList(map.values())));
-              }
-            });
-      }
-    });
+    ProjectMap.suggest(req.getQuery(), req.getLimit(),
+        new GerritCallback<ProjectMap>() {
+          @Override
+          public void onSuccess(ProjectMap map) {
+            callback.onSuggestionsReady(req, new Response(Natives.asList(map.values())));
+          }
+        });
   }
 }

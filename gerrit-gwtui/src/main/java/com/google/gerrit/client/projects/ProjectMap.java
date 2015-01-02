@@ -50,6 +50,7 @@ public class ProjectMap extends NativeMap<ProjectInfo> {
         .addParameter("n", limit)
         .addParameterRaw("type", "ALL")
         .addParameterTrue("d") // description
+        .background()
         .get(NativeMap.copyKeysIntoChildren(cb));
   }
 

@@ -62,7 +62,7 @@ limitations under the License.
     }
   </ui:style>
   <g:HTMLPanel>
-    <div class='{style.headerLine}'>
+    <div class='{style.headerLine}' ui:field='header'>
        <div class='{style.headerButtons}'>
          <g:Button ui:field='cancel'
              styleName=''

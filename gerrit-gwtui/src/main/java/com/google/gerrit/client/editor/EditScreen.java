@@ -15,6 +15,7 @@
 package com.google.gerrit.client.editor;
 
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.JumpKeys;
 import com.google.gerrit.client.VoidResult;
 import com.google.gerrit.client.account.DiffPreferences;
 import com.google.gerrit.client.changes.ChangeApi;
@@ -33,6 +34,9 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.KeyPressEvent;
+import com.google.gwt.event.logical.shared.ResizeEvent;
+import com.google.gwt.event.logical.shared.ResizeHandler;
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
@@ -57,11 +61,14 @@ public class EditScreen extends Screen {
   private CodeMirror cm;
   private String type;
 
+  @UiField Element header;
   @UiField Element project;
   @UiField Element filePath;
   @UiField Button cancel;
   @UiField Button save;
   @UiField Element editor;
+
+  private HandlerRegistration resizeHandler;
 
   public EditScreen(Patch.Key patch) {
     this.revision = patch.getParentKey();
@@ -120,12 +127,19 @@ public class EditScreen extends Screen {
   @Override
   public void onShowView() {
     super.onShowView();
+    Window.enableScrolling(false);
+    JumpKeys.enable(false);
     if (prefs.hideTopMenu()) {
       Gerrit.setHeaderVisible(false);
     }
-    int rest = Gerrit.getHeaderFooterHeight()
-        + 30; // Estimate
-    cm.setHeight(Window.getClientHeight() - rest);
+    resizeHandler = Window.addResizeHandler(new ResizeHandler() {
+      @Override
+      public void onResize(ResizeEvent event) {
+        adjustCodeMirrorHeight();
+      }
+    });
+
+    adjustCodeMirrorHeight();
     cm.refresh();
     cm.focus();
   }
@@ -133,7 +147,22 @@ public class EditScreen extends Screen {
   @Override
   protected void onUnload() {
     super.onUnload();
+    if (cm != null) {
+      cm.getWrapperElement().removeFromParent();
+    }
+    if (resizeHandler != null) {
+      resizeHandler.removeHandler();
+    }
+    Window.enableScrolling(true);
     Gerrit.setHeaderVisible(true);
+    JumpKeys.enable(true);
+  }
+
+  private void adjustCodeMirrorHeight() {
+    int rest = Gerrit.getHeaderFooterHeight()
+        + header.getOffsetHeight()
+        + 5; // Estimate
+    cm.setHeight(Window.getClientHeight() - rest);
   }
 
   @UiHandler("save")

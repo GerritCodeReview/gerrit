@@ -32,14 +32,18 @@ import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.Style.Display;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
@@ -55,12 +59,19 @@ public class EditScreen extends Screen {
   interface Binder extends UiBinder<HTMLPanel, EditScreen> {}
   private static final Binder uiBinder = GWT.create(Binder.class);
 
+  interface Style extends CssResource {
+    String edit();
+    String showTabs();
+    String columnMargin();
+  }
+
   private final PatchSet.Id revision;
   private final String path;
   private DiffPreferences prefs;
   private CodeMirror cm;
   private String type;
 
+  @UiField Style style;
   @UiField Element header;
   @UiField Element project;
   @UiField Element filePath;
@@ -69,12 +80,15 @@ public class EditScreen extends Screen {
   @UiField Element editor;
 
   private HandlerRegistration resizeHandler;
+  private Element columnMargin;
+  private double charWidthPx;
 
   public EditScreen(Patch.Key patch) {
     this.revision = patch.getParentKey();
     this.path = patch.get();
     prefs = DiffPreferences.create(Gerrit.getAccountDiffPreference());
     add(uiBinder.createAndBindUi(this));
+    addStyleName(style.edit());
     addDomHandler(GlobalKey.STOP_PROPAGATION, KeyPressEvent.getType());
   }
 
@@ -92,7 +106,7 @@ public class EditScreen extends Screen {
     CallbackGroup cmGroup = new CallbackGroup();
     CodeMirror.initLibrary(cmGroup.add(CallbackGroup.<Void> emptyCallback()));
     CallbackGroup group = new CallbackGroup();
-    if (!Patch.COMMIT_MSG.equals(path)) {
+    if (prefs.syntaxHighlighting() && !Patch.COMMIT_MSG.equals(path)) {
       final AsyncCallback<Void> modeInjectorCb =
           group.add(CallbackGroup.<Void> emptyCallback());
       ChangeFileApi.getContentType(revision, path,
@@ -119,6 +133,7 @@ public class EditScreen extends Screen {
         group.addFinal(new ScreenLoadCallback<String>(this) {
           @Override
           protected void preDisplay(String content) {
+            setShowTabs(prefs.showTabs());
             initEditor(content);
           }
         }));
@@ -140,6 +155,7 @@ public class EditScreen extends Screen {
     });
 
     adjustCodeMirrorHeight();
+    setLineLength(prefs.lineLength());
     cm.refresh();
     cm.focus();
   }
@@ -182,27 +198,62 @@ public class EditScreen extends Screen {
     Gerrit.display(PageLinks.toChangeInEditMode(revision.getParentKey()));
   }
 
+  void setShowTabs(boolean b) {
+    if (b) {
+      addStyleName(style.showTabs());
+    } else {
+      removeStyleName(style.showTabs());
+    }
+  }
+
+  void setLineLength(int columns) {
+    double w = columns * getCharWidthPx();
+    columnMargin.getStyle().setMarginLeft(w, Unit.PX);
+  }
+
+  private double getCharWidthPx() {
+    if (charWidthPx <= 1) {
+      int len = 100;
+      StringBuilder s = new StringBuilder();
+      for (int i = 0; i < len; i++) {
+        s.append('m');
+      }
+
+      Element e = DOM.createSpan();
+      e.getStyle().setDisplay(Display.INLINE_BLOCK);
+      e.setInnerText(s.toString());
+
+      cm.measure().appendChild(e);
+      charWidthPx = ((double) e.getOffsetWidth()) / len;
+      e.removeFromParent();
+    }
+    return charWidthPx;
+  }
+
   private void initEditor(String content) {
-    cm = CodeMirror.create(editor, getConfig());
+    String mode = prefs.syntaxHighlighting()
+        ? ModeInjector.getContentType(type)
+        : null;
+    cm = CodeMirror.create(editor, Configuration.create()
+      .set("readOnly", false)
+      .set("cursorBlinkRate", 0)
+      .set("cursorHeight", 0.85)
+      .set("lineNumbers", true)
+      .set("tabSize", prefs.tabSize())
+      .set("lineWrapping", false)
+      .set("styleSelectedText", true)
+      .set("showTrailingSpace", true)
+      .set("keyMap", "default")
+      .set("theme", prefs.theme().name().toLowerCase())
+      .set("mode", mode));
     cm.setValue(content);
+
+    columnMargin = DOM.createDiv();
+    columnMargin.setClassName(style.columnMargin());
+    cm.mover().appendChild(columnMargin);
   }
 
   private void injectMode(String type, AsyncCallback<Void> cb) {
     new ModeInjector().add(type).inject(cb);
-  }
-
-  private Configuration getConfig() {
-    // TODO(davido): Retrieve user preferences from AllUsers repository
-    return Configuration.create()
-        .set("readOnly", false)
-        .set("cursorBlinkRate", 0)
-        .set("cursorHeight", 0.85)
-        .set("lineNumbers", true)
-        .set("tabSize", 4)
-        .set("lineWrapping", false)
-        .set("styleSelectedText", true)
-        .set("showTrailingSpace", true)
-        .set("keyMap", "default")
-        .set("mode", ModeInjector.getContentType(type));
   }
 }

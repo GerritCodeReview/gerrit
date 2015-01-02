@@ -52,6 +52,7 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.google.inject.assistedinject.Assisted;
 
+import org.eclipse.jgit.lib.ObjectId;
 import org.kohsuke.args4j.Option;
 
 import java.io.IOException;
@@ -433,8 +434,8 @@ public class ChangeEdits implements
         throws ResourceNotFoundException, IOException {
       try {
         return Response.ok(fileContentUtil.getContent(
-              rsrc.getChangeEdit().getChange().getProject(),
-              rsrc.getChangeEdit().getRevision().get(),
+              rsrc.getControl().getProjectControl().getProjectState(),
+              ObjectId.fromString(rsrc.getChangeEdit().getRevision().get()),
               rsrc.getPath()));
       } catch (ResourceNotFoundException rnfe) {
         return Response.none();
@@ -502,8 +503,10 @@ public class ChangeEdits implements
         IOException, ResourceNotFoundException {
       Optional<ChangeEdit> edit = editUtil.byChange(rsrc.getChange());
       if (edit.isPresent()) {
-        return BinaryResult.create(
-            edit.get().getEditCommit().getFullMessage()).base64();
+        String msg = edit.get().getEditCommit().getFullMessage();
+        return BinaryResult.create(msg)
+            .setContentType(FileContentUtil.TEXT_X_GERRIT_COMMIT_MESSAGE)
+            .base64();
       }
       throw new ResourceNotFoundException();
     }

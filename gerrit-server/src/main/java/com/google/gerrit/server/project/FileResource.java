@@ -16,28 +16,29 @@ package com.google.gerrit.server.project;
 
 import com.google.gerrit.extensions.restapi.RestResource;
 import com.google.gerrit.extensions.restapi.RestView;
-import com.google.gerrit.reviewdb.client.Project;
 import com.google.inject.TypeLiteral;
+
+import org.eclipse.jgit.lib.ObjectId;
 
 public class FileResource implements RestResource {
   public static final TypeLiteral<RestView<FileResource>> FILE_KIND =
       new TypeLiteral<RestView<FileResource>>() {};
 
-  private final Project.NameKey project;
-  private final String rev;
+  private final ProjectControl project;
+  private final ObjectId rev;
   private final String path;
 
-  public FileResource(Project.NameKey project, String rev, String path) {
+  public FileResource(ProjectControl project, ObjectId rev, String path) {
     this.project = project;
     this.rev = rev;
     this.path = path;
   }
 
-  public Project.NameKey getProject() {
+  public ProjectControl getProject() {
     return project;
   }
 
-  public String getRev() {
+  public ObjectId getRev() {
     return rev;
   }
 

@@ -108,14 +108,16 @@ public class RestApi {
       implements RequestCallback {
     private final boolean background;
     private final AsyncCallback<T> cb;
+    private boolean withResponse;
 
-    HttpCallback(boolean bg, AsyncCallback<T> cb) {
+    HttpCallback(boolean bg, AsyncCallback<T> cb, boolean withResponse) {
       this.background = bg;
       this.cb = cb;
+      this.withResponse = withResponse;
     }
 
     @Override
-    public void onResponseReceived(Request req, Response res) {
+    public void onResponseReceived(Request req, final Response res) {
       int status = res.getStatusCode();
       if (status == Response.SC_NO_CONTENT) {
         cb.onSuccess(null);
@@ -151,10 +153,16 @@ public class RestApi {
         }
 
         Scheduler.ScheduledCommand cmd = new Scheduler.ScheduledCommand() {
+          @SuppressWarnings("unchecked")
           @Override
           public void execute() {
             try {
-              cb.onSuccess(data);
+              if (withResponse) {
+                ((AsyncCallback<HttpResponse<T>>) cb).onSuccess(
+                    HttpResponse.wrap(res, data));
+              } else {
+                cb.onSuccess(data);
+              }
             } finally {
               if (!background) {
                 RpcStatus.INSTANCE.onRpcComplete();
@@ -318,11 +326,16 @@ public class RestApi {
   }
 
   public <T extends JavaScriptObject> void get(AsyncCallback<T> cb) {
-    send(GET, cb);
+    send(GET, cb, false);
+  }
+
+  public <T extends JavaScriptObject> void getWithResponse(
+      AsyncCallback<HttpResponse<T>> cb) {
+    send(GET, cb, true);
   }
 
   public <T extends JavaScriptObject> void delete(AsyncCallback<T> cb) {
-    send(DELETE, cb);
+    send(DELETE, cb, false);
   }
 
   public <T extends JavaScriptObject> void delete(JavaScriptObject content,
@@ -331,8 +344,9 @@ public class RestApi {
   }
 
   private <T extends JavaScriptObject> void send(
-      Method method, AsyncCallback<T> cb) {
-    HttpCallback<T> httpCallback = new HttpCallback<>(background, cb);
+      Method method, AsyncCallback<T> cb, boolean withResponse) {
+    HttpCallback<T> httpCallback =
+        new HttpCallback<>(background, cb, withResponse);
     try {
       if (!background) {
         RpcStatus.INSTANCE.onRpcStart();
@@ -355,7 +369,7 @@ public class RestApi {
   }
 
   public <T extends JavaScriptObject> void put(AsyncCallback<T> cb) {
-    send(PUT, cb);
+    send(PUT, cb, false);
   }
 
   public <T extends JavaScriptObject> void put(String content,
@@ -372,7 +386,7 @@ public class RestApi {
   private <T extends JavaScriptObject> void sendJSON(
       Method method, JavaScriptObject content,
       AsyncCallback<T> cb) {
-    HttpCallback<T> httpCallback = new HttpCallback<>(background, cb);
+    HttpCallback<T> httpCallback = new HttpCallback<>(background, cb, false);
     try {
       if (!background) {
         RpcStatus.INSTANCE.onRpcStart();
@@ -389,7 +403,7 @@ public class RestApi {
 
   private <T extends JavaScriptObject> void sendRaw(Method method, String body,
       AsyncCallback<T> cb) {
-    HttpCallback<T> httpCallback = new HttpCallback<>(background, cb);
+    HttpCallback<T> httpCallback = new HttpCallback<>(background, cb, false);
     try {
       if (!background) {
         RpcStatus.INSTANCE.onRpcStart();

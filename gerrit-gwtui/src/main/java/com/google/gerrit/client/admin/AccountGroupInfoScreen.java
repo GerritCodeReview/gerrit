@@ -21,7 +21,7 @@ import com.google.gerrit.client.groups.GroupInfo;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.AccountGroupSuggestOracle;
 import com.google.gerrit.client.ui.OnEditEnabler;
-import com.google.gerrit.client.ui.RPCSuggestOracle;
+import com.google.gerrit.client.ui.RemoteSuggestOracle;
 import com.google.gerrit.client.ui.SmallHeading;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -120,7 +120,7 @@ public class AccountGroupInfoScreen extends AccountGroupScreen {
     ownerTxtBox = new NpTextBox();
     ownerTxtBox.setVisibleLength(60);
     final AccountGroupSuggestOracle accountGroupOracle = new AccountGroupSuggestOracle();
-    ownerTxt = new SuggestBox(new RPCSuggestOracle(
+    ownerTxt = new SuggestBox(new RemoteSuggestOracle(
         accountGroupOracle), ownerTxtBox);
     ownerTxt.setStyleName(Gerrit.RESOURCES.css().groupOwnerTextBox());
     ownerPanel.add(ownerTxt);

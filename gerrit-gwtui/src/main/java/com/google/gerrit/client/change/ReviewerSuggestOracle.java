@@ -25,9 +25,9 @@ import com.google.gerrit.client.ui.SuggestAfterTypingNCharsOracle;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
-import com.google.gwt.user.client.ui.SuggestOracle;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /** REST API based suggestion Oracle for reviewers. */
@@ -35,17 +35,22 @@ public class ReviewerSuggestOracle extends SuggestAfterTypingNCharsOracle {
   private Change.Id changeId;
 
   @Override
-  protected void _onRequestSuggestions(final Request req, final Callback callback) {
-    ChangeApi.suggestReviewers(changeId.get(), req.getQuery(),
-        req.getLimit()).get(new GerritCallback<JsArray<SuggestReviewerInfo>>() {
+  protected void _onRequestSuggestions(final Request req, final Callback cb) {
+    ChangeApi.suggestReviewers(changeId.get(), req.getQuery(), req.getLimit())
+        .get(new GerritCallback<JsArray<SuggestReviewerInfo>>() {
           @Override
           public void onSuccess(JsArray<SuggestReviewerInfo> result) {
-            final List<RestReviewerSuggestion> r =
-                new ArrayList<>(result.length());
-            for (final SuggestReviewerInfo reviewer : Natives.asList(result)) {
+            List<RestReviewerSuggestion> r = new ArrayList<>(result.length());
+            for (SuggestReviewerInfo reviewer : Natives.asList(result)) {
               r.add(new RestReviewerSuggestion(reviewer));
             }
-            callback.onSuggestionsReady(req, new Response(r));
+            cb.onSuggestionsReady(req, new Response(r));
+          }
+
+          @Override
+          public void onFailure(Throwable err) {
+            List<Suggestion> r = Collections.emptyList();
+            cb.onSuggestionsReady(req, new Response(r));
           }
         });
   }
@@ -54,7 +59,7 @@ public class ReviewerSuggestOracle extends SuggestAfterTypingNCharsOracle {
     this.changeId = changeId;
   }
 
-  private static class RestReviewerSuggestion implements SuggestOracle.Suggestion {
+  private static class RestReviewerSuggestion implements Suggestion {
     private final SuggestReviewerInfo reviewer;
 
     RestReviewerSuggestion(final SuggestReviewerInfo reviewer) {

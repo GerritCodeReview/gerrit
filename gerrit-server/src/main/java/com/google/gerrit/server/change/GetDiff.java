@@ -24,7 +24,6 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.gerrit.common.data.PatchScript;
 import com.google.gerrit.common.data.PatchScript.DisplayMethod;
-import com.google.gerrit.common.data.PatchScript.FileMode;
 import com.google.gerrit.extensions.common.ChangeType;
 import com.google.gerrit.extensions.common.DiffInfo;
 import com.google.gerrit.extensions.common.DiffInfo.ContentEntry;
@@ -194,7 +193,8 @@ public class GetDiff implements RestReadView<FileResource> {
           result.metaA = new FileMeta();
           result.metaA.name = MoreObjects.firstNonNull(ps.getOldName(),
               ps.getNewName());
-          setContentType(result.metaA, state, ps.getFileModeA(), ps.getMimeTypeA());
+          result.metaA.contentType = FileContentUtil.resolveContentType(
+              state, result.metaA.name, ps.getFileModeA(), ps.getMimeTypeA());
           result.metaA.lines = ps.getA().size();
           result.metaA.webLinks =
               getFileWebLinks(state.getProject(), revA, result.metaA.name);
@@ -203,7 +203,8 @@ public class GetDiff implements RestReadView<FileResource> {
         if (ps.getDisplayMethodB() != DisplayMethod.NONE) {
           result.metaB = new FileMeta();
           result.metaB.name = ps.getNewName();
-          setContentType(result.metaB, state, ps.getFileModeB(), ps.getMimeTypeB());
+          result.metaB.contentType = FileContentUtil.resolveContentType(
+              state, result.metaB.name, ps.getFileModeB(), ps.getMimeTypeB());
           result.metaB.lines = ps.getB().size();
           result.metaB.webLinks =
               getFileWebLinks(state.getProject(), revB, result.metaB.name);
@@ -248,34 +249,6 @@ public class GetDiff implements RestReadView<FileResource> {
     FluentIterable<WebLinkInfo> links =
         webLinks.getFileLinks(project.getName(), rev, file);
     return links.isEmpty() ? null : links.toList();
-  }
-
-  private void setContentType(FileMeta meta, ProjectState project,
-      FileMode fileMode, String mimeType) {
-    switch (fileMode) {
-      case FILE:
-        if (Patch.COMMIT_MSG.equals(meta.name)) {
-          mimeType = "text/x-gerrit-commit-message";
-        } else if (project != null) {
-          for (ProjectState p : project.tree()) {
-            String t = p.getConfig().getMimeTypes().getMimeType(meta.name);
-            if (t != null) {
-              mimeType = t;
-              break;
-            }
-          }
-        }
-        meta.contentType = mimeType;
-        break;
-      case GITLINK:
-        meta.contentType = "x-git/gitlink";
-        break;
-      case SYMLINK:
-        meta.contentType = "x-git/symlink";
-        break;
-      default:
-        throw new IllegalStateException("file mode: " + fileMode);
-    }
   }
 
   private static class Content {

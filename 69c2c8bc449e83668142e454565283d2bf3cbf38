@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c169c0a3_795fa769",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/PreferencesBox.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 373,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-02T20:34:22Z",
+      "side": 1,
+      "message": "Don\u0027t we build GWT with Java 7 now? In which case this would just be Objects.equal",
+      "revId": "69c2c8bc449e83668142e454565283d2bf3cbf38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

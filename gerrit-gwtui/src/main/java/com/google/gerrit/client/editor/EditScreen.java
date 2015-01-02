@@ -56,6 +56,7 @@ import com.google.gwtexpui.safehtml.client.SafeHtml;
 import net.codemirror.lib.CodeMirror;
 import net.codemirror.lib.CodeMirror.ChangesHandler;
 import net.codemirror.lib.Configuration;
+import net.codemirror.lib.KeyMap;
 import net.codemirror.lib.ModeInjector;
 
 public class EditScreen extends Screen {
@@ -208,12 +209,16 @@ public class EditScreen extends Screen {
 
   @UiHandler("save")
   void onSave(@SuppressWarnings("unused") ClickEvent e) {
+    if (cm.isClean(generation)) {
+      upToChange();
+      return;
+    }
+
     ChangeFileApi.putContentOrMessage(revision, path, cm.getValue(),
         new GerritCallback<VoidResult>() {
           @Override
           public void onSuccess(VoidResult result) {
-            Gerrit.display(PageLinks.toChangeInEditMode(
-                revision.getParentKey()));
+            upToChange();
           }
         });
   }
@@ -222,8 +227,12 @@ public class EditScreen extends Screen {
   void onCancel(@SuppressWarnings("unused") ClickEvent e) {
     if (cm.isClean(generation)
         || Window.confirm(EditConstants.I.cancelUnsavedChanges())) {
-      Gerrit.display(PageLinks.toChangeInEditMode(revision.getParentKey()));
+      upToChange();
     }
+  }
+
+  private void upToChange() {
+    Gerrit.display(PageLinks.toChangeInEditMode(revision.getParentKey()));
   }
 
   void setShowTabs(boolean b) {
@@ -275,11 +284,34 @@ public class EditScreen extends Screen {
       .set("keyMap", "default")
       .set("theme", prefs.theme().name().toLowerCase())
       .set("mode", mode));
+    cm.addKeyMap(KeyMap.create()
+        .on("Cmd-S", save())
+        .on("Ctrl-S", save()));
     cm.setValue(content);
 
     columnMargin = DOM.createDiv();
     columnMargin.setClassName(style.columnMargin());
     cm.mover().appendChild(columnMargin);
+  }
+
+  private Runnable save() {
+    return new Runnable() {
+      @Override
+      public void run() {
+        if (!cm.isClean(generation)) {
+          String text = cm.getValue();
+          final int g = cm.changeGeneration(false);
+          ChangeFileApi.putContentOrMessage(revision, path, text,
+              new GerritCallback<VoidResult>() {
+                @Override
+                public void onSuccess(VoidResult result) {
+                  generation = g;
+                  save.setEnabled(!cm.isClean(g));
+                }
+              });
+        }
+      }
+    };
   }
 
   private void injectMode(String type, AsyncCallback<Void> cb) {

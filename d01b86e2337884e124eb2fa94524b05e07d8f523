@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "813188d3_47068ebe",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/SideBySide2.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 996,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2015-01-02T21:29:29Z",
+      "side": 1,
+      "message": "(optional) would be simpler with the test reversed:\n\n  if (!prefs.syntaxHighlighting()\n      || meta \u003d\u003d null\n      || meta.content_type() \u003d\u003d null) {\n    return null;\n  }\n  ModeInfo m \u003d ModeInfo.findMode(meta.content_type(), path);\n  return m !\u003d null ? m.mime() : null;",
+      "range": {
+        "startLine": 995,
+        "startChar": 0,
+        "endLine": 996,
+        "endChar": 41
+      },
+      "revId": "d01b86e2337884e124eb2fa94524b05e07d8f523",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "813188d3_670392ad",
+        "filename": "gerrit-gwtui/src/main/java/net/codemirror/mode/ModeInfo.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2015-01-02T21:29:29Z",
+      "side": 1,
+      "message": "(nit) should be two words (Look up) when used as a verb",
+      "range": {
+        "startLine": 113,
+        "startChar": 6,
+        "endLine": 113,
+        "endChar": 12
+      },
+      "revId": "d01b86e2337884e124eb2fa94524b05e07d8f523",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c169c0a3_3cdb5d81",
+        "filename": "gerrit-gwtui/src/main/java/net/codemirror/mode/ModeInfo.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2015-01-02T21:29:29Z",
+      "side": 1,
+      "message": "What should happen if d \u003d\u003d -1?  (E.g. if the suffix should be the entire basename in that case then this should set \u0027d \u003d s\u0027.)",
+      "range": {
+        "startLine": 121,
+        "startChar": 0,
+        "endLine": 121,
+        "endChar": 34
+      },
+      "revId": "d01b86e2337884e124eb2fa94524b05e07d8f523",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

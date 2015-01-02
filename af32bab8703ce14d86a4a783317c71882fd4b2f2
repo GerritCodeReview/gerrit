@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "813188d3_2758baca",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1411,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-02T22:01:13Z",
+      "side": 1,
+      "message": "Nit: Gerrit-specific",
+      "range": {
+        "startLine": 1411,
+        "startChar": 19,
+        "endLine": 1411,
+        "endChar": 34
+      },
+      "revId": "af32bab8703ce14d86a4a783317c71882fd4b2f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c169c0a3_9cf2a9fc",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 2773,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-02T22:01:13Z",
+      "side": 1,
+      "message": "Nit: Gerrit-specific",
+      "range": {
+        "startLine": 2773,
+        "startChar": 2,
+        "endLine": 2773,
+        "endChar": 17
+      },
+      "revId": "af32bab8703ce14d86a4a783317c71882fd4b2f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

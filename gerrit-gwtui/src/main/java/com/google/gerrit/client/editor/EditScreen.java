@@ -37,6 +37,7 @@ import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
@@ -55,12 +56,17 @@ public class EditScreen extends Screen {
   interface Binder extends UiBinder<HTMLPanel, EditScreen> {}
   private static final Binder uiBinder = GWT.create(Binder.class);
 
+  interface Style extends CssResource {
+    String showTabs();
+  }
+
   private final PatchSet.Id revision;
   private final String path;
   private DiffPreferences prefs;
   private CodeMirror cm;
   private String type;
 
+  @UiField Style style;
   @UiField Element header;
   @UiField Element project;
   @UiField Element filePath;
@@ -92,7 +98,7 @@ public class EditScreen extends Screen {
     CallbackGroup cmGroup = new CallbackGroup();
     CodeMirror.initLibrary(cmGroup.add(CallbackGroup.<Void> emptyCallback()));
     CallbackGroup group = new CallbackGroup();
-    if (!Patch.COMMIT_MSG.equals(path)) {
+    if (prefs.syntaxHighlighting() && !Patch.COMMIT_MSG.equals(path)) {
       final AsyncCallback<Void> modeInjectorCb =
           group.add(CallbackGroup.<Void> emptyCallback());
       ChangeFileApi.getContentType(revision, path,
@@ -119,6 +125,7 @@ public class EditScreen extends Screen {
         group.addFinal(new ScreenLoadCallback<String>(this) {
           @Override
           protected void preDisplay(String content) {
+            setShowTabs(prefs.showTabs());
             initEditor(content);
           }
         }));
@@ -182,27 +189,34 @@ public class EditScreen extends Screen {
     Gerrit.display(PageLinks.toChangeInEditMode(revision.getParentKey()));
   }
 
+  void setShowTabs(boolean b) {
+    if (b) {
+      addStyleName(style.showTabs());
+    } else {
+      removeStyleName(style.showTabs());
+    }
+  }
+
   private void initEditor(String content) {
-    cm = CodeMirror.create(editor, getConfig());
+    String mode = prefs.syntaxHighlighting()
+        ? ModeInjector.getContentType(type)
+        : null;
+    cm = CodeMirror.create(editor, Configuration.create()
+      .set("readOnly", false)
+      .set("cursorBlinkRate", 0)
+      .set("cursorHeight", 0.85)
+      .set("lineNumbers", true)
+      .set("tabSize", prefs.tabSize())
+      .set("lineWrapping", false)
+      .set("styleSelectedText", true)
+      .set("showTrailingSpace", true)
+      .set("keyMap", "default")
+      .set("theme", prefs.theme().name().toLowerCase())
+      .set("mode", mode));
     cm.setValue(content);
   }
 
   private void injectMode(String type, AsyncCallback<Void> cb) {
     new ModeInjector().add(type).inject(cb);
-  }
-
-  private Configuration getConfig() {
-    // TODO(davido): Retrieve user preferences from AllUsers repository
-    return Configuration.create()
-        .set("readOnly", false)
-        .set("cursorBlinkRate", 0)
-        .set("cursorHeight", 0.85)
-        .set("lineNumbers", true)
-        .set("tabSize", 4)
-        .set("lineWrapping", false)
-        .set("styleSelectedText", true)
-        .set("showTrailingSpace", true)
-        .set("keyMap", "default")
-        .set("mode", ModeInjector.getContentType(type));
   }
 }

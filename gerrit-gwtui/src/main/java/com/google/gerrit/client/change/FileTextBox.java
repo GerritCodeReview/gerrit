@@ -14,7 +14,7 @@
 
 package com.google.gerrit.client.change;
 
-import com.google.gerrit.client.changes.ChangeFileApi;
+import com.google.gerrit.client.changes.ChangeEditApi;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.HttpCallback;
 import com.google.gerrit.client.rpc.HttpResponse;
@@ -54,7 +54,7 @@ class FileTextBox extends NpTextBox {
   }
 
   private void loadFileContent() {
-    ChangeFileApi.getContent(id, getText(), new HttpCallback<NativeString>() {
+    ChangeEditApi.get(id, getText(), new HttpCallback<NativeString>() {
       @Override
       public void onSuccess(HttpResponse<NativeString> result) {
         textArea.setText(result.getResult().asString());

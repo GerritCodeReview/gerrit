@@ -49,6 +49,7 @@ import com.google.gwtexpui.globalkey.client.GlobalKey;
 import com.google.gwtexpui.safehtml.client.SafeHtml;
 
 import net.codemirror.lib.CodeMirror;
+import net.codemirror.lib.CodeMirror.ChangesHandler;
 import net.codemirror.lib.Configuration;
 import net.codemirror.lib.ModeInjector;
 
@@ -75,6 +76,7 @@ public class EditScreen extends Screen {
   @UiField Element editor;
 
   private HandlerRegistration resizeHandler;
+  private int generation;
 
   public EditScreen(Patch.Key patch) {
     this.revision = patch.getParentKey();
@@ -146,6 +148,15 @@ public class EditScreen extends Screen {
       }
     });
 
+    generation = cm.changeGeneration(true);
+    save.setEnabled(false);
+    cm.on(new ChangesHandler() {
+      @Override
+      public void handle(CodeMirror cm) {
+        save.setEnabled(!cm.isClean(generation));
+      }
+    });
+
     adjustCodeMirrorHeight();
     cm.refresh();
     cm.focus();
@@ -186,7 +197,10 @@ public class EditScreen extends Screen {
 
   @UiHandler("cancel")
   void onCancel(@SuppressWarnings("unused") ClickEvent e) {
-    Gerrit.display(PageLinks.toChangeInEditMode(revision.getParentKey()));
+    if (cm.isClean(generation)
+        || Window.confirm(EditConstants.I.discardUnsavedChanges())) {
+      Gerrit.display(PageLinks.toChangeInEditMode(revision.getParentKey()));
+    }
   }
 
   void setShowTabs(boolean b) {

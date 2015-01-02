@@ -18,6 +18,7 @@ import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.VoidResult;
 import com.google.gerrit.client.account.DiffPreferences;
 import com.google.gerrit.client.changes.ChangeFileApi;
+import com.google.gerrit.client.diff.FileInfo;
 import com.google.gerrit.client.rpc.CallbackGroup;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
@@ -70,6 +71,7 @@ public class EditScreen extends Screen {
     super.onInitUI();
     initPath();
     setHeaderVisible(false);
+    setWindowTitle(FileInfo.getFileName(path));
   }
 
   @Override

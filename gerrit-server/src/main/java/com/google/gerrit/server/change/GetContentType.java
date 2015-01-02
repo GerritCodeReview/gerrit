@@ -20,6 +20,8 @@ import com.google.gerrit.reviewdb.client.Patch;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import org.eclipse.jgit.lib.ObjectId;
+
 import java.io.IOException;
 
 @Singleton
@@ -36,11 +38,11 @@ public class GetContentType implements RestReadView<FileResource> {
       throws ResourceNotFoundException, IOException {
     String path = rsrc.getPatchKey().get();
     if (Patch.COMMIT_MSG.equals(path)) {
-      return "text/plain";
+      return FileContentUtil.TEXT_X_GERRIT_COMMIT_MESSAGE;
     }
     return fileContentUtil.getContentType(
-        rsrc.getRevision().getControl().getProject().getNameKey(),
-        rsrc.getRevision().getPatchSet().getRevision().get(),
+        rsrc.getRevision().getControl().getProjectControl().getProjectState(),
+        ObjectId.fromString(rsrc.getRevision().getPatchSet().getRevision().get()),
         path);
   }
 }

@@ -522,8 +522,8 @@ public class ChangeEdits implements
     public String apply(ChangeEditResource rsrc)
         throws ResourceNotFoundException, IOException {
       return fileContentUtil.getContentType(
-          rsrc.getChangeEdit().getChange().getProject(),
-          rsrc.getChangeEdit().getRevision().get(),
+          rsrc.getControl().getProjectControl().getProjectState(),
+          rsrc.getChangeEdit().getEditCommit(),
           rsrc.getPath());
     }
   }

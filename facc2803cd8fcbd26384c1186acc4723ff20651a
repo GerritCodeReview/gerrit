@@ -22,6 +22,30 @@
       "revId": "facc2803cd8fcbd26384c1186acc4723ff20651a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "813188d3_a7f66a36",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/DraftBox.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-02T23:59:03Z",
+      "side": 1,
+      "message": "Unfortunately that function is a local in a closure such that I can\u0027t access it:\n\n var Vim \u003d function() {\n   var vimApi \u003d {...};\n   function exitVisualMode(...) {...};\n   return vimApi;\n }\n\nThe only exposed action is toggleVisualMode. But even to use that we have to look up the current mode and set the right flags so we actually disable visual mode instead of switching from line/block visual to visual.\n\nThis might blow away a little more state than we need to but it just seems way easier.",
+      "parentUuid": "c169c0a3_3c099d4d",
+      "range": {
+        "startLine": 318,
+        "startChar": 0,
+        "endLine": 318,
+        "endChar": 37
+      },
+      "revId": "facc2803cd8fcbd26384c1186acc4723ff20651a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

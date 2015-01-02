@@ -32,6 +32,8 @@ import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.Display;
 import com.google.gwt.dom.client.Style.Unit;
@@ -56,6 +58,8 @@ import com.google.gwtexpui.safehtml.client.SafeHtml;
 
 import net.codemirror.lib.CodeMirror;
 import net.codemirror.lib.CodeMirror.ChangesHandler;
+import net.codemirror.lib.CodeMirror.LineClassWhere;
+import net.codemirror.lib.CodeMirror.LineHandle;
 import net.codemirror.lib.Configuration;
 import net.codemirror.lib.KeyMap;
 import net.codemirror.lib.ModeInjector;
@@ -68,6 +72,7 @@ public class EditScreen extends Screen {
   interface Style extends CssResource {
     String showTabs();
     String columnMargin();
+    String activeLine();
   }
 
   static {
@@ -189,7 +194,7 @@ public class EditScreen extends Screen {
     setLineLength(prefs.lineLength());
     cm.refresh();
     cm.focus();
-    updateCursorPosition().run();
+    updateActiveLine();
   }
 
   @Override
@@ -327,11 +332,43 @@ public class EditScreen extends Screen {
     return new Runnable() {
       @Override
       public void run() {
-        Pos p = cm.getCursor("end");
-        cursLine.setInnerText(Integer.toString(p.line() + 1));
-        cursCol.setInnerText(Integer.toString(p.ch() + 1));
+        // The rendering of active lines has to be deferred. Reflow
+        // caused by adding and removing styles chokes Firefox when arrow
+        // key (or j/k) is held down. Performance on Chrome is fine
+        // without the deferral.
+        //
+        Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+          @Override
+          public void execute() {
+            cm.operation(new Runnable() {
+              @Override
+              public void run() {
+                updateActiveLine();
+              }
+            });
+          }
+        });
       }
     };
+  }
+
+  private void updateActiveLine() {
+    Pos p = cm.getCursor("end");
+    cursLine.setInnerText(Integer.toString(p.line() + 1));
+    cursCol.setInnerText(Integer.toString(p.ch() + 1));
+
+    LineHandle h = cm.getLineHandleVisualStart(p.line());
+    if (cm.hasActiveLine()) {
+      if (cm.activeLine().equals(h)) {
+        return;
+      }
+      cm.removeLineClass(cm.activeLine(),
+          LineClassWhere.WRAP,
+          style.activeLine());
+    }
+
+    cm.activeLine(h);
+    cm.addLineClass(h, LineClassWhere.WRAP, style.activeLine());
   }
 
   private void injectMode(String type, AsyncCallback<Void> cb) {

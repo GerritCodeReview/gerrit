@@ -18,6 +18,7 @@ limitations under the License.
     xmlns:g='urn:import:com.google.gwt.user.client.ui'>
   <ui:style type='com.google.gerrit.client.editor.EditScreen.Style'>
     @external .CodeMirror, .CodeMirror-lines;
+    @external .CodeMirror-linenumber;
     @external .cm-tab;
 
     .edit {
@@ -89,6 +90,11 @@ limitations under the License.
     .edit .CodeMirror pre {
       padding: 0;
       line-height: normal;
+    }
+
+    .activeLine .CodeMirror-linenumber {
+      background-color: #bcf !important;
+      color: #000;
     }
 
     .showTabs .cm-tab:before {

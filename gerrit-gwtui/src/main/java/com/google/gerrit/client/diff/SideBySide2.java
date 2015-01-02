@@ -268,12 +268,10 @@ public class SideBySide2 extends Screen {
       }
     });
 
-    final int height = getCodeMirrorHeight();
     operation(new Runnable() {
       @Override
       public void run() {
-        cmA.setHeight(height);
-        cmB.setHeight(height);
+        resizeCodeMirror();
         chunkManager.adjustPadding();
         cmA.refresh();
         cmB.refresh();
@@ -297,6 +295,7 @@ public class SideBySide2 extends Screen {
     if (startSide != null && startLine > 0) {
       int line = startLine - 1;
       CodeMirror cm = getCmFromSide(startSide);
+      int height = cm.getHeight();
       if (cm.lineAtHeight(height - 20) < line) {
         cm.scrollToY(cm.heightAtLine(line, "local") - 0.5 * height);
       }
@@ -977,17 +976,9 @@ public class SideBySide2 extends Screen {
   }
 
   void resizeCodeMirror() {
-    int height = getCodeMirrorHeight();
-    cmA.setHeight(height);
-    cmB.setHeight(height);
-  }
-
-  private int getCodeMirrorHeight() {
-    int rest = Gerrit.getHeaderFooterHeight()
-        + header.getOffsetHeight()
-        + diffTable.getHeaderHeight()
-        + 5; // Estimate
-    return Window.getClientHeight() - rest;
+    int hdr = header.getOffsetHeight() + diffTable.getHeaderHeight();
+    cmA.adjustHeight(hdr);
+    cmB.adjustHeight(hdr);
   }
 
   void syncScroll(DisplaySide masterSide) {

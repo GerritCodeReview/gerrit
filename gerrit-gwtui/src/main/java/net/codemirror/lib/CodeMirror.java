@@ -14,11 +14,13 @@
 
 package net.codemirror.lib;
 
+import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.diff.DisplaySide;
 import com.google.gerrit.client.rpc.CallbackGroup;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NativeEvent;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import net.codemirror.lib.TextMarker.FromTo;
@@ -63,9 +65,19 @@ public class CodeMirror extends JavaScriptObject {
   public final native void setValue(String v) /*-{ this.setValue(v) }-*/;
 
   public final native void setWidth(double w) /*-{ this.setSize(w, null) }-*/;
-  public final native void setWidth(String w) /*-{ this.setSize(w, null) }-*/;
   public final native void setHeight(double h) /*-{ this.setSize(null, h) }-*/;
-  public final native void setHeight(String h) /*-{ this.setSize(null, h) }-*/;
+
+  public final int getHeight() {
+    return getWrapperElement().getClientHeight();
+  }
+
+  public final void adjustHeight(int localHeader) {
+    int rest = Gerrit.getHeaderFooterHeight()
+        + localHeader
+        + 5; // Estimate
+    setHeight(Window.getClientHeight() - rest);
+  }
+
   public final native String getLine(int n) /*-{ return this.getLine(n) }-*/;
   public final native double barHeight() /*-{ return this.display.barHeight }-*/;
   public final native double barWidth() /*-{ return this.display.barWidth }-*/;

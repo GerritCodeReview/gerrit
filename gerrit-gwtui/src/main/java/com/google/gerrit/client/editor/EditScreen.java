@@ -16,6 +16,7 @@ package com.google.gerrit.client.editor;
 
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.VoidResult;
+import com.google.gerrit.client.account.DiffPreferences;
 import com.google.gerrit.client.changes.ChangeFileApi;
 import com.google.gerrit.client.rpc.CallbackGroup;
 import com.google.gerrit.client.rpc.GerritCallback;
@@ -42,12 +43,12 @@ import net.codemirror.lib.Configuration;
 import net.codemirror.lib.ModeInjector;
 
 public class EditScreen extends Screen {
-
   interface Binder extends UiBinder<HTMLPanel, EditScreen> {}
   private static final Binder uiBinder = GWT.create(Binder.class);
 
   private final PatchSet.Id revision;
   private final String path;
+  private DiffPreferences prefs;
   private CodeMirror cm;
   private String type;
 
@@ -59,6 +60,7 @@ public class EditScreen extends Screen {
   public EditScreen(Patch.Key patch) {
     this.revision = patch.getParentKey();
     this.path = patch.get();
+    prefs = DiffPreferences.create(Gerrit.getAccountDiffPreference());
     add(uiBinder.createAndBindUi(this));
     addDomHandler(GlobalKey.STOP_PROPAGATION, KeyPressEvent.getType());
   }
@@ -103,11 +105,20 @@ public class EditScreen extends Screen {
   @Override
   public void onShowView() {
     super.onShowView();
+    if (prefs.hideTopMenu()) {
+      Gerrit.setHeaderVisible(false);
+    }
     int rest = Gerrit.getHeaderFooterHeight()
         + 30; // Estimate
     cm.setHeight(Window.getClientHeight() - rest);
     cm.refresh();
     cm.focus();
+  }
+
+  @Override
+  protected void onUnload() {
+    super.onUnload();
+    Gerrit.setHeaderVisible(true);
   }
 
   @UiHandler("save")

@@ -20,6 +20,7 @@ import com.google.gerrit.client.VoidResult;
 import com.google.gerrit.client.account.DiffPreferences;
 import com.google.gerrit.client.changes.ChangeApi;
 import com.google.gerrit.client.changes.ChangeFileApi;
+import com.google.gerrit.client.changes.ChangeFileApi.FileContent;
 import com.google.gerrit.client.changes.ChangeInfo;
 import com.google.gerrit.client.diff.FileInfo;
 import com.google.gerrit.client.diff.Header;
@@ -80,6 +81,7 @@ public class EditScreen extends Screen {
   private DiffPreferences prefs;
   private CodeMirror cm;
   private String type;
+  private FileContent content;
 
   @UiField Style style;
   @UiField Element header;
@@ -118,24 +120,6 @@ public class EditScreen extends Screen {
     CallbackGroup cmGroup = new CallbackGroup();
     CodeMirror.initLibrary(cmGroup.add(CallbackGroup.<Void> emptyCallback()));
     CallbackGroup group = new CallbackGroup();
-    if (prefs.syntaxHighlighting()) {
-      final AsyncCallback<Void> modeInjectorCb =
-          group.add(CallbackGroup.<Void> emptyCallback());
-      if (Patch.COMMIT_MSG.equals(path)) {
-        type = "text/x-gerrit-commit-message";
-        injectMode(type, modeInjectorCb);
-      } else {
-        ChangeFileApi.getContentType(revision, path,
-            cmGroup.add(new GerritCallback<String>() {
-              @Override
-              public void onSuccess(String result) {
-                type = result;
-                injectMode(type, modeInjectorCb);
-              }
-            }));
-      }
-    }
-    cmGroup.done();
 
     ChangeApi.detail(revision.getParentKey().get(),
         group.add(new GerritCallback<ChangeInfo>() {
@@ -146,12 +130,23 @@ public class EditScreen extends Screen {
           }
         }));
 
-    ChangeFileApi.getContentOrMessage(revision, path,
-        group.addFinal(new ScreenLoadCallback<String>(this) {
+    final AsyncCallback<Void> modeInjectorCb =
+        group.addFinal(new ScreenLoadCallback<Void>(this) {
           @Override
-          protected void preDisplay(String content) {
+          protected void preDisplay(Void result) {
             setShowTabs(prefs.showTabs());
-            initEditor(content);
+            initEditor(content.text());
+            content = null;
+          }
+        });
+
+    ChangeFileApi.getContentOrMessage(revision, path,
+        cmGroup.addFinal(new GerritCallback<FileContent>() {
+          @Override
+          public void onSuccess(FileContent fc) {
+            content = fc;
+            type = fc.contentType();
+            injectMode(type, modeInjectorCb);
           }
         }));
   }

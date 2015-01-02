@@ -16,6 +16,7 @@ package com.google.gerrit.client.changes;
 
 import com.google.gerrit.client.VoidResult;
 import com.google.gerrit.client.rpc.GerritCallback;
+import com.google.gerrit.client.rpc.HttpResponse;
 import com.google.gerrit.client.rpc.NativeString;
 import com.google.gerrit.client.rpc.RestApi;
 import com.google.gerrit.reviewdb.client.Change;
@@ -29,52 +30,43 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
  * files in a change.
  */
 public class ChangeFileApi {
-  static abstract class CallbackWrapper<I, O> implements AsyncCallback<I> {
-    protected AsyncCallback<O> wrapped;
-
-    public CallbackWrapper(AsyncCallback<O> callback) {
-      wrapped = callback;
-    }
-
-    @Override
-    public abstract void onSuccess(I result);
-
-    @Override
-    public void onFailure(Throwable caught) {
-      wrapped.onFailure(caught);
-    }
-  }
-
-  private static CallbackWrapper<NativeString, String> wrapper(
-      AsyncCallback<String> cb) {
-    return new CallbackWrapper<NativeString, String>(cb) {
+  private static AsyncCallback<HttpResponse<NativeString>> decode(
+      final AsyncCallback<FileContent> cb) {
+    return new AsyncCallback<HttpResponse<NativeString>>() {
       @Override
-      public void onSuccess(NativeString b64) {
-        if (b64 != null) {
-          wrapped.onSuccess(b64decode(b64.asString()));
+      public void onSuccess(HttpResponse<NativeString> in) {
+        String type = in.getHeader("X-FYI-Content-Type");
+        int semi = type.indexOf(';');
+        if (semi >= 0) {
+          type = type.substring(0, semi).trim();
         }
+        String raw = b64decode(in.result().asString());
+        cb.onSuccess(FileContent.create(type, raw));
+      }
+
+      @Override
+      public void onFailure(Throwable e) {
+        cb.onFailure(e);
       }
     };
   }
 
-  /** Get the contents of a File in a PatchSet or change edit. */
-  public static void getContent(PatchSet.Id id, String filename,
-      AsyncCallback<String> cb) {
-    contentEditOrPs(id, filename).get(wrapper(cb));
+  public static class FileContent extends JavaScriptObject {
+    static final native FileContent create(String c, String v) /*-{
+      return {type: c, text: v}
+    }-*/;
+
+    public final native String contentType() /*-{ return this.type }-*/;
+    public final native String text() /*-{ return this.text }-*/;
+
+    protected FileContent() {
+    }
   }
 
-  /** Get the content type of a File in a PatchSet or change edit. */
-  public static void getContentType(PatchSet.Id id, String filename,
-      AsyncCallback<String> cb) {
-    contentTypeEditOrPs(id, filename).get(
-        new CallbackWrapper<NativeString, String>(cb) {
-          @Override
-          public void onSuccess(NativeString str) {
-            if (str != null) {
-              wrapped.onSuccess(str.asString());
-            }
-          }
-        });
+  /** Get the contents of a File in a PatchSet or change edit. */
+  public static void getContent(PatchSet.Id id, String filename,
+      AsyncCallback<FileContent> cb) {
+    contentEditOrPs(id, filename).get(decode(cb));
   }
 
   /**
@@ -82,11 +74,11 @@ public class ChangeFileApi {
    * edit.
    **/
   public static void getContentOrMessage(PatchSet.Id id, String path,
-      AsyncCallback<String> cb) {
+      AsyncCallback<FileContent> cb) {
     RestApi api = (Patch.COMMIT_MSG.equals(path) && id.get() == 0)
         ? messageEdit(id)
         : contentEditOrPs(id, path);
-    api.get(wrapper(cb));
+    api.getWithResponse(decode(cb));
   }
 
   /** Put contents into a File in a change edit. */
@@ -139,12 +131,6 @@ public class ChangeFileApi {
 
   private static RestApi messageEdit(PatchSet.Id id) {
     return ChangeApi.change(id.getParentKey().get()).view("edit:message");
-  }
-
-  private static RestApi contentTypeEditOrPs(PatchSet.Id id, String filename) {
-    return id.get() == 0
-        ? contentEdit(id.getParentKey(), filename).view("type")
-        : ChangeApi.revision(id).view("files").id(filename).view("type");
   }
 
   private static RestApi contentEdit(Change.Id id, String filename) {

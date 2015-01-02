@@ -41,4 +41,8 @@ public class BranchResource extends ProjectResource {
   public String getRef() {
     return branchInfo.ref;
   }
+
+  public String getRevision() {
+    return branchInfo.revision;
+  }
 }

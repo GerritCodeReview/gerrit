@@ -15,6 +15,7 @@
 package com.google.gerrit.client.change;
 
 import com.google.gerrit.client.changes.ChangeFileApi;
+import com.google.gerrit.client.changes.ChangeFileApi.FileContent;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.RestApi;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -51,10 +52,10 @@ class FileTextBox extends NpTextBox {
   }
 
   private void loadFileContent() {
-    ChangeFileApi.getContent(id, getText(), new GerritCallback<String>() {
+    ChangeFileApi.getContent(id, getText(), new GerritCallback<FileContent>() {
       @Override
-      public void onSuccess(String result) {
-        textArea.setText(result);
+      public void onSuccess(FileContent result) {
+        textArea.setText(result.text());
       }
 
       @Override

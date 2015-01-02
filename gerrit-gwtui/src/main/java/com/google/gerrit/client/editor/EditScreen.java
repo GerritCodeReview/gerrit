@@ -20,6 +20,7 @@ import com.google.gerrit.client.VoidResult;
 import com.google.gerrit.client.account.DiffPreferences;
 import com.google.gerrit.client.changes.ChangeApi;
 import com.google.gerrit.client.changes.ChangeFileApi;
+import com.google.gerrit.client.changes.ChangeFileApi.FileContent;
 import com.google.gerrit.client.changes.ChangeInfo;
 import com.google.gerrit.client.diff.FileInfo;
 import com.google.gerrit.client.diff.Header;
@@ -69,6 +70,7 @@ public class EditScreen extends Screen {
   private DiffPreferences prefs;
   private CodeMirror cm;
   private String type;
+  private FileContent content;
 
   @UiField Element header;
   @UiField Element project;
@@ -116,20 +118,6 @@ public class EditScreen extends Screen {
       }
     }));
 
-    if (prefs.syntaxHighlighting() && !Patch.COMMIT_MSG.equals(path)) {
-      final AsyncCallback<Void> modeInjectorCb = group.addEmpty();
-      ChangeFileApi.getContentType(revision, path,
-          cmGroup.add(new GerritCallback<String>() {
-            @Override
-            public void onSuccess(String result) {
-              ModeInfo mode = ModeInfo.findMode(result, path);
-              type = mode != null ? mode.mime() : null;
-              injectMode(result, modeInjectorCb);
-            }
-          }));
-    }
-    cmGroup.done();
-
     ChangeApi.detail(revision.getParentKey().get(),
         group.add(new GerritCallback<ChangeInfo>() {
           @Override
@@ -140,12 +128,29 @@ public class EditScreen extends Screen {
         }));
 
     ChangeFileApi.getContentOrMessage(revision, path,
-        group.addFinal(new ScreenLoadCallback<String>(this) {
+        cmGroup.addFinal(new GerritCallback<FileContent>() {
+          final AsyncCallback<Void> modeCallback = group.addEmpty();
+
           @Override
-          protected void preDisplay(String content) {
-            initEditor(content);
+          public void onSuccess(FileContent fc) {
+            content = fc;
+            type = fc.contentType();
+            if (prefs.syntaxHighlighting()) {
+              injectMode(type, modeCallback);
+            } else {
+              modeCallback.onSuccess(null);
+            }
           }
         }));
+
+    group.addListener(new ScreenLoadCallback<Void>(this) {
+      @Override
+      protected void preDisplay(Void result) {
+        initEditor(content.text());
+        content = null;
+      }
+    });
+    group.done();
   }
 
   @Override

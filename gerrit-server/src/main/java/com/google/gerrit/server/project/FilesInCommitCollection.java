@@ -40,8 +40,7 @@ public class FilesInCommitCollection implements
   @Override
   public FileResource parse(CommitResource parent, IdString id)
       throws ResourceNotFoundException {
-    return new FileResource(parent.getProject(), parent.getCommit().getName(),
-        id.get());
+    return new FileResource(parent.getProject(), parent.getCommit(), id.get());
   }
 
   @Override

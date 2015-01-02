@@ -21,26 +21,22 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.SuggestBox;
-import com.google.gwtexpui.globalkey.client.NpTextBox;
 
 import java.util.HashSet;
 import java.util.Set;
 
 public class ParentProjectBox extends Composite {
-  private final NpTextBox textBox;
-  private final SuggestBox suggestBox;
+  private final RemoteSuggestBox suggestBox;
   private final ParentProjectNameSuggestOracle suggestOracle;
 
   public ParentProjectBox() {
-    textBox = new NpTextBox();
     suggestOracle = new ParentProjectNameSuggestOracle();
-    suggestBox = new SuggestBox(suggestOracle, textBox);
+    suggestBox = new RemoteSuggestBox(suggestOracle);
     initWidget(suggestBox);
   }
 
   public void setVisibleLength(int len) {
-    textBox.setVisibleLength(len);
+    suggestBox.setVisibleLength(len);
   }
 
   public void setProject(final Project.NameKey project) {

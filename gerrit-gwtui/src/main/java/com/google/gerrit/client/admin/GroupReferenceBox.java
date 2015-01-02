@@ -15,15 +15,10 @@
 package com.google.gerrit.client.admin;
 
 import com.google.gerrit.client.ui.AccountGroupSuggestOracle;
-import com.google.gerrit.client.ui.RemoteSuggestOracle;
+import com.google.gerrit.client.ui.RemoteSuggestBox;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.editor.client.LeafValueEditor;
-import com.google.gwt.event.dom.client.KeyCodes;
-import com.google.gwt.event.dom.client.KeyPressEvent;
-import com.google.gwt.event.dom.client.KeyPressHandler;
-import com.google.gwt.event.dom.client.KeyUpEvent;
-import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.event.logical.shared.HasCloseHandlers;
@@ -33,67 +28,36 @@ import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Focusable;
-import com.google.gwt.user.client.ui.SuggestBox;
-import com.google.gwt.user.client.ui.SuggestBox.DefaultSuggestionDisplay;
-import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
-import com.google.gwtexpui.globalkey.client.NpTextBox;
 
 public class GroupReferenceBox extends Composite implements
     LeafValueEditor<GroupReference>, HasSelectionHandlers<GroupReference>,
     HasCloseHandlers<GroupReferenceBox>, Focusable {
-  private final DefaultSuggestionDisplay suggestions;
-  private final NpTextBox textBox;
   private final AccountGroupSuggestOracle oracle;
-  private final SuggestBox suggestBox;
-
-  private boolean submitOnSelection;
+  private final RemoteSuggestBox suggestBox;
 
   public GroupReferenceBox() {
-    suggestions = new DefaultSuggestionDisplay();
-    textBox = new NpTextBox();
     oracle = new AccountGroupSuggestOracle();
-    suggestBox = new SuggestBox( //
-        new RemoteSuggestOracle(oracle), //
-        textBox, //
-        suggestions);
+    suggestBox = new RemoteSuggestBox(oracle);
     initWidget(suggestBox);
 
-    textBox.addKeyPressHandler(new KeyPressHandler() {
+    suggestBox.addSelectionHandler(new SelectionHandler<String>() {
       @Override
-      public void onKeyPress(KeyPressEvent event) {
-        submitOnSelection = false;
-
-        if (event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ENTER) {
-          if (suggestions.isSuggestionListShowing()) {
-            submitOnSelection = true;
-          } else {
-            SelectionEvent.fire(GroupReferenceBox.this, getValue());
-          }
-        }
+      public void onSelection(SelectionEvent<String> event) {
+        SelectionEvent.fire(GroupReferenceBox.this,
+            toValue(event.getSelectedItem()));
       }
     });
-    suggestBox.addKeyUpHandler(new KeyUpHandler() {
+    suggestBox.addCloseHandler(new CloseHandler<RemoteSuggestBox>(){
       @Override
-      public void onKeyUp(KeyUpEvent event) {
-        if (event.getNativeKeyCode() == KeyCodes.KEY_ESCAPE) {
-          suggestBox.setText("");
-          CloseEvent.fire(GroupReferenceBox.this, GroupReferenceBox.this);
-        }
-      }
-    });
-    suggestBox.addSelectionHandler(new SelectionHandler<Suggestion>() {
-      @Override
-      public void onSelection(SelectionEvent<Suggestion> event) {
-        if (submitOnSelection) {
-          submitOnSelection = false;
-          SelectionEvent.fire(GroupReferenceBox.this, getValue());
-        }
+      public void onClose(CloseEvent<RemoteSuggestBox> event) {
+        suggestBox.setText("");
+        CloseEvent.fire(GroupReferenceBox.this, GroupReferenceBox.this);
       }
     });
   }
 
   public void setVisibleLength(int len) {
-    textBox.setVisibleLength(len);
+    suggestBox.setVisibleLength(len);
   }
 
   @Override
@@ -110,12 +74,14 @@ public class GroupReferenceBox extends Composite implements
 
   @Override
   public GroupReference getValue() {
-    String name = suggestBox.getText();
+    return toValue(suggestBox.getText());
+  }
+
+  private GroupReference toValue(String name) {
     if (name != null && !name.isEmpty()) {
       return new GroupReference(oracle.getUUID(name), name);
-    } else {
-      return null;
     }
+    return null;
   }
 
   @Override

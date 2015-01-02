@@ -26,11 +26,11 @@ import com.google.gerrit.client.projects.ProjectApi;
 import com.google.gerrit.client.projects.ProjectInfo;
 import com.google.gerrit.client.projects.ProjectMap;
 import com.google.gerrit.client.rpc.GerritCallback;
-import com.google.gerrit.client.ui.HintTextBox;
 import com.google.gerrit.client.ui.OnEditEnabler;
 import com.google.gerrit.client.ui.ProjectListPopup;
 import com.google.gerrit.client.ui.ProjectNameSuggestOracle;
 import com.google.gerrit.client.ui.ProjectsTable;
+import com.google.gerrit.client.ui.RemoteSuggestBox;
 import com.google.gerrit.client.ui.Screen;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.ProjectUtil;
@@ -49,7 +49,6 @@ import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Grid;
-import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwtexpui.globalkey.client.NpTextBox;
 
@@ -58,8 +57,7 @@ public class CreateProjectScreen extends Screen {
   private NpTextBox project;
   private Button create;
   private Button browse;
-  private HintTextBox parent;
-  private SuggestBox suggestParent;
+  private RemoteSuggestBox parent;
   private CheckBox emptyCommit;
   private CheckBox permissionsOnly;
   private ProjectsTable suggestedParentsTab;
@@ -102,8 +100,8 @@ public class CreateProjectScreen extends Screen {
       @Override
       protected void onMovePointerTo(String projectName) {
         // prevent user input from being overwritten by simply poping up
-        if (!projectsPopup.isPoppingUp() || "".equals(suggestParent.getText())) {
-          suggestParent.setText(projectName);
+        if (!projectsPopup.isPoppingUp() || "".equals(parent.getText())) {
+          parent.setText(projectName);
         }
       }
     };
@@ -191,9 +189,7 @@ public class CreateProjectScreen extends Screen {
   }
 
   private void initParentBox() {
-    parent = new HintTextBox();
-    suggestParent =
-        new SuggestBox(new ProjectNameSuggestOracle(), parent);
+    parent = new RemoteSuggestBox(new ProjectNameSuggestOracle());
     parent.setVisibleLength(50);
   }
 
@@ -210,7 +206,7 @@ public class CreateProjectScreen extends Screen {
 
           @Override
           public void onClick(ClickEvent event) {
-            suggestParent.setText(getRowItem(row).name());
+            parent.setText(getRowItem(row).name());
           }
         });
 
@@ -240,14 +236,14 @@ public class CreateProjectScreen extends Screen {
     grid.setText(0, 0, Util.C.columnProjectName() + ":");
     grid.setWidget(0, 1, project);
     grid.setText(1, 0, Util.C.headingParentProjectName() + ":");
-    grid.setWidget(1, 1, suggestParent);
+    grid.setWidget(1, 1, parent);
     grid.setWidget(1, 2, browse);
     fp.add(grid);
   }
 
   private void doCreateProject() {
     final String projectName = project.getText().trim();
-    final String parentName = suggestParent.getText().trim();
+    final String parentName = parent.getText().trim();
 
     if ("".equals(projectName)) {
       project.setFocus(true);

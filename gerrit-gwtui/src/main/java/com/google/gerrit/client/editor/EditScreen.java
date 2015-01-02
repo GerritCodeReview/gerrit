@@ -59,13 +59,13 @@ import net.codemirror.lib.CodeMirror.ChangesHandler;
 import net.codemirror.lib.Configuration;
 import net.codemirror.lib.KeyMap;
 import net.codemirror.lib.ModeInjector;
+import net.codemirror.lib.Pos;
 
 public class EditScreen extends Screen {
   interface Binder extends UiBinder<HTMLPanel, EditScreen> {}
   private static final Binder uiBinder = GWT.create(Binder.class);
 
   interface Style extends CssResource {
-    String edit();
     String showTabs();
     String columnMargin();
   }
@@ -87,6 +87,8 @@ public class EditScreen extends Screen {
   @UiField Element header;
   @UiField Element project;
   @UiField Element filePath;
+  @UiField Element cursLine;
+  @UiField Element cursCol;
   @UiField Button cancel;
   @UiField Button save;
   @UiField Element editor;
@@ -102,7 +104,6 @@ public class EditScreen extends Screen {
     this.path = patch.get();
     prefs = DiffPreferences.create(Gerrit.getAccountDiffPreference());
     add(uiBinder.createAndBindUi(this));
-    addStyleName(style.edit());
     addDomHandler(GlobalKey.STOP_PROPAGATION, KeyPressEvent.getType());
   }
 
@@ -176,6 +177,7 @@ public class EditScreen extends Screen {
 
     generation = cm.changeGeneration(true);
     save.setEnabled(false);
+    cm.on("cursorActivity", updateCursorPosition());
     cm.on(new ChangesHandler() {
       @Override
       public void handle(CodeMirror cm) {
@@ -187,6 +189,7 @@ public class EditScreen extends Screen {
     setLineLength(prefs.lineLength());
     cm.refresh();
     cm.focus();
+    updateCursorPosition().run();
   }
 
   @Override
@@ -316,6 +319,17 @@ public class EditScreen extends Screen {
                 }
               });
         }
+      }
+    };
+  }
+
+  private Runnable updateCursorPosition() {
+    return new Runnable() {
+      @Override
+      public void run() {
+        Pos p = cm.getCursor("end");
+        cursLine.setInnerText(Integer.toString(p.line() + 1));
+        cursCol.setInnerText(Integer.toString(p.ch() + 1));
       }
     };
   }

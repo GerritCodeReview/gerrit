@@ -16,6 +16,24 @@
       "revId": "fe0c1a93a221cfe78eade814ccc3a260d10ea0e7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "61781470_d6f244ab",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-01-02T12:30:09Z",
+      "side": 1,
+      "message": "The xdocs plugin fails to show the diff for the very first change in a project, because it compares commit ID X with its parent X^1 and X^1 does not exist. So the idea was to use the REST endpoint with X^1 to check whether a parent commit exists. However I found that this is not needed. I will simply retrieve the CommitInfo for X and then check the parent information that is contained in the CommitInfo. hence I will abandon this change.",
+      "parentUuid": "c15d4061_39caefae",
+      "revId": "fe0c1a93a221cfe78eade814ccc3a260d10ea0e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

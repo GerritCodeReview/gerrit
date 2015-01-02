@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "61781470_b693083c",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/ProjectListPopup.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-01-02T15:40:11Z",
+      "side": 1,
+      "message": "On first load the popup is only displayed after the project table was loaded (see below line 220 - 224). This means on first load popup.isShowing() will always return false, but then showMap(result) is never invoked and the popup is never displayed.",
+      "range": {
+        "startLine": 203,
+        "startChar": 12,
+        "endLine": 203,
+        "endChar": 37
+      },
+      "revId": "a6f8207874598d55ad036ef3b2efc6add88e61bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -18,7 +18,7 @@ import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.VoidResult;
 import com.google.gerrit.client.changes.ChangeApi;
-import com.google.gerrit.client.changes.ChangeFileApi;
+import com.google.gerrit.client.changes.ChangeEditApi;
 import com.google.gerrit.client.changes.CommentInfo;
 import com.google.gerrit.client.changes.ReviewInfo;
 import com.google.gerrit.client.changes.Util;
@@ -317,7 +317,7 @@ public class FileTable extends FlowPanel {
 
     void onDelete(int idx) {
       String path = list.get(idx).path();
-      ChangeFileApi.deleteContent(curr, path,
+      ChangeEditApi.delete(curr.getParentKey().get(), path,
           new AsyncCallback<VoidResult>() {
             @Override
             public void onSuccess(VoidResult result) {
@@ -333,7 +333,7 @@ public class FileTable extends FlowPanel {
 
     void onRestore(int idx) {
       String path = list.get(idx).path();
-      ChangeFileApi.restoreContent(curr, path,
+      ChangeEditApi.restore(curr.getParentKey().get(), path,
           new AsyncCallback<VoidResult>() {
             @Override
             public void onSuccess(VoidResult result) {

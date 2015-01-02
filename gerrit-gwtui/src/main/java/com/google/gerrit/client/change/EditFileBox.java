@@ -16,7 +16,7 @@ package com.google.gerrit.client.change;
 
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.VoidResult;
-import com.google.gerrit.client.changes.ChangeFileApi;
+import com.google.gerrit.client.changes.ChangeEditApi;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.TextBoxChangeListener;
 import com.google.gerrit.common.PageLinks;
@@ -81,7 +81,7 @@ class EditFileBox extends Composite {
 
   @UiHandler("save")
   void onSave(@SuppressWarnings("unused") ClickEvent e) {
-    ChangeFileApi.putContent(id, file.getText(), content.getText(),
+    ChangeEditApi.put(id.getParentKey().get(), file.getText(), content.getText(),
         new GerritCallback<VoidResult>() {
           @Override
           public void onSuccess(VoidResult result) {

@@ -104,21 +104,21 @@ public class RestApi {
     }
   }
 
-  private static class HttpCallback<T extends JavaScriptObject>
+  private static class HttpImpl<T extends JavaScriptObject>
       implements RequestCallback {
     private final boolean background;
-    private final AsyncCallback<T> cb;
+    private final HttpCallback<T> cb;
 
-    HttpCallback(boolean bg, AsyncCallback<T> cb) {
+    HttpImpl(boolean bg, HttpCallback<T> cb) {
       this.background = bg;
       this.cb = cb;
     }
 
     @Override
-    public void onResponseReceived(Request req, Response res) {
+    public void onResponseReceived(Request req, final Response res) {
       int status = res.getStatusCode();
       if (status == Response.SC_NO_CONTENT) {
-        cb.onSuccess(null);
+        cb.onSuccess(HttpResponse.wrap(res, (T) null));
         if (!background) {
           RpcStatus.INSTANCE.onRpcComplete();
         }
@@ -154,7 +154,7 @@ public class RestApi {
           @Override
           public void execute() {
             try {
-              cb.onSuccess(data);
+              cb.onSuccess(HttpResponse.wrap(res, data));
             } finally {
               if (!background) {
                 RpcStatus.INSTANCE.onRpcComplete();
@@ -318,21 +318,24 @@ public class RestApi {
   }
 
   public <T extends JavaScriptObject> void get(AsyncCallback<T> cb) {
+    get(wrap(cb));
+  }
+
+  public <T extends JavaScriptObject> void get(HttpCallback<T> cb) {
     send(GET, cb);
   }
 
   public <T extends JavaScriptObject> void delete(AsyncCallback<T> cb) {
+    delete(wrap(cb));
+  }
+
+  public <T extends JavaScriptObject> void delete(HttpCallback<T> cb) {
     send(DELETE, cb);
   }
 
-  public <T extends JavaScriptObject> void delete(JavaScriptObject content,
-      AsyncCallback<T> cb) {
-    sendJSON(DELETE, content, cb);
-  }
-
-  private <T extends JavaScriptObject> void send(
-      Method method, AsyncCallback<T> cb) {
-    HttpCallback<T> httpCallback = new HttpCallback<>(background, cb);
+  private <T extends JavaScriptObject> void send(Method method,
+      HttpCallback<T> cb) {
+    HttpImpl<T> httpCallback = new HttpImpl<>(background, cb);
     try {
       if (!background) {
         RpcStatus.INSTANCE.onRpcStart();
@@ -346,33 +349,59 @@ public class RestApi {
   public <T extends JavaScriptObject> void post(
       JavaScriptObject content,
       AsyncCallback<T> cb) {
+    post(content, wrap(cb));
+  }
+
+  public <T extends JavaScriptObject> void post(
+      JavaScriptObject content,
+      HttpCallback<T> cb) {
     sendJSON(POST, content, cb);
   }
 
   public <T extends JavaScriptObject> void post(String content,
       AsyncCallback<T> cb) {
+    post(content, wrap(cb));
+  }
+
+  public <T extends JavaScriptObject> void post(String content,
+      HttpCallback<T> cb) {
     sendRaw(POST, content, cb);
   }
 
   public <T extends JavaScriptObject> void put(AsyncCallback<T> cb) {
+    put(wrap(cb));
+  }
+
+  public <T extends JavaScriptObject> void put(HttpCallback<T> cb) {
     send(PUT, cb);
   }
 
   public <T extends JavaScriptObject> void put(String content,
       AsyncCallback<T> cb) {
+    put(content, wrap(cb));
+  }
+
+  public <T extends JavaScriptObject> void put(String content,
+      HttpCallback<T> cb) {
     sendRaw(PUT, content, cb);
   }
 
   public <T extends JavaScriptObject> void put(
       JavaScriptObject content,
       AsyncCallback<T> cb) {
+    put(content, wrap(cb));
+  }
+
+  public <T extends JavaScriptObject> void put(
+      JavaScriptObject content,
+      HttpCallback<T> cb) {
     sendJSON(PUT, content, cb);
   }
 
   private <T extends JavaScriptObject> void sendJSON(
       Method method, JavaScriptObject content,
-      AsyncCallback<T> cb) {
-    HttpCallback<T> httpCallback = new HttpCallback<>(background, cb);
+      HttpCallback<T> cb) {
+    HttpImpl<T> httpCallback = new HttpImpl<>(background, cb);
     try {
       if (!background) {
         RpcStatus.INSTANCE.onRpcStart();
@@ -388,8 +417,8 @@ public class RestApi {
   private static native String str(JavaScriptObject jso) /*-{ return JSON.stringify(jso); }-*/;
 
   private <T extends JavaScriptObject> void sendRaw(Method method, String body,
-      AsyncCallback<T> cb) {
-    HttpCallback<T> httpCallback = new HttpCallback<>(background, cb);
+      HttpCallback<T> cb) {
+    HttpImpl<T> httpCallback = new HttpImpl<>(background, cb);
     try {
       if (!background) {
         RpcStatus.INSTANCE.onRpcStart();
@@ -463,5 +492,20 @@ public class RestApi {
     } else {
       throw new JSONException("unsupported JSON type");
     }
+  }
+
+  private static <T extends JavaScriptObject> HttpCallback<T> wrap(
+      final AsyncCallback<T> cb) {
+    return new HttpCallback<T>() {
+      @Override
+      public void onSuccess(HttpResponse<T> r) {
+        cb.onSuccess(r.result());
+      }
+
+      @Override
+      public void onFailure(Throwable e) {
+        cb.onFailure(e);
+      }
+    };
   }
 }

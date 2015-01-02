@@ -177,17 +177,8 @@ public class EditScreen extends Screen {
   }
 
   private void initEditor(String content) {
-    cm = CodeMirror.create(editor, getConfig());
-    cm.setValue(content);
-  }
-
-  private void injectMode(String type, AsyncCallback<Void> cb) {
-    new ModeInjector().add(type).inject(cb);
-  }
-
-  private Configuration getConfig() {
-    // TODO(davido): Retrieve user preferences from AllUsers repository
-    return Configuration.create()
+    cm = CodeMirror.create(editor, Configuration.create()
+        .set("value", content)
         .set("readOnly", false)
         .set("cursorBlinkRate", 0)
         .set("cursorHeight", 0.85)
@@ -197,6 +188,10 @@ public class EditScreen extends Screen {
         .set("styleSelectedText", true)
         .set("showTrailingSpace", true)
         .set("keyMap", "default")
-        .set("mode", type);
+        .set("mode", type));
+  }
+
+  private void injectMode(String type, AsyncCallback<Void> cb) {
+    new ModeInjector().add(type).inject(cb);
   }
 }

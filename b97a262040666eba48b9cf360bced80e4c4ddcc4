@@ -16,6 +16,24 @@
       "revId": "b97a262040666eba48b9cf360bced80e4c4ddcc4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "813188d3_477cce21",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/editor/EditScreen.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-02T21:04:53Z",
+      "side": 1,
+      "message": "Tragically, I see that it\u0027s extracted into a server-side but not client-side constant in the next change.",
+      "parentUuid": "813188d3_276fda66",
+      "revId": "b97a262040666eba48b9cf360bced80e4c4ddcc4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

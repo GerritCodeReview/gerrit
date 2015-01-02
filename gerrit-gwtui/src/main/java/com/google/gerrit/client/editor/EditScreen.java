@@ -272,6 +272,7 @@ public class EditScreen extends Screen {
         ? ModeInjector.getContentType(type)
         : null;
     cm = CodeMirror.create(editor, Configuration.create()
+      .set("value", content)
       .set("readOnly", false)
       .set("cursorBlinkRate", 0)
       .set("cursorHeight", 0.85)
@@ -287,7 +288,6 @@ public class EditScreen extends Screen {
     cm.addKeyMap(KeyMap.create()
         .on("Cmd-S", save())
         .on("Ctrl-S", save()));
-    cm.setValue(content);
 
     columnMargin = DOM.createDiv();
     columnMargin.setClassName(style.columnMargin());

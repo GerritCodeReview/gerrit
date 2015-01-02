@@ -66,11 +66,11 @@ limitations under the License.
   <g:HTMLPanel>
     <div class='{style.headerLine}' ui:field='header'>
        <div class='{style.headerButtons}'>
-         <g:Button ui:field='cancel'
+         <g:Button ui:field='close'
              styleName=''
-             title='Cancel'>
+             title='Close file and return to change'>
            <ui:attribute name='title'/>
-           <div><ui:msg>Cancel</ui:msg></div>
+           <div><ui:msg>Close</ui:msg></div>
          </g:Button>
          <g:Button ui:field='save'
              styleName='{style.save}'

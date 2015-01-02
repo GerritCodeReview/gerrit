@@ -54,6 +54,7 @@ import com.google.gwtexpui.safehtml.client.SafeHtml;
 import net.codemirror.lib.CodeMirror;
 import net.codemirror.lib.CodeMirror.ChangesHandler;
 import net.codemirror.lib.Configuration;
+import net.codemirror.lib.KeyMap;
 import net.codemirror.lib.Pos;
 import net.codemirror.mode.ModeInfo;
 import net.codemirror.mode.ModeInjector;
@@ -72,7 +73,7 @@ public class EditScreen extends Screen {
   @UiField Element header;
   @UiField Element project;
   @UiField Element filePath;
-  @UiField Button cancel;
+  @UiField Button close;
   @UiField Button save;
   @UiField Element editor;
 
@@ -207,22 +208,19 @@ public class EditScreen extends Screen {
 
   @UiHandler("save")
   void onSave(@SuppressWarnings("unused") ClickEvent e) {
-    ChangeFileApi.putContentOrMessage(revision, path, cm.getValue(),
-        new GerritCallback<VoidResult>() {
-          @Override
-          public void onSuccess(VoidResult result) {
-            Gerrit.display(PageLinks.toChangeInEditMode(
-                revision.getParentKey()));
-          }
-        });
+    save().run();
   }
 
-  @UiHandler("cancel")
-  void onCancel(@SuppressWarnings("unused") ClickEvent e) {
+  @UiHandler("close")
+  void onClose(@SuppressWarnings("unused") ClickEvent e) {
     if (cm.isClean(generation)
         || Window.confirm(EditConstants.I.cancelUnsavedChanges())) {
-      Gerrit.display(PageLinks.toChangeInEditMode(revision.getParentKey()));
+      upToChange();
     }
+  }
+
+  private void upToChange() {
+    Gerrit.display(PageLinks.toChangeInEditMode(revision.getParentKey()));
   }
 
   private void initEditor(String content) {
@@ -243,6 +241,9 @@ public class EditScreen extends Screen {
         .set("keyMap", "default")
         .set("theme", prefs.theme().name().toLowerCase())
         .set("mode", mode != null ? mode.mode() : null));
+    cm.addKeyMap(KeyMap.create()
+        .on("Cmd-S", save())
+        .on("Ctrl-S", save()));
   }
 
   private Runnable updateCursorPosition() {
@@ -272,6 +273,26 @@ public class EditScreen extends Screen {
   private void updateActiveLine() {
     Pos p = cm.getCursor("end");
     cm.extras().activeLine(cm.getLineHandleVisualStart(p.line()));
+  }
+
+  private Runnable save() {
+    return new Runnable() {
+      @Override
+      public void run() {
+        if (!cm.isClean(generation)) {
+          String text = cm.getValue();
+          final int g = cm.changeGeneration(false);
+          ChangeFileApi.putContentOrMessage(revision, path, text,
+              new GerritCallback<VoidResult>() {
+                @Override
+                public void onSuccess(VoidResult result) {
+                  generation = g;
+                  save.setEnabled(!cm.isClean(g));
+                }
+              });
+        }
+      }
+    };
   }
 
   private void injectMode(String type, AsyncCallback<Void> cb) {

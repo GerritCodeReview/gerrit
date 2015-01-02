@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "813188d3_8730868e",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/editor/EditScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-02T20:50:19Z",
+      "side": 1,
+      "message": "Is this common code shared with SBS2? Or is all the stuff necessary to get two of these side-by-side sufficiently different that you handle resizing in a totally different way?",
+      "revId": "52f2cf06175a8eca4d631dda1c1d24b2455b88b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

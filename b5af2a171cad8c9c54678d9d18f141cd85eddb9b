@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "813188d3_676f1294",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/AccountSuggestOracle.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-01-02T16:43:27Z",
+      "side": 1,
+      "message": "No. Not if the RestApi is marked background(). Done.",
+      "parentUuid": "61781470_36ea98ae",
+      "range": {
+        "startLine": 33,
+        "startChar": 4,
+        "endLine": 33,
+        "endChar": 35
+      },
+      "revId": "b5af2a171cad8c9c54678d9d18f141cd85eddb9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "61781470_f6b4a0c7",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/SuggestAccounts.java",
         "patchSetId": 3
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "c169c0a3_b9edbf4a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/SuggestAccounts.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-01-02T16:43:27Z",
+      "side": 1,
+      "message": "Done. I changed this to only replace the preferred email if the account was only matched by an alternate email.",
+      "parentUuid": "61781470_f6b4a0c7",
+      "range": {
+        "startLine": 125,
+        "startChar": 4,
+        "endLine": 130,
+        "endChar": 5
+      },
+      "revId": "b5af2a171cad8c9c54678d9d18f141cd85eddb9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "61781470_b6aa2860",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/SuggestAccounts.java",
         "patchSetId": 3
@@ -59,6 +107,24 @@
       "writtenOn": "2015-01-02T14:14:41Z",
       "side": 1,
       "message": "Should the list be sorted?",
+      "revId": "b5af2a171cad8c9c54678d9d18f141cd85eddb9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "813188d3_875c06f5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/SuggestAccounts.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-01-02T16:43:27Z",
+      "side": 1,
+      "message": "We never sorted it before, but done.",
+      "parentUuid": "61781470_b6aa2860",
       "revId": "b5af2a171cad8c9c54678d9d18f141cd85eddb9b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

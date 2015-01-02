@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c169c0a3_39552f4c",
+        "filename": "lib/codemirror/cm.defs",
+        "patchSetId": 6
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-02T20:33:12Z",
+      "side": 1,
+      "message": "Since they\u0027re dynamically loaded, is there any reason we can\u0027t skip the explicit list and just include all of them in the build?\n\nYou wouldn\u0027t be able to parallelize at the genrule level, but with buck result caching that doesn\u0027t seem like a huge loss considering how rarely the CM zip is updated.",
+      "revId": "a1a9d2f172b0bc8c50c98738e72b60c301f47f7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

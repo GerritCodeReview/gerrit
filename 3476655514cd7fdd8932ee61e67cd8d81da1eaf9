@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c169c0a3_fcd80587",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/rpc/HttpResponse.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-02T22:00:02Z",
+      "side": 1,
+      "message": "Yeah, because the difference between \"response\" and \"result\" is totally obvious :)\n\n(I actually think it\u0027s probably fine because only one of them is public, and you can always look at the types in the signature.)",
+      "revId": "3476655514cd7fdd8932ee61e67cd8d81da1eaf9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "813188d3_a74bcaf8",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/rpc/RestApi.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-02T22:00:02Z",
+      "side": 1,
+      "message": "Instead of this type hack, I would rather wrap the non-HttpResponse\u003cT\u003e callback:\n\n    static \u003cT\u003e HttpCallback\u003cT\u003e wrap(boolean bg, AsyncCallback\u003cT\u003e cb) {\n      return new HttpCallback\u003c\u003e(bg, new AsyncCallback\u003cHttpResponse\u003cT\u003e\u003e() {\n        @Override\n        public void onSuccess(HttpResponse\u003cT\u003e res) {\n          cb.onSuccess(res.get());\n        }\n        ....\n      });\n    }\n\n    HttpCallback(boolean bg, AsyncCallback\u003cHttpResponse\u003cT\u003e\u003e cb) {\n      this.background \u003d bg;\n      this.cb \u003d cb;\n    }\n\n(static method necessary to avoid ambiguous signature after erasure)",
+      "revId": "3476655514cd7fdd8932ee61e67cd8d81da1eaf9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

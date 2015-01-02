@@ -1406,8 +1406,13 @@ Retrieves content of a file from a change edit.
   GET /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/edit/foo HTTP/1.0
 ----
 
-The content of the file is returned as text encoded inside base64. When
-specified file was deleted in the change edit "`204 No Content`" is returned.
+The content of the file is returned as text encoded inside base64.
+The Content-Type header will always text/plain reflecting the outer
+base64 encoding. A Gerrit specific X-FYI-Content-Type header can be
+examined to find the server assigned content type of the file.
+
+When specified file was deleted in the change edit "`204 No Content`"
+is returned.
 
 .Response
 ----
@@ -1415,31 +1420,9 @@ specified file was deleted in the change edit "`204 No Content`" is returned.
   Content-Disposition: attachment
   Content-Type: text/plain;charset=ISO-8859-1
   X-FYI-Content-Encoding: base64
+  X-FYI-Content-Type: text/xml
 
   RnJvbSA3ZGFkY2MxNTNmZGVhMTdhYTg0ZmYzMmE2ZTI0NWRiYjY...
-----
-
-[[get-edit-file-mime-type]]
-=== Retrieve file content MIME type from Change Edit
---
-'GET /changes/link:#change-id[\{change-id\}]/edit/path%2fto%2ffile/type
---
-
-Retrieves content MIME type of a file from a change edit.
-
-.Request
-----
-  GET /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/edit/foo%2fbar%2fbaz%2fqux.txt/type HTTP/1.0
-----
-
-.Response
-----
-  HTTP/1.1 200 OK
-  Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
-
-  )]}'
-  "text/plain"
 ----
 
 [[get-edit-message]]
@@ -2785,41 +2768,20 @@ Gets the content of a file from a certain revision.
   GET /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/revisions/674ac754f91e64a0efb8087e59a176484bd534d1/files/gerrit-server%2Fsrc%2Fmain%2Fjava%2Fcom%2Fgoogle%2Fgerrit%2Fserver%2Fproject%2FRefControl.java/content HTTP/1.0
 ----
 
-The content is returned as base64 encoded string.
+The content is returned as base64 encoded string. The HTTP response
+Content-Type is always text/plain, reflecting the base64 wrapping.
+A Gerrit specific X-FYI-Content-Type header may be returned describing
+the server detected content type of the file.
 
 .Response
 ----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
-  Content-Type: text/plain;charset=UTF-8
+  Content-Type: text/plain; charset=ISO-8859-1
+  X-FYI-Content-Encoding: base64
+  X-FYI-Content-Type: text/xml
 
   Ly8gQ29weXJpZ2h0IChDKSAyMDEwIFRoZSBBbmRyb2lkIE9wZW4gU291cmNlIFByb2plY...
-----
-
-[[get-content-type]]
-=== Get Content MIME Type
---
-'GET /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/files/link:#file-id[\{file-id\}]/type'
---
-
-Gets the content MIME type of a file from a certain revision.
-
-.Request
-----
-  GET /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/revisions/674ac754f91e64a0efb8087e59a176484bd534d1/files/readme.txt/type HTTP/1.0
-----
-
-The content MIME type is returned as string. The content type for the commit
-message (`/COMMIT_MSG`) is always returned as "text/plain".
-
-.Response
-----
-  HTTP/1.1 200 OK
-  Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
-
-  )]}'
-  "text/plain"
 ----
 
 [[get-diff]]

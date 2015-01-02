@@ -34,7 +34,8 @@ limitations under the License.
     }
 
     .headerButtons button:disabled {
-      background-color: #999;
+      background-color: #ddd;
+      font-weight: normal;
     }
 
     .headerButtons button {

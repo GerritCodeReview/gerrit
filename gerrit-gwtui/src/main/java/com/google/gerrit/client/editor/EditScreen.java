@@ -45,6 +45,8 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.Window.ClosingEvent;
+import com.google.gwt.user.client.Window.ClosingHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HTMLPanel;
@@ -52,6 +54,7 @@ import com.google.gwtexpui.globalkey.client.GlobalKey;
 import com.google.gwtexpui.safehtml.client.SafeHtml;
 
 import net.codemirror.lib.CodeMirror;
+import net.codemirror.lib.CodeMirror.ChangesHandler;
 import net.codemirror.lib.Configuration;
 import net.codemirror.lib.ModeInjector;
 
@@ -80,6 +83,8 @@ public class EditScreen extends Screen {
   @UiField Element editor;
 
   private HandlerRegistration resizeHandler;
+  private HandlerRegistration closeHandler;
+  private int generation;
   private Element columnMargin;
   private double charWidthPx;
 
@@ -153,6 +158,23 @@ public class EditScreen extends Screen {
         adjustCodeMirrorHeight();
       }
     });
+    closeHandler = Window.addWindowClosingHandler(new ClosingHandler() {
+      @Override
+      public void onWindowClosing(ClosingEvent event) {
+        if (!cm.isClean(generation)) {
+          event.setMessage(EditConstants.I.closeUnsavedChanges());
+        }
+      }
+    });
+
+    generation = cm.changeGeneration(true);
+    save.setEnabled(false);
+    cm.on(new ChangesHandler() {
+      @Override
+      public void handle(CodeMirror cm) {
+        save.setEnabled(!cm.isClean(generation));
+      }
+    });
 
     adjustCodeMirrorHeight();
     setLineLength(prefs.lineLength());
@@ -168,6 +190,9 @@ public class EditScreen extends Screen {
     }
     if (resizeHandler != null) {
       resizeHandler.removeHandler();
+    }
+    if (closeHandler != null) {
+      closeHandler.removeHandler();
     }
     Window.enableScrolling(true);
     Gerrit.setHeaderVisible(true);
@@ -195,7 +220,10 @@ public class EditScreen extends Screen {
 
   @UiHandler("cancel")
   void onCancel(@SuppressWarnings("unused") ClickEvent e) {
-    Gerrit.display(PageLinks.toChangeInEditMode(revision.getParentKey()));
+    if (cm.isClean(generation)
+        || Window.confirm(EditConstants.I.cancelUnsavedChanges())) {
+      Gerrit.display(PageLinks.toChangeInEditMode(revision.getParentKey()));
+    }
   }
 
   void setShowTabs(boolean b) {

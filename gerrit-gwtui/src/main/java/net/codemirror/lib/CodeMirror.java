@@ -57,6 +57,11 @@ public class CodeMirror extends JavaScriptObject {
   public final native String getValue() /*-{ return this.getValue() }-*/;
   public final native void setValue(String v) /*-{ this.setValue(v) }-*/;
 
+  public final native int changeGeneration(boolean closeEvent)
+  /*-{ return this.changeGeneration(closeEvent) }-*/;
+  public final native boolean isClean(int generation)
+  /*-{ return this.isClean(generation) }-*/;
+
   public final native void setWidth(double w) /*-{ this.setSize(w, null) }-*/;
   public final native void setWidth(String w) /*-{ this.setSize(w, null) }-*/;
   public final native void setHeight(double h) /*-{ this.setSize(null, h) }-*/;
@@ -221,6 +226,13 @@ public class CodeMirror extends JavaScriptObject {
     }))
   }-*/;
 
+  public final native void on(ChangesHandler handler) /*-{
+    this.on('changes', $entry(function(cm, o) {
+      handler.@net.codemirror.lib.CodeMirror.ChangesHandler::handle(
+        Lnet/codemirror/lib/CodeMirror;)(cm);
+    }))
+  }-*/;
+
   public final native void setCursor(Pos p) /*-{ this.setCursor(p) }-*/;
   public final native Pos getCursor() /*-{ return this.getCursor() }-*/;
   public final native Pos getCursor(String start) /*-{
@@ -361,5 +373,9 @@ public class CodeMirror extends JavaScriptObject {
 
   public interface BeforeSelectionChangeHandler {
     public void handle(CodeMirror instance, Pos anchor, Pos head);
+  }
+
+  public interface ChangesHandler {
+    public void handle(CodeMirror instance);
   }
 }

@@ -35,7 +35,9 @@ public class GetContent implements RestReadView<FileResource> {
   @Override
   public BinaryResult apply(FileResource rsrc)
       throws ResourceNotFoundException, IOException {
-    return fileContentUtil.getContent(rsrc.getProject(), rsrc.getRev(),
+    return fileContentUtil.getContent(
+        rsrc.getProject().getProjectState(),
+        rsrc.getRev(),
         rsrc.getPath());
   }
 }

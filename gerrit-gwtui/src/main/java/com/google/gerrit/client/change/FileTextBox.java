@@ -16,6 +16,9 @@ package com.google.gerrit.client.change;
 
 import com.google.gerrit.client.changes.ChangeFileApi;
 import com.google.gerrit.client.rpc.GerritCallback;
+import com.google.gerrit.client.rpc.HttpCallback;
+import com.google.gerrit.client.rpc.HttpResponse;
+import com.google.gerrit.client.rpc.NativeString;
 import com.google.gerrit.client.rpc.RestApi;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.event.dom.client.BlurEvent;
@@ -51,10 +54,10 @@ class FileTextBox extends NpTextBox {
   }
 
   private void loadFileContent() {
-    ChangeFileApi.getContent(id, getText(), new GerritCallback<String>() {
+    ChangeFileApi.getContent(id, getText(), new HttpCallback<NativeString>() {
       @Override
-      public void onSuccess(String result) {
-        textArea.setText(result);
+      public void onSuccess(HttpResponse<NativeString> result) {
+        textArea.setText(result.getResult().asString());
       }
 
       @Override
@@ -62,7 +65,7 @@ class FileTextBox extends NpTextBox {
         if (RestApi.isNotFound(caught)) {
           // that means that the file doesn't exist in the repository
         } else {
-          super.onFailure(caught);
+          GerritCallback.showFailure(caught);
         }
       }
     });

@@ -25,6 +25,9 @@ import com.google.gerrit.client.diff.FileInfo;
 import com.google.gerrit.client.diff.Header;
 import com.google.gerrit.client.rpc.CallbackGroup;
 import com.google.gerrit.client.rpc.GerritCallback;
+import com.google.gerrit.client.rpc.HttpCallback;
+import com.google.gerrit.client.rpc.HttpResponse;
+import com.google.gerrit.client.rpc.NativeString;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.Screen;
 import com.google.gerrit.common.PageLinks;
@@ -68,7 +71,7 @@ public class EditScreen extends Screen {
   private final String path;
   private DiffPreferences prefs;
   private CodeMirror cm;
-  private String type;
+  private HttpResponse<NativeString> content;
 
   @UiField Element header;
   @UiField Element project;
@@ -116,20 +119,6 @@ public class EditScreen extends Screen {
       }
     }));
 
-    if (prefs.syntaxHighlighting() && !Patch.COMMIT_MSG.equals(path)) {
-      final AsyncCallback<Void> modeInjectorCb = group.addEmpty();
-      ChangeFileApi.getContentType(revision, path,
-          cmGroup.add(new GerritCallback<String>() {
-            @Override
-            public void onSuccess(String result) {
-              ModeInfo mode = ModeInfo.findMode(result, path);
-              type = mode != null ? mode.mime() : null;
-              injectMode(result, modeInjectorCb);
-            }
-          }));
-    }
-    cmGroup.done();
-
     ChangeApi.detail(revision.getParentKey().get(),
         group.add(new GerritCallback<ChangeInfo>() {
           @Override
@@ -140,12 +129,34 @@ public class EditScreen extends Screen {
         }));
 
     ChangeFileApi.getContentOrMessage(revision, path,
-        group.addFinal(new ScreenLoadCallback<String>(this) {
+        cmGroup.add(new HttpCallback<NativeString>() {
+          final AsyncCallback<Void> modeCallback = group.addEmpty();
+
           @Override
-          protected void preDisplay(String content) {
-            initEditor(content);
+          public void onSuccess(HttpResponse<NativeString> fc) {
+            content = fc;
+            if (prefs.syntaxHighlighting()) {
+              injectMode(fc.getContentType(), modeCallback);
+            } else {
+              modeCallback.onSuccess(null);
+            }
+          }
+
+          @Override
+          public void onFailure(Throwable e) {
+            GerritCallback.showFailure(e);
           }
         }));
+
+    group.addListener(new ScreenLoadCallback<Void>(this) {
+      @Override
+      protected void preDisplay(Void result) {
+        initEditor(content);
+        content = null;
+      }
+    });
+    cmGroup.done();
+    group.done();
   }
 
   @Override
@@ -223,12 +234,12 @@ public class EditScreen extends Screen {
     Gerrit.display(PageLinks.toChangeInEditMode(revision.getParentKey()));
   }
 
-  private void initEditor(String content) {
+  private void initEditor(HttpResponse<NativeString> file) {
     ModeInfo mode = prefs.syntaxHighlighting()
-        ? ModeInfo.findMode(type, path)
+        ? ModeInfo.findMode(file.getContentType(), path)
         : null;
     cm = CodeMirror.create(editor, Configuration.create()
-        .set("value", content)
+        .set("value", file.getResult().asString())
         .set("readOnly", false)
         .set("cursorBlinkRate", 0)
         .set("cursorHeight", 0.85)

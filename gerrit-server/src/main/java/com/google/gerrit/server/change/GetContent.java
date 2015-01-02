@@ -24,6 +24,8 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import org.eclipse.jgit.lib.ObjectId;
+
 import java.io.IOException;
 
 @Singleton
@@ -44,12 +46,14 @@ public class GetContent implements RestReadView<FileResource> {
       OrmException {
     String path = rsrc.getPatchKey().get();
     if (Patch.COMMIT_MSG.equals(path)) {
-      return BinaryResult.create(
-          changeUtil.getMessage(rsrc.getRevision().getChange())).base64();
+      String msg = changeUtil.getMessage(rsrc.getRevision().getChange());
+      return BinaryResult.create(msg)
+          .setContentType(FileContentUtil.TEXT_X_GERRIT_COMMIT_MESSAGE)
+          .base64();
     }
     return fileContentUtil.getContent(
-        rsrc.getRevision().getControl().getProject().getNameKey(),
-        rsrc.getRevision().getPatchSet().getRevision().get(),
+        rsrc.getRevision().getControl().getProjectControl().getProjectState(),
+        ObjectId.fromString(rsrc.getRevision().getPatchSet().getRevision().get()),
         path);
   }
 }

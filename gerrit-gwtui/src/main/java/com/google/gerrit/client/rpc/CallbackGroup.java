@@ -42,8 +42,8 @@ import java.util.Set;
  * processing it.
  */
 public class CallbackGroup {
-  private final List<CallbackImpl<?>> callbacks;
-  private final Set<CallbackImpl<?>> remaining;
+  private final List<CallbackGlue> callbacks;
+  private final Set<CallbackGlue> remaining;
   private boolean finalAdded;
 
   private boolean failed;
@@ -76,6 +76,27 @@ public class CallbackGroup {
     return handleAdd(cb);
   }
 
+  public <T> HttpCallback<T> add(HttpCallback<T> cb) {
+    checkFinalAdded();
+    if (failed) {
+      cb.onFailure(failedThrowable);
+      return new HttpCallback<T>() {
+        @Override
+        public void onSuccess(HttpResponse<T> result) {
+        }
+
+        @Override
+        public void onFailure(Throwable caught) {
+        }
+      };
+    }
+
+    HttpCallbackImpl<T> w = new HttpCallbackImpl<>(cb);
+    callbacks.add(w);
+    remaining.add(w);
+    return w;
+  }
+
   public <T> Callback<T> addFinal(final AsyncCallback<T> cb) {
     checkFinalAdded();
     finalAdded = true;
@@ -84,7 +105,7 @@ public class CallbackGroup {
 
   public void done() {
     finalAdded = true;
-    applyAllSuccess();
+    apply();
   }
 
   public void addListener(AsyncCallback<Void> cb) {
@@ -99,19 +120,30 @@ public class CallbackGroup {
     addListener(group.<Void> addEmpty());
   }
 
-  private void applyAllSuccess() {
-    if (!failed && finalAdded && remaining.isEmpty()) {
-      for (CallbackImpl<?> cb : callbacks) {
-        cb.applySuccess();
-      }
-      callbacks.clear();
-    }
+  private void success(CallbackGlue cb) {
+    remaining.remove(cb);
+    apply();
   }
 
-  private void applyAllFailed() {
-    if (failed && finalAdded && remaining.isEmpty()) {
-      for (CallbackImpl<?> cb : callbacks) {
-        cb.applyFailed();
+  private <T> void failure(CallbackGlue w, Throwable caught) {
+    if (!failed) {
+      failed = true;
+      failedThrowable = caught;
+    }
+    remaining.remove(w);
+    apply();
+  }
+
+  private void apply() {
+    if (finalAdded && remaining.isEmpty()) {
+      if (failed) {
+        for (CallbackGlue cb : callbacks) {
+          cb.applyFailed();
+        }
+      } else {
+        for (CallbackGlue cb : callbacks) {
+          cb.applySuccess();
+        }
       }
       callbacks.clear();
     }
@@ -139,7 +171,12 @@ public class CallbackGroup {
       extends AsyncCallback<T>, com.google.gwtjsonrpc.common.AsyncCallback<T> {
   }
 
-  private class CallbackImpl<T> implements Callback<T> {
+  private interface CallbackGlue {
+    void applySuccess();
+    void applyFailed();
+  }
+
+  private class CallbackImpl<T> implements Callback<T>, CallbackGlue {
     AsyncCallback<T> delegate;
     T result;
 
@@ -150,21 +187,16 @@ public class CallbackGroup {
     @Override
     public void onSuccess(T value) {
       this.result = value;
-      remaining.remove(this);
-      CallbackGroup.this.applyAllSuccess();
+      success(this);
     }
 
     @Override
     public void onFailure(Throwable caught) {
-      if (!failed) {
-        failed = true;
-        failedThrowable = caught;
-      }
-      remaining.remove(this);
-      CallbackGroup.this.applyAllFailed();
+      failure(this, caught);
     }
 
-    void applySuccess() {
+    @Override
+    public void applySuccess() {
       AsyncCallback<T> cb = delegate;
       if (cb != null) {
         delegate = null;
@@ -173,8 +205,49 @@ public class CallbackGroup {
       }
     }
 
-    void applyFailed() {
+    @Override
+    public void applyFailed() {
       AsyncCallback<T> cb = delegate;
+      if (cb != null) {
+        delegate = null;
+        result = null;
+        cb.onFailure(failedThrowable);
+      }
+    }
+  }
+
+  private class HttpCallbackImpl<T> implements HttpCallback<T>, CallbackGlue {
+    private HttpCallback<T> delegate;
+    private HttpResponse<T> result;
+
+    HttpCallbackImpl(HttpCallback<T> delegate) {
+      this.delegate = delegate;
+    }
+
+    @Override
+    public void onSuccess(HttpResponse<T> result) {
+      this.result = result;
+      success(this);
+    }
+
+    @Override
+    public void onFailure(Throwable caught) {
+      failure(this, caught);
+    }
+
+    @Override
+    public void applySuccess() {
+      HttpCallback<T> cb = delegate;
+      if (cb != null) {
+        delegate = null;
+        cb.onSuccess(result);
+        result = null;
+      }
+    }
+
+    @Override
+    public void applyFailed() {
+      HttpCallback<T> cb = delegate;
       if (cb != null) {
         delegate = null;
         result = null;

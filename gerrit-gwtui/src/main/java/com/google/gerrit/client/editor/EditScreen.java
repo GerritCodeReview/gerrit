@@ -112,17 +112,22 @@ public class EditScreen extends Screen {
     CallbackGroup cmGroup = new CallbackGroup();
     CodeMirror.initLibrary(cmGroup.add(CallbackGroup.<Void> emptyCallback()));
     CallbackGroup group = new CallbackGroup();
-    if (prefs.syntaxHighlighting() && !Patch.COMMIT_MSG.equals(path)) {
+    if (prefs.syntaxHighlighting()) {
       final AsyncCallback<Void> modeInjectorCb =
           group.add(CallbackGroup.<Void> emptyCallback());
-      ChangeFileApi.getContentType(revision, path,
-          cmGroup.add(new GerritCallback<String>() {
-            @Override
-            public void onSuccess(String result) {
-              type = result;
-              injectMode(result, modeInjectorCb);
-            }
-          }));
+      if (Patch.COMMIT_MSG.equals(path)) {
+        type = "text/x-gerrit-commit-message";
+        injectMode(type, modeInjectorCb);
+      } else {
+        ChangeFileApi.getContentType(revision, path,
+            cmGroup.add(new GerritCallback<String>() {
+              @Override
+              public void onSuccess(String result) {
+                type = result;
+                injectMode(type, modeInjectorCb);
+              }
+            }));
+      }
     }
     cmGroup.done();
 

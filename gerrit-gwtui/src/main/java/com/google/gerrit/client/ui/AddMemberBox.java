@@ -15,7 +15,6 @@
 package com.google.gerrit.client.ui;
 
 import com.google.gerrit.client.Gerrit;
-import com.google.gerrit.client.admin.Util;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
@@ -37,11 +36,6 @@ public class AddMemberBox extends Composite {
   private final HintTextBox nameTxtBox;
   private final SuggestBox nameTxt;
   private boolean submitOnSelection;
-
-  public AddMemberBox() {
-    this(Util.C.buttonAddGroupMember(), Util.C.defaultAccountName(),
-        new AccountSuggestOracle());
-  }
 
   public AddMemberBox(final String buttonLabel, final String hint,
       final SuggestOracle suggestOracle) {

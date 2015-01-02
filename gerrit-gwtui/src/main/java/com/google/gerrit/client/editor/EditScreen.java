@@ -19,8 +19,8 @@ import com.google.gerrit.client.JumpKeys;
 import com.google.gerrit.client.VoidResult;
 import com.google.gerrit.client.account.DiffPreferences;
 import com.google.gerrit.client.changes.ChangeApi;
-import com.google.gerrit.client.changes.ChangeFileApi;
-import com.google.gerrit.client.changes.ChangeFileApi.FileContent;
+import com.google.gerrit.client.changes.ChangeEditApi;
+import com.google.gerrit.client.changes.ChangeEditApi.FileContent;
 import com.google.gerrit.client.changes.ChangeInfo;
 import com.google.gerrit.client.diff.FileInfo;
 import com.google.gerrit.client.diff.Header;
@@ -122,7 +122,7 @@ public class EditScreen extends Screen {
           }
         });
 
-    ChangeFileApi.getContentOrMessage(revision, path,
+    ChangeEditApi.get(revision, path,
         cmGroup.addFinal(new GerritCallback<FileContent>() {
           @Override
           public void onSuccess(FileContent fc) {
@@ -185,7 +185,7 @@ public class EditScreen extends Screen {
 
   @UiHandler("save")
   void onSave(@SuppressWarnings("unused") ClickEvent e) {
-    ChangeFileApi.putContentOrMessage(revision, path, cm.getValue(),
+    ChangeEditApi.put(revision.getParentKey().get(), path, cm.getValue(),
         new GerritCallback<VoidResult>() {
           @Override
           public void onSuccess(VoidResult result) {

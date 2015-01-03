@@ -14,6 +14,7 @@
 
 package net.codemirror.lib;
 
+import com.google.gerrit.client.rpc.CallbackGroup;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gwt.core.client.Callback;
 import com.google.gwt.core.client.ScriptInjector;
@@ -26,9 +27,6 @@ import com.google.gwt.resources.client.TextResource;
 import com.google.gwt.safehtml.shared.SafeUri;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 public class Loader {
   private static native boolean isLibLoaded()
   /*-{ return $wnd.hasOwnProperty('CodeMirror'); }-*/;
@@ -36,33 +34,38 @@ public class Loader {
   static void initLibrary(final AsyncCallback<Void> cb) {
     if (isLibLoaded()) {
       cb.onSuccess(null);
-    } else {
-      injectCss(Lib.I.css());
-      injectScript(Lib.I.js().getSafeUri(), new GerritCallback<Void>(){
-        @Override
-        public void onSuccess(Void result) {
-          Vim.initKeyMap();
-          cb.onSuccess(null);
-        }
-      });
+      return;
     }
+
+    CallbackGroup group = new CallbackGroup();
+    injectCss(Lib.I.css(), group.add(CallbackGroup.<Void> emptyCallback()));
+    injectScript(Lib.I.js().getSafeUri(), group.add(new GerritCallback<Void>() {
+      @Override
+      public void onSuccess(Void result) {
+        Vim.initKeyMap();
+      }
+    }));
+    group.addListener(cb);
+    group.done();
   }
 
-  private static void injectCss(ExternalTextResource css) {
+  private static void injectCss(ExternalTextResource css,
+      final AsyncCallback<Void> cb) {
     try {
       css.getText(new ResourceCallback<TextResource>() {
         @Override
         public void onSuccess(TextResource resource) {
           StyleInjector.inject(resource.getText());
+          cb.onSuccess(null);
         }
 
         @Override
         public void onError(ResourceException e) {
-          error(e);
+          cb.onFailure(e);
         }
       });
     } catch (ResourceException e) {
-      error(e);
+      cb.onFailure(e);
     }
   }
 
@@ -79,17 +82,11 @@ public class Loader {
 
         @Override
         public void onFailure(Exception reason) {
-          error(reason);
           callback.onFailure(reason);
         }
        })
       .inject()
       .cast();
-  }
-
-  private static void error(Exception e) {
-    Logger log = Logger.getLogger("net.codemirror");
-    log.log(Level.SEVERE, "Cannot load portions of CodeMirror", e);
   }
 
   private Loader() {

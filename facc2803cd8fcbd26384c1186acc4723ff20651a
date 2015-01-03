@@ -46,6 +46,30 @@
       "revId": "facc2803cd8fcbd26384c1186acc4723ff20651a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c169c0a3_9c40e968",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/DraftBox.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-03T00:00:13Z",
+      "side": 1,
+      "message": "Rather, \n\n var Vim \u003d function() { ...; return vimApi; }\n CodeMirror.Vim \u003d Vim();\n\nThanks, JavaScript.",
+      "parentUuid": "813188d3_a7f66a36",
+      "range": {
+        "startLine": 318,
+        "startChar": 0,
+        "endLine": 318,
+        "endChar": 37
+      },
+      "revId": "facc2803cd8fcbd26384c1186acc4723ff20651a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

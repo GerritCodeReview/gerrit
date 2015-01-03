@@ -108,10 +108,11 @@ public class EditScreen extends Screen {
   protected void onLoad() {
     super.onLoad();
 
-    CallbackGroup cmGroup = new CallbackGroup();
-    final CallbackGroup group = new CallbackGroup();
-    CodeMirror.initLibrary(cmGroup.add(new AsyncCallback<Void>() {
-      final AsyncCallback<Void> themeCallback = group.addEmpty();
+    CallbackGroup group1 = new CallbackGroup();
+    final CallbackGroup group2 = new CallbackGroup();
+
+    CodeMirror.initLibrary(group1.add(new AsyncCallback<Void>() {
+      final AsyncCallback<Void> themeCallback = group2.addEmpty();
 
       @Override
       public void onSuccess(Void result) {
@@ -125,17 +126,21 @@ public class EditScreen extends Screen {
     }));
 
     ChangeApi.detail(revision.getParentKey().get(),
-        group.add(new GerritCallback<ChangeInfo>() {
+        group1.add(new AsyncCallback<ChangeInfo>() {
           @Override
           public void onSuccess(ChangeInfo c) {
             project.setInnerText(c.project());
             SafeHtml.setInnerHTML(filePath, Header.formatPath(path, null, null));
           }
+
+          @Override
+          public void onFailure(Throwable caught) {
+          }
         }));
 
     ChangeEditApi.get(revision, path,
-        cmGroup.addFinal(new GerritCallback<FileContent>() {
-          final AsyncCallback<Void> modeCallback = group.addEmpty();
+        group1.addFinal(new GerritCallback<FileContent>() {
+          final AsyncCallback<Void> modeCallback = group2.addEmpty();
 
           @Override
           public void onSuccess(FileContent fc) {
@@ -149,14 +154,14 @@ public class EditScreen extends Screen {
           }
         }));
 
-    group.addListener(new ScreenLoadCallback<Void>(this) {
+    group2.addListener(new ScreenLoadCallback<Void>(this) {
       @Override
       protected void preDisplay(Void result) {
         initEditor(content.text());
         content = null;
       }
     });
-    group.done();
+    group2.done();
   }
 
   @Override

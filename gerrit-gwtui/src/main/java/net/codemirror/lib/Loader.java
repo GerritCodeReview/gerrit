@@ -15,7 +15,6 @@
 package net.codemirror.lib;
 
 import com.google.gerrit.client.rpc.CallbackGroup;
-import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gwt.core.client.Callback;
 import com.google.gwt.core.client.ScriptInjector;
 import com.google.gwt.dom.client.ScriptElement;
@@ -39,10 +38,14 @@ public class Loader {
 
     CallbackGroup group = new CallbackGroup();
     injectCss(Lib.I.css(), group.<Void> addEmpty());
-    injectScript(Lib.I.js().getSafeUri(), group.add(new GerritCallback<Void>() {
+    injectScript(Lib.I.js().getSafeUri(), group.add(new AsyncCallback<Void>() {
       @Override
       public void onSuccess(Void result) {
         Vim.initKeyMap();
+      }
+
+      @Override
+      public void onFailure(Throwable caught) {
       }
     }));
     group.addListener(cb);

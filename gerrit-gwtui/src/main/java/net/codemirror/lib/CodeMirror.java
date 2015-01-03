@@ -15,6 +15,7 @@
 package net.codemirror.lib;
 
 import com.google.gerrit.client.diff.DisplaySide;
+import com.google.gerrit.client.rpc.CallbackGroup;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NativeEvent;
@@ -28,6 +29,10 @@ import net.codemirror.lib.TextMarker.FromTo;
  * @see <a href="http://codemirror.net/doc/manual.html#api">CodeMirror API</a>
  */
 public class CodeMirror extends JavaScriptObject {
+  public static void preload() {
+    initLibrary(CallbackGroup.<Void> emptyCallback());
+  }
+
   public static void initLibrary(AsyncCallback<Void> cb) {
     Loader.initLibrary(cb);
   }

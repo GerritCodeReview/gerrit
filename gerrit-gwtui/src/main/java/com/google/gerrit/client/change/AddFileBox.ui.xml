@@ -16,40 +16,22 @@ limitations under the License.
 -->
 <ui:UiBinder
     xmlns:ui='urn:ui:com.google.gwt.uibinder'
-    xmlns:c='urn:import:com.google.gwtexpui.globalkey.client'
-    xmlns:f='urn:import:com.google.gerrit.client.change'
+    xmlns:u='urn:import:com.google.gerrit.client.ui'
     xmlns:g='urn:import:com.google.gwt.user.client.ui'>
   <ui:with field='res' type='com.google.gerrit.client.change.Resources'/>
   <ui:style>
-    .fileContent {
-      background-color: white;
-      font-family: monospace;
-    }
     .cancel { float: right; }
   </ui:style>
   <g:HTMLPanel>
     <div class='{res.style.section}'>
-      <div>
-         <ui:msg>Path:</ui:msg>
-      </div>
-      <div>
-        <f:FileTextBox ui:field='file' visibleLength='79'/>
-      </div>
-      <div>
-        <ui:msg>Content:</ui:msg>
-      </div>
-      <c:NpTextArea
-         visibleLines='30'
-         characterWidth='78'
-         styleName='{style.fileContent}'
-         ui:field='content'/>
+      <ui:msg>Path: <u:RemoteSuggestBox ui:field='path' visibleLength='86'/></ui:msg>
     </div>
     <div class='{res.style.section}'>
-      <g:Button ui:field='save'
-          title='Create new revision edit'
+      <g:Button ui:field='open'
+          title='Open file in editor'
           styleName='{res.style.button}'>
         <ui:attribute name='title'/>
-        <div><ui:msg>Save</ui:msg></div>
+        <div><ui:msg>Open</ui:msg></div>
       </g:Button>
       <g:Button ui:field='cancel'
           styleName='{res.style.button}'

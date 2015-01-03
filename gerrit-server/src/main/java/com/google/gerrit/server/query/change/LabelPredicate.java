@@ -149,14 +149,17 @@ public class LabelPredicate extends OrPredicate<ChangeData> {
 
   private static Predicate<ChangeData> equalsLabelPredicate(Args args,
       String label, int expVal) {
-    if (args.accounts == null || args.accounts.isEmpty()) {
-      return new EqualsLabelPredicate(args, label, expVal, null);
-    } else {
-      List<Predicate<ChangeData>> r = Lists.newArrayList();
+    List<Predicate<ChangeData>> r = Lists.newArrayList();
+    if (args.accounts != null && !args.accounts.isEmpty()) {
       for (Account.Id a : args.accounts) {
-        r.add(new EqualsLabelPredicate(args, label, expVal, a));
+        r.add(new EqualsLabelPredicate(args, label, expVal, a, null));
       }
       return or(r);
+    } else if (args.group != null) {
+      r.add(new EqualsLabelPredicate(args, label, expVal, null, args.group));
+      return or(r);
+    } else {
+      return new EqualsLabelPredicate(args, label, expVal, null, null);
     }
   }
 

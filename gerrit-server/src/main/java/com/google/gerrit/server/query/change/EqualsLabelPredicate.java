@@ -43,13 +43,13 @@ class EqualsLabelPredicate extends IndexPredicate<ChangeData> {
   private final AccountGroup.UUID group;
 
   EqualsLabelPredicate(LabelPredicate.Args args, String label, int expVal,
-      Account.Id account) {
-    super(ChangeField.LABEL, ChangeField.formatLabel(label, expVal, account));
+      Account.Id account, AccountGroup.UUID group) {
+    super(ChangeField.LABEL, ChangeField.formatLabel(label, expVal, account, group));
     this.ccFactory = args.ccFactory;
     this.projectCache = args.projectCache;
     this.userFactory = args.userFactory;
     this.dbProvider = args.dbProvider;
-    this.group = args.group;
+    this.group = group;
     this.label = label;
     this.expVal = expVal;
     this.account = account;

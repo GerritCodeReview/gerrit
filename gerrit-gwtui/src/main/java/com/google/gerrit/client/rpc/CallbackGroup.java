@@ -108,6 +108,15 @@ public class CallbackGroup {
     }
   }
 
+  private void applyAllFailed() {
+    if (failed && finalAdded && remaining.isEmpty()) {
+      for (CallbackImpl<?> cb : callbacks) {
+        cb.applyFailed();
+      }
+      callbacks.clear();
+    }
+  }
+
   private <T> Callback<T> handleAdd(AsyncCallback<T> cb) {
     if (failed) {
       cb.onFailure(failedThrowable);
@@ -140,10 +149,6 @@ public class CallbackGroup {
 
     @Override
     public void onSuccess(T value) {
-      if (failed) {
-        return;
-      }
-
       this.result = value;
       remaining.remove(this);
       CallbackGroup.this.applyAllSuccess();
@@ -151,19 +156,12 @@ public class CallbackGroup {
 
     @Override
     public void onFailure(Throwable caught) {
-      if (failed) {
-        return;
+      if (!failed) {
+        failed = true;
+        failedThrowable = caught;
       }
-
-      failed = true;
-      failedThrowable = caught;
-      for (CallbackImpl<?> cb : callbacks) {
-        cb.delegate.onFailure(failedThrowable);
-        cb.delegate = null;
-        cb.result = null;
-      }
-      callbacks.clear();
-      remaining.clear();
+      remaining.remove(this);
+      CallbackGroup.this.applyAllFailed();
     }
 
     void applySuccess() {
@@ -172,6 +170,15 @@ public class CallbackGroup {
         delegate = null;
         cb.onSuccess(result);
         result = null;
+      }
+    }
+
+    void applyFailed() {
+      AsyncCallback<T> cb = delegate;
+      if (cb != null) {
+        delegate = null;
+        result = null;
+        cb.onFailure(failedThrowable);
       }
     }
   }

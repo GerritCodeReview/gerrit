@@ -215,10 +215,14 @@ public class ChangeScreen2 extends Screen {
     CallbackGroup group = new CallbackGroup();
     if (Gerrit.isSignedIn()) {
       ChangeApi.editWithFiles(changeId.get(), group.add(
-          new GerritCallback<EditInfo>() {
+          new AsyncCallback<EditInfo>() {
             @Override
             public void onSuccess(EditInfo result) {
               edit = result;
+            }
+
+            @Override
+            public void onFailure(Throwable caught) {
             }
           }));
     }

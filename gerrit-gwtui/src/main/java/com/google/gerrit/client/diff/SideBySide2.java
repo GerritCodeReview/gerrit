@@ -167,26 +167,36 @@ public class SideBySide2 extends Screen {
   protected void onLoad() {
     super.onLoad();
 
-    CallbackGroup cmGroup = new CallbackGroup();
-    CodeMirror.initLibrary(cmGroup.<Void> addEmpty());
+    CallbackGroup group1 = new CallbackGroup();
+    final CallbackGroup group2 = new CallbackGroup();
 
-    final CallbackGroup group = new CallbackGroup();
-    final AsyncCallback<Void> themeCallback = group.addEmpty();
-    final AsyncCallback<Void> modeInjectorCb = group.addEmpty();
+    CodeMirror.initLibrary(group1.add(new AsyncCallback<Void>() {
+      final AsyncCallback<Void> themeCallback = group2.addEmpty();
+
+      @Override
+      public void onSuccess(Void result) {
+        // Load theme after CM library to ensure theme can override CSS.
+        ThemeLoader.loadTheme(prefs.theme(), themeCallback);
+      }
+
+      @Override
+      public void onFailure(Throwable caught) {
+      }
+    }));
 
     DiffApi.diff(revision, path)
       .base(base)
       .wholeFile()
       .intraline(prefs.intralineDifference())
       .ignoreWhitespace(prefs.ignoreWhitespace())
-      .get(cmGroup.addFinal(new GerritCallback<DiffInfo>() {
+      .get(group1.addFinal(new GerritCallback<DiffInfo>() {
+        final AsyncCallback<Void> modeInjectorCb = group2.addEmpty();
+
         @Override
         public void onSuccess(DiffInfo diffInfo) {
           diff = diffInfo;
           fileSize = bucketFileSize(diffInfo);
 
-          // Load theme after CM library to ensure theme can override CSS.
-          ThemeLoader.loadTheme(prefs.theme(), themeCallback);
           if (prefs.syntaxHighlighting()) {
             if (fileSize.compareTo(FileSize.SMALL) > 0) {
               modeInjectorCb.onSuccess(null);
@@ -200,22 +210,26 @@ public class SideBySide2 extends Screen {
       }));
 
     if (Gerrit.isSignedIn()) {
-      ChangeApi.edit(changeId.get(), group.add(
-          new GerritCallback<EditInfo>() {
+      ChangeApi.edit(changeId.get(), group2.add(
+          new AsyncCallback<EditInfo>() {
             @Override
             public void onSuccess(EditInfo result) {
               edit = result;
+            }
+
+            @Override
+            public void onFailure(Throwable caught) {
             }
           }));
     }
 
     final CommentsCollections comments = new CommentsCollections();
-    comments.load(base, revision, path, group);
+    comments.load(base, revision, path, group2);
 
     RestApi call = ChangeApi.detail(changeId.get());
     ChangeList.addOptions(call, EnumSet.of(
         ListChangesOption.ALL_REVISIONS));
-    call.get(group.add(new GerritCallback<ChangeInfo>() {
+    call.get(group2.add(new AsyncCallback<ChangeInfo>() {
       @Override
       public void onSuccess(ChangeInfo info) {
         info.revisions().copyKeysIntoChildren("name");
@@ -230,9 +244,14 @@ public class SideBySide2 extends Screen {
         diffTable.set(prefs, list, diff, edit != null, currentPatchSet,
             info.status().isOpen());
         header.setChangeInfo(info);
-      }}));
+      }
 
-    ConfigInfoCache.get(changeId, group.addFinal(
+      @Override
+      public void onFailure(Throwable caught) {
+      }
+    }));
+
+    ConfigInfoCache.get(changeId, group2.addFinal(
         new ScreenLoadCallback<ConfigInfoCache.Entry>(SideBySide2.this) {
           @Override
           protected void preDisplay(ConfigInfoCache.Entry result) {

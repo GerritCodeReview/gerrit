@@ -193,7 +193,7 @@ public class ChangeScreen2 extends Screen {
   private IncludedInAction includedInAction;
   private PatchSetsAction patchSetsAction;
   private DownloadAction downloadAction;
-  private EditFileAction editFileAction;
+  private AddFileAction addFileAction;
 
   public ChangeScreen2(Change.Id changeId, String base, String revision,
       boolean openReplyBox, FileTable.Mode mode) {
@@ -448,9 +448,9 @@ public class ChangeScreen2 extends Screen {
         editMode.setVisible(fileTableMode == FileTable.Mode.REVIEW);
         addFile.setVisible(!editMode.isVisible());
         reviewMode.setVisible(!editMode.isVisible());
-        editFileAction = new EditFileAction(
-            new PatchSet.Id(changeId, edit == null ? rev._number() : 0),
-            "", "", style, editMessage, reply);
+        addFileAction = new AddFileAction(
+            changeId, info.revision(revision),
+            style, addFile);
       } else {
         editMode.setVisible(false);
         addFile.setVisible(false);
@@ -625,7 +625,7 @@ public class ChangeScreen2 extends Screen {
 
   @UiHandler("addFile")
   void onAddFile(@SuppressWarnings("unused") ClickEvent e) {
-    editFileAction.onEdit();
+    addFileAction.onEdit();
   }
 
   private void refreshFileTable() {

@@ -43,8 +43,11 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
+import org.eclipse.jgit.errors.RepositoryNotFoundException;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.filter.PathFilterGroup;
@@ -53,6 +56,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -96,6 +100,9 @@ public class Files implements ChildCollection<RevisionResource, FileResource> {
     @Option(name = "--reviewed")
     boolean reviewed;
 
+    @Option(name = "-q")
+    String query;
+
     private final Provider<ReviewDb> db;
     private final Provider<CurrentUser> self;
     private final FileInfoJson fileInfoJson;
@@ -125,11 +132,13 @@ public class Files implements ChildCollection<RevisionResource, FileResource> {
 
     @Override
     public Response<?> apply(RevisionResource resource) throws AuthException,
-        BadRequestException, ResourceNotFoundException, OrmException {
-      if (base != null && reviewed) {
-        throw new BadRequestException("cannot combine base and reviewed");
-      } else if (reviewed) {
+        BadRequestException, ResourceNotFoundException, OrmException,
+        RepositoryNotFoundException, IOException {
+      checkOptions();
+      if (reviewed) {
         return Response.ok(reviewed(resource));
+      } else if (query != null) {
+        return Response.ok(query(resource));
       }
 
       PatchSet basePatchSet = null;
@@ -149,6 +158,51 @@ public class Files implements ChildCollection<RevisionResource, FileResource> {
         return r;
       } catch (PatchListNotAvailableException e) {
         throw new ResourceNotFoundException(e.getMessage());
+      }
+    }
+
+    private void checkOptions() throws BadRequestException {
+      int supplied = 0;
+      if (base != null) {
+        supplied++;
+      }
+      if (reviewed) {
+        supplied++;
+      }
+      if (query != null) {
+        supplied++;
+      }
+      if (supplied > 1) {
+        throw new BadRequestException("cannot combine base, reviewed, query");
+      }
+    }
+
+    private List<String> query(RevisionResource resource)
+        throws RepositoryNotFoundException, IOException {
+      Repository git =
+          gitManager.openRepository(resource.getChange().getProject());
+      try {
+        TreeWalk tw = new TreeWalk(git);
+        try {
+          RevCommit c = new RevWalk(tw.getObjectReader())
+            .parseCommit(ObjectId.fromString(
+                resource.getPatchSet().getRevision().get()));
+
+          tw.addTree(c.getTree());
+          tw.setRecursive(true);
+          List<String> paths = new ArrayList<>();
+          while (tw.next() && paths.size() < 20) {
+            String s = tw.getPathString();
+            if (s.contains(query)) {
+              paths.add(s);
+            }
+          }
+          return paths;
+        } finally {
+          tw.release();
+        }
+      } finally {
+        git.close();
       }
     }
 

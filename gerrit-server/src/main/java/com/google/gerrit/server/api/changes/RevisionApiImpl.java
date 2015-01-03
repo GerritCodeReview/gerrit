@@ -187,7 +187,7 @@ class RevisionApiImpl extends RevisionApi.NotImplemented implements RevisionApi 
       return ImmutableSet.copyOf((Iterable<String>) listFiles
           .get().setReviewed(true)
           .apply(revision).value());
-    } catch (OrmException e) {
+    } catch (OrmException | IOException e) {
       throw new RestApiException("Cannot list reviewed files", e);
     }
   }

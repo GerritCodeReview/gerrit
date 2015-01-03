@@ -21,35 +21,18 @@ limitations under the License.
     xmlns:g='urn:import:com.google.gwt.user.client.ui'>
   <ui:with field='res' type='com.google.gerrit.client.change.Resources'/>
   <ui:style>
-    .fileContent {
-      background-color: white;
-      font-family: monospace;
-    }
     .cancel { float: right; }
   </ui:style>
   <g:HTMLPanel>
     <div class='{res.style.section}'>
-      <div>
-         <ui:msg>Path:</ui:msg>
-      </div>
-      <div>
-        <f:FileTextBox ui:field='file' visibleLength='79'/>
-      </div>
-      <div>
-        <ui:msg>Content:</ui:msg>
-      </div>
-      <c:NpTextArea
-         visibleLines='30'
-         characterWidth='78'
-         styleName='{style.fileContent}'
-         ui:field='content'/>
+      <ui:msg>Path: <g:SuggestBox ui:field='path'/></ui:msg>
     </div>
     <div class='{res.style.section}'>
-      <g:Button ui:field='save'
-          title='Create new revision edit'
+      <g:Button ui:field='open'
+          title='Open file in editor'
           styleName='{res.style.button}'>
         <ui:attribute name='title'/>
-        <div><ui:msg>Save</ui:msg></div>
+        <div><ui:msg>Open</ui:msg></div>
       </g:Button>
       <g:Button ui:field='cancel'
           styleName='{res.style.button}'

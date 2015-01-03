@@ -229,7 +229,7 @@ public class ChangeInfo extends JavaScriptObject {
   }
 
   public static class RevisionInfo extends JavaScriptObject {
-    public static RevisionInfo fromEdit(EditInfo edit) {
+    public static RevisionInfo fromEdit(EditInfo edit) { // TODO WTF
       RevisionInfo revisionInfo = createObject().cast();
       revisionInfo.takeFromEdit(edit);
       return revisionInfo;

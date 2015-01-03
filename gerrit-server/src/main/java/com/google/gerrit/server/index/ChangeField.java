@@ -22,6 +22,7 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
@@ -269,7 +270,7 @@ public class ChangeField {
           for (PatchSetApproval a : input.currentApprovals()) {
             if (a.getValue() != 0 && !a.isSubmit()) {
               allApprovals.add(formatLabel(a.getLabel(), a.getValue(),
-                  a.getAccountId()));
+                  a.getAccountId(), null));
               distinctApprovals.add(formatLabel(a.getLabel(), a.getValue()));
             }
           }
@@ -336,12 +337,18 @@ public class ChangeField {
       new PatchSetApprovalProtoField();
 
   public static String formatLabel(String label, int value) {
-    return formatLabel(label, value, null);
+    return formatLabel(label, value, null, null);
   }
 
-  public static String formatLabel(String label, int value, Account.Id accountId) {
-    return label.toLowerCase() + (value >= 0 ? "+" : "") + value
-        + (accountId != null ? "," + accountId.get() : "");
+  public static String formatLabel(String label, int value, Account.Id accountId, AccountGroup.UUID groupId) {
+    String base = label.toLowerCase() + (value >= 0 ? "+" : "") + value;
+    String formatLabel = null;
+    if (accountId != null) {
+      formatLabel = base + "," + accountId.get();
+    } else if (groupId != null) {
+      formatLabel = base + "," + groupId.get();
+    }
+    return formatLabel;
   }
 
   /** Commit message of the current patch set. */

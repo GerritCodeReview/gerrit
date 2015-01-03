@@ -672,85 +672,95 @@ public class Dispatcher {
         patchSetDetail, patchTable, topView, null);
   }
 
-  public static void patch(String token, final PatchSet.Id baseId, final Patch.Key id,
-      final DisplaySide side, final int line,
+  public static void patch(final String token, final PatchSet.Id baseId,
+      final Patch.Key id, final DisplaySide side, final int line,
       final int patchIndex, final PatchSetDetail patchSetDetail,
       final PatchTable patchTable, final PatchScreen.TopView topView,
       final String panelType) {
-    final PatchScreen.TopView top =  topView == null ?
-        Gerrit.getPatchScreenTopView() : topView;
+    if (id == null) {
+      Gerrit.display(token, new NotFoundScreen());
+      return;
+    }
 
+    String panel = panelType;
+    if (panel == null) {
+      int c = token.lastIndexOf(',');
+      panel = 0 <= c ? token.substring(c + 1) : "";
+    }
+
+    if ("".equals(panel)) {
+      if (isChangeScreen2()) {
+        if (Gerrit.isSignedIn()
+            && DiffView.UNIFIED_DIFF.equals(Gerrit.getUserAccount()
+                .getGeneralPreferences().getDiffView())) {
+          sbs1(token, baseId, id, patchIndex, patchSetDetail, patchTable,
+              topView, PatchScreen.Type.UNIFIED);
+          return;
+        }
+        sbs2(token, baseId, id, side, line, false);
+        return;
+      }
+      sbs1(token, baseId, id, patchIndex, patchSetDetail, patchTable, topView,
+          PatchScreen.Type.SIDE_BY_SIDE);
+      return;
+    } else if ("unified".equals(panel)) {
+      sbs1(token, baseId, id, patchIndex, patchSetDetail, patchTable, topView,
+          PatchScreen.Type.UNIFIED);
+      return;
+    } else if ("cm".equals(panel) && Gerrit.getConfig().getNewFeatures()) {
+      if (Gerrit.isSignedIn()
+          && DiffView.UNIFIED_DIFF.equals(Gerrit.getUserAccount()
+              .getGeneralPreferences().getDiffView())) {
+        sbs1(token, baseId, id, patchIndex, patchSetDetail, patchTable,
+            topView, PatchScreen.Type.UNIFIED);
+        return;
+      }
+      sbs2(token, baseId, id, side, line, false);
+      return;
+    } else if ("".equals(panel) || "sidebyside".equals(panel)) {
+      sbs1(token, baseId, id, patchIndex, patchSetDetail, patchTable, topView,
+          PatchScreen.Type.SIDE_BY_SIDE);
+      return;
+    } else if (panel.equals("edit")) {
+      sbs2(token, null, id, null, 0, true);
+      return;
+    }
+    Gerrit.display(token, new NotFoundScreen());
+  }
+
+  private static void sbs1(final String token, final PatchSet.Id baseId,
+      final Patch.Key id, final int patchIndex,
+      final PatchSetDetail patchSetDetail, final PatchTable patchTable,
+      final PatchScreen.TopView topView, final PatchScreen.Type type) {
     GWT.runAsync(new AsyncSplit(token) {
       @Override
       public void onSuccess() {
-        Gerrit.display(token, select());
-      }
-
-      private Screen select() {
-        if (id != null) {
-          String panel = panelType;
-          if (panel == null) {
-            int c = token.lastIndexOf(',');
-            panel = 0 <= c ? token.substring(c + 1) : "";
-          }
-
-          if ("".equals(panel)) {
-            if (isChangeScreen2()) {
-              if (Gerrit.isSignedIn()
-                  && DiffView.UNIFIED_DIFF.equals(Gerrit.getUserAccount()
-                      .getGeneralPreferences().getDiffView())) {
-                return new PatchScreen.Unified(id, patchIndex, patchSetDetail,
-                    patchTable, top, baseId);
-              }
-              return new SideBySide2(baseId, id.getParentKey(), id.get(),
-                  side, line);
-            }
-            return new PatchScreen.SideBySide( //
-                id, //
-                patchIndex, //
-                patchSetDetail, //
-                patchTable, //
-                top, //
-                baseId //
-            );
-          } else if ("unified".equals(panel)) {
-            return new PatchScreen.Unified( //
-                id, //
-                patchIndex, //
-                patchSetDetail, //
-                patchTable, //
-                top, //
-                baseId //
-            );
-          } else if ("cm".equals(panel) && Gerrit.getConfig().getNewFeatures()) {
-            if (Gerrit.isSignedIn()
-                && DiffView.UNIFIED_DIFF.equals(Gerrit.getUserAccount()
-                    .getGeneralPreferences().getDiffView())) {
-              return new PatchScreen.Unified( //
-                  id, //
-                  patchIndex, //
-                  patchSetDetail, //
-                  patchTable, //
-                  top, //
-                  baseId //
-              );
-            }
-            return new SideBySide2(baseId, id.getParentKey(), id.get(),
-                side, line);
-          } else if ("".equals(panel) || "sidebyside".equals(panel)) {
-            return new PatchScreen.SideBySide(//
-                id, //
-                patchIndex,//
-                patchSetDetail,//
-                patchTable,//
-                top,//
-                baseId);//
-          } else if (panel.equals("edit")) {
-            return new EditScreen(id);
-          }
+        PatchScreen.TopView top =  topView == null
+            ? Gerrit.getPatchScreenTopView()
+            : topView;
+        switch (type) {
+          case SIDE_BY_SIDE:
+            Gerrit.display(token, new PatchScreen.SideBySide(id, patchIndex,
+                patchSetDetail, patchTable, top, baseId));
+            break;
+          case UNIFIED:
+            Gerrit.display(token, new PatchScreen.Unified(id, patchIndex,
+                patchSetDetail, patchTable, top, baseId));
+            break;
         }
+      }
+    });
+  }
 
-        return new NotFoundScreen();
+  private static void sbs2(final String token, final PatchSet.Id baseId,
+      final Patch.Key id, final DisplaySide side, final int line,
+      final boolean edit) {
+    GWT.runAsync(new AsyncSplit(token) {
+      @Override
+      public void onSuccess() {
+        Gerrit.display(token, edit
+            ? new EditScreen(id)
+            : new SideBySide2(baseId, id.getParentKey(), id.get(), side, line));
       }
     });
   }

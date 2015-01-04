@@ -27,7 +27,6 @@ genrule(
     ['unzip -p $(location :zip) %s/%s >>$OUT' % (TOP, n)
      for n in CM_CSS + CM_THEMES]
   ),
-  deps = [':zip'],
   out = 'cm4.css',
 )
 
@@ -40,7 +39,6 @@ genrule(
     ] +
     ['unzip -p $(location :zip) %s/%s >>$OUT' % (TOP, n) for n in CM_JS]
   ),
-  deps = [':zip'],
   out = 'cm4-verbose.js',
 )
 
@@ -60,7 +58,6 @@ for n in CM_MODES:
       "echo '*/' >>$OUT",
       'unzip -p $(location :zip) %s/mode/%s/%s.js >>$OUT' % (TOP, n, n),
       ]),
-    deps = [':zip'],
     out = 'mode_%s_src.js' %n,
   )
   js_minify(
@@ -90,12 +87,6 @@ genrule(
     + ['cp $(location :mode_%s_js) net/codemirror/mode/%s.js' % (n, n)
        for n in CM_MODES]
     + ['zip -qr $OUT net/codemirror/{lib,mode}']),
-  deps = [
-    ':css',
-    ':js',
-    ':js_minifier',
-    ':zip',
-  ] + [':mode_%s_js' % n for n in CM_MODES],
   out = 'codemirror.jar',
 )
 
@@ -105,7 +96,6 @@ genrule(
     ' -o $OUT' +
     ' -u ' + URL +
     ' -v ' + SHA1,
-  deps = ['//tools:download_file'],
   out = ZIP,
 )
 

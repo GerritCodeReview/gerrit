@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4175d075_356530b6",
+        "filename": "lib/codemirror/BUCK",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-04T23:51:29Z",
+      "side": 1,
+      "message": "I was wondering why we don\u0027t consume CM from GH [1] or Central [2]? This change answers it: because we may want to use unreleased features, in which case we could still consume it normally from places mentioned above, to simplify the upgrade procedure and only switch to Google bucket, when it is really necessary?\n\n* [1] https://github.com/codemirror/CodeMirror/releases/tag/4.10.0\n* [2] http://mvnrepository.com/artifact/org.webjars/codemirror/4.10",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 12
+      },
+      "revId": "528643a0f0f3b140e3483c674d1b223ccc9ebbb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

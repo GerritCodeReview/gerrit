@@ -22,6 +22,52 @@
       "revId": "6a0468c393f82bd71ed8efb1f616848cc9d70b56",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4175d075_f582d8db",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeEditApi.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-04T23:29:59Z",
+      "side": 1,
+      "message": "content_type() or just type(), to be consistent with restore_path() below? I see, this was already called like this in the original file, where it was copied from.",
+      "range": {
+        "startLine": 58,
+        "startChar": 31,
+        "endLine": 58,
+        "endChar": 42
+      },
+      "revId": "6a0468c393f82bd71ed8efb1f616848cc9d70b56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "61781470_d6c32418",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeEditApi.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-04T23:29:59Z",
+      "side": 1,
+      "message": "This is not always accurate. May be\n\n// Read from a published revision, when change edit doesn\u0027t exist or is not currently active.\n\nUser can create edit on top of patch set 7, switch to patch set 1, click on edit and modify the file that she has already modified in existing edit. Edit exists, we still read from published revision and possibly overwrite the previously made changes.",
+      "range": {
+        "startLine": 70,
+        "startChar": 6,
+        "endLine": 70,
+        "endChar": 67
+      },
+      "revId": "6a0468c393f82bd71ed8efb1f616848cc9d70b56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

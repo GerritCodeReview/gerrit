@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4175d075_35a0d075",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-04T20:58:39Z",
+      "side": 1,
+      "message": "It must not, not anymore. Yeah, it was previously Buck\u0027s behaviour and it was annoying Buck\u0027s implementation bug. It was done right in context of this issue [1]:\n\n\"genrule(): Make deps to targets used in\n\n* $(exe //path/to:target) and\n* $(location //path/to:target)\n\nmacros implicitly\"\n\nSo i upgraded Buck to the version that fixed this bug and fixed all genrule() occurences in Gerrit and Gitiles trees in these changes [2], [3], [4].\n\n* [1] https://github.com/facebook/buck/issues/128\n* [2] https://gerrit-review.googlesource.com/57586\n* [3] https://gerrit-review.googlesource.com/57713\n* [4] https://gerrit-review.googlesource.com/57821",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 15
+      },
+      "revId": "6176f00f0a898ce0ca95e394fa32cb897b879bb2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

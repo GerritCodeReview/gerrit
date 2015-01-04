@@ -25,6 +25,52 @@
     },
     {
       "key": {
+        "uuid": "4175d075_759a484b",
+        "filename": "lib/codemirror/BUCK",
+        "patchSetId": 6
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-04T21:46:16Z",
+      "side": 1,
+      "message": "Not needed.",
+      "range": {
+        "startLine": 43,
+        "startChar": 4,
+        "endLine": 43,
+        "endChar": 20
+      },
+      "revId": "a1a9d2f172b0bc8c50c98738e72b60c301f47f7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4175d075_95736489",
+        "filename": "lib/codemirror/BUCK",
+        "patchSetId": 6
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-04T21:46:16Z",
+      "side": 1,
+      "message": "Not needed. Rebase it on top of [1]?\n\n* [1] https://gerrit-review.googlesource.com/62814",
+      "range": {
+        "startLine": 116,
+        "startChar": 4,
+        "endLine": 116,
+        "endChar": 43
+      },
+      "revId": "a1a9d2f172b0bc8c50c98738e72b60c301f47f7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c169c0a3_39552f4c",
         "filename": "lib/codemirror/cm.defs",
         "patchSetId": 6
@@ -36,6 +82,24 @@
       "writtenOn": "2015-01-02T20:33:12Z",
       "side": 1,
       "message": "Since they\u0027re dynamically loaded, is there any reason we can\u0027t skip the explicit list and just include all of them in the build?\n\nYou wouldn\u0027t be able to parallelize at the genrule level, but with buck result caching that doesn\u0027t seem like a huge loss considering how rarely the CM zip is updated.",
+      "revId": "a1a9d2f172b0bc8c50c98738e72b60c301f47f7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4175d075_559d4c40",
+        "filename": "lib/codemirror/cm.defs",
+        "patchSetId": 6
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-04T21:46:16Z",
+      "side": 1,
+      "message": "| Since they\u0027re dynamically loaded, is there any reason we can\u0027t skip the explicit list and just include all of them in the build?\n\nYes. The reason we only selected a few light and dark themes is: the theme colors combination must correlate with custom colors used in SBS2, for deleted and added sections. When the colors don\u0027t play well with each other you wouldn\u0027t be able to see anything, e.g. see this issue: [1] and the fix [2].\n\nFor now we only garantee that light and dark themes are supported. To extend the list of supported themes you would need to investigate and adjust colors used in SBS2 per CM theme. In worth case you would need to maintain a map of \"CM-THEME\" -\u003e {custom colors set} used in SBS2 and switch to custom SBS2 color set on theme switch (like we currently do for light and dark themes).\n\nBut this is beyound of the scope of this change, obviously.\n\n* [1] https://code.google.com/p/gerrit/issues/detail?id\u003d2964\n* [2] https://gerrit-review.googlesource.com/60915",
+      "parentUuid": "c169c0a3_39552f4c",
       "revId": "a1a9d2f172b0bc8c50c98738e72b60c301f47f7c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

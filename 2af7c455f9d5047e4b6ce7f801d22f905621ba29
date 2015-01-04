@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "61781470_76489027",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/editor/EditScreen.ui.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-04T22:47:15Z",
+      "side": 1,
+      "message": "This hard coding doesn\u0027t work for dark themes: [1]. Select  the color depending on active light/dark theme?\n\n* [1] http://imgur.com/HTyexj9",
+      "range": {
+        "startLine": 97,
+        "startChar": 6,
+        "endLine": 97,
+        "endChar": 18
+      },
+      "revId": "2af7c455f9d5047e4b6ce7f801d22f905621ba29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

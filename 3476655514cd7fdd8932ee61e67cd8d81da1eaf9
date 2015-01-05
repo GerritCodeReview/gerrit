@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "61781470_9607ecbe",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/rpc/HttpResponse.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-01-05T08:07:23Z",
+      "side": 1,
+      "message": "2008?",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "3476655514cd7fdd8932ee61e67cd8d81da1eaf9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c169c0a3_fcd80587",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/rpc/HttpResponse.java",
         "patchSetId": 3

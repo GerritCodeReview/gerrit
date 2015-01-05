@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "813188d3_47620e2f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/SchemaUpdater.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-05T20:24:56Z",
+      "side": 1,
+      "message": "Some comment here about what you\u0027re doing and why would be nice.",
+      "revId": "3bb18a4f86f138d4dcba3a3c553e364dde5fb8a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

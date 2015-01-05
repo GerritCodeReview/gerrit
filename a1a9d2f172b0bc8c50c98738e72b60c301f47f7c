@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "8e0ff523_37d3586a",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/SideBySide2.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2015-01-05T18:31:03Z",
+      "side": 1,
+      "message": "A comment would be useful to avoid breaking that in the future.",
+      "parentUuid": "c169c0a3_1c6bf9d3",
+      "range": {
+        "startLine": 196,
+        "startChar": 0,
+        "endLine": 196,
+        "endChar": 62
+      },
+      "revId": "a1a9d2f172b0bc8c50c98738e72b60c301f47f7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4175d075_759a484b",
         "filename": "lib/codemirror/BUCK",
         "patchSetId": 6

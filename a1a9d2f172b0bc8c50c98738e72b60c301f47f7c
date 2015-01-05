@@ -169,6 +169,24 @@
       "revId": "a1a9d2f172b0bc8c50c98738e72b60c301f47f7c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "813188d3_c7e27e59",
+        "filename": "lib/codemirror/cm.defs",
+        "patchSetId": 6
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-05T17:23:05Z",
+      "side": 1,
+      "message": "\u003e Yes. The reason we only selected a few light and dark themes is: the theme colors combination must correlate with custom colors used in SBS2, for deleted and added sections.\n\nThanks for the explanation.\n\nIn that case Shawn, please add a comment reminding anyone considering adding more themes to ensure that the colors play nice with our choices in SBS2.",
+      "parentUuid": "4175d075_559d4c40",
+      "revId": "a1a9d2f172b0bc8c50c98738e72b60c301f47f7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

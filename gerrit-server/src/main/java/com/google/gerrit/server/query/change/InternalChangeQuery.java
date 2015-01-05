@@ -15,6 +15,7 @@
 package com.google.gerrit.server.query.change;
 
 import static com.google.gerrit.server.query.Predicate.and;
+import static com.google.gerrit.server.query.change.ChangeStatusPredicate.open;
 
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.query.Predicate;
@@ -26,14 +27,15 @@ import java.util.List;
 
 /** Execute a single query over changes, for use by Gerrit internals. */
 public class InternalChangeQuery {
+  private static Predicate<ChangeData> project(Project.NameKey projectName) {
+    return new ProjectPredicate(projectName.get());
+  }
+
   private final QueryProcessor qp;
-  private final ChangeQueryBuilder qb;
 
   @Inject
-  InternalChangeQuery(QueryProcessor queryProcessor,
-      ChangeQueryBuilder queryBuilder) {
+  InternalChangeQuery(QueryProcessor queryProcessor) {
     qp = queryProcessor;
-    qb = queryBuilder;
   }
 
   public InternalChangeQuery setLimit(int n) {
@@ -41,9 +43,9 @@ public class InternalChangeQuery {
     return this;
   }
 
-  public List<ChangeData> byProjectOpen(Project.NameKey project)
+  public List<ChangeData> byProjectOpen(Project.NameKey projectName)
       throws OrmException {
-    return query(and(qb.project(project.get()), qb.status_open()));
+    return query(and(project(projectName), open()));
   }
 
   private List<ChangeData> query(Predicate<ChangeData> p) throws OrmException {

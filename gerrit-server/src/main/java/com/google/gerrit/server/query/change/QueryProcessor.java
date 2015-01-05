@@ -15,12 +15,15 @@
 package com.google.gerrit.server.query.change;
 
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.gerrit.server.query.change.ChangeStatusPredicate.open;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Ordering;
 import com.google.gerrit.common.data.GlobalCapability;
+import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.index.IndexPredicate;
+import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
 import com.google.gwtorm.server.OrmException;
@@ -32,21 +35,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class QueryProcessor {
-  private final ChangeQueryBuilder queryBuilder;
-  private final ChangeQueryRewriter queryRewriter;
+  private final Provider<ReviewDb> db;
   private final Provider<CurrentUser> userProvider;
+  private final ChangeControl.GenericFactory changeControlFactory;
+  private final ChangeQueryRewriter queryRewriter;
 
   private int limitFromCaller;
   private int start;
   private boolean enforceVisibility = true;
 
   @Inject
-  QueryProcessor(ChangeQueryBuilder queryBuilder,
+  QueryProcessor(Provider<ReviewDb> db,
       Provider<CurrentUser> userProvider,
+      ChangeControl.GenericFactory changeControlFactory,
       ChangeQueryRewriter queryRewriter) {
-    this.queryBuilder = queryBuilder;
-    this.queryRewriter = queryRewriter;
+    this.db = db;
     this.userProvider = userProvider;
+    this.changeControlFactory = changeControlFactory;
+    this.queryRewriter = queryRewriter;
   }
 
   public QueryProcessor enforceVisibility(boolean enforce) {
@@ -104,7 +110,7 @@ public class QueryProcessor {
       List<Predicate<ChangeData>> queries)
       throws OrmException, QueryParseException {
     Predicate<ChangeData> visibleToMe = enforceVisibility
-        ? queryBuilder.is_visible()
+        ? new IsVisibleToPredicate(db, changeControlFactory, userProvider.get())
         : null;
     int cnt = queries.size();
 
@@ -121,7 +127,7 @@ public class QueryProcessor {
       // ask for one more result from the query.
       Predicate<ChangeData> s = queryRewriter.rewrite(q, start, limit + 1);
       if (!(s instanceof ChangeDataSource)) {
-        q = Predicate.and(queryBuilder.status_open(), q);
+        q = Predicate.and(open(), q);
         s = queryRewriter.rewrite(q, start, limit);
       }
       if (!(s instanceof ChangeDataSource)) {

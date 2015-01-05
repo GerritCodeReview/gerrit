@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "c169c0a3_1c6bf9d3",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/SideBySide2.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-01-05T17:22:21Z",
+      "side": 1,
+      "message": "Its not the diff, its the base CM CSS that loads at the same time as the diff. I want the base CSS injected into the browser before we inject the theme. This way the theme can override a base CSS class by being the second CSS definition.\n\nIf we allowed the theme to load concurrently with CM\u0027s base CSS there would be a race condition and its unknown what order the styles would be injected in.",
+      "parentUuid": "c169c0a3_dcec211e",
+      "range": {
+        "startLine": 196,
+        "startChar": 0,
+        "endLine": 196,
+        "endChar": 62
+      },
+      "revId": "a1a9d2f172b0bc8c50c98738e72b60c301f47f7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4175d075_759a484b",
         "filename": "lib/codemirror/BUCK",
         "patchSetId": 6
@@ -71,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "c169c0a3_9cbb89e8",
+        "filename": "lib/codemirror/BUCK",
+        "patchSetId": 6
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-01-05T17:22:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4175d075_95736489",
+      "range": {
+        "startLine": 116,
+        "startChar": 4,
+        "endLine": 116,
+        "endChar": 43
+      },
+      "revId": "a1a9d2f172b0bc8c50c98738e72b60c301f47f7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c169c0a3_39552f4c",
         "filename": "lib/codemirror/cm.defs",
         "patchSetId": 6
@@ -99,6 +147,24 @@
       "writtenOn": "2015-01-04T21:46:16Z",
       "side": 1,
       "message": "| Since they\u0027re dynamically loaded, is there any reason we can\u0027t skip the explicit list and just include all of them in the build?\n\nYes. The reason we only selected a few light and dark themes is: the theme colors combination must correlate with custom colors used in SBS2, for deleted and added sections. When the colors don\u0027t play well with each other you wouldn\u0027t be able to see anything, e.g. see this issue: [1] and the fix [2].\n\nFor now we only garantee that light and dark themes are supported. To extend the list of supported themes you would need to investigate and adjust colors used in SBS2 per CM theme. In worth case you would need to maintain a map of \"CM-THEME\" -\u003e {custom colors set} used in SBS2 and switch to custom SBS2 color set on theme switch (like we currently do for light and dark themes).\n\nBut this is beyound of the scope of this change, obviously.\n\n* [1] https://code.google.com/p/gerrit/issues/detail?id\u003d2964\n* [2] https://gerrit-review.googlesource.com/60915",
+      "parentUuid": "c169c0a3_39552f4c",
+      "revId": "a1a9d2f172b0bc8c50c98738e72b60c301f47f7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "813188d3_87e8863b",
+        "filename": "lib/codemirror/cm.defs",
+        "patchSetId": 6
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-01-05T17:22:21Z",
+      "side": 1,
+      "message": "Aside from the color matching issue David Ostrovsky pointed out, we have to list each CSS file so the GWT compiler can hash them to strong names and include the results in the static content area of the build.",
       "parentUuid": "c169c0a3_39552f4c",
       "revId": "a1a9d2f172b0bc8c50c98738e72b60c301f47f7c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

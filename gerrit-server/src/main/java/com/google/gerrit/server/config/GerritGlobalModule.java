@@ -123,7 +123,6 @@ import com.google.gerrit.server.project.ProjectNode;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.project.SectionSortCache;
 import com.google.gerrit.server.query.change.ChangeData;
-import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gerrit.server.query.change.ConflictsCacheImpl;
 import com.google.gerrit.server.ssh.SshAddressesModule;
 import com.google.gerrit.server.tools.ToolsCatalog;
@@ -190,7 +189,6 @@ public class GerritGlobalModule extends FactoryModule {
     factory(AddReviewerSender.Factory.class);
     factory(CapabilityControl.Factory.class);
     factory(ChangeData.Factory.class);
-    factory(ChangeQueryBuilder.Factory.class);
     factory(CreateChangeSender.Factory.class);
     factory(GroupDetailFactory.Factory.class);
     factory(GroupInfoCacheFactory.Factory.class);

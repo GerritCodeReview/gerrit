@@ -62,7 +62,7 @@ public class EmailArguments {
   final AllProjectsName allProjectsName;
   final List<String> sshAddresses;
 
-  final ChangeQueryBuilder.Factory queryBuilder;
+  final ChangeQueryBuilder queryBuilder;
   final Provider<ReviewDb> db;
   final ChangeData.Factory changeDataFactory;
   final RuntimeInstance velocityRuntime;
@@ -83,7 +83,7 @@ public class EmailArguments {
       @AnonymousCowardName String anonymousCowardName,
       @CanonicalWebUrl @Nullable Provider<String> urlProvider,
       AllProjectsName allProjectsName,
-      ChangeQueryBuilder.Factory queryBuilder,
+      ChangeQueryBuilder queryBuilder,
       Provider<ReviewDb> db,
       ChangeData.Factory changeDataFactory,
       RuntimeInstance velocityRuntime,

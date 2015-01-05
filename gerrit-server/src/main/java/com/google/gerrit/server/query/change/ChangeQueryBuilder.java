@@ -19,6 +19,7 @@ import com.google.common.base.Optional;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.GroupReference;
+import com.google.gerrit.common.errors.NotSignedInException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Branch;
@@ -51,7 +52,8 @@ import com.google.gerrit.server.query.QueryParseException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import com.google.inject.assistedinject.Assisted;
+import com.google.inject.ProvisionException;
+import com.google.inject.util.Providers;
 
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
 import org.eclipse.jgit.lib.Config;
@@ -125,7 +127,6 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     final Provider<ReviewDb> db;
     final Provider<ChangeQueryRewriter> rewriter;
     final IdentifiedUser.GenericFactory userFactory;
-    final Provider<CurrentUser> self;
     final CapabilityControl.Factory capabilityControlFactory;
     final ChangeControl.GenericFactory changeControlGenericFactory;
     final ChangeData.Factory changeDataFactory;
@@ -144,9 +145,11 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     final TrackingFooters trackingFooters;
     final boolean allowsDrafts;
 
+    private final Provider<CurrentUser> self;
+
     @Inject
     @VisibleForTesting
-    public Arguments(Provider<ReviewDb> dbProvider,
+    public Arguments(Provider<ReviewDb> db,
         Provider<ChangeQueryRewriter> rewriter,
         IdentifiedUser.GenericFactory userFactory,
         Provider<CurrentUser> self,
@@ -167,53 +170,121 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
         ConflictsCache conflictsCache,
         TrackingFooters trackingFooters,
         @GerritServerConfig Config cfg) {
-      this.db = dbProvider;
-      this.rewriter = rewriter;
-      this.userFactory = userFactory;
-      this.self = self;
-      this.capabilityControlFactory = capabilityControlFactory;
-      this.changeControlGenericFactory = changeControlGenericFactory;
-      this.changeDataFactory = changeDataFactory;
-      this.fillArgs = fillArgs;
-      this.plcUtil = plcUtil;
-      this.accountResolver = accountResolver;
-      this.groupBackend = groupBackend;
-      this.allProjectsName = allProjectsName;
-      this.patchListCache = patchListCache;
-      this.repoManager = repoManager;
-      this.projectCache = projectCache;
-      this.listChildProjects = listChildProjects;
-      this.indexes = indexes;
-      this.submitStrategyFactory = submitStrategyFactory;
-      this.conflictsCache = conflictsCache;
-      this.trackingFooters = trackingFooters;
-      this.allowsDrafts = cfg == null
-          ? true
-          : cfg.getBoolean("change", "allowDrafts", true);
+      this(db, rewriter, userFactory, self, capabilityControlFactory,
+          changeControlGenericFactory, changeDataFactory, fillArgs, plcUtil,
+          accountResolver, groupBackend, allProjectsName, patchListCache,
+          repoManager, projectCache, listChildProjects, indexes,
+          submitStrategyFactory, conflictsCache, trackingFooters,
+          cfg == null ? true : cfg.getBoolean("change", "allowDrafts", true));
+    }
+
+    private Arguments(
+        Provider<ReviewDb> db,
+        Provider<ChangeQueryRewriter> rewriter,
+        IdentifiedUser.GenericFactory userFactory,
+        Provider<CurrentUser> self,
+        CapabilityControl.Factory capabilityControlFactory,
+        ChangeControl.GenericFactory changeControlGenericFactory,
+        ChangeData.Factory changeDataFactory,
+        FieldDef.FillArgs fillArgs,
+        PatchLineCommentsUtil plcUtil,
+        AccountResolver accountResolver,
+        GroupBackend groupBackend,
+        AllProjectsName allProjectsName,
+        PatchListCache patchListCache,
+        GitRepositoryManager repoManager,
+        ProjectCache projectCache,
+        Provider<ListChildProjects> listChildProjects,
+        IndexCollection indexes,
+        SubmitStrategyFactory submitStrategyFactory,
+        ConflictsCache conflictsCache,
+        TrackingFooters trackingFooters,
+        boolean allowsDrafts) {
+     this.db = db;
+     this.rewriter = rewriter;
+     this.userFactory = userFactory;
+     this.self = self;
+     this.capabilityControlFactory = capabilityControlFactory;
+     this.changeControlGenericFactory = changeControlGenericFactory;
+     this.changeDataFactory = changeDataFactory;
+     this.fillArgs = fillArgs;
+     this.plcUtil = plcUtil;
+     this.accountResolver = accountResolver;
+     this.groupBackend = groupBackend;
+     this.allProjectsName = allProjectsName;
+     this.patchListCache = patchListCache;
+     this.repoManager = repoManager;
+     this.projectCache = projectCache;
+     this.listChildProjects = listChildProjects;
+     this.indexes = indexes;
+     this.submitStrategyFactory = submitStrategyFactory;
+     this.conflictsCache = conflictsCache;
+     this.trackingFooters = trackingFooters;
+     this.allowsDrafts = allowsDrafts;
+    }
+
+    Arguments asUser(CurrentUser otherUser) {
+      return new Arguments(db, rewriter, userFactory,
+          Providers.of(otherUser),
+          capabilityControlFactory, changeControlGenericFactory,
+          changeDataFactory, fillArgs, plcUtil, accountResolver, groupBackend,
+          allProjectsName, patchListCache, repoManager, projectCache,
+          listChildProjects, indexes, submitStrategyFactory, conflictsCache,
+          trackingFooters, allowsDrafts);
+    }
+
+    Arguments asUser(Account.Id otherId) {
+      try {
+        CurrentUser u = self.get();
+        if (u.isIdentifiedUser()
+            && otherId.equals(((IdentifiedUser) u).getAccountId())) {
+          return this;
+        }
+      } catch (ProvisionException e) {
+        // Doesn't match current user, continue.
+      }
+      return asUser(userFactory.create(db, otherId));
+    }
+
+    IdentifiedUser getIdentifiedUser() throws QueryParseException {
+      try {
+        CurrentUser u = getCurrentUser();
+        if (u.isIdentifiedUser()) {
+          return (IdentifiedUser) u;
+        }
+        throw new QueryParseException(NotSignedInException.MESSAGE);
+      } catch (ProvisionException e) {
+        throw new QueryParseException(NotSignedInException.MESSAGE, e);
+      }
+    }
+
+    CurrentUser getCurrentUser() throws QueryParseException {
+      try {
+        return self.get();
+      } catch (ProvisionException e) {
+        throw new QueryParseException(NotSignedInException.MESSAGE, e);
+      }
     }
   }
 
-  public interface Factory {
-    ChangeQueryBuilder create(CurrentUser user);
-  }
-
   private final Arguments args;
-  private final CurrentUser currentUser;
 
   @Inject
-  public ChangeQueryBuilder(Arguments args, @Assisted CurrentUser currentUser) {
+  ChangeQueryBuilder(Arguments args) {
     super(mydef);
     this.args = args;
-    this.currentUser = currentUser;
   }
 
   @VisibleForTesting
   protected ChangeQueryBuilder(
-      QueryBuilder.Definition<ChangeData, ? extends ChangeQueryBuilder> def,
-      Arguments args, CurrentUser currentUser) {
+      Definition<ChangeData, ? extends QueryBuilder<ChangeData>> def,
+      Arguments args) {
     super(def);
     this.args = args;
-    this.currentUser = currentUser;
+  }
+
+  public ChangeQueryBuilder asUser(CurrentUser user) {
+    return new ChangeQueryBuilder(builderDef, args.asUser(user));
   }
 
   @Operator
@@ -279,9 +350,9 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   }
 
   @Operator
-  public Predicate<ChangeData> has(String value) {
+  public Predicate<ChangeData> has(String value) throws QueryParseException {
     if ("star".equalsIgnoreCase(value)) {
-      return new IsStarredByPredicate(args, currentUser);
+      return new IsStarredByPredicate(args);
     }
 
     if ("draft".equalsIgnoreCase(value)) {
@@ -292,13 +363,13 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   }
 
   @Operator
-  public Predicate<ChangeData> is(String value) {
+  public Predicate<ChangeData> is(String value) throws QueryParseException {
     if ("starred".equalsIgnoreCase(value)) {
-      return new IsStarredByPredicate(args, currentUser);
+      return new IsStarredByPredicate(args);
     }
 
     if ("watched".equalsIgnoreCase(value)) {
-      return new IsWatchedByPredicate(args, currentUser, false);
+      return new IsWatchedByPredicate(args, false);
     }
 
     if ("visible".equalsIgnoreCase(value)) {
@@ -483,13 +554,12 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   public Predicate<ChangeData> starredby(String who)
       throws QueryParseException, OrmException {
     if ("self".equals(who)) {
-      return new IsStarredByPredicate(args, currentUser);
+      return new IsStarredByPredicate(args);
     }
     Set<Account.Id> m = parseAccount(who);
     List<IsStarredByPredicate> p = Lists.newArrayListWithCapacity(m.size());
     for (Account.Id id : m) {
-      p.add(new IsStarredByPredicate(args,
-          args.userFactory.create(args.db, id)));
+      p.add(new IsStarredByPredicate(args.asUser(id)));
     }
     return Predicate.or(p);
   }
@@ -499,14 +569,26 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       throws QueryParseException, OrmException {
     Set<Account.Id> m = parseAccount(who);
     List<IsWatchedByPredicate> p = Lists.newArrayListWithCapacity(m.size());
-    for (Account.Id id : m) {
-      if (currentUser.isIdentifiedUser()
-          && id.equals(((IdentifiedUser) currentUser).getAccountId())) {
-        p.add(new IsWatchedByPredicate(args, currentUser, false));
+
+    Account.Id callerId;
+    try {
+      CurrentUser caller = args.self.get();
+      if (caller.isIdentifiedUser()) {
+        callerId = ((IdentifiedUser) caller).getAccountId();
       } else {
-        p.add(new IsWatchedByPredicate(args,
-            args.userFactory.create(args.db, id), true));
+        callerId = null;
       }
+    } catch (ProvisionException e) {
+      callerId = null;
+    }
+
+    for (Account.Id id : m) {
+      // Each child IsWatchedByPredicate includes a visibility filter for the
+      // corresponding user, to ensure that predicate subtree only returns
+      // changes visible to that user. The exception is if one of the users is
+      // the caller of this method, in which case visibility is already being
+      // checked at the top level.
+      p.add(new IsWatchedByPredicate(args.asUser(id), !id.equals(callerId)));
     }
     return Predicate.or(p);
   }
@@ -557,8 +639,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
         user);
   }
 
-  public Predicate<ChangeData> is_visible() {
-    return visibleto(currentUser);
+  public Predicate<ChangeData> is_visible() throws QueryParseException {
+    return visibleto(args.getIdentifiedUser());
   }
 
   @Operator
@@ -743,11 +825,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     return value;
   }
 
-  private Account.Id self() {
-    if (currentUser.isIdentifiedUser()) {
-      return ((IdentifiedUser) currentUser).getAccountId();
-    }
-    throw new IllegalArgumentException();
+  private Account.Id self() throws QueryParseException {
+    return args.getIdentifiedUser().getAccountId();
   }
 
   private static Schema<ChangeData> schema(@Nullable IndexCollection indexes) {

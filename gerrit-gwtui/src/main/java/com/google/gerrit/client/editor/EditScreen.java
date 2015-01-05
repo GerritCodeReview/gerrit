@@ -31,6 +31,8 @@ import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.KeyPressEvent;
@@ -49,8 +51,10 @@ import com.google.gwtexpui.safehtml.client.SafeHtml;
 
 import net.codemirror.lib.CodeMirror;
 import net.codemirror.lib.Configuration;
+import net.codemirror.lib.Pos;
 import net.codemirror.mode.ModeInfo;
 import net.codemirror.mode.ModeInjector;
+import net.codemirror.theme.ThemeLoader;
 
 public class EditScreen extends Screen {
   interface Binder extends UiBinder<HTMLPanel, EditScreen> {}
@@ -91,9 +95,22 @@ public class EditScreen extends Screen {
     super.onLoad();
 
     CallbackGroup cmGroup = new CallbackGroup();
-    CodeMirror.initLibrary(cmGroup.<Void> addEmpty());
-    CallbackGroup group = new CallbackGroup();
-    if (!Patch.COMMIT_MSG.equals(path)) {
+    final CallbackGroup group = new CallbackGroup();
+    CodeMirror.initLibrary(cmGroup.add(new AsyncCallback<Void>() {
+      final AsyncCallback<Void> themeCallback = group.addEmpty();
+
+      @Override
+      public void onSuccess(Void result) {
+        // Load theme after CM library to ensure theme can override CSS.
+        ThemeLoader.loadTheme(prefs.theme(), themeCallback);
+      }
+
+      @Override
+      public void onFailure(Throwable caught) {
+      }
+    }));
+
+    if (prefs.syntaxHighlighting() && !Patch.COMMIT_MSG.equals(path)) {
       final AsyncCallback<Void> modeInjectorCb = group.addEmpty();
       ChangeFileApi.getContentType(revision, path,
           cmGroup.add(new GerritCallback<String>() {
@@ -141,8 +158,12 @@ public class EditScreen extends Screen {
     });
 
     cm.adjustHeight(header.getOffsetHeight());
+    cm.on("cursorActivity", updateCursorPosition());
+    cm.extras().showTabs(prefs.showTabs());
+    cm.extras().lineLength(prefs.lineLength());
     cm.refresh();
     cm.focus();
+    updateActiveLine();
   }
 
   @Override
@@ -177,18 +198,52 @@ public class EditScreen extends Screen {
   }
 
   private void initEditor(String content) {
+    ModeInfo mode = prefs.syntaxHighlighting()
+        ? ModeInfo.findMode(type, path)
+        : null;
     cm = CodeMirror.create(editor, Configuration.create()
         .set("value", content)
         .set("readOnly", false)
         .set("cursorBlinkRate", 0)
         .set("cursorHeight", 0.85)
         .set("lineNumbers", true)
-        .set("tabSize", 4)
+        .set("tabSize", prefs.tabSize())
         .set("lineWrapping", false)
+        .set("scrollbarStyle", "overlay")
         .set("styleSelectedText", true)
         .set("showTrailingSpace", true)
         .set("keyMap", "default")
-        .set("mode", type));
+        .set("theme", prefs.theme().name().toLowerCase())
+        .set("mode", mode != null ? mode.mode() : null));
+  }
+
+  private Runnable updateCursorPosition() {
+    return new Runnable() {
+      @Override
+      public void run() {
+        // The rendering of active lines has to be deferred. Reflow
+        // caused by adding and removing styles chokes Firefox when arrow
+        // key (or j/k) is held down. Performance on Chrome is fine
+        // without the deferral.
+        //
+        Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+          @Override
+          public void execute() {
+            cm.operation(new Runnable() {
+              @Override
+              public void run() {
+                updateActiveLine();
+              }
+            });
+          }
+        });
+      }
+    };
+  }
+
+  private void updateActiveLine() {
+    Pos p = cm.getCursor("end");
+    cm.extras().activeLine(cm.getLineHandleVisualStart(p.line()));
   }
 
   private void injectMode(String type, AsyncCallback<Void> cb) {

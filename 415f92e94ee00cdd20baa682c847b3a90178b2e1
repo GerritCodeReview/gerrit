@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "61781470_76d5f0c8",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/editor/EditScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-05T07:31:08Z",
+      "side": 1,
+      "message": "Dead code? When the changes undone (Ctrl-z), Save button is disabled and this handler cannot be called. When the changes are undone without Ctrl-z, e.g.\n\n* open file\n* type space\n* remove typed space with backspace button\n\nthe cm.isClean(generation) returns false (Eclipse behaves the same way). And the error is get reported in the end:\n\n  \"no changes were made\"\n\nIt would be cool, if we could detect this case and not call REST endpoint.",
+      "range": {
+        "startLine": 218,
+        "startChar": 4,
+        "endLine": 221,
+        "endChar": 5
+      },
+      "revId": "415f92e94ee00cdd20baa682c847b3a90178b2e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "61781470_96e28caa",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/editor/EditScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-05T07:31:08Z",
+      "side": 1,
+      "message": "So the behaviours on Ctrl-s and Save button are different: While on Ctrl-s we stay in the edit screen, on Save button the edit screen is closed. Given that we don\u0027t offer \"?\" or \"Help\" button yet, to provide key binding hints like it is the case on CS2 and SBS2, the user may not know that Ctrl-s is supported.\n\nAnother options we have:\n\n* 1 Stay on Ctrl-s and on Save buton in edit screen, but rename the \"Cancel\" button in \"Close\"\n* 2 Stay on Ctrl-s and on Save buton in edit screen, and add another button \"Save and Close\"\n* 3. Provide \"?\" / \"Help\" button and activate key binding hints",
+      "range": {
+        "startLine": 313,
+        "startChar": 16,
+        "endLine": 316,
+        "endChar": 17
+      },
+      "revId": "415f92e94ee00cdd20baa682c847b3a90178b2e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

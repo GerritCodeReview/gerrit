@@ -29,7 +29,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-class Loader {
+public class Loader {
   private static native boolean isLibLoaded()
   /*-{ return $wnd.hasOwnProperty('CodeMirror'); }-*/;
 
@@ -66,7 +66,7 @@ class Loader {
     }
   }
 
-  static void injectScript(SafeUri js, final AsyncCallback<Void> callback) {
+  public static void injectScript(SafeUri js, final AsyncCallback<Void> callback) {
     final ScriptElement[] script = new ScriptElement[1];
     script[0] = ScriptInjector.fromUrl(js.asString())
       .setWindow(ScriptInjector.TOP_WINDOW)

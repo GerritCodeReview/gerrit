@@ -27,6 +27,7 @@ import com.google.gerrit.client.account.AccountApi;
 import com.google.gerrit.client.account.DiffPreferences;
 import com.google.gerrit.client.patches.PatchUtil;
 import com.google.gerrit.client.rpc.GerritCallback;
+import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.client.ui.NpIntTextBox;
 import com.google.gerrit.extensions.common.Theme;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference;
@@ -53,11 +54,11 @@ import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.ToggleButton;
 
-import net.codemirror.lib.ModeInjector;
+import net.codemirror.mode.ModeInfo;
+import net.codemirror.mode.ModeInjector;
+import net.codemirror.theme.ThemeLoader;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.Objects;
 
 /** Displays current diff preferences. */
 class PreferencesBox extends Composite {
@@ -346,15 +347,15 @@ class PreferencesBox extends Composite {
 
   @UiHandler("mode")
   void onMode(@SuppressWarnings("unused") ChangeEvent e) {
-    String m = mode.getValue(mode.getSelectedIndex());
-    final String mode = m != null && !m.isEmpty() ? m : null;
-
+    final String mode = getSelectedMode();
     prefs.syntaxHighlighting(true);
     syntaxHighlighting.setValue(true, false);
     new ModeInjector().add(mode).inject(new GerritCallback<Void>() {
       @Override
       public void onSuccess(Void result) {
-        if (prefs.syntaxHighlighting() && view.isAttached()) {
+        if (prefs.syntaxHighlighting()
+            && Objects.equals(mode, getSelectedMode())
+            && view.isAttached()) {
           view.operation(new Runnable() {
             @Override
             public void run() {
@@ -365,6 +366,11 @@ class PreferencesBox extends Composite {
         }
       }
     });
+  }
+
+  private String getSelectedMode() {
+    String m = mode.getValue(mode.getSelectedIndex());
+    return m != null && !m.isEmpty() ? m : null;
   }
 
   @UiHandler("whitespaceErrors")
@@ -388,16 +394,28 @@ class PreferencesBox extends Composite {
 
   @UiHandler("theme")
   void onTheme(@SuppressWarnings("unused") ChangeEvent e) {
-    prefs.theme(Theme.valueOf(theme.getValue(theme.getSelectedIndex())));
-    view.setThemeStyles(prefs.theme().isDark());
-    view.operation(new Runnable() {
+    final Theme newTheme = getSelectedTheme();
+    prefs.theme(newTheme);
+    ThemeLoader.loadTheme(newTheme, new GerritCallback<Void>() {
       @Override
-      public void run() {
-        String t = prefs.theme().name().toLowerCase();
-        view.getCmFromSide(DisplaySide.A).setOption("theme", t);
-        view.getCmFromSide(DisplaySide.B).setOption("theme", t);
+      public void onSuccess(Void result) {
+        view.operation(new Runnable() {
+          @Override
+          public void run() {
+            if (getSelectedTheme() == newTheme && isAttached()) {
+              String t = newTheme.name().toLowerCase();
+              view.getCmFromSide(DisplaySide.A).setOption("theme", t);
+              view.getCmFromSide(DisplaySide.B).setOption("theme", t);
+              view.setThemeStyles(newTheme.isDark());
+            }
+          }
+        });
       }
     });
+  }
+
+  private Theme getSelectedTheme() {
+    return Theme.valueOf(theme.getValue(theme.getSelectedIndex()));
   }
 
   @UiHandler("apply")
@@ -461,46 +479,22 @@ class PreferencesBox extends Composite {
         IGNORE_ALL_SPACE.name());
   }
 
-  private static final Map<String, String> NAME_TO_MODE;
-  private static final Map<String, String> NORMALIZED_MODES;
-  static {
-    NAME_TO_MODE = new TreeMap<>();
-    NORMALIZED_MODES = new HashMap<>();
-    for (String type : ModeInjector.getKnownMimeTypes()) {
-      String name = type;
-      if (name.startsWith("text/x-")) {
-        name = name.substring("text/x-".length());
-      } else if (name.startsWith("text/")) {
-        name = name.substring("text/".length());
-      } else if (name.startsWith("application/")) {
-        name = name.substring("application/".length());
-      }
-
-      String normalized = NAME_TO_MODE.get(name);
-      if (normalized == null) {
-        normalized = type;
-        NAME_TO_MODE.put(name, normalized);
-      }
-      NORMALIZED_MODES.put(type, normalized);
-    }
-  }
-
   private void initMode() {
     mode.addItem("", "");
-    for (Map.Entry<String, String> e : NAME_TO_MODE.entrySet()) {
-      mode.addItem(e.getKey(), e.getValue());
+    for (ModeInfo m : Natives.asList(ModeInfo.all())) {
+      mode.addItem(m.name(), m.mime());
     }
   }
 
   private void setMode(String modeType) {
     if (modeType != null && !modeType.isEmpty()) {
-      if (NORMALIZED_MODES.containsKey(modeType)) {
-        modeType = NORMALIZED_MODES.get(modeType);
-      }
-      for (int i = 0; i < mode.getItemCount(); i++) {
-        if (mode.getValue(i).equals(modeType)) {
-          mode.setSelectedIndex(i);
-          return;
+      ModeInfo m = ModeInfo.findModeByMIME(modeType);
+      if (m != null) {
+        for (int i = 0; i < mode.getItemCount(); i++) {
+          if (mode.getValue(i).equals(m.mime())) {
+            mode.setSelectedIndex(i);
+            return;
+          }
         }
       }
     }
@@ -519,26 +513,8 @@ class PreferencesBox extends Composite {
   }
 
   private void initTheme() {
-    theme.addItem(
-        Theme.DEFAULT.name().toLowerCase(),
-        Theme.DEFAULT.name());
-    theme.addItem(
-        Theme.ECLIPSE.name().toLowerCase(),
-        Theme.ECLIPSE.name());
-    theme.addItem(
-        Theme.ELEGANT.name().toLowerCase(),
-        Theme.ELEGANT.name());
-    theme.addItem(
-        Theme.NEAT.name().toLowerCase(),
-        Theme.NEAT.name());
-    theme.addItem(
-        Theme.MIDNIGHT.name().toLowerCase(),
-        Theme.MIDNIGHT.name());
-    theme.addItem(
-        Theme.NIGHT.name().toLowerCase(),
-        Theme.NIGHT.name());
-    theme.addItem(
-        Theme.TWILIGHT.name().toLowerCase(),
-        Theme.TWILIGHT.name());
+    for (Theme t : Theme.values()) {
+      theme.addItem(t.name().toLowerCase(), t.name());
+    }
   }
 }

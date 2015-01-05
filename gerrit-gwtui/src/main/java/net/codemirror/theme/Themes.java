@@ -1,4 +1,4 @@
-// Copyright (C) 2013 The Android Open Source Project
+// Copyright (C) 2014 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,21 +12,23 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package net.codemirror.lib;
+package net.codemirror.theme;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.ClientBundle;
-import com.google.gwt.resources.client.DataResource;
-import com.google.gwt.resources.client.DataResource.DoNotEmbed;
 import com.google.gwt.resources.client.ExternalTextResource;
 
-interface Lib extends ClientBundle {
-  static final Lib I = GWT.create(Lib.class);
+public interface Themes extends ClientBundle {
+  public static final Themes I = GWT.create(Themes.class);
 
-  @Source("cm.css")
-  ExternalTextResource css();
+  @Source("eclipse.css") ExternalTextResource eclipse();
+  @Source("elegant.css") ExternalTextResource elegant();
+  @Source("midnight.css") ExternalTextResource midnight();
+  @Source("neat.css") ExternalTextResource neat();
+  @Source("night.css") ExternalTextResource night();
+  @Source("twilight.css") ExternalTextResource twilight();
 
-  @Source("cm.js")
-  @DoNotEmbed
-  DataResource js();
+  // When adding a resource, update:
+  // - static initializer in ThemeLoader
+  // - enum value in com.google.gerrit.extensions.common.Theme
 }

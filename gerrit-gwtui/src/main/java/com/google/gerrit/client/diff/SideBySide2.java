@@ -75,8 +75,10 @@ import net.codemirror.lib.CodeMirror.LineClassWhere;
 import net.codemirror.lib.CodeMirror.LineHandle;
 import net.codemirror.lib.Configuration;
 import net.codemirror.lib.KeyMap;
-import net.codemirror.lib.ModeInjector;
 import net.codemirror.lib.Pos;
+import net.codemirror.mode.ModeInfo;
+import net.codemirror.mode.ModeInjector;
+import net.codemirror.theme.ThemeLoader;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -174,7 +176,10 @@ public class SideBySide2 extends Screen {
 
     CallbackGroup cmGroup = new CallbackGroup();
     CodeMirror.initLibrary(cmGroup.add(CallbackGroup.<Void> emptyCallback()));
+
     final CallbackGroup group = new CallbackGroup();
+    final AsyncCallback<Void> themeCallback =
+        group.add(CallbackGroup.<Void> emptyCallback());
     final AsyncCallback<Void> modeInjectorCb =
         group.add(CallbackGroup.<Void> emptyCallback());
 
@@ -188,6 +193,9 @@ public class SideBySide2 extends Screen {
         public void onSuccess(DiffInfo diffInfo) {
           diff = diffInfo;
           fileSize = bucketFileSize(diffInfo);
+
+          // Load theme after CM library to ensure theme can override CSS.
+          ThemeLoader.loadTheme(prefs.theme(), themeCallback);
           if (prefs.syntaxHighlighting()) {
             if (fileSize.compareTo(FileSize.SMALL) > 0) {
               modeInjectorCb.onSuccess(null);
@@ -991,11 +999,12 @@ public class SideBySide2 extends Screen {
   }
 
   private String getContentType(DiffInfo.FileMeta meta) {
-    return prefs.syntaxHighlighting()
-          && meta != null
-          && meta.content_type() != null
-        ? ModeInjector.getContentType(meta.content_type())
-        : null;
+    if (prefs.syntaxHighlighting() && meta != null
+        && meta.content_type() != null) {
+     ModeInfo m = ModeInfo.findMode(meta.content_type(), path);
+     return m != null ? m.mime() : null;
+   }
+   return null;
   }
 
   private void injectMode(DiffInfo diffInfo, AsyncCallback<Void> cb) {

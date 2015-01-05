@@ -20,4 +20,5 @@
   <source path='lib'/>
   <source path='keymap'/>
   <source path='mode'/>
+  <source path='theme'/>
 </module>

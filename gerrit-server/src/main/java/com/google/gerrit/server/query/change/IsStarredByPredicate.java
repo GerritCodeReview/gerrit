@@ -20,6 +20,7 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.query.OrPredicate;
 import com.google.gerrit.server.query.Predicate;
+import com.google.gerrit.server.query.QueryParseException;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder.Arguments;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
@@ -49,7 +50,11 @@ class IsStarredByPredicate extends OrPredicate<ChangeData> implements
   private final Arguments args;
   private final CurrentUser user;
 
-  IsStarredByPredicate(Arguments args, CurrentUser user) {
+  IsStarredByPredicate(Arguments args) throws QueryParseException {
+    this(args, args.getIdentifiedUser());
+  }
+
+  private IsStarredByPredicate(Arguments args, IdentifiedUser user) {
     super(predicates(args, user.getStarredChanges()));
     this.args = args;
     this.user = user;

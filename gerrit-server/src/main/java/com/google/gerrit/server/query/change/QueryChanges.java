@@ -39,6 +39,7 @@ import java.util.regex.Pattern;
 
 public class QueryChanges implements RestReadView<TopLevelResource> {
   private final ChangeJson json;
+  private final ChangeQueryBuilder qb;
   private final QueryProcessor imp;
   private final Provider<CurrentUser> user;
   private EnumSet<ListChangesOption> options;
@@ -67,8 +68,12 @@ public class QueryChanges implements RestReadView<TopLevelResource> {
   }
 
   @Inject
-  QueryChanges(ChangeJson json, QueryProcessor qp, Provider<CurrentUser> user) {
+  QueryChanges(ChangeJson json,
+      ChangeQueryBuilder qb,
+      QueryProcessor qp,
+      Provider<CurrentUser> user) {
     this.json = json;
+    this.qb = qb;
     this.imp = qp;
     this.user = user;
 
@@ -135,7 +140,7 @@ public class QueryChanges implements RestReadView<TopLevelResource> {
   private List<List<ChangeInfo>> query0() throws OrmException,
       QueryParseException {
     int cnt = queries.size();
-    List<QueryResult> results = imp.queryByStrings(queries);
+    List<QueryResult> results = imp.queryChanges(qb.parse(queries));
     List<List<ChangeInfo>> res = json.addOptions(options)
         .formatQueryResults(results);
     for (int n = 0; n < cnt; n++) {

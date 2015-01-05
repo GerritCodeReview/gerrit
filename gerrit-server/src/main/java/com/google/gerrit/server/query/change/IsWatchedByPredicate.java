@@ -37,18 +37,17 @@ class IsWatchedByPredicate extends AndPredicate<ChangeData> {
   private final CurrentUser user;
 
   IsWatchedByPredicate(ChangeQueryBuilder.Arguments args,
-      CurrentUser user,
-      boolean checkIsVisible) {
-    super(filters(args, user, checkIsVisible));
-    this.user = user;
+      boolean checkIsVisible) throws QueryParseException {
+    super(filters(args, checkIsVisible));
+    this.user = args.getCurrentUser();
   }
 
   private static List<Predicate<ChangeData>> filters(
       ChangeQueryBuilder.Arguments args,
-      CurrentUser user,
-      boolean checkIsVisible) {
+      boolean checkIsVisible) throws QueryParseException {
+    CurrentUser user = args.getCurrentUser();
     List<Predicate<ChangeData>> r = Lists.newArrayList();
-    ChangeQueryBuilder builder = new ChangeQueryBuilder(args, user);
+    ChangeQueryBuilder builder = new ChangeQueryBuilder(args);
     for (AccountProjectWatch w : user.getNotificationFilters()) {
       Predicate<ChangeData> f = null;
       if (w.getFilter() != null) {

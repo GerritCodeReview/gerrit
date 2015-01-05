@@ -63,6 +63,7 @@ public class OutputStreamQuery {
     TEXT, JSON
   }
 
+  private final ChangeQueryBuilder queryBuilder;
   private final QueryProcessor queryProcessor;
   private final EventFactory eventFactory;
   private final TrackingFooters trackingFooters;
@@ -83,10 +84,13 @@ public class OutputStreamQuery {
   private PrintWriter out;
 
   @Inject
-  OutputStreamQuery(QueryProcessor queryProcessor,
+  OutputStreamQuery(
+      ChangeQueryBuilder queryBuilder,
+      QueryProcessor queryProcessor,
       EventFactory eventFactory,
       TrackingFooters trackingFooters,
       CurrentUser user) {
+    this.queryBuilder = queryBuilder;
     this.queryProcessor = queryProcessor;
     this.eventFactory = eventFactory;
     this.trackingFooters = trackingFooters;
@@ -174,7 +178,8 @@ public class OutputStreamQuery {
         final QueryStatsAttribute stats = new QueryStatsAttribute();
         stats.runTimeMilliseconds = TimeUtil.nowMs();
 
-        QueryResult results = queryProcessor.queryByString(queryString);
+        QueryResult results =
+            queryProcessor.queryChanges(queryBuilder.parse(queryString));
         ChangeAttribute c = null;
         for (ChangeData d : results.changes()) {
           ChangeControl cc = d.changeControl().forUser(user);

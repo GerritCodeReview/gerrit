@@ -160,16 +160,19 @@ public abstract class QueryBuilder<T> {
     return null;
   }
 
+  protected final Definition<T, ? extends QueryBuilder<T>> builderDef;
+
   @SuppressWarnings("rawtypes")
   private final Map<String, OperatorFactory> opFactories;
 
   @SuppressWarnings({"unchecked", "rawtypes"})
   protected QueryBuilder(Definition<T, ? extends QueryBuilder<T>> def) {
+    builderDef = def;
     opFactories = (Map) def.opFactories;
   }
 
   /**
-   * Parse a user supplied query string into a predicate.
+   * Parse a user-supplied query string into a predicate.
    *
    * @param query the query string.
    * @return predicate representing the user query.
@@ -180,6 +183,27 @@ public abstract class QueryBuilder<T> {
    */
   public Predicate<T> parse(final String query) throws QueryParseException {
     return toPredicate(QueryParser.parse(query));
+  }
+
+  /**
+   * Parse multiple user-supplied query strings into a list of predicates.
+   *
+   * @param queries the query strings.
+   * @return predicates representing the user query, in the same order as the
+   *         input.
+   * @throws QueryParseException one of the query strings is invalid and cannot
+   *         be parsed by this parser. This may be due to a syntax error, may be
+   *         due to an operator not being supported, or due to an invalid value
+   *         being passed to a recognized operator.
+   *
+   */
+  public List<Predicate<T>> parse(final List<String> queries)
+      throws QueryParseException {
+    List<Predicate<T>> predicates = new ArrayList<>(queries.size());
+    for (String query : queries) {
+      predicates.add(parse(query));
+    }
+    return predicates;
   }
 
   private Predicate<T> toPredicate(final Tree r) throws QueryParseException,

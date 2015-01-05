@@ -39,10 +39,10 @@ public class QueryProcessor {
   private int start;
 
   @Inject
-  QueryProcessor(ChangeQueryBuilder.Factory queryBuilder,
+  QueryProcessor(ChangeQueryBuilder queryBuilder,
       CurrentUser currentUser,
       ChangeQueryRewriter queryRewriter) {
-    this.queryBuilder = queryBuilder.create(currentUser);
+    this.queryBuilder = queryBuilder;
     this.queryRewriter = queryRewriter;
     this.permittedLimit = currentUser.getCapabilities()
       .getRange(GlobalCapability.QUERY_LIMIT)

@@ -160,11 +160,14 @@ public abstract class QueryBuilder<T> {
     return null;
   }
 
+  protected final Definition<T, ? extends QueryBuilder<T>> builderDef;
+
   @SuppressWarnings("rawtypes")
   private final Map<String, OperatorFactory> opFactories;
 
   @SuppressWarnings({"unchecked", "rawtypes"})
   protected QueryBuilder(Definition<T, ? extends QueryBuilder<T>> def) {
+    builderDef = def;
     opFactories = (Map) def.opFactories;
   }
 

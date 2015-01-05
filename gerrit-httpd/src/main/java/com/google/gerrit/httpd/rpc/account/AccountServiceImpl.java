@@ -51,7 +51,7 @@ class AccountServiceImpl extends BaseServiceImplementation implements
   private final AccountCache accountCache;
   private final ProjectControl.Factory projectControlFactory;
   private final AgreementInfoFactory.Factory agreementInfoFactory;
-  private final ChangeQueryBuilder.Factory queryBuilder;
+  private final ChangeQueryBuilder queryBuilder;
 
   @Inject
   AccountServiceImpl(final Provider<ReviewDb> schema,
@@ -59,7 +59,7 @@ class AccountServiceImpl extends BaseServiceImplementation implements
       final AccountCache accountCache,
       final ProjectControl.Factory projectControlFactory,
       final AgreementInfoFactory.Factory agreementInfoFactory,
-      final ChangeQueryBuilder.Factory queryBuilder) {
+      final ChangeQueryBuilder queryBuilder) {
     super(schema, identifiedUser);
     this.currentUser = identifiedUser;
     this.accountCache = accountCache;
@@ -156,7 +156,7 @@ class AccountServiceImpl extends BaseServiceImplementation implements
 
         if (filter != null) {
           try {
-            queryBuilder.create(currentUser.get()).parse(filter);
+            queryBuilder.parse(filter);
           } catch (QueryParseException badFilter) {
             throw new InvalidQueryException(badFilter.getMessage(), filter);
           }

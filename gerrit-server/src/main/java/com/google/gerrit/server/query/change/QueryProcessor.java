@@ -49,10 +49,6 @@ public class QueryProcessor {
     this.userProvider = userProvider;
   }
 
-  public ChangeQueryBuilder getQueryBuilder() {
-    return queryBuilder;
-  }
-
   public QueryProcessor enforceVisibility(boolean enforce) {
     enforceVisibility = enforce;
     return this;
@@ -66,34 +62,6 @@ public class QueryProcessor {
   public QueryProcessor setStart(int n) {
     start = n;
     return this;
-  }
-
-  /**
-   * Query for changes that match the query string.
-   *
-   * @see #queryChanges(List)
-   * @param queryString the query string to parse.
-   * @return results of the query.
-   */
-  public QueryResult queryByString(String queryString)
-      throws OrmException, QueryParseException {
-    return queryByStrings(ImmutableList.of(queryString)).get(0);
-  }
-
-  /**
-   * Perform multiple queries over a list of query strings.
-   *
-   * @see #queryChanges(List)
-   * @param queryStrings the query strings to parse.
-   * @return results of the queries, one list per input query.
-   */
-  public List<QueryResult> queryByStrings(List<String> queryStrings)
-      throws OrmException, QueryParseException {
-    List<Predicate<ChangeData>> queries = new ArrayList<>(queryStrings.size());
-    for (String qs : queryStrings) {
-      queries.add(queryBuilder.parse(qs));
-    }
-    return queryChanges(queries);
   }
 
   /**

@@ -30,9 +30,10 @@ public class InternalChangeQuery {
   private final ChangeQueryBuilder qb;
 
   @Inject
-  InternalChangeQuery(QueryProcessor queryProcessor) {
+  InternalChangeQuery(QueryProcessor queryProcessor,
+      ChangeQueryBuilder queryBuilder) {
     qp = queryProcessor;
-    qb = qp.getQueryBuilder();
+    qb = queryBuilder;
   }
 
   public InternalChangeQuery setLimit(int n) {

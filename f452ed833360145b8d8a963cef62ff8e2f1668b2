@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "61781470_760330ad",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-05T09:11:33Z",
+      "side": 1,
+      "message": "link:#commit-info[CommitInfo]",
+      "range": {
+        "startLine": 296,
+        "startChar": 48,
+        "endLine": 296,
+        "endChar": 59
+      },
+      "revId": "f452ed833360145b8d8a963cef62ff8e2f1668b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "61781470_560634be",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-05T09:11:33Z",
+      "side": 1,
+      "message": "in?",
+      "range": {
+        "startLine": 296,
+        "startChar": 45,
+        "endLine": 296,
+        "endChar": 47
+      },
+      "revId": "f452ed833360145b8d8a963cef62ff8e2f1668b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4175d075_d5c31c18",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-05T09:11:33Z",
+      "side": 1,
+      "message": "therefore",
+      "range": {
+        "startLine": 297,
+        "startChar": 2,
+        "endLine": 297,
+        "endChar": 10
+      },
+      "revId": "f452ed833360145b8d8a963cef62ff8e2f1668b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "61781470_d62a4418",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 930,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-05T09:11:33Z",
+      "side": 1,
+      "message": "Use Project.NameKey instead?",
+      "range": {
+        "startLine": 930,
+        "startChar": 35,
+        "endLine": 930,
+        "endChar": 41
+      },
+      "revId": "f452ed833360145b8d8a963cef62ff8e2f1668b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

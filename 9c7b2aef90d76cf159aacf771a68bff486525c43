@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "61781470_165bdcc9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/validators/OutgoingEmailValidationListener.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-01-05T11:51:51Z",
+      "side": 1,
+      "message": "arguments",
+      "range": {
+        "startLine": 34,
+        "startChar": 10,
+        "endLine": 34,
+        "endChar": 18
+      },
+      "revId": "9c7b2aef90d76cf159aacf771a68bff486525c43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4175d075_75eec890",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/validators/OutgoingEmailValidationListener.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-01-05T11:51:51Z",
+      "side": 1,
+      "message": "nit: please remove the trailing whitespace",
+      "range": {
+        "startLine": 42,
+        "startChar": 0,
+        "endLine": 50,
+        "endChar": 5
+      },
+      "revId": "9c7b2aef90d76cf159aacf771a68bff486525c43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

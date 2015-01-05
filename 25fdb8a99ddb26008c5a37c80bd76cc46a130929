@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4175d075_75d5e8c8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-01-05T09:56:41Z",
+      "side": 1,
+      "message": "wrap this line",
+      "revId": "25fdb8a99ddb26008c5a37c80bd76cc46a130929",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "61781470_f66ca074",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/LabelPredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-01-05T09:56:41Z",
+      "side": 1,
+      "message": "skip this? A UUID of an AccountGroup can never be empty.",
+      "range": {
+        "startLine": 158,
+        "startChar": 33,
+        "endLine": 158,
+        "endChar": 63
+      },
+      "revId": "25fdb8a99ddb26008c5a37c80bd76cc46a130929",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "61781470_d667a48f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/LabelPredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-01-05T09:56:41Z",
+      "side": 1,
+      "message": "nit: missing space",
+      "range": {
+        "startLine": 158,
+        "startChar": 26,
+        "endLine": 158,
+        "endChar": 32
+      },
+      "revId": "25fdb8a99ddb26008c5a37c80bd76cc46a130929",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

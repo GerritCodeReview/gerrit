@@ -66,6 +66,11 @@ public class CallbackGroup {
     remaining = new HashSet<>();
   }
 
+  public <T> Callback<T> addEmpty() {
+    Callback<T> cb = emptyCallback();
+    return add(cb);
+  }
+
   public <T> Callback<T> add(final AsyncCallback<T> cb) {
     checkFinalAdded();
     return handleAdd(cb);
@@ -91,7 +96,7 @@ public class CallbackGroup {
   }
 
   public void addListener(CallbackGroup group) {
-    addListener(group.add(CallbackGroup.<Void> emptyCallback()));
+    addListener(group.<Void> addEmpty());
   }
 
   private void applyAllSuccess() {

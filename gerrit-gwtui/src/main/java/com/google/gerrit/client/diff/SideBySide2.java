@@ -175,13 +175,11 @@ public class SideBySide2 extends Screen {
     super.onLoad();
 
     CallbackGroup cmGroup = new CallbackGroup();
-    CodeMirror.initLibrary(cmGroup.add(CallbackGroup.<Void> emptyCallback()));
+    CodeMirror.initLibrary(cmGroup.<Void> addEmpty());
 
     final CallbackGroup group = new CallbackGroup();
-    final AsyncCallback<Void> themeCallback =
-        group.add(CallbackGroup.<Void> emptyCallback());
-    final AsyncCallback<Void> modeInjectorCb =
-        group.add(CallbackGroup.<Void> emptyCallback());
+    final AsyncCallback<Void> themeCallback = group.addEmpty();
+    final AsyncCallback<Void> modeInjectorCb = group.addEmpty();
 
     DiffApi.diff(revision, path)
       .base(base)

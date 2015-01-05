@@ -20,7 +20,7 @@ import com.google.gwt.core.client.JavaScriptObject;
  * Simple map-like structure to pass configuration to CodeMirror.
  *
  * @see <a href="http://codemirror.net/doc/manual.html#config">CodeMirror config</a>
- * @see CodeMirror#create(com.google.gerrit.client.diff.DisplaySide, com.google.gwt.dom.client.Element, Configuration)
+ * @see CodeMirror#create(com.google.gwt.dom.client.Element, Configuration)
  */
 public class Configuration extends JavaScriptObject {
   public static Configuration create() {

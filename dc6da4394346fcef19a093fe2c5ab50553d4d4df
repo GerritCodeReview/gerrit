@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "4175d075_756fa893",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-01-05T07:07:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "61781470_b6bea885",
+      "range": {
+        "startLine": 13,
+        "startChar": 11,
+        "endLine": 13,
+        "endChar": 16
+      },
+      "revId": "dc6da4394346fcef19a093fe2c5ab50553d4d4df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4175d075_75c1682b",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "61781470_36cb782f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-01-05T07:07:09Z",
+      "side": 1,
+      "message": "Nevermind, actually the divider is also shown in Firefox, it\u0027s just hardly visible since its color turns out to be almost the same as the background. I don\u0027t understand why it is shown like this since the color code is actually pretty different from the background and the line below the header which has the same color code as the divider is clearly shown much darker.",
+      "parentUuid": "4175d075_75c1682b",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 31
+      },
+      "revId": "dc6da4394346fcef19a093fe2c5ab50553d4d4df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4175d075_55c46c3c",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/editor/EditScreen.ui.xml",
         "patchSetId": 1
@@ -59,6 +107,24 @@
       "writtenOn": "2015-01-02T20:07:07Z",
       "side": 1,
       "message": "nit: wrong indention / replace tab with spaces",
+      "revId": "dc6da4394346fcef19a093fe2c5ab50553d4d4df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4175d075_5572ac80",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/editor/EditScreen.ui.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-01-05T07:07:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4175d075_55c46c3c",
       "revId": "dc6da4394346fcef19a093fe2c5ab50553d4d4df",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

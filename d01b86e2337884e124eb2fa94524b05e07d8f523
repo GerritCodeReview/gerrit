@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "813188d3_07b49653",
+        "filename": "gerrit-gwtui/src/main/java/net/codemirror/mode/ModeInfo.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-01-05T17:14:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "813188d3_670392ad",
+      "range": {
+        "startLine": 113,
+        "startChar": 6,
+        "endLine": 113,
+        "endChar": 12
+      },
+      "revId": "d01b86e2337884e124eb2fa94524b05e07d8f523",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c169c0a3_3cdb5d81",
         "filename": "gerrit-gwtui/src/main/java/net/codemirror/mode/ModeInfo.java",
         "patchSetId": 4
@@ -59,6 +83,30 @@
       "writtenOn": "2015-01-02T21:29:29Z",
       "side": 1,
       "message": "What should happen if d \u003d\u003d -1?  (E.g. if the suffix should be the entire basename in that case then this should set \u0027d \u003d s\u0027.)",
+      "range": {
+        "startLine": 121,
+        "startChar": 0,
+        "endLine": 121,
+        "endChar": 34
+      },
+      "revId": "d01b86e2337884e124eb2fa94524b05e07d8f523",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "813188d3_27b19a64",
+        "filename": "gerrit-gwtui/src/main/java/net/codemirror/mode/ModeInfo.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-01-05T17:14:32Z",
+      "side": 1,
+      "message": "Good catch. If d \u003d\u003d -1 we should return null. The extension list in CodeMirror\u0027s meta.js is strictly extensions, not base file names.",
+      "parentUuid": "c169c0a3_3cdb5d81",
       "range": {
         "startLine": 121,
         "startChar": 0,

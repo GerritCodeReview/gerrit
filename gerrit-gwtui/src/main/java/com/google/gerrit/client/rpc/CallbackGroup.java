@@ -66,6 +66,11 @@ public class CallbackGroup {
     remaining = new HashSet<>();
   }
 
+  public <T> Callback<T> addEmpty() {
+    Callback<T> cb = emptyCallback();
+    return add(cb);
+  }
+
   public <T> Callback<T> add(final AsyncCallback<T> cb) {
     checkFinalAdded();
     return handleAdd(cb);
@@ -91,13 +96,22 @@ public class CallbackGroup {
   }
 
   public void addListener(CallbackGroup group) {
-    addListener(group.add(CallbackGroup.<Void> emptyCallback()));
+    addListener(group.<Void> addEmpty());
   }
 
   private void applyAllSuccess() {
     if (!failed && finalAdded && remaining.isEmpty()) {
       for (CallbackImpl<?> cb : callbacks) {
         cb.applySuccess();
+      }
+      callbacks.clear();
+    }
+  }
+
+  private void applyAllFailed() {
+    if (failed && finalAdded && remaining.isEmpty()) {
+      for (CallbackImpl<?> cb : callbacks) {
+        cb.applyFailed();
       }
       callbacks.clear();
     }
@@ -135,10 +149,6 @@ public class CallbackGroup {
 
     @Override
     public void onSuccess(T value) {
-      if (failed) {
-        return;
-      }
-
       this.result = value;
       remaining.remove(this);
       CallbackGroup.this.applyAllSuccess();
@@ -146,19 +156,12 @@ public class CallbackGroup {
 
     @Override
     public void onFailure(Throwable caught) {
-      if (failed) {
-        return;
+      if (!failed) {
+        failed = true;
+        failedThrowable = caught;
       }
-
-      failed = true;
-      failedThrowable = caught;
-      for (CallbackImpl<?> cb : callbacks) {
-        cb.delegate.onFailure(failedThrowable);
-        cb.delegate = null;
-        cb.result = null;
-      }
-      callbacks.clear();
-      remaining.clear();
+      remaining.remove(this);
+      CallbackGroup.this.applyAllFailed();
     }
 
     void applySuccess() {
@@ -167,6 +170,15 @@ public class CallbackGroup {
         delegate = null;
         cb.onSuccess(result);
         result = null;
+      }
+    }
+
+    void applyFailed() {
+      AsyncCallback<T> cb = delegate;
+      if (cb != null) {
+        delegate = null;
+        result = null;
+        cb.onFailure(failedThrowable);
       }
     }
   }

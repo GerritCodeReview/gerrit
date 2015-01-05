@@ -84,11 +84,10 @@ public class EditScreen extends Screen {
     super.onLoad();
 
     CallbackGroup cmGroup = new CallbackGroup();
-    CodeMirror.initLibrary(cmGroup.add(CallbackGroup.<Void> emptyCallback()));
+    CodeMirror.initLibrary(cmGroup.<Void> addEmpty());
     CallbackGroup group = new CallbackGroup();
     if (!Patch.COMMIT_MSG.equals(path)) {
-      final AsyncCallback<Void> modeInjectorCb =
-          group.add(CallbackGroup.<Void> emptyCallback());
+      final AsyncCallback<Void> modeInjectorCb = group.addEmpty();
       ChangeFileApi.getContentType(revision, path,
           cmGroup.add(new GerritCallback<String>() {
             @Override

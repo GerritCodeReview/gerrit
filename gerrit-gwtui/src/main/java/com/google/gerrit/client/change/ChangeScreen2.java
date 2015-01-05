@@ -91,6 +91,8 @@ import com.google.gwtexpui.globalkey.client.KeyCommandSet;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 import com.google.gwtorm.client.KeyUtil;
 
+import net.codemirror.lib.CodeMirror;
+
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.EnumSet;
@@ -511,6 +513,7 @@ public class ChangeScreen2 extends Screen {
     }
 
     ChangeGlue.fireShowChange(changeInfo, changeInfo.revision(revision));
+    CodeMirror.preload();
     startPoller();
     if (NewChangeScreenBar.show()) {
       add(new NewChangeScreenBar(changeId));

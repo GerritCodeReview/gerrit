@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4175d075_15f7546a",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 1813,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-01-05T11:47:49Z",
+      "side": 1,
+      "message": "format this as\n\n  `web_links`",
+      "range": {
+        "startLine": 1813,
+        "startChar": 66,
+        "endLine": 1813,
+        "endChar": 75
+      },
+      "revId": "d0aea8c320965aa87c3e6c7d629144ffe6852446",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4175d075_35f45063",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 1815,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-01-05T11:47:49Z",
+      "side": 1,
+      "message": "[optional] This is already described in CommitInfo, no need to repeat it here.",
+      "range": {
+        "startLine": 1814,
+        "startChar": 0,
+        "endLine": 1815,
+        "endChar": 62
+      },
+      "revId": "d0aea8c320965aa87c3e6c7d629144ffe6852446",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -187,6 +187,24 @@
       "revId": "a1a9d2f172b0bc8c50c98738e72b60c301f47f7c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "813188d3_27da7aa4",
+        "filename": "lib/codemirror/cm.defs",
+        "patchSetId": 6
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-05T17:24:07Z",
+      "side": 1,
+      "message": "\u003e we have to list each CSS file so the GWT compiler can hash them to strong names\n\nMoot point now but: I was proposing listing the files with a glob, which would end up passing the same set of inputs to the GWT compiler.",
+      "parentUuid": "813188d3_87e8863b",
+      "revId": "a1a9d2f172b0bc8c50c98738e72b60c301f47f7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

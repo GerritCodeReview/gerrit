@@ -18,12 +18,11 @@ limitations under the License.
     xmlns:g='urn:import:com.google.gwt.user.client.ui'
     xmlns:d='urn:import:com.google.gerrit.client.diff'>
   <ui:style type='com.google.gerrit.client.diff.DiffTable.DiffTableStyle'>
-    @external .CodeMirror, .CodeMirror-lines, .CodeMirror-selectedtext;
+    @external .CodeMirror, .CodeMirror-selectedtext;
     @external .CodeMirror-linenumber;
     @external .CodeMirror-overlayscroll-vertical, .CodeMirror-scroll;
     @external .CodeMirror-dialog-bottom;
     @external .cm-animate-fat-cursor, .CodeMirror-cursor;
-    @external .cm-searching, .cm-trailingspace, .cm-tab;
 
     .fullscreen {
       background-color: #f7f7f7;
@@ -39,13 +38,10 @@ limitations under the License.
       -ms-user-select: none;
     }
 
-    .difftable .CodeMirror-lines { padding: 0; }
     .difftable .CodeMirror pre {
-      padding: 0;
       overflow: hidden;
       border-right: 0;
       width: auto;
-      line-height: normal;
     }
 
     /* Preserve space for underscores. If this changes
@@ -106,22 +102,11 @@ limitations under the License.
       overflow-x: auto;
     }
 
-    .activeLine .CodeMirror-linenumber {
-      background-color: #bcf !important;
-      color: #000;
-    }
-
     .range {
       background-color: #ffd500 !important;
     }
     .rangeHighlight {
       background-color: #ffff00 !important;
-    }
-    .cm-searching {
-      background-color: #ffa !important;
-    }
-    .cm-trailingspace {
-      background-color: red !important;
     }
     .difftable .CodeMirror-selectedtext {
       background-color: inherit !important;
@@ -154,23 +139,9 @@ limitations under the License.
       bottom: auto;
       left: auto;
     }
-    .showTabs .cm-tab:before {
-      position: absolute;
-      content: "\00bb";
-      color: #f00;
-    }
     .showLineNumbers .padding {
       margin-left: 21px;
       border-left: 2px solid #d64040;
-    }
-    .columnMargin {
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      width: 0;
-      border-right: 1px dashed #ffa500;
-      z-index: 2;
-      cursor: text;
     }
 
     .diff_header {

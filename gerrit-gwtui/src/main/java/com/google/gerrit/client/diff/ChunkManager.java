@@ -147,7 +147,7 @@ class ChunkManager {
 
   void adjustPadding() {
     if (paddingDivs != null) {
-      double h = host.getLineHeightPx();
+      double h = cmB.extras().lineHeightPx();
       for (Element div : paddingDivs) {
         int lines = div.getPropertyInt(DATA_LINES);
         div.getStyle().setHeight(lines * h, Unit.PX);
@@ -291,7 +291,9 @@ class ChunkManager {
     return new Runnable() {
       @Override
       public void run() {
-        int line = cm.hasActiveLine() ? cm.getLineNumber(cm.activeLine()) : 0;
+        int line = cm.extras().hasActiveLine()
+            ? cm.getLineNumber(cm.extras().activeLine())
+            : 0;
         int res = Collections.binarySearch(
                 chunks,
                 new DiffChunkInfo(cm.side(), line, 0, false),

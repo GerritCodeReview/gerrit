@@ -29,4 +29,7 @@ interface Lib extends ClientBundle {
   @Source("cm.js")
   @DoNotEmbed
   DataResource js();
+
+  @Source("style.css")
+  CodeMirror.Style style();
 }

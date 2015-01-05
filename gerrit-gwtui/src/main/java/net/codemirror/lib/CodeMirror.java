@@ -20,6 +20,7 @@ import com.google.gerrit.client.rpc.CallbackGroup;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NativeEvent;
+import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
@@ -39,7 +40,23 @@ public class CodeMirror extends JavaScriptObject {
     Loader.initLibrary(cb);
   }
 
-  public static native CodeMirror create(Element p, Configuration cfg) /*-{
+  interface Style extends CssResource {
+    String activeLine();
+    String showTabs();
+    String margin();
+  }
+
+  static Style style() {
+    return Lib.I.style();
+  }
+
+  public static CodeMirror create(Element p, Configuration cfg) {
+    CodeMirror cm = newCM(p, cfg);
+    Extras.attach(cm);
+    return cm;
+  }
+
+  private static native CodeMirror newCM(Element p, Configuration cfg) /*-{
     return $wnd.CodeMirror(p, cfg);
   }-*/;
 
@@ -257,18 +274,6 @@ public class CodeMirror extends JavaScriptObject {
     return this.somethingSelected()
   }-*/;
 
-  public final native boolean hasActiveLine() /*-{
-    return !!this.state.activeLine
-  }-*/;
-
-  public final native LineHandle activeLine() /*-{
-    return this.state.activeLine
-  }-*/;
-
-  public final native void activeLine(LineHandle line) /*-{
-    this.state.activeLine = line
-  }-*/;
-
   public final native void addKeyMap(KeyMap map) /*-{ this.addKeyMap(map) }-*/;
   public final native void removeKeyMap(KeyMap map) /*-{ this.removeKeyMap(map) }-*/;
 
@@ -333,11 +338,13 @@ public class CodeMirror extends JavaScriptObject {
     return this;
   }-*/;
 
-  public final native DisplaySide side() /*-{ return this._sbs2_side }-*/;
-  public final native CodeMirror side(DisplaySide side) /*-{
-    this._sbs2_side = side;
-    return this;
-  }-*/;
+  public final DisplaySide side() {
+    return extras().side();
+  }
+
+  public final Extras extras() {
+    return Extras.get(this);
+  }
 
   protected CodeMirror() {
   }

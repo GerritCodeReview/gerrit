@@ -13,26 +13,6 @@
  * limitations under the License.
  */
 
-@external .CodeMirror;
-@external .CodeMirror-overlayscroll-horizontal;
-@external .CodeMirror-overlayscroll-vertical;
-
-.CodeMirror-overlayscroll-horizontal div {
-  min-width: 25px;
-}
-.CodeMirror-overlayscroll-vertical div {
-  min-height: 25px;
-}
-
-.CodeMirror .CodeMirror-overlayscroll-vertical {
-  z-index: inherit;
-}
-.CodeMirror .CodeMirror-overlayscroll-horizontal div,
-.CodeMirror .CodeMirror-overlayscroll-vertical div {
-  background-color: rgba(128, 128, 128, 0.50);
-  z-index: 8;
-}
-
 .comment, .draft, .insert, .delete, .edit {
   min-height: 5px;
   position: absolute;

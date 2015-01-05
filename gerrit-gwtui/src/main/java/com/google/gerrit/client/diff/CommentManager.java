@@ -91,8 +91,8 @@ class CommentManager {
         // It is only necessary to search one side to find a comment
         // on either side of the editor pair.
         SortedMap<Integer, CommentGroup> map = map(src.side());
-        int line = src.hasActiveLine()
-            ? src.getLineNumber(src.activeLine()) + 1
+        int line = src.extras().hasActiveLine()
+            ? src.getLineNumber(src.extras().activeLine()) + 1
             : 0;
         if (dir == Direction.NEXT) {
           map = map.tailMap(line + 1);
@@ -295,9 +295,9 @@ class CommentManager {
     return new Runnable() {
       @Override
       public void run() {
-        if (cm.hasActiveLine()) {
+        if (cm.extras().hasActiveLine()) {
           CommentGroup w = map(cm.side()).get(
-              cm.getLineNumber(cm.activeLine()) + 1);
+              cm.getLineNumber(cm.extras().activeLine()) + 1);
           if (w != null) {
             w.openCloseLast();
           }
@@ -310,9 +310,9 @@ class CommentManager {
     return new Runnable() {
       @Override
       public void run() {
-        if (cm.hasActiveLine()) {
+        if (cm.extras().hasActiveLine()) {
           CommentGroup w = map(cm.side()).get(
-              cm.getLineNumber(cm.activeLine()) + 1);
+              cm.getLineNumber(cm.extras().activeLine()) + 1);
           if (w != null) {
             w.openCloseAll();
           }
@@ -327,8 +327,8 @@ class CommentManager {
         @Override
         public void run() {
           String token = host.getToken();
-          if (cm.hasActiveLine()) {
-            LineHandle handle = cm.activeLine();
+          if (cm.extras().hasActiveLine()) {
+            LineHandle handle = cm.extras().activeLine();
             int line = cm.getLineNumber(handle) + 1;
             token += "@" + (cm.side() == DisplaySide.A ? "a" : "") + line;
           }
@@ -340,7 +340,7 @@ class CommentManager {
     return new Runnable() {
       @Override
       public void run() {
-        if (cm.hasActiveLine()) {
+        if (cm.extras().hasActiveLine()) {
           newDraft(cm);
         }
       }
@@ -348,7 +348,7 @@ class CommentManager {
   }
 
   private void newDraft(CodeMirror cm) {
-    int line = cm.getLineNumber(cm.activeLine()) + 1;
+    int line = cm.getLineNumber(cm.extras().activeLine()) + 1;
     if (cm.somethingSelected()) {
       FromTo fromTo = cm.getSelectedRange();
       Pos end = fromTo.to();

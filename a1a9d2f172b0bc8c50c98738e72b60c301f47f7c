@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "813188d3_e7a4e215",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/SideBySide2.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-01-05T18:35:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8e0ff523_37d3586a",
+      "range": {
+        "startLine": 196,
+        "startChar": 0,
+        "endLine": 196,
+        "endChar": 62
+      },
+      "revId": "a1a9d2f172b0bc8c50c98738e72b60c301f47f7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4175d075_759a484b",
         "filename": "lib/codemirror/BUCK",
         "patchSetId": 6

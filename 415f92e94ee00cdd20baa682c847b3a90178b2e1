@@ -45,6 +45,30 @@
       "revId": "415f92e94ee00cdd20baa682c847b3a90178b2e1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "61781470_b6e788b9",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/editor/EditScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-01-05T07:38:14Z",
+      "side": 1,
+      "message": "\u003e 1 Stay on Ctrl-s and on Save buton in edit screen, but \n \u003e rename the \"Cancel\" button in \"Close\"\n\n+1",
+      "parentUuid": "61781470_96e28caa",
+      "range": {
+        "startLine": 313,
+        "startChar": 16,
+        "endLine": 316,
+        "endChar": 17
+      },
+      "revId": "415f92e94ee00cdd20baa682c847b3a90178b2e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

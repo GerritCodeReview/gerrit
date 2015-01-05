@@ -16,6 +16,24 @@
       "revId": "52f2cf06175a8eca4d631dda1c1d24b2455b88b5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "813188d3_cad3636a",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/editor/EditScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-01-05T22:03:58Z",
+      "side": 1,
+      "message": "Eh, I can reuse most of the height computation. Done.",
+      "parentUuid": "813188d3_8730868e",
+      "revId": "52f2cf06175a8eca4d631dda1c1d24b2455b88b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

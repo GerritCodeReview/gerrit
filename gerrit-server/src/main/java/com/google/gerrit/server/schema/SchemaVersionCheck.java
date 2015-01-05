@@ -23,7 +23,6 @@ import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Module;
-import com.google.inject.Provider;
 import com.google.inject.ProvisionException;
 
 /** Validates the current schema version. */
@@ -40,16 +39,11 @@ public class SchemaVersionCheck implements LifecycleListener {
   private final SchemaFactory<ReviewDb> schema;
   private final SitePaths site;
 
-  @Current
-  private final Provider<SchemaVersion> version;
-
   @Inject
   public SchemaVersionCheck(SchemaFactory<ReviewDb> schemaFactory,
-      final SitePaths site,
-      @Current Provider<SchemaVersion> version) {
+      SitePaths site) {
     this.schema = schemaFactory;
     this.site = site;
-    this.version = version;
   }
 
   @Override
@@ -58,7 +52,7 @@ public class SchemaVersionCheck implements LifecycleListener {
       final ReviewDb db = schema.open();
       try {
         final CurrentSchemaVersion currentVer = getSchemaVersion(db);
-        final int expectedVer = version.get().getVersionNbr();
+        final int expectedVer = SchemaVersion.getBinaryVersion();
 
         if (currentVer == null) {
           throw new ProvisionException("Schema not yet initialized."

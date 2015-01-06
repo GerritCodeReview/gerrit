@@ -30,7 +30,7 @@ by group name.
 ----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   {
@@ -136,7 +136,7 @@ returned.
 ----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   {
@@ -192,7 +192,7 @@ describes the group.
 ----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   {
@@ -222,7 +222,7 @@ link:#group-input[GroupInput].
 .Request
 ----
   PUT /groups/MyProject-Committers HTTP/1.0
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   {
     "description": "contains all committers for MyProject",
@@ -239,7 +239,7 @@ describes the created group.
 ----
   HTTP/1.1 201 Created
   Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   {
@@ -280,7 +280,7 @@ describes the group.
 ----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   {
@@ -328,7 +328,7 @@ Retrieves the name of a group.
 ----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   "MyProject-Committers"
@@ -347,7 +347,7 @@ The new group name must be provided in the request body.
 .Request
 ----
   PUT /groups/MyProject-Committers/name HTTP/1.0
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   {
     "name": "My-Project-Committers"
@@ -360,7 +360,7 @@ As response the new group name is returned.
 ----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   "My-Project-Committers"
@@ -386,7 +386,7 @@ Retrieves the description of a group.
 ----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   "contains all committers for MyProject"
@@ -407,7 +407,7 @@ The new group description must be provided in the request body.
 .Request
 ----
   PUT /groups/9999c971bb4ab872aab759d8c49833ee6b9ff320/description HTTP/1.0
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   {
     "description": "The committers of MyProject."
@@ -420,7 +420,7 @@ As response the new group description is returned.
 ----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   "The committers of MyProject."
@@ -466,7 +466,7 @@ returned that describes the options of the group.
 ----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   {
@@ -488,7 +488,7 @@ link:#group-options-input[GroupOptionsInput] entity.
 .Request
 ----
   PUT /groups/9999c971bb4ab872aab759d8c49833ee6b9ff320/options HTTP/1.0
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   {
     "visible_to_all": true
@@ -502,7 +502,7 @@ link:#group-options-info[GroupOptionsInfo] entity.
 ----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   {
@@ -530,7 +530,7 @@ describes the owner group.
 ----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   {
@@ -562,7 +562,7 @@ numeric group ID.
 .Request
 ----
   PUT /groups/9999c971bb4ab872aab759d8c49833ee6b9ff320/description HTTP/1.0
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   {
     "owner": "6a1e70e1a88782771a91808c8af9bbb7a9871389"
@@ -576,7 +576,7 @@ describes the new owner group.
 ----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   {
@@ -616,7 +616,7 @@ full name, preferred email and id.
 ----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   [
@@ -655,7 +655,7 @@ are not visible to the calling user are ignored.
 ----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   [
@@ -700,7 +700,7 @@ AccountInfo] entity is returned that describes the group member.
 ----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   {
@@ -731,7 +731,7 @@ AccountInfo] entity is returned that describes the group member.
 ----
   HTTP/1.1 201 Created
   Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   {
@@ -764,7 +764,7 @@ as a link:#members-input[MembersInput] entity.
 .Request
 ----
   POST /groups/MyProject-Committers/members.add HTTP/1.0
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   {
     "members": [
@@ -786,7 +786,7 @@ already a member of the group.
 ----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   [
@@ -837,7 +837,7 @@ body as a link:#members-input[MembersInput] entity.
 .Request
 ----
   POST /groups/MyProject-Committers/members.delete HTTP/1.0
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   {
     "members": [
@@ -875,7 +875,7 @@ The entries in the list are sorted by group name and UUID.
 ----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   [
@@ -912,7 +912,7 @@ describes the included group.
 ----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   {
@@ -948,7 +948,7 @@ describes the included group.
 ----
   HTTP/1.1 201 Created
   Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   {
@@ -986,7 +986,7 @@ request body as a link:#groups-input[GroupsInput] entity.
 .Request
 ----
   POST /groups/MyProject-Committers/groups.add HTTP/1.0
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   {
     "groups": [
@@ -1007,7 +1007,7 @@ group was already included in the group.
 ----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   [
@@ -1066,7 +1066,7 @@ body as a link:#groups-input[GroupsInput] entity.
 .Request
 ----
   POST /groups/MyProject-Committers/groups.delete HTTP/1.0
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   {
     "groups": [

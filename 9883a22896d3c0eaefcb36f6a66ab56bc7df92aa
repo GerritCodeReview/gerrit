@@ -95,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "c169c0a3_5c72d180",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-01-06T19:52:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4175d075_551f0cfa",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 4
+      },
+      "revId": "9883a22896d3c0eaefcb36f6a66ab56bc7df92aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8e0ff523_77f0b0f1",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeInfo.java",
         "patchSetId": 1
@@ -200,6 +224,30 @@
       "writtenOn": "2015-01-06T07:03:07Z",
       "side": 1,
       "message": "Does it perform well for very big repositories? Shouldn\u0027t we try to use index for this search in future? Add a TODO?",
+      "range": {
+        "startLine": 194,
+        "startChar": 10,
+        "endLine": 199,
+        "endChar": 11
+      },
+      "revId": "9883a22896d3c0eaefcb36f6a66ab56bc7df92aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c169c0a3_7c6f9593",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Files.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-01-06T19:52:31Z",
+      "side": 1,
+      "message": "Unknown. Lets find out. :)\n\nPath enumeration like this is a key part of things submit inside of MergeOp. Here we actually even abort earlier once we hit the cap of 20 matches. So this should be faster than Submit.",
+      "parentUuid": "61781470_56aab40d",
       "range": {
         "startLine": 194,
         "startChar": 10,

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "61781470_f693c0e8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1018043
+      },
+      "writtenOn": "2015-01-06T08:04:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "413a30aa_6d6295f6",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 52
+      },
+      "revId": "08d260efc69420a7a34b11d6925bbf866ccbde1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "413a30aa_0d6bd1d3",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/validators/OutgoingEmailValidationListener.java",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2015-01-06T01:13:14Z",
       "side": 1,
       "message": "applied",
+      "range": {
+        "startLine": 48,
+        "startChar": 15,
+        "endLine": 48,
+        "endChar": 22
+      },
+      "revId": "08d260efc69420a7a34b11d6925bbf866ccbde1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "61781470_16891cb6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/validators/OutgoingEmailValidationListener.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1018043
+      },
+      "writtenOn": "2015-01-06T08:04:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "413a30aa_0d6bd1d3",
       "range": {
         "startLine": 48,
         "startChar": 15,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "4175d075_751c0805",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/validators/OutgoingEmailValidationListener.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1018043
+      },
+      "writtenOn": "2015-01-06T08:04:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "413a30aa_4d65d9fb",
+      "range": {
+        "startLine": 56,
+        "startChar": 45,
+        "endLine": 56,
+        "endChar": 71
+      },
+      "revId": "08d260efc69420a7a34b11d6925bbf866ccbde1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "413a30aa_2d688dd4",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/validators/OutgoingEmailValidationListener.java",
         "patchSetId": 2
@@ -82,6 +154,30 @@
       "writtenOn": "2015-01-06T01:13:14Z",
       "side": 1,
       "message": "nit: missing period at the end of the sentence.",
+      "range": {
+        "startLine": 57,
+        "startChar": 47,
+        "endLine": 57,
+        "endChar": 52
+      },
+      "revId": "08d260efc69420a7a34b11d6925bbf866ccbde1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4175d075_955d24ca",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/validators/OutgoingEmailValidationListener.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1018043
+      },
+      "writtenOn": "2015-01-06T08:04:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "413a30aa_2d688dd4",
       "range": {
         "startLine": 57,
         "startChar": 47,

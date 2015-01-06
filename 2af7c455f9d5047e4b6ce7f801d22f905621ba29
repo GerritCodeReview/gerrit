@@ -46,6 +46,30 @@
       "revId": "2af7c455f9d5047e4b6ce7f801d22f905621ba29",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8e0ff523_17417468",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/editor/EditScreen.ui.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-01-06T05:52:22Z",
+      "side": 1,
+      "message": "This isn\u0027t any different than what was in SBS2 before. We\u0027ll have to fix activeLine on dark themes in another change.",
+      "parentUuid": "413a30aa_cd9e2972",
+      "range": {
+        "startLine": 97,
+        "startChar": 6,
+        "endLine": 97,
+        "endChar": 18
+      },
+      "revId": "2af7c455f9d5047e4b6ce7f801d22f905621ba29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

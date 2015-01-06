@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c169c0a3_dcdc21f4",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 420,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-01-06T21:40:47Z",
+      "side": 1,
+      "message": "nit: unneeded star. The star is to get a bullet list so I think you can just remove it.",
+      "range": {
+        "startLine": 420,
+        "startChar": 0,
+        "endLine": 420,
+        "endChar": 1
+      },
+      "revId": "b5b7cefbb7b56ea9dacbdf7f3ce9fc168b15d83b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

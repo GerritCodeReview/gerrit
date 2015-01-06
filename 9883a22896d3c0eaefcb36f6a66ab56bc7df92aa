@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "8e0ff523_57724cd2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-01-06T06:49:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "413a30aa_edca057b",
+      "range": {
+        "startLine": 11,
+        "startChar": 39,
+        "endLine": 11,
+        "endChar": 42
+      },
+      "revId": "9883a22896d3c0eaefcb36f6a66ab56bc7df92aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8e0ff523_77f0b0f1",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeInfo.java",
         "patchSetId": 1
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "413a30aa_6dcb755c",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-01-06T06:49:03Z",
+      "side": 1,
+      "message": "This was me adding a note to myself that I didn\u0027t mean to publish. I wanted to look more into how this is used to see if I could understand why we sometimes get \"Patch Set 0: Code-Review+2\" messages or something like that in changes.\n\nI meant to remove this TODO marker before uploading this change, but I wrote this change on a plane very late on Friday, had to power off for landing, and then just pushed it today blindly without cleaning it up.\n\nThis is why we do pre-submit review. :)",
+      "parentUuid": "8e0ff523_77f0b0f1",
+      "range": {
+        "startLine": 232,
+        "startChar": 56,
+        "endLine": 232,
+        "endChar": 68
+      },
+      "revId": "9883a22896d3c0eaefcb36f6a66ab56bc7df92aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8e0ff523_97e34431",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Files.java",
         "patchSetId": 1
@@ -59,6 +107,30 @@
       "writtenOn": "2015-01-06T02:56:33Z",
       "side": 1,
       "message": "Add this new option to the documentation?",
+      "range": {
+        "startLine": 103,
+        "startChar": 0,
+        "endLine": 104,
+        "endChar": 17
+      },
+      "revId": "9883a22896d3c0eaefcb36f6a66ab56bc7df92aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "413a30aa_8df8a18d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Files.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-01-06T06:49:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8e0ff523_97e34431",
       "range": {
         "startLine": 103,
         "startChar": 0,

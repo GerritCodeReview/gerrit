@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "4175d075_3522903f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-06T07:03:07Z",
+      "side": 1,
+      "message": "Great feature, thanks!",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 68
+      },
+      "revId": "9883a22896d3c0eaefcb36f6a66ab56bc7df92aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "413a30aa_edca057b",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -42,6 +65,29 @@
         "startChar": 39,
         "endLine": 11,
         "endChar": 42
+      },
+      "revId": "9883a22896d3c0eaefcb36f6a66ab56bc7df92aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4175d075_551f0cfa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-06T07:03:07Z",
+      "side": 1,
+      "message": "The mentioned change was merged and this line can be dropped now.",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 4
       },
       "revId": "9883a22896d3c0eaefcb36f6a66ab56bc7df92aa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
@@ -136,6 +182,29 @@
         "startChar": 0,
         "endLine": 104,
         "endChar": 17
+      },
+      "revId": "9883a22896d3c0eaefcb36f6a66ab56bc7df92aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "61781470_56aab40d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Files.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-06T07:03:07Z",
+      "side": 1,
+      "message": "Does it perform well for very big repositories? Shouldn\u0027t we try to use index for this search in future? Add a TODO?",
+      "range": {
+        "startLine": 194,
+        "startChar": 10,
+        "endLine": 199,
+        "endChar": 11
       },
       "revId": "9883a22896d3c0eaefcb36f6a66ab56bc7df92aa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

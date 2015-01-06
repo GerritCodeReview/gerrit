@@ -48,14 +48,11 @@ class DiffTable extends Composite {
     String dark();
     String diff();
     String noIntraline();
-    String activeLine();
     String range();
     String rangeHighlight();
-    String showTabs();
     String showLineNumbers();
     String hideA();
     String hideB();
-    String columnMargin();
     String padding();
   }
 

@@ -1,4 +1,4 @@
-// Copyright (C) 2013 The Android Open Source Project
+// Copyright (C) 2015 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,24 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package net.codemirror.lib;
+package com.google.gerrit.client.editor;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.resources.client.ClientBundle;
-import com.google.gwt.resources.client.DataResource;
-import com.google.gwt.resources.client.DataResource.DoNotEmbed;
-import com.google.gwt.resources.client.ExternalTextResource;
+import com.google.gwt.i18n.client.Constants;
 
-interface Lib extends ClientBundle {
-  static final Lib I = GWT.create(Lib.class);
+interface EditConstants extends Constants {
+  static final EditConstants I = GWT.create(EditConstants.class);
 
-  @Source("cm.css")
-  ExternalTextResource css();
-
-  @Source("cm.js")
-  @DoNotEmbed
-  DataResource js();
-
-  @Source("style.css")
-  CodeMirror.Style style();
+  String closeUnsavedChanges();
+  String cancelUnsavedChanges();
 }

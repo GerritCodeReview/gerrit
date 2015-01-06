@@ -56,6 +56,7 @@ public class Loader {
         @Override
         public void onSuccess(TextResource resource) {
           StyleInjector.inject(resource.getText());
+          Lib.I.style().ensureInjected();
           cb.onSuccess(null);
         }
 

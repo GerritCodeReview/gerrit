@@ -14,11 +14,14 @@
 
 package net.codemirror.lib;
 
+import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.diff.DisplaySide;
 import com.google.gerrit.client.rpc.CallbackGroup;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NativeEvent;
+import com.google.gwt.resources.client.CssResource;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import net.codemirror.lib.TextMarker.FromTo;
@@ -37,7 +40,23 @@ public class CodeMirror extends JavaScriptObject {
     Loader.initLibrary(cb);
   }
 
-  public static native CodeMirror create(Element p, Configuration cfg) /*-{
+  interface Style extends CssResource {
+    String activeLine();
+    String showTabs();
+    String margin();
+  }
+
+  static Style style() {
+    return Lib.I.style();
+  }
+
+  public static CodeMirror create(Element p, Configuration cfg) {
+    CodeMirror cm = newCM(p, cfg);
+    Extras.attach(cm);
+    return cm;
+  }
+
+  private static native CodeMirror newCM(Element p, Configuration cfg) /*-{
     return $wnd.CodeMirror(p, cfg);
   }-*/;
 
@@ -62,10 +81,25 @@ public class CodeMirror extends JavaScriptObject {
   public final native String getValue() /*-{ return this.getValue() }-*/;
   public final native void setValue(String v) /*-{ this.setValue(v) }-*/;
 
+  public final native int changeGeneration(boolean closeEvent)
+  /*-{ return this.changeGeneration(closeEvent) }-*/;
+  public final native boolean isClean(int generation)
+  /*-{ return this.isClean(generation) }-*/;
+
   public final native void setWidth(double w) /*-{ this.setSize(w, null) }-*/;
-  public final native void setWidth(String w) /*-{ this.setSize(w, null) }-*/;
   public final native void setHeight(double h) /*-{ this.setSize(null, h) }-*/;
-  public final native void setHeight(String h) /*-{ this.setSize(null, h) }-*/;
+
+  public final int getHeight() {
+    return getWrapperElement().getClientHeight();
+  }
+
+  public final void adjustHeight(int localHeader) {
+    int rest = Gerrit.getHeaderFooterHeight()
+        + localHeader
+        + 5; // Estimate
+    setHeight(Window.getClientHeight() - rest);
+  }
+
   public final native String getLine(int n) /*-{ return this.getLine(n) }-*/;
   public final native double barHeight() /*-{ return this.display.barHeight }-*/;
   public final native double barWidth() /*-{ return this.display.barWidth }-*/;
@@ -226,6 +260,13 @@ public class CodeMirror extends JavaScriptObject {
     }))
   }-*/;
 
+  public final native void on(ChangesHandler handler) /*-{
+    this.on('changes', $entry(function(cm, o) {
+      handler.@net.codemirror.lib.CodeMirror.ChangesHandler::handle(
+        Lnet/codemirror/lib/CodeMirror;)(cm);
+    }))
+  }-*/;
+
   public final native void setCursor(Pos p) /*-{ this.setCursor(p) }-*/;
   public final native Pos getCursor() /*-{ return this.getCursor() }-*/;
   public final native Pos getCursor(String start) /*-{
@@ -243,18 +284,6 @@ public class CodeMirror extends JavaScriptObject {
 
   public final native boolean somethingSelected() /*-{
     return this.somethingSelected()
-  }-*/;
-
-  public final native boolean hasActiveLine() /*-{
-    return !!this.state.activeLine
-  }-*/;
-
-  public final native LineHandle activeLine() /*-{
-    return this.state.activeLine
-  }-*/;
-
-  public final native void activeLine(LineHandle line) /*-{
-    this.state.activeLine = line
   }-*/;
 
   public final native void addKeyMap(KeyMap map) /*-{ this.addKeyMap(map) }-*/;
@@ -321,11 +350,13 @@ public class CodeMirror extends JavaScriptObject {
     return this;
   }-*/;
 
-  public final native DisplaySide side() /*-{ return this._sbs2_side }-*/;
-  public final native CodeMirror side(DisplaySide side) /*-{
-    this._sbs2_side = side;
-    return this;
-  }-*/;
+  public final DisplaySide side() {
+    return extras().side();
+  }
+
+  public final Extras extras() {
+    return Extras.get(this);
+  }
 
   protected CodeMirror() {
   }
@@ -366,5 +397,9 @@ public class CodeMirror extends JavaScriptObject {
 
   public interface BeforeSelectionChangeHandler {
     public void handle(CodeMirror instance, Pos anchor, Pos head);
+  }
+
+  public interface ChangesHandler {
+    public void handle(CodeMirror instance);
   }
 }

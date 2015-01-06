@@ -45,6 +45,54 @@
       "revId": "73d34f5cb9ce020151fdf58b19d8cea50f725b81",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c169c0a3_3ca0bd75",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/editor/EditScreen.ui.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-01-06T01:18:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "813188d3_a7b02a85",
+      "range": {
+        "startLine": 73,
+        "startChar": 0,
+        "endLine": 73,
+        "endChar": 1
+      },
+      "revId": "73d34f5cb9ce020151fdf58b19d8cea50f725b81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c169c0a3_5c9d7140",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/editor/EditScreen.ui.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-01-06T01:18:40Z",
+      "side": 1,
+      "message": "Moved to the bottom left corner of the window, to avoid overlapping with any file text.",
+      "parentUuid": "813188d3_c7b51e74",
+      "range": {
+        "startLine": 73,
+        "startChar": 3,
+        "endLine": 73,
+        "endChar": 21
+      },
+      "revId": "73d34f5cb9ce020151fdf58b19d8cea50f725b81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

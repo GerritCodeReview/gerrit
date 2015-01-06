@@ -34,6 +34,24 @@
       "revId": "b97a262040666eba48b9cf360bced80e4c4ddcc4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c169c0a3_3cb7ddc9",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/editor/EditScreen.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-01-06T00:12:26Z",
+      "side": 1,
+      "message": "And then later in the series in I3b6c83efd0eb76148a3ac3e50cd2e3e4c37f08c5 this goes away entirely when the content type is loaded along with the content.",
+      "parentUuid": "813188d3_477cce21",
+      "revId": "b97a262040666eba48b9cf360bced80e4c4ddcc4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

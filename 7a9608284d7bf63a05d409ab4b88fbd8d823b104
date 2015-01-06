@@ -16,6 +16,24 @@
       "revId": "7a9608284d7bf63a05d409ab4b88fbd8d823b104",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "413a30aa_cd0b8917",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/editor/EditScreen.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-06T05:47:46Z",
+      "side": 1,
+      "message": "Ah, I saw the comment about this in another change earlier [1] but didn\u0027t see that it has been squashed into this one.\n\n[1] https://gerrit-review.googlesource.com/#/c/62857/",
+      "parentUuid": "413a30aa_8d0181fd",
+      "revId": "7a9608284d7bf63a05d409ab4b88fbd8d823b104",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -146,8 +146,6 @@ class GerritConfigProvider implements Provider<GerritConfig> {
           }
         })));
 
-    config.setNewFeatures(cfg.getBoolean("gerrit", "enableNewFeatures", true));
-
     config.setReportBugUrl(cfg.getString("gerrit", null, "reportBugUrl"));
     config.setReportBugText(cfg.getString("gerrit", null, "reportBugText"));
 

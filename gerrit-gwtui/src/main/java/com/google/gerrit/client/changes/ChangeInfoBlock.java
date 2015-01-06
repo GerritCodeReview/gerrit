@@ -122,8 +122,7 @@ public class ChangeInfoBlock extends Composite {
     }
     table.setText(R_SUBMIT_TYPE, 1, submitType);
     final Change.Status status = chg.getStatus();
-    if (Gerrit.getConfig().getNewFeatures()
-        && (status.equals(Change.Status.NEW) || status.equals(Change.Status.DRAFT))) {
+    if (status.equals(Change.Status.NEW) || status.equals(Change.Status.DRAFT)) {
       table.getRowFormatter().setVisible(R_MERGE_TEST, true);
       table.setText(R_MERGE_TEST, 1, changeDetail.isMergeable() ? Util.C
           .changeInfoBlockCanMergeYes() : Util.C.changeInfoBlockCanMergeNo());

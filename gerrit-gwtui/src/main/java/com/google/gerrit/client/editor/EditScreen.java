@@ -205,7 +205,8 @@ public class EditScreen extends Screen {
     cm.adjustHeight(header.getOffsetHeight());
     cm.on("cursorActivity", updateCursorPosition());
     cm.extras().showTabs(prefs.showTabs());
-    cm.extras().lineLength(prefs.lineLength());
+    cm.extras().lineLength(
+        Patch.COMMIT_MSG.equals(path) ? 72 : prefs.lineLength());
     cm.refresh();
     cm.focus();
     updateActiveLine();

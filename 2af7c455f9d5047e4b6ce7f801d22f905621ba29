@@ -22,6 +22,30 @@
       "revId": "2af7c455f9d5047e4b6ce7f801d22f905621ba29",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "413a30aa_cd9e2972",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/editor/EditScreen.ui.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-01-06T05:23:52Z",
+      "side": 1,
+      "message": "Thanks. I forgot about how the activeLine style appeared on dark themes. I\u0027ll work a fix into the right place in the updated series.",
+      "parentUuid": "61781470_76489027",
+      "range": {
+        "startLine": 97,
+        "startChar": 6,
+        "endLine": 97,
+        "endChar": 18
+      },
+      "revId": "2af7c455f9d5047e4b6ce7f801d22f905621ba29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

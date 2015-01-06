@@ -14,6 +14,9 @@
 
 package com.google.gerrit.client.editor;
 
+import static com.google.gwt.dom.client.Style.Visibility.HIDDEN;
+import static com.google.gwt.dom.client.Style.Visibility.VISIBLE;
+
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.JumpKeys;
 import com.google.gerrit.client.VoidResult;
@@ -75,6 +78,9 @@ public class EditScreen extends Screen {
   @UiField Element header;
   @UiField Element project;
   @UiField Element filePath;
+  @UiField Element cursLine;
+  @UiField Element cursCol;
+  @UiField Element dirty;
   @UiField Button close;
   @UiField Button save;
   @UiField Element editor;
@@ -177,11 +183,11 @@ public class EditScreen extends Screen {
     });
 
     generation = cm.changeGeneration(true);
-    save.setEnabled(false);
+    setClean(true);
     cm.on(new ChangesHandler() {
       @Override
       public void handle(CodeMirror cm) {
-        save.setEnabled(!cm.isClean(generation));
+        setClean(cm.isClean(generation));
       }
     });
 
@@ -277,7 +283,14 @@ public class EditScreen extends Screen {
 
   private void updateActiveLine() {
     Pos p = cm.getCursor("end");
+    cursLine.setInnerText(Integer.toString(p.line() + 1));
+    cursCol.setInnerText(Integer.toString(p.ch() + 1));
     cm.extras().activeLine(cm.getLineHandleVisualStart(p.line()));
+  }
+
+  private void setClean(boolean clean) {
+    save.setEnabled(!clean);
+    dirty.getStyle().setVisibility(!clean ? VISIBLE : HIDDEN);
   }
 
   private Runnable save() {
@@ -292,7 +305,7 @@ public class EditScreen extends Screen {
                 @Override
                 public void onSuccess(VoidResult result) {
                   generation = g;
-                  save.setEnabled(!cm.isClean(g));
+                  setClean(cm.isClean(g));
                 }
               });
         }

@@ -40,6 +40,7 @@ import com.google.gerrit.client.ui.Screen;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.extensions.common.ListChangesOption;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JsArray;
@@ -289,7 +290,7 @@ public class SideBySide2 extends Screen {
         cmB.refresh();
       }
     });
-    setLineLength(prefs.lineLength());
+    setLineLength(Patch.COMMIT_MSG.equals(path) ? 72 : prefs.lineLength());
     diffTable.refresh();
 
     if (startLine == 0) {
@@ -948,6 +949,10 @@ public class SideBySide2 extends Screen {
       .add(getContentType(diffInfo.meta_a()))
       .add(getContentType(diffInfo.meta_b()))
       .inject(cb);
+  }
+
+  String getPath() {
+    return path;
   }
 
   DiffPreferences getPrefs() {

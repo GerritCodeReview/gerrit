@@ -32,6 +32,7 @@ import com.google.gerrit.client.ui.NpIntTextBox;
 import com.google.gerrit.extensions.common.Theme;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference.Whitespace;
+import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.Patch.ChangeType;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ChangeEvent;
@@ -147,7 +148,13 @@ class PreferencesBox extends Composite {
 
     setIgnoreWhitespace(prefs.ignoreWhitespace());
     tabWidth.setIntValue(prefs.tabSize());
-    lineLength.setIntValue(prefs.lineLength());
+    if (Patch.COMMIT_MSG.equals(view.getPath())) {
+      lineLength.setEnabled(false);
+      lineLength.setIntValue(72);
+    } else {
+      lineLength.setEnabled(true);
+      lineLength.setIntValue(prefs.lineLength());
+    }
     syntaxHighlighting.setValue(prefs.syntaxHighlighting());
     whitespaceErrors.setValue(prefs.showWhitespaceErrors());
     showTabs.setValue(prefs.showTabs());

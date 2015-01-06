@@ -56,7 +56,6 @@ public class GerritConfig implements Cloneable {
   protected AccountGeneralPreferences.ChangeScreen changeScreen;
   protected List<String> archiveFormats;
   protected int largeChangeSize;
-  protected boolean newFeatures;
   protected String replyLabel;
   protected String replyTitle;
 
@@ -301,14 +300,6 @@ public class GerritConfig implements Cloneable {
 
   public void setArchiveFormats(List<String> formats) {
     archiveFormats = formats;
-  }
-
-  public boolean getNewFeatures() {
-    return newFeatures;
-  }
-
-  public void setNewFeatures(boolean n) {
-    newFeatures = n;
   }
 
   public String getReplyTitle() {

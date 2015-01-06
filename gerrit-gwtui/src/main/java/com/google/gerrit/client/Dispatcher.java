@@ -628,9 +628,7 @@ public class Dispatcher {
   }
 
   public static boolean isChangeScreen2() {
-    if (!Gerrit.getConfig().getNewFeatures()) {
-      return false;
-    } else if (changeScreen2) {
+    if (changeScreen2) {
       return true;
     }
 
@@ -707,7 +705,7 @@ public class Dispatcher {
       sbs1(token, baseId, id, patchIndex, patchSetDetail, patchTable, topView,
           PatchScreen.Type.UNIFIED);
       return;
-    } else if ("cm".equals(panel) && Gerrit.getConfig().getNewFeatures()) {
+    } else if ("cm".equals(panel)) {
       if (Gerrit.isSignedIn()
           && DiffView.UNIFIED_DIFF.equals(Gerrit.getUserAccount()
               .getGeneralPreferences().getDiffView())) {

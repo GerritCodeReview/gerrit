@@ -59,19 +59,21 @@ public class ChangeTable2 extends NavigationTable<ChangeInfo> {
   private static final int C_SIZE = 9;
   private static final int BASE_COLUMNS = 10;
 
-
-  private final boolean useNewFeatures = Gerrit.getConfig().getNewFeatures();
   private final List<Section> sections;
   private int columns;
+  private boolean showLegacyId;
   private List<String> labelNames;
 
   public ChangeTable2() {
     super(Util.C.changeItemHelp());
-    columns = useNewFeatures ? BASE_COLUMNS : BASE_COLUMNS - 1;
+    columns = BASE_COLUMNS;
     labelNames = Collections.emptyList();
 
     if (Gerrit.isSignedIn()) {
       keysAction.add(new StarKeyCommand(0, 's', Util.C.changeTableStar()));
+      showLegacyId = Gerrit.getUserAccount()
+          .getGeneralPreferences()
+          .isLegacycidInChangeTable();
     }
 
     sections = new ArrayList<>();
@@ -83,19 +85,14 @@ public class ChangeTable2 extends NavigationTable<ChangeInfo> {
     table.setText(0, C_PROJECT, Util.C.changeTableColumnProject());
     table.setText(0, C_BRANCH, Util.C.changeTableColumnBranch());
     table.setText(0, C_LAST_UPDATE, Util.C.changeTableColumnLastUpdate());
-    if (useNewFeatures) {
-      table.setText(0, C_SIZE, Util.C.changeTableColumnSize());
-    }
+    table.setText(0, C_SIZE, Util.C.changeTableColumnSize());
 
     final FlexCellFormatter fmt = table.getFlexCellFormatter();
     fmt.addStyleName(0, C_STAR, Gerrit.RESOURCES.css().iconHeader());
     for (int i = C_ID; i < columns; i++) {
       fmt.addStyleName(0, i, Gerrit.RESOURCES.css().dataHeader());
     }
-
-    if (!Gerrit.isSignedIn() ||
-       (!Gerrit.getUserAccount().getGeneralPreferences()
-         .isLegacycidInChangeTable())) {
+    if (!showLegacyId) {
       fmt.addStyleName(0, C_ID, Gerrit.RESOURCES.css().dataHeaderHidden());
     }
 
@@ -152,22 +149,16 @@ public class ChangeTable2 extends NavigationTable<ChangeInfo> {
     for (int i = C_ID; i < columns; i++) {
       fmt.addStyleName(row, i, Gerrit.RESOURCES.css().dataCell());
     }
+    if (!showLegacyId) {
+      fmt.addStyleName(row, C_ID, Gerrit.RESOURCES.css().dataCellHidden());
+    }
     fmt.addStyleName(row, C_SUBJECT, Gerrit.RESOURCES.css().cSUBJECT());
     fmt.addStyleName(row, C_STATUS, Gerrit.RESOURCES.css().cSTATUS());
     fmt.addStyleName(row, C_OWNER, Gerrit.RESOURCES.css().cOWNER());
     fmt.addStyleName(row, C_LAST_UPDATE, Gerrit.RESOURCES.css().cLastUpdate());
+    fmt.addStyleName(row, C_SIZE, Gerrit.RESOURCES.css().cSIZE());
 
-    if (!Gerrit.isSignedIn() ||
-       (!Gerrit.getUserAccount().getGeneralPreferences()
-         .isLegacycidInChangeTable())) {
-      fmt.addStyleName(row, C_ID, Gerrit.RESOURCES.css().dataCellHidden());
-    }
-
-    int i = C_SIZE;
-    if (useNewFeatures) {
-      fmt.addStyleName(row, i++, Gerrit.RESOURCES.css().cSIZE());
-    }
-    for (; i < columns; i++) {
+    for (int i = C_SIZE + 1; i < columns; i++) {
       fmt.addStyleName(row, i, Gerrit.RESOURCES.css().cAPPROVAL());
     }
   }
@@ -185,7 +176,7 @@ public class ChangeTable2 extends NavigationTable<ChangeInfo> {
     }
     Collections.sort(labelNames);
 
-    int baseColumns = useNewFeatures ? BASE_COLUMNS : BASE_COLUMNS - 1;
+    int baseColumns = BASE_COLUMNS;
     if (baseColumns + labelNames.size() < columns) {
       int n = columns - (baseColumns + labelNames.size());
       for (int row = 0; row < table.getRowCount(); row++) {
@@ -228,7 +219,7 @@ public class ChangeTable2 extends NavigationTable<ChangeInfo> {
     Change.Status status = c.status();
     if (status != Change.Status.NEW) {
       table.setText(row, C_STATUS, Util.toLongString(status));
-    } else if (!c.mergeable() && useNewFeatures) {
+    } else if (!c.mergeable()) {
       table.setText(row, C_STATUS, Util.C.changeTableNotMergeable());
     }
 
@@ -248,20 +239,19 @@ public class ChangeTable2 extends NavigationTable<ChangeInfo> {
     } else {
       table.setText(row, C_LAST_UPDATE, shortFormat(c.updated()));
     }
+
     int col = C_SIZE;
-    if (useNewFeatures) {
-      if (Gerrit.isSignedIn()
-          && !Gerrit.getUserAccount().getGeneralPreferences()
-              .isSizeBarInChangeTable()) {
-        table.setText(row, col,
-            Util.M.insertionsAndDeletions(c.insertions(), c.deletions()));
-      } else {
-        table.setWidget(row, col, getSizeWidget(c));
-        fmt.getElement(row, col).setTitle(
-            Util.M.insertionsAndDeletions(c.insertions(), c.deletions()));
-      }
-      col++;
+    if (Gerrit.isSignedIn()
+        && !Gerrit.getUserAccount().getGeneralPreferences()
+            .isSizeBarInChangeTable()) {
+      table.setText(row, col,
+          Util.M.insertionsAndDeletions(c.insertions(), c.deletions()));
+    } else {
+      table.setWidget(row, col, getSizeWidget(c));
+      fmt.getElement(row, col).setTitle(
+          Util.M.insertionsAndDeletions(c.insertions(), c.deletions()));
     }
+    col++;
 
     boolean displayInfo = Gerrit.isSignedIn() && Gerrit.getUserAccount()
         .getGeneralPreferences().isShowInfoInReviewCategory();

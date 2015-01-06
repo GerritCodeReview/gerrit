@@ -196,32 +196,29 @@ public class MyPreferencesScreen extends SettingsScreen {
     formGrid.setWidget(row, fieldIdx, dateTimePanel);
     row++;
 
-    if (Gerrit.getConfig().getNewFeatures()) {
-      formGrid.setText(row, labelIdx, "");
-      formGrid.setWidget(row, fieldIdx, relativeDateInChangeTable);
-      row++;
+    formGrid.setText(row, labelIdx, "");
+    formGrid.setWidget(row, fieldIdx, relativeDateInChangeTable);
+    row++;
 
-      formGrid.setText(row, labelIdx, "");
-      formGrid.setWidget(row, fieldIdx, sizeBarInChangeTable);
-      row++;
+    formGrid.setText(row, labelIdx, "");
+    formGrid.setWidget(row, fieldIdx, sizeBarInChangeTable);
+    row++;
 
-      formGrid.setText(row, labelIdx, "");
-      formGrid.setWidget(row, fieldIdx, legacycidInChangeTable);
-      row++;
-    }
+    formGrid.setText(row, labelIdx, "");
+    formGrid.setWidget(row, fieldIdx, legacycidInChangeTable);
+    row++;
 
     formGrid.setText(row, labelIdx, Util.C.commentVisibilityLabel());
     formGrid.setWidget(row, fieldIdx, commentVisibilityStrategy);
     row++;
 
-    if (Gerrit.getConfig().getNewFeatures()) {
-      formGrid.setText(row, labelIdx, Util.C.changeScreenLabel());
-      formGrid.setWidget(row, fieldIdx, changeScreen);
-      row++;
+    formGrid.setText(row, labelIdx, Util.C.changeScreenLabel());
+    formGrid.setWidget(row, fieldIdx, changeScreen);
+    row++;
 
-      formGrid.setText(row, labelIdx, Util.C.diffViewLabel());
-      formGrid.setWidget(row, fieldIdx, diffView);
-    }
+    formGrid.setText(row, labelIdx, Util.C.diffViewLabel());
+    formGrid.setWidget(row, fieldIdx, diffView);
+
     add(formGrid);
 
     save = new Button(Util.C.buttonSaveChanges());

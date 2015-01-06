@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "413a30aa_edca057b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-06T02:56:33Z",
+      "side": 1,
+      "message": "three?",
+      "range": {
+        "startLine": 11,
+        "startChar": 39,
+        "endLine": 11,
+        "endChar": 42
+      },
+      "revId": "9883a22896d3c0eaefcb36f6a66ab56bc7df92aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8e0ff523_77f0b0f1",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-06T02:56:33Z",
+      "side": 1,
+      "message": "Do you already have a follow up change related to this?\n\nIf not it might be better to add a more explanatory comment, then someone else might be able to look into it.",
+      "range": {
+        "startLine": 232,
+        "startChar": 56,
+        "endLine": 232,
+        "endChar": 68
+      },
+      "revId": "9883a22896d3c0eaefcb36f6a66ab56bc7df92aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8e0ff523_97e34431",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Files.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-06T02:56:33Z",
+      "side": 1,
+      "message": "Add this new option to the documentation?",
+      "range": {
+        "startLine": 103,
+        "startChar": 0,
+        "endLine": 104,
+        "endChar": 17
+      },
+      "revId": "9883a22896d3c0eaefcb36f6a66ab56bc7df92aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -30,7 +30,7 @@ by project name.
 ----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   {
@@ -70,7 +70,7 @@ GET /projects/?b=master HTTP/1.0
 ----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   {
@@ -103,7 +103,7 @@ GET /projects/?d HTTP/1.0
 ----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   {
@@ -133,7 +133,7 @@ Query the first project in the project list:
 ----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   {
@@ -160,7 +160,7 @@ List all projects that start with `platform/`:
 ----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   {
@@ -193,7 +193,7 @@ List all projects that match regex `test.*project`:
 ----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   {
@@ -221,7 +221,7 @@ Query the second project in the project list:
 ----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   {
@@ -245,7 +245,7 @@ List all projects that match substring `test/`:
 ----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   {
@@ -273,7 +273,7 @@ GET /projects/?t HTTP/1.0
 ----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   {
@@ -305,7 +305,7 @@ GET /projects/?type=PERMISSIONS HTTP/1.0
 ----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   {
@@ -338,7 +338,7 @@ describes the project.
 ----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   {
@@ -364,7 +364,7 @@ link:#project-input[ProjectInput].
 .Request
 ----
   PUT /projects/MyProject HTTP/1.0
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   {
     "description": "This is a demo project.",
@@ -382,7 +382,7 @@ describes the created project.
 ----
   HTTP/1.1 201 Created
   Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   {
@@ -410,7 +410,7 @@ Retrieves the description of a project.
 ----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   "Copies to other servers using the Git protocol"
@@ -432,7 +432,7 @@ a link:#project-description-input[ProjectDescriptionInput] entity.
 .Request
 ----
   PUT /projects/plugins%2Freplication/description HTTP/1.0
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   {
     "description": "Plugin for Gerrit that handles the replication.",
@@ -446,7 +446,7 @@ As response the new project description is returned.
 ----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   "Plugin for Gerrit that handles the replication."
@@ -498,7 +498,7 @@ Retrieves the name of a project's parent project. For the
 ----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   "All-Projects"
@@ -518,7 +518,7 @@ inside a link:#project-parent-input[ProjectParentInput] entity.
 .Request
 ----
   PUT /projects/plugins%2Freplication/parent HTTP/1.0
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   {
     "parent": "Public-Plugins",
@@ -532,7 +532,7 @@ As response the new parent project name is returned.
 ----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   "Public-Plugins"
@@ -555,7 +555,7 @@ Retrieves for a project the name of the branch to which `HEAD` points.
 ----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   "refs/heads/master"
@@ -575,7 +575,7 @@ request body inside a link:#head-input[HeadInput] entity.
 .Request
 ----
   PUT /projects/plugins%2Freplication/HEAD HTTP/1.0
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   {
     "ref": "refs/heads/stable"
@@ -588,7 +588,7 @@ As response the new ref to which `HEAD` points is returned.
 ----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   "refs/heads/stable"
@@ -614,7 +614,7 @@ link:#repository-statistics-info[RepositoryStatisticsInfo] entity.
 ----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   {
@@ -651,7 +651,7 @@ read access to `refs/meta/config`.
 ----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   {
@@ -723,7 +723,7 @@ link:#config-input[ConfigInput] entity.
 .Request
 ----
   PUT /projects/myproject/config HTTP/1.0
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   {
     "description": "demo project",
@@ -745,7 +745,7 @@ ConfigInfo] entity.
 ----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   {
@@ -799,7 +799,7 @@ request body as a link:#gc-input[GCInput] entity.
 .Request
 ----
   POST /projects/plugins%2Freplication/gc HTTP/1.0
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   {
     "show_progress": true
@@ -812,7 +812,7 @@ The response is the streamed output of the garbage collection.
 ----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
-  Content-Type: text/plain;charset=UTF-8
+  Content-Type: text/plain; charset=UTF-8
 
   collecting garbage for "plugins/replication":
   Pack refs:              100% (21/21)
@@ -855,7 +855,7 @@ The caller must be project owner.
 .Request
 ----
   PUT /projects/plugins%2Freplication/ban HTTP/1.0
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   {
     "commits": [
@@ -872,7 +872,7 @@ As response a link:#ban-result-info[BanResultInfo] entity is returned.
 ----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   {
@@ -906,7 +906,7 @@ returned.
 ----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   [
@@ -945,7 +945,7 @@ Limit the number of branches to be included in the results.
 ----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   [
@@ -969,7 +969,7 @@ Skip the given number of branches from the beginning of the list.
 ----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   [
@@ -995,7 +995,7 @@ List all projects that match substring `test`:
 ----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   [
@@ -1024,7 +1024,7 @@ List all branches that match regex `t.*1`:
 ----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   [
@@ -1056,7 +1056,7 @@ describes the branch.
 ----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   {
@@ -1079,7 +1079,7 @@ link:#branch-input[BranchInput].
 .Request
 ----
   PUT /projects/MyProject/branches/stable HTTP/1.0
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   {
     "revision": "76016386a0d8ecc7b6be212424978bb45959d668"
@@ -1093,7 +1093,7 @@ describes the created branch.
 ----
   HTTP/1.1 201 Created
   Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   {
@@ -1140,7 +1140,7 @@ The content is returned as base64 encoded string.
 ----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
-  Content-Type: text/plain;charset=UTF-8
+  Content-Type: text/plain; charset=UTF-8
 
   Ly8gQ29weXJpZ2h0IChDKSAyMDEwIFRoZSBBbmRyb2lkIE9wZW4gU291cmNlIFByb2plY...
 ----
@@ -1168,7 +1168,7 @@ returned in reverse order.
 ----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   [
@@ -1247,7 +1247,7 @@ returned that describe the child projects.
 ----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   [
@@ -1287,7 +1287,7 @@ are not resolved further.
 ----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   [
@@ -1345,7 +1345,7 @@ describes the child project.
 ----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   {
@@ -1380,7 +1380,7 @@ Only includes tags under the `refs/tags/` namespace.
 ----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   [
@@ -1434,7 +1434,7 @@ As response a link:#tag-info[TagInfo] entity is returned that describes the tag.
 ----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   {
@@ -1477,7 +1477,7 @@ is returned that describes the commit.
 ----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   {
@@ -1524,7 +1524,7 @@ The content is returned as base64 encoded string.
 ----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
-  Content-Type: text/plain;charset=UTF-8
+  Content-Type: text/plain; charset=UTF-8
 
   Ly8gQ29weXJpZ2h0IChDKSAyMDEwIFRoZSBBbmRyb2lkIE9wZW4gU291cmNlIFByb2plY...
 ----
@@ -1554,7 +1554,7 @@ List all dashboards for the `work/my-project` project:
 ----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   [
@@ -1606,7 +1606,7 @@ that describes the dashboard.
 ----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   {
@@ -1642,7 +1642,7 @@ dashboard-id.
 ----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   {
@@ -1682,7 +1682,7 @@ the request body as a link:#dashboard-input[DashboardInput] entity.
 .Request
 ----
   PUT /projects/work%2Fmy-project/dashboards/default HTTP/1.0
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   {
     "id": "main:closed",
@@ -1697,7 +1697,7 @@ link:#dashboard-info[DashboardInfo] entity.
 ----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   {

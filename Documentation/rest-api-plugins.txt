@@ -40,7 +40,7 @@ by plugin ID.
 ----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   {
@@ -76,7 +76,7 @@ a link:#plugin-input[PluginInput] entity.
 .Request
 ----
   PUT /plugins/delete-project HTTP/1.0
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   {
     "url": "file:///gerrit/plugins/delete-project/delete-project-2.8.jar"
@@ -97,7 +97,7 @@ describes the plugin.
 ----
   HTTP/1.1 201 Created
   Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   {
@@ -128,7 +128,7 @@ describes the plugin.
 ----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   {
@@ -157,7 +157,7 @@ describes the plugin.
 ----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   {
@@ -192,7 +192,7 @@ describes the plugin.
 ----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   {
@@ -222,7 +222,7 @@ describes the plugin.
 ----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   {

@@ -21,7 +21,7 @@ mandatory. Valid values for status are: `DRAFT` and `NEW`.
 .Request
 ----
   POST /changes HTTP/1.0
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   {
     "project" : "myProject",
@@ -39,7 +39,7 @@ the resulting change.
 ----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   {
@@ -88,7 +88,7 @@ Query for open changes of watched projects:
 ----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   [
@@ -157,7 +157,7 @@ Query that retrieves changes for a user's dashboard:
 ----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   [
@@ -312,7 +312,7 @@ default. Optional fields are:
 ----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   [
@@ -449,7 +449,7 @@ describes the change.
 ----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   {
@@ -501,7 +501,7 @@ REJECTED > APPROVED > DISLIKED > RECOMMENDED.
 ----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   {
@@ -653,7 +653,7 @@ Retrieves the topic of a change.
 ----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   "Documentation"
@@ -675,7 +675,7 @@ link:#topic-input[TopicInput] entity.
 .Request
 ----
   PUT /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/topic HTTP/1.0
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   {
     "topic": "Documentation"
@@ -688,7 +688,7 @@ As response the new topic is returned.
 ----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   "Documentation"
@@ -744,7 +744,7 @@ describes the abandoned change.
 ----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   {
@@ -774,7 +774,7 @@ the error message is contained in the response body.
 ----
   HTTP/1.1 409 Conflict
   Content-Disposition: attachment
-  Content-Type: text/plain;charset=UTF-8
+  Content-Type: text/plain; charset=UTF-8
 
   change is merged
 ----
@@ -802,7 +802,7 @@ describes the restored change.
 ----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   {
@@ -832,7 +832,7 @@ the error message is contained in the response body.
 ----
   HTTP/1.1 409 Conflict
   Content-Disposition: attachment
-  Content-Type: text/plain;charset=UTF-8
+  Content-Type: text/plain; charset=UTF-8
 
   change is new
 ----
@@ -858,7 +858,7 @@ is included.
 ----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   {
@@ -922,7 +922,7 @@ body.
 ----
   HTTP/1.1 409 Conflict
   Content-Disposition: attachment
-  Content-Type: text/plain;charset=UTF-8
+  Content-Type: text/plain; charset=UTF-8
 
   The change could not be rebased due to a path conflict during merge.
 ----
@@ -950,7 +950,7 @@ describes the reverting change.
 ----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   {
@@ -980,7 +980,7 @@ the error message is contained in the response body.
 ----
   HTTP/1.1 409 Conflict
   Content-Disposition: attachment
-  Content-Type: text/plain;charset=UTF-8
+  Content-Type: text/plain; charset=UTF-8
 
   change is new
 ----
@@ -1000,7 +1000,7 @@ complete.
 .Request
 ----
   POST /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/submit HTTP/1.0
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   {
     "wait_for_merge": true
@@ -1014,7 +1014,7 @@ describes the submitted/merged change.
 ----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   {
@@ -1041,7 +1041,7 @@ message is contained in the response body.
 ----
   HTTP/1.1 409 Conflict
   Content-Disposition: attachment
-  Content-Type: text/plain;charset=UTF-8
+  Content-Type: text/plain; charset=UTF-8
 
   blocked by Verified
 ----
@@ -1057,7 +1057,7 @@ Publishes a draft change.
 .Request
 ----
   POST /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/publish HTTP/1.0
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 ----
 
 .Response
@@ -1076,7 +1076,7 @@ Deletes a draft change.
 .Request
 ----
   DELETE /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940 HTTP/1.0
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 ----
 
 .Response
@@ -1102,7 +1102,7 @@ an link:#included-in-info[IncludedInInfo] entity is returned.
 ----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   {
@@ -1154,7 +1154,7 @@ missing from the result. At least `id`, `project`, `branch`, and
 ----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   {
@@ -1202,7 +1202,7 @@ Only the change owner, a project owner, or an administrator may fix changes.
 ----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   {
@@ -1266,7 +1266,7 @@ provided fetch info map is also included.
 ----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   {
@@ -1329,7 +1329,7 @@ entity when a file within change edit should be restored.
 .Request
 ----
   POST /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/edit HTTP/1.0
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   {
     "restore_path": "foo"
@@ -1358,7 +1358,7 @@ entity.
 .Request
 ----
   PUT /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/edit:message HTTP/1.0
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   {
     "message": "New commit message\n\nChange-Id: I10394472cbd17dd12454f229e4f6de00b143a444"
@@ -1415,7 +1415,7 @@ specified file was deleted in the change edit "`204 No Content`" is returned.
 ----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
-  Content-Type: text/plain;charset=ISO-8859-1
+  Content-Type: text/plain; charset=ISO-8859-1
   X-FYI-Content-Encoding: base64
 
   RnJvbSA3ZGFkY2MxNTNmZGVhMTdhYTg0ZmYzMmE2ZTI0NWRiYjY...
@@ -1438,7 +1438,7 @@ Retrieves content MIME type of a file from a change edit.
 ----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   "text/plain"
@@ -1552,7 +1552,7 @@ As result a list of link:#reviewer-info[ReviewerInfo] entries is returned.
 ----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   [
@@ -1597,7 +1597,7 @@ As result a list of link:#suggested-reviewer-info[SuggestedReviewerInfo] entries
 ----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   [
@@ -1637,7 +1637,7 @@ describes the reviewer.
 ----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   {
@@ -1665,7 +1665,7 @@ body as a link:#reviewer-input[ReviewerInput] entity.
 .Request
 ----
   POST /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/reviewers HTTP/1.0
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   {
     "reviewer": "john.doe@example.com"
@@ -1679,7 +1679,7 @@ returned that describes the newly added reviewers.
 ----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   {
@@ -1707,7 +1707,7 @@ required.
 .Request
 ----
   POST /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/reviewers HTTP/1.0
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   {
     "reviewer": "MyProjectVerifiers"
@@ -1718,7 +1718,7 @@ required.
 ----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   {
@@ -1733,7 +1733,7 @@ To confirm the addition of the reviewers, resend the request with the
 .Request
 ----
   POST /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/reviewers HTTP/1.0
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   {
     "reviewer": "MyProjectVerifiers",
@@ -1782,7 +1782,7 @@ describes the revision.
 ----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   {
@@ -1838,7 +1838,7 @@ for the current patch set.
 ----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   {
@@ -1967,7 +1967,7 @@ describing the related changes.
 ----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   {
@@ -2033,7 +2033,7 @@ link:#review-input[ReviewInput] entity.
 .Request
 ----
   POST /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/revisions/674ac754f91e64a0efb8087e59a176484bd534d1/review HTTP/1.0
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   {
     "message": "Some nits need to be fixed.",
@@ -2071,7 +2071,7 @@ describes the applied labels.
 ----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   {
@@ -2102,7 +2102,7 @@ is included.
 ----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   {
@@ -2166,7 +2166,7 @@ body.
 ----
   HTTP/1.1 409 Conflict
   Content-Disposition: attachment
-  Content-Type: text/plain;charset=UTF-8
+  Content-Type: text/plain; charset=UTF-8
 
   The change could not be rebased due to a path conflict during merge.
 ----
@@ -2186,7 +2186,7 @@ complete.
 .Request
 ----
   POST /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/revisions/674ac754f91e64a0efb8087e59a176484bd534d1/submit HTTP/1.0
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   {
     "wait_for_merge": true
@@ -2200,7 +2200,7 @@ describes the status of the submitted change.
 ----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   {
@@ -2216,7 +2216,7 @@ message is contained in the response body.
 .Response
 ----
   HTTP/1.1 409 Conflict
-  Content-Type: text/plain;charset=UTF-8
+  Content-Type: text/plain; charset=UTF-8
 
   "revision 674ac754f91e64a0efb8087e59a176484bd534d1 is not current revision"
 ----
@@ -2232,7 +2232,7 @@ Publishes a draft revision.
 .Request
 ----
   POST /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/revisions/current/publish HTTP/1.0
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 ----
 
 .Response
@@ -2251,7 +2251,7 @@ Deletes a draft revision.
 .Request
 ----
   DELETE /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/revisions/674ac754f91e64a0efb8087e59a176484bd534d1 HTTP/1.0
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 ----
 
 .Response
@@ -2278,7 +2278,7 @@ The formatted patch is returned as text encoded inside base64:
 ----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
-  Content-Type: text/plain;charset=ISO-8859-1
+  Content-Type: text/plain; charset=ISO-8859-1
   X-FYI-Content-Encoding: base64
   X-FYI-Content-Type: application/mbox
 
@@ -2314,7 +2314,7 @@ As response a link:#mergeable-info[MergeableInfo] entity is returned.
 ----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   {
@@ -2338,7 +2338,7 @@ could merge cleanly.
 ----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   {
@@ -2368,7 +2368,7 @@ Gets the method the server will use to submit (merge) the change.
 ----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   "MERGE_IF_NECESSARY"
@@ -2390,7 +2390,7 @@ a project-specific rule.
 .Request
 ----
   POST /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/revisions/current/test.submit_type HTTP/1.0
-  Content-Type: text/plain;charset-UTF-8
+  Content-Type: text/plain; charset-UTF-8
 
   submit_type(cherry_pick).
 ----
@@ -2399,7 +2399,7 @@ a project-specific rule.
 ----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   "CHERRY_PICK"
@@ -2421,7 +2421,7 @@ a project-specific rule.
 .Request
 ----
   POST /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/revisions/current/test.submit_rule?filters=SKIP HTTP/1.0
-  Content-Type: text/plain;charset-UTF-8
+  Content-Type: text/plain; charset-UTF-8
 
   submit_rule(submit(R)) :-
     R = label('Any-Label-Name', reject(_)).
@@ -2434,7 +2434,7 @@ describing the permutations that satisfy the tested submit rule.
 ----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   [
@@ -2469,7 +2469,7 @@ sorted by file path.
 ----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   {
@@ -2505,7 +2505,7 @@ link:#comment-input[CommentInput] entity.
 .Request
 ----
   PUT /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/revisions/674ac754f91e64a0efb8087e59a176484bd534d1/drafts HTTP/1.0
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   {
     "path": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
@@ -2521,7 +2521,7 @@ describes the draft comment.
 ----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   {
@@ -2554,7 +2554,7 @@ describes the draft comment.
 ----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   {
@@ -2580,7 +2580,7 @@ link:#comment-input[CommentInput] entity.
 .Request
 ----
   PUT /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/revisions/674ac754f91e64a0efb8087e59a176484bd534d1/drafts/TvcXrmjM HTTP/1.0
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   {
     "path": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
@@ -2596,7 +2596,7 @@ describes the draft comment.
 ----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   {
@@ -2649,7 +2649,7 @@ the general change message (or comment).
 ----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   {
@@ -2701,7 +2701,7 @@ describes the published comment.
 ----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   {
@@ -2739,7 +2739,7 @@ sorted by file path.
 ----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   {
@@ -2767,7 +2767,7 @@ need the FileInfo should make two requests.
 ----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   [
@@ -2795,7 +2795,7 @@ The content is returned as base64 encoded string.
 ----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
-  Content-Type: text/plain;charset=UTF-8
+  Content-Type: text/plain; charset=UTF-8
 
   Ly8gQ29weXJpZ2h0IChDKSAyMDEwIFRoZSBBbmRyb2lkIE9wZW4gU291cmNlIFByb2plY...
 ----
@@ -2820,7 +2820,7 @@ message (`/COMMIT_MSG`) is always returned as "text/plain".
 ----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   "text/plain"
@@ -2845,7 +2845,7 @@ As response a link:#diff-info[DiffInfo] entity is returned that describes the di
 ----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]
   {
@@ -2915,7 +2915,7 @@ If the `intraline` parameter is specified, intraline differences are included in
 ----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]
   {
@@ -2972,7 +2972,7 @@ If the `weblinks-only` parameter is specified, only the diff web links are retur
 ----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]
   {
@@ -3054,7 +3054,7 @@ link:#cherrypick-input[CherryPickInput] entity.
 .Request
 ----
   POST /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/revisions/674ac754f91e64a0efb8087e59a176484bd534d1/cherrypick HTTP/1.0
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   {
     "message" : "Implementing Feature X",
@@ -3069,7 +3069,7 @@ describes the resulting cherry picked change.
 ----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   {
@@ -3108,7 +3108,7 @@ link:#cherrypick-input[CherryPickInput] entity.
 .Request
 ----
   POST /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/revisions/674ac754f91e64a0efb8087e59a176484bd534d1/message HTTP/1.0
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   {
     "message" : "Reword Implementing Feature X",
@@ -3122,7 +3122,7 @@ describes the change.
 ----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   {

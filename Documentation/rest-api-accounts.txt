@@ -26,7 +26,7 @@ matching link:#account-info[AccountInfo] entities.
 ----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   [
@@ -62,7 +62,7 @@ Returns an account as an link:#account-info[AccountInfo] entity.
 ----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   {
@@ -87,7 +87,7 @@ link:#account-input[AccountInput].
 .Request
 ----
   PUT /accounts/john HTTP/1.0
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   {
     "name": "John Doe",
@@ -107,7 +107,7 @@ returned that describes the created account.
 ----
   HTTP/1.1 201 Created
   Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   {
@@ -134,7 +134,7 @@ Retrieves the full name of an account.
 ----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   "John Doe"
@@ -156,7 +156,7 @@ an link:#account-name-input[AccountNameInput] entity.
 .Request
 ----
   PUT /accounts/self/name HTTP/1.0
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   {
     "name": "John F. Doe"
@@ -169,7 +169,7 @@ As response the new account name is returned.
 ----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   "John F. Doe"
@@ -215,7 +215,7 @@ Retrieves the username of an account.
 ----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   "john.doe"
@@ -304,7 +304,7 @@ Retrieves the HTTP password of an account.
 ----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   "Qmxlc21ydCB1YmVyIGFsbGVzIGluIGRlciBXZWx0IQ"
@@ -327,7 +327,7 @@ HttpPasswordInput] entity.
 .Request
 ----
   PUT /accounts/self/password.http HTTP/1.0
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   {
     "generate": true
@@ -340,7 +340,7 @@ As response the new HTTP password is returned.
 ----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   "ETxgpih8xrNs"
@@ -386,7 +386,7 @@ link:#email-info[EmailInfo] entities.
 ----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   [
@@ -420,7 +420,7 @@ describes the email address.
 ----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   {
@@ -458,7 +458,7 @@ link:#email-info[EmailInfo] entity.
 ----
   HTTP/1.1 201 Created
   Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   {
@@ -526,7 +526,7 @@ link:#ssh-key-info[SshKeyInfo] entities.
 ----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   [
@@ -561,7 +561,7 @@ describes the SSH key.
 ----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   {
@@ -599,7 +599,7 @@ describes the new SSH key.
 ----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   {
@@ -656,7 +656,7 @@ link:#capability-info[CapabilityInfo] entity.
 ----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   {
@@ -680,7 +680,7 @@ Administrator that has authenticated with digest authentication:
 ----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   {
@@ -722,7 +722,7 @@ possible alternative for the caller.
 ----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   {
@@ -786,7 +786,7 @@ entries is returned.
 ----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   [
@@ -866,7 +866,7 @@ Retrieves the URL where the user can change the avatar image.
 ----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
-  Content-Type: text/plain;charset=UTF-8
+  Content-Type: text/plain; charset=UTF-8
 
   https://profiles/pictures/john.doe
 ----
@@ -891,7 +891,7 @@ link:#preferences-info[PreferencesInfo] entity.
 ----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   {
@@ -947,7 +947,7 @@ link:#preferences-input[PreferencesInput] entity.
 .Request
 ----
   PUT /a/accounts/self/preferences HTTP/1.0
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   {
     "changes_per_page": 50,
@@ -995,7 +995,7 @@ link:#preferences-info[PreferencesInfo] entity.
 ----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   {
@@ -1057,7 +1057,7 @@ link:#diff-preferences-info[DiffPreferencesInfo] entity.
 ----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   {
@@ -1087,7 +1087,7 @@ link:#diff-preferences-input[DiffPreferencesInput] entity.
 .Request
 ----
   GET /a/accounts/self/preferences.diff HTTP/1.0
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   {
     "context": 10,
@@ -1110,7 +1110,7 @@ link:#diff-preferences-info[DiffPreferencesInfo] entity.
 ----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   {
@@ -1147,7 +1147,7 @@ link:rest-api-changes.html#change-info[ChangeInfo] entities.
 ----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   [

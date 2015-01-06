@@ -24,7 +24,7 @@ Returns the version of the Gerrit server.
 .Response
 ----
   HTTP/1.1 200 OK
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   "2.7"
@@ -55,7 +55,7 @@ The entries in the map are sorted by cache name.
 .Response
 ----
   HTTP/1.1 200 OK
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   {
@@ -280,7 +280,7 @@ The cache names are alphabetically sorted.
 .Response
 ----
   HTTP/1.1 200 OK
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   [
@@ -325,7 +325,7 @@ The cache names are lexicographically sorted.
 .Response
 ----
   HTTP/1.1 200 OK
-  Content-Type: text/plain;charset=UTF-8
+  Content-Type: text/plain; charset=UTF-8
 
   YWNjb3VudHMKYW...ViX3Nlc3Npb25z
 ----
@@ -354,7 +354,7 @@ link:#cache-operation-input[CacheOperationInput] entity.
 .Request
 ----
   POST /config/server/caches/ HTTP/1.0
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   {
     "operation": "FLUSH_ALL"
@@ -372,7 +372,7 @@ link:#cache-operation-input[CacheOperationInput] entity.
 .Request
 ----
   POST /config/server/caches/ HTTP/1.0
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   {
     "operation": "FLUSH",
@@ -411,7 +411,7 @@ As result a link:#cache-info[CacheInfo] entity is returned.
 .Response
 ----
   HTTP/1.1 200 OK
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   {
@@ -488,7 +488,7 @@ As result a link:#summary-info[SummaryInfo] entity is returned.
 .Response
 ----
   HTTP/1.1 200 OK
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   {
@@ -561,7 +561,7 @@ The entries in the map are sorted by capability ID.
 .Response
 ----
   HTTP/1.1 200 OK
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   {
@@ -670,7 +670,7 @@ command.
 .Response
 ----
   HTTP/1.1 200 OK
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   [
@@ -719,7 +719,7 @@ As result a link:#task-info[TaskInfo] entity is returned.
 .Response
 ----
   HTTP/1.1 200 OK
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   {
@@ -783,7 +783,7 @@ link:#top-menu-entry-info[TopMenuEntryInfo] entities is returned.
 .Response
 ----
   HTTP/1.1 200 OK
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: application/json; charset=UTF-8
 
   )]}'
   [

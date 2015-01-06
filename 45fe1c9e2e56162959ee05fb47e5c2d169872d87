@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "413a30aa_adfd5d7c",
+        "filename": "Documentation/user-inline-edit.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-06T06:49:43Z",
+      "side": 1,
+      "message": "This has been changed to \u0027Close\u0027 and there is now a confirmation to save unsaved edits.",
+      "range": {
+        "startLine": 55,
+        "startChar": 1,
+        "endLine": 55,
+        "endChar": 7
+      },
+      "revId": "45fe1c9e2e56162959ee05fb47e5c2d169872d87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8e0ff523_177cd4a2",
+        "filename": "Documentation/user-inline-edit.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-06T06:49:43Z",
+      "side": 1,
+      "message": "CTRL-S can be used to save the edits.",
+      "revId": "45fe1c9e2e56162959ee05fb47e5c2d169872d87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

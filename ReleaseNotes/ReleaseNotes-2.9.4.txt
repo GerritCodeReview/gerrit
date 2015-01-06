@@ -1,0 +1,33 @@
+Release notes for Gerrit 2.9.4
+==============================
+
+Download:
+link:https://gerrit-releases.storage.googleapis.com/gerrit-2.9.4.war[
+https://gerrit-releases.storage.googleapis.com/gerrit-2.9.4.war]
+
+Important Notes
+---------------
+
+*WARNING:* There are no schema changes from
+link:ReleaseNotes-2.9.3.html[2.9.3], but when upgrading from an existing site
+that was initialized with Gerrit version 2.6 to version 2.9.1 the primary key
+column order will be updated for some tables. It is therefore important to
+upgrade the site with the `init` program, rather than only copying the .war file
+over the existing one.
+
+It is recommended to run the `init` program in interactive mode. Warnings will
+be suppressed in batch mode.
+
+----
+  java -jar gerrit.war init -d site_path
+----
+
+Bug Fixes
+---------
+
+* Update JGit to 3.4.2.201412180340-r
++
+This JGit version mitigates
+link:http://article.gmane.org/gmane.linux.kernel/1853266[CVE-2014-9390]. See the
+link:https://projects.eclipse.org/projects/technology.jgit/releases/3.4.2[JGit release notes]
+for further details.

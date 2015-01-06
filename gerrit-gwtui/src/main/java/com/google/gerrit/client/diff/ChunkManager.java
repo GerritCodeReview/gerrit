@@ -32,8 +32,8 @@ import com.google.gwt.user.client.EventListener;
 import net.codemirror.lib.CodeMirror;
 import net.codemirror.lib.CodeMirror.LineClassWhere;
 import net.codemirror.lib.Configuration;
-import net.codemirror.lib.Pos;
 import net.codemirror.lib.LineWidget;
+import net.codemirror.lib.Pos;
 import net.codemirror.lib.TextMarker;
 
 import java.util.ArrayList;

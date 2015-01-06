@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "813188d3_2adb1f81",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/editor/EditScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-01-06T00:11:27Z",
+      "side": 1,
+      "message": "Dropped, this is no longer part of \"save\".",
+      "parentUuid": "61781470_76d5f0c8",
+      "range": {
+        "startLine": 218,
+        "startChar": 4,
+        "endLine": 221,
+        "endChar": 5
+      },
+      "revId": "415f92e94ee00cdd20baa682c847b3a90178b2e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "61781470_96e28caa",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/editor/EditScreen.java",
         "patchSetId": 2
@@ -60,6 +84,30 @@
       "side": 1,
       "message": "\u003e 1 Stay on Ctrl-s and on Save buton in edit screen, but \n \u003e rename the \"Cancel\" button in \"Close\"\n\n+1",
       "parentUuid": "61781470_96e28caa",
+      "range": {
+        "startLine": 313,
+        "startChar": 16,
+        "endLine": 316,
+        "endChar": 17
+      },
+      "revId": "415f92e94ee00cdd20baa682c847b3a90178b2e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "813188d3_4ae8530c",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/editor/EditScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-01-06T00:11:27Z",
+      "side": 1,
+      "message": "Implemented 1 \"Stay on Ctrl-S and Save, rename Cancel to Close\".",
+      "parentUuid": "61781470_b6e788b9",
       "range": {
         "startLine": 313,
         "startChar": 16,

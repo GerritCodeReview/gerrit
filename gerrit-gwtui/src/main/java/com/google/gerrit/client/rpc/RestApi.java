@@ -104,21 +104,21 @@ public class RestApi {
     }
   }
 
-  private static class HttpCallback<T extends JavaScriptObject>
+  private static class HttpImpl<T extends JavaScriptObject>
       implements RequestCallback {
     private final boolean background;
-    private final AsyncCallback<T> cb;
+    private final HttpCallback<T> cb;
 
-    HttpCallback(boolean bg, AsyncCallback<T> cb) {
+    HttpImpl(boolean bg, HttpCallback<T> cb) {
       this.background = bg;
       this.cb = cb;
     }
 
     @Override
-    public void onResponseReceived(Request req, Response res) {
+    public void onResponseReceived(Request req, final Response res) {
       int status = res.getStatusCode();
       if (status == Response.SC_NO_CONTENT) {
-        cb.onSuccess(null);
+        cb.onSuccess(new HttpResponse<T>(res, null, null));
         if (!background) {
           RpcStatus.INSTANCE.onRpcComplete();
         }
@@ -126,12 +126,12 @@ public class RestApi {
       } else if (200 <= status && status < 300) {
         long start = System.currentTimeMillis();
         final T data;
-        if (isTextBody(res)) {
-          data = NativeString.wrap(res.getText()).cast();
-        } else if (isJsonBody(res)) {
+        final String type;
+        if (isJsonBody(res)) {
           try {
             // javac generics bug
-            data = RestApi.<T>cast(parseJson(res));
+            data = RestApi.<T> cast(parseJson(res));
+            type = JSON_TYPE;
           } catch (JSONException e) {
             if (!background) {
               RpcStatus.INSTANCE.onRpcComplete();
@@ -140,6 +140,12 @@ public class RestApi {
                 "Invalid JSON: " + e.getMessage()));
             return;
           }
+        } else if (isEncodedBase64(res)) {
+          data = NativeString.wrap(decodeBase64(res.getText())).cast();
+          type = simpleType(res.getHeader("X-FYI-Content-Type"));
+        } else if (isTextBody(res)) {
+          data = NativeString.wrap(res.getText()).cast();
+          type = TEXT_TYPE;
         } else {
           if (!background) {
             RpcStatus.INSTANCE.onRpcComplete();
@@ -154,7 +160,7 @@ public class RestApi {
           @Override
           public void execute() {
             try {
-              cb.onSuccess(data);
+              cb.onSuccess(new HttpResponse<>(res, type, data));
             } finally {
               if (!background) {
                 RpcStatus.INSTANCE.onRpcComplete();
@@ -318,21 +324,24 @@ public class RestApi {
   }
 
   public <T extends JavaScriptObject> void get(AsyncCallback<T> cb) {
+    get(wrap(cb));
+  }
+
+  public <T extends JavaScriptObject> void get(HttpCallback<T> cb) {
     send(GET, cb);
   }
 
   public <T extends JavaScriptObject> void delete(AsyncCallback<T> cb) {
+    delete(wrap(cb));
+  }
+
+  public <T extends JavaScriptObject> void delete(HttpCallback<T> cb) {
     send(DELETE, cb);
   }
 
-  public <T extends JavaScriptObject> void delete(JavaScriptObject content,
-      AsyncCallback<T> cb) {
-    sendJSON(DELETE, content, cb);
-  }
-
-  private <T extends JavaScriptObject> void send(
-      Method method, AsyncCallback<T> cb) {
-    HttpCallback<T> httpCallback = new HttpCallback<>(background, cb);
+  private <T extends JavaScriptObject> void send(Method method,
+      HttpCallback<T> cb) {
+    HttpImpl<T> httpCallback = new HttpImpl<>(background, cb);
     try {
       if (!background) {
         RpcStatus.INSTANCE.onRpcStart();
@@ -346,33 +355,59 @@ public class RestApi {
   public <T extends JavaScriptObject> void post(
       JavaScriptObject content,
       AsyncCallback<T> cb) {
+    post(content, wrap(cb));
+  }
+
+  public <T extends JavaScriptObject> void post(
+      JavaScriptObject content,
+      HttpCallback<T> cb) {
     sendJSON(POST, content, cb);
   }
 
   public <T extends JavaScriptObject> void post(String content,
       AsyncCallback<T> cb) {
+    post(content, wrap(cb));
+  }
+
+  public <T extends JavaScriptObject> void post(String content,
+      HttpCallback<T> cb) {
     sendRaw(POST, content, cb);
   }
 
   public <T extends JavaScriptObject> void put(AsyncCallback<T> cb) {
+    put(wrap(cb));
+  }
+
+  public <T extends JavaScriptObject> void put(HttpCallback<T> cb) {
     send(PUT, cb);
   }
 
   public <T extends JavaScriptObject> void put(String content,
       AsyncCallback<T> cb) {
+    put(content, wrap(cb));
+  }
+
+  public <T extends JavaScriptObject> void put(String content,
+      HttpCallback<T> cb) {
     sendRaw(PUT, content, cb);
   }
 
   public <T extends JavaScriptObject> void put(
       JavaScriptObject content,
       AsyncCallback<T> cb) {
+    put(content, wrap(cb));
+  }
+
+  public <T extends JavaScriptObject> void put(
+      JavaScriptObject content,
+      HttpCallback<T> cb) {
     sendJSON(PUT, content, cb);
   }
 
   private <T extends JavaScriptObject> void sendJSON(
       Method method, JavaScriptObject content,
-      AsyncCallback<T> cb) {
-    HttpCallback<T> httpCallback = new HttpCallback<>(background, cb);
+      HttpCallback<T> cb) {
+    HttpImpl<T> httpCallback = new HttpImpl<>(background, cb);
     try {
       if (!background) {
         RpcStatus.INSTANCE.onRpcStart();
@@ -385,11 +420,15 @@ public class RestApi {
     }
   }
 
-  private static native String str(JavaScriptObject jso) /*-{ return JSON.stringify(jso); }-*/;
+  private static native String str(JavaScriptObject jso)
+  /*-{ return JSON.stringify(jso) }-*/;
+
+  private static native String decodeBase64(String a)
+  /*-{ return $wnd.atob(a) }-*/;
 
   private <T extends JavaScriptObject> void sendRaw(Method method, String body,
-      AsyncCallback<T> cb) {
-    HttpCallback<T> httpCallback = new HttpCallback<>(background, cb);
+      HttpCallback<T> cb) {
+    HttpImpl<T> httpCallback = new HttpImpl<>(background, cb);
     try {
       if (!background) {
         RpcStatus.INSTANCE.onRpcStart();
@@ -422,16 +461,22 @@ public class RestApi {
     return isContentType(res, TEXT_TYPE);
   }
 
+  private static boolean isEncodedBase64(Response res) {
+    return "base64".equals(res.getHeader("X-FYI-Content-Encoding"))
+        && isTextBody(res);
+  }
+
   private static boolean isContentType(Response res, String want) {
     String type = res.getHeader("Content-Type");
-    if (type == null) {
-      return false;
-    }
+    return type != null && want.equals(simpleType(type));
+  }
+
+  private static String simpleType(String type) {
     int semi = type.indexOf(';');
     if (semi >= 0) {
-      type = type.substring(0, semi).trim();
+      return type.substring(0, semi).trim();
     }
-    return want.equals(type);
+    return type;
   }
 
   private static JSONValue parseJson(Response res)
@@ -463,5 +508,20 @@ public class RestApi {
     } else {
       throw new JSONException("unsupported JSON type");
     }
+  }
+
+  private static <T extends JavaScriptObject> HttpCallback<T> wrap(
+      final AsyncCallback<T> cb) {
+    return new HttpCallback<T>() {
+      @Override
+      public void onSuccess(HttpResponse<T> r) {
+        cb.onSuccess(r.getResult());
+      }
+
+      @Override
+      public void onFailure(Throwable e) {
+        cb.onFailure(e);
+      }
+    };
   }
 }

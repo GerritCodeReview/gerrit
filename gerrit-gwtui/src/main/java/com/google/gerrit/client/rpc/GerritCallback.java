@@ -23,7 +23,6 @@ import com.google.gerrit.common.errors.NoSuchAccountException;
 import com.google.gerrit.common.errors.NoSuchEntityException;
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.common.errors.NotSignedInException;
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.InvocationException;
 import com.google.gwtjsonrpc.client.RemoteJsonException;
 import com.google.gwtjsonrpc.client.ServerUnavailableException;
@@ -35,6 +34,10 @@ public abstract class GerritCallback<T> implements
     com.google.gwt.user.client.rpc.AsyncCallback<T> {
   @Override
   public void onFailure(final Throwable caught) {
+    showFailure(caught);
+  }
+
+  public static void showFailure(Throwable caught) {
     if (isNotSignedIn(caught) || isInvalidXSRF(caught)) {
       new NotSignedInDialog().center();
 
@@ -70,7 +73,6 @@ public abstract class GerritCallback<T> implements
       new ErrorDialog(RpcConstants.C.errorServerUnavailable()).center();
 
     } else {
-      GWT.log(getClass().getName() + " caught " + caught, caught);
       new ErrorDialog(caught).center();
     }
   }

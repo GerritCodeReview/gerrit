@@ -14,17 +14,23 @@
 
 package com.google.gerrit.client.editor;
 
+import static com.google.gwt.dom.client.Style.Visibility.HIDDEN;
+import static com.google.gwt.dom.client.Style.Visibility.VISIBLE;
+
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.JumpKeys;
 import com.google.gerrit.client.VoidResult;
 import com.google.gerrit.client.account.DiffPreferences;
 import com.google.gerrit.client.changes.ChangeApi;
-import com.google.gerrit.client.changes.ChangeFileApi;
+import com.google.gerrit.client.changes.ChangeEditApi;
 import com.google.gerrit.client.changes.ChangeInfo;
 import com.google.gerrit.client.diff.FileInfo;
 import com.google.gerrit.client.diff.Header;
 import com.google.gerrit.client.rpc.CallbackGroup;
 import com.google.gerrit.client.rpc.GerritCallback;
+import com.google.gerrit.client.rpc.HttpCallback;
+import com.google.gerrit.client.rpc.HttpResponse;
+import com.google.gerrit.client.rpc.NativeString;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.Screen;
 import com.google.gerrit.common.PageLinks;
@@ -68,11 +74,14 @@ public class EditScreen extends Screen {
   private final String path;
   private DiffPreferences prefs;
   private CodeMirror cm;
-  private String type;
+  private HttpResponse<NativeString> content;
 
   @UiField Element header;
   @UiField Element project;
   @UiField Element filePath;
+  @UiField Element cursLine;
+  @UiField Element cursCol;
+  @UiField Element dirty;
   @UiField Button close;
   @UiField Button save;
   @UiField Element editor;
@@ -100,10 +109,11 @@ public class EditScreen extends Screen {
   protected void onLoad() {
     super.onLoad();
 
-    CallbackGroup cmGroup = new CallbackGroup();
-    final CallbackGroup group = new CallbackGroup();
-    CodeMirror.initLibrary(cmGroup.add(new AsyncCallback<Void>() {
-      final AsyncCallback<Void> themeCallback = group.addEmpty();
+    CallbackGroup group1 = new CallbackGroup();
+    final CallbackGroup group2 = new CallbackGroup();
+
+    CodeMirror.initLibrary(group1.add(new AsyncCallback<Void>() {
+      final AsyncCallback<Void> themeCallback = group2.addEmpty();
 
       @Override
       public void onSuccess(Void result) {
@@ -116,36 +126,48 @@ public class EditScreen extends Screen {
       }
     }));
 
-    if (prefs.syntaxHighlighting() && !Patch.COMMIT_MSG.equals(path)) {
-      final AsyncCallback<Void> modeInjectorCb = group.addEmpty();
-      ChangeFileApi.getContentType(revision, path,
-          cmGroup.add(new GerritCallback<String>() {
-            @Override
-            public void onSuccess(String result) {
-              ModeInfo mode = ModeInfo.findMode(result, path);
-              type = mode != null ? mode.mime() : null;
-              injectMode(result, modeInjectorCb);
-            }
-          }));
-    }
-    cmGroup.done();
-
     ChangeApi.detail(revision.getParentKey().get(),
-        group.add(new GerritCallback<ChangeInfo>() {
+        group1.add(new AsyncCallback<ChangeInfo>() {
           @Override
           public void onSuccess(ChangeInfo c) {
             project.setInnerText(c.project());
             SafeHtml.setInnerHTML(filePath, Header.formatPath(path, null, null));
           }
-        }));
 
-    ChangeFileApi.getContentOrMessage(revision, path,
-        group.addFinal(new ScreenLoadCallback<String>(this) {
           @Override
-          protected void preDisplay(String content) {
-            initEditor(content);
+          public void onFailure(Throwable caught) {
           }
         }));
+
+    ChangeEditApi.get(revision, path,
+        group1.add(new HttpCallback<NativeString>() {
+          final AsyncCallback<Void> modeCallback = group2.addEmpty();
+
+          @Override
+          public void onSuccess(HttpResponse<NativeString> fc) {
+            content = fc;
+            if (prefs.syntaxHighlighting()) {
+              injectMode(fc.getContentType(), modeCallback);
+            } else {
+              modeCallback.onSuccess(null);
+            }
+          }
+
+          @Override
+          public void onFailure(Throwable e) {
+            GerritCallback.showFailure(e);
+          }
+        }));
+
+    group2.addListener(new ScreenLoadCallback<Void>(this) {
+      @Override
+      protected void preDisplay(Void result) {
+        initEditor(content);
+        content = null;
+      }
+    });
+    group1.done();
+    group2.done();
   }
 
   @Override
@@ -172,11 +194,11 @@ public class EditScreen extends Screen {
     });
 
     generation = cm.changeGeneration(true);
-    save.setEnabled(false);
+    setClean(true);
     cm.on(new ChangesHandler() {
       @Override
       public void handle(CodeMirror cm) {
-        save.setEnabled(!cm.isClean(generation));
+        setClean(cm.isClean(generation));
       }
     });
 
@@ -223,12 +245,12 @@ public class EditScreen extends Screen {
     Gerrit.display(PageLinks.toChangeInEditMode(revision.getParentKey()));
   }
 
-  private void initEditor(String content) {
+  private void initEditor(HttpResponse<NativeString> file) {
     ModeInfo mode = prefs.syntaxHighlighting()
-        ? ModeInfo.findMode(type, path)
+        ? ModeInfo.findMode(file.getContentType(), path)
         : null;
     cm = CodeMirror.create(editor, Configuration.create()
-        .set("value", content)
+        .set("value", file.getResult().asString())
         .set("readOnly", false)
         .set("cursorBlinkRate", 0)
         .set("cursorHeight", 0.85)
@@ -272,7 +294,14 @@ public class EditScreen extends Screen {
 
   private void updateActiveLine() {
     Pos p = cm.getCursor("end");
+    cursLine.setInnerText(Integer.toString(p.line() + 1));
+    cursCol.setInnerText(Integer.toString(p.ch() + 1));
     cm.extras().activeLine(cm.getLineHandleVisualStart(p.line()));
+  }
+
+  private void setClean(boolean clean) {
+    save.setEnabled(!clean);
+    dirty.getStyle().setVisibility(!clean ? VISIBLE : HIDDEN);
   }
 
   private Runnable save() {
@@ -282,12 +311,12 @@ public class EditScreen extends Screen {
         if (!cm.isClean(generation)) {
           String text = cm.getValue();
           final int g = cm.changeGeneration(false);
-          ChangeFileApi.putContentOrMessage(revision, path, text,
+          ChangeEditApi.put(revision.getParentKey().get(), path, text,
               new GerritCallback<VoidResult>() {
                 @Override
                 public void onSuccess(VoidResult result) {
                   generation = g;
-                  save.setEnabled(!cm.isClean(g));
+                  setClean(cm.isClean(g));
                 }
               });
         }

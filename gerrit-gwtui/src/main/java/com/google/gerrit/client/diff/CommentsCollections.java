@@ -18,11 +18,11 @@ import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.changes.CommentApi;
 import com.google.gerrit.client.changes.CommentInfo;
 import com.google.gerrit.client.rpc.CallbackGroup;
-import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.NativeMap;
 import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.JsArray;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -53,38 +53,54 @@ class CommentsCollections {
     }
   }
 
-  private GerritCallback<NativeMap<JsArray<CommentInfo>>> publishedBase() {
-    return new GerritCallback<NativeMap<JsArray<CommentInfo>>>() {
+  private AsyncCallback<NativeMap<JsArray<CommentInfo>>> publishedBase() {
+    return new AsyncCallback<NativeMap<JsArray<CommentInfo>>>() {
       @Override
       public void onSuccess(NativeMap<JsArray<CommentInfo>> result) {
         publishedBase = sort(result.get(path));
       }
+
+      @Override
+      public void onFailure(Throwable caught) {
+      }
     };
   }
 
-  private GerritCallback<NativeMap<JsArray<CommentInfo>>> publishedRevision() {
-    return new GerritCallback<NativeMap<JsArray<CommentInfo>>>() {
+  private AsyncCallback<NativeMap<JsArray<CommentInfo>>> publishedRevision() {
+    return new AsyncCallback<NativeMap<JsArray<CommentInfo>>>() {
       @Override
       public void onSuccess(NativeMap<JsArray<CommentInfo>> result) {
         publishedRevision = sort(result.get(path));
       }
-    };
-  }
 
-  private GerritCallback<NativeMap<JsArray<CommentInfo>>> draftsBase() {
-    return new GerritCallback<NativeMap<JsArray<CommentInfo>>>() {
       @Override
-      public void onSuccess(NativeMap<JsArray<CommentInfo>> result) {
-        draftsBase = sort(result.get(path));
+      public void onFailure(Throwable caught) {
       }
     };
   }
 
-  private GerritCallback<NativeMap<JsArray<CommentInfo>>> draftsRevision() {
-    return new GerritCallback<NativeMap<JsArray<CommentInfo>>>() {
+  private AsyncCallback<NativeMap<JsArray<CommentInfo>>> draftsBase() {
+    return new AsyncCallback<NativeMap<JsArray<CommentInfo>>>() {
+      @Override
+      public void onSuccess(NativeMap<JsArray<CommentInfo>> result) {
+        draftsBase = sort(result.get(path));
+      }
+
+      @Override
+      public void onFailure(Throwable caught) {
+      }
+    };
+  }
+
+  private AsyncCallback<NativeMap<JsArray<CommentInfo>>> draftsRevision() {
+    return new AsyncCallback<NativeMap<JsArray<CommentInfo>>>() {
       @Override
       public void onSuccess(NativeMap<JsArray<CommentInfo>> result) {
         draftsRevision = sort(result.get(path));
+      }
+
+      @Override
+      public void onFailure(Throwable caught) {
       }
     };
   }

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "c169c0a3_fc82c5db",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/editor/EditScreen.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-01-06T18:44:15Z",
+      "side": 1,
+      "message": "Removed type.",
+      "parentUuid": "61781470_96944cd6",
+      "range": {
+        "startLine": 73,
+        "startChar": 2,
+        "endLine": 73,
+        "endChar": 29
+      },
+      "revId": "fa7f1afa5a80fa23f43304774b577aa10375cddb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "413a30aa_8da50195",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/rpc/HttpResponse.java",
         "patchSetId": 6
@@ -36,6 +60,30 @@
       "writtenOn": "2015-01-06T07:11:48Z",
       "side": 1,
       "message": "2015?",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "fa7f1afa5a80fa23f43304774b577aa10375cddb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "413a30aa_4d9dd940",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/rpc/HttpResponse.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-01-06T18:44:15Z",
+      "side": 1,
+      "message": "Changed to 2015.",
+      "parentUuid": "413a30aa_8da50195",
       "range": {
         "startLine": 1,
         "startChar": 17,

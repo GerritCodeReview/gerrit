@@ -22,6 +22,30 @@
       "revId": "a5d6df7bddc44385b0df572375cdff85a3da3077",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "813188d3_ca3a83ea",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeEditApi.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-01-06T19:43:22Z",
+      "side": 1,
+      "message": "Resolved. I managed to drop this type altogether, so the name of the method is moot.",
+      "parentUuid": "4175d075_15259446",
+      "range": {
+        "startLine": 56,
+        "startChar": 31,
+        "endLine": 56,
+        "endChar": 42
+      },
+      "revId": "a5d6df7bddc44385b0df572375cdff85a3da3077",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

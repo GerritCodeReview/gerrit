@@ -22,6 +22,30 @@
       "revId": "8fd5d7e5928b98a52e418abed6babbdea083827c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8e0ff523_b7188899",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/DiffTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-01-06T05:28:56Z",
+      "side": 1,
+      "message": "I debated making showLineNumbers a preference in the editor and then concluded that I didn\u0027t want to do that. The editor always shows line numbers. The diff view can hide them to save horizontal space. Thus, this isn\u0027t common.",
+      "parentUuid": "413a30aa_adc0fd5e",
+      "range": {
+        "startLine": 53,
+        "startChar": 4,
+        "endLine": 53,
+        "endChar": 29
+      },
+      "revId": "8fd5d7e5928b98a52e418abed6babbdea083827c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

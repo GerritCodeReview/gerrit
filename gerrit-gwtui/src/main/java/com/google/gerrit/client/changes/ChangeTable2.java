@@ -61,6 +61,7 @@ public class ChangeTable2 extends NavigationTable<ChangeInfo> {
 
   private final List<Section> sections;
   private int columns;
+  private boolean showLegacyId;
   private List<String> labelNames;
 
   public ChangeTable2() {
@@ -70,6 +71,9 @@ public class ChangeTable2 extends NavigationTable<ChangeInfo> {
 
     if (Gerrit.isSignedIn()) {
       keysAction.add(new StarKeyCommand(0, 's', Util.C.changeTableStar()));
+      showLegacyId = Gerrit.getUserAccount()
+          .getGeneralPreferences()
+          .isLegacycidInChangeTable();
     }
 
     sections = new ArrayList<>();
@@ -88,10 +92,7 @@ public class ChangeTable2 extends NavigationTable<ChangeInfo> {
     for (int i = C_ID; i < columns; i++) {
       fmt.addStyleName(0, i, Gerrit.RESOURCES.css().dataHeader());
     }
-
-    if (!Gerrit.isSignedIn() ||
-       (!Gerrit.getUserAccount().getGeneralPreferences()
-         .isLegacycidInChangeTable())) {
+    if (!showLegacyId) {
       fmt.addStyleName(0, C_ID, Gerrit.RESOURCES.css().dataHeaderHidden());
     }
 
@@ -148,20 +149,16 @@ public class ChangeTable2 extends NavigationTable<ChangeInfo> {
     for (int i = C_ID; i < columns; i++) {
       fmt.addStyleName(row, i, Gerrit.RESOURCES.css().dataCell());
     }
+    if (!showLegacyId) {
+      fmt.addStyleName(row, C_ID, Gerrit.RESOURCES.css().dataCellHidden());
+    }
     fmt.addStyleName(row, C_SUBJECT, Gerrit.RESOURCES.css().cSUBJECT());
     fmt.addStyleName(row, C_STATUS, Gerrit.RESOURCES.css().cSTATUS());
     fmt.addStyleName(row, C_OWNER, Gerrit.RESOURCES.css().cOWNER());
     fmt.addStyleName(row, C_LAST_UPDATE, Gerrit.RESOURCES.css().cLastUpdate());
+    fmt.addStyleName(row, C_SIZE, Gerrit.RESOURCES.css().cSIZE());
 
-    if (!Gerrit.isSignedIn() ||
-       (!Gerrit.getUserAccount().getGeneralPreferences()
-         .isLegacycidInChangeTable())) {
-      fmt.addStyleName(row, C_ID, Gerrit.RESOURCES.css().dataCellHidden());
-    }
-
-    int i = C_SIZE;
-    fmt.addStyleName(row, i++, Gerrit.RESOURCES.css().cSIZE());
-    for (; i < columns; i++) {
+    for (int i = C_SIZE + 1; i < columns; i++) {
       fmt.addStyleName(row, i, Gerrit.RESOURCES.css().cAPPROVAL());
     }
   }

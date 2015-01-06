@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "413a30aa_add47d04",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-01-06T06:31:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8e0ff523_f703a036",
+      "range": {
+        "startLine": 10,
+        "startChar": 27,
+        "endLine": 11,
+        "endChar": 38
+      },
+      "revId": "fa32b2bc9bbfec3effce199d1ee12268c16458df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8e0ff523_37ea3804",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 4
@@ -36,6 +60,30 @@
       "writtenOn": "2015-01-06T03:02:46Z",
       "side": 1,
       "message": "\"When the\"",
+      "range": {
+        "startLine": 1416,
+        "startChar": 0,
+        "endLine": 1416,
+        "endChar": 4
+      },
+      "revId": "fa32b2bc9bbfec3effce199d1ee12268c16458df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "413a30aa_cdd9c93b",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 1416,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-01-06T06:31:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8e0ff523_37ea3804",
       "range": {
         "startLine": 1416,
         "startChar": 0,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "8e0ff523_b72f68a7",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 2777,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-01-06T06:31:37Z",
+      "side": 1,
+      "message": "I think we do always include it, so docs updated to reflect that.",
+      "parentUuid": "413a30aa_0db03100",
+      "range": {
+        "startLine": 2777,
+        "startChar": 46,
+        "endLine": 2777,
+        "endChar": 61
+      },
+      "revId": "fa32b2bc9bbfec3effce199d1ee12268c16458df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "413a30aa_2dadeda4",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 4
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "413a30aa_edde8520",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 2778,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-01-06T06:31:37Z",
+      "side": 1,
+      "message": "Changed the prior mention to say \"server detected\".",
+      "parentUuid": "413a30aa_2dadeda4",
+      "range": {
+        "startLine": 2778,
+        "startChar": 15,
+        "endLine": 2778,
+        "endChar": 30
+      },
+      "revId": "fa32b2bc9bbfec3effce199d1ee12268c16458df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8e0ff523_17ef3414",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 4
@@ -105,6 +201,30 @@
       "writtenOn": "2015-01-06T03:02:46Z",
       "side": 1,
       "message": "nit: extra space",
+      "range": {
+        "startLine": 2784,
+        "startChar": 27,
+        "endLine": 2784,
+        "endChar": 28
+      },
+      "revId": "fa32b2bc9bbfec3effce199d1ee12268c16458df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8e0ff523_972c64b3",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 2784,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-01-06T06:31:37Z",
+      "side": 1,
+      "message": "Removed, but I think the server actually produces the space:\n\n $ curl -v \u0027https://gerrit-review.googlesource.com/changes/62863/revisions/fa32b2bc9bbfec3effce199d1ee12268c16458df/patch?download\u0027 \u003e/dev/null\n \u003e GET  /changes/62863/revisions/fa32b2bc9bbfec3effce199d1ee12268c16458df/patch?download HTTP/1.1\n \u003e User-Agent: curl/7.30.0\n \u003e Host: gerrit-review.googlesource.com\n \u003e Accept: */*\n \u003e \n \u003c HTTP/1.1 200 OK\n \u003c Content-Disposition: attachment; filename\u003d\"fa32b2bc.diff.base64\"\n \u003c X-Content-Type-Options: nosniff\n \u003c Cache-Control: no-cache, no-store, max-age\u003d0, must-revalidate\n \u003c Pragma: no-cache\n \u003c Expires: Fri, 01 Jan 1990 00:00:00 GMT\n \u003c Date: Tue, 06 Jan 2015 06:30:08 GMT\n \u003c X-FYI-Content-Encoding: base64\n \u003c X-FYI-Content-Type: application/mbox\n \u003c Content-Type: text/plain; charset\u003dISO-8859-1\n\nI was trying to make the docs match.",
+      "parentUuid": "8e0ff523_17ef3414",
       "range": {
         "startLine": 2784,
         "startChar": 27,

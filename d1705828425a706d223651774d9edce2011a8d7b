@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c169c0a3_3c651db6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeListener.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-01-06T21:19:52Z",
+      "side": 1,
+      "message": "Since we break backward compatibility because a method was renamed, should we also rename the interface, EventListener?",
+      "range": {
+        "startLine": 21,
+        "startChar": 17,
+        "endLine": 21,
+        "endChar": 31
+      },
+      "revId": "d1705828425a706d223651774d9edce2011a8d7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

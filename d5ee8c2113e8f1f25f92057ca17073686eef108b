@@ -46,6 +46,30 @@
       "revId": "d5ee8c2113e8f1f25f92057ca17073686eef108b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8e0c5579_4fce0d94",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 478,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-01-07T16:17:24Z",
+      "side": 1,
+      "message": "Done in\n  https://gerrit-review.googlesource.com/63018",
+      "parentUuid": "6ef1e1a1_8e32bb0b",
+      "range": {
+        "startLine": 466,
+        "startChar": 8,
+        "endLine": 478,
+        "endChar": 9
+      },
+      "revId": "d5ee8c2113e8f1f25f92057ca17073686eef108b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

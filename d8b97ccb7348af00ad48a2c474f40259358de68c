@@ -117,6 +117,30 @@
       "revId": "d8b97ccb7348af00ad48a2c474f40259358de68c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6ef1e1a1_2ef0e7f0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-07T10:15:05Z",
+      "side": 1,
+      "message": "Still, \"Quick approve\" button is on the same gray background as Reply button, so this would work to make for it the border white. Submit button: is special case, special border.",
+      "parentUuid": "8e0c5579_6feaf104",
+      "range": {
+        "startLine": 11,
+        "startChar": 28,
+        "endLine": 13,
+        "endChar": 14
+      },
+      "revId": "d8b97ccb7348af00ad48a2c474f40259358de68c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

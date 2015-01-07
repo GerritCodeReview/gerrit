@@ -17,6 +17,7 @@ package com.google.gerrit.server.change;
 import com.google.common.base.Function;
 import com.google.common.base.Joiner;
 import com.google.common.base.Optional;
+import com.google.common.base.Predicate;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.Lists;
 import com.google.gerrit.extensions.registration.DynamicMap;
@@ -170,8 +171,14 @@ public class Revisions implements ChildCollection<ChangeResource, RevisionResour
 
   private static List<RevisionResource> toResources(final ChangeResource change,
       Iterable<PatchSet> patchSets) {
+    final Change.Id changeId = change.getChange().getId();
     return FluentIterable.from(patchSets)
-        .transform(new Function<PatchSet, RevisionResource>() {
+        .filter(new Predicate<PatchSet>() {
+          @Override
+          public boolean apply(PatchSet in) {
+            return changeId.equals(in.getId().getParentKey());
+          }
+        }).transform(new Function<PatchSet, RevisionResource>() {
           @Override
           public RevisionResource apply(PatchSet in) {
             return new RevisionResource(change, in);

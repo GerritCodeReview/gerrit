@@ -411,6 +411,9 @@ public class ChangeScreen2 extends Screen {
     patchSetsAction = new PatchSetsAction(
         info.legacy_id(), revision,
         style, headerLine, patchSets);
+    if (info.revision(revision).draft()) {
+      quickApprove.setVisible(false);
+    }
   }
 
   private void initDownloadAction(ChangeInfo info, String revision) {

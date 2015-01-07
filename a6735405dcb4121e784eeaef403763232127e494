@@ -22,6 +22,70 @@
       "revId": "a6735405dcb4121e784eeaef403763232127e494",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6ef1e1a1_6ed30f69",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/RttSimulatorFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-07T09:25:21Z",
+      "side": 1,
+      "message": "Can we turn off that think time per default? Not every Gerrit dev cares about net latency. We want to attract new contributors, not to scare them, by telling them: Maintain your own Gerrit fork if you don\u0027t care about testing this or another feature or even introduce yet another obscure config file option to disable testing feature foo or bar, that they don\u0027t care about, in all test gerrit sites, they maintain.\n\nSay, a dev maintains Gerrit test site per\n\n* branch: 4 (2.8, 2.9. 2.10, master)\n* database: 3 (PostgreSQL, H2, Oracle)\n\nand let assume, that she wants to disable random think time. It\u0027s fun to add these lines in 12 gerrit config files, what?\n\nGerrit Code Review project provides very sane development experience for its contributors. Let\u0027s try to avoid changing that.",
+      "parentUuid": "4e409d75_1d20b3c1",
+      "range": {
+        "startLine": 58,
+        "startChar": 0,
+        "endLine": 63,
+        "endChar": 27
+      },
+      "revId": "a6735405dcb4121e784eeaef403763232127e494",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6ef1e1a1_4ed8d383",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/RttSimulatorFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-07T09:25:21Z",
+      "side": 1,
+      "message": "Say, dev try to disable it, by setting 0 for both min and max. This method is still called, and this log message is still issued?",
+      "revId": "a6735405dcb4121e784eeaef403763232127e494",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8e0c5579_8fd91588",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/WebModule.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-07T09:25:21Z",
+      "side": 1,
+      "message": "Not every Gerrit dev cares about net latency. We want to attract new contributors, not to scare them, or to tell them: Guys maintain your own Gerrit fork if you don\u0027t care about test this or other features. Gerrit Code Review provides unique/sane development experience for their contributor. Let try to avoid to change that.",
+      "range": {
+        "startLine": 78,
+        "startChar": 4,
+        "endLine": 78,
+        "endChar": 69
+      },
+      "revId": "a6735405dcb4121e784eeaef403763232127e494",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

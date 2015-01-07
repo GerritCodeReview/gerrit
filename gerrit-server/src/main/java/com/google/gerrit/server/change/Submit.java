@@ -309,6 +309,23 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
         .orNull();
   }
 
+  private Change submitToDatabase(ReviewDb db, Change change,
+      final Timestamp timestamp) throws OrmException {
+    return db.changes().atomicUpdate(
+      change.getId(),
+      new AtomicUpdate<Change>() {
+        @Override
+        public Change update(Change change) {
+          if (change.getStatus().isOpen()) {
+            change.setStatus(Change.Status.SUBMITTED);
+            change.setLastUpdatedOn(timestamp);
+            return change;
+          }
+          return null;
+        }
+      });
+  }
+
   public Change submit(RevisionResource rsrc, IdentifiedUser caller,
       boolean force) throws ResourceConflictException, OrmException,
       IOException {
@@ -324,20 +341,7 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
       BatchMetaDataUpdate batch = approve(rsrc, update, caller, timestamp);
       // Write update commit after all normalized label commits.
       batch.write(update, new CommitBuilder());
-
-      change = db.changes().atomicUpdate(
-        change.getId(),
-        new AtomicUpdate<Change>() {
-          @Override
-          public Change update(Change change) {
-            if (change.getStatus().isOpen()) {
-              change.setStatus(Change.Status.SUBMITTED);
-              change.setLastUpdatedOn(timestamp);
-              return change;
-            }
-            return null;
-          }
-        });
+      change = submitToDatabase(db, change, timestamp);
       if (change == null) {
         return null;
       }

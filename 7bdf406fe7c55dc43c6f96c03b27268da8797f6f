@@ -46,6 +46,30 @@
       "revId": "7bdf406fe7c55dc43c6f96c03b27268da8797f6f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6ef1e1a1_6e3cafe5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-07T13:17:08Z",
+      "side": 1,
+      "message": "| if a change is an edit, it\u0027s Publish Edit\n\nOnly if change edit is based on the current patch set, otherwise it\u0027s Rebase Edit. So this change should take care for this use case as well and paint Rebase Edit button in blue.",
+      "parentUuid": "6ef1e1a1_6e25cfd1",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 21
+      },
+      "revId": "7bdf406fe7c55dc43c6f96c03b27268da8797f6f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

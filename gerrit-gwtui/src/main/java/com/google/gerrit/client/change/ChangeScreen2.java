@@ -179,6 +179,9 @@ public class ChangeScreen2 extends Screen {
   @UiField Element patchSetsText;
   @UiField Button download;
   @UiField Button reply;
+  @UiField Button publishEdit;
+  @UiField Button rebaseEdit;
+  @UiField Button deleteEdit;
   @UiField Button openAll;
   @UiField Button editMode;
   @UiField Button reviewMode;
@@ -457,6 +460,26 @@ public class ChangeScreen2 extends Screen {
         addFile.setVisible(false);
         reviewMode.setVisible(false);
       }
+
+      if (rev.is_edit()) {
+        NativeMap<ActionInfo> actions = info.edit().has_actions()
+            ? info.edit().actions()
+            : NativeMap.<ActionInfo> create();
+        actions.copyKeysIntoChildren("id");
+
+        if (actions.containsKey("publish")) {
+          publishEdit.setVisible(true);
+          publishEdit.setTitle(actions.get("publish").title());
+        }
+        if (actions.containsKey("rebase")) {
+          rebaseEdit.setVisible(true);
+          rebaseEdit.setTitle(actions.get("rebase").title());
+        }
+        if (actions.containsKey("/")) {
+          deleteEdit.setVisible(true);
+          deleteEdit.setTitle(actions.get("/").title());
+        }
+      }
     }
   }
 
@@ -490,6 +513,21 @@ public class ChangeScreen2 extends Screen {
         }
       });
     }
+  }
+
+  @UiHandler("publishEdit")
+  void onPublishEdit(@SuppressWarnings("unused") ClickEvent e) {
+    EditActions.publishEdit(changeId);
+  }
+
+  @UiHandler("rebaseEdit")
+  void onRebaseEdit(@SuppressWarnings("unused") ClickEvent e) {
+    EditActions.rebaseEdit(changeId);
+  }
+
+  @UiHandler("deleteEdit")
+  void onDeleteEdit(@SuppressWarnings("unused") ClickEvent e) {
+    EditActions.deleteEdit(changeId);
   }
 
   @Override

@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6ec56123_0ed38b69",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 833,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-07T01:29:26Z",
+      "side": 1,
+      "message": "submitTopicInstead, etc.",
+      "range": {
+        "startLine": 833,
+        "startChar": 9,
+        "endLine": 833,
+        "endChar": 27
+      },
+      "revId": "7d862188d1b731016a09ddb1c1c31cdd87a93271",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4ec25d1f_4dc999bb",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 836,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-07T01:29:26Z",
+      "side": 1,
+      "message": "just the current change",
+      "range": {
+        "startLine": 836,
+        "startChar": 0,
+        "endLine": 836,
+        "endChar": 21
+      },
+      "revId": "7d862188d1b731016a09ddb1c1c31cdd87a93271",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6ec56123_cedca379",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 853,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-07T01:29:26Z",
+      "side": 1,
+      "message": "I think you should implement this sooner rather than later. There\u0027s not anything about this code path that makes it any harder than in the non-whole-topic code path, is there?",
+      "range": {
+        "startLine": 852,
+        "startChar": 33,
+        "endLine": 853,
+        "endChar": 35
+      },
+      "revId": "7d862188d1b731016a09ddb1c1c31cdd87a93271",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4ec25d1f_6dced5c6",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 855,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-07T01:29:26Z",
+      "side": 1,
+      "message": "changes in",
+      "range": {
+        "startLine": 855,
+        "startChar": 24,
+        "endLine": 855,
+        "endChar": 37
+      },
+      "revId": "7d862188d1b731016a09ddb1c1c31cdd87a93271",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

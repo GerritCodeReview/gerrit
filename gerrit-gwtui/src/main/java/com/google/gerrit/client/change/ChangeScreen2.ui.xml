@@ -276,6 +276,10 @@ limitations under the License.
       background-color: #4d90fe;
     }
     button.quickApprove div { color: #fff; }
+    button.publishEdit {
+      background-color: #4d90fe;
+    }
+    button.publishEdit div { color: #fff; }
 
     .sectionHeader {
       position: relative;
@@ -363,7 +367,7 @@ limitations under the License.
               title='Apply score with one click'>
             <ui:attribute name='title'/>
           </c:QuickApprove>
-          <g:Button ui:field='publishEdit' styleName='' visible='false'>
+          <g:Button ui:field='publishEdit' styleName='{style.publishEdit}' visible='false'>
             <div><ui:msg>Publish Edit</ui:msg></div>
           </g:Button>
           <g:Button ui:field='deleteEdit' styleName='' visible='false'>

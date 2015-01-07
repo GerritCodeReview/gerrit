@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6ef1e1a1_aedcd777",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-07T09:35:56Z",
+      "side": 1,
+      "message": "buttons",
+      "range": {
+        "startLine": 10,
+        "startChar": 31,
+        "endLine": 10,
+        "endChar": 38
+      },
+      "revId": "d8b97ccb7348af00ad48a2c474f40259358de68c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8e0c5579_cfe31d30",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-07T09:35:56Z",
+      "side": 1,
+      "message": "How about to make the opposite change? I like white border more. It would be also consistent with gray buttons, where the border has also different color.",
+      "range": {
+        "startLine": 11,
+        "startChar": 28,
+        "endLine": 13,
+        "endChar": 14
+      },
+      "revId": "d8b97ccb7348af00ad48a2c474f40259358de68c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

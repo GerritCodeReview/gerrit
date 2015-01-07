@@ -830,6 +830,30 @@ abbreviated commit SHA-1 (`c9c0edb`).
 +
 Default is "Submit patch set ${patchSet} into ${branch}".
 
+[[change.SubmitTopicInstead]]change.SubmitTopicInstead::
++
+Determines if the submit button submits the whole topic instead of
+the current change id.
++
+Default is false.
+
+[[change.SubmitTopicLabel]]change.SubmitTopicLabel::
++
+Only useful if SubmitTopicInstead is set to true. If a change has a
+topic, label the name for the submit button as given here instead of
+the configuration change.submitLabel
++
+Defaults to "Submit whole topic"
+
+[[change.SubmitTopicTooltip]]change.SubmitTopicTooltip::
++
+If change.SubmitTopicInstead is configuerd to true and a change has a
+topic, this configuration determines the tooltip for the submit button
+instead of change.submitTooltip. No variable replacements as in
+change.submitTooltip supported yet.
++
+Defaults to "Submit all patch sets of the same topic"
+
 [[change.replyLabel]]change.replyLabel::
 +
 Label name for the reply button. In the user interface an ellipsis (…)

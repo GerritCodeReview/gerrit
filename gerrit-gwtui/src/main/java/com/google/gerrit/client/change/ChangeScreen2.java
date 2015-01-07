@@ -456,6 +456,10 @@ public class ChangeScreen2 extends Screen {
         addFile.setVisible(false);
         reviewMode.setVisible(false);
       }
+
+      boolean hasEdit = info.has_edit() && info.current_revision().equals(info.edit().name());
+      reply.setVisible(!hasEdit);
+      quickApprove.setVisible(!hasEdit);
     }
   }
 

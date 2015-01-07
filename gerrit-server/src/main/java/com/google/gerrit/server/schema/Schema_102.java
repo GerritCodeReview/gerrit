@@ -24,8 +24,8 @@ import com.google.inject.Provider;
 
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.regex.Pattern;
 import java.util.Set;
+import java.util.regex.Pattern;
 
 public class Schema_102 extends SchemaVersion {
   @Inject

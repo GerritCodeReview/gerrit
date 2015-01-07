@@ -22,6 +22,30 @@
       "revId": "8be117d7ca5c8fd7bc3e20ff809ce2276a2f08c1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ce5d6d61_1920cbc1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-07T22:03:15Z",
+      "side": 1,
+      "message": "resource.getControl().getProjectControl().controlFor(change)\n\nThat was obvious, huh? :)\n\nIncidentally, what do you do if there are unsubmittable changes in this topic, but they are not visible to the user? They might be justifiably confused when they search for \"topic:foo\" and see that everything they can see in the search results appears to be submittable.",
+      "parentUuid": "4eeeddc7_6d25d5d1",
+      "range": {
+        "startLine": 241,
+        "startChar": 8,
+        "endLine": 241,
+        "endChar": 101
+      },
+      "revId": "8be117d7ca5c8fd7bc3e20ff809ce2276a2f08c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8e0c5579_4f2a8da3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-07T12:37:52Z",
+      "side": 1,
+      "message": "I don\u0027t follow this argumentation. \"Publish Draft\" is not blue as well.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 21
+      },
+      "revId": "7bdf406fe7c55dc43c6f96c03b27268da8797f6f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

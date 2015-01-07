@@ -46,6 +46,10 @@ class QuickApprove extends Button implements ClickHandler {
       setVisible(false);
       return;
     }
+    if (info.revision(commit).is_edit()) {
+      setVisible(false);
+      return;
+    }
 
     String qName = null;
     String qValueStr = null;

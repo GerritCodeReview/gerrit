@@ -33,6 +33,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.edit.ChangeEdit;
 import com.google.gerrit.server.edit.ChangeEditUtil;
 import com.google.gwtorm.server.OrmException;
+import com.google.gwtorm.server.ResultSet;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -77,11 +78,10 @@ public class Revisions implements ChildCollection<ChangeResource, RevisionResour
       }
       throw new ResourceNotFoundException(id);
     }
+
     List<RevisionResource> match = Lists.newArrayListWithExpectedSize(2);
     for (RevisionResource rsrc : find(change, id.get())) {
-      Change.Id changeId = rsrc.getChange().getId();
-      if (changeId.equals(change.getChange().getId())
-          && visible(change, rsrc.getPatchSet())) {
+      if (visible(change, rsrc.getPatchSet())) {
         match.add(rsrc);
       }
     }
@@ -104,19 +104,11 @@ public class Revisions implements ChildCollection<ChangeResource, RevisionResour
 
   private List<RevisionResource> find(ChangeResource change, String id)
       throws OrmException {
-    ReviewDb db = dbProvider.get();
-
     if (id.equals("0")) {
       return loadEdit(change, null);
     } else if (id.length() < 6 && id.matches("^[1-9][0-9]{0,4}$")) {
       // Legacy patch set number syntax.
-      PatchSet ps = dbProvider.get().patchSets().get(new PatchSet.Id(
-          change.getChange().getId(),
-          Integer.parseInt(id)));
-      if (ps != null) {
-        return toResources(change, ps);
-      }
-      return Collections.emptyList();
+      return byLegacyPatchSetId(change, id);
     } else if (id.length() < 4 || id.length() > RevId.LEN) {
       // Require a minimum of 4 digits.
       // Impossibly long identifier will never match.
@@ -128,26 +120,40 @@ public class Revisions implements ChildCollection<ChangeResource, RevisionResour
       // for all patch sets in the change.
       RevId revid = new RevId(id);
       if (revid.isComplete()) {
-        List<RevisionResource> list =
-            toResources(change, db.patchSets().byRevision(revid));
-        if (list.isEmpty()) {
-          return loadEdit(change, revid);
-        }
-        return list;
-      } else {
-        return toResources(
-            change, db.patchSets().byRevisionRange(revid, revid.max()));
+        List<RevisionResource> m = toResources(change, findExactMatch(revid));
+        return m.isEmpty() ? loadEdit(change, revid)  : m;
       }
+      return toResources(change, findByPrefix(revid));
     } else {
       // Chance of collision rises; look at all patch sets on the change.
       List<RevisionResource> out = Lists.newArrayList();
-      for (PatchSet ps : db.patchSets().byChange(change.getChange().getId())) {
+      for (PatchSet ps : dbProvider.get().patchSets()
+          .byChange(change.getChange().getId())) {
         if (ps.getRevision() != null && ps.getRevision().get().startsWith(id)) {
           out.add(new RevisionResource(change, ps));
         }
       }
       return out;
     }
+  }
+
+  private List<RevisionResource> byLegacyPatchSetId(ChangeResource change,
+      String id) throws OrmException {
+    PatchSet ps = dbProvider.get().patchSets().get(new PatchSet.Id(
+        change.getChange().getId(),
+        Integer.parseInt(id)));
+    if (ps != null) {
+      return Collections.singletonList(new RevisionResource(change, ps));
+    }
+    return Collections.emptyList();
+  }
+
+  private ResultSet<PatchSet> findExactMatch(RevId revid) throws OrmException {
+    return dbProvider.get().patchSets().byRevision(revid);
+  }
+
+  private ResultSet<PatchSet> findByPrefix(RevId revid) throws OrmException {
+    return dbProvider.get().patchSets().byRevisionRange(revid, revid.max());
   }
 
   private List<RevisionResource> loadEdit(ChangeResource change, RevId revid)
@@ -163,10 +169,10 @@ public class Revisions implements ChildCollection<ChangeResource, RevisionResour
               new RevisionResource(change, ps, edit));
         }
       }
+      return Collections.emptyList();
     } catch (AuthException | IOException e) {
       throw new OrmException(e);
     }
-    return Collections.emptyList();
   }
 
   private static List<RevisionResource> toResources(final ChangeResource change,
@@ -184,10 +190,5 @@ public class Revisions implements ChildCollection<ChangeResource, RevisionResour
             return new RevisionResource(change, in);
           }
         }).toList();
-  }
-
-  private static List<RevisionResource> toResources(ChangeResource change,
-      PatchSet ps) {
-    return Collections.singletonList(new RevisionResource(change, ps));
   }
 }

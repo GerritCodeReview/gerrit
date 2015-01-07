@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "ce5d6d61_19f56be1",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 833,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-01-07T20:29:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6e8001c5_f6d94086",
+      "range": {
+        "startLine": 833,
+        "startChar": 36,
+        "endLine": 833,
+        "endChar": 54
+      },
+      "revId": "6ee6f2be613d75980c11be90df8ee1b6d0896b63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "eed151e3_f2d94886",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 4
@@ -36,6 +60,30 @@
       "writtenOn": "2015-01-07T02:06:25Z",
       "side": 1,
       "message": "enclose in backticks",
+      "range": {
+        "startLine": 842,
+        "startChar": 3,
+        "endLine": 842,
+        "endChar": 28
+      },
+      "revId": "6ee6f2be613d75980c11be90df8ee1b6d0896b63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ce5d6d61_79eaa704",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 842,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-01-07T20:29:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eed151e3_f2d94886",
       "range": {
         "startLine": 842,
         "startChar": 3,
@@ -82,6 +130,48 @@
       "writtenOn": "2015-01-07T02:06:25Z",
       "side": 1,
       "message": "missing period at the end of the sentence.",
+      "revId": "6ee6f2be613d75980c11be90df8ee1b6d0896b63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ce5d6d61_59efe312",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 844,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-01-07T20:29:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6e8001c5_b6e3c830",
+      "revId": "6ee6f2be613d75980c11be90df8ee1b6d0896b63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4eeeddc7_8d00012c",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 844,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-01-07T20:29:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eed151e3_92e6bc41",
+      "range": {
+        "startLine": 844,
+        "startChar": 18,
+        "endLine": 844,
+        "endChar": 36
+      },
       "revId": "6ee6f2be613d75980c11be90df8ee1b6d0896b63",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -168,6 +258,24 @@
       "writtenOn": "2015-01-07T02:06:25Z",
       "side": 1,
       "message": "missing period at the end of the sentence.",
+      "revId": "6ee6f2be613d75980c11be90df8ee1b6d0896b63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ce5d6d61_b9039f37",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 855,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-01-07T20:29:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eed151e3_d2dc4479",
       "revId": "6ee6f2be613d75980c11be90df8ee1b6d0896b63",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

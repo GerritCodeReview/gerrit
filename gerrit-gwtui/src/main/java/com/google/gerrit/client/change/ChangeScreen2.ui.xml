@@ -375,7 +375,8 @@ limitations under the License.
           <g:Button ui:field='deleteEdit' styleName='' visible='false'>
             <div><ui:msg>Delete Edit</ui:msg></div>
           </g:Button>
-          <g:Button ui:field='publish' styleName='' visible='false'>
+          <g:Button ui:field='publish'
+              styleName='{style.highlight}' visible='false'>
             <div><ui:msg>Publish</ui:msg></div>
           </g:Button>
           <g:Button ui:field='deleteChange' styleName='' visible='false'>

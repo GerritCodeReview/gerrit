@@ -134,13 +134,21 @@ The setting determines whether or not the diff table header with the patch set
 selection should be automatically hidden when scrolling down more than half of
 a page.
 
+* Highlight search results on scrollbar.
++
+Search results in vim mode are highlighted in the scrollbar with gold
+colored annotations.
+
+* Set line length to 72 characters for commit messages.
+
 * Add syntax highlighting for several new modes:
 
+** link:https://code.google.com/p/gerrit/issues/detail?id=2848[Issue 2848]: CSharp
 ** Dart
 ** Dockerfile
 ** GLSL shader
 ** Objective C
-** (link:http://code.google.com/p/gerrit/issues/detail?id=2779[Issue 2779]) reStructured text
+** link:http://code.google.com/p/gerrit/issues/detail?id=2779[Issue 2779]: reStructured text
 ** Soy
 
 REST
@@ -181,9 +189,6 @@ Delete file in Change Edit].
 
 * link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.11/rest-api-changes.html#get-edit-file[
 Retrieve file content from Change Edit].
-
-* link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.11/rest-api-changes.html#get-edit-file-mime-type[
-Retrieve file content MIME type from Change Edit].
 
 * link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.11/rest-api-changes.html#get-edit-message[
 Retrieve commit message from Change Edit or current patch set of the change].
@@ -475,13 +480,10 @@ to the default tab ("Related Changes").
 Side-By-Side Diff
 ^^^^^^^^^^^^^^^^^
 
-* link:https://code.google.com/p/gerrit/issues/detail?id=2848[Issue 2848]:
-Add support for CSharp syntax highlighting.
-
-* Remove support for syntax highlighting of Restructured Text and Go file types.
+* Return to normal mode after editing a draft comment.
 +
-Syntax highlighting for these file types caused rendering failures due to a
-link:https://github.com/codemirror/CodeMirror/issues/2850[bug in CodeMirror].
+Previously it would remain in visual mode.
+
 
 Project Screen
 ^^^^^^^^^^^^^^
@@ -532,7 +534,7 @@ Upgrades
 
 * Update ASM to 5.0.3.
 
-* Update CodeMirror to 4.9.
+* Update CodeMirror to 4.10.0-6-gd0a2dda.
 
 * Update Guava to 18.0.
 

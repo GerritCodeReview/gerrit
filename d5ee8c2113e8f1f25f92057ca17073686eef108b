@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8e0c5579_ef2f01a6",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 478,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-07T13:14:10Z",
+      "side": 1,
+      "message": "When we hard code it now, we could also avoid sending the actions in JSON response: [1].\n\nDelete edit action is always active. Publish and rebase are toggled depending on base patch set of the change edit: When it based on current patch set, Publish is active, otherwise rebase is active.\n\n [1] https://gerrit.googlesource.com/gerrit/+/master/gerrit-server/src/main/java/com/google/gerrit/server/edit/ChangeEditJson.java#85",
+      "range": {
+        "startLine": 466,
+        "startChar": 8,
+        "endLine": 478,
+        "endChar": 9
+      },
+      "revId": "d5ee8c2113e8f1f25f92057ca17073686eef108b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

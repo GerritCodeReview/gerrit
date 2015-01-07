@@ -84,6 +84,8 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
     UiAction<RevisionResource> {
   private static final String DEFAULT_TOOLTIP =
       "Submit patch set ${patchSet} into ${branch}";
+  private static final String DEFAULT_TOPIC_TOOLTIP =
+      "Submit all patch sets of the same topic";
 
   public enum Status {
     SUBMITTED, MERGED
@@ -114,6 +116,9 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
   private final ChangesCollection changes;
   private final String label;
   private final ParameterizedString titlePattern;
+  private final String labelSubmitTopic;
+  private final String titlePatternSubmitTopic;
+  private final boolean submitWholeTopic;
 
   @Inject
   Submit(@GerritPersonIdent PersonIdent serverIdent,
@@ -149,6 +154,11 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
     this.titlePattern = new ParameterizedString(MoreObjects.firstNonNull(
         cfg.getString("change", null, "submitTooltip"),
         DEFAULT_TOOLTIP));
+    submitWholeTopic = cfg.getBoolean("change", null, "submitTopicInstead" , false);
+    this.labelSubmitTopic = MoreObjects.firstNonNull(
+        Strings.emptyToNull(cfg.getString("change", null, "submitTopicLabel")),
+        "Submit whole topic");
+    this.titlePatternSubmitTopic = DEFAULT_TOPIC_TOOLTIP;
   }
 
   @Override
@@ -217,10 +227,13 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
         "patchSet", String.valueOf(resource.getPatchSet().getPatchSetId()),
         "branch", resource.getChange().getDest().getShortName(),
         "commit", ObjectId.fromString(revId.get()).abbreviate(7).name());
+    boolean useTopicSubmit = submitWholeTopic &&
+        !resource.getChange().getTopic().isEmpty();
 
     return new UiAction.Description()
-      .setLabel(label)
-      .setTitle(Strings.emptyToNull(titlePattern.replace(params)))
+      .setLabel(useTopicSubmit ? labelSubmitTopic : label)
+      .setTitle(useTopicSubmit ? titlePatternSubmitTopic :
+          Strings.emptyToNull(titlePattern.replace(params)))
       .setVisible(!resource.getPatchSet().isDraft()
           && resource.getChange().getStatus().isOpen()
           && resource.getPatchSet().getId().equals(current)

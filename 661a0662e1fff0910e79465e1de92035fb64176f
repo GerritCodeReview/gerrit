@@ -46,6 +46,99 @@
       "revId": "661a0662e1fff0910e79465e1de92035fb64176f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6ef1e1a1_ce15e360",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Actions.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-07T13:13:13Z",
+      "side": 0,
+      "message": "OK",
+      "parentUuid": "6ef1e1a1_4e2a93a3",
+      "range": {
+        "startLine": 48,
+        "startChar": 2,
+        "endLine": 49,
+        "endChar": 33
+      },
+      "revId": "661a0662e1fff0910e79465e1de92035fb64176f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8e0c5579_2f6d89f5",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Actions.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-07T13:13:13Z",
+      "side": 0,
+      "message": "Move rebase button too.",
+      "range": {
+        "startLine": 52,
+        "startChar": 2,
+        "endLine": 52,
+        "endChar": 29
+      },
+      "revId": "661a0662e1fff0910e79465e1de92035fb64176f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6ef1e1a1_0e47eb80",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Actions.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-07T13:13:13Z",
+      "side": 0,
+      "message": "Move to CS2.",
+      "range": {
+        "startLine": 219,
+        "startChar": 2,
+        "endLine": 222,
+        "endChar": 3
+      },
+      "revId": "661a0662e1fff0910e79465e1de92035fb64176f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6ef1e1a1_2e42a770",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Actions.ui.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-07T13:13:13Z",
+      "side": 0,
+      "message": "You forgot that guy.",
+      "range": {
+        "startLine": 93,
+        "startChar": 4,
+        "endLine": 95,
+        "endChar": 15
+      },
+      "revId": "661a0662e1fff0910e79465e1de92035fb64176f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

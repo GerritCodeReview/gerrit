@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8e0c5579_cf2cbdb4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-07T13:13:13Z",
+      "side": 1,
+      "message": "Not necessary. You are missing once use case: Rebase change edit. It\u0027s only possible to publish change edit in current patch set. When another patch set was uploaded in meantime, then change edit can only be rebased. To be consistent, this change should take care for rebase change edit button as well.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 65
+      },
+      "revId": "f98045e6b5c0c398aefc00a317bc3383f7f92d88",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8e0c5579_4f41ed67",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 475,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-07T13:13:13Z",
+      "side": 1,
+      "message": "If we make it had coded, then we should consider to drop this actions from GET edit endpoint and just hard code it here.",
+      "range": {
+        "startLine": 467,
+        "startChar": 8,
+        "endLine": 475,
+        "endChar": 9
+      },
+      "revId": "f98045e6b5c0c398aefc00a317bc3383f7f92d88",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -15,6 +15,7 @@
 package com.google.gerrit.httpd;
 
 import static com.google.gerrit.extensions.registration.PrivateInternals_DynamicTypes.registerInParentInjectors;
+import static com.google.gerrit.reviewdb.client.AuthType.DEVELOPMENT_BECOME_ANY_ACCOUNT;
 
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.GerritConfig;
@@ -31,6 +32,7 @@ import com.google.gerrit.server.RemotePeer;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.GerritRequestModule;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.AsyncReceiveCommits;
 import com.google.gerrit.server.util.GuiceRequestScopePropagator;
 import com.google.gerrit.server.util.RequestScopePropagator;
@@ -40,6 +42,8 @@ import com.google.inject.Injector;
 import com.google.inject.ProvisionException;
 import com.google.inject.servlet.RequestScoped;
 
+import org.eclipse.jgit.lib.Config;
+
 import java.net.SocketAddress;
 
 public class WebModule extends LifecycleModule {
@@ -47,15 +51,18 @@ public class WebModule extends LifecycleModule {
   private final boolean wantSSL;
   private final GitWebConfig gitWebConfig;
   private final GerritOptions options;
+  private final Config serverConfig;
 
   @Inject
   WebModule(final AuthConfig authConfig,
       @CanonicalWebUrl @Nullable final String canonicalUrl,
       GerritOptions options,
-      final Injector creatingInjector) {
+      final Injector creatingInjector,
+      @GerritServerConfig Config serverConfig) {
     this.authConfig = authConfig;
     this.wantSSL = canonicalUrl != null && canonicalUrl.startsWith("https:");
     this.options = options;
+    this.serverConfig = serverConfig;
 
     this.gitWebConfig =
         creatingInjector.createChildInjector(new AbstractModule() {
@@ -71,6 +78,10 @@ public class WebModule extends LifecycleModule {
     bind(RequestScopePropagator.class).to(GuiceRequestScopePropagator.class);
     bind(HttpRequestContext.class);
 
+    if (authConfig.getAuthType() == DEVELOPMENT_BECOME_ANY_ACCOUNT &&
+        serverConfig.getBoolean("developer", "rtt", "enabled", false)) {
+      install(new RttSimulatorFilter.Module());
+    }
     if (wantSSL) {
       install(new RequireSslFilter.Module());
     }

@@ -31,6 +31,7 @@ import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.HttpCallback;
 import com.google.gerrit.client.rpc.HttpResponse;
 import com.google.gerrit.client.rpc.NativeString;
+import com.google.gerrit.client.rpc.RestApi;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.Screen;
 import com.google.gerrit.common.PageLinks;
@@ -110,10 +111,11 @@ public class EditScreen extends Screen {
     super.onLoad();
 
     CallbackGroup group1 = new CallbackGroup();
-    final CallbackGroup group2 = new CallbackGroup();
+    CallbackGroup group2 = new CallbackGroup();
+    final CallbackGroup group3 = new CallbackGroup();
 
     CodeMirror.initLibrary(group1.add(new AsyncCallback<Void>() {
-      final AsyncCallback<Void> themeCallback = group2.addEmpty();
+      final AsyncCallback<Void> themeCallback = group3.addEmpty();
 
       @Override
       public void onSuccess(Void result) {
@@ -140,8 +142,8 @@ public class EditScreen extends Screen {
         }));
 
     ChangeEditApi.get(revision, path,
-        group1.add(new HttpCallback<NativeString>() {
-          final AsyncCallback<Void> modeCallback = group2.addEmpty();
+        group2.add(new HttpCallback<NativeString>() {
+          final AsyncCallback<Void> modeCallback = group3.addEmpty();
 
           @Override
           public void onSuccess(HttpResponse<NativeString> fc) {
@@ -155,11 +157,17 @@ public class EditScreen extends Screen {
 
           @Override
           public void onFailure(Throwable e) {
-            GerritCallback.showFailure(e);
+            // "Not Found" means it's a new file.
+            if (RestApi.isNotFound(e)) {
+              content = null;
+              modeCallback.onSuccess(null);
+            } else {
+              GerritCallback.showFailure(e);
+            }
           }
         }));
 
-    group2.addListener(new ScreenLoadCallback<Void>(this) {
+    group3.addListener(new ScreenLoadCallback<Void>(this) {
       @Override
       protected void preDisplay(Void result) {
         initEditor(content);
@@ -168,6 +176,7 @@ public class EditScreen extends Screen {
     });
     group1.done();
     group2.done();
+    group3.done();
   }
 
   @Override
@@ -247,11 +256,16 @@ public class EditScreen extends Screen {
   }
 
   private void initEditor(HttpResponse<NativeString> file) {
-    ModeInfo mode = prefs.syntaxHighlighting()
-        ? ModeInfo.findMode(file.getContentType(), path)
-        : null;
+    ModeInfo mode = null;
+    String content = "";
+    if (file != null) {
+      content = file.getResult().asString();
+      if (prefs.syntaxHighlighting()) {
+        mode = ModeInfo.findMode(file.getContentType(), path);
+      }
+    }
     cm = CodeMirror.create(editor, Configuration.create()
-        .set("value", file.getResult().asString())
+        .set("value", content)
         .set("readOnly", false)
         .set("cursorBlinkRate", 0)
         .set("cursorHeight", 0.85)

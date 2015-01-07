@@ -15,6 +15,7 @@
 package com.google.gerrit.httpd;
 
 import static com.google.gerrit.extensions.registration.PrivateInternals_DynamicTypes.registerInParentInjectors;
+import static com.google.gerrit.reviewdb.client.AuthType.DEVELOPMENT_BECOME_ANY_ACCOUNT;
 
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.GerritConfig;
@@ -74,6 +75,9 @@ public class WebModule extends LifecycleModule {
     bind(RequestScopePropagator.class).to(GuiceRequestScopePropagator.class);
     bind(HttpRequestContext.class);
 
+    if (authConfig.getAuthType() == DEVELOPMENT_BECOME_ANY_ACCOUNT) {
+      install(new RttSimulatorFilter.Module());
+    }
     if (wantSSL) {
       install(new RequireSslFilter.Module());
     }

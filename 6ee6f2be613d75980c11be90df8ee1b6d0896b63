@@ -22,6 +22,155 @@
       "revId": "6ee6f2be613d75980c11be90df8ee1b6d0896b63",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eed151e3_f2d94886",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 842,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-07T02:06:25Z",
+      "side": 1,
+      "message": "enclose in backticks",
+      "range": {
+        "startLine": 842,
+        "startChar": 3,
+        "endLine": 842,
+        "endChar": 28
+      },
+      "revId": "6ee6f2be613d75980c11be90df8ee1b6d0896b63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eed151e3_92e6bc41",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 844,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-07T02:06:25Z",
+      "side": 1,
+      "message": "enclose in backticks",
+      "range": {
+        "startLine": 844,
+        "startChar": 18,
+        "endLine": 844,
+        "endChar": 36
+      },
+      "revId": "6ee6f2be613d75980c11be90df8ee1b6d0896b63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6e8001c5_b6e3c830",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 844,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-07T02:06:25Z",
+      "side": 1,
+      "message": "missing period at the end of the sentence.",
+      "revId": "6ee6f2be613d75980c11be90df8ee1b6d0896b63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6e8001c5_56f034f1",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 850,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-07T02:06:25Z",
+      "side": 1,
+      "message": "enclose in backticks",
+      "range": {
+        "startLine": 850,
+        "startChar": 3,
+        "endLine": 850,
+        "endChar": 28
+      },
+      "revId": "6ee6f2be613d75980c11be90df8ee1b6d0896b63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6e8001c5_76f530e0",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 852,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-07T02:06:25Z",
+      "side": 1,
+      "message": "enclose in backticks",
+      "range": {
+        "startLine": 852,
+        "startChar": 11,
+        "endLine": 852,
+        "endChar": 31
+      },
+      "revId": "6ee6f2be613d75980c11be90df8ee1b6d0896b63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6e8001c5_16eabc03",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 853,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-07T02:06:25Z",
+      "side": 1,
+      "message": "This sentence doesn\u0027t make sense if there is only one variable.",
+      "range": {
+        "startLine": 852,
+        "startChar": 33,
+        "endLine": 853,
+        "endChar": 64
+      },
+      "revId": "6ee6f2be613d75980c11be90df8ee1b6d0896b63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eed151e3_d2dc4479",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 855,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-07T02:06:25Z",
+      "side": 1,
+      "message": "missing period at the end of the sentence.",
+      "revId": "6ee6f2be613d75980c11be90df8ee1b6d0896b63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

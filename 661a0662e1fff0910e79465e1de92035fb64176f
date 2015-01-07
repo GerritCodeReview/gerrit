@@ -22,6 +22,30 @@
       "revId": "661a0662e1fff0910e79465e1de92035fb64176f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6ef1e1a1_4e2a93a3",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Actions.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-01-07T12:44:28Z",
+      "side": 0,
+      "message": "Yes, I want to do the same for Publish/Delete draft changes, then it will be consistent.",
+      "parentUuid": "6ef1e1a1_2e1bc79c",
+      "range": {
+        "startLine": 48,
+        "startChar": 2,
+        "endLine": 49,
+        "endChar": 33
+      },
+      "revId": "661a0662e1fff0910e79465e1de92035fb64176f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

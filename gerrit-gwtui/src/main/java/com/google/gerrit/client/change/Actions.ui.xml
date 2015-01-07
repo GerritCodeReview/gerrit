@@ -69,16 +69,6 @@ limitations under the License.
     <g:Button ui:field='revert' styleName='' visible='false'>
       <div><ui:msg>Revert</ui:msg></div>
     </g:Button>
-    <g:Button ui:field='deleteChange' styleName='' visible='false'>
-      <div><ui:msg>Delete Change</ui:msg></div>
-    </g:Button>
-    <g:Button ui:field='deleteRevision' styleName='' visible='false'>
-      <div><ui:msg>Delete Revision</ui:msg></div>
-    </g:Button>
-    <g:Button ui:field='publish' styleName='' visible='false'>
-      <div><ui:msg>Publish</ui:msg></div>
-    </g:Button>
-
     <g:Button ui:field='abandon' styleName='' visible='false'>
       <div><ui:msg>Abandon</ui:msg></div>
     </g:Button>

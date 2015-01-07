@@ -496,23 +496,12 @@ public class ChangeScreen2 extends Screen {
       }
 
       if (rev.is_edit()) {
-        NativeMap<ActionInfo> actions = info.edit().has_actions()
-            ? info.edit().actions()
-            : NativeMap.<ActionInfo> create();
-        actions.copyKeysIntoChildren("id");
-
-        if (actions.containsKey("publish")) {
+        if (isEditBasedOnCurrentPatchSet(info)) {
           publishEdit.setVisible(true);
-          publishEdit.setTitle(actions.get("publish").title());
-        }
-        if (actions.containsKey("rebase")) {
+        } else {
           rebaseEdit.setVisible(true);
-          rebaseEdit.setTitle(actions.get("rebase").title());
         }
-        if (actions.containsKey("/")) {
-          deleteEdit.setVisible(true);
-          deleteEdit.setTitle(actions.get("/").title());
-        }
+        deleteEdit.setVisible(true);
       }
     }
   }
@@ -526,6 +515,13 @@ public class ChangeScreen2 extends Screen {
     }
     return rev._number() == RevisionInfo.findEditParent(
         info.revisions().values());
+  }
+
+  private boolean isEditBasedOnCurrentPatchSet(ChangeInfo info) {
+    JsArray<RevisionInfo> revList = info.revisions().values();
+    RevisionInfo.sortRevisionInfoByNumber(revList);
+    int currentPatchSetOrEdit = revList.get(revList.length() - 1)._number();
+    return currentPatchSetOrEdit == 0;
   }
 
   private void initEditMessageAction(ChangeInfo info, String revision) {

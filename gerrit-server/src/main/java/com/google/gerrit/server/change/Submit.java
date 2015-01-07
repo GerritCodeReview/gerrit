@@ -122,9 +122,7 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
   private final String labelSubmitTopic;
   private final ParameterizedString titlePatternSubmitTopic;
   private final boolean submitWholeTopic;
-
-  @Inject
-  private final ChangeControl.Factory changeControlFactory;
+  private final Provider<ChangeControl.GenericFactory> changeControlFactory;
 
   @Inject
   Submit(@GerritPersonIdent PersonIdent serverIdent,
@@ -141,7 +139,7 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
       ChangeIndexer indexer,
       LabelNormalizer labelNormalizer,
       @GerritServerConfig Config cfg,
-      ChangeControl.Factory changeControlFactory) {
+      Provider<ChangeControl.GenericFactory> changeControlFactory) {
     this.serverIdent = serverIdent;
     this.dbProvider = dbProvider;
     this.repoManager = repoManager;
@@ -258,7 +256,7 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
           changeControl = resource.getControl().getProjectControl().controlFor(c);
         } else {
           try {
-            changeControl = changeControlFactory.controlFor(c);
+            changeControl = changeControlFactory.get().controlFor(c, resource.getUser());
           } catch (NoSuchChangeException e){
             visibility = false;
             // todo also log/tell the user
@@ -338,19 +336,38 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
 
     ReviewDb db = dbProvider.get();
     db.changes().beginTransaction(change.getId());
+
     try {
       BatchMetaDataUpdate batch = approve(rsrc, update, caller, timestamp);
       // Write update commit after all normalized label commits.
       batch.write(update, new CommitBuilder());
-      change = submitToDatabase(db, change, timestamp);
-      if (change == null) {
-        return null;
+
+      if (submitWholeTopic) {
+        String topic = change.getTopic();
+        ResultSet<Change> changes = db.changes().byTopic(topic);
+        for (Change c: changes) {
+          c = submitToDatabase(db, c, timestamp);
+          if (c == null) {
+            return null;
+          }
+        }
+      } else {
+        change = submitToDatabase(db, change, timestamp);
+        if (change == null) {
+          return null;
+        }
       }
       db.commit();
     } finally {
       db.rollback();
     }
-    indexer.index(db, change);
+    if (submitWholeTopic) {
+      for (Change c : db.changes().byTopic(change.getTopic())) {
+        indexer.index(db, c);
+      }
+    } else {
+      indexer.index(db, change);
+    }
     return change;
   }
 

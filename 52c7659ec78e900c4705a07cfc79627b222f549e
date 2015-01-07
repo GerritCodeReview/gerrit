@@ -22,6 +22,30 @@
       "revId": "52c7659ec78e900c4705a07cfc79627b222f549e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4e409d75_ddfacbcb",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/RttSimulatorFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-01-07T07:56:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8e3e15e9_3ff007f1",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "52c7659ec78e900c4705a07cfc79627b222f549e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

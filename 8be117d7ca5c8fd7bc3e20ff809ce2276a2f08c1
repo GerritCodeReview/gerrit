@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4eeeddc7_6d25d5d1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-01-07T21:57:14Z",
+      "side": 1,
+      "message": "I was searching through the Gerrit code base to find a convenient way to get the corresponding ChangeControl for the actual Change. I did not yet find a way which looks intuitive to me. (Too many classes involved)",
+      "range": {
+        "startLine": 241,
+        "startChar": 8,
+        "endLine": 241,
+        "endChar": 101
+      },
+      "revId": "8be117d7ca5c8fd7bc3e20ff809ce2276a2f08c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

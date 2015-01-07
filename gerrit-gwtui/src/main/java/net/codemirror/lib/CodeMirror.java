@@ -326,7 +326,7 @@ public class CodeMirror extends JavaScriptObject {
   }-*/;
 
   public final native Element scrollbarV() /*-{
-    return this.display.scrollbarV
+    return this.display.scrollbars.vert.node;
   }-*/;
 
   public static final native KeyMap cloneKeyMap(String name) /*-{

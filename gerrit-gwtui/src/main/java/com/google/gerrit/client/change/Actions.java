@@ -27,7 +27,6 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -45,9 +44,6 @@ class Actions extends Composite {
   private static final Binder uiBinder = GWT.create(Binder.class);
 
   @UiField Button cherrypick;
-  @UiField Button deleteChange;
-  @UiField Button deleteRevision;
-  @UiField Button publish;
   @UiField Button rebase;
   @UiField Button revert;
   @UiField Button submit;
@@ -101,7 +97,6 @@ class Actions extends Composite {
     actions.copyKeysIntoChildren("id");
 
     if (hasUser) {
-      a2b(actions, "/", deleteChange);
       a2b(actions, "abandon", abandon);
       a2b(actions, "restore", restore);
       a2b(actions, "revert", revert);
@@ -130,9 +125,7 @@ class Actions extends Composite {
             .append(action.label())
             .closeDiv());
       }
-      a2b(actions, "/", deleteRevision);
       a2b(actions, "cherrypick", cherrypick);
-      a2b(actions, "publish", publish);
       a2b(actions, "rebase", rebase);
       for (String id : filterNonCore(actions)) {
         add(new ActionButton(info, revInfo, actions.get(id)));
@@ -175,25 +168,6 @@ class Actions extends Composite {
       abandonAction = new AbandonAction(abandon, changeId);
     }
     abandonAction.show();
-  }
-
-  @UiHandler("publish")
-  void onPublish(@SuppressWarnings("unused") ClickEvent e) {
-    DraftActions.publish(changeId, revision);
-  }
-
-  @UiHandler("deleteRevision")
-  void onDeleteRevision(@SuppressWarnings("unused") ClickEvent e) {
-    if (Window.confirm(Resources.C.deleteDraftRevision())) {
-      DraftActions.delete(changeId, revision);
-    }
-  }
-
-  @UiHandler("deleteChange")
-  void onDeleteChange(@SuppressWarnings("unused") ClickEvent e) {
-    if (Window.confirm(Resources.C.deleteDraftChange())) {
-      DraftActions.delete(changeId);
-    }
   }
 
   @UiHandler("restore")

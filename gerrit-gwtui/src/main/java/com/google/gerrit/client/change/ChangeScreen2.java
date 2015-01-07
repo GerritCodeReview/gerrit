@@ -183,6 +183,9 @@ public class ChangeScreen2 extends Screen {
   @UiField Button publishEdit;
   @UiField Button rebaseEdit;
   @UiField Button deleteEdit;
+  @UiField Button publish;
+  @UiField Button deleteChange;
+  @UiField Button deleteRevision;
   @UiField Button openAll;
   @UiField Button editMode;
   @UiField Button reviewMode;
@@ -385,6 +388,19 @@ public class ChangeScreen2 extends Screen {
     }
   }
 
+  private void initChangeAction(ChangeInfo info) {
+    if (info.status() == Status.DRAFT) {
+      NativeMap<ActionInfo> actions = info.has_actions()
+          ? info.actions()
+          : NativeMap.<ActionInfo> create();
+      actions.copyKeysIntoChildren("id");
+      if (actions.containsKey("/")) {
+        deleteChange.setVisible(true);
+        deleteChange.setTitle(actions.get("/").title());
+      }
+    }
+  }
+
   private void initRevisionsAction(ChangeInfo info, String revision) {
     int currentPatchSet;
     if (info.current_revision() != null
@@ -410,6 +426,23 @@ public class ChangeScreen2 extends Screen {
     patchSetsAction = new PatchSetsAction(
         info.legacy_id(), revision,
         style, headerLine, patchSets);
+
+    RevisionInfo revInfo = info.revision(revision);
+    if (revInfo.draft()) {
+      NativeMap<ActionInfo> actions = revInfo.has_actions()
+          ? revInfo.actions()
+          : NativeMap.<ActionInfo> create();
+      actions.copyKeysIntoChildren("id");
+
+      if (actions.containsKey("publish")) {
+        publish.setVisible(true);
+        publish.setTitle(actions.get("publish").title());
+      }
+      if (actions.containsKey("/")) {
+        deleteRevision.setVisible(true);
+        deleteRevision.setTitle(actions.get("/").title());
+      }
+    }
   }
 
   private void initDownloadAction(ChangeInfo info, String revision) {
@@ -530,6 +563,25 @@ public class ChangeScreen2 extends Screen {
   void onDeleteEdit(@SuppressWarnings("unused") ClickEvent e) {
     if (Window.confirm(Resources.C.deleteChangeEdit())) {
       EditActions.deleteEdit(changeId);
+    }
+  }
+
+  @UiHandler("publish")
+  void onPublish(@SuppressWarnings("unused") ClickEvent e) {
+    DraftActions.publish(changeId, revision);
+  }
+
+  @UiHandler("deleteRevision")
+  void onDeleteRevision(@SuppressWarnings("unused") ClickEvent e) {
+    if (Window.confirm(Resources.C.deleteDraftRevision())) {
+      DraftActions.delete(changeId, revision);
+    }
+  }
+
+  @UiHandler("deleteChange")
+  void onDeleteChange(@SuppressWarnings("unused") ClickEvent e) {
+    if (Window.confirm(Resources.C.deleteDraftChange())) {
+      DraftActions.delete(changeId);
     }
   }
 
@@ -1023,6 +1075,7 @@ public class ChangeScreen2 extends Screen {
     renderDiffBaseListBox(info);
     initReplyButton(info, revision);
     initIncludedInAction(info);
+    initChangeAction(info);
     initRevisionsAction(info, revision);
     initDownloadAction(info, revision);
     initProjectLinks(info);

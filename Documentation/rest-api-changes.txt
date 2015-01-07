@@ -2067,6 +2067,9 @@ describes the applied labels.
   }
 ----
 
+A review cannot be set on a change edit. Trying to post a review for a
+change edit fails with `409 Conflict`.
+
 [[rebase-revision]]
 === Rebase Revision
 --

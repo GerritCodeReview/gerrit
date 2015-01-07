@@ -63,6 +63,7 @@ import com.google.gerrit.server.project.SubmitRuleEvaluator;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.AtomicUpdate;
 import com.google.gwtorm.server.OrmException;
+import com.google.gwtorm.server.ResultSet;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -84,6 +85,8 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
     UiAction<RevisionResource> {
   private static final String DEFAULT_TOOLTIP =
       "Submit patch set ${patchSet} into ${branch}";
+  private static final String DEFAULT_TOPIC_TOOLTIP =
+      "Submit all ${topicSize} changes of the same topic";
 
   public enum Status {
     SUBMITTED, MERGED
@@ -114,6 +117,9 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
   private final ChangesCollection changes;
   private final String label;
   private final ParameterizedString titlePattern;
+  private final String labelSubmitTopic;
+  private final ParameterizedString titlePatternSubmitTopic;
+  private final boolean submitWholeTopic;
 
   @Inject
   Submit(@GerritPersonIdent PersonIdent serverIdent,
@@ -149,6 +155,13 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
     this.titlePattern = new ParameterizedString(MoreObjects.firstNonNull(
         cfg.getString("change", null, "submitTooltip"),
         DEFAULT_TOOLTIP));
+    submitWholeTopic = cfg.getBoolean("change", null, "submitWholeTopic" , false);
+    this.labelSubmitTopic = MoreObjects.firstNonNull(
+        Strings.emptyToNull(cfg.getString("change", null, "submitTopicLabel")),
+        "Submit whole topic");
+    this.titlePatternSubmitTopic = new ParameterizedString(MoreObjects.firstNonNull(
+        cfg.getString("change", null, "submitTopicTooltip"),
+        DEFAULT_TOPIC_TOOLTIP));
   }
 
   @Override
@@ -212,19 +225,41 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
   @Override
   public UiAction.Description getDescription(RevisionResource resource) {
     PatchSet.Id current = resource.getChange().currentPatchSetId();
-    RevId revId = resource.getPatchSet().getRevision();
-    Map<String, String> params = ImmutableMap.of(
-        "patchSet", String.valueOf(resource.getPatchSet().getPatchSetId()),
-        "branch", resource.getChange().getDest().getShortName(),
-        "commit", ObjectId.fromString(revId.get()).abbreviate(7).name());
+    String topic = resource.getChange().getTopic();
+    if (submitWholeTopic && !topic.isEmpty()) {
+      ReviewDb db = dbProvider.get();
+      ResultSet<Change> changesByTopic = db.changes().byTopic(topic);
+      Map<String, String> params = ImmutableMap.of(
+          "topicSize", String.valueOf(changesByTopic.toList().size()));
 
-    return new UiAction.Description()
-      .setLabel(label)
-      .setTitle(Strings.emptyToNull(titlePattern.replace(params)))
-      .setVisible(!resource.getPatchSet().isDraft()
-          && resource.getChange().getStatus().isOpen()
-          && resource.getPatchSet().getId().equals(current)
-          && resource.getControl().canSubmit());
+      boolean visibility = !resource.getPatchSet().isDraft()
+            && resource.getChange().getStatus().isOpen()
+            && resource.getPatchSet().getId().equals(current)
+            && resource.getControl().canSubmit();
+
+      for (Change c : changesByTopic) {
+        visibility &= c.canSubmit(); // todo: there is no Change.canSubmit() method. Find another way.
+      }
+
+      return new UiAction.Description()
+      .setLabel(labelSubmitTopic)
+      .setTitle(Strings.emptyToNull(titlePatternSubmitTopic.replace(params)))
+      .setVisible(visibility);
+    } else {
+      RevId revId = resource.getPatchSet().getRevision();
+      Map<String, String> params = ImmutableMap.of(
+          "patchSet", String.valueOf(resource.getPatchSet().getPatchSetId()),
+          "branch", resource.getChange().getDest().getShortName(),
+          "commit", ObjectId.fromString(revId.get()).abbreviate(7).name());
+      return new UiAction.Description()
+        .setLabel(label)
+        .setTitle(Strings.emptyToNull(titlePattern.replace(params)))
+        .setVisible(!resource.getPatchSet().isDraft()
+            && resource.getChange().getStatus().isOpen()
+            && resource.getPatchSet().getId().equals(current)
+            && resource.getControl().canSubmit());
+    }
+
   }
 
   /**

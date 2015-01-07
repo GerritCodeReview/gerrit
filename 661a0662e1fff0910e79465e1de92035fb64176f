@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6ef1e1a1_eefd3fc6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-07T12:31:09Z",
+      "side": 1,
+      "message": "buttons",
+      "range": {
+        "startLine": 7,
+        "startChar": 29,
+        "endLine": 7,
+        "endChar": 35
+      },
+      "revId": "661a0662e1fff0910e79465e1de92035fb64176f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8e0c5579_0f2085c1",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 460,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-07T12:31:09Z",
+      "side": 1,
+      "message": "rev.is_edit()\n\nor just inline it below.",
+      "range": {
+        "startLine": 460,
+        "startChar": 24,
+        "endLine": 460,
+        "endChar": 94
+      },
+      "revId": "661a0662e1fff0910e79465e1de92035fb64176f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

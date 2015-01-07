@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8e0c5579_af35f9f7",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 463,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-07T13:06:28Z",
+      "side": 1,
+      "message": "This method initializes edit mode. The right place to initialize reply button is another method:\n\n  initReplyButton()\n\nThe same for quick approve.",
+      "range": {
+        "startLine": 460,
+        "startChar": 6,
+        "endLine": 463,
+        "endChar": 7
+      },
+      "revId": "5249376cf40e8f04ec573a116d19f19aefb145ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

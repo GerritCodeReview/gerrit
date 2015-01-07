@@ -89,7 +89,7 @@ public class LdapAuthBackend implements AuthBackend {
           // We found the user account, but we need to verify
           // the password matches it before we can continue.
           //
-          helper.authenticate(m.getDN(), req.getPassword());
+          helper.authenticate(m.getDN(), req.getPassword()).close();
         }
         return new AuthUser(new AuthUser.UUID(username), username);
       } finally {

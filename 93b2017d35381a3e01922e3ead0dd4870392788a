@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8e0c5579_8f00f52b",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 615,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-07T10:11:22Z",
+      "side": 1,
+      "message": "Toggling edit mode in file table, doesn\u0027t imply that we have a change edit yet: it is still possible to post reviews?",
+      "range": {
+        "startLine": 615,
+        "startChar": 4,
+        "endLine": 615,
+        "endChar": 28
+      },
+      "revId": "93b2017d35381a3e01922e3ead0dd4870392788a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

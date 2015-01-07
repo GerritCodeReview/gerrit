@@ -446,6 +446,7 @@ public class ChangeScreen2 extends Screen {
       RevisionInfo rev = info.revision(revision);
       if (isEditModeEnabled(info, rev)) {
         editMode.setVisible(fileTableMode == FileTable.Mode.REVIEW);
+        reply.setVisible(editMode.isVisible());
         addFile.setVisible(!editMode.isVisible());
         reviewMode.setVisible(!editMode.isVisible());
         addFileAction = new AddFileAction(
@@ -453,6 +454,7 @@ public class ChangeScreen2 extends Screen {
             style, addFile);
       } else {
         editMode.setVisible(false);
+        reply.setVisible(true);
         addFile.setVisible(false);
         reviewMode.setVisible(false);
       }
@@ -610,6 +612,7 @@ public class ChangeScreen2 extends Screen {
     fileTableMode = FileTable.Mode.EDIT;
     refreshFileTable();
     editMode.setVisible(false);
+    reply.setVisible(false);
     addFile.setVisible(true);
     reviewMode.setVisible(true);
   }
@@ -619,6 +622,7 @@ public class ChangeScreen2 extends Screen {
     fileTableMode = FileTable.Mode.REVIEW;
     refreshFileTable();
     editMode.setVisible(true);
+    reply.setVisible(true);
     addFile.setVisible(false);
     reviewMode.setVisible(false);
   }

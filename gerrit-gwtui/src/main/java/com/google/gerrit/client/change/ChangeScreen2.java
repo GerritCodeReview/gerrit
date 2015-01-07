@@ -179,6 +179,8 @@ public class ChangeScreen2 extends Screen {
   @UiField Element patchSetsText;
   @UiField Button download;
   @UiField Button reply;
+  @UiField Button publishEdit;
+  @UiField Button deleteEdit;
   @UiField Button openAll;
   @UiField Button editMode;
   @UiField Button reviewMode;
@@ -460,6 +462,22 @@ public class ChangeScreen2 extends Screen {
       boolean hasEdit = info.has_edit() && info.current_revision().equals(info.edit().name());
       reply.setVisible(!hasEdit);
       quickApprove.setVisible(!hasEdit);
+
+      if (hasEdit) {
+        NativeMap<ActionInfo> actions = info.edit().has_actions()
+            ? info.edit().actions()
+            : NativeMap.<ActionInfo> create();
+        actions.copyKeysIntoChildren("id");
+
+        if (actions.containsKey("publish")) {
+          publishEdit.setVisible(true);
+          publishEdit.setTitle(actions.get("publish").title());
+        }
+        if (actions.containsKey("/")) {
+          deleteEdit.setVisible(true);
+          deleteEdit.setTitle(actions.get("/").title());
+        }
+      }
     }
   }
 
@@ -493,6 +511,16 @@ public class ChangeScreen2 extends Screen {
         }
       });
     }
+  }
+
+  @UiHandler("deleteEdit")
+  void onDeleteEdit(@SuppressWarnings("unused") ClickEvent e) {
+    EditActions.deleteEdit(changeId);
+  }
+
+  @UiHandler("publishEdit")
+  void onPublishEdit(@SuppressWarnings("unused") ClickEvent e) {
+    EditActions.publishEdit(changeId);
   }
 
   @Override

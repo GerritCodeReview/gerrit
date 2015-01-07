@@ -86,7 +86,11 @@ Web UI
 Inline Editing
 ^^^^^^^^^^^^^^
 
-Note that the inline editing feature only works with the new change screen.
+Refer to the
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.11/user-inline-edit.html[
+inline editing user guide] for detailed instructions.
+
+* The inline editing feature only works with the new change screen.
 
 * New changes can be created directly in the browser via a 'Create Change'
 button on the project info screen.
@@ -531,6 +535,8 @@ list projects] endpoint.
 
 Upgrades
 --------
+
+* Update Antlr to 3.5.2.
 
 * Update ASM to 5.0.3.
 

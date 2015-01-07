@@ -31,6 +31,7 @@ import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.HttpCallback;
 import com.google.gerrit.client.rpc.HttpResponse;
 import com.google.gerrit.client.rpc.NativeString;
+import com.google.gerrit.client.rpc.RestApi;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.Screen;
 import com.google.gerrit.common.PageLinks;
@@ -140,7 +141,7 @@ public class EditScreen extends Screen {
         }));
 
     ChangeEditApi.get(revision, path,
-        group1.add(new HttpCallback<NativeString>() {
+        new HttpCallback<NativeString>() {
           final AsyncCallback<Void> modeCallback = group2.addEmpty();
 
           @Override
@@ -155,9 +156,15 @@ public class EditScreen extends Screen {
 
           @Override
           public void onFailure(Throwable e) {
-            GerritCallback.showFailure(e);
+            // "Not Found" means it's a new file.
+            if (RestApi.isNotFound(e)) {
+              content = null;
+              modeCallback.onSuccess(null);
+            } else {
+              GerritCallback.showFailure(e);
+            }
           }
-        }));
+        });
 
     group2.addListener(new ScreenLoadCallback<Void>(this) {
       @Override
@@ -247,11 +254,16 @@ public class EditScreen extends Screen {
   }
 
   private void initEditor(HttpResponse<NativeString> file) {
-    ModeInfo mode = prefs.syntaxHighlighting()
-        ? ModeInfo.findMode(file.getContentType(), path)
-        : null;
+    ModeInfo mode = null;
+    String content = "";
+    if (file != null) {
+      content = file.getResult().asString();
+      if (prefs.syntaxHighlighting()) {
+        mode = ModeInfo.findMode(file.getContentType(), path);
+      }
+    }
     cm = CodeMirror.create(editor, Configuration.create()
-        .set("value", file.getResult().asString())
+        .set("value", content)
         .set("readOnly", false)
         .set("cursorBlinkRate", 0)
         .set("cursorHeight", 0.85)

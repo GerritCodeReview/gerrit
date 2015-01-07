@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6e8001c5_16d39c69",
+        "filename": "lib/codemirror/BUCK",
+        "patchSetId": 5
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-07T01:00:21Z",
+      "side": 1,
+      "message": "Using only the commit sha1 like this makes it difficult to see what version we\u0027re using without cloning the git and looking at the log.\n\nFor future updates can we set the version to the `git describe` output?\n\nI.e. in this case it would be `4.10.0-6-gd0a2dda`.\n\n\nNote: the CodeMirror project doesn\u0027t use annotated tags, so it\u0027s necessary to use `git describe --tags`.",
+      "range": {
+        "startLine": 5,
+        "startChar": 11,
+        "endLine": 5,
+        "endChar": 21
+      },
+      "revId": "57c239c0eaa003b037cedf8c49a65ba4de7131ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

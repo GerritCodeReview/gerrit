@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "8e0c5579_af997988",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-01-07T17:47:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8e0c5579_8faf55a0",
+      "revId": "71ec1688a2ab9752451444e60eb1c92c523e375b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6ef1e1a1_ae805724",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
         "patchSetId": 2
@@ -30,6 +48,30 @@
       "writtenOn": "2015-01-07T17:03:08Z",
       "side": 1,
       "message": "Misleading name. It called patch set, yet you are comparing it to edit. May be currentRevision, or currentPatchSetOrEdit?",
+      "range": {
+        "startLine": 521,
+        "startChar": 8,
+        "endLine": 521,
+        "endChar": 23
+      },
+      "revId": "71ec1688a2ab9752451444e60eb1c92c523e375b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6ef1e1a1_ce87a338",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 521,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-01-07T17:47:01Z",
+      "side": 1,
+      "message": "Ok, will name it currentPatchSetOrEdit then. I don\u0027t like currentRevision as revision we mainly use when it\u0027s a commit ID, but this is a patch set number.\n\nDone",
+      "parentUuid": "6ef1e1a1_ae805724",
       "range": {
         "startLine": 521,
         "startChar": 8,

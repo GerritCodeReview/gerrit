@@ -71,6 +71,30 @@
     },
     {
       "key": {
+        "uuid": "4eeeddc7_edfd45c6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-01-07T20:45:28Z",
+      "side": 1,
+      "message": "I left that out on purpose as you can have a topic across different repositories. I don\u0027t just want a \"Merge all changes into the branch\", but rather I want to solve the following situation: \n\nSuppose there is two repositories, one is depending on the other. One may provide an API, while the other repo consumes the API. (e.g. Think of JGit-\u003eGerrit though they are not hosted on the same gerrit instance.)\n\nIf you want to change the API rapidly in a development cycle, you don\u0027t want to phase out/deprecate things and replace it with new stuff. Rather you may want to upgrade in all places at the same time, so there is no time when old and new states of the different repos need to interact with each other.\n\nSo we may have a topic \"Upgrade-API-for-good(backwards incompatible)\", which then requires both the API provider as well as the API consumer to coordinate the upgrade or the build will break.\n\nAt the first step to solve the outlined issue, we\u0027d want to have the \"submit the whole topic\" solution. Later we need to check if we can also merge the whole submitted topic in one atomic action.\n\nLong story short: I haven\u0027t thought about other meaningful variables which help users to know more about the consequence of hitting the submit button there.\n\nHow about ${numberOfProjects} or ${listOfReposAndBranches} ?",
+      "parentUuid": "6e8001c5_d6dc4479",
+      "range": {
+        "startLine": 88,
+        "startChar": 46,
+        "endLine": 88,
+        "endChar": 47
+      },
+      "revId": "fe9830e9b022e32390ecdeef4cd30a2065bf7da5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "eed151e3_12d3ac69",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
         "patchSetId": 2
@@ -82,6 +106,30 @@
       "writtenOn": "2015-01-07T02:03:59Z",
       "side": 1,
       "message": "Call this `submitWholeTopic`",
+      "range": {
+        "startLine": 157,
+        "startChar": 55,
+        "endLine": 157,
+        "endChar": 73
+      },
+      "revId": "fe9830e9b022e32390ecdeef4cd30a2065bf7da5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4eeeddc7_cdfa09cc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-01-07T20:45:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eed151e3_12d3ac69",
       "range": {
         "startLine": 157,
         "startChar": 55,

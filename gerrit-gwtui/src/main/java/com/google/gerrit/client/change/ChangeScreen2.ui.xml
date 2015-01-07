@@ -272,10 +272,10 @@ limitations under the License.
       height: BUTTON_HEIGHT;
       line-height: BUTTON_HEIGHT;
     }
-    button.quickApprove {
+    button.highlight {
       background-color: #4d90fe;
     }
-    button.quickApprove div { color: #fff; }
+    button.highlight div { color: #fff; }
 
     .sectionHeader {
       position: relative;
@@ -360,14 +360,16 @@ limitations under the License.
             <ui:attribute name='title'/>
           </g:Button>
           <c:QuickApprove ui:field='quickApprove'
-              styleName='{style.quickApprove}'
+              styleName='{style.highlight}'
               title='Apply score with one click'>
             <ui:attribute name='title'/>
           </c:QuickApprove>
-          <g:Button ui:field='publishEdit' styleName='' visible='false'>
+          <g:Button ui:field='publishEdit'
+              styleName='{style.highlight}' visible='false'>
             <div><ui:msg>Publish Edit</ui:msg></div>
           </g:Button>
-          <g:Button ui:field='rebaseEdit' styleName='' visible='false'>
+          <g:Button ui:field='rebaseEdit'
+              styleName='{style.highlight}' visible='false'>
             <div><ui:msg>Rebase Edit</ui:msg></div>
           </g:Button>
           <g:Button ui:field='deleteEdit' styleName='' visible='false'>

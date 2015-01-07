@@ -70,6 +70,30 @@
       "revId": "8be117d7ca5c8fd7bc3e20ff809ce2276a2f08c1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4eeeddc7_8d0be147",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-07T22:10:45Z",
+      "side": 1,
+      "message": "Huh. Yeah, it would look up the ref in the wrong project.\n\nInject a ChangeControl.Factory and use that.\n\nIf you want to optimize, reuse the ChangeControl from the RevisionResource if the project matches. ProjectControl caches a map of branch (in that project) -\u003e RefControl, which is not the cheapest thing to contstruct.",
+      "parentUuid": "ce5d6d61_792587d1",
+      "range": {
+        "startLine": 241,
+        "startChar": 8,
+        "endLine": 241,
+        "endChar": 101
+      },
+      "revId": "8be117d7ca5c8fd7bc3e20ff809ce2276a2f08c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -141,6 +141,30 @@
       "revId": "d8b97ccb7348af00ad48a2c474f40259358de68c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6ef1e1a1_ae033737",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-01-07T12:18:25Z",
+      "side": 1,
+      "message": "Well, I still prefer to have a consistent formatting for all buttons and not to do something special just for Submit.",
+      "parentUuid": "6ef1e1a1_2ef0e7f0",
+      "range": {
+        "startLine": 11,
+        "startChar": 28,
+        "endLine": 13,
+        "endChar": 14
+      },
+      "revId": "d8b97ccb7348af00ad48a2c474f40259358de68c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

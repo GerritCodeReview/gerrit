@@ -15,16 +15,12 @@
 package com.google.gerrit.server.edit;
 
 import com.google.common.collect.Maps;
-import com.google.gerrit.extensions.common.ActionInfo;
 import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.extensions.common.EditInfo;
 import com.google.gerrit.extensions.common.FetchInfo;
 import com.google.gerrit.extensions.config.DownloadCommand;
 import com.google.gerrit.extensions.config.DownloadScheme;
 import com.google.gerrit.extensions.registration.DynamicMap;
-import com.google.gerrit.extensions.webui.PrivateInternals_UiActionDescription;
-import com.google.gerrit.extensions.webui.UiAction;
-import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.CommonConverters;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.change.ChangeJson;
@@ -56,7 +52,6 @@ public class ChangeEditJson {
     EditInfo out = new EditInfo();
     out.commit = fillCommit(edit.getEditCommit());
     out.baseRevision = edit.getBasePatchSet().getRevision().get();
-    out.actions = fillActions(edit);
     if (downloadCommands) {
       out.fetch = fillFetchMap(edit);
     }
@@ -80,35 +75,6 @@ public class ChangeEditJson {
     }
 
     return commit;
-  }
-
-  private static Map<String, ActionInfo> fillActions(ChangeEdit edit) {
-    Map<String, ActionInfo> actions = Maps.newTreeMap();
-
-    UiAction.Description descr = new UiAction.Description();
-    PrivateInternals_UiActionDescription.setId(descr, "/");
-    PrivateInternals_UiActionDescription.setMethod(descr, "DELETE");
-    descr.setTitle("Delete edit");
-    actions.put(descr.getId(), new ActionInfo(descr));
-
-    // Only expose publish action when the edit is on top of current ps
-    PatchSet.Id current = edit.getChange().currentPatchSetId();
-    PatchSet basePs = edit.getBasePatchSet();
-    if (basePs.getId().equals(current)) {
-      descr = new UiAction.Description();
-      PrivateInternals_UiActionDescription.setId(descr, "publish");
-      PrivateInternals_UiActionDescription.setMethod(descr, "POST");
-      descr.setTitle("Publish edit");
-      actions.put(descr.getId(), new ActionInfo(descr));
-    } else {
-      descr = new UiAction.Description();
-      PrivateInternals_UiActionDescription.setId(descr, "rebase");
-      PrivateInternals_UiActionDescription.setMethod(descr, "POST");
-      descr.setTitle("Rebase edit");
-      actions.put(descr.getId(), new ActionInfo(descr));
-    }
-
-    return actions;
   }
 
   private Map<String, FetchInfo> fillFetchMap(ChangeEdit edit) {

@@ -341,14 +341,13 @@ class CommentManager {
       @Override
       public void run() {
         if (cm.extras().hasActiveLine()) {
-          newDraft(cm);
+          newDraft(cm, cm.getLineNumber(cm.extras().activeLine()) + 1);
         }
       }
     };
   }
 
-  private void newDraft(CodeMirror cm) {
-    int line = cm.getLineNumber(cm.extras().activeLine()) + 1;
+  void newDraft(CodeMirror cm, int line) {
     if (cm.somethingSelected()) {
       FromTo fromTo = cm.getSelectedRange();
       Pos end = fromTo.to();

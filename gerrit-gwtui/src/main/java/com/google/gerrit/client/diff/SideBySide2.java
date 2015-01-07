@@ -817,21 +817,18 @@ public class SideBySide2 extends Screen {
   private GutterClickHandler onGutterClick(final CodeMirror cm) {
     return new GutterClickHandler() {
       @Override
-      public void handle(CodeMirror instance, int line, String gutter,
+      public void handle(CodeMirror instance, final int line, String gutter,
           NativeEvent clickEvent) {
         if (clickEvent.getButton() == NativeEvent.BUTTON_LEFT
             && !clickEvent.getMetaKey()
             && !clickEvent.getAltKey()
             && !clickEvent.getCtrlKey()
             && !clickEvent.getShiftKey()) {
-          if (!(cm.extras().hasActiveLine() &&
-              cm.getLineNumber(cm.extras().activeLine()) == line)) {
-            cm.setCursor(Pos.create(line));
-          }
+          cm.setCursor(Pos.create(line));
           Scheduler.get().scheduleDeferred(new ScheduledCommand() {
             @Override
             public void execute() {
-              commentManager.insertNewDraft(cm).run();
+              commentManager.newDraft(cm, line + 1);
             }
           });
         }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8e0c5579_2fa629c9",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 433,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-07T17:15:37Z",
+      "side": 1,
+      "message": "Is this method needed? Why this method wasn\u0027t called for delete change action above?",
+      "range": {
+        "startLine": 433,
+        "startChar": 6,
+        "endLine": 433,
+        "endChar": 41
+      },
+      "revId": "398fbb3b86c3eff0578e07f730d5b43462fb4fb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

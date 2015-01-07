@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6ef1e1a1_2e1bc79c",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Actions.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-07T12:36:17Z",
+      "side": 0,
+      "message": "How publishing or deleting edits is different from publishing or deleting draft changes? We should try to be consistent on the UI across different but similar actions.",
+      "range": {
+        "startLine": 48,
+        "startChar": 2,
+        "endLine": 49,
+        "endChar": 33
+      },
+      "revId": "661a0662e1fff0910e79465e1de92035fb64176f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

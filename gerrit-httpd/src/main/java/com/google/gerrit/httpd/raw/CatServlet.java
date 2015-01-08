@@ -73,11 +73,11 @@ public class CatServlet extends HttpServlet {
   private final GitRepositoryManager repoManager;
   private final SecureRandom rng;
   private final FileTypeRegistry registry;
-  private final ChangeControl.Factory changeControl;
+  private final ChangeControl.GenericFactory changeControl;
 
   @Inject
   CatServlet(final GitRepositoryManager grm, final Provider<ReviewDb> sf,
-      final FileTypeRegistry ftr, final ChangeControl.Factory ccf) {
+      final FileTypeRegistry ftr, final ChangeControl.GenericFactory ccf) {
     requestDb = sf;
     repoManager = grm;
     rng = new SecureRandom();
@@ -140,6 +140,7 @@ public class CatServlet extends HttpServlet {
     final PatchSet patchSet;
     try {
       final ReviewDb db = requestDb.get();
+      //todo
       final ChangeControl control = changeControl.validateFor(changeId);
 
       project = control.getProject();

@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2e70c917_c4e67e42",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/CatServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-01-08T22:49:00Z",
+      "side": 1,
+      "message": "Need to check for null and fail with SC_NOT_FOUND.",
+      "revId": "68c7771d804973bb4c0388ba9a26f83df9f2bff2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0e6dc543_c3e67642",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/PatchSetDetailFactory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-01-08T22:49:00Z",
+      "side": 1,
+      "message": "Check for null and fail with NoSuchEntityException.",
+      "revId": "68c7771d804973bb4c0388ba9a26f83df9f2bff2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2e70c917_e4e37a2f",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/patch/PatchDetailServiceImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-01-08T22:49:00Z",
+      "side": 1,
+      "message": "Check for null and fail with NoSuchEntityException",
+      "revId": "68c7771d804973bb4c0388ba9a26f83df9f2bff2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -17,21 +17,16 @@ package com.google.gerrit.server.query.change;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.index.ChangeField;
 import com.google.gerrit.server.index.IndexPredicate;
-import com.google.gerrit.server.query.change.ChangeQueryBuilder.Arguments;
 import com.google.gwtorm.server.OrmException;
-import com.google.gwtorm.server.ResultSet;
 
-class ChangeIdPredicate extends IndexPredicate<ChangeData> implements
-    ChangeDataSource {
-  private final Arguments args;
-
-  ChangeIdPredicate(Arguments args, String id) {
+/** Predicate over Change-Id strings (aka Change.Key). */
+class ChangeIdPredicate extends IndexPredicate<ChangeData> {
+  ChangeIdPredicate(String id) {
     super(ChangeField.ID, ChangeQueryBuilder.FIELD_CHANGE, id);
-    this.args = args;
   }
 
   @Override
-  public boolean match(final ChangeData cd) throws OrmException {
+  public boolean match(ChangeData cd) throws OrmException {
     Change change = cd.change();
     if (change == null) {
       return false;
@@ -45,25 +40,7 @@ class ChangeIdPredicate extends IndexPredicate<ChangeData> implements
   }
 
   @Override
-  public ResultSet<ChangeData> read() throws OrmException {
-    Change.Key a = new Change.Key(getValue());
-    Change.Key b = a.max();
-    return ChangeDataResultSet.change(args.changeDataFactory, args.db,
-        args.db.get().changes().byKeyRange(a, b));
-  }
-
-  @Override
-  public boolean hasChange() {
-    return true;
-  }
-
-  @Override
   public int getCost() {
-    return ChangeCosts.cost(ChangeCosts.CHANGES_SCAN, getCardinality());
-  }
-
-  @Override
-  public int getCardinality() {
-    return ChangeCosts.CARD_KEY;
+    return 1;
   }
 }

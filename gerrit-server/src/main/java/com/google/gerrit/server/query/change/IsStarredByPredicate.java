@@ -37,12 +37,10 @@ class IsStarredByPredicate extends OrPredicate<ChangeData> implements
     return user.toString();
   }
 
-  private static List<Predicate<ChangeData>> predicates(
-      Arguments args,
-      Set<Change.Id> ids) {
+  private static List<Predicate<ChangeData>> predicates(Set<Change.Id> ids) {
     List<Predicate<ChangeData>> r = Lists.newArrayListWithCapacity(ids.size());
     for (Change.Id id : ids) {
-      r.add(new LegacyChangeIdPredicate(args, id));
+      r.add(new LegacyChangeIdPredicate(id));
     }
     return r;
   }
@@ -55,7 +53,7 @@ class IsStarredByPredicate extends OrPredicate<ChangeData> implements
   }
 
   private IsStarredByPredicate(Arguments args, IdentifiedUser user) {
-    super(predicates(args, user.getStarredChanges()));
+    super(predicates(user.getStarredChanges()));
     this.args = args;
     this.user = user;
   }

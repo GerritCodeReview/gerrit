@@ -81,9 +81,6 @@ public interface Resources extends ClientBundle {
   @Source("merge.png")
   public ImageResource merge();
 
-  @Source("removeReviewer.png")
-  public ImageResource removeReviewer();
-
   @Source("deleteNormal.png")
   public ImageResource deleteNormal();
 

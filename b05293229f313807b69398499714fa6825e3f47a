@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "4eeeddc7_0d7251d1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-08T01:34:29Z",
+      "side": 1,
+      "message": "Why bother? The only difference between Factory and GenericFactory is that Factory gets its user from the CurrentUser. And CurrentUser should always be provided in a REST API handler, as you note below.\n\nThe only reason to use GenericFactory here is if you want to construct the other changes\u0027 ChangeControls using a different user (e.g. the respective owners), which I\u0027m pretty sure we don\u0027t.",
+      "parentUuid": "4eeeddc7_cd2cc9b4",
+      "revId": "b05293229f313807b69398499714fa6825e3f47a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ce5d6d61_793c67e5",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
         "patchSetId": 4

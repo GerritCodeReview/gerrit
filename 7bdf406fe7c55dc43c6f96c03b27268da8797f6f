@@ -166,6 +166,30 @@
       "revId": "7bdf406fe7c55dc43c6f96c03b27268da8797f6f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2e97e955_2c2013c2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-01-08T12:22:20Z",
+      "side": 1,
+      "message": "\u003e Do we care about users complaints? ;)\n\nI hope so!\n\n \u003e Should we also make the location of this button configurable?\n\nI think this is overkill and we should avoid doing this.\n\n\n \u003e And place it per default on the right place (header of \n \u003e the CS2)\n\nI prepared this as a change, so people can vote on this proposal:\n  https://gerrit-review.googlesource.com/63063",
+      "parentUuid": "2e97e955_0cf0b7f0",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 21
+      },
+      "revId": "7bdf406fe7c55dc43c6f96c03b27268da8797f6f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4edc1d30_9d678308",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-08T10:33:37Z",
+      "side": 1,
+      "message": "This is a change in behaviour.  Previously the buttons were only shown in review mode.  Now they are also shown while in edit mode.\n\nIf this is intentional I think it would be better to explicitly mention in the commit message.",
+      "range": {
+        "startLine": 10,
+        "startChar": 24,
+        "endLine": 10,
+        "endChar": 53
+      },
+      "revId": "2460eb3823b54ca5e562422ed52f67b14f485382",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

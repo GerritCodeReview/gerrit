@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "2e97e955_ac640304",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PermissionCollection.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-01-08T16:39:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2e97e955_6c53fb2f",
+      "range": {
+        "startLine": 199,
+        "startChar": 0,
+        "endLine": 200,
+        "endChar": 68
+      },
+      "revId": "5be3ded3b0c70f7b2a3b12593b4b25ba89f8a290",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2e97e955_4c4e3f8d",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/project/RefControlTest.java",
         "patchSetId": 3
@@ -36,6 +60,30 @@
       "writtenOn": "2015-01-08T16:39:05Z",
       "side": 1,
       "message": "I would suggest a different name for this test:\n\n  testInheritSubmit_AllowInChildDoesntAffectUnblockInParent",
+      "range": {
+        "startLine": 374,
+        "startChar": 14,
+        "endLine": 374,
+        "endChar": 50
+      },
+      "revId": "5be3ded3b0c70f7b2a3b12593b4b25ba89f8a290",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4e8a5d30_cdbce9db",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/project/RefControlTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 374,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-01-08T16:39:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2e97e955_4c4e3f8d",
       "range": {
         "startLine": 374,
         "startChar": 14,

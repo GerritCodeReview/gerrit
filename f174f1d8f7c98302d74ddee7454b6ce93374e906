@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2e97e955_ac7de39f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/changes/FileApiImpl.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-01-08T15:56:34Z",
+      "side": 1,
+      "message": "getDiff?",
+      "range": {
+        "startLine": 39,
+        "startChar": 34,
+        "endLine": 39,
+        "endChar": 40
+      },
+      "revId": "f174f1d8f7c98302d74ddee7454b6ce93374e906",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4e8a5d30_6dce9594",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/changes/FileApiImpl.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-01-08T15:56:34Z",
+      "side": 1,
+      "message": "getDiff?",
+      "range": {
+        "startLine": 44,
+        "startChar": 24,
+        "endLine": 44,
+        "endChar": 30
+      },
+      "revId": "f174f1d8f7c98302d74ddee7454b6ce93374e906",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

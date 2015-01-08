@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "0e6dc543_43ea8604",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/CatServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-01-08T23:05:54Z",
+      "side": 1,
+      "message": "That is fine.",
+      "parentUuid": "0e6dc543_23f58ae1",
+      "revId": "68c7771d804973bb4c0388ba9a26f83df9f2bff2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0e6dc543_c3e67642",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/PatchSetDetailFactory.java",
         "patchSetId": 3

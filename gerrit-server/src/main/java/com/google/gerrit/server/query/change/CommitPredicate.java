@@ -15,24 +15,18 @@
 package com.google.gerrit.server.query.change;
 
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.server.index.ChangeField;
 import com.google.gerrit.server.index.IndexPredicate;
-import com.google.gerrit.server.query.change.ChangeQueryBuilder.Arguments;
 import com.google.gwtorm.server.OrmException;
-import com.google.gwtorm.server.ResultSet;
 
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
 import org.eclipse.jgit.lib.ObjectId;
 
-class CommitPredicate extends IndexPredicate<ChangeData> implements
-    ChangeDataSource {
-  private final Arguments args;
+class CommitPredicate extends IndexPredicate<ChangeData> {
   private final AbbreviatedObjectId abbrevId;
 
-  CommitPredicate(Arguments args, AbbreviatedObjectId id) {
+  CommitPredicate(AbbreviatedObjectId id) {
     super(ChangeField.COMMIT, id.name());
-    this.args = args;
     this.abbrevId = id;
   }
 
@@ -50,30 +44,7 @@ class CommitPredicate extends IndexPredicate<ChangeData> implements
   }
 
   @Override
-  public ResultSet<ChangeData> read() throws OrmException {
-    final RevId id = new RevId(abbrevId.name());
-    if (id.isComplete()) {
-      return ChangeDataResultSet.patchSet(args.changeDataFactory, args.db,
-          args.db.get().patchSets().byRevision(id));
-
-    } else {
-      return ChangeDataResultSet.patchSet(args.changeDataFactory, args.db,
-          args.db.get().patchSets().byRevisionRange(id, id.max()));
-    }
-  }
-
-  @Override
-  public boolean hasChange() {
-    return false;
-  }
-
-  @Override
-  public int getCardinality() {
-    return ChangeCosts.CARD_COMMIT;
-  }
-
-  @Override
   public int getCost() {
-    return ChangeCosts.cost(ChangeCosts.PATCH_SETS_SCAN, getCardinality());
+    return 1;
   }
 }

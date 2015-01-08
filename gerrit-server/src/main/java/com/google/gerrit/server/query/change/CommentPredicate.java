@@ -19,16 +19,13 @@ import com.google.gerrit.server.index.ChangeIndex;
 import com.google.gerrit.server.index.IndexPredicate;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
-import com.google.gerrit.server.query.change.ChangeQueryBuilder.Arguments;
 import com.google.gwtorm.server.OrmException;
 
 class CommentPredicate extends IndexPredicate<ChangeData> {
-  private final Arguments args;
   private final ChangeIndex index;
 
-  CommentPredicate(Arguments args, ChangeIndex index, String value) {
+  CommentPredicate(ChangeIndex index, String value) {
     super(ChangeField.COMMENT, value);
-    this.args = args;
     this.index = index;
   }
 
@@ -36,7 +33,7 @@ class CommentPredicate extends IndexPredicate<ChangeData> {
   public boolean match(ChangeData object) throws OrmException {
     try {
       for (ChangeData cData : index.getSource(
-          Predicate.and(new LegacyChangeIdPredicate(args, object.getId()), this), 0, 1)
+          Predicate.and(new LegacyChangeIdPredicate(object.getId()), this), 0, 1)
           .read()) {
         if (cData.getId().equals(object.getId())) {
           return true;

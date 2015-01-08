@@ -337,19 +337,38 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
 
     ReviewDb db = dbProvider.get();
     db.changes().beginTransaction(change.getId());
+
     try {
       BatchMetaDataUpdate batch = approve(rsrc, update, caller, timestamp);
       // Write update commit after all normalized label commits.
       batch.write(update, new CommitBuilder());
-      change = submitToDatabase(db, change, timestamp);
-      if (change == null) {
-        return null;
+
+      if (submitWholeTopic) {
+        String topic = change.getTopic();
+        ResultSet<Change> changes = db.changes().byTopic(topic);
+        for (Change c: changes) {
+          c = submitToDatabase(db, c, timestamp);
+          if (c == null) {
+            return null;
+          }
+        }
+      } else {
+        change = submitToDatabase(db, change, timestamp);
+        if (change == null) {
+          return null;
+        }
       }
       db.commit();
     } finally {
       db.rollback();
     }
-    indexer.index(db, change);
+    if (submitWholeTopic) {
+      for (Change c : db.changes().byTopic(change.getTopic())) {
+        indexer.index(db, c);
+      }
+    } else {
+      indexer.index(db, change);
+    }
     return change;
   }
 

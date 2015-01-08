@@ -141,6 +141,30 @@
       "revId": "49391d72ba378eab401a539371b6df5caf342417",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4edc1d30_3dabcf91",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-08T13:42:08Z",
+      "side": 1,
+      "message": "It\u0027s possible that there was a change that moved it and was not merged due to complaints, or was merged and then later reverted.",
+      "parentUuid": "2e97e955_ac32430b",
+      "range": {
+        "startLine": 14,
+        "startChar": 16,
+        "endLine": 14,
+        "endChar": 32
+      },
+      "revId": "49391d72ba378eab401a539371b6df5caf342417",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4e409d75_fd2fc7a5",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/editor/EditScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-08T02:24:29Z",
+      "side": 0,
+      "message": "After removing this it works for the \u0027Not Found\u0027 case, but I guess it will not work as expected if it fails for another reason.\n\nIs there another way to prevent CallbackGroup.applyFailed from being invoked?",
+      "range": {
+        "startLine": 143,
+        "startChar": 8,
+        "endLine": 143,
+        "endChar": 20
+      },
+      "revId": "e57e910c0a83c0317c517328a25a3129e2c731ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

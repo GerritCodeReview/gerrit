@@ -120,6 +120,30 @@
     },
     {
       "key": {
+        "uuid": "6edf2124_1ebfedd4",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/editor/EditScreen.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-08T13:04:54Z",
+      "side": 1,
+      "message": "I meant \"Open\".\n\nI\u0027ve noticed sometimes UI changes don\u0027t reflect in the browser even though it\u0027s in the repository.  I have to force a rebuilt and/or reload the page a few times.\n\nHave you tried it with gwt debug mode?",
+      "parentUuid": "4e8a5d30_0d427170",
+      "range": {
+        "startLine": 173,
+        "startChar": 8,
+        "endLine": 173,
+        "endChar": 28
+      },
+      "revId": "715a835988dad2439549d3c5dada2c0856ae206d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4e8a5d30_0d1b519c",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/editor/EditScreen.java",
         "patchSetId": 3

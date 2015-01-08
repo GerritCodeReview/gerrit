@@ -142,6 +142,30 @@
       "revId": "7bdf406fe7c55dc43c6f96c03b27268da8797f6f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2e97e955_0cf0b7f0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-08T09:12:17Z",
+      "side": 1,
+      "message": "| but then users complained that it\u0027s too easy to accidentally submit changes, if the Submit button appears right at the place of the quick approve button, after quick approve has been done.\n\nDo we care about users complaints? ;) Seriously, we made already label and tooltip for this button configurable. Should we also make the location of this button configurable? And place it per default on the right place (header of the CS2), and provide new option:\n\n  change.place_submit_button_on_the_wrong_palce \u003d true\n\nwhich would force to place it at the place where it\u0027s now?",
+      "parentUuid": "4e8a5d30_2df56de1",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 21
+      },
+      "revId": "7bdf406fe7c55dc43c6f96c03b27268da8797f6f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

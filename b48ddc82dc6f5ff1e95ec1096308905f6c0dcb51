@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6edf2124_7eef1113",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/RevisionApi.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-08T06:16:54Z",
+      "side": 1,
+      "message": "nit: should be before MergeableInfo",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 52
+      },
+      "revId": "b48ddc82dc6f5ff1e95ec1096308905f6c0dcb51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

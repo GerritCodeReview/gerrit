@@ -77,6 +77,7 @@ import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.EventListener;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
@@ -179,6 +180,12 @@ public class ChangeScreen2 extends Screen {
   @UiField Element patchSetsText;
   @UiField Button download;
   @UiField Button reply;
+  @UiField Button publishEdit;
+  @UiField Button rebaseEdit;
+  @UiField Button deleteEdit;
+  @UiField Button publish;
+  @UiField Button deleteChange;
+  @UiField Button deleteRevision;
   @UiField Button openAll;
   @UiField Button editMode;
   @UiField Button reviewMode;
@@ -381,6 +388,19 @@ public class ChangeScreen2 extends Screen {
     }
   }
 
+  private void initChangeAction(ChangeInfo info) {
+    if (info.status() == Status.DRAFT) {
+      NativeMap<ActionInfo> actions = info.has_actions()
+          ? info.actions()
+          : NativeMap.<ActionInfo> create();
+      actions.copyKeysIntoChildren("id");
+      if (actions.containsKey("/")) {
+        deleteChange.setVisible(true);
+        deleteChange.setTitle(actions.get("/").title());
+      }
+    }
+  }
+
   private void initRevisionsAction(ChangeInfo info, String revision) {
     int currentPatchSet;
     if (info.current_revision() != null
@@ -406,6 +426,23 @@ public class ChangeScreen2 extends Screen {
     patchSetsAction = new PatchSetsAction(
         info.legacy_id(), revision,
         style, headerLine, patchSets);
+
+    RevisionInfo revInfo = info.revision(revision);
+    if (revInfo.draft()) {
+      NativeMap<ActionInfo> actions = revInfo.has_actions()
+          ? revInfo.actions()
+          : NativeMap.<ActionInfo> create();
+      actions.copyKeysIntoChildren("id");
+
+      if (actions.containsKey("publish")) {
+        publish.setVisible(true);
+        publish.setTitle(actions.get("publish").title());
+      }
+      if (actions.containsKey("/")) {
+        deleteRevision.setVisible(true);
+        deleteRevision.setTitle(actions.get("/").title());
+      }
+    }
   }
 
   private void initDownloadAction(ChangeInfo info, String revision) {
@@ -457,6 +494,26 @@ public class ChangeScreen2 extends Screen {
         addFile.setVisible(false);
         reviewMode.setVisible(false);
       }
+
+      if (rev.is_edit()) {
+        NativeMap<ActionInfo> actions = info.edit().has_actions()
+            ? info.edit().actions()
+            : NativeMap.<ActionInfo> create();
+        actions.copyKeysIntoChildren("id");
+
+        if (actions.containsKey("publish")) {
+          publishEdit.setVisible(true);
+          publishEdit.setTitle(actions.get("publish").title());
+        }
+        if (actions.containsKey("rebase")) {
+          rebaseEdit.setVisible(true);
+          rebaseEdit.setTitle(actions.get("rebase").title());
+        }
+        if (actions.containsKey("/")) {
+          deleteEdit.setVisible(true);
+          deleteEdit.setTitle(actions.get("/").title());
+        }
+      }
     }
   }
 
@@ -489,6 +546,42 @@ public class ChangeScreen2 extends Screen {
           editMessageAction.onEdit();
         }
       });
+    }
+  }
+
+  @UiHandler("publishEdit")
+  void onPublishEdit(@SuppressWarnings("unused") ClickEvent e) {
+    EditActions.publishEdit(changeId);
+  }
+
+  @UiHandler("rebaseEdit")
+  void onRebaseEdit(@SuppressWarnings("unused") ClickEvent e) {
+    EditActions.rebaseEdit(changeId);
+  }
+
+  @UiHandler("deleteEdit")
+  void onDeleteEdit(@SuppressWarnings("unused") ClickEvent e) {
+    if (Window.confirm(Resources.C.deleteChangeEdit())) {
+      EditActions.deleteEdit(changeId);
+    }
+  }
+
+  @UiHandler("publish")
+  void onPublish(@SuppressWarnings("unused") ClickEvent e) {
+    DraftActions.publish(changeId, revision);
+  }
+
+  @UiHandler("deleteRevision")
+  void onDeleteRevision(@SuppressWarnings("unused") ClickEvent e) {
+    if (Window.confirm(Resources.C.deleteDraftRevision())) {
+      DraftActions.delete(changeId, revision);
+    }
+  }
+
+  @UiHandler("deleteChange")
+  void onDeleteChange(@SuppressWarnings("unused") ClickEvent e) {
+    if (Window.confirm(Resources.C.deleteDraftChange())) {
+      DraftActions.delete(changeId);
     }
   }
 
@@ -982,6 +1075,7 @@ public class ChangeScreen2 extends Screen {
     renderDiffBaseListBox(info);
     initReplyButton(info, revision);
     initIncludedInAction(info);
+    initChangeAction(info);
     initRevisionsAction(info, revision);
     initDownloadAction(info, revision);
     initProjectLinks(info);

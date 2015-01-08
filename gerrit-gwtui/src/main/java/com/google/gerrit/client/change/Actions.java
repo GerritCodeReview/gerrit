@@ -19,7 +19,6 @@ import com.google.gerrit.client.actions.ActionButton;
 import com.google.gerrit.client.actions.ActionInfo;
 import com.google.gerrit.client.changes.ChangeInfo;
 import com.google.gerrit.client.changes.ChangeInfo.CommitInfo;
-import com.google.gerrit.client.changes.ChangeInfo.EditInfo;
 import com.google.gerrit.client.changes.ChangeInfo.RevisionInfo;
 import com.google.gerrit.client.rpc.NativeMap;
 import com.google.gerrit.reviewdb.client.Change;
@@ -28,7 +27,6 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -46,12 +44,6 @@ class Actions extends Composite {
   private static final Binder uiBinder = GWT.create(Binder.class);
 
   @UiField Button cherrypick;
-  @UiField Button deleteChange;
-  @UiField Button deleteRevision;
-  @UiField Button deleteEdit;
-  @UiField Button publishEdit;
-  @UiField Button rebaseEdit;
-  @UiField Button publish;
   @UiField Button rebase;
   @UiField Button revert;
   @UiField Button submit;
@@ -96,7 +88,6 @@ class Actions extends Composite {
 
     initChangeActions(info, hasUser);
     initRevisionActions(info, revInfo, hasUser);
-    initEditActions(info, info.edit(), hasUser);
   }
 
   private void initChangeActions(ChangeInfo info, boolean hasUser) {
@@ -106,33 +97,12 @@ class Actions extends Composite {
     actions.copyKeysIntoChildren("id");
 
     if (hasUser) {
-      a2b(actions, "/", deleteChange);
       a2b(actions, "abandon", abandon);
       a2b(actions, "restore", restore);
       a2b(actions, "revert", revert);
       a2b(actions, "followup", followUp);
       for (String id : filterNonCore(actions)) {
         add(new ActionButton(info, actions.get(id)));
-      }
-    }
-  }
-
-  private void initEditActions(ChangeInfo info, EditInfo editInfo,
-      boolean hasUser) {
-    if (!info.has_edit() || !info.current_revision().equals(editInfo.name())) {
-      return;
-    }
-    NativeMap<ActionInfo> actions = editInfo.has_actions()
-        ? editInfo.actions()
-        : NativeMap.<ActionInfo> create();
-    actions.copyKeysIntoChildren("id");
-
-    if (hasUser) {
-      a2b(actions, "/", deleteEdit);
-      a2b(actions, "publish", publishEdit);
-      a2b(actions, "rebase", rebaseEdit);
-      for (String id : filterNonCore(actions)) {
-        add(new ActionButton(info, editInfo, actions.get(id)));
       }
     }
   }
@@ -155,9 +125,7 @@ class Actions extends Composite {
             .append(action.label())
             .closeDiv());
       }
-      a2b(actions, "/", deleteRevision);
       a2b(actions, "cherrypick", cherrypick);
-      a2b(actions, "publish", publish);
       a2b(actions, "rebase", rebase);
       for (String id : filterNonCore(actions)) {
         add(new ActionButton(info, revInfo, actions.get(id)));
@@ -200,42 +168,6 @@ class Actions extends Composite {
       abandonAction = new AbandonAction(abandon, changeId);
     }
     abandonAction.show();
-  }
-
-  @UiHandler("publish")
-  void onPublish(@SuppressWarnings("unused") ClickEvent e) {
-    DraftActions.publish(changeId, revision);
-  }
-
-  @UiHandler("deleteEdit")
-  void onDeleteEdit(@SuppressWarnings("unused") ClickEvent e) {
-    if (Window.confirm(Resources.C.deleteChangeEdit())) {
-      EditActions.deleteEdit(changeId);
-    }
-  }
-
-  @UiHandler("publishEdit")
-  void onPublishEdit(@SuppressWarnings("unused") ClickEvent e) {
-    EditActions.publishEdit(changeId);
-  }
-
-  @UiHandler("rebaseEdit")
-  void onRebaseEdit(@SuppressWarnings("unused") ClickEvent e) {
-    EditActions.rebaseEdit(changeId);
-  }
-
-  @UiHandler("deleteRevision")
-  void onDeleteRevision(@SuppressWarnings("unused") ClickEvent e) {
-    if (Window.confirm(Resources.C.deleteDraftRevision())) {
-      DraftActions.delete(changeId, revision);
-    }
-  }
-
-  @UiHandler("deleteChange")
-  void onDeleteChange(@SuppressWarnings("unused") ClickEvent e) {
-    if (Window.confirm(Resources.C.deleteDraftChange())) {
-      DraftActions.delete(changeId);
-    }
   }
 
   @UiHandler("restore")

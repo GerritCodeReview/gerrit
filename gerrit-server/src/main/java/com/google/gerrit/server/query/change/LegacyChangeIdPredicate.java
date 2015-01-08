@@ -17,21 +17,13 @@ package com.google.gerrit.server.query.change;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.index.ChangeField;
 import com.google.gerrit.server.index.IndexPredicate;
-import com.google.gerrit.server.query.change.ChangeQueryBuilder.Arguments;
-import com.google.gwtorm.server.ListResultSet;
-import com.google.gwtorm.server.OrmException;
-import com.google.gwtorm.server.ResultSet;
 
-import java.util.Collections;
-
-class LegacyChangeIdPredicate extends IndexPredicate<ChangeData> implements
-    ChangeDataSource {
-  private final Arguments args;
+/** Predicate over change number (aka legacy ID or Change.Id). */
+class LegacyChangeIdPredicate extends IndexPredicate<ChangeData> {
   private final Change.Id id;
 
-  LegacyChangeIdPredicate(Arguments args, Change.Id id) {
+  LegacyChangeIdPredicate(Change.Id id) {
     super(ChangeField.LEGACY_ID, ChangeQueryBuilder.FIELD_CHANGE, id.toString());
-    this.args = args;
     this.id = id;
   }
 
@@ -41,28 +33,7 @@ class LegacyChangeIdPredicate extends IndexPredicate<ChangeData> implements
   }
 
   @Override
-  public ResultSet<ChangeData> read() throws OrmException {
-    Change c = args.db.get().changes().get(id);
-    if (c != null) {
-      return new ListResultSet<>(Collections.singletonList(
-          args.changeDataFactory.create(args.db.get(), c)));
-    } else {
-      return new ListResultSet<>(Collections.<ChangeData> emptyList());
-    }
-  }
-
-  @Override
-  public boolean hasChange() {
-    return true;
-  }
-
-  @Override
-  public int getCardinality() {
-    return 1;
-  }
-
-  @Override
   public int getCost() {
-    return ChangeCosts.IDS_MEMORY;
+    return 1;
   }
 }

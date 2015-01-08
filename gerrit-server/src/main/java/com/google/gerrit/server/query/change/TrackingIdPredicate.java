@@ -52,8 +52,6 @@ class TrackingIdPredicate extends IndexPredicate<ChangeData> {
 
   @Override
   public int getCost() {
-    return ChangeCosts.cost(
-        ChangeCosts.TR_SCAN,
-        ChangeCosts.CARD_TRACKING_IDS);
+    return 1;
   }
 }

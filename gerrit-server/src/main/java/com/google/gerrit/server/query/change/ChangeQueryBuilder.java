@@ -315,16 +315,16 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   @Operator
   public Predicate<ChangeData> change(String query) throws QueryParseException {
     if (PAT_LEGACY_ID.matcher(query).matches()) {
-      return new LegacyChangeIdPredicate(args, Change.Id.parse(query));
+      return new LegacyChangeIdPredicate(Change.Id.parse(query));
     } else if (PAT_CHANGE_ID.matcher(query).matches()) {
-      return new ChangeIdPredicate(args, parseChangeId(query));
+      return new ChangeIdPredicate(parseChangeId(query));
     }
     Optional<ChangeTriplet> triplet = ChangeTriplet.parse(query);
     if (triplet.isPresent()) {
       return Predicate.and(
           project(triplet.get().project().get()),
           branch(triplet.get().branch().get()),
-          new ChangeIdPredicate(args, parseChangeId(triplet.get().id().get())));
+          new ChangeIdPredicate(parseChangeId(triplet.get().id().get())));
     }
 
     throw new QueryParseException("Invalid change format");
@@ -333,7 +333,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   @Operator
   public Predicate<ChangeData> comment(String value) {
     ChangeIndex index = args.indexes.getSearchIndex();
-    return new CommentPredicate(args, index, value);
+    return new CommentPredicate(index, value);
   }
 
   @Operator
@@ -403,7 +403,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
 
   @Operator
   public Predicate<ChangeData> commit(String id) {
-    return new CommitPredicate(args, AbbreviatedObjectId.fromString(id));
+    return new CommitPredicate(AbbreviatedObjectId.fromString(id));
   }
 
   @Operator
@@ -547,7 +547,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   @Operator
   public Predicate<ChangeData> message(String text) {
     ChangeIndex index = args.indexes.getSearchIndex();
-    return new MessagePredicate(args, index, text);
+    return new MessagePredicate(index, text);
   }
 
   @Operator

@@ -117,6 +117,30 @@
       "revId": "49391d72ba378eab401a539371b6df5caf342417",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2e97e955_ac32430b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-08T13:38:42Z",
+      "side": 1,
+      "message": "Looks like from the beginning the submit button was there, where it\u0027s currently is, in which case commit message is wrong:\n\n  https://gerrit-review.googlesource.com/#/c/46600/1/gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.ui.xml",
+      "parentUuid": "4e8a5d30_6d7cd5a4",
+      "range": {
+        "startLine": 14,
+        "startChar": 16,
+        "endLine": 14,
+        "endChar": 32
+      },
+      "revId": "49391d72ba378eab401a539371b6df5caf342417",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

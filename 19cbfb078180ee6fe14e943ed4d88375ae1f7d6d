@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "0e6dc543_a3d97a87",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/CatServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-01-08T22:43:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8eda9531_ffe31f2f",
+      "revId": "19cbfb078180ee6fe14e943ed4d88375ae1f7d6d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8eda9531_1ff0c3f0",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/PatchSetDetailFactory.java",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "2e70c917_84dc8678",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/PatchSetDetailFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-01-08T22:43:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8eda9531_1ff0c3f0",
+      "revId": "19cbfb078180ee6fe14e943ed4d88375ae1f7d6d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8eda9531_3ff587e1",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/patch/PatchDetailServiceImpl.java",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2015-01-08T20:46:11Z",
       "side": 1,
       "message": "You already have Provider\u003cCurrentUser\u003e in the constructor given to the base class. Use that to get() for the genericFactory.",
+      "revId": "19cbfb078180ee6fe14e943ed4d88375ae1f7d6d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2e70c917_64d86a84",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/patch/PatchDetailServiceImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-01-08T22:43:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8eda9531_3ff587e1",
       "revId": "19cbfb078180ee6fe14e943ed4d88375ae1f7d6d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

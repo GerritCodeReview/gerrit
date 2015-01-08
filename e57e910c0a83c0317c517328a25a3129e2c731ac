@@ -22,6 +22,30 @@
       "revId": "e57e910c0a83c0317c517328a25a3129e2c731ac",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4e8a5d30_4dd39968",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/editor/EditScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-08T07:33:24Z",
+      "side": 0,
+      "message": "Not yet? The problem with removing GroupCallback here: theoretically, the request may take longer so that we wouldn\u0027t get response but the screen is already ready to be rendered. A better way would be to find a way to tell GroupCallback to filter specific faulure codes.",
+      "parentUuid": "4e409d75_fd2fc7a5",
+      "range": {
+        "startLine": 143,
+        "startChar": 8,
+        "endLine": 143,
+        "endChar": 20
+      },
+      "revId": "e57e910c0a83c0317c517328a25a3129e2c731ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

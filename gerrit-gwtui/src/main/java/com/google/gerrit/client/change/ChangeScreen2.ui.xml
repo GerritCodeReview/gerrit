@@ -349,6 +349,8 @@ limitations under the License.
               title='Apply score with one click'>
             <ui:attribute name='title'/>
           </c:QuickApprove>
+          <g:Button ui:field='submit'
+              styleName='{style.highlight}' visible='false'/>
           <g:Button ui:field='publishEdit'
               styleName='{style.highlight}' visible='false'>
             <div><ui:msg>Publish Edit</ui:msg></div>

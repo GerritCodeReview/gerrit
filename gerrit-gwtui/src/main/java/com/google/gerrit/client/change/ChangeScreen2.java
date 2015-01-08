@@ -180,6 +180,7 @@ public class ChangeScreen2 extends Screen {
   @UiField Element patchSetsText;
   @UiField Button download;
   @UiField Button reply;
+  @UiField Button submit;
   @UiField Button publishEdit;
   @UiField Button rebaseEdit;
   @UiField Button deleteEdit;
@@ -426,12 +427,21 @@ public class ChangeScreen2 extends Screen {
         style, headerLine, patchSets);
 
     RevisionInfo revInfo = info.revision(revision);
-    if (revInfo.draft()) {
-      NativeMap<ActionInfo> actions = revInfo.has_actions()
-          ? revInfo.actions()
-          : NativeMap.<ActionInfo> create();
-      actions.copyKeysIntoChildren("id");
+    NativeMap<ActionInfo> actions = revInfo.has_actions()
+        ? revInfo.actions()
+        : NativeMap.<ActionInfo> create();
+    actions.copyKeysIntoChildren("id");
 
+    if (actions.containsKey("submit")) {
+      ActionInfo action = actions.get("submit");
+      submit.setTitle(action.title());
+      submit.setHTML(new SafeHtmlBuilder()
+          .openDiv()
+          .append(action.label())
+          .closeDiv());
+    }
+
+    if (revInfo.draft()) {
       if (actions.containsKey("publish")) {
         publish.setVisible(true);
         publish.setTitle(actions.get("publish").title());
@@ -513,6 +523,11 @@ public class ChangeScreen2 extends Screen {
     }
     return rev._number() == RevisionInfo.findEditParent(
         info.revisions().values());
+  }
+
+  @UiHandler("submit")
+  void onSubmit(@SuppressWarnings("unused") ClickEvent e) {
+    SubmitAction.call(changeInfo, changeInfo.revision(revision));
   }
 
   @UiHandler("publishEdit")
@@ -903,7 +918,7 @@ public class ChangeScreen2 extends Screen {
 
   private void loadSubmitType(final Change.Status status, final boolean canSubmit) {
     if (canSubmit) {
-      actions.setSubmitEnabled();
+      submit.setVisible(canSubmit);
       if (status == Change.Status.NEW) {
         statusText.setInnerText(Util.C.readyToSubmit());
       }

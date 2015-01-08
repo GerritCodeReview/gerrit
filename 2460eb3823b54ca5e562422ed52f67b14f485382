@@ -22,6 +22,30 @@
       "revId": "2460eb3823b54ca5e562422ed52f67b14f485382",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4e8a5d30_2d472d81",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-01-08T11:56:05Z",
+      "side": 1,
+      "message": "I don\u0027t see a change in behaviour.\n\nWith and without this change the buttons are shown if there is a change edit, and hidden if there is no change edit. It does not depend on whether you are in edit mode or review mode.",
+      "parentUuid": "4edc1d30_9d678308",
+      "range": {
+        "startLine": 10,
+        "startChar": 24,
+        "endLine": 10,
+        "endChar": 53
+      },
+      "revId": "2460eb3823b54ca5e562422ed52f67b14f485382",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

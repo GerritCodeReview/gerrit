@@ -21,6 +21,8 @@ import com.google.gerrit.reviewdb.client.UserIdentity;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.mail.EmailHeader.AddressList;
 import com.google.gwtorm.server.OrmException;
+import com.google.gerrit.server.validators.OutgoingEmailValidationListener;
+import com.google.gerrit.server.validators.ValidationException;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.velocity.Template;
@@ -121,7 +123,21 @@ public abstract class OutgoingEmail {
         }
       }
 
-      args.emailSender.send(smtpFromAddress, smtpRcptTo, headers, body.toString());
+      OutgoingEmailValidationListener.Args va = new OutgoingEmailValidationListener.Args();
+      va.messageClass = messageClass;
+      va.smtpFromAddress = smtpFromAddress;
+      va.smtpRcptTo = smtpRcptTo;
+      va.headers = headers;
+      va.body = body.toString();
+      for (OutgoingEmailValidationListener validator : args.outgoingEmailValidationListeners) {
+        try {
+          validator.validateOutgoingEmail(va);
+        } catch (ValidationException e) {
+          return;
+        }
+      }
+
+      args.emailSender.send(va.smtpFromAddress, va.smtpRcptTo, va.headers, va.body);
     }
   }
 

@@ -55,6 +55,10 @@ public interface ChangeAccess extends Access<Change, Change.Id> {
   @Query("WHERE open = true AND dest = ?")
   ResultSet<Change> byBranchOpenAll(Branch.NameKey p) throws OrmException;
 
+  @Query("WHERE open = true AND topic = ?")
+  ResultSet<Change> byTopic(String s)
+      throws OrmException;
+
   @Query
   ResultSet<Change> all() throws OrmException;
 }

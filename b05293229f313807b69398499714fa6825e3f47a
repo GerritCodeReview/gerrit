@@ -90,6 +90,24 @@
     },
     {
       "key": {
+        "uuid": "ce5d6d61_99321b0c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2015-01-08T01:38:26Z",
+      "side": 1,
+      "message": "ChangeControl.Factory uses ProjectControl.Factory which uses the request-scoped PerRequestProjectControlCache.",
+      "parentUuid": "4eeeddc7_0d7251d1",
+      "revId": "b05293229f313807b69398499714fa6825e3f47a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ce5d6d61_793c67e5",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
         "patchSetId": 4

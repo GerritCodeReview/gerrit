@@ -94,6 +94,30 @@
       "revId": "7bdf406fe7c55dc43c6f96c03b27268da8797f6f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2e97e955_6cd85b84",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-08T07:40:34Z",
+      "side": 1,
+      "message": "| The idea is to highlight the action which makes most sense in this situation.\n\nWe have missed one use case, though:\n\n* if a change is being approved and verified, it\u0027s Submit.\n\nSo to be consistent we have to move Submit from revision actions to the header. This would solve two problems:\n\n* It is more prominent place\n* We can make also for submit the border white, because now it\u0027s on gray background",
+      "parentUuid": "6ef1e1a1_6e25cfd1",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 21
+      },
+      "revId": "7bdf406fe7c55dc43c6f96c03b27268da8797f6f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

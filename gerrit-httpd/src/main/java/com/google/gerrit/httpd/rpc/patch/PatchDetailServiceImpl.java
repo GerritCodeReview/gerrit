@@ -34,17 +34,20 @@ import com.google.inject.Provider;
 class PatchDetailServiceImpl extends BaseServiceImplementation implements
     PatchDetailService {
   private final PatchScriptFactory.Factory patchScriptFactoryFactory;
-  private final ChangeControl.Factory changeControlFactory;
+  private final ChangeControl.GenericFactory changeControlFactory;
+  private final Provider<ReviewDb> dbProvider;
 
   @Inject
   PatchDetailServiceImpl(final Provider<ReviewDb> schema,
       final Provider<CurrentUser> currentUser,
       final PatchScriptFactory.Factory patchScriptFactoryFactory,
-      final ChangeControl.Factory changeControlFactory) {
+      final ChangeControl.GenericFactory changeControlFactory,
+      Provider<ReviewDb> dbProvider) {
     super(schema, currentUser);
 
     this.patchScriptFactoryFactory = patchScriptFactoryFactory;
     this.changeControlFactory = changeControlFactory;
+    this.dbProvider = dbProvider;
   }
 
   @Override
@@ -59,8 +62,10 @@ class PatchDetailServiceImpl extends BaseServiceImplementation implements
     new Handler<PatchScript>() {
       @Override
       public PatchScript call() throws Exception {
-        Change.Id changeId = patchKey.getParentKey().getParentKey();
-        ChangeControl control = changeControlFactory.validateFor(changeId);
+        ReviewDb db = dbProvider.get();
+        Change change = db.changes().get(patchKey.getParentKey().getParentKey());
+        ChangeControl control = changeControlFactory.validateFor(change,
+            getCurrentUser());
         return patchScriptFactoryFactory.create(
             control, patchKey.getFileName(), psa, psb, dp).call();
       }

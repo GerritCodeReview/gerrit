@@ -96,6 +96,9 @@ git upload-pack::
 [[admin_commands]]Administrator Commands
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+link:cmd-close-connection.html[gerrit close-connection]::
+	Close the specified SSH connection.
+
 link:cmd-create-account.html[gerrit create-account]::
 	Create a new user account.
 

@@ -201,6 +201,30 @@
     },
     {
       "key": {
+        "uuid": "2e70c917_44ea8e04",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 850,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-01-08T23:57:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6e8001c5_56f034f1",
+      "range": {
+        "startLine": 850,
+        "startChar": 3,
+        "endLine": 850,
+        "endChar": 28
+      },
+      "revId": "6ee6f2be613d75980c11be90df8ee1b6d0896b63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6e8001c5_76f530e0",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 4
@@ -224,6 +248,30 @@
     },
     {
       "key": {
+        "uuid": "2e70c917_64ef8a13",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 852,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-01-08T23:57:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6e8001c5_76f530e0",
+      "range": {
+        "startLine": 852,
+        "startChar": 11,
+        "endLine": 852,
+        "endChar": 31
+      },
+      "revId": "6ee6f2be613d75980c11be90df8ee1b6d0896b63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6e8001c5_16eabc03",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 4
@@ -235,6 +283,30 @@
       "writtenOn": "2015-01-07T02:06:25Z",
       "side": 1,
       "message": "This sentence doesn\u0027t make sense if there is only one variable.",
+      "range": {
+        "startLine": 852,
+        "startChar": 33,
+        "endLine": 853,
+        "endChar": 64
+      },
+      "revId": "6ee6f2be613d75980c11be90df8ee1b6d0896b63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2e70c917_8403a637",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 853,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-01-08T23:57:08Z",
+      "side": 1,
+      "message": "Right. I am thinking about more variables I should add.\nMaybe the number of projects touched?\n\n\"Submit all ${topicSize} changes, touching ${numberDifferentRepos} while adding ${linesAdded} and removing ${linesRemoved} of the topic \\\"${topic}\\\"\" ?\n\nI personally don\u0027t think a ${topic} variable is needed.\nThe ${numberDifferentRepos} may be interesting to see as then you can easily find out if there are other repos involved. The ${linesAdded} and ${linesRemoved} would not just carry the diffstat of the currently viewed patch but accumulated of all changes across all repos/branches in which we\u0027ll merge, so it would be useful.",
+      "parentUuid": "6e8001c5_16eabc03",
       "range": {
         "startLine": 852,
         "startChar": 33,

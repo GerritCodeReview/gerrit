@@ -79,10 +79,6 @@ public final class ChangeStatusPredicate extends IndexPredicate<ChangeData> {
     throw new IllegalArgumentException("invalid change status: " + value);
   }
 
-  public static Predicate<ChangeData> forStatus(Change.Status status) {
-    return parse(status.name());
-  }
-
   public static Predicate<ChangeData> open() {
     return OPEN;
   }
@@ -93,7 +89,7 @@ public final class ChangeStatusPredicate extends IndexPredicate<ChangeData> {
 
   private final Change.Status status;
 
-  private ChangeStatusPredicate(Change.Status status) {
+  ChangeStatusPredicate(Change.Status status) {
     super(ChangeField.STATUS, canonicalize(status));
     this.status = status;
   }

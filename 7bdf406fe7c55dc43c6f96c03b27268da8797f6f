@@ -118,6 +118,30 @@
       "revId": "7bdf406fe7c55dc43c6f96c03b27268da8797f6f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4e8a5d30_2df56de1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-01-08T08:28:55Z",
+      "side": 1,
+      "message": "\u003e We have missed one use case, though:\n \u003e \n \u003e * if a change is being approved and verified, it\u0027s Submit.\n\nNot really missed, but rather left out intentionally. You are right that the Submit button should be moved to the header as well to be consistent. Initially with ChangeScreen2 we were just having it at this place, but then users complained that it\u0027s too easy to accidentally submit changes, if the Submit button appears right at the place of the quick approve button, after quick approve has been done. It was an explicit request to have the submit button in another place (I don\u0027t find the corresponding changes though).",
+      "parentUuid": "2e97e955_6cd85b84",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 21
+      },
+      "revId": "7bdf406fe7c55dc43c6f96c03b27268da8797f6f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

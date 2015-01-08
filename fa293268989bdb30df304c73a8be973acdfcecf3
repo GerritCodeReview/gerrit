@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "ce5d6d61_39f02ff1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1016722
+      },
+      "writtenOn": "2015-01-08T18:57:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "244d4aaf_dc13ed7b",
+      "range": {
+        "startLine": 7,
+        "startChar": 14,
+        "endLine": 7,
+        "endChar": 18
+      },
+      "revId": "fa293268989bdb30df304c73a8be973acdfcecf3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "244d4aaf_bc0c2160",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
@@ -36,6 +60,24 @@
       "writtenOn": "2014-12-10T15:26:47Z",
       "side": 1,
       "message": "Can you elaborate more on this? Under which circumstances did the issue occur?",
+      "revId": "fa293268989bdb30df304c73a8be973acdfcecf3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4eeeddc7_ad033d37",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1016722
+      },
+      "writtenOn": "2015-01-08T18:57:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "244d4aaf_bc0c2160",
       "revId": "fa293268989bdb30df304c73a8be973acdfcecf3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "4eeeddc7_0df531e1",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/PatchListCacheIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1016722
+      },
+      "writtenOn": "2015-01-08T18:57:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "244d4aaf_fc16a96d",
+      "range": {
+        "startLine": 153,
+        "startChar": 0,
+        "endLine": 162,
+        "endChar": 49
+      },
+      "revId": "fa293268989bdb30df304c73a8be973acdfcecf3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "044a0699_bb338713",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/FileInfoJson.java",
         "patchSetId": 3
@@ -82,6 +148,24 @@
     },
     {
       "key": {
+        "uuid": "c169c0a3_7c487527",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/FileInfoJson.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1016722
+      },
+      "writtenOn": "2015-01-08T18:57:07Z",
+      "side": 1,
+      "message": "I removed it because it is not necessary with a new constructor.",
+      "parentUuid": "044a0699_bb338713",
+      "revId": "fa293268989bdb30df304c73a8be973acdfcecf3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "044a0699_5b3fe3da",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListKey.java",
         "patchSetId": 3
@@ -93,6 +177,30 @@
       "writtenOn": "2014-12-10T15:26:47Z",
       "side": 1,
       "message": "oldSeqNum\n\nto keep the naming pattern compatible with the oldId/newId",
+      "range": {
+        "startLine": 42,
+        "startChar": 24,
+        "endLine": 42,
+        "endChar": 35
+      },
+      "revId": "fa293268989bdb30df304c73a8be973acdfcecf3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c169c0a3_fc5ba5f7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListKey.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1016722
+      },
+      "writtenOn": "2015-01-08T18:57:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "044a0699_5b3fe3da",
       "range": {
         "startLine": 42,
         "startChar": 24,
@@ -128,6 +236,30 @@
     },
     {
       "key": {
+        "uuid": "813188d3_6a2c37af",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListKey.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1016722
+      },
+      "writtenOn": "2015-01-08T18:57:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "244d4aaf_7c23b9cc",
+      "range": {
+        "startLine": 43,
+        "startChar": 24,
+        "endLine": 43,
+        "endChar": 35
+      },
+      "revId": "fa293268989bdb30df304c73a8be973acdfcecf3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "244d4aaf_5c287da7",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListKey.java",
         "patchSetId": 3
@@ -139,6 +271,30 @@
       "writtenOn": "2014-12-10T15:26:47Z",
       "side": 1,
       "message": "Maybe define a new constructor with these two additional parameters instead of the setter method. It would then be clearer that the a/bPatchSetId are not mutable.\n\nLooks like. for the new constructor, you could pass the PatchSet objects instead of ObjectId and an int. In that case there is no risk that the caller provides inconsistent pair of the patch set objectId and the patch set number.",
+      "range": {
+        "startLine": 55,
+        "startChar": 0,
+        "endLine": 58,
+        "endChar": 3
+      },
+      "revId": "fa293268989bdb30df304c73a8be973acdfcecf3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c169c0a3_5c4bb124",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListKey.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1016722
+      },
+      "writtenOn": "2015-01-08T18:57:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "244d4aaf_5c287da7",
       "range": {
         "startLine": 55,
         "startChar": 0,
@@ -168,6 +324,24 @@
     },
     {
       "key": {
+        "uuid": "c169c0a3_3c4efd35",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListKey.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1016722
+      },
+      "writtenOn": "2015-01-08T18:57:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "044a0699_7b3a9fec",
+      "revId": "fa293268989bdb30df304c73a8be973acdfcecf3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "244d4aaf_9c096550",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
         "patchSetId": 3
@@ -179,6 +353,30 @@
       "writtenOn": "2014-12-10T15:26:47Z",
       "side": 1,
       "message": "key.getBPatchSetId() \u003e\u003d key.getAPatchSetId()",
+      "range": {
+        "startLine": 144,
+        "startChar": 18,
+        "endLine": 144,
+        "endChar": 66
+      },
+      "revId": "fa293268989bdb30df304c73a8be973acdfcecf3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c169c0a3_dcc34118",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1016722
+      },
+      "writtenOn": "2015-01-08T18:57:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "244d4aaf_9c096550",
       "range": {
         "startLine": 144,
         "startChar": 18,

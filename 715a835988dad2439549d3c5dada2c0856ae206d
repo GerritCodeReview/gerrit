@@ -144,6 +144,30 @@
     },
     {
       "key": {
+        "uuid": "2e97e955_6c413b68",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/editor/EditScreen.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-08T13:21:59Z",
+      "side": 1,
+      "message": "If i read your exception strack correctly, the actual error happens at line 262 below. Can it be that in your case still onSuccess() is called above, and fc is not null, but has no result and content type? Which browser are you using? What outcome do you see from REST endpoint on network activity tab of your browser?",
+      "parentUuid": "4e8a5d30_4d2559d1",
+      "range": {
+        "startLine": 173,
+        "startChar": 8,
+        "endLine": 173,
+        "endChar": 28
+      },
+      "revId": "715a835988dad2439549d3c5dada2c0856ae206d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4e8a5d30_0d1b519c",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/editor/EditScreen.java",
         "patchSetId": 3
@@ -184,6 +208,29 @@
         "startChar": 21,
         "endLine": 260,
         "endChar": 23
+      },
+      "revId": "715a835988dad2439549d3c5dada2c0856ae206d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2e97e955_4c3c7fe5",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/editor/EditScreen.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-08T13:21:59Z",
+      "side": 1,
+      "message": "flle.getResult() !\u003d null",
+      "range": {
+        "startLine": 261,
+        "startChar": 8,
+        "endLine": 261,
+        "endChar": 20
       },
       "revId": "715a835988dad2439549d3c5dada2c0856ae206d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

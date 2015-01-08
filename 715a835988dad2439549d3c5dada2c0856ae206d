@@ -25,6 +25,29 @@
     },
     {
       "key": {
+        "uuid": "4e8a5d30_4d2559d1",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/editor/EditScreen.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-01-08T09:49:06Z",
+      "side": 1,
+      "message": "For me it is failing at this place:\n\nSEVERE: (TypeError) : this$static_0_g$ is nullcom.google.gwt.core.client.JavaScriptException: (TypeError) : this$static_0_g$ is null\n\tat Unknown.$asString_0_g$(http://localhost:9876/gerrit_ui/889E5634F3B01C2E750CE65A089407EE.cache.js)\n\tat Unknown.initEditor_0_g$(http://localhost:9876/gerrit_ui/889E5634F3B01C2E750CE65A089407EE.cache.js)\n\tat Unknown.preDisplay_38_g$(http://localhost:9876/gerrit_ui/889E5634F3B01C2E750CE65A089407EE.cache.js)\n\tat Unknown.preDisplay_37_g$(http://localhost:9876/gerrit_ui/889E5634F3B01C2E750CE65A089407EE.cache.js)\n...",
+      "range": {
+        "startLine": 173,
+        "startChar": 8,
+        "endLine": 173,
+        "endChar": 28
+      },
+      "revId": "715a835988dad2439549d3c5dada2c0856ae206d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4e8a5d30_0d1b519c",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/editor/EditScreen.java",
         "patchSetId": 3

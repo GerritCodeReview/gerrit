@@ -334,7 +334,6 @@ class PreferencesBox extends Composite {
   void onAutoHideDiffTableHeader(ValueChangeEvent<Boolean> e) {
     prefs.autoHideDiffTableHeader(!e.getValue());
     view.setAutoHideDiffHeader(!e.getValue());
-    view.resizeCodeMirror();
   }
 
   @UiHandler("manualReview")

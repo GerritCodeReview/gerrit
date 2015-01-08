@@ -25,12 +25,15 @@ class ScrollSynchronizer {
   private ScrollCallback active;
   private ScrollCallback callbackA;
   private ScrollCallback callbackB;
+  private CodeMirror cmB;
+  private boolean autoHideDiffTableHeader;
 
   ScrollSynchronizer(DiffTable diffTable,
       CodeMirror cmA, CodeMirror cmB,
       LineMapper mapper) {
     this.diffTable = diffTable;
     this.mapper = mapper;
+    this.cmB = cmB;
 
     callbackA = new ScrollCallback(cmA, cmB, DisplaySide.A);
     callbackB = new ScrollCallback(cmB, cmA, DisplaySide.B);
@@ -38,15 +41,23 @@ class ScrollSynchronizer {
     cmB.on("scroll", callbackB);
   }
 
+  void setAutoHideDiffTableHeader(boolean autoHide) {
+    if (autoHide) {
+      updateDiffTableHeader(cmB.getScrollInfo());
+    } else {
+      diffTable.setHeaderVisible(true);
+    }
+    autoHideDiffTableHeader = autoHide;
+  }
+
   void syncScroll(DisplaySide masterSide) {
     (masterSide == DisplaySide.A ? callbackA : callbackB).sync();
   }
 
-  private void updateScreenHeader(ScrollInfo si) {
-    if (si.top() == 0 && !diffTable.isHeaderVisible()) {
+  private void updateDiffTableHeader(ScrollInfo si) {
+    if (si.top() == 0) {
       diffTable.setHeaderVisible(true);
-    } else if (si.top() > 0.5 * si.clientHeight()
-        && diffTable.isHeaderVisible()) {
+    } else if (si.top() > 0.5 * si.clientHeight()) {
       diffTable.setHeaderVisible(false);
     }
   }
@@ -84,7 +95,9 @@ class ScrollSynchronizer {
       }
       if (active == this) {
         ScrollInfo si = src.getScrollInfo();
-        updateScreenHeader(si);
+        if (autoHideDiffTableHeader) {
+          updateDiffTableHeader(si);
+        }
         dst.scrollTo(si.left(), align(si.top()));
         state = 0;
       }

@@ -59,10 +59,13 @@ import com.google.gerrit.server.git.VersionedMetaData.BatchMetaDataUpdate;
 import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.SubmitRuleEvaluator;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.AtomicUpdate;
 import com.google.gwtorm.server.OrmException;
+import com.google.gwtorm.server.OrmRuntimeException;
+import com.google.gwtorm.server.ResultSet;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -72,6 +75,8 @@ import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.sql.Timestamp;
@@ -82,8 +87,12 @@ import java.util.Map;
 @Singleton
 public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
     UiAction<RevisionResource> {
+  private static final Logger log =
+      LoggerFactory.getLogger(Submit.class);
   private static final String DEFAULT_TOOLTIP =
       "Submit patch set ${patchSet} into ${branch}";
+  private static final String DEFAULT_TOPIC_TOOLTIP =
+      "Submit all ${topicSize} changes of the same topic";
 
   public enum Status {
     SUBMITTED, MERGED
@@ -114,6 +123,10 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
   private final ChangesCollection changes;
   private final String label;
   private final ParameterizedString titlePattern;
+  private final String labelSubmitTopic;
+  private final ParameterizedString titlePatternSubmitTopic;
+  private final boolean submitWholeTopic;
+  private final ChangeControl.GenericFactory changeControlFactory;
 
   @Inject
   Submit(@GerritPersonIdent PersonIdent serverIdent,
@@ -129,7 +142,8 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
       ChangesCollection changes,
       ChangeIndexer indexer,
       LabelNormalizer labelNormalizer,
-      @GerritServerConfig Config cfg) {
+      @GerritServerConfig Config cfg,
+      ChangeControl.GenericFactory changeControlFactory) {
     this.serverIdent = serverIdent;
     this.dbProvider = dbProvider;
     this.repoManager = repoManager;
@@ -149,6 +163,14 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
     this.titlePattern = new ParameterizedString(MoreObjects.firstNonNull(
         cfg.getString("change", null, "submitTooltip"),
         DEFAULT_TOOLTIP));
+    submitWholeTopic = cfg.getBoolean("change", null, "submitWholeTopic" , false);
+    this.labelSubmitTopic = MoreObjects.firstNonNull(
+        Strings.emptyToNull(cfg.getString("change", null, "submitTopicLabel")),
+        "Submit whole topic");
+    this.titlePatternSubmitTopic = new ParameterizedString(MoreObjects.firstNonNull(
+        cfg.getString("change", null, "submitTopicTooltip"),
+        DEFAULT_TOPIC_TOOLTIP));
+    this.changeControlFactory = changeControlFactory;
   }
 
   @Override
@@ -209,22 +231,71 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
     }
   }
 
+  private boolean changesSubmittable(ResultSet<Change> changes,
+      IdentifiedUser identifiedUser) {
+    for (Change c : changes) {
+      ChangeControl changeControl = null;
+      try {
+        changeControl = changeControlFactory.controlFor(c, identifiedUser);
+      } catch (NoSuchChangeException e) {
+        log.error("Failed to get a ChangeControl for Change.Id " +
+            String.valueOf(c.getId()));
+        return false;
+      }
+      if (!changeControl.canSubmit()) {
+        return false;
+      }
+    }
+    return true;
+  }
+
   @Override
   public UiAction.Description getDescription(RevisionResource resource) {
     PatchSet.Id current = resource.getChange().currentPatchSetId();
-    RevId revId = resource.getPatchSet().getRevision();
-    Map<String, String> params = ImmutableMap.of(
-        "patchSet", String.valueOf(resource.getPatchSet().getPatchSetId()),
-        "branch", resource.getChange().getDest().getShortName(),
-        "commit", ObjectId.fromString(revId.get()).abbreviate(7).name());
-
-    return new UiAction.Description()
-      .setLabel(label)
-      .setTitle(Strings.emptyToNull(titlePattern.replace(params)))
-      .setVisible(!resource.getPatchSet().isDraft()
-          && resource.getChange().getStatus().isOpen()
-          && resource.getPatchSet().getId().equals(current)
-          && resource.getControl().canSubmit());
+    String topic = resource.getChange().getTopic();
+    boolean visible = !resource.getPatchSet().isDraft()
+        && resource.getChange().getStatus().isOpen()
+        && resource.getPatchSet().getId().equals(current)
+        && resource.getControl().canSubmit();
+    if (!visible) {
+      return new UiAction.Description()
+        .setLabel("")
+        .setTitle("")
+        .setVisible(false);
+    } else {
+      if (submitWholeTopic && !topic.isEmpty()) {
+        ReviewDb db = dbProvider.get();
+        ResultSet<Change> changesByTopic = null;
+        try {
+          changesByTopic = db.changes().byTopic(topic);
+        } catch (OrmException e) {
+          throw new OrmRuntimeException(e);
+        }
+        Map<String, String> params = ImmutableMap.of(
+            "topicSize", String.valueOf(changesByTopic.toList().size()));
+        return new UiAction.Description()
+          .setLabel(labelSubmitTopic)
+          .setTitle(Strings.emptyToNull(
+              titlePatternSubmitTopic.replace(params)))
+          .setVisible(true)
+          .setEnabled(changesSubmittable(
+              changesByTopic, resource.getUser()));
+        // TODO(sbeller):
+        // If the button is visible but disabled the problem of submitting
+        // is at another change in the same topic. Tell the user via
+        // tooltip. Caution: Check access control for those changes.
+      } else {
+        RevId revId = resource.getPatchSet().getRevision();
+        Map<String, String> params = ImmutableMap.of(
+            "patchSet", String.valueOf(resource.getPatchSet().getPatchSetId()),
+            "branch", resource.getChange().getDest().getShortName(),
+            "commit", ObjectId.fromString(revId.get()).abbreviate(7).name());
+        return new UiAction.Description()
+          .setLabel(label)
+          .setTitle(Strings.emptyToNull(titlePattern.replace(params)))
+          .setVisible(true);
+      }
+    }
   }
 
   /**

@@ -240,6 +240,30 @@
     },
     {
       "key": {
+        "uuid": "2e97e955_cc2f8fa6",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/editor/EditScreen.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-01-08T14:43:22Z",
+      "side": 1,
+      "message": "Ah, it took me some time to figure it out.\n\nIt\u0027s happening when I confirm the path by pressing the ENTER key. This means the event propagation is not properly stopped and after the dialog is confirmed the ENTER is once more applied to the file table, similar to the issue that we had which changing the topic, which was fixed in [1]. When I use the mouse to confirm the dialog it always works.\n\nBut this is of course unrelated to this change.\n\n[1] https://gerrit-review.googlesource.com/62829",
+      "parentUuid": "6edf2124_3eabc991",
+      "range": {
+        "startLine": 173,
+        "startChar": 8,
+        "endLine": 173,
+        "endChar": 28
+      },
+      "revId": "715a835988dad2439549d3c5dada2c0856ae206d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4e8a5d30_0d1b519c",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/editor/EditScreen.java",
         "patchSetId": 3

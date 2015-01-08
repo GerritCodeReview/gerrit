@@ -35,7 +35,7 @@
   font-weight: bold;
   border: 2px solid;
   cursor: pointer;
-  color: #fff;
+  color: rgba(0, 0, 0, 0.15);
   background-color: #4d90fe;
   background-image: -webkit-linear-gradient(top, #4d90fe, #4d90fe);
   -webkit-border-radius: 2px;

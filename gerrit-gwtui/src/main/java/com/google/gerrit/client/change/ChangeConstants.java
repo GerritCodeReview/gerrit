@@ -49,4 +49,8 @@ interface ChangeConstants extends Constants {
   String indirectAncestor();
   String merged();
   String abandoned();
+
+  String deleteChangeEdit();
+  String deleteDraftChange();
+  String deleteDraftRevision();
 }

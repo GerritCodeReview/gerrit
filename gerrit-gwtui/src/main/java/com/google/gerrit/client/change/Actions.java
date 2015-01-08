@@ -28,6 +28,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -208,7 +209,9 @@ class Actions extends Composite {
 
   @UiHandler("deleteEdit")
   void onDeleteEdit(@SuppressWarnings("unused") ClickEvent e) {
-    EditActions.deleteEdit(changeId);
+    if (Window.confirm(Resources.C.deleteChangeEdit())) {
+      EditActions.deleteEdit(changeId);
+    }
   }
 
   @UiHandler("publishEdit")
@@ -223,12 +226,16 @@ class Actions extends Composite {
 
   @UiHandler("deleteRevision")
   void onDeleteRevision(@SuppressWarnings("unused") ClickEvent e) {
-    DraftActions.delete(changeId, revision);
+    if (Window.confirm(Resources.C.deleteDraftRevision())) {
+      DraftActions.delete(changeId, revision);
+    }
   }
 
   @UiHandler("deleteChange")
   void onDeleteChange(@SuppressWarnings("unused") ClickEvent e) {
-    DraftActions.delete(changeId);
+    if (Window.confirm(Resources.C.deleteDraftChange())) {
+      DraftActions.delete(changeId);
+    }
   }
 
   @UiHandler("restore")

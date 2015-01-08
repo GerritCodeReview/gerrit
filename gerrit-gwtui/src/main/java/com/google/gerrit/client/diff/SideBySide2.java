@@ -603,6 +603,7 @@ public class SideBySide2 extends Screen {
 
     prefsAction = new PreferencesAction(this, prefs);
     header.init(prefsAction, getLinks(), diff.side_by_side_web_links());
+    scrollSynchronizer.setAutoHideDiffTableHeader(prefs.autoHideDiffTableHeader());
 
     if (prefs.syntaxHighlighting() && fileSize.compareTo(FileSize.SMALL) > 0) {
       Scheduler.get().scheduleFixedDelay(new RepeatingCommand() {
@@ -757,7 +758,7 @@ public class SideBySide2 extends Screen {
   }
 
   void setAutoHideDiffHeader(boolean hide) {
-    diffTable.setAutoHideDiffHeader(hide);
+    scrollSynchronizer.setAutoHideDiffTableHeader(hide);
   }
 
   private void render(DiffInfo diff) {

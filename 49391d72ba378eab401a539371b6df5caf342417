@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "4e8a5d30_4d7719c1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-01-08T13:21:41Z",
+      "side": 1,
+      "message": "Ah, this is because I edited the commit message from the Web UI :-/\n\nActually it should be sap, but I want Gerrit to send me email notifications to gmail... Well, let it be gmail then.",
+      "parentUuid": "6edf2124_beafd99f",
+      "range": {
+        "startLine": 4,
+        "startChar": 39,
+        "endLine": 4,
+        "endChar": 44
+      },
+      "revId": "49391d72ba378eab401a539371b6df5caf342417",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4edc1d30_7dce3794",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2015-01-08T13:11:37Z",
       "side": 1,
       "message": "I vaguely remember this, but was it on repo-discuss, in code review, or in a bug report? It would be good to try to track down the discussion and add a link here.\n\nFWIW I think the header is a better place to put it, for consistency with the other buttons.",
+      "range": {
+        "startLine": 14,
+        "startChar": 16,
+        "endLine": 14,
+        "endChar": 32
+      },
+      "revId": "49391d72ba378eab401a539371b6df5caf342417",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4e8a5d30_6d7cd5a4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-01-08T13:21:41Z",
+      "side": 1,
+      "message": "I couldn\u0027t find any link for this :(\nIf anyone knows a pointer let me know and I\u0027ll include it.",
+      "parentUuid": "4edc1d30_7dce3794",
       "range": {
         "startLine": 14,
         "startChar": 16,

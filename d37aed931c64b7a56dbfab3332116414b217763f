@@ -63,6 +63,24 @@
       "revId": "d37aed931c64b7a56dbfab3332116414b217763f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6edf2124_5e25f5d0",
+        "filename": "Documentation/dev-eclipse.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-08T07:25:15Z",
+      "side": 1,
+      "message": "This addition can be done in a follow-up change.",
+      "parentUuid": "2e97e955_0cc997bc",
+      "revId": "d37aed931c64b7a56dbfab3332116414b217763f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

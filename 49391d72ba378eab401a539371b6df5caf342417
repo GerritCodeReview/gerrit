@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "2e97e955_2c72d3d1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-01-08T15:27:21Z",
+      "side": 1,
+      "message": "Would be nice :)",
+      "parentUuid": "6edf2124_debca5db",
+      "range": {
+        "startLine": 4,
+        "startChar": 39,
+        "endLine": 4,
+        "endChar": 44
+      },
+      "revId": "49391d72ba378eab401a539371b6df5caf342417",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4edc1d30_7dce3794",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2

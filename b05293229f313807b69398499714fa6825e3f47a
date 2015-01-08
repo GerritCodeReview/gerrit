@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4eeeddc7_ed2f05a6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-01-08T01:11:56Z",
+      "side": 1,
+      "message": "Do not use @Inject on fields.",
+      "revId": "b05293229f313807b69398499714fa6825e3f47a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4eeeddc7_cd2cc9b4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-01-08T01:11:56Z",
+      "side": 1,
+      "message": "Use ControlControl.GenericFactory.",
+      "revId": "b05293229f313807b69398499714fa6825e3f47a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ce5d6d61_793c67e5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-01-08T01:11:56Z",
+      "side": 1,
+      "message": "CurrentUser is accessible off the RevisionResource, probably from the ChangeControl object inside of it.",
+      "revId": "b05293229f313807b69398499714fa6825e3f47a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

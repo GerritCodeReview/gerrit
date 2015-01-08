@@ -165,6 +165,30 @@
       "revId": "49391d72ba378eab401a539371b6df5caf342417",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4e8a5d30_6d53f52f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-01-08T15:23:15Z",
+      "side": 1,
+      "message": "Ok, I found the discussion about this [1]:\n\n\"\n\u003e 20. In the header there is a convinient button to apply Code-Review+2, it\n\u003e would be nice to have the Submit button at the exact same place when a\n\u003e change gets submittable.\n\u003e There is no \u0027publich and submit\u0027 button anymore. Having the submit button at\n\u003e this place would make it easy to Code-Review+2 and submit a change, as I\n\u003e would just need to click two times at the same position.\n\nTwo click on exactly the same pixels might be a problem, the user\nmight submit by mistake. But we could move submit to the header row. I\nkind of prefer where it is as a short mouse drag down to the left\ntaking a bit more intent to submit. \n\"\n\nSo it was never implemented like this, but the idea was only discussed and discarded after Shawn\u0027s comment.\n\nWill adapt the commit message.\n\n[1] https://groups.google.com/d/msg/repo-discuss/6Ryz9p6AzgE/7L6bxFJ8BAkJ",
+      "parentUuid": "4edc1d30_3dabcf91",
+      "range": {
+        "startLine": 14,
+        "startChar": 16,
+        "endLine": 14,
+        "endChar": 32
+      },
+      "revId": "49391d72ba378eab401a539371b6df5caf342417",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

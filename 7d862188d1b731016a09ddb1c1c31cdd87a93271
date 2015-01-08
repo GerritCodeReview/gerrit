@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "6ec56123_8ee69b41",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 833,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-01-08T23:57:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6ec56123_0ed38b69",
+      "range": {
+        "startLine": 833,
+        "startChar": 9,
+        "endLine": 833,
+        "endChar": 27
+      },
+      "revId": "7d862188d1b731016a09ddb1c1c31cdd87a93271",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4ec25d1f_4dc999bb",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 3
@@ -36,6 +60,30 @@
       "writtenOn": "2015-01-07T01:29:26Z",
       "side": 1,
       "message": "just the current change",
+      "range": {
+        "startLine": 836,
+        "startChar": 0,
+        "endLine": 836,
+        "endChar": 21
+      },
+      "revId": "7d862188d1b731016a09ddb1c1c31cdd87a93271",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4ec25d1f_cddca979",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 836,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-01-08T23:57:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4ec25d1f_4dc999bb",
       "range": {
         "startLine": 836,
         "startChar": 0,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "6ec56123_aee35730",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 853,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-01-08T23:57:28Z",
+      "side": 1,
+      "message": "I wasn\u0027t sure if there were any major obstacles. It seems to be easy though. Though we would need to think about other or additional variables. That is why I would delay that until I have actually implemented it, so coming up with variables is easier.",
+      "parentUuid": "6ec56123_cedca379",
+      "range": {
+        "startLine": 852,
+        "startChar": 33,
+        "endLine": 853,
+        "endChar": 35
+      },
+      "revId": "7d862188d1b731016a09ddb1c1c31cdd87a93271",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4ec25d1f_6dced5c6",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 3
@@ -82,6 +154,30 @@
       "writtenOn": "2015-01-07T01:29:26Z",
       "side": 1,
       "message": "changes in",
+      "range": {
+        "startLine": 855,
+        "startChar": 24,
+        "endLine": 855,
+        "endChar": 37
+      },
+      "revId": "7d862188d1b731016a09ddb1c1c31cdd87a93271",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4ec25d1f_edd96586",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 855,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-01-08T23:57:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4ec25d1f_6dced5c6",
       "range": {
         "startLine": 855,
         "startChar": 24,

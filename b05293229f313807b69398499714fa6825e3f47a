@@ -108,6 +108,24 @@
     },
     {
       "key": {
+        "uuid": "4eeeddc7_8d7da1a0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-01-08T01:38:52Z",
+      "side": 1,
+      "message": "If using ChangeControl.Factory the injection messes up with:\n[2015-01-07 17:38:00,429] ERROR com.google.gerrit.pgm.Daemon : Unable to start daemon\ncom.google.inject.CreationException: Unable to create injector, see the following errors:\n\n1) No scope is bound to com.google.inject.servlet.RequestScoped.\n  at com.google.gerrit.server.project.PerRequestProjectControlCache.class(PerRequestProjectControlCache.java:33)\n  while locating com.google.inject.Provider\u003ccom.google.gerrit.server.project.PerRequestProjectControlCache\u003e\n    for parameter 0 at com.google.gerrit.server.project.ProjectControl$Factory.\u003cinit\u003e(ProjectControl.java:109)\n  while locating com.google.gerrit.server.project.ProjectControl$Factory\n    for parameter 0 at com.google.gerrit.server.project.ChangeControl$Factory.\u003cinit\u003e(ChangeControl.java:84)\n  while locating com.google.inject.Provider\u003ccom.google.gerrit.server.project.ChangeControl$Factory\u003e\n    for parameter 14 at com.google.gerrit.server.change.Submit.\u003cinit\u003e(Submit.java:128)\n  while locating com.google.gerrit.server.change.Submit\n    for parameter 1 at com.google.gerrit.server.change.Submit$CurrentRevision.\u003cinit\u003e(Submit.java:582)\n  at com.google.gerrit.extensions.restapi.RestApiModule.view(RestApiModule.java:82) (via modules: com.google.gerrit.server.config.GerritGlobalModule -\u003e com.google.gerrit.server.change.Module)\n\n1 error\n\nWe\u0027d want to get rid of the Factory anyway long term as there are only 3 users currently.",
+      "parentUuid": "4eeeddc7_0d7251d1",
+      "revId": "b05293229f313807b69398499714fa6825e3f47a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ce5d6d61_793c67e5",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
         "patchSetId": 4

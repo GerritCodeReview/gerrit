@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "4e8a5d30_0d427170",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/editor/EditScreen.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-01-08T11:44:13Z",
+      "side": 1,
+      "message": "I\u0027m pretty sure that I\u0027m having this change included, but I\u0027m still seeing this failure.\n\n \u003e How do you reproduce it?\n\nOn the change screen I switch into Edit mode and then I\u0027m clicking on the \u0027Add...\u0027 button. I type a non-existing file name and then I click on \u0027Open\u0027.\n\n \u003e and then press the \"load\" button.\n\nAre you doing something else, or did you mean \"Open\"?",
+      "parentUuid": "6edf2124_9e677d08",
+      "range": {
+        "startLine": 173,
+        "startChar": 8,
+        "endLine": 173,
+        "endChar": 28
+      },
+      "revId": "715a835988dad2439549d3c5dada2c0856ae206d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4e8a5d30_0d1b519c",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/editor/EditScreen.java",
         "patchSetId": 3

@@ -21,6 +21,7 @@ import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.FileTypeRegistry;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.project.ChangeControl;
@@ -73,16 +74,19 @@ public class CatServlet extends HttpServlet {
   private final GitRepositoryManager repoManager;
   private final SecureRandom rng;
   private final FileTypeRegistry registry;
-  private final ChangeControl.Factory changeControl;
+  private final Provider<CurrentUser> userProvider;
+  private final ChangeControl.GenericFactory changeControl;
 
   @Inject
   CatServlet(final GitRepositoryManager grm, final Provider<ReviewDb> sf,
-      final FileTypeRegistry ftr, final ChangeControl.Factory ccf) {
+      final FileTypeRegistry ftr, final ChangeControl.GenericFactory ccf,
+      final Provider<CurrentUser> usrprv) {
     requestDb = sf;
     repoManager = grm;
     rng = new SecureRandom();
     registry = ftr;
     changeControl = ccf;
+    userProvider = usrprv;
   }
 
   @Override
@@ -135,12 +139,14 @@ public class CatServlet extends HttpServlet {
       }
     }
 
-    final Change.Id changeId = patchKey.getParentKey().getParentKey();
     final Project project;
     final PatchSet patchSet;
     try {
       final ReviewDb db = requestDb.get();
-      final ChangeControl control = changeControl.validateFor(changeId);
+      final Change change = db.changes().get(
+          patchKey.getParentKey().getParentKey());
+      final ChangeControl control = changeControl.validateFor(change,
+          userProvider.get());
 
       project = control.getProject();
       patchSet = db.patchSets().get(patchKey.getParentKey());

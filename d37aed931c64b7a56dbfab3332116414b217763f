@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4e8a5d30_0dc991bc",
+        "filename": "Documentation/dev-eclipse.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-08T07:22:33Z",
+      "side": 1,
+      "message": "Why bother? I would expect from someone who is reading along these lines, to understand what she is doing. Particularly, we don\u0027t explain how and where to do that for non GWT debug sessions. Just add a line: this section expects the site already exists (if at all). And optionally link to the `init` command. Not to mention, that \"init -d\" is pure server code, and doesn\u0027t touch any UI/GWT bits, so it useles to be able to do that from a GWT SDM session.",
+      "range": {
+        "startLine": 60,
+        "startChar": 0,
+        "endLine": 62,
+        "endChar": 50
+      },
+      "revId": "d37aed931c64b7a56dbfab3332116414b217763f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2e97e955_0cc997bc",
+        "filename": "Documentation/dev-eclipse.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-08T07:22:33Z",
+      "side": 1,
+      "message": "We should add one important hint here. We did one non obvious optimiation when running SDM: We shut down (per default) Buck compilation when GWT SDM session is active. With great incemental compilation feature GWt need around 200 ms to compile. Because GWT SDM compiled it already we don\u0027t need for client code code to wait 20 sec. for Buck to compile it again. Howevere in som rare cases (or because it always worked) dev may want the server code to be changed and compiled. To achieve this, all is needed to remove/deactivate Java system property in Eclipse launch konfiguration:\n\n  -Dgerrit.disable-gwtui-recompile\u003dtrue\n\nin\n\n  tools/eclipse/gerrit_gwt_debug.launch\n\nNote: I havn\u0027t tested it, though.",
+      "revId": "d37aed931c64b7a56dbfab3332116414b217763f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

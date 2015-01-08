@@ -37,6 +37,7 @@ import com.google.gerrit.extensions.api.changes.ReviewInput.NotifyHandling;
 import com.google.gerrit.extensions.common.Comment.Side;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.extensions.restapi.Url;
@@ -130,8 +131,11 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
 
   @Override
   public Output apply(RevisionResource revision, ReviewInput input)
-      throws AuthException, BadRequestException, UnprocessableEntityException,
-      OrmException, IOException {
+      throws AuthException, BadRequestException, ResourceConflictException,
+      UnprocessableEntityException, OrmException, IOException {
+    if (revision.getEdit().isPresent()) {
+      throw new ResourceConflictException("cannot post review on edit");
+    }
     if (input.onBehalfOf != null) {
       revision = onBehalfOf(revision, input);
     }

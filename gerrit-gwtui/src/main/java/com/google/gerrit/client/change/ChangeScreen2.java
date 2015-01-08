@@ -273,8 +273,6 @@ public class ChangeScreen2 extends Screen {
     reviewers.init(style, ccText);
     hashtags.init(style);
 
-    initReplyButton();
-
     keysNavigation = new KeyCommandSet(Gerrit.C.sectionNavigation());
     keysNavigation.add(new KeyCommand(0, 'u', Util.C.upToChangeList()) {
       @Override
@@ -339,12 +337,15 @@ public class ChangeScreen2 extends Screen {
     }
   }
 
-  private void initReplyButton() {
-    reply.setTitle(Gerrit.getConfig().getReplyTitle());
-    reply.setHTML(new SafeHtmlBuilder()
-      .openDiv()
-      .append(Gerrit.getConfig().getReplyLabel())
-      .closeDiv());
+  private void initReplyButton(ChangeInfo info, String revision) {
+    if (!info.revision(revision).is_edit()) {
+      reply.setTitle(Gerrit.getConfig().getReplyTitle());
+      reply.setHTML(new SafeHtmlBuilder()
+        .openDiv()
+        .append(Gerrit.getConfig().getReplyLabel())
+        .closeDiv());
+      reply.setVisible(true);
+    }
   }
 
   private void gotoSibling(final int offset) {
@@ -979,6 +980,7 @@ public class ChangeScreen2 extends Screen {
     renderOwner(info);
     renderActionTextDate(info);
     renderDiffBaseListBox(info);
+    initReplyButton(info, revision);
     initIncludedInAction(info);
     initRevisionsAction(info, revision);
     initDownloadAction(info, revision);

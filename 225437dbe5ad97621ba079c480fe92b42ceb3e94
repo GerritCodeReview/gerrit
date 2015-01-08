@@ -70,6 +70,30 @@
       "revId": "225437dbe5ad97621ba079c480fe92b42ceb3e94",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4edc1d30_9d806325",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-08T10:09:02Z",
+      "side": 1,
+      "message": "I haven\u0027t noticed it on my Mac, but then I haven\u0027t used Gerrit on it very much since this change was merged.\n\nI\u0027ll check it later.",
+      "parentUuid": "2e97e955_4ceabf04",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 48
+      },
+      "revId": "225437dbe5ad97621ba079c480fe92b42ceb3e94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

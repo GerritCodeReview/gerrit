@@ -45,12 +45,6 @@ limitations under the License.
       line-height: BUTTON_HEIGHT;
     }
 
-    #change_actions button.red {
-      color: #d14836;
-      background-color: #d14836;
-    }
-    #change_actions button.red div {color: #fff;}
-
     #change_actions button.submit {
       float: right;
       background-color: #4d90fe;
@@ -94,10 +88,10 @@ limitations under the License.
       <div><ui:msg>Rebase Edit</ui:msg></div>
     </g:Button>
 
-    <g:Button ui:field='abandon' styleName='{style.red}' visible='false'>
+    <g:Button ui:field='abandon' styleName='' visible='false'>
       <div><ui:msg>Abandon</ui:msg></div>
     </g:Button>
-    <g:Button ui:field='restore' styleName='{style.red}' visible='false'>
+    <g:Button ui:field='restore' styleName='' visible='false'>
       <div><ui:msg>Restore</ui:msg></div>
     </g:Button>
     <g:Button ui:field='followUp' styleName='' visible='false'>

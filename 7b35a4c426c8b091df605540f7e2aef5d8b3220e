@@ -92,6 +92,30 @@
       "revId": "7b35a4c426c8b091df605540f7e2aef5d8b3220e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ae0839ac_281f0b53",
+        "filename": "lib/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-09T20:28:54Z",
+      "side": 1,
+      "message": "Trying with:\n\n  maven_jar(\n    name \u003d \u0027gwtorm\u0027,\n    id \u003d \u0027com.google.gerrit:gwtorm:1.14-16-gb78d9c5\u0027,\n    bin_sha1 \u003d \u0027b5236aafdc574e22dac10a46a002eb0f2d187e5c\u0027,\n    src_sha1 \u003d \u00279f12d20d45248945554b1529f11aabfb104e8dcf\u0027,\n    license \u003d \u0027Apache2.0\u0027,\n    deps \u003d [\u0027:protobuf\u0027],\n    repository \u003d GERRIT,\n  )\n\nis failing to download here:\n\n* Download http://gerrit-maven.storage.googleapis.com/com/google/gerrit/gwtorm/1.14-16-gb78d9c5/gwtorm-1.14-16-gb78d9c5.jar\n* error using curl: Command  ... returned non-zero exit status 22\n\nSomething went wrong?",
+      "parentUuid": "ee0eb1b4_0a331be1",
+      "range": {
+        "startLine": 34,
+        "startChar": 2,
+        "endLine": 35,
+        "endChar": 27
+      },
+      "revId": "7b35a4c426c8b091df605540f7e2aef5d8b3220e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

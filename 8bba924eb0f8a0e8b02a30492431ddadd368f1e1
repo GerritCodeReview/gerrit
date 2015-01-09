@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "0ee06512_eb00d1f9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-09T21:52:50Z",
+      "side": 1,
+      "message": "I could have sworn there used to be a tools/gerrit.importorder. There is certainly a gitiles.importorder in gitiles, and I was pretty sure I stole that from Gerrit...",
+      "parentUuid": "0ee06512_4b97e551",
+      "range": {
+        "startLine": 83,
+        "startChar": 0,
+        "endLine": 83,
+        "endChar": 27
+      },
+      "revId": "8bba924eb0f8a0e8b02a30492431ddadd368f1e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ee0eb1b4_6ac73755",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
         "patchSetId": 6

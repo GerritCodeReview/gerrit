@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.project;
 
-import static com.google.common.base.Objects.firstNonNull;
+import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.gerrit.server.project.RefControl.isRE;
 
 import com.google.common.collect.Lists;

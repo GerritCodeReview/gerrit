@@ -363,21 +363,15 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements
       SqlHandle c = null;
       try {
         c = acquire();
-        Statement s = c.conn.createStatement();
-        try {
-          ResultSet r;
+        try (Statement s = c.conn.createStatement()) {
           if (estimatedSize <= 0) {
-            r = s.executeQuery("SELECT COUNT(*) FROM data");
-            try {
+            try (ResultSet r = s.executeQuery("SELECT COUNT(*) FROM data")) {
               estimatedSize = r.next() ? r.getInt(1) : 0;
-            } finally {
-              r.close();
             }
           }
 
           BloomFilter<K> b = newBloomFilter();
-          r = s.executeQuery("SELECT k FROM data");
-          try {
+          try (ResultSet r = s.executeQuery("SELECT k FROM data")) {
             while (r.next()) {
               b.put(keyType.get(r, 1));
             }
@@ -390,12 +384,8 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements
             } else {
               throw e;
             }
-          } finally {
-            r.close();
           }
           return b;
-        } finally {
-          s.close();
         }
       } catch (SQLException e) {
         log.warn("Cannot build BloomFilter for " + url, e);
@@ -414,8 +404,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements
           c.get = c.conn.prepareStatement("SELECT v, created FROM data WHERE k=?");
         }
         keyType.set(c.get, 1, key);
-        ResultSet r = c.get.executeQuery();
-        try {
+        try (ResultSet r = c.get.executeQuery()) {
           if (!r.next()) {
             missCount.incrementAndGet();
             return null;
@@ -436,7 +425,6 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements
           touch(c, key);
           return h;
         } finally {
-          r.close();
           c.get.clearParameters();
         }
       } catch (SQLException e) {
@@ -533,11 +521,8 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements
       SqlHandle c = null;
       try {
         c = acquire();
-        Statement s = c.conn.createStatement();
-        try {
+        try (Statement s = c.conn.createStatement()) {
           s.executeUpdate("DELETE FROM data");
-        } finally {
-          s.close();
         }
         bloomFilter = newBloomFilter();
       } catch (SQLException e) {
@@ -552,28 +537,23 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements
       SqlHandle c = null;
       try {
         c = acquire();
-        Statement s = c.conn.createStatement();
-        try {
+        try (Statement s = c.conn.createStatement()) {
           long used = 0;
-          ResultSet r = s.executeQuery("SELECT"
+          try (ResultSet r = s.executeQuery("SELECT"
               + " SUM(OCTET_LENGTH(k) + OCTET_LENGTH(v))"
-              + " FROM data");
-          try {
+              + " FROM data")) {
             used = r.next() ? r.getLong(1) : 0;
-          } finally {
-            r.close();
           }
           if (used <= maxSize) {
             return;
           }
 
-          r = s.executeQuery("SELECT"
+          try (ResultSet r = s.executeQuery("SELECT"
               + " k"
               + ",OCTET_LENGTH(k) + OCTET_LENGTH(v)"
               + ",created"
               + " FROM data"
-              + " ORDER BY accessed");
-          try {
+              + " ORDER BY accessed")) {
             while (maxSize < used && r.next()) {
               K key = keyType.get(r, 1);
               Timestamp created = r.getTimestamp(3);
@@ -584,11 +564,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements
                 used -= r.getLong(2);
               }
             }
-          } finally {
-            r.close();
           }
-        } finally {
-          s.close();
         }
       } catch (SQLException e) {
         log.warn("Cannot prune cache " + url, e);
@@ -604,22 +580,15 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements
       SqlHandle c = null;
       try {
         c = acquire();
-        Statement s = c.conn.createStatement();
-        try {
-          ResultSet r = s.executeQuery("SELECT"
-              + " COUNT(*)"
-              + ",SUM(OCTET_LENGTH(k) + OCTET_LENGTH(v))"
-              + " FROM data");
-          try {
-            if (r.next()) {
-              size = r.getLong(1);
-              space = r.getLong(2);
-            }
-          } finally {
-            r.close();
+        try (Statement s = c.conn.createStatement();
+            ResultSet r = s.executeQuery("SELECT"
+                + " COUNT(*)"
+                + ",SUM(OCTET_LENGTH(k) + OCTET_LENGTH(v))"
+                + " FROM data")) {
+          if (r.next()) {
+            size = r.getLong(1);
+            space = r.getLong(2);
           }
-        } finally {
-          s.close();
         }
       } catch (SQLException e) {
         log.warn("Cannot get DiskStats for " + url, e);
@@ -665,16 +634,13 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements
     SqlHandle(String url, KeyType<?> type) throws SQLException {
       this.url = url;
       this.conn = org.h2.Driver.load().connect(url, null);
-      Statement stmt = conn.createStatement();
-      try {
+      try (Statement stmt = conn.createStatement()) {
         stmt.execute("CREATE TABLE IF NOT EXISTS data"
           + "(k " + type.columnType() + " NOT NULL PRIMARY KEY HASH"
           + ",v OTHER NOT NULL"
           + ",created TIMESTAMP NOT NULL"
           + ",accessed TIMESTAMP NOT NULL"
           + ")");
-      } finally {
-        stmt.close();
       }
     }
 

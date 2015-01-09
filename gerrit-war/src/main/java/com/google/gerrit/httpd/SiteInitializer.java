@@ -54,8 +54,7 @@ public final class SiteInitializer {
         return;
       }
 
-      Connection conn = connectToDb();
-      try {
+      try (Connection conn = connectToDb()) {
         File site = getSiteFromReviewDb(conn);
         if (site == null && initPath != null) {
           site = new File(initPath);
@@ -66,8 +65,6 @@ public final class SiteInitializer {
           new BaseInit(site, new ReviewDbDataSourceProvider(), false, false,
               pluginsDistribution, pluginsToInstall).run();
         }
-      } finally {
-        conn.close();
       }
     } catch (Exception e) {
       LOG.error("Site init failed", e);
@@ -80,19 +77,15 @@ public final class SiteInitializer {
   }
 
   private File getSiteFromReviewDb(Connection conn) {
-    try {
-      Statement stmt = conn.createStatement();
-      try {
-        ResultSet rs = stmt.executeQuery("SELECT site_path FROM system_config");
-        if (rs.next()) {
-          return new File(rs.getString(1));
-        }
-      } finally {
-        stmt.close();
+    try (Statement stmt = conn.createStatement();
+        ResultSet rs = stmt.executeQuery(
+          "SELECT site_path FROM system_config")) {
+      if (rs.next()) {
+        return new File(rs.getString(1));
       }
-      return null;
     } catch (SQLException e) {
       return null;
     }
+    return null;
   }
 }

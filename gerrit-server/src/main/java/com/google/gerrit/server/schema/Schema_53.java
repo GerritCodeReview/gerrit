@@ -47,7 +47,6 @@ import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.schema.Schema_77.LegacyLabelTypes;
-import com.google.gwtorm.jdbc.JdbcSchema;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -108,17 +107,9 @@ class Schema_53 extends SchemaVersion {
     deleteActionCategories(db);
   }
 
-  private void deleteActionCategories(ReviewDb db) throws OrmException {
-    try {
-      Statement stmt = ((JdbcSchema) db).getConnection().createStatement();
-      try {
-        stmt.executeUpdate(
-            "DELETE FROM approval_categories WHERE position < 0");
-      } finally {
-        stmt.close();
-      }
-    } catch (SQLException e) {
-      throw new OrmException(e);
+  private void deleteActionCategories(ReviewDb db) throws SQLException {
+    try (Statement stmt = newStatement(db)) {
+      stmt.executeUpdate("DELETE FROM approval_categories WHERE position < 0");
     }
   }
 
@@ -154,57 +145,56 @@ class Schema_53 extends SchemaVersion {
 
   private void exportProjectConfig(ReviewDb db) throws OrmException,
       SQLException {
-    Statement stmt = ((JdbcSchema) db).getConnection().createStatement();
-    ResultSet rs = stmt.executeQuery("SELECT * FROM projects ORDER BY name");
-    while (rs.next()) {
-      final String name = rs.getString("name");
-      final Project.NameKey nameKey = new Project.NameKey(name);
+    try (Statement s = newStatement(db);
+        ResultSet rs = s.executeQuery("SELECT * FROM projects ORDER BY name")) {
+      while (rs.next()) {
+        final String name = rs.getString("name");
+        final Project.NameKey nameKey = new Project.NameKey(name);
 
-      Repository git;
-      try {
-        git = mgr.openRepository(nameKey);
-      } catch (RepositoryNotFoundException notFound) {
-        // A repository may be missing if this project existed only to store
-        // inheritable permissions. For example 'All-Projects'.
+        Repository git;
         try {
-          git = mgr.createRepository(nameKey);
+          git = mgr.openRepository(nameKey);
+        } catch (RepositoryNotFoundException notFound) {
+          // A repository may be missing if this project existed only to store
+          // inheritable permissions. For example 'All-Projects'.
+          try {
+            git = mgr.createRepository(nameKey);
+          } catch (IOException err) {
+            throw new OrmException("Cannot create repository " + name, err);
+          }
+        } catch (IOException e) {
+          throw new OrmException(e);
+        }
+        try {
+          MetaDataUpdate md =
+              new MetaDataUpdate(GitReferenceUpdated.DISABLED, nameKey, git);
+          md.getCommitBuilder().setAuthor(serverUser);
+          md.getCommitBuilder().setCommitter(serverUser);
+
+          ProjectConfig config = ProjectConfig.read(md);
+          loadProject(rs, config.getProject());
+          config.getAccessSections().clear();
+          convertRights(config);
+
+          // Grant out read on the config branch by default.
+          //
+          if (config.getProject().getNameKey().equals(systemConfig.wildProjectName)) {
+            AccessSection meta = config.getAccessSection(RefNames.REFS_CONFIG, true);
+            Permission read = meta.getPermission(READ, true);
+            read.getRule(config.resolve(projectOwners), true);
+          }
+
+          md.setMessage("Import project configuration from SQL\n");
+          config.commit(md);
+        } catch (ConfigInvalidException err) {
+          throw new OrmException("Cannot read project " + name, err);
         } catch (IOException err) {
-          throw new OrmException("Cannot create repository " + name, err);
+          throw new OrmException("Cannot export project " + name, err);
+        } finally {
+          git.close();
         }
-      } catch (IOException e) {
-        throw new OrmException(e);
-      }
-      try {
-        MetaDataUpdate md =
-            new MetaDataUpdate(GitReferenceUpdated.DISABLED, nameKey, git);
-        md.getCommitBuilder().setAuthor(serverUser);
-        md.getCommitBuilder().setCommitter(serverUser);
-
-        ProjectConfig config = ProjectConfig.read(md);
-        loadProject(rs, config.getProject());
-        config.getAccessSections().clear();
-        convertRights(config);
-
-        // Grant out read on the config branch by default.
-        //
-        if (config.getProject().getNameKey().equals(systemConfig.wildProjectName)) {
-          AccessSection meta = config.getAccessSection(RefNames.REFS_CONFIG, true);
-          Permission read = meta.getPermission(READ, true);
-          read.getRule(config.resolve(projectOwners), true);
-        }
-
-        md.setMessage("Import project configuration from SQL\n");
-        config.commit(md);
-      } catch (ConfigInvalidException err) {
-        throw new OrmException("Cannot read project " + name, err);
-      } catch (IOException err) {
-        throw new OrmException("Cannot export project " + name, err);
-      } finally {
-        git.close();
       }
     }
-    rs.close();
-    stmt.close();
   }
 
   private void loadProject(ResultSet rs, Project project) throws SQLException,
@@ -246,42 +236,40 @@ class Schema_53 extends SchemaVersion {
   private void readOldRefRights(ReviewDb db) throws SQLException {
     rightsByProject = new HashMap<>();
 
-    Statement stmt = ((JdbcSchema) db).getConnection().createStatement();
-    ResultSet rs = stmt.executeQuery("SELECT * FROM ref_rights");
-    while (rs.next()) {
-      OldRefRight right = new OldRefRight(rs);
-      if (right.group == null || right.category == null) {
-        continue;
-      }
+    try (Statement s = newStatement(db);
+        ResultSet rs = s.executeQuery("SELECT * FROM ref_rights")) {
+      while (rs.next()) {
+        OldRefRight right = new OldRefRight(rs);
+        if (right.group == null || right.category == null) {
+          continue;
+        }
 
-      List<OldRefRight> list;
+        List<OldRefRight> list;
 
-      list = rightsByProject.get(right.project);
-      if (list == null) {
-        list = new ArrayList<>();
-        rightsByProject.put(right.project, list);
+        list = rightsByProject.get(right.project);
+        if (list == null) {
+          list = new ArrayList<>();
+          rightsByProject.put(right.project, list);
+        }
+        list.add(right);
       }
-      list.add(right);
     }
-    rs.close();
-    stmt.close();
   }
 
   private void readProjectParents(ReviewDb db) throws SQLException {
     parentsByProject = new HashMap<>();
-    Statement stmt = ((JdbcSchema) db).getConnection().createStatement();
-    ResultSet rs = stmt.executeQuery("SELECT * FROM projects");
-    while (rs.next()) {
-      String name = rs.getString("name");
-      String parent_name = rs.getString("parent_name");
-      if (parent_name == null) {
-        parent_name = systemConfig.wildProjectName.get();
+    try (Statement s = newStatement(db);
+        ResultSet rs = s.executeQuery("SELECT * FROM projects")) {
+      while (rs.next()) {
+        String name = rs.getString("name");
+        String parent_name = rs.getString("parent_name");
+        if (parent_name == null) {
+          parent_name = systemConfig.wildProjectName.get();
+        }
+        parentsByProject.put(new Project.NameKey(name), //
+            new Project.NameKey(parent_name));
       }
-      parentsByProject.put(new Project.NameKey(name), //
-          new Project.NameKey(parent_name));
     }
-    rs.close();
-    stmt.close();
   }
 
   private void convertRights(ProjectConfig config) {

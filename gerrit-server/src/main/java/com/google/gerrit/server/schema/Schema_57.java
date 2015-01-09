@@ -30,7 +30,6 @@ import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
-import com.google.gwtorm.jdbc.JdbcSchema;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -101,17 +100,15 @@ public class Schema_57 extends SchemaVersion {
         String[] createGroupList = cfg.getStringList("repository", "*", "createGroup");
 
         // Prepare the account_group_includes query
-        PreparedStatement stmt = ((JdbcSchema) db).getConnection().
-            prepareStatement("SELECT COUNT(1) FROM account_group_includes WHERE group_id = ?");
         boolean isAccountGroupEmpty = false;
-        try {
+        try (PreparedStatement stmt = prepareStatement(db,
+            "SELECT COUNT(1) FROM account_group_includes WHERE group_id = ?")) {
           stmt.setInt(1, sc.batchUsersGroupId.get());
-          ResultSet rs = stmt.executeQuery();
-          if (rs.next()) {
-            isAccountGroupEmpty = rs.getInt(1) == 0;
+          try (ResultSet rs = stmt.executeQuery()) {
+            if (rs.next()) {
+              isAccountGroupEmpty = rs.getInt(1) == 0;
+            }
           }
-        } finally {
-          stmt.close();
         }
 
         for (String name : createGroupList) {

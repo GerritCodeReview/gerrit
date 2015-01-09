@@ -70,21 +70,11 @@ public class SchemaCreatorTest {
   public void testGetCauses_CreateSchema() throws OrmException, SQLException,
       IOException {
     // Initially the schema should be empty.
-    //
-    {
-      final JdbcSchema d = (JdbcSchema) db.open();
-      try {
-        final String[] types = {"TABLE", "VIEW"};
-        final ResultSet rs =
-            d.getConnection().getMetaData().getTables(null, null, null, types);
-        try {
-          assertFalse(rs.next());
-        } finally {
-          rs.close();
-        }
-      } finally {
-        d.close();
-      }
+    String[] types = {"TABLE", "VIEW"};
+    try (JdbcSchema d = (JdbcSchema) db.open();
+        ResultSet rs = d.getConnection().getMetaData()
+          .getTables(null, null, null, types)) {
+      assertFalse(rs.next());
     }
 
     // Create the schema using the current schema version.

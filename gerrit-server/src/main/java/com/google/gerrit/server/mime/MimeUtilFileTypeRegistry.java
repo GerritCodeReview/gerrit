@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server;
+package com.google.gerrit.server.mime;
 
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.util.HostPlatform;

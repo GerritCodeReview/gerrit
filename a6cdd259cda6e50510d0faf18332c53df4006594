@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ee0eb1b4_ea27a7a2",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/CloseConnection.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-09T18:12:56Z",
+      "side": 1,
+      "message": "I think this should be:\n\n  io.close(true).isClosed();\n\nOtherwise you could return closed message to the user before the session was actually closed. Note that this method is executed asynchronously and returns future.",
+      "range": {
+        "startLine": 69,
+        "startChar": 10,
+        "endLine": 69,
+        "endChar": 24
+      },
+      "revId": "a6cdd259cda6e50510d0faf18332c53df4006594",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

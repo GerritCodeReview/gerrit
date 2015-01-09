@@ -25,6 +25,53 @@
     },
     {
       "key": {
+        "uuid": "ae0839ac_c82cef89",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/SchemaVersion.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-09T20:58:07Z",
+      "side": 1,
+      "message": "I don\u0027t like this new unjustified static modifier in all methods except newStatement(). They are all not needed. And i don\u0027t buy that consistency argument that when 1 method is used in static context in Schema_77, that you are changing   all other methods to be static as well. Why not to turn finish() above to be static as well? I would just add static where it is needed.",
+      "parentUuid": "ee0eb1b4_ead20716",
+      "range": {
+        "startLine": 164,
+        "startChar": 12,
+        "endLine": 164,
+        "endChar": 18
+      },
+      "revId": "7b35a4c426c8b091df605540f7e2aef5d8b3220e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ee0eb1b4_8ae14bdf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/SchemaVersion.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-09T20:58:07Z",
+      "side": 1,
+      "message": "Not used.",
+      "range": {
+        "startLine": 181,
+        "startChar": 2,
+        "endLine": 186,
+        "endChar": 3
+      },
+      "revId": "7b35a4c426c8b091df605540f7e2aef5d8b3220e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ee0eb1b4_2a36dfd0",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/SchemaVersion.java",
         "patchSetId": 1

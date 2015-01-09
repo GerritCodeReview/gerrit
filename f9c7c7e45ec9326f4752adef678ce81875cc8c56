@@ -2,6 +2,75 @@
   "comments": [
     {
       "key": {
+        "uuid": "4edc1d30_9d14e337",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-09T01:09:17Z",
+      "side": 1,
+      "message": "was no",
+      "range": {
+        "startLine": 9,
+        "startChar": 67,
+        "endLine": 9,
+        "endChar": 70
+      },
+      "revId": "f9c7c7e45ec9326f4752adef678ce81875cc8c56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6edf2124_de93c562",
+        "filename": "Documentation/cmd-close-connection.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-09T01:09:17Z",
+      "side": 1,
+      "message": "ID",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 2
+      },
+      "revId": "f9c7c7e45ec9326f4752adef678ce81875cc8c56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6edf2124_be96f953",
+        "filename": "Documentation/cmd-index.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-09T01:09:17Z",
+      "side": 1,
+      "message": "Inconsistency here with others that use tab.  On the other hand, the rest of them are also inconsistent, so it shouldn\u0027t block this change.",
+      "range": {
+        "startLine": 100,
+        "startChar": 0,
+        "endLine": 100,
+        "endChar": 8
+      },
+      "revId": "f9c7c7e45ec9326f4752adef678ce81875cc8c56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0e6dc543_83dc7e78",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/CloseConnection.java",
         "patchSetId": 1
@@ -13,6 +82,30 @@
       "writtenOn": "2015-01-08T21:49:57Z",
       "side": 1,
       "message": "I was not sure if I should create a separate capability(CLOSE_CONNECTION), use the this one or use the VIEW_CONNECTION capability.\n\nI remember seeing some comments about capability proliferation.",
+      "range": {
+        "startLine": 38,
+        "startChar": 0,
+        "endLine": 38,
+        "endChar": 57
+      },
+      "revId": "f9c7c7e45ec9326f4752adef678ce81875cc8c56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4edc1d30_7d10f742",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/CloseConnection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-09T01:09:17Z",
+      "side": 1,
+      "message": "I think it\u0027s OK to use ADMINISTRATE_SERVER.",
+      "parentUuid": "0e6dc543_83dc7e78",
       "range": {
         "startLine": 38,
         "startChar": 0,

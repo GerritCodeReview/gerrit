@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ae0839ac_083327e1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-09T21:59:17Z",
+      "side": 1,
+      "message": "Thanks fo fixing that! I already noticed in and getting annoying that this doesn\u0027t work on gerit-review. You have to use right mouse click.",
+      "revId": "04303d53df88ad2e4174ff11b2b6aa91ad8e3e37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

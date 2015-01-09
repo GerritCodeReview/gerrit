@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ae0839ac_28194b9d",
+        "filename": "ReleaseNotes/ReleaseNotes-2.11.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-09T09:33:43Z",
+      "side": 1,
+      "message": "My comment to mention that the REST endpoint for editing commit message that produces new patch set wasn\u0027t addressed in previous change for Release Notes for 2.11. Address it now and mention the deprecation?",
+      "range": {
+        "startLine": 126,
+        "startChar": 0,
+        "endLine": 126,
+        "endChar": 63
+      },
+      "revId": "5bcd101133585521decb818fce2ab7f22c3e9a80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

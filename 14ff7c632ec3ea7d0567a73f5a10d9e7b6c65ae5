@@ -144,6 +144,40 @@
     },
     {
       "key": {
+        "uuid": "0ee06512_4bda457c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-09T15:49:03Z",
+      "side": 1,
+      "message": "I\u0027m not sure what the right behavior here is. This can typically only happen if there is some unrecoverable corruption in one of the other changes in the topic. What is the plan for informing the user about the reasons they can\u0027t submit the whole topic? This would fall under that, I think.\n\nLog the exception at the very least.",
+      "revId": "14ff7c632ec3ea7d0567a73f5a10d9e7b6c65ae5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0ee06512_2be7f93f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-09T15:49:03Z",
+      "side": 1,
+      "message": "This is not necessarily going to help; the ordering of byTopic above is undefined. I believe currently it comes out in primary key (numeric change ID) order. In the near future it will come from the secondary index, which is last updated order. Both of these will naturally have changes from different projects interleaved.\n\nHonestly I think it is fine in this change to just always call controlFor. In a future change you can build your own little per-Submit ProjectControl map, or find some way to reuse PerRequestProjectControlCache without a true request scope, or something. That will make the first implementation of this change easier to follow.",
+      "revId": "14ff7c632ec3ea7d0567a73f5a10d9e7b6c65ae5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ee0eb1b4_0a88bb48",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
         "patchSetId": 5

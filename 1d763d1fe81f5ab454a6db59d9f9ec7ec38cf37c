@@ -1,0 +1,165 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ae0839ac_a83bfbec",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/editor/EditScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-09T09:59:08Z",
+      "side": 1,
+      "message": "6?",
+      "range": {
+        "startLine": 109,
+        "startChar": 31,
+        "endLine": 109,
+        "endChar": 32
+      },
+      "revId": "1d763d1fe81f5ab454a6db59d9f9ec7ec38cf37c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ee0eb1b4_8a402b66",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/editor/EditScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-09T09:59:08Z",
+      "side": 1,
+      "message": "L?\n\nWe should bind it to: Ctrl-L / Cmd-L\n\nSee how binding for Save action is bound.",
+      "range": {
+        "startLine": 256,
+        "startChar": 28,
+        "endLine": 256,
+        "endChar": 29
+      },
+      "revId": "1d763d1fe81f5ab454a6db59d9f9ec7ec38cf37c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ae0839ac_c8462f83",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/editor/EditScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-09T09:59:08Z",
+      "side": 1,
+      "message": "Why call it here?",
+      "range": {
+        "startLine": 262,
+        "startChar": 4,
+        "endLine": 262,
+        "endChar": 33
+      },
+      "revId": "1d763d1fe81f5ab454a6db59d9f9ec7ec38cf37c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ee0eb1b4_ca462383",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/editor/EditScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-09T09:59:08Z",
+      "side": 1,
+      "message": "Should this method also be called in onUnload() to unregister registered handlers?",
+      "range": {
+        "startLine": 279,
+        "startChar": 15,
+        "endLine": 279,
+        "endChar": 44
+      },
+      "revId": "1d763d1fe81f5ab454a6db59d9f9ec7ec38cf37c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ae0839ac_e841f36c",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/editor/EditScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 374,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-09T09:59:08Z",
+      "side": 1,
+      "message": "Nit: package visible is enough?",
+      "range": {
+        "startLine": 374,
+        "startChar": 2,
+        "endLine": 374,
+        "endChar": 8
+      },
+      "revId": "1d763d1fe81f5ab454a6db59d9f9ec7ec38cf37c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ae0839ac_48335f12",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/editor/EditScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-09T09:59:08Z",
+      "side": 1,
+      "message": "What is Pos?",
+      "range": {
+        "startLine": 375,
+        "startChar": 14,
+        "endLine": 375,
+        "endChar": 17
+      },
+      "revId": "1d763d1fe81f5ab454a6db59d9f9ec7ec38cf37c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ae0839ac_68362304",
+        "filename": "gerrit-gwtui/src/main/java/net/codemirror/lib/CodeMirror.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-09T09:59:08Z",
+      "side": 1,
+      "message": "CM has goto line demo and this is the code behind it: [1].\n\n  function jumpToLine(cm) {\n    dialog(cm, queryDialog, \"Go to Line:\", 0, function(query) {\n      if (validateQuery(query)) {\n        var line \u003d parseInt(query);\n        line \u003d line -1;\n        cm.setCursor({line:line,ch:0});\n        var myHeight \u003d cm.getScrollInfo().clientHeight; \n        var coords \u003d cm.charCoords({line: line, ch: 0}, \"local\"); \n        cm.scrollTo(null, (coords.top + coords.bottom - myHeight) / 2); \n      }\n    });\n  }\n\n* [1] http://djadmin.github.io/addon/search/goto-line.js",
+      "range": {
+        "startLine": 203,
+        "startChar": 4,
+        "endLine": 203,
+        "endChar": 28
+      },
+      "revId": "1d763d1fe81f5ab454a6db59d9f9ec7ec38cf37c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

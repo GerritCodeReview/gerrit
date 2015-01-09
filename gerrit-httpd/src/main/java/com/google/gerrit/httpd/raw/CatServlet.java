@@ -78,9 +78,11 @@ public class CatServlet extends HttpServlet {
   private final ChangeControl.GenericFactory changeControl;
 
   @Inject
-  CatServlet(final GitRepositoryManager grm, final Provider<ReviewDb> sf,
-      final FileTypeRegistry ftr, final ChangeControl.GenericFactory ccf,
-      final Provider<CurrentUser> usrprv) {
+  CatServlet(GitRepositoryManager grm,
+      Provider<ReviewDb> sf,
+      FileTypeRegistry ftr,
+      ChangeControl.GenericFactory ccf,
+      Provider<CurrentUser> usrprv) {
     requestDb = sf;
     repoManager = grm;
     rng = new SecureRandom();

@@ -20,9 +20,9 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.UserIdentity;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.mail.EmailHeader.AddressList;
-import com.google.gwtorm.server.OrmException;
 import com.google.gerrit.server.validators.OutgoingEmailValidationListener;
 import com.google.gerrit.server.validators.ValidationException;
+import com.google.gwtorm.server.OrmException;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.velocity.Template;

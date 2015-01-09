@@ -15,7 +15,6 @@
 package com.google.gerrit.server.schema;
 
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gwtorm.jdbc.JdbcSchema;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
@@ -32,12 +31,8 @@ public class Schema_71 extends SchemaVersion {
   @Override
   protected void migrateData(final ReviewDb db, final UpdateUI ui)
       throws SQLException {
-    final Statement stmt = ((JdbcSchema) db).getConnection().createStatement();
-    try {
+    try (Statement stmt = newStatement(db)) {
       stmt.executeUpdate("UPDATE account_diff_preferences SET show_line_endings='Y'");
-    }
-    finally {
-      stmt.close();
     }
   }
 }

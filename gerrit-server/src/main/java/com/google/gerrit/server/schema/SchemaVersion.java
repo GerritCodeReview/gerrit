@@ -78,21 +78,23 @@ public abstract class SchemaVersion {
     migrateData(pending, ui, curr, db);
 
     JdbcSchema s = (JdbcSchema) db;
-    JdbcExecutor e = new JdbcExecutor(s);
-    try {
-      final List<String> pruneList = Lists.newArrayList();
-      s.pruneSchema(new StatementExecutor() {
-        @Override
-        public void execute(String sql) {
-          pruneList.add(sql);
-        }
-      });
+    final List<String> pruneList = Lists.newArrayList();
+    s.pruneSchema(new StatementExecutor() {
+      @Override
+      public void execute(String sql) {
+        pruneList.add(sql);
+      }
 
+      @Override
+      public void close() {
+        // Do nothing.
+      }
+    });
+
+    try (JdbcExecutor e = new JdbcExecutor(s)) {
       if (!pruneList.isEmpty()) {
         ui.pruneSchema(e, pruneList);
       }
-    } finally {
-      e.close();
     }
   }
 
@@ -113,11 +115,8 @@ public abstract class SchemaVersion {
     }
 
     JdbcSchema s = (JdbcSchema) db;
-    JdbcExecutor e = new JdbcExecutor(s);
-    try {
+    try (JdbcExecutor e = new JdbcExecutor(s)) {
       s.updateSchema(e);
-    } finally {
-      e.close();
     }
   }
 
@@ -162,36 +161,37 @@ public abstract class SchemaVersion {
   }
 
   /** Rename an existing table. */
-  protected void renameTable(ReviewDb db, String from, String to)
+  protected static void renameTable(ReviewDb db, String from, String to)
       throws OrmException {
-    final JdbcSchema s = (JdbcSchema) db;
-    final JdbcExecutor e = new JdbcExecutor(s);
-    try {
+    JdbcSchema s = (JdbcSchema) db;
+    try (JdbcExecutor e = new JdbcExecutor(s)) {
       s.renameTable(e, from, to);
-    } finally {
-      e.close();
     }
   }
 
   /** Rename an existing column. */
-  protected void renameColumn(ReviewDb db, String table, String from, String to)
+  protected static void renameColumn(ReviewDb db, String table, String from, String to)
       throws OrmException {
-    final JdbcSchema s = (JdbcSchema) db;
-    final JdbcExecutor e = new JdbcExecutor(s);
-    try {
+    JdbcSchema s = (JdbcSchema) db;
+    try (JdbcExecutor e = new JdbcExecutor(s)) {
       s.renameField(e, table, from, to);
-    } finally {
-      e.close();
     }
   }
 
   /** Execute an SQL statement. */
-  protected void execute(ReviewDb db, String sql) throws SQLException {
-    Statement s = ((JdbcSchema) db).getConnection().createStatement();
-    try {
+  protected static void execute(ReviewDb db, String sql) throws SQLException {
+    try (Statement s = newStatement(db)) {
       s.execute(sql);
-    } finally {
-      s.close();
     }
+  }
+
+  /** Open a new single statement. */
+  protected static Statement newStatement(ReviewDb db) throws SQLException {
+    return ((JdbcSchema) db).getConnection().createStatement();
+  }
+
+  /** Open a new statement executor. */
+  protected static JdbcExecutor newExecutor(ReviewDb db) throws OrmException {
+    return new JdbcExecutor(((JdbcSchema) db).getConnection());
   }
 }

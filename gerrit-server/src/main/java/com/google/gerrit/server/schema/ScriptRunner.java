@@ -55,8 +55,7 @@ class ScriptRunner {
       final JdbcSchema schema = (JdbcSchema)db;
       final Connection c = schema.getConnection();
       final SqlDialect dialect = schema.getDialect();
-      final Statement stmt = c.createStatement();
-      try {
+      try (Statement stmt = c.createStatement()) {
         for (String sql : commands) {
           try {
             if (!dialect.isStatementDelimiterSupported()) {
@@ -67,8 +66,6 @@ class ScriptRunner {
             throw new OrmException("Error in " + name + ":\n" + sql, e);
           }
         }
-      } finally {
-        stmt.close();
       }
     } catch (SQLException e) {
       throw new OrmException("Cannot run statements for " + name, e);

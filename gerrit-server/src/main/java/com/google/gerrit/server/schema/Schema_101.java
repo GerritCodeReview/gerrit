@@ -68,16 +68,13 @@ public class Schema_101 extends SchemaVersion {
     ui.message("The following tables are affected:");
     ui.message(Joiner.on(", ").join(corrections.keySet()));
     ui.message("fixing primary keys...");
-    JdbcExecutor executor = new JdbcExecutor(conn);
-    try {
+    try (JdbcExecutor executor = new JdbcExecutor(conn)) {
       for (Map.Entry<String, PrimaryKey> c : corrections.entrySet()) {
         ui.message(String.format("  table: %s ... ", c.getKey()));
         recreatePK(executor, c.getKey(), c.getValue(), ui);
         ui.message("done");
       }
       ui.message("done");
-    } finally {
-      executor.close();
     }
   }
 

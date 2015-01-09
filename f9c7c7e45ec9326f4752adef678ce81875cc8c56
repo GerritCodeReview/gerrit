@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "4edc1d30_9d3b03bb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-09T01:44:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4edc1d30_9d14e337",
+      "range": {
+        "startLine": 9,
+        "startChar": 67,
+        "endLine": 9,
+        "endChar": 70
+      },
+      "revId": "f9c7c7e45ec9326f4752adef678ce81875cc8c56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6edf2124_de93c562",
         "filename": "Documentation/cmd-close-connection.txt",
         "patchSetId": 1
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "6edf2124_5e0b351b",
+        "filename": "Documentation/cmd-close-connection.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-09T01:44:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6edf2124_de93c562",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 2
+      },
+      "revId": "f9c7c7e45ec9326f4752adef678ce81875cc8c56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6edf2124_be96f953",
         "filename": "Documentation/cmd-index.txt",
         "patchSetId": 1
@@ -59,6 +107,30 @@
       "writtenOn": "2015-01-09T01:09:17Z",
       "side": 1,
       "message": "Inconsistency here with others that use tab.  On the other hand, the rest of them are also inconsistent, so it shouldn\u0027t block this change.",
+      "range": {
+        "startLine": 100,
+        "startChar": 0,
+        "endLine": 100,
+        "endChar": 8
+      },
+      "revId": "f9c7c7e45ec9326f4752adef678ce81875cc8c56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6edf2124_7e10f142",
+        "filename": "Documentation/cmd-index.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-09T01:44:49Z",
+      "side": 1,
+      "message": "Done in follow-up commit.",
+      "parentUuid": "6edf2124_be96f953",
       "range": {
         "startLine": 100,
         "startChar": 0,

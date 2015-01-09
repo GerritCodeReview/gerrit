@@ -142,6 +142,30 @@
       "revId": "d1705828425a706d223651774d9edce2011a8d7b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0ee06512_ab3be9ec",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeListener.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2015-01-09T17:22:01Z",
+      "side": 1,
+      "message": "I hate to flip flop like this, but EventListener would fit more inline with the other naming then StreamEvenListener, it\u0027s just that it felt rather generic.  But everything else in the \"event\" packages are generic too.  So I think I am going to use EventListener in this change, and if someone later wants to improve the entire thing to make it StreamEvents by renaming everything, they can do that.  But for this change, consisentency seems better.",
+      "parentUuid": "ce13adda_892959b0",
+      "range": {
+        "startLine": 21,
+        "startChar": 17,
+        "endLine": 21,
+        "endChar": 31
+      },
+      "revId": "d1705828425a706d223651774d9edce2011a8d7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

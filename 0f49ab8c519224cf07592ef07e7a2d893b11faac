@@ -22,6 +22,30 @@
       "revId": "0f49ab8c519224cf07592ef07e7a2d893b11faac",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4ed6dd40_ad241dd6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-09T08:40:09Z",
+      "side": 1,
+      "message": "Yes, according to Shawn\u0027s comment on [1] it was intentional.\n\nThis change is more of an RFC to see if anyone likes having it configurable.\n\nNote: there are several settings in the preference dialog that are not used by the editor; I think we should find a way to make it clearer which ones are used by which screens.  Also right now it\u0027s only possible to change settings via the side-by-side screen, not from within the editor screen.\n\n[1] https://gerrit-review.googlesource.com/#/c/62910/",
+      "parentUuid": "ee0eb1b4_8aeeeb14",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 53
+      },
+      "revId": "0f49ab8c519224cf07592ef07e7a2d893b11faac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -46,6 +46,30 @@
       "revId": "65e58ae06cdf1afb952b8ee99f6a27a9944f67ba",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ee0eb1b4_eabe87d6",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 480,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-09T14:46:35Z",
+      "side": 1,
+      "message": "That\u0027s correct. Even though ChangeInfo and revision are both member variables of this class, they are retrieved and even in some cases (change edit workflow) manipulated/replaced. That why they are passed in init methods, so that their implementation is not need to be relied on the order of assignment of this member variables and init method invocations.",
+      "parentUuid": "ae0839ac_28626bf7",
+      "range": {
+        "startLine": 480,
+        "startChar": 43,
+        "endLine": 480,
+        "endChar": 60
+      },
+      "revId": "65e58ae06cdf1afb952b8ee99f6a27a9944f67ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

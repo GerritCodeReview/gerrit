@@ -75,8 +75,6 @@ class DiffTable extends Composite {
 
   private SideBySide2 parent;
   private boolean header;
-  private boolean headerVisible;
-  private boolean autoHideHeader;
   private boolean visibleA;
   private ChangeType changeType;
 
@@ -91,7 +89,6 @@ class DiffTable extends Composite {
     initWidget(uiBinder.createAndBindUi(this));
     this.scrollbar = new Scrollbar(this);
     this.parent = parent;
-    this.headerVisible = true;
     this.visibleA = true;
   }
 
@@ -127,30 +124,16 @@ class DiffTable extends Composite {
     }
   }
 
-  boolean isHeaderVisible() {
-    return headerVisible;
-  }
-
   void setHeaderVisible(boolean show) {
-    headerVisible = !autoHideHeader || show;
-    showHeader(headerVisible);
-  }
-
-  private void showHeader(boolean show) {
-    UIObject.setVisible(patchSetNavRow, show);
-    UIObject.setVisible(diffHeaderRow, show && header);
-    if (show) {
-      parent.header.removeStyleName(style.fullscreen());
-    } else {
-      parent.header.addStyleName(style.fullscreen());
-    }
-    parent.resizeCodeMirror();
-  }
-
-  void setAutoHideDiffHeader(boolean hide) {
-    autoHideHeader = hide;
-    if (!hide) {
-      showHeader(true);
+    if (show != UIObject.isVisible(patchSetNavRow)) {
+      UIObject.setVisible(patchSetNavRow, show);
+      UIObject.setVisible(diffHeaderRow, show && header);
+      if (show) {
+        parent.header.removeStyleName(style.fullscreen());
+      } else {
+        parent.header.addStyleName(style.fullscreen());
+      }
+      parent.resizeCodeMirror();
     }
   }
 
@@ -169,7 +152,6 @@ class DiffTable extends Composite {
   void set(DiffPreferences prefs, JsArray<RevisionInfo> list, DiffInfo info,
       boolean editExists, int currentPatchSet, boolean open) {
     this.changeType = info.change_type();
-    this.autoHideHeader = prefs.autoHideDiffTableHeader();
     patchSetSelectBoxA.setUpPatchSetNav(list, info.meta_a(), editExists,
         currentPatchSet, open);
     patchSetSelectBoxB.setUpPatchSetNav(list, info.meta_b(), editExists,

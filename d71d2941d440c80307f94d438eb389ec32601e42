@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "ee0eb1b4_6ab3b70b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-01-09T15:22:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2ee36920_8c404766",
+      "range": {
+        "startLine": 9,
+        "startChar": 65,
+        "endLine": 9,
+        "endChar": 69
+      },
+      "revId": "d71d2941d440c80307f94d438eb389ec32601e42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2ee36920_6c363b04",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -36,6 +60,24 @@
       "writtenOn": "2015-01-09T15:02:25Z",
       "side": 1,
       "message": "Might be better to link to:\n\nhttp://www.w3schools.com/cssref/pr_border.asp",
+      "revId": "d71d2941d440c80307f94d438eb389ec32601e42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ae0839ac_08ba07dd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-01-09T15:22:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2ee36920_6c363b04",
       "revId": "d71d2941d440c80307f94d438eb389ec32601e42",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -58,12 +58,6 @@ limitations under the License.
       text-overflow: ellipsis;
       white-space: nowrap;
     }
-    .subjectButtons {
-      position: absolute;
-      top: 0;
-      right: 3px;
-      height: HEADER_HEIGHT;
-    }
 
     .infoLine {
       position: absolute;
@@ -339,15 +333,6 @@ limitations under the License.
               <ui:attribute name='title'/>
             </g:Anchor> - <span ui:field='statusText' class='{style.statusText}'/></ui:msg>
           </span>
-        </div>
-        <div class='{style.subjectButtons} {style.headerButtons}'>
-          <g:Button ui:field='editMessage'
-              styleName=''
-              visible='false'
-              title='Edit commit message (Shortcut: e)'>
-            <ui:attribute name='title'/>
-            <div><ui:msg>Edit Message</ui:msg></div>
-          </g:Button>
         </div>
       </div>
 

@@ -180,7 +180,6 @@ public class FileTable extends FlowPanel {
   private JsArrayString reviewed;
   private String scrollToPath;
   private ChangeScreen2.Style style;
-  private Widget editButton;
   private Widget replyButton;
   private boolean editExists;
   private Mode mode;
@@ -192,11 +191,10 @@ public class FileTable extends FlowPanel {
   }
 
   public void set(PatchSet.Id base, PatchSet.Id curr, ChangeScreen2.Style style,
-      Widget editButton, Widget replyButton, Mode mode, boolean editExists) {
+      Widget replyButton, Mode mode, boolean editExists) {
     this.base = base;
     this.curr = curr;
     this.style = style;
-    this.editButton = editButton;
     this.replyButton = replyButton;
     this.mode = mode;
     this.editExists = editExists;

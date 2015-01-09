@@ -192,11 +192,9 @@ public class ChangeScreen2 extends Screen {
   @UiField Button addFile;
   @UiField Button expandAll;
   @UiField Button collapseAll;
-  @UiField Button editMessage;
   @UiField QuickApprove quickApprove;
 
   private ReplyAction replyAction;
-  private EditMessageAction editMessageAction;
   private IncludedInAction includedInAction;
   private PatchSetsAction patchSetsAction;
   private DownloadAction downloadAction;
@@ -524,27 +522,6 @@ public class ChangeScreen2 extends Screen {
     return currentPatchSetOrEdit == 0;
   }
 
-  private void initEditMessageAction(ChangeInfo info, String revision) {
-    RevisionInfo revisionInfo = info.revision(revision);
-    NativeMap<ActionInfo> actions = revisionInfo.actions();
-    if ((actions != null && actions.containsKey("message"))
-        || revisionInfo.is_edit()) {
-      editMessage.setVisible(true);
-      editMessageAction = new EditMessageAction(
-          info.legacy_id(),
-          revisionInfo.commit().message(),
-          style,
-          editMessage,
-          reply);
-      keysAction.add(new KeyCommand(0, 'e', Util.C.keyEditMessage()) {
-        @Override
-        public void onKeyPress(KeyPressEvent event) {
-          editMessageAction.onEdit();
-        }
-      });
-    }
-  }
-
   @UiHandler("publishEdit")
   void onPublishEdit(@SuppressWarnings("unused") ClickEvent e) {
     EditActions.publishEdit(changeId);
@@ -685,11 +662,6 @@ public class ChangeScreen2 extends Screen {
     }
   }
 
-  @UiHandler("editMessage")
-  void onEditMessage(@SuppressWarnings("unused") ClickEvent e) {
-    editMessageAction.onEdit();
-  }
-
   @UiHandler("openAll")
   void onOpenAll(@SuppressWarnings("unused") ClickEvent e) {
     files.openAll();
@@ -800,7 +772,7 @@ public class ChangeScreen2 extends Screen {
       files.set(
           b != null ? new PatchSet.Id(changeId, b._number()) : null,
           new PatchSet.Id(changeId, rev._number()),
-          style, editMessage, reply, fileTableMode, edit != null);
+          style, reply, fileTableMode, edit != null);
       files.setValue(info.edit().files(), myLastReply(info), emptyComment,
           emptyComment);
     } else {
@@ -853,7 +825,7 @@ public class ChangeScreen2 extends Screen {
           files.set(
               base != null ? new PatchSet.Id(changeId, base._number()) : null,
               new PatchSet.Id(changeId, rev._number()),
-              style, editMessage, reply, fileTableMode, edit != null);
+              style, reply, fileTableMode, edit != null);
           files.setValue(m, myLastReply, comments.get(0), drafts.get(0));
         }
 
@@ -1093,7 +1065,6 @@ public class ChangeScreen2 extends Screen {
     }
 
     if (Gerrit.isSignedIn()) {
-      initEditMessageAction(info, revision);
       replyAction = new ReplyAction(info, revision,
           style, commentLinkProcessor, reply, quickApprove);
       if (topic.canEdit()) {

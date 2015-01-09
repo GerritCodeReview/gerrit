@@ -18,6 +18,7 @@ import com.google.common.base.Function;
 import com.google.common.util.concurrent.Atomics;
 import com.google.common.util.concurrent.CheckedFuture;
 import com.google.common.util.concurrent.Futures;
+import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -38,8 +39,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.atomic.AtomicReference;
@@ -120,6 +123,24 @@ public class ChangeIndexer {
     return executor != null
         ? submit(new IndexTask(id))
         : Futures.<Object, IOException> immediateCheckedFuture(null);
+  }
+
+  /**
+   * Start indexing multiple changes in parallel.
+   *
+   * @param ids changes to index.
+   * @return future for completing indexing of all changes.
+   */
+  public CheckedFuture<?, IOException> indexAsync(Collection<Change.Id> ids) {
+    List<ListenableFuture<?>> futures = new ArrayList<>(ids.size());
+    for (Change.Id id : ids) {
+      futures.add(indexAsync(id));
+    }
+    // allAsList propagates the first seen exception, wrapped in
+    // ExecutionException, so we can reuse the same mapper as for a single
+    // future. Assume the actual contents of the exception are not useful to
+    // callers. All exceptions are already logged by IndexTask.
+    return Futures.makeChecked(Futures.allAsList(futures), MAPPER);
   }
 
   /**

@@ -89,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "0ee06512_0b5f9d31",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/CatServlet.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-01-09T19:55:55Z",
+      "side": 1,
+      "message": "So you\u0027re saying adhering to the rules in dev-contributing.txt is more important than consistency within small contexts? I\u0027ll just read the document and see if I can adjust this file here for consistency.\nSo it states I should never use final for local variables, which I do here. Will change.\n\nThe other comments \"Same here\" I think we\u0027re talking about different cases as there we have final as part of the argument list for the constructor and there we want to keep local consistency.\n\nThe document dev-contributing.txt gives a reason on why not to use final in local variables\n\n    local variables: it clutters the code, and make the code less readable.\n\nI think consistency helps enormously for readability there.",
+      "parentUuid": "ee0eb1b4_0a91db5a",
+      "revId": "b157f6331a68a82bd73dc78e0d20a63fc9a22629",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ae0839ac_a84d3b90",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/PatchSetDetailFactory.java",
         "patchSetId": 4
@@ -135,6 +153,30 @@
     },
     {
       "key": {
+        "uuid": "0ee06512_ebbe91d6",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/PatchSetDetailFactory.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-01-09T19:55:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4ed6dd40_4d01392e",
+      "range": {
+        "startLine": 130,
+        "startChar": 25,
+        "endLine": 130,
+        "endChar": 26
+      },
+      "revId": "b157f6331a68a82bd73dc78e0d20a63fc9a22629",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4ed6dd40_2dfeedc1",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/PatchSetDetailFactory.java",
         "patchSetId": 4
@@ -146,6 +188,24 @@
       "writtenOn": "2015-01-09T06:07:18Z",
       "side": 1,
       "message": "nit: unnecessary line wrapping",
+      "revId": "b157f6331a68a82bd73dc78e0d20a63fc9a22629",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0ee06512_cbc3d56a",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/PatchSetDetailFactory.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-01-09T19:55:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4ed6dd40_2dfeedc1",
       "revId": "b157f6331a68a82bd73dc78e0d20a63fc9a22629",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

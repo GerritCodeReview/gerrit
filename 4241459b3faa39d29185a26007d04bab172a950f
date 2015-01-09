@@ -120,6 +120,30 @@
     },
     {
       "key": {
+        "uuid": "0ee06512_eb1a1197",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_102.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-09T16:20:33Z",
+      "side": 1,
+      "message": "Oops, sorry about that.\n\nThis is too easy to screw up, it\u0027s used in several places, and I plan to drop more indexes soon. I\u0027m going to add a method in gwtorm.",
+      "parentUuid": "ee0eb1b4_aa9f6f6c",
+      "range": {
+        "startLine": 40,
+        "startChar": 6,
+        "endLine": 40,
+        "endChar": 23
+      },
+      "revId": "4241459b3faa39d29185a26007d04bab172a950f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4175d075_f5a3b8b2",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_102.java",
         "patchSetId": 5

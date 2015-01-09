@@ -19,7 +19,7 @@ see link:user-upload.html#test_ssh[Testing Your SSH Connection].
 === [[client_commands]]Commands
 
 link:cmd-cherry-pick.html[gerrit-cherry-pick]::
-  Download and cherry-pick one or more changes (commits).
+	Download and cherry-pick one or more changes (commits).
 
 === [[client_hooks]]Hooks
 
@@ -28,7 +28,7 @@ the developer experience when working with a Gerrit Code Review
 server.
 
 link:cmd-hook-commit-msg.html[commit-msg]::
-  Automatically generate `Change-Id: ` tags in commit messages.
+	Automatically generate `Change-Id: ` tags in commit messages.
 
 
 == Server
@@ -76,7 +76,7 @@ link:cmd-review.html[gerrit review]::
 	Verify, approve and/or submit a patch set from the command line.
 
 link:cmd-set-reviewers.html[gerrit set-reviewers]::
-        Add or remove reviewers on a change.
+	Add or remove reviewers on a change.
 
 link:cmd-stream-events.html[gerrit stream-events]::
 	Monitor events occurring in real time.
@@ -91,7 +91,7 @@ Also implements the magic associated with uploading commits for
 review.  See link:user-upload.html#push_create[Creating Changes].
 
 git upload-pack::
-        Standard Git server side command for client side `git fetch`.
+	Standard Git server side command for client side `git fetch`.
 
 [[admin_commands]]Administrator Commands
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -115,34 +115,34 @@ link:cmd-gsql.html[gerrit gsql]::
 	Administrative interface to active database.
 
 link:cmd-logging-ls-level.html[gerrit logging ls-level]::
-    List loggers and their logging level.
+	List loggers and their logging level.
 
 link:cmd-logging-set-level.html[gerrit logging set-level]::
-    Set the logging level of loggers.
+	Set the logging level of loggers.
 
 link:cmd-ls-user-refs.html[gerrit ls-user-refs]::
 	Lists refs visible for a specified user.
 
 link:cmd-plugin-install.html[gerrit plugin add]::
-    Alias for 'gerrit plugin install'.
+	Alias for 'gerrit plugin install'.
 
 link:cmd-plugin-enable.html[gerrit plugin enable]::
-    Enable plugins.
+	Enable plugins.
 
 link:cmd-plugin-install.html[gerrit plugin install]::
-    Install/Add a plugin.
+	Install/Add a plugin.
 
 link:cmd-plugin-ls.html[gerrit plugin ls]::
-    List the installed plugins.
+	List the installed plugins.
 
 link:cmd-plugin-reload.html[gerrit plugin reload]::
-    Reload/Restart plugins.
+	Reload/Restart plugins.
 
 link:cmd-plugin-remove.html[gerrit plugin remove]::
-    Disable plugins.
+	Disable plugins.
 
 link:cmd-plugin-remove.html[gerrit plugin rm]::
-    Alias for 'gerrit plugin remove'.
+	Alias for 'gerrit plugin remove'.
 
 link:cmd-set-account.html[gerrit set-account]::
 	Change an account's settings.
@@ -151,7 +151,7 @@ link:cmd-set-members.html[gerrit set-members]::
 	Set group members.
 
 link:cmd-set-project.html[gerrit set-project]::
-    Change a project's settings.
+	Change a project's settings.
 
 link:cmd-set-project-parent.html[gerrit set-project-parent]::
 	Change the project permissions are inherited from.

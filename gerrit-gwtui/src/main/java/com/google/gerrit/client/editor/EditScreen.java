@@ -56,6 +56,8 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwtexpui.globalkey.client.GlobalKey;
+import com.google.gwtexpui.globalkey.client.KeyCommand;
+import com.google.gwtexpui.globalkey.client.KeyCommandSet;
 import com.google.gwtexpui.safehtml.client.SafeHtml;
 
 import net.codemirror.lib.CodeMirror;
@@ -67,6 +69,9 @@ import net.codemirror.mode.ModeInfo;
 import net.codemirror.mode.ModeInjector;
 import net.codemirror.theme.ThemeLoader;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class EditScreen extends Screen {
   interface Binder extends UiBinder<HTMLPanel, EditScreen> {}
   private static final Binder uiBinder = GWT.create(Binder.class);
@@ -76,6 +81,9 @@ public class EditScreen extends Screen {
   private DiffPreferences prefs;
   private CodeMirror cm;
   private HttpResponse<NativeString> content;
+  private LineNumberAction lineNumberAction;
+  private KeyCommandSet keysAction;
+  private List<HandlerRegistration> handlers;
 
   @UiField Element header;
   @UiField Element project;
@@ -97,6 +105,8 @@ public class EditScreen extends Screen {
     prefs = DiffPreferences.create(Gerrit.getAccountDiffPreference());
     add(uiBinder.createAndBindUi(this));
     addDomHandler(GlobalKey.STOP_PROPAGATION, KeyPressEvent.getType());
+    lineNumberAction = new LineNumberAction(this);
+    handlers = new ArrayList<>(6);
   }
 
   @Override
@@ -238,6 +248,21 @@ public class EditScreen extends Screen {
     JumpKeys.enable(true);
   }
 
+  @Override
+  public void registerKeys() {
+    super.registerKeys();
+    keysAction = new KeyCommandSet(Gerrit.C.sectionActions());
+    keysAction.add(new KeyCommand(
+        KeyCommand.M_CTRL, 'l', EditConstants.I.goToLine()) {
+      @Override
+      public void onKeyPress(KeyPressEvent event) {
+        lineNumberAction.show();
+      }
+    });
+    removeKeyHandlerRegistrations();
+    handlers.add(GlobalKey.add(this, keysAction));
+  }
+
   @UiHandler("save")
   void onSave(@SuppressWarnings("unused") ClickEvent e) {
     save().run();
@@ -249,6 +274,13 @@ public class EditScreen extends Screen {
         || Window.confirm(EditConstants.I.cancelUnsavedChanges())) {
       upToChange();
     }
+  }
+
+  private void removeKeyHandlerRegistrations() {
+    for (HandlerRegistration h : handlers) {
+      h.removeHandler();
+    }
+    handlers.clear();
   }
 
   private void upToChange() {
@@ -337,6 +369,11 @@ public class EditScreen extends Screen {
         }
       }
     };
+  }
+
+  public void goToLine(int line) {
+    Pos pos = Pos.create(line);
+    cm.scrollIntoView(pos);
   }
 
   private void injectMode(String type, AsyncCallback<Void> cb) {

@@ -199,6 +199,10 @@ public class CodeMirror extends JavaScriptObject {
     this.scrollTo(null, y)
   }-*/;
 
+  public final native void scrollIntoView(Pos pos) /*-{
+    this.scrollIntoView(pos)
+  }-*/;
+
   public final native ScrollInfo getScrollInfo() /*-{
     return this.getScrollInfo()
   }-*/;

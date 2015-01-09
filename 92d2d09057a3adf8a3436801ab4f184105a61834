@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "c1870028_c915b164",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2015-01-09T19:18:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "81818819_870ba645",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 19
+      },
+      "revId": "92d2d09057a3adf8a3436801ab4f184105a61834",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8157c840_b73448fe",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
         "patchSetId": 1
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "c1870028_e9127579",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 703,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2015-01-09T19:18:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8157c840_b73448fe",
+      "revId": "92d2d09057a3adf8a3436801ab4f184105a61834",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "418a3030_2d464d83",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHooks.java",
         "patchSetId": 1
@@ -53,6 +95,24 @@
       "writtenOn": "2014-12-18T10:50:07Z",
       "side": 1,
       "message": "From the commit message: \"and now use ChangeEvent only for events related to Changes\"\n\nThe javadoc here says that is is an event related to a change but the event class is now changed from ChangeEvent to just Event.\n\nAre all Event (sub)types foreseen to be change related?",
+      "revId": "92d2d09057a3adf8a3436801ab4f184105a61834",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a17cccf1_483b7fee",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHooks.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2015-01-09T19:18:33Z",
+      "side": 1,
+      "message": "All Events are not related to Changes, and this is not something that changes here.  However, this method is meant to only be used by Event related to Changes.  The main difference between events related to changes and events that are not are the visibility checks.  For ChangeEvents, this is done using a ChangeControl, for other events, using the RefControl (under the hood it\u0027s actually the same thing currently, but that could conceivably change).  There is another refactor change in my series that tries to clarify things a bit and makes this method only take the new ChangeEvents instead of any Event.  That is actually one of the motivations for this refactoring, to be able to better enforce that using Types.",
+      "parentUuid": "418a3030_2d464d83",
       "revId": "92d2d09057a3adf8a3436801ab4f184105a61834",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -94,6 +154,42 @@
     },
     {
       "key": {
+        "uuid": "c1870028_0941896a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeListener.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2015-01-09T19:18:33Z",
+      "side": 1,
+      "message": "I didn\u0027t change that, but I can fix it.",
+      "parentUuid": "c15d4061_39578f23",
+      "revId": "92d2d09057a3adf8a3436801ab4f184105a61834",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c1870028_29464d83",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeListener.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2015-01-09T19:18:33Z",
+      "side": 1,
+      "message": "It does.  Are you suggesting that I also rename this be just Listener?",
+      "parentUuid": "81818819_473b6eee",
+      "revId": "92d2d09057a3adf8a3436801ab4f184105a61834",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "81818819_c7159e64",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/Event.java",
         "patchSetId": 1
@@ -105,6 +201,24 @@
       "writtenOn": "2014-12-18T10:50:07Z",
       "side": 1,
       "message": "Why both public and the getter method?",
+      "revId": "92d2d09057a3adf8a3436801ab4f184105a61834",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c1870028_493b81ee",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/Event.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2015-01-09T19:18:33Z",
+      "side": 1,
+      "message": "It was already that way to start with, I just move it here from the ChangeEvent, see:\n\nhttps://gerrit-review.googlesource.com/#/c/62515/1/gerrit-server/src/main/java/com/google/gerrit/server/events/ChangeEvent.java\n\nI think that Dave B did that with the intent of making the type static, but once it is static, it likely couln\u0027t be accessed easily for all Events in order to deserialize it.  So I think he then added the method.  I took an alternative deserializing approach that does not require it being static, so we could probably do away with the method.  But I suggest that happen in another change since it is more \"functional\" (people might be relying on that method now).",
+      "parentUuid": "81818819_c7159e64",
       "revId": "92d2d09057a3adf8a3436801ab4f184105a61834",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -236,6 +350,42 @@
     },
     {
       "key": {
+        "uuid": "a17cccf1_68404364",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/Event.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2015-01-09T19:18:33Z",
+      "side": 1,
+      "message": "I would prefer to not do that for this change, that is outside the scope of what I am trying to improve.",
+      "parentUuid": "c1870028_4922a1ca",
+      "revId": "92d2d09057a3adf8a3436801ab4f184105a61834",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a17cccf1_883497fe",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/Event.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2015-01-09T19:18:33Z",
+      "side": 1,
+      "message": "As for the final, it wasn\u0027t that way in ChangeEvent, I just kept it.  We may need to eliminate all finals in the events because I don\u0027t know that we can deserialize to finals?",
+      "parentUuid": "81818819_a708aa49",
+      "revId": "92d2d09057a3adf8a3436801ab4f184105a61834",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c15d4061_195c4b42",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/HashtagsChangedEvent.java",
         "patchSetId": 1
@@ -247,6 +397,30 @@
       "writtenOn": "2014-12-18T01:14:51Z",
       "side": 1,
       "message": "Unrelated to this patch, but we should probably change this to HashtagsEditedEvent for consistency with the name in the actual event data.",
+      "range": {
+        "startLine": 25,
+        "startChar": 9,
+        "endLine": 25,
+        "endChar": 29
+      },
+      "revId": "92d2d09057a3adf8a3436801ab4f184105a61834",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2ee36920_2c303303",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/HashtagsChangedEvent.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2015-01-09T19:18:33Z",
+      "side": 1,
+      "message": "Done by you. :)",
+      "parentUuid": "c15d4061_195c4b42",
       "range": {
         "startLine": 25,
         "startChar": 9,
@@ -276,6 +450,24 @@
     },
     {
       "key": {
+        "uuid": "a17cccf1_a8315b0d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/PatchSetEvent.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2015-01-09T19:18:33Z",
+      "side": 1,
+      "message": "See my other note about finals.\n\n\nwhy is it not set in the constructor?\n\n\nBecause the event construction patterns used throughout most of Gerrit are to construct blank events and then to populate the attributes.  I think the only exception to that rule is: \n\nhttps://gerrit-review.googlesource.com/#/c/62515/1/gerrit-server/src/main/java/com/google/gerrit/server/events/CommitReceivedEvent.java\n\nSo while I could add a constructor here that also takes a PSA, it would be unused.  I think it would be better to add such a constructor when someone plans on using it.",
+      "parentUuid": "81818819_e712a279",
+      "revId": "92d2d09057a3adf8a3436801ab4f184105a61834",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "418a3030_4d3b99ee",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/ProjectEvent.java",
         "patchSetId": 1
@@ -293,6 +485,24 @@
     },
     {
       "key": {
+        "uuid": "61abb49e_fec9c1ba",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/ProjectEvent.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2015-01-09T19:18:33Z",
+      "side": 1,
+      "message": "See my comment about this not being the pattern that the code uses to construct events.",
+      "parentUuid": "418a3030_4d3b99ee",
+      "revId": "92d2d09057a3adf8a3436801ab4f184105a61834",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "81818819_0741766a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/RefEvent.java",
         "patchSetId": 1
@@ -304,6 +514,24 @@
       "writtenOn": "2014-12-18T10:50:07Z",
       "side": 1,
       "message": "Why not pass the refName to the constructor?",
+      "revId": "92d2d09057a3adf8a3436801ab4f184105a61834",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "61abb49e_dece05c1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/RefEvent.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2015-01-09T19:18:33Z",
+      "side": 1,
+      "message": "See my comment about this not being the pattern that the code uses to construct events.",
+      "parentUuid": "81818819_0741766a",
       "revId": "92d2d09057a3adf8a3436801ab4f184105a61834",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

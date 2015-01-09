@@ -494,7 +494,7 @@ public class ChangeScreen2 extends Screen {
       }
 
       if (rev.is_edit()) {
-        if (isEditBasedOnCurrentPatchSet(info)) {
+        if (info.hasEditBasedOnCurrentPatchSet()) {
           publishEdit.setVisible(true);
         } else {
           rebaseEdit.setVisible(true);
@@ -513,13 +513,6 @@ public class ChangeScreen2 extends Screen {
     }
     return rev._number() == RevisionInfo.findEditParent(
         info.revisions().values());
-  }
-
-  private boolean isEditBasedOnCurrentPatchSet(ChangeInfo info) {
-    JsArray<RevisionInfo> revList = info.revisions().values();
-    RevisionInfo.sortRevisionInfoByNumber(revList);
-    int currentPatchSetOrEdit = revList.get(revList.length() - 1)._number();
-    return currentPatchSetOrEdit == 0;
   }
 
   @UiHandler("publishEdit")

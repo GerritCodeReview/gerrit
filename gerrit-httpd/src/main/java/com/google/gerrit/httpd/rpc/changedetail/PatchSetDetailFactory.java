@@ -27,6 +27,7 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference.Whitespace;
 import com.google.gerrit.reviewdb.client.AccountPatchReview;
+import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -50,6 +51,7 @@ import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.util.Providers;
 
@@ -77,7 +79,8 @@ class PatchSetDetailFactory extends Handler<PatchSetDetail> {
   private final PatchSetInfoFactory infoFactory;
   private final ReviewDb db;
   private final PatchListCache patchListCache;
-  private final ChangeControl.Factory changeControlFactory;
+  private final Provider<CurrentUser> userProvider;
+  private final ChangeControl.GenericFactory changeControlFactory;
   private final ChangesCollection changes;
   private final Revisions revisions;
   private final PatchLineCommentsUtil plcUtil;
@@ -96,7 +99,8 @@ class PatchSetDetailFactory extends Handler<PatchSetDetail> {
   @Inject
   PatchSetDetailFactory(final PatchSetInfoFactory psif, final ReviewDb db,
       final PatchListCache patchListCache,
-      final ChangeControl.Factory changeControlFactory,
+      final Provider<CurrentUser> userProvider,
+      final ChangeControl.GenericFactory changeControlFactory,
       final ChangesCollection changes,
       final Revisions revisions,
       final PatchLineCommentsUtil plcUtil,
@@ -106,6 +110,7 @@ class PatchSetDetailFactory extends Handler<PatchSetDetail> {
     this.infoFactory = psif;
     this.db = db;
     this.patchListCache = patchListCache;
+    this.userProvider = userProvider;
     this.changeControlFactory = changeControlFactory;
     this.changes = changes;
     this.revisions = revisions;
@@ -120,7 +125,12 @@ class PatchSetDetailFactory extends Handler<PatchSetDetail> {
   public PatchSetDetail call() throws OrmException, NoSuchEntityException,
       PatchSetInfoNotAvailableException, NoSuchChangeException {
     if (control == null || patchSet == null) {
-      control = changeControlFactory.validateFor(psIdNew.getParentKey());
+      Change.Id changeId = psIdNew.getParentKey();
+      Change change = db.changes().get(changeId);
+      if (change == null) {
+        throw new NoSuchChangeException(changeId);
+      }
+      control = changeControlFactory.validateFor(change, userProvider.get());
       patchSet = db.patchSets().get(psIdNew);
       if (patchSet == null) {
         throw new NoSuchEntityException();

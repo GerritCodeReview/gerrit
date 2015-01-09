@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2ee36920_8cd72753",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/LocalDiskRepositoryManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-09T05:12:33Z",
+      "side": 1,
+      "message": "nit: add a space after `if`",
+      "range": {
+        "startLine": 156,
+        "startChar": 6,
+        "endLine": 156,
+        "endChar": 8
+      },
+      "revId": "92c4e972bc3012771942cf7e2c27762c18a76e29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2ee36920_6cdd1b72",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/LocalDiskRepositoryManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-09T05:12:33Z",
+      "side": 1,
+      "message": "and a space before `{`",
+      "range": {
+        "startLine": 156,
+        "startChar": 51,
+        "endLine": 156,
+        "endChar": 52
+      },
+      "revId": "92c4e972bc3012771942cf7e2c27762c18a76e29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2ee36920_4cda5f7c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/LocalDiskRepositoryManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 403,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-09T05:12:33Z",
+      "side": 1,
+      "message": "What happens here if a project with the same name exists in more than one of the base paths?",
+      "range": {
+        "startLine": 401,
+        "startChar": 6,
+        "endLine": 403,
+        "endChar": 7
+      },
+      "revId": "92c4e972bc3012771942cf7e2c27762c18a76e29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4ed6dd40_6ddd1572",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/config/RepositoryConfigTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-09T05:12:33Z",
+      "side": 1,
+      "message": "nit: extra blank line",
+      "revId": "92c4e972bc3012771942cf7e2c27762c18a76e29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2ee36920_2ce71340",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/config/RepositoryConfigTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-09T05:12:33Z",
+      "side": 1,
+      "message": "nit: extra blank line",
+      "revId": "92c4e972bc3012771942cf7e2c27762c18a76e29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

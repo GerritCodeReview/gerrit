@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2ee36920_0c16976b",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 480,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-09T14:00:23Z",
+      "side": 1,
+      "message": "Why does this need to be a parameter, if the revision that is passed in is a class member and is already visible in the method anyway?",
+      "range": {
+        "startLine": 480,
+        "startChar": 43,
+        "endLine": 480,
+        "endChar": 60
+      },
+      "revId": "65e58ae06cdf1afb952b8ee99f6a27a9944f67ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

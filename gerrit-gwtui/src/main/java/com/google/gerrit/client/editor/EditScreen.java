@@ -269,7 +269,7 @@ public class EditScreen extends Screen {
         .set("readOnly", false)
         .set("cursorBlinkRate", 0)
         .set("cursorHeight", 0.85)
-        .set("lineNumbers", true)
+        .set("lineNumbers", !prefs.hideLineNumbers())
         .set("tabSize", prefs.tabSize())
         .set("lineWrapping", false)
         .set("scrollbarStyle", "overlay")

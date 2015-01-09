@@ -164,6 +164,30 @@
       "revId": "7b35a4c426c8b091df605540f7e2aef5d8b3220e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ce13adda_09ba09dd",
+        "filename": "lib/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-09T20:41:35Z",
+      "side": 1,
+      "message": "1.14-16-gb78d9c5 is standard git-describe(1) format, and you can see in gwtorm/build-snapshot.sh that that\u0027s what is used for the version.",
+      "parentUuid": "ae0839ac_081c475a",
+      "range": {
+        "startLine": 34,
+        "startChar": 2,
+        "endLine": 35,
+        "endChar": 27
+      },
+      "revId": "7b35a4c426c8b091df605540f7e2aef5d8b3220e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

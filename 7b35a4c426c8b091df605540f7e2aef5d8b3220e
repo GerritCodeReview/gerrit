@@ -140,6 +140,30 @@
       "revId": "7b35a4c426c8b091df605540f7e2aef5d8b3220e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ae0839ac_081c475a",
+        "filename": "lib/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-09T20:38:53Z",
+      "side": 1,
+      "message": "OK, i misread your answer, but how would i know to discard \"g\" from \"gb78d9c5\"?\n\n  $ git ls-remote https://gerrit-review.googlesource.com/gwtorm | grep gb78d9c5\n  $ [empty]",
+      "parentUuid": "ce13adda_49b001fd",
+      "range": {
+        "startLine": 34,
+        "startChar": 2,
+        "endLine": 35,
+        "endChar": 27
+      },
+      "revId": "7b35a4c426c8b091df605540f7e2aef5d8b3220e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

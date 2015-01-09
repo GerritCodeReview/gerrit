@@ -1,0 +1,170 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ee0eb1b4_2a8b7f49",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/CloseConnection.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-09T12:07:24Z",
+      "side": 1,
+      "message": "That\u0027 OK for now, but it sucks on very big Gerrit installation sites. Usually there is a team Gerrit Administrators, but only few in this team has this privilege.\n\nOther power user doesn\u0027t have this capability, but still can do some administration tasks. like change user. I suggested in context of another change to create one new capability and call ist Server_Maintenance or something.\n\nThat way real admin can delegate the maintenance job to stewards, without jeopardizing the whole Gerrit server stability.",
+      "range": {
+        "startLine": 38,
+        "startChar": 0,
+        "endLine": 38,
+        "endChar": 57
+      },
+      "revId": "a3c90f0c3fe03adad3852da39ff42e591f770f85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ee0eb1b4_8a7b8bac",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/CloseConnection.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-09T12:07:24Z",
+      "side": 1,
+      "message": "Wrap this line.",
+      "revId": "a3c90f0c3fe03adad3852da39ff42e591f770f85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ae0839ac_68818327",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/CloseConnection.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-09T12:07:24Z",
+      "side": 1,
+      "message": "You are missing\n\n  usage \u003d \"List of SSH session ids to be closed\"\n\nor some such.",
+      "range": {
+        "startLine": 45,
+        "startChar": 2,
+        "endLine": 45,
+        "endChar": 11
+      },
+      "revId": "a3c90f0c3fe03adad3852da39ff42e591f770f85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ee0eb1b4_6a817727",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/CloseConnection.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-09T12:07:24Z",
+      "side": 1,
+      "message": "Nit: unneeded new line.",
+      "revId": "a3c90f0c3fe03adad3852da39ff42e591f770f85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ee0eb1b4_aa764fc2",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/CloseConnection.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-09T12:07:24Z",
+      "side": 1,
+      "message": "No final in new code.",
+      "range": {
+        "startLine": 58,
+        "startChar": 11,
+        "endLine": 58,
+        "endChar": 16
+      },
+      "revId": "a3c90f0c3fe03adad3852da39ff42e591f770f85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ee0eb1b4_ca7183ce",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/CloseConnection.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-09T12:07:24Z",
+      "side": 1,
+      "message": "We indent ternary operator either as one-liner: \n\n  serverSession !\u003d null ? serverSession.getAttribute(SshSession.KEY) : null;\n\nor as three-liner:\n\n  serverSession !\u003d null\n       ? serverSession.getAttribute(SshSession.KEY)\n       : null;",
+      "range": {
+        "startLine": 61,
+        "startChar": 8,
+        "endLine": 63,
+        "endChar": 23
+      },
+      "revId": "a3c90f0c3fe03adad3852da39ff42e591f770f85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ee0eb1b4_ea6c47fa",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/CloseConnection.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-09T12:07:24Z",
+      "side": 1,
+      "message": "sshSession !\u003d null \u0026\u0026 sshSession.getSessionId() \u003d\u003d id",
+      "range": {
+        "startLine": 64,
+        "startChar": 12,
+        "endLine": 64,
+        "endChar": 43
+      },
+      "revId": "a3c90f0c3fe03adad3852da39ff42e591f770f85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ee0eb1b4_4a7eb39b",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/CloseConnection.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-09T12:07:24Z",
+      "side": 1,
+      "message": "This would break earlier, when more than one ids are provided as input, and first id was wrong, but the second is correct. Is this what you want?",
+      "revId": "a3c90f0c3fe03adad3852da39ff42e591f770f85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

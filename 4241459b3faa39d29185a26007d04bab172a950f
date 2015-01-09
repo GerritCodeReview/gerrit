@@ -97,6 +97,29 @@
     },
     {
       "key": {
+        "uuid": "ee0eb1b4_aa9f6f6c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_102.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-09T16:16:53Z",
+      "side": 1,
+      "message": "As pointed out on this thread: [1] this statement is wrong for MySQL dialect. This should have been:\n\n  String stmt \u003d \"DROP INDEX changes_byProjectOpen\";\n  if (dialect instanceof DialectMySQL) {\n    stmt.executeUpdate(stmt + \" on changes\");\n  } else {\n    stmt.executeUpdate(stmt);\n  }\n\ninstead.\n\n* [1] https://groups.google.com/d/topic/repo-discuss/vJhoxNnfcHQ/discussion",
+      "range": {
+        "startLine": 40,
+        "startChar": 6,
+        "endLine": 40,
+        "endChar": 23
+      },
+      "revId": "4241459b3faa39d29185a26007d04bab172a950f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4175d075_f5a3b8b2",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_102.java",
         "patchSetId": 5

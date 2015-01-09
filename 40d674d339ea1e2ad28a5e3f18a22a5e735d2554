@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "2e70c917_44252ed1",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/DiffTable.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-01-09T01:06:45Z",
+      "side": 1,
+      "message": "I believe the fix is this block. By wrapping resizeCodeMirror() into the conditional and only invoking when there was a change we reduce the number of reflows CM4 generates during textarea resizes.",
+      "range": {
+        "startLine": 128,
+        "startChar": 3,
+        "endLine": 136,
+        "endChar": 32
+      },
+      "revId": "40d674d339ea1e2ad28a5e3f18a22a5e735d2554",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2e70c917_041b369c",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/ScrollSynchronizer.java",
         "patchSetId": 2
@@ -13,6 +36,24 @@
       "writtenOn": "2015-01-09T00:59:22Z",
       "side": 1,
       "message": "Is there something you need to do to reflow if this wasn\u0027t visible before?",
+      "revId": "40d674d339ea1e2ad28a5e3f18a22a5e735d2554",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2e70c917_242032c2",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/ScrollSynchronizer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-01-09T01:06:45Z",
+      "side": 1,
+      "message": "If it wasn\u0027t visible before this method will call resizeCodeMirror(), which causes a reflow.",
+      "parentUuid": "2e70c917_041b369c",
       "revId": "40d674d339ea1e2ad28a5e3f18a22a5e735d2554",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

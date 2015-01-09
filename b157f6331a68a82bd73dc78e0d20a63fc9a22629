@@ -107,6 +107,24 @@
     },
     {
       "key": {
+        "uuid": "ee0eb1b4_4a3913c1",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/CatServlet.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-09T20:01:04Z",
+      "side": 1,
+      "message": "Unless you would remove the final mess for all parameters, and even fix another style issue, putting every parameter on its own line:\n\n  CatServlet(GitRepositoryManager grm,\n      Provider\u003cReviewDb\u003e sf,\n      FileTypeRegistry ftr,\n      ChangeControl.GenericFactory ccf,\n      Provider\u003cCurrentUser\u003e usrprv) {\n  [...]",
+      "parentUuid": "0ee06512_0b5f9d31",
+      "revId": "b157f6331a68a82bd73dc78e0d20a63fc9a22629",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ae0839ac_a84d3b90",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/PatchSetDetailFactory.java",
         "patchSetId": 4

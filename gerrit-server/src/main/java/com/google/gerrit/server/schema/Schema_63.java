@@ -31,8 +31,7 @@ public class Schema_63 extends SchemaVersion {
 
   @Override
   protected void migrateData(ReviewDb db, UpdateUI ui) throws SQLException {
-    Statement stmt = ((JdbcSchema) db).getConnection().createStatement();
-    try {
+    try (Statement stmt = newStatement(db)) {
       if (((JdbcSchema) db).getDialect() instanceof DialectPostgreSQL) {
         stmt.execute("CREATE INDEX changes_byBranchClosed"
             + " ON changes (status, dest_project_name, dest_branch_name, sort_key)"
@@ -41,8 +40,6 @@ public class Schema_63 extends SchemaVersion {
         stmt.execute("CREATE INDEX changes_byBranchClosed"
             + " ON changes (status, dest_project_name, dest_branch_name, sort_key)");
       }
-    } finally {
-      stmt.close();
     }
   }
 }

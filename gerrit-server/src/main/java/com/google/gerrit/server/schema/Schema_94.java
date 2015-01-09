@@ -15,7 +15,6 @@
 package com.google.gerrit.server.schema;
 
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gwtorm.jdbc.JdbcSchema;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
@@ -30,7 +29,7 @@ public class Schema_94 extends SchemaVersion {
 
   @Override
   protected void migrateData(ReviewDb db, UpdateUI ui) throws SQLException {
-    try (Statement stmt = ((JdbcSchema) db).getConnection().createStatement()) {
+    try (Statement stmt = newStatement(db)) {
       stmt.execute("CREATE INDEX patch_sets_byRevision"
           + " ON patch_sets (revision)");
     }

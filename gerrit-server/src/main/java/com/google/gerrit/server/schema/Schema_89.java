@@ -36,8 +36,7 @@ public class Schema_89 extends SchemaVersion {
   protected void migrateData(ReviewDb db, UpdateUI ui) throws OrmException,
       SQLException {
     SqlDialect dialect = ((JdbcSchema) db).getDialect();
-    Statement stmt = ((JdbcSchema) db).getConnection().createStatement();
-    try {
+    try (Statement stmt = newStatement(db)) {
       for (String name : ImmutableList.of(
           "patch_set_approvals_openByUser",
           "patch_set_approvals_closedByU")) {
@@ -47,8 +46,6 @@ public class Schema_89 extends SchemaVersion {
           stmt.executeUpdate("DROP INDEX " + name);
         }
       }
-    } finally {
-      stmt.close();
     }
   }
 }

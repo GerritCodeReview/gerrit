@@ -39,7 +39,6 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.git.VersionedMetaData.BatchMetaDataUpdate;
-import com.google.gwtorm.jdbc.JdbcSchema;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -222,8 +221,7 @@ public class Schema_65 extends SchemaVersion {
 
   private Map<Integer, ContributorAgreement> getAgreementToAdd(
       ReviewDb db, ProjectConfig config) throws SQLException {
-    Statement stmt = ((JdbcSchema) db).getConnection().createStatement();
-    try {
+    try (Statement stmt = newStatement(db)) {
       ResultSet rs = stmt.executeQuery(
           "SELECT short_name, id, require_contact_information," +
           "       short_description, agreement_url, auto_verify " +
@@ -249,8 +247,6 @@ public class Schema_65 extends SchemaVersion {
       } finally {
         rs.close();
       }
-    } finally {
-      stmt.close();
     }
   }
 
@@ -341,8 +337,7 @@ public class Schema_65 extends SchemaVersion {
       List<AccountGroup.UUID> adminGroupUUIDs,
       Map<Integer, ContributorAgreement> agreements)
           throws SQLException, OrmException {
-    Statement stmt = ((JdbcSchema) db).getConnection().createStatement();
-    try {
+    try (Statement stmt = newStatement(db)) {
       ResultSet rs = stmt.executeQuery(
           "SELECT account_id, cla_id, accepted_on, reviewed_by," +
           "       reviewed_on, review_comments " +
@@ -389,8 +384,6 @@ public class Schema_65 extends SchemaVersion {
       } finally {
         rs.close();
       }
-    } finally {
-      stmt.close();
     }
   }
 
@@ -411,8 +404,7 @@ public class Schema_65 extends SchemaVersion {
       ReviewDb db, Map<Integer, ContributorAgreement> agreements)
           throws SQLException {
 
-    Statement stmt = ((JdbcSchema) db).getConnection().createStatement();
-    try {
+    try (Statement stmt = newStatement(db)) {
       ResultSet rs = stmt.executeQuery(
           "SELECT group_id, cla_id, accepted_on, reviewed_by, reviewed_on, " +
           "       review_comments " +
@@ -454,8 +446,6 @@ public class Schema_65 extends SchemaVersion {
       } finally {
         rs.close();
       }
-    } finally {
-      stmt.close();
     }
   }
 }

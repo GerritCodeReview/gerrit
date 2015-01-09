@@ -81,14 +81,11 @@ public final class SiteInitializer {
 
   private File getSiteFromReviewDb(Connection conn) {
     try {
-      Statement stmt = conn.createStatement();
-      try {
+      try (Statement stmt = conn.createStatement()) {
         ResultSet rs = stmt.executeQuery("SELECT site_path FROM system_config");
         if (rs.next()) {
           return new File(rs.getString(1));
         }
-      } finally {
-        stmt.close();
       }
       return null;
     } catch (SQLException e) {

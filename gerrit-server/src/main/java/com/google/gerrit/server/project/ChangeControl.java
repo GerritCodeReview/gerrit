@@ -76,59 +76,6 @@ public class ChangeControl {
     }
   }
 
-  public static class Factory {
-    private final ProjectControl.Factory projectControl;
-    private final Provider<ReviewDb> db;
-
-    @Inject
-    Factory(final ProjectControl.Factory p, final Provider<ReviewDb> d) {
-      projectControl = p;
-      db = d;
-    }
-
-    public ChangeControl controlFor(final Change.Id id)
-        throws NoSuchChangeException {
-      final Change change;
-      try {
-        change = db.get().changes().get(id);
-        if (change == null) {
-          throw new NoSuchChangeException(id);
-        }
-      } catch (OrmException e) {
-        throw new NoSuchChangeException(id, e);
-      }
-      return controlFor(change);
-    }
-
-    public ChangeControl controlFor(final Change change)
-        throws NoSuchChangeException {
-      try {
-        final Project.NameKey projectKey = change.getProject();
-        return projectControl.validateFor(projectKey).controlFor(change);
-      } catch (NoSuchProjectException e) {
-        throw new NoSuchChangeException(change.getId(), e);
-      }
-    }
-
-    public ChangeControl validateFor(final Change.Id id)
-        throws NoSuchChangeException, OrmException {
-      return validate(controlFor(id), db.get());
-    }
-
-    public ChangeControl validateFor(final Change change)
-        throws NoSuchChangeException, OrmException {
-      return validate(controlFor(change), db.get());
-    }
-
-    private static ChangeControl validate(final ChangeControl c, final ReviewDb db)
-        throws NoSuchChangeException, OrmException{
-      if (!c.isVisible(db)) {
-        throw new NoSuchChangeException(c.getChange().getId());
-      }
-      return c;
-    }
-  }
-
   public interface AssistedFactory {
     ChangeControl create(RefControl refControl, Change change);
     ChangeControl create(RefControl refControl, ChangeNotes notes);

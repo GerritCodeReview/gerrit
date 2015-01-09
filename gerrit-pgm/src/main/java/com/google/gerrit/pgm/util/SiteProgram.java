@@ -182,13 +182,8 @@ public abstract class SiteProgram extends AbstractProgram {
 
   private String getDbType(Provider<DataSource> dsProvider) {
     String dbProductName;
-    try {
-      Connection conn = dsProvider.get().getConnection();
-      try {
-        dbProductName = conn.getMetaData().getDatabaseProductName().toLowerCase();
-      } finally {
-        conn.close();
-      }
+    try (Connection conn = dsProvider.get().getConnection()) {
+      dbProductName = conn.getMetaData().getDatabaseProductName().toLowerCase();
     } catch (SQLException e) {
       throw new RuntimeException(e);
     }

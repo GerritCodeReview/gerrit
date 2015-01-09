@@ -305,18 +305,11 @@ public class BaseInit extends SiteProgram {
           System.err.flush();
 
         } else if (ui.yesno(true, "%s\nExecute now", msg)) {
-          final JdbcSchema db = (JdbcSchema) schema.open();
-          try {
-            final JdbcExecutor e = new JdbcExecutor(db);
-            try {
-              for (String sql : pruneList) {
-                e.execute(sql);
-              }
-            } finally {
-              e.close();
+          try (JdbcSchema db = (JdbcSchema) schema.open();
+              JdbcExecutor e = new JdbcExecutor(db)) {
+            for (String sql : pruneList) {
+              e.execute(sql);
             }
-          } finally {
-            db.close();
           }
         }
       }

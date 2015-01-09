@@ -29,7 +29,6 @@ import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
-import com.google.gwtorm.jdbc.JdbcSchema;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -73,35 +72,28 @@ public class Schema_69 extends SchemaVersion {
     Set<AccountGroup.UUID> toResolve = Sets.newHashSet();
     List<AccountGroup.Id> toDelete = Lists.newArrayList();
     List<AccountGroup.NameKey> namesToDelete = Lists.newArrayList();
-    Statement stmt = ((JdbcSchema) db).getConnection().createStatement();
-    try {
-      ResultSet rs = stmt.executeQuery(
-          "SELECT group_id, group_uuid, external_name, name FROM account_groups"
-          + " WHERE group_type ='LDAP'");
-      try {
-        while (rs.next()) {
-          AccountGroup.Id groupId = new AccountGroup.Id(rs.getInt(1));
-          AccountGroup.UUID groupUUID = new AccountGroup.UUID(rs.getString(2));
-          AccountGroup.NameKey name = new AccountGroup.NameKey(rs.getString(4));
-          String dn = rs.getString(3);
+    try (Statement stmt = newStatement(db);
+        ResultSet rs = stmt.executeQuery(
+            "SELECT group_id, group_uuid, external_name, name FROM account_groups"
+            + " WHERE group_type ='LDAP'")) {
+      while (rs.next()) {
+        AccountGroup.Id groupId = new AccountGroup.Id(rs.getInt(1));
+        AccountGroup.UUID groupUUID = new AccountGroup.UUID(rs.getString(2));
+        AccountGroup.NameKey name = new AccountGroup.NameKey(rs.getString(4));
+        String dn = rs.getString(3);
 
-          if (isNullOrEmpty(dn)) {
-            // The LDAP group does not have a DN. Determine if the UUID is used.
-            toResolve.add(groupUUID);
-          } else {
-            toDelete.add(groupId);
-            namesToDelete.add(name);
-            GroupReference ref = groupReference(dn);
-            ldapUUIDMap.put(groupUUID, ref);
-          }
+        if (isNullOrEmpty(dn)) {
+          // The LDAP group does not have a DN. Determine if the UUID is used.
+          toResolve.add(groupUUID);
+        } else {
+          toDelete.add(groupId);
+          namesToDelete.add(name);
+          GroupReference ref = groupReference(dn);
+          ldapUUIDMap.put(groupUUID, ref);
         }
-      } catch (NamingException e) {
-        throw new RuntimeException(e);
-      } finally {
-        rs.close();
       }
-    } finally {
-      stmt.close();
+    } catch (NamingException e) {
+      throw new RuntimeException(e);
     }
     if (toDelete.isEmpty() && toResolve.isEmpty()) {
       return; // No ldap groups. Nothing to do.

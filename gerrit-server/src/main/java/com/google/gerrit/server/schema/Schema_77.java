@@ -95,12 +95,9 @@ public class Schema_77 extends SchemaVersion {
   }
 
   private void alterTable(ReviewDb db, String sqlFormat) throws SQLException {
-    Statement stmt = ((JdbcSchema) db).getConnection().createStatement();
-    try {
+    try (Statement stmt = newStatement(db)) {
       stmt.executeUpdate(
           String.format(sqlFormat, "patch_set_approvals", "category_id"));
-    } finally {
-      stmt.close();
     }
   }
 
@@ -136,18 +133,15 @@ public class Schema_77 extends SchemaVersion {
 
   private void migratePatchSetApprovals(ReviewDb db,
       LegacyLabelTypes labelTypes) throws SQLException {
-    PreparedStatement stmt = ((JdbcSchema) db).getConnection().prepareStatement(
+    try (PreparedStatement stmt = prepareStatement(db,
         "UPDATE patch_set_approvals SET category_id = ?, granted=granted"
-        + " WHERE category_id = ?");
-    try {
+        + " WHERE category_id = ?")) {
       for (LegacyLabelType type : labelTypes.getLegacyLabelTypes()) {
         stmt.setString(1, type.getName());
         stmt.setString(2, type.getId());
         stmt.addBatch();
       }
       stmt.executeBatch();
-    } finally {
-      stmt.close();
     }
   }
 
@@ -199,38 +193,32 @@ public class Schema_77 extends SchemaVersion {
 
   static LegacyLabelTypes getLegacyTypes(ReviewDb db) throws SQLException {
     List<LegacyLabelType> types = Lists.newArrayListWithCapacity(2);
-    Statement catStmt = ((JdbcSchema) db).getConnection().createStatement();
-    try {
-      ResultSet catRs = catStmt.executeQuery(
+    try (Statement catStmt = newStatement(db);
+        ResultSet catRs = catStmt.executeQuery(
           "SELECT category_id, name, function_name, copy_min_score"
           + " FROM approval_categories"
           + " ORDER BY position, name");
-      PreparedStatement valStmt = ((JdbcSchema) db).getConnection().prepareStatement(
-              "SELECT value, name"
-                      + " FROM approval_category_values"
-                      + " WHERE category_id = ?");
-      try {
-        while (catRs.next()) {
-          String id = catRs.getString("category_id");
-          valStmt.setString(1, id);
-          List<LabelValue> values = Lists.newArrayListWithCapacity(5);
-          ResultSet valRs = valStmt.executeQuery();
+        PreparedStatement valStmt = prepareStatement(db,
+                "SELECT value, name"
+                        + " FROM approval_category_values"
+                        + " WHERE category_id = ?")) {
+      while (catRs.next()) {
+        String id = catRs.getString("category_id");
+        valStmt.setString(1, id);
+        List<LabelValue> values = Lists.newArrayListWithCapacity(5);
+        try (ResultSet valRs = valStmt.executeQuery()) {
           while (valRs.next()) {
             values.add(new LabelValue(
                 valRs.getShort("value"), valRs.getString("name")));
           }
-          LegacyLabelType type =
-              new LegacyLabelType(getLabelName(catRs.getString("name")), values);
-          type.setId(id);
-          type.setFunctionName(catRs.getString("function_name"));
-          type.setCopyMinScore("Y".equals(catRs.getString("copy_min_score")));
-          types.add(type);
         }
-      } finally {
-        valStmt.close();
+        LegacyLabelType type =
+            new LegacyLabelType(getLabelName(catRs.getString("name")), values);
+        type.setId(id);
+        type.setFunctionName(catRs.getString("function_name"));
+        type.setCopyMinScore("Y".equals(catRs.getString("copy_min_score")));
+        types.add(type);
       }
-    } finally {
-      catStmt.close();
     }
     return new LegacyLabelTypes(types);
   }

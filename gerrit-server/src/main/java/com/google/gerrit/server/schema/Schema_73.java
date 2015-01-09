@@ -15,13 +15,11 @@
 package com.google.gerrit.server.schema;
 
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gwtorm.jdbc.JdbcSchema;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
 import java.sql.SQLException;
 import java.sql.Statement;
-
 
 public class Schema_73 extends SchemaVersion {
   @Inject
@@ -32,12 +30,8 @@ public class Schema_73 extends SchemaVersion {
   @Override
   protected void migrateData(final ReviewDb db, final UpdateUI ui)
       throws SQLException {
-    final Statement stmt = ((JdbcSchema) db).getConnection().createStatement();
-    try {
+    try (Statement stmt = newStatement(db)) {
       stmt.executeUpdate("CREATE INDEX change_messages_byPatchset ON change_messages (patchset_change_id, patchset_patch_set_id )");
-    }
-    finally {
-      stmt.close();
     }
   }
 }

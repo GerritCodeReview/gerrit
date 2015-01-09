@@ -224,20 +224,15 @@ public class QueryShell {
       return;
     }
 
-    try {
-      final String[] types = {"TABLE", "VIEW"};
-      ResultSet rs = meta.getTables(null, null, null, types);
-      try {
-        if (outputFormat == OutputFormat.PRETTY) {
-          println("                     List of relations");
-        }
-        showResultSet(rs, false, 0,
-            Identity.create(rs, "TABLE_SCHEM"),
-            Identity.create(rs, "TABLE_NAME"),
-            Identity.create(rs, "TABLE_TYPE"));
-      } finally {
-        rs.close();
+    final String[] types = {"TABLE", "VIEW"};
+    try (ResultSet rs = meta.getTables(null, null, null, types)) {
+      if (outputFormat == OutputFormat.PRETTY) {
+        println("                     List of relations");
       }
+      showResultSet(rs, false, 0,
+          Identity.create(rs, "TABLE_SCHEM"),
+          Identity.create(rs, "TABLE_NAME"),
+          Identity.create(rs, "TABLE_TYPE"));
     } catch (SQLException e) {
       error(e);
     }
@@ -260,91 +255,81 @@ public class QueryShell {
       return;
     }
 
-    try {
-      ResultSet rs = meta.getColumns(null, null, tableName, null);
-      try {
-        if (!rs.next()) {
-          throw new SQLException("Table " + tableName + " not found");
-        }
-
-        if (outputFormat == OutputFormat.PRETTY) {
-          println("                     Table " + tableName);
-        }
-        showResultSet(rs, true, 0,
-            Identity.create(rs, "COLUMN_NAME"),
-            new Function("TYPE") {
-              @Override
-              String apply(final ResultSet rs) throws SQLException {
-                String type = rs.getString("TYPE_NAME");
-                switch (rs.getInt("DATA_TYPE")) {
-                  case java.sql.Types.CHAR:
-                  case java.sql.Types.VARCHAR:
-                    type += "(" + rs.getInt("COLUMN_SIZE") + ")";
-                    break;
-                }
-
-                String def = rs.getString("COLUMN_DEF");
-                if (def != null && !def.isEmpty()) {
-                  type += " DEFAULT " + def;
-                }
-
-                int nullable = rs.getInt("NULLABLE");
-                if (nullable == DatabaseMetaData.columnNoNulls) {
-                  type += " NOT NULL";
-                }
-                return type;
-              }
-            });
-      } finally {
-        rs.close();
+    try (ResultSet rs = meta.getColumns(null, null, tableName, null)) {
+      if (!rs.next()) {
+        throw new SQLException("Table " + tableName + " not found");
       }
+
+      if (outputFormat == OutputFormat.PRETTY) {
+        println("                     Table " + tableName);
+      }
+      showResultSet(rs, true, 0,
+          Identity.create(rs, "COLUMN_NAME"),
+          new Function("TYPE") {
+            @Override
+            String apply(final ResultSet rs) throws SQLException {
+              String type = rs.getString("TYPE_NAME");
+              switch (rs.getInt("DATA_TYPE")) {
+                case java.sql.Types.CHAR:
+                case java.sql.Types.VARCHAR:
+                  type += "(" + rs.getInt("COLUMN_SIZE") + ")";
+                  break;
+              }
+
+              String def = rs.getString("COLUMN_DEF");
+              if (def != null && !def.isEmpty()) {
+                type += " DEFAULT " + def;
+              }
+
+              int nullable = rs.getInt("NULLABLE");
+              if (nullable == DatabaseMetaData.columnNoNulls) {
+                type += " NOT NULL";
+              }
+              return type;
+            }
+          });
     } catch (SQLException e) {
       error(e);
       return;
     }
 
-    try {
-      ResultSet rs = meta.getIndexInfo(null, null, tableName, false, true);
-      try {
-        Map<String, IndexInfo> indexes = new TreeMap<>();
-        while (rs.next()) {
-          final String indexName = rs.getString("INDEX_NAME");
-          IndexInfo def = indexes.get(indexName);
-          if (def == null) {
-            def = new IndexInfo();
-            def.name = indexName;
-            indexes.put(indexName, def);
-          }
-
-          if (!rs.getBoolean("NON_UNIQUE")) {
-            def.unique = true;
-          }
-
-          final int pos = rs.getInt("ORDINAL_POSITION");
-          final String col = rs.getString("COLUMN_NAME");
-          String desc = rs.getString("ASC_OR_DESC");
-          if ("D".equals(desc)) {
-            desc = " DESC";
-          } else {
-            desc = "";
-          }
-          def.addColumn(pos, col + desc);
-
-          String filter = rs.getString("FILTER_CONDITION");
-          if (filter != null && !filter.isEmpty()) {
-            def.filter.append(filter);
-          }
+    try (ResultSet rs = meta.getIndexInfo(null, null, tableName, false, true)) {
+      Map<String, IndexInfo> indexes = new TreeMap<>();
+      while (rs.next()) {
+        final String indexName = rs.getString("INDEX_NAME");
+        IndexInfo def = indexes.get(indexName);
+        if (def == null) {
+          def = new IndexInfo();
+          def.name = indexName;
+          indexes.put(indexName, def);
         }
 
-        if (outputFormat == OutputFormat.PRETTY) {
-          println("");
-          println("Indexes on " + tableName + ":");
-          for (IndexInfo def : indexes.values()) {
-            println("  " + def);
-          }
+        if (!rs.getBoolean("NON_UNIQUE")) {
+          def.unique = true;
         }
-      } finally {
-        rs.close();
+
+        final int pos = rs.getInt("ORDINAL_POSITION");
+        final String col = rs.getString("COLUMN_NAME");
+        String desc = rs.getString("ASC_OR_DESC");
+        if ("D".equals(desc)) {
+          desc = " DESC";
+        } else {
+          desc = "";
+        }
+        def.addColumn(pos, col + desc);
+
+        String filter = rs.getString("FILTER_CONDITION");
+        if (filter != null && !filter.isEmpty()) {
+          def.filter.append(filter);
+        }
+      }
+
+      if (outputFormat == OutputFormat.PRETTY) {
+        println("");
+        println("Indexes on " + tableName + ":");
+        for (IndexInfo def : indexes.values()) {
+          println("  " + def);
+        }
       }
     } catch (SQLException e) {
       error(e);
@@ -366,11 +351,8 @@ public class QueryShell {
 
     try {
       if (hasResultSet) {
-        final ResultSet rs = statement.getResultSet();
-        try {
+        try (ResultSet rs = statement.getResultSet()) {
           showResultSet(rs, false, start);
-        } finally {
-          rs.close();
         }
 
       } else {

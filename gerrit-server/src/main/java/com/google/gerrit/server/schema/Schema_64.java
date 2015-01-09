@@ -27,7 +27,6 @@ import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
-import com.google.gwtorm.jdbc.JdbcSchema;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -62,21 +61,14 @@ public class Schema_64 extends SchemaVersion {
   protected void migrateData(ReviewDb db, UpdateUI ui)
       throws OrmException, SQLException {
     List<GroupReference> groups = Lists.newArrayList();
-    Statement stmt = ((JdbcSchema) db).getConnection().createStatement();
-    try {
-      ResultSet rs = stmt.executeQuery(
-          "SELECT group_uuid, name FROM account_groups WHERE email_only_authors = 'Y'");
-      try {
-        while (rs.next()) {
-          AccountGroup.UUID uuid = new AccountGroup.UUID(rs.getString(1));
-          GroupReference group = new GroupReference(uuid, rs.getString(2));
-          groups.add(group);
-        }
-      } finally {
-        rs.close();
+    try (Statement stmt = newStatement(db);
+        ResultSet rs = stmt.executeQuery(
+          "SELECT group_uuid, name FROM account_groups WHERE email_only_authors = 'Y'")) {
+      while (rs.next()) {
+        AccountGroup.UUID uuid = new AccountGroup.UUID(rs.getString(1));
+        GroupReference group = new GroupReference(uuid, rs.getString(2));
+        groups.add(group);
       }
-    } finally {
-      stmt.close();
     }
 
     if (groups.isEmpty()) {

@@ -19,12 +19,10 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroupById;
 import com.google.gerrit.reviewdb.client.AccountGroupByIdAud;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gwtorm.jdbc.JdbcSchema;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -49,15 +47,13 @@ public class Schema_74 extends SchemaVersion {
     }
 
     // Initialize some variables
-    Connection conn = ((JdbcSchema) db).getConnection();
     ArrayList<AccountGroupById> newIncludes = new ArrayList<>();
     ArrayList<AccountGroupByIdAud> newIncludeAudits = new ArrayList<>();
 
     // Iterate over all entries in account_group_includes
-    Statement oldGroupIncludesStmt = conn.createStatement();
-    try {
-      ResultSet oldGroupIncludes = oldGroupIncludesStmt.
-          executeQuery("SELECT * FROM account_group_includes");
+    try (Statement oldGroupIncludesStmt = newStatement(db);
+        ResultSet oldGroupIncludes = oldGroupIncludesStmt.executeQuery(
+          "SELECT * FROM account_group_includes")) {
       while (oldGroupIncludes.next()) {
         AccountGroup.Id oldGroupId =
             new AccountGroup.Id(oldGroupIncludes.getInt("group_id"));
@@ -77,35 +73,31 @@ public class Schema_74 extends SchemaVersion {
             new AccountGroupById.Key(oldGroupId, uuidFromIncludeId));
 
         // Iterate over all the audits (for this group)
-        PreparedStatement oldAuditsQueryStmt = conn.prepareStatement(
-            "SELECT * FROM account_group_includes_audit WHERE group_id=? AND include_id=?");
-        try {
+        try (PreparedStatement oldAuditsQueryStmt = prepareStatement(db,
+            "SELECT * FROM account_group_includes_audit WHERE group_id=? AND include_id=?")) {
           oldAuditsQueryStmt.setInt(1, oldGroupId.get());
           oldAuditsQueryStmt.setInt(2, oldIncludeId.get());
-          ResultSet oldGroupIncludeAudits = oldAuditsQueryStmt.executeQuery();
-          while (oldGroupIncludeAudits.next()) {
-            Account.Id addedBy = new Account.Id(oldGroupIncludeAudits.getInt("added_by"));
-            int removedBy = oldGroupIncludeAudits.getInt("removed_by");
+          try (ResultSet oldGroupIncludeAudits = oldAuditsQueryStmt.executeQuery()) {
+            while (oldGroupIncludeAudits.next()) {
+              Account.Id addedBy = new Account.Id(oldGroupIncludeAudits.getInt("added_by"));
+              int removedBy = oldGroupIncludeAudits.getInt("removed_by");
 
-            // Create the new audit entry
-            AccountGroupByIdAud destAuditEntry =
-                new AccountGroupByIdAud(destIncludeEntry, addedBy,
-                    oldGroupIncludeAudits.getTimestamp("added_on"));
+              // Create the new audit entry
+              AccountGroupByIdAud destAuditEntry =
+                  new AccountGroupByIdAud(destIncludeEntry, addedBy,
+                      oldGroupIncludeAudits.getTimestamp("added_on"));
 
-            // If this was a "removed on" entry, note that
-            if (removedBy > 0) {
-              destAuditEntry.removed(new Account.Id(removedBy),
-                  oldGroupIncludeAudits.getTimestamp("removed_on"));
+              // If this was a "removed on" entry, note that
+              if (removedBy > 0) {
+                destAuditEntry.removed(new Account.Id(removedBy),
+                    oldGroupIncludeAudits.getTimestamp("removed_on"));
+              }
+              newIncludeAudits.add(destAuditEntry);
             }
-            newIncludeAudits.add(destAuditEntry);
           }
           newIncludes.add(destIncludeEntry);
-        } finally {
-          oldAuditsQueryStmt.close();
         }
       }
-    } finally {
-      oldGroupIncludesStmt.close();
     }
 
     // Now insert all of the new entries to the database

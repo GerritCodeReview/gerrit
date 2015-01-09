@@ -20,7 +20,6 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gwtorm.jdbc.JdbcSchema;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -48,22 +47,15 @@ public class Schema_67 extends SchemaVersion {
     // Scan all AccountGroup, and find the ones that need the owner_group_id
     // migrated to owner_group_uuid.
     Map<AccountGroup.Id, AccountGroup.Id> idMap = Maps.newHashMap();
-    Statement stmt = ((JdbcSchema) db).getConnection().createStatement();
-    try {
-      ResultSet rs = stmt.executeQuery(
+    try (Statement stmt = newStatement(db);
+        ResultSet rs = stmt.executeQuery(
           "SELECT group_id, owner_group_id FROM account_groups"
-          + " WHERE owner_group_uuid is NULL or owner_group_uuid =''");
-      try {
-        while (rs.next()) {
-          AccountGroup.Id groupId = new AccountGroup.Id(rs.getInt(1));
-          AccountGroup.Id ownerId = new AccountGroup.Id(rs.getInt(2));
-          idMap.put(groupId, ownerId);
-        }
-      } finally {
-        rs.close();
+          + " WHERE owner_group_uuid is NULL or owner_group_uuid =''")) {
+      while (rs.next()) {
+        AccountGroup.Id groupId = new AccountGroup.Id(rs.getInt(1));
+        AccountGroup.Id ownerId = new AccountGroup.Id(rs.getInt(2));
+        idMap.put(groupId, ownerId);
       }
-    } finally {
-      stmt.close();
     }
 
     // Lookup up all groups by ID.

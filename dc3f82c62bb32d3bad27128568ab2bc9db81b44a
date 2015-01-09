@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "0ee06512_2b6259f7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1016722
+      },
+      "writtenOn": "2015-01-09T19:21:23Z",
+      "side": 1,
+      "message": "From our point of view it is incorrect that the file lists are not the same for the forward and reverse diffs.\n\n9..1 has the below entries.\n1..9 does not have the below entries.\n\ngerrit-server/src/main/java/com/google/gerrit/server/config/DownloadConfig.java\nplugins/download-commands\n\nThe correct result would be to have the same list of entries, but the status indicating add/delete.\nI think that the comment from Shawn makes sense because it concerns files with the modified status which is a different use case. I hope it answers your question.",
+      "parentUuid": "ee0eb1b4_4ab0f3fc",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 30,
+        "endChar": 69
+      },
+      "revId": "dc3f82c62bb32d3bad27128568ab2bc9db81b44a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ee0eb1b4_2abdbfd4",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/PatchListCacheIT.java",
         "patchSetId": 7
@@ -36,6 +60,24 @@
       "writtenOn": "2015-01-09T15:54:11Z",
       "side": 1,
       "message": "Up to here we created the following:\n\n  +D\n  Base: D\n\n  +A +C -D\n  patch set a: A C\n\n  +B -C\n  patch set b: A B",
+      "revId": "dc3f82c62bb32d3bad27128568ab2bc9db81b44a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ce13adda_29feedc1",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/PatchListCacheIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1016722
+      },
+      "writtenOn": "2015-01-09T19:21:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ee0eb1b4_2abdbfd4",
       "revId": "dc3f82c62bb32d3bad27128568ab2bc9db81b44a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "ce13adda_4901212e",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/PatchListCacheIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1016722
+      },
+      "writtenOn": "2015-01-09T19:21:23Z",
+      "side": 1,
+      "message": "-C should be the part of the diff, however it is a different use case on which I am also working and it will be in a separate commit.",
+      "parentUuid": "ee0eb1b4_0abafbdc",
+      "revId": "dc3f82c62bb32d3bad27128568ab2bc9db81b44a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ae0839ac_c8aaaf8c",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/PatchListCacheIT.java",
         "patchSetId": 7
@@ -76,6 +136,24 @@
     },
     {
       "key": {
+        "uuid": "0ee06512_0bfb1dd2",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/PatchListCacheIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1016722
+      },
+      "writtenOn": "2015-01-09T19:21:23Z",
+      "side": 1,
+      "message": "I agree with that and will do it in a separate commit unless you prefer to have all these use cases together.",
+      "parentUuid": "ae0839ac_c8aaaf8c",
+      "revId": "dc3f82c62bb32d3bad27128568ab2bc9db81b44a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ee0eb1b4_aac88f87",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/PatchListCacheIT.java",
         "patchSetId": 7
@@ -87,6 +165,30 @@
       "writtenOn": "2015-01-09T15:54:11Z",
       "side": 1,
       "message": "What is the purpose of this code?",
+      "range": {
+        "startLine": 168,
+        "startChar": 0,
+        "endLine": 172,
+        "endChar": 5
+      },
+      "revId": "dc3f82c62bb32d3bad27128568ab2bc9db81b44a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ce13adda_6904e53f",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/PatchListCacheIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1016722
+      },
+      "writtenOn": "2015-01-09T19:21:23Z",
+      "side": 1,
+      "message": "You previously asked for the example of a test to reproduce the issue on the \"old\" code (without my change).\nThis is a demonstration of what the user considers the incorrect outcome.",
+      "parentUuid": "ee0eb1b4_aac88f87",
       "range": {
         "startLine": 168,
         "startChar": 0,
@@ -122,6 +224,30 @@
     },
     {
       "key": {
+        "uuid": "0ee06512_2bfed9c1",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/PatchListCacheIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1016722
+      },
+      "writtenOn": "2015-01-09T19:21:23Z",
+      "side": 1,
+      "message": "Another example of a test to reproduce the issue on the \"old\" code (without my change).",
+      "parentUuid": "ae0839ac_28bdcbd4",
+      "range": {
+        "startLine": 250,
+        "startChar": 0,
+        "endLine": 254,
+        "endChar": 5
+      },
+      "revId": "dc3f82c62bb32d3bad27128568ab2bc9db81b44a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ee0eb1b4_0a5f9b31",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListKey.java",
         "patchSetId": 7
@@ -145,6 +271,30 @@
     },
     {
       "key": {
+        "uuid": "ce13adda_a9e9bd10",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListKey.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1016722
+      },
+      "writtenOn": "2015-01-09T19:21:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ee0eb1b4_0a5f9b31",
+      "range": {
+        "startLine": 55,
+        "startChar": 0,
+        "endLine": 56,
+        "endChar": 76
+      },
+      "revId": "dc3f82c62bb32d3bad27128568ab2bc9db81b44a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ae0839ac_48659ffd",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListKey.java",
         "patchSetId": 7
@@ -156,6 +306,30 @@
       "writtenOn": "2015-01-09T15:54:11Z",
       "side": 1,
       "message": "If the first constructor is used then both oldSeqNum and newSeqNum are not explicitly initialized i.e. they are set to zero. Seeing \"0..0\" in the string representation of this object is less useful than seeing \"aPSID..bPSID\".\n\nInclude the IDs always in the toString and additionally include the old/newSeqNum if they are set?",
+      "range": {
+        "startLine": 125,
+        "startChar": 0,
+        "endLine": 127,
+        "endChar": 24
+      },
+      "revId": "dc3f82c62bb32d3bad27128568ab2bc9db81b44a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ce13adda_89eef914",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListKey.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1016722
+      },
+      "writtenOn": "2015-01-09T19:21:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ae0839ac_48659ffd",
       "range": {
         "startLine": 125,
         "startChar": 0,

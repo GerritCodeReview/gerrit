@@ -94,6 +94,29 @@
       "revId": "2460eb3823b54ca5e562422ed52f67b14f485382",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ae0839ac_48b0fffc",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 524,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-09T15:01:41Z",
+      "side": 1,
+      "message": "This should have been:\n\n  return revList.get(revList.length() - 1).is_edit();\n\nOr even move this method to CHangeInfo amnd reuse in all places. For example the same method could be used in loadConfigInfo:\n\n  if (revision \u003d\u003d null) {\n        RevisionInfo.sortRevisionInfoByNumber(list);\n        RevisionInfo rev \u003d list.get(list.length() - 1);\n        if (rev.is_edit()) {\n          info.set_current_revision(rev.name());\n        }\n  }",
+      "range": {
+        "startLine": 523,
+        "startChar": 4,
+        "endLine": 524,
+        "endChar": 38
+      },
+      "revId": "2460eb3823b54ca5e562422ed52f67b14f485382",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

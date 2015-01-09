@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "ae0839ac_288b8b49",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-09T12:17:46Z",
+      "side": 1,
+      "message": "Interesting idea. i\u0027m fine with this.",
+      "parentUuid": "2e70c917_a400a22b",
+      "range": {
+        "startLine": 241,
+        "startChar": 8,
+        "endLine": 242,
+        "endChar": 29
+      },
+      "revId": "14ff7c632ec3ea7d0567a73f5a10d9e7b6c65ae5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4e8a5d30_cd18699b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
         "patchSetId": 5
@@ -89,6 +113,53 @@
         "startChar": 6,
         "endLine": 250,
         "endChar": 49
+      },
+      "revId": "14ff7c632ec3ea7d0567a73f5a10d9e7b6c65ae5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ae0839ac_0888c748",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-09T12:17:46Z",
+      "side": 1,
+      "message": "I see your point, there is place for improving my original suggestion. The problem with your current code and new suggestion is: you don\u0027t respect visibility during the whole loop. But the outcome of the loop is entirely useless when current change is say a draft or when the user doesn\u0027t have ACL to submit a change for a project.\n\nExample: if this code is merged as is or with your new suggestion, and you (you don\u0027t have +2 ACL on gerrit-review, right?) would open a change that belongs to a topic, that is shared by 1 million of changes, then you would iterate through all 1 mil. of changes, just to say visible \u003d false, right?",
+      "parentUuid": "0e6dc543_e3fa92cb",
+      "range": {
+        "startLine": 247,
+        "startChar": 6,
+        "endLine": 250,
+        "endChar": 49
+      },
+      "revId": "14ff7c632ec3ea7d0567a73f5a10d9e7b6c65ae5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ee0eb1b4_0a88bb48",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-09T12:17:46Z",
+      "side": 1,
+      "message": "The same as above, you should immediately break the loop, once you\u0027ve encountered that visibility is false.",
+      "range": {
+        "startLine": 267,
+        "startChar": 8,
+        "endLine": 269,
+        "endChar": 9
       },
       "revId": "14ff7c632ec3ea7d0567a73f5a10d9e7b6c65ae5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

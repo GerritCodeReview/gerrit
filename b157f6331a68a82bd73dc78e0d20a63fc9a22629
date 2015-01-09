@@ -125,6 +125,24 @@
     },
     {
       "key": {
+        "uuid": "0ee06512_eba571bc",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/CatServlet.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-01-09T20:50:56Z",
+      "side": 1,
+      "message": "There is a follow up patch to modernize the constructor.",
+      "parentUuid": "ee0eb1b4_4a3913c1",
+      "revId": "b157f6331a68a82bd73dc78e0d20a63fc9a22629",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ae0839ac_a84d3b90",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/PatchSetDetailFactory.java",
         "patchSetId": 4

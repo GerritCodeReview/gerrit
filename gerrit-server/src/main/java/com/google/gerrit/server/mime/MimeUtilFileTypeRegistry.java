@@ -12,10 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server;
+package com.google.gerrit.server.mime;
 
 import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gerrit.server.util.HostPlatform;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -43,22 +42,12 @@ public class MimeUtilFileTypeRegistry implements FileTypeRegistry {
       LoggerFactory.getLogger(MimeUtilFileTypeRegistry.class);
 
   private final Config cfg;
-  private MimeUtil2 mimeUtil;
+  private final MimeUtil2 mimeUtil;
 
   @Inject
-  MimeUtilFileTypeRegistry(@GerritServerConfig final Config gsc) {
+  MimeUtilFileTypeRegistry(@GerritServerConfig Config gsc, MimeUtil2 mu2) {
     cfg = gsc;
-    mimeUtil = new MimeUtil2();
-    register("eu.medsea.mimeutil.detector.ExtensionMimeDetector");
-    register("eu.medsea.mimeutil.detector.MagicMimeMimeDetector");
-    if (HostPlatform.isWin32()) {
-      register("eu.medsea.mimeutil.detector.WindowsRegistryMimeDetector");
-    }
-    register(DefaultFileExtensionRegistry.class.getName());
-  }
-
-  private void register(String name) {
-    mimeUtil.registerMimeDetector(name);
+    mimeUtil = mu2;
   }
 
   /**

@@ -25,7 +25,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.server.FileTypeRegistry;
+import com.google.gerrit.server.mime.FileTypeRegistry;
 import com.google.inject.Inject;
 
 import eu.medsea.mimeutil.MimeType;

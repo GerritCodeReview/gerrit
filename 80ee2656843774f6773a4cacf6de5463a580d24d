@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ae0839ac_88eef714",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/rpc/RestApi.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 427,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-01-09T08:45:56Z",
+      "side": 1,
+      "message": "Don\u0027t say it like this. Better change it to:\n\n  Taken from MDN:",
+      "range": {
+        "startLine": 427,
+        "startChar": 5,
+        "endLine": 427,
+        "endChar": 33
+      },
+      "revId": "80ee2656843774f6773a4cacf6de5463a580d24d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

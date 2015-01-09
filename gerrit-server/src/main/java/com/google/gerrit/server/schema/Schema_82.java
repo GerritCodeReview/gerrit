@@ -21,6 +21,7 @@ import com.google.gwtorm.jdbc.JdbcSchema;
 import com.google.gwtorm.schema.sql.DialectMySQL;
 import com.google.gwtorm.schema.sql.SqlDialect;
 import com.google.gwtorm.server.OrmException;
+import com.google.gwtorm.server.StatementExecutor;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
@@ -101,30 +102,30 @@ public class Schema_82 extends SchemaVersion {
 
   private void renameIndexes(ReviewDb db) {
     SqlDialect dialect = ((JdbcSchema) db).getDialect();
-    try (Statement stmt = newStatement(db)) {
+    // Use a new executor so we can ignore errors.
+    try (StatementExecutor e = newExecutor(db)) {
       // MySQL doesn't have alter index stmt, drop & create
       if (dialect instanceof DialectMySQL) {
         for (Map.Entry<String, Index> entry : indexes.entrySet()) {
-          stmt.executeUpdate("DROP INDEX " + entry.getKey() + " ON "
-              + entry.getValue().table);
+          dialect.dropIndex(e, entry.getValue().table, entry.getKey());
         }
-        stmt.executeUpdate("CREATE INDEX account_project_watches_byP ON " +
+        e.execute("CREATE INDEX account_project_watches_byP ON " +
             "account_project_watches (project_name)");
-        stmt.executeUpdate("CREATE INDEX patch_set_approvals_closedByU ON " +
+        e.execute("CREATE INDEX patch_set_approvals_closedByU ON " +
             "patch_set_approvals (change_open, account_id, change_sort_key)");
-        stmt.executeUpdate("CREATE INDEX submodule_subscr_acc_bys ON " +
+        e.execute("CREATE INDEX submodule_subscr_acc_bys ON " +
             "submodule_subscriptions (submodule_project_name, " +
             "submodule_branch_name)");
       } else {
         for (Map.Entry<String, Index> entry : indexes.entrySet()) {
-          stmt.executeUpdate("ALTER INDEX " + entry.getKey() + " RENAME TO "
+          e.execute("ALTER INDEX " + entry.getKey() + " RENAME TO "
               + entry.getValue().index);
         }
       }
-    } catch (SQLException e) {
-      // we don't care
-      // better we would check if index was already renamed
-      // gwtorm doesn't expose this functionality
+    } catch (OrmException e) {
+      // We don't care; better, we could check if index was already renamed, but
+      // gwtorm didn't expose this functionality at the time this schema upgrade
+      // was written.
     }
   }
 

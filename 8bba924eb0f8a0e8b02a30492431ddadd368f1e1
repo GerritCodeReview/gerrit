@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ae0839ac_8826f7a3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-09T21:21:11Z",
+      "side": 1,
+      "message": "Unused. Is your Eclipse configuration wrong? Or are you using Emacs?",
+      "range": {
+        "startLine": 83,
+        "startChar": 0,
+        "endLine": 83,
+        "endChar": 27
+      },
+      "revId": "8bba924eb0f8a0e8b02a30492431ddadd368f1e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ee0eb1b4_6ac73755",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-09T21:21:11Z",
+      "side": 1,
+      "message": "Say, a user try to submit a change that belongs to a topic that identifies series that is spreaded across 10 projects. This power user has +2 on all 10 projects and see the submit button and is about to click on it, but want to get tea and come back and click on refresh button and submit is disappeares. She calls Gerrit admin to check error log, nothing there.\n\nWhat happened???\n\nNothing special, another dev just assigned this topic to another change in project number 11, where this power user doesn\u0027t have +2 right.\n\nOne appoorach to solve this is to make button disabled instead of hidden and provide useful tooltip in this case, and list the first non-submittable change by this user.\n\nAnother approach is to issue warning debug log message here, so that admin can help in this case.",
+      "range": {
+        "startLine": 246,
+        "startChar": 6,
+        "endLine": 246,
+        "endChar": 39
+      },
+      "revId": "8bba924eb0f8a0e8b02a30492431ddadd368f1e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

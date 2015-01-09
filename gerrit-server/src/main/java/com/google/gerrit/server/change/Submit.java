@@ -80,6 +80,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -341,19 +342,45 @@ public class Submit implements RestModifyView<RevisionResource, SubmitInput>,
 
     ReviewDb db = dbProvider.get();
     db.changes().beginTransaction(change.getId());
+
+    List<Change> changesByTopic = null;
+    if (submitWholeTopic) {
+      try {
+        String topic = change.getTopic();
+        changesByTopic = db.changes().byTopic(topic).toList();
+      } catch (OrmException e) {
+        throw new OrmRuntimeException(e);
+      }
+    }
     try {
       BatchMetaDataUpdate batch = approve(rsrc, update, caller, timestamp);
       // Write update commit after all normalized label commits.
       batch.write(update, new CommitBuilder());
-      change = submitToDatabase(db, change, timestamp);
-      if (change == null) {
-        return null;
+
+      if (submitWholeTopic) {
+        for (Change c : changesByTopic) {
+          if (submitToDatabase(db, c, timestamp) == null) {
+            return null;
+          }
+        }
+      } else {
+        change = submitToDatabase(db, change, timestamp);
+        if (change == null) {
+          return null;
+        }
       }
       db.commit();
     } finally {
       db.rollback();
     }
-    indexer.index(db, change);
+    if (submitWholeTopic) {
+      // TODO replace by upcoming async indexing https://gerrit-review.googlesource.com/#/c/63140/
+      for (Change c : changesByTopic) {
+        indexer.index(db, c);
+      }
+    } else {
+      indexer.index(db, change);
+    }
     return change;
   }
 

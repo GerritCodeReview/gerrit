@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "ee0eb1b4_ea1a0797",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-09T08:59:21Z",
+      "side": 1,
+      "message": "As pointed by Shawn in this review this option is called \"hide line number\" in diff preference and should be called as such [1]. How it\u0027s called in CM doesn\u0027t matter.\n\n[1] https://gerrit-review.googlesource.com/#/c/61601/14/gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/EditPreferencesInfo.java@26",
+      "range": {
+        "startLine": 7,
+        "startChar": 25,
+        "endLine": 7,
+        "endChar": 42
+      },
+      "revId": "0f49ab8c519224cf07592ef07e7a2d893b11faac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ae0839ac_08fb27d2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-09T08:59:21Z",
+      "side": 1,
+      "message": "Respect",
+      "range": {
+        "startLine": 7,
+        "startChar": 12,
+        "endLine": 7,
+        "endChar": 19
+      },
+      "revId": "0f49ab8c519224cf07592ef07e7a2d893b11faac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ee0eb1b4_8aeeeb14",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -37,6 +83,30 @@
       "side": 1,
       "message": "Yes, according to Shawn\u0027s comment on [1] it was intentional.\n\nThis change is more of an RFC to see if anyone likes having it configurable.\n\nNote: there are several settings in the preference dialog that are not used by the editor; I think we should find a way to make it clearer which ones are used by which screens.  Also right now it\u0027s only possible to change settings via the side-by-side screen, not from within the editor screen.\n\n[1] https://gerrit-review.googlesource.com/#/c/62910/",
       "parentUuid": "ee0eb1b4_8aeeeb14",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 53
+      },
+      "revId": "0f49ab8c519224cf07592ef07e7a2d893b11faac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ee0eb1b4_0afb1bd2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-09T08:59:21Z",
+      "side": 1,
+      "message": "That\u0027s a bug. Nothing to discuss here. The most thing i hate, if software vendors decide for me how should i use specific feature: should it be always, there, sometimes or never? Only /me know what is the right configuration for a specific job.\n\nIt was done configurable in my version of edit screen preference configuration: [1].\n\n [1] https://gerrit-review.googlesource.com/#/c/61602/11/gerrit-gwtui/src/main/java/com/google/gerrit/client/editor/EditScreen.java",
+      "parentUuid": "4ed6dd40_ad241dd6",
       "range": {
         "startLine": 9,
         "startChar": 0,

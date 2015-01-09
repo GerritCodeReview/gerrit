@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ee0eb1b4_8aeeeb14",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-01-09T08:35:52Z",
+      "side": 1,
+      "message": "I kind of thought that this preference was left out intentionally. I can imagine that the line numbers disturb while reviewing, but that they are still wanted for edit.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 53
+      },
+      "revId": "0f49ab8c519224cf07592ef07e7a2d893b11faac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

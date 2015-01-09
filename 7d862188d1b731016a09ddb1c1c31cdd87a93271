@@ -143,6 +143,30 @@
     },
     {
       "key": {
+        "uuid": "0ee06512_abd2c962",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 853,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-09T15:36:02Z",
+      "side": 1,
+      "message": "I agree that we might want to come up with more later, but I see no reason that the first implementation of submitTopicTooltip shouldn\u0027t have feature parity with submitTooltip.",
+      "parentUuid": "6ec56123_aee35730",
+      "range": {
+        "startLine": 852,
+        "startChar": 33,
+        "endLine": 853,
+        "endChar": 35
+      },
+      "revId": "7d862188d1b731016a09ddb1c1c31cdd87a93271",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4ec25d1f_6dced5c6",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 3

@@ -22,6 +22,30 @@
       "revId": "a6cdd259cda6e50510d0faf18332c53df4006594",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0ee06512_cb587550",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/CloseConnection.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-01-09T18:32:32Z",
+      "side": 1,
+      "message": "I know the closing is async, that is why I print a message \"closing connection \u003cid\u003e ...\". I documented the fact that the connection closing is done asynchronously in the command documentation.\n\nI thought about using the future to wait for connection to be closed before this command end but the problem I saw if for some reason the connection do not close, this command will be waiting for possibly long time.\n\nActually, my first version of that command was waiting and I deployed that on our production server as a plugin to be able to close hanging connection that we knew the client was disconnected. I did see that sometimes it is impossible to close the connection and then I was killing my ssh command but I ended up with the thread executing my close connection command to be stuck waiting for the connection to close.\n\nThat is why I think we should keep the close connection command async, this is even more true when you pass a list of connection to close, you do not want to wait (or get stuck) on every connection close.",
+      "parentUuid": "ee0eb1b4_ea27a7a2",
+      "range": {
+        "startLine": 69,
+        "startChar": 10,
+        "endLine": 69,
+        "endChar": 24
+      },
+      "revId": "a6cdd259cda6e50510d0faf18332c53df4006594",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

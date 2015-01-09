@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "0ee06512_8ba4adbd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/SchemaVersion.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-09T21:02:31Z",
+      "side": 1,
+      "message": "\u003e all other methods to be static as well.\n\nThat\u0027s exactly what I did.\n\n\u003e Why not to turn finish() above to be static as well?\n\nBecause it refers to versionNbr.",
+      "parentUuid": "ae0839ac_c82cef89",
+      "range": {
+        "startLine": 164,
+        "startChar": 12,
+        "endLine": 164,
+        "endChar": 18
+      },
+      "revId": "7b35a4c426c8b091df605540f7e2aef5d8b3220e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ee0eb1b4_8ae14bdf",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/SchemaVersion.java",
         "patchSetId": 1
@@ -60,6 +84,30 @@
       "writtenOn": "2015-01-09T20:58:07Z",
       "side": 1,
       "message": "Not used.",
+      "range": {
+        "startLine": 181,
+        "startChar": 2,
+        "endLine": 186,
+        "endChar": 3
+      },
+      "revId": "7b35a4c426c8b091df605540f7e2aef5d8b3220e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ce13adda_89a4b9bd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/SchemaVersion.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-09T21:02:31Z",
+      "side": 1,
+      "message": "Will remove.",
+      "parentUuid": "ee0eb1b4_8ae14bdf",
       "range": {
         "startLine": 181,
         "startChar": 2,

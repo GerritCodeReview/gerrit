@@ -477,7 +477,7 @@ public class ChangeScreen2 extends Screen {
                 null)));
   }
 
-  private void initEditMode(ChangeInfo info) {
+  private void initEditMode(ChangeInfo info, String revision) {
     if (Gerrit.isSignedIn() && info.status().isOpen()) {
       RevisionInfo rev = info.revision(revision);
       if (isEditModeEnabled(info, rev)) {
@@ -1048,7 +1048,7 @@ public class ChangeScreen2 extends Screen {
     initDownloadAction(info, revision);
     initProjectLinks(info);
     initBranchLink(info);
-    initEditMode(info);
+    initEditMode(info, revision);
     actions.display(info, revision);
 
     star.setValue(info.starred());

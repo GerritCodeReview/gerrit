@@ -144,6 +144,30 @@
     },
     {
       "key": {
+        "uuid": "0ee06512_0b88bd48",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-01-09T18:19:23Z",
+      "side": 1,
+      "message": "I don\u0027t have +2. I see your point for exiting early and not creating lots of CPU load before.\nI went with your first suggestion for now.",
+      "parentUuid": "ae0839ac_0888c748",
+      "range": {
+        "startLine": 247,
+        "startChar": 6,
+        "endLine": 250,
+        "endChar": 49
+      },
+      "revId": "14ff7c632ec3ea7d0567a73f5a10d9e7b6c65ae5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0ee06512_4bda457c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
         "patchSetId": 5
@@ -155,6 +179,24 @@
       "writtenOn": "2015-01-09T15:49:03Z",
       "side": 1,
       "message": "I\u0027m not sure what the right behavior here is. This can typically only happen if there is some unrecoverable corruption in one of the other changes in the topic. What is the plan for informing the user about the reasons they can\u0027t submit the whole topic? This would fall under that, I think.\n\nLog the exception at the very least.",
+      "revId": "14ff7c632ec3ea7d0567a73f5a10d9e7b6c65ae5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0ee06512_eb533131",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-01-09T18:19:23Z",
+      "side": 1,
+      "message": "I have no plan yet.\nMaybe fail critically and have an overlay for the user with the log message?",
+      "parentUuid": "0ee06512_4bda457c",
       "revId": "14ff7c632ec3ea7d0567a73f5a10d9e7b6c65ae5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -178,6 +220,24 @@
     },
     {
       "key": {
+        "uuid": "ce13adda_0988c948",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-01-09T18:19:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0ee06512_2be7f93f",
+      "revId": "14ff7c632ec3ea7d0567a73f5a10d9e7b6c65ae5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ee0eb1b4_0a88bb48",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
         "patchSetId": 5
@@ -189,6 +249,30 @@
       "writtenOn": "2015-01-09T12:17:46Z",
       "side": 1,
       "message": "The same as above, you should immediately break the loop, once you\u0027ve encountered that visibility is false.",
+      "range": {
+        "startLine": 267,
+        "startChar": 8,
+        "endLine": 269,
+        "endChar": 9
+      },
+      "revId": "14ff7c632ec3ea7d0567a73f5a10d9e7b6c65ae5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ce13adda_e9533531",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-01-09T18:19:23Z",
+      "side": 1,
+      "message": "factored out into its own function.",
+      "parentUuid": "ee0eb1b4_0a88bb48",
       "range": {
         "startLine": 267,
         "startChar": 8,

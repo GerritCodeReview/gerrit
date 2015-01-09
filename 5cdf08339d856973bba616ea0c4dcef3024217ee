@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "0ee06512_4b65a5fd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 349,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-01-09T19:03:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ce13adda_e9efb513",
+      "range": {
+        "startLine": 349,
+        "startChar": 21,
+        "endLine": 349,
+        "endChar": 22
+      },
+      "revId": "5cdf08339d856973bba616ea0c4dcef3024217ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0ee06512_cbf4f5e6",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
         "patchSetId": 3
@@ -54,6 +78,24 @@
       "side": 1,
       "message": "https://gerrit-review.googlesource.com/63140",
       "parentUuid": "0ee06512_cbf4f5e6",
+      "revId": "5cdf08339d856973bba616ea0c4dcef3024217ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0ee06512_6b6861d9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 366,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-01-09T19:03:39Z",
+      "side": 1,
+      "message": "Yep, I noticed that would break as the new query will deliver other results.",
+      "parentUuid": "0ee06512_8beeed14",
       "revId": "5cdf08339d856973bba616ea0c4dcef3024217ee",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -442,6 +442,23 @@ explicitly named on the command line (which may be empty) should be notified of
 the change. Users watching the project should not be notified, as the change has
 not yet been published.
 
+* Fix resource exhaustion due to unclosed LDAP connection.
++
+When `auth.type` is set to `LDAP` (not `LDAP_BIND`), two LDAP connections are
+made, but one was not being closed. This eventually caused resource exhaustion
+and LDAP authentications failed.
+
+Access Permissions
+~~~~~~~~~~~~~~~~~~
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=2995[Issue 2995]:
+Fix faulty behaviour in `BLOCK` permission.
++
+`BLOCK` can be overruled with `ALLOW` on the same project, however there was a
+bug when a child of the above project duplicates the `ALLOW` permission. In this
+case the `BLOCK` would always win for the child, even though the `BLOCK` was
+overruled in the parent.
+
 Web UI
 ~~~~~~
 

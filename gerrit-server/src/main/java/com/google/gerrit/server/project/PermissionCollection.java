@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.project;
 
+import static com.google.common.base.Objects.firstNonNull;
 import static com.google.gerrit.server.project.RefControl.isRE;
 
 import com.google.common.collect.Lists;
@@ -117,6 +118,7 @@ public class PermissionCollection {
       Set<String> exclusiveGroupPermissions = new HashSet<>();
 
       HashMap<String, List<PermissionRule>> permissions = new HashMap<>();
+      HashMap<String, List<PermissionRule>> overridden = new HashMap<>();
       Map<PermissionRule, ProjectRef> ruleProps = Maps.newIdentityHashMap();
       for (AccessSection section : sections) {
         Project.NameKey project = sectionToProject.get(section);
@@ -132,11 +134,19 @@ public class PermissionCollection {
             } else {
               addRule = seen.add(s) && !rule.isDeny() && !exclusivePermissionExists;
             }
+
+            HashMap<String, List<PermissionRule>> p = null;
             if (addRule) {
-              List<PermissionRule> r = permissions.get(permission.getName());
+              p = permissions;
+            } else if (!rule.isDeny() && !exclusivePermissionExists) {
+              p = overridden;
+            }
+
+            if (p != null) {
+              List<PermissionRule> r = p.get(permission.getName());
               if (r == null) {
                 r = new ArrayList<>(2);
-                permissions.put(permission.getName(), r);
+                p.put(permission.getName(), r);
               }
               r.add(rule);
               ruleProps.put(rule, new ProjectRef(project, section.getName()));
@@ -149,18 +159,22 @@ public class PermissionCollection {
         }
       }
 
-      return new PermissionCollection(permissions, ruleProps, perUser);
+      return new PermissionCollection(permissions, overridden, ruleProps,
+          perUser);
     }
   }
 
   private final Map<String, List<PermissionRule>> rules;
+  private final Map<String, List<PermissionRule>> overridden;
   private final Map<PermissionRule, ProjectRef> ruleProps;
   private final boolean perUser;
 
   private PermissionCollection(Map<String, List<PermissionRule>> rules,
+      Map<String, List<PermissionRule>> overridden,
       Map<PermissionRule, ProjectRef> ruleProps,
       boolean perUser) {
     this.rules = rules;
+    this.overridden = overridden;
     this.ruleProps = ruleProps;
     this.perUser = perUser;
   }
@@ -184,6 +198,11 @@ public class PermissionCollection {
   public List<PermissionRule> getPermission(String permissionName) {
     List<PermissionRule> r = rules.get(permissionName);
     return r != null ? r : Collections.<PermissionRule> emptyList();
+  }
+
+  List<PermissionRule> getOverridden(String permissionName) {
+    return firstNonNull(
+        overridden.get(permissionName), Collections.<PermissionRule> emptyList());
   }
 
   ProjectRef getRuleProps(PermissionRule rule) {

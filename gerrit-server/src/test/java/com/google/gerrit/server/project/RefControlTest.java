@@ -371,6 +371,17 @@ public class RefControlTest {
   }
 
   @Test
+  public void testInheritSubmit_AllowInChildDoesntAffectUnblockInParent() {
+    block(parent, SUBMIT, ANONYMOUS_USERS, "refs/heads/*");
+    allow(parent, SUBMIT, REGISTERED_USERS, "refs/heads/*");
+    allow(local, SUBMIT, REGISTERED_USERS, "refs/heads/*");
+
+    ProjectControl u = util.user(local);
+    assertFalse("not blocked from submitting", u.controlForRef(
+        "refs/heads/master").isBlocked(SUBMIT));
+  }
+
+  @Test
   public void testUnblockNoForce() {
     block(local, PUSH, ANONYMOUS_USERS, "refs/heads/*");
     allow(local, PUSH, DEVS, "refs/heads/*");

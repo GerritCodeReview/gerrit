@@ -221,7 +221,7 @@ public class LdapRealm extends AbstractRealm {
           // We found the user account, but we need to verify
           // the password matches it before we can continue.
           //
-          helper.authenticate(m.getDN(), who.getPassword());
+          helper.authenticate(m.getDN(), who.getPassword()).close();
         }
 
         who.setDisplayName(apply(schema.accountFullName, m));

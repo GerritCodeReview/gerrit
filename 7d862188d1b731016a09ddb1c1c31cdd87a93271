@@ -167,6 +167,30 @@
     },
     {
       "key": {
+        "uuid": "ce13adda_a9765dc2",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 853,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-01-09T17:51:55Z",
+      "side": 1,
+      "message": "Yes in a later patch I added ${topicSize} to indicate the number of affected patches which would be submitted here.\nIt makes no sense to have ${patchSet}, ${branch} and ${commit} as we\u0027d have many of those. \n\nMaybe if all changes are the same repository/branch (likely a common usecase), we could have sort of a ${branch} variable.\n\n\"Submit ${topicSize} changes into ${branch}\" (e.g. 5 changes into master)\n\"Submit ${topicSize} changes into ${branches}\" (e.g. 17 changes into 3 branches within the same repository)",
+      "parentUuid": "0ee06512_abd2c962",
+      "range": {
+        "startLine": 852,
+        "startChar": 33,
+        "endLine": 853,
+        "endChar": 35
+      },
+      "revId": "7d862188d1b731016a09ddb1c1c31cdd87a93271",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4ec25d1f_6dced5c6",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 3

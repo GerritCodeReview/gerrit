@@ -38,7 +38,7 @@ public class Schema_102 extends SchemaVersion {
       throws OrmException, SQLException {
     JdbcSchema schema = (JdbcSchema) db;
     SqlDialect dialect = schema.getDialect();
-    try (Statement stmt = schema.getConnection().createStatement()) {
+    try (Statement stmt = newStatement(db)) {
       // Drop left over indexes that were missed to be removed in schema 84.
       // See "Delete SQL index support" commit for more details:
       // d4ae3a16d5e1464574bd04f429a63eb9c02b3b43

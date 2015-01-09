@@ -15,7 +15,6 @@
 package com.google.gerrit.server.schema;
 
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gwtorm.jdbc.JdbcSchema;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
@@ -32,13 +31,10 @@ public class Schema_98 extends SchemaVersion {
   protected void migrateData(ReviewDb db, UpdateUI ui) throws SQLException {
     ui.message("Migrate user preference showUserInReview to "
         + "reviewCategoryStrategy");
-    Statement stmt = ((JdbcSchema) db).getConnection().createStatement();
-    try {
+    try (Statement stmt = newStatement(db)) {
       stmt.executeUpdate("UPDATE accounts SET "
           + "REVIEW_CATEGORY_STRATEGY='NAME' "
           + "WHERE (SHOW_USER_IN_REVIEW='Y')");
-    } finally {
-      stmt.close();
     }
   }
 }

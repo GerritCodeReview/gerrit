@@ -51,10 +51,11 @@ public class Schema_82 extends SchemaVersion {
 
   @Override
   protected void preUpdateSchema(ReviewDb db) throws OrmException, SQLException {
-    final JdbcSchema s = (JdbcSchema) db;
-    final JdbcExecutor e = new JdbcExecutor(s);
-    renameTables(db, s, e);
-    renameColumn(db, s, e);
+    JdbcSchema s = (JdbcSchema) db;
+    try (JdbcExecutor e = new JdbcExecutor(s)) {
+      renameTables(db, s, e);
+      renameColumn(db, s, e);
+    }
     renameIndexes(db);
   }
 
@@ -92,19 +93,15 @@ public class Schema_82 extends SchemaVersion {
     // Well it doesn't implemented anyway,
     // check constraints are get parsed but do nothing
     if (dialect instanceof DialectMySQL) {
-      Statement stmt = ((JdbcSchema) db).getConnection().createStatement();
-      try {
+      try (Statement stmt = newStatement(db)) {
         addCheckConstraint(stmt);
-      } finally {
-        stmt.close();
       }
     }
   }
 
-  private void renameIndexes(ReviewDb db) throws SQLException {
+  private void renameIndexes(ReviewDb db) {
     SqlDialect dialect = ((JdbcSchema) db).getDialect();
-    Statement stmt = ((JdbcSchema) db).getConnection().createStatement();
-    try {
+    try (Statement stmt = newStatement(db)) {
       // MySQL doesn't have alter index stmt, drop & create
       if (dialect instanceof DialectMySQL) {
         for (Map.Entry<String, Index> entry : indexes.entrySet()) {
@@ -128,8 +125,6 @@ public class Schema_82 extends SchemaVersion {
       // we don't care
       // better we would check if index was already renamed
       // gwtorm doesn't expose this functionality
-    } finally {
-      stmt.close();
     }
   }
 

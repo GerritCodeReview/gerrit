@@ -29,7 +29,6 @@ import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
-import com.google.gwtorm.jdbc.JdbcSchema;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -73,8 +72,7 @@ public class Schema_69 extends SchemaVersion {
     Set<AccountGroup.UUID> toResolve = Sets.newHashSet();
     List<AccountGroup.Id> toDelete = Lists.newArrayList();
     List<AccountGroup.NameKey> namesToDelete = Lists.newArrayList();
-    Statement stmt = ((JdbcSchema) db).getConnection().createStatement();
-    try {
+    try (Statement stmt = newStatement(db)) {
       ResultSet rs = stmt.executeQuery(
           "SELECT group_id, group_uuid, external_name, name FROM account_groups"
           + " WHERE group_type ='LDAP'");
@@ -100,8 +98,6 @@ public class Schema_69 extends SchemaVersion {
       } finally {
         rs.close();
       }
-    } finally {
-      stmt.close();
     }
     if (toDelete.isEmpty() && toResolve.isEmpty()) {
       return; // No ldap groups. Nothing to do.

@@ -95,12 +95,9 @@ public class Schema_77 extends SchemaVersion {
   }
 
   private void alterTable(ReviewDb db, String sqlFormat) throws SQLException {
-    Statement stmt = ((JdbcSchema) db).getConnection().createStatement();
-    try {
+    try (Statement stmt = newStatement(db)) {
       stmt.executeUpdate(
           String.format(sqlFormat, "patch_set_approvals", "category_id"));
-    } finally {
-      stmt.close();
     }
   }
 
@@ -199,8 +196,7 @@ public class Schema_77 extends SchemaVersion {
 
   static LegacyLabelTypes getLegacyTypes(ReviewDb db) throws SQLException {
     List<LegacyLabelType> types = Lists.newArrayListWithCapacity(2);
-    Statement catStmt = ((JdbcSchema) db).getConnection().createStatement();
-    try {
+    try (Statement catStmt = newStatement(db)) {
       ResultSet catRs = catStmt.executeQuery(
           "SELECT category_id, name, function_name, copy_min_score"
           + " FROM approval_categories"
@@ -229,8 +225,6 @@ public class Schema_77 extends SchemaVersion {
       } finally {
         valStmt.close();
       }
-    } finally {
-      catStmt.close();
     }
     return new LegacyLabelTypes(types);
   }

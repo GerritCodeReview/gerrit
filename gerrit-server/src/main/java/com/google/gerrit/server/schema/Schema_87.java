@@ -17,7 +17,6 @@ package com.google.gerrit.server.schema;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.group.SystemGroupBackend;
-import com.google.gwtorm.jdbc.JdbcSchema;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -51,9 +50,7 @@ public class Schema_87 extends SchemaVersion {
 
   private Set<AccountGroup.Id> scanSystemGroups(ReviewDb db)
       throws SQLException {
-    JdbcSchema s = (JdbcSchema) db;
-    Statement stmt = s.getConnection().createStatement();
-    try {
+    try (Statement stmt = newStatement(db)) {
       ResultSet rs =
           stmt.executeQuery("SELECT group_id FROM account_groups WHERE group_type = 'SYSTEM'");
       Set<AccountGroup.Id> ids = new HashSet<>();
@@ -61,8 +58,6 @@ public class Schema_87 extends SchemaVersion {
         ids.add(new AccountGroup.Id(rs.getInt(1)));
       }
       return ids;
-    } finally {
-      stmt.close();
     }
   }
 }

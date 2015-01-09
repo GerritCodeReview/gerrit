@@ -54,8 +54,7 @@ public class Schema_74 extends SchemaVersion {
     ArrayList<AccountGroupByIdAud> newIncludeAudits = new ArrayList<>();
 
     // Iterate over all entries in account_group_includes
-    Statement oldGroupIncludesStmt = conn.createStatement();
-    try {
+    try (Statement oldGroupIncludesStmt = conn.createStatement()) {
       ResultSet oldGroupIncludes = oldGroupIncludesStmt.
           executeQuery("SELECT * FROM account_group_includes");
       while (oldGroupIncludes.next()) {
@@ -104,8 +103,6 @@ public class Schema_74 extends SchemaVersion {
           oldAuditsQueryStmt.close();
         }
       }
-    } finally {
-      oldGroupIncludesStmt.close();
     }
 
     // Now insert all of the new entries to the database

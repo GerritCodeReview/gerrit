@@ -27,6 +27,8 @@ import com.google.inject.Injector;
 import com.google.inject.Key;
 import com.google.inject.Module;
 
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.RepositoryCache;
 import org.eclipse.jgit.util.FS;
@@ -48,6 +50,7 @@ public class GerritServer {
   /** Returns fully started Gerrit server */
   static GerritServer start(Config cfg, boolean memory, boolean enableHttpd)
       throws Exception {
+    Logger.getLogger("com.google.gerrit").setLevel(Level.DEBUG);
     final CyclicBarrier serverStarted = new CyclicBarrier(2);
     final Daemon daemon = new Daemon(new Runnable() {
       @Override

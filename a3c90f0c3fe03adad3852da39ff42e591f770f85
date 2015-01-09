@@ -42,6 +42,24 @@
     },
     {
       "key": {
+        "uuid": "ce13adda_29302d03",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/CloseConnection.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-01-09T17:56:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ee0eb1b4_8a7b8bac",
+      "revId": "a3c90f0c3fe03adad3852da39ff42e591f770f85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ae0839ac_68818327",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/CloseConnection.java",
         "patchSetId": 3
@@ -53,6 +71,30 @@
       "writtenOn": "2015-01-09T12:07:24Z",
       "side": 1,
       "message": "You are missing\n\n  usage \u003d \"List of SSH session ids to be closed\"\n\nor some such.",
+      "range": {
+        "startLine": 45,
+        "startChar": 2,
+        "endLine": 45,
+        "endChar": 11
+      },
+      "revId": "a3c90f0c3fe03adad3852da39ff42e591f770f85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0ee06512_0b2d5dad",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/CloseConnection.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-01-09T17:56:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ae0839ac_68818327",
       "range": {
         "startLine": 45,
         "startChar": 2,
@@ -82,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "0ee06512_eb6c51fa",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/CloseConnection.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-01-09T17:56:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ee0eb1b4_6a817727",
+      "revId": "a3c90f0c3fe03adad3852da39ff42e591f770f85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ee0eb1b4_aa764fc2",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/CloseConnection.java",
         "patchSetId": 3
@@ -93,6 +153,30 @@
       "writtenOn": "2015-01-09T12:07:24Z",
       "side": 1,
       "message": "No final in new code.",
+      "range": {
+        "startLine": 58,
+        "startChar": 11,
+        "endLine": 58,
+        "endChar": 16
+      },
+      "revId": "a3c90f0c3fe03adad3852da39ff42e591f770f85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0ee06512_cb7195ce",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/CloseConnection.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-01-09T17:56:08Z",
+      "side": 1,
+      "message": "oups, did not see that one sneaked in, this code is inspired from the ShowConnections class :)\nDone",
+      "parentUuid": "ee0eb1b4_aa764fc2",
       "range": {
         "startLine": 58,
         "startChar": 11,
@@ -128,6 +212,30 @@
     },
     {
       "key": {
+        "uuid": "ce13adda_092d69ad",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/CloseConnection.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-01-09T17:56:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ee0eb1b4_ca7183ce",
+      "range": {
+        "startLine": 61,
+        "startChar": 8,
+        "endLine": 63,
+        "endChar": 23
+      },
+      "revId": "a3c90f0c3fe03adad3852da39ff42e591f770f85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ee0eb1b4_ea6c47fa",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/CloseConnection.java",
         "patchSetId": 3
@@ -151,6 +259,30 @@
     },
     {
       "key": {
+        "uuid": "0ee06512_ab7649c2",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/CloseConnection.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-01-09T17:56:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ee0eb1b4_ea6c47fa",
+      "range": {
+        "startLine": 64,
+        "startChar": 12,
+        "endLine": 64,
+        "endChar": 43
+      },
+      "revId": "a3c90f0c3fe03adad3852da39ff42e591f770f85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ee0eb1b4_4a7eb39b",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/CloseConnection.java",
         "patchSetId": 3
@@ -162,6 +294,24 @@
       "writtenOn": "2015-01-09T12:07:24Z",
       "side": 1,
       "message": "This would break earlier, when more than one ids are provided as input, and first id was wrong, but the second is correct. Is this what you want?",
+      "revId": "a3c90f0c3fe03adad3852da39ff42e591f770f85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0ee06512_4b7ec59b",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/CloseConnection.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-01-09T17:56:08Z",
+      "side": 1,
+      "message": "No, this works. The connectionFound boolean is declared inside the for that iterates the session ids to close. This just print a line back to the client to inform and the code continue to iterates on the remaining session ids.\n\nI tested that specific scenario and it works.",
+      "parentUuid": "ee0eb1b4_4a7eb39b",
       "revId": "a3c90f0c3fe03adad3852da39ff42e591f770f85",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

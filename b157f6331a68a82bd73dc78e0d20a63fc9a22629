@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "ce13adda_c91f5185",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-01-09T16:28:14Z",
+      "side": 1,
+      "message": "You can\u0027t use .Factory inside of REST API handlers. Stefan and Jonathan mistakenly tried and wasted a few hours on it.\n\nThere are only 3 callers of .Factory. Its easier to remove this than to keep it around confusing people that are newer to the code base than myself, Dave Borowitz, or yourself.",
+      "parentUuid": "2ee36920_ecefcb13",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 31
+      },
+      "revId": "b157f6331a68a82bd73dc78e0d20a63fc9a22629",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4ed6dd40_4d01392e",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/PatchSetDetailFactory.java",
         "patchSetId": 4

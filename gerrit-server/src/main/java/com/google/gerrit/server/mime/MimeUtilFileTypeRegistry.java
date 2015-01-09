@@ -15,7 +15,6 @@
 package com.google.gerrit.server.mime;
 
 import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gerrit.server.util.HostPlatform;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -46,19 +45,9 @@ public class MimeUtilFileTypeRegistry implements FileTypeRegistry {
   private MimeUtil2 mimeUtil;
 
   @Inject
-  MimeUtilFileTypeRegistry(@GerritServerConfig final Config gsc) {
+  MimeUtilFileTypeRegistry(@GerritServerConfig Config gsc, MimeUtil2 mimeUtil) {
     cfg = gsc;
-    mimeUtil = new MimeUtil2();
-    register("eu.medsea.mimeutil.detector.ExtensionMimeDetector");
-    register("eu.medsea.mimeutil.detector.MagicMimeMimeDetector");
-    if (HostPlatform.isWin32()) {
-      register("eu.medsea.mimeutil.detector.WindowsRegistryMimeDetector");
-    }
-    register(DefaultFileExtensionRegistry.class.getName());
-  }
-
-  private void register(String name) {
-    mimeUtil.registerMimeDetector(name);
+    this.mimeUtil = mimeUtil;
   }
 
   /**

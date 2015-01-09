@@ -49,6 +49,54 @@
     },
     {
       "key": {
+        "uuid": "4ed6dd40_ad765dc2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/EventTypes.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2015-01-09T19:32:40Z",
+      "side": 1,
+      "message": "Done.  Is there some magic switch to buck that will give me these warnings?  It is frustrating trying to guess at what Eclipse is going to warn about.  Do we feel like eclipse warnings should be blocking, do we really want to make contributing to Gerrit require using eclipse?  If so, then maybe we should make buck run eclipse to get those warnings?",
+      "parentUuid": "6130147f_f6cea0c0",
+      "range": {
+        "startLine": 22,
+        "startChar": 2,
+        "endLine": 22,
+        "endChar": 75
+      },
+      "revId": "63d8d81e077ac0f593ed95e6d8c032ab6c044c82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6130147f_d6c924bb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/EventTypes.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2015-01-09T19:32:40Z",
+      "side": 1,
+      "message": "Is there a way to get these warning with buck so that I can know if I have fixed them?",
+      "parentUuid": "01b2f811_9b7c0ba6",
+      "range": {
+        "startLine": 22,
+        "startChar": 2,
+        "endLine": 22,
+        "endChar": 75
+      },
+      "revId": "63d8d81e077ac0f593ed95e6d8c032ab6c044c82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "61abb49e_bec5796e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/EventTypes.java",
         "patchSetId": 2
@@ -60,6 +108,30 @@
       "writtenOn": "2014-12-19T02:29:15Z",
       "side": 1,
       "message": "using",
+      "range": {
+        "startLine": 40,
+        "startChar": 32,
+        "endLine": 40,
+        "endChar": 37
+      },
+      "revId": "63d8d81e077ac0f593ed95e6d8c032ab6c044c82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4ed6dd40_8d7ba1ac",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/EventTypes.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2015-01-09T19:32:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "61abb49e_bec5796e",
       "range": {
         "startLine": 40,
         "startChar": 32,

@@ -116,6 +116,30 @@
       "revId": "7b35a4c426c8b091df605540f7e2aef5d8b3220e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ce13adda_49b001fd",
+        "filename": "lib/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-09T20:30:05Z",
+      "side": 1,
+      "message": "$ git ls-remote https://gerrit-review.googlesource.com/gwtorm | grep b78d9c5\nb78d9c5283f49bd807dfd7a31561071139ceae96        refs/changes/22/63122/5",
+      "parentUuid": "ae0839ac_281f0b53",
+      "range": {
+        "startLine": 34,
+        "startChar": 2,
+        "endLine": 35,
+        "endChar": 27
+      },
+      "revId": "7b35a4c426c8b091df605540f7e2aef5d8b3220e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ae0839ac_680f4356",
+        "filename": "ReleaseNotes/ReleaseNotes-2.11.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 391,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-09T09:28:18Z",
+      "side": 1,
+      "message": "** Get comments and drafts.",
+      "revId": "bc4ba95ecc8e09eea83acc37d6896bb1e4f5e382",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ae0839ac_480c7f5f",
+        "filename": "ReleaseNotes/ReleaseNotes-2.11.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 491,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-09T09:28:18Z",
+      "side": 1,
+      "message": "Move this section before highlight this button in blue section? Just before line 468.",
+      "revId": "bc4ba95ecc8e09eea83acc37d6896bb1e4f5e382",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

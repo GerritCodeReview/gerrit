@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ee0eb1b4_8a26eba3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_82.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-09T19:46:44Z",
+      "side": 1,
+      "message": "Is this comment still accurate? gwtorm does expose listIndexes(), that i am using in Schema_102:\n\n  Set\u003cString\u003e listIndexes \u003d dialect.listIndexes(\n     schema.getConnection(), table);",
+      "range": {
+        "startLine": 126,
+        "startChar": 24,
+        "endLine": 127,
+        "endChar": 50
+      },
+      "revId": "591b2fe6ba46e1644e14847ac2335e63d8d6fb13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

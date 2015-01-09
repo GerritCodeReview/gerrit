@@ -118,6 +118,30 @@
       "revId": "d1705828425a706d223651774d9edce2011a8d7b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ce13adda_892959b0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeListener.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-01-09T16:29:57Z",
+      "side": 1,
+      "message": "StreamEventListener it is, as long as we do not keep ChangeEvent, which implies that events are change related.",
+      "parentUuid": "2ee36920_cccd2fc9",
+      "range": {
+        "startLine": 21,
+        "startChar": 17,
+        "endLine": 21,
+        "endChar": 31
+      },
+      "revId": "d1705828425a706d223651774d9edce2011a8d7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

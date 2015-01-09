@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4ed6dd40_4d337912",
+        "filename": "Documentation/user-inline-edit.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-09T10:29:18Z",
+      "side": 1,
+      "message": "\"Activate\"\n\nOh the irony ;)",
+      "range": {
+        "startLine": 131,
+        "startChar": 2,
+        "endLine": 131,
+        "endChar": 11
+      },
+      "revId": "ce71a45ba1ef4e173744a0856d6272c279605397",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

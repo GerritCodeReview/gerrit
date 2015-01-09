@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ee0eb1b4_ead20716",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/SchemaVersion.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-09T20:10:31Z",
+      "side": 1,
+      "message": "Seems like it doesn\u0027t need to be static, it only used in Schema_82 and is not static. I guess the answer is to be consistent with newStatement() below?",
+      "range": {
+        "startLine": 164,
+        "startChar": 12,
+        "endLine": 164,
+        "endChar": 18
+      },
+      "revId": "7b35a4c426c8b091df605540f7e2aef5d8b3220e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ee0eb1b4_2a36dfd0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/SchemaVersion.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-09T20:10:31Z",
+      "side": 1,
+      "message": "Static? Yes, it seems to be used in Schema_77. I am not a compiler, and i cannot ask the compiler to compile, because gwtorm wasn\u0027t uploaded yet.",
+      "range": {
+        "startLine": 189,
+        "startChar": 12,
+        "endLine": 189,
+        "endChar": 18
+      },
+      "revId": "7b35a4c426c8b091df605540f7e2aef5d8b3220e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ee0eb1b4_0a331be1",
+        "filename": "lib/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-09T20:10:31Z",
+      "side": 1,
+      "message": "Nice hack, i cannot verify it.",
+      "range": {
+        "startLine": 34,
+        "startChar": 2,
+        "endLine": 35,
+        "endChar": 27
+      },
+      "revId": "7b35a4c426c8b091df605540f7e2aef5d8b3220e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

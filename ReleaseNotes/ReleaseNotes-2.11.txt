@@ -121,7 +121,13 @@ the `All-Users` repository rather than in the database.
 Change Screen
 ^^^^^^^^^^^^^
 
+* Remove the 'Edit Message' button from the change screen.
++
+The commit message is now edited using the inline edit feature.
+
 * Show the parent commit's subject as a tooltip.
+
+* Decorate abandoned changes in the 'Related Changes' list with a dark red dot.
 
 * link:http://code.google.com/p/gerrit/issues/detail?id=2541[Issue 2541],
 link:http://code.google.com/p/gerrit/issues/detail?id=2974[Issue 2974]:
@@ -131,6 +137,8 @@ label and tooltip] to be configured.
 
 Side-By-Side Diff
 ^^^^^^^^^^^^^^^^^
+
+* New button to switch between side-by-side diff and unified diff.
 
 * New preference setting to toggle auto-hiding of the diff table header.
 +
@@ -160,6 +168,13 @@ REST
 
 Changes
 ^^^^^^^
+
+* The https://gerrit-review.googlesource.com/Documentation/2.11/rest-api-changes.html#message[
+Edit Commit Message] endpoint is deprecated in favor of the new
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.11/rest-api-changes.html#put-change-edit-message[
+Change commit message in Change Edit] and
+link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.11/rest-api-changes.html#publish-edit[
+Publish Change Edit] endpoints.
 
 * Add new
 link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.11/rest-api-changes.html#check-change[
@@ -365,6 +380,11 @@ When a plugin does not expose Guice Modules explicitly, auto discover and
 register static/init.js as WebUi extension if found by the plugin content
 scanner.
 
+* Plugins can validate outgoing emails.
++
+Plugins implementing `OutgoingEmailValidationListener` interface can filter
+and modify outgoing emails before they are sent.
+
 * Plugins that provide initialization steps may now use functionality
 from InitUtil in core Gerrit.
 
@@ -374,6 +394,9 @@ from InitUtil in core Gerrit.
 ** Get mergeable status.
 ** link:https://code.google.com/p/gerrit/issues/detail?id=461[Issue 461]:
 Get current user.
+** Get file content.
+** Get file diff.
+** Get comments and drafts.
 
 Replication
 ^^^^^^^^^^^
@@ -387,11 +410,11 @@ Bug Fixes
 Daemon
 ~~~~~~
 
-* Change "Merge topic" to "Merge changes from topic".
+* Change 'Merge topic' to 'Merge changes from topic'.
 +
 When multiple changes from a topic are submitted resulting in a merge commit,
-the title of the merge commit is now "Merge changes from topic" instead of
-"Merge topic".
+the title of the merge commit is now 'Merge changes from topic' instead of
+'Merge topic'.
 
 * Fix visibility checks for `refs/meta/config`.
 +
@@ -404,7 +427,7 @@ erroneously considerered not visible to the user.
 Improve warning messages when Change-Id is missing in the commit message.
 
 ** Add a hint to amend the commit after installing the commit-msg hook.
-** Don't show "Suggestion for commit message" when Change-Id is missing.
+** Don't show 'Suggestion for commit message' when Change-Id is missing.
 
 
 Secondary Index / Search
@@ -438,9 +461,55 @@ Web UI
 Change Screen
 ^^^^^^^^^^^^^
 
+* link:http://code.google.com/p/gerrit/issues/detail?id=2894[Issue 2894]:
+Link to change screen for merged or abandoned changes in the 'Related Changes'
+list.
++
+For changes in the 'Related Changes' tab that are closed the link was
+bringing the user to GitWeb, and not as expected to the change screen.
+
+* Show a confirmation dialog before deleting a draft change or patch set.
++
+Previously there was no confirmation and a draft change or revision patch
+set would be lost if the button was accidentally clicked.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=2533[Issue 2533]:
+Improve the layout and color scheme of buttons.
++
+Several improvements have been made:
++
+** Move 'Publish' and 'Delete Change/Revision' buttons into header.
++
+If a change/revision is a draft the natural next step is to publish (or delete)
+it, hence these buttons should be displayed in a more prominent place.
+
+** Highlight the 'Publish' button in blue.
++
+If a change is a draft the natural next step is to publish it, hence
+the 'Publish' button should be highlighted similar to the quick
+approve button.
+
+** Fix the border color of buttons on the reply popup.
++
+The buttons are blue but had white borders, which was inconsistent with the
+buttons on the change screen.
+
+** Remove red color for 'Abandon' and 'Restore' buttons.
++
+There is nothing dangerous about these operations that justifies
+highlighting the buttons in red color. When the buttons are clicked
+there is a popup where the user must confirm the operation, so it can
+still be cancelled.
+
+** Hide quick approve button for draft changes.
++
+A draft change cannot be submitted, hence quick approving it is not that
+important. Hiding the quick approve button on draft changes makes space in the
+header for displaying more important actions such as 'Publish'.
+
 * Differentiate between conflicts and already merged errors in cherry-pick
 +
-When a cherry-pick operation failed with "Cherry pick failed" error, there was no
+When a cherry-pick operation failed with 'Cherry pick failed' error, there was no
 way to know the reason for the failure: merge conflict or the commit is already
 on the target branch.  These failures are now differentiated and a proper error
 is reported to the client.
@@ -477,8 +546,8 @@ on the newly created change.
 * link:http://code.google.com/p/gerrit/issues/detail?id=3007[Issue 3007]:
 Make the selected tab persistent.
 +
-If a change from the "Same Topic" tab was clicked, the selected tab would reset
-to the default tab ("Related Changes").
+If a change from the 'Same Topic' tab was clicked, the selected tab would reset
+to the default tab ('Related Changes').
 
 
 Side-By-Side Diff
@@ -494,7 +563,7 @@ Project Screen
 
 * Fix alignment of checkboxes on project access screen.
 +
-The "Exclusive" checkbox was not aligned with the other checkboxes.
+The 'Exclusive' checkbox was not aligned with the other checkboxes.
 
 REST API
 ~~~~~~~~

@@ -1,0 +1,170 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ee0eb1b4_4ab0f3fc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-01-09T15:54:11Z",
+      "side": 1,
+      "message": "Reading Shawn\u0027s comment [1] I think that, by design, we don\u0027t expect to see the same set of files when diffing patch sets a..b and b..a.\n\nI am sorry if this question comes a bit late but please explain what is incorrect in these two examples and what do you consider as the correct result in both cases.\n\nAlso see a related comment in the PatchListCacheIT.java\n\n[1] https://gerrit-review.googlesource.com/#/c/57086/4//COMMIT_MSG@10",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 30,
+        "endChar": 69
+      },
+      "revId": "dc3f82c62bb32d3bad27128568ab2bc9db81b44a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ee0eb1b4_2abdbfd4",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/PatchListCacheIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-01-09T15:54:11Z",
+      "side": 1,
+      "message": "Up to here we created the following:\n\n  +D\n  Base: D\n\n  +A +C -D\n  patch set a: A C\n\n  +B -C\n  patch set b: A B",
+      "revId": "dc3f82c62bb32d3bad27128568ab2bc9db81b44a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ee0eb1b4_0abafbdc",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/PatchListCacheIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-01-09T15:54:11Z",
+      "side": 1,
+      "message": "This test case compares a..b and expects only +B. Is this correct for you? Should -C be a part of the diff or no?",
+      "revId": "dc3f82c62bb32d3bad27128568ab2bc9db81b44a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ae0839ac_c8aaaf8c",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/PatchListCacheIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-01-09T15:54:11Z",
+      "side": 1,
+      "message": "This compares b..a and expects only -B. I cannot easily understand this expectation. Strictly comparing b..a we have\n\n  -B +C\n\nIf the set of interesting files, as Shawn suggested, is limited to those that differ between the Base and the second patch set in the comparison, then only file C would be interesting as B didn\u0027t exist in Base and A wasn\u0027t changed between b and a.\n\nIf we really want to have a \"symetric\" result when comparing a..b and b..a then, for the the expected results would be:\n\n  a..b: +B -C\n  b..a: -B +C\n\nWe must reach an agreement on the question(s) above before any useful review can be provided on this change.",
+      "revId": "dc3f82c62bb32d3bad27128568ab2bc9db81b44a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ee0eb1b4_aac88f87",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/PatchListCacheIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-01-09T15:54:11Z",
+      "side": 1,
+      "message": "What is the purpose of this code?",
+      "range": {
+        "startLine": 168,
+        "startChar": 0,
+        "endLine": 172,
+        "endChar": 5
+      },
+      "revId": "dc3f82c62bb32d3bad27128568ab2bc9db81b44a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ae0839ac_28bdcbd4",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/PatchListCacheIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-01-09T15:54:11Z",
+      "side": 1,
+      "message": "What is this good for?",
+      "range": {
+        "startLine": 250,
+        "startChar": 0,
+        "endLine": 254,
+        "endChar": 5
+      },
+      "revId": "dc3f82c62bb32d3bad27128568ab2bc9db81b44a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ee0eb1b4_0a5f9b31",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListKey.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-01-09T15:54:11Z",
+      "side": 1,
+      "message": "Nit: we don\u0027t use final for parameters any more, unless really necessary.",
+      "range": {
+        "startLine": 55,
+        "startChar": 0,
+        "endLine": 56,
+        "endChar": 76
+      },
+      "revId": "dc3f82c62bb32d3bad27128568ab2bc9db81b44a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ae0839ac_48659ffd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListKey.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-01-09T15:54:11Z",
+      "side": 1,
+      "message": "If the first constructor is used then both oldSeqNum and newSeqNum are not explicitly initialized i.e. they are set to zero. Seeing \"0..0\" in the string representation of this object is less useful than seeing \"aPSID..bPSID\".\n\nInclude the IDs always in the toString and additionally include the old/newSeqNum if they are set?",
+      "range": {
+        "startLine": 125,
+        "startChar": 0,
+        "endLine": 127,
+        "endChar": 24
+      },
+      "revId": "dc3f82c62bb32d3bad27128568ab2bc9db81b44a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

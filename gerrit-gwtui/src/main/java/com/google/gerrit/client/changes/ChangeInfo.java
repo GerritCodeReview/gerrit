@@ -62,6 +62,12 @@ public class ChangeInfo extends JavaScriptObject {
     return ts;
   }
 
+  public final boolean hasEditBasedOnCurrentPatchSet() {
+    JsArray<RevisionInfo> revList = revisions().values();
+    RevisionInfo.sortRevisionInfoByNumber(revList);
+    return revList.get(revList.length() - 1).is_edit();
+  }
+
   private final native Timestamp _get_cts() /*-{ return this._cts; }-*/;
   private final native void _set_cts(Timestamp ts) /*-{ this._cts = ts; }-*/;
 

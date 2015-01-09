@@ -22,6 +22,30 @@
       "revId": "ac66ec5d427ad61a681987d6b628771bca4e815d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2ee36920_cc464f83",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 43
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-09T14:01:15Z",
+      "side": 1,
+      "message": "Yeah, but I didn\u0027t want to spend the effort rebasing if the change is not likely to be merged soon.",
+      "parentUuid": "ee0eb1b4_ca586350",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 50
+      },
+      "revId": "ac66ec5d427ad61a681987d6b628771bca4e815d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

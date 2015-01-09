@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6edf2124_3e2d8984",
+        "filename": "Documentation/json.txt",
+        "patchSetId": 26
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-09T02:50:48Z",
+      "side": 1,
+      "message": "I wonder if we should name  this `newRev` to make it the same as the field in the ref-updated event?",
+      "range": {
+        "startLine": 162,
+        "startChar": 3,
+        "endLine": 162,
+        "endChar": 14
+      },
+      "revId": "6fb5127e209161316b6b86771cb4603827d2452a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

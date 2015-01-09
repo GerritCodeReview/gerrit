@@ -85,7 +85,7 @@ import java.util.List;
 
 public class SideBySide2 extends Screen {
   private static final KeyMap RENDER_ENTIRE_FILE_KEYMAP = KeyMap.create()
-      .on("Ctrl-F", false);
+      .propagate("Ctrl-F");
 
   interface Binder extends UiBinder<FlowPanel, SideBySide2> {}
   private static final Binder uiBinder = GWT.create(Binder.class);

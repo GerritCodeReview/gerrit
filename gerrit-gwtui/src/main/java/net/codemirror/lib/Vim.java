@@ -25,17 +25,20 @@ import com.google.gwt.core.client.JavaScriptObject;
  */
 public class Vim extends JavaScriptObject {
   static void initKeyMap() {
-    // TODO: Better custom keybindings, remove temporary navigation hacks.
-    KeyMap km = CodeMirror.cloneKeyMap("vim");
-    for (String s : new String[] {
-        "A", "C", "I", "O", "R", "U",
-        "Ctrl-C", "Ctrl-O", "Ctrl-P", "Ctrl-S",
-        "Ctrl-F", "Ctrl-B", "Ctrl-R"}) {
-      km.remove(s);
+    KeyMap km = KeyMap.create();
+    for (String key : new String[] {"A", "C", "I", "O", "R", "U"}) {
+      km.propagate(key);
+      km.propagate("'" + key.toLowerCase() + "'");
+    }
+    for (String key : new String[] {
+      "Ctrl-C", "Ctrl-O", "Ctrl-P", "Ctrl-S",
+      "Ctrl-F", "Ctrl-B", "Ctrl-R"}) {
+      km.propagate(key);
     }
     for (int i = 0; i <= 9; i++) {
-      km.remove("Ctrl-" + i);
+      km.propagate("Ctrl-" + i);
     }
+    km.fallthrough(CodeMirror.getKeyMap("vim"));
     CodeMirror.addKeyMap("vim_ro", km);
 
     mapKey("j", "gj");

@@ -27,12 +27,17 @@ public class KeyMap extends JavaScriptObject {
     return this;
   }-*/;
 
-  public final native KeyMap on(String key, boolean b) /*-{
-    this[key] = b;
+  /** Do not handle inside of CodeMirror; instead push up the DOM tree. */
+  public final native KeyMap propagate(String key) /*-{
+    this[key] = false;
     return this;
   }-*/;
 
-  public final native KeyMap remove(String key) /*-{ delete this[key]; }-*/;
+  /** Delegate undefined keys to another KeyMap implementation. */
+  public final native KeyMap fallthrough(KeyMap m) /*-{
+    this.fallthrough = m;
+    return this;
+  }-*/;
 
   protected KeyMap() {
   }

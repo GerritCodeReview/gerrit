@@ -329,17 +329,12 @@ public class CodeMirror extends JavaScriptObject {
     return this.display.scrollbars.vert.node;
   }-*/;
 
-  public static final native KeyMap cloneKeyMap(String name) /*-{
-    var i = $wnd.CodeMirror.keyMap[name];
-    var o = {};
-    for (n in i)
-      if (i.hasOwnProperty(n))
-        o[n] = i[n];
-    return o;
-  }-*/;
-
   public final native void execCommand(String cmd) /*-{
     this.execCommand(cmd)
+  }-*/;
+
+  public static final native KeyMap getKeyMap(String name) /*-{
+    return $wnd.CodeMirror.keyMap[name];
   }-*/;
 
   public static final native void addKeyMap(String name, KeyMap km) /*-{

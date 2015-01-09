@@ -15,7 +15,6 @@
 package com.google.gerrit.server.validators;
 
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
-import com.google.gerrit.server.account.CreateGroupArgs;
 import com.google.gerrit.server.mail.Address;
 import com.google.gerrit.server.mail.EmailHeader;
 

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ae0839ac_a8765bc2",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/editor/EditScreen.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-09T10:54:03Z",
+      "side": 1,
+      "message": "One thing to consider, that placement of Close/Save button aligned to the offset of line number pane. After it\u0027s hidden, this offset of buttons is looking funny, to say the least.",
+      "revId": "cedcdc2ca2a09ca2586ce919fbb8b6cc6b600bd1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

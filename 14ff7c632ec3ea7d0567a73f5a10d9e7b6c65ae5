@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "2e70c917_a400a22b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-01-09T00:04:42Z",
+      "side": 1,
+      "message": "Will do for now. Would an appropriate topic (WIP_atomic_topic) also suffice? That way I don\u0027t need to edit the commits to unmark them for being evolved out of the WIP stage and just need one command line push to readjust the topic for all changes in the branch?",
+      "parentUuid": "2e97e955_ccfdcfc6",
+      "range": {
+        "startLine": 241,
+        "startChar": 8,
+        "endLine": 242,
+        "endChar": 29
+      },
+      "revId": "14ff7c632ec3ea7d0567a73f5a10d9e7b6c65ae5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4e8a5d30_cd18699b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
         "patchSetId": 5
@@ -36,6 +60,30 @@
       "writtenOn": "2015-01-08T11:38:18Z",
       "side": 1,
       "message": "Move this if outside of the if (it is needed as well on line 285 below):\n\n  visibility \u003d ...\n  if (!visible) {\n    // We haven\u0027t find a way to suppress passing non visible actions to the client.\n    return ne UiAction.Description()\n        .setLabel(\"dummy\")\n        .setTitle(\"not there\")\n        .setVisible(visibility);\n  } else {\n    if (submitTopic) {\n      // your new case\n    } else {\n      // old code below, with visible true\n    }\n  }",
+      "range": {
+        "startLine": 247,
+        "startChar": 6,
+        "endLine": 250,
+        "endChar": 49
+      },
+      "revId": "14ff7c632ec3ea7d0567a73f5a10d9e7b6c65ae5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0e6dc543_e3fa92cb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-01-09T00:04:42Z",
+      "side": 1,
+      "message": "Why would you include the !visible case with a dummy payload?\n\nWouldn\u0027t \n   \n    visibility \u003d ...;\n    if (submitTopic) {\n        ...\n        ...\n        .setVisible(visibility);\n    } else {\n        ...\n        ...\n        .setVisible(visibility);\n    }\n\nbe sufficient? And by that I mean actually better than the version you\u0027re proposing. As this would have less lines of code(maintainability). Though your code may be better if we\u0027d send less data to the client (\"dummy\" label and specially the tooltip being way smaller).",
+      "parentUuid": "4e8a5d30_cd18699b",
       "range": {
         "startLine": 247,
         "startChar": 6,

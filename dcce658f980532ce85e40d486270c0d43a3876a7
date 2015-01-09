@@ -19,6 +19,29 @@
     },
     {
       "key": {
+        "uuid": "4ed6dd40_8dee0115",
+        "filename": "Documentation/user-inline-edit.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-09T06:01:55Z",
+      "side": 1,
+      "message": "This doesn\u0027t seem to be configurable in the latest version of code mirror. The documentation linked here seems to be outdated.  The latest version is at http://codemirror.net/doc/manual.html",
+      "range": {
+        "startLine": 127,
+        "startChar": 0,
+        "endLine": 134,
+        "endChar": 24
+      },
+      "revId": "dcce658f980532ce85e40d486270c0d43a3876a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4ed6dd40_cdf409e7",
         "filename": "Documentation/user-inline-edit.txt",
         "patchSetId": 9

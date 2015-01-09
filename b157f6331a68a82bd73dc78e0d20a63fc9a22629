@@ -49,6 +49,69 @@
     },
     {
       "key": {
+        "uuid": "ee0eb1b4_ea00c7f9",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/CatServlet.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-09T16:31:51Z",
+      "side": 1,
+      "message": "Same here.",
+      "range": {
+        "startLine": 83,
+        "startChar": 6,
+        "endLine": 83,
+        "endChar": 11
+      },
+      "revId": "b157f6331a68a82bd73dc78e0d20a63fc9a22629",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ee0eb1b4_0a91db5a",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/CatServlet.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-09T16:31:51Z",
+      "side": 1,
+      "message": "I think you was trying consistently use final for new vars, because they are used in this context? We try not to use final in new code. it was described in dev-contributing.txt where to use final and where not.",
+      "revId": "b157f6331a68a82bd73dc78e0d20a63fc9a22629",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ae0839ac_a84d3b90",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/PatchSetDetailFactory.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-09T16:31:51Z",
+      "side": 1,
+      "message": "no final.",
+      "range": {
+        "startLine": 102,
+        "startChar": 6,
+        "endLine": 102,
+        "endChar": 11
+      },
+      "revId": "b157f6331a68a82bd73dc78e0d20a63fc9a22629",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4ed6dd40_4d01392e",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/PatchSetDetailFactory.java",
         "patchSetId": 4

@@ -144,6 +144,30 @@
     },
     {
       "key": {
+        "uuid": "ee0eb1b4_2a949f4a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_102.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-09T16:23:50Z",
+      "side": 1,
+      "message": "Yes, helper method in gwtorm would be neat.",
+      "parentUuid": "0ee06512_eb1a1197",
+      "range": {
+        "startLine": 40,
+        "startChar": 6,
+        "endLine": 40,
+        "endChar": 23
+      },
+      "revId": "4241459b3faa39d29185a26007d04bab172a950f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4175d075_f5a3b8b2",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_102.java",
         "patchSetId": 5

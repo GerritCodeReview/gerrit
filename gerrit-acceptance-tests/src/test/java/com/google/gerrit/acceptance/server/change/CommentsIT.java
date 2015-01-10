@@ -22,6 +22,7 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
+import com.google.gerrit.extensions.common.Comment;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.Side;
 import com.google.gerrit.server.notedb.NotesMigration;
@@ -50,7 +51,7 @@ public class CommentsIT extends AbstractDaemonTest {
     String changeId = r.getChangeId();
     String revId = r.getCommit().getName();
     ReviewInput.CommentInput comment = newCommentInfo(
-        "file1", Side.REVISION, 1, "comment 1");
+        "file1", Side.REVISION, "comment 1");
     addDraft(changeId, revId, comment);
     Map<String, List<CommentInfo>> result = getDraftComments(changeId, revId);
     assertThat(result).hasSize(1);
@@ -69,7 +70,7 @@ public class CommentsIT extends AbstractDaemonTest {
     String revId = r.getCommit().getName();
     ReviewInput input = new ReviewInput();
     ReviewInput.CommentInput comment = newCommentInfo(
-        file, Side.REVISION, 1, "comment 1");
+        file, Side.REVISION, "comment 1");
     input.comments = new HashMap<>();
     input.comments.put(comment.path, Lists.newArrayList(comment));
     revision(r).review(input);
@@ -85,7 +86,7 @@ public class CommentsIT extends AbstractDaemonTest {
     String changeId = r.getChangeId();
     String revId = r.getCommit().getName();
     ReviewInput.CommentInput comment = newCommentInfo(
-        "file1", Side.REVISION, 1, "comment 1");
+        "file1", Side.REVISION, "comment 1");
     addDraft(changeId, revId, comment);
     Map<String, List<CommentInfo>> result = getDraftComments(changeId, revId);
     CommentInfo actual = Iterables.getOnlyElement(result.get(comment.path));
@@ -104,7 +105,7 @@ public class CommentsIT extends AbstractDaemonTest {
     String changeId = r.getChangeId();
     String revId = r.getCommit().getName();
     ReviewInput.CommentInput comment = newCommentInfo(
-        "file1", Side.REVISION, 1, "comment 1");
+        "file1", Side.REVISION, "comment 1");
     CommentInfo returned = addDraft(changeId, revId, comment);
     CommentInfo actual = getDraftComment(changeId, revId, returned.id);
     assertCommentInfo(comment, actual);
@@ -116,7 +117,7 @@ public class CommentsIT extends AbstractDaemonTest {
     String changeId = r.getChangeId();
     String revId = r.getCommit().getName();
     ReviewInput.CommentInput comment = newCommentInfo(
-        "file1", Side.REVISION, 1, "comment 1");
+        "file1", Side.REVISION, "comment 1");
     CommentInfo returned = addDraft(changeId, revId, comment);
     deleteDraft(changeId, revId, returned.id);
     Map<String, List<CommentInfo>> drafts = getDraftComments(changeId, revId);
@@ -176,18 +177,38 @@ public class CommentsIT extends AbstractDaemonTest {
     assertThat(actual.line).isEqualTo(expected.line);
     assertThat(actual.message).isEqualTo(expected.message);
     assertThat(actual.inReplyTo).isEqualTo(expected.inReplyTo);
+    assertCommentRange(expected.range, actual.range);
     if (actual.side == null) {
       assertThat(Side.REVISION).isEqualTo(expected.side);
     }
   }
 
+  private static void assertCommentRange(Comment.Range expected,
+      Comment.Range actual) {
+    if (expected == null) {
+      assertThat(actual).isNull();
+    } else {
+      assertThat(actual).isNotNull();
+      assertThat(actual.startLine).isEqualTo(expected.startLine);
+      assertThat(actual.startCharacter).isEqualTo(expected.startCharacter);
+      assertThat(actual.endLine).isEqualTo(expected.endLine);
+      assertThat(actual.endCharacter).isEqualTo(expected.endCharacter);
+    }
+  }
+
   private ReviewInput.CommentInput newCommentInfo(String path,
-      Side side, int line, String message) {
+      Side side, String message) {
     ReviewInput.CommentInput input = new ReviewInput.CommentInput();
     input.path = path;
     input.side = side;
-    input.line = line;
+    input.line = 1;
     input.message = message;
+    Comment.Range range = new Comment.Range();
+    range.startLine = 1;
+    range.startCharacter = 1;
+    range.endLine = 1;
+    range.endCharacter = 5;
+    input.range = range;
     return input;
   }
 }

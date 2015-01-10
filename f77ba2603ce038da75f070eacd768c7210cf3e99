@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aeb7594b_b0c838ba",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-10T12:57:49Z",
+      "side": 1,
+      "message": "Add a notice, that this tst is failing without this canged applied [1]?\n\n [1] https://gerrit-review.googlesource.com/63170",
+      "revId": "f77ba2603ce038da75f070eacd768c7210cf3e99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

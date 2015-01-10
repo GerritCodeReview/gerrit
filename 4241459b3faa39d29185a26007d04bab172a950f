@@ -192,6 +192,30 @@
     },
     {
       "key": {
+        "uuid": "aeb7594b_90cd34ca",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_102.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-10T13:00:27Z",
+      "side": 1,
+      "message": "+1\n\nWe should always try to fix broken master ASAP. Note, that later other droip index statements were added above, that also suffer from wrong syntax for MySQL dialect.",
+      "parentUuid": "eeadd1fd_12daec7a",
+      "range": {
+        "startLine": 40,
+        "startChar": 6,
+        "endLine": 40,
+        "endChar": 23
+      },
+      "revId": "4241459b3faa39d29185a26007d04bab172a950f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4175d075_f5a3b8b2",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_102.java",
         "patchSetId": 5

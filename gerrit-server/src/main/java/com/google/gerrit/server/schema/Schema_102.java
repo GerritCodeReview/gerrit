@@ -16,6 +16,7 @@ package com.google.gerrit.server.schema;
 
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gwtorm.jdbc.JdbcSchema;
+import com.google.gwtorm.schema.sql.DialectMySQL;
 import com.google.gwtorm.schema.sql.DialectPostgreSQL;
 import com.google.gwtorm.schema.sql.SqlDialect;
 import com.google.gwtorm.server.OrmException;
@@ -49,11 +50,12 @@ public class Schema_102 extends SchemaVersion {
           schema.getConnection(), "changes");
       for (String index : listIndexes) {
         if (pattern.matcher(index).matches()) {
-          stmt.executeUpdate("DROP INDEX " + index);
+          stmt.executeUpdate(dropIndexStatement(dialect, index));
         }
       }
 
-      stmt.executeUpdate("DROP INDEX changes_byProjectOpen");
+      stmt.executeUpdate(dropIndexStatement(dialect, "changes_byProjectOpen"));
+
       if (dialect instanceof DialectPostgreSQL) {
         stmt.executeUpdate("CREATE INDEX changes_byProjectOpen"
             + " ON changes (dest_project_name, last_updated_on)"
@@ -63,5 +65,13 @@ public class Schema_102 extends SchemaVersion {
             + " ON changes (open, dest_project_name, last_updated_on)");
       }
     }
+  }
+
+  private String dropIndexStatement(SqlDialect dialect, String index) {
+    String sql = "DROP INDEX " + index;
+    if (dialect instanceof DialectMySQL) {
+      return sql + " on changes";
+    }
+    return sql;
   }
 }

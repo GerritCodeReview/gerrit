@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "ceb2cd5b_d1d7c451",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-10T13:32:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4e197d2f_15dad47a",
+      "range": {
+        "startLine": 7,
+        "startChar": 25,
+        "endLine": 7,
+        "endChar": 30
+      },
+      "revId": "a65cc72f5c35d49db23174583cac5e13036c02d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4e197d2f_d5d7bc51",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "eeadd1fd_72e7f83e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-10T13:32:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4e197d2f_d5d7bc51",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 5
+      },
+      "revId": "a65cc72f5c35d49db23174583cac5e13036c02d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "aeb7594b_f0d2c063",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_102.java",
         "patchSetId": 1
@@ -59,6 +107,24 @@
       "writtenOn": "2015-01-10T13:01:28Z",
       "side": 1,
       "message": "Nit: put private method below the protected.",
+      "revId": "a65cc72f5c35d49db23174583cac5e13036c02d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eeadd1fd_52e47438",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_102.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-10T13:32:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aeb7594b_f0d2c063",
       "revId": "a65cc72f5c35d49db23174583cac5e13036c02d7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

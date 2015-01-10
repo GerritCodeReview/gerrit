@@ -89,7 +89,7 @@ public class CreateDraft implements RestModifyView<RevisionResource, DraftInput>
         line, rsrc.getAccountId(), Url.decode(in.inReplyTo), now);
     c.setSide(in.side == Side.PARENT ? (short) 0 : (short) 1);
     c.setMessage(in.message.trim());
-    c.fromRange(in.range);
+    c.setRange(in.range);
     setCommentRevId(c, patchListCache, rsrc.getChange(), rsrc.getPatchSet());
     plcUtil.insertComments(db.get(), update, Collections.singleton(c));
     update.commit();

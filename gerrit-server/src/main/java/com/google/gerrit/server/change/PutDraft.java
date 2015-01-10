@@ -115,7 +115,7 @@ public class PutDraft implements RestModifyView<DraftResource, DraftInput> {
     }
     e.setMessage(in.message.trim());
     if (in.range != null || in.line != null) {
-      e.fromRange(in.range);
+      e.setRange(in.range);
       e.setLine(in.range != null ? in.range.endLine : in.line);
     }
     e.setWrittenOn(TimeUtil.nowTs());

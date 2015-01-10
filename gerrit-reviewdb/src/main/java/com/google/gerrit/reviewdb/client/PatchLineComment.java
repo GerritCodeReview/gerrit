@@ -215,6 +215,16 @@ public final class PatchLineComment {
     parentUuid = inReplyTo;
   }
 
+  public void setRange(Range r) {
+    if (r != null) {
+      range = new CommentRange(
+          r.startLine, r.startCharacter,
+          r.endLine, r.endCharacter);
+    } else {
+      range = null;
+    }
+  }
+
   public void setRange(CommentRange r) {
     range = r;
   }
@@ -273,12 +283,5 @@ public final class PatchLineComment {
     builder.append("revId=").append(revId != null ? revId.get() : "");
     builder.append('}');
     return builder.toString();
-  }
-
-  public void fromRange(Range r) {
-    range = r == null
-        ? null
-        : new CommentRange(range.startLine, range.startCharacter,
-            range.endLine, range.endCharacter);
   }
 }

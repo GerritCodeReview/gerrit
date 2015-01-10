@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ee1cf1fc_facd29c8",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/PatchLineComment.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-01-10T04:11:28Z",
+      "side": 1,
+      "message": "This broke comments on ranges:\n\n  java.lang.NullPointerException\n\tat com.google.gerrit.reviewdb.client.PatchLineComment.fromRange(PatchLineComment.java:279)\n\tat com.google.gerrit.server.change.CreateDraft.apply(CreateDraft.java:92)\n\tat com.google.gerrit.server.change.CreateDraft.apply(CreateDraft.java:44)\n\tat com.google.gerrit.httpd.restapi.RestApiServlet.service(RestApiServlet.java:317)",
+      "revId": "d52c47240aa10f9f810f37b7ffb4de6fbb962461",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

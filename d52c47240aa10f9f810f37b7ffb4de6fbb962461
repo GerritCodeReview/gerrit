@@ -16,6 +16,24 @@
       "revId": "d52c47240aa10f9f810f37b7ffb4de6fbb962461",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eeadd1fd_d2d7c451",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/PatchLineComment.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-10T12:34:48Z",
+      "side": 1,
+      "message": "And this wasn\u0027t caught because although I ran the acceptance tests before merging, the comment tests don\u0027t include ranges.\n\nFixed in https://gerrit-review.googlesource.com/#/c/63180/",
+      "parentUuid": "ee1cf1fc_facd29c8",
+      "revId": "d52c47240aa10f9f810f37b7ffb4de6fbb962461",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

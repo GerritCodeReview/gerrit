@@ -22,6 +22,7 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
+import com.google.gerrit.extensions.common.Comment;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.Side;
 import com.google.gerrit.server.notedb.NotesMigration;
@@ -176,8 +177,22 @@ public class CommentsIT extends AbstractDaemonTest {
     assertThat(actual.line).isEqualTo(expected.line);
     assertThat(actual.message).isEqualTo(expected.message);
     assertThat(actual.inReplyTo).isEqualTo(expected.inReplyTo);
+    assertCommentRange(expected.range, actual.range);
     if (actual.side == null) {
       assertThat(Side.REVISION).isEqualTo(expected.side);
+    }
+  }
+
+  private static void assertCommentRange(Comment.Range expected,
+      Comment.Range actual) {
+    if (expected == null) {
+      assertThat(actual).isNull();
+    } else {
+      assertThat(actual).isNotNull();
+      assertThat(actual.startLine).isEqualTo(expected.startLine);
+      assertThat(actual.startCharacter).isEqualTo(expected.startCharacter);
+      assertThat(actual.endLine).isEqualTo(expected.endLine);
+      assertThat(actual.endCharacter).isEqualTo(expected.endCharacter);
     }
   }
 
@@ -188,6 +203,12 @@ public class CommentsIT extends AbstractDaemonTest {
     input.side = side;
     input.line = line;
     input.message = message;
+    Comment.Range range = new Comment.Range();
+    range.startLine = 1;
+    range.startCharacter = 1;
+    range.endLine = 1;
+    range.endCharacter = 5;
+    input.range = range;
     return input;
   }
 }

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "4e197d2f_55e44c38",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/ChangeApi.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2015-01-10T13:51:10Z",
+      "side": 1,
+      "message": "Nothing changed yet. I\u0027m not sure if it\u0027s worth because of two parameters.",
+      "parentUuid": "f0892b3b_0d5d1126",
+      "revId": "fbc4d074fb16e01f3052e6e74be54313e1f14f6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d096e757_4c7e3f86",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/changes/ChangeApiImpl.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2014-09-13T11:19:13Z",
       "side": 1,
       "message": "A floating API would save us from some code duplication here also.",
+      "revId": "fbc4d074fb16e01f3052e6e74be54313e1f14f6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aeb7594b_10dae47a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/changes/ChangeApiImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2015-01-10T13:51:10Z",
+      "side": 1,
+      "message": "I have delegated the calls from the method without limit to the one with limit with value -1.",
+      "parentUuid": "d096e757_4c7e3f86",
       "revId": "fbc4d074fb16e01f3052e6e74be54313e1f14f6e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "4e197d2f_b5efa014",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestReviewers.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2015-01-10T13:51:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f0892b3b_2d62cde4",
+      "revId": "fbc4d074fb16e01f3052e6e74be54313e1f14f6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f0892b3b_4d571906",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestReviewers.java",
         "patchSetId": 1
@@ -64,6 +118,30 @@
       "writtenOn": "2014-09-13T11:19:13Z",
       "side": 1,
       "message": "public?",
+      "range": {
+        "startLine": 66,
+        "startChar": 2,
+        "endLine": 66,
+        "endChar": 8
+      },
+      "revId": "fbc4d074fb16e01f3052e6e74be54313e1f14f6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aeb7594b_50e46c38",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestReviewers.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2015-01-10T13:51:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f0892b3b_4d571906",
       "range": {
         "startLine": 66,
         "startChar": 2,

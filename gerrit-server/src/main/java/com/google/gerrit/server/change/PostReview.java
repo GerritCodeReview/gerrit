@@ -358,7 +358,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
               new PatchLineComment.Key(
                   new Patch.Key(rsrc.getPatchSet().getId(), path),
                   ChangeUtil.messageUUID(db.get())),
-              c.line,
+              c.line != null ? c.line : 0,
               rsrc.getAccountId(),
               parent, timestamp);
         } else if (parent != null) {

@@ -22,6 +22,7 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
+import com.google.gerrit.extensions.client.Comment;
 import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.server.notedb.NotesMigration;
@@ -44,83 +45,95 @@ public class CommentsIT extends AbstractDaemonTest {
     return NotesMigration.allEnabledConfig();
   }
 
+  private final Integer lines[] = {0, 1};
+
   @Test
   public void createDraft() throws Exception {
-    PushOneCommit.Result r = createChange();
-    String changeId = r.getChangeId();
-    String revId = r.getCommit().getName();
-    ReviewInput.CommentInput comment = newCommentInfo(
-        "file1", Side.REVISION, 1, "comment 1");
-    addDraft(changeId, revId, comment);
-    Map<String, List<CommentInfo>> result = getDraftComments(changeId, revId);
-    assertThat(result).hasSize(1);
-    CommentInfo actual = Iterables.getOnlyElement(result.get(comment.path));
-    assertCommentInfo(comment, actual);
+    for (Integer line : lines) {
+      PushOneCommit.Result r = createChange();
+      String changeId = r.getChangeId();
+      String revId = r.getCommit().getName();
+      ReviewInput.CommentInput comment = newCommentInfo(
+          "file1", Side.REVISION, line, "comment 1");
+      addDraft(changeId, revId, comment);
+      Map<String, List<CommentInfo>> result = getDraftComments(changeId, revId);
+      assertThat(result).hasSize(1);
+      CommentInfo actual = Iterables.getOnlyElement(result.get(comment.path));
+      assertCommentInfo(comment, actual);
+    }
   }
 
   @Test
   public void postComment() throws Exception {
-    String file = "file";
-    String contents = "contents";
-    PushOneCommit push = pushFactory.create(db, admin.getIdent(),
-        "first subject", file, contents);
-    PushOneCommit.Result r = push.to(git, "refs/for/master");
-    String changeId = r.getChangeId();
-    String revId = r.getCommit().getName();
-    ReviewInput input = new ReviewInput();
-    ReviewInput.CommentInput comment = newCommentInfo(
-        file, Side.REVISION, 1, "comment 1");
-    input.comments = new HashMap<>();
-    input.comments.put(comment.path, Lists.newArrayList(comment));
-    revision(r).review(input);
-    Map<String, List<CommentInfo>> result = getPublishedComments(changeId, revId);
-    assertThat(result).isNotEmpty();
-    CommentInfo actual = Iterables.getOnlyElement(result.get(comment.path));
-    assertCommentInfo(comment, actual);
+    for (Integer line : lines) {
+      String file = "file";
+      String contents = "contents " + line;
+      PushOneCommit push = pushFactory.create(db, admin.getIdent(),
+          "first subject", file, contents);
+      PushOneCommit.Result r = push.to(git, "refs/for/master");
+      String changeId = r.getChangeId();
+      String revId = r.getCommit().getName();
+      ReviewInput input = new ReviewInput();
+      ReviewInput.CommentInput comment = newCommentInfo(
+          file, Side.REVISION, line, "comment 1");
+      input.comments = new HashMap<>();
+      input.comments.put(comment.path, Lists.newArrayList(comment));
+      revision(r).review(input);
+      Map<String, List<CommentInfo>> result = getPublishedComments(changeId, revId);
+      assertThat(result).isNotEmpty();
+      CommentInfo actual = Iterables.getOnlyElement(result.get(comment.path));
+      assertCommentInfo(comment, actual);
+    }
   }
 
   @Test
   public void putDraft() throws Exception {
-    PushOneCommit.Result r = createChange();
-    String changeId = r.getChangeId();
-    String revId = r.getCommit().getName();
-    ReviewInput.CommentInput comment = newCommentInfo(
-        "file1", Side.REVISION, 1, "comment 1");
-    addDraft(changeId, revId, comment);
-    Map<String, List<CommentInfo>> result = getDraftComments(changeId, revId);
-    CommentInfo actual = Iterables.getOnlyElement(result.get(comment.path));
-    assertCommentInfo(comment, actual);
-    String uuid = actual.id;
-    comment.message = "updated comment 1";
-    updateDraft(changeId, revId, comment, uuid);
-    result = getDraftComments(changeId, revId);
-    actual = Iterables.getOnlyElement(result.get(comment.path));
-    assertCommentInfo(comment, actual);
+    for (Integer line : lines) {
+      PushOneCommit.Result r = createChange();
+      String changeId = r.getChangeId();
+      String revId = r.getCommit().getName();
+      ReviewInput.CommentInput comment = newCommentInfo(
+          "file1", Side.REVISION, line, "comment 1");
+      addDraft(changeId, revId, comment);
+      Map<String, List<CommentInfo>> result = getDraftComments(changeId, revId);
+      CommentInfo actual = Iterables.getOnlyElement(result.get(comment.path));
+      assertCommentInfo(comment, actual);
+      String uuid = actual.id;
+      comment.message = "updated comment 1";
+      updateDraft(changeId, revId, comment, uuid);
+      result = getDraftComments(changeId, revId);
+      actual = Iterables.getOnlyElement(result.get(comment.path));
+      assertCommentInfo(comment, actual);
+    }
   }
 
   @Test
   public void getDraft() throws Exception {
-    PushOneCommit.Result r = createChange();
-    String changeId = r.getChangeId();
-    String revId = r.getCommit().getName();
-    ReviewInput.CommentInput comment = newCommentInfo(
-        "file1", Side.REVISION, 1, "comment 1");
-    CommentInfo returned = addDraft(changeId, revId, comment);
-    CommentInfo actual = getDraftComment(changeId, revId, returned.id);
-    assertCommentInfo(comment, actual);
+    for (Integer line : lines) {
+      PushOneCommit.Result r = createChange();
+      String changeId = r.getChangeId();
+      String revId = r.getCommit().getName();
+      ReviewInput.CommentInput comment = newCommentInfo(
+          "file1", Side.REVISION, line, "comment 1");
+      CommentInfo returned = addDraft(changeId, revId, comment);
+      CommentInfo actual = getDraftComment(changeId, revId, returned.id);
+      assertCommentInfo(comment, actual);
+    }
   }
 
   @Test
   public void deleteDraft() throws Exception {
-    PushOneCommit.Result r = createChange();
-    String changeId = r.getChangeId();
-    String revId = r.getCommit().getName();
-    ReviewInput.CommentInput comment = newCommentInfo(
-        "file1", Side.REVISION, 1, "comment 1");
-    CommentInfo returned = addDraft(changeId, revId, comment);
-    deleteDraft(changeId, revId, returned.id);
-    Map<String, List<CommentInfo>> drafts = getDraftComments(changeId, revId);
-    assertThat(drafts).isEmpty();
+    for (Integer line : lines) {
+      PushOneCommit.Result r = createChange();
+      String changeId = r.getChangeId();
+      String revId = r.getCommit().getName();
+      ReviewInput.CommentInput comment = newCommentInfo(
+          "file1", Side.REVISION, line, "comment 1");
+      CommentInfo returned = addDraft(changeId, revId, comment);
+      deleteDraft(changeId, revId, returned.id);
+      Map<String, List<CommentInfo>> drafts = getDraftComments(changeId, revId);
+      assertThat(drafts).isEmpty();
+    }
   }
 
   private CommentInfo addDraft(String changeId, String revId,
@@ -176,8 +189,22 @@ public class CommentsIT extends AbstractDaemonTest {
     assertThat(actual.line).isEqualTo(expected.line);
     assertThat(actual.message).isEqualTo(expected.message);
     assertThat(actual.inReplyTo).isEqualTo(expected.inReplyTo);
+    assertCommentRange(expected.range, actual.range);
     if (actual.side == null) {
       assertThat(Side.REVISION).isEqualTo(expected.side);
+    }
+  }
+
+  private static void assertCommentRange(Comment.Range expected,
+      Comment.Range actual) {
+    if (expected == null) {
+      assertThat(actual).isNull();
+    } else {
+      assertThat(actual).isNotNull();
+      assertThat(actual.startLine).isEqualTo(expected.startLine);
+      assertThat(actual.startCharacter).isEqualTo(expected.startCharacter);
+      assertThat(actual.endLine).isEqualTo(expected.endLine);
+      assertThat(actual.endCharacter).isEqualTo(expected.endCharacter);
     }
   }
 
@@ -186,8 +213,16 @@ public class CommentsIT extends AbstractDaemonTest {
     ReviewInput.CommentInput input = new ReviewInput.CommentInput();
     input.path = path;
     input.side = side;
-    input.line = line;
+    input.line = line != 0 ? line : null;
     input.message = message;
+    if (line != 0) {
+      Comment.Range range = new Comment.Range();
+      range.startLine = 1;
+      range.startCharacter = 1;
+      range.endLine = 1;
+      range.endCharacter = 5;
+      input.range = range;
+    }
     return input;
   }
 }

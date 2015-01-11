@@ -15,8 +15,20 @@
 package com.google.gerrit.extensions.api.changes;
 
 import com.google.gerrit.extensions.common.CommentInfo;
+import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 
 public interface CommentApi {
   CommentInfo get() throws RestApiException;
+
+  /**
+   * A default implementation which allows source compatibility
+   * when adding new methods to the interface.
+   **/
+  public class NotImplemented implements CommentApi {
+    @Override
+    public CommentInfo get() throws RestApiException {
+      throw new NotImplementedException();
+    }
+  }
 }

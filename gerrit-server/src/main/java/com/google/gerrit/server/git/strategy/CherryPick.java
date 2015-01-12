@@ -51,9 +51,9 @@ public class CherryPick extends SubmitStrategy {
   private final GitReferenceUpdated gitRefUpdated;
   private final Map<Change.Id, CodeReviewCommit> newCommits;
 
-  CherryPick(final SubmitStrategy.Arguments args,
-      final PatchSetInfoFactory patchSetInfoFactory,
-      final GitReferenceUpdated gitRefUpdated) {
+  CherryPick(SubmitStrategy.Arguments args,
+      PatchSetInfoFactory patchSetInfoFactory,
+      GitReferenceUpdated gitRefUpdated) {
     super(args);
 
     this.patchSetInfoFactory = patchSetInfoFactory;
@@ -63,9 +63,9 @@ public class CherryPick extends SubmitStrategy {
 
   @Override
   protected CodeReviewCommit _run(CodeReviewCommit mergeTip,
-      final List<CodeReviewCommit> toMerge) throws MergeException {
+      List<CodeReviewCommit> toMerge) throws MergeException {
     while (!toMerge.isEmpty()) {
-      final CodeReviewCommit n = toMerge.remove(0);
+      CodeReviewCommit n = toMerge.remove(0);
 
       try {
         if (mergeTip == null) {
@@ -107,16 +107,13 @@ public class CherryPick extends SubmitStrategy {
             if (args.rw.isMergedInto(mergeTip, n)) {
               mergeTip = n;
             } else {
-              mergeTip =
-                  args.mergeUtil.mergeOneCommit(args.serverIdent.get(), args.repo,
-                      args.rw, args.inserter, args.canMergeFlag,
-                      args.destBranch, mergeTip, n);
-           }
-            final PatchSetApproval submitApproval =
-                args.mergeUtil.markCleanMerges(args.rw, args.canMergeFlag,
-                    mergeTip, args.alreadyAccepted);
+              mergeTip = args.mergeUtil.mergeOneCommit(args.serverIdent.get(),
+                  args.repo, args.rw, args.inserter, args.canMergeFlag,
+                  args.destBranch, mergeTip, n);
+            }
+            PatchSetApproval submitApproval = args.mergeUtil.markCleanMerges(
+                args.rw, args.canMergeFlag, mergeTip, args.alreadyAccepted);
             setRefLogIdent(submitApproval);
-
           } else {
             // One or more dependencies were not met. The status was
             // already marked on the commit so we have nothing further
@@ -139,7 +136,7 @@ public class CherryPick extends SubmitStrategy {
 
     args.rw.parseBody(n);
 
-    final PatchSetApproval submitAudit = args.mergeUtil.getSubmitter(n);
+    PatchSetApproval submitAudit = args.mergeUtil.getSubmitter(n);
 
     IdentifiedUser cherryPickUser;
     PersonIdent serverNow = args.serverIdent.get();
@@ -154,21 +151,21 @@ public class CherryPick extends SubmitStrategy {
       cherryPickCommitterIdent = serverNow;
     }
 
-    final String cherryPickCmtMsg = args.mergeUtil.createCherryPickCommitMessage(n);
+    String cherryPickCmtMsg = args.mergeUtil.createCherryPickCommitMessage(n);
 
-    final CodeReviewCommit newCommit =
+    CodeReviewCommit newCommit =
         (CodeReviewCommit) args.mergeUtil.createCherryPickFromCommit(args.repo,
             args.inserter, mergeTip, n, cherryPickCommitterIdent,
             cherryPickCmtMsg, args.rw);
 
     PatchSet.Id id =
         ChangeUtil.nextPatchSetId(args.repo, n.change().currentPatchSetId());
-    final PatchSet ps = new PatchSet(id);
+    PatchSet ps = new PatchSet(id);
     ps.setCreatedOn(TimeUtil.nowTs());
     ps.setUploader(cherryPickUser.getAccountId());
     ps.setRevision(new RevId(newCommit.getId().getName()));
 
-    final RefUpdate ru;
+    RefUpdate ru;
 
     args.db.changes().beginTransaction(n.change().getId());
     try {
@@ -178,7 +175,7 @@ public class CherryPick extends SubmitStrategy {
           .setCurrentPatchSet(patchSetInfoFactory.get(newCommit, ps.getId()));
       args.db.changes().update(Collections.singletonList(n.change()));
 
-      final List<PatchSetApproval> approvals = Lists.newArrayList();
+      List<PatchSetApproval> approvals = Lists.newArrayList();
       for (PatchSetApproval a
           : args.approvalsUtil.byPatchSet(args.db, n.getControl(), n.getPatchsetId())) {
         approvals.add(new PatchSetApproval(ps.getId(), a));
@@ -212,7 +209,7 @@ public class CherryPick extends SubmitStrategy {
 
   private static void insertAncestors(ReviewDb db, PatchSet.Id id, RevCommit src)
       throws OrmException {
-    final int cnt = src.getParentCount();
+    int cnt = src.getParentCount();
     List<PatchSetAncestor> toInsert = new ArrayList<>(cnt);
     for (int p = 0; p < cnt; p++) {
       PatchSetAncestor a;
@@ -230,8 +227,8 @@ public class CherryPick extends SubmitStrategy {
   }
 
   @Override
-  public boolean dryRun(final CodeReviewCommit mergeTip,
-      final CodeReviewCommit toMerge) throws MergeException {
+  public boolean dryRun(CodeReviewCommit mergeTip, CodeReviewCommit toMerge)
+      throws MergeException {
     return args.mergeUtil.canCherryPick(args.mergeSorter, args.repo,
         mergeTip, args.rw, toMerge);
   }

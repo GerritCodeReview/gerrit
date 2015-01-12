@@ -43,14 +43,12 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Base class that submit strategies must extend. A submit strategy for a
- * certain {@link SubmitType} defines how the submitted commits should be
- * merged.
+ * Base class that submit strategies must extend.
+ * <p>
+ * A submit strategy for a certain {@link SubmitType} defines how the submitted
+ * commits should be merged.
  */
 public abstract class SubmitStrategy {
-
-  private PersonIdent refLogIdent;
-
   static class Arguments {
     protected final IdentifiedUser.GenericFactory identifiedUserFactory;
     protected final Provider<PersonIdent> serverIdent;
@@ -68,13 +66,13 @@ public abstract class SubmitStrategy {
     protected final ChangeIndexer indexer;
     protected final MergeSorter mergeSorter;
 
-    Arguments(final IdentifiedUser.GenericFactory identifiedUserFactory,
-        final Provider<PersonIdent> serverIdent, final ReviewDb db,
-        final ChangeControl.GenericFactory changeControlFactory,
-        final Repository repo, final RevWalk rw, final ObjectInserter inserter,
-        final RevFlag canMergeFlag, final Set<RevCommit> alreadyAccepted,
-        final Branch.NameKey destBranch, final ApprovalsUtil approvalsUtil,
-        final MergeUtil mergeUtil, final ChangeIndexer indexer) {
+    Arguments(IdentifiedUser.GenericFactory identifiedUserFactory,
+        Provider<PersonIdent> serverIdent, ReviewDb db,
+        ChangeControl.GenericFactory changeControlFactory, Repository repo,
+        RevWalk rw, ObjectInserter inserter, RevFlag canMergeFlag,
+        Set<RevCommit> alreadyAccepted, Branch.NameKey destBranch,
+        ApprovalsUtil approvalsUtil, MergeUtil mergeUtil,
+        ChangeIndexer indexer) {
       this.identifiedUserFactory = identifiedUserFactory;
       this.serverIdent = serverIdent;
       this.db = db;
@@ -95,48 +93,41 @@ public abstract class SubmitStrategy {
 
   protected final Arguments args;
 
-  SubmitStrategy(final Arguments args) {
+  private PersonIdent refLogIdent;
+
+  SubmitStrategy(Arguments args) {
     this.args = args;
   }
 
   /**
-   * Runs this submit strategy. If possible the provided commits will be merged
-   * with this submit strategy.
+   * Runs this submit strategy.
+   * <p>
+   * If possible, the provided commits will be merged with this submit strategy.
    *
-   * @param mergeTip the mergeTip
+   * @param mergeTip the merge tip.
    * @param toMerge the list of submitted commits that should be merged using
-   *        this submit strategy
-   * @return the new mergeTip
+   *        this submit strategy.
+   * @return the new merge tip.
    * @throws MergeException
    */
-  public final CodeReviewCommit run(final CodeReviewCommit mergeTip,
-      final List<CodeReviewCommit> toMerge) throws MergeException {
+  public CodeReviewCommit run(CodeReviewCommit mergeTip,
+      List<CodeReviewCommit> toMerge) throws MergeException {
     refLogIdent = null;
     return _run(mergeTip, toMerge);
   }
 
-  /**
-   * Runs this submit strategy. If possible the provided commits will be merged
-   * with this submit strategy.
-   *
-   * @param mergeTip the mergeTip
-   * @param toMerge the list of submitted commits that should be merged using
-   *        this submit strategy
-   * @return the new mergeTip
-   * @throws MergeException
-   */
+  /** @see #run(CodeReviewCommit, List) */
   protected abstract CodeReviewCommit _run(CodeReviewCommit mergeTip,
       List<CodeReviewCommit> toMerge) throws MergeException;
 
   /**
    * Checks whether the given commit can be merged.
    *
-   * Subclasses must ensure that invoking this method does neither modify the
+   * Implementations must ensure that invoking this method modifies neither the
    * git repository nor the Gerrit database.
    *
-   * @param mergeTip the mergeTip
-   * @param toMerge the commit for which it should be checked whether it can be
-   *        merged or not
+   * @param mergeTip the merge tip.
+   * @param toMerge the commit that should be checked.
    * @return {@code true} if the given commit can be merged, otherwise
    *         {@code false}
    * @throws MergeException
@@ -145,14 +136,13 @@ public abstract class SubmitStrategy {
       CodeReviewCommit toMerge) throws MergeException;
 
   /**
-   * Returns the PersonIdent that should be used for the ref log entries when
-   * updating the destination branch. The ref log identity may be set after the
-   * {@link #run(CodeReviewCommit, List)} method finished.
+   * Returns the identity that should be used for reflog entries when updating
+   * the destination branch.
+   * <p>
+   * The reflog identity may only be set during {@link #run(CodeReviewCommit,
+   * List)}, and this method is invalid to call beforehand.
    *
-   * Do only call this method after the {@link #run(CodeReviewCommit, List)}
-   * method has been invoked.
-   *
-   * @return the ref log identity, may be {@code null}
+   * @return the ref log identity, which may be {@code null}.
    */
   public final PersonIdent getRefLogIdent() {
     return refLogIdent;
@@ -161,24 +151,23 @@ public abstract class SubmitStrategy {
   /**
    * Returns all commits that have been newly created for the changes that are
    * getting merged.
+   * <p>
+   * By default this method returns an empty map, but subclasses may override
+   * this method to provide any newly created commits.
    *
-   * By default this method is returning an empty map, but subclasses may
-   * overwrite this method to provide newly created commits.
+   * This method may only be called after {@link #run(CodeReviewCommit, List)}.
    *
-   * Do only call this method after the {@link #run(CodeReviewCommit, List)}
-   * method has been invoked.
-   *
-   * @return new commits created for changes that are getting merged
+   * @return new commits created for changes that were merged.
    */
   public Map<Change.Id, CodeReviewCommit> getNewCommits() {
     return Collections.emptyMap();
   }
 
   /**
-   * Returns whether a merge that failed with
-   * {@link Result#LOCK_FAILURE} should be retried.
-   *
-   * May be overwritten by subclasses.
+   * Returns whether a merge that failed with {@link Result#LOCK_FAILURE} should
+   * be retried.
+   * <p>
+   * May be overridden by subclasses.
    *
    * @return {@code true} if a merge that failed with
    *         {@link Result#LOCK_FAILURE} should be retried, otherwise
@@ -189,15 +178,14 @@ public abstract class SubmitStrategy {
   }
 
   /**
-   * Sets the ref log identity if it wasn't set yet.
+   * Set the ref log identity if it wasn't set yet.
    *
    * @param submitApproval the approval that submitted the patch set
    */
-  protected final void setRefLogIdent(final PatchSetApproval submitApproval) {
+  protected final void setRefLogIdent(PatchSetApproval submitApproval) {
     if (refLogIdent == null && submitApproval != null) {
-      refLogIdent =
-          args.identifiedUserFactory.create(submitApproval.getAccountId())
-              .newRefLogIdent();
+      refLogIdent = args.identifiedUserFactory.create(
+          submitApproval.getAccountId()) .newRefLogIdent();
     }
   }
 }

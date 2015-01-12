@@ -21,8 +21,7 @@ import com.google.gerrit.server.git.MergeException;
 import java.util.List;
 
 public class MergeAlways extends SubmitStrategy {
-
-  MergeAlways(final SubmitStrategy.Arguments args) {
+  MergeAlways(SubmitStrategy.Arguments args) {
     super(args);
   }
 
@@ -37,13 +36,12 @@ public class MergeAlways extends SubmitStrategy {
       mergeTip = toMerge.remove(0);
     }
     while (!toMerge.isEmpty()) {
-      mergeTip =
-          args.mergeUtil.mergeOneCommit(args.serverIdent.get(), args.repo, args.rw,
-              args.inserter, args.canMergeFlag, args.destBranch, mergeTip,
-              toMerge.remove(0));
+      mergeTip = args.mergeUtil.mergeOneCommit(args.serverIdent.get(),
+          args.repo, args.rw, args.inserter, args.canMergeFlag, args.destBranch,
+          mergeTip, toMerge.remove(0));
     }
 
-    final PatchSetApproval submitApproval =
+    PatchSetApproval submitApproval =
         args.mergeUtil.markCleanMerges(args.rw, args.canMergeFlag, mergeTip,
             args.alreadyAccepted);
     setRefLogIdent(submitApproval);
@@ -52,8 +50,8 @@ public class MergeAlways extends SubmitStrategy {
   }
 
   @Override
-  public boolean dryRun(final CodeReviewCommit mergeTip,
-      final CodeReviewCommit toMerge) throws MergeException {
+  public boolean dryRun(CodeReviewCommit mergeTip, CodeReviewCommit toMerge)
+      throws MergeException {
     return args.mergeUtil.canMerge(args.mergeSorter, args.repo, mergeTip,
         toMerge);
   }

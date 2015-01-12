@@ -58,7 +58,7 @@ class UrlModule extends ServletModule {
 
     @Inject
     UrlConfig(@GerritServerConfig Config cfg) {
-      deprecatedQuery = cfg.getBoolean("site", "enableDeprecatedQuery", true);
+      deprecatedQuery = cfg.getBoolean("site", "enableDeprecatedQuery", false);
     }
   }
 

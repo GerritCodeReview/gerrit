@@ -37,8 +37,8 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevFlag;
 import org.eclipse.jgit.revwalk.RevWalk;
 
+import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -106,7 +106,8 @@ public abstract class SubmitStrategy {
    *
    * @param mergeTip the merge tip.
    * @param toMerge the list of submitted commits that should be merged using
-   *        this submit strategy.
+   *        this submit strategy. Implementations are responsible for ordering
+   *        of commits, and should not modify the input in place.
    * @return the new merge tip.
    * @throws MergeException
    */
@@ -118,7 +119,7 @@ public abstract class SubmitStrategy {
 
   /** @see #run(CodeReviewCommit, List) */
   protected abstract CodeReviewCommit _run(CodeReviewCommit mergeTip,
-      List<CodeReviewCommit> toMerge) throws MergeException;
+      Collection<CodeReviewCommit> toMerge) throws MergeException;
 
   /**
    * Checks whether the given commit can be merged.

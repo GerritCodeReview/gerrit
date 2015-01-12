@@ -31,7 +31,7 @@ import com.google.gwtexpui.safehtml.client.HighlightSuggestOracle;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class CreateChangeDialog extends CommentedActionDialog {
+public abstract class CreateChangeDialog extends TextAreaActionDialog {
   private SuggestBox newChange;
   private List<BranchInfo> branches;
 

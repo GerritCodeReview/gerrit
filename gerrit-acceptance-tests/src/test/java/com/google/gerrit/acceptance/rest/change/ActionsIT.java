@@ -43,7 +43,8 @@ public class ActionsIT extends AbstractDaemonTest {
     String changeId = createChangeWithTopic("foo1").getChangeId();
     Map<String, ActionInfo> actions = getActions(changeId);
     assertThat(actions).containsKey("cherrypick");
-    assertThat(actions).hasSize(1);
+    assertThat(actions).containsKey("rebase");
+    assertThat(actions).hasSize(2);
   }
 
   @Test
@@ -51,8 +52,7 @@ public class ActionsIT extends AbstractDaemonTest {
     String changeId = createChangeWithTopic("foo1").getChangeId();
     approve(changeId);
     Map<String, ActionInfo> actions = getActions(changeId);
-    assertThat(actions).containsKey("cherrypick");
-    assertThat(actions).containsKey("submit");
+    commonActionsAssertions(actions);
     if (isSubmitWholeTopicEnabled()) {
       ActionInfo info = actions.get("submit");
       assertThat(info.enabled).isTrue();
@@ -62,8 +62,6 @@ public class ActionsIT extends AbstractDaemonTest {
     } else {
       noSubmitWholeTopicAssertions(actions);
     }
-    // no other actions
-    assertThat(actions).hasSize(2);
   }
 
   @Test
@@ -73,10 +71,7 @@ public class ActionsIT extends AbstractDaemonTest {
     // create another change with the same topic
     createChangeWithTopic("foo2").getChangeId();
     Map<String, ActionInfo> actions = getActions(changeId);
-    assertThat(actions).containsKey("cherrypick");
-    assertThat(actions).containsKey("submit");
-    // no other actions:
-    assertThat(actions).hasSize(2);
+    commonActionsAssertions(actions);
     if (isSubmitWholeTopicEnabled()) {
       ActionInfo info = actions.get("submit");
       assertThat(info.enabled).isNull();
@@ -96,10 +91,7 @@ public class ActionsIT extends AbstractDaemonTest {
     String changeId2 = createChangeWithTopic("foo2").getChangeId();
     approve(changeId2);
     Map<String, ActionInfo> actions = getActions(changeId);
-    assertThat(actions).containsKey("cherrypick");
-    assertThat(actions).containsKey("submit");
-    // no other actions:
-    assertThat(actions).hasSize(2);
+    commonActionsAssertions(actions);
     if (isSubmitWholeTopicEnabled()) {
       ActionInfo info = actions.get("submit");
       assertThat(info.enabled).isTrue();
@@ -126,6 +118,13 @@ public class ActionsIT extends AbstractDaemonTest {
     assertThat(info.label).isEqualTo("Submit");
     assertThat(info.method).isEqualTo("POST");
     assertThat(info.title).isEqualTo("Submit patch set 1 into master");
+  }
+
+  private void commonActionsAssertions(Map<String, ActionInfo> actions) {
+    assertThat(actions).hasSize(3);
+    assertThat(actions).containsKey("cherrypick");
+    assertThat(actions).containsKey("submit");
+    assertThat(actions).containsKey("rebase");
   }
 
   private PushOneCommit.Result createChangeWithTopic(String topic) throws GitAPIException,

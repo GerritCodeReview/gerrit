@@ -17,18 +17,44 @@ package com.google.gerrit.client.change;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.changes.ChangeApi;
 import com.google.gerrit.client.changes.ChangeInfo;
+import com.google.gerrit.client.changes.Util;
 import com.google.gerrit.client.rpc.GerritCallback;
+import com.google.gerrit.client.ui.RebaseDialog;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gwt.event.logical.shared.CloseEvent;
+import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.PopupPanel;
 
 class RebaseAction {
-  static void call(final Change.Id id, String revision) {
-    ChangeApi.rebase(id.get(), revision,
-      new GerritCallback<ChangeInfo>() {
-        @Override
-        public void onSuccess(ChangeInfo result) {
-          Gerrit.display(PageLinks.toChange(id));
-        }
-      });
+  static void call(final Button b, final String project, final String branch,
+      final Change.Id id, final String revision) {
+    b.setEnabled(false);
+
+    new RebaseDialog(project, branch) {
+      @Override
+      public void onSend() {
+        ChangeApi.rebase(id.get(), revision, getBase(), new GerritCallback<ChangeInfo>() {
+          @Override
+          public void onSuccess(ChangeInfo result) {
+            sent = true;
+            hide();
+            Gerrit.display(PageLinks.toChange(id));
+          }
+
+          @Override
+          public void onFailure(Throwable caught) {
+            enableButtons(true);
+            super.onFailure(caught);
+          }
+        });
+      }
+
+      @Override
+      public void onClose(CloseEvent<PopupPanel> event) {
+        super.onClose(event);
+        b.setEnabled(true);
+      }
+    }.center();
   }
 }

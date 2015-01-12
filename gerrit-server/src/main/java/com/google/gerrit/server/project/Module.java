@@ -64,6 +64,7 @@ public class Module extends RestApiModule {
     put(BRANCH_KIND).to(PutBranch.class);
     get(BRANCH_KIND).to(GetBranch.class);
     delete(BRANCH_KIND).to(DeleteBranch.class);
+    post(PROJECT_KIND, "branches:delete").to(DeleteBranches.class);
     install(new FactoryModuleBuilder().build(CreateBranch.Factory.class));
     get(BRANCH_KIND, "reflog").to(GetReflog.class);
     child(BRANCH_KIND, "files").to(FilesCollection.class);

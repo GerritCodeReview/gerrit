@@ -23,6 +23,7 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
+import com.google.gerrit.extensions.api.changes.RebaseInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.ListChangesOption;
@@ -32,6 +33,7 @@ import com.google.gerrit.extensions.common.LabelInfo;
 import com.google.gerrit.extensions.common.RevisionInfo;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.PatchSet;
 
 import org.eclipse.jgit.lib.Constants;
 import org.junit.Test;
@@ -108,6 +110,49 @@ public class ChangeIT extends AbstractDaemonTest {
         .id(r.getChangeId())
         .revision(r.getCommit().name())
         .rebase();
+  }
+
+  @Test
+  public void rebaseChangeBase() throws Exception {
+    PushOneCommit.Result r1 = createChange();
+    PushOneCommit.Result r2 = createChange();
+    PushOneCommit.Result r3 = createChange();
+    RebaseInput ri = new RebaseInput();
+
+    // rebase r3 directly onto master (break dep. towards r2)
+    ri.base = "";
+    gApi.changes()
+        .id(r3.getChangeId())
+        .revision(r3.getCommit().name())
+        .rebase(ri);
+    PatchSet ps3 = r3.getPatchSet();
+    assertThat(ps3.getId().get()).is(2);
+
+    // rebase r2 onto r3 (referenced by ref)
+    ri.base = ps3.getId().toRefName();
+    gApi.changes()
+        .id(r2.getChangeId())
+        .revision(r2.getCommit().name())
+        .rebase(ri);
+    PatchSet ps2 = r2.getPatchSet();
+    assertThat(ps2.getId().get()).is(2);
+
+    // rebase r1 onto r2 (referenced by commit)
+    ri.base = ps2.getRevision().get();
+    gApi.changes()
+        .id(r1.getChangeId())
+        .revision(r1.getCommit().name())
+        .rebase(ri);
+    PatchSet ps1 = r1.getPatchSet();
+    assertThat(ps1.getId().get()).is(2);
+
+    // rebase r1 onto r3 (referenced by change number)
+    ri.base = String.valueOf(r3.getChange().getId().get());
+    gApi.changes()
+        .id(r1.getChangeId())
+        .revision(ps1.getRevision().get())
+        .rebase(ri);
+    assertThat(r1.getPatchSetId().get()).is(3);
   }
 
   private Set<Account.Id> getReviewers(String changeId) throws Exception {

@@ -216,10 +216,11 @@ public class ChangeApi {
     change(id).view("edit:rebase").post(in, cb);
   }
 
-  /** Rebase a revision onto the branch tip. */
-  public static void rebase(int id, String commit, AsyncCallback<ChangeInfo> cb) {
-    JavaScriptObject in = JavaScriptObject.createObject();
-    call(id, commit, "rebase").post(in, cb);
+  /** Rebase a revision onto the branch tip or another change. */
+  public static void rebase(int id, String commit, String base, AsyncCallback<ChangeInfo> cb) {
+    RebaseInput rebaseInput = RebaseInput.create();
+    rebaseInput.setBase(base);
+    call(id, commit, "rebase").post(rebaseInput, cb);
   }
 
   private static class Input extends JavaScriptObject {
@@ -257,6 +258,17 @@ public class ChangeApi {
     final native void setMessage(String m) /*-{ this.message = m; }-*/;
 
     protected CherryPickInput() {
+    }
+  }
+
+  private static class RebaseInput extends JavaScriptObject {
+    final native void setBase(String b) /*-{ this.base = b; }-*/;
+
+    static RebaseInput create() {
+      return (RebaseInput) createObject();
+    }
+
+    protected RebaseInput() {
     }
   }
 

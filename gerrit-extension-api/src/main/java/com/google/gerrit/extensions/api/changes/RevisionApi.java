@@ -34,6 +34,7 @@ public interface RevisionApi {
   void publish() throws RestApiException;
   ChangeApi cherryPick(CherryPickInput in) throws RestApiException;
   ChangeApi rebase() throws RestApiException;
+  ChangeApi rebase(RebaseInput in) throws RestApiException;
   boolean canRebase();
 
   void setReviewed(String path, boolean reviewed) throws RestApiException;
@@ -90,6 +91,11 @@ public interface RevisionApi {
 
     @Override
     public ChangeApi rebase() throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public ChangeApi rebase(RebaseInput in) throws RestApiException {
       throw new NotImplementedException();
     }
 

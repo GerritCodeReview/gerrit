@@ -72,7 +72,6 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
@@ -153,23 +152,16 @@ public class MergeUtil {
     return mergeTip;
   }
 
-  public void reduceToMinimalMerge(final MergeSorter mergeSorter,
-      final List<CodeReviewCommit> toSort) throws MergeException {
-    final Collection<CodeReviewCommit> heads;
+  public List<CodeReviewCommit> reduceToMinimalMerge(MergeSorter mergeSorter,
+      Collection<CodeReviewCommit> toSort) throws MergeException {
+    List<CodeReviewCommit> result = new ArrayList<>();
     try {
-      heads = mergeSorter.sort(toSort);
+      result.addAll(mergeSorter.sort(toSort));
     } catch (IOException e) {
       throw new MergeException("Branch head sorting failed", e);
     }
-
-    toSort.clear();
-    toSort.addAll(heads);
-    Collections.sort(toSort, new Comparator<CodeReviewCommit>() {
-      @Override
-      public int compare(final CodeReviewCommit a, final CodeReviewCommit b) {
-        return a.originalOrder - b.originalOrder;
-      }
-    });
+    Collections.sort(result, CodeReviewCommit.ORDER);
+    return result;
   }
 
   public PatchSetApproval getSubmitter(CodeReviewCommit c) {

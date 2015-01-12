@@ -19,7 +19,7 @@ import com.google.gerrit.client.changes.ChangeApi;
 import com.google.gerrit.client.changes.ChangeInfo;
 import com.google.gerrit.client.changes.Util;
 import com.google.gerrit.client.rpc.GerritCallback;
-import com.google.gerrit.client.ui.CommentedActionDialog;
+import com.google.gerrit.client.ui.TextAreaActionDialog;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gwt.user.client.ui.Button;
@@ -29,7 +29,7 @@ class RevertAction {
       final String commitSubject) {
     // TODO Replace ActionDialog with a nicer looking display.
     b.setEnabled(false);
-    new CommentedActionDialog(
+    new TextAreaActionDialog(
         Util.C.revertChangeTitle(),
         Util.C.headingRevertMessage()) {
       {

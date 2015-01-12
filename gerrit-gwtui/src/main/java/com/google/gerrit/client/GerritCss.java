@@ -158,6 +158,8 @@ public interface GerritCss extends CssResource {
   String projectFilterLabel();
   String projectFilterPanel();
   String projectNameColumn();
+  String rebaseContentPanel();
+  String rebaseSuggestBox();
   String registerScreenExplain();
   String registerScreenNextLinks();
   String registerScreenSection();

@@ -48,6 +48,54 @@
     },
     {
       "key": {
+        "uuid": "8ebc5533_0fdac57a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/LocalDiskRepositoryManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-01-12T14:27:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2ee36920_6cdd1b72",
+      "range": {
+        "startLine": 156,
+        "startChar": 51,
+        "endLine": 156,
+        "endChar": 52
+      },
+      "revId": "92c4e972bc3012771942cf7e2c27762c18a76e29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6ea1e10b_2edd0773",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/LocalDiskRepositoryManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-01-12T14:27:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2ee36920_8cd72753",
+      "range": {
+        "startLine": 156,
+        "startChar": 6,
+        "endLine": 156,
+        "endChar": 8
+      },
+      "revId": "92c4e972bc3012771942cf7e2c27762c18a76e29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2ee36920_4cda5f7c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/LocalDiskRepositoryManager.java",
         "patchSetId": 2
@@ -59,6 +107,30 @@
       "writtenOn": "2015-01-09T05:12:33Z",
       "side": 1,
       "message": "What happens here if a project with the same name exists in more than one of the base paths?",
+      "range": {
+        "startLine": 401,
+        "startChar": 6,
+        "endLine": 403,
+        "endChar": 7
+      },
+      "revId": "92c4e972bc3012771942cf7e2c27762c18a76e29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6ea1e10b_0edacb7a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/LocalDiskRepositoryManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 403,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-01-12T14:27:40Z",
+      "side": 1,
+      "message": "It will be there only once because we use a set, which prevents duplicates.",
+      "parentUuid": "2ee36920_4cda5f7c",
       "range": {
         "startLine": 401,
         "startChar": 6,

@@ -53,13 +53,13 @@ public class RebaseIfNecessary extends SubmitStrategy {
   }
 
   @Override
-  protected CodeReviewCommit _run(final CodeReviewCommit mergeTip,
-      final List<CodeReviewCommit> toMerge) throws MergeException {
+  protected CodeReviewCommit _run(CodeReviewCommit mergeTip,
+      List<CodeReviewCommit> toMerge) throws MergeException {
     CodeReviewCommit newMergeTip = mergeTip;
     sort(toMerge);
 
     while (!toMerge.isEmpty()) {
-      final CodeReviewCommit n = toMerge.remove(0);
+      CodeReviewCommit n = toMerge.remove(0);
 
       if (newMergeTip == null) {
         // The branch is unborn. Take a fast-forward resolution to
@@ -82,13 +82,12 @@ public class RebaseIfNecessary extends SubmitStrategy {
 
         } else {
           try {
-            final IdentifiedUser uploader = args.identifiedUserFactory.create(
+            IdentifiedUser uploader = args.identifiedUserFactory.create(
                 args.mergeUtil.getSubmitter(n).getAccountId());
-            final PatchSet newPatchSet =
-                rebaseChange.rebase(args.repo, args.rw, args.inserter,
-                    n.getPatchsetId(), n.change(), uploader,
-                    newMergeTip, args.mergeUtil, args.serverIdent.get(),
-                    false, false, ValidatePolicy.NONE);
+            PatchSet newPatchSet = rebaseChange.rebase(args.repo, args.rw,
+                args.inserter, n.getPatchsetId(), n.change(), uploader,
+                newMergeTip, args.mergeUtil, args.serverIdent.get(), false,
+                false, ValidatePolicy.NONE);
 
             List<PatchSetApproval> approvals = Lists.newArrayList();
             for (PatchSetApproval a : args.approvalsUtil.byPatchSet(
@@ -98,9 +97,8 @@ public class RebaseIfNecessary extends SubmitStrategy {
             // rebaseChange.rebase() may already have copied some approvals,
             // use upsert, not insert, to avoid constraint violation on database
             args.db.patchSetApprovals().upsert(approvals);
-            newMergeTip =
-                (CodeReviewCommit) args.rw.parseCommit(ObjectId
-                    .fromString(newPatchSet.getRevision().get()));
+            newMergeTip = (CodeReviewCommit) args.rw.parseCommit(
+                ObjectId.fromString(newPatchSet.getRevision().get()));
             n.change().setCurrentPatchSet(
                 patchSetInfoFactory.get(newMergeTip, newPatchSet.getId()));
             newMergeTip.copyFrom(n);
@@ -132,7 +130,7 @@ public class RebaseIfNecessary extends SubmitStrategy {
                 args.serverIdent.get(), args.repo, args.rw, args.inserter,
                 args.canMergeFlag, args.destBranch, newMergeTip, n);
           }
-          final PatchSetApproval submitApproval = args.mergeUtil.markCleanMerges(
+          PatchSetApproval submitApproval = args.mergeUtil.markCleanMerges(
               args.rw, args.canMergeFlag, newMergeTip, args.alreadyAccepted);
           setRefLogIdent(submitApproval);
         } catch (IOException e) {
@@ -146,11 +144,10 @@ public class RebaseIfNecessary extends SubmitStrategy {
     return newMergeTip;
   }
 
-  private void sort(final List<CodeReviewCommit> toSort) throws MergeException {
+  private void sort(List<CodeReviewCommit> toSort) throws MergeException {
     try {
-      final List<CodeReviewCommit> sorted =
-          new RebaseSorter(args.rw, args.alreadyAccepted, args.canMergeFlag)
-              .sort(toSort);
+      List<CodeReviewCommit> sorted = new RebaseSorter(
+          args.rw, args.alreadyAccepted, args.canMergeFlag).sort(toSort);
       toSort.clear();
       toSort.addAll(sorted);
     } catch (IOException e) {
@@ -164,8 +161,8 @@ public class RebaseIfNecessary extends SubmitStrategy {
   }
 
   @Override
-  public boolean dryRun(final CodeReviewCommit mergeTip,
-      final CodeReviewCommit toMerge) throws MergeException {
+  public boolean dryRun(CodeReviewCommit mergeTip, CodeReviewCommit toMerge)
+      throws MergeException {
     return !args.mergeUtil.hasMissingDependencies(args.mergeSorter, toMerge)
         && args.mergeUtil.canCherryPick(args.mergeSorter, args.repo, mergeTip,
             args.rw, toMerge);

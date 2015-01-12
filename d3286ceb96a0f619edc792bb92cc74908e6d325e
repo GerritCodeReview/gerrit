@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "eeadd1fd_f2e92810",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-12T12:42:45Z",
+      "side": 1,
+      "message": "It also includes another one of my patches :)\n\nhttps://github.com/facebook/buck/commit/95a5cde604e790d85b798099dfc2a143096dd05b",
+      "revId": "d3286ceb96a0f619edc792bb92cc74908e6d325e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

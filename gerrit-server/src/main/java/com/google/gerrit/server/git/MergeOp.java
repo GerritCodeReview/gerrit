@@ -496,7 +496,6 @@ public class MergeOp {
       tips.add(r.getObjectId());
     }
 
-    int commitOrder = 0;
     for (Change chg : submitted) {
       ChangeControl ctl;
       try {
@@ -568,7 +567,6 @@ public class MergeOp {
 
       commit.setControl(ctl);
       commit.setPatchsetId(ps.getId());
-      commit.originalOrder = commitOrder++;
       commits.put(changeId, commit);
 
       MergeValidators mergeValidators = mergeValidatorsFactory.create();

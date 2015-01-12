@@ -18,6 +18,7 @@ import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.MergeException;
 
+import java.util.Collection;
 import java.util.List;
 
 public class MergeAlways extends SubmitStrategy {
@@ -27,18 +28,19 @@ public class MergeAlways extends SubmitStrategy {
 
   @Override
   protected CodeReviewCommit _run(CodeReviewCommit mergeTip,
-      List<CodeReviewCommit> toMerge) throws MergeException {
-    args.mergeUtil.reduceToMinimalMerge(args.mergeSorter, toMerge);
+      Collection<CodeReviewCommit> toMerge) throws MergeException {
+    List<CodeReviewCommit> sorted = args.mergeUtil.reduceToMinimalMerge(
+        args.mergeSorter, toMerge);
 
     if (mergeTip == null) {
       // The branch is unborn. Take a fast-forward resolution to
       // create the branch.
-      mergeTip = toMerge.remove(0);
+      mergeTip = sorted.remove(0);
     }
-    while (!toMerge.isEmpty()) {
+    while (!sorted.isEmpty()) {
       mergeTip = args.mergeUtil.mergeOneCommit(args.serverIdent.get(),
           args.repo, args.rw, args.inserter, args.canMergeFlag, args.destBranch,
-          mergeTip, toMerge.remove(0));
+          mergeTip, sorted.remove(0));
     }
 
     PatchSetApproval submitApproval =

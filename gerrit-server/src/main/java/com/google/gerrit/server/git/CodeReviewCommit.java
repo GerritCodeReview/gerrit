@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.git;
 
+import com.google.common.base.Function;
+import com.google.common.collect.Ordering;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.notedb.ChangeNotes;
@@ -29,6 +31,24 @@ import java.util.List;
 
 /** Extended commit entity with code review specific metadata. */
 public class CodeReviewCommit extends RevCommit {
+  /**
+   * Default ordering when merging multiple topologically-equivalent commits.
+   * <p>
+   * Operates only on these commits and does not take ancestry into account.
+   * <p>
+   * Use this in preference to the default order, which comes from {@link
+   * AnyObjectId} and only orders on SHA-1.
+   */
+  public static Ordering<CodeReviewCommit> ORDER = Ordering.natural()
+      .onResultOf(new Function<CodeReviewCommit, Integer>() {
+        @Override
+        public Integer apply(CodeReviewCommit in) {
+          return in.getPatchsetId() != null
+              ? in.getPatchsetId().getParentKey().get()
+              : null;
+        }
+      }).nullsFirst();
+
   public static RevWalk newRevWalk(Repository repo) {
     return new RevWalk(repo) {
       @Override
@@ -77,13 +97,6 @@ public class CodeReviewCommit extends RevCommit {
   private ChangeControl control;
 
   /**
-   * Ordinal position of this commit within the submit queue.
-   * <p>
-   * Only valid if {@link #patchsetId} is not null.
-   */
-  int originalOrder;
-
-  /**
    * The result status for this commit.
    * <p>
    * Only valid if {@link #patchsetId} is not null.
@@ -120,7 +133,6 @@ public class CodeReviewCommit extends RevCommit {
   public void copyFrom(final CodeReviewCommit src) {
     control = src.control;
     patchsetId = src.patchsetId;
-    originalOrder = src.originalOrder;
     statusCode = src.statusCode;
     missing = src.missing;
   }

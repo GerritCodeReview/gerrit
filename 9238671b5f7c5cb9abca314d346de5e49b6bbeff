@@ -141,6 +141,30 @@
       "revId": "9238671b5f7c5cb9abca314d346de5e49b6bbeff",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8ebc5533_af1a9995",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-01-12T21:04:39Z",
+      "side": 1,
+      "message": "I submitted another change(see related changes) to prevent concurrent branch deletion(when multiple branches are deleted in the UI) but I would like to keep this one to prevent branch deletion failure that could happen when the packed-refs file cannot be lock because of another operation (e.g. concurrent branch deletion coming from multiple clients).",
+      "parentUuid": "4494fefe_dddeab71",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 8
+      },
+      "revId": "9238671b5f7c5cb9abca314d346de5e49b6bbeff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

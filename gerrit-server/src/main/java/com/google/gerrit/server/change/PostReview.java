@@ -317,7 +317,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
           listItr.remove();
           continue;
         }
-        if (c.line < 0) {
+        if (c.line != null && c.line < 0) {
           throw new BadRequestException(String.format(
               "negative line number %d not allowed on %s",
               c.line, path));

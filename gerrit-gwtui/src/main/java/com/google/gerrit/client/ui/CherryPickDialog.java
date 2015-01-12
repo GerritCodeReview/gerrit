@@ -31,7 +31,7 @@ import com.google.gwtexpui.safehtml.client.HighlightSuggestOracle;
 import java.util.LinkedList;
 import java.util.List;
 
-public abstract class CherryPickDialog extends CommentedActionDialog {
+public abstract class CherryPickDialog extends TextAreaActionDialog {
   private SuggestBox newBranch;
   private List<BranchInfo> branches;
 

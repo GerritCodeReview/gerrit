@@ -1162,6 +1162,16 @@ a:hover.downloadLink {
   white-space: nowrap;
   font-size: small;
 }
+.commentedActionDialog .rebaseContentPanel {
+  margin-left: 10px;
+  background: trimColor;
+  padding: 5px 5px 5px 5px;
+  width: 300px;
+}
+.commentedActionDialog .rebaseContentPanel .rebaseSuggestBox {
+  font-size: small;
+  width: 100%;
+}
 
 /** PatchBrowserPopup **/
 .patchBrowserPopup {

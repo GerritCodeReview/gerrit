@@ -99,6 +99,7 @@ public class RebaseChange {
    * @param change the change to perform the rebase for
    * @param patchSetId the id of the patch set
    * @param uploader the user that creates the rebased patch set
+   * @param newBaseRev the commit that should be the new base
    * @throws NoSuchChangeException thrown if the change to which the patch set
    *         belongs does not exist or is not visible to the user
    * @throws EmailException thrown if sending the e-mail to notify about the new
@@ -107,9 +108,9 @@ public class RebaseChange {
    * @throws IOException thrown if rebase is not possible or not needed
    * @throws InvalidChangeOperationException thrown if rebase is not allowed
    */
-  public void rebase(Change change, PatchSet.Id patchSetId, final IdentifiedUser uploader)
-      throws NoSuchChangeException, EmailException, OrmException, IOException,
-      InvalidChangeOperationException {
+  public void rebase(Change change, PatchSet.Id patchSetId, final IdentifiedUser uploader,
+      final String newBaseRev) throws NoSuchChangeException, EmailException, OrmException,
+      IOException, InvalidChangeOperationException {
     final Change.Id changeId = patchSetId.getParentKey();
     final ChangeControl changeControl =
         changeControlFactory.validateFor(change, uploader);
@@ -126,10 +127,17 @@ public class RebaseChange {
       rw = new RevWalk(git);
       inserter = git.newObjectInserter();
 
-      final String baseRev = findBaseRevision(patchSetId, db.get(),
-          change.getDest(), git, null, null, null);
-      final RevCommit baseCommit =
-          rw.parseCommit(ObjectId.fromString(baseRev));
+      String baseRev = newBaseRev;
+      if (baseRev == null) {
+          baseRev = findBaseRevision(patchSetId, db.get(),
+              change.getDest(), git, null, null, null);
+      }
+      ObjectId baseObjectId = git.resolve(baseRev);
+      if (baseObjectId == null) {
+        throw new InvalidChangeOperationException(
+          "Cannot rebase: Failed to resolve baseRev: " + baseRev);
+      }
+      final RevCommit baseCommit = rw.parseCommit(baseObjectId);
 
       PersonIdent committerIdent =
           uploader.newCommitterIdent(TimeUtil.nowTs(),

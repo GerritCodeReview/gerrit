@@ -34,14 +34,16 @@ import com.google.gwtorm.server.OrmException;
 import org.eclipse.jgit.lib.ObjectId;
 
 import java.io.IOException;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class RebaseIfNecessary extends SubmitStrategy {
-  private final PatchSetInfoFactory patchSetInfoFactory;
-  private final RebaseChange rebaseChange;
-  private final Map<Change.Id, CodeReviewCommit> newCommits;
+  private PatchSetInfoFactory patchSetInfoFactory;
+  private RebaseChange rebaseChange;
+  private Map<Change.Id, CodeReviewCommit> newCommits;
 
   RebaseIfNecessary(SubmitStrategy.Arguments args,
       PatchSetInfoFactory patchSetInfoFactory,
@@ -54,12 +56,12 @@ public class RebaseIfNecessary extends SubmitStrategy {
 
   @Override
   protected CodeReviewCommit _run(CodeReviewCommit mergeTip,
-      List<CodeReviewCommit> toMerge) throws MergeException {
+      Collection<CodeReviewCommit> toMerge) throws MergeException {
     CodeReviewCommit newMergeTip = mergeTip;
-    sort(toMerge);
+    List<CodeReviewCommit> sorted = sort(toMerge);
 
-    while (!toMerge.isEmpty()) {
-      CodeReviewCommit n = toMerge.remove(0);
+    while (!sorted.isEmpty()) {
+      CodeReviewCommit n = sorted.remove(0);
 
       if (newMergeTip == null) {
         // The branch is unborn. Take a fast-forward resolution to
@@ -144,12 +146,13 @@ public class RebaseIfNecessary extends SubmitStrategy {
     return newMergeTip;
   }
 
-  private void sort(List<CodeReviewCommit> toSort) throws MergeException {
+  private List<CodeReviewCommit> sort(Collection<CodeReviewCommit> toSort)
+      throws MergeException {
     try {
-      List<CodeReviewCommit> sorted = new RebaseSorter(
+      List<CodeReviewCommit> result = new RebaseSorter(
           args.rw, args.alreadyAccepted, args.canMergeFlag).sort(toSort);
-      toSort.clear();
-      toSort.addAll(sorted);
+      Collections.sort(result, CodeReviewCommit.ORDER);
+      return result;
     } catch (IOException e) {
       throw new MergeException("Commit sorting failed", e);
     }

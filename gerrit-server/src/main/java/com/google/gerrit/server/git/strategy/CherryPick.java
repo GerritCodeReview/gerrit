@@ -41,15 +41,16 @@ import org.eclipse.jgit.revwalk.RevCommit;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class CherryPick extends SubmitStrategy {
-  private final PatchSetInfoFactory patchSetInfoFactory;
-  private final GitReferenceUpdated gitRefUpdated;
-  private final Map<Change.Id, CodeReviewCommit> newCommits;
+  private PatchSetInfoFactory patchSetInfoFactory;
+  private GitReferenceUpdated gitRefUpdated;
+  private Map<Change.Id, CodeReviewCommit> newCommits;
 
   CherryPick(SubmitStrategy.Arguments args,
       PatchSetInfoFactory patchSetInfoFactory,
@@ -63,9 +64,10 @@ public class CherryPick extends SubmitStrategy {
 
   @Override
   protected CodeReviewCommit _run(CodeReviewCommit mergeTip,
-      List<CodeReviewCommit> toMerge) throws MergeException {
-    while (!toMerge.isEmpty()) {
-      CodeReviewCommit n = toMerge.remove(0);
+      Collection<CodeReviewCommit> toMerge) throws MergeException {
+    List<CodeReviewCommit> sorted = CodeReviewCommit.ORDER.sortedCopy(toMerge);
+    while (!sorted.isEmpty()) {
+      CodeReviewCommit n = sorted.remove(0);
 
       try {
         if (mergeTip == null) {

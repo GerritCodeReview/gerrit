@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6ea1e10b_ced72352",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/CloseConnection.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-01-12T14:16:55Z",
+      "side": 1,
+      "message": "@David.O: I used wait instead of waitForClose because I think ForClose is a bit redundant since we are in the close-connection command and also I wanted it to be consistent with replication start command which also have a --wait option.",
+      "range": {
+        "startLine": 56,
+        "startChar": 20,
+        "endLine": 56,
+        "endChar": 24
+      },
+      "revId": "dd1dc441aa2a223e0b0cf03be9df923dc5b2cf99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

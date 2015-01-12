@@ -24,16 +24,15 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.FocusWidget;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwtexpui.globalkey.client.GlobalKey;
-import com.google.gwtexpui.globalkey.client.NpTextArea;
 import com.google.gwtexpui.user.client.AutoCenterDialogBox;
 
 public abstract class CommentedActionDialog extends AutoCenterDialogBox
     implements CloseHandler<PopupPanel> {
   protected final FlowPanel panel;
-  protected final NpTextArea message;
   protected final Button sendButton;
   protected final Button cancelButton;
   protected final FlowPanel buttonPanel;
+  protected final FlowPanel contentPanel;
   protected FocusWidget focusOn;
 
   protected boolean sent = false;
@@ -45,11 +44,6 @@ public abstract class CommentedActionDialog extends AutoCenterDialogBox
 
     addStyleName(Gerrit.RESOURCES.css().commentedActionDialog());
 
-    message = new NpTextArea();
-    message.setCharacterWidth(60);
-    message.setVisibleLines(10);
-    message.getElement().setPropertyBoolean("spellcheck", true);
-    setFocusOn(message);
     sendButton = new Button(Util.C.commentedActionButtonSend());
     sendButton.addClickHandler(new ClickHandler() {
       @Override
@@ -68,9 +62,8 @@ public abstract class CommentedActionDialog extends AutoCenterDialogBox
       }
     });
 
-    final FlowPanel mwrap = new FlowPanel();
-    mwrap.setStyleName(Gerrit.RESOURCES.css().commentedActionMessage());
-    mwrap.add(message);
+    contentPanel = new FlowPanel();
+    contentPanel.setStyleName(Gerrit.RESOURCES.css().commentedActionMessage());
 
     buttonPanel = new FlowPanel();
     buttonPanel.add(sendButton);
@@ -78,8 +71,10 @@ public abstract class CommentedActionDialog extends AutoCenterDialogBox
     buttonPanel.getElement().getStyle().setProperty("marginTop", "4px");
 
     panel = new FlowPanel();
-    panel.add(new SmallHeading(heading));
-    panel.add(mwrap);
+    if (heading != null) {
+      panel.add(new SmallHeading(heading));
+    }
+    panel.add(contentPanel);
     panel.add(buttonPanel);
     add(panel);
 
@@ -110,8 +105,4 @@ public abstract class CommentedActionDialog extends AutoCenterDialogBox
   }
 
   public abstract void onSend();
-
-  public String getMessageText() {
-    return message.getText().trim();
-  }
 }

@@ -1121,6 +1121,38 @@ Deletes a branch.
   HTTP/1.1 204 No Content
 ----
 
+[[delete-branches]]
+=== Delete Branches
+--
+'POST /projects/link:#project-name[\{project-name\}]/branches:delete'
+--
+
+Delete one or more branches.
+
+The branches to be deleted must be provided in the request body as a
+link:#delete-branches-input[DeleteBranchesInput] entity.
+
+.Request
+----
+  POST /projects/MyProject/branches:delete HTTP/1.0
+  Content-Type: application/json;charset=UTF-8
+
+  {
+    "branches": [
+      "stable-1.0",
+      "stable-2.0"
+    ]
+  }
+----
+
+.Response
+----
+  HTTP/1.1 204 No Content
+----
+
+If some branches could not be deleted, the response is "`409 Conflict`" and the
+error message is contained in the response body.
+
 [[get-content]]
 === Get Content
 --
@@ -2059,6 +2091,18 @@ in a dashboard.
 |`query`       |The query of the section. +
 Tokens such as `${project}` are not resolved.
 |===========================
+
+[[delete-branches-input]]
+=== DeleteBranchesInput
+The `DeleteBranchesInput` entity contains information about branches that should
+be deleted.
+
+[options="header",width="50%",cols="1,6"]
+|==========================
+|Field Name   |Description
+|`branches`   |A list of branch names that identify the branches that should be
+deleted.
+|==========================
 
 [[gc-input]]
 === GCInput

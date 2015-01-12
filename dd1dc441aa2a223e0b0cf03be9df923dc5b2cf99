@@ -45,6 +45,30 @@
       "revId": "dd1dc441aa2a223e0b0cf03be9df923dc5b2cf99",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6ea1e10b_aeef3714",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/CloseConnection.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-01-12T15:19:36Z",
+      "side": 1,
+      "message": "Are you suggesting to move message stdout.print(\"closing connection \" + sessionId + \" ...\") inside the if?",
+      "parentUuid": "aeb7594b_d0405c67",
+      "range": {
+        "startLine": 82,
+        "startChar": 14,
+        "endLine": 83,
+        "endChar": 76
+      },
+      "revId": "dd1dc441aa2a223e0b0cf03be9df923dc5b2cf99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

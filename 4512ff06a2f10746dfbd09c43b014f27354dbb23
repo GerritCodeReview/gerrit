@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4e197d2f_d5297caf",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 3435,
+      "author": {
+        "id": 1018043
+      },
+      "writtenOn": "2015-01-12T13:48:01Z",
+      "side": 1,
+      "message": "Q: Do you guys want a constant instead (e.g. SELF, or NODEP)?",
+      "range": {
+        "startLine": 3435,
+        "startChar": 71,
+        "endLine": 3435,
+        "endChar": 85
+      },
+      "revId": "4512ff06a2f10746dfbd09c43b014f27354dbb23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aeb7594b_f03be0eb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Rebase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1018043
+      },
+      "writtenOn": "2015-01-12T13:48:01Z",
+      "side": 1,
+      "message": "Q: Better here or in RebaseChange?",
+      "range": {
+        "startLine": 76,
+        "startChar": 0,
+        "endLine": 100,
+        "endChar": 7
+      },
+      "revId": "4512ff06a2f10746dfbd09c43b014f27354dbb23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aeb7594b_9046d481",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Rebase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1018043
+      },
+      "writtenOn": "2015-01-12T13:48:01Z",
+      "side": 1,
+      "message": "Q: Am I re-inventing the wheel here (I get the feeling that there is suitable parse function that I could use instead)?",
+      "revId": "4512ff06a2f10746dfbd09c43b014f27354dbb23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

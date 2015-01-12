@@ -15,7 +15,6 @@ package com.google.gerrit.client.projects;
 
 import com.google.gerrit.client.VoidResult;
 import com.google.gerrit.client.projects.ConfigInfo.ConfigParameterValue;
-import com.google.gerrit.client.rpc.CallbackGroup;
 import com.google.gerrit.client.rpc.NativeMap;
 import com.google.gerrit.client.rpc.NativeString;
 import com.google.gerrit.client.rpc.RestApi;
@@ -60,21 +59,20 @@ public class ProjectApi {
   }
 
   /**
-   * Delete branches. For each branch to be deleted a separate DELETE request is
-   * fired to the server. The {@code onSuccess} method of the provided callback
-   * is invoked once after all requests succeeded. If any request fails the
-   * callbacks' {@code onFailure} method is invoked. In a failure case it can be
-   * that still some of the branches were successfully deleted.
+   * Delete branches. One call is fired to the server to delete all the
+   * branches.
    */
   public static void deleteBranches(Project.NameKey name,
       Set<String> refs, AsyncCallback<VoidResult> cb) {
-    CallbackGroup group = new CallbackGroup();
-    for (String ref : refs) {
-      project(name).view("branches").id(ref)
-          .delete(group.add(cb));
-      cb = CallbackGroup.emptyCallback();
+    if (refs.size() == 1) {
+      project(name).view("branches").id(refs.iterator().next()).delete(cb);
+    } else {
+      DeleteBranchesInput d = DeleteBranchesInput.create();
+      for (String ref : refs) {
+        d.add_branch(ref);
+      }
+      project(name).view("branches:delete").post(d, cb);
     }
-    group.done();
   }
 
   public static void getConfig(Project.NameKey name,
@@ -291,5 +289,19 @@ public class ProjectApi {
     }
 
     final native void setRef(String r) /*-{ if(r)this.ref=r; }-*/;
+  }
+
+  private static class DeleteBranchesInput extends JavaScriptObject {
+    static DeleteBranchesInput create() {
+      DeleteBranchesInput d = createObject().cast();
+      d.init();
+      return d;
+    }
+
+    protected DeleteBranchesInput() {
+    }
+
+    final native void init() /*-{ this.branches = []; }-*/;
+    final native void add_branch(String b) /*-{ this.branches.push(b); }-*/;
   }
 }

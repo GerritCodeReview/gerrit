@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4e197d2f_55fbacd0",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/AccountGeneralPreferences.java",
+        "patchSetId": 44
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-12T06:40:54Z",
+      "side": 1,
+      "message": "Bad rebase?",
+      "range": {
+        "startLine": 138,
+        "startChar": 2,
+        "endLine": 143,
+        "endChar": 41
+      },
+      "revId": "9f751499c9f3ded21d1acfa250260e2c7caeb046",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

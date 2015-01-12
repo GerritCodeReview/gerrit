@@ -25,6 +25,29 @@
     },
     {
       "key": {
+        "uuid": "4e197d2f_9546e481",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/CloseConnection.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-12T15:35:26Z",
+      "side": 1,
+      "message": "I missed this message.",
+      "range": {
+        "startLine": 78,
+        "startChar": 10,
+        "endLine": 78,
+        "endChar": 68
+      },
+      "revId": "dd1dc441aa2a223e0b0cf03be9df923dc5b2cf99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "aeb7594b_d0405c67",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/CloseConnection.java",
         "patchSetId": 5

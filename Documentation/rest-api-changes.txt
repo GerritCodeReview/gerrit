@@ -845,9 +845,17 @@ the error message is contained in the response body.
 
 Rebases a change.
 
+Optionally, the parent revision can be changed to another patch set through the
+link:#rebase-input[RebaseInput] entity.
+
 .Request
 ----
   POST /changes/myProject~master~I3ea943139cb62e86071996f2480e58bf3eeb9dd2/rebase HTTP/1.0
+  Content-Type: application/json;charset=UTF-8
+
+  {
+    "base" : "1234",
+  }
 ----
 
 As response a link:#change-info[ChangeInfo] entity is returned that
@@ -2078,9 +2086,17 @@ change edit fails with `409 Conflict`.
 
 Rebases a revision.
 
+Optionally, the parent revision can be changed to another patch set through the
+link:#rebase-input[RebaseInput] entity.
+
 .Request
 ----
   POST /changes/myProject~master~I3ea943139cb62e86071996f2480e58bf3eeb9dd2/revisions/674ac754f91e64a0efb8087e59a176484bd534d1/rebase HTTP/1.0
+  Content-Type: application/json;charset=UTF-8
+
+  {
+    "base" : "1234",
+  }
 ----
 
 As response a link:#change-info[ChangeInfo] entity is returned that
@@ -3404,6 +3420,19 @@ The `CherryPickInput` entity contains information for cherry-picking a change to
 |Field Name    |Description
 |`message`     |Commit message for the cherry-picked change
 |`destination` |Destination branch
+|===========================
+
+[[rebase-input]]
+=== RebaseInput
+The `RebaseInput` entity contains information for changing parent when rebasing.
+
+[options="header",width="50%",cols="1,^1,5"]
+|===========================
+|Field Name    ||Description
+|`base`        |optional|
+The new parent revision. This can be a ref or a SHA1 to a concrete patchset.
+Alternatively, a change number can be specified, in which case the current patch set is inferred.
+Empty string is used to break existing dependency with other change.
 |===========================
 
 [[comment-info]]

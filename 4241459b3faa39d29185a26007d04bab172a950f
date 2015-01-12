@@ -216,6 +216,30 @@
     },
     {
       "key": {
+        "uuid": "ceb2cd5b_b1efa014",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_102.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-12T12:44:22Z",
+      "side": 1,
+      "message": "Fixed for both cases in [1].\n\n[1] https://gerrit-review.googlesource.com/63181",
+      "parentUuid": "aeb7594b_90cd34ca",
+      "range": {
+        "startLine": 40,
+        "startChar": 6,
+        "endLine": 40,
+        "endChar": 23
+      },
+      "revId": "4241459b3faa39d29185a26007d04bab172a950f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4175d075_f5a3b8b2",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_102.java",
         "patchSetId": 5

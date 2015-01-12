@@ -547,7 +547,7 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel
         public void onClick(final ClickEvent event) {
           b.setEnabled(false);
           final Change.Id id = patchSet.getId().getParentKey();
-          ChangeApi.rebase(id.get(), patchSet.getRevision().get(),
+          ChangeApi.rebase(id.get(), patchSet.getRevision().get(), null,
               new GerritCallback<ChangeInfo>() {
                 @Override
                 public void onSuccess(ChangeInfo result) {

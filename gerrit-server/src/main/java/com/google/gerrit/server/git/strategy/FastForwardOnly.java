@@ -19,6 +19,7 @@ import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.CommitMergeStatus;
 import com.google.gerrit.server.git.MergeException;
 
+import java.util.Collection;
 import java.util.List;
 
 public class FastForwardOnly extends SubmitStrategy {
@@ -28,13 +29,14 @@ public class FastForwardOnly extends SubmitStrategy {
 
   @Override
   protected CodeReviewCommit _run(CodeReviewCommit mergeTip,
-      List<CodeReviewCommit> toMerge) throws MergeException {
-    args.mergeUtil.reduceToMinimalMerge(args.mergeSorter, toMerge);
+      Collection<CodeReviewCommit> toMerge) throws MergeException {
+    List<CodeReviewCommit> sorted = args.mergeUtil.reduceToMinimalMerge(
+        args.mergeSorter, toMerge);
     CodeReviewCommit newMergeTip =
-        args.mergeUtil.getFirstFastForward(mergeTip, args.rw, toMerge);
+        args.mergeUtil.getFirstFastForward(mergeTip, args.rw, sorted);
 
-    while (!toMerge.isEmpty()) {
-      CodeReviewCommit n = toMerge.remove(0);
+    while (!sorted.isEmpty()) {
+      CodeReviewCommit n = sorted.remove(0);
       n.setStatusCode(CommitMergeStatus.NOT_FAST_FORWARD);
     }
 

@@ -37,8 +37,8 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevFlag;
 import org.eclipse.jgit.revwalk.RevWalk;
 
+import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -106,19 +106,20 @@ public abstract class SubmitStrategy {
    *
    * @param mergeTip the merge tip.
    * @param toMerge the list of submitted commits that should be merged using
-   *        this submit strategy.
+   *        this submit strategy. Implementations are responsible for ordering
+   *        of commits, and should not modify the input in place.
    * @return the new merge tip.
    * @throws MergeException
    */
   public CodeReviewCommit run(CodeReviewCommit mergeTip,
-      List<CodeReviewCommit> toMerge) throws MergeException {
+      Collection<CodeReviewCommit> toMerge) throws MergeException {
     refLogIdent = null;
     return _run(mergeTip, toMerge);
   }
 
-  /** @see #run(CodeReviewCommit, List) */
+  /** @see #run(CodeReviewCommit, Collection) */
   protected abstract CodeReviewCommit _run(CodeReviewCommit mergeTip,
-      List<CodeReviewCommit> toMerge) throws MergeException;
+      Collection<CodeReviewCommit> toMerge) throws MergeException;
 
   /**
    * Checks whether the given commit can be merged.
@@ -140,7 +141,7 @@ public abstract class SubmitStrategy {
    * the destination branch.
    * <p>
    * The reflog identity may only be set during {@link #run(CodeReviewCommit,
-   * List)}, and this method is invalid to call beforehand.
+   * Collection)}, and this method is invalid to call beforehand.
    *
    * @return the ref log identity, which may be {@code null}.
    */
@@ -155,7 +156,8 @@ public abstract class SubmitStrategy {
    * By default this method returns an empty map, but subclasses may override
    * this method to provide any newly created commits.
    *
-   * This method may only be called after {@link #run(CodeReviewCommit, List)}.
+   * This method may only be called after {@link #run(CodeReviewCommit,
+   * Collection)}.
    *
    * @return new commits created for changes that were merged.
    */

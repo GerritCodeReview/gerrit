@@ -159,7 +159,7 @@ class Actions extends Composite {
 
   @UiHandler("rebase")
   void onRebase(@SuppressWarnings("unused") ClickEvent e) {
-    RebaseAction.call(changeId, revision);
+    RebaseAction.call(rebase, project, changeInfo.branch(), changeId, revision);
   }
 
   @UiHandler("cherrypick")

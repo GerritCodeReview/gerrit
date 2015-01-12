@@ -23,6 +23,7 @@ import com.google.gerrit.extensions.api.changes.CommentApi;
 import com.google.gerrit.extensions.api.changes.DraftApi;
 import com.google.gerrit.extensions.api.changes.DraftInput;
 import com.google.gerrit.extensions.api.changes.FileApi;
+import com.google.gerrit.extensions.api.changes.RebaseInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.RevisionApi;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
@@ -179,8 +180,14 @@ class RevisionApiImpl extends RevisionApi.NotImplemented implements RevisionApi 
 
   @Override
   public ChangeApi rebase() throws RestApiException {
+    RebaseInput in = new RebaseInput();
+    return rebase(in);
+  }
+
+  @Override
+  public ChangeApi rebase(RebaseInput in) throws RestApiException {
     try {
-      return changes.id(rebase.apply(revision, null)._number);
+      return changes.id(rebase.apply(revision, in)._number);
     } catch (OrmException | EmailException e) {
       throw new RestApiException("Cannot rebase ps", e);
     }

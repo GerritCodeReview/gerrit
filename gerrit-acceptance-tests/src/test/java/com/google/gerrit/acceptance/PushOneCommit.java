@@ -215,6 +215,10 @@ public class PushOneCommit {
           queryProvider.get().byKeyPrefix(commit.getChangeId()));
     }
 
+    public PatchSet getPatchSet() throws OrmException {
+      return getChange().currentPatchSet();
+    }
+
     public PatchSet.Id getPatchSetId() throws OrmException {
       return getChange().change().currentPatchSetId();
     }

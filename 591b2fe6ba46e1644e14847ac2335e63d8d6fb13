@@ -22,6 +22,30 @@
       "revId": "591b2fe6ba46e1644e14847ac2335e63d8d6fb13",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ce13adda_a9c89d87",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_82.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-12T19:10:11Z",
+      "side": 1,
+      "message": "Reworded the comment, fixing is beyond the scope of this change.",
+      "parentUuid": "ee0eb1b4_8a26eba3",
+      "range": {
+        "startLine": 126,
+        "startChar": 24,
+        "endLine": 127,
+        "endChar": 50
+      },
+      "revId": "591b2fe6ba46e1644e14847ac2335e63d8d6fb13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

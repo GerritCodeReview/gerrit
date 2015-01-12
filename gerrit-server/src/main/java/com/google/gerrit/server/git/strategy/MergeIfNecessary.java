@@ -22,7 +22,7 @@ import java.util.List;
 
 public class MergeIfNecessary extends SubmitStrategy {
 
-  MergeIfNecessary(final SubmitStrategy.Arguments args) {
+  MergeIfNecessary(SubmitStrategy.Arguments args) {
     super(args);
   }
 
@@ -42,13 +42,12 @@ public class MergeIfNecessary extends SubmitStrategy {
 
     // For every other commit do a pair-wise merge.
     while (!toMerge.isEmpty()) {
-      mergeTip =
-          args.mergeUtil.mergeOneCommit(args.serverIdent.get(), args.repo, args.rw,
-              args.inserter, args.canMergeFlag, args.destBranch, mergeTip,
-              toMerge.remove(0));
+      mergeTip = args.mergeUtil.mergeOneCommit(args.serverIdent.get(),
+          args.repo, args.rw, args.inserter, args.canMergeFlag, args.destBranch,
+          mergeTip, toMerge.remove(0));
     }
 
-    final PatchSetApproval submitApproval = args.mergeUtil.markCleanMerges(
+    PatchSetApproval submitApproval = args.mergeUtil.markCleanMerges(
         args.rw, args.canMergeFlag, mergeTip, args.alreadyAccepted);
     setRefLogIdent(submitApproval);
 
@@ -56,8 +55,8 @@ public class MergeIfNecessary extends SubmitStrategy {
   }
 
   @Override
-  public boolean dryRun(final CodeReviewCommit mergeTip,
-      final CodeReviewCommit toMerge) throws MergeException {
+  public boolean dryRun(CodeReviewCommit mergeTip, CodeReviewCommit toMerge)
+      throws MergeException {
     return args.mergeUtil.canFastForward(
           args.mergeSorter, mergeTip, args.rw, toMerge)
         || args.mergeUtil.canMerge(

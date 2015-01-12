@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "4e197d2f_f52478d7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1018107
+      },
+      "writtenOn": "2015-01-12T15:31:35Z",
+      "side": 1,
+      "message": "Change limitations to limitation.",
+      "revId": "4512ff06a2f10746dfbd09c43b014f27354dbb23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4e197d2f_d5297caf",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 1
@@ -42,6 +59,23 @@
         "endLine": 100,
         "endChar": 7
       },
+      "revId": "4512ff06a2f10746dfbd09c43b014f27354dbb23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4e197d2f_55160c6c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Rebase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1018107
+      },
+      "writtenOn": "2015-01-12T15:31:35Z",
+      "side": 1,
+      "message": "Does not catch EmailException or OrmException which rebase() can generate.",
       "revId": "4512ff06a2f10746dfbd09c43b014f27354dbb23",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

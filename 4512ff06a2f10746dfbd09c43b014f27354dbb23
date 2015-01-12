@@ -82,6 +82,24 @@
     },
     {
       "key": {
+        "uuid": "aeb7594b_10330413",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Rebase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1018043
+      },
+      "writtenOn": "2015-01-12T15:46:41Z",
+      "side": 1,
+      "message": "Those two exceptions are not meant to be caught.",
+      "parentUuid": "4e197d2f_55160c6c",
+      "revId": "4512ff06a2f10746dfbd09c43b014f27354dbb23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "aeb7594b_9046d481",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Rebase.java",
         "patchSetId": 1

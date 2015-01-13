@@ -46,6 +46,30 @@
       "revId": "6fb5127e209161316b6b86771cb4603827d2452a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aed03989_e82493d7",
+        "filename": "Documentation/json.txt",
+        "patchSetId": 26
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-13T13:15:50Z",
+      "side": 1,
+      "message": "But won\u0027t the revision here be the same as the revision in the newRev field of the ref-updated event that is sent at the same time?",
+      "parentUuid": "ce4e4d56_31dab07b",
+      "range": {
+        "startLine": 162,
+        "startChar": 3,
+        "endLine": 162,
+        "endChar": 14
+      },
+      "revId": "6fb5127e209161316b6b86771cb4603827d2452a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

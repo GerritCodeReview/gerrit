@@ -70,6 +70,30 @@
       "revId": "6fb5127e209161316b6b86771cb4603827d2452a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ee49514e_3201d02f",
+        "filename": "Documentation/json.txt",
+        "patchSetId": 26
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2015-01-13T13:26:21Z",
+      "side": 1,
+      "message": "Yes, at least it should be... :-).\nI still feel that in the context of the change-merged-event there is no new revision, since there is no old revision.\n\nBut I might be wrong, and using newRev instead would make the MergeResultAttribute redundant since the newRev is only the revision which would cater to Dave\u0027s comment in [1].\nI yield...\n\n[1] https://gerrit-review.googlesource.com/#/c/61834/6/gerrit-server/src/main/java/com/google/gerrit/server/data/MergeResultAttribute.java",
+      "parentUuid": "aed03989_e82493d7",
+      "range": {
+        "startLine": 162,
+        "startChar": 3,
+        "endLine": 162,
+        "endChar": 14
+      },
+      "revId": "6fb5127e209161316b6b86771cb4603827d2452a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

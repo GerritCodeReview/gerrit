@@ -20,6 +20,7 @@ import com.google.common.base.MoreObjects;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.notedb.NotesMigration;
@@ -245,6 +246,18 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
       config.setBoolean(ConfigConstants.CONFIG_CORE_SECTION,
         null, ConfigConstants.CONFIG_KEY_LOGALLREFUPDATES, true);
       config.save();
+
+      // JGit only writes to the reflog for refs/meta/config if the log file
+      // already exists.
+      //
+      File metaConfigLog =
+          new File(db.getDirectory(), "logs/" + RefNames.REFS_CONFIG);
+      if (!metaConfigLog.getParentFile().mkdirs()
+          || !metaConfigLog.createNewFile()) {
+        log.error(String.format(
+            "Failed to create ref log for %s in repository %s",
+            RefNames.REFS_CONFIG, name));
+      }
 
       onCreateProject(name);
 

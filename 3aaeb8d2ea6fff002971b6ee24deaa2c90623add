@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cedbadab_89cd19ca",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/args4j/ChangeIdHandler.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-13T00:59:33Z",
+      "side": 1,
+      "message": "I don\u0027t actually know how to test this. IIUC from reading the glue, this parses any @Option (maybe also @Argument?) whose variable type is Change.Id. But based on the following search, I can\u0027t find any such options anywhere:\n\n $ find g* -name \\*.java | sort | xargs pcregrep -A1 \u0027@(Option|Argument)\u0027 | fgrep Change.Id",
+      "revId": "3aaeb8d2ea6fff002971b6ee24deaa2c90623add",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

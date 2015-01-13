@@ -22,4 +22,6 @@ interface EditConstants extends Constants {
 
   String closeUnsavedChanges();
   String cancelUnsavedChanges();
+
+  String gotoLineNumber();
 }

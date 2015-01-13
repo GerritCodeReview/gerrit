@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8e6375c3_5762acf7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2015-01-13T20:26:31Z",
+      "side": 1,
+      "message": "Due to the extra complexity that this change adds to manage repos in order to resolve namespace, can you explain why this is a better solution than letting admins manage the namespace with softlinks or bind mounts (which inherently manages the coliisions)?",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 6
+      },
+      "revId": "898ddf8a55f20660123af4634195edcb177f8596",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

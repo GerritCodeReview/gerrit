@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "2e728991_b446a081",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2015-01-13T22:04:49Z",
+      "side": 1,
+      "message": "I would think that a multi-tenant enviroment would want multiple \"roots\", i.e. they would was multiple All-Project, All-Users, and All-Groups.  So I unless this change supports that, does it make sense to consider it a use case for this change?",
+      "range": {
+        "startLine": 16,
+        "startChar": 37,
+        "endLine": 16,
+        "endChar": 42
+      },
+      "revId": "898ddf8a55f20660123af4634195edcb177f8596",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8e6375c3_5762acf7",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4
@@ -37,6 +60,30 @@
       "side": 1,
       "message": "In our case, our repos are on nfs and we would like to be able to move some hyper-active repos on a better storage but we cannot do that with softlinks because we would end end going through the nfs to reach the high performance storage.\n\nThen we thought about using local storage for gerrit basePath and use softlinks inside the basePath for nfs and high performance storage. With that approach, it works fine when the project is already created on the nfs(or high performance) volume and the softlink is in the basePath but the problem is when you want to create a project, you need to create the folder on the volume and the the softlink in the basePath prior to create the project with gerrit otherwise the repo will end up on the local storage.\n\nThat is why we thought that gerrit should support alternate basePath which remove manual steps when creating repositories.\n\nWe have a group supporting our gerrit instance whom are allowed to create repositories (and we want to offer a self service for repo creation eventually) and I think it is more likely that someone do a mistake when creating a repo if we tell them they need to softlinks prior to create the repo. In addition, we would also need to give them access to the file systems that gerrit uses, which would prevent us from offering a self-service for repo creation. With this change, the gerrit admin setup where the repositories should go and anyone having the rights to create a repo can.",
       "parentUuid": "8e6375c3_5762acf7",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 6
+      },
+      "revId": "898ddf8a55f20660123af4634195edcb177f8596",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2e728991_9441a46e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2015-01-13T22:04:49Z",
+      "side": 1,
+      "message": "(Sorry I originally posted this reply in the main comments)\n\nThen we thought about using local storage for gerrit basePath and use softlinks inside the basePath for nfs and high performance storage. With that approach, it works fine when the project is already created on the nfs(or high performance) volume and the softlink is in the basePath but the problem is when you want to create a project, you need to create the folder on the volume and the the softlink in the basePath prior to create the project with gerrit otherwise the repo will end up on the local storage.\nHmm, I am not quite following but maybe I don\u0027t know your process.  Are you using Gerrit to create the Projects, or just dropping new repos in into the repo dir?  If you are intending to use Gerrit, then you need to modify Gerrit to be able to point it to another location during repo creation?  If you do that, it might be simpler to just have Gerrit create a softlink at that time?\nHaving one top level directory avoids a whole series of problems.  It avoids namespace collisions, and it makes it easy to write scripts (and other tools such as gitweb...) to operate on all the repos (and there are likely many legacyscripts/tools that do so).  So I suggest we exhaustively explore alternative solutions before making such a drastic change.",
+      "parentUuid": "cedbadab_29686dd8",
       "range": {
         "startLine": 17,
         "startChar": 0,

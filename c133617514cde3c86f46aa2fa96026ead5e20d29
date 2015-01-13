@@ -16,6 +16,24 @@
       "revId": "c133617514cde3c86f46aa2fa96026ead5e20d29",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cedbadab_a9ef3d14",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-13T06:05:43Z",
+      "side": 1,
+      "message": "Well that\u0027s what GerritServer is, but I can see where that is not obvious to the casual reader :)",
+      "parentUuid": "2e728991_14dd9472",
+      "revId": "c133617514cde3c86f46aa2fa96026ead5e20d29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

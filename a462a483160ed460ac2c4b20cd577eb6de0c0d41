@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "cedbadab_6930a504",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/CherryPick.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-13T18:54:47Z",
+      "side": 0,
+      "message": "No, reverted.",
+      "parentUuid": "2e728991_b4cdc0c9",
+      "range": {
+        "startLine": 50,
+        "startChar": 0,
+        "endLine": 52,
+        "endChar": 60
+      },
+      "revId": "a462a483160ed460ac2c4b20cd577eb6de0c0d41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2e728991_d4d23c64",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/RebaseIfNecessary.java",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2015-01-13T06:02:52Z",
       "side": 0,
       "message": "Doesn\u0027t this change belong in https://gerrit-review.googlesource.com/#/c/63211/1 ?",
+      "range": {
+        "startLine": 42,
+        "startChar": 0,
+        "endLine": 44,
+        "endChar": 60
+      },
+      "revId": "a462a483160ed460ac2c4b20cd577eb6de0c0d41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8e6375c3_772df0ac",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/strategy/RebaseIfNecessary.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-13T18:54:47Z",
+      "side": 0,
+      "message": "No, reverted.",
+      "parentUuid": "2e728991_d4d23c64",
       "range": {
         "startLine": 42,
         "startChar": 0,

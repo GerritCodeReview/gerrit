@@ -201,6 +201,30 @@
     },
     {
       "key": {
+        "uuid": "aeb7594b_50162c6c",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/PatchListCacheIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-01-13T15:08:44Z",
+      "side": 1,
+      "message": "What I meant was to have a test case which is red on the old code and green with the new code. I asked for that because all your new tests couldn\u0027t compile against the old code and, thus, we didn\u0027t have an easy way to see how to old code fails.\n\nIf is enough that the assertDeleted (line 166) fails on the old code and succeeds on the new code. Please remove this catch block.",
+      "parentUuid": "ce13adda_6904e53f",
+      "range": {
+        "startLine": 168,
+        "startChar": 0,
+        "endLine": 172,
+        "endChar": 5
+      },
+      "revId": "dc3f82c62bb32d3bad27128568ab2bc9db81b44a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ae0839ac_28bdcbd4",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/PatchListCacheIT.java",
         "patchSetId": 7

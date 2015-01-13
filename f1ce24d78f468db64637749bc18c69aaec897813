@@ -16,6 +16,24 @@
       "revId": "f1ce24d78f468db64637749bc18c69aaec897813",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cedbadab_0933e912",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/projects/ProjectApi.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-01-13T19:30:03Z",
+      "side": 1,
+      "message": "I started by serializing the requests on the client side but I was not really happy with what I was seeing in network profiler when I was deleting many branches so I went with a proper solution even for stable-2.10 branch.",
+      "parentUuid": "ee49514e_921a7c96",
+      "revId": "f1ce24d78f468db64637749bc18c69aaec897813",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

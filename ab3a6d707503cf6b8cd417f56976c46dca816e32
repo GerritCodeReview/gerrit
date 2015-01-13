@@ -16,6 +16,24 @@
       "revId": "ab3a6d707503cf6b8cd417f56976c46dca816e32",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8e6375c3_97efe414",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritGlobalModule.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-01-13T18:42:28Z",
+      "side": 0,
+      "message": "Moved to LocalDiskRepositoryManager.Module, line 72 otherwise guice was not loading because a just-in-time binding was getting configured by the parent injector.",
+      "parentUuid": "cedbadab_09dac97a",
+      "revId": "ab3a6d707503cf6b8cd417f56976c46dca816e32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

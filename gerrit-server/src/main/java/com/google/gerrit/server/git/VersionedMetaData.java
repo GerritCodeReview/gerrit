@@ -45,7 +45,9 @@ import org.eclipse.jgit.transport.ReceiveCommand;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.util.RawParseUtils;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.StringReader;
 import java.util.Objects;
 
 /**
@@ -342,7 +344,12 @@ public abstract class VersionedMetaData {
         RefUpdate ru = db.updateRef(refName);
         ru.setExpectedOldObjectId(oldId);
         ru.setNewObjectId(src);
-        ru.disableRefLog();
+        ru.setRefLogIdent(update.getCommitBuilder().getAuthor());
+        try (BufferedReader reader = new BufferedReader(
+            new StringReader(update.getCommitBuilder().getMessage()))) {
+          // read the subject line and use it as reflog message
+          ru.setRefLogMessage("commit: " + reader.readLine(), true);
+        }
         inserter.flush();
         RefUpdate.Result result = ru.update();
         switch (result) {

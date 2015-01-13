@@ -1,0 +1,101 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8e6375c3_f7d74051",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 2750,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-13T02:00:04Z",
+      "side": 1,
+      "message": "IMHO this should be moved up above into \"Section repository\". That way it is clearer that this note applies to all properties in this section. As it is right now, it\u0027s laid out like:\n\n Description of property A\n Description of property B\n Note that applies to all properties\n Description of property C\n Description of property D\n\nWhat I\u0027m suggesting is to make it:\n\n Note that applies to all properties\n Description of property A\n Description of property B\n Description of property C\n Description of property D",
+      "range": {
+        "startLine": 2748,
+        "startChar": 0,
+        "endLine": 2750,
+        "endChar": 76
+      },
+      "revId": "da4ee61b2be46ac31de73ceb1a92d6cb05502902",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8e6375c3_b7cdc8c9",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 2755,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-13T02:00:04Z",
+      "side": 1,
+      "message": "Don\u0027t mix camel case and underscores.",
+      "range": {
+        "startLine": 2755,
+        "startChar": 37,
+        "endLine": 2755,
+        "endChar": 73
+      },
+      "revId": "da4ee61b2be46ac31de73ceb1a92d6cb05502902",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8e6375c3_d7d23c64",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/LocalDiskRepositoryManager.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-13T02:00:04Z",
+      "side": 1,
+      "message": "Include the offending path in this message.",
+      "revId": "da4ee61b2be46ac31de73ceb1a92d6cb05502902",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cedbadab_c9d71152",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/config/RepositoryConfigTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-13T02:00:04Z",
+      "side": 1,
+      "message": "Extra blank line.",
+      "revId": "da4ee61b2be46ac31de73ceb1a92d6cb05502902",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cedbadab_29dd0d73",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/config/RepositoryConfigTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-13T02:00:04Z",
+      "side": 1,
+      "message": "This test does not convince me that the longest match wins; based on the order you have here, it could also be the first match.",
+      "revId": "da4ee61b2be46ac31de73ceb1a92d6cb05502902",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

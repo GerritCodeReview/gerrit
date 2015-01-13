@@ -22,6 +22,30 @@
       "revId": "6fb5127e209161316b6b86771cb4603827d2452a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ce4e4d56_31dab07b",
+        "filename": "Documentation/json.txt",
+        "patchSetId": 26
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2015-01-13T13:02:09Z",
+      "side": 1,
+      "message": "I don\u0027t feel that the same logic applies here:\n\"newRev\" is the new revision of the ref, but the mergeResult.revision is the resulting revision of the merge. It\u0027s not the new revision, since this merge will only result in one revision and one revision only.",
+      "parentUuid": "6edf2124_3e2d8984",
+      "range": {
+        "startLine": 162,
+        "startChar": 3,
+        "endLine": 162,
+        "endChar": 14
+      },
+      "revId": "6fb5127e209161316b6b86771cb4603827d2452a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

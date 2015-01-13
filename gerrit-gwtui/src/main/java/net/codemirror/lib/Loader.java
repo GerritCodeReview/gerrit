@@ -30,6 +30,11 @@ public class Loader {
   private static native boolean isLibLoaded()
   /*-{ return $wnd.hasOwnProperty('CodeMirror'); }-*/;
 
+  private static native void initCustomAddons() /*-{
+     $wnd.CodeMirror.keyMap.pcDefault["Ctrl-L"] = "gotoLine";
+     $wnd.CodeMirror.keyMap.macDefault["Cmd-L"] = "gotoLine";
+  }-*/;
+
   static void initLibrary(final AsyncCallback<Void> cb) {
     if (isLibLoaded()) {
       cb.onSuccess(null);
@@ -42,6 +47,7 @@ public class Loader {
       @Override
       public void onSuccess(Void result) {
         Vim.initKeyMap();
+        initCustomAddons();
       }
 
       @Override

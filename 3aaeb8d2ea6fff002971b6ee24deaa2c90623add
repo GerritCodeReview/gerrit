@@ -16,6 +16,24 @@
       "revId": "3aaeb8d2ea6fff002971b6ee24deaa2c90623add",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8e6375c3_97a524be",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/args4j/ChangeIdHandler.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-01-13T22:18:27Z",
+      "side": 1,
+      "message": "Looks like dead code to me. I bet we had this in once upon a time for something like \"ssh ... gerrit review\" accepting a Change.Id on the command line. And don\u0027t do that anymore, as the input is now shoved through the REST API internal glue.",
+      "parentUuid": "cedbadab_89cd19ca",
+      "revId": "3aaeb8d2ea6fff002971b6ee24deaa2c90623add",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

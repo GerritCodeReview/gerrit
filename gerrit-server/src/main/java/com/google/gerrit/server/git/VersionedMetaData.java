@@ -342,7 +342,8 @@ public abstract class VersionedMetaData {
         RefUpdate ru = db.updateRef(refName);
         ru.setExpectedOldObjectId(oldId);
         ru.setNewObjectId(src);
-        ru.disableRefLog();
+        ru.setRefLogIdent(update.getCommitBuilder().getAuthor());
+        ru.setRefLogMessage("meta data update", true);
         inserter.flush();
         RefUpdate.Result result = ru.update();
         switch (result) {

@@ -1,0 +1,280 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cedbadab_4916816c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_64.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2015-01-13T17:33:21Z",
+      "side": 1,
+      "message": "Autocloseable?",
+      "range": {
+        "startLine": 65,
+        "startChar": 16,
+        "endLine": 65,
+        "endChar": 18
+      },
+      "revId": "96bbeb6b1d8f12776588945be5e2a121077c5761",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2e728991_941a8496",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_65.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2015-01-13T17:33:21Z",
+      "side": 1,
+      "message": "Autocloseable?",
+      "range": {
+        "startLine": 225,
+        "startChar": 15,
+        "endLine": 225,
+        "endChar": 16
+      },
+      "revId": "96bbeb6b1d8f12776588945be5e2a121077c5761",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aed03989_6819c39c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_65.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 341,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2015-01-13T17:33:21Z",
+      "side": 1,
+      "message": "Autocloseable?",
+      "range": {
+        "startLine": 341,
+        "startChar": 6,
+        "endLine": 341,
+        "endChar": 15
+      },
+      "revId": "96bbeb6b1d8f12776588945be5e2a121077c5761",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aed03989_48167f6c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_65.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 408,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2015-01-13T17:33:21Z",
+      "side": 1,
+      "message": "Autocloseable?",
+      "range": {
+        "startLine": 408,
+        "startChar": 18,
+        "endLine": 408,
+        "endChar": 19
+      },
+      "revId": "96bbeb6b1d8f12776588945be5e2a121077c5761",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2e728991_b41f8085",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_67.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2015-01-13T17:33:21Z",
+      "side": 1,
+      "message": "Autocloseable?",
+      "range": {
+        "startLine": 51,
+        "startChar": 25,
+        "endLine": 51,
+        "endChar": 26
+      },
+      "revId": "96bbeb6b1d8f12776588945be5e2a121077c5761",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2e728991_d424fcd7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_69.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2015-01-13T17:33:21Z",
+      "side": 1,
+      "message": "Autocloseable?",
+      "range": {
+        "startLine": 76,
+        "startChar": 21,
+        "endLine": 76,
+        "endChar": 25
+      },
+      "revId": "96bbeb6b1d8f12776588945be5e2a121077c5761",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aed03989_a841fb6d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_74.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2015-01-13T17:33:21Z",
+      "side": 1,
+      "message": "Autocloseable?",
+      "range": {
+        "startLine": 58,
+        "startChar": 35,
+        "endLine": 58,
+        "endChar": 55
+      },
+      "revId": "96bbeb6b1d8f12776588945be5e2a121077c5761",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aed03989_080c875e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_77.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2015-01-13T17:33:21Z",
+      "side": 1,
+      "message": "Autocloseable?",
+      "range": {
+        "startLine": 136,
+        "startChar": 4,
+        "endLine": 136,
+        "endChar": 21
+      },
+      "revId": "96bbeb6b1d8f12776588945be5e2a121077c5761",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2e728991_54fe2cc2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_77.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2015-01-13T17:33:21Z",
+      "side": 1,
+      "message": "Is this autocloseable also?",
+      "range": {
+        "startLine": 204,
+        "startChar": 6,
+        "endLine": 204,
+        "endChar": 23
+      },
+      "revId": "96bbeb6b1d8f12776588945be5e2a121077c5761",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2e728991_f429f8ae",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_87.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2015-01-13T17:33:21Z",
+      "side": 1,
+      "message": "Autocloseable? (Not currently closed explicitly)",
+      "range": {
+        "startLine": 55,
+        "startChar": 14,
+        "endLine": 55,
+        "endChar": 15
+      },
+      "revId": "96bbeb6b1d8f12776588945be5e2a121077c5761",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2e728991_140f5456",
+        "filename": "gerrit-war/src/main/java/com/google/gerrit/httpd/SiteInitializer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2015-01-13T17:33:21Z",
+      "side": 1,
+      "message": "Is this Autocloseable?",
+      "range": {
+        "startLine": 57,
+        "startChar": 17,
+        "endLine": 57,
+        "endChar": 21
+      },
+      "revId": "96bbeb6b1d8f12776588945be5e2a121077c5761",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2e728991_74fb28d1",
+        "filename": "lib/BUCK",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2015-01-13T17:33:21Z",
+      "side": 1,
+      "message": "This version bump should probably get mentioned in the commit message.",
+      "range": {
+        "startLine": 31,
+        "startChar": 13,
+        "endLine": 31,
+        "endChar": 14
+      },
+      "revId": "96bbeb6b1d8f12776588945be5e2a121077c5761",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

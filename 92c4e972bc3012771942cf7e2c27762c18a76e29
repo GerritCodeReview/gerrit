@@ -184,6 +184,24 @@
     },
     {
       "key": {
+        "uuid": "8e6375c3_17367402",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/config/RepositoryConfigTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-01-13T18:33:52Z",
+      "side": 1,
+      "message": "I missed those 2 comments, done in ps4",
+      "parentUuid": "4ed6dd40_6ddd1572",
+      "revId": "92c4e972bc3012771942cf7e2c27762c18a76e29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2ee36920_2ce71340",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/config/RepositoryConfigTest.java",
         "patchSetId": 2
@@ -195,6 +213,24 @@
       "writtenOn": "2015-01-09T05:12:33Z",
       "side": 1,
       "message": "nit: extra blank line",
+      "revId": "92c4e972bc3012771942cf7e2c27762c18a76e29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cedbadab_c940b167",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/config/RepositoryConfigTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-01-13T18:33:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2ee36920_2ce71340",
       "revId": "92c4e972bc3012771942cf7e2c27762c18a76e29",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -34,6 +34,24 @@
       "revId": "3aaeb8d2ea6fff002971b6ee24deaa2c90623add",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8e6375c3_b7aa288b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/args4j/ChangeIdHandler.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-13T22:21:03Z",
+      "side": 1,
+      "message": "Ok. I propose leaving this in, warty comment and all, so we can delete the ChangeAccess method. I will dig through all the args4j handlers later and see which ones of them I can kill.",
+      "parentUuid": "8e6375c3_97a524be",
+      "revId": "3aaeb8d2ea6fff002971b6ee24deaa2c90623add",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

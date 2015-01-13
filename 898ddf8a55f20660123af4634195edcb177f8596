@@ -22,6 +22,30 @@
       "revId": "898ddf8a55f20660123af4634195edcb177f8596",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cedbadab_29686dd8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-01-13T21:00:25Z",
+      "side": 1,
+      "message": "In our case, our repos are on nfs and we would like to be able to move some hyper-active repos on a better storage but we cannot do that with softlinks because we would end end going through the nfs to reach the high performance storage.\n\nThen we thought about using local storage for gerrit basePath and use softlinks inside the basePath for nfs and high performance storage. With that approach, it works fine when the project is already created on the nfs(or high performance) volume and the softlink is in the basePath but the problem is when you want to create a project, you need to create the folder on the volume and the the softlink in the basePath prior to create the project with gerrit otherwise the repo will end up on the local storage.\n\nThat is why we thought that gerrit should support alternate basePath which remove manual steps when creating repositories.\n\nWe have a group supporting our gerrit instance whom are allowed to create repositories (and we want to offer a self service for repo creation eventually) and I think it is more likely that someone do a mistake when creating a repo if we tell them they need to softlinks prior to create the repo. In addition, we would also need to give them access to the file systems that gerrit uses, which would prevent us from offering a self-service for repo creation. With this change, the gerrit admin setup where the repositories should go and anyone having the rights to create a repo can.",
+      "parentUuid": "8e6375c3_5762acf7",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 6
+      },
+      "revId": "898ddf8a55f20660123af4634195edcb177f8596",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

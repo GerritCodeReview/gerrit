@@ -143,6 +143,30 @@
     },
     {
       "key": {
+        "uuid": "cedbadab_69e7053f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/LocalDiskRepositoryManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 403,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-13T01:59:59Z",
+      "side": 1,
+      "message": "Right, but based on the implementation of scanProjects, it looks like the last one wins. Regardless of the specificity of the wildcard match.\n\nRegardless of what you end up doing, it would be really good to have a test case here.",
+      "parentUuid": "6ea1e10b_0edacb7a",
+      "range": {
+        "startLine": 401,
+        "startChar": 6,
+        "endLine": 403,
+        "endChar": 7
+      },
+      "revId": "92c4e972bc3012771942cf7e2c27762c18a76e29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4ed6dd40_6ddd1572",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/config/RepositoryConfigTest.java",
         "patchSetId": 2

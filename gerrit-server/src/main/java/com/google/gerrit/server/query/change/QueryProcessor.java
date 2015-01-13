@@ -125,6 +125,9 @@ public class QueryProcessor {
       // Always bump limit by 1, even if this results in exceeding the permitted
       // max for this user. The only way to see if there are more changes is to
       // ask for one more result from the query.
+      if (limit == Integer.MAX_VALUE) {
+        limit--;
+      }
       Predicate<ChangeData> s = queryRewriter.rewrite(q, start, limit + 1);
       if (!(s instanceof ChangeDataSource)) {
         q = Predicate.and(open(), q);

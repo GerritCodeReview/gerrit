@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ee49514e_921a7c96",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/projects/ProjectApi.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-01-13T15:04:28Z",
+      "side": 1,
+      "message": "I expected that, for stable-2.10, you would serialize requests on the client side i.e. send one deletion request per branch and waiting on it to finish before sending the next one. \n\nThen in master we could introduce the new rest endpoint and have only one request. However, since you already did that in stable-2.10 I am OK with submitting it.",
+      "revId": "f1ce24d78f468db64637749bc18c69aaec897813",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ce4e4d56_d1e96410",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/rpc/RestApi.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 431,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-13T19:30:47Z",
+      "side": 1,
+      "message": "Other two alternatives would be:\n\n* Use another UTF aware bas64 decoding JS library with proper license, e.g.: [1].\n* Use first approach described in MDN link above:\n\n  function utf8_to_b64( str ) {\n    return window.btoa(unescape(encodeURIComponent( str )));\n  }\n  function b64_to_utf8( str ) {\n    return decodeURIComponent(escape(window.atob( str )));\n  }\n\nProblem with this approach is that there is no obvious way to do this in Java:\n\n  unescape(encodeURIComponent(str));\n\nThere is PercentEscape.java from Guava library for encodeURIComponent(). unescape code can be found here: [2]. Even uglier hack would be to do it in JS on the server side:\n\n\n     ScriptEngineManager factory \u003d new ScriptEngineManager();\n     ScriptEngine engine \u003d factory.getEngineByName(\"JavaScript\");\n     String result \u003d engine.eval(\"unescape(encodeURIComponent(\u0027\" + str + \"\u0027))\");\n\n* [1] https://github.com/dankogai/js-base64/blob/master/base64.js\n* [2] https://github.com/mozilla/rhino/blob/master/src/org/mozilla/javascript/NativeGlobal.java#L450,L487",
+      "range": {
+        "startLine": 431,
+        "startChar": 31,
+        "endLine": 431,
+        "endChar": 43
+      },
+      "revId": "48be849bb96b355d0e155be81d0b702efa896bc6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

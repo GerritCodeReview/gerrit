@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "8e6375c3_f78580e5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-14T17:32:56Z",
+      "side": 1,
+      "message": "Um, ok, but I\u0027m still not writing another schema upgrade for this change.\n\nLiterally the only thing preventing me from finishing the next change is having to respond to your comments on this one.",
+      "parentUuid": "ee49514e_d29fa46b",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 27
+      },
+      "revId": "67f61727842526cd5fe622cfd50ef4b790c38179",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ce4e4d56_316550ff",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java",
         "patchSetId": 5
@@ -132,6 +156,30 @@
       "side": 1,
       "message": "Thanks, missed it. I wonder if some of unit tests are red if this line is missed?",
       "parentUuid": "cedbadab_0968098f",
+      "range": {
+        "startLine": 172,
+        "startChar": 4,
+        "endLine": 172,
+        "endChar": 25
+      },
+      "revId": "67f61727842526cd5fe622cfd50ef4b790c38179",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8e6375c3_176bd48e",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-14T17:32:56Z",
+      "side": 1,
+      "message": "Yes, otherwise I wouldn\u0027t have known to add it :)\n\nBut I forget which ones.",
+      "parentUuid": "ee49514e_f2a4a8be",
       "range": {
         "startLine": 172,
         "startChar": 4,

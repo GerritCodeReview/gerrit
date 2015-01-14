@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "ce4e4d56_b17140cf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2015-01-14T11:08:35Z",
+      "side": 1,
+      "message": "Yes I noticed that, unintentional.\nDone.",
+      "parentUuid": "2e728991_7491685a",
+      "range": {
+        "startLine": 2,
+        "startChar": 12,
+        "endLine": 2,
+        "endChar": 54
+      },
+      "revId": "6aa3272c00b01a4ade384915223493466a3450c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "aed03989_c8cd4f97",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -36,6 +60,24 @@
       "writtenOn": "2015-01-14T10:10:11Z",
       "side": 1,
       "message": "Mention why this is done, i.e. as a step towards the separate verification notification channel implementation?",
+      "revId": "6aa3272c00b01a4ade384915223493466a3450c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ee49514e_326550ff",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2015-01-14T11:08:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aed03989_c8cd4f97",
       "revId": "6aa3272c00b01a4ade384915223493466a3450c2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "ee49514e_5262d4f7",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/LabelId.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2015-01-14T11:08:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2e728991_3497f052",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "6aa3272c00b01a4ade384915223493466a3450c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2e728991_54946c4b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeUtil.java",
         "patchSetId": 1
@@ -76,6 +142,30 @@
       "writtenOn": "2015-01-14T10:10:11Z",
       "side": 1,
       "message": "Wrong order.",
+      "range": {
+        "startLine": 29,
+        "startChar": 41,
+        "endLine": 29,
+        "endChar": 48
+      },
+      "revId": "6aa3272c00b01a4ade384915223493466a3450c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ee49514e_725fd830",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2015-01-14T11:08:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2e728991_54946c4b",
       "range": {
         "startLine": 29,
         "startChar": 41,

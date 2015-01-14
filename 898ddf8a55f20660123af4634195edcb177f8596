@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "8e6375c3_b790682e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-01-14T14:03:36Z",
+      "side": 1,
+      "message": "The main motivation for this change is store repos on different storage so I can remove this from the commit message. I was trying to see if this change could be useful for other use case and get people interested in it :)",
+      "parentUuid": "2e728991_b446a081",
+      "range": {
+        "startLine": 16,
+        "startChar": 37,
+        "endLine": 16,
+        "endChar": 42
+      },
+      "revId": "898ddf8a55f20660123af4634195edcb177f8596",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8e6375c3_5762acf7",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4

@@ -73,6 +73,24 @@
     },
     {
       "key": {
+        "uuid": "cedbadab_c9e1d1de",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-14T00:35:54Z",
+      "side": 1,
+      "message": "Yes, I saw that, I meant put it in the commit message.",
+      "parentUuid": "8e6375c3_f70f4024",
+      "revId": "8ceca273bfeeaaa0b5a78ae7df1c3a341ad3322d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cedbadab_c9a431bf",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/PatchSetDetailFactory.java",
         "patchSetId": 7

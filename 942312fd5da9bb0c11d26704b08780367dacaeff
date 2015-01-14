@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "8e6375c3_b7fea874",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 366,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-14T00:53:25Z",
+      "side": 1,
+      "message": "\u003e Why is a change abandoned in that moment?\n\nIt\u0027s a race. Perhaps the change was owned by someone else and they decided they wanted to abandon it.\n\n\u003e So you\u0027d just ignore the return of submitToDatabase and think it\u0027s fine if some are abandoned during the submission?\n\nNot ignore the return value. Make it return the change regardless of whether or not it was modified. Only abort if the status is not in {SUBMITTED,ABANDONED}.\n\nExcept maybe you\u0027d also want to double-check the topic.\n\nEh, maybe aborting is easier.",
+      "parentUuid": "8e6375c3_37c4584e",
+      "revId": "942312fd5da9bb0c11d26704b08780367dacaeff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cedbadab_293cedb1",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
         "patchSetId": 8

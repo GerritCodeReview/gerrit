@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aed03989_48baffdd",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/registration/DynamicItem.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2015-01-14T16:20:37Z",
+      "side": 0,
+      "message": "I believe the intent of this code is to prevent multiple plugins from providing a DynamicItem for the same type (since \"Item\" implies a singleton).  Without this, if two plugins provide it, I think the first one will loose (it will simply be overwritten by the second).  With this, it looks like the first one will win and the second one will fail and result in a message in the logs.\n\nTo provide hot-swap, maybe you can keep this, but allow an additional check to see if old.pluginName is the same as the new pluginName?",
+      "range": {
+        "startLine": 187,
+        "startChar": 6,
+        "endLine": 187,
+        "endChar": 8
+      },
+      "revId": "c8c17ec5fbe49e76c87c5bd07d3d03ec9ba6bda4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

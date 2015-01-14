@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "8e6375c3_f75ca0f1",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/PatchSetDetailFactory.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-01-14T17:46:03Z",
+      "side": 1,
+      "message": "Sorry for introducing the overhead.\nJust wanted to clean up, but I saw you already did. Thanks a lot!",
+      "parentUuid": "2e728991_94536432",
+      "range": {
+        "startLine": 30,
+        "startChar": 41,
+        "endLine": 30,
+        "endChar": 47
+      },
+      "revId": "53a5ccd4df2f86c75a2023fff3206c276adb996f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2e728991_7488884a",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/patch/PatchDetailServiceImpl.java",
         "patchSetId": 8

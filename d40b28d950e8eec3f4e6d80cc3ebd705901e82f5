@@ -70,6 +70,30 @@
       "revId": "d40b28d950e8eec3f4e6d80cc3ebd705901e82f5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cedbadab_29522ddb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/SiteIndexer.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-14T18:28:26Z",
+      "side": 1,
+      "message": "\u003e I sought we want to improve that, not to do it even worth?\n\nI\u0027m sorry, I didn\u0027t understand that sentence.\n\n\u003e Again, what is wrong to let \"where project \u003d foo\" still in place and use it only here?\n\nnotedb will kill the changes table so eventually scanning refs will be the _only_ way to look up all changes in a particular project.\n\nSure, we could leave it for now, but if we weren\u0027t moving to notedb I wouldn\u0027t have written this entire series in the first place.",
+      "parentUuid": "ee49514e_f20f4824",
+      "range": {
+        "startLine": 289,
+        "startChar": 60,
+        "endLine": 291,
+        "endChar": 59
+      },
+      "revId": "d40b28d950e8eec3f4e6d80cc3ebd705901e82f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

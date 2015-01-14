@@ -71,6 +71,7 @@ public class EditScreen extends Screen {
   interface Binder extends UiBinder<HTMLPanel, EditScreen> {}
   private static final Binder uiBinder = GWT.create(Binder.class);
 
+  private static int scrollToLine;
   private final PatchSet.Id revision;
   private final String path;
   private DiffPreferences prefs;
@@ -218,6 +219,10 @@ public class EditScreen extends Screen {
         Patch.COMMIT_MSG.equals(path) ? 72 : prefs.lineLength());
     cm.refresh();
     cm.focus();
+    if (scrollToLine != 0) {
+      cm.scrollToLine(scrollToLine);
+      scrollToLine = 0;
+    }
     updateActiveLine();
   }
 
@@ -341,5 +346,9 @@ public class EditScreen extends Screen {
 
   private void injectMode(String type, AsyncCallback<Void> cb) {
     new ModeInjector().add(type).inject(cb);
+  }
+
+  public static void scrollToLine(int line) {
+    scrollToLine = line;
   }
 }

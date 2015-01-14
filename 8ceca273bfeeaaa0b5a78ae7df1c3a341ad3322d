@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "8e6375c3_17159431",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2015-01-14T00:20:14Z",
+      "side": 1,
+      "message": "I actually only spent a few minutes before asking Shawn about request scopes. :)\n\nThe question is whether access to the PerRequestProjectControlCache is worth the complication.",
+      "parentUuid": "8e6375c3_f70f4024",
+      "revId": "8ceca273bfeeaaa0b5a78ae7df1c3a341ad3322d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cedbadab_c9a431bf",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/PatchSetDetailFactory.java",
         "patchSetId": 7

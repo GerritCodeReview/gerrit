@@ -143,6 +143,30 @@
     },
     {
       "key": {
+        "uuid": "aed03989_686263f8",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/PublishedBox.ui.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-14T07:23:24Z",
+      "side": 1,
+      "message": "It also didn\u0027t fit in Chrome on Windows7.\n\n(the jump to line didn\u0027t work there either)",
+      "parentUuid": "ee49514e_f2402867",
+      "range": {
+        "startLine": 62,
+        "startChar": 23,
+        "endLine": 62,
+        "endChar": 30
+      },
+      "revId": "9cae0d563f88db9c22bf4f8c701b6fa162efec5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2e728991_f452d82a",
         "filename": "gerrit-gwtui/src/main/java/net/codemirror/lib/CodeMirror.java",
         "patchSetId": 2

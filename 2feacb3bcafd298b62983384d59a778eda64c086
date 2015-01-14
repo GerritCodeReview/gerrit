@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2e728991_f4401867",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-14T01:07:38Z",
+      "side": 1,
+      "message": "I suggest we ask the author to add a license and copyright header in the original source file [1].\n\n[1] https://github.com/djadmin/djadmin.github.io/commit/6ee5941512d73cdcede929b6b832896842e0845d#diff-5",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 65
+      },
+      "revId": "2feacb3bcafd298b62983384d59a778eda64c086",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

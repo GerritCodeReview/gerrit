@@ -14,6 +14,9 @@
 
 package com.google.gerrit.server.query.change;
 
+import static com.google.gerrit.server.query.change.ChangeData.asChanges;
+import static com.google.gerrit.server.query.change.InternalChangeQuery.parseChangeId;
+
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Optional;
 import com.google.common.collect.Lists;
@@ -125,6 +128,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   @VisibleForTesting
   public static class Arguments {
     final Provider<ReviewDb> db;
+    final Provider<InternalChangeQuery> queryProvider;
     final Provider<ChangeQueryRewriter> rewriter;
     final IdentifiedUser.GenericFactory userFactory;
     final CapabilityControl.Factory capabilityControlFactory;
@@ -150,6 +154,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     @Inject
     @VisibleForTesting
     public Arguments(Provider<ReviewDb> db,
+        Provider<InternalChangeQuery> queryProvider,
         Provider<ChangeQueryRewriter> rewriter,
         IdentifiedUser.GenericFactory userFactory,
         Provider<CurrentUser> self,
@@ -170,16 +175,18 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
         ConflictsCache conflictsCache,
         TrackingFooters trackingFooters,
         @GerritServerConfig Config cfg) {
-      this(db, rewriter, userFactory, self, capabilityControlFactory,
-          changeControlGenericFactory, changeDataFactory, fillArgs, plcUtil,
-          accountResolver, groupBackend, allProjectsName, patchListCache,
-          repoManager, projectCache, listChildProjects, indexes,
-          submitStrategyFactory, conflictsCache, trackingFooters,
+      this(db, queryProvider, rewriter, userFactory, self,
+          capabilityControlFactory, changeControlGenericFactory,
+          changeDataFactory, fillArgs, plcUtil, accountResolver, groupBackend,
+          allProjectsName, patchListCache, repoManager, projectCache,
+          listChildProjects, indexes, submitStrategyFactory, conflictsCache,
+          trackingFooters,
           cfg == null ? true : cfg.getBoolean("change", "allowDrafts", true));
     }
 
     private Arguments(
         Provider<ReviewDb> db,
+        Provider<InternalChangeQuery> queryProvider,
         Provider<ChangeQueryRewriter> rewriter,
         IdentifiedUser.GenericFactory userFactory,
         Provider<CurrentUser> self,
@@ -201,6 +208,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
         TrackingFooters trackingFooters,
         boolean allowsDrafts) {
      this.db = db;
+     this.queryProvider = queryProvider;
      this.rewriter = rewriter;
      this.userFactory = userFactory;
      this.self = self;
@@ -224,7 +232,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     }
 
     Arguments asUser(CurrentUser otherUser) {
-      return new Arguments(db, rewriter, userFactory,
+      return new Arguments(db, queryProvider, rewriter, userFactory,
           Providers.of(otherUser),
           capabilityControlFactory, changeControlGenericFactory,
           changeDataFactory, fillArgs, plcUtil, accountResolver, groupBackend,
@@ -806,9 +814,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       return Collections.singletonList(args.db.get().changes()
           .get(Change.Id.parse(value)));
     } else if (PAT_CHANGE_ID.matcher(value).matches()) {
-      Change.Key a = new Change.Key(parseChangeId(value));
       List<Change> changes =
-          args.db.get().changes().byKeyRange(a, a.max()).toList();
+          asChanges(args.queryProvider.get().byKeyPrefix(value));
       if (changes.isEmpty()) {
         throw error("Change " + value + " not found");
       }
@@ -816,13 +823,6 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     }
 
     throw error("Change " + value + " not found");
-  }
-
-  private static String parseChangeId(String value) {
-    if (value.charAt(0) == 'i') {
-      value = "I" + value.substring(1);
-    }
-    return value;
   }
 
   private Account.Id self() throws QueryParseException {

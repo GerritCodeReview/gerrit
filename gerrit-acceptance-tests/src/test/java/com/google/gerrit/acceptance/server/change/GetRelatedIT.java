@@ -31,6 +31,7 @@ import com.google.gerrit.server.change.GetRelated.ChangeAndCommit;
 import com.google.gerrit.server.change.GetRelated.RelatedInfo;
 import com.google.gerrit.server.edit.ChangeEditModifier;
 import com.google.gerrit.server.edit.ChangeEditUtil;
+import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
@@ -165,7 +166,7 @@ public class GetRelatedIT extends AbstractDaemonTest {
     Commit c3 = createCommit(git, admin.getIdent(), "subject: 3");
     pushHead(git, "refs/for/master", false);
 
-    Change ch2 = getChange(c2);
+    Change ch2 = getChange(c2).change();
     editModifier.createEdit(ch2, getPatchSet(ch2));
     editModifier.modifyFile(editUtil.byChange(ch2).get(), "a.txt",
         RestSession.newRawInput(new byte[] {'a'}));
@@ -198,15 +199,15 @@ public class GetRelatedIT extends AbstractDaemonTest {
   }
 
   private PatchSet.Id getPatchSetId(Commit c) throws OrmException {
-    return getChange(c).currentPatchSetId();
+    return getChange(c).change().currentPatchSetId();
   }
 
   private PatchSet getPatchSet(Change c) throws OrmException {
     return db.patchSets().get(c.currentPatchSetId());
   }
 
-  private Change getChange(Commit c) throws OrmException {
+  private ChangeData getChange(Commit c) throws OrmException {
     return Iterables.getOnlyElement(
-        db.changes().byKey(new Change.Key(c.getChangeId())));
+        queryProvider.get().byKeyPrefix(c.getChangeId()));
   }
 }

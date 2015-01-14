@@ -26,6 +26,7 @@ public class BasicChangeRewrites extends QueryRewriter<ChangeData> {
   private static final ChangeQueryBuilder BUILDER = new ChangeQueryBuilder(
       new ChangeQueryBuilder.Arguments(
           new InvalidProvider<ReviewDb>(),
+          new InvalidProvider<InternalChangeQuery>(),
           new InvalidProvider<ChangeQueryRewriter>(),
           null, null, null, null, null, null, null, null, null, null, null,
           null, null, null, null, null, null, null, null));

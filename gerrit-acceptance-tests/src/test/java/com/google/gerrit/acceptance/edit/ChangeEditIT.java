@@ -14,6 +14,7 @@
 
 package com.google.gerrit.acceptance.edit;
 
+import static com.google.common.collect.Iterables.getOnlyElement;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.GitUtil.cloneProject;
 import static com.google.gerrit.acceptance.GitUtil.createProject;
@@ -27,7 +28,6 @@ import static org.junit.Assert.fail;
 
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
@@ -620,8 +620,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
   }
 
   private Change getChange(String changeId) throws Exception {
-    return Iterables.getOnlyElement(db.changes()
-        .byKey(new Change.Key(changeId)));
+    return getOnlyElement(queryProvider.get().byKeyPrefix(changeId)).change();
   }
 
   private PatchSet getCurrentPatchSet(String changeId) throws Exception {

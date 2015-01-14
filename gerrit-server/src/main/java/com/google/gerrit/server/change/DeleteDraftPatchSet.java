@@ -27,6 +27,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.change.DeleteDraftPatchSet.Input;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gerrit.server.project.NoSuchChangeException;
@@ -49,16 +50,19 @@ public class DeleteDraftPatchSet implements RestModifyView<RevisionResource, Inp
   protected final Provider<ReviewDb> dbProvider;
   private final PatchSetInfoFactory patchSetInfoFactory;
   private final ChangeUtil changeUtil;
+  private final ChangeIndexer indexer;
   private final boolean allowDrafts;
 
   @Inject
   public DeleteDraftPatchSet(Provider<ReviewDb> dbProvider,
       PatchSetInfoFactory patchSetInfoFactory,
       ChangeUtil changeUtil,
+      ChangeIndexer indexer,
       @GerritServerConfig Config cfg) {
     this.dbProvider = dbProvider;
     this.patchSetInfoFactory = patchSetInfoFactory;
     this.changeUtil = changeUtil;
+    this.indexer = indexer;
     this.allowDrafts = cfg.getBoolean("change", "allowDrafts", true);
   }
 
@@ -153,18 +157,20 @@ public class DeleteDraftPatchSet implements RestModifyView<RevisionResource, Inp
     }
   }
 
-  private static void updateChange(final ReviewDb db,
-      final Change change, final PatchSetInfo psInfo)
-      throws OrmException {
-    db.changes().atomicUpdate(change.getId(), new AtomicUpdate<Change>() {
-      @Override
-      public Change update(Change c) {
-        if (psInfo != null) {
-          c.setCurrentPatchSet(psInfo);
-        }
-        ChangeUtil.updated(c);
-        return c;
-      }
-    });
+  private void updateChange(final ReviewDb db,
+      Change change, final PatchSetInfo psInfo)
+      throws OrmException, IOException  {
+    change = db.changes().atomicUpdate(change.getId(),
+        new AtomicUpdate<Change>() {
+          @Override
+          public Change update(Change c) {
+            if (psInfo != null) {
+              c.setCurrentPatchSet(psInfo);
+            }
+            ChangeUtil.updated(c);
+            return c;
+          }
+        });
+    indexer.index(db, change);
   }
 }

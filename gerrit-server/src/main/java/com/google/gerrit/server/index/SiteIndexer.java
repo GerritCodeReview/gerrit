@@ -285,10 +285,9 @@ public class SiteIndexer {
     }
     List<Change> changes = new ArrayList<>(ids.size());
     for (Change.Id id : ids) {
-      // Look up each change individually, as SQL backends may not handle
-      // get(Iterable<K>) well with many thousands of keys. Each change will
-      // already incur many individual database queries in the course of
-      // reindexing, so this additional cost is negligible.
+       // A batch size of N may overload get(Iterable), so we use a batch size
+       // of 1.
+       // TODO(dborowitz): Experiment with other batch sizes.
       changes.add(db.changes().get(id));
     }
     return changes;

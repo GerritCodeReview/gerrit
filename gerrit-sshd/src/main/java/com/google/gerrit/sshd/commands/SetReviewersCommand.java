@@ -29,6 +29,7 @@ import com.google.gerrit.server.change.ReviewerResource;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectControl;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.gwtorm.server.OrmException;
@@ -87,7 +88,10 @@ public class SetReviewersCommand extends SshCommand {
   private Provider<DeleteReviewer> deleteReviewerProvider;
 
   @Inject
-  private ChangeControl.Factory changeControlFactory;
+  private Provider<CurrentUser> userProvider;
+
+  @Inject
+  private ChangeControl.GenericFactory changeControlFactory;
 
   @Inject
   private ChangesCollection changesCollection;
@@ -248,7 +252,8 @@ public class SetReviewersCommand extends SshCommand {
     try {
       if (change != null
           && inProject(change)
-          && changeControlFactory.controlFor(change).isVisible(db)) {
+          && changeControlFactory.controlFor(change,
+                userProvider.get()).isVisible(db)) {
         matched.add(change.getId());
       }
     } catch (NoSuchChangeException e) {

@@ -93,6 +93,46 @@
       "revId": "9a99ad89c915d42e76a6dd4c595cc9d3f0a1141d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cedbadab_29cd0d45",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Dispatcher.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-01-14T22:30:32Z",
+      "side": 1,
+      "message": "dead code",
+      "range": {
+        "startLine": 103,
+        "startChar": 0,
+        "endLine": 104,
+        "endChar": 38
+      },
+      "revId": "9a99ad89c915d42e76a6dd4c595cc9d3f0a1141d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6bfb9334_7ec891b7",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/AccountGeneralPreferences.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-01-14T22:30:32Z",
+      "side": 1,
+      "message": "nit: remove blank lines between DELETED fields",
+      "revId": "9a99ad89c915d42e76a6dd4c595cc9d3f0a1141d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

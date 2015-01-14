@@ -22,6 +22,30 @@
       "revId": "c8c17ec5fbe49e76c87c5bd07d3d03ec9ba6bda4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ce4e4d56_91a51cbe",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/registration/DynamicItem.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-14T22:30:08Z",
+      "side": 0,
+      "message": "Good suggestion. I also added a comment because the code is not that obvious. Done.",
+      "parentUuid": "aed03989_48baffdd",
+      "range": {
+        "startLine": 187,
+        "startChar": 6,
+        "endLine": 187,
+        "endChar": 8
+      },
+      "revId": "c8c17ec5fbe49e76c87c5bd07d3d03ec9ba6bda4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

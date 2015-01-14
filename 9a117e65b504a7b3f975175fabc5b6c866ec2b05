@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "ee49514e_5294944b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-14T19:49:53Z",
+      "side": 1,
+      "message": "I called it that way, to make it very here, how current approach sucks: mixing review channel: \"Comment table\" and vreification chanel: different table in header of change screen.",
+      "parentUuid": "8e6375c3_379d3842",
+      "range": {
+        "startLine": 11,
+        "startChar": 37,
+        "endLine": 11,
+        "endChar": 54
+      },
+      "revId": "9a117e65b504a7b3f975175fabc5b6c866ec2b05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8e6375c3_579aac4a",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -82,6 +106,24 @@
       "writtenOn": "2015-01-14T18:55:52Z",
       "side": 1,
       "message": "Is this value supposed to be purely informative, or is it supposed to enter into submit rule evaluations? If the latter, you\u0027ve got more work to do.\n\nAnother reason why adding a bit to PatchSetApprovals may make more sense.",
+      "revId": "9a117e65b504a7b3f975175fabc5b6c866ec2b05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ce4e4d56_b1c3006b",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/PatchSetVerification.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-14T19:49:53Z",
+      "side": 1,
+      "message": "Only informative to be visualized in header of change screen.",
+      "parentUuid": "cedbadab_094f6935",
       "revId": "9a117e65b504a7b3f975175fabc5b6c866ec2b05",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -135,6 +177,24 @@
       "side": 1,
       "message": "Ok, so this is some piece of metadata that is important to your CI system. Fair enough.\n\nBut what is so important about _this_ piece of metadata compared to any other piece of metadata?\n\nI can think of a bunch of other metadata that other CI systems may think are important. Just off the top of my head:\n\n* time it took to run verification\n* some sort of status enum for the verification, beyond the actual review score (e.g. TIMED_OUT, FLAKY, ...)\n* a list of tests that were run\n\nIs the intent for this class to become a kitchen sink of all possible verification metadata? To the point that the data model of Gerrit subsumes the data model of Jenkins plus Zuul plus the thing we use at Google, ad absurdum?\n\nI strongly believe we don\u0027t want to get into the business of deciding which verification metadata needs to be stored in Gerrit. I think a freeform comment and _maybe_ a URL (though arguably the URL could just go in the comment) are sufficient.\n\nBut that brings me back to my previous question: if there isn\u0027t any particular metadata stored in this table that is different from what we have in ChangeMessages/PatchSetApprovals, other than the fact that this record was produced by a bot, why do we need the separate table?",
       "parentUuid": "aed03989_88aa378b",
+      "revId": "9a117e65b504a7b3f975175fabc5b6c866ec2b05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ee49514e_9227dca3",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/PatchSetVerification.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-14T19:49:53Z",
+      "side": 1,
+      "message": "\u003e why do we need the separate table?\n\nCompare Key implementation in PatchSetVerification above and PatchSetApproval. You see the difference? Account id is missing and LabelId has nothing to do with LabelId in PatchSetApproval. So with current design you can only put one record from Diffy in PatchSetApproval for label \"Verified\" with +1.\n\nBut what if Diffy would want to report these data for ps 1:\n\none row in PatchSetApproval account_id \u003d Diffy, category \u003d \"Verified\", value \u003d -1, and say 6 rows in PatchSetVerification table:\n\n* category        | value| Log\n* --------------------------------------\n* Mac OS X 32 bit | OK   | \u003curl to log\u003e\n* Mac OS X 64 bit | OK   | \u003curl to log\u003e\n* Linux 32 bit    | OK   | \u003curl to log\u003e\n* Linux 64 bit    | OK   | \u003curl to log\u003e\n* Win x86 32 bit  | NOK  | \u003curl to log\u003e\n* Win x86 64 bit  | NOK  | \u003curl to log\u003e\n\nThese information is presented in the header of the change screen, as additional tab, to the left of related tab, as Verification tab. (Nothing to do with review comments, thus the different chanel name).",
+      "parentUuid": "8e6375c3_d7c23c16",
       "revId": "9a117e65b504a7b3f975175fabc5b6c866ec2b05",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

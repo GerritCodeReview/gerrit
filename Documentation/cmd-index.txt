@@ -84,6 +84,9 @@ link:cmd-set-reviewers.html[gerrit set-reviewers]::
 link:cmd-stream-events.html[gerrit stream-events]::
 	Monitor events occurring in real time.
 
+link:cmd-verify.html[gerrit verify]::
+	Verify a patch set from the command line.
+
 link:cmd-version.html[gerrit version]::
 	Show the currently executing version of Gerrit.
 

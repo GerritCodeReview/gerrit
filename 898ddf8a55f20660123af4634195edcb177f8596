@@ -93,6 +93,30 @@
       "revId": "898ddf8a55f20660123af4634195edcb177f8596",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cedbadab_29a06d77",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-01-14T13:53:11Z",
+      "side": 1,
+      "message": "Yes, we use gerrit to create project and the main problem is that it does not know that it need to create a softlink.\n\nWe thought about modifying gerrit to create softlink but this is OS dependent. As far as I know, gerrit can run on windows.\n\nJust to clarify, with this change, gerrit still have one main root folder for git repos (gerrit.basePath) that contains All-Projects and All-Users but you can optionally configure alternate basePath some repositories. People can still go with softlink if they want and never use that feature.",
+      "parentUuid": "2e728991_9441a46e",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 6
+      },
+      "revId": "898ddf8a55f20660123af4634195edcb177f8596",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

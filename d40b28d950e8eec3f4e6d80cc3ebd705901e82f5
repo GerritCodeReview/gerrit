@@ -118,6 +118,30 @@
       "revId": "d40b28d950e8eec3f4e6d80cc3ebd705901e82f5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8e6375c3_17cd9444",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/SiteIndexer.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-14T19:01:26Z",
+      "side": 1,
+      "message": "\u003e I meant when reindexing performance is that bad, we should try to improve it, not to make it even [worse].\n\nIMHO once you\u0027ve reached a threshold, it doesn\u0027t matter that much. Yes, it\u0027s a bit of a slippery slope.\n\n\u003e Sure, but then we would scan notedb not the database.\n\nHow were you imagining we \"scan notedb\" for changes in a way that doesn\u0027t involve reading the refs in each repository?\n\nYes, this particular chunk of code will eventually be replaced by a call to a common library. And that common library will be the place to experiment with batch sizes, whether for database lookups or for parallel RevWalks.\n\nI\u0027m just not buying the argument that what I have written here today is such a regression that it can\u0027t be checked in.\n\nIf I replaced this comment with the following, would that make you happy?\n\n // A batch size of N may overload get(Iterable), so we use a batch size of 1.\n // TODO(dborowitz): Experiment with other batch sizes.",
+      "parentUuid": "ce4e4d56_715fd830",
+      "range": {
+        "startLine": 289,
+        "startChar": 60,
+        "endLine": 291,
+        "endChar": 59
+      },
+      "revId": "d40b28d950e8eec3f4e6d80cc3ebd705901e82f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -15,11 +15,13 @@
 package com.google.gerrit.client.diff;
 
 import com.google.gerrit.client.AvatarImage;
+import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.FormatUtil;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.changes.CommentApi;
 import com.google.gerrit.client.changes.CommentInfo;
 import com.google.gerrit.client.changes.Util;
+import com.google.gerrit.client.editor.EditScreen;
 import com.google.gerrit.client.patches.PatchUtil;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.CommentLinkProcessor;
@@ -58,6 +60,7 @@ class PublishedBox extends CommentBox {
   @UiField Element date;
   @UiField Element message;
   @UiField Element buttons;
+  @UiField Button address;
   @UiField Button reply;
   @UiField Button done;
 
@@ -151,6 +154,18 @@ class PublishedBox extends CommentBox {
       addReplyBox();
     } else {
       openReplyBox();
+    }
+  }
+
+  @UiHandler("address")
+  void onAddress(ClickEvent e) {
+    e.stopPropagation();
+    EditScreen.scrollToLine(comment.line());
+    String token = Dispatcher.toEditScreen(psId, comment.path());
+    if (!Gerrit.isSignedIn()) {
+      Gerrit.doSignIn(token);
+    } else {
+      Gerrit.display(token);
     }
   }
 

@@ -22,6 +22,30 @@
       "revId": "2feacb3bcafd298b62983384d59a778eda64c086",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ee49514e_d23b24ec",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-14T06:26:30Z",
+      "side": 1,
+      "message": "I asked a license question to commit you referenced. Done.",
+      "parentUuid": "2e728991_f4401867",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 65
+      },
+      "revId": "2feacb3bcafd298b62983384d59a778eda64c086",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

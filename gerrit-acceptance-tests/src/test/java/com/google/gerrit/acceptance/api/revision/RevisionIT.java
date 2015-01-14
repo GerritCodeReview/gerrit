@@ -23,6 +23,7 @@ import static org.eclipse.jgit.lib.Constants.HEAD;
 
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
+import com.google.common.collect.Maps;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
@@ -35,6 +36,7 @@ import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.CommentInput;
 import com.google.gerrit.extensions.api.changes.RevisionApi;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
+import com.google.gerrit.extensions.api.changes.VerifyInput;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.ChangeInfo;
@@ -43,6 +45,8 @@ import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.DiffInfo;
 import com.google.gerrit.extensions.common.MergeableInfo;
 import com.google.gerrit.extensions.common.RevisionInfo;
+//import com.google.gerrit.extensions.common.SubmitType;
+import com.google.gerrit.extensions.common.VerificationInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -89,6 +93,35 @@ public class RevisionIT extends AbstractDaemonTest {
         .id(r.getChangeId())
         .current()
         .review(ReviewInput.approve());
+  }
+
+  @Test
+  public void verifyCurrent() throws Exception {
+    PushOneCommit.Result r = createChange();
+    VerifyInput in = new VerifyInput();
+    in.verifications = Maps.newHashMap();
+    VerificationInfo v = new VerificationInfo();
+    String job = "pep8";
+    v.url = "https://ci.host.org/1";
+    v.value = -1;
+    v.verifier = "Your friendly bot";
+    v.comment = "Fix that, please";
+    in.verifications.put(job, v);
+    gApi.changes()
+        .id(r.getChangeId())
+        .current()
+        .verify(in);
+    Map<String, VerificationInfo> out = gApi.changes()
+        .id(r.getChangeId())
+        .current()
+        .verifications();
+    assertThat(out.size()).isEqualTo(1);
+    VerificationInfo o = out.get(job);
+    assertThat(o).isNotNull();
+    assertThat(v.url).isEqualTo(o.url);
+    assertThat(v.value).isEqualTo(o.value);
+    assertThat(v.verifier).isEqualTo(o.verifier);
+    assertThat(v.comment).isEqualTo(o.comment);
   }
 
   @Test

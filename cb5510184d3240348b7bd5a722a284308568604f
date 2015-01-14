@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ee49514e_320c705f",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/server/ChangeAccess.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-14T00:06:28Z",
+      "side": 1,
+      "message": "To reflect open \u003d true where clause and to be consistent with methods above it would be better to call this method byTopicOpenAll().",
+      "range": {
+        "startLine": 59,
+        "startChar": 20,
+        "endLine": 59,
+        "endChar": 27
+      },
+      "revId": "cb5510184d3240348b7bd5a722a284308568604f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ce4e4d56_f12908af",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-14T00:06:28Z",
+      "side": 1,
+      "message": "Unusual comment location. Put it on line 276, just before the return ...",
+      "range": {
+        "startLine": 283,
+        "startChar": 8,
+        "endLine": 286,
+        "endChar": 68
+      },
+      "revId": "cb5510184d3240348b7bd5a722a284308568604f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

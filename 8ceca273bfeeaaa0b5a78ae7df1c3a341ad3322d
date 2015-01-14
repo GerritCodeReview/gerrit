@@ -123,6 +123,24 @@
       "revId": "8ceca273bfeeaaa0b5a78ae7df1c3a341ad3322d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8e6375c3_17b914bb",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/PatchSetDetailFactory.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-01-14T01:43:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cedbadab_c9a431bf",
+      "revId": "8ceca273bfeeaaa0b5a78ae7df1c3a341ad3322d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

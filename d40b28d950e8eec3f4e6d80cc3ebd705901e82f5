@@ -46,6 +46,30 @@
       "revId": "d40b28d950e8eec3f4e6d80cc3ebd705901e82f5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ee49514e_f20f4824",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/SiteIndexer.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-14T18:21:15Z",
+      "side": 1,
+      "message": "| what\u0027s another couple minutes?\n\nI sought we want to improve that, not to do it even worth?\n\nAgain, what is wrong to let \"where project \u003d foo\" still in place and use it only here?",
+      "parentUuid": "8e6375c3_7749702d",
+      "range": {
+        "startLine": 289,
+        "startChar": 60,
+        "endLine": 291,
+        "endChar": 59
+      },
+      "revId": "d40b28d950e8eec3f4e6d80cc3ebd705901e82f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

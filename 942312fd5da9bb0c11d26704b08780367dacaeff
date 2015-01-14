@@ -108,6 +108,24 @@
     },
     {
       "key": {
+        "uuid": "cedbadab_89feb974",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 366,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-14T01:02:49Z",
+      "side": 1,
+      "message": "\u003e This is why I strongly favor aborting.\n\nOk. This is another situation where we want to be able to communicate this back to the user, but we\u0027re already punting on that.\n\n\u003e Modifying changes in flight shall abort the \"in flight\" rather than submitting only half the topic\n\nWell, except it does still submit only half the topic, because submitToDatabase was still called on the first half, and there are no multi-change transactions so you can\u0027t rollback automatically. It doesn\u0027t merge any of the topic, though.\n\nI wonder if it makes more sense to continue calling submitToDatabase on the rest of them. Then maybe you\u0027ll end up with N-1 changes in SUBMITTED and 1 change in ABANDONED, rather than a handful in SUBMITTED, a handful in NEW, and the one in ABANDONED.",
+      "parentUuid": "8e6375c3_f7f8208a",
+      "revId": "942312fd5da9bb0c11d26704b08780367dacaeff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cedbadab_293cedb1",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
         "patchSetId": 8

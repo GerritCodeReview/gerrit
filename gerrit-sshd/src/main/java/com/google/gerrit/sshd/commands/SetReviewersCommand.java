@@ -30,6 +30,8 @@ import com.google.gerrit.server.change.ReviewerResource;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectControl;
+import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.gwtorm.server.OrmException;
@@ -77,6 +79,9 @@ public class SetReviewersCommand extends SshCommand {
 
   @Inject
   private ReviewDb db;
+
+  @Inject
+  private Provider<InternalChangeQuery> queryProvider;
 
   @Inject
   private ReviewerResource.Factory reviewerFactory;
@@ -170,21 +175,10 @@ public class SetReviewersCommand extends SshCommand {
 
     // By newer style changeKey?
     //
-    boolean changeKeyParses = false;
-    if (idstr.matches("^I[0-9a-fA-F]*$")) {
-      Change.Key key;
-      try {
-        key = Change.Key.parse(idstr);
-        changeKeyParses = true;
-      } catch (IllegalArgumentException e) {
-        key = null;
-        changeKeyParses = false;
-      }
-
-      if (changeKeyParses) {
-        for (Change change : db.changes().byKeyRange(key, key.max())) {
-          matchChange(matched, change);
-        }
+    boolean changeKeyParses = idstr.matches("^I[0-9a-f]*$");
+    if (changeKeyParses) {
+      for (ChangeData cd : queryProvider.get().byKeyPrefix(idstr)) {
+        matchChange(matched, cd.change());
       }
     }
 

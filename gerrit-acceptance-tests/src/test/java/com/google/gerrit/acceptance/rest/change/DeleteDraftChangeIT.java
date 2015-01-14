@@ -23,7 +23,6 @@ import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.RestSession;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeStatus;
-import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwtorm.server.OrmException;
 
@@ -97,11 +96,9 @@ public class DeleteDraftChangeIT extends AbstractDaemonTest {
   }
 
   private RestResponse publishPatchSet(String changeId) throws IOException,
-    OrmException {
-    PatchSet patchSet = db.patchSets()
-        .get(Iterables.getOnlyElement(db.changes()
-            .byKey(new Change.Key(changeId)))
-            .currentPatchSetId());
+      OrmException {
+    PatchSet patchSet = Iterables.getOnlyElement(
+        queryProvider.get().byKeyPrefix(changeId)).currentPatchSet();
     return adminSession.post("/changes/"
         + changeId
         + "/revisions/"

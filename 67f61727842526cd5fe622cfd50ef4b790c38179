@@ -1,0 +1,159 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ce4e4d56_518bb447",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-14T15:11:24Z",
+      "side": 1,
+      "message": "I see how it is annoying to bump the schema version every day. OTOH, master was recently broken because of stale indexes.\n\nSuggestion: upload a WIP change, and update it with every removed index (or even column) and put a blocker on release (2.11) not to forget to merge this pending change before rc0 is cut of.",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 27
+      },
+      "revId": "67f61727842526cd5fe622cfd50ef4b790c38179",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ce4e4d56_316550ff",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-14T15:11:24Z",
+      "side": 1,
+      "message": "Unrelated change?",
+      "range": {
+        "startLine": 172,
+        "startChar": 4,
+        "endLine": 172,
+        "endChar": 25
+      },
+      "revId": "67f61727842526cd5fe622cfd50ef4b790c38179",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ce4e4d56_11684cd8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReloadSubmitQueueOp.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-14T15:11:24Z",
+      "side": 1,
+      "message": "Could be inlined in loop below.",
+      "range": {
+        "startLine": 57,
+        "startChar": 6,
+        "endLine": 57,
+        "endChar": 30
+      },
+      "revId": "67f61727842526cd5fe622cfd50ef4b790c38179",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ee49514e_f2cd8896",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/SiteIndexer.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-14T15:11:24Z",
+      "side": 1,
+      "message": "This feels very wrong to me. How would be this translated to SQL?\n\n* where change_id \u003d 1 or change_id \u003d 2 or ...\n* where change_id in (1,2,3,4,5, 1024) or (1024, 1025, ...) or ... \n\nWe cannot use byProject index predicate here, because we are reindexing. We don\u0027t want to use database here, because that what this change is about. So just leave it as is for now and add a TODO? Or have you verified site reindexing with this method implementation for one *very* big repository (0,5 million changes)?",
+      "range": {
+        "startLine": 285,
+        "startChar": 11,
+        "endLine": 285,
+        "endChar": 32
+      },
+      "revId": "67f61727842526cd5fe622cfd50ef4b790c38179",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ce4e4d56_91535c32",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-14T15:11:24Z",
+      "side": 1,
+      "message": "Can we be consistent with creation of collections classes? 8 line above you haven\u0027t used helper class.",
+      "range": {
+        "startLine": 89,
+        "startChar": 8,
+        "endLine": 89,
+        "endChar": 56
+      },
+      "revId": "67f61727842526cd5fe622cfd50ef4b790c38179",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ce4e4d56_7188b84a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/InternalChangeQuery.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-14T15:11:24Z",
+      "side": 1,
+      "message": "I\u0027ve found this non obvious if not to say confusing and way to hidden. Move this comment (or part of it) to line 30?",
+      "range": {
+        "startLine": 54,
+        "startChar": 4,
+        "endLine": 56,
+        "endChar": 57
+      },
+      "revId": "67f61727842526cd5fe622cfd50ef4b790c38179",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ee49514e_d2c88489",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/util/ManualRequestContext.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-14T15:11:24Z",
+      "side": 1,
+      "message": "License header is missing.",
+      "revId": "67f61727842526cd5fe622cfd50ef4b790c38179",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

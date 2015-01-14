@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "cedbadab_a9a57dbd",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/server/ChangeAccess.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-01-14T00:02:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ee0eb1b4_eaf9e78f",
+      "range": {
+        "startLine": 59,
+        "startChar": 2,
+        "endLine": 60,
+        "endChar": 26
+      },
+      "revId": "66582da00251e8cbdad73a5ba2bdbb03784e5692",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ee0eb1b4_cafe2376",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
         "patchSetId": 8
@@ -36,6 +60,30 @@
       "writtenOn": "2015-01-09T23:23:39Z",
       "side": 1,
       "message": "Well, this should correlate with the outcome of changesSubmittable(). Add a TODO, so that when this button is disabled, that first not submittable changes are listed in tooltip?",
+      "range": {
+        "startLine": 279,
+        "startChar": 14,
+        "endLine": 279,
+        "endChar": 53
+      },
+      "revId": "66582da00251e8cbdad73a5ba2bdbb03784e5692",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8e6375c3_179af47b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-01-14T00:02:11Z",
+      "side": 1,
+      "message": "As you suggested I\u0027ll add a todo.",
+      "parentUuid": "ee0eb1b4_cafe2376",
       "range": {
         "startLine": 279,
         "startChar": 14,

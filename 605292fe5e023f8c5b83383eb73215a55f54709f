@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "2e728991_74ba48de",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-14T07:56:58Z",
+      "side": 1,
+      "message": "Is there any specific reason to do that?  It seems overkill to invoke a method before every test call just to initialise a list.\n\nAlso I\u0027m not sure if it can be final, if it\u0027s not initialised like this or in a constructor?",
+      "parentUuid": "ee49514e_52301404",
+      "range": {
+        "startLine": 48,
+        "startChar": 2,
+        "endLine": 48,
+        "endChar": 41
+      },
+      "revId": "605292fe5e023f8c5b83383eb73215a55f54709f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ee49514e_722d18ad",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/CommentsIT.java",
         "patchSetId": 6
@@ -41,6 +65,53 @@
         "startChar": 6,
         "endLine": 57,
         "endChar": 53
+      },
+      "revId": "605292fe5e023f8c5b83383eb73215a55f54709f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2e728991_34b0d0fc",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-14T07:56:58Z",
+      "side": 1,
+      "message": "\"comment 1\" is the first comment on the change.  For each change created in this loop there is only one comment.\n\nIt would probably be better to remove the \"1\" suffix.",
+      "parentUuid": "ee49514e_722d18ad",
+      "range": {
+        "startLine": 56,
+        "startChar": 6,
+        "endLine": 57,
+        "endChar": 53
+      },
+      "revId": "605292fe5e023f8c5b83383eb73215a55f54709f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2e728991_54bd4cd3",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-14T07:56:58Z",
+      "side": 1,
+      "message": "This was necessary because otherwise the second iteration was failing with \"file file does not exist in revision\".",
+      "range": {
+        "startLine": 69,
+        "startChar": 26,
+        "endLine": 69,
+        "endChar": 33
       },
       "revId": "605292fe5e023f8c5b83383eb73215a55f54709f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

@@ -16,6 +16,7 @@ include_defs('//lib/local.defs')
 
 GERRIT = 'GERRIT:'
 GERRIT_API = 'GERRIT_API:'
+GITHUB = 'GITHUB:'
 MAVEN_CENTRAL = 'MAVEN_CENTRAL:'
 MAVEN_LOCAL = 'MAVEN_LOCAL:'
 

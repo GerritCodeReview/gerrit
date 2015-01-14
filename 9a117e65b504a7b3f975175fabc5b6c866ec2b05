@@ -85,6 +85,24 @@
       "revId": "9a117e65b504a7b3f975175fabc5b6c866ec2b05",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aed03989_88aa378b",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/PatchSetVerification.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2015-01-14T18:42:49Z",
+      "side": 1,
+      "message": "I also answered this question in PS 13 of change I6886d77e0e\n\nMy intention for having the \u0027verifier\u0027 was to allow the gerrit user to report the user that actually executed the test.  The \u0027verifier\u0027 may or may not be the same as the gerrit user that reported the result therefore I was think it should be a little more arbitrary.\n\nFor example:\nLets say we setup a zuul user in gerrit (zuul would be the user that reports results to gerrit).  We may also setup a non-gerrit user \u0027hipster\u0027 to execute the test.  Zuul could trigger on a gerrit change, tell hipster to execute the test, hipster executes the test and reports the result to zuul who would forward it to gerrit.  In this scenario zuul is just a middle man and the user that actually executed the test is \u0027hipster\u0027 therefore \u0027hipster\u0027 would be the verifier in this case.",
+      "parentUuid": "cedbadab_4997a11f",
+      "revId": "9a117e65b504a7b3f975175fabc5b6c866ec2b05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

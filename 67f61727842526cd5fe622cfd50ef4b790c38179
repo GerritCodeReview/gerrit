@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "ee49514e_d29fa46b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-14T17:27:39Z",
+      "side": 1,
+      "message": "| And if they did, the extra SQL indexes wouldn\u0027t hurt them.\n\nSee, sort_key removal change and broken master for weeks because of stale indexes. So the general statement: stale indexes don\u0027t hurt, is wrong of course.",
+      "parentUuid": "cedbadab_296b4d8f",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 27
+      },
+      "revId": "67f61727842526cd5fe622cfd50ef4b790c38179",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ce4e4d56_316550ff",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java",
         "patchSetId": 5
@@ -84,6 +108,30 @@
       "side": 1,
       "message": "No. MergeOp now depends on the secondary index for listing submitted changes on a branch, so this database update needs to be reflected.\n\nNormally changes are submitted through the Submit class, which of course already indexes in the appropriate place. But this helper method is used by tests to test specific multi-change merge scenarios.",
       "parentUuid": "ce4e4d56_316550ff",
+      "range": {
+        "startLine": 172,
+        "startChar": 4,
+        "endLine": 172,
+        "endChar": 25
+      },
+      "revId": "67f61727842526cd5fe622cfd50ef4b790c38179",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ee49514e_f2a4a8be",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-14T17:27:39Z",
+      "side": 1,
+      "message": "Thanks, missed it. I wonder if some of unit tests are red if this line is missed?",
+      "parentUuid": "cedbadab_0968098f",
       "range": {
         "startLine": 172,
         "startChar": 4,

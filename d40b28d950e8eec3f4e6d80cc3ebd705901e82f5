@@ -22,6 +22,30 @@
       "revId": "d40b28d950e8eec3f4e6d80cc3ebd705901e82f5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8e6375c3_7749702d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/SiteIndexer.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-14T17:58:28Z",
+      "side": 1,
+      "message": "Yes. We are already doing probably 10-20 select statements per change for populating all the fields, to say nothing of the possible cache misses, repository opens, etc. If you have a million changes in your site, you already expect reindexing to take hours; what\u0027s another couple minutes?\n\nIf you can demonstrate that this is not negligible, we can do this in batches I guess.",
+      "parentUuid": "ce4e4d56_5162d4f7",
+      "range": {
+        "startLine": 289,
+        "startChar": 60,
+        "endLine": 291,
+        "endChar": 59
+      },
+      "revId": "d40b28d950e8eec3f4e6d80cc3ebd705901e82f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

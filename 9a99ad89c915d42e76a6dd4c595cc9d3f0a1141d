@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "ce4e4d56_51bd74d3",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/GerritConfig.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-14T21:50:09Z",
+      "side": 1,
+      "message": "Thanks. I could also address your comments and i am investigating unified screen breakage right now.",
+      "parentUuid": "8e6375c3_574c6c3e",
+      "revId": "9a99ad89c915d42e76a6dd4c595cc9d3f0a1141d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8e6375c3_1752f4da",
         "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/GerritConfig.java",
         "patchSetId": 45

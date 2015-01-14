@@ -144,6 +144,24 @@
     },
     {
       "key": {
+        "uuid": "cedbadab_29eeadc5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 366,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-14T01:09:03Z",
+      "side": 1,
+      "message": "db.changes().beginTransaction(change.getId());\n\nWe only support _per entity group_ transactions, where the change is the root entity key.\n\nThis will probably barf on googlesource.com :(",
+      "parentUuid": "cedbadab_e9f3f5aa",
+      "revId": "942312fd5da9bb0c11d26704b08780367dacaeff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cedbadab_293cedb1",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
         "patchSetId": 8

@@ -108,6 +108,24 @@
     },
     {
       "key": {
+        "uuid": "cedbadab_09c4894d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-14T00:36:45Z",
+      "side": 1,
+      "message": "No Java project you\u0027re working on has a limit less than 80 ;)",
+      "parentUuid": "cedbadab_c926f1a4",
+      "revId": "cb5510184d3240348b7bd5a722a284308568604f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8e6375c3_3712984a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
         "patchSetId": 9

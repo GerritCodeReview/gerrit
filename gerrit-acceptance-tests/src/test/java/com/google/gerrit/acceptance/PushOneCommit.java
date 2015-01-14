@@ -33,7 +33,10 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.notedb.ChangeNotes;
+import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gwtorm.server.OrmException;
+import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 
@@ -101,6 +104,7 @@ public class PushOneCommit {
 
   private final ChangeNotes.Factory notesFactory;
   private final ApprovalsUtil approvalsUtil;
+  private final Provider<InternalChangeQuery> queryProvider;
   private final ReviewDb db;
   private final PersonIdent i;
 
@@ -113,25 +117,30 @@ public class PushOneCommit {
   @AssistedInject
   PushOneCommit(ChangeNotes.Factory notesFactory,
       ApprovalsUtil approvalsUtil,
+      Provider<InternalChangeQuery> queryProvider,
       @Assisted ReviewDb db,
       @Assisted PersonIdent i) {
-    this(notesFactory, approvalsUtil, db, i, SUBJECT, FILE_NAME, FILE_CONTENT);
+    this(notesFactory, approvalsUtil, queryProvider,
+        db, i, SUBJECT, FILE_NAME, FILE_CONTENT);
   }
 
   @AssistedInject
   PushOneCommit(ChangeNotes.Factory notesFactory,
       ApprovalsUtil approvalsUtil,
+      Provider<InternalChangeQuery> queryProvider,
       @Assisted ReviewDb db,
       @Assisted PersonIdent i,
       @Assisted("subject") String subject,
       @Assisted("fileName") String fileName,
       @Assisted("content") String content) {
-    this(notesFactory, approvalsUtil, db, i, subject, fileName, content, null);
+    this(notesFactory, approvalsUtil, queryProvider,
+        db, i, subject, fileName, content, null);
   }
 
   @AssistedInject
   PushOneCommit(ChangeNotes.Factory notesFactory,
       ApprovalsUtil approvalsUtil,
+      Provider<InternalChangeQuery> queryProvider,
       @Assisted ReviewDb db,
       @Assisted PersonIdent i,
       @Assisted("subject") String subject,
@@ -141,6 +150,7 @@ public class PushOneCommit {
     this.db = db;
     this.notesFactory = notesFactory;
     this.approvalsUtil = approvalsUtil;
+    this.queryProvider = queryProvider;
     this.i = i;
     this.subject = subject;
     this.fileName = fileName;
@@ -200,9 +210,13 @@ public class PushOneCommit {
       this.resSubj = subject;
     }
 
-    public PatchSet.Id getPatchSetId() throws OrmException {
+    public ChangeData getChange() throws OrmException {
       return Iterables.getOnlyElement(
-          db.changes().byKey(new Change.Key(commit.getChangeId()))).currentPatchSetId();
+          queryProvider.get().byKeyPrefix(commit.getChangeId()));
+    }
+
+    public PatchSet.Id getPatchSetId() throws OrmException {
+      return getChange().change().currentPatchSetId();
     }
 
     public String getChangeId() {
@@ -220,8 +234,7 @@ public class PushOneCommit {
     public void assertChange(Change.Status expectedStatus,
         String expectedTopic, TestAccount... expectedReviewers)
         throws OrmException {
-      Change c =
-          Iterables.getOnlyElement(db.changes().byKey(new Change.Key(commit.getChangeId())).toList());
+      Change c = getChange().change();
       assertThat(resSubj).isEqualTo(c.getSubject());
       assertThat(expectedStatus).isEqualTo(c.getStatus());
       assertThat(expectedTopic).isEqualTo(Strings.emptyToNull(c.getTopic()));

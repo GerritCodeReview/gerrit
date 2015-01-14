@@ -162,6 +162,24 @@
     },
     {
       "key": {
+        "uuid": "cedbadab_09ebe9b5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 366,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-14T01:13:45Z",
+      "side": 1,
+      "message": "I think we are just going to lose the transaction in the multi change case. That is ok; another reason to separate submitWholeTopic/submitThisChange into separate methods.\n\nIn a notedb future we will get multi-change transactions using the JGit BatchRefUpdate API, assuming the underlying git storage is capable.",
+      "parentUuid": "cedbadab_29eeadc5",
+      "revId": "942312fd5da9bb0c11d26704b08780367dacaeff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cedbadab_293cedb1",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
         "patchSetId": 8

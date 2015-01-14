@@ -91,6 +91,30 @@
       "revId": "9cae0d563f88db9c22bf4f8c701b6fa162efec5f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ce4e4d56_110f6c56",
+        "filename": "gerrit-gwtui/src/main/java/net/codemirror/lib/CodeMirror.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-14T05:43:53Z",
+      "side": 1,
+      "message": "I borrowed this from goto-line.js, from previous change in the series. In CM integration code we have similar code, though, ScrollbarAnnotation.java:\n\n    @Override\n  public void onClick(ClickEvent event) {\n    event.stopPropagation();\n\n    int line \u003d from.line();\n    int h \u003d to.line() - line;\n    if (h \u003e 5) {\n      // Map click inside of the annotation to the relative position\n      // within the region covered by the annotation.\n      double s \u003d ((double) event.getY()) / getElement().getOffsetHeight();\n      line +\u003d (int) (s * h);\n    }\n\n    double y \u003d cm.heightAtLine(line, \"local\");\n    double viewport \u003d cm.getScrollInfo().clientHeight();\n    cm.setCursor(from);\n    cm.scrollTo(0, y - 0.5 * viewport);\n    cm.focus();\n  }",
+      "parentUuid": "2e728991_f452d82a",
+      "range": {
+        "startLine": 203,
+        "startChar": 4,
+        "endLine": 207,
+        "endChar": 69
+      },
+      "revId": "9cae0d563f88db9c22bf4f8c701b6fa162efec5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

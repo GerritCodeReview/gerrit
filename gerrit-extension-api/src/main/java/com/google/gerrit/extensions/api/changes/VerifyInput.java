@@ -12,23 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.extensions.common;
+package com.google.gerrit.extensions.api.changes;
 
-import java.sql.Timestamp;
+import com.google.gerrit.extensions.common.VerificationInfo;
+import com.google.gerrit.extensions.restapi.DefaultInput;
+
 import java.util.Map;
 
-public class RevisionInfo {
-  public transient boolean isCurrent;
-  public Boolean draft;
-  public int _number;
-  public Timestamp created;
-  public AccountInfo uploader;
-  public String ref;
-  public Map<String, FetchInfo> fetch;
-  public CommitInfo commit;
-  public Map<String, FileInfo> files;
-  public Map<String, ActionInfo> actions;
-  public String commitWithFooters;
-  public PushCertificateInfo pushCertificate;
+public class VerifyInput {
+  @DefaultInput
   public Map<String, VerificationInfo> verifications;
 }

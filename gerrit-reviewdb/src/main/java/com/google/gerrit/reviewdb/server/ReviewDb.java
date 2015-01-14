@@ -105,6 +105,9 @@ public interface ReviewDb extends Schema {
   @Relation(id = 30)
   AccountGroupByIdAudAccess accountGroupByIdAud();
 
+  @Relation(id = 31)
+  PatchSetVerificationAccess patchSetVerifications();
+
   /** Create the next unique id for an {@link Account}. */
   @Sequence(startWith = 1000000)
   int nextAccountId() throws OrmException;

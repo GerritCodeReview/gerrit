@@ -30,6 +30,7 @@ import com.google.gerrit.reviewdb.server.ChangeMessageAccess;
 import com.google.gerrit.reviewdb.server.PatchLineCommentAccess;
 import com.google.gerrit.reviewdb.server.PatchSetAccess;
 import com.google.gerrit.reviewdb.server.PatchSetApprovalAccess;
+import com.google.gerrit.reviewdb.server.PatchSetVerificationAccess;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.reviewdb.server.SchemaVersionAccess;
 import com.google.gerrit.reviewdb.server.StarredChangeAccess;
@@ -195,6 +196,11 @@ public class DisabledReviewDb implements ReviewDb {
 
   @Override
   public int nextChangeMessageId() {
+    throw new Disabled();
+  }
+
+  @Override
+  public PatchSetVerificationAccess patchSetVerifications() {
     throw new Disabled();
   }
 }

@@ -216,6 +216,24 @@
     },
     {
       "key": {
+        "uuid": "cedbadab_49c04129",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 366,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2015-01-14T01:25:31Z",
+      "side": 1,
+      "message": "So before we had a beginTransaction, commitTransaction and optional rollback to put setStatus(SUBMITTED) and setLastUpdatedOn(...) into one atomic unit.\n\nNow you said we\u0027d loose the transactions for multiple changes, but we still have only one beginTransaction and commit/rollback. So my question is, do we need to have a begin/commit for each change, to have at least every change submission atomic? Or rather go forward and fix the database to have all the changes put into one transaction with an arbitrary change id as the root?",
+      "parentUuid": "8e6375c3_d7aebc76",
+      "revId": "942312fd5da9bb0c11d26704b08780367dacaeff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cedbadab_293cedb1",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
         "patchSetId": 8

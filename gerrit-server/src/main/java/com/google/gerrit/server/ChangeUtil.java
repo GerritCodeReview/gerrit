@@ -526,12 +526,7 @@ public class ChangeUtil {
 
     // Try isolated changeId
     if (!id.contains("~")) {
-      Change.Key key = new Change.Key(id);
-      if (key.get().length() == 41) {
-        return db.get().changes().byKey(key).toList();
-      } else {
-        return db.get().changes().byKeyRange(key, key.max()).toList();
-      }
+      return asChanges(queryProvider.get().byKeyPrefix(id));
     }
 
     // Try change triplet

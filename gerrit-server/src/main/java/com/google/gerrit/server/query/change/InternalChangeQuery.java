@@ -69,6 +69,13 @@ public class InternalChangeQuery {
     return this;
   }
 
+  public List<ChangeData> byKey(Change.Key key) throws OrmException {
+    return byKeyPrefix(key.get());
+  }
+
+  public List<ChangeData> byKeyPrefix(String prefix) throws OrmException {
+    return query(new ChangeIdPredicate(prefix));
+  }
 
   public List<ChangeData> byBranchKey(Branch.NameKey branch, Change.Key key)
       throws OrmException {

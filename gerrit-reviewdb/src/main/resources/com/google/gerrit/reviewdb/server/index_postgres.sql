@@ -116,12 +116,6 @@ ON account_project_watches (project_name);
 
 
 -- *********************************************************************
--- ChangeAccess
-CREATE INDEX changes_key
-ON changes (change_key);
-
-
--- *********************************************************************
 -- ChangeMessageAccess
 --    @PrimaryKey covers: byChange
 

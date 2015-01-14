@@ -45,11 +45,13 @@ import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.Util;
+import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.testutil.ConfigSuite;
 import com.google.gerrit.testutil.TempFileUtil;
 import com.google.gson.Gson;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.util.Providers;
 
 import org.apache.http.HttpStatus;
@@ -110,6 +112,9 @@ public abstract class AbstractDaemonTest {
 
   @Inject
   protected ChangeIndexer indexer;
+
+  @Inject
+  protected Provider<InternalChangeQuery> queryProvider;
 
   protected Git git;
   protected GerritServer server;

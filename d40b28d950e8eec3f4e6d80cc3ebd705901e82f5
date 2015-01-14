@@ -94,6 +94,30 @@
       "revId": "d40b28d950e8eec3f4e6d80cc3ebd705901e82f5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ce4e4d56_715fd830",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/SiteIndexer.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-14T18:52:49Z",
+      "side": 1,
+      "message": "| I\u0027m sorry, I didn\u0027t understand that sentence.\n\nI meant when reindexing performance is that bad, we should try to improve it, not to make it even worth.\n\n| notedb will kill the changes table so eventually scanning refs will be the _only_ way to look up all changes in a particular project.\n\nSure, but then we would scan notedb not the database. Unless we are there, we should leave this one query in place, and comment that it only supposed to be used here, because index cannot be used before it was created. This code is going to be migrated to notedb-scan in kill-changes-table commit.",
+      "parentUuid": "cedbadab_29522ddb",
+      "range": {
+        "startLine": 289,
+        "startChar": 60,
+        "endLine": 291,
+        "endChar": 59
+      },
+      "revId": "d40b28d950e8eec3f4e6d80cc3ebd705901e82f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

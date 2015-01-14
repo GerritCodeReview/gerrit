@@ -39,6 +39,24 @@
       "revId": "e524974c53afbeba9adb55c7319f356ea7b40a48",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ce4e4d56_317e309b",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1030,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-01-14T14:03:41Z",
+      "side": 1,
+      "message": "Yes, this has to be documented.\n\nIf it turns out to be a lot of work to cover the \"partial\" success case we still have the option of serializing the branch deletion from the UI in stable-2.10 and introducing the new rest end point for the deletion of one or more branches in the master.",
+      "parentUuid": "aed03989_c8526f2b",
+      "revId": "e524974c53afbeba9adb55c7319f356ea7b40a48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

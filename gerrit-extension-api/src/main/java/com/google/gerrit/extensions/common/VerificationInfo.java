@@ -14,21 +14,9 @@
 
 package com.google.gerrit.extensions.common;
 
-import java.sql.Timestamp;
-import java.util.Map;
-
-public class RevisionInfo {
-  public transient boolean isCurrent;
-  public Boolean draft;
-  public int _number;
-  public Timestamp created;
-  public AccountInfo uploader;
-  public String ref;
-  public Map<String, FetchInfo> fetch;
-  public CommitInfo commit;
-  public Map<String, FileInfo> files;
-  public Map<String, ActionInfo> actions;
-  public String commitWithFooters;
-  public PushCertificateInfo pushCertificate;
-  public Map<String, VerificationInfo> verifications;
+public class VerificationInfo {
+  public String url;
+  public Short value;
+  public String verifier;
+  public String comment;
 }

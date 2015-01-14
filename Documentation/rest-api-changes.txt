@@ -2501,6 +2501,14 @@ for the current patch set.
           "url": "http://gerrit/myProject",
           "ref": "refs/changes/65/3965/2"
         }
+      },
+      "verifications": {
+        "gate-horizon-pep8": {
+            "comment": "Non Voting",
+            "url": "https://ci.host.com/jobs/pep8/4711",
+            "value": -1
+            "verifier": "Jenkins",
+        }        
       }
     }
   }
@@ -2639,6 +2647,34 @@ describes the applied labels.
   {
     "labels": {
       "Code-Review": -1
+    }
+  }
+----
+
+[[set-verify]]
+=== Set Verify
+--
+'POST /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/verify'
+--
+
+Sets a verification on a revision.
+
+The verification must be provided in the request body as a
+link:#verify-input[VerifyInput] entity.
+
+.Request
+----
+  POST /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/revisions/674ac754f91e64a0efb8087e59a176484bd534d1/verify HTTP/1.0
+  Content-Type: application/json;charset=UTF-8
+
+  {
+    "verifications": {
+      "gate-horizon-pep8": {
+        "value": 1,
+        "url": "https://ci.host.com/jobs/pep8/4711",
+        "comment": "Non Voting",
+        "verifier": "Jenkins"
+      }
     }
   }
 ----
@@ -4583,6 +4619,24 @@ should be posted on behalf of. To use this option the caller must
 have been granted `labelAs-NAME` permission for all keys of labels.
 |============================
 
+[[verify-input]]
+=== VerifyInput
+The `VerifyInput` entity contains information for adding a verification
+to a revision.
+
+[options="header",width="50%",cols="1,^1,5"]
+|============================
+|Field Name    |Description
+|category      |required|
+The name of the category to be added as a verification.
+|`value`       |required|
+The value associated with the category.
+|`comment`     |optional|
+The comment associated with the category.
+|`url`         |optional|
+The url associated with the category.
+|============================
+
 [[reviewer-info]]
 === ReviewerInfo
 The `ReviewerInfo` entity contains information about a reviewer and its
@@ -4674,6 +4728,9 @@ contains the push certificate provided by the user when uploading this
 patch set as a link:#push-certificate-info[PushCertificateInfo] entity.
 This field is always set if the option is requested; if no push
 certificate was provided, it is set to an empty object.
+|`verifications`      |optional|
+The verifications on the patch set as a list of
+link:#verification-info[VerificationInfo] entities.
 |===========================
 
 [[rule-input]]
@@ -4795,6 +4852,19 @@ The `WebLinkInfo` entity describes a link to an external site.
 |`name`    |The link name.
 |`url`     |The link URL.
 |`image_url`|URL to the icon of the link.
+|======================
+
+[[verification-info]]
+=== VerificationInfo
+The `VerificationInfo` entity describes a verification on a patch set.
+
+[options="header",width="50%",cols="1,6"]
+|======================
+|Field Name|Description
+|`comment`   |A short comment about about this verification.
+|`url`       |The URL for this verification.
+|`value`     |The value for this verification.
+|`verifier`  |The user that reported this verification.
 |======================
 
 GERRIT

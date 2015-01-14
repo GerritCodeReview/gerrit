@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8e6375c3_173cb4b1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 355,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-14T00:38:02Z",
+      "side": 1,
+      "message": "No need to wrap this exception, we already throw OrmException from this method. The reason you needed to wrap it above in getDescription was you were implementing a method in the UiAction interface that is not allowed to throw.",
+      "revId": "942312fd5da9bb0c11d26704b08780367dacaeff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8e6375c3_f7e100de",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 366,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-14T00:38:02Z",
+      "side": 1,
+      "message": "There are cases here where you might not want to return null. Specifically, consider a race where one of the other changes in the topic is abandoned after the byTopic() call above but before the corresponding submitToDatabase() call for that change. Then change.getStatus().isOpen() will return false, and submitToDatabase() will return null.\n\nWhat\u0027s the right thing to do in this case? Abort this atomic submit? I can see the argument for that, I guess. But I can also see the argument the other way, that we should continue the submit because every currently-open change is still submittable.",
+      "revId": "942312fd5da9bb0c11d26704b08780367dacaeff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cedbadab_293cedb1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 380,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-14T00:38:02Z",
+      "side": 1,
+      "message": "This method is getting a little hard to read. Instead of:\n\n public void foo() {\n   boolean option \u003d ...;\n   if (option) {\n     step1WithOption();\n   } else {\n     step1WithoutOption();\n   }\n   step2();\n   if (option) {\n     step3WithOption();\n   } else {\n     step3WithoutOption();\n   }\n   step4();\n   if (option) {\n     step5WithOption();\n   } else {\n     step5WithoutOption();\n   }\n }\n\nDo:\n\n public void foo() {\n   boolean option \u003d ...;\n   if (option) {\n     fooWithOption();\n   } else {\n     fooWithoutOption();\n   }\n }\n\n private void fooWithOption() {\n   step1WithOption();\n   step2();\n   step3WithOption();\n   step4();\n   step5WithOption();\n }\n\n private void fooWithoutOption() {\n   step1WithoutOption();\n   step2();\n   step3WithoutOption();\n   step4();\n   step5WithoutOption();\n }\n\nIMHO this improves readability. If you feel strongly otherwise, you don\u0027t have to.",
+      "revId": "942312fd5da9bb0c11d26704b08780367dacaeff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cedbadab_e921358f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 381,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-14T00:38:02Z",
+      "side": 1,
+      "message": "Submitted.",
+      "revId": "942312fd5da9bb0c11d26704b08780367dacaeff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

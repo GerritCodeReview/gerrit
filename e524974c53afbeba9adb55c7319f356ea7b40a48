@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "8e6375c3_f78ae0fd",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1013,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-01-14T15:45:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aed03989_e84db38f",
+      "range": {
+        "startLine": 1013,
+        "startChar": 7,
+        "endLine": 1013,
+        "endChar": 14
+      },
+      "revId": "e524974c53afbeba9adb55c7319f356ea7b40a48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "aed03989_c8526f2b",
         "filename": "Documentation/rest-api-projects.txt",
         "patchSetId": 2
@@ -54,6 +78,24 @@
       "side": 1,
       "message": "Yes, this has to be documented.\n\nIf it turns out to be a lot of work to cover the \"partial\" success case we still have the option of serializing the branch deletion from the UI in stable-2.10 and introducing the new rest end point for the deletion of one or more branches in the master.",
       "parentUuid": "aed03989_c8526f2b",
+      "revId": "e524974c53afbeba9adb55c7319f356ea7b40a48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cedbadab_099da941",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1030,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-01-14T15:45:00Z",
+      "side": 1,
+      "message": "Done.\n\nLets say you want to delete branch 1, 2 and 3, 1 gets deleted but it fails to delete 2, an error code(400, 404 or 500) is returned and the branch 2 and 3 will not be deleted.\n\nI already tested that from the webUI and you get the error message (dark screen with continue button) and then the branch list screen removes the branch that were deleted and the one that were not delete are still selected.",
+      "parentUuid": "ce4e4d56_317e309b",
       "revId": "e524974c53afbeba9adb55c7319f356ea7b40a48",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

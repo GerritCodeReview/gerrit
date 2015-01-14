@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cedbadab_c9a431bf",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/PatchSetDetailFactory.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-14T00:11:21Z",
+      "side": 1,
+      "message": "This pattern appears a number of times. I think it might make sense to provide controlFor/validateFor methods in GenericFactory that take Change.Id and do the lookup there.\n\nYou can use the existing Provider\u003cReviewDb\u003e. Calls to that method will still only work when a RequestContext is properly set up (e.g. in the REST API code path), but that\u0027s true of a lot of methods.",
+      "revId": "8ceca273bfeeaaa0b5a78ae7df1c3a341ad3322d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

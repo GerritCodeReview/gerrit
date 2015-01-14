@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2e728991_d44ddc8f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-14T02:32:13Z",
+      "side": 1,
+      "message": "\"Allow to jump to edit screen at specific line\" would describe the change a bit more clearly, I think.",
+      "range": {
+        "startLine": 7,
+        "startChar": 12,
+        "endLine": 7,
+        "endChar": 64
+      },
+      "revId": "9cae0d563f88db9c22bf4f8c701b6fa162efec5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2e728991_146834d8",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/PublishedBox.ui.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-14T02:32:13Z",
+      "side": 1,
+      "message": "I think this needs to make it clearer that the inline editor will be opened.\n\nSuggestion: \"Address this comment in the inline editor\" or \"Open the inline editor at this line\".",
+      "range": {
+        "startLine": 60,
+        "startChar": 19,
+        "endLine": 60,
+        "endChar": 43
+      },
+      "revId": "9cae0d563f88db9c22bf4f8c701b6fa162efec5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aed03989_688b8348",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/PublishedBox.ui.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-14T02:32:13Z",
+      "side": 1,
+      "message": "This text doesn\u0027t fit in the button.\n\nhttp://imgur.com/UBowxZ3\n\n(Chromium on Ubuntu).",
+      "range": {
+        "startLine": 62,
+        "startChar": 23,
+        "endLine": 62,
+        "endChar": 30
+      },
+      "revId": "9cae0d563f88db9c22bf4f8c701b6fa162efec5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2e728991_f452d82a",
+        "filename": "gerrit-gwtui/src/main/java/net/codemirror/lib/CodeMirror.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-14T02:32:13Z",
+      "side": 1,
+      "message": "Did you write this or is it from somewhere?",
+      "range": {
+        "startLine": 203,
+        "startChar": 4,
+        "endLine": 207,
+        "endChar": 69
+      },
+      "revId": "9cae0d563f88db9c22bf4f8c701b6fa162efec5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

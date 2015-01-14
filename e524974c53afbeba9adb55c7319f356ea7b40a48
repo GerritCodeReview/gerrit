@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aed03989_e84db38f",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1013,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-14T05:35:05Z",
+      "side": 1,
+      "message": "\"one or more\"?",
+      "range": {
+        "startLine": 1013,
+        "startChar": 7,
+        "endLine": 1013,
+        "endChar": 14
+      },
+      "revId": "e524974c53afbeba9adb55c7319f356ea7b40a48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aed03989_c8526f2b",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1030,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-14T05:35:05Z",
+      "side": 1,
+      "message": "Document what happens if one of the branches fails to be deleted?",
+      "revId": "e524974c53afbeba9adb55c7319f356ea7b40a48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

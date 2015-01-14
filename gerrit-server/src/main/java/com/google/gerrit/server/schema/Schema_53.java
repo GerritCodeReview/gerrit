@@ -34,7 +34,7 @@ import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.extensions.common.InheritableBoolean;
 import com.google.gerrit.extensions.common.SubmitType;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.client.PatchSetApproval.LabelId;
+import com.google.gerrit.reviewdb.client.LabelId;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.client.SystemConfig;

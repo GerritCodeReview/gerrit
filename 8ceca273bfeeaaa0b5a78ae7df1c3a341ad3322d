@@ -91,6 +91,24 @@
     },
     {
       "key": {
+        "uuid": "8e6375c3_3739b8c2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2015-01-14T00:36:44Z",
+      "side": 1,
+      "message": "Exactly. That\u0027s the justification. It makes it clear that ChangeControl.Factory is unnecessary while ProjectControl.Factory might still be useful (e.g. for SuggestService).",
+      "parentUuid": "cedbadab_0912c949",
+      "revId": "8ceca273bfeeaaa0b5a78ae7df1c3a341ad3322d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cedbadab_c9a431bf",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/PatchSetDetailFactory.java",
         "patchSetId": 7

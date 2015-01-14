@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2e728991_741c085c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2015-01-14T22:51:58Z",
+      "side": 1,
+      "message": "I\u0027m wondering if we should find some place in the docs to explain this feature more thoroughly and provide an example use case for it?  Now that the feature has been split up into multiple changes I\u0027m not sure which change it should be in.  Maybe after the visualization (if we ever get there) of the verification table on CS2?",
+      "revId": "5dc3de9285f35575d83d5cd04a22e3ac201ede81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aed03989_08976752",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2015-01-14T22:51:58Z",
+      "side": 1,
+      "message": "I think these comments are beyond the scope of this change?  Maybe move these to the follow on changes to this feature?",
+      "range": {
+        "startLine": 38,
+        "startChar": 0,
+        "endLine": 51,
+        "endChar": 39
+      },
+      "revId": "5dc3de9285f35575d83d5cd04a22e3ac201ede81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aed03989_6894234c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2015-01-14T22:51:58Z",
+      "side": 1,
+      "message": "This might become an endless list so maybe just remove this?",
+      "range": {
+        "startLine": 53,
+        "startChar": 0,
+        "endLine": 56,
+        "endChar": 53
+      },
+      "revId": "5dc3de9285f35575d83d5cd04a22e3ac201ede81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2e728991_541f0c51",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/changes/RevisionApiImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2015-01-14T22:51:58Z",
+      "side": 1,
+      "message": "Channeling David P... \"Wrong ordering\"",
+      "range": {
+        "startLine": 32,
+        "startChar": 36,
+        "endLine": 32,
+        "endChar": 59
+      },
+      "revId": "5dc3de9285f35575d83d5cd04a22e3ac201ede81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aed03989_289a2b7c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/changes/RevisionApiImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2015-01-14T22:51:58Z",
+      "side": 1,
+      "message": "Channeling David P... \"Wrong ordering\"",
+      "range": {
+        "startLine": 47,
+        "startChar": 39,
+        "endLine": 47,
+        "endChar": 55
+      },
+      "revId": "5dc3de9285f35575d83d5cd04a22e3ac201ede81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

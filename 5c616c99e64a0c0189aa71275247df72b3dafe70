@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "8e6375c3_374ff835",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/GerritConfig.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-01-14T21:48:43Z",
+      "side": 0,
+      "message": "bad rebase",
+      "revId": "5c616c99e64a0c0189aa71275247df72b3dafe70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "aeb7594b_70fed0c2",
         "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/AccountGeneralPreferences.java",
         "patchSetId": 44

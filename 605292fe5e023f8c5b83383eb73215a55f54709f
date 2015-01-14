@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ee49514e_52301404",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-14T07:50:06Z",
+      "side": 1,
+      "message": "Do the initialization of lines in setUp() method annotated with @Before?",
+      "range": {
+        "startLine": 48,
+        "startChar": 2,
+        "endLine": 48,
+        "endChar": 41
+      },
+      "revId": "605292fe5e023f8c5b83383eb73215a55f54709f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ee49514e_722d18ad",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-14T07:50:06Z",
+      "side": 1,
+      "message": "line is 0 or 1, yet the comment contains only one line: \"comment 1\". Not sure if it is a problem? May be extend the comment to two lines?",
+      "range": {
+        "startLine": 56,
+        "startChar": 6,
+        "endLine": 57,
+        "endChar": 53
+      },
+      "revId": "605292fe5e023f8c5b83383eb73215a55f54709f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

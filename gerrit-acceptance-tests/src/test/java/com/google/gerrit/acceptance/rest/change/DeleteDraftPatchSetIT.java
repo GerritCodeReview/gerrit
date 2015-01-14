@@ -24,8 +24,8 @@ import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.RestSession;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeStatus;
-import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
 
 import org.apache.http.HttpStatus;
@@ -72,13 +72,11 @@ public class DeleteDraftPatchSetIT extends AbstractDaemonTest {
     assertThat(c.status).isEqualTo(ChangeStatus.DRAFT);
     RestResponse r = deletePatchSet(changeId, ps, adminSession);
     assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_NO_CONTENT);
-    Change change = Iterables.getOnlyElement(db.changes().byKey(
-        new Change.Key(changeId)).toList());
-    assertThat(db.patchSets().byChange(change.getId()).toList()).hasSize(1);
+    assertThat(getChange(changeId).patches().size()).isEqualTo(1);
     ps = getCurrentPatchSet(changeId);
     r = deletePatchSet(changeId, ps, adminSession);
     assertThat(r.getStatusCode()).isEqualTo(HttpStatus.SC_NO_CONTENT);
-    assertThat(db.changes().byKey(new Change.Key(changeId)).toList()).isEmpty();
+    assertThat(queryProvider.get().byKeyPrefix(changeId)).isEmpty();
   }
 
   private String createDraftChangeWith2PS() throws GitAPIException,
@@ -91,10 +89,11 @@ public class DeleteDraftPatchSetIT extends AbstractDaemonTest {
   }
 
   private PatchSet getCurrentPatchSet(String changeId) throws OrmException {
-    return db.patchSets()
-        .get(Iterables.getOnlyElement(db.changes()
-            .byKey(new Change.Key(changeId)))
-            .currentPatchSetId());
+    return getChange(changeId).currentPatchSet();
+  }
+
+  private ChangeData getChange(String changeId) throws OrmException {
+    return Iterables.getOnlyElement(queryProvider.get().byKeyPrefix(changeId));
   }
 
   private static RestResponse deletePatchSet(String changeId,

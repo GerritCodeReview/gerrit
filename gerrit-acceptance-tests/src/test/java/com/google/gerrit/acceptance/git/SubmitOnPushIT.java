@@ -155,8 +155,8 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
         "other content", r.getChangeId());
     r.assertOkStatus();
     r.assertChange(Change.Status.MERGED, null, admin);
-    Change c = Iterables.getOnlyElement(db.changes().byKey(
-        new Change.Key(r.getChangeId())).toList());
+    Change c = Iterables.getOnlyElement(
+        queryProvider.get().byKeyPrefix(r.getChangeId())).change();
     assertThat(db.patchSets().byChange(c.getId()).toList()).hasSize(2);
     assertSubmitApproval(r.getPatchSetId());
     assertCommit(project, "refs/heads/master");

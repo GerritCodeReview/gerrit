@@ -14,13 +14,13 @@
 
 package com.google.gerrit.acceptance.rest.change;
 
+import static com.google.common.collect.Iterables.getOnlyElement;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assert_;
 import static com.google.gerrit.acceptance.GitUtil.cloneProject;
 import static com.google.gerrit.extensions.common.ListChangesOption.CURRENT_REVISION;
 import static com.google.gerrit.extensions.common.ListChangesOption.DETAILED_LABELS;
 
-import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GitUtil;
@@ -40,7 +40,6 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.ApprovalsUtil;
-import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.PutConfig;
 import com.google.gson.reflect.TypeToken;
@@ -73,9 +72,6 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
 
   @Inject
   private ApprovalsUtil approvalsUtil;
-
-  @Inject
-  private ChangeIndexer indexer;
 
   @Before
   public void setUp() throws Exception {
@@ -158,7 +154,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   protected void submitStatusOnly(String changeId)
       throws IOException, OrmException {
     approve(changeId);
-    Change c = db.changes().byKey(new Change.Key(changeId)).toList().get(0);
+    Change c = queryProvider.get().byKeyPrefix(changeId).get(0).change();
     c.setStatus(Change.Status.SUBMITTED);
     db.changes().update(Collections.singleton(c));
     db.patchSetApprovals().insert(Collections.singleton(
@@ -214,7 +210,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   protected void assertSubmitter(String changeId, int psId)
       throws OrmException {
     ChangeNotes cn = notesFactory.create(
-        Iterables.getOnlyElement(db.changes().byKey(new Change.Key(changeId))));
+        getOnlyElement(queryProvider.get().byKeyPrefix(changeId)).change());
     PatchSetApproval submitter = approvalsUtil.getSubmitter(
         db, cn, new PatchSet.Id(cn.getChangeId(), psId));
     assertThat(submitter.isSubmit()).isTrue();

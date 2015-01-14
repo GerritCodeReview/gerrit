@@ -36,6 +36,13 @@ import java.util.List;
  * matching results.
  */
 public class InternalChangeQuery {
+  static String parseChangeId(String value) {
+    if (value.charAt(0) == 'i') {
+      value = 'I' + value.substring(1);
+    }
+    return value;
+  }
+
   private static Predicate<ChangeData> ref(Branch.NameKey branch) {
     return new RefPredicate(branch.get());
   }
@@ -69,6 +76,13 @@ public class InternalChangeQuery {
     return this;
   }
 
+  public List<ChangeData> byKey(Change.Key key) throws OrmException {
+    return byKeyPrefix(key.get());
+  }
+
+  public List<ChangeData> byKeyPrefix(String prefix) throws OrmException {
+    return query(new ChangeIdPredicate(parseChangeId(prefix)));
+  }
 
   public List<ChangeData> byBranchKey(Branch.NameKey branch, Change.Key key)
       throws OrmException {

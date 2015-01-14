@@ -19,6 +19,7 @@ import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.FileInfo;
 import com.google.gerrit.extensions.common.MergeableInfo;
 import com.google.gerrit.extensions.restapi.BinaryResult;
+import com.google.gerrit.extensions.common.VerificationInfo;
 import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 
@@ -29,6 +30,7 @@ import java.util.Set;
 public interface RevisionApi {
   void delete() throws RestApiException;
   void review(ReviewInput in) throws RestApiException;
+  void verify(VerifyInput in) throws RestApiException;
 
   void submit() throws RestApiException;
   void submit(SubmitInput in) throws RestApiException;
@@ -57,6 +59,7 @@ public interface RevisionApi {
   DraftApi draft(String id) throws RestApiException;
 
   CommentApi comment(String id) throws RestApiException;
+  Map<String, VerificationInfo> verifications() throws RestApiException;
 
   /**
    * Returns patch of revision.
@@ -77,6 +80,11 @@ public interface RevisionApi {
 
     @Override
     public void review(ReviewInput in) throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public void verify(VerifyInput in) throws RestApiException {
       throw new NotImplementedException();
     }
 
@@ -192,6 +200,12 @@ public interface RevisionApi {
 
     @Override
     public Map<String, ActionInfo> actions() throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public Map<String, VerificationInfo> verifications()
+        throws RestApiException {
       throw new NotImplementedException();
     }
   }

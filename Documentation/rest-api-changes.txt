@@ -2450,6 +2450,14 @@ for the current patch set.
           "url": "http://gerrit/myProject",
           "ref": "refs/changes/65/3965/2"
         }
+      },
+      "verifications": {
+        "gate-horizon-pep8": {
+            "comment": "Non Voting",
+            "url": "https://ci.host.com/jobs/pep8/4711",
+            "value": -1
+            "verifier": "Jenkins",
+        }
       }
     }
   }
@@ -2588,6 +2596,34 @@ describes the applied labels.
   {
     "labels": {
       "Code-Review": -1
+    }
+  }
+----
+
+[[set-verify]]
+=== Set Verify
+--
+'POST /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/verify'
+--
+
+Sets a verification on a revision.
+
+The verification must be provided in the request body as a
+link:#verify-input[VerifyInput] entity.
+
+.Request
+----
+  POST /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/revisions/674ac754f91e64a0efb8087e59a176484bd534d1/verify HTTP/1.0
+  Content-Type: application/json;charset=UTF-8
+
+  {
+    "verifications": {
+      "gate-horizon-pep8": {
+        "value": 1,
+        "url": "https://ci.host.com/jobs/pep8/4711",
+        "comment": "Non Voting",
+        "verifier": "Jenkins"
+      }
     }
   }
 ----
@@ -4519,6 +4555,24 @@ should be posted on behalf of. To use this option the caller must
 have been granted `labelAs-NAME` permission for all keys of labels.
 |============================
 
+[[verify-input]]
+=== VerifyInput
+The `VerifyInput` entity contains information for adding a verification
+to a revision.
+
+[options="header",width="50%",cols="1,^1,5"]
+|============================
+|Field Name    |Description
+|category      |required|
+The name of the category to be added as a verification.
+|`value`       |required|
+The value associated with the category.
+|`comment`     |optional|
+The comment associated with the category.
+|`url`         |optional|
+The url associated with the category.
+|============================
+
 [[reviewer-info]]
 === ReviewerInfo
 The `ReviewerInfo` entity contains information about a reviewer and its
@@ -4598,6 +4652,7 @@ entities.
 |`reviewed`     |optional|
 Indicates whether the caller is authenticated and has commented on the
 current revision. Only set if link:#reviewed[REVIEWED] option is requested.
+<<<<<<< HEAD
 |`messageWithFooter` |optional|
 If the link:#commit-footers[COMMIT_FOOTERS] option is requested and
 this is the current patch set, contains the full commit message with
@@ -4610,6 +4665,11 @@ contains the push certificate provided by the user when uploading this
 patch set as a link:#push-certificate-info[PushCertificateInfo] entity.
 This field is always set if the option is requested; if no push
 certificate was provided, it is set to an empty object.
+=======
+|`verifications`      |optional|
+The verifications on the patch set as a list of
+link:#verification-info[VerificationInfo] entities.
+>>>>>>> c76bd4c... Dedicated notification channel for patch set verifications
 |===========================
 
 [[rule-input]]
@@ -4733,6 +4793,82 @@ The `WebLinkInfo` entity describes a link to an external site.
 |`image_url`|URL to the icon of the link.
 |======================
 
+<<<<<<< HEAD
+=======
+[[verification-info]]
+=== VerificationInfo
+The `VerificationInfo` entity describes a verification on a patch set.
+
+[options="header",width="50%",cols="1,6"]
+|======================
+|Field Name|Description
+|`comment`   |A short comment about about this verification.
+|`url`       |The URL for this verification.
+|`value`     |The value for this verification.
+|`verifier`  |The user that reported this verification.
+|======================
+
+[[edit-info]]
+=== EditInfo
+The `EditInfo` entity contains information about a change edit.
+
+[options="header",cols="1,^1,5"]
+|===========================
+|Field Name    ||Description
+|`commit`      ||The commit of change edit as
+link:#commit-info[CommitInfo] entity.
+|`baseRevision`||The revision of the patch set change edit is based on.
+|`fetch`       ||
+Information about how to fetch this patch set. The fetch information is
+provided as a map that maps the protocol name ("`git`", "`http`",
+"`ssh`") to link:#fetch-info[FetchInfo] entities.
+|`files`       |optional|
+The files of the change edit as a map that maps the file names to
+link:#file-info[FileInfo] entities.
+|===========================
+
+[[change-edit-input]]
+=== ChangeEditInput
+The `ChangeEditInput` entity contains information for restoring a
+path within change edit.
+
+[options="header",cols="1,^1,5"]
+|===========================
+|Field Name    ||Description
+|`restore_path`|optional|Path to file to restore.
+|===========================
+
+[[change-edit-message-input]]
+=== ChangeEditMessageInput
+The `ChangeEditMessageInput` entity contains information for changing
+the commit message within a change edit.
+
+[options="header",cols="1,^1,5"]
+|===========================
+|Field Name    ||Description
+|`message`     ||New commit message.
+|===========================
+
+[[problem-info]]
+=== ProblemInfo
+The `ProblemInfo` entity contains a description of a potential consistency problem
+with a change. These are not related to the code review process, but rather
+indicate some inconsistency in Gerrit's database or repository metadata related
+to the enclosing change.
+
+[options="header",cols="1,^1,5"]
+|===========================
+|Field Name||Description
+|`message` ||Plaintext message describing the problem with the change.
+|`status`  |optional|
+The status of fixing the problem (`FIXED`, `FIX_FAILED`). Only set if a
+fix was attempted.
+|`outcome` |optional|
+If `status` is set, an additional plaintext message describing the
+outcome of the fix.
+|===========================
+
+>>>>>>> c76bd4c... Dedicated notification channel for patch set verifications
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]

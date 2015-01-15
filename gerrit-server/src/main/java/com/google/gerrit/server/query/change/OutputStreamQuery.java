@@ -24,7 +24,6 @@ import com.google.gerrit.server.data.PatchSetAttribute;
 import com.google.gerrit.server.data.QueryStatsAttribute;
 import com.google.gerrit.server.events.EventFactory;
 import com.google.gerrit.server.project.ChangeControl;
-import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.SubmitRuleEvaluator;
 import com.google.gerrit.server.query.QueryParseException;
 import com.google.gson.Gson;
@@ -265,11 +264,6 @@ public class OutputStreamQuery {
       } catch (QueryParseException e) {
         ErrorMessage m = new ErrorMessage();
         m.message = e.getMessage();
-        show(m);
-      } catch (NoSuchChangeException e) {
-        log.error("Missing change: " + e.getMessage(), e);
-        ErrorMessage m = new ErrorMessage();
-        m.message = "missing change " + e.getMessage();
         show(m);
       }
     } finally {

@@ -18,13 +18,14 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.index.ChangeField;
 import com.google.gerrit.server.index.IndexPredicate;
-import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.server.OrmException;
 
+import org.eclipse.jgit.revwalk.FooterLine;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.List;
 
 class TrackingIdPredicate extends IndexPredicate<ChangeData> {
   private static final Logger log = LoggerFactory.getLogger(TrackingIdPredicate.class);
@@ -41,9 +42,10 @@ class TrackingIdPredicate extends IndexPredicate<ChangeData> {
     Change c = object.change();
     if (c != null) {
       try {
-        return trackingFooters.extract(object.commitFooters())
-            .values().contains(getValue());
-      } catch (NoSuchChangeException | IOException e) {
+        List<FooterLine> footers = object.commitFooters();
+        return footers != null && trackingFooters.extract(
+            object.commitFooters()).values().contains(getValue());
+      } catch (IOException e) {
         log.warn("Cannot extract footers from " + c.getChangeId(), e);
       }
     }

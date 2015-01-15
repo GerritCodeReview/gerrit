@@ -22,6 +22,30 @@
       "revId": "5caad9efd611e7e36f418825b7efa073e3c21ff2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb6ce3f2_1ad2dd65",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_105.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-15T20:46:44Z",
+      "side": 1,
+      "message": "\u003e CREATE INDEX changes_key ON changes (change_key);\n\nThis is not the primary key. It\u0027s the Change.Key; the primary key is Change.Id.\n\n\u003e Or are primary keys not returned by listIndexes? That is subtlety.\n\nThe name of the primary key index varies. On MySQL it\u0027s always \"PRIMARY\". On H2 it\u0027s \"primary_key_e1\". So neither of those match \"changes_*\".\n\nBut I\u0027m not willing to bet my life (or more to the point, manually verify) that no database implementation uses primary indexes matching this pattern.\n\nFixed to be explicit, along with a note explaining how I came up with the list.",
+      "parentUuid": "eb5ea32a_ea360703",
+      "range": {
+        "startLine": 41,
+        "startChar": 29,
+        "endLine": 41,
+        "endChar": 39
+      },
+      "revId": "5caad9efd611e7e36f418825b7efa073e3c21ff2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

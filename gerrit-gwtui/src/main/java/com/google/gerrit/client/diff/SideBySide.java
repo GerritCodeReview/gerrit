@@ -21,7 +21,7 @@ import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.JumpKeys;
 import com.google.gerrit.client.account.DiffPreferences;
-import com.google.gerrit.client.change.ChangeScreen2;
+import com.google.gerrit.client.change.ChangeScreen;
 import com.google.gerrit.client.change.FileTable;
 import com.google.gerrit.client.changes.ChangeApi;
 import com.google.gerrit.client.changes.ChangeInfo;
@@ -85,11 +85,11 @@ import java.util.Collections;
 import java.util.EnumSet;
 import java.util.List;
 
-public class SideBySide2 extends Screen {
+public class SideBySide extends Screen {
   private static final KeyMap RENDER_ENTIRE_FILE_KEYMAP = KeyMap.create()
       .propagate("Ctrl-F");
 
-  interface Binder extends UiBinder<FlowPanel, SideBySide2> {}
+  interface Binder extends UiBinder<FlowPanel, SideBySide> {}
   private static final Binder uiBinder = GWT.create(Binder.class);
 
   enum FileSize {
@@ -137,7 +137,7 @@ public class SideBySide2 extends Screen {
   private PreferencesAction prefsAction;
   private int reloadVersionId;
 
-  public SideBySide2(
+  public SideBySide(
       PatchSet.Id base,
       PatchSet.Id revision,
       String path,
@@ -255,11 +255,11 @@ public class SideBySide2 extends Screen {
     }));
 
     ConfigInfoCache.get(changeId, group2.addFinal(
-        new ScreenLoadCallback<ConfigInfoCache.Entry>(SideBySide2.this) {
+        new ScreenLoadCallback<ConfigInfoCache.Entry>(SideBySide.this) {
           @Override
           protected void preDisplay(ConfigInfoCache.Entry result) {
             commentManager = new CommentManager(
-                SideBySide2.this,
+                SideBySide.this,
                 base, revision, path,
                 result.getCommentLinkProcessor());
             setTheme(result.getTheme());
@@ -471,7 +471,7 @@ public class SideBySide2 extends Screen {
   public void registerKeys() {
     super.registerKeys();
 
-    keysNavigation.add(new UpToChangeCommand2(revision, 0, 'u'));
+    keysNavigation.add(new UpToChangeCommand(revision, 0, 'u'));
     keysNavigation.add(
         new NoOpKeyCommand(KeyCommand.M_SHIFT, KeyCodes.KEY_LEFT, PatchUtil.C.focusSideA()),
         new NoOpKeyCommand(KeyCommand.M_SHIFT, KeyCodes.KEY_RIGHT, PatchUtil.C.focusSideB()));
@@ -855,7 +855,7 @@ public class SideBySide2 extends Screen {
             String rev = revision.getId();
             Gerrit.display(
               PageLinks.toChange(changeId, b, rev),
-              new ChangeScreen2(changeId, b, rev, openReplyBox,
+              new ChangeScreen(changeId, b, rev, openReplyBox,
                   FileTable.Mode.REVIEW));
           }
         });

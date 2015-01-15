@@ -65,7 +65,7 @@ public class Hashtags extends Composite {
   private static void onRemove(NativeEvent event) {
     String hashtags = getDataId(event);
     if (hashtags != null) {
-      final ChangeScreen2 screen = ChangeScreen2.get(event);
+      final ChangeScreen screen = ChangeScreen.get(event);
       ChangeApi.hashtags(screen.getChangeId().get()).post(
           PostInput.create(null, hashtags), new GerritCallback<JavaScriptObject>() {
             @Override
@@ -96,7 +96,7 @@ public class Hashtags extends Composite {
   @UiField Element error;
   @UiField NpTextBox hashtagTextBox;
 
-  private ChangeScreen2.Style style;
+  private ChangeScreen.Style style;
   private Change.Id changeId;
 
   public Hashtags() {
@@ -116,7 +116,7 @@ public class Hashtags extends Composite {
     });
   }
 
-  void init(ChangeScreen2.Style style){
+  void init(ChangeScreen.Style style){
     this.style = style;
   }
 

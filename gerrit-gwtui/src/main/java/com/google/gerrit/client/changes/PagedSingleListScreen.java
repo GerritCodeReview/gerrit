@@ -31,8 +31,8 @@ public abstract class PagedSingleListScreen extends Screen {
   private final String anchorPrefix;
 
   protected ChangeList changes;
-  private ChangeTable2 table;
-  private ChangeTable2.Section section;
+  private ChangeTable table;
+  private ChangeTable.Section section;
   private Hyperlink prev;
   private Hyperlink next;
 
@@ -59,7 +59,7 @@ public abstract class PagedSingleListScreen extends Screen {
     next = new Hyperlink(Util.C.pagedChangeListNext(), true, "");
     next.setVisible(false);
 
-    table = new ChangeTable2() {
+    table = new ChangeTable() {
       {
         keysNavigation.add(
             new DoLinkCommand(0, 'p', Util.C.changeTablePagePrev(), prev),
@@ -77,7 +77,7 @@ public abstract class PagedSingleListScreen extends Screen {
         });
       }
     };
-    section = new ChangeTable2.Section();
+    section = new ChangeTable.Section();
     table.addSection(section);
     table.setSavePointerId(anchorPrefix);
     add(table);

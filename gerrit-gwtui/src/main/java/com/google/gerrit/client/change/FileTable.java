@@ -179,7 +179,7 @@ public class FileTable extends FlowPanel {
   private boolean register;
   private JsArrayString reviewed;
   private String scrollToPath;
-  private ChangeScreen2.Style style;
+  private ChangeScreen.Style style;
   private Widget replyButton;
   private boolean editExists;
   private Mode mode;
@@ -190,7 +190,7 @@ public class FileTable extends FlowPanel {
     R.css().ensureInjected();
   }
 
-  public void set(PatchSet.Id base, PatchSet.Id curr, ChangeScreen2.Style style,
+  public void set(PatchSet.Id base, PatchSet.Id curr, ChangeScreen.Style style,
       Widget replyButton, Mode mode, boolean editExists) {
     this.base = base;
     this.curr = curr;

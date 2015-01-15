@@ -65,7 +65,7 @@ class History extends FlowPanel {
         }
         add(ui);
       }
-      autoOpen(ChangeScreen2.myLastReply(info));
+      autoOpen(ChangeScreen.myLastReply(info));
     }
   }
 

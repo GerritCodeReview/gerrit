@@ -32,10 +32,10 @@ import java.util.EnumSet;
 public class AccountDashboardScreen extends Screen implements ChangeListScreen {
   private final Account.Id ownerId;
   private final boolean mine;
-  private ChangeTable2 table;
-  private ChangeTable2.Section outgoing;
-  private ChangeTable2.Section incoming;
-  private ChangeTable2.Section closed;
+  private ChangeTable table;
+  private ChangeTable.Section outgoing;
+  private ChangeTable.Section incoming;
+  private ChangeTable.Section closed;
 
   public AccountDashboardScreen(final Account.Id id) {
     ownerId = id;
@@ -45,7 +45,7 @@ public class AccountDashboardScreen extends Screen implements ChangeListScreen {
   @Override
   protected void onInitUI() {
     super.onInitUI();
-    table = new ChangeTable2() {
+    table = new ChangeTable() {
       {
         keysNavigation.add(new KeyCommand(0, 'R', Util.C.keyReloadSearch()) {
           @Override
@@ -57,9 +57,9 @@ public class AccountDashboardScreen extends Screen implements ChangeListScreen {
     };
     table.addStyleName(Gerrit.RESOURCES.css().accountDashboard());
 
-    outgoing = new ChangeTable2.Section();
-    incoming = new ChangeTable2.Section();
-    closed = new ChangeTable2.Section();
+    outgoing = new ChangeTable.Section();
+    incoming = new ChangeTable.Section();
+    closed = new ChangeTable.Section();
 
     outgoing.setTitleText(Util.C.outgoingReviews());
     incoming.setTitleText(Util.C.incomingReviews());

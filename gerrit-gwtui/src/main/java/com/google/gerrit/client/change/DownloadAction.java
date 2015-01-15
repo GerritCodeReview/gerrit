@@ -25,7 +25,7 @@ class DownloadAction extends RightSidePopdownAction {
   DownloadAction(
       ChangeInfo info,
       String revision,
-      ChangeScreen2.Style style,
+      ChangeScreen.Style style,
       UIObject relativeTo,
       Widget downloadButton) {
     super(style, relativeTo, downloadButton);

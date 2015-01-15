@@ -28,11 +28,11 @@ class UpdateCheckTimer extends Timer implements ValueChangeHandler<Boolean> {
   private static final int POLL_PERIOD =
       Gerrit.getConfig().getChangeUpdateDelay() * 1000;
 
-  private final ChangeScreen2 screen;
+  private final ChangeScreen screen;
   private int delay;
   private boolean running;
 
-  UpdateCheckTimer(ChangeScreen2 screen) {
+  UpdateCheckTimer(ChangeScreen screen) {
     this.screen = screen;
     this.delay = POLL_PERIOD;
   }

@@ -67,7 +67,7 @@ public class Reviewers extends Composite {
   @UiField(provided = true)
   RemoteSuggestBox suggestBox;
 
-  private ChangeScreen2.Style style;
+  private ChangeScreen.Style style;
   private Element ccText;
 
   private ReviewerSuggestOracle reviewerSuggestOracle;
@@ -94,7 +94,7 @@ public class Reviewers extends Composite {
     initWidget(uiBinder.createAndBindUi(this));
   }
 
-  void init(ChangeScreen2.Style style, Element ccText) {
+  void init(ChangeScreen.Style style, Element ccText) {
     this.style = style;
     this.ccText = ccText;
   }

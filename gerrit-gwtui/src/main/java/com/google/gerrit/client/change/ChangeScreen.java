@@ -99,8 +99,8 @@ import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
 
-public class ChangeScreen2 extends Screen {
-  interface Binder extends UiBinder<HTMLPanel, ChangeScreen2> {}
+public class ChangeScreen extends Screen {
+  interface Binder extends UiBinder<HTMLPanel, ChangeScreen> {}
   private static final Binder uiBinder = GWT.create(Binder.class);
 
   interface Style extends CssResource {
@@ -116,12 +116,12 @@ public class ChangeScreen2 extends Screen {
     String hashtagName();
   }
 
-  static ChangeScreen2 get(NativeEvent in) {
+  static ChangeScreen get(NativeEvent in) {
     Element e = in.getEventTarget().cast();
     for (e = DOM.getParent(e); e != null; e = DOM.getParent(e)) {
       EventListener l = DOM.getEventListener(e);
-      if (l instanceof ChangeScreen2) {
-        return (ChangeScreen2) l;
+      if (l instanceof ChangeScreen) {
+        return (ChangeScreen) l;
       }
     }
     return null;
@@ -201,7 +201,7 @@ public class ChangeScreen2 extends Screen {
   private DownloadAction downloadAction;
   private AddFileAction addFileAction;
 
-  public ChangeScreen2(Change.Id changeId, String base, String revision,
+  public ChangeScreen(Change.Id changeId, String base, String revision,
       boolean openReplyBox, FileTable.Mode mode) {
     this.changeId = changeId;
     this.base = normalize(base);

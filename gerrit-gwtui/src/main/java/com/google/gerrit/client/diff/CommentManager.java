@@ -38,9 +38,9 @@ import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
-/** Tracks comment widgets for {@link SideBySide2}. */
+/** Tracks comment widgets for {@link SideBySide}. */
 class CommentManager {
-  private final SideBySide2 host;
+  private final SideBySide host;
   private final PatchSet.Id base;
   private final PatchSet.Id revision;
   private final String path;
@@ -53,7 +53,7 @@ class CommentManager {
   private boolean attached;
   private boolean expandAll;
 
-  CommentManager(SideBySide2 host,
+  CommentManager(SideBySide host,
       PatchSet.Id base, PatchSet.Id revision,
       String path,
       CommentLinkProcessor clp) {
@@ -69,7 +69,7 @@ class CommentManager {
     unsavedDrafts = new HashSet<>();
   }
 
-  SideBySide2 getSideBySide2() {
+  SideBySide getSideBySide() {
     return host;
   }
 

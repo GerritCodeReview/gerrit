@@ -63,7 +63,7 @@ link:http://www.gwtproject.org/articles/superdevmode.html[Super Dev Mode].
 as a bookmarklet).
 * Navigate on the left to: sourcemaps/gerrit_ui folder (`Ctrl+O` key shortcut
 can be used)
-* Select a file, for example com.google.gerrit.client.change.ChangeScreen2
+* Select a file, for example com.google.gerrit.client.change.ChangeScreen
 and put a breakpoint
 * Navigate in application in change screen and confirm hitting the breakpoint
 * Select `Dev Mode Off` when the debugging session is finished

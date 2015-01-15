@@ -157,10 +157,10 @@ limitations under the License.
     <table class='{style.table}'>
       <tr ui:field='patchSetNavRow' class='{style.patchSetNav}'>
         <td ui:field='patchSetNavCellA' class='{style.psNavA}'>
-          <d:PatchSetSelectBox2 ui:field='patchSetSelectBoxA' />
+          <d:PatchSetSelectBox ui:field='patchSetSelectBoxA' />
         </td>
         <td ui:field='patchSetNavCellB' class='{style.psNavB}'>
-          <d:PatchSetSelectBox2 ui:field='patchSetSelectBoxB' />
+          <d:PatchSetSelectBox ui:field='patchSetSelectBoxB' />
         </td>
       </tr>
       <tr ui:field='diffHeaderRow' class='{style.diff_header}'>

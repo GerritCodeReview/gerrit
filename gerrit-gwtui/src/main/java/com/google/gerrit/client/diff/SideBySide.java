@@ -30,7 +30,6 @@ import com.google.gerrit.client.changes.ChangeInfo.RevisionInfo;
 import com.google.gerrit.client.changes.ChangeList;
 import com.google.gerrit.client.diff.DiffInfo.FileMeta;
 import com.google.gerrit.client.diff.LineMapper.LineOnOtherInfo;
-import com.google.gerrit.client.editor.EditScreen;
 import com.google.gerrit.client.patches.PatchUtil;
 import com.google.gerrit.client.projects.ConfigInfoCache;
 import com.google.gerrit.client.rpc.CallbackGroup;
@@ -308,13 +307,8 @@ public class SideBySide extends Screen {
       }
     }
     if (startSide != null && startLine > 0) {
-      int line = startLine - 1;
       CodeMirror cm = getCmFromSide(startSide);
-      int height = cm.getHeight();
-      if (cm.lineAtHeight(height - 20) < line) {
-        cm.scrollToY(cm.heightAtLine(line, "local") - 0.5 * height);
-      }
-      cm.setCursor(Pos.create(line));
+      cm.scrollToLine(startLine - 1);
       cm.focus();
     } else {
       cmA.setCursor(Pos.create(0));
@@ -919,8 +913,7 @@ public class SideBySide extends Screen {
       public void run() {
         LineHandle handle = cm.extras().activeLine();
         int line = cm.getLineNumber(handle) + 1;
-        EditScreen.scrollToLine(line);
-        String token = Dispatcher.toEditScreen(revision, path);
+        String token = Dispatcher.toEditScreen(revision, path, line);
         if (!Gerrit.isSignedIn()) {
           Gerrit.doSignIn(token);
         } else {

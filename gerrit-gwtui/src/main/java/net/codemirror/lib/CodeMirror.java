@@ -199,13 +199,13 @@ public class CodeMirror extends JavaScriptObject {
     this.scrollTo(null, y)
   }-*/;
 
-  public final native void scrollToLine(int line) /*-{
-    line = line - 1;
-    this.setCursor({line:line,ch:0});
-    var myHeight = this.getScrollInfo().clientHeight;
-    var coords = this.charCoords({line: line, ch: 0}, "local");
-    this.scrollTo(null, (coords.top + coords.bottom - myHeight) / 2);
-  }-*/;
+  public final void scrollToLine(int line) {
+    int height = getHeight();
+    if (lineAtHeight(height - 20) < line) {
+      scrollToY(heightAtLine(line, "local") - 0.5 * height);
+    }
+    setCursor(Pos.create(line));
+  }
 
   public final native ScrollInfo getScrollInfo() /*-{
     return this.getScrollInfo()

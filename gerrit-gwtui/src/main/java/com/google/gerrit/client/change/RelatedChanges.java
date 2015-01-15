@@ -272,19 +272,23 @@ public class RelatedChanges extends TabPanel {
 
     @Override
     public void onSuccess(T result) {
-      JsArray<ChangeAndCommit> changes = convert(result);
-      if (changes.length() > 0) {
-        setTabTitle(tabInfo, tabInfo.getTitle(changes.length()));
-        getTab(tabInfo).setChanges(project, revision, changes);
+      if (isAttached()) {
+        JsArray<ChangeAndCommit> changes = convert(result);
+        if (changes.length() > 0) {
+          setTabTitle(tabInfo, tabInfo.getTitle(changes.length()));
+          getTab(tabInfo).setChanges(project, revision, changes);
+        }
+        onDone(changes.length() > 0);
       }
-      onDone(changes.length() > 0);
     }
 
     @Override
     public void onFailure(Throwable err) {
-      setTabTitle(tabInfo, tabInfo.getTitle(Resources.C.notAvailable()));
-      getTab(tabInfo).setError(err.getMessage());
-      onDone(true);
+      if (isAttached()) {
+        setTabTitle(tabInfo, tabInfo.getTitle(Resources.C.notAvailable()));
+        getTab(tabInfo).setError(err.getMessage());
+        onDone(true);
+      }
     }
 
     private void onDone(boolean enabled) {

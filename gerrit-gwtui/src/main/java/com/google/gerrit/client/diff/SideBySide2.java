@@ -17,7 +17,6 @@ package com.google.gerrit.client.diff;
 import static com.google.gerrit.reviewdb.client.AccountDiffPreference.WHOLE_FILE_CONTEXT;
 import static java.lang.Double.POSITIVE_INFINITY;
 
-import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.JumpKeys;
 import com.google.gerrit.client.account.DiffPreferences;
@@ -30,7 +29,6 @@ import com.google.gerrit.client.changes.ChangeInfo.RevisionInfo;
 import com.google.gerrit.client.changes.ChangeList;
 import com.google.gerrit.client.diff.DiffInfo.FileMeta;
 import com.google.gerrit.client.diff.LineMapper.LineOnOtherInfo;
-import com.google.gerrit.client.editor.EditScreen;
 import com.google.gerrit.client.patches.PatchUtil;
 import com.google.gerrit.client.projects.ConfigInfoCache;
 import com.google.gerrit.client.rpc.CallbackGroup;
@@ -377,7 +375,6 @@ public class SideBySide2 extends Screen {
         .on("Enter", commentManager.toggleOpenBox(cm))
         .on("C", commentManager.insertNewDraft(cm))
         .on("N", maybeNextVimSearch(cm))
-        .on("M", modifyInEditScreen(cm))
         .on("P", chunkManager.diffChunkNav(cm, Direction.PREV))
         .on("Shift-A", diffTable.toggleA())
         .on("Shift-M", header.reviewedAndNext())
@@ -486,8 +483,7 @@ public class SideBySide2 extends Screen {
         new NoOpKeyCommand(KeyCommand.M_SHIFT, 'p', PatchUtil.C.commentPrev()));
     keysNavigation.add(
         new NoOpKeyCommand(KeyCommand.M_CTRL, 'f', Gerrit.C.keySearch()));
-    keysNavigation.add(
-        new NoOpKeyCommand(0, 'm', PatchUtil.C.modifyInEditScreen()));
+
     keysAction = new KeyCommandSet(Gerrit.C.sectionActions());
     keysAction.add(new NoOpKeyCommand(0, KeyCodes.KEY_ENTER,
         PatchUtil.C.expandComment()));
@@ -908,23 +904,6 @@ public class SideBySide2 extends Screen {
           cm.vim().handleKey("n");
         } else {
           chunkManager.diffChunkNav(cm, Direction.NEXT).run();
-        }
-      }
-    };
-  }
-
-  private Runnable modifyInEditScreen(final CodeMirror cm) {
-    return new Runnable() {
-      @Override
-      public void run() {
-        LineHandle handle = cm.extras().activeLine();
-        int line = cm.getLineNumber(handle) + 1;
-        EditScreen.scrollToLine(line);
-        String token = Dispatcher.toEditScreen(revision, path);
-        if (!Gerrit.isSignedIn()) {
-          Gerrit.doSignIn(token);
-        } else {
-          Gerrit.display(token);
         }
       }
     };

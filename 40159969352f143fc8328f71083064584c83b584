@@ -94,6 +94,40 @@
     },
     {
       "key": {
+        "uuid": "0b3057e8_4bcd25c6",
+        "filename": "lib/codemirror/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-01-15T04:13:43Z",
+      "side": 1,
+      "message": "This downgrades us and breaks the scrollbars:\n\n  $ git log --left-right d0a2ddaa04...4.11.0\n  commit \u003e 1c78007be219f06f1afca059c2ee18316912daac\n  Author: Marijn Haverbeke \u003cmarijnh@gmail.com\u003e\n  Date:   Fri Jan 9 18:11:53 2015 +0100\n\n    Mark release 4.11\n\n  commit \u003c d0a2ddaa0454f6ea00d4c151ce9c1c15a3d84014\n  Author: Yunchi Luo \u003cmightyguava@gmail.com\u003e\n  Date:   Wed Dec 31 23:21:33 2014 -0500\n\n    [vim] Enable clearing search scrollbar annotation\n    \n    https://github.com/codemirror/CodeMirror/issues/3012\n\n  commit \u003c 66f9224c656e8a9512f52c6be53645e8ec55cd48\n  Author: Yunchi Luo \u003cmightyguava@gmail.com\u003e\n  Date:   Wed Dec 31 16:34:06 2014 -0500\n\n    [vim] Support showing search matches on scrollbar\n    \n    https://github.com/codemirror/CodeMirror/issues/3012\n\n  commit \u003c 2fc14dbad06372e88e2ec663a45b82eb175be760\n  Author: Ankit \u003cankitstarski@gmail.com\u003e\n  Date:   Sun Dec 28 01:19:01 2014 +0530\n\n    [sass mode] Improve indentation\n    \n    Fixes bug #2156 for the most part\n    \n    indention was bugged because it was reaching a wrong state when\n    any text that was not in the known set of words or patterns was\n    incurred.\n    \n    for eg:\n        head\n                | \u003c---- cursor should be here\n    \n    and lets take  color : red as another example\n    now \u0027red\u0027 is same to the current tokenizer as \u0027head\u0027 from the first\n    example. So it indents for red automatically.\n    \n    It was fixed by not letting any text after colon to reach the state\n    where it appends an indent after it.",
+      "revId": "40159969352f143fc8328f71083064584c83b584",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b3057e8_6bc8e1b7",
+        "filename": "lib/codemirror/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-01-15T04:13:43Z",
+      "side": 1,
+      "message": "My concern with using this source is the ZIP is probably created by git-archive on the fly. If GitHub upgrades their server binary it may produce the ZIP differently. That won\u0027t SHA-1 match anymore.",
+      "revId": "40159969352f143fc8328f71083064584c83b584",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "aed03989_c80f0f25",
         "filename": "tools/util.py",
         "patchSetId": 1

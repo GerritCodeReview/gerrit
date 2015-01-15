@@ -22,6 +22,30 @@
       "revId": "7030b03fa730d9df34b6e98b0cf0c3801515d974",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2b335bf6_6c435b76",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/SideBySide2.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 922,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-15T08:59:45Z",
+      "side": 1,
+      "message": "Gah.  Strange that this didn\u0027t cause any errors; I didn\u0027t have that other change in my work tree when I verified this.",
+      "parentUuid": "eb5ea32a_6af1f7f5",
+      "range": {
+        "startLine": 922,
+        "startChar": 8,
+        "endLine": 922,
+        "endChar": 38
+      },
+      "revId": "7030b03fa730d9df34b6e98b0cf0c3801515d974",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

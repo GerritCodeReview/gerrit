@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "eb5ea32a_6a433776",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/ldap/Helper.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-01-15T14:22:12Z",
+      "side": 1,
+      "message": "According to [1] and also [2] these are system properties and NOT environment properties (check the line 152 below).\n\nIs this implementation actually broken? Looks like setting these parameters under the [ldap] section will have no effect at all!?\n\n[1] http://docs.oracle.com/javase/7/docs/technotes/guides/jndi/jndi-ldap.html#POOL\n[2] http://stackoverflow.com/questions/22411967/which-ldap-jndi-provider-pool-settings-are-system-properties-and-which-are-envi",
+      "range": {
+        "startLine": 76,
+        "startChar": 0,
+        "endLine": 90,
+        "endChar": 60
+      },
+      "revId": "cd04bbc125c290891dc90ba0da6515f45ea88347",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

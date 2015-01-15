@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "0b3057e8_2ba1b9ae",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/args4j/ChangeIdHandler.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-15T17:54:41Z",
+      "side": 1,
+      "message": "Yes. This is required for compilation but since we think this handler is dead code it\u0027s not easy to test.",
+      "parentUuid": "0b3057e8_2bebf907",
+      "range": {
+        "startLine": 39,
+        "startChar": 6,
+        "endLine": 39,
+        "endChar": 66
+      },
+      "revId": "d40b28d950e8eec3f4e6d80cc3ebd705901e82f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2b335bf6_cc012f31",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
         "patchSetId": 6

@@ -65,7 +65,7 @@ import com.google.gerrit.client.admin.ProjectInfoScreen;
 import com.google.gerrit.client.admin.ProjectListScreen;
 import com.google.gerrit.client.admin.ProjectScreen;
 import com.google.gerrit.client.api.ExtensionScreen;
-import com.google.gerrit.client.change.ChangeScreen2;
+import com.google.gerrit.client.change.ChangeScreen;
 import com.google.gerrit.client.change.FileTable;
 import com.google.gerrit.client.changes.AccountDashboardScreen;
 import com.google.gerrit.client.changes.CustomDashboardScreen;
@@ -74,7 +74,7 @@ import com.google.gerrit.client.changes.QueryScreen;
 import com.google.gerrit.client.dashboards.DashboardInfo;
 import com.google.gerrit.client.dashboards.DashboardList;
 import com.google.gerrit.client.diff.DisplaySide;
-import com.google.gerrit.client.diff.SideBySide2;
+import com.google.gerrit.client.diff.SideBySide;
 import com.google.gerrit.client.documentation.DocScreen;
 import com.google.gerrit.client.editor.EditScreen;
 import com.google.gerrit.client.groups.GroupApi;
@@ -518,7 +518,7 @@ public class Dispatcher {
         panel = null;
       }
       Gerrit.display(token, panel == null
-          ? new ChangeScreen2(id, null, null, false, mode)
+          ? new ChangeScreen(id, null, null, false, mode)
           : new NotFoundScreen());
       return;
     }
@@ -560,7 +560,7 @@ public class Dispatcher {
     } else {
       if (panel == null) {
         Gerrit.display(token,
-            new ChangeScreen2(id,
+            new ChangeScreen(id,
                 base != null
                     ? String.valueOf(base.get())
                     : null,
@@ -600,16 +600,16 @@ public class Dispatcher {
 
     if ("".equals(panel) || /* DEPRECATED URL */"cm".equals(panel)) {
       if (preferUnified()) {
-        unified1(token, baseId, id);
+        unified(token, baseId, id);
       } else {
-        sbs2(token, baseId, id, side, line, false);
+        sbs(token, baseId, id, side, line, false);
       }
     } else if ("sidebyside".equals(panel)) {
-      sbs2(token, null, id, side, line, false);
+      sbs(token, null, id, side, line, false);
     } else if ("unified".equals(panel)) {
-      unified1(token, baseId, id);
+      unified(token, baseId, id);
     } else if ("edit".equals(panel)) {
-      sbs2(token, null, id, side, line, true);
+      sbs(token, null, id, side, line, true);
     } else {
       Gerrit.display(token, new NotFoundScreen());
     }
@@ -622,7 +622,7 @@ public class Dispatcher {
             .getDiffView());
   }
 
-  private static void unified1(final String token,
+  private static void unified(final String token,
       final PatchSet.Id baseId,
       final Patch.Key id) {
     GWT.runAsync(new AsyncSplit(token) {
@@ -634,7 +634,7 @@ public class Dispatcher {
     });
   }
 
-  private static void sbs2(final String token, final PatchSet.Id baseId,
+  private static void sbs(final String token, final PatchSet.Id baseId,
       final Patch.Key id, final DisplaySide side, final int line,
       final boolean edit) {
     GWT.runAsync(new AsyncSplit(token) {
@@ -642,7 +642,7 @@ public class Dispatcher {
       public void onSuccess() {
         Gerrit.display(token, edit
             ? new EditScreen(id)
-            : new SideBySide2(baseId, id.getParentKey(), id.get(), side, line));
+            : new SideBySide(baseId, id.getParentKey(), id.get(), side, line));
       }
     });
   }

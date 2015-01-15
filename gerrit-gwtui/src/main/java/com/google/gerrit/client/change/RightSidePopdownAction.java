@@ -26,13 +26,13 @@ import com.google.gwtexpui.globalkey.client.GlobalKey;
 import com.google.gwtexpui.user.client.PluginSafePopupPanel;
 
 abstract class RightSidePopdownAction {
-  private final ChangeScreen2.Style style;
+  private final ChangeScreen.Style style;
   private final Widget button;
   private final UIObject relativeTo;
   private PopupPanel popup;
 
   RightSidePopdownAction(
-      ChangeScreen2.Style style,
+      ChangeScreen.Style style,
       UIObject relativeTo,
       Widget button) {
     this.style = style;

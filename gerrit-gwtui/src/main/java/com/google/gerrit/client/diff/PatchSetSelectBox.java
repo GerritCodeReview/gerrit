@@ -42,8 +42,8 @@ import com.google.gwtorm.client.KeyUtil;
 import java.util.List;
 
 /** HTMLPanel to select among patch sets */
-class PatchSetSelectBox2 extends Composite {
-  interface Binder extends UiBinder<HTMLPanel, PatchSetSelectBox2> {}
+class PatchSetSelectBox extends Composite {
+  interface Binder extends UiBinder<HTMLPanel, PatchSetSelectBox> {}
   private static final Binder uiBinder = GWT.create(Binder.class);
 
   interface BoxStyle extends CssResource {
@@ -54,16 +54,16 @@ class PatchSetSelectBox2 extends Composite {
   @UiField HTMLPanel linkPanel;
   @UiField BoxStyle style;
 
-  private SideBySide2 parent;
+  private SideBySide parent;
   private DisplaySide side;
   private boolean sideA;
   private String path;
   private Change.Id changeId;
   private PatchSet.Id revision;
   private PatchSet.Id idActive;
-  private PatchSetSelectBox2 other;
+  private PatchSetSelectBox other;
 
-  PatchSetSelectBox2(SideBySide2 parent,
+  PatchSetSelectBox(SideBySide parent,
       DisplaySide side,
       Change.Id changeId,
       PatchSet.Id revision,
@@ -133,7 +133,7 @@ class PatchSetSelectBox2 extends Composite {
     return anchor;
   }
 
-  static void link(PatchSetSelectBox2 a, PatchSetSelectBox2 b) {
+  static void link(PatchSetSelectBox a, PatchSetSelectBox b) {
     a.other = b;
     b.other = a;
   }

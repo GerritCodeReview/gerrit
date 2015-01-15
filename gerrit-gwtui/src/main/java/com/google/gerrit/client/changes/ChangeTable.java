@@ -47,7 +47,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class ChangeTable2 extends NavigationTable<ChangeInfo> {
+public class ChangeTable extends NavigationTable<ChangeInfo> {
   private static final int C_STAR = 1;
   private static final int C_ID = 2;
   private static final int C_SUBJECT = 3;
@@ -64,7 +64,7 @@ public class ChangeTable2 extends NavigationTable<ChangeInfo> {
   private boolean showLegacyId;
   private List<String> labelNames;
 
-  public ChangeTable2() {
+  public ChangeTable() {
     super(Util.C.changeItemHelp());
     columns = BASE_COLUMNS;
     labelNames = Collections.emptyList();
@@ -462,7 +462,7 @@ public class ChangeTable2 extends NavigationTable<ChangeInfo> {
   }
 
   public static class Section {
-    ChangeTable2 parent;
+    ChangeTable parent;
     String titleText;
     Widget titleWidget;
     int titleRow = -1;

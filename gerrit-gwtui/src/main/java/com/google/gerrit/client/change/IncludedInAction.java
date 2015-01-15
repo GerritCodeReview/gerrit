@@ -23,7 +23,7 @@ class IncludedInAction extends RightSidePopdownAction {
 
   IncludedInAction(
       Change.Id changeId,
-      ChangeScreen2.Style style,
+      ChangeScreen.Style style,
       UIObject relativeTo,
       Widget includedInButton) {
     super(style, relativeTo, includedInButton);

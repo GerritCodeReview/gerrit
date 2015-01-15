@@ -26,14 +26,14 @@ import com.google.gwtexpui.user.client.PluginSafePopupPanel;
 class AddFileAction {
   private final Change.Id changeId;
   private final RevisionInfo revision;
-  private final ChangeScreen2.Style style;
+  private final ChangeScreen.Style style;
   private final Widget addButton;
 
   private AddFileBox addBox;
   private PopupPanel popup;
 
   AddFileAction(Change.Id changeId, RevisionInfo revision,
-      ChangeScreen2.Style style, Widget addButton) {
+      ChangeScreen.Style style, Widget addButton) {
     this.changeId = changeId;
     this.revision = revision;
     this.style = style;

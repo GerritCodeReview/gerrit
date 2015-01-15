@@ -31,7 +31,7 @@ import java.util.EnumSet;
 import java.util.List;
 import java.util.ListIterator;
 
-public class DashboardTable extends ChangeTable2 {
+public class DashboardTable extends ChangeTable {
   private List<Section> sections;
   private String title;
   private List<String> titles;

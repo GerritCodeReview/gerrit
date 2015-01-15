@@ -287,7 +287,7 @@ public class Header extends Composite {
       return k;
     } else {
       link.getElement().getStyle().setVisibility(Visibility.HIDDEN);
-      keys.add(new UpToChangeCommand2(patchSetId, 0, key));
+      keys.add(new UpToChangeCommand(patchSetId, 0, key));
       return null;
     }
   }

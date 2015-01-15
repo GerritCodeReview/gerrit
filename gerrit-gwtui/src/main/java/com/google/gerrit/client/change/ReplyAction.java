@@ -33,7 +33,7 @@ import com.google.gwtexpui.user.client.PluginSafePopupPanel;
 class ReplyAction {
   private final PatchSet.Id psId;
   private final String revision;
-  private final ChangeScreen2.Style style;
+  private final ChangeScreen.Style style;
   private final CommentLinkProcessor clp;
   private final Widget replyButton;
   private final Widget quickApproveButton;
@@ -47,7 +47,7 @@ class ReplyAction {
   ReplyAction(
       ChangeInfo info,
       String revision,
-      ChangeScreen2.Style style,
+      ChangeScreen.Style style,
       CommentLinkProcessor clp,
       Widget replyButton,
       Widget quickApproveButton) {

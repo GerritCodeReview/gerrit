@@ -24,7 +24,7 @@ class PatchSetsAction extends RightSidePopdownAction {
   PatchSetsAction(
       Change.Id changeId,
       String revision,
-      ChangeScreen2.Style style,
+      ChangeScreen.Style style,
       UIObject relativeTo,
       Widget downloadButton) {
     super(style, relativeTo, downloadButton);

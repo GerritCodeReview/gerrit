@@ -19,8 +19,6 @@ import com.google.gerrit.client.ErrorDialog;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.RpcStatus;
 import com.google.gerrit.client.WebLinkInfo;
-import com.google.gerrit.client.changes.CommitMessageBlock;
-import com.google.gerrit.client.changes.PatchTable;
 import com.google.gerrit.client.diff.DiffApi;
 import com.google.gerrit.client.diff.DiffInfo;
 import com.google.gerrit.client.projects.ConfigInfoCache;

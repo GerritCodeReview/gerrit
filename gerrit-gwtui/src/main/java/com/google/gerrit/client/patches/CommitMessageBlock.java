@@ -12,9 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.client.changes;
+package com.google.gerrit.client.patches;
 
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.changes.StarredChanges;
+import com.google.gerrit.client.changes.Util;
 import com.google.gerrit.client.ui.ChangeLink;
 import com.google.gerrit.client.ui.CommentLinkProcessor;
 import com.google.gerrit.reviewdb.client.Change;
@@ -33,10 +35,8 @@ import com.google.gwtexpui.globalkey.client.KeyCommandSet;
 import com.google.gwtexpui.safehtml.client.SafeHtml;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 
-public class CommitMessageBlock extends Composite {
-  interface Binder extends UiBinder<HTMLPanel, CommitMessageBlock> {
-  }
-
+class CommitMessageBlock extends Composite {
+  interface Binder extends UiBinder<HTMLPanel, CommitMessageBlock> {}
   private static final Binder uiBinder = GWT.create(Binder.class);
 
   private KeyCommandSet keysAction;
@@ -50,21 +50,21 @@ public class CommitMessageBlock extends Composite {
   @UiField
   PreElement commitBodyPre;
 
-  public CommitMessageBlock() {
+  CommitMessageBlock() {
     initWidget(uiBinder.createAndBindUi(this));
   }
 
-  public CommitMessageBlock(KeyCommandSet keysAction) {
+  CommitMessageBlock(KeyCommandSet keysAction) {
     this.keysAction = keysAction;
     initWidget(uiBinder.createAndBindUi(this));
   }
 
-  public void display(String commitMessage,
+  void display(String commitMessage,
       CommentLinkProcessor commentLinkProcessor) {
     display(null, null, null, commitMessage, commentLinkProcessor);
   }
 
-  public void display(final PatchSet.Id patchSetId, final String revision,
+  void display(final PatchSet.Id patchSetId, final String revision,
       Boolean starred, final String commitMessage,
       CommentLinkProcessor commentLinkProcessor) {
     starPanel.clear();

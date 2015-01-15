@@ -12,19 +12,20 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.client.changes;
+package com.google.gerrit.client.change;
 
 import com.google.gerrit.client.ErrorDialog;
+import com.google.gerrit.client.changes.Util;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 import com.google.gwtjsonrpc.client.RemoteJsonException;
 
-public class SubmitFailureDialog extends ErrorDialog {
-  public static boolean isConflict(Throwable err) {
+class SubmitFailureDialog extends ErrorDialog {
+  static boolean isConflict(Throwable err) {
     return err instanceof RemoteJsonException
         && 409 == ((RemoteJsonException) err).getCode();
   }
 
-  public SubmitFailureDialog(String msg) {
+  SubmitFailureDialog(String msg) {
     super(new SafeHtmlBuilder().append(msg.trim()).wikify());
     setText(Util.C.submitFailed());
   }

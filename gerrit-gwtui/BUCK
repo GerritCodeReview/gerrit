@@ -37,6 +37,17 @@ gwt_binary(
 )
 
 gwt_binary(
+  name = 'ui_soyc',
+  modules = [MODULE],
+  module_deps = [':ui_module'],
+  deps = DEPS + [':ui_dbg'],
+  local_workers = cpu_count(),
+  strict = True,
+  experimental_args = GWT_COMPILER_ARGS + ['-compileReport'],
+  vm_args = GWT_JVM_ARGS,
+)
+
+gwt_binary(
   name = 'ui_dbg',
   modules = [MODULE],
   style = 'PRETTY',

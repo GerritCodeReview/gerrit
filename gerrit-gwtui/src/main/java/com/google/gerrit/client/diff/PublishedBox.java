@@ -60,7 +60,7 @@ class PublishedBox extends CommentBox {
   @UiField Element date;
   @UiField Element message;
   @UiField Element buttons;
-  @UiField Button address;
+  @UiField Button edit;
   @UiField Button reply;
   @UiField Button done;
 
@@ -157,8 +157,8 @@ class PublishedBox extends CommentBox {
     }
   }
 
-  @UiHandler("address")
-  void onAddress(ClickEvent e) {
+  @UiHandler("edit")
+  void onEdit(ClickEvent e) {
     e.stopPropagation();
     EditScreen.scrollToLine(comment.line());
     String token = Dispatcher.toEditScreen(psId, comment.path());

@@ -56,7 +56,6 @@ import com.google.gerrit.client.admin.AccountGroupScreen;
 import com.google.gerrit.client.admin.CreateGroupScreen;
 import com.google.gerrit.client.admin.CreateProjectScreen;
 import com.google.gerrit.client.admin.GroupListScreen;
-import com.google.gerrit.client.admin.MyGroupsListScreen;
 import com.google.gerrit.client.admin.PluginListScreen;
 import com.google.gerrit.client.admin.ProjectAccessScreen;
 import com.google.gerrit.client.admin.ProjectBranchesScreen;
@@ -225,20 +224,18 @@ public class Dispatcher {
     } else if (matchPrefix(PROJECTS, token)) {
       projects(token);
 
-    } else if (matchExact(SETTINGS, token) //
-        || matchPrefix("/settings/", token) //
-        || matchExact("register", token) //
-        || matchExact(REGISTER, token) //
-        || matchPrefix("/register/", token) //
-        || matchPrefix("/VE/", token) || matchPrefix("VE,", token) //
+    } else if (matchExact(SETTINGS, token)
+        || matchPrefix("/settings/", token)
+        || matchExact(MY_GROUPS, token)
+        || matchExact("register", token)
+        || matchExact(REGISTER, token)
+        || matchPrefix("/register/", token)
+        || matchPrefix("/VE/", token) || matchPrefix("VE,", token)
         || matchPrefix("/SignInFailure,", token)) {
       settings(token);
 
     } else if (matchPrefix("/admin/", token)) {
       admin(token);
-
-    } else if (matchExact(MY_GROUPS, token)) {
-      Gerrit.display(token, new MyGroupsListScreen());
 
     } else if (/* DEPRECATED URL */matchPrefix("/c2/", token)) {
       change(token);
@@ -683,7 +680,8 @@ public class Dispatcher {
           return new MyPasswordScreen();
         }
 
-        if (matchExact(SETTINGS_MYGROUPS, token)) {
+        if (matchExact(MY_GROUPS, token)
+            || matchExact(SETTINGS_MYGROUPS, token)) {
           return new MyGroupsScreen();
         }
 

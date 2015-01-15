@@ -473,29 +473,31 @@ public class ChangeData {
     currentApprovals = approvals;
   }
 
-  public String commitMessage() throws NoSuchChangeException, IOException,
-      OrmException {
+  public String commitMessage() throws IOException, OrmException {
     if (commitMessage == null) {
-      loadCommitData();
+      if (!loadCommitData()) {
+        return null;
+      }
     }
     return commitMessage;
   }
 
-  public List<FooterLine> commitFooters() throws NoSuchChangeException,
-      IOException, OrmException {
+  public List<FooterLine> commitFooters() throws IOException, OrmException {
     if (commitFooters == null) {
-      loadCommitData();
+      if (!loadCommitData()) {
+        return null;
+      }
     }
     return commitFooters;
   }
 
-  private void loadCommitData() throws NoSuchChangeException, OrmException,
+  private boolean loadCommitData() throws OrmException,
       RepositoryNotFoundException, IOException, MissingObjectException,
       IncorrectObjectTypeException {
     PatchSet.Id psId = change().currentPatchSetId();
     PatchSet ps = db.patchSets().get(psId);
     if (ps == null) {
-      throw new NoSuchChangeException(legacyId);
+      return false;
     }
     String sha1 = ps.getRevision().get();
     Repository repo = repoManager.openRepository(change().getProject());
@@ -511,6 +513,7 @@ public class ChangeData {
     } finally {
       repo.close();
     }
+    return true;
   }
 
   /**
@@ -587,15 +590,18 @@ public class ChangeData {
     this.mergeable = mergeable;
   }
 
-  public boolean isMergeable() throws OrmException {
+  public Boolean isMergeable() throws OrmException {
     if (mergeable == null) {
       Change c = change();
+      if (c == null) {
+        return null;
+      }
       if (c.getStatus() == Change.Status.MERGED) {
         mergeable = true;
       } else {
         PatchSet ps = currentPatchSet();
         if (ps == null) {
-          throw new OrmException("Missing patch set for mergeability check");
+          return null;
         }
         Repository repo = null;
         try {

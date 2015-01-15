@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "eb6ce3f2_bafbb1ce",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/DeleteDraftPatchSetIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-15T22:12:17Z",
+      "side": 1,
+      "message": "Normally I would say we shouldn\u0027t change our interfaces just to make assertThat work with collections, because upstream reverted the deprecation change shortly after releasing 0.25.\n\nBut I think ChangeData could certainly use some interface improvement independent of the Truth issue. Beyond the scope of this change, though, as this change is just about null vs. exceptions.",
+      "parentUuid": "cb639ff0_c9335111",
+      "range": {
+        "startLine": 75,
+        "startChar": 4,
+        "endLine": 75,
+        "endChar": 66
+      },
+      "revId": "c0157864f76427129c46a719ecb20ca434e97d5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cb639ff0_a9301d05",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/SiteIndexer.java",
         "patchSetId": 3
@@ -36,6 +60,30 @@
       "writtenOn": "2015-01-15T22:06:55Z",
       "side": 1,
       "message": "Bad rebase? Should be in previous change?",
+      "range": {
+        "startLine": 288,
+        "startChar": 7,
+        "endLine": 290,
+        "endChar": 61
+      },
+      "revId": "c0157864f76427129c46a719ecb20ca434e97d5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b9e9722_db36b303",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/SiteIndexer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-15T22:12:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cb639ff0_a9301d05",
       "range": {
         "startLine": 288,
         "startChar": 7,

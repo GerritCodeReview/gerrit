@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cb639ff0_69434576",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_105.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-15T21:15:29Z",
+      "side": 1,
+      "message": "Nice idea, but it doesn\u0027t work. You cannot rely on case sensitivity of returned index names. I tested it recently in context of this change: [1] and it is unpredictable. The comparison must be done in case insensitive way. See how we did it in [1].\n\n* [1] https://gerrit-review.googlesource.com/#/c/62758/6/gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_102.java",
+      "range": {
+        "startLine": 67,
+        "startChar": 26,
+        "endLine": 67,
+        "endChar": 58
+      },
+      "revId": "3f0e65f28bfcea41298951557bcac224a76b1bb2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

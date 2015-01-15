@@ -231,6 +231,26 @@ The WAR file will be placed in:
   buck-out/gen/withdocs.war
 ----
 
+[[soyc]]
+=== GWT Compile Report
+
+The GWT compiler can output a compile report (or "story of your compile"),
+describing the size of the JavaScript and which source classes contributed
+to the overall download size.
+
+----
+  buck build soyc
+----
+
+The report will be written as an HTML page to the extras directory, and
+can be opened and viewed in any web browser:
+
+----
+  extras/gerrit_ui/soycReport/compile-report/index.html
+----
+
+Only the "Split Point Report" is created, "Compiler Metrics" are not output.
+
 [[release]]
 === Gerrit Release WAR File
 

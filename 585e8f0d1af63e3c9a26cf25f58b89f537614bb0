@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0b9e9722_3bd79756",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CommentManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-01-15T20:09:34Z",
+      "side": 1,
+      "message": "s/2//",
+      "range": {
+        "startLine": 72,
+        "startChar": 20,
+        "endLine": 72,
+        "endChar": 21
+      },
+      "revId": "585e8f0d1af63e3c9a26cf25f58b89f537614bb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

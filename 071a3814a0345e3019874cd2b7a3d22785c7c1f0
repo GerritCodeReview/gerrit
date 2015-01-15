@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "eb5ea32a_4a1f5386",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 3435,
+      "author": {
+        "id": 1018043
+      },
+      "writtenOn": "2015-01-15T12:39:37Z",
+      "side": 1,
+      "message": "Correct, I will rephrase to clarify this.",
+      "parentUuid": "2b335bf6_0c7bb7ac",
+      "range": {
+        "startLine": 3435,
+        "startChar": 24,
+        "endLine": 3435,
+        "endChar": 67
+      },
+      "revId": "071a3814a0345e3019874cd2b7a3d22785c7c1f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2b335bf6_cc7c8fa3",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/RebaseInput.java",
         "patchSetId": 2
@@ -168,6 +192,30 @@
       "writtenOn": "2015-01-15T11:16:45Z",
       "side": 1,
       "message": "Is final needed here?",
+      "range": {
+        "startLine": 44,
+        "startChar": 22,
+        "endLine": 44,
+        "endChar": 27
+      },
+      "revId": "071a3814a0345e3019874cd2b7a3d22785c7c1f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb5ea32a_2a241fd6",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/RebaseDialog.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1018043
+      },
+      "writtenOn": "2015-01-15T12:39:37Z",
+      "side": 1,
+      "message": "Checkstyle habbit :).\nActually I\u0027m planning on removing enableOnFailure, and fix the problem as in related review: https://gerrit-review.googlesource.com/#/c/63301/",
+      "parentUuid": "2b335bf6_8c86873d",
       "range": {
         "startLine": 44,
         "startChar": 22,

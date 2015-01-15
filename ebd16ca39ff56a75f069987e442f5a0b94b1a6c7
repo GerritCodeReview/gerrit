@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "eb5ea32a_cad8e382",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/CommitMergeStatus.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-15T08:21:39Z",
+      "side": 1,
+      "message": "(or implement conflict resolution feature using inline edit)",
+      "range": {
+        "startLine": 39,
+        "startChar": 38,
+        "endLine": 39,
+        "endChar": 45
+      },
+      "revId": "ebd16ca39ff56a75f069987e442f5a0b94b1a6c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

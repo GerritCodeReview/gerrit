@@ -46,6 +46,53 @@
       "revId": "3f0e65f28bfcea41298951557bcac224a76b1bb2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cb639ff0_4948818e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_105.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-15T21:35:40Z",
+      "side": 1,
+      "message": "Thanks. Missed this line. The most embarassing about it is, guess who wrote this line?\n\n*  9128b95c src/main/java/com/google/gwtorm/schema/sql/SqlDialect.java (David Ostrovsky  2013-08-15 08:51:25 +0200 283)         indexes.add(rs.getString(\"INDEX_NAME\").toLowerCase());\n\n;-)",
+      "parentUuid": "0b9e9722_1b3dfbdf",
+      "range": {
+        "startLine": 67,
+        "startChar": 26,
+        "endLine": 67,
+        "endChar": 58
+      },
+      "revId": "3f0e65f28bfcea41298951557bcac224a76b1bb2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb5ea32a_aa892f4f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_105.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-15T21:35:40Z",
+      "side": 1,
+      "message": "Simplify?\n\n  if (!remaining.isEmpty()) {\n    ui.message(\"Failed to drop index: \" +\n      Joiner.on(\", \").join(remaining.keySet()));\n  }",
+      "range": {
+        "startLine": 77,
+        "startChar": 6,
+        "endLine": 86,
+        "endChar": 7
+      },
+      "revId": "3f0e65f28bfcea41298951557bcac224a76b1bb2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

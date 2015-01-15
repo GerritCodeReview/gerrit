@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0b3057e8_4b71a5cc",
+        "filename": "gerrit-gwtui/src/main/java/net/codemirror/lib/CodeMirror.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-15T09:36:53Z",
+      "side": 1,
+      "message": "According to the documentation [1], it should be enough to do:\n\n this.scrollIntoView(null);\n\nto make the view scroll to the cursor position.\n\n[1] http://codemirror.net/doc/manual.html#commands",
+      "range": {
+        "startLine": 205,
+        "startChar": 4,
+        "endLine": 207,
+        "endChar": 69
+      },
+      "revId": "f1467b6f2444ec65a9724dd99baa10388b71ed6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

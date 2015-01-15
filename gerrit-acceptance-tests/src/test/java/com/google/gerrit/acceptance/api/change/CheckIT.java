@@ -40,6 +40,7 @@ public class CheckIT extends AbstractDaemonTest {
     PushOneCommit.Result r = createChange();
     Change c = getChange(r);
     db.patchSets().deleteKeys(Collections.singleton(c.currentPatchSetId()));
+    indexer.index(db, c);
 
     List<ProblemInfo> problems = gApi.changes()
         .id(r.getChangeId())
@@ -65,6 +66,7 @@ public class CheckIT extends AbstractDaemonTest {
     Change c = getChange(r);
     c.setStatus(Change.Status.NEW);
     db.changes().update(Collections.singleton(c));
+    indexer.index(db, c);
 
     ChangeInfo info = gApi.changes()
         .id(r.getChangeId())

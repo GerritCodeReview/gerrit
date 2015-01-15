@@ -14,9 +14,11 @@
 
 package com.google.gerrit.server.index;
 
+import static com.google.common.base.MoreObjects.firstNonNull;
+
 import com.google.common.base.Function;
-import com.google.common.base.MoreObjects;
 import com.google.common.base.Splitter;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
@@ -27,7 +29,6 @@ import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
-import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeData.ChangedLines;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
@@ -36,6 +37,8 @@ import com.google.gwtorm.protobuf.CodecFactory;
 import com.google.gwtorm.protobuf.ProtobufCodec;
 import com.google.gwtorm.server.OrmException;
 import com.google.protobuf.CodedOutputStream;
+
+import org.eclipse.jgit.revwalk.FooterLine;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -70,7 +73,11 @@ public class ChangeField {
         @Override
         public String get(ChangeData input, FillArgs args)
             throws OrmException {
-          return input.change().getKey().get();
+          Change c = input.change();
+          if (c == null) {
+            return null;
+          }
+          return c.getKey().get();
         }
       };
 
@@ -81,8 +88,11 @@ public class ChangeField {
         @Override
         public String get(ChangeData input, FillArgs args)
             throws OrmException {
-          return ChangeStatusPredicate.canonicalize(
-              input.change().getStatus());
+          Change c = input.change();
+          if (c == null) {
+            return null;
+          }
+          return ChangeStatusPredicate.canonicalize(c.getStatus());
         }
       };
 
@@ -93,7 +103,11 @@ public class ChangeField {
         @Override
         public String get(ChangeData input, FillArgs args)
             throws OrmException {
-          return input.change().getProject().get();
+          Change c = input.change();
+          if (c == null) {
+            return null;
+          }
+          return c.getProject().get();
         }
       };
 
@@ -104,7 +118,11 @@ public class ChangeField {
         @Override
         public String get(ChangeData input, FillArgs args)
             throws OrmException {
-          return input.change().getProject().get();
+          Change c = input.change();
+          if (c == null) {
+            return null;
+          }
+          return c.getProject().get();
         }
       };
 
@@ -115,7 +133,11 @@ public class ChangeField {
         @Override
         public String get(ChangeData input, FillArgs args)
             throws OrmException {
-          return input.change().getDest().get();
+          Change c = input.change();
+          if (c == null) {
+            return null;
+          }
+          return c.getDest().get();
         }
       };
 
@@ -126,7 +148,11 @@ public class ChangeField {
         @Override
         public String get(ChangeData input, FillArgs args)
             throws OrmException {
-          return MoreObjects.firstNonNull(input.change().getTopic(), "");
+          Change c = input.change();
+          if (c == null) {
+            return null;
+          }
+          return firstNonNull(c.getTopic(), "");
         }
       };
 
@@ -137,7 +163,11 @@ public class ChangeField {
         @Override
         public Timestamp get(ChangeData input, FillArgs args)
             throws OrmException {
-          return input.change().getLastUpdatedOn();
+          Change c = input.change();
+          if (c == null) {
+            return null;
+          }
+          return c.getLastUpdatedOn();
         }
       };
 
@@ -149,14 +179,19 @@ public class ChangeField {
         @Override
         public Iterable<String> get(ChangeData input, FillArgs args)
             throws OrmException {
-          return input.currentFilePaths();
+          return firstNonNull(input.currentFilePaths(),
+              ImmutableList.<String> of());
         }
       };
 
   public static Set<String> getFileParts(ChangeData cd) throws OrmException {
+    List<String> paths = cd.currentFilePaths();
+    if (paths == null) {
+      return ImmutableSet.of();
+    }
     Splitter s = Splitter.on('/').omitEmptyStrings();
     Set<String> r = Sets.newHashSet();
-    for (String path : cd.currentFilePaths()) {
+    for (String path : paths) {
       for (String part : s.split(path)) {
         r.add(part);
       }
@@ -201,7 +236,11 @@ public class ChangeField {
         @Override
         public Integer get(ChangeData input, FillArgs args)
             throws OrmException {
-          return input.change().getOwner().get();
+          Change c = input.change();
+          if (c == null) {
+            return null;
+          }
+          return c.getOwner().get();
         }
       };
 
@@ -212,9 +251,12 @@ public class ChangeField {
         @Override
         public Iterable<Integer> get(ChangeData input, FillArgs args)
             throws OrmException {
+          Change c = input.change();
+          if (c == null) {
+            return null;
+          }
           Set<Integer> r = Sets.newHashSet();
-          if (!args.allowsDrafts &&
-              input.change().getStatus() == Change.Status.DRAFT) {
+          if (!args.allowsDrafts && c.getStatus() == Change.Status.DRAFT) {
             return r;
           }
           for (PatchSetApproval a : input.approvals().values()) {
@@ -249,9 +291,13 @@ public class ChangeField {
         public Iterable<String> get(ChangeData input, FillArgs args)
             throws OrmException {
           try {
-            return Sets.newHashSet(args.trackingFooters.extract(
-                input.commitFooters()).values());
-          } catch (NoSuchChangeException | IOException e) {
+            List<FooterLine> footers = input.commitFooters();
+            if (footers == null) {
+              return null;
+            }
+            return Sets.newHashSet(
+                args.trackingFooters.extract(footers).values());
+          } catch (IOException e) {
             throw new OrmException(e);
           }
         }
@@ -305,7 +351,11 @@ public class ChangeField {
     @Override
     public byte[] get(ChangeData input, FieldDef.FillArgs args)
         throws OrmException {
-      return CODEC.encodeToByteArray(input.change());
+      Change c = input.change();
+      if (c == null) {
+        return null;
+      }
+      return CODEC.encodeToByteArray(c);
     }
   }
 
@@ -352,7 +402,7 @@ public class ChangeField {
         public String get(ChangeData input, FillArgs args) throws OrmException {
           try {
             return input.commitMessage();
-          } catch (NoSuchChangeException | IOException e) {
+          } catch (IOException e) {
             throw new OrmException(e);
           }
         }
@@ -384,7 +434,11 @@ public class ChangeField {
         @Override
         public String get(ChangeData input, FillArgs args)
             throws OrmException {
-          return input.isMergeable() ? "1" : null;
+          Boolean m = input.isMergeable();
+          if (m == null) {
+            return null;
+          }
+          return m ? "1" : null;
         }
       };
 
@@ -395,7 +449,11 @@ public class ChangeField {
         @Override
         public String get(ChangeData input, FillArgs args)
             throws OrmException {
-          return input.isMergeable() ? "1" : "0";
+          Boolean m = input.isMergeable();
+          if (m == null) {
+            return null;
+          }
+          return m ? "1" : "0";
         }
       };
 
@@ -406,7 +464,8 @@ public class ChangeField {
         @Override
         public Integer get(ChangeData input, FillArgs args)
             throws OrmException {
-          return input.changedLines().insertions;
+          ChangedLines lines = input.changedLines();
+          return lines != null ? lines.insertions : null;
         }
       };
 
@@ -417,7 +476,8 @@ public class ChangeField {
         @Override
         public Integer get(ChangeData input, FillArgs args)
             throws OrmException {
-          return input.changedLines().deletions;
+          ChangedLines lines = input.changedLines();
+          return lines != null ? lines.deletions : null;
         }
       };
 
@@ -428,8 +488,11 @@ public class ChangeField {
         @Override
         public Integer get(ChangeData input, FillArgs args)
             throws OrmException {
-          ChangedLines changedLines = input.changedLines();
-          return changedLines.insertions + changedLines.deletions;
+          ChangedLines lines = input.changedLines();
+          if (lines == null) {
+            return null;
+          }
+          return lines.insertions + lines.deletions;
         }
       };
 

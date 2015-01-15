@@ -11,6 +11,7 @@
   gerrit = //:gerrit
   release = //:release
   safari = //:safari
+  soyc = //gerrit-gwtui:ui_soyc
   withdocs = //:withdocs
 
 [buildfile]

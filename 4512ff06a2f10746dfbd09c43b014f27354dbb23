@@ -42,6 +42,30 @@
     },
     {
       "key": {
+        "uuid": "eb5ea32a_0ad71b56",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 3435,
+      "author": {
+        "id": 1018043
+      },
+      "writtenOn": "2015-01-15T09:27:07Z",
+      "side": 1,
+      "message": "Actually I\u0027ve changed this so that empty string \"\" will remove dependencies. It felt most intuitive.",
+      "parentUuid": "4e197d2f_d5297caf",
+      "range": {
+        "startLine": 3435,
+        "startChar": 71,
+        "endLine": 3435,
+        "endChar": 85
+      },
+      "revId": "4512ff06a2f10746dfbd09c43b014f27354dbb23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "aeb7594b_f03be0eb",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Rebase.java",
         "patchSetId": 1

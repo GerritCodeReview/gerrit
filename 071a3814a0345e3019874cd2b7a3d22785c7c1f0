@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "eb5ea32a_ea0de75c",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 3434,
+      "author": {
+        "id": 1018043
+      },
+      "writtenOn": "2015-01-15T16:00:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2b335bf6_ec7f4b95",
+      "range": {
+        "startLine": 3434,
+        "startChar": 80,
+        "endLine": 3434,
+        "endChar": 97
+      },
+      "revId": "071a3814a0345e3019874cd2b7a3d22785c7c1f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2b335bf6_0c7bb7ac",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 2
@@ -72,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "cb639ff0_29eb0d08",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 3435,
+      "author": {
+        "id": 1018043
+      },
+      "writtenOn": "2015-01-15T16:00:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2b335bf6_0c7bb7ac",
+      "range": {
+        "startLine": 3435,
+        "startChar": 24,
+        "endLine": 3435,
+        "endChar": 67
+      },
+      "revId": "071a3814a0345e3019874cd2b7a3d22785c7c1f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2b335bf6_cc7c8fa3",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/RebaseInput.java",
         "patchSetId": 2
@@ -83,6 +131,30 @@
       "writtenOn": "2015-01-15T11:16:45Z",
       "side": 1,
       "message": "2015",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "071a3814a0345e3019874cd2b7a3d22785c7c1f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cb639ff0_09f049ee",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/RebaseInput.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1018043
+      },
+      "writtenOn": "2015-01-15T16:00:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2b335bf6_cc7c8fa3",
       "range": {
         "startLine": 1,
         "startChar": 17,
@@ -118,6 +190,30 @@
     },
     {
       "key": {
+        "uuid": "eb5ea32a_ca0a2343",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeApi.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1018043
+      },
+      "writtenOn": "2015-01-15T16:00:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0b3057e8_8b5f8d2f",
+      "range": {
+        "startLine": 200,
+        "startChar": 24,
+        "endLine": 200,
+        "endChar": 43
+      },
+      "revId": "071a3814a0345e3019874cd2b7a3d22785c7c1f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2b335bf6_ac89434f",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeConstants.properties",
         "patchSetId": 2
@@ -141,6 +237,30 @@
     },
     {
       "key": {
+        "uuid": "eb5ea32a_aa17ef68",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeConstants.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1018043
+      },
+      "writtenOn": "2015-01-15T16:00:04Z",
+      "side": 1,
+      "message": "Actually, this has two significant benefits for this feature:\n1. It saves us an extra REST request for building suggestions in the normal case (when we do NOT want to change base).\n2. It allows us to use null base in RebaseDialog.getBase(). (\"\" means that we want to break deps. and rebase with target branch).",
+      "parentUuid": "2b335bf6_ac89434f",
+      "range": {
+        "startLine": 154,
+        "startChar": 64,
+        "endLine": 154,
+        "endChar": 65
+      },
+      "revId": "071a3814a0345e3019874cd2b7a3d22785c7c1f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2b335bf6_4c71bfcc",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/RebaseDialog.java",
         "patchSetId": 2
@@ -152,6 +272,30 @@
       "writtenOn": "2015-01-15T11:16:45Z",
       "side": 1,
       "message": "2015",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "071a3814a0345e3019874cd2b7a3d22785c7c1f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cb639ff0_c9011131",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/RebaseDialog.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1018043
+      },
+      "writtenOn": "2015-01-15T16:00:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2b335bf6_4c71bfcc",
       "range": {
         "startLine": 1,
         "startChar": 17,
@@ -228,6 +372,30 @@
     },
     {
       "key": {
+        "uuid": "cb639ff0_e904d542",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/RebaseDialog.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1018043
+      },
+      "writtenOn": "2015-01-15T16:00:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eb5ea32a_2a241fd6",
+      "range": {
+        "startLine": 44,
+        "startChar": 22,
+        "endLine": 44,
+        "endChar": 27
+      },
+      "revId": "071a3814a0345e3019874cd2b7a3d22785c7c1f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0b3057e8_6bbea1d8",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Rebase.java",
         "patchSetId": 2
@@ -274,6 +442,30 @@
     },
     {
       "key": {
+        "uuid": "eb5ea32a_8a142b65",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Rebase.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1018043
+      },
+      "writtenOn": "2015-01-15T16:00:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0b3057e8_4bc3e56c",
+      "range": {
+        "startLine": 78,
+        "startChar": 11,
+        "endLine": 78,
+        "endChar": 46
+      },
+      "revId": "071a3814a0345e3019874cd2b7a3d22785c7c1f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2b335bf6_6c559b16",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Rebase.java",
         "patchSetId": 2
@@ -285,6 +477,30 @@
       "writtenOn": "2015-01-15T11:16:45Z",
       "side": 1,
       "message": "wrong indentation",
+      "range": {
+        "startLine": 133,
+        "startChar": 7,
+        "endLine": 133,
+        "endChar": 10
+      },
+      "revId": "071a3814a0345e3019874cd2b7a3d22785c7c1f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cb639ff0_a9feddbe",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Rebase.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1018043
+      },
+      "writtenOn": "2015-01-15T16:00:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2b335bf6_6c559b16",
       "range": {
         "startLine": 133,
         "startChar": 7,
@@ -320,6 +536,30 @@
     },
     {
       "key": {
+        "uuid": "cb639ff0_89fb19cf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Rebase.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1018043
+      },
+      "writtenOn": "2015-01-15T16:00:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2b335bf6_4c5adf46",
+      "range": {
+        "startLine": 135,
+        "startChar": 13,
+        "endLine": 135,
+        "endChar": 49
+      },
+      "revId": "071a3814a0345e3019874cd2b7a3d22785c7c1f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2b335bf6_2c4f9388",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Rebase.java",
         "patchSetId": 2
@@ -331,6 +571,30 @@
       "writtenOn": "2015-01-15T11:16:45Z",
       "side": 1,
       "message": "Same here",
+      "range": {
+        "startLine": 149,
+        "startChar": 6,
+        "endLine": 149,
+        "endChar": 87
+      },
+      "revId": "071a3814a0345e3019874cd2b7a3d22785c7c1f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cb639ff0_691a2598",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Rebase.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1018043
+      },
+      "writtenOn": "2015-01-15T16:00:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2b335bf6_2c4f9388",
       "range": {
         "startLine": 149,
         "startChar": 6,

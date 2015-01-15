@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "0b3057e8_2bebf907",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/args4j/ChangeIdHandler.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-15T06:08:02Z",
+      "side": 1,
+      "message": "Is this comment still valid?",
+      "range": {
+        "startLine": 39,
+        "startChar": 6,
+        "endLine": 39,
+        "endChar": 66
+      },
+      "revId": "d40b28d950e8eec3f4e6d80cc3ebd705901e82f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2b335bf6_cc012f31",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 455,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-15T06:08:02Z",
+      "side": 1,
+      "message": "Not within the scope of this change, but this message (and other similar messages) are inconsistent.\n\n- \"The change could not be merged ...\"\n- \"Change could not be merged ...\"\n- \"Your change could not be merged ...\"",
+      "range": {
+        "startLine": 455,
+        "startChar": 34,
+        "endLine": 455,
+        "endChar": 45
+      },
+      "revId": "d40b28d950e8eec3f4e6d80cc3ebd705901e82f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ce4e4d56_5162d4f7",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/SiteIndexer.java",
         "patchSetId": 6

@@ -1,12 +1,12 @@
 include_defs('//lib/maven.defs')
 
-VERSION = '9.2.2.v20140723'
+VERSION = '9.2.6.v20141205'
 EXCLUDE = ['about.html']
 
 maven_jar(
   name = 'servlet',
   id = 'org.eclipse.jetty:jetty-servlet:' + VERSION,
-  sha1 = '98d3dde183295cf3356c7ac2c968e5b684fcaba1',
+  sha1 = '026aa018ef20780e8a900ae7fc95f59884d3095b',
   license = 'Apache2.0',
   deps = [':security'],
   exclude = EXCLUDE,
@@ -15,7 +15,7 @@ maven_jar(
 maven_jar(
   name = 'security',
   id = 'org.eclipse.jetty:jetty-security:' + VERSION,
-  sha1 = 'b66f8f4b9afd82af24b9f7ffcd5312eb628ee0c9',
+  sha1 = '513537c2a4f7d2a44120f4ff5fdc7fc2c8bc9357',
   license = 'Apache2.0',
   deps = [':server'],
   exclude = EXCLUDE,
@@ -25,7 +25,7 @@ maven_jar(
 maven_jar(
   name = 'servlets',
   id = 'org.eclipse.jetty:jetty-servlets:' + VERSION,
-  sha1 = '457063f20e3676ddd7e7c4dfce90ef74dd54a276',
+  sha1 = '0e36f5f1d19c48ad1ae6e65172ee472d0ba8b571',
   license = 'Apache2.0',
   exclude = EXCLUDE,
   visibility = [
@@ -37,7 +37,7 @@ maven_jar(
 maven_jar(
   name = 'server',
   id = 'org.eclipse.jetty:jetty-server:' + VERSION,
-  sha1 = 'dbf076744c15ef879c89464c1d0cfd3a250a9766',
+  sha1 = '5960eb385ded42360045447185a0510365f811dc',
   license = 'Apache2.0',
   exported_deps = [
     ':continuation',
@@ -49,7 +49,7 @@ maven_jar(
 maven_jar(
   name = 'jmx',
   id = 'org.eclipse.jetty:jetty-jmx:' + VERSION,
-  sha1 = '64b3ff4d0cee0acee363a1c98193332e8f845a6e',
+  sha1 = '53ebf8bd8d151c3c7883e3b23eee9f67ecd716e9',
   license = 'Apache2.0',
   exported_deps = [
     ':continuation',
@@ -61,7 +61,7 @@ maven_jar(
 maven_jar(
   name = 'continuation',
   id = 'org.eclipse.jetty:jetty-continuation:' + VERSION,
-  sha1 = 'a39e8cee9c36d159c6ab3283eb59f8bc2fd16c43',
+  sha1 = '74ca2679e461e7e9b5fdffcf9685575a7d5f5c8e',
   license = 'Apache2.0',
   exclude = EXCLUDE,
 )
@@ -69,7 +69,7 @@ maven_jar(
 maven_jar(
   name = 'http',
   id = 'org.eclipse.jetty:jetty-http:' + VERSION,
-  sha1 = '6301fc80fa66d9b1462613fd9c137402663b4d1e',
+  sha1 = '5484771191612c1f5a57466865b7014ff56886ce',
   license = 'Apache2.0',
   exported_deps = [':io'],
   exclude = EXCLUDE,
@@ -78,7 +78,7 @@ maven_jar(
 maven_jar(
   name = 'io',
   id = 'org.eclipse.jetty:jetty-io:' + VERSION,
-  sha1 = 'f2237b1705fcac83cedf8390eb4b29ac845cde1c',
+  sha1 = '11b84cc7078745fca844bd2fb95c2b4f818eafc2',
   license = 'Apache2.0',
   exported_deps = [':util'],
   exclude = EXCLUDE,
@@ -88,7 +88,7 @@ maven_jar(
 maven_jar(
   name = 'util',
   id = 'org.eclipse.jetty:jetty-util:' + VERSION,
-  sha1 = '2e199b14a57b0336b4f2c9fdf8add525d6112833',
+  sha1 = 'fdfa0b969d99a2dfb2a46c0ff00251d7e6c7b2bb',
   license = 'Apache2.0',
   exclude = EXCLUDE,
   visibility = [],

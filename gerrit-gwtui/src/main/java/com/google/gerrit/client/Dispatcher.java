@@ -603,14 +603,14 @@ public class Dispatcher {
       if (preferUnified()) {
         unified(token, baseId, id);
       } else {
-        sbs(token, baseId, id, side, line, false);
+        codemirror(token, baseId, id, side, line, false);
       }
     } else if ("sidebyside".equals(panel)) {
-      sbs(token, null, id, side, line, false);
+      codemirror(token, null, id, side, line, false);
     } else if ("unified".equals(panel)) {
       unified(token, baseId, id);
     } else if ("edit".equals(panel)) {
-      sbs(token, null, id, side, line, true);
+      codemirror(token, null, id, side, line, true);
     } else {
       Gerrit.display(token, new NotFoundScreen());
     }
@@ -635,7 +635,7 @@ public class Dispatcher {
     });
   }
 
-  private static void sbs(final String token, final PatchSet.Id baseId,
+  private static void codemirror(final String token, final PatchSet.Id baseId,
       final Patch.Key id, final DisplaySide side, final int line,
       final boolean edit) {
     GWT.runAsync(new AsyncSplit(token) {

@@ -46,6 +46,30 @@
       "revId": "f1467b6f2444ec65a9724dd99baa10388b71ed6e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b3057e8_cb7c75a3",
+        "filename": "gerrit-gwtui/src/main/java/net/codemirror/lib/CodeMirror.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-15T10:14:34Z",
+      "side": 1,
+      "message": "Yes, that works.\n\nI\u0027ve just wiped out buck-out and the cache, and running another full build now, to test it again...",
+      "parentUuid": "cb639ff0_89e2f92c",
+      "range": {
+        "startLine": 205,
+        "startChar": 4,
+        "endLine": 207,
+        "endChar": 69
+      },
+      "revId": "f1467b6f2444ec65a9724dd99baa10388b71ed6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

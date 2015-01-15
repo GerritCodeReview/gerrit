@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aed03989_c826efa4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-15T01:32:23Z",
+      "side": 1,
+      "message": "OK, then I will remove the Verified-1 score.\n\nDo you intend to add this later?  Or is it possible to make it not include those dead links on in the index page?",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 38
+      },
+      "revId": "d7f7c2e38e75c5ef869b630a0bf557e09f6ee29b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

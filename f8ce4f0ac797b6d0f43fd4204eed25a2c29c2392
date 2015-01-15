@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cb639ff0_a917fd68",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/CheckIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-15T20:46:18Z",
+      "side": 1,
+      "message": "Why? This test is successful without this line.",
+      "range": {
+        "startLine": 43,
+        "startChar": 4,
+        "endLine": 43,
+        "endChar": 25
+      },
+      "revId": "f8ce4f0ac797b6d0f43fd4204eed25a2c29c2392",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cb639ff0_89143965",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/CheckIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-15T20:46:18Z",
+      "side": 1,
+      "message": "Same here.",
+      "range": {
+        "startLine": 69,
+        "startChar": 4,
+        "endLine": 69,
+        "endChar": 25
+      },
+      "revId": "f8ce4f0ac797b6d0f43fd4204eed25a2c29c2392",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

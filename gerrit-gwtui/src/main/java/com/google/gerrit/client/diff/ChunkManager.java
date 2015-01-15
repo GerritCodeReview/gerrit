@@ -41,7 +41,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-/** Colors modified regions for {@link SideBySide2}. */
+/** Colors modified regions for {@link SideBySide}. */
 class ChunkManager {
   private static final String DATA_LINES = "_cs2h";
   private static double guessedLineHeightPx = 15;
@@ -59,8 +59,8 @@ class ChunkManager {
     Element e = Element.as(event.getEventTarget());
     for (e = DOM.getParent(e); e != null; e = DOM.getParent(e)) {
       EventListener l = DOM.getEventListener(e);
-      if (l instanceof SideBySide2) {
-        ((SideBySide2) l).getCmFromSide(side).focus();
+      if (l instanceof SideBySide) {
+        ((SideBySide) l).getCmFromSide(side).focus();
         event.stopPropagation();
       }
     }
@@ -73,7 +73,7 @@ class ChunkManager {
   private static final native void onClick(Element e, JavaScriptObject f)
   /*-{ e.onclick = f }-*/;
 
-  private final SideBySide2 host;
+  private final SideBySide host;
   private final CodeMirror cmA;
   private final CodeMirror cmB;
   private final Scrollbar scrollbar;
@@ -85,7 +85,7 @@ class ChunkManager {
   private List<LineWidget> padding;
   private List<Element> paddingDivs;
 
-  ChunkManager(SideBySide2 host,
+  ChunkManager(SideBySide host,
       CodeMirror cmA,
       CodeMirror cmB,
       Scrollbar scrollbar) {

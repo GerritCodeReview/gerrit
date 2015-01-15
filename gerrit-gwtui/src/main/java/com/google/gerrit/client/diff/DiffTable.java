@@ -68,23 +68,23 @@ class DiffTable extends Composite {
   @UiField static DiffTableStyle style;
 
   @UiField(provided = true)
-  PatchSetSelectBox2 patchSetSelectBoxA;
+  PatchSetSelectBox patchSetSelectBoxA;
 
   @UiField(provided = true)
-  PatchSetSelectBox2 patchSetSelectBoxB;
+  PatchSetSelectBox patchSetSelectBoxB;
 
-  private SideBySide2 parent;
+  private SideBySide parent;
   private boolean header;
   private boolean visibleA;
   private ChangeType changeType;
 
-  DiffTable(SideBySide2 parent, PatchSet.Id base, PatchSet.Id revision,
+  DiffTable(SideBySide parent, PatchSet.Id base, PatchSet.Id revision,
       String path) {
-    patchSetSelectBoxA = new PatchSetSelectBox2(
+    patchSetSelectBoxA = new PatchSetSelectBox(
         parent, DisplaySide.A, revision.getParentKey(), base, path);
-    patchSetSelectBoxB = new PatchSetSelectBox2(
+    patchSetSelectBoxB = new PatchSetSelectBox(
         parent, DisplaySide.B, revision.getParentKey(), revision, path);
-    PatchSetSelectBox2.link(patchSetSelectBoxA, patchSetSelectBoxB);
+    PatchSetSelectBox.link(patchSetSelectBoxA, patchSetSelectBoxB);
 
     initWidget(uiBinder.createAndBindUi(this));
     this.scrollbar = new Scrollbar(this);

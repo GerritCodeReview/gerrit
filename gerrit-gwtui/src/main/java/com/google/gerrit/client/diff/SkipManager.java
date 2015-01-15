@@ -26,14 +26,14 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-/** Collapses common regions with {@link SkipBar} for {@link SideBySide2}. */
+/** Collapses common regions with {@link SkipBar} for {@link SideBySide}. */
 class SkipManager {
-  private final SideBySide2 host;
+  private final SideBySide host;
   private final CommentManager commentManager;
   private Set<SkipBar> skipBars;
   private SkipBar line0;
 
-  SkipManager(SideBySide2 host, CommentManager commentManager) {
+  SkipManager(SideBySide host, CommentManager commentManager) {
     this.host = host;
     this.commentManager = commentManager;
   }

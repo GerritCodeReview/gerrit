@@ -70,7 +70,7 @@ class PreferencesBox extends Composite {
     String dialog();
   }
 
-  private final SideBySide2 view;
+  private final SideBySide view;
   private DiffPreferences prefs;
   private int contextLastValue;
   private Timer updateContextTimer;
@@ -99,7 +99,7 @@ class PreferencesBox extends Composite {
   @UiField Button apply;
   @UiField Button save;
 
-  PreferencesBox(SideBySide2 view) {
+  PreferencesBox(SideBySide view) {
     this.view = view;
 
     initWidget(uiBinder.createAndBindUi(this));

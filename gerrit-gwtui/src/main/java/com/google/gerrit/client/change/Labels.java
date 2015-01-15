@@ -64,7 +64,7 @@ class Labels extends Grid {
   private static void onRemove(NativeEvent event) {
     Integer user = getDataId(event);
     if (user != null) {
-      final ChangeScreen2 screen = ChangeScreen2.get(event);
+      final ChangeScreen screen = ChangeScreen.get(event);
       ChangeApi.reviewer(screen.getChangeId().get(), user).delete(
           new GerritCallback<JavaScriptObject>() {
             @Override
@@ -89,9 +89,9 @@ class Labels extends Grid {
     return null;
   }
 
-  private ChangeScreen2.Style style;
+  private ChangeScreen.Style style;
 
-  void init(ChangeScreen2.Style style) {
+  void init(ChangeScreen.Style style) {
     this.style = style;
   }
 
@@ -194,7 +194,7 @@ class Labels extends Grid {
     }
   }
 
-  static SafeHtml formatUserList(ChangeScreen2.Style style,
+  static SafeHtml formatUserList(ChangeScreen.Style style,
       Collection<? extends AccountInfo> in,
       Set<Integer> removable,
       Map<Integer, VotableInfo> votable) {

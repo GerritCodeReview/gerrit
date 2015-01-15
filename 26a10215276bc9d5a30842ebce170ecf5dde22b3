@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "cb155f30_79c8a7b7",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/CommitMessageBlock.java",
+        "patchSetId": 46
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-01-15T00:36:39Z",
+      "side": 1,
+      "message": "Yup. Removed. Thanks!",
+      "parentUuid": "ce4e4d56_f1a4a8be",
+      "range": {
+        "startLine": 93,
+        "startChar": 6,
+        "endLine": 93,
+        "endChar": 33
+      },
+      "revId": "26a10215276bc9d5a30842ebce170ecf5dde22b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ce4e4d56_b1aa208b",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/CommitMessageBlock.java",
         "patchSetId": 46

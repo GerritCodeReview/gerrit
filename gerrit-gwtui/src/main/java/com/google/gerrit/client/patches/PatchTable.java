@@ -12,10 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.client.changes;
+package com.google.gerrit.client.patches;
 
 import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.changes.Util;
 import com.google.gerrit.client.ui.InlineHyperlink;
 import com.google.gerrit.client.ui.ListenableAccountDiffPreference;
 import com.google.gerrit.client.ui.NavigationTable;
@@ -51,8 +52,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class PatchTable extends Composite {
-  public interface PatchValidator {
+class PatchTable extends Composite {
+  interface PatchValidator {
     /**
      * @param patch
      * @return true if patch is valid.
@@ -60,7 +61,7 @@ public class PatchTable extends Composite {
     boolean isValid(Patch patch);
   }
 
-  public final PatchValidator PREFERENCE_VALIDATOR =
+  final PatchValidator PREFERENCE_VALIDATOR =
       new PatchValidator() {
         @Override
         public boolean isValid(Patch patch) {
@@ -86,17 +87,17 @@ public class PatchTable extends Composite {
   private boolean active;
   private boolean registerKeys;
 
-  public PatchTable(ListenableAccountDiffPreference prefs) {
+  PatchTable(ListenableAccountDiffPreference prefs) {
     listenablePrefs = prefs;
     myBody = new FlowPanel();
     initWidget(myBody);
   }
 
-  public PatchTable() {
+  PatchTable() {
     this(new ListenableAccountDiffPreference());
   }
 
-  public int indexOf(Patch.Key patch) {
+  int indexOf(Patch.Key patch) {
     Integer i = patchMap().get(patch);
     return i != null ? i : -1;
   }
@@ -111,7 +112,7 @@ public class PatchTable extends Composite {
     return patchMap;
   }
 
-  public void display(PatchSet.Id base, PatchSetDetail detail) {
+  void display(PatchSet.Id base, PatchSetDetail detail) {
     this.base = base;
     this.detail = detail;
     this.patchList = detail.getPatches();
@@ -127,19 +128,19 @@ public class PatchTable extends Composite {
     }
   }
 
-  public PatchSet.Id getBase() {
+  PatchSet.Id getBase() {
     return base;
   }
 
-  public void setSavePointerId(final String id) {
+  void setSavePointerId(final String id) {
     savePointerId = id;
   }
 
-  public boolean isLoaded() {
+  boolean isLoaded() {
     return myTable != null;
   }
 
-  public void onTableLoaded(final Command cmd) {
+  void onTableLoaded(final Command cmd) {
     if (myTable != null) {
       cmd.execute();
     } else {
@@ -147,7 +148,7 @@ public class PatchTable extends Composite {
     }
   }
 
-  public void addClickHandler(final ClickHandler clickHandler) {
+  void addClickHandler(final ClickHandler clickHandler) {
     if (myTable != null) {
       myTable.addClickHandler(clickHandler);
     } else {
@@ -158,27 +159,27 @@ public class PatchTable extends Composite {
     }
   }
 
-  public void setRegisterKeys(final boolean on) {
+  void setRegisterKeys(final boolean on) {
     registerKeys = on;
     if (myTable != null) {
       myTable.setRegisterKeys(on);
     }
   }
 
-  public void movePointerTo(final Patch.Key k) {
+  void movePointerTo(final Patch.Key k) {
     if (myTable != null) {
       myTable.movePointerTo(k);
     }
   }
 
-  public void setActive(boolean active) {
+  void setActive(boolean active) {
     this.active = active;
     if (myTable != null) {
       myTable.setActive(active);
     }
   }
 
-  public void notifyDraftDelta(final Patch.Key k, final int delta) {
+  void notifyDraftDelta(final Patch.Key k, final int delta) {
     if (myTable != null) {
       myTable.notifyDraftDelta(k, delta);
     }
@@ -212,7 +213,7 @@ public class PatchTable extends Composite {
   /**
    * @return a link to the previous file in this patch set, or null.
    */
-  public InlineHyperlink getPreviousPatchLink(int index) {
+  InlineHyperlink getPreviousPatchLink(int index) {
     int previousPatchIndex = getPreviousPatch(index, PREFERENCE_VALIDATOR);
     if (previousPatchIndex < 0) {
       return null;
@@ -224,7 +225,7 @@ public class PatchTable extends Composite {
   /**
    * @return a link to the next file in this patch set, or null.
    */
-  public InlineHyperlink getNextPatchLink(int index) {
+  InlineHyperlink getNextPatchLink(int index) {
     int nextPatchIndex = getNextPatch(index, false, PREFERENCE_VALIDATOR);
     if (nextPatchIndex < 0) {
       return null;
@@ -239,7 +240,7 @@ public class PatchTable extends Composite {
    * @param before A string to display at the beginning of the href text
    * @param after A string to display at the end of the href text
    */
-  public PatchLink createLink(int index, SafeHtml before, SafeHtml after) {
+  PatchLink createLink(int index, SafeHtml before, SafeHtml after) {
     Patch patch = patchList.get(index);
     Patch.Key thisKey = patch.getKey();
     PatchLink link;
@@ -276,11 +277,11 @@ public class PatchTable extends Composite {
     return fileName;
   }
 
-  public static String getDisplayFileName(Patch patch) {
+  static String getDisplayFileName(Patch patch) {
     return getDisplayFileName(patch.getKey());
   }
 
-  public static String getDisplayFileName(Patch.Key patchKey) {
+  static String getDisplayFileName(Patch.Key patchKey) {
     if (Patch.COMMIT_MSG.equals(patchKey.get())) {
       return Util.C.commitMessage();
     }
@@ -290,13 +291,13 @@ public class PatchTable extends Composite {
   /**
    * Update the reviewed status for the given patch.
    */
-  public void updateReviewedStatus(Patch.Key patchKey, boolean reviewed) {
+  void updateReviewedStatus(Patch.Key patchKey, boolean reviewed) {
     if (myTable != null) {
       myTable.updateReviewedStatus(patchKey, reviewed);
     }
   }
 
-  public ListenableAccountDiffPreference getPreferences() {
+  ListenableAccountDiffPreference getPreferences() {
     return listenablePrefs;
   }
 
@@ -374,7 +375,7 @@ public class PatchTable extends Composite {
     }
 
     /** Activates / Deactivates the key navigation and the highlighting of the current row for this table */
-    public void setActive(boolean active) {
+    void setActive(boolean active) {
       if (active) {
         if(activeRow > 0 && getCurrentRow() != activeRow) {
           super.movePointerTo(activeRow);
@@ -832,7 +833,7 @@ public class PatchTable extends Composite {
    *        true
    * @return index of next valid patch, or -1 if no valid patches
    */
-  public int getNextPatch(int currentIndex, boolean loopAround,
+  int getNextPatch(int currentIndex, boolean loopAround,
       PatchValidator... validators) {
     return getNextPatchHelper(currentIndex, loopAround, detail.getPatches()
         .size(), validators);
@@ -866,7 +867,7 @@ public class PatchTable extends Composite {
   /**
    * @return the index to the previous patch
    */
-  public int getPreviousPatch(int currentIndex, PatchValidator... validators) {
+  int getPreviousPatch(int currentIndex, PatchValidator... validators) {
     for (int i = currentIndex - 1; i >= 0; i--) {
       Patch patch = detail.getPatches().get(i);
       if (patch != null && patchIsValid(patch, validators)) {

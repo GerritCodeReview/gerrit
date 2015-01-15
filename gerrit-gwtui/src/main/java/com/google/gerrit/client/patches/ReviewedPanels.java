@@ -16,9 +16,8 @@ package com.google.gerrit.client.patches;
 
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.VoidResult;
-import com.google.gerrit.client.changes.PatchTable;
-import com.google.gerrit.client.changes.PatchTable.PatchValidator;
 import com.google.gerrit.client.changes.Util;
+import com.google.gerrit.client.patches.PatchTable.PatchValidator;
 import com.google.gerrit.client.rpc.RestApi;
 import com.google.gerrit.client.ui.ChangeLink;
 import com.google.gerrit.client.ui.InlineHyperlink;
@@ -35,10 +34,9 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwtexpui.safehtml.client.SafeHtml;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 
-public class ReviewedPanels {
-
-  public final FlowPanel top;
-  public final FlowPanel bottom;
+class ReviewedPanels {
+  final FlowPanel top;
+  final FlowPanel bottom;
 
   private Patch.Key patchKey;
   private PatchTable fileList;
@@ -46,13 +44,13 @@ public class ReviewedPanels {
   private CheckBox checkBoxTop;
   private CheckBox checkBoxBottom;
 
-  public ReviewedPanels() {
+  ReviewedPanels() {
     this.top = new FlowPanel();
     this.bottom = new FlowPanel();
     this.bottom.setStyleName(Gerrit.RESOURCES.css().reviewedPanelBottom());
   }
 
-  public void populate(Patch.Key pk, PatchTable pt, int patchIndex) {
+  void populate(Patch.Key pk, PatchTable pt, int patchIndex) {
     patchKey = pk;
     fileList = pt;
     reviewedLink = createReviewedLink(patchIndex);
@@ -86,16 +84,16 @@ public class ReviewedPanels {
     return checkBox;
   }
 
-  public boolean getValue() {
+  boolean getValue() {
     return checkBoxTop.getValue();
   }
 
-  public void setValue(final boolean value) {
+  void setValue(final boolean value) {
     checkBoxTop.setValue(value);
     checkBoxBottom.setValue(value);
   }
 
-  public void setReviewedByCurrentUser(boolean reviewed) {
+  void setReviewedByCurrentUser(boolean reviewed) {
     if (fileList != null) {
       fileList.updateReviewedStatus(patchKey, reviewed);
     }
@@ -124,7 +122,7 @@ public class ReviewedPanels {
     }
   }
 
-  public void go() {
+  void go() {
     if (reviewedLink != null) {
       setReviewedByCurrentUser(true);
       reviewedLink.go();

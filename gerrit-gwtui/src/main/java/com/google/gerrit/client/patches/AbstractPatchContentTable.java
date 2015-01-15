@@ -19,7 +19,6 @@ import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.account.AccountInfo;
 import com.google.gerrit.client.changes.CommentApi;
 import com.google.gerrit.client.changes.CommentInfo;
-import com.google.gerrit.client.changes.PatchTable;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.CommentLinkProcessor;
 import com.google.gerrit.client.ui.CommentPanel;

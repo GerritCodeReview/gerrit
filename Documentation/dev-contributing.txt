@@ -350,7 +350,7 @@ the version number:
 * Create the release zip file:
 +
 ----
- git archive --format=zip --prefix=codemirror-4.10.0-6-gd0a2dda/ d0a2dda > 4.10.0-6-gd0a2dda.zip
+ git archive --format=zip --prefix=codemirror-4.10.0-6-gd0a2dda/ d0a2dda > codemirror-4.10.0-6-gd0a2dda.zip
 ----
 
 * Determine the sha1 hash of the zip file:

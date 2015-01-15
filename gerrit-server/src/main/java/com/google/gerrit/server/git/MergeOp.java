@@ -452,7 +452,7 @@ public class MergeOp {
         for (ChangeData cd : queryProvider.get().submitted(destBranch)) {
           try {
             Change c = cd.change();
-            setNew(c, message(c, "Your change could not be merged, "
+            setNew(c, message(c, "Change could not be merged, "
                 + "because the destination branch does not exist anymore."));
           } catch (OrmException e) {
             log.error("Error setting change new", e);

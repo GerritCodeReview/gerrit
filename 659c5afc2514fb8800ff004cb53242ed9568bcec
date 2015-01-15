@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "cb155f30_19d76b56",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 49
+      },
+      "lineNbr": 1149,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-01-15T01:25:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2e728991_54d1cc0a",
+      "range": {
+        "startLine": 1145,
+        "startChar": 0,
+        "endLine": 1149,
+        "endChar": 35
+      },
+      "revId": "659c5afc2514fb8800ff004cb53242ed9568bcec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2e728991_34c4504e",
         "filename": "Documentation/user-review-ui.txt",
         "patchSetId": 49
@@ -36,6 +60,30 @@
       "writtenOn": "2015-01-15T01:24:35Z",
       "side": 1,
       "message": "This should be removed.",
+      "range": {
+        "startLine": 1151,
+        "startChar": 0,
+        "endLine": 1152,
+        "endChar": 48
+      },
+      "revId": "659c5afc2514fb8800ff004cb53242ed9568bcec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cb155f30_f9db977c",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 49
+      },
+      "lineNbr": 1152,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-01-15T01:25:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2e728991_34c4504e",
       "range": {
         "startLine": 1151,
         "startChar": 0,

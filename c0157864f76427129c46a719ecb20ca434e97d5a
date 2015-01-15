@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "eb6ce3f2_7a1f5986",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/DeleteDraftPatchSetIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-15T22:12:46Z",
+      "side": 1,
+      "message": "Er, by \"this change\" I meant the one two changes ago where I was actually modifying ChangeData...",
+      "parentUuid": "eb6ce3f2_bafbb1ce",
+      "range": {
+        "startLine": 75,
+        "startChar": 4,
+        "endLine": 75,
+        "endChar": 66
+      },
+      "revId": "c0157864f76427129c46a719ecb20ca434e97d5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cb639ff0_a9301d05",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/SiteIndexer.java",
         "patchSetId": 3

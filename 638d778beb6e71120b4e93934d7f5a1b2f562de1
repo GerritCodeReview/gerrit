@@ -22,6 +22,30 @@
       "revId": "638d778beb6e71120b4e93934d7f5a1b2f562de1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb5ea32a_4acd13c6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-15T07:34:09Z",
+      "side": 1,
+      "message": "I got a time machine ;-) Done.",
+      "parentUuid": "0b3057e8_eb04d142",
+      "range": {
+        "startLine": 3,
+        "startChar": 12,
+        "endLine": 3,
+        "endChar": 37
+      },
+      "revId": "638d778beb6e71120b4e93934d7f5a1b2f562de1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

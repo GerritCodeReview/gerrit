@@ -47,7 +47,7 @@
 
 usage() {
     me=`basename "$0"`
-    echo >&2 "Usage: $me {start|stop|restart|check|status|run|supervise} [-d site]"
+    echo >&2 "Usage: $me {start|stop|restart|check|status|run|supervise|threads} [-d site]"
     exit 1
 }
 
@@ -61,6 +61,13 @@ running() {
   PID=`cat $1`
   ps -p $PID >/dev/null 2>/dev/null || return 1
   return 0
+}
+
+thread_dump() {
+  test -f $1 || return 1
+  PID=`cat $1`
+  $JSTACK $PID || return 1
+  return 0;
 }
 
 get_config() {
@@ -257,6 +264,8 @@ if test -z "$JAVA" ; then
   echo >&2 "to a >=1.7 JRE"
   exit 1
 fi
+
+JSTACK=${JAVA:0:${#JAVA}-5}/jstack
 
 #####################################################
 # Add Gerrit properties to Java VM options.
@@ -532,6 +541,16 @@ case "$ACTION" in
             echo "Gerrit running pid="`cat "$GERRIT_PID"`
             exit 0
         fi
+    fi
+    exit 3
+  ;;
+
+  threads)
+    if running "$GERRIT_PID" ; then
+      thread_dump "$GERRIT_PID"
+      exit 0
+    else
+      echo "Gerrit not running?"
     fi
     exit 3
   ;;

@@ -28,13 +28,13 @@ public enum CommitMergeStatus {
   ALREADY_MERGED(""),
 
   /** */
-  PATH_CONFLICT("The change could not be merged due to a path conflict.\n"
+  PATH_CONFLICT("Change could not be merged due to a path conflict.\n"
                   + "\n"
                   + "Please rebase the change locally and upload the rebased commit for review."),
 
   /** */
   REBASE_MERGE_CONFLICT(
-      "The change could not be merged due to a conflict.\n"
+      "Change could not be merged due to a conflict.\n"
           + "\n"
           + "Please rebase the change locally and upload the rebased commit for review."),
 

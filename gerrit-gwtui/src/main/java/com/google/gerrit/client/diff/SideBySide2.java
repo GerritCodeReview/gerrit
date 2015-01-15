@@ -30,7 +30,6 @@ import com.google.gerrit.client.changes.ChangeInfo.RevisionInfo;
 import com.google.gerrit.client.changes.ChangeList;
 import com.google.gerrit.client.diff.DiffInfo.FileMeta;
 import com.google.gerrit.client.diff.LineMapper.LineOnOtherInfo;
-import com.google.gerrit.client.editor.EditScreen;
 import com.google.gerrit.client.patches.PatchUtil;
 import com.google.gerrit.client.projects.ConfigInfoCache;
 import com.google.gerrit.client.rpc.CallbackGroup;
@@ -913,13 +912,16 @@ public class SideBySide2 extends Screen {
     };
   }
 
+  /**
+   * @param cm
+   */
   private Runnable modifyInEditScreen(final CodeMirror cm) {
     return new Runnable() {
       @Override
       public void run() {
-        LineHandle handle = cm.extras().activeLine();
+        /*LineHandle handle = cm.extras().activeLine();
         int line = cm.getLineNumber(handle) + 1;
-        EditScreen.scrollToLine(line);
+        EditScreen.scrollToLine(line);*/
         String token = Dispatcher.toEditScreen(revision, path);
         if (!Gerrit.isSignedIn()) {
           Gerrit.doSignIn(token);

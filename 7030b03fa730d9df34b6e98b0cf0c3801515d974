@@ -70,6 +70,30 @@
       "revId": "7030b03fa730d9df34b6e98b0cf0c3801515d974",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b3057e8_8b2d4daf",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/SideBySide2.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 922,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-15T09:34:48Z",
+      "side": 1,
+      "message": "Can\u0027t reproduce it.  After a buck clean and buck build again, compilation fails as expected.\n\nIt\u0027s more likely to be an error on my part (that I did have the change in the tree) than a bug in buck.",
+      "parentUuid": "cb639ff0_a9e5bd38",
+      "range": {
+        "startLine": 922,
+        "startChar": 8,
+        "endLine": 922,
+        "endChar": 38
+      },
+      "revId": "7030b03fa730d9df34b6e98b0cf0c3801515d974",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

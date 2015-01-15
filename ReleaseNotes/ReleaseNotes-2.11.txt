@@ -43,6 +43,10 @@ Release Highlights
 Changes can be created and edited directly in the browser. See the
 link:#inline-editing[Inline editing] section for more details.
 
+* The old change screen is removed.
+
+* The deprecated '/query' URL is removed and will now return `Not Found`.
+
 
 Experimental Features
 ---------------------
@@ -89,8 +93,6 @@ Inline Editing
 Refer to the
 link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.11/user-inline-edit.html[
 inline editing user guide] for detailed instructions.
-
-* The inline editing feature only works with the new change screen.
 
 * New changes can be created directly in the browser via a 'Create Change'
 button on the project info screen.
@@ -349,6 +351,21 @@ link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.11/cmd-
 link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.11/cmd-set-account.html[
 `set-account` SSH command].
 
+Email
+~~~~~
+
+* Add `$change.originalSubject` field for email templates.
++
+GMail threads messages together by subject and ignores the list headers included
+by Gerrit.
++
+Site administrators that run servers whose end-user base is mostly on GMail can
+modify the site's `ChangeSubject.vm` template to use `$change.originalSubject` to
+improve threading for GMail inboxes.
++
+The `originalSubject` field is automatically taken from the existing subject
+field during first use.
+
 
 Plugins
 ~~~~~~~
@@ -419,7 +436,7 @@ the title of the merge commit is now 'Merge changes from topic' instead of
 * Fix visibility checks for `refs/meta/config`.
 +
 Under some conditions it was possible for the `refs/meta/config` branch to be
-erroneously considerered not visible to the user.
+erroneously considered not visible to the user.
 
 * Sort list of updated changes in output from push.
 
@@ -483,6 +500,12 @@ Several improvements have been made:
 If a change/revision is a draft the natural next step is to publish (or delete)
 it, hence these buttons should be displayed in a more prominent place.
 
+** Move 'Submit' button into header.
++
+If a change is ready to submit the natural next step is to submit it, hence the
+'Submit' button should be displayed in a more prominent place. This is consistent
+with displaying other buttons in the header.
+
 ** Highlight the 'Publish' button in blue.
 +
 If a change is a draft the natural next step is to publish it, hence
@@ -499,7 +522,7 @@ buttons on the change screen.
 There is nothing dangerous about these operations that justifies
 highlighting the buttons in red color. When the buttons are clicked
 there is a popup where the user must confirm the operation, so it can
-still be cancelled.
+still be canceled.
 
 ** Hide quick approve button for draft changes.
 +
@@ -579,7 +602,7 @@ The endpoint can now be used by any user who has visibility of the change.
 
 * Only include account ID in responses unless `DETAILED_ACCOUNTS` option is set.
 +
-The behaviour was inconsistent with the
+The behavior was inconsistent with the
 link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.11/rest-api-accounts.html#account-info[
 documentation]. In the default case it was including only the account name,
 rather than only the account ID.
@@ -617,10 +640,14 @@ Upgrades
 
 * Update GWT to 2.7.
 
-* Update Jetty to 9.2.2.
+* Update gwtorm to 1.14-14-gf54f1f1.
+
+* Update Jetty to 9.2.6.
 
 * Update JGit to 3.6.0.201412230720-r.
 
 * Update Lucene to 4.10.2.
+
+* Update Parboiled to 1.1.6-14-g76586a4.
 
 * Update Pegdown to 1.4.2.

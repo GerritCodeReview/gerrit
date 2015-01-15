@@ -442,9 +442,7 @@ public final class Change {
   @Column(id = 8)
   protected Branch.NameKey dest;
 
-  /** Is the change currently open? Set to {@link #status}.isOpen(). */
-  @Column(id = 9)
-  protected boolean open;
+  // DELETED: id = 9 (open)
 
   /** Current state code; see {@link Status}. */
   @Column(id = 10)
@@ -498,7 +496,6 @@ public final class Change {
     lastUpdatedOn = other.lastUpdatedOn;
     owner = other.owner;
     dest = other.dest;
-    open = other.open;
     status = other.status;
     currentPatchSetId = other.currentPatchSetId;
     subject = other.subject;
@@ -590,8 +587,7 @@ public final class Change {
     return Status.forCode(status);
   }
 
-  public void setStatus(final Status newStatus) {
-    open = newStatus.isOpen();
+  public void setStatus(Status newStatus) {
     status = newStatus.getCode();
   }
 

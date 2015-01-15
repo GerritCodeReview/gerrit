@@ -125,7 +125,11 @@ public class Dispatcher {
   }
 
   public static String toEditScreen(PatchSet.Id revision, String fileName) {
-    return toPatch("edit", null, revision, fileName, null, 0);
+    return toEditScreen(revision, fileName, 0);
+  }
+
+  public static String toEditScreen(PatchSet.Id revision, String fileName, int line) {
+    return toPatch("edit", null, revision, fileName, null, line);
   }
 
   private static String toPatch(String type, PatchSet.Id diffBase,
@@ -638,7 +642,7 @@ public class Dispatcher {
       @Override
       public void onSuccess() {
         Gerrit.display(token, edit
-            ? new EditScreen(id)
+            ? new EditScreen(id, line)
             : new SideBySide(baseId, id.getParentKey(), id.get(), side, line));
       }
     });

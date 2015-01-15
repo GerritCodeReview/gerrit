@@ -71,9 +71,9 @@ public class EditScreen extends Screen {
   interface Binder extends UiBinder<HTMLPanel, EditScreen> {}
   private static final Binder uiBinder = GWT.create(Binder.class);
 
-  private static int scrollToLine;
   private final PatchSet.Id revision;
   private final String path;
+  private final int startLine;
   private DiffPreferences prefs;
   private CodeMirror cm;
   private HttpResponse<NativeString> content;
@@ -92,9 +92,10 @@ public class EditScreen extends Screen {
   private HandlerRegistration closeHandler;
   private int generation;
 
-  public EditScreen(Patch.Key patch) {
+  public EditScreen(Patch.Key patch, int startLine) {
     this.revision = patch.getParentKey();
     this.path = patch.get();
+    this.startLine = startLine;
     prefs = DiffPreferences.create(Gerrit.getAccountDiffPreference());
     add(uiBinder.createAndBindUi(this));
     addDomHandler(GlobalKey.STOP_PROPAGATION, KeyPressEvent.getType());
@@ -219,9 +220,14 @@ public class EditScreen extends Screen {
         Patch.COMMIT_MSG.equals(path) ? 72 : prefs.lineLength());
     cm.refresh();
     cm.focus();
-    if (scrollToLine != 0) {
-      cm.scrollToLine(scrollToLine);
-      scrollToLine = 0;
+
+    if (startLine > 0) {
+      int height = cm.getHeight();
+      if (cm.lineAtHeight(height - 20) < startLine) {
+        cm.scrollToY(cm.heightAtLine(startLine, "local") - 0.5 * height);
+      }
+      cm.setCursor(Pos.create(startLine));
+      cm.focus();
     }
     updateActiveLine();
   }
@@ -346,9 +352,5 @@ public class EditScreen extends Screen {
 
   private void injectMode(String type, AsyncCallback<Void> cb) {
     new ModeInjector().add(type).inject(cb);
-  }
-
-  public static void scrollToLine(int line) {
-    scrollToLine = line;
   }
 }

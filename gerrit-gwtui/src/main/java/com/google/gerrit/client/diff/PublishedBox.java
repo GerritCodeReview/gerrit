@@ -21,7 +21,6 @@ import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.changes.CommentApi;
 import com.google.gerrit.client.changes.CommentInfo;
 import com.google.gerrit.client.changes.Util;
-import com.google.gerrit.client.editor.EditScreen;
 import com.google.gerrit.client.patches.PatchUtil;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.CommentLinkProcessor;
@@ -160,12 +159,11 @@ class PublishedBox extends CommentBox {
   @UiHandler("edit")
   void onEdit(ClickEvent e) {
     e.stopPropagation();
-    EditScreen.scrollToLine(comment.line());
-    String token = Dispatcher.toEditScreen(psId, comment.path());
+    String t = Dispatcher.toEditScreen(psId, comment.path(), comment.line());
     if (!Gerrit.isSignedIn()) {
-      Gerrit.doSignIn(token);
+      Gerrit.doSignIn(t);
     } else {
-      Gerrit.display(token);
+      Gerrit.display(t);
     }
   }
 

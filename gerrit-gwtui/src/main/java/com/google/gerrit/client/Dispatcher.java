@@ -609,7 +609,7 @@ public class Dispatcher {
       codemirror(token, null, id, side, line, false);
     } else if ("unified".equals(panel)) {
       unified(token, baseId, id);
-    } else if ("edit".equals(panel)) {
+    } else if (panel.startsWith("edit")) {
       codemirror(token, null, id, side, line, true);
     } else {
       Gerrit.display(token, new NotFoundScreen());

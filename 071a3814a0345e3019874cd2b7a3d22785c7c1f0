@@ -285,6 +285,30 @@
     },
     {
       "key": {
+        "uuid": "abb4abb0_68cd63c6",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeConstants.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1018043
+      },
+      "writtenOn": "2015-01-16T06:25:36Z",
+      "side": 1,
+      "message": "Its highlighted and all ... my bad.",
+      "parentUuid": "0bccd752_4bc8a5b7",
+      "range": {
+        "startLine": 154,
+        "startChar": 64,
+        "endLine": 154,
+        "endChar": 65
+      },
+      "revId": "071a3814a0345e3019874cd2b7a3d22785c7c1f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2b335bf6_4c71bfcc",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/RebaseDialog.java",
         "patchSetId": 2
@@ -431,6 +455,30 @@
       "writtenOn": "2015-01-15T11:16:45Z",
       "side": 1,
       "message": "`canRebase` returns false also for commits with no ancestor",
+      "range": {
+        "startLine": 71,
+        "startChar": 6,
+        "endLine": 72,
+        "endChar": 73
+      },
+      "revId": "071a3814a0345e3019874cd2b7a3d22785c7c1f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "abb4abb0_48c89fb7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Rebase.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1018043
+      },
+      "writtenOn": "2015-01-16T06:25:36Z",
+      "side": 1,
+      "message": "I\u0027m a little unsure about this comment... Du you want me to improve the comment message, or do you want to support rebasing changes without ancestors?",
+      "parentUuid": "0b3057e8_6bbea1d8",
       "range": {
         "startLine": 71,
         "startChar": 6,

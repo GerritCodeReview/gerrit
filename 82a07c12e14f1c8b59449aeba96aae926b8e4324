@@ -295,6 +295,24 @@
     },
     {
       "key": {
+        "uuid": "ebba239b_2a299fac",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/DeleteBranches.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2015-01-16T21:19:28Z",
+      "side": 1,
+      "message": "The _current_ implementation of BatchRefUpdate on local repositories is incomplete. It needs to be fixed upstream in JGit. You should use BatchRefUpdate because once its fixed upstream in JGit we won\u0027t have to go rewrite this entire mess of code a second time.",
+      "parentUuid": "0b9e9722_9b94ab4e",
+      "revId": "82a07c12e14f1c8b59449aeba96aae926b8e4324",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0b9e9722_fb012f30",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/Module.java",
         "patchSetId": 3

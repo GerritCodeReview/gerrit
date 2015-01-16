@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "abb4abb0_2829abac",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/SiteIndexer.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-16T19:18:28Z",
+      "side": 1,
+      "message": "For my (old) test repository with a couple of thousands of changes, i am getting 3 refs, that for whatever reasons not contained in the database, so that the line:\n\n  changes.add(db.changes().get(id));\n\nis adding null to the list and the whole reindex operation is failing with the NPE.",
+      "range": {
+        "startLine": 277,
+        "startChar": 4,
+        "endLine": 278,
+        "endChar": 61
+      },
+      "revId": "226cd2c33e2638e436a2db717669c147ded4ce0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ebba239b_4a1ad397",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/SiteIndexer.java",
         "patchSetId": 10
@@ -31,6 +54,29 @@
       "side": 1,
       "message": "+1\n\nAnd we use it already in index code path:\n\n  .from(Iterables.partition(scanner, 50))",
       "parentUuid": "ebba239b_4a1ad397",
+      "revId": "226cd2c33e2638e436a2db717669c147ded4ce0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8bb9a7ac_8730c605",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/SiteIndexer.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-16T19:18:28Z",
+      "side": 1,
+      "message": "The fix is:\n\n  Change c \u003d db.changes().get(id);\n  if (c !\u003d null) {\n     changes.add(db.changes().get(id));\n  } else {\n     log.warn(\"skip change \" + id + \" missing in the database);\n  }",
+      "range": {
+        "startLine": 291,
+        "startChar": 6,
+        "endLine": 291,
+        "endChar": 40
+      },
       "revId": "226cd2c33e2638e436a2db717669c147ded4ce0d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

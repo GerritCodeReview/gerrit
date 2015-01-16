@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "abb4abb0_68f6c3f0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/CommentsInNotesUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-16T09:17:50Z",
+      "side": 0,
+      "message": "I remember that Yacob added some notedb unit tests dedicated to comments handling. All those tests are REST tests, because plugin API wasn\u0027t ready at the point of writing. Apparently these tests don\u0027t handle this specific case? Would it makes sense extend existing tests with start line 0 as part of this commit?",
+      "range": {
+        "startLine": 235,
+        "startChar": 6,
+        "endLine": 235,
+        "endChar": 18
+      },
+      "revId": "36934dc6effc4d4c72bd5b5f7bbf70de009689c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

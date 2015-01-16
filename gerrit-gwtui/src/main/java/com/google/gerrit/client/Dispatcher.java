@@ -499,6 +499,11 @@ public class Dispatcher {
     if (0 <= c) {
       panel = rest.substring(c + 1);
       rest = rest.substring(0, c);
+      int at = panel.lastIndexOf('@');
+      if (at > 0) {
+        rest += panel.substring(at);
+        panel = panel.substring(0, at);
+      }
     }
 
     Change.Id id;
@@ -609,7 +614,7 @@ public class Dispatcher {
       codemirror(token, null, id, side, line, false);
     } else if ("unified".equals(panel)) {
       unified(token, baseId, id);
-    } else if (panel.startsWith("edit")) {
+    } else if ("edit".equals(panel)) {
       codemirror(token, null, id, side, line, true);
     } else {
       Gerrit.display(token, new NotFoundScreen());

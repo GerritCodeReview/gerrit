@@ -97,6 +97,30 @@
     },
     {
       "key": {
+        "uuid": "0bccd752_0b24ddd5",
+        "filename": "Documentation/dev-eclipse.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-16T10:28:18Z",
+      "side": 1,
+      "message": "This whole section is duplicated from above anyway; I\u0027ve replaced it with a single bullet that refers to above.",
+      "parentUuid": "abb4abb0_c8048f43",
+      "range": {
+        "startLine": 60,
+        "startChar": 0,
+        "endLine": 62,
+        "endChar": 50
+      },
+      "revId": "d37aed931c64b7a56dbfab3332116414b217763f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4e8a5d30_8d03c137",
         "filename": "Documentation/dev-eclipse.txt",
         "patchSetId": 3
@@ -120,6 +144,30 @@
     },
     {
       "key": {
+        "uuid": "ebba239b_8afe8bbf",
+        "filename": "Documentation/dev-eclipse.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-16T10:28:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4e8a5d30_8d03c137",
+      "range": {
+        "startLine": 70,
+        "startChar": 0,
+        "endLine": 72,
+        "endChar": 13
+      },
+      "revId": "d37aed931c64b7a56dbfab3332116414b217763f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4e8a5d30_cdfdc9c6",
         "filename": "Documentation/dev-eclipse.txt",
         "patchSetId": 3
@@ -131,6 +179,30 @@
       "writtenOn": "2015-01-08T09:24:08Z",
       "side": 1,
       "message": "maybe better link to:\n  https://developer.mozilla.org/en-US/docs/Tools/Debugger#Use_a_source_map\n?",
+      "range": {
+        "startLine": 77,
+        "startChar": 5,
+        "endLine": 77,
+        "endChar": 60
+      },
+      "revId": "d37aed931c64b7a56dbfab3332116414b217763f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ebba239b_aafb4fce",
+        "filename": "Documentation/dev-eclipse.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-16T10:28:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4e8a5d30_cdfdc9c6",
       "range": {
         "startLine": 77,
         "startChar": 5,

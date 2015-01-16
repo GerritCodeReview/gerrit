@@ -22,6 +22,30 @@
       "revId": "36934dc6effc4d4c72bd5b5f7bbf70de009689c6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0bccd752_ab14a964",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/CommentsInNotesUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-16T10:32:08Z",
+      "side": 0,
+      "message": "Do you mean CommentsIT?\n\nI was updating it in [1].  That\u0027s how I found this bug.\n\n[1] https://gerrit-review.googlesource.com/63180",
+      "parentUuid": "abb4abb0_68f6c3f0",
+      "range": {
+        "startLine": 235,
+        "startChar": 6,
+        "endLine": 235,
+        "endChar": 18
+      },
+      "revId": "36934dc6effc4d4c72bd5b5f7bbf70de009689c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

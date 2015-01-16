@@ -39,6 +39,24 @@
       "revId": "3a8e644a574800e4d716e99456c69a8f0f6366d5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0bccd752_8b176d69",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-16T10:32:08Z",
+      "side": 1,
+      "message": "I\u0027m not sure exactly what you mean.  Anyway, it sounds like a separate issue to this and should therefore be in a separate commit.",
+      "parentUuid": "abb4abb0_08eb8707",
+      "revId": "3a8e644a574800e4d716e99456c69a8f0f6366d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

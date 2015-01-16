@@ -16,6 +16,24 @@
       "revId": "226cd2c33e2638e436a2db717669c147ded4ce0d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8bb9a7ac_87176669",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/SiteIndexer.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-16T18:30:02Z",
+      "side": 1,
+      "message": "+1\n\nAnd we use it already in index code path:\n\n  .from(Iterables.partition(scanner, 50))",
+      "parentUuid": "ebba239b_4a1ad397",
+      "revId": "226cd2c33e2638e436a2db717669c147ded4ce0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

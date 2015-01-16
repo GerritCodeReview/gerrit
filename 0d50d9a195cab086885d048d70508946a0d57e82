@@ -22,6 +22,30 @@
       "revId": "0d50d9a195cab086885d048d70508946a0d57e82",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b9e9722_1bc89b84",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/InternalChangeQuery.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-16T18:53:23Z",
+      "side": 1,
+      "message": "The short answer is because ChangeQueryBuilder.parseChange called parseChangeId on its input, and now it calls queryBuilder.byKeyPrefix. But I can see the argument that InternalChangeQuery should not try to be clever, and leave this \"parsing\" in the caller.",
+      "parentUuid": "0bccd752_4b6c25f8",
+      "range": {
+        "startLine": 39,
+        "startChar": 0,
+        "endLine": 44,
+        "endChar": 3
+      },
+      "revId": "0d50d9a195cab086885d048d70508946a0d57e82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

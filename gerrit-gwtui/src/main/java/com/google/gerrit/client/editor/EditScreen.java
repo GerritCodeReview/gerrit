@@ -95,7 +95,7 @@ public class EditScreen extends Screen {
   public EditScreen(Patch.Key patch, int startLine) {
     this.revision = patch.getParentKey();
     this.path = patch.get();
-    this.startLine = startLine;
+    this.startLine = startLine - 1;
     prefs = DiffPreferences.create(Gerrit.getAccountDiffPreference());
     add(uiBinder.createAndBindUi(this));
     addDomHandler(GlobalKey.STOP_PROPAGATION, KeyPressEvent.getType());

@@ -80,6 +80,30 @@
       "revId": "226cd2c33e2638e436a2db717669c147ded4ce0d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb6ce3f2_3a7b21ad",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/SiteIndexer.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-16T19:28:57Z",
+      "side": 1,
+      "message": "Done by switching to batch get, which doesn\u0027t return any nulls.",
+      "parentUuid": "8bb9a7ac_8730c605",
+      "range": {
+        "startLine": 291,
+        "startChar": 6,
+        "endLine": 291,
+        "endChar": 40
+      },
+      "revId": "226cd2c33e2638e436a2db717669c147ded4ce0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -165,6 +165,30 @@
       "revId": "3f0e65f28bfcea41298951557bcac224a76b1bb2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8bb9a7ac_0724d6d5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_105.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-16T14:49:24Z",
+      "side": 1,
+      "message": "Opps, missed the if toDelete.contains(index).",
+      "parentUuid": "abb4abb0_481adf97",
+      "range": {
+        "startLine": 77,
+        "startChar": 6,
+        "endLine": 86,
+        "endChar": 7
+      },
+      "revId": "3f0e65f28bfcea41298951557bcac224a76b1bb2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

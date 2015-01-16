@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "eb6ce3f2_ba2df1ae",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-01-16T16:43:44Z",
+      "side": 1,
+      "message": "Removed from commit message",
+      "parentUuid": "8e6375c3_b790682e",
+      "range": {
+        "startLine": 16,
+        "startChar": 37,
+        "endLine": 16,
+        "endChar": 42
+      },
+      "revId": "898ddf8a55f20660123af4634195edcb177f8596",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8e6375c3_5762acf7",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4

@@ -261,6 +261,30 @@
     },
     {
       "key": {
+        "uuid": "0bccd752_4bc8a5b7",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeConstants.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-16T00:36:03Z",
+      "side": 1,
+      "message": "My comment was only on the trailing \u0027!\u0027 character.",
+      "parentUuid": "eb5ea32a_aa17ef68",
+      "range": {
+        "startLine": 154,
+        "startChar": 64,
+        "endLine": 154,
+        "endChar": 65
+      },
+      "revId": "071a3814a0345e3019874cd2b7a3d22785c7c1f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2b335bf6_4c71bfcc",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/RebaseDialog.java",
         "patchSetId": 2

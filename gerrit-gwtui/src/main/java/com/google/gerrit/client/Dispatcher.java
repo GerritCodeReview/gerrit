@@ -499,6 +499,11 @@ public class Dispatcher {
     if (0 <= c) {
       panel = rest.substring(c + 1);
       rest = rest.substring(0, c);
+      int at = panel.lastIndexOf('@');
+      if (at > 0) {
+        rest += panel.substring(at);
+        panel = panel.substring(0, at);
+      }
     }
 
     Change.Id id;

@@ -491,6 +491,30 @@
     },
     {
       "key": {
+        "uuid": "ebba239b_cadb237d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Rebase.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-16T06:33:17Z",
+      "side": 1,
+      "message": "If the rebase failed because of no ancestors, the exception will still say \"cannot rebase merge commits\".\n\nPerhaps just change it to \"cannot rebase merge commit or commit with no ancestor\"?\n\nSorry for the confusion.",
+      "parentUuid": "abb4abb0_48c89fb7",
+      "range": {
+        "startLine": 71,
+        "startChar": 6,
+        "endLine": 72,
+        "endChar": 73
+      },
+      "revId": "071a3814a0345e3019874cd2b7a3d22785c7c1f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0b3057e8_4bc3e56c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Rebase.java",
         "patchSetId": 2

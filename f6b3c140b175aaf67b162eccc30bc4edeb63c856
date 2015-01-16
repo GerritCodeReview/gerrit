@@ -16,6 +16,24 @@
       "revId": "f6b3c140b175aaf67b162eccc30bc4edeb63c856",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0bccd752_8bfe8dbf",
+        "filename": "ReleaseNotes/ReleaseNotes-2.11.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-16T08:38:43Z",
+      "side": 0,
+      "message": "Yes, if it\u0027s not fixed before 2.11 is released.",
+      "parentUuid": "8bb9a7ac_07d29665",
+      "revId": "f6b3c140b175aaf67b162eccc30bc4edeb63c856",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

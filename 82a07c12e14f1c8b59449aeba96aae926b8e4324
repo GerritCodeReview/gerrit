@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "0b9e9722_3b547717",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1010,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-01-16T21:16:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0b9e9722_9bfeebbf",
+      "range": {
+        "startLine": 1010,
+        "startChar": 53,
+        "endLine": 1010,
+        "endChar": 68
+      },
+      "revId": "82a07c12e14f1c8b59449aeba96aae926b8e4324",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0b9e9722_bbfba7ce",
         "filename": "Documentation/rest-api-projects.txt",
         "patchSetId": 3
@@ -36,6 +60,30 @@
       "writtenOn": "2015-01-15T20:43:44Z",
       "side": 1,
       "message": "branches:delete",
+      "range": {
+        "startLine": 1020,
+        "startChar": 27,
+        "endLine": 1020,
+        "endChar": 42
+      },
+      "revId": "82a07c12e14f1c8b59449aeba96aae926b8e4324",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b9e9722_db68f3d9",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1020,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-01-16T21:16:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0b9e9722_bbfba7ce",
       "range": {
         "startLine": 1020,
         "startChar": 27,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "0b9e9722_fb65af00",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/projects/ProjectApi.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-01-16T21:16:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eb6ce3f2_3af001ef",
+      "range": {
+        "startLine": 74,
+        "startChar": 26,
+        "endLine": 74,
+        "endChar": 41
+      },
+      "revId": "82a07c12e14f1c8b59449aeba96aae926b8e4324",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "eb6ce3f2_da046543",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/projects/ProjectApi.java",
         "patchSetId": 3
@@ -82,6 +154,30 @@
       "writtenOn": "2015-01-15T20:43:44Z",
       "side": 1,
       "message": "createObject().cast()",
+      "range": {
+        "startLine": 288,
+        "startChar": 30,
+        "endLine": 288,
+        "endChar": 66
+      },
+      "revId": "82a07c12e14f1c8b59449aeba96aae926b8e4324",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b9e9722_9b626bf6",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/projects/ProjectApi.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-01-16T21:16:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eb6ce3f2_da046543",
       "range": {
         "startLine": 288,
         "startChar": 30,
@@ -111,6 +207,24 @@
     },
     {
       "key": {
+        "uuid": "0b9e9722_bb5f272f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/DeleteBranches.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-01-16T21:16:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0b9e9722_5b1aa397",
+      "revId": "82a07c12e14f1c8b59449aeba96aae926b8e4324",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "eb6ce3f2_fa012930",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/DeleteBranches.java",
         "patchSetId": 3
@@ -122,6 +236,24 @@
       "writtenOn": "2015-01-15T20:43:44Z",
       "side": 1,
       "message": "Unnecessary. The class is only package visible. The branches field is package visible. Any callers in this package can create the Input and set the branches field.",
+      "revId": "82a07c12e14f1c8b59449aeba96aae926b8e4324",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b9e9722_5bbe23d8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/DeleteBranches.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-01-16T21:16:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eb6ce3f2_fa012930",
       "revId": "82a07c12e14f1c8b59449aeba96aae926b8e4324",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -145,6 +277,24 @@
     },
     {
       "key": {
+        "uuid": "0b9e9722_9b94ab4e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/DeleteBranches.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-01-16T21:16:33Z",
+      "side": 1,
+      "message": "I looked at BatchRefUpdate and it accepts ReceiveCommand which is a command being processed by a BaseReceivePack and in order to delete a ref, it converts the ReceiveCommand into a RefUpdate so I will change the code to do a batch update without using the BatchRefUpdate as it is more overhead to use than just implementing the batch update.\n\nBut I get your point, I will verify each branch, open repo once, delete all the branches and close repo.",
+      "parentUuid": "0b9e9722_7b1f5f86",
+      "revId": "82a07c12e14f1c8b59449aeba96aae926b8e4324",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0b9e9722_fb012f30",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/Module.java",
         "patchSetId": 3
@@ -156,6 +306,30 @@
       "writtenOn": "2015-01-15T20:43:44Z",
       "side": 1,
       "message": "If we follow the commit message editing pattern applied in changes.Module which uses \"edit:message\", \"edit:publish\", \"edit:rebase\" this would be:\n\n  branches:delete",
+      "range": {
+        "startLine": 65,
+        "startChar": 23,
+        "endLine": 65,
+        "endChar": 40
+      },
+      "revId": "82a07c12e14f1c8b59449aeba96aae926b8e4324",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b9e9722_1b4f3b88",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/Module.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-01-16T21:16:33Z",
+      "side": 1,
+      "message": "Done, I followed the way it\u0027s done in the group endpoint but since the edit endpoint is newer, let\u0027s follow that pattern from now on.",
+      "parentUuid": "0b9e9722_fb012f30",
       "range": {
         "startLine": 65,
         "startChar": 23,

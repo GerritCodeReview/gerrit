@@ -141,6 +141,30 @@
       "revId": "3f0e65f28bfcea41298951557bcac224a76b1bb2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "abb4abb0_481adf97",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_105.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-16T14:43:43Z",
+      "side": 1,
+      "message": "Beside to be a bit verbose, this if is kind of not consistent with your previous comment about possible primary key returned by listIndexes() method. Because of intersection with pre-defined set of indexes you would filter primary key index during loop above, but don\u0027t filter it here in error reporting code path.",
+      "parentUuid": "eb6ce3f2_9a17cd69",
+      "range": {
+        "startLine": 77,
+        "startChar": 6,
+        "endLine": 86,
+        "endChar": 7
+      },
+      "revId": "3f0e65f28bfcea41298951557bcac224a76b1bb2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

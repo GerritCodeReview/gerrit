@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "8bb9a7ac_476c0ef8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/changes/ChangeApiImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2015-01-16T19:21:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ebba239b_2ad75f56",
+      "revId": "b50b341743617f150ab6bf140bad08cce4dba59e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0bccd752_abe2692c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestReviewers.java",
         "patchSetId": 3
@@ -30,6 +48,30 @@
       "writtenOn": "2015-01-16T02:50:26Z",
       "side": 1,
       "message": "[optional] This is quite verbose.  Would it be enough to just call it ORDERING?",
+      "range": {
+        "startLine": 67,
+        "startChar": 55,
+        "endLine": 67,
+        "endChar": 87
+      },
+      "revId": "b50b341743617f150ab6bf140bad08cce4dba59e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "abb4abb0_c80d6f5d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SuggestReviewers.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1013702
+      },
+      "writtenOn": "2015-01-16T19:21:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0bccd752_abe2692c",
       "range": {
         "startLine": 67,
         "startChar": 55,

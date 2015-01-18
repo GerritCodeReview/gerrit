@@ -76,8 +76,8 @@ public class WebModule extends LifecycleModule {
     }
     install(new RunAsFilter.Module());
 
+    installAuthModule();
     if (options.enableMasterFeatures()) {
-      installAuthModule();
       install(new UrlModule(options));
       install(new UiRpcModule());
     }

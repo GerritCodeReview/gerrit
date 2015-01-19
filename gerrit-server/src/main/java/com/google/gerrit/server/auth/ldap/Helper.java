@@ -65,14 +65,9 @@ import javax.security.auth.login.LoginException;
       Map<String, String> r = Maps.newHashMap();
       r.put("com.sun.jndi.ldap.connect.pool", "true");
 
-      String connectTimeout = LdapRealm.optional(config, "connectTimeout");
       String poolDebug = LdapRealm.optional(config, "poolDebug");
       String poolTimeout = LdapRealm.optional(config, "poolTimeout");
 
-      if (connectTimeout != null) {
-        r.put("com.sun.jndi.ldap.connect.timeout", Long.toString(ConfigUtil
-            .getTimeUnit(connectTimeout, 0, TimeUnit.MILLISECONDS)));
-      }
       r.put("com.sun.jndi.ldap.connect.pool.authentication",
           LdapRealm.optional(config, "poolAuthentication", "none simple"));
       if (poolDebug != null) {
@@ -105,7 +100,8 @@ import javax.security.auth.login.LoginException;
   private final boolean sslVerify;
   private final String authentication;
   private volatile LdapSchema ldapSchema;
-  private final String readTimeOutMillis;
+  private final String readTimeoutMillis;
+  private final String connectTimeoutMillis;
   private final Map<String, String> connectionPoolConfig;
 
   @Inject
@@ -120,13 +116,21 @@ import javax.security.auth.login.LoginException;
     this.sslVerify = config.getBoolean("ldap", "sslverify", true);
     this.authentication =
         LdapRealm.optional(config, "authentication", "simple");
-    String timeout = LdapRealm.optional(config, "readTimeout");
-    if (timeout != null) {
-      readTimeOutMillis =
-          Long.toString(ConfigUtil.getTimeUnit(timeout, 0,
+    String readTimeout = LdapRealm.optional(config, "readTimeout");
+    if (readTimeout != null) {
+      readTimeoutMillis =
+          Long.toString(ConfigUtil.getTimeUnit(readTimeout, 0,
               TimeUnit.MILLISECONDS));
     } else {
-      readTimeOutMillis = null;
+      readTimeoutMillis = null;
+    }
+    String connectTimeout = LdapRealm.optional(config, "connectTimeout");
+    if (connectTimeout != null) {
+      connectTimeoutMillis =
+          Long.toString(ConfigUtil.getTimeUnit(connectTimeout, 0,
+              TimeUnit.MILLISECONDS));
+    } else {
+      connectTimeoutMillis = null;
     }
     this.groupsByInclude = groupsByInclude;
     this.connectionPoolConfig = getPoolProperties(config);
@@ -140,8 +144,11 @@ import javax.security.auth.login.LoginException;
       Class<? extends SSLSocketFactory> factory = BlindSSLSocketFactory.class;
       env.put("java.naming.ldap.factory.socket", factory.getName());
     }
-    if (readTimeOutMillis != null) {
-      env.put("com.sun.jndi.ldap.read.timeout", readTimeOutMillis);
+    if (readTimeoutMillis != null) {
+      env.put("com.sun.jndi.ldap.read.timeout", readTimeoutMillis);
+    }
+    if (connectTimeoutMillis != null) {
+      env.put("com.sun.jndi.ldap.connect.timeout", connectTimeoutMillis);
     }
     return env;
   }

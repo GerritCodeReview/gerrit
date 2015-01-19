@@ -2399,9 +2399,7 @@ By default, false.
 
 [[ldap.connectTimeout]]ldap.connectTimeout::
 +
-_(Optional)_ Specify how long to wait for a pooled connection.
-This is also used to specify a timeout period for establishment
-of the LDAP connection.
+_(Optional)_ Timeout period for establishment of an LDAP connection.
 +
 The value is in the usual time-unit format like "1 s", "100 ms",
 etc...

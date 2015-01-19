@@ -90,6 +90,7 @@ import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.PluginConfig;
 import com.google.gerrit.server.config.ProjectConfigEntry;
+import com.google.gerrit.server.edit.ChangeEditUtil;
 import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.MultiProgressMonitor.Task;
@@ -1118,6 +1119,9 @@ public class ReceiveCommits {
     @Option(name = "--draft", usage = "mark new/updated changes as draft")
     boolean draft;
 
+    @Option(name = "--edit", usage = "update existing change with change edit")
+    boolean edit;
+
     @Option(name = "--submit", usage = "immediately submit the change")
     boolean submit;
 
@@ -1839,6 +1843,7 @@ public class ReceiveCommits {
       }
     }
 
+    // Validate Edit
     boolean validate(boolean autoClose) throws IOException {
       if (!autoClose && inputCommand.getResult() != NOT_ATTEMPTED) {
         return false;
@@ -1933,6 +1938,28 @@ public class ReceiveCommits {
         }
       }
 
+      if (magicBranch != null && magicBranch.edit) {
+        return newEdit();
+      }
+
+      newPatchSet();
+      return true;
+    }
+
+    private boolean newEdit() {
+      // new is the old one in change edit case
+      newPatchSet = new PatchSet(change.currentPatchSetId());
+      cmd = new ReceiveCommand(
+          ObjectId.zeroId(),
+          newCommit,
+          ChangeEditUtil.editRefName(
+              currentUser.getAccountId(),
+              change.getId(),
+              newPatchSet.getId()));
+      return true;
+    }
+
+    private void newPatchSet() {
       PatchSet.Id id =
           ChangeUtil.nextPatchSetId(allRefs, change.currentPatchSetId());
       newPatchSet = new PatchSet(id);
@@ -1947,7 +1974,6 @@ public class ReceiveCommits {
           ObjectId.zeroId(),
           newCommit,
           newPatchSet.getRefName());
-      return true;
     }
 
     CheckedFuture<PatchSet.Id, InsertException> insertPatchSet()
@@ -1960,8 +1986,10 @@ public class ReceiveCommits {
         @Override
         public PatchSet.Id call() throws OrmException, IOException, NoSuchChangeException {
           try {
-            if (caller == Thread.currentThread()) {
-              return insertPatchSet(db);
+            if (caller == Thread.currentThread() || magicBranch.edit) {
+              return magicBranch.edit
+                  ? upsertEdit()
+                  : insertPatchSet(db);
             } else {
               ReviewDb db = schemaFactory.open();
               try {
@@ -2002,6 +2030,14 @@ public class ReceiveCommits {
       }
       msg.setMessage(message + ".");
       return msg;
+    }
+
+    PatchSet.Id upsertEdit() {
+      // TODO(davido): remove old edit ref when exists
+      if (cmd.getResult() == NOT_ATTEMPTED) {
+        cmd.execute(rp);
+      }
+      return newPatchSet.getId();
     }
 
     PatchSet.Id insertPatchSet(ReviewDb db) throws OrmException, IOException {

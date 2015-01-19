@@ -60,37 +60,6 @@ import javax.security.auth.login.LoginException;
 @Singleton class Helper {
   static final String LDAP_UUID = "ldap:";
 
-  static private Map<String, String> getPoolProperties(Config config) {
-    if (LdapRealm.optional(config, "useConnectionPooling", false)) {
-      Map<String, String> r = Maps.newHashMap();
-      r.put("com.sun.jndi.ldap.connect.pool", "true");
-
-      String poolDebug = LdapRealm.optional(config, "poolDebug");
-      String poolTimeout = LdapRealm.optional(config, "poolTimeout");
-
-      r.put("com.sun.jndi.ldap.connect.pool.authentication",
-          LdapRealm.optional(config, "poolAuthentication", "none simple"));
-      if (poolDebug != null) {
-        r.put("com.sun.jndi.ldap.connect.pool.debug", poolDebug);
-      }
-      r.put("com.sun.jndi.ldap.connect.pool.initsize",
-          String.valueOf(LdapRealm.optional(config, "poolInitsize", 1)));
-      r.put("com.sun.jndi.ldap.connect.pool.maxsize",
-          String.valueOf(LdapRealm.optional(config, "poolMaxsize", 0)));
-      r.put("com.sun.jndi.ldap.connect.pool.prefsize",
-          String.valueOf(LdapRealm.optional(config, "poolPrefsize", 0)));
-      r.put("com.sun.jndi.ldap.connect.pool.protocol",
-          LdapRealm.optional(config, "poolProtocol", "plain"));
-      if (poolTimeout != null) {
-        r.put("com.sun.jndi.ldap.connect.pool.timeout", Long
-            .toString(ConfigUtil.getTimeUnit(poolTimeout, 0,
-                TimeUnit.MILLISECONDS)));
-      }
-      return r;
-    }
-    return null;
-  }
-
   private final Cache<String, ImmutableSet<String>> parentGroups;
   private final Config config;
   private final String server;
@@ -102,7 +71,7 @@ import javax.security.auth.login.LoginException;
   private volatile LdapSchema ldapSchema;
   private final String readTimeoutMillis;
   private final String connectTimeoutMillis;
-  private final Map<String, String> connectionPoolConfig;
+  private final boolean useConnectionPooling;
 
   @Inject
   Helper(@GerritServerConfig final Config config,
@@ -133,7 +102,8 @@ import javax.security.auth.login.LoginException;
       connectTimeoutMillis = null;
     }
     this.parentGroups = parentGroups;
-    this.connectionPoolConfig = getPoolProperties(config);
+    this.useConnectionPooling =
+        LdapRealm.optional(config, "useConnectionPooling", false);
   }
 
   private Properties createContextProperties() {
@@ -150,14 +120,14 @@ import javax.security.auth.login.LoginException;
     if (connectTimeoutMillis != null) {
       env.put("com.sun.jndi.ldap.connect.timeout", connectTimeoutMillis);
     }
+    if (useConnectionPooling) {
+      env.put("com.sun.jndi.ldap.connect.pool", "true");
+    }
     return env;
   }
 
   DirContext open() throws NamingException, LoginException {
     final Properties env = createContextProperties();
-    if (connectionPoolConfig != null) {
-      env.putAll(connectionPoolConfig);
-    }
     env.put(Context.SECURITY_AUTHENTICATION, authentication);
     env.put(Context.REFERRAL, referral);
     if ("GSSAPI".equals(authentication)) {

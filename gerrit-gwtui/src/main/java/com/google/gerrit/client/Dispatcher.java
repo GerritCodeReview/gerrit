@@ -284,7 +284,7 @@ public class Dispatcher {
     }
 
     if (matchExact("mine,drafts", token)) {
-      return toChangeQuery("is:draft");
+      return toChangeQuery("owner:self is:draft");
     }
 
     if (matchExact("mine,comments", token)) {

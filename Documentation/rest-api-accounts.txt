@@ -909,7 +909,7 @@ link:#preferences-info[PreferencesInfo] entity.
         "name": "Changes"
       },
       {
-        "url": "#/q/is:draft",
+        "url": "#/q/owner:self+is:draft",
         "name": "Drafts"
       },
       {
@@ -963,7 +963,7 @@ link:#preferences-input[PreferencesInput] entity.
         "name": "Changes"
       },
       {
-        "url": "#/q/is:draft",
+        "url": "#/q/owner:self+is:draft",
         "name": "Drafts"
       },
       {
@@ -1011,7 +1011,7 @@ link:#preferences-info[PreferencesInfo] entity.
         "name": "Changes"
       },
       {
-        "url": "#/q/is:draft",
+        "url": "#/q/owner:self+is:draft",
         "name": "Drafts"
       },
       {

@@ -118,6 +118,30 @@
       "revId": "36934dc6effc4d4c72bd5b5f7bbf70de009689c6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0bccd752_2b7bd9ac",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/CommentsInNotesUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-19T00:36:37Z",
+      "side": 0,
+      "message": "Thanks.",
+      "parentUuid": "8bb9a7ac_e70ae242",
+      "range": {
+        "startLine": 235,
+        "startChar": 6,
+        "endLine": 235,
+        "endChar": 18
+      },
+      "revId": "36934dc6effc4d4c72bd5b5f7bbf70de009689c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

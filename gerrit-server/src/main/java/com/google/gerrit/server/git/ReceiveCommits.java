@@ -30,6 +30,7 @@ import static org.eclipse.jgit.transport.ReceiveCommand.Result.REJECTED_OTHER_RE
 
 import com.google.common.base.Function;
 import com.google.common.base.Joiner;
+import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
 import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
@@ -61,6 +62,7 @@ import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.registration.DynamicMap.Entry;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
@@ -90,6 +92,8 @@ import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.PluginConfig;
 import com.google.gerrit.server.config.ProjectConfigEntry;
+import com.google.gerrit.server.edit.ChangeEdit;
+import com.google.gerrit.server.edit.ChangeEditUtil;
 import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.MultiProgressMonitor.Task;
@@ -326,6 +330,7 @@ public class ReceiveCommits {
   private final MergeQueue mergeQueue;
   private final DynamicMap<ProjectConfigEntry> pluginConfigEntries;
   private final NotesMigration notesMigration;
+  private final ChangeEditUtil editUtil;
 
   private final List<CommitValidationMessage> messages = new ArrayList<>();
   private ListMultimap<Error, String> errors = LinkedListMultimap.create();
@@ -375,7 +380,8 @@ public class ReceiveCommits {
       final MergeQueue mergeQueue,
       final ChangeKindCache changeKindCache,
       final DynamicMap<ProjectConfigEntry> pluginConfigEntries,
-      final NotesMigration notesMigration) throws IOException {
+      final NotesMigration notesMigration,
+      final ChangeEditUtil editUtil) throws IOException {
     this.currentUser = (IdentifiedUser) projectControl.getCurrentUser();
     this.db = db;
     this.queryProvider = queryProvider;
@@ -421,6 +427,8 @@ public class ReceiveCommits {
     this.mergeQueue = mergeQueue;
     this.pluginConfigEntries = pluginConfigEntries;
     this.notesMigration = notesMigration;
+
+    this.editUtil = editUtil;
 
     this.messageSender = new ReceivePackMessageSender();
 
@@ -560,6 +568,7 @@ public class ReceiveCommits {
 
     if (!batch.getCommands().isEmpty()) {
       try {
+        batch.setAllowNonFastForwards(magicBranch != null && magicBranch.edit);
         batch.execute(rp.getRevWalk(), commandProgress);
       } catch (IOException err) {
         int cnt = 0;
@@ -658,7 +667,7 @@ public class ReceiveCommits {
       addMessage("");
       addMessage("New Changes:");
       for (CreateRequest c : created) {
-        addMessage(formatChangeUrl(canonicalWebUrl, c.change));
+        addMessage(formatChangeUrl(canonicalWebUrl, c.change, false));
       }
       addMessage("");
     }
@@ -681,14 +690,16 @@ public class ReceiveCommits {
     if (!updated.isEmpty()) {
       addMessage("");
       addMessage("Updated Changes:");
+      boolean edit = magicBranch != null && magicBranch.edit;
       for (ReplaceRequest u : updated) {
-        addMessage(formatChangeUrl(canonicalWebUrl, u.change));
+        addMessage(formatChangeUrl(canonicalWebUrl, u.change, edit));
       }
       addMessage("");
     }
   }
 
-  private static String formatChangeUrl(String url, Change change) {
+  private static String formatChangeUrl(String url, Change change,
+      boolean edit) {
     StringBuilder m = new StringBuilder()
         .append("  ")
         .append(url)
@@ -697,6 +708,9 @@ public class ReceiveCommits {
         .append(ChangeUtil.cropSubject(change.getSubject()));
     if (change.getStatus() == Change.Status.DRAFT) {
       m.append(" [DRAFT]");
+    }
+    if (edit) {
+      m.append(" [EDIT]");
     }
     return m.toString();
   }
@@ -1117,6 +1131,9 @@ public class ReceiveCommits {
 
     @Option(name = "--draft", usage = "mark new/updated changes as draft")
     boolean draft;
+
+    @Option(name = "--edit", aliases = {"-e"}, usage = "upload as change edit")
+    boolean edit;
 
     @Option(name = "--submit", usage = "immediately submit the change")
     boolean submit;
@@ -1583,6 +1600,10 @@ public class ReceiveCommits {
       reject(magicBranch.cmd, "no new changes");
       return;
     }
+    if (!newChanges.isEmpty() && magicBranch.edit) {
+      reject(magicBranch.cmd, "edit is not supported for new changes");
+      return;
+    }
     for (CreateRequest create : newChanges) {
       batch.addCommand(create.cmd);
     }
@@ -1776,6 +1797,9 @@ public class ReceiveCommits {
 
     for (ReplaceRequest req : replaceByChange.values()) {
       if (req.inputCommand.getResult() == NOT_ATTEMPTED && req.cmd != null) {
+        if (req.prev != null) {
+          batch.addCommand(req.prev);
+        }
         batch.addCommand(req.cmd);
       }
     }
@@ -1816,6 +1840,7 @@ public class ReceiveCommits {
     ChangeControl changeCtl;
     BiMap<RevCommit, PatchSet.Id> revisions;
     PatchSet newPatchSet;
+    ReceiveCommand prev;
     ReceiveCommand cmd;
     PatchSetInfo info;
     ChangeMessage msg;
@@ -1938,6 +1963,59 @@ public class ReceiveCommits {
         }
       }
 
+      if (magicBranch != null && magicBranch.edit) {
+        return newEdit();
+      }
+
+      newPatchSet();
+      return true;
+    }
+
+    private boolean newEdit() {
+      newPatchSet = new PatchSet(change.currentPatchSetId());
+      Optional<ChangeEdit> edit = null;
+
+      try {
+        edit = editUtil.byChange(change);
+      } catch (AuthException | IOException e) {
+        log.error("Cannt retrieve edit", e);
+        return false;
+      }
+
+      if (edit.isPresent()) {
+        if (edit.get().getBasePatchSet().getId().equals(newPatchSet.getId())) {
+          // replace edit
+          cmd = new ReceiveCommand(
+              edit.get().getRef().getObjectId(),
+              newCommit,
+              edit.get().getRefName());
+        } else {
+          // delete old edit ref on rebase
+          prev = new ReceiveCommand(
+              edit.get().getRef().getObjectId(),
+              ObjectId.zeroId(),
+              edit.get().getRefName());
+          createEditCommand();
+        }
+      } else {
+        createEditCommand();
+      }
+
+      return true;
+    }
+
+    private void createEditCommand() {
+      // create new edit
+      cmd = new ReceiveCommand(
+          ObjectId.zeroId(),
+          newCommit,
+          ChangeEditUtil.editRefName(
+              currentUser.getAccountId(),
+              change.getId(),
+              newPatchSet.getId()));
+    }
+
+    private void newPatchSet() {
       PatchSet.Id id =
           ChangeUtil.nextPatchSetId(allRefs, change.currentPatchSetId());
       newPatchSet = new PatchSet(id);
@@ -1952,7 +2030,6 @@ public class ReceiveCommits {
           ObjectId.zeroId(),
           newCommit,
           newPatchSet.getRefName());
-      return true;
     }
 
     CheckedFuture<PatchSet.Id, InsertException> insertPatchSet()
@@ -1965,7 +2042,9 @@ public class ReceiveCommits {
         @Override
         public PatchSet.Id call() throws OrmException, IOException, NoSuchChangeException {
           try {
-            if (caller == Thread.currentThread()) {
+            if (magicBranch.edit) {
+              return upsertEdit();
+            } else if (caller == Thread.currentThread()) {
               return insertPatchSet(db);
             } else {
               ReviewDb db = schemaFactory.open();
@@ -2005,6 +2084,13 @@ public class ReceiveCommits {
       }
       msg.setMessage(message + ".");
       return msg;
+    }
+
+    PatchSet.Id upsertEdit() {
+      if (cmd.getResult() == NOT_ATTEMPTED) {
+        cmd.execute(rp);
+      }
+      return newPatchSet.getId();
     }
 
     PatchSet.Id insertPatchSet(ReviewDb db) throws OrmException, IOException {

@@ -31,15 +31,13 @@ Developer Setup guide to configure a local site for testing.
 
 Duplicate the existing launch configuration:
 
-* Run -> Debug Configurations ...
+* In Eclipse select Run -> Debug Configurations ...
 * Java Application -> `gerrit_daemon`
 * Right click, Duplicate
-
 * Modify the name to be unique.
-
 * Switch to Arguments tab.
 * Edit the `-d` program argument flag to match the path used during
-  'init'.  The template launch configuration resolves to ../gerrit_testsite
+  'init'.  The template launch configuration resolves to `../gerrit_testsite`
   since that is what the documentation recommends.
 
 * Switch to Common tab.
@@ -49,29 +47,37 @@ Duplicate the existing launch configuration:
 
 === Running GWT Debug Mode
 
-The gerrit_gwt_debug launch configuration uses GWT's
+The `gerrit_gwt_debug` launch configuration uses GWT's
 link:http://www.gwtproject.org/articles/superdevmode.html[Super Dev Mode].
 
-* Select in Eclipse Run -> Debug Configurations `gerrit_gwt_debug.launch`
-* Only once: add bookmarks for `Dev Mode On/Off` from codeserver URL:
-`http://localhost:9876/` to your bookmark bar
-* Make sure to activate source maps feature in your browser
-* Load Gerrit page `http://localhost:8080`
-* Open developer tools, source tab
-* Click on `Dev Mode On` bookmark to incrementally recompile changed files
-* Select `gerrit_ui` module to compile (the `Compile` button can also be used
-as a bookmarklet).
-* Navigate on the left to: sourcemaps/gerrit_ui folder (`Ctrl+O` key shortcut
-can be used)
-* Select a file, for example com.google.gerrit.client.change.ChangeScreen
-and put a breakpoint
-* Navigate in application in change screen and confirm hitting the breakpoint
-* Select `Dev Mode Off` when the debugging session is finished
+* Make a local copy of the `gerrit_gwt_debug` configuration, using the
+process described for `gerrit_daemon` above.
+* Launch the local copy of `gerrit_gwt_debug` from the Eclipse debug menu.
+* If debugging GWT for the first time:
 
-After changing the client side code:
-* click `Dev Mode On` then `Compile` to reflect your changes in debug session
-* Hitting `F5` in the browser will just load the last compile output, without
-recompiling
+** Open the link:http://localhost:9876/[codeserver URL] and add the `Dev Mode On`
+and `Dev Mode Off` bookmarklet to your bookmark bar.
+
+** Activate the source maps feature in your browser. Refer to the
+link:https://developer.chrome.com/devtools/docs/javascript-debugging#source-maps[
+Chrome] and
+link:https://developer.mozilla.org/en-US/docs/Tools/Debugger#Use_a_source_map[
+Firefox] developer documentation.
+
+* Load the link:http://localhost:8080[Gerrit page].
+* Open the source tab in developer tools.
+* Click the `Dev Mode On` bookmark to incrementally recompile changed files.
+* Select the `gerrit_ui` module to compile (the `Compile` button can also be used
+as a bookmarklet).
+* In the developer tools source tab, open a file and set a breakpoint.
+* Navigate to the UI and confirm that the breakpoint is hit.
+* To end the debugging session, click the `Dev Mode Off` bookmark.
+
+.After changing the client side code:
+
+* Hitting `F5` in the browser only reloads the last compile output, without
+recompiling.
+* To reflect your changes in the debug session, click `Dev Mode On` then `Compile`.
 
 GERRIT
 ------

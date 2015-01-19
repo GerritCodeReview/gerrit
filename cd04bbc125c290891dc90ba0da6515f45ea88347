@@ -22,6 +22,30 @@
       "revId": "cd04bbc125c290891dc90ba0da6515f45ea88347",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8bb9a7ac_c768fed9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/ldap/Helper.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-01-19T16:11:19Z",
+      "side": 1,
+      "message": "Fixed in:\n\nhttps://gerrit-review.googlesource.com/63364",
+      "parentUuid": "eb5ea32a_6a433776",
+      "range": {
+        "startLine": 76,
+        "startChar": 0,
+        "endLine": 90,
+        "endChar": 60
+      },
+      "revId": "cd04bbc125c290891dc90ba0da6515f45ea88347",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

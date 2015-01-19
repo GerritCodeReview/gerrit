@@ -91,12 +91,27 @@ public class ChangeEditUtil {
    */
   public Optional<ChangeEdit> byChange(Change change)
       throws AuthException, IOException {
-    if (!user.get().isIdentifiedUser()) {
+    CurrentUser currentUser = user.get();
+    if (!currentUser.isIdentifiedUser()) {
       throw new AuthException("Authentication required");
     }
+    return byChange(change, (IdentifiedUser)currentUser);
+  }
+
+  /**
+   * Retrieve edits for a change and user. Max. one change edit can
+   * exist per user and change.
+   *
+   * @param change
+   * @param user to retrieve change edits for
+   * @return edit for this change for this user, if present.
+   * @throws AuthException
+   * @throws IOException
+   */
+  public Optional<ChangeEdit> byChange(Change change, IdentifiedUser me)
+      throws IOException {
     Repository repo = gitManager.openRepository(change.getProject());
     try {
-      IdentifiedUser me = (IdentifiedUser) user.get();
       String editRefPrefix = editRefPrefix(me.getAccountId(), change.getId());
       Map<String, Ref> refs = repo.getRefDatabase().getRefs(editRefPrefix);
       if (refs.isEmpty()) {
@@ -201,7 +216,7 @@ public class ChangeEditUtil {
    * @param psId patch set number
    * @return reference for this change edit
    */
-  static String editRefName(Account.Id accountId, Change.Id changeId,
+  public static String editRefName(Account.Id accountId, Change.Id changeId,
       PatchSet.Id psId) {
     return editRefPrefix(accountId, changeId) + psId.get();
   }

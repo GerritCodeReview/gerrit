@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "0b9e9722_7b051f07",
+        "filename": "Documentation/cmd-close-connection.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-01-19T14:56:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ebba239b_8a176b69",
+      "range": {
+        "startLine": 13,
+        "startChar": 24,
+        "endLine": 13,
+        "endChar": 25
+      },
+      "revId": "6106f329b98a830337175800012828d66fdebe5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0bccd752_2b543917",
         "filename": "Documentation/cmd-close-connection.txt",
         "patchSetId": 6
@@ -71,6 +95,54 @@
     },
     {
       "key": {
+        "uuid": "eb6ce3f2_fa65a900",
+        "filename": "Documentation/cmd-close-connection.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-01-19T14:56:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ebba239b_aa14af64",
+      "range": {
+        "startLine": 13,
+        "startChar": 81,
+        "endLine": 14,
+        "endChar": 3
+      },
+      "revId": "6106f329b98a830337175800012828d66fdebe5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb6ce3f2_da68e5d9",
+        "filename": "Documentation/cmd-close-connection.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-01-19T14:56:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0bccd752_2b543917",
+      "range": {
+        "startLine": 14,
+        "startChar": 52,
+        "endLine": 14,
+        "endChar": 53
+      },
+      "revId": "6106f329b98a830337175800012828d66fdebe5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0bccd752_0b4ffd87",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/CloseConnection.java",
         "patchSetId": 6
@@ -105,6 +177,30 @@
       "writtenOn": "2015-01-19T03:02:32Z",
       "side": 1,
       "message": "This is already printed at line 78",
+      "range": {
+        "startLine": 83,
+        "startChar": 29,
+        "endLine": 83,
+        "endChar": 65
+      },
+      "revId": "6106f329b98a830337175800012828d66fdebe5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb6ce3f2_3a548117",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/CloseConnection.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-01-19T14:56:09Z",
+      "side": 1,
+      "message": "78 is the message before closing the session to let the user know which session is about to be closed and this line is printed when the session was close.\n\nIt was not obvious that this one is after the session is closed so I changed the message to: \"closed connection\" + sessionId",
+      "parentUuid": "0bccd752_6b5a4147",
       "range": {
         "startLine": 83,
         "startChar": 29,

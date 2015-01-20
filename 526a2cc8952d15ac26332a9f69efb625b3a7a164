@@ -22,6 +22,30 @@
       "revId": "526a2cc8952d15ac26332a9f69efb625b3a7a164",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0bccd752_eb107143",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/WebModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-01-20T18:37:06Z",
+      "side": 1,
+      "message": "That\u0027s code-review helps :-) other people testing the change under different conditions.",
+      "parentUuid": "0b9e9722_bb33a7df",
+      "range": {
+        "startLine": 79,
+        "startChar": 4,
+        "endLine": 79,
+        "endChar": 23
+      },
+      "revId": "526a2cc8952d15ac26332a9f69efb625b3a7a164",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -178,7 +178,7 @@ public class QueryProcessor {
   }
 
   private int getBackendSupportedLimit() {
-    return indexConfig.getMaxLimit();
+    return indexConfig.maxLimit();
   }
 
   private int getEffectiveLimit(Predicate<ChangeData> p) {

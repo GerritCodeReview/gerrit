@@ -16,6 +16,8 @@ package com.google.gerrit.server.index;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
+import com.google.auto.value.AutoValue;
+
 /**
  * Implementation-specific configuration for secondary indexes.
  * <p>
@@ -23,19 +25,16 @@ import static com.google.common.base.Preconditions.checkArgument;
  * otherwise global, i.e. not tied to a specific {@link ChangeIndex} and schema
  * version.
  */
-public class IndexConfig {
+@AutoValue
+public abstract class IndexConfig {
   public static IndexConfig createDefault() {
-    return new IndexConfig(Integer.MAX_VALUE);
+    return create(Integer.MAX_VALUE);
   }
 
-  private final int maxLimit;
-
-  public IndexConfig(int maxLimit) {
+  public static IndexConfig create(int maxLimit) {
     checkArgument(maxLimit > 0, "maxLimit must be positive: %s", maxLimit);
-    this.maxLimit = maxLimit;
+    return new AutoValue_IndexConfig(maxLimit);
   }
 
-  public int getMaxLimit() {
-    return maxLimit;
-  }
+  public abstract int maxLimit();
 }

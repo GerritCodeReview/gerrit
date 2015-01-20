@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ebba239b_aa2d8fae",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/CommandUtils.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-20T01:06:05Z",
+      "side": 1,
+      "message": "Unused.",
+      "range": {
+        "startLine": 33,
+        "startChar": 2,
+        "endLine": 34,
+        "endChar": 50
+      },
+      "revId": "f039dcccdf56afc84569a75c38b83e1225b256c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

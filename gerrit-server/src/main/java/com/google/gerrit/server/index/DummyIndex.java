@@ -53,4 +53,8 @@ public class DummyIndex implements ChangeIndex {
   @Override
   public void markReady(boolean ready) throws IOException {
   }
+
+  public int getMaxLimit() {
+    return Integer.MAX_VALUE;
+  }
 }

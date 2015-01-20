@@ -22,6 +22,7 @@ import com.google.gerrit.server.index.ChangeIndex;
 import com.google.gerrit.server.index.ChangeSchemas;
 import com.google.gerrit.server.index.FieldDef.FillArgs;
 import com.google.gerrit.server.index.IndexCollection;
+import com.google.gerrit.server.index.IndexConfig;
 import com.google.gerrit.server.index.IndexModule;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Provider;
@@ -49,6 +50,7 @@ public class SolrIndexModule extends LifecycleModule {
 
   @Override
   protected void configure() {
+    bind(IndexConfig.class).toInstance(IndexConfig.createDefault());
     install(new IndexModule(threads));
     bind(ChangeIndex.class).to(SolrChangeIndex.class);
     listener().to(SolrChangeIndex.class);

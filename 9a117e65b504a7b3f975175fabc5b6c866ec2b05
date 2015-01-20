@@ -240,6 +240,24 @@
       "revId": "9a117e65b504a7b3f975175fabc5b6c866ec2b05",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb6ce3f2_3a0fa127",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/PatchSetVerification.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-20T19:09:21Z",
+      "side": 1,
+      "message": "Ok, thanks David for pointing out the differences in the primary key.\n\nI\u0027m very leery of using LabelId if we\u0027re not actually tying this into the submit rule evaluation. \"Labels\" are by definition the things that are defined in project.config that have specific ranges, permissions, and evaluation functions associated with them. If the \"labels\" in this table are not serving that purpose, then calling them \"labels\" is only confusing.\n\nBut we\u0027re at the same question as before. If we strip out all the optional metadata so this table is literally just a timestamp and a freeform comment, why not just add a bit field to ChangeMessages?",
+      "parentUuid": "ebba239b_2aa67fc7",
+      "revId": "9a117e65b504a7b3f975175fabc5b6c866ec2b05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

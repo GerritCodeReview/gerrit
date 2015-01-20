@@ -25,6 +25,29 @@
     },
     {
       "key": {
+        "uuid": "8bb9a7ac_07ae1677",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-01-20T16:21:34Z",
+      "side": 1,
+      "message": "Inconsistent usage of \u0027reflog\u0027 vs. \u0027ref log\u0027",
+      "range": {
+        "startLine": 14,
+        "startChar": 25,
+        "endLine": 14,
+        "endChar": 32
+      },
+      "revId": "3f0f226983b71143e2d21acb946ea891cfda48b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "abb4abb0_c8b1ef03",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

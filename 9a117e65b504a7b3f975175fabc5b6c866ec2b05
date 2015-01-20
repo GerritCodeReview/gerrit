@@ -330,6 +330,24 @@
       "revId": "9a117e65b504a7b3f975175fabc5b6c866ec2b05",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b9e9722_5ba4e398",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/PatchSetVerification.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-20T22:10:47Z",
+      "side": 1,
+      "message": "\u003e You still have to extend the database,\n\nYes, but adding a bit field is simpler than adding a table.\n\n\u003e existing SSH commands and REST endpoints to filter out unrelated stuff\n\nRemember the goal: produce two separate tabs on the change screen. We do not need to provide separate commands/endpoints to accomplish this goal. We only need to plumb the new bit field through to the ChangeMessageInfo from the existing endpoints.\n\nIf we do decide to add query parameters or separate endpoints for filtering out bot results, that would still share almost all the code with handlers that return the full ChangeMessageInfo list. That is strictly less work than adding a new verification message JSON type and a new endpoint that queries the new table rather than sharing code to query the existing table.\n\n\u003e and not to pollute clients that don\u0027t need different categories/labels.\n\nNot sure what you mean by \"need different categories/labels\" here. I thought we were talking about use cases that need bot messages in addition to/instead of human messages.",
+      "parentUuid": "8bb9a7ac_278c7a18",
+      "revId": "9a117e65b504a7b3f975175fabc5b6c866ec2b05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

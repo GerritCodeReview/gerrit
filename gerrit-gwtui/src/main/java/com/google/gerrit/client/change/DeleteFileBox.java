@@ -1,4 +1,4 @@
-//Copyright (C) 2013 The Android Open Source Project
+//Copyright (C) 2015 The Android Open Source Project
 //
 //Licensed under the Apache License, Version 2.0 (the "License");
 //you may not use this file except in compliance with the License.
@@ -14,12 +14,13 @@
 
 package com.google.gerrit.client.change;
 
-import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.VoidResult;
+import com.google.gerrit.client.changes.ChangeEditApi;
 import com.google.gerrit.client.changes.ChangeInfo.RevisionInfo;
 import com.google.gerrit.client.ui.RemoteSuggestBox;
+import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.logical.shared.CloseEvent;
@@ -29,34 +30,33 @@ import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-class AddFileBox extends Composite {
-  interface Binder extends UiBinder<HTMLPanel, AddFileBox> {}
+class DeleteFileBox extends Composite {
+  interface Binder extends UiBinder<HTMLPanel, DeleteFileBox> {}
   private static final Binder uiBinder = GWT.create(Binder.class);
 
   private final Change.Id changeId;
-  private final RevisionInfo revision;
 
-  @UiField Button open;
+  @UiField Button delete;
   @UiField Button cancel;
 
   @UiField(provided = true)
   RemoteSuggestBox path;
 
-  AddFileBox(Change.Id changeId, RevisionInfo revision) {
+  DeleteFileBox(Change.Id changeId, RevisionInfo revision) {
     this.changeId = changeId;
-    this.revision = revision;
 
     path = new RemoteSuggestBox(new PathSuggestOracle(changeId, revision));
     path.addSelectionHandler(new SelectionHandler<String>() {
       @Override
       public void onSelection(SelectionEvent<String> event) {
-        open(event.getSelectedItem());
+        delete(event.getSelectedItem());
       }
     });
     path.addCloseHandler(new CloseHandler<RemoteSuggestBox>() {
@@ -77,16 +77,24 @@ class AddFileBox extends Composite {
     path.setText("");
   }
 
-  @UiHandler("open")
-  void onOpen(@SuppressWarnings("unused") ClickEvent e) {
-    open(path.getText());
+  @UiHandler("delete")
+  void onDelete(@SuppressWarnings("unused") ClickEvent e) {
+    delete(path.getText());
   }
 
-  private void open(String path) {
+  private void delete(String path) {
     hide();
-    Gerrit.display(Dispatcher.toEditScreen(
-        new PatchSet.Id(changeId, revision._number()),
-        path));
+    ChangeEditApi.delete(changeId.get(), path,
+        new AsyncCallback<VoidResult>() {
+          @Override
+          public void onSuccess(VoidResult result) {
+            Gerrit.display(PageLinks.toChangeInEditMode(changeId));
+          }
+
+          @Override
+          public void onFailure(Throwable caught) {
+          }
+        });
   }
 
   @UiHandler("cancel")

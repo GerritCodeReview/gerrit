@@ -259,7 +259,7 @@ Modification of users' SSH keys is still restricted to administrators.
 link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.11/config-gerrit.html#ldap.useConnectionPooling[
 LDAP connection pooling].
 
-* Allow to
+* link:https://code.google.com/p/gerrit/issues/detail?id=699[Issue 699]: Allow to
 link:https://gerrit-documentation.storage.googleapis.com/Documentation/2.11/config-gerrit.html#receive.maxBatchChanges[
 limit max number of changes pushed in a batch].
 +

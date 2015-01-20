@@ -348,6 +348,24 @@
       "revId": "9a117e65b504a7b3f975175fabc5b6c866ec2b05",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8bb9a7ac_47764e79",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/PatchSetVerification.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-20T22:28:15Z",
+      "side": 1,
+      "message": "| Remember the goal: produce two separate tabs on the change screen.\n\nNot two, only one would be enough. There should be a table with (at least) 4 columns:\n\n Who, What, When, How\n \u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\n user, OK/NOK/Unknown, timestamp, log \n\nLet\u0027s say we add bit (human|bot) and optional char 80 column (outcome) to ChangeMessages to differentiate between human and bot messages.\n\nSo you suggest to abuse existing SSH review command and review endpoint for writing and reading from it. You need to know what channel to write to, so you would need to extend the interfaces.\n\n| Not sure what you mean by \"need different categories/labels\" here.\n\nYou would have different places in the UI to render human reviewer comments and bots notifications. In human case you are not interested in to get bots notifications and the opposite.",
+      "parentUuid": "0b9e9722_5ba4e398",
+      "revId": "9a117e65b504a7b3f975175fabc5b6c866ec2b05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

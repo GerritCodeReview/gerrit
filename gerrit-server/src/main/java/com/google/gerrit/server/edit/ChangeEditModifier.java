@@ -81,6 +81,7 @@ public class ChangeEditModifier {
   private static enum TreeOperation {
     CHANGE_ENTRY,
     DELETE_ENTRY,
+    RENAME_ENTRY,
     RESTORE_ENTRY
   }
   private final TimeZone tz;
@@ -271,7 +272,7 @@ public class ChangeEditModifier {
   public RefUpdate.Result modifyFile(ChangeEdit edit,
       String file, RawInput content) throws AuthException,
       InvalidChangeOperationException, IOException {
-    return modify(TreeOperation.CHANGE_ENTRY, edit, file, content);
+    return modify(TreeOperation.CHANGE_ENTRY, edit, file, null, content);
   }
 
   /**
@@ -287,7 +288,24 @@ public class ChangeEditModifier {
   public RefUpdate.Result deleteFile(ChangeEdit edit,
       String file) throws AuthException, InvalidChangeOperationException,
       IOException {
-    return modify(TreeOperation.DELETE_ENTRY, edit, file, null);
+    return modify(TreeOperation.DELETE_ENTRY, edit, file, null, null);
+  }
+
+  /**
+   * Rename file in existing change edit.
+   *
+   * @param edit change edit
+   * @param file path to rename
+   * @param newFile path to rename the file to
+   * @return result
+   * @throws AuthException
+   * @throws InvalidChangeOperationException
+   * @throws IOException
+   */
+  public RefUpdate.Result renameFile(ChangeEdit edit, String file,
+      String newFile) throws AuthException, InvalidChangeOperationException,
+      IOException {
+    return modify(TreeOperation.RENAME_ENTRY, edit, file, newFile, null);
   }
 
   /**
@@ -303,11 +321,11 @@ public class ChangeEditModifier {
   public RefUpdate.Result restoreFile(ChangeEdit edit,
       String file) throws AuthException, InvalidChangeOperationException,
       IOException {
-    return modify(TreeOperation.RESTORE_ENTRY, edit, file, null);
+    return modify(TreeOperation.RESTORE_ENTRY, edit, file, null, null);
   }
 
-  private RefUpdate.Result modify(TreeOperation op,
-      ChangeEdit edit, String file, @Nullable RawInput content)
+  private RefUpdate.Result modify(TreeOperation op, ChangeEdit edit,
+      String file, @Nullable String newFile, @Nullable RawInput content)
       throws AuthException, IOException, InvalidChangeOperationException {
     if (!currentUser.get().isIdentifiedUser()) {
       throw new AuthException("Authentication required");
@@ -327,6 +345,7 @@ public class ChangeEditModifier {
             prevEdit,
             reader,
             file,
+            newFile,
             toBlob(inserter, content));
         if (ObjectId.equals(newTree, prevEdit.getTree())) {
           throw new InvalidChangeOperationException("no changes were made");
@@ -396,13 +415,23 @@ public class ChangeEditModifier {
 
   private static ObjectId writeNewTree(TreeOperation op, RevWalk rw,
       ObjectInserter ins, RevCommit prevEdit, ObjectReader reader,
-      String fileName, final @Nullable ObjectId content)
-      throws IOException {
+      String fileName, @Nullable String newFile,
+      final @Nullable ObjectId content) throws IOException {
     DirCache newTree = readTree(reader, prevEdit);
     DirCacheEditor dce = newTree.editor();
     switch (op) {
       case DELETE_ENTRY:
         dce.add(new DeletePath(fileName));
+        break;
+
+      case RENAME_ENTRY:
+        rw.parseHeaders(prevEdit);
+        TreeWalk tw =
+            TreeWalk.forPath(rw.getObjectReader(), fileName, prevEdit.getTree());
+        if (tw != null) {
+          dce.add(new DeletePath(fileName));
+          addFileToCommit(newFile, dce, tw);
+        }
         break;
 
       case CHANGE_ENTRY:
@@ -426,26 +455,30 @@ public class ChangeEditModifier {
 
         RevCommit base = prevEdit.getParent(0);
         rw.parseHeaders(base);
-        TreeWalk tw =
-            TreeWalk.forPath(rw.getObjectReader(), fileName, base.getTree());
+        tw = TreeWalk.forPath(rw.getObjectReader(), fileName, base.getTree());
         if (tw == null) {
           dce.add(new DeletePath(fileName));
           break;
         }
 
-        final FileMode mode = tw.getFileMode(0);
-        final ObjectId oid = tw.getObjectId(0);
-        dce.add(new PathEdit(fileName) {
-          @Override
-          public void apply(DirCacheEntry ent) {
-            ent.setFileMode(mode);
-            ent.setObjectId(oid);
-          }
-        });
+        addFileToCommit(fileName, dce, tw);
         break;
     }
     dce.finish();
     return newTree.writeTree(ins);
+  }
+
+  private static void addFileToCommit(String newFile, DirCacheEditor dce,
+      TreeWalk tw) {
+    final FileMode mode = tw.getFileMode(0);
+    final ObjectId oid = tw.getObjectId(0);
+    dce.add(new PathEdit(newFile) {
+      @Override
+      public void apply(DirCacheEntry ent) {
+        ent.setFileMode(mode);
+        ent.setObjectId(oid);
+      }
+    });
   }
 
   private static DirCache readTree(ObjectReader reader, RevCommit prevEdit)

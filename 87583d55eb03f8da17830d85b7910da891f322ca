@@ -16,6 +16,24 @@
       "revId": "87583d55eb03f8da17830d85b7910da891f322ca",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "abb4abb0_a8e59bdf",
+        "filename": "Documentation/cmd-plugin-enable.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1018718
+      },
+      "writtenOn": "2015-01-20T20:42:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ebba239b_4aa733c6",
+      "revId": "87583d55eb03f8da17830d85b7910da891f322ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

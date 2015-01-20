@@ -46,6 +46,29 @@
       "revId": "1e288a10726961aa7d23cd507435eea045c93e80",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "abb4abb0_8889b74f",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java",
+        "patchSetId": 29
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2015-01-20T08:06:24Z",
+      "side": 1,
+      "message": "This should probably be named mergeResults instead.",
+      "range": {
+        "startLine": 80,
+        "startChar": 30,
+        "endLine": 80,
+        "endChar": 47
+      },
+      "revId": "1e288a10726961aa7d23cd507435eea045c93e80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

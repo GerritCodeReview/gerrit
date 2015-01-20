@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ebba239b_8a89ab4f",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2512,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-20T01:42:57Z",
+      "side": 1,
+      "message": "in the",
+      "range": {
+        "startLine": 2512,
+        "startChar": 59,
+        "endLine": 2512,
+        "endChar": 61
+      },
+      "revId": "ca066f7875db0b0d8dbcb464813c9d99a5330eda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ebba239b_aa86ef3c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/ldap/Helper.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-20T01:42:57Z",
+      "side": 1,
+      "message": "nit: wrap this line",
+      "revId": "ca066f7875db0b0d8dbcb464813c9d99a5330eda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "abb4abb0_48a41f99",
+        "filename": "Documentation/user-inline-edit.txt",
+        "patchSetId": 15
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-20T21:07:30Z",
+      "side": 1,
+      "message": "Typo. You added it with inline edit so spell checking in CM would help ;-)",
+      "range": {
+        "startLine": 133,
+        "startChar": 16,
+        "endLine": 133,
+        "endChar": 26
+      },
+      "revId": "95285241af9e75f7db2b84dc65391b92806ec510",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

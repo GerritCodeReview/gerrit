@@ -258,6 +258,24 @@
       "revId": "9a117e65b504a7b3f975175fabc5b6c866ec2b05",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "abb4abb0_28fa0b80",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/PatchSetVerification.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-20T19:40:00Z",
+      "side": 1,
+      "message": "| \"Labels\" are by definition the things that are defined in project.config ...\n\nWell, we are extending the concept of labels (may be better name would be verification category) in this series to not only something that is resricted to be supplied to the submit rule evaluation. So the \"PEP8\" is a valid verification label/category in this context. One future extension may be to force projects to define their verification labels/categories in project.confg and to reject not allowed/known labels/categories.  Note that these labels are going to be presented in the header of change screen, so we may want to restrict them.\n\n| If we strip out all the optional metadata so this table is literally just a timestamp and a freeform comment, why not just add a bit field to ChangeMessages?\n\nInteresting suggestion. So we have three options:\n\n* 1. Add verification channel bit field to PATCH_SET_APPROVALS table and allow to mix \"submit-rule-labels\" and \"verification  labels-only\" in the same table o differentiate between channels. Let\u0027s assume for now, that we could accept  account-id as part of the primary key in both cases\n* 2. Add verification channel bit, category and value to CHANGE_MESSAGES to differentiate between channels\n* 3. Add PATCH_SET_VERIFICATIONS own table to differentiate concerns\n\nOptions 1 and 2 feel for me like a hack, though. When not ongoing migration to Git backend the way to go would be option 3?",
+      "parentUuid": "eb6ce3f2_3a0fa127",
+      "revId": "9a117e65b504a7b3f975175fabc5b6c866ec2b05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

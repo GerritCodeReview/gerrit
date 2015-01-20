@@ -15,7 +15,12 @@ the plugin jars in the site path's `plugins` directory from
 `<plugin-jar-name>.disabled` to `<plugin-jar-name>`.
 
 == ACCESS
-Caller must be a member of the privileged 'Administrators' group.
+* Caller must be a member of the privileged 'Administrators' group.
+* allowRemoteAdmin for plugins needs to be enabled in '$site_path/etc/gerrit.config'
+----
+[plugins]
+    allowRemoteAdmin = true
+----
 
 == SCRIPTING
 This command is intended to be used in scripts.

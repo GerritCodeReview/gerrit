@@ -222,6 +222,24 @@
       "revId": "9a117e65b504a7b3f975175fabc5b6c866ec2b05",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ebba239b_2aa67fc7",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/PatchSetVerification.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1012623
+      },
+      "writtenOn": "2015-01-20T17:47:20Z",
+      "side": 1,
+      "message": "I see your point about this piece of metadata.  Maybe providing a  label, value, and comment is all that\u0027s really needed.  I would have no problem removing this and renaming \u0027url\u0027 to \u0027comment\u0027.",
+      "parentUuid": "8e6375c3_d7c23c16",
+      "revId": "9a117e65b504a7b3f975175fabc5b6c866ec2b05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

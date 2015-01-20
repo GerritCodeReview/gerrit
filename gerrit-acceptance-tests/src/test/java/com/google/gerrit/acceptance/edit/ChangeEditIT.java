@@ -79,6 +79,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
 
   private final static String FILE_NAME = "foo";
   private final static String FILE_NAME2 = "foo2";
+  private final static String FILE_NAME3 = "foo3";
   private final static byte[] CONTENT_OLD = "bar".getBytes(UTF_8);
   private final static byte[] CONTENT_NEW = "baz".getBytes(UTF_8);
   private final static byte[] CONTENT_NEW2 = "qux".getBytes(UTF_8);
@@ -363,6 +364,23 @@ public class ChangeEditIT extends AbstractDaemonTest {
     assertThat(modifier.deleteFile(edit.get(), FILE_NAME)).isEqualTo(
         RefUpdate.Result.FORCED);
     edit = editUtil.byChange(change);
+    try {
+      fileUtil.getContent(projectCache.get(edit.get().getChange().getProject()),
+          ObjectId.fromString(edit.get().getRevision().get()), FILE_NAME);
+      fail("ResourceNotFoundException expected");
+    } catch (ResourceNotFoundException rnfe) {
+    }
+  }
+
+  @Test
+  public void renameExistingFile() throws Exception {
+    assertThat(modifier.createEdit(change, ps)).isEqualTo(RefUpdate.Result.NEW);
+    Optional<ChangeEdit> edit = editUtil.byChange(change);
+    assertThat(modifier.renameFile(edit.get(), FILE_NAME, FILE_NAME3))
+        .isEqualTo(RefUpdate.Result.FORCED);
+    edit = editUtil.byChange(change);
+    assertByteArray(fileUtil.getContent(projectCache.get(edit.get().getChange().getProject()),
+        ObjectId.fromString(edit.get().getRevision().get()), FILE_NAME3), CONTENT_OLD);
     try {
       fileUtil.getContent(projectCache.get(edit.get().getChange().getProject()),
           ObjectId.fromString(edit.get().getRevision().get()), FILE_NAME);

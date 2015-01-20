@@ -129,7 +129,7 @@ public abstract class DownloadCommandLink extends Anchor implements ClickHandler
       protected void setCurrentUrl(DownloadUrlLink link) {
         widget.setVisible(true);
 
-        String sshPort = "29418";
+        String sshPort = null;
         String sshAddr = Gerrit.getConfig().getSshdAddress();
         int p = sshAddr.lastIndexOf(':');
         if (p != -1 && !sshAddr.endsWith(":")) {
@@ -139,9 +139,12 @@ public abstract class DownloadCommandLink extends Anchor implements ClickHandler
         StringBuilder cmd = new StringBuilder();
         cmd.append("git clone ");
         cmd.append(link.getUrlData());
-        cmd.append(" && scp -p -P ");
-        cmd.append(sshPort);
-        cmd.append(" ");
+        cmd.append(" && scp -p ");
+        if (sshPort != null) {
+          cmd.append("-P ");
+          cmd.append(sshPort);
+          cmd.append(" ");
+        }
         cmd.append(Gerrit.getUserAccount().getUserName());
         cmd.append("@");
 

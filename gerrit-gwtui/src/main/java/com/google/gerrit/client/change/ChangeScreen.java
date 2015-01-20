@@ -191,6 +191,7 @@ public class ChangeScreen extends Screen {
   @UiField Button editMode;
   @UiField Button reviewMode;
   @UiField Button addFile;
+  @UiField Button deleteFile;
   @UiField Button expandAll;
   @UiField Button collapseAll;
   @UiField QuickApprove quickApprove;
@@ -200,6 +201,7 @@ public class ChangeScreen extends Screen {
   private PatchSetsAction patchSetsAction;
   private DownloadAction downloadAction;
   private AddFileAction addFileAction;
+  private DeleteFileAction deleteFileAction;
 
   public ChangeScreen(Change.Id changeId, String base, String revision,
       boolean openReplyBox, FileTable.Mode mode) {
@@ -493,8 +495,12 @@ public class ChangeScreen extends Screen {
       if (isEditModeEnabled(info, rev)) {
         editMode.setVisible(fileTableMode == FileTable.Mode.REVIEW);
         addFile.setVisible(!editMode.isVisible());
+        deleteFile.setVisible(!editMode.isVisible());
         reviewMode.setVisible(!editMode.isVisible());
         addFileAction = new AddFileAction(
+            changeId, info.revision(revision),
+            style, addFile);
+        deleteFileAction = new DeleteFileAction(
             changeId, info.revision(revision),
             style, addFile);
       } else {
@@ -678,6 +684,7 @@ public class ChangeScreen extends Screen {
     refreshFileTable();
     editMode.setVisible(false);
     addFile.setVisible(true);
+    deleteFile.setVisible(true);
     reviewMode.setVisible(true);
   }
 
@@ -687,12 +694,18 @@ public class ChangeScreen extends Screen {
     refreshFileTable();
     editMode.setVisible(true);
     addFile.setVisible(false);
+    deleteFile.setVisible(false);
     reviewMode.setVisible(false);
   }
 
   @UiHandler("addFile")
   void onAddFile(@SuppressWarnings("unused") ClickEvent e) {
     addFileAction.onEdit();
+  }
+
+  @UiHandler("deleteFile")
+  void onDeleteFile(@SuppressWarnings("unused") ClickEvent e) {
+    deleteFileAction.onDelete();
   }
 
   private void refreshFileTable() {

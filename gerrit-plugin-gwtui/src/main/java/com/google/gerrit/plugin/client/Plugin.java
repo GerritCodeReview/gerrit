@@ -54,6 +54,10 @@ public final class Plugin extends JavaScriptObject {
   public final native void refreshMenuBar()
   /*-{ return this.refreshMenuBar() }-*/;
 
+  /** Check if user is signed in. */
+  public final native boolean isSignedIn()
+  /*-{ return this.isSignedIn() }-*/;
+
   /** Show message in Gerrit's ErrorDialog. */
   public final native void showError(String message)
   /*-{ return this.showError(message) }-*/;

@@ -16,7 +16,9 @@ Disable plugins. The plugins will be disabled by renaming the plugin
 jars in the site path's `plugins` directory to `<plugin-jar-name>.disabled`.
 
 == ACCESS
-Caller must be a member of the privileged 'Administrators' group.
+* Caller must be a member of the privileged 'Administrators' group.
+* link:config-gerrit.html#plugins.allowRemoteAdmin[plugins.allowRemoteAdmin]
+must be enabled in `$site_path/etc/gerrit.config`.
 
 == SCRIPTING
 This command is intended to be used in scripts.

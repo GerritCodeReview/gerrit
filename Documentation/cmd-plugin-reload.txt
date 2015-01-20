@@ -19,7 +19,9 @@ E.g. a plugin needs to be reloaded if its configuration is modified to
 make the new configuration data become active.
 
 == ACCESS
-Caller must be a member of the privileged 'Administrators' group.
+* Caller must be a member of the privileged 'Administrators' group.
+* link:config-gerrit.html#plugins.allowRemoteAdmin[plugins.allowRemoteAdmin]
+must be enabled in `$site_path/etc/gerrit.config`.
 
 == SCRIPTING
 This command is intended to be used in scripts.

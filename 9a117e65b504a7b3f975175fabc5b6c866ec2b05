@@ -294,6 +294,24 @@
       "revId": "9a117e65b504a7b3f975175fabc5b6c866ec2b05",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8bb9a7ac_278c7a18",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/PatchSetVerification.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-20T22:03:52Z",
+      "side": 1,
+      "message": "| Just because my proposed solution is simpler doesn\u0027t make it a \"hack\" IMHO.\n\nThere is a clear contradiction in your argumentation. Lets concentrate on approach 1. You are saying both statements:\n\n* a) Labels already has a perfectly well-defined definition A. In this change we have a completely unrelated definition B. So the proposal is to redefine labels from \"A\" to \"A or B\". But there is not enough similarity between A and B for this to make sense.\n* b) Let\u0027s store both separated *and* unrelated concerns (see argumentation in a) in one table: PATCH_SET_APPROVALS.\n\nI don\u0027t think that the approach you are proposing is (much) simpler. You still have to extend the database, existing SSH commands and REST endpoints to filter out unrelated stuff and not to pollute clients that don\u0027t need different categories/labels.\n\nAnd of course, every invasive change you are doing for one specific channel would have concequences for another, check for example proposed SSH command interface in this series.\n\nNot to mention that in future the separate channels would become more channel specific extensions. So i am  convinced, that this initial overhead: own persistence backend, own SSH command(s) and own REST endpoint(s) is justified, to establish this difference between human-review and bots- notification channels.",
+      "parentUuid": "eb6ce3f2_9a1d8d5a",
+      "revId": "9a117e65b504a7b3f975175fabc5b6c866ec2b05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

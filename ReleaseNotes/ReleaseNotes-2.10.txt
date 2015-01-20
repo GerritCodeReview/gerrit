@@ -490,6 +490,11 @@ As linkifying trailing dots and trailing commas does more harm than
 good, we only treat dots and commas as being part of urls, if they are
 neither followed by whitespace nor occur at the end of a string.
 
+* Re-enable the 'Cherry Pick' button after canceling the dialog.
++
+If the dialog was canceled, the button remained disabled and could not be
+used again.
+
 * Improve message when removing a reviewer.
 
 * link:http://code.google.com/p/gerrit/issues/detail?id=527[Issue 527]:

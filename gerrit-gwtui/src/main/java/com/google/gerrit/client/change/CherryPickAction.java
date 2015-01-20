@@ -27,6 +27,7 @@ import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.PopupPanel;
 
+
 class CherryPickAction {
   static void call(final Button b, final ChangeInfo info, final String revision,
       String project, final String commitMessage) {

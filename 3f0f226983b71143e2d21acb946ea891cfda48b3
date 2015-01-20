@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "abb4abb0_c8b1ef03",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-01-20T11:32:27Z",
+      "side": 1,
+      "message": "Make this a new paragraph",
+      "range": {
+        "startLine": 17,
+        "startChar": 9,
+        "endLine": 20,
+        "endChar": 70
+      },
+      "revId": "3f0f226983b71143e2d21acb946ea891cfda48b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8bb9a7ac_a7914a5d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/LocalDiskRepositoryManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-01-20T11:32:27Z",
+      "side": 1,
+      "message": "writes to the",
+      "range": {
+        "startLine": 250,
+        "startChar": 19,
+        "endLine": 250,
+        "endChar": 28
+      },
+      "revId": "3f0f226983b71143e2d21acb946ea891cfda48b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "abb4abb0_e8ae33a3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/VersionedMetaData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 346,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-01-20T11:32:27Z",
+      "side": 1,
+      "message": "Can we write something more useful here? For example the first line of the commit message from the newId, if the newId is a commit?\n\nLook at the reflog of a refs/heads/* branch for an example.",
+      "range": {
+        "startLine": 346,
+        "startChar": 28,
+        "endLine": 346,
+        "endChar": 46
+      },
+      "revId": "3f0f226983b71143e2d21acb946ea891cfda48b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8bb9a7ac_47008ef8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_106.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-01-20T11:32:27Z",
+      "side": 1,
+      "message": "It may take a very long time to list all projects when the file system cache is cold. Maybe write a message to the user:\n\n  ... listing all projects ...",
+      "revId": "3f0f226983b71143e2d21acb946ea891cfda48b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

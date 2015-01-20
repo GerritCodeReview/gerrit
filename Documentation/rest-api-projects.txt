@@ -39,7 +39,7 @@ by project name.
       "description": "GNU parser generator"
     },
     "external/gcc": {
-      "id": "external%2Fgcc",
+      "id": "external%2Fgcc"
     },
     "external/openssl": {
       "id": "external%2Fopenssl",
@@ -165,10 +165,10 @@ List all projects that start with `platform/`:
   )]}'
   {
     "platform/drivers": {
-      "id": "platform%2Fdrivers",
+      "id": "platform%2Fdrivers"
     },
     "platform/tools": {
-      "id": "platform%2Ftools",
+      "id": "platform%2Ftools"
     }
   }
 ----
@@ -198,10 +198,10 @@ List all projects that match regex `test.*project`:
   )]}'
   {
     "test/some-project": {
-      "id": "test%2Fsome-project",
+      "id": "test%2Fsome-project"
     },
     "test/some-other-project": {
-      "id": "test%2Fsome-other-project",
+      "id": "test%2Fsome-other-project"
     }
   }
 
@@ -250,10 +250,10 @@ List all projects that match substring `test/`:
   )]}'
   {
     "test/some-project": {
-      "id": "test%2Fsome-project",
+      "id": "test%2Fsome-project"
     },
     "some-path/test/some-other-project": {
-      "id": "some-path%2Ftest%2Fsome-other-project",
+      "id": "some-path%2Ftest%2Fsome-other-project"
     }
   }
 ----

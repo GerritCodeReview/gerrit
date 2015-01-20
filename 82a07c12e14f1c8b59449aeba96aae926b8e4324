@@ -331,6 +331,24 @@
     },
     {
       "key": {
+        "uuid": "0b9e9722_9b1d8b5a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/DeleteBranches.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-01-20T13:40:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0b9e9722_5b0063f8",
+      "revId": "82a07c12e14f1c8b59449aeba96aae926b8e4324",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0b9e9722_fb012f30",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/Module.java",
         "patchSetId": 3

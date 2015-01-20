@@ -311,6 +311,8 @@ public class ChangeEdits implements
       RestModifyView<ChangeResource, Post.Input> {
     public static class Input {
       public String restorePath;
+      public String oldPath;
+      public String newPath;
     }
 
     private final Provider<ReviewDb> db;
@@ -335,8 +337,13 @@ public class ChangeEdits implements
         edit = createEdit(resource.getChange());
       }
 
-      if (input != null && !Strings.isNullOrEmpty(input.restorePath)) {
-        editModifier.restoreFile(edit.get(), input.restorePath);
+      if (input != null) {
+        if (!Strings.isNullOrEmpty(input.restorePath)) {
+          editModifier.restoreFile(edit.get(), input.restorePath);
+        } else if (!Strings.isNullOrEmpty(input.oldPath)
+            && !Strings.isNullOrEmpty(input.newPath)) {
+          editModifier.renameFile(edit.get(), input.oldPath, input.newPath);
+        }
       }
       return Response.none();
     }

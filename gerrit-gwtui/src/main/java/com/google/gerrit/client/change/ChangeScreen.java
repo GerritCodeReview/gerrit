@@ -192,6 +192,7 @@ public class ChangeScreen extends Screen {
   @UiField Button reviewMode;
   @UiField Button addFile;
   @UiField Button deleteFile;
+  @UiField Button renameFile;
   @UiField Button expandAll;
   @UiField Button collapseAll;
   @UiField QuickApprove quickApprove;
@@ -202,6 +203,7 @@ public class ChangeScreen extends Screen {
   private DownloadAction downloadAction;
   private AddFileAction addFileAction;
   private DeleteFileAction deleteFileAction;
+  private RenameFileAction renameFileAction;
 
   public ChangeScreen(Change.Id changeId, String base, String revision,
       boolean openReplyBox, FileTable.Mode mode) {
@@ -496,11 +498,15 @@ public class ChangeScreen extends Screen {
         editMode.setVisible(fileTableMode == FileTable.Mode.REVIEW);
         addFile.setVisible(!editMode.isVisible());
         deleteFile.setVisible(!editMode.isVisible());
+        renameFile.setVisible(!editMode.isVisible());
         reviewMode.setVisible(!editMode.isVisible());
         addFileAction = new AddFileAction(
             changeId, info.revision(revision),
             style, addFile);
         deleteFileAction = new DeleteFileAction(
+            changeId, info.revision(revision),
+            style, addFile);
+        renameFileAction = new RenameFileAction(
             changeId, info.revision(revision),
             style, addFile);
       } else {
@@ -685,6 +691,7 @@ public class ChangeScreen extends Screen {
     editMode.setVisible(false);
     addFile.setVisible(true);
     deleteFile.setVisible(true);
+    renameFile.setVisible(true);
     reviewMode.setVisible(true);
   }
 
@@ -695,6 +702,7 @@ public class ChangeScreen extends Screen {
     editMode.setVisible(true);
     addFile.setVisible(false);
     deleteFile.setVisible(false);
+    renameFile.setVisible(false);
     reviewMode.setVisible(false);
   }
 
@@ -706,6 +714,11 @@ public class ChangeScreen extends Screen {
   @UiHandler("deleteFile")
   void onDeleteFile(@SuppressWarnings("unused") ClickEvent e) {
     deleteFileAction.onDelete();
+  }
+
+  @UiHandler("renameFile")
+  void onRenameFile(@SuppressWarnings("unused") ClickEvent e) {
+    renameFileAction.onRename();
   }
 
   private void refreshFileTable() {

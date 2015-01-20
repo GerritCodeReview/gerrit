@@ -496,6 +496,13 @@ limitations under the License.
         <ui:attribute name='title'/>
         <div><ui:msg>Delete&#8230;</ui:msg></div>
       </g:Button>
+      <g:Button ui:field='renameFile'
+         title='Rename file in the repository'
+         styleName=''
+         visible='false'>
+        <ui:attribute name='title'/>
+        <div><ui:msg>Rename&#8230;</ui:msg></div>
+      </g:Button>
       <div class='{style.headerButtons}'>
         <g:Button ui:field='openAll'
             styleName=''

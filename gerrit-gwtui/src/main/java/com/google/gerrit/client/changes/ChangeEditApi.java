@@ -72,6 +72,15 @@ public class ChangeEditApi {
     editFile(id, path).delete(cb);
   }
 
+  /** Rename a file in the pending edit. */
+  public static void rename(int id, String path, String newPath,
+      AsyncCallback<VoidResult> cb) {
+    Input in = Input.create();
+    in.old_path(path);
+    in.new_path(newPath);
+    ChangeApi.edit(id).post(in, cb);
+  }
+
   /** Restore (undo delete/modify) a file in the pending edit. */
   public static void restore(int id, String path, AsyncCallback<VoidResult> cb) {
     Input in = Input.create();
@@ -93,6 +102,8 @@ public class ChangeEditApi {
     }
 
     final native void restore_path(String p) /*-{ this.restore_path=p }-*/;
+    final native void old_path(String p) /*-{ this.old_path=p }-*/;
+    final native void new_path(String p) /*-{ this.new_path=p }-*/;
 
     protected Input() {
     }

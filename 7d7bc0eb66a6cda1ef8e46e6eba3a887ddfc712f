@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0bccd752_2ba679c7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 470,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-20T01:47:56Z",
+      "side": 1,
+      "message": "nit: inconsistent with the ref-updated hook where it is called `newrev` without the hyphen.",
+      "range": {
+        "startLine": 470,
+        "startChar": 22,
+        "endLine": 470,
+        "endChar": 31
+      },
+      "revId": "7d7bc0eb66a6cda1ef8e46e6eba3a887ddfc712f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

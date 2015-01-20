@@ -276,6 +276,24 @@
       "revId": "9a117e65b504a7b3f975175fabc5b6c866ec2b05",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb6ce3f2_9a1d8d5a",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/PatchSetVerification.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-20T20:26:49Z",
+      "side": 1,
+      "message": "\u003e Well, we are extending the concept of labels\n\nI don\u0027t see the point. Labels already has a perfectly well-defined definition A. In this change we have a completely unrelated definition B. So the proposal is to redefine labels from \"A\" to \"A or B\". But there is not enough similarity between A and B for this to make sense.\n\n\u003e Add verification channel bit field\n\nIMHO the fact that we are saying this channel is used for \"verification\" is _also_ an implementation detail of a particular CI system\u0027s view of the world.\n\nI think we should be using this channel for _any_ kind of message from automation. That could include things like notifications of rolling out code to production, which is not associated with a numeric score.\n\nReally, the _only_ reason that we want this entire change (that I\u0027ve heard so far--feel free to elaborate) is so that we have some mechanism to separate out noisy messages from automation into a separate tab in the UI. So I think we should be focusing our efforts on the _simplest_ way to accomplish that goal.\n\nAdding hundreds of lines of REST API endpoints and database access glue just to accomplish this one simple UI change is clearly not the simplest way.\n\nAdding a single bit field for \"should this message appear in the main tab or in the automation tab\" is much simpler.\n\n\u003e Options 1 and 2 feel for me like a hack, though.\n\nSorry, I think we just disagree on this. Just because my proposed solution is simpler doesn\u0027t make it a \"hack\" IMHO. Just because Sven\u0027s proposed solution is multiple hundreds of lines doesn\u0027t make it \"real\" or \"not a hack\".",
+      "parentUuid": "abb4abb0_28fa0b80",
+      "revId": "9a117e65b504a7b3f975175fabc5b6c866ec2b05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

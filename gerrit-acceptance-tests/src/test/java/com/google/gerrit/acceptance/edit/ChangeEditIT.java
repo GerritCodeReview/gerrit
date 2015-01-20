@@ -435,6 +435,25 @@ public class ChangeEditIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void renameFileRest() throws Exception {
+    assertThat(modifier.createEdit(change, ps)).isEqualTo(RefUpdate.Result.NEW);
+    Post.Input in = new Post.Input();
+    in.oldPath = FILE_NAME;
+    in.newPath = FILE_NAME3;
+    assertThat(adminSession.post(urlEdit(), in).getStatusCode()).isEqualTo(
+        SC_NO_CONTENT);
+    Optional<ChangeEdit> edit = editUtil.byChange(change);
+    assertByteArray(fileUtil.getContent(projectCache.get(edit.get().getChange().getProject()),
+        ObjectId.fromString(edit.get().getRevision().get()), FILE_NAME3), CONTENT_OLD);
+    try {
+      fileUtil.getContent(projectCache.get(edit.get().getChange().getProject()),
+          ObjectId.fromString(edit.get().getRevision().get()), FILE_NAME);
+      fail("ResourceNotFoundException expected");
+    } catch (ResourceNotFoundException rnfe) {
+    }
+  }
+
+  @Test
   public void restoreDeletedFileInPatchSetRest() throws Exception {
     Post.Input in = new Post.Input();
     in.restorePath = FILE_NAME;

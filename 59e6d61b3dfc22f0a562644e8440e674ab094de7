@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "eb6ce3f2_7a051907",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/IndexConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-20T19:03:06Z",
+      "side": 1,
+      "message": "FYI another configuration option that\u0027ll go in here is the maximum number of terms supported by the backend. This will allow us to limit conflicts: queries so they no longer error out (which is an issue both for the googlesource.com implementation and Lucene).\n\nBut this needs to go in sooner, as we\u0027re hitting issues with the query limit already.",
+      "revId": "59e6d61b3dfc22f0a562644e8440e674ab094de7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

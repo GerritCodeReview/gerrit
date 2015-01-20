@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0b9e9722_bb33a7df",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/WebModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2015-01-20T18:16:16Z",
+      "side": 1,
+      "message": "We did not see that problem when we were testing in the original change because we tested with LDAP and DEVELOPMENT_BECOME_ANY_ACCOUNT auth types.\n\nFor those 2 types, the AuthModule only install the login servlet which is not required by the slave but for other types(HTTP, HTTP_LDAP and CLIENT_SSL_CERT_LDAP), the AuthModule also install the AuthFilter (HttpAuthFilter or HttpsClientSslCertAuthFilter).\n\nIdeally, we would need to split that module to be able to install the AuthFilter without the login servlet for the slaves but I guess we can do this in a separate change.",
+      "range": {
+        "startLine": 79,
+        "startChar": 4,
+        "endLine": 79,
+        "endChar": 23
+      },
+      "revId": "526a2cc8952d15ac26332a9f69efb625b3a7a164",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

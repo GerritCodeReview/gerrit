@@ -1,0 +1,234 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "abb4abb0_080aa716",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/DeleteBranches.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-20T15:06:40Z",
+      "side": 1,
+      "message": "Set reflog ident and message?",
+      "range": {
+        "startLine": 93,
+        "startChar": 21,
+        "endLine": 93,
+        "endChar": 32
+      },
+      "revId": "de2f506dc4f24568e385725122c5c83d7148bf08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "abb4abb0_8894574e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/DeleteBranches.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-20T15:06:40Z",
+      "side": 1,
+      "message": "Blank before open bracket.",
+      "range": {
+        "startLine": 96,
+        "startChar": 24,
+        "endLine": 96,
+        "endChar": 25
+      },
+      "revId": "de2f506dc4f24568e385725122c5c83d7148bf08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8bb9a7ac_07237698",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/DeleteBranches.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-20T15:06:40Z",
+      "side": 1,
+      "message": "Issue log entry here?\n\n  log.warn(\"Branch: \" + branch + \" doesn\u0027t exist\");",
+      "range": {
+        "startLine": 97,
+        "startChar": 10,
+        "endLine": 97,
+        "endChar": 19
+      },
+      "revId": "de2f506dc4f24568e385725122c5c83d7148bf08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "abb4abb0_68056307",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/DeleteBranches.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-20T15:06:40Z",
+      "side": 1,
+      "message": "Assign it to a variable and release it after it was used, to release the object reader.",
+      "range": {
+        "startLine": 101,
+        "startChar": 26,
+        "endLine": 101,
+        "endChar": 40
+      },
+      "revId": "de2f506dc4f24568e385725122c5c83d7148bf08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8bb9a7ac_2728fa6f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/DeleteBranches.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-20T15:06:40Z",
+      "side": 1,
+      "message": "Blanks surround ()",
+      "range": {
+        "startLine": 104,
+        "startChar": 10,
+        "endLine": 104,
+        "endChar": 44
+      },
+      "revId": "de2f506dc4f24568e385725122c5c83d7148bf08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "abb4abb0_e8971351",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/DeleteBranches.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-20T15:06:40Z",
+      "side": 1,
+      "message": "Extract this block to its own method. e.g.: handlePostBranchDeletion(), or some such?",
+      "range": {
+        "startLine": 105,
+        "startChar": 10,
+        "endLine": 115,
+        "endChar": 46
+      },
+      "revId": "de2f506dc4f24568e385725122c5c83d7148bf08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "abb4abb0_a8911b5d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/DeleteBranches.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-20T15:06:40Z",
+      "side": 1,
+      "message": "Missing blanks after and before bracket.",
+      "range": {
+        "startLine": 116,
+        "startChar": 8,
+        "endLine": 116,
+        "endChar": 14
+      },
+      "revId": "de2f506dc4f24568e385725122c5c83d7148bf08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8bb9a7ac_c73c7eb4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/DeleteBranches.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-20T15:06:40Z",
+      "side": 1,
+      "message": "Missing blanks.",
+      "range": {
+        "startLine": 120,
+        "startChar": 8,
+        "endLine": 120,
+        "endChar": 34
+      },
+      "revId": "de2f506dc4f24568e385725122c5c83d7148bf08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8bb9a7ac_67d7d207",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/DeleteBranches.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-20T15:06:40Z",
+      "side": 1,
+      "message": "Is this method still exists in master? Rebase this change?",
+      "range": {
+        "startLine": 139,
+        "startChar": 8,
+        "endLine": 139,
+        "endChar": 50
+      },
+      "revId": "de2f506dc4f24568e385725122c5c83d7148bf08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8bb9a7ac_e73982c1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/DeleteBranches.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-20T15:06:40Z",
+      "side": 1,
+      "message": "Why create ReceiveCommand instance when it cannot be executed anyway? You could pass errorMessages builder and create the error already here? and return null instead?",
+      "range": {
+        "startLine": 143,
+        "startChar": 11,
+        "endLine": 143,
+        "endChar": 18
+      },
+      "revId": "de2f506dc4f24568e385725122c5c83d7148bf08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

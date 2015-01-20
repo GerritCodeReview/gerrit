@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "abb4abb0_a81a7b5d",
+        "filename": "Documentation/cmd-plugin-enable.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-20T15:40:43Z",
+      "side": 1,
+      "message": "Instead of duplicating this section, provide a link on line 19, to the corresponding entry in gerrit configuration section:\n\n*  https://gerrit-review.googlesource.com/Documentation/config-gerrit.html#plugins.allowRemoteAdmin",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 4
+      },
+      "revId": "21527b340f3f2cf67671fa9ffccfd6ed192329e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -22,6 +22,7 @@ import com.google.common.collect.Ordering;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.index.IndexConfig;
 import com.google.gerrit.server.index.IndexPredicate;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.query.Predicate;
@@ -39,6 +40,7 @@ public class QueryProcessor {
   private final Provider<CurrentUser> userProvider;
   private final ChangeControl.GenericFactory changeControlFactory;
   private final ChangeQueryRewriter queryRewriter;
+  private final IndexConfig indexConfig;
 
   private int limitFromCaller;
   private int start;
@@ -48,11 +50,13 @@ public class QueryProcessor {
   QueryProcessor(Provider<ReviewDb> db,
       Provider<CurrentUser> userProvider,
       ChangeControl.GenericFactory changeControlFactory,
-      ChangeQueryRewriter queryRewriter) {
+      ChangeQueryRewriter queryRewriter,
+      IndexConfig indexConfig) {
     this.db = db;
     this.userProvider = userProvider;
     this.changeControlFactory = changeControlFactory;
     this.queryRewriter = queryRewriter;
+    this.indexConfig = indexConfig;
   }
 
   public QueryProcessor enforceVisibility(boolean enforce) {
@@ -174,7 +178,8 @@ public class QueryProcessor {
   }
 
   private int getEffectiveLimit(Predicate<ChangeData> p) {
-    List<Integer> possibleLimits = new ArrayList<>(3);
+    List<Integer> possibleLimits = new ArrayList<>(4);
+    possibleLimits.add(indexConfig.getMaxLimit());
     possibleLimits.add(getPermittedLimit());
     if (limitFromCaller > 0) {
       possibleLimits.add(limitFromCaller);

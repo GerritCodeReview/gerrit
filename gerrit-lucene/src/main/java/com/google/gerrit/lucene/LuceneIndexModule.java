@@ -18,6 +18,7 @@ import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.server.index.ChangeSchemas;
 import com.google.gerrit.server.index.IndexCollection;
+import com.google.gerrit.server.index.IndexConfig;
 import com.google.gerrit.server.index.IndexModule;
 import com.google.gerrit.server.index.Schema;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -43,6 +44,7 @@ public class LuceneIndexModule extends LifecycleModule {
 
   @Override
   protected void configure() {
+    bind(IndexConfig.class).toInstance(IndexConfig.createDefault());
     factory(LuceneChangeIndex.Factory.class);
     install(new IndexModule(threads));
     if (singleVersion == null && base == null) {

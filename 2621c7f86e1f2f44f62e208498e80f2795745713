@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0be697ff_bb0a8741",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/CreateChangeAction.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-21T10:11:34Z",
+      "side": 1,
+      "message": "Ue neater method without this parameter, that set this in background?",
+      "range": {
+        "startLine": 39,
+        "startChar": 35,
+        "endLine": 39,
+        "endChar": 40
+      },
+      "revId": "2621c7f86e1f2f44f62e208498e80f2795745713",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0be697ff_db175368",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeApi.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-21T10:11:34Z",
+      "side": 1,
+      "message": "unused and can be private?",
+      "range": {
+        "startLine": 40,
+        "startChar": 21,
+        "endLine": 40,
+        "endChar": 33
+      },
+      "revId": "2621c7f86e1f2f44f62e208498e80f2795745713",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0be697ff_fb140f66",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeApi.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-21T10:11:34Z",
+      "side": 1,
+      "message": "May be translate this call to:\n\n  draft ? Change.Status.DRAFT : Chang.Status.NEW;",
+      "range": {
+        "startLine": 53,
+        "startChar": 4,
+        "endLine": 53,
+        "endChar": 23
+      },
+      "revId": "2621c7f86e1f2f44f62e208498e80f2795745713",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ebb4e3df_1a1a9d96",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeApi.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-21T10:11:34Z",
+      "side": 1,
+      "message": "Two problems here: we only pass values that we need, so NEW is the default and shouldn\u0027t be passed. We try to avoid messing around with strings.\n\nThe usual pattern to work with enums in JSNI code is (e. g. see: gerrit-gwtui/src/main/java/com/google/gerrit/client/account/DiffPreferences.java) is;\n\nto provide two methods:\n\n  status(Change.Status status) {\n    statusRaw(status \u003d\u003d DRAFT ? status.toString() : null);\n  }\n  native statusRaw(String s) {\n    /*-{ this.status \u003d s }-*/;\n  }",
+      "range": {
+        "startLine": 234,
+        "startChar": 4,
+        "endLine": 234,
+        "endChar": 108
+      },
+      "revId": "2621c7f86e1f2f44f62e208498e80f2795745713",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ebb4e3df_fafb29cd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateChange.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-21T10:11:34Z",
+      "side": 1,
+      "message": "Is this really needed? If yes, then it is a bug. This method is test covered (i think), so a unit test must be extended (or a new one should be added) to test that draft change can be created. And verify be reading it back.",
+      "range": {
+        "startLine": 208,
+        "startChar": 8,
+        "endLine": 208,
+        "endChar": 64
+      },
+      "revId": "2621c7f86e1f2f44f62e208498e80f2795745713",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

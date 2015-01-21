@@ -59,9 +59,9 @@ class PublishedBox extends CommentBox {
   @UiField Element date;
   @UiField Element message;
   @UiField Element buttons;
-  @UiField Button edit;
   @UiField Button reply;
   @UiField Button done;
+  @UiField Button fix;
 
   @UiField(provided = true)
   AvatarImage avatar;
@@ -156,17 +156,6 @@ class PublishedBox extends CommentBox {
     }
   }
 
-  @UiHandler("edit")
-  void onEdit(ClickEvent e) {
-    e.stopPropagation();
-    String t = Dispatcher.toEditScreen(psId, comment.path(), comment.line());
-    if (!Gerrit.isSignedIn()) {
-      Gerrit.doSignIn(t);
-    } else {
-      Gerrit.display(t);
-    }
-  }
-
   @UiHandler("reply")
   void onReply(ClickEvent e) {
     e.stopPropagation();
@@ -194,6 +183,17 @@ class PublishedBox extends CommentBox {
     } else {
       openReplyBox();
       setOpen(false);
+    }
+  }
+
+  @UiHandler("fix")
+  void onFix(ClickEvent e) {
+    e.stopPropagation();
+    String t = Dispatcher.toEditScreen(psId, comment.path(), comment.line());
+    if (!Gerrit.isSignedIn()) {
+      Gerrit.doSignIn(t);
+    } else {
+      Gerrit.display(t);
     }
   }
 

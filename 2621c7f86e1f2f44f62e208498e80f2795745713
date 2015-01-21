@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "0be697ff_1b6c5bf7",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/CreateChangeAction.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-21T14:12:39Z",
+      "side": 1,
+      "message": "Sorry, sometimes browser decides to do spell correction for me.\n\nI mean that the only caller of this method in the whole Gerrit is this one place.\nI don\u0027t see why we need to pass true for DRAFT here and not just use another (public) method that set true for us behind the scenes?",
+      "parentUuid": "2be99bcf_9c36a502",
+      "range": {
+        "startLine": 39,
+        "startChar": 35,
+        "endLine": 39,
+        "endChar": 40
+      },
+      "revId": "2621c7f86e1f2f44f62e208498e80f2795745713",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0be697ff_db175368",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeApi.java",
         "patchSetId": 4
@@ -84,6 +108,30 @@
       "side": 1,
       "message": "Left like this for backwards compatibility, as mentioned in the commit message.",
       "parentUuid": "0be697ff_db175368",
+      "range": {
+        "startLine": 40,
+        "startChar": 21,
+        "endLine": 40,
+        "endChar": 33
+      },
+      "revId": "2621c7f86e1f2f44f62e208498e80f2795745713",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ebb4e3df_9a0dcd5e",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeApi.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-21T14:12:39Z",
+      "side": 1,
+      "message": "I don\u0027t understand your commit message and this specific old method. Define the word API? REST API? This client code class is not our public API. This code is dead (atm) as it is not used. And is not going to be used, until you switch to using this method. See my another comment, in which case you don\u0027t need the new method on line 46. Or unless you add drop down on create change dialog and allow user to mark a new created change as draft or not.",
+      "parentUuid": "2be99bcf_7c42b96f",
       "range": {
         "startLine": 40,
         "startChar": 21,

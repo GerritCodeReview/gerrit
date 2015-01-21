@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "0be697ff_3b5af745",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-21T14:57:59Z",
+      "side": 1,
+      "message": "Check the history of this change. The button was called \"Address\" initially and was changed to shorter name, because Address wasn\u0027t matched in the place.\n\nThe reason we need the button is to jump to the very same line that comment was put on. When you click on header you still jump to the edit screen but on line 0.\n\nThe same functionality was bound to \"m\" key, to jump to the same line from side by side screen to edit screen preserving the line.\n\nSo the solution to double Edit button, is rename it in Address again and give it more place.\n\nAnd of course we should check if change was merged, there is no sense to offer Edit/Address button. Like it\u0027s currently the case.",
+      "parentUuid": "0be697ff_db89134f",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 69
+      },
+      "revId": "5d612f2abe5cf5a7e0ecba52e5fe4f1cf8971025",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "eb5ea32a_aafecfbe",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/PublishedBox.java",
         "patchSetId": 6

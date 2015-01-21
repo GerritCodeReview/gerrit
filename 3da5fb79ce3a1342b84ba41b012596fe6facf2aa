@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ebb4e3df_7a29d9ab",
+        "filename": "gerrit-pgm/src/main/resources/com/google/gerrit/pgm/init/gerrit.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 550,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2015-01-21T12:43:25Z",
+      "side": 1,
+      "message": "surround it with quotes as in the line before?",
+      "range": {
+        "startLine": 550,
+        "startChar": 18,
+        "endLine": 550,
+        "endChar": 29
+      },
+      "revId": "3da5fb79ce3a1342b84ba41b012596fe6facf2aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

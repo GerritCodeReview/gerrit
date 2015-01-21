@@ -20,6 +20,7 @@ import com.google.gerrit.client.changes.ChangeInfo.IncludedInInfo;
 import com.google.gerrit.client.rpc.CallbackGroup.Callback;
 import com.google.gerrit.client.rpc.NativeString;
 import com.google.gerrit.client.rpc.RestApi;
+import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -38,12 +39,13 @@ public class ChangeApi {
 
   /** Create a new change. */
   public static void createChange(String project, String branch,
-      String subject, String base, AsyncCallback<ChangeInfo> cb) {
+      String subject, String base, boolean draft, AsyncCallback<ChangeInfo> cb) {
     CreateChangeInput input = CreateChangeInput.create();
     input.project(emptyToNull(project));
     input.branch(emptyToNull(branch));
     input.subject(emptyToNull(subject));
     input.base_change(emptyToNull(base));
+    input.status(draft ? Change.Status.DRAFT.toString() : null);
 
     new RestApi("/changes/").post(input, cb);
   }
@@ -224,6 +226,7 @@ public class ChangeApi {
     public final native void project(String p) /*-{ if(p)this.project=p; }-*/;
     public final native void subject(String s) /*-{ if(s)this.subject=s; }-*/;
     public final native void base_change(String b) /*-{ if(b)this.base_change=b; }-*/;
+    public final native void status(String s)  /*-{ if(s)this.status=s; }-*/;
 
     protected CreateChangeInput() {
     }

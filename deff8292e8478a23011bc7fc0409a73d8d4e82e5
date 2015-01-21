@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0be697ff_3b1f5787",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/VersionedMetaData.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2015-01-21T09:45:09Z",
+      "side": 1,
+      "message": "move this line to 352 and inline the refLogMessage variable",
+      "revId": "deff8292e8478a23011bc7fc0409a73d8d4e82e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

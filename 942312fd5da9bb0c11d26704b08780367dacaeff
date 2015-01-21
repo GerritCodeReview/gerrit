@@ -234,6 +234,24 @@
     },
     {
       "key": {
+        "uuid": "6b8d5344_2ef647ef",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 366,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-21T22:28:24Z",
+      "side": 1,
+      "message": "\u003e So my question is, do we need to have a begin/commit for each change, to have at least every change submission atomic?\n\nWhat I was trying to say was, for what you\u0027re doing right now, it\u0027s atomic even without beginTransaction/commit.\n\nIn other words,\n\n db.changes().beginTransaction(id);\n try {\n   db.changes().atomicUpdate(id, new AtomicUpdate\u003cChange\u003e()...);\n   db.commit();\n } finally {\n   db.rollback();\n }\n\nhas exactly the same transactional semantics as\n\n db.changes().atomicUpdate(id, new AtomicUpdate\u003cChange\u003e()...);\n\nThere is only one mutation in the transaction. It is either applied or not applied. You don\u0027t need to wrap it.\n\nIf there were more than one mutation in this particular operation, you would need to wrap it in a transaction.\n\n(This is all a bit of a lie: under the hood, the implementation atomicUpdate checks whether it was called within a transaction, and opens/commits a transaction if it was not. But from a high-level perspective, the point stands: one call to an Access method, no transaction needed.)\n\n\u003e Or rather go forward and fix the database to have all the changes put into one transaction with an arbitrary change id as the root?\n\nNot possible. Trying to modify an entity with root key (change ID) B in a transaction with root key A will cause an error in our glue code.",
+      "parentUuid": "cedbadab_49c04129",
+      "revId": "942312fd5da9bb0c11d26704b08780367dacaeff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cedbadab_293cedb1",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
         "patchSetId": 8
@@ -298,6 +316,24 @@
       "side": 1,
       "message": "heh, now I do wonder how I should make use of it as I see a problem with the indexing being asynchronous. I\u0027d just call the indexer to do its work and be happy? This may lead to confusing states for the user. If we were to wait until everything was indexed the user would know by the site \"hanging\" that there is still work done in the background?",
       "parentUuid": "cedbadab_e921358f",
+      "revId": "942312fd5da9bb0c11d26704b08780367dacaeff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6b8d5344_0ef18bf6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 381,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-21T22:28:24Z",
+      "side": 1,
+      "message": "I think I see your concern: we want to make sure all changes have completed reindexing before continuing past this method.\n\nTo do this, just call get() on the returned future:\n\n indexer.indexAsync(ids).get();\n\nThis still fans out the multiple index calls into multiple background threads, so you get some concurrency compared to doing synchronous indexer.index calls in a loop in this thread.",
+      "parentUuid": "8e6375c3_57d1cc0a",
       "revId": "942312fd5da9bb0c11d26704b08780367dacaeff",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -22,6 +22,30 @@
       "revId": "7a7fad41a928e01bc892c425b5828076314d5ce0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2be99bcf_9cdb057e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-21T01:07:44Z",
+      "side": 1,
+      "message": "Never mind.  I misunderstood it.",
+      "parentUuid": "2be99bcf_5cd25d66",
+      "range": {
+        "startLine": 7,
+        "startChar": 42,
+        "endLine": 7,
+        "endChar": 56
+      },
+      "revId": "7a7fad41a928e01bc892c425b5828076314d5ce0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

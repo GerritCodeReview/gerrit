@@ -16,6 +16,7 @@ package com.google.gerrit.acceptance.rest.change;
 
 import static com.google.common.truth.Truth.assertThat;
 
+import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.extensions.common.ChangeInfo;
@@ -84,5 +85,15 @@ public class CreateChangeIT extends AbstractDaemonTest {
     assertThat(out.subject).isEqualTo(in.subject);
     assertThat(out.topic).isEqualTo(in.topic);
     assertThat(out.status).isEqualTo(in.status);
+    assertThat(out.revisions).hasSize(1);
+    Boolean draft = Iterables.getOnlyElement(out.revisions.values()).draft;
+    assertThat(booleanToDraftStatus(draft)).isEqualTo(in.status);
+  }
+
+  private ChangeStatus booleanToDraftStatus(Boolean draft) {
+    if (draft == null) {
+      return ChangeStatus.NEW;
+    }
+    return draft ? ChangeStatus.DRAFT : ChangeStatus.NEW;
   }
 }

@@ -203,8 +203,7 @@ public class CreateChange implements
         updateRef(git, rw, c, change, ins.getPatchSet());
 
         change.setTopic(input.topic);
-        change.setStatus(input.status != null
-            ? Change.Status.forChangeStatus(input.status) : Change.Status.NEW);
+        ins.setDraft(input.status != null && input.status == ChangeStatus.DRAFT);
         ins.insert();
 
         return Response.created(json.format(change.getId()));

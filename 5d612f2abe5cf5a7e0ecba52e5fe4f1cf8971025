@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "0be697ff_db62f3f6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-21T15:18:18Z",
+      "side": 1,
+      "message": "Totally agreed. I thought that sorting alphabetically would be a good idea, but it sucks, as i always click now on edit instead on reply.\n\nSo it would be nice to rename it to Address, give more place to the box and put it at the end of the line. Any volunteers? ;-)",
+      "parentUuid": "0be697ff_9b686bd9",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 69
+      },
+      "revId": "5d612f2abe5cf5a7e0ecba52e5fe4f1cf8971025",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "eb5ea32a_aafecfbe",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/PublishedBox.java",
         "patchSetId": 6

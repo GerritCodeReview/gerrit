@@ -94,6 +94,29 @@
     },
     {
       "key": {
+        "uuid": "0be697ff_1b437b76",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateChange.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-01-21T10:24:56Z",
+      "side": 1,
+      "message": "If status is ignored by ChangeInserter, so why to set it at all. Remove this line then?",
+      "range": {
+        "startLine": 206,
+        "startChar": 8,
+        "endLine": 207,
+        "endChar": 79
+      },
+      "revId": "2621c7f86e1f2f44f62e208498e80f2795745713",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ebb4e3df_fafb29cd",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateChange.java",
         "patchSetId": 4

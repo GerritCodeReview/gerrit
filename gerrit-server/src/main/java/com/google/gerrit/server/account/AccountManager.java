@@ -114,7 +114,7 @@ public class AccountManager {
 
         } else { // Account exists
 
-          Account act = db.accounts().get(id.getAccountId());
+          Account act = byIdCache.get(id.getAccountId()).getAccount();
           if (act == null || !act.isActive()) {
             throw new AccountException("Authentication error, account inactive");
           }

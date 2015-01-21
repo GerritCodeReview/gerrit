@@ -205,6 +205,7 @@ public class CreateChange implements
         change.setTopic(input.topic);
         change.setStatus(input.status != null
             ? Change.Status.forChangeStatus(input.status) : Change.Status.NEW);
+        ins.setDraft(change.getStatus() == Change.Status.DRAFT);
         ins.insert();
 
         return Response.created(json.format(change.getId()));

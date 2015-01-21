@@ -30,6 +30,7 @@ import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 
 import java.util.TreeSet;
 
@@ -45,6 +46,7 @@ class Actions extends Composite {
   @UiField Button cherrypick;
   @UiField Button rebase;
   @UiField Button revert;
+  @UiField Button submit;
 
   @UiField Button abandon;
   private AbandonAction abandonAction;
@@ -63,6 +65,7 @@ class Actions extends Composite {
   private String message;
   private String branch;
   private String key;
+  private boolean canSubmit;
 
   Actions() {
     initWidget(uiBinder.createAndBindUi(this));
@@ -111,7 +114,17 @@ class Actions extends Composite {
         : NativeMap.<ActionInfo> create();
     actions.copyKeysIntoChildren("id");
 
+    canSubmit = false;
     if (hasUser) {
+      canSubmit = actions.containsKey("submit");
+      if (canSubmit) {
+        ActionInfo action = actions.get("submit");
+        submit.setTitle(action.title());
+        submit.setHTML(new SafeHtmlBuilder()
+            .openDiv()
+            .append(action.label())
+            .closeDiv());
+      }
       a2b(actions, "cherrypick", cherrypick);
       a2b(actions, "rebase", rebase);
       for (String id : filterNonCore(actions)) {
@@ -130,6 +143,14 @@ class Actions extends Composite {
       ids.remove(id);
     }
     return ids;
+  }
+
+  void setSubmitEnabled() {
+    submit.setVisible(canSubmit);
+  }
+
+  boolean isSubmitEnabled() {
+    return submit.isVisible() && submit.isEnabled();
   }
 
   @UiHandler("followUp")
@@ -160,6 +181,11 @@ class Actions extends Composite {
   @UiHandler("rebase")
   void onRebase(@SuppressWarnings("unused") ClickEvent e) {
     RebaseAction.call(changeId, revision);
+  }
+
+  @UiHandler("submit")
+  void onSubmit(@SuppressWarnings("unused") ClickEvent e) {
+    SubmitAction.call(changeInfo, changeInfo.revision(revision));
   }
 
   @UiHandler("cherrypick")

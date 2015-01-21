@@ -133,6 +133,7 @@ public class ChangeScreen extends Screen {
   private ChangeInfo changeInfo;
   private CommentLinkProcessor commentLinkProcessor;
   private EditInfo edit;
+  private boolean canSubmit;
 
   private KeyCommandSet keysNavigation;
   private KeyCommandSet keysAction;
@@ -441,6 +442,7 @@ public class ChangeScreen extends Screen {
           .openDiv()
           .append(action.label())
           .closeDiv());
+      canSubmit = true;
     }
 
     if (revInfo.draft()) {
@@ -929,8 +931,9 @@ public class ChangeScreen extends Screen {
         }));
   }
 
-  private void loadSubmitType(final Change.Status status, final boolean canSubmit) {
-    if (canSubmit) {
+  private void loadSubmitType(final Change.Status status,
+      final boolean isSubmittable) {
+    if (isSubmittable) {
       submit.setVisible(canSubmit);
       if (status == Change.Status.NEW) {
         statusText.setInnerText(Util.C.readyToSubmit());
@@ -941,7 +944,7 @@ public class ChangeScreen extends Screen {
       .get(new AsyncCallback<NativeString>() {
         @Override
         public void onSuccess(NativeString result) {
-          if (canSubmit) {
+          if (isSubmittable) {
             if (status == Change.Status.NEW) {
               statusText.setInnerText(changeInfo.mergeable()
                   ? Util.C.readyToSubmit()

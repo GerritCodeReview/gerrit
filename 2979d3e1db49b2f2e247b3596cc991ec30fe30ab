@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8ba8c791_af015931",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/server/ChangeAccess.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2015-01-21T22:29:57Z",
+      "side": 1,
+      "message": "Remove this and use InternalChangeQuery. When you rebase you\u0027ll see that all @Query methods have been removed from this class.",
+      "revId": "2979d3e1db49b2f2e247b3596cc991ec30fe30ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}
